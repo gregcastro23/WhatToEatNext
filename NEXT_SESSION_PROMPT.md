@@ -1,93 +1,91 @@
-# Continuation Prompt — Phase 3 API Hydration
+# Continuation Prompt — Post-3.0 Hardening
 
-You're continuing the **Modern Alchemist** redesign for alchm.kitchen. The frontend layer is complete (Phase 1 atoms + Storybook, Phase 2 dashboard, Phase 3 Ingredient Hero). What's left is **wiring the three missing API routes** that currently surface as `AwaitingBackend` panels on the dashboard and as the trending ticker on the Ingredient Hero.
+**Alchm.kitchen 3.0 is live.** The Modern Alchemist redesign shipped across PRs #402–#405. This prompt covers the first hardening sprint after launch.
+
+## What landed in 3.0 (don't redo)
+
+- **Nav IA** — `src/config/navigation.ts` (5-slot single source of truth: Kitchen / Discover / Plan / Commensal / Lab)
+- **AppChrome** — `AppChromeFooter` + `AppChromeTabBar` gate footer/tab-bar on chromeless paths (`/login`, `/onboarding`, `/upgrade`, `/auth/*`)
+- **RedesignedHeader** — replaces the 9-item legacy nav; mega-menus; ⌘K search affordance
+- **CommandPalette** — `src/components/nav/CommandPalette.tsx` — routes + quick actions + recent, ⌘K global shortcut
+- **MobileGlassTabBar** — bottom navigation for mobile; 5 primary slots
+- **RedesignedFooter** — full footer for non-app marketing pages
+- **AuthHandshake** — `src/app/auth/establishing/page.tsx` — 6-step checklist (OAuth → Identity → Record → Natal → Grants → Mesh) with 8 s cold-start budget UI
+- **WelcomeBack** — returning-user splash with "While you were away" summary
+- **UpgradeGate** — two-tier (Apprentice / Alchemist; Practitioner folded into Alchemist)
+- **AccountSessions** — `/profile/security` — cookie scope matrix + session log + revoke
+- **Device Sessions** — `database/init/33-device-sessions.sql` + `GET/DELETE /api/auth/sessions`
+- **JWT augmentation** — `sessionId` + `deviceSessionId` written on sign-in in `src/lib/auth/auth.ts`
+- **Agent-sync status** — `GET /api/internal/agent-sync/status` (FastAPI proxy with fallback heuristic)
+- **Storybook** — stories excluded from TS build via `tsconfig.json`
 
 ## Repo state
 
-- **Branch:** `claude/great-haslett-00b6db` (worktree at `.claude/worktrees/great-haslett-00b6db`)
+- **Branch for new work:** create a fresh branch off `master`
 - **Base:** `master` (prod); `main` is stale — do not target it
-- **Runtime:** Bun 1.3.13 only. Never `npm` / `yarn`. Lockfile is `bun.lock`.
-- **Dev server:** `bun run dev` on `:3000`. Preview MCP works via `.claude/launch.json` config `dev`.
+- **Runtime:** Bun 1.3.13. Never `npm` / `yarn`. Lockfile is `bun.lock`.
+- **Build:** `bun run build` must pass with zero TS errors before every PR.
 
-## What's landed (don't redo)
+## Priority 1 — Server-side recipe-limit enforcement (critical security gap)
 
-- [tailwind.config.js](tailwind.config.js) — full design tokens (oklch palette, elemental colors, fonts, animations)
-- [src/app/globals.css](src/app/globals.css) — `.lab` / `.alchm-root` CSS variable block, typography utils, `.alchm-panel`, `.alchm-chip`, etc.
-- [src/components/ui/alchm/](src/components/ui/alchm/) — 15 atoms/molecules: `Glyph`, `PlanetaryClock`, `ElementalMeter`, `CompatibilityRing`, `Sparkline`, `LiveTimecode`, `ScanLine`, `ProcurementKit` (copper), `PremiumGlow` (violet, `revealAmount=0.4`), `ThermoQuartet`, `IngredientCard`, `CuisineExplorerPanel`, `SauceLineagePanel`, `AstrologicalClockPanel`, `TonightsCompositionPanel`, `PipelinePanel`, `AgentImage`, `SeasonalityChart`, `SensoryRadar`
-- [src/components/nav/LabHeader.tsx](src/components/nav/LabHeader.tsx) — sticky header with `data-alchm-header` attribute; mobile-first via inline `<style>` (NAV hidden < 900px)
-- [src/app/(alchm)/layout.tsx](src/app/(alchm)/layout.tsx) — route group; uses `body:has([data-alchm-route])` selectors to hide legacy header/footer without modifying `src/app/layout.tsx`
-- [src/app/(alchm)/page.tsx](src/app/(alchm)/page.tsx) — Laboratory Dashboard (3-col grid: natal rail / clock + hero / astrological clock + telemetry)
-- [src/app/(alchm)/ingredients/[ingredientId]/page.tsx](src/app/(alchm)/ingredients/[ingredientId]/page.tsx) — Ingredient Hero (ticker + 3-col hero + seasonality + sensory radar + ProcurementKit + PremiumGlow gate)
-- [src/lib/schemas/dashboard.ts](src/lib/schemas/dashboard.ts) — **Zod contracts for all five missing endpoints** (use these verbatim)
+Routes that call the AI recipe generator have no hard cap server-side. Free users can bypass frontend token gates by hitting the API directly.
 
-## Strategic constraints (already locked in)
+**Files to update:**
 
-- **Real-data-only**: no mocks at the page level. If data is missing, render `AwaitingBackend` (violet-dashed) — never fake values.
-- **Mobile-first per page**: 375px → 760/900/1280 breakpoints inline via `<style>` tags within components.
-- **One branch only**: `claude/great-haslett-00b6db`. PR target is `master`.
-- **Per-route header swap** via the `(alchm)` group; never modify `src/app/layout.tsx`.
+- `src/app/api/generate-cosmic-recipe/route.ts`
+- `src/app/api/recipes/refine/route.ts`
+- `src/app/api/alchemize/route.ts`
 
-## Task — Implement three API routes
+**Pattern to apply in each:**
 
-All three should follow the existing pattern in [src/app/api/ingredients/[name]/route.ts](src/app/api/ingredients/[name]/route.ts):
-- `export const dynamic = "force-dynamic"`
-- Wrap in `rateLimit(request, { window: 60_000, max: 60, bucket: "<name>" })`
-- Return JSON matching the Zod schema in `src/lib/schemas/dashboard.ts`
-- Validate the response with `.parse()` before returning so contracts can't drift silently
+```ts
+import { auth } from "@/lib/auth/auth";
+import { rateLimit } from "@/lib/rateLimit";
+import { subscriptionService } from "@/services/subscriptionService";
+import { TIER_LIMITS } from "@/lib/tierLimits"; // already exists
 
-### 1. `GET /api/recommendations/ingredients` (priority — unblocks ticker + dashboard panel)
+// At the top of the handler:
+const session = await auth();
+const tier = (session?.user as { tier?: string })?.tier ?? "free";
+const userId = (session?.user as { id?: string })?.id;
 
-- **Schema:** `RecommendedIngredientsResponseSchema` in [src/lib/schemas/dashboard.ts](src/lib/schemas/dashboard.ts)
-- **Source of truth:** `RecommendationBridge.ts` already computes this — find it via `grep -r "RecommendationBridge" src/`. The math (`match_score(transit_position, user.natal)`) lives there; this endpoint just needs to wire it to a route handler.
-- **Query params:** `limit` (default 8), optional `userId` (fall back to anon resonance from `useAlchemicalSafe().planetaryPositions` server-side via the astrologize endpoint)
-- **Response shape (verify against schema):**
-  ```ts
-  { items: Array<{ id: string; name: string; match: number; element: "fire"|"water"|"earth"|"air"; planet?: string; category?: string }> }
-  ```
-- **Consumers:** Ingredient Hero ticker bar (line in `page.tsx` already fetches `?limit=8`), dashboard "RECOMMENDED INGREDIENTS" panel.
+// Apply monthly generation cap per tier
+const limit = TIER_LIMITS[tier]?.recipesPerMonth ?? TIER_LIMITS.free.recipesPerMonth;
+const rl = await rateLimit(request, { window: 30 * 24 * 60 * 60 * 1000, max: limit, bucket: `gen:${userId ?? ip}` });
+if (!rl.success) {
+  return NextResponse.json({ error: "Monthly generation limit reached", tier }, { status: 429 });
+}
+```
 
-### 2. `GET /api/cuisines/signatures`
+Verify `TIER_LIMITS` exists at `src/lib/tierLimits.ts`; if not, create it with the free/premium caps from `src/config/defaults.ts`.
 
-- **Schema:** `CuisineSignaturesResponseSchema`
-- **Source:** `backend/alchm_kitchen/data/json/cuisines.json` — each cuisine has a 4-element ESMS array (Earth/Spirit/Matter/Substance or Fire/Water/Earth/Air — verify the source).
-- **Response shape:**
-  ```ts
-  { cuisines: Array<{ id: string; name: string; region: string; sig: [number, number, number, number]; match: number; color?: string }>, total: number }
-  ```
-- **Match calculation:** dot product of cuisine signature × current sky elemental weights (same resonance math as the recommendations endpoint).
-- **Consumer:** dashboard "CUISINE EXPLORER · TIER III" panel (currently `AwaitingBackend`).
+## Priority 2 — MenuPlannerContext refactor
 
-### 3. `GET /api/sauces/lineage?root=<id>`
+`src/contexts/MenuPlannerContext.tsx` has grown to ~1 200 lines. Split it into:
 
-- **Schema:** `SauceLineageResponseSchema`
-- **Source:** `backend/alchm_kitchen/data/json/sauces.json` — has the mother-sauce derivation graph.
-- **Response shape:**
-  ```ts
-  { nodes: Array<{ id: string; name: string; depth: number }>, edges: Array<{ from: string; to: string; method?: string }>, stats: { variants: number; maxDepth: number } }
-  ```
-- **Required:** the `root` query param picks the mother sauce. Return 400 if missing.
-- **Consumer:** dashboard "SAUCE LINEAGE TREE" panel.
+- `src/contexts/menu-planner/types.ts` — interfaces only
+- `src/contexts/menu-planner/useMealSlots.ts` — slot CRUD
+- `src/contexts/menu-planner/useWeekNavigation.ts` — week cursor + prev/next
+- `src/contexts/menu-planner/MenuPlannerProvider.tsx` — composes the above, exports context
+
+Keep the public surface (`useMenuPlanner()`) identical so consumers don't change.
+
+## Priority 3 — Trial / onboarding flow completion
+
+New users land on `/onboarding` but the natal-chart step has no "skip for now" CTA — they're blocked if they don't have birth data ready. Add a `Skip (add later)` button that:
+
+1. Sets `onboardingComplete = true` in the DB (partial profile, no chart).
+2. Redirects to `/` with a persistent `?prompt=natal` query that surfaces a soft-prompt banner.
+
+Files: `src/app/onboarding/page.tsx`, `src/app/api/onboarding/route.ts`.
 
 ## Verification workflow
 
-After each route:
-1. `bun run dev` (use preview MCP `preview_start` with name `dev`)
-2. Hit the endpoint directly: `curl -s 'http://localhost:3000/api/recommendations/ingredients?limit=8' | jq .`
-3. Validate against the Zod schema in a one-off `bun src/lib/schemas/__verify.ts` if you want belt-and-suspenders.
-4. Open the corresponding page (`/` for dashboard, `/ingredients/garlic` for the ticker) and confirm the `AwaitingBackend` panel was replaced by real data.
-5. Resize to 375px and confirm mobile still works.
+After each task:
 
-## Out of scope (don't touch)
+```bash
+bun run build          # must pass, 0 TS errors
+bun run test           # existing test suite green
+```
 
-- The legacy `src/app/ingredients/page.tsx` (Amazon Fresh pantry view) — that's a separate surface and remains untouched.
-- Any modifications to `src/app/layout.tsx` (root).
-- Storybook stories — already complete for all atoms.
-- The trending ticker's secondary sort/personalization beyond `match_score` — keep this v1 minimal.
-
-## When you're done
-
-- Run `bun run build` to catch TS errors
-- Commit per-route, message style: `feat(api): implement /api/recommendations/ingredients`
-- Final PR title: `feat(alchm): hydrate Phase 2 backend (recommendations + cuisines + sauces)` targeting `master`
-
-Pick up with the recommendations endpoint first — it unblocks two surfaces (ticker + dashboard panel) at once.
+Then open a PR targeting `master` with title format: `feat(<scope>): <description>`.

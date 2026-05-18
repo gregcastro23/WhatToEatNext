@@ -120,6 +120,9 @@
     "**/*.test.tsx",
     "**/*.spec.ts",
     "**/*.spec.tsx",
-    "**/*.bak*"
+    "**/*.bak*",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+    ".storybook/**"
   ]
 }
