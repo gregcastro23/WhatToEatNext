@@ -42,9 +42,24 @@ export default {
         "el-air": "oklch(0.85 0.07 90)",
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', '"EB Garamond"', "serif"],
-        body: ["Manrope", "system-ui", "sans-serif"],
-        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+        display: [
+          "var(--font-display)",
+          '"Cormorant Garamond"',
+          '"EB Garamond"',
+          "serif",
+        ],
+        body: [
+          "var(--font-body)",
+          "Manrope",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-mono)",
+          '"JetBrains Mono"',
+          "ui-monospace",
+          "monospace",
+        ],
       },
       borderRadius: {
         "alchm-sm": "8px",

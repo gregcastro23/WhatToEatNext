@@ -40,5 +40,9 @@ declare module "next-auth/jwt" {
     role?: string;
     tier?: SubscriptionTier;
     onboardingComplete?: boolean;
+    /** UUID for the NextAuth `sessions` table row (revocable). */
+    sessionId?: string;
+    /** UUID for the `device_sessions` table row (UI-facing revocation target). */
+    deviceSessionId?: string;
   }
 }

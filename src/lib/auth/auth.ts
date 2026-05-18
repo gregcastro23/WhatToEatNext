@@ -431,6 +431,35 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               }
             }
 
+            // Also write a device_sessions row for the /profile/security UI.
+            // The sessionId doubles as the jti so revocation targets the JWT.
+            // Non-blocking: API falls back to JWT introspection if the table
+            // is missing or the write fails.
+            if (user && token.sessionId && !token.deviceSessionId) {
+              try {
+                const provider =
+                  account?.provider ?? token.provider ?? "google";
+                const { executeQuery } = await import("@/lib/database");
+                await executeQuery(
+                  `INSERT INTO device_sessions (id, user_id, jti, provider, current_for_jti)
+                   VALUES ($1, $2, $3, $4, $5)
+                   ON CONFLICT (user_id, jti) DO UPDATE SET
+                     last_seen_at = NOW(),
+                     revoked_at = NULL`,
+                  [
+                    token.sessionId,
+                    dbUser.id,
+                    token.sessionId,
+                    provider,
+                    token.sessionId,
+                  ],
+                );
+                token.deviceSessionId = token.sessionId;
+              } catch (e) {
+                logger.warn("device_sessions write failed (non-blocking):", e);
+              }
+            }
+
             // Embed subscription tier into JWT for instant access everywhere
             // Admins always get premium regardless of subscription state
             if (isAdmin) {
