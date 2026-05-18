@@ -5,6 +5,7 @@ export { CompatibilityRing, type CompatibilityRingProps } from "./CompatibilityR
 export { Sparkline, type SparklineProps } from "./Sparkline";
 export { LiveTimecode, type LiveTimecodeProps } from "./LiveTimecode";
 export { ScanLine } from "./ScanLine";
+export { PlanetaryChip, type PlanetaryChipProps } from "./PlanetaryChip";
 
 export { ProcurementMark, type ProcurementMarkProps } from "./ProcurementMark";
 export { PremiumMark, type PremiumMarkProps } from "./PremiumMark";

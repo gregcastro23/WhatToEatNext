@@ -4,8 +4,32 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect, useState, Suspense } from 'react';
+import { WelcomeBack, type WelcomeBackHint } from '@/components/auth/AuthFollowups';
 
 const AMAZON_OAUTH_ENABLED = process.env.NEXT_PUBLIC_AMAZON_OAUTH_ENABLED === 'true';
+const LAST_USER_KEY = 'alchm:last_user';
+
+function readLastUserHint(): WelcomeBackHint | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(LAST_USER_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as WelcomeBackHint;
+    if (typeof parsed?.name !== 'string' || typeof parsed?.email !== 'string') return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function clearLastUserHint(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.removeItem(LAST_USER_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 function LoginContent() {
   const { status } = useSession();
@@ -14,6 +38,21 @@ function LoginContent() {
   const [isSigningIn, setIsSigningIn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingTooLong, setLoadingTooLong] = useState(false);
+  const [welcomeBackHint, setWelcomeBackHint] = useState<WelcomeBackHint | null>(null);
+  const [welcomeBackResolved, setWelcomeBackResolved] = useState(false);
+
+  // Only show WelcomeBack when there's no error and the user isn't asking to
+  // switch accounts. We resolve this once on mount to avoid hydration flicker.
+  useEffect(() => {
+    const errParam = searchParams?.get('error');
+    const skip = searchParams?.get('switch') === '1';
+    if (errParam || skip) {
+      setWelcomeBackResolved(true);
+      return;
+    }
+    setWelcomeBackHint(readLastUserHint());
+    setWelcomeBackResolved(true);
+  }, [searchParams]);
 
   // If session status stays "loading" for too long, show the sign-in UI anyway
   useEffect(() => {
@@ -50,12 +89,32 @@ function LoginContent() {
     setIsSigningIn(provider);
     setError(null);
     try {
-      await signIn(provider, { callbackUrl: '/profile' });
+      // Route through /auth/establishing so the handshake checklist
+      // and the cold-start budget UI run before the user lands.
+      await signIn(provider, {
+        callbackUrl: '/auth/establishing?next=/profile',
+      });
     } catch {
       setError('Something went wrong. Please try again.');
       setIsSigningIn(null);
     }
   };
+
+  // Returning-user fast path — render before the cold sign-in card.
+  if (welcomeBackResolved && welcomeBackHint && status !== 'authenticated') {
+    return (
+      <WelcomeBack
+        hint={welcomeBackHint}
+        loading={isSigningIn === 'google'}
+        onContinue={() => void handleSignIn('google')}
+        onDifferentAccount={() => {
+          clearLastUserHint();
+          setWelcomeBackHint(null);
+          router.replace('/login?switch=1');
+        }}
+      />
+    );
+  }
 
   // Show a sleek loading spinner
   if (status === 'loading' && !loadingTooLong) {
