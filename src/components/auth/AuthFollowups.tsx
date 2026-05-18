@@ -1,11 +1,12 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
-import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 import { Logo } from "@/components/nav/Logo";
+import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 
 /* ============================================================================
  * SHARED ATOMS
@@ -99,6 +100,7 @@ export function AuthHandshake({ redirectTo }: AuthHandshakeProps = {}): JSX.Elem
     if (progress < HANDSHAKE_STEPS.length) return;
     if (status === "loading") return;
 
+    track("auth_handshake_completed", { stepsCompleted: 6 });
     setRedirected(true);
 
     void (async () => {
@@ -399,7 +401,7 @@ export function AuthHandshake({ redirectTo }: AuthHandshakeProps = {}): JSX.Elem
           </span>
           <button
             type="button"
-            onClick={() => signOut({ callbackUrl: "/login" })}
+            onClick={() => { void signOut({ callbackUrl: "/login" }); }}
             className="t-mono"
             style={{
               fontSize: 9,
@@ -486,7 +488,7 @@ export function WelcomeBack({
               lineHeight: 1.55,
             }}
           >
-            We remember this device. One tap and you're back in the kitchen — your standing
+            We remember this device. One tap and you&apos;re back in the kitchen — your standing
             chart is already loaded.
           </p>
         </div>
@@ -716,6 +718,10 @@ export function UpgradeGate({
   const key = from.replace(/^\//, "").split("/")[0]?.toLowerCase() || "lab";
   const f = UPGRADE_FROM_MAP[key] ?? UPGRADE_FROM_MAP.lab;
 
+  useEffect(() => {
+    track("upgrade_gate_shown", { tier: currentTier, from });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const tiers = useMemo(
     () =>
       TIERS.map((t) => ({
@@ -727,6 +733,9 @@ export function UpgradeGate({
   );
 
   const handleClick = (t: UpgradeTier) => {
+    if (t.id === "alchemist") {
+      track("upgrade_gate_converted", { plan: "alchemist" });
+    }
     if (onStartTrial) {
       onStartTrial(t);
       return;
@@ -1554,7 +1563,7 @@ export function AccountSessions({
                   ) : (
                     <button
                       type="button"
-                      onClick={() => handleRevoke(s.id)}
+                      onClick={() => { void handleRevoke(s.id); }}
                       className="t-mono"
                       style={{
                         fontSize: 10,

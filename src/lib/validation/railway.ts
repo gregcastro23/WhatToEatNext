@@ -36,10 +36,37 @@ export type RailwayPlanetData = z.infer<typeof RailwayPlanetDataSchema>;
 // normalises them all via `positionsData = railwayData.planetary_positions ??
 // railwayData.positions ?? railwayData`.
 
+// Aspect entry returned by the backend at the top level (never inside positions).
+export const RailwayAspectSchema = z.object({
+  planet1: z.string(),
+  planet2: z.string(),
+  aspect: z.string(),
+  angle: z.number(),
+  orb: z.number(),
+  exactness: z.number().optional(),
+}).passthrough();
+
+// A record of planet positions is typed as Record<string, PlanetData>.
+// We use a defensive transform to strip any non-object values (e.g. an
+// array that leaked through from older backend code) so the schema never
+// fails for data shape regressions in the positions dict.
+const SafePositionsRecord = z
+  .record(z.string(), z.unknown())
+  .transform((rec) =>
+    Object.fromEntries(
+      Object.entries(rec).filter(
+        ([, v]) => v !== null && typeof v === "object" && !Array.isArray(v),
+      ),
+    ) as Record<string, z.infer<typeof RailwayPlanetDataSchema>>
+  );
+
 export const RailwayPositionsResponseSchema = z
   .object({
-    planetary_positions: z.record(z.string(), RailwayPlanetDataSchema).optional(),
-    positions: z.record(z.string(), RailwayPlanetDataSchema).optional(),
+    planetary_positions: SafePositionsRecord.optional(),
+    positions: SafePositionsRecord.optional(),
+    // Aspects are now returned at the top level (moved out of positions dict
+    // in celestial_calculations.py to fix the schema-validation regression).
+    aspects: z.array(RailwayAspectSchema).optional(),
   })
   .passthrough();
 

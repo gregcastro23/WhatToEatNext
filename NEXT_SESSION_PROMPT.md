@@ -1,93 +1,131 @@
-# Continuation Prompt — Phase 3 API Hydration
+# Continuation Prompt — Post-3.0
 
-You're continuing the **Modern Alchemist** redesign for alchm.kitchen. The frontend layer is complete (Phase 1 atoms + Storybook, Phase 2 dashboard, Phase 3 Ingredient Hero). What's left is **wiring the three missing API routes** that currently surface as `AwaitingBackend` panels on the dashboard and as the trending ticker on the Ingredient Hero.
+**Alchm.kitchen 3.0 is complete and deployed.**
+
+## Release status
+
+| Item | Status |
+|---|---|
+| PR #406 squash-merge | ⬜ Pending (ready — zero errors, zero warnings) |
+| `git tag v3.0.0` on master | ⬜ After PR #406 merges |
+| Railway Python backend | ✅ Deployed — commit `3361fe4` live |
+| Vercel frontend | ✅ Auto-deploys on master merge |
+
+**To finish the release after merging PR #406:**
+```bash
+git checkout master && git pull
+git tag -a v3.0.0 -m "Alchm.kitchen 3.0 — The Modern Alchemist"
+git push origin v3.0.0
+```
+
+---
+
+## What 3.0 shipped (PRs #402–#406)
+
+### Navigation & chrome
+- **Nav IA** — `src/config/navigation.ts` (5-slot: Kitchen / Discover / Plan / Commensal / Lab)
+- **AppChrome** — `AppChromeFooter` + `AppChromeTabBar` gate footer/tab-bar on chromeless paths
+- **RedesignedHeader** — 5-slot nav with mega-menus + ⌘K affordance
+- **CommandPalette** — `src/components/nav/CommandPalette.tsx` — ⌘K global palette (routes + actions + recent)
+- **MobileGlassTabBar** — 5-slot bottom nav for mobile
+- **RedesignedFooter** — full footer for marketing pages
+- **Route group migration** — all auth-gated + app-surface pages now in `(alchm)` for dark chrome:
+  - `birth-chart`, `current-chart`, `recipe-generator`, `planetary-chart`, `restaurant-creator`
+  - `commensal`, `feed`, `cosmic-recipe`, `generated-recipe`, `food-tracking`
+  - `profile/*` (all 6 sub-pages)
+
+### Auth flows
+- **AuthHandshake** — 6-step checklist at `/auth/establishing`
+- **WelcomeBack** — returning-user splash
+- **UpgradeGate** — two-tier (Apprentice / Alchemist) at `/upgrade`
+- **AccountSessions** — device session log + revoke at `/profile/security`
+- **Device sessions** — `database/init/33-device-sessions.sql` + `GET/DELETE /api/auth/sessions`
+- **JWT augmentation** — `sessionId` + `deviceSessionId` in token
+
+### Onboarding
+- **Skip flow** — "Skip for now" CTA → `PATCH /api/onboarding { skipNatal: true }` → `/?prompt=natal`
+- **NatalPromptBanner** — soft-prompt ribbon on home feed, dismissable via localStorage
+
+### Backend hardening
+- **`_aspects` fix** — removed from positions dict in both pyswisseph + pyephem backends ✅ DEPLOYED
+- **Zod schema** — `SafePositionsRecord` transform filters non-object entries; `RailwayAspectSchema` added
+- **HistoricalStatsService** — `sanitizePositions()` strips arrays before `alchemize()`
+
+### Context refactor
+- **MenuPlannerContext** — 2182-line monolith → 5 modules in `src/contexts/menu-planner/`:
+  - `types.ts` (244 lines), `useWeekNavigation.ts` (65), `useMealSlots.ts` (498)
+  - `MenuPlannerProvider.tsx` (1280), `MenuPlannerContext.tsx` barrel (28)
+  - Public API unchanged — no consumers touched
+
+### Analytics
+- `track("command_palette_open")`
+- `track("upgrade_gate_shown", { tier, from })`
+- `track("upgrade_gate_converted", { plan: "alchemist" })`
+- `track("auth_handshake_completed", { stepsCompleted: 6 })`
+
+### Documentation
+- `CHANGELOG.md` — keep-a-changelog from v1.0.0 → 3.0.0
+- `README.md` — complete rewrite for v3.0
+- `docs/API_REFERENCE.md` — all `/api/*` routes documented
+- `docs/adr/001–005` — Architecture Decision Records
+- `package.json` — `3.0.0`
+
+---
 
 ## Repo state
 
-- **Branch:** `claude/great-haslett-00b6db` (worktree at `.claude/worktrees/great-haslett-00b6db`)
+- **Branch for new work:** create fresh branch off `master` after PR #406 merges
 - **Base:** `master` (prod); `main` is stale — do not target it
-- **Runtime:** Bun 1.3.13 only. Never `npm` / `yarn`. Lockfile is `bun.lock`.
-- **Dev server:** `bun run dev` on `:3000`. Preview MCP works via `.claude/launch.json` config `dev`.
+- **Runtime:** Bun 1.3.13. Never `npm`/`yarn`. Lockfile is `bun.lock`.
+- **Build:** `bun run build` passes with 0 TS errors, 0 lint warnings before every PR.
 
-## What's landed (don't redo)
+---
 
-- [tailwind.config.js](tailwind.config.js) — full design tokens (oklch palette, elemental colors, fonts, animations)
-- [src/app/globals.css](src/app/globals.css) — `.lab` / `.alchm-root` CSS variable block, typography utils, `.alchm-panel`, `.alchm-chip`, etc.
-- [src/components/ui/alchm/](src/components/ui/alchm/) — 15 atoms/molecules: `Glyph`, `PlanetaryClock`, `ElementalMeter`, `CompatibilityRing`, `Sparkline`, `LiveTimecode`, `ScanLine`, `ProcurementKit` (copper), `PremiumGlow` (violet, `revealAmount=0.4`), `ThermoQuartet`, `IngredientCard`, `CuisineExplorerPanel`, `SauceLineagePanel`, `AstrologicalClockPanel`, `TonightsCompositionPanel`, `PipelinePanel`, `AgentImage`, `SeasonalityChart`, `SensoryRadar`
-- [src/components/nav/LabHeader.tsx](src/components/nav/LabHeader.tsx) — sticky header with `data-alchm-header` attribute; mobile-first via inline `<style>` (NAV hidden < 900px)
-- [src/app/(alchm)/layout.tsx](src/app/(alchm)/layout.tsx) — route group; uses `body:has([data-alchm-route])` selectors to hide legacy header/footer without modifying `src/app/layout.tsx`
-- [src/app/(alchm)/page.tsx](src/app/(alchm)/page.tsx) — Laboratory Dashboard (3-col grid: natal rail / clock + hero / astrological clock + telemetry)
-- [src/app/(alchm)/ingredients/[ingredientId]/page.tsx](src/app/(alchm)/ingredients/[ingredientId]/page.tsx) — Ingredient Hero (ticker + 3-col hero + seasonality + sensory radar + ProcurementKit + PremiumGlow gate)
-- [src/lib/schemas/dashboard.ts](src/lib/schemas/dashboard.ts) — **Zod contracts for all five missing endpoints** (use these verbatim)
+## Post-3.0 backlog (no priority order)
 
-## Strategic constraints (already locked in)
+### 3.1 candidates
 
-- **Real-data-only**: no mocks at the page level. If data is missing, render `AwaitingBackend` (violet-dashed) — never fake values.
-- **Mobile-first per page**: 375px → 760/900/1280 breakpoints inline via `<style>` tags within components.
-- **One branch only**: `claude/great-haslett-00b6db`. PR target is `master`.
-- **Per-route header swap** via the `(alchm)` group; never modify `src/app/layout.tsx`.
+**MenuPlannerProvider second pass**
+`MenuPlannerProvider.tsx` is still 1280 lines. The next extraction candidates:
+- `useCostEstimation.ts` — cost estimation + circuit metrics
+- `useGenerationPreferences.ts` — generation pref state + persistence debounce
+These share `currentMenu` state with the main provider, so they need careful interface design.
 
-## Task — Implement three API routes
+**Device session expiry cleanup**
+Expired `device_sessions` rows linger until next sign-in. Options:
+- Railway cron job: `DELETE FROM device_sessions WHERE expires_at < NOW()`
+- Next.js middleware: lazy-clean on auth requests (adds latency)
+- Scheduled `POST /api/internal/cleanup-sessions`
 
-All three should follow the existing pattern in [src/app/api/ingredients/[name]/route.ts](src/app/api/ingredients/[name]/route.ts):
-- `export const dynamic = "force-dynamic"`
-- Wrap in `rateLimit(request, { window: 60_000, max: 60, bucket: "<name>" })`
-- Return JSON matching the Zod schema in `src/lib/schemas/dashboard.ts`
-- Validate the response with `.parse()` before returning so contracts can't drift silently
+**Soft session revocation hardening**
+Currently `DELETE /api/auth/sessions/[id]` removes the DB row but the JWT stays valid until expiry (up to 30 days). Full revocation requires edge middleware to check the DB on every request for the `jti`. Adds ~1ms latency per request on Railway internal networking.
 
-### 1. `GET /api/recommendations/ingredients` (priority — unblocks ticker + dashboard panel)
+**Onboarding skip → natal chart completion return**
+Users who skipped onboarding see the `NatalPromptBanner`. Add a `?return=<route>` query to `/onboarding` so users who complete their chart mid-session are redirected back to where they were.
 
-- **Schema:** `RecommendedIngredientsResponseSchema` in [src/lib/schemas/dashboard.ts](src/lib/schemas/dashboard.ts)
-- **Source of truth:** `RecommendationBridge.ts` already computes this — find it via `grep -r "RecommendationBridge" src/`. The math (`match_score(transit_position, user.natal)`) lives there; this endpoint just needs to wire it to a route handler.
-- **Query params:** `limit` (default 8), optional `userId` (fall back to anon resonance from `useAlchemicalSafe().planetaryPositions` server-side via the astrologize endpoint)
-- **Response shape (verify against schema):**
-  ```ts
-  { items: Array<{ id: string; name: string; match: number; element: "fire"|"water"|"earth"|"air"; planet?: string; category?: string }> }
-  ```
-- **Consumers:** Ingredient Hero ticker bar (line in `page.tsx` already fetches `?limit=8`), dashboard "RECOMMENDED INGREDIENTS" panel.
+**`MealSlot.tsx` alchemicalQuantities type**
+`src/components/menu-planner/MealSlot.tsx:166` — `alchemicalQuantities` typed as `any`. Define the proper type once the economy types are stabilized.
 
-### 2. `GET /api/cuisines/signatures`
+**Recipe popularity weighting**
+`src/utils/cuisine/cuisineAggregationEngine.ts:389` — popularity-based weighting when recipe popularity data is available. `food_diary` entries could serve as the signal.
 
-- **Schema:** `CuisineSignaturesResponseSchema`
-- **Source:** `backend/alchm_kitchen/data/json/cuisines.json` — each cuisine has a 4-element ESMS array (Earth/Spirit/Matter/Substance or Fire/Water/Earth/Air — verify the source).
-- **Response shape:**
-  ```ts
-  { cuisines: Array<{ id: string; name: string; region: string; sig: [number, number, number, number]; match: number; color?: string }>, total: number }
-  ```
-- **Match calculation:** dot product of cuisine signature × current sky elemental weights (same resonance math as the recommendations endpoint).
-- **Consumer:** dashboard "CUISINE EXPLORER · TIER III" panel (currently `AwaitingBackend`).
+**Seasonal adaptation methods**
+`src/data/unified/recipeBuilding.ts:2431` — 15 stub methods for seasonal ingredient substitution, cooking method adjustment, timing, temperature. Implement when seasonal recipe recommendations are a priority.
 
-### 3. `GET /api/sauces/lineage?root=<id>`
+**PA-API (Amazon affiliate)**
+`src/data/amazon/ingredientAsins.ts` — ASIN data exists but the affiliate API integration needs review. Low priority until Alchemist subscriber count justifies the integration cost.
 
-- **Schema:** `SauceLineageResponseSchema`
-- **Source:** `backend/alchm_kitchen/data/json/sauces.json` — has the mother-sauce derivation graph.
-- **Response shape:**
-  ```ts
-  { nodes: Array<{ id: string; name: string; depth: number }>, edges: Array<{ from: string; to: string; method?: string }>, stats: { variants: number; maxDepth: number } }
-  ```
-- **Required:** the `root` query param picks the mother sauce. Return 400 if missing.
-- **Consumer:** dashboard "SAUCE LINEAGE TREE" panel.
+### Known technical debt
 
-## Verification workflow
+| File | Issue |
+|---|---|
+| `src/services/PlanetaryKineticsClient.ts:184` | Placeholder — requires per-user birth chart data from DB |
+| `src/services/PlanetaryAgentsAdapter.ts:428` | Placeholder — requires real user elemental property data |
+| `src/services/AstrologicalService.ts:305` | No integration with astrologize API result cache |
+| `src/utils/cuisineAggregations.ts:48` | Only African and American cuisine data complete |
 
-After each route:
-1. `bun run dev` (use preview MCP `preview_start` with name `dev`)
-2. Hit the endpoint directly: `curl -s 'http://localhost:3000/api/recommendations/ingredients?limit=8' | jq .`
-3. Validate against the Zod schema in a one-off `bun src/lib/schemas/__verify.ts` if you want belt-and-suspenders.
-4. Open the corresponding page (`/` for dashboard, `/ingredients/garlic` for the ticker) and confirm the `AwaitingBackend` panel was replaced by real data.
-5. Resize to 375px and confirm mobile still works.
+### Security / ops
 
-## Out of scope (don't touch)
-
-- The legacy `src/app/ingredients/page.tsx` (Amazon Fresh pantry view) — that's a separate surface and remains untouched.
-- Any modifications to `src/app/layout.tsx` (root).
-- Storybook stories — already complete for all atoms.
-- The trending ticker's secondary sort/personalization beyond `match_score` — keep this v1 minimal.
-
-## When you're done
-
-- Run `bun run build` to catch TS errors
-- Commit per-route, message style: `feat(api): implement /api/recommendations/ingredients`
-- Final PR title: `feat(alchm): hydrate Phase 2 backend (recommendations + cuisines + sauces)` targeting `master`
-
-Pick up with the recommendations endpoint first — it unblocks two surfaces (ticker + dashboard panel) at once.
+- **`INTERNAL_API_SECRET`** — verify it is set in Vercel env vars. The `/api/feed` route logs a runtime warning if missing, meaning agent writes are unauthenticated in that case.
+- **Token economy shop items** — if `unlock-cosmic-recipe` or `unlock-basic-recipe` rows are missing from the DB, the AI gen routes return 500. Verify in Railway DB that these rows exist.
+- **Device sessions expiry cron** — expired rows accumulate until next sign-in. Schedule a cleanup job.

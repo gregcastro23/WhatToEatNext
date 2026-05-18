@@ -33,7 +33,6 @@ import type { UnifiedIngredient } from "./unifiedTypes";
 // ===== UNIFIED INGREDIENTS SYSTEM =====;
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
-// TODO: Fix import - add what to import from './unifiedTypes.ts'
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
 // Combine all protein types

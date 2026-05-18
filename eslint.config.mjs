@@ -545,6 +545,13 @@ export default [
       "src/types/jest-dom.d.ts",
       "src/types/testing-library__jest-dom/**",
 
+      // Storybook stories — excluded from tsconfig, so project-aware linting
+      // fails with "file not found in any provided project". Storybook has its
+      // own tsconfig in .storybook/; these files are linted there, not here.
+      "**/*.stories.ts",
+      "**/*.stories.tsx",
+      ".storybook/**",
+
       // Files excluded from tsconfig (type-aware linting fails on these)
       "src/services/KiroCampaignIntegration.ts",
       "src/services/__tests__/**",

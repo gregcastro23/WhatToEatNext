@@ -15,6 +15,7 @@ export default function OnboardingPage() {
   const { data: session, status, update: updateSession } = useSession();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSkipping, setIsSkipping] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Form state - birth data only (email/name from Google session)
@@ -63,6 +64,29 @@ export default function OnboardingPage() {
 
   const email = session.user.email;
   const name = session.user.name;
+
+  const handleSkip = async () => {
+    setIsSkipping(true);
+    setError(null);
+    try {
+      const response = await fetch("/api/onboarding", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skipNatal: true }),
+      });
+
+      if (!response.ok) throw new Error(`Server error (${response.status})`);
+      const data = await response.json();
+      if (!data.success) throw new Error(data.message || "Skip failed");
+
+      await updateSession();
+      document.cookie = "onboarding_completed=1; path=/; max-age=2592000; SameSite=Lax";
+      window.location.href = "/?prompt=natal";
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+      setIsSkipping(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -215,7 +239,7 @@ export default function OnboardingPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isSkipping}
               className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-orange-600 text-white rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-orange-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
@@ -227,6 +251,18 @@ export default function OnboardingPage() {
                 "Complete Onboarding"
               )}
             </button>
+
+            {/* Skip link */}
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => { void handleSkip(); }}
+                disabled={isSubmitting || isSkipping}
+                className="text-sm text-alchm-copper/60 underline underline-offset-2 hover:text-alchm-copper disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {isSkipping ? "Skipping…" : "Skip for now — I'll add my birth data later"}
+              </button>
+            </div>
           </form>
 
           {/* Info Cards */}

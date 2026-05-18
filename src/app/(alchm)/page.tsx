@@ -2,9 +2,71 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import type { JSX } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
 import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
+import type { JSX } from "react";
+
+const NATAL_DISMISSED_KEY = "alchm:natal:dismissed";
+
+function NatalPromptBanner(): JSX.Element | null {
+  const params = useSearchParams();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (params?.get("prompt") !== "natal") return;
+    try {
+      if (window.localStorage.getItem(NATAL_DISMISSED_KEY) === "1") return;
+    } catch {
+      /* localStorage unavailable */
+    }
+    setVisible(true);
+  }, [params]);
+
+  if (!visible) return null;
+
+  const dismiss = () => {
+    setVisible(false);
+    try {
+      window.localStorage.setItem(NATAL_DISMISSED_KEY, "1");
+    } catch {
+      /* ignore */
+    }
+  };
+
+  return (
+    <div
+      className="border border-alchm-copper/30 bg-alchm-copper/5 text-alchm-copper/80 rounded px-4 py-2"
+      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}
+    >
+      <Link
+        href="/onboarding"
+        style={{ flex: 1, fontSize: 13, textDecoration: "none", color: "inherit" }}
+      >
+        Complete your natal chart to unlock personalized cosmic recommendations →
+      </Link>
+      <button
+        type="button"
+        onClick={dismiss}
+        aria-label="Dismiss"
+        style={{
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+          color: "inherit",
+          fontSize: 16,
+          lineHeight: 1,
+          padding: "0 4px",
+          opacity: 0.6,
+          flexShrink: 0,
+        }}
+      >
+        ×
+      </button>
+    </div>
+  );
+}
 
 const DynamicCuisineRecommender = dynamic(
   () => import("@/components/home/DynamicCuisineRecommender"),
@@ -143,6 +205,9 @@ export default function AlchmKitchenHome(): JSX.Element {
             scrollbar-color: color-mix(in oklch, var(--accent), transparent 70%) transparent;
           }
         `}</style>
+
+        {/* Natal chart soft-prompt banner (shown after skip) */}
+        <NatalPromptBanner />
 
         {/* 1 · PROMO — Cosmic Token Economy */}
         <AmazonFreshPromotion />

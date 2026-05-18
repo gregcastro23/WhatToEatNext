@@ -285,6 +285,74 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/** PATCH /api/onboarding — Skip natal data, mark onboarding complete */
+export async function PATCH(request: NextRequest) {
+  try {
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON in request body" },
+        { status: 400 },
+      );
+    }
+
+    const parsed = body as Record<string, unknown>;
+    if (!parsed.skipNatal) {
+      return NextResponse.json(
+        { success: false, message: "Only skipNatal=true is accepted by this endpoint" },
+        { status: 400 },
+      );
+    }
+
+    const user = await getDatabaseUserFromRequest(request);
+
+    if (!user) {
+      let hasValidSession = false;
+      try {
+        const session = await auth();
+        hasValidSession = !!(session?.user?.email);
+      } catch {
+        // auth() failed — treat as unauthenticated
+      }
+
+      if (hasValidSession) {
+        return NextResponse.json(
+          { success: false, message: "Service temporarily unavailable. Please try again in a moment." },
+          { status: 503 },
+        );
+      }
+
+      return NextResponse.json(
+        { success: false, message: "User not found. Please sign in first." },
+        { status: 401 },
+      );
+    }
+
+    await userDatabase.updateUserProfile(user.id, { onboardingComplete: true }, user.email);
+    await reportQuestEventBestEffort(user.id, "complete_onboarding");
+
+    const response = NextResponse.json({ success: true });
+
+    response.cookies.set("onboarding_completed", "1", {
+      path: "/",
+      maxAge: 30 * 24 * 60 * 60,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
+    });
+
+    return response;
+  } catch (error) {
+    _logger.error("[PATCH /api/onboarding] Skip onboarding error", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to skip onboarding. Please try again." },
+      { status: 500 },
+    );
+  }
+}
+
 /** GET /api/onboarding — Check onboarding status */
 export async function GET(request: NextRequest) {
   try {
