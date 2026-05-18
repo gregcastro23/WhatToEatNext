@@ -1,8 +1,8 @@
 "use client";
 
-import type { CSSProperties, JSX } from "react";
 import { useEffect, useState } from "react";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
+import type { CSSProperties, JSX } from "react";
 
 const PLANET_GLYPHS: Record<string, string> = {
   Sun: "☉",

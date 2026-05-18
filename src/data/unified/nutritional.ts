@@ -15,8 +15,6 @@ import { calculateKalchm } from "./alchemicalCalculations";
 // Phase 3 Step 4 of WhatToEatNext Data Consolidation
 // Enhances nutritional data with alchemical principles and Monica/Kalchm integration
 // Integrates with unified seasonal, cuisine, ingredients, and recipe systems
-// TODO: Fix import - add what to import from './ingredients.ts'
-// TODO: Fix import - add what to import from './seasonal.ts'
 // ===== ENHANCED NUTRITIONAL INTERFACES =====
 export interface AlchemicalNutritionalProfile extends NutritionalProfile {
   // Enhanced Alchemical Properties

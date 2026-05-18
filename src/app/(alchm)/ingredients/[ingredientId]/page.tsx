@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState, use, type JSX } from "react";
 import {
   CompatibilityRing,
   ElementalMeter,
-  Glyph,
   PremiumGlow,
   ProcurementKit,
   SeasonalityChart,

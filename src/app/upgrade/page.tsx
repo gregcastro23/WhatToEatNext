@@ -13,8 +13,8 @@
  */
 
 import { Suspense } from "react";
-import { auth } from "@/lib/auth/auth";
 import { UpgradeGateFromQuery } from "@/components/auth/AuthFollowups";
+import { auth } from "@/lib/auth/auth";
 
 export const dynamic = "force-dynamic";
 

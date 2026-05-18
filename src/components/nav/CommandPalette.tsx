@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "rea
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 import { getAllNavRoutes, type FlatNavEntry } from "@/config/navigation";
 
-type PaletteItem = {
+interface PaletteItem {
   id: string;
   icon: GlyphName;
   label: string;
@@ -14,12 +14,12 @@ type PaletteItem = {
   external?: boolean;
   /** When set, invoking the item dispatches a custom event instead of navigating. */
   action?: string;
-};
+}
 
-type PaletteGroup = {
+interface PaletteGroup {
   title: string;
   items: PaletteItem[];
-};
+}
 
 const RECENT_KEY = "alchm:palette:recent";
 

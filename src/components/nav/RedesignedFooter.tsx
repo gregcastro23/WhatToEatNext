@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import type { JSX } from "react";
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import { NAV_IA, PRIMARY_KEYS } from "@/config/navigation";
 import { Logo } from "./Logo";
+import type { JSX } from "react";
 
 /**
  * Footer that reads the same canonical NAV_IA as the header. Header and

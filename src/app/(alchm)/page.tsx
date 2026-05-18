@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import type { JSX } from "react";
 import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
 import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
+import type { JSX } from "react";
 
 const DynamicCuisineRecommender = dynamic(
   () => import("@/components/home/DynamicCuisineRecommender"),

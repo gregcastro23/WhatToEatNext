@@ -22,12 +22,6 @@ import { unifiedSeasonalSystem } from "./seasonal";
 import type { UnifiedFlavorProfile } from "./flavorProfiles";
 import type { UnifiedIngredient } from "./unifiedTypes";
 
-// TODO: Fix import - add what to import from './unifiedTypes.ts'
-// TODO: Fix import - add what to import from './ingredients.ts'
-// TODO: Fix import - add what to import from './flavorProfiles.ts'
-// TODO: Fix import - add what to import from './seasonal.ts'
-// TODO: Fix import - add what to import from './cuisineIntegrations.ts'
-// TODO: Fix import - add what to import from './nutritional.ts'
 // Import unified systems
 // Import unified ingredients
 // Enhanced ingredient interface with flavor profile integration

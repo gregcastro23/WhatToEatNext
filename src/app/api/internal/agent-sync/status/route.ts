@@ -33,14 +33,14 @@ const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET || "";
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 const PROXY_TIMEOUT_MS = 2500;
 
-type StatusResponse = {
+interface StatusResponse {
   active: boolean;
   lastSync: string | null;
   /** "db" when sourced from a local mirror, "proxy" when forwarded from FastAPI, "fallback" otherwise. */
   source: "proxy" | "fallback" | "db";
   /** Free-form diagnostic (only in dev). */
   reason?: string;
-};
+}
 
 async function fetchBackendStatus(
   userId: string,

@@ -21,10 +21,10 @@ export function SensoryRadar({ axes, size = 260 }: SensoryRadarProps): JSX.Eleme
     return [cx + Math.cos(a) * r * v, cy + Math.sin(a) * r * v] as const;
   };
 
-  const polygon = axes
+  const polygon = `${axes
     .map((ax, i) => pointAt(i, Math.max(0, Math.min(1, ax.value))))
     .map((p, i) => `${i === 0 ? "M" : "L"}${p[0]} ${p[1]}`)
-    .join(" ") + " Z";
+    .join(" ")  } Z`;
 
   return (
     <svg

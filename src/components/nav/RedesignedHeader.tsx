@@ -1,10 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState, type JSX } from "react";
-import dynamic from "next/dynamic";
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import { PlanetaryChip } from "@/components/ui/alchm/PlanetaryChip";
 import {
@@ -449,6 +449,7 @@ function MegaMenu({
   return (
     <div
       role="menu"
+      tabIndex={-1}
       aria-label={`${m.label} navigation`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

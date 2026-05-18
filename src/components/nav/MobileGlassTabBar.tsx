@@ -6,13 +6,13 @@ import { useState, type JSX } from "react";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 import { activePrimaryFromPathname } from "@/config/navigation";
 
-type Tab = {
+interface Tab {
   id: string;
   label: string;
   icon: GlyphName;
   href: string;
   matchKey?: "kitchen" | "discover" | "plan" | "commensal" | "lab";
-};
+}
 
 const TABS: readonly Tab[] = [
   { id: "kitchen", label: "Kitchen", icon: "flask", href: "/", matchKey: "kitchen" },
@@ -21,12 +21,12 @@ const TABS: readonly Tab[] = [
   { id: "profile", label: "Profile", icon: "ring", href: "/profile", matchKey: "lab" },
 ] as const;
 
-type QuickAction = {
+interface QuickAction {
   label: string;
   glyph: GlyphName;
   hint: string;
   href: string;
-};
+}
 
 const QUICK_ACTIONS: readonly QuickAction[] = [
   { label: "Compose tonight's menu", glyph: "flask", hint: "RECIPE BUILDER", href: "/recipe-builder" },

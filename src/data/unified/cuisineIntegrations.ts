@@ -18,9 +18,6 @@ import type { UnifiedIngredient } from "./unifiedTypes";
 // Phase 3 Step 2 of WhatToEatNext Data Consolidation
 // Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
 // Integrates with unified seasonal system for dynamic cuisine recommendations
-// TODO: Fix import - add what to import from './ingredients'
-// TODO: Fix import - add what to import from './unifiedTypes'
-// TODO: Fix import - add what to import from './seasonal'
 // Import removed - function not yet implemented
 // Fixed import path
 // Cache import removed - not available

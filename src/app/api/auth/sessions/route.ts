@@ -14,14 +14,14 @@ import { auth } from "@/lib/auth/auth";
 
 export const dynamic = "force-dynamic";
 
-type SessionRow = {
+interface SessionRow {
   id: string;
   sub: string;
   device: string;
   loc: string;
   time: string;
   current: boolean;
-};
+}
 
 function relativeTime(input: Date | string | null | undefined): string {
   if (!input) return "—";

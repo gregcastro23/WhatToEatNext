@@ -20,6 +20,8 @@ import {
   type SauceLineageNode,
   type ThermoValues,
 } from "@/components/ui/alchm";
+import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
+import { useUser } from "@/contexts/UserContext";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
 // floating-point values between server and client, tripping hydration warnings.
@@ -28,8 +30,6 @@ const PlanetaryClock = dynamic(
   () => import("@/components/ui/alchm").then((m) => m.PlanetaryClock),
   { ssr: false },
 );
-import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
-import { useUser } from "@/contexts/UserContext";
 
 /* ─── Mapping helpers ─────────────────────────────────────────────────────── */
 

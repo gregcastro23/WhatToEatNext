@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { AuthHandshake } from "@/components/auth/AuthFollowups";
 
 /**
