@@ -4,13 +4,20 @@ import dynamic from "next/dynamic";
 import { useEffect, useState, type JSX } from "react";
 import {
   AstrologicalClockPanel,
+  CuisineExplorerPanel,
   ElementalMeter,
   Glyph,
+  IngredientCard,
   PipelinePanel,
+  SauceLineagePanel,
   ThermoQuartet,
   type AstrologicalClockRow,
+  type CuisineSignatureRow,
   type ElementalValues,
+  type IngredientCardData,
   type PipelineService,
+  type SauceLineageEdge,
+  type SauceLineageNode,
   type ThermoValues,
 } from "@/components/ui/alchm";
 
@@ -128,6 +135,198 @@ interface HealthPayload {
   timestamp?: string;
 }
 
+/* ─── Recommended ingredients hook ───────────────────────────────────────── */
+
+const PLANET_GLYPH_LOOKUP: Record<string, string> = {
+  Sun: "☉",
+  Moon: "☽",
+  Mercury: "☿",
+  Venus: "♀",
+  Mars: "♂",
+  Jupiter: "♃",
+  Saturn: "♄",
+  Uranus: "♅",
+  Neptune: "♆",
+  Pluto: "♇",
+};
+
+interface RecommendedIngredientPayload {
+  id: string;
+  name: string;
+  category: string;
+  elemental_affinity: "fire" | "water" | "earth" | "air";
+  planet: string;
+  hue: number;
+  match_score: number;
+  thermo: { spirit: number; essence: number; matter: number; substance: number };
+}
+
+function useRecommendedIngredients(limit = 8): IngredientCardData[] | null {
+  const [items, setItems] = useState<IngredientCardData[] | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/recommendations/ingredients?limit=${limit}`, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (cancelled || !j) return;
+        const list: RecommendedIngredientPayload[] = Array.isArray(j.ingredients)
+          ? j.ingredients
+          : [];
+        setItems(
+          list.map((it) => ({
+            id: it.id,
+            name: it.name,
+            category: (it.category ?? "other").toUpperCase(),
+            element: it.elemental_affinity,
+            match: it.match_score,
+            properties: it.thermo,
+            planet: PLANET_GLYPH_LOOKUP[it.planet] ?? "☉",
+            hue: it.hue,
+          })),
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setItems([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [limit]);
+  return items;
+}
+
+/* ─── Cuisine signatures hook ─────────────────────────────────────────────── */
+
+interface CuisineSignaturePayload {
+  id: string;
+  name: string;
+  region: string;
+  match: number;
+  signature: [number, number, number, number];
+}
+
+interface CuisineSignaturesData {
+  total: number;
+  rows: CuisineSignatureRow[];
+}
+
+function useCuisineSignatures(): CuisineSignaturesData | null {
+  const [data, setData] = useState<CuisineSignaturesData | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/cuisines/signatures", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (cancelled || !j) return;
+        const list: CuisineSignaturePayload[] = Array.isArray(j.cuisines)
+          ? j.cuisines
+          : [];
+        setData({
+          total: typeof j.total === "number" ? j.total : list.length,
+          rows: list.slice(0, 8).map((c) => ({
+            id: c.id,
+            name: c.name,
+            region: c.region,
+            match: c.match,
+            sig: c.signature,
+          })),
+        });
+      })
+      .catch(() => {
+        if (!cancelled) setData(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return data;
+}
+
+/* ─── Sauce lineage hook ─────────────────────────────────────────────────── */
+
+interface SauceLineagePayload {
+  root: string;
+  nodes: Array<{ id: string; label: string; depth: number }>;
+  edges: Array<{ from: string; to: string }>;
+  stats: { depth: number; nodes: number; variants: number };
+}
+
+interface SauceLineageView {
+  rootLabel: string;
+  nodes: SauceLineageNode[];
+  edges: SauceLineageEdge[];
+  stats: Array<{ label: string; value: string | number }>;
+}
+
+const SAUCE_VIEWBOX = { width: 320, height: 200 };
+
+function layoutLineage(payload: SauceLineagePayload): SauceLineageView {
+  const { width, height } = SAUCE_VIEWBOX;
+  const rootNode = payload.nodes.find((n) => n.depth === 0) ?? payload.nodes[0];
+  const variants = payload.nodes.filter((n) => n.id !== rootNode?.id);
+  const cx = width / 2;
+  const rootY = 44;
+  const variantY = height - 50;
+
+  const positions = new Map<string, { x: number; y: number; r: number; label: string; color?: string }>();
+  if (rootNode) {
+    positions.set(rootNode.id, {
+      x: cx,
+      y: rootY,
+      r: 14,
+      label: rootNode.label,
+      color: "var(--accent-2)",
+    });
+  }
+  const spacing = variants.length > 1 ? (width - 60) / (variants.length - 1) : 0;
+  variants.forEach((node, i) => {
+    const x = variants.length === 1 ? cx : 30 + spacing * i;
+    positions.set(node.id, { x, y: variantY, r: 10, label: node.label });
+  });
+
+  const nodes: SauceLineageNode[] = Array.from(positions.values());
+  const edges: SauceLineageEdge[] = payload.edges
+    .map((e) => {
+      const from = positions.get(e.from);
+      const to = positions.get(e.to);
+      if (!from || !to) return null;
+      const mid = (from.y + to.y) / 2;
+      return { d: `M ${from.x} ${from.y} C ${from.x} ${mid}, ${to.x} ${mid}, ${to.x} ${to.y}` };
+    })
+    .filter((e): e is SauceLineageEdge => e !== null);
+
+  return {
+    rootLabel: rootNode?.label ?? payload.root,
+    nodes,
+    edges,
+    stats: [
+      { label: "Variants", value: payload.stats.variants },
+      { label: "Depth", value: payload.stats.depth },
+      { label: "Nodes", value: payload.stats.nodes },
+    ],
+  };
+}
+
+function useSauceLineage(root: string): SauceLineageView | null {
+  const [view, setView] = useState<SauceLineageView | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/sauces/lineage?root=${encodeURIComponent(root)}`, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: SauceLineagePayload | null) => {
+        if (cancelled || !j) return;
+        setView(layoutLineage(j));
+      })
+      .catch(() => {
+        if (!cancelled) setView(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [root]);
+  return view;
+}
+
 function useHealthTelemetry(): PipelineService[] {
   const [data, setData] = useState<HealthPayload | null>(null);
   useEffect(() => {
@@ -160,6 +359,9 @@ export default function LaboratoryDashboardPage(): JSX.Element {
   const { currentUser } = useUser();
   const alch = useAlchemicalSafe();
   const services = useHealthTelemetry();
+  const recommended = useRecommendedIngredients(8);
+  const cuisineData = useCuisineSignatures();
+  const sauceLineage = useSauceLineage("bechamel");
 
   const stats = currentUser?.stats;
   const elemental: ElementalValues | null = stats
@@ -409,23 +611,72 @@ export default function LaboratoryDashboardPage(): JSX.Element {
 
         <div className="alchm-rule" />
 
-        <AwaitingBackend
-          title="RECOMMENDED INGREDIENTS"
-          endpoint="GET /api/recommendations/ingredients"
-          note="Returns the top 8 ingredients ranked by match_score(transit_position, user.natal). Schema: RecommendedIngredientsResponseSchema. RecommendationBridge.ts can compute this today; needs to be exposed as a route."
-        />
+        {recommended === null ? (
+          <AwaitingBackend
+            title="RECOMMENDED INGREDIENTS"
+            endpoint="GET /api/recommendations/ingredients"
+            note="Hydrating top 8 ingredients ranked against the live sky…"
+          />
+        ) : recommended.length === 0 ? (
+          <AwaitingBackend
+            title="RECOMMENDED INGREDIENTS"
+            endpoint="GET /api/recommendations/ingredients"
+            note="No matches available right now — try again in a moment."
+          />
+        ) : (
+          <section>
+            <div
+              className="t-tag"
+              style={{ marginBottom: 12, color: "var(--accent-2)" }}
+            >
+              RECOMMENDED INGREDIENTS · TIER I
+            </div>
+            <div className="alchm-recs-grid">
+              <style>{`
+                .alchm-recs-grid {
+                  display: grid;
+                  gap: 14px;
+                  grid-template-columns: repeat(1, 1fr);
+                }
+                @media (min-width: 600px) { .alchm-recs-grid { grid-template-columns: repeat(2, 1fr); } }
+                @media (min-width: 1100px) { .alchm-recs-grid { grid-template-columns: repeat(4, 1fr); } }
+              `}</style>
+              {recommended.map((card) => (
+                <IngredientCard key={card.id} ing={card} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="alchm-bottom">
-          <AwaitingBackend
-            title="CUISINE EXPLORER · TIER III"
-            endpoint="GET /api/cuisines/signatures"
-            note="Returns 4-element signatures per cuisine. Source data exists in backend/alchm_kitchen/data/json/cuisines.json. Schema: CuisineSignaturesResponseSchema."
-          />
-          <AwaitingBackend
-            title="SAUCE LINEAGE TREE"
-            endpoint="GET /api/sauces/lineage?root=<id>"
-            note="Returns the derivation graph (nodes, edges, depth/variants stats) for a given mother sauce. Source data exists in sauces.json. Schema: SauceLineageResponseSchema."
-          />
+          {cuisineData && cuisineData.rows.length > 0 ? (
+            <CuisineExplorerPanel
+              cuisines={cuisineData.rows}
+              totalEntries={cuisineData.total}
+            />
+          ) : (
+            <AwaitingBackend
+              title="CUISINE EXPLORER · TIER III"
+              endpoint="GET /api/cuisines/signatures"
+              note="Hydrating 4-element cuisine signatures against the live sky…"
+            />
+          )}
+          {sauceLineage ? (
+            <SauceLineagePanel
+              rootName={sauceLineage.rootLabel}
+              nodes={sauceLineage.nodes}
+              edges={sauceLineage.edges}
+              stats={sauceLineage.stats}
+              viewBoxWidth={SAUCE_VIEWBOX.width}
+              viewBoxHeight={SAUCE_VIEWBOX.height}
+            />
+          ) : (
+            <AwaitingBackend
+              title="SAUCE LINEAGE TREE"
+              endpoint="GET /api/sauces/lineage?root=bechamel"
+              note="Hydrating mother-sauce derivation graph…"
+            />
+          )}
         </div>
       </main>
 
