@@ -7,6 +7,7 @@
 
 // Import the new comprehensive cuisine system
 import type { ElementalProperties } from "@/types/alchemy";
+import type { CuisineComputedProperties } from "@/types/hierarchy";
 import { getGlobalCache } from "../cuisine/cuisineComputationCache";
 import {
   generateCuisineRecommendations,
@@ -115,21 +116,18 @@ export function generateEnhancedCuisineRecommendations(
       console.warn("User profile validation issues:", validation.errors);
     }
 
-    // Get available cuisines from cache
-    const _cache = getGlobalCache();
-    const _availableCuisines = new Map<
-      string,
-      { name: string; properties; any }
-    >();
+    const availableCuisines = loadCuisinesFromCache();
 
-    // In a real implementation, this would load from computed cuisine data
-    // For now, we'll use mock data or fall back to basic recommendations
-    const mockCuisines = getMockCuisineData();
+    if (availableCuisines.size === 0) {
+      // No precomputed cuisine data in cache — fall back to basic recommendations
+      // rather than fabricating data. Callers see real elemental-driven matches
+      // instead of a hardcoded universe.
+      return generateBasicCuisineRecommendations(params);
+    }
 
-    // Generate recommendations using the comprehensive system
     const recommendations = generateCuisineRecommendations(
       userProfile,
-      mockCuisines as any,
+      availableCuisines,
       {
         maxRecommendations: 10,
         minCompatibilityThreshold: 0.1,
@@ -255,174 +253,43 @@ function generateBasicCuisineRecommendations(
 }
 
 /**
- * Get mock cuisine data for demonstration
- * In production, this would load from computed cuisine properties
+ * Build a cuisine map from the live computation cache.
+ *
+ * Returns an empty Map when no cuisines have been computed yet — callers fall
+ * back to elemental-only recommendations rather than seeing fabricated data.
+ * Logs a structured warning on cache miss so the empty case is observable.
  */
-function getMockCuisineData() {
-  const mockCuisines = new Map([
-    [
-      "Italian",
-      {
-        name: "Italian",
-        properties: {
-          averageElementals: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
-          averageAlchemical: {
-            Spirit: 2.5,
-            Essence: 3.0,
-            Matter: 3.0,
-            Substance: 1.5,
-          },
-          signatures: [
-            {
-              property: "Earth",
-              zscore: 2.1,
-              strength: "high",
-              averageValue: 0.3,
-              globalAverage: 0.25,
-              description:
-                "Italian cuisine has a high Earth signature due to wheat-based dishes and cheese",
-            },
-          ],
-          planetaryPatterns: [
-            {
-              planet: "Venus",
-              commonSigns: [
-                { sign: "taurus", frequency: 0.4 },
-                { sign: "libra", frequency: 0.3 },
-              ],
-              planetaryStrength: 0.65,
-              dominantElement: "Earth",
-            },
-          ],
-          sampleSize: 50,
-          computedAt: new Date(),
-          version: "1.0.0",
-        },
-      },
-    ],
-    [
-      "Mexican",
-      {
-        name: "Mexican",
-        properties: {
-          averageElementals: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
-          averageAlchemical: {
-            Spirit: 3.0,
-            Essence: 2.0,
-            Matter: 2.5,
-            Substance: 2.5,
-          },
-          signatures: [
-            {
-              property: "Fire",
-              zscore: 2.8,
-              strength: "high",
-              averageValue: 0.6,
-              globalAverage: 0.25,
-              description:
-                "Mexican cuisine has a very high Fire signature due to chili peppers and spices",
-            },
-          ],
-          planetaryPatterns: [
-            {
-              planet: "Mars",
-              commonSigns: [
-                { sign: "aries", frequency: 0.5 },
-                { sign: "scorpio", frequency: 0.3 },
-              ],
-              planetaryStrength: 0.72,
-              dominantElement: "Fire",
-            },
-          ],
-          sampleSize: 40,
-          computedAt: new Date(),
-          version: "1.0.0",
-        },
-      },
-    ],
-    [
-      "Japanese",
-      {
-        name: "Japanese",
-        properties: {
-          averageElementals: { Fire: 0.2, Water: 0.4, Earth: 0.1, Air: 0.3 },
-          averageAlchemical: {
-            Spirit: 3.5,
-            Essence: 2.5,
-            Matter: 1.5,
-            Substance: 2.5,
-          },
-          signatures: [
-            {
-              property: "Water",
-              zscore: 1.9,
-              strength: "moderate",
-              averageValue: 0.4,
-              globalAverage: 0.25,
-              description:
-                "Japanese cuisine has a high Water signature due to seafood and delicate preparations",
-            },
-          ],
-          planetaryPatterns: [
-            {
-              planet: "Mercury",
-              commonSigns: [
-                { sign: "gemini", frequency: 0.4 },
-                { sign: "virgo", frequency: 0.3 },
-              ],
-              planetaryStrength: 0.58,
-              dominantElement: "Air",
-            },
-          ],
-          sampleSize: 45,
-          computedAt: new Date(),
-          version: "1.0.0",
-        },
-      },
-    ],
-    [
-      "Indian",
-      {
-        name: "Indian",
-        properties: {
-          averageElementals: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
-          averageAlchemical: {
-            Spirit: 4.0,
-            Essence: 2.0,
-            Matter: 2.0,
-            Substance: 2.0,
-          },
-          signatures: [
-            {
-              property: "Spirit",
-              zscore: 2.5,
-              strength: "high",
-              averageValue: 4.0,
-              globalAverage: 2.5,
-              description:
-                "Indian cuisine has exceptional Spirit due to complex spice combinations and transformative cooking",
-            },
-          ],
-          planetaryPatterns: [
-            {
-              planet: "Jupiter",
-              commonSigns: [
-                { sign: "sagittarius", frequency: 0.5 },
-                { sign: "pisces", frequency: 0.3 },
-              ],
-              planetaryStrength: 0.68,
-              dominantElement: "Fire",
-            },
-          ],
-          sampleSize: 60,
-          computedAt: new Date(),
-          version: "1.0.0",
-        },
-      },
-    ],
-  ]);
+function loadCuisinesFromCache(): Map<
+  string,
+  { name: string; properties: CuisineComputedProperties }
+> {
+  const cache = getGlobalCache();
+  const info = cache.getInfo();
+  const cuisines = new Map<
+    string,
+    { name: string; properties: CuisineComputedProperties }
+  >();
 
-  return mockCuisines;
+  if (info.entries.length === 0) {
+    console.warn(
+      "[cuisineRecommendation] Cuisine computation cache is empty — " +
+        "falling back to basic elemental recommendations. " +
+        "Populate the cache via warm()/set() to enable signature-driven matching.",
+    );
+    return cuisines;
+  }
+
+  // Dedupe per cuisineId — the cache may hold multiple option-hashes per cuisine;
+  // first one wins (LRU order from getInfo).
+  for (const entry of info.entries) {
+    if (cuisines.has(entry.cuisineId)) continue;
+    const properties = cache.get(entry.cuisineId, entry.options);
+    if (properties) {
+      cuisines.set(entry.cuisineId, { name: entry.cuisineId, properties });
+    }
+  }
+
+  return cuisines;
 }
 
 /**

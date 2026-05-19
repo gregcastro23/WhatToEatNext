@@ -16,6 +16,7 @@ import type {
   TemperatureAdjustment,
   TimingAdjustment,
 } from "@/types/recipeAdjustments";
+import { CUISINE_SIGNATURES } from "@/utils/cuisineSignatures.generated";
 import {
   getAllEnhancedCookingMethods,
   type EnhancedCookingMethod,
@@ -28,6 +29,219 @@ import {
 } from "./cuisineIntegrations";
 import { RecipeEnhancer, type EnhancedRecipe } from "./recipes";
 import type { SeasonalRecommendations } from "./seasonal";
+
+// ===== SEASONAL ADAPTATION TABLES =====
+// Curated maps that drive seasonal recipe adjustments. Kept inline (vs. a
+// DB table) so non-engineers can read/edit and so the script-time loader
+// in process-all-cuisines doesn't need network access.
+
+const SEASON_RULING_PLANETS: Record<string, PlanetName> = {
+  spring: "Venus",   // growth, fertility — balanced timing
+  summer: "Sun",     // peak vitality — faster cook (heat is plentiful)
+  autumn: "Mercury", // harvest, transition — slight slowdown
+  fall: "Mercury",   // alias for autumn
+  winter: "Saturn",  // structure, slow — longer cook
+  all: "Sun",
+};
+
+// Per-planet multiplier applied to a recipe's base cooking time.
+const PLANETARY_TIME_FACTORS: Record<string, number> = {
+  Sun: 0.9,
+  Moon: 1.15,
+  Mercury: 0.95,
+  Venus: 1.0,
+  Mars: 0.85,
+  Jupiter: 1.1,
+  Saturn: 1.3,
+};
+
+// Temperature offset (°F) added to recipe base temperature.
+const SEASONAL_TEMP_OFFSETS: Record<string, number> = {
+  spring: 0,
+  summer: -25,
+  autumn: 10,
+  fall: 10,
+  winter: 25,
+  all: 0,
+};
+
+// Curated per-season ingredient swap suggestions. The substitution fires
+// only when the recipe actually contains the `from` ingredient (substring).
+const SEASONAL_INGREDIENT_SUBS: Record<
+  string,
+  Array<{ from: string; to: string; reason: string }>
+> = {
+  spring: [
+    { from: "butter", to: "olive oil", reason: "Lighter fat suits spring produce" },
+    { from: "root vegetables", to: "asparagus", reason: "Spring offers tender shoots over storage roots" },
+    { from: "dried herbs", to: "fresh herbs", reason: "Spring herbs are abundant and aromatic" },
+  ],
+  summer: [
+    { from: "butter", to: "olive oil", reason: "Olive oil suits summer heat" },
+    { from: "root vegetables", to: "tomatoes", reason: "Summer tomatoes peak in flavor" },
+    { from: "winter squash", to: "zucchini", reason: "Summer squash is at its best" },
+    { from: "braised meat", to: "grilled fish", reason: "Lighter protein for warm weather" },
+  ],
+  autumn: [
+    { from: "fresh tomatoes", to: "roasted root vegetables", reason: "Autumn harvest peaks for roots" },
+    { from: "olive oil", to: "butter", reason: "Richer fat suits autumn comfort dishes" },
+    { from: "leafy greens", to: "kale", reason: "Hearty greens hold up to colder weather" },
+  ],
+  fall: [
+    { from: "fresh tomatoes", to: "roasted root vegetables", reason: "Autumn harvest peaks for roots" },
+    { from: "olive oil", to: "butter", reason: "Richer fat suits autumn comfort dishes" },
+    { from: "leafy greens", to: "kale", reason: "Hearty greens hold up to colder weather" },
+  ],
+  winter: [
+    { from: "fresh tomatoes", to: "canned tomatoes", reason: "Fresh tomatoes are out of season" },
+    { from: "leafy salads", to: "roasted root vegetables", reason: "Storage vegetables better in winter" },
+    { from: "olive oil", to: "butter", reason: "Heavier fats for warmth" },
+    { from: "grilled meat", to: "braised meat", reason: "Slow-cooking matches winter comfort" },
+  ],
+  all: [],
+};
+
+// Cooking methods preferred in each season — used to nudge recipes toward
+// seasonally appropriate techniques.
+const SEASONAL_METHOD_PREFERENCES: Record<string, string[]> = {
+  spring: ["steam", "sauté", "blanch", "poach"],
+  summer: ["grill", "raw", "sear", "ceviche"],
+  autumn: ["roast", "braise", "bake"],
+  fall: ["roast", "braise", "bake"],
+  winter: ["braise", "stew", "slow-cook", "roast"],
+  all: [],
+};
+
+// ===== CUISINE HARMONY DATA =====
+
+// Regional groupings drive the first pass of cultural harmony — cuisines
+// in the same region carry an implicit affinity (shared history, ingredients).
+const CUISINE_REGIONS: Record<string, string[]> = {
+  mediterranean: ["italian", "greek", "french", "spanish"],
+  east_asian: ["chinese", "japanese", "korean", "vietnamese"],
+  south_asian: ["indian", "thai"],
+  middle_eastern: ["middle eastern", "turkish", "lebanese", "persian"],
+  africa: ["african", "ethiopian", "moroccan"],
+  americas: ["american", "mexican"],
+  northern_europe: ["russian", "german", "scandinavian"],
+};
+
+// Known cross-region harmonious pairings (region pair → harmony score).
+const CROSS_REGION_HARMONY: Record<string, number> = {
+  "mediterranean|middle_eastern": 0.85,
+  "mediterranean|africa": 0.75,
+  "east_asian|south_asian": 0.8,
+  "americas|mediterranean": 0.7,
+  "middle_eastern|south_asian": 0.75,
+};
+
+function getCuisineRegion(cuisine: string): string | null {
+  const lower = cuisine.toLowerCase();
+  for (const [region, list] of Object.entries(CUISINE_REGIONS)) {
+    if (list.includes(lower)) return region;
+  }
+  return null;
+}
+
+function lookupCuisineSignature(
+  cuisine: string,
+): (typeof CUISINE_SIGNATURES)[number] | null {
+  const lower = cuisine.toLowerCase();
+  return (
+    CUISINE_SIGNATURES.find((s) => s.cuisine.toLowerCase() === lower) ?? null
+  );
+}
+
+function elementalCosineHarmony(a: string, b: string): number {
+  const sigA = lookupCuisineSignature(a);
+  const sigB = lookupCuisineSignature(b);
+  if (!sigA?.averageElementals || !sigB?.averageElementals) return 0.6;
+  const eA = sigA.averageElementals;
+  const eB = sigB.averageElementals;
+  const dot =
+    eA.Fire * eB.Fire +
+    eA.Water * eB.Water +
+    eA.Earth * eB.Earth +
+    eA.Air * eB.Air;
+  const magA = Math.sqrt(
+    eA.Fire ** 2 + eA.Water ** 2 + eA.Earth ** 2 + eA.Air ** 2,
+  );
+  const magB = Math.sqrt(
+    eB.Fire ** 2 + eB.Water ** 2 + eB.Earth ** 2 + eB.Air ** 2,
+  );
+  if (magA === 0 || magB === 0) return 0.6;
+  return Math.max(0.5, dot / (magA * magB));
+}
+
+function pairwiseCuisineHarmony(a: string, b: string): number {
+  if (a.toLowerCase() === b.toLowerCase()) return 1.0;
+  const regionA = getCuisineRegion(a);
+  const regionB = getCuisineRegion(b);
+  if (regionA && regionB && regionA === regionB) return 0.9;
+  if (regionA && regionB) {
+    const key1 = `${regionA}|${regionB}`;
+    const key2 = `${regionB}|${regionA}`;
+    if (key1 in CROSS_REGION_HARMONY) return CROSS_REGION_HARMONY[key1];
+    if (key2 in CROSS_REGION_HARMONY) return CROSS_REGION_HARMONY[key2];
+  }
+  return elementalCosineHarmony(a, b);
+}
+
+function kalchmForCuisine(cuisine: string): number | null {
+  const sig = lookupCuisineSignature(cuisine);
+  if (!sig?.averageAlchemical) return null;
+  const { Spirit, Essence, Matter, Substance } = sig.averageAlchemical;
+  if (Matter <= 0 || Substance <= 0) return null;
+  // K = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
+  return (
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
+  );
+}
+
+function monicaProxyForCuisine(cuisine: string): number | null {
+  // Cuisine signatures don't carry a Monica constant directly. Use a
+  // volatility proxy: (Air + Fire) / (Water + Earth). Higher = more
+  // dynamic alchemy. Good enough for relative spread calculations.
+  const sig = lookupCuisineSignature(cuisine);
+  if (!sig?.averageElementals) return null;
+  const e = sig.averageElementals;
+  const denom = e.Water + e.Earth;
+  if (denom <= 0) return null;
+  return (e.Air + e.Fire) / denom;
+}
+
+function parseMinutes(input: unknown): number | null {
+  if (typeof input === "number") return input;
+  if (typeof input !== "string") return null;
+  const match = input.match(/(\d+)/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+function recipeIngredientNames(recipe: { ingredients?: unknown }): string[] {
+  if (!Array.isArray(recipe.ingredients)) return [];
+  return recipe.ingredients
+    .map((ing) => {
+      if (typeof ing === "string") return ing;
+      if (ing && typeof ing === "object") {
+        const obj = ing as Record<string, unknown>;
+        return String(obj.name ?? obj.ingredient ?? "");
+      }
+      return "";
+    })
+    .map((s) => s.toLowerCase())
+    .filter(Boolean);
+}
+
+function recipeCookingMethods(recipe: { cookingMethod?: unknown }): string[] {
+  if (Array.isArray(recipe.cookingMethod)) {
+    return recipe.cookingMethod.map((m) => String(m).toLowerCase());
+  }
+  if (typeof recipe.cookingMethod === "string") {
+    return [recipe.cookingMethod.toLowerCase()];
+  }
+  return [];
+}
 
 // ===== ENHANCED RECIPE BUILDING INTERFACES =====
 
@@ -2428,95 +2642,181 @@ export class UnifiedRecipeBuildingSystem {
   // ... (rest of the file remains the same)
   // ... (seasonal adaptation, fusion, etc.)
 
-  // Seasonal adaptation methods - TODO: Implement comprehensive seasonal adaptations
+  // ===== Seasonal adaptation methods =====
+
   private generateDetailedIngredientSubstitutions(
-    _recipe: EnhancedRecipe,
-    _season: Season,
+    recipe: EnhancedRecipe,
+    season: Season,
     _recommendations: SeasonalRecommendations,
   ): Array<{ original: string; substitute: string; reason: string }> {
-    // TODO: Generate seasonal ingredient substitutions
-    return [];
+    const table = SEASONAL_INGREDIENT_SUBS[season] || [];
+    if (table.length === 0) return [];
+    const ingredientNames = recipeIngredientNames(recipe);
+    return table
+      .filter(({ from }) =>
+        ingredientNames.some((name) => name.includes(from.toLowerCase())),
+      )
+      .map(({ from, to, reason }) => ({ original: from, substitute: to, reason }));
   }
 
   private generateDetailedCookingMethodAdjustments(
-    _recipe: EnhancedRecipe,
-    _season: Season,
+    recipe: EnhancedRecipe,
+    season: Season,
     _recommendations: SeasonalRecommendations,
   ): Array<{ method: string; adjustment: string; reason: string }> {
-    // TODO: Generate seasonal cooking method adjustments
-    return [];
+    const preferred = SEASONAL_METHOD_PREFERENCES[season] || [];
+    if (preferred.length === 0) return [];
+    const methods = recipeCookingMethods(recipe);
+    return methods
+      .filter((m) => !preferred.some((p) => m.includes(p)))
+      .map((method) => ({
+        method,
+        adjustment: `Consider ${preferred[0]} instead`,
+        reason: `${season} favors ${preferred.join(", ")} over ${method}`,
+      }));
   }
 
   private generateSeasonalTimingAdjustments(
-    _recipe: EnhancedRecipe,
-    _season: Season,
+    recipe: EnhancedRecipe,
+    season: Season,
   ): { cookingTime: number; restTime: number; reason: string } {
-    // TODO: Calculate seasonal timing adjustments
+    const rulingPlanet = SEASON_RULING_PLANETS[season] || "Sun";
+    const factor = PLANETARY_TIME_FACTORS[rulingPlanet] ?? 1.0;
+    const base = parseMinutes((recipe as { cookingTime?: unknown }).cookingTime) ?? 30;
+    const cookingTime = Math.round(base * factor);
+    const restTime = Math.max(2, Math.round(cookingTime * 0.22));
+    const direction = factor < 1 ? "faster" : factor > 1 ? "slower" : "standard";
     return {
-      cookingTime: 45,
-      restTime: 10,
-      reason: "Standard seasonal timing adjustment",
+      cookingTime,
+      restTime,
+      reason: `${season} is ruled by ${rulingPlanet} (${direction} cook time, ×${factor.toFixed(2)})`,
     };
   }
 
   private generateSeasonalTemperatureAdjustments(
-    _recipe: EnhancedRecipe,
-    _season: Season,
+    recipe: EnhancedRecipe,
+    season: Season,
   ): { temperature: number; adjustment: string; reason: string } {
-    // TODO: Calculate seasonal temperature adjustments
+    const offset = SEASONAL_TEMP_OFFSETS[season] ?? 0;
+    const base = Number(
+      (recipe as { cookingTemperature?: unknown }).cookingTemperature,
+    ) || 350;
+    const temperature = base + offset;
+    const direction = offset > 0 ? "higher" : offset < 0 ? "lower" : "standard";
     return {
-      temperature: 350,
-      adjustment: "moderate",
-      reason: "Standard seasonal temperature adjustment",
+      temperature,
+      adjustment: direction,
+      reason: `${season} runs ${direction} (${offset >= 0 ? "+" : ""}${offset}°F from base ${base}°F)`,
     };
   }
 
   private applyAdaptationsToRecipe(
     recipe: EnhancedRecipe,
-    ..._adaptations: Array<Record<string, unknown>>
+    ...adaptations: Array<Record<string, unknown>>
   ): MonicaOptimizedRecipe {
-    // TODO: Apply seasonal adaptations to recipe
-    return recipe as MonicaOptimizedRecipe;
+    // Overlay each adaptation on the recipe. Later adaptations win on key
+    // conflicts — callers control ordering when needed.
+    const adapted: Record<string, unknown> = { ...recipe };
+    for (const patch of adaptations) {
+      Object.assign(adapted, patch);
+    }
+    return adapted as unknown as MonicaOptimizedRecipe;
   }
 
   private calculateKalchmImprovement(
-    _original: EnhancedRecipe,
-    _adapted: MonicaOptimizedRecipe,
+    original: EnhancedRecipe,
+    adapted: MonicaOptimizedRecipe,
   ): number {
-    // TODO: Calculate Kalchm improvement between original and adapted recipes
-    return 0.1;
+    const origK = Number(
+      (original as { alchemicalProperties?: { kalchm?: unknown } })
+        .alchemicalProperties?.kalchm,
+    );
+    const adaptedK = Number(
+      (adapted as { alchemicalProperties?: { kalchm?: unknown } })
+        .alchemicalProperties?.kalchm,
+    );
+    if (!isFinite(origK) || origK === 0 || !isFinite(adaptedK)) return 0;
+    return Math.tanh(Math.abs(adaptedK - origK) / Math.abs(origK));
   }
 
   private calculateMonicaImprovement(
-    _original: EnhancedRecipe,
-    _adapted: MonicaOptimizedRecipe,
+    original: EnhancedRecipe,
+    adapted: MonicaOptimizedRecipe,
   ): number {
-    // TODO: Calculate Monica improvement between original and adapted recipes
-    return 0.1;
+    const origM = Number(
+      (original as { alchemicalProperties?: { monicaConstant?: unknown } })
+        .alchemicalProperties?.monicaConstant,
+    );
+    const adaptedM = Number(
+      (adapted as { alchemicalProperties?: { monicaConstant?: unknown } })
+        .alchemicalProperties?.monicaConstant,
+    );
+    if (!isFinite(origM) || origM === 0 || !isFinite(adaptedM)) return 0;
+    return Math.tanh(Math.abs(adaptedM - origM) / Math.abs(origM));
   }
 
-  // Fusion recipe methods - TODO: Implement comprehensive fusion recipe capabilities
+  // ===== Fusion recipe methods =====
+
   private generateMultiCuisineFusion(cuisines: string[]): {
     fusionType: string;
     primaryCuisine: string;
     influences: string[];
     complexity: number;
   } {
-    // TODO: Generate fusion profile from multiple cuisines
+    const harmony = this.calculateCulturalHarmony(cuisines);
+    let fusionType: string;
+    if (harmony >= 0.85) fusionType = "classic pairing";
+    else if (harmony >= 0.6) fusionType = "regional fusion";
+    else if (harmony >= 0.4) fusionType = "modern fusion";
+    else fusionType = "experimental fusion";
+
     return {
-      fusionType: "modern fusion",
+      fusionType,
       primaryCuisine: cuisines[0] || "international",
       influences: cuisines.slice(1),
-      complexity: 0.7,
+      complexity: Math.min(
+        1,
+        Math.max(0.3, cuisines.length * 0.25 + (1 - harmony) * 0.3),
+      ),
     };
   }
 
   private createFusionBaseRecipe(
-    _cuisines: unknown,
-    _criteria: RecipeBuildingCriteria,
+    fusionProfile: unknown,
+    criteria: RecipeBuildingCriteria,
   ): Partial<EnhancedRecipe> {
-    // TODO: Create base recipe for fusion cuisine
-    return {};
+    const profile = fusionProfile as {
+      primaryCuisine?: string;
+      influences?: string[];
+      fusionType?: string;
+    } | null;
+    const primary = profile?.primaryCuisine || "fusion";
+    const influences = profile?.influences || [];
+    const fusionType = profile?.fusionType || "modern fusion";
+
+    const primarySig = lookupCuisineSignature(primary);
+    const baseElementals: ElementalProperties = primarySig?.averageElementals
+      ? { ...primarySig.averageElementals }
+      : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+
+    const accentNote = influences.length
+      ? ` with ${influences.join(" and ")} accents`
+      : "";
+
+    const base: Partial<EnhancedRecipe> = {
+      name: `${primary} ${fusionType}${accentNote}`,
+      cuisine: primary,
+      description: `${fusionType} rooted in ${primary}${
+        influences.length ? `, drawing on ${influences.join(", ")}` : ""
+      }`,
+      ingredients: [],
+      cookingMethod: [],
+      cookingTime: `${parseMinutes(criteria.maxCookTime) ?? 35} minutes`,
+      elementalProperties: baseElementals,
+      mealType: criteria.mealType,
+      season: criteria.currentSeason || criteria.season,
+    };
+    return base;
   }
 
   private calculateFusionMonicaOptimization(
@@ -2577,9 +2877,16 @@ export class UnifiedRecipeBuildingSystem {
     };
   }
 
-  private calculateFusionRatio(_cuisines: string[]): { [key: string]: number } {
-    // TODO: Calculate fusion ratios between cuisines
-    return {};
+  private calculateFusionRatio(cuisines: string[]): { [key: string]: number } {
+    if (cuisines.length === 0) return {};
+    // Geometric decay: 0.5, 0.25, 0.125, … normalized to sum = 1.0
+    const rawWeights = cuisines.map((_, i) => Math.pow(0.5, i + 1));
+    const total = rawWeights.reduce((a, b) => a + b, 0);
+    const ratios: { [key: string]: number } = {};
+    cuisines.forEach((cuisine, i) => {
+      ratios[cuisine] = rawWeights[i] / total;
+    });
+    return ratios;
   }
 
   private categorizeFusionIngredients(
@@ -2653,33 +2960,88 @@ export class UnifiedRecipeBuildingSystem {
     return fusionMethods;
   }
 
-  private calculateCulturalHarmony(_cuisines: string[]): number {
-    // TODO: Calculate cultural harmony between cuisines
-    return 0.8;
+  private calculateCulturalHarmony(cuisines: string[]): number {
+    if (cuisines.length <= 1) return 1.0;
+    const pairs: number[] = [];
+    for (let i = 0; i < cuisines.length; i++) {
+      for (let j = i + 1; j < cuisines.length; j++) {
+        pairs.push(pairwiseCuisineHarmony(cuisines[i], cuisines[j]));
+      }
+    }
+    return pairs.reduce((a, b) => a + b, 0) / pairs.length;
   }
 
   private calculateKalchmFusionBalance(
     _recipe: MonicaOptimizedRecipe,
-    _cuisines: string[],
+    cuisines: string[],
   ): number {
-    // TODO: Calculate Kalchm balance for fusion recipe
-    return 0.8;
+    if (cuisines.length <= 1) return 1.0;
+    const kalchms = cuisines
+      .map((c) => kalchmForCuisine(c))
+      .filter((k): k is number => k !== null && isFinite(k));
+    if (kalchms.length === 0) return 0.5;
+    const mean = kalchms.reduce((a, b) => a + b, 0) / kalchms.length;
+    const variance =
+      kalchms.reduce((acc, k) => acc + (k - mean) ** 2, 0) / kalchms.length;
+    // Smooth bounded mapping: low variance → near 1, high variance → toward 0
+    return 1 / (1 + variance);
   }
 
   private calculateMonicaFusionOptimization(
     _recipe: MonicaOptimizedRecipe,
-    _cuisines: string[],
+    cuisines: string[],
   ): number {
-    // TODO: Calculate Monica optimization for fusion
-    return 0.8;
+    if (cuisines.length <= 1) return 1.0;
+    const monicas = cuisines
+      .map((c) => monicaProxyForCuisine(c))
+      .filter((m): m is number => m !== null && isFinite(m));
+    if (monicas.length === 0) return 0.5;
+    const mean = monicas.reduce((a, b) => a + b, 0) / monicas.length;
+    const variance =
+      monicas.reduce((acc, m) => acc + (m - mean) ** 2, 0) / monicas.length;
+    return 1 / (1 + variance);
   }
 
   private calculateInnovationScore(
-    _recipe: MonicaOptimizedRecipe,
-    _cuisines: string[],
+    recipe: MonicaOptimizedRecipe,
+    cuisines: string[],
   ): number {
-    // TODO: Calculate innovation score for fusion recipe
-    return 0.7;
+    if (cuisines.length <= 1) return 0;
+    const primary = cuisines[0];
+    const primarySig = lookupCuisineSignature(primary);
+    if (!primarySig) return Math.min(1, (cuisines.length - 1) * 0.25);
+
+    // Count ingredients/methods whose elemental fingerprint sits far from the
+    // primary cuisine's signature — those reflect borrowed influence.
+    const primaryElementals = primarySig.averageElementals;
+    const recipeElementals = (
+      recipe as { elementalProperties?: ElementalProperties }
+    ).elementalProperties;
+    let elementalDrift = 0;
+    if (recipeElementals) {
+      elementalDrift =
+        Math.abs(recipeElementals.Fire - primaryElementals.Fire) +
+        Math.abs(recipeElementals.Water - primaryElementals.Water) +
+        Math.abs(recipeElementals.Earth - primaryElementals.Earth) +
+        Math.abs(recipeElementals.Air - primaryElementals.Air);
+    }
+
+    // Count cooking methods not typical for the primary region. Without
+    // per-cuisine method data, treat the number of secondary cuisines as
+    // a proxy for borrowed methods.
+    const foreignMethods = recipeCookingMethods(recipe).filter((m) => {
+      // Cheap heuristic: methods that match secondary cuisine names count
+      // as "foreign" influence.
+      return cuisines.slice(1).some((c) => m.includes(c.toLowerCase()));
+    }).length;
+
+    const secondaryCount = cuisines.length - 1;
+    return Math.min(
+      1,
+      secondaryCount * 0.2 +
+        elementalDrift * 0.4 +
+        Math.min(0.3, foreignMethods * 0.1),
+    );
   }
 
   // Planetary recipe methods - TODO: Implement astrological recipe recommendations

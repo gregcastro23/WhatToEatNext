@@ -290,6 +290,72 @@ export function calculateElementalVariance(
 }
 
 /**
+ * Calculate variance for thermodynamic properties across recipes.
+ * Mirrors calculateElementalVariance / calculateAlchemicalVariance.
+ */
+export function calculateThermodynamicVariance(
+  recipes: RecipeComputedProperties[],
+  averages: ThermodynamicProperties,
+): Partial<ThermodynamicProperties> | undefined {
+  const recipesWithThermo = recipes.filter((r) => r.thermodynamicProperties);
+  if (recipesWithThermo.length === 0) return undefined;
+
+  const pick = (key: keyof ThermodynamicProperties): number[] =>
+    recipesWithThermo.map((r) => Number(r.thermodynamicProperties[key]) || 0);
+
+  return {
+    heat: calculateVariance(pick("heat"), averages.heat),
+    entropy: calculateVariance(pick("entropy"), averages.entropy),
+    reactivity: calculateVariance(pick("reactivity"), averages.reactivity),
+    gregsEnergy: calculateVariance(pick("gregsEnergy"), averages.gregsEnergy),
+    kalchm: calculateVariance(pick("kalchm"), averages.kalchm),
+    monica: calculateVariance(pick("monica"), averages.monica),
+  };
+}
+
+/**
+ * Compute representativeness weights via cosine similarity to the cuisine mean.
+ * Recipes whose elemental fingerprint closely matches the cuisine's average get
+ * higher weight; outliers get less. Returned weights are not normalized — the
+ * downstream weighted-average utilities handle normalization.
+ */
+export function calculateRepresentativenessWeights(
+  recipes: RecipeComputedProperties[],
+): number[] {
+  if (recipes.length === 0) return [];
+  if (recipes.length === 1) return [1];
+
+  const sum = recipes.reduce(
+    (acc, r) => ({
+      Fire: acc.Fire + r.elementalProperties.Fire,
+      Water: acc.Water + r.elementalProperties.Water,
+      Earth: acc.Earth + r.elementalProperties.Earth,
+      Air: acc.Air + r.elementalProperties.Air,
+    }),
+    { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+  );
+  const n = recipes.length;
+  const mean: ElementalProperties = {
+    Fire: sum.Fire / n,
+    Water: sum.Water / n,
+    Earth: sum.Earth / n,
+    Air: sum.Air / n,
+  };
+  const meanMag = Math.sqrt(
+    mean.Fire ** 2 + mean.Water ** 2 + mean.Earth ** 2 + mean.Air ** 2,
+  );
+  if (meanMag === 0) return new Array(n).fill(1);
+
+  return recipes.map((r) => {
+    const e = r.elementalProperties;
+    const dot = e.Fire * mean.Fire + e.Water * mean.Water + e.Earth * mean.Earth + e.Air * mean.Air;
+    const mag = Math.sqrt(e.Fire ** 2 + e.Water ** 2 + e.Earth ** 2 + e.Air ** 2);
+    if (mag === 0) return 0;
+    return dot / (mag * meanMag);
+  });
+}
+
+/**
  * Calculate variance for alchemical properties across recipes
  *
  * @param recipes - Array of recipe computed properties with alchemical data
@@ -375,22 +441,29 @@ export function computeCuisineProperties(
   recipes: RecipeComputedProperties[],
   options: CuisineComputationOptions = {},
 ): CuisineComputedProperties {
-  const { weightingStrategy = "equal", includeVariance = true } = options;
+  const {
+    weightingStrategy = "equal",
+    includeVariance = true,
+    recipeWeights,
+  } = options;
 
   if (recipes.length === 0) {
     throw new Error("Cannot compute cuisine properties: no recipes provided");
   }
 
-  // Determine weights based on strategy
   let weights: number[] | undefined;
   if (weightingStrategy === "equal") {
-    weights = undefined; // Use default equal weighting
+    weights = undefined;
   } else if (weightingStrategy === "popularity") {
-    // TODO: Implement popularity-based weighting when recipe popularity data is available
-    weights = undefined;
+    // Caller supplies the popularity signal via options.recipeWeights
+    // (e.g. food_diary counts). Fall back to equal weighting if absent.
+    if (recipeWeights && recipeWeights.length === recipes.length) {
+      weights = recipeWeights;
+    } else {
+      weights = undefined;
+    }
   } else if (weightingStrategy === "representativeness") {
-    // TODO: Implement representativeness-based weighting
-    weights = undefined;
+    weights = calculateRepresentativenessWeights(recipes);
   }
 
   // Step 1: Aggregate average properties
@@ -411,11 +484,14 @@ export function computeCuisineProperties(
     const alchemicalVariance = averageAlchemical
       ? calculateAlchemicalVariance(recipes, averageAlchemical)
       : undefined;
+    const thermodynamicVariance = averageThermodynamics
+      ? calculateThermodynamicVariance(recipes, averageThermodynamics)
+      : undefined;
 
     variance = {
       elementals: elementalVariance,
       alchemical: alchemicalVariance,
-      thermodynamics: undefined, // TODO: Implement thermodynamic variance
+      thermodynamics: thermodynamicVariance,
       diversityScore: 0, // Will be calculated below
     };
 

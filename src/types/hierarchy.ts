@@ -310,6 +310,12 @@ export interface RecipeComputationOptions {
 export interface CuisineComputationOptions {
   /** Weighting strategy for recipe averaging */
   weightingStrategy?: "equal" | "popularity" | "representativeness";
+  /**
+   * Pre-computed per-recipe weights, parallel to the recipes array.
+   * Required when weightingStrategy === "popularity" so the caller can supply
+   * external signals (e.g. food_diary counts). Ignored otherwise.
+   */
+  recipeWeights?: number[];
   /** Minimum z-score for signature identification */
   signatureThreshold?: number; // Default: 1.5
 
