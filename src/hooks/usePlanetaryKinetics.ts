@@ -172,11 +172,11 @@ export function usePlanetaryKinetics(
           userIds,
           location as any,
         );
-        setGroupDynamics(data as any);
+        setGroupDynamics(data);
 
         _logger.debug("usePlanetaryKinetics: Group dynamics updated", {
           userCount: userIds.length,
-          harmony: (data as any).data.harmony,
+          harmony: data.data.harmony,
         });
       } catch (err) {
         _logger.warn(

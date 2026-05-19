@@ -13,7 +13,12 @@ import type {
   BirthData,
   NatalChart,
   GroupMember,
+  ElementalProperties,
 } from "@/types/natalChart";
+import {
+  aggregateEnhancedZodiacElementals,
+  isSectDiurnal,
+} from "@/utils/planetaryAlchemyMapping";
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;
@@ -576,6 +581,101 @@ class CommensalDatabaseService {
       _logger.error("updateManualCompanion failed:", error);
       return null;
     }
+  }
+
+  // ─── Elemental Profile ──────────────────────────────────────
+
+  /**
+   * Load a user's primary elemental profile.
+   *
+   * Looks at saved_charts (preferring is_primary) and falls back to the
+   * users.profile JSONB (older path). Recomputes from planetaryPositions
+   * when a stored elementalBalance is missing or stale-shaped.
+   *
+   * Returns null when the user has no chart on file — callers must handle.
+   */
+  async getUserElementalProfile(
+    userId: string,
+  ): Promise<ElementalProperties | null> {
+    const db = await getDbModule();
+    if (!db) return null;
+
+    try {
+      const chartResult = await db.executeQuery(
+        `SELECT natal_chart, birth_data
+         FROM saved_charts
+         WHERE owner_id::text = $1
+         ORDER BY is_primary DESC, created_at ASC
+         LIMIT 1`,
+        [userId],
+      );
+
+      if (chartResult.rows.length > 0) {
+        const profile = this.extractElementalProfile(chartResult.rows[0]);
+        if (profile) return profile;
+      }
+
+      // Fallback to users.profile JSONB (older path before saved_charts existed)
+      const profileResult = await db.executeQuery(
+        `SELECT profile FROM users WHERE id::text = $1`,
+        [userId],
+      );
+
+      if (profileResult.rows.length > 0) {
+        const profile = typeof profileResult.rows[0].profile === "string"
+          ? JSON.parse(profileResult.rows[0].profile)
+          : profileResult.rows[0].profile;
+        const natalChart = profile?.natalChart || profile?.natal_chart;
+        const birthData = profile?.birthData || profile?.birth_data;
+        if (natalChart) {
+          return this.extractElementalProfile({
+            natal_chart: natalChart,
+            birth_data: birthData,
+          });
+        }
+      }
+
+      return null;
+    } catch (error) {
+      _logger.error("getUserElementalProfile failed:", error);
+      return null;
+    }
+  }
+
+  private extractElementalProfile(row: {
+    natal_chart: unknown;
+    birth_data: unknown;
+  }): ElementalProperties | null {
+    const natalChart = (typeof row.natal_chart === "string"
+      ? JSON.parse(row.natal_chart)
+      : row.natal_chart) as Partial<NatalChart> | null;
+    if (!natalChart) return null;
+
+    if (
+      natalChart.elementalBalance &&
+      typeof natalChart.elementalBalance === "object" &&
+      "Fire" in natalChart.elementalBalance
+    ) {
+      return natalChart.elementalBalance;
+    }
+
+    if (natalChart.planetaryPositions) {
+      const positions: Record<string, string> = {};
+      for (const [planet, sign] of Object.entries(natalChart.planetaryPositions)) {
+        positions[planet] = String(sign);
+      }
+      if (Object.keys(positions).length === 0) return null;
+
+      const birthData = (typeof row.birth_data === "string"
+        ? JSON.parse(row.birth_data)
+        : row.birth_data) as Partial<BirthData> | null;
+      const birthDate = birthData?.dateTime
+        ? new Date(birthData.dateTime)
+        : undefined;
+      return aggregateEnhancedZodiacElementals(positions, isSectDiurnal(birthDate));
+    }
+
+    return null;
   }
 
   // ─── Internal helpers ────────────────────────────────────────
