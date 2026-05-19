@@ -54,8 +54,9 @@ function extractCuisineAliases(recipe: Partial<AlchemicalRecipe>): string[] {
   const fromDetails = recipe.details?.cuisine || "";
   if (fromDetails) {
     fromDetails
+      .replace(/\(.+?\)/g, "")
       .split(/[,/&]|\band\b/gi)
-      .map((part) => part.replace(/\(.+?\)/g, "").trim())
+      .map((part) => part.trim())
       .filter(Boolean)
       .forEach((name) => aliases.add(normalizeCuisineName(name)));
   }

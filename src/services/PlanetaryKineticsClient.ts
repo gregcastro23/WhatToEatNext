@@ -6,9 +6,13 @@
  */
 
 import { calculateKinetics } from "@/calculations/kinetics";
-import type { KineticMetrics as FullKineticMetrics } from "@/types/kinetics";
+import type {
+  GroupDynamicsResponse,
+  KineticMetrics as FullKineticMetrics,
+} from "@/types/kinetics";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateAspects } from "@/utils/astrologyUtils";
+import { computeGroupDynamics } from "@/utils/groupDynamics";
 import { logger } from "@/utils/logger";
 
 export interface KineticsOptions {
@@ -33,14 +37,6 @@ export interface KineticsResponse {
   error?: string;
   timestamp: string;
   cacheHit?: boolean;
-}
-
-export interface GroupDynamicsResponse {
-  groupId: string;
-  members: string[];
-  collectiveEnergy: number;
-  dominantElement: string;
-  recommendations: string[];
 }
 
 export interface KineticsLocation {
@@ -179,34 +175,33 @@ export class PlanetaryKineticsClient {
   }
 
   /**
-   * Get group dynamics
+   * Compute group dynamics from per-user elemental profiles.
    *
-   * TODO: PLACEHOLDER — Requires per-user birth chart data from the database.
-   * The current auth system stores birth info in JWT sessions, not queryable by user ID.
-   * To fully implement, we need:
-   * 1. A DB query to fetch birth charts by user ID
-   * 2. Per-user elemental property calculation
-   * 3. Pairwise harmony via calculateElementalHarmony()
+   * Loads each user's primary saved chart, aggregates elemental balance,
+   * and returns pairwise-harmony-based group metrics. Users without a chart
+   * on file contribute zero — the response reports how many were found.
    */
   async getGroupDynamics(
     userIds: string[],
-    location: KineticsLocation,
+    _location: KineticsLocation,
   ): Promise<GroupDynamicsResponse> {
-    logger.warn(
-      "PlanetaryKineticsClient.getGroupDynamics: Using placeholder implementation. " +
-        "Real group dynamics calculation requires user birth chart data and elemental properties. " +
-        `Called for ${userIds.length} users at location ${JSON.stringify(location)}`,
-    );
+    const start = Date.now();
+    const dynamics = await computeGroupDynamics(userIds);
+    const computeTimeMs = Date.now() - start;
 
+    if (dynamics.profilesMissing > 0) {
+      logger.info(
+        `getGroupDynamics: ${dynamics.profilesFound}/${userIds.length} users have elemental profiles on file.`,
+      );
+    }
+
+    const { profilesFound: _f, profilesMissing: _m, ...data } = dynamics;
     return {
-      groupId: `group_${userIds.join("_")}`,
-      members: userIds,
-      collectiveEnergy: 0.7,
-      dominantElement: "Fire",
-      recommendations: [
-        "PLACEHOLDER: Real recommendations require user elemental property data",
-        "To enable real group analysis, provide birth chart data for each user",
-      ],
+      success: true,
+      data,
+      computeTimeMs,
+      cacheHit: false,
+      metadata: { timestamp: new Date().toISOString() },
     };
   }
 
