@@ -3,6 +3,10 @@ import type { ElementalProperties } from "@/types/alchemy";
 import type { Ingredient } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
+import {
+  aggregateEnhancedZodiacElementals,
+  isSectDiurnal,
+} from "@/utils/planetaryAlchemyMapping";
 import { RecipeService } from "./RecipeService";
 import type {
     CookingMethodRecommendationCriteria,
@@ -526,8 +530,6 @@ export class RecommendationService implements RecommendationServiceInterface {
         `Getting ${type} recommendations for planetary alignment:`,
         planetaryPositions,
       );
-      // For now, convert planetary positions to elemental properties
-      // TODO: Implement direct planetary compatibility calculation
       const elementalProperties =
         this.planetaryPositionsToElemental(planetaryPositions);
       return await this.getRecommendationsForElements(
@@ -576,47 +578,16 @@ export class RecommendationService implements RecommendationServiceInterface {
     };
   }
   /**
-   * Convert planetary positions to elemental properties (simplified)
+   * Convert planetary positions to elemental properties using mass-weighted,
+   * sect-aware zodiac mapping.
    */
   private planetaryPositionsToElemental(
     positions: Record<string, { sign: string; degree: number }>,
   ): ElementalProperties {
-    // Simplified conversion - in reality this would use the planetary alchemy mapping
-    const elements: ElementalProperties = {
-      Fire: 0,
-      Water: 0,
-      Earth: 0,
-      Air: 0,
-    };
-    // Count planets in each element's signs
-    const elementSigns = {
-      Fire: ["aries", "leo", "sagittarius"],
-      Water: ["cancer", "scorpio", "pisces"],
-      Earth: ["taurus", "virgo", "capricorn"],
-      Air: ["gemini", "libra", "aquarius"],
-    };
-    let totalPlanets = 0;
-    Object.values(positions).forEach((position) => {
-      const sign = position.sign.toLowerCase();
-      totalPlanets++;
-      for (const [element, signs] of Object.entries(elementSigns)) {
-        if (signs.includes(sign)) {
-          elements[element as keyof ElementalProperties] += 1;
-        }
-      }
-    });
-    // Normalize to sum to 1
-    if (totalPlanets > 0) {
-      Object.keys(elements).forEach((key) => {
-        elements[key as keyof ElementalProperties] /= totalPlanets;
-      });
-    } else {
-      // Default balanced distribution
-      Object.keys(elements).forEach((key) => {
-        elements[key as keyof ElementalProperties] = 0.25;
-      });
-    }
-    return elements;
+    const signMap = Object.fromEntries(
+      Object.entries(positions).map(([planet, pos]) => [planet, pos.sign]),
+    );
+    return aggregateEnhancedZodiacElementals(signMap, isSectDiurnal());
   }
 }
 // Export singleton instance
