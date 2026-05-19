@@ -1,6 +1,10 @@
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { primaryCuisines } from "../data/cuisines/index.js";
+import {
+  getCuisineData,
+  PRIMARY_CUISINE_KEYS,
+} from "../data/cuisines/index.js";
+import { loadCuisinePopularityWeights } from "../lib/cuisinePopularity.js";
 import type { AlchemicalRecipe } from "../types/alchemicalRecipe.js";
 import type {
   CuisineComputedProperties,
@@ -22,9 +26,19 @@ interface CuisineManifest {
     weightingStrategy: "equal";
   };
   globalAverages: ReturnType<typeof computeGlobalAverages>;
+  popularity: {
+    windowDays: number;
+    totalEntries: number;
+    /** Number of cuisines with at least one diary entry in the window */
+    cuisinesWithSignal: number;
+  };
   cuisines: Array<{
     cuisine: string;
     sampleSize: number;
+    /** 30-day food_diary entry count for this cuisine (0 when no signal) */
+    popularityCount: number;
+    /** Max-normalized popularity weight in [0, 1] */
+    popularityWeight: number;
     averageElementals: CuisineComputedProperties["averageElementals"];
     averageAlchemical?: CuisineComputedProperties["averageAlchemical"];
     averageThermodynamics?: CuisineComputedProperties["averageThermodynamics"];
@@ -37,9 +51,10 @@ interface CuisineManifest {
 function normalizeCuisineName(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return trimmed;
-  if (/middle\s*eastern/i.test(trimmed)) return "Middle Eastern";
+  if (/middle[\s-]*eastern/i.test(trimmed)) return "Middle Eastern";
+  // Treat hyphens as word separators so "Chinese-American" → "Chinese American"
   return trimmed
-    .split(" ")
+    .split(/[\s-]+/)
     .map((token) => token.charAt(0).toUpperCase() + token.slice(1).toLowerCase())
     .join(" ");
 }
@@ -72,13 +87,16 @@ function extractCuisineAliases(recipe: Partial<AlchemicalRecipe>): string[] {
 }
 
 function collectUniqueRecipes(cuisine: any): AlchemicalRecipe[] {
-  const seasons = ["spring", "summer", "autumn", "winter"] as const;
+  // Cuisine files store the bulk of recipes under `all:` (year-round) plus
+  // optional season-specific lists. Earlier versions of this script missed
+  // `all:` and produced a fraction of the real corpus.
+  const seasonKeys = ["all", "spring", "summer", "autumn", "winter"] as const;
   const mealTypes = ["breakfast", "lunch", "dinner", "dessert"] as const;
   const byName = new Map<string, AlchemicalRecipe>();
 
   mealTypes.forEach((mealType) => {
     const meal = cuisine?.dishes?.[mealType] || {};
-    seasons.forEach((season) => {
+    seasonKeys.forEach((season) => {
       const recipes = Array.isArray(meal?.[season]) ? meal[season] : [];
       recipes.forEach((recipe: AlchemicalRecipe) => {
         const key = String(recipe?.name || "")
@@ -151,23 +169,33 @@ function toComputedRecipe(recipe: AlchemicalRecipe): {
   };
 }
 
-function main() {
+async function main() {
   const grouped = new Map<string, AlchemicalRecipe[]>();
 
-  Object.entries(primaryCuisines).forEach(([baseCuisineName, cuisine]) => {
-    const recipes = collectUniqueRecipes(cuisine as any);
-    recipes.forEach((recipe) => {
+  // Load full cuisine data (including recipes) via dynamic imports.
+  // The synchronous `primaryCuisines` export only carries metadata.
+  const loadedCuisines = await Promise.all(
+    PRIMARY_CUISINE_KEYS.map(async (key) => ({
+      key,
+      cuisine: await getCuisineData(key),
+    })),
+  );
+
+  for (const { key, cuisine } of loadedCuisines) {
+    if (!cuisine) continue;
+    const recipes = collectUniqueRecipes(cuisine);
+    for (const recipe of recipes) {
       const targets = new Set<string>([
-        normalizeCuisineName(baseCuisineName),
+        normalizeCuisineName(key),
         ...extractCuisineAliases(recipe),
       ]);
-      targets.forEach((cuisineName) => {
-        if (!cuisineName) return;
+      for (const cuisineName of targets) {
+        if (!cuisineName) continue;
         if (!grouped.has(cuisineName)) grouped.set(cuisineName, []);
         grouped.get(cuisineName)!.push(recipe);
-      });
-    });
-  });
+      }
+    }
+  }
 
   const cuisineComputations = Array.from(grouped.entries()).map(
     ([cuisineName, recipes]) => {
@@ -193,24 +221,47 @@ function main() {
     cuisineComputations.map((entry) => entry.computed),
   );
 
+  const popularity = await loadCuisinePopularityWeights(30);
+  const lookupPopularity = (name: string) => {
+    const direct = popularity.rawCounts.get(name);
+    if (direct !== undefined) {
+      return {
+        count: direct,
+        weight: popularity.weights.get(name) ?? 0,
+      };
+    }
+    // Case-insensitive fallback so "italian" matches "Italian"
+    for (const [key, count] of popularity.rawCounts) {
+      if (key.toLowerCase() === name.toLowerCase()) {
+        return { count, weight: popularity.weights.get(key) ?? 0 };
+      }
+    }
+    return { count: 0, weight: 0 };
+  };
+
   const cuisines = cuisineComputations
-    .map(({ cuisineName, computed }) => ({
-      cuisine: cuisineName,
-      sampleSize: computed.sampleSize,
-      averageElementals: computed.averageElementals,
-      averageAlchemical: computed.averageAlchemical,
-      averageThermodynamics: computed.averageThermodynamics,
-      variance: computed.variance,
-      signatures: identifyCuisineSignatures(
-        {
-          elementals: computed.averageElementals,
-          alchemical: computed.averageAlchemical,
-          thermodynamics: computed.averageThermodynamics,
-        },
-        globalAverages,
-      ),
-      planetaryPatterns: computed.planetaryPatterns,
-    }))
+    .map(({ cuisineName, computed }) => {
+      const pop = lookupPopularity(cuisineName);
+      return {
+        cuisine: cuisineName,
+        sampleSize: computed.sampleSize,
+        popularityCount: pop.count,
+        popularityWeight: pop.weight,
+        averageElementals: computed.averageElementals,
+        averageAlchemical: computed.averageAlchemical,
+        averageThermodynamics: computed.averageThermodynamics,
+        variance: computed.variance,
+        signatures: identifyCuisineSignatures(
+          {
+            elementals: computed.averageElementals,
+            alchemical: computed.averageAlchemical,
+            thermodynamics: computed.averageThermodynamics,
+          },
+          globalAverages,
+        ),
+        planetaryPatterns: computed.planetaryPatterns,
+      };
+    })
     .sort((a, b) => b.sampleSize - a.sampleSize);
 
   const manifest: CuisineManifest = {
@@ -223,6 +274,11 @@ function main() {
       weightingStrategy: "equal",
     },
     globalAverages,
+    popularity: {
+      windowDays: popularity.windowDays,
+      totalEntries: popularity.totalEntries,
+      cuisinesWithSignal: popularity.rawCounts.size,
+    },
     cuisines,
   };
 
@@ -248,10 +304,8 @@ function main() {
   console.log(`Total recipes counted: ${manifest.totalRecipes}`);
 }
 
-try {
-  main();
-} catch (error) {
+main().catch((error) => {
   console.error("CRITICAL ERROR IN SCRIPT:");
   console.error(error);
   process.exit(1);
-}
+});
