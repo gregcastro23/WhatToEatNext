@@ -1,16 +1,18 @@
 "use client";
 
 /**
- * RestaurantDiscovery — "Order it" parallel to the Amazon "Cook it" CTA.
+ * RestaurantDiscovery — "Order It" parallel to the Amazon "Cook It" CTA.
  *
- * Fetches alchm-scored restaurants from POST /api/restaurants/search using
- * Yelp Fusion under the hood. The Yelp API key never reaches the client.
+ * Fetches alchm-scored restaurants from /api/restaurants/discover, which
+ * orchestrates Google → Yelp → Foursquare. Provider keys never reach client.
  *
  * @file src/components/RestaurantDiscovery/RestaurantDiscovery.tsx
  */
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
+import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationModal";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import type { SavedRestaurant } from "@/types/restaurant";
@@ -40,10 +42,10 @@ const ELEMENT_DECORATION: Record<
   AlchmScoredRestaurant["dominantElement"],
   { emoji: string; label: string; chipClass: string }
 > = {
-  Fire:  { emoji: "🔥", label: "Fire",  chipClass: "bg-rose-100 text-rose-700 border-rose-200" },
-  Water: { emoji: "💧", label: "Water", chipClass: "bg-blue-100 text-blue-700 border-blue-200" },
-  Earth: { emoji: "🌿", label: "Earth", chipClass: "bg-emerald-100 text-emerald-700 border-emerald-200" },
-  Air:   { emoji: "💨", label: "Air",   chipClass: "bg-sky-100 text-sky-700 border-sky-200" },
+  Fire:  { emoji: "🔥", label: "Fire",  chipClass: "bg-rose-500/15 text-rose-200 border-rose-400/30" },
+  Water: { emoji: "💧", label: "Water", chipClass: "bg-blue-500/15 text-blue-200 border-blue-400/30" },
+  Earth: { emoji: "🌿", label: "Earth", chipClass: "bg-emerald-500/15 text-emerald-200 border-emerald-400/30" },
+  Air:   { emoji: "💨", label: "Air",   chipClass: "bg-sky-500/15 text-sky-200 border-sky-400/30" },
 };
 
 const ZODIAC_GLYPH: Record<string, string> = {
@@ -105,8 +107,8 @@ export function RestaurantDiscovery({
   const { currentUser, updateProfile } = useUser();
   const { showToast } = useToast();
   const [loggingItem, setLoggingItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [reservingItem, setReservingItem] = useState<AlchmScoredRestaurant | null>(null);
 
-  // Hydrate saved restaurant IDs from user prefs (logged-in) or localStorage (anon).
   useEffect(() => {
     const ids = new Set<string>();
     const prefs: SavedRestaurantsPrefs | undefined = currentUser?.preferences;
@@ -134,15 +136,6 @@ export function RestaurantDiscovery({
       const { business } = entry;
       if (savedIds.has(business.id)) return;
 
-      // eslint-disable-next-line no-alert
-      const dish = window.prompt(`Saving ${business.name}. What's your favorite dish here? (Optional)`);
-      const menuItems = dish && dish.trim() ? [{
-        id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
-        name: dish.trim(),
-        category: "Mains" as const,
-        dietaryTags: [],
-      }] : [];
-
       const restaurant: SavedRestaurant = {
         id: `${source}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
         name: business.name,
@@ -155,7 +148,7 @@ export function RestaurantDiscovery({
           business.location.display_address.join(", ") ||
           business.location.address1 ||
           undefined,
-        menuItems,
+        menuItems: [],
         rating: business.rating,
         source,
         externalId: business.id,
@@ -163,14 +156,12 @@ export function RestaurantDiscovery({
         addedAt: new Date().toISOString(),
       };
 
-      // Optimistic UI
       setSavedIds((prev) => {
         const next = new Set(prev);
         next.add(business.id);
         return next;
       });
 
-      // Persist to user profile when logged in.
       if (currentUser?.userId) {
         const currentPrefs: SavedRestaurantsPrefs =
           currentUser.preferences ?? {};
@@ -180,7 +171,6 @@ export function RestaurantDiscovery({
             preferences: { ...currentPrefs, savedRestaurants: newSaved },
           });
         } catch (err) {
-          // Roll back optimistic state on failure
           setSavedIds((prev) => {
             const next = new Set(prev);
             next.delete(business.id);
@@ -194,7 +184,6 @@ export function RestaurantDiscovery({
         }
       }
 
-      // Always also write to localStorage so anon users + ProfilePage fallback see it.
       if (typeof window !== "undefined") {
         try {
           const raw = window.localStorage.getItem("userFoodPreferences");
@@ -219,7 +208,6 @@ export function RestaurantDiscovery({
     [cuisineType, currentUser, savedIds, showToast, updateProfile],
   );
 
-  // Sync coords when parent provides them
   useEffect(() => {
     if (
       typeof userLatitude === "number" &&
@@ -255,7 +243,6 @@ export function RestaurantDiscovery({
     );
   }, []);
 
-  // Fetch when we have both cuisine + coords
   useEffect(() => {
     if (!cuisineType.trim()) {
       setStatus({ kind: "idle" });
@@ -340,217 +327,277 @@ export function RestaurantDiscovery({
 
   return (
     <section
-      className={`mt-4 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-rose-50 p-4 ${
+      className={`mt-4 rounded-3xl border border-white/10 bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl p-6 shadow-2xl shadow-purple-900/20 relative overflow-hidden ${
         className ?? ""
       }`}
       aria-label="Restaurant discovery"
     >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <h3 className="text-sm font-extrabold text-amber-900 flex items-center gap-2">
-            <span aria-hidden>✦</span>
-            Order it — Restaurants Aligned to the Moment
-          </h3>
-          <p className="text-[11px] text-amber-700/80 mt-0.5">
-            {cuisineType ? `${cuisineType} cuisine, scored by current cosmic state` : "Pick a cuisine to begin"}
-          </p>
-        </div>
-      </div>
+      {/* Ambient glow */}
+      <div className="absolute -top-24 -right-24 w-72 h-72 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-rose-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-      {/* Body */}
-      {status.kind === "needs-location" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-3 text-center">
-          <p className="text-xs text-amber-900 mb-2">
-            Enable location to discover {cuisineType || "matching"} restaurants near you.
-          </p>
-          <button
-            type="button"
-            onClick={requestLocation}
-            className="px-3 py-1.5 bg-amber-600 text-white text-xs font-bold rounded-lg hover:bg-amber-700 transition-colors"
-          >
-            📍 Use my location
-          </button>
-          {locationError && (
-            <p className="text-[11px] text-rose-600 mt-2">{locationError}</p>
-          )}
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h3 className="text-sm font-extrabold text-purple-100 flex items-center gap-2 uppercase tracking-[0.18em]">
+              <span aria-hidden className="text-purple-300">✦</span>
+              Order It — Aligned to the Moment
+            </h3>
+            <p className="text-[11px] text-white/50 mt-1 font-medium">
+              {cuisineType
+                ? `${capitalize(cuisineType)} cuisine, scored by current cosmic state`
+                : "Pick a cuisine to begin"}
+            </p>
+          </div>
         </div>
-      )}
 
-      {status.kind === "loading" && (
-        <div className="space-y-2" aria-busy="true">
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="animate-pulse flex gap-3 p-3 rounded-lg bg-white/60 border border-amber-100"
+        {/* Body */}
+        {status.kind === "needs-location" && (
+          <div className="rounded-2xl bg-black/30 border border-white/10 p-8 text-center">
+            <div className="text-3xl mb-3">📍</div>
+            <p className="text-xs text-white/70 mb-4">
+              Enable location to discover {cuisineType || "matching"} restaurants near you.
+            </p>
+            <button
+              type="button"
+              onClick={requestLocation}
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-black uppercase tracking-wider rounded-xl shadow-lg shadow-purple-900/30 hover:brightness-110 transition-all"
             >
-              <div className="h-10 w-10 rounded-lg bg-amber-100 shrink-0" />
-              <div className="flex-1 space-y-2">
-                <div className="h-3 bg-amber-100 rounded w-2/3" />
-                <div className="h-2 bg-amber-100/70 rounded w-1/2" />
+              Use my location
+            </button>
+            {locationError && (
+              <p className="text-[11px] text-rose-300 mt-3">{locationError}</p>
+            )}
+          </div>
+        )}
+
+        {status.kind === "loading" && (
+          <div className="space-y-3" aria-busy="true">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="animate-pulse flex gap-3 p-4 rounded-xl bg-black/30 border border-white/5"
+              >
+                <div className="h-12 w-12 rounded-lg bg-white/10 shrink-0" />
+                <div className="flex-1 space-y-3">
+                  <div className="h-3 bg-white/10 rounded w-2/3" />
+                  <div className="h-2 bg-white/10 rounded w-1/2" />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
 
-      {status.kind === "not-configured" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-3 text-xs text-amber-900 leading-snug">
-          Restaurant discovery isn&apos;t configured yet. Add{" "}
-          <code className="font-mono bg-amber-100 px-1 rounded">GOOGLE_PLACES_API_KEY</code> for Google Nearby Search.
-        </div>
-      )}
+        {status.kind === "not-configured" && (
+          <div className="rounded-lg bg-black/30 border border-white/10 p-3 text-xs text-white/70 leading-snug">
+            Restaurant discovery isn&apos;t configured yet. Add{" "}
+            <code className="font-mono bg-white/10 text-purple-200 px-1 rounded">
+              GOOGLE_PLACES_API_KEY
+            </code>{" "}
+            (or Yelp / Foursquare keys) so we can find restaurants for you.
+          </div>
+        )}
 
-      {status.kind === "error" && (
-        <div className="rounded-lg bg-rose-50 border border-rose-200 p-3 text-xs text-rose-700">
-          ⚠️ {status.message}
-        </div>
-      )}
+        {status.kind === "error" && (
+          <div className="rounded-lg bg-rose-500/10 border border-rose-400/30 p-3 text-xs text-rose-200">
+            ⚠️ {status.message}
+          </div>
+        )}
 
-      {status.kind === "empty" && (
-        <div className="rounded-lg bg-white/60 border border-amber-200 p-4 text-center text-xs text-amber-900">
-          No {cuisineType} restaurants found in your area right now.
-        </div>
-      )}
+        {status.kind === "empty" && (
+          <div className="rounded-2xl bg-black/30 border border-white/10 p-8 text-center">
+            <div className="text-3xl mb-2">🍽️</div>
+            <p className="text-xs text-white/70 font-medium">
+              No {capitalize(cuisineType)} restaurants found in your area right now.
+            </p>
+            <p className="text-[10px] text-white/40 mt-1">
+              Try a broader cuisine, or check the{" "}
+              <Link
+                href={`/recipes?cuisine=${encodeURIComponent(cuisineType.toLowerCase())}`}
+                className="text-amber-300 underline-offset-2 hover:underline"
+              >
+                Cook It
+              </Link>{" "}
+              flow instead.
+            </p>
+          </div>
+        )}
 
-      {status.kind === "ready" && (
-        <>
-          {status.data.sourceNotice && (
-            <div className="mb-3 rounded-lg border border-amber-300 bg-amber-100/60 p-2.5 text-[11px] text-amber-900 leading-snug">
-              ✦ {status.data.sourceNotice}
-            </div>
-          )}
-          <ul className="space-y-2">
-            {status.data.restaurants.map((entry) => {
-              const { business } = entry;
-              const source = status.data.source ?? "yelp";
-              const isScored = source === "yelp";
-              const providerLabel = sourceLabel(source);
-              const decoration = ELEMENT_DECORATION[entry.dominantElement];
-              const distance = metersToMiles(business.distance);
-              const scorePct = Math.round(entry.alchmScore * 100);
-              const reasons = entry.matchReasons.slice(0, 2);
-              const isSaved = savedIds.has(business.id);
-              const isPartner = entry.isPartner === true;
+        {status.kind === "ready" && (
+          <>
+            {status.data.sourceNotice && (
+              <div className="mb-4 rounded-lg border border-purple-400/30 bg-purple-500/10 p-3 text-[11px] text-purple-100 leading-snug">
+                ✦ {status.data.sourceNotice}
+              </div>
+            )}
+            <ul className="grid grid-cols-1 gap-3">
+              {status.data.restaurants.map((entry) => {
+                const { business } = entry;
+                const source = status.data.source ?? "google";
+                const hasCosmicScore = entry.alchmScore > 0;
+                const providerLabel = sourceLabel(source);
+                const decoration = ELEMENT_DECORATION[entry.dominantElement];
+                const distance = metersToMiles(business.distance);
+                const scorePct = Math.round(entry.alchmScore * 100);
+                const reasons = entry.matchReasons.slice(0, 2);
+                const isSaved = savedIds.has(business.id);
+                const isPartner = entry.isPartner === true;
 
-              return (
-                <li
-                  key={business.id}
-                  className={`flex items-start gap-3 p-3 rounded-lg bg-white border shadow-sm transition-colors ${
-                    isPartner
-                      ? "border-emerald-300 ring-1 ring-emerald-200 hover:border-emerald-400"
-                      : "border-amber-100 hover:border-amber-300"
-                  }`}
-                >
-                  {/* Score / source badge */}
-                  <div className="flex-shrink-0 flex flex-col items-center">
-                    {isScored ? (
-                      <>
-                        <div className="px-2 py-1 rounded-md bg-gradient-to-br from-amber-400 to-amber-600 text-white text-xs font-extrabold shadow-sm">
-                          {scorePct}% <span aria-hidden>✦</span>
-                        </div>
-                        <span
-                          className={`mt-1 inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-semibold ${decoration.chipClass}`}
-                          title={`${decoration.label} dominant`}
-                        >
-                          <span aria-hidden>{decoration.emoji}</span>
-                          {decoration.label}
-                        </span>
-                      </>
-                    ) : (
-                      <div className="px-2 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-bold border border-blue-200">
-                        {providerLabel}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Details */}
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-bold text-gray-800 truncate">
-                      {business.name}
-                    </h4>
-                    <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
-                      {isPartner && (
-                        <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-bold text-emerald-700">
-                          In-App Ordering
-                        </span>
-                      )}
-                      {typeof business.rating === "number" && business.rating > 0 && (
-                        <span className="text-amber-600 font-semibold">
-                          ★ {business.rating.toFixed(1)}
-                        </span>
-                      )}
-                      {business.review_count > 0 && (
-                        <span className="text-gray-400">
-                          ({business.review_count})
-                        </span>
-                      )}
-                      {business.price && (
-                        <span className="text-emerald-600 font-medium">
-                          {business.price}
-                        </span>
-                      )}
-                      {distance && <span>· {distance}</span>}
-                    </div>
-                    {isScored && reasons.length > 0 && (
-                      <ul className="mt-1 space-y-0.5">
-                        {reasons.map((reason, i) => (
-                          <li
-                            key={i}
-                            className="text-[11px] text-amber-800 italic leading-snug"
+                return (
+                  <li
+                    key={business.id}
+                    className={`flex flex-col sm:flex-row items-start gap-4 p-4 rounded-2xl bg-black/40 border backdrop-blur-sm transition-all hover:bg-black/50 ${
+                      isPartner
+                        ? "border-emerald-400/40 ring-1 ring-emerald-400/20"
+                        : "border-white/10"
+                    }`}
+                  >
+                    {/* Score / source badge */}
+                    <div className="flex sm:flex-col items-center gap-2 sm:gap-1.5 shrink-0">
+                      {hasCosmicScore ? (
+                        <>
+                          <div className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-black shadow-lg shadow-purple-900/40">
+                            {scorePct}% <span aria-hidden>✦</span>
+                          </div>
+                          <span
+                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-black uppercase tracking-wider ${decoration.chipClass}`}
+                            title={`${decoration.label} dominant`}
                           >
-                            — {reason}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+                            <span aria-hidden>{decoration.emoji}</span>
+                            {decoration.label}
+                          </span>
+                        </>
+                      ) : (
+                        <div className="px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 text-[10px] font-bold border border-purple-400/30 uppercase tracking-wider">
+                          {providerLabel}
+                        </div>
+                      )}
+                    </div>
 
-                  {/* CTAs */}
-                  <div className="flex-shrink-0 self-center flex flex-col gap-1.5">
-                    {isPartner && entry.partnerRestaurantId ? (
-                      <a
-                        href={`/restaurants/${encodeURIComponent(entry.partnerRestaurantId)}/menu`}
-                        className="px-3 py-1.5 text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap text-center bg-emerald-600 hover:bg-emerald-700"
-                      >
-                        View Menu / Order
-                      </a>
-                    ) : (
-                      <a
-                        href={business.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 text-white text-xs font-bold rounded-lg transition-colors whitespace-nowrap text-center bg-amber-600 hover:bg-amber-700"
-                      >
-                        View on Provider
-                      </a>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => void saveRestaurant(entry, source)}
-                      disabled={isSaved}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
-                        isSaved
-                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default"
-                          : "bg-white text-purple-700 border border-purple-200 hover:bg-purple-50"
-                      }`}
-                    >
-                      {isSaved ? "✓ Saved" : "+ Save"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setLoggingItem(entry)}
-                      className="px-3 py-1.5 bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold hover:bg-amber-200 transition-colors whitespace-nowrap text-center"
-                    >
-                      + Log
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </>
-      )}
+                    {/* Details */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <h4 className="text-sm font-black text-white truncate">
+                          {business.name}
+                        </h4>
+                        {isPartner && (
+                          <span className="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-emerald-200">
+                            Partner
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50 mt-1 font-medium">
+                        {typeof business.rating === "number" && business.rating > 0 && (
+                          <span className="text-amber-300 font-bold">
+                            ★ {business.rating.toFixed(1)}
+                          </span>
+                        )}
+                        {business.review_count > 0 && (
+                          <span>({business.review_count.toLocaleString()})</span>
+                        )}
+                        {business.price && (
+                          <span className="text-emerald-300 font-black">
+                            {business.price}
+                          </span>
+                        )}
+                        {distance && <span>· {distance}</span>}
+                        {entry.cuisineLabel && (
+                          <span className="text-purple-300/70">
+                            · {entry.cuisineLabel}
+                          </span>
+                        )}
+                      </div>
+
+                      {hasCosmicScore && reasons.length > 0 && (
+                        <ul className="mt-2 space-y-1 border-l-2 border-purple-400/30 pl-3">
+                          {reasons.map((reason, i) => (
+                            <li
+                              key={i}
+                              className="text-[10px] text-white/60 font-medium leading-relaxed italic"
+                            >
+                              {reason}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* CTAs */}
+                    <div className="flex flex-row sm:flex-col gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+                      {isPartner && entry.partnerRestaurantId ? (
+                        <a
+                          href={`/restaurants/${encodeURIComponent(entry.partnerRestaurantId)}/menu`}
+                          className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:brightness-110 shadow-lg shadow-emerald-900/30"
+                        >
+                          Order Now
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setReservingItem(entry)}
+                          className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:brightness-110 shadow-lg shadow-purple-900/30"
+                        >
+                          Reserve
+                        </button>
+                      )}
+
+                      <div className="flex gap-2 flex-1 sm:w-32">
+                        <a
+                          href={business.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-center bg-white/5 text-white/80 border border-white/10 hover:bg-white/10 transition-colors"
+                        >
+                          Menu
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => void saveRestaurant(entry, source)}
+                          disabled={isSaved}
+                          className={`px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                            isSaved
+                              ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/30 cursor-default"
+                              : "bg-white/5 text-purple-200 border border-purple-400/30 hover:bg-purple-500/15"
+                          }`}
+                          title={isSaved ? "Saved" : "Save restaurant"}
+                          aria-label={isSaved ? "Saved" : "Save restaurant"}
+                        >
+                          {isSaved ? "✓" : "♡"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setLoggingItem(entry)}
+                          className="px-3 py-2 bg-white/5 text-white/80 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
+                          title="Log to Food Diary"
+                          aria-label="Log to Food Diary"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
+
+        {/* Cosmic context line */}
+        {cosmicLine && (
+          <p className="mt-6 text-[10px] text-purple-300/60 font-bold uppercase tracking-[0.2em] text-center">
+            Aligned to {cosmicLine}
+          </p>
+        )}
+
+        {/* Provider attribution */}
+        {status.kind === "ready" && (
+          <p className="mt-3 text-[9px] text-white/30 text-center uppercase tracking-widest font-bold">
+            Data source: {sourceLabel(status.data.source)}
+          </p>
+        )}
+      </div>
 
       {loggingItem && (
         <AddToDiaryModal
@@ -560,23 +607,13 @@ export function RestaurantDiscovery({
         />
       )}
 
-      {/* Cosmic context line */}
-      {cosmicLine && (
-        <p className="mt-3 text-[11px] text-amber-700/80 italic text-center">
-          Scored for {cosmicLine}
-        </p>
-      )}
-
-      {/* Provider attribution */}
-      {status.kind === "ready" && (
-        <p className="mt-2 text-[10px] text-gray-400 text-center">
-          Powered by {sourceLabel(status.data.source)}
-        </p>
-      )}
-      {status.kind === "empty" && (
-        <p className="mt-2 text-[10px] text-gray-400 text-center">
-          Powered by Google Places
-        </p>
+      {reservingItem && (
+        <ReservationModal
+          entry={reservingItem}
+          source={status.kind === "ready" ? (status.data.source ?? "google") : "google"}
+          cuisineType={cuisineType}
+          onClose={() => setReservingItem(null)}
+        />
       )}
     </section>
   );

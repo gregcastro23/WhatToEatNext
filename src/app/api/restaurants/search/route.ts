@@ -2,48 +2,29 @@
  * Restaurant Search API Route
  *
  * GET  /api/restaurants/search?query=...&near=...
- *   → Foursquare Places v3 proxy (text search, used by profile RestaurantSearch UI).
+ *   → Foursquare Places v3 text search (used by profile RestaurantSearch UI).
  *
  * POST /api/restaurants/search
  *   Body: { cuisineType, latitude, longitude, radius?, limit? }
- *   → Yelp Fusion + alchm-scored restaurants for the "Order it" discovery flow.
+ *   → Same orchestrator as /api/restaurants/discover (Google → Yelp → Foursquare).
  *
  * Both API keys (FOURSQUARE_API_KEY, YELP_API_KEY) live server-side only.
  */
 
 import { NextResponse } from "next/server";
-import { yelpService } from "@/services/yelpService";
-import type { ElementalProperties } from "@/types/alchemy";
-import type {
-  AstrologicalState,
-  Element,
-  AlchemicalProperties,
-  Planet,
-} from "@/types/celestial";
-import type {
-  AlchmScoredRestaurant,
-  RestaurantSearchResponse,
-  CosmicContext,
-  YelpBusiness,
-} from "@/types/yelp";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { getLunarPhaseFromDate } from "@/utils/lunarPhaseUtils";
 import {
-  aggregateEnhancedZodiacElementals,
-  calculateAlchemicalFromPlanets,
-  isSectDiurnal,
-} from "@/utils/planetaryAlchemyMapping";
-import { getTimeFactors } from "@/utils/time";
+  discoverRestaurants,
+  emptyCosmicContext,
+} from "@/services/restaurantDiscoveryService";
+import type { RestaurantSearchResponse } from "@/types/yelp";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-// Note: Removed `runtime = 'edge'` - Cloudflare Workers are already edge functions
-// and OpenNext requires edge functions to be configured separately.
 
 const FOURSQUARE_BASE = "https://api.foursquare.com/v3/places/search";
-const RESTAURANT_CATEGORY_ID = "13065"; // Foursquare "Dining and Drinking" parent category
+const RESTAURANT_CATEGORY_ID = "13065"; // Foursquare "Dining and Drinking" parent
 
-// ─── Foursquare GET (existing) ─────────────────────────────────────────────
+// ─── Foursquare text-search GET (used by Profile > Restaurants UI) ─────────
 
 interface FoursquarePlaceRaw {
   fsq_id?: string;
@@ -145,7 +126,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// ─── Yelp + alchm-scored POST ──────────────────────────────────────────────
+// ─── Cosmic-scored POST (alias of /api/restaurants/discover) ───────────────
 
 interface ScoredSearchBody {
   cuisineType?: unknown;
@@ -153,219 +134,6 @@ interface ScoredSearchBody {
   longitude?: unknown;
   radius?: unknown;
   limit?: unknown;
-}
-
-function emptyCosmicContext(): CosmicContext {
-  return { currentZodiac: "", planetaryHour: "", dominantElement: "" };
-}
-
-function capitalizeSign(s: string): string {
-  if (!s) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-}
-
-function dominantElementOf(profile: ElementalProperties): Element {
-  const entries: Array<[Element, number]> = [
-    ["Fire", profile.Fire],
-    ["Water", profile.Water],
-    ["Earth", profile.Earth],
-    ["Air", profile.Air],
-  ];
-  entries.sort(([, a], [, b]) => b - a);
-  return entries[0][0];
-}
-
-/**
- * Build a server-side AstrologicalState from current planetary positions
- * using the authoritative utilities:
- *   - `aggregateEnhancedZodiacElementals` for sect-aware elemental profile
- *   - `calculateAlchemicalFromPlanets`  for real ESMS values
- *   - `isSectDiurnal`                   for sect determination
- *   - `getLunarPhaseFromDate`           for the live lunar phase
- *
- * Returns null when essential bodies (Sun, Moon) are missing — the caller
- * surfaces a 503 rather than substituting placeholder signs.
- */
-function buildAstrologicalState(now: Date = new Date()): {
-  state: AstrologicalState;
-  cosmicContext: CosmicContext;
-  alchemicalProperties: AlchemicalProperties;
-  diurnal: boolean;
-} | null {
-  const positions = getAccuratePlanetaryPositions(now);
-
-  const sunSignRaw =
-    typeof positions.Sun?.sign === "string" ? positions.Sun.sign : null;
-  const moonSignRaw =
-    typeof positions.Moon?.sign === "string" ? positions.Moon.sign : null;
-
-  if (!sunSignRaw || !moonSignRaw) {
-    return null;
-  }
-
-  const sunSign = sunSignRaw.toLowerCase();
-  const moonSign = moonSignRaw.toLowerCase();
-
-  // Capitalized position map for the alchemy/elemental aggregators
-  const positionMap: Record<string, string> = {};
-  for (const [planet, data] of Object.entries(positions)) {
-    if (typeof data?.sign === "string" && data.sign.length > 0) {
-      positionMap[planet] = capitalizeSign(data.sign);
-    }
-  }
-
-  const diurnal = isSectDiurnal(now);
-
-  // ── Elementals: sect-aware mass-weighted aggregation (60% sign + 40% sect) ──
-  const domElements: ElementalProperties =
-    aggregateEnhancedZodiacElementals(positionMap, diurnal);
-  const dominantElement: Element = dominantElementOf(domElements);
-
-  // ── ESMS: authoritative planetary alchemy mapping ──
-  const alchemicalProperties: AlchemicalProperties =
-    calculateAlchemicalFromPlanets(positionMap, diurnal);
-
-  // ── Lunar phase: live calculation from current date ──
-  const lunarPhase = getLunarPhaseFromDate(now);
-
-  // ── Time factors for planetary hour/day ──
-  const timeFactors = getTimeFactors();
-  const planetaryHour = timeFactors.planetaryHour.planet as Planet;
-  const planetaryDay = timeFactors._planetaryDay.planet as Planet;
-  const hourOfDay = timeFactors.planetaryHour.hourOfDay;
-
-  const state: AstrologicalState = {
-    zodiacSign: sunSign,
-    currentZodiac: sunSign,
-    sunSign,
-    moonSign,
-    planetaryHour,
-    dominantElement,
-    domElements,
-    activePlanets: [planetaryHour, planetaryDay].filter(
-      (p, i, arr) => arr.indexOf(p) === i,
-    ),
-    isDaytime: hourOfDay >= 6 && hourOfDay < 18,
-    lunarPhase,
-  };
-
-  const cosmicContext: CosmicContext = {
-    currentZodiac: sunSign,
-    planetaryHour: String(planetaryHour),
-    dominantElement,
-  };
-
-  return { state, cosmicContext, alchemicalProperties, diurnal };
-}
-
-// ─── Foursquare fallback (used by POST when Yelp is unavailable) ───────────
-
-interface FoursquareNearbyRaw {
-  fsq_id?: string;
-  name?: string;
-  location?: {
-    formatted_address?: string;
-    locality?: string;
-    region?: string;
-    address?: string;
-  };
-  categories?: Array<{ name?: string }>;
-  rating?: number;
-  distance?: number;
-  geocodes?: { main?: { latitude?: number; longitude?: number } };
-  link?: string;
-}
-
-/**
- * Fetches restaurants near (lat,lng) for the given cuisine via Foursquare
- * Places v3 and shapes them into AlchmScoredRestaurant entries with neutral
- * scoring (Foursquare doesn't provide the cosmic alignment data we use).
- *
- * Returns null when Foursquare is unconfigured or returns no usable results.
- */
-async function fetchFoursquareFallback(
-  cuisineType: string,
-  latitude: number,
-  longitude: number,
-  radiusMeters: number,
-  limit: number,
-): Promise<AlchmScoredRestaurant[] | null> {
-  const apiKey = process.env.FOURSQUARE_API_KEY;
-  if (!apiKey) return null;
-
-  try {
-    const params = new URLSearchParams();
-    params.set("query", cuisineType);
-    params.set("ll", `${latitude},${longitude}`);
-    params.set("radius", String(Math.min(Math.max(radiusMeters, 100), 100000)));
-    params.set("categories", RESTAURANT_CATEGORY_ID);
-    params.set(
-      "fields",
-      "fsq_id,name,location,categories,rating,distance,geocodes,link",
-    );
-    params.set("limit", String(Math.min(Math.max(limit, 1), 50)));
-
-    const response = await fetch(`${FOURSQUARE_BASE}?${params.toString()}`, {
-      headers: { Authorization: apiKey, Accept: "application/json" },
-    });
-    if (!response.ok) return null;
-
-    const data = (await response.json()) as { results?: FoursquareNearbyRaw[] };
-    const results = data.results ?? [];
-    if (results.length === 0) return null;
-
-    return results
-      .filter((p): p is FoursquareNearbyRaw & { fsq_id: string; name: string } =>
-        Boolean(p.fsq_id && p.name),
-      )
-      .map((place): AlchmScoredRestaurant => {
-        const business: YelpBusiness = {
-          id: place.fsq_id,
-          name: place.name,
-          // Foursquare's deep-link to place detail; falls back to a search URL
-          url:
-            place.link
-              ? `https://foursquare.com${place.link}`
-              : `https://foursquare.com/v/${place.fsq_id}`,
-          phone: "",
-          rating: typeof place.rating === "number" ? place.rating / 2 : 0,
-          review_count: 0,
-          distance: typeof place.distance === "number" ? place.distance : undefined,
-          categories: (place.categories ?? [])
-            .filter((c): c is { name: string } => typeof c.name === "string")
-            .map((c) => ({ alias: c.name.toLowerCase(), title: c.name })),
-          location: {
-            address1: place.location?.address ?? "",
-            city: place.location?.locality ?? "",
-            state: place.location?.region ?? "",
-            zip_code: "",
-            display_address: place.location?.formatted_address
-              ? [place.location.formatted_address]
-              : [],
-          },
-          coordinates: {
-            latitude: place.geocodes?.main?.latitude ?? latitude,
-            longitude: place.geocodes?.main?.longitude ?? longitude,
-          },
-          is_closed: false,
-        };
-
-        return {
-          business,
-          alchmScore: 0,
-          elementalMatch: 0,
-          planetaryAlignment: 0,
-          monicaCompatibility: 0,
-          dominantElement: "Earth",
-          matchReasons: [
-            `${cuisineType} match from Foursquare — cosmic scoring unavailable`,
-          ],
-          cuisineElement: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-        };
-      });
-  } catch {
-    return null;
-  }
 }
 
 export async function POST(request: NextRequest) {
@@ -396,7 +164,7 @@ export async function POST(request: NextRequest) {
   const limit =
     typeof body.limit === "number" && Number.isFinite(body.limit)
       ? body.limit
-      : 20;
+      : undefined;
 
   if (!cuisineType || !Number.isFinite(latitude) || !Number.isFinite(longitude)) {
     return NextResponse.json(
@@ -409,72 +177,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const built = buildAstrologicalState();
-  const cosmicContext = built?.cosmicContext ?? emptyCosmicContext();
-
-  // Try Yelp first when configured + planetary state is available.
-  if (yelpService.isConfigured() && built) {
-    const { data } = await yelpService.getScoredRestaurants({
-      cuisineType,
+  try {
+    const data = await discoverRestaurants({
+      cuisine: cuisineType,
       latitude,
       longitude,
-      astrologicalState: built.state,
-      alchemicalProperties: built.alchemicalProperties,
-      diurnal: built.diurnal,
-      radius,
+      radiusMeters: radius,
       limit,
     });
-
-    if (data && data.length > 0) {
-      return NextResponse.json(
-        {
-          restaurants: data.slice(0, 5),
-          cosmicContext,
-          source: "yelp",
-        } satisfies RestaurantSearchResponse,
-        { status: 200 },
-      );
-    }
-  }
-
-  // Foursquare fallback — covers: Yelp unconfigured, Yelp errored, Yelp empty,
-  // or planetary state unavailable. No cosmic scoring on these results.
-  const radiusMeters = typeof radius === "number" ? radius : 8000;
-  const foursquare = await fetchFoursquareFallback(
-    cuisineType,
-    latitude,
-    longitude,
-    radiusMeters,
-    limit,
-  );
-
-  if (foursquare && foursquare.length > 0) {
-    const reason = !yelpService.isConfigured()
-      ? "Yelp not configured — showing Foursquare results without cosmic scoring."
-      : !built
-        ? "Planetary positions unavailable — showing Foursquare results without cosmic scoring."
-        : "Yelp returned no matches — showing Foursquare results without cosmic scoring.";
-
+    return NextResponse.json(data, { status: 200 });
+  } catch (err) {
+    console.error("[api/restaurants/search] orchestrator failed:", err);
     return NextResponse.json(
       {
-        restaurants: foursquare.slice(0, 5),
-        cosmicContext,
-        source: "foursquare",
-        sourceNotice: reason,
+        restaurants: [],
+        cosmicContext: emptyCosmicContext(),
+        error: "Restaurant discovery failed unexpectedly. Please try again.",
       } satisfies RestaurantSearchResponse,
-      { status: 200 },
+      { status: 503 },
     );
   }
-
-  // Neither provider returned anything we can show.
-  return NextResponse.json(
-    {
-      restaurants: [],
-      cosmicContext,
-      error: !yelpService.isConfigured() && !process.env.FOURSQUARE_API_KEY
-        ? "Restaurant discovery is not configured."
-        : "No restaurants found.",
-    } satisfies RestaurantSearchResponse,
-    { status: 200 },
-  );
 }

@@ -511,6 +511,73 @@ class CommensalDatabaseService {
     return false;
   }
 
+  async updateManualCompanion(
+    id: string,
+    ownerId: string,
+    patch: {
+      name?: string;
+      relationship?: string;
+      birthData?: BirthData;
+      natalChart?: NatalChart;
+    },
+  ): Promise<GroupMember | null> {
+    const db = await getDbModule();
+    if (!db) return null;
+
+    const sets: string[] = [];
+    const params: unknown[] = [id, ownerId];
+    let n = 3;
+
+    if (patch.name !== undefined) {
+      sets.push(`name = $${n++}`);
+      params.push(patch.name);
+    }
+    if (patch.relationship !== undefined) {
+      sets.push(`relationship = $${n++}`);
+      params.push(patch.relationship);
+    }
+    if (patch.birthData !== undefined) {
+      sets.push(`birth_data = $${n++}`);
+      params.push(JSON.stringify(patch.birthData));
+    }
+    if (patch.natalChart !== undefined) {
+      sets.push(`natal_chart = $${n++}`);
+      params.push(JSON.stringify(patch.natalChart));
+    }
+
+    if (sets.length === 0) return null;
+
+    try {
+      const result = await db.executeQuery<{
+        id: string;
+        name: string;
+        relationship: string | null;
+        birth_data: unknown;
+        natal_chart: unknown;
+        created_at: Date | string;
+      }>(
+        `UPDATE manual_companion_charts
+         SET ${sets.join(", ")}
+         WHERE id = $1 AND owner_id::text = $2
+         RETURNING id, name, relationship, birth_data, natal_chart, created_at`,
+        params,
+      );
+      const row = result.rows[0];
+      if (!row) return null;
+      return {
+        id: row.id,
+        name: row.name,
+        relationship: (row.relationship ?? undefined) as GroupMember["relationship"],
+        birthData: row.birth_data as BirthData,
+        natalChart: row.natal_chart as NatalChart,
+        createdAt: row.created_at?.toString() ?? new Date().toISOString(),
+      };
+    } catch (error) {
+      _logger.error("updateManualCompanion failed:", error);
+      return null;
+    }
+  }
+
   // ─── Internal helpers ────────────────────────────────────────
   private rowToCommensalship(row: any): Commensalship {
     return {
