@@ -27,7 +27,13 @@ import type {
   LunarPhase,
 } from "@/types/celestial";
 import { AstrologicalState as _CentralizedAstrologicalState } from "@/types/celestial";
+import {
+  aggregateEnhancedZodiacElementals,
+  calculateAlchemicalFromPlanets,
+  isSectDiurnal,
+} from "@/utils/planetaryAlchemyMapping";
 import { createLogger } from "../utils/logger";
+import astrologizeApiCache from "./AstrologizeApiCache";
 
 // Create a component-specific logger
 const logger = createLogger("AstrologicalService");
@@ -243,25 +249,45 @@ export class AstrologicalService {
     planetaryPositions: PlanetaryPositions,
   ): Promise<PlanetaryInfluenceResponse> {
     try {
-      // Mock planetary influence calculation
-      const influences = {
-        planetaryPositions,
-        elementalBoost: {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25,
-        },
-        alchemicalModifier: {
-          Spirit: 0.25,
-          Essence: 0.25,
-          Matter: 0.25,
-          Substance: 0.25,
-        },
-        compatibilityScore: 0.75,
+      // Build sign map from positions (skip the dominantPlanet string field)
+      const signMap: Record<string, string> = {};
+      for (const [planet, pos] of Object.entries(planetaryPositions)) {
+        if (planet === "dominantPlanet" || typeof pos === "string") continue;
+        const sign = (pos as { sign?: string })?.sign;
+        if (sign) signMap[planet] = sign;
+      }
+
+      const diurnal = isSectDiurnal();
+      const elementalBoost = aggregateEnhancedZodiacElementals(signMap, diurnal);
+      const rawAlchemical = calculateAlchemicalFromPlanets(signMap, diurnal);
+
+      // Normalize ESMS to 0..1 range for the modifier
+      const esmsTotal =
+        rawAlchemical.Spirit +
+        rawAlchemical.Essence +
+        rawAlchemical.Matter +
+        rawAlchemical.Substance || 1;
+      const alchemicalModifier = {
+        Spirit: rawAlchemical.Spirit / esmsTotal,
+        Essence: rawAlchemical.Essence / esmsTotal,
+        Matter: rawAlchemical.Matter / esmsTotal,
+        Substance: rawAlchemical.Substance / esmsTotal,
       };
 
-      return _createSuccessResponse(influences);
+      const dominant = Math.max(
+        elementalBoost.Fire,
+        elementalBoost.Water,
+        elementalBoost.Earth,
+        elementalBoost.Air,
+      );
+      const compatibilityScore = 0.5 + dominant * 0.5;
+
+      return _createSuccessResponse({
+        planetaryPositions,
+        elementalBoost,
+        alchemicalModifier,
+        compatibilityScore,
+      });
     } catch (error) {
       return _createErrorResponse(
         `Planetary influence calculation failed: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -302,8 +328,38 @@ export type MoonPhase =
 // Canonical async function to get the latest astrological state - Updated with standardized response
 export async function getLatestAstrologicalState(): Promise<AstrologicalCalculationResponse> {
   try {
-    // TODO: Integrate with actual astrologize/alchemize API result cache or state management
-    // For now, return a minimal valid state as a placeholder
+    // On the client, check if the cache already has a real computed entry and
+    // derive real elementals from it rather than returning hardcoded defaults.
+    const cached =
+      typeof window !== "undefined" ? astrologizeApiCache.getLatestEntry() : null;
+
+    if (cached) {
+      const signMap: Record<string, string> = {};
+      for (const [planet, pos] of Object.entries(cached.planetaryPositions)) {
+        const sign = (pos as { sign?: string })?.sign;
+        if (sign) signMap[planet] = sign;
+      }
+
+      const diurnal = isSectDiurnal(cached.date);
+      const elementalInfluence = aggregateEnhancedZodiacElementals(signMap, diurnal);
+
+      const sunSign = signMap["Sun"]?.toLowerCase() as StandardZodiacSignType | undefined;
+      const accuracy =
+        cached.quality === "high" ? 0.95
+        : cached.quality === "medium" ? 0.75
+        : 0.5;
+
+      return _createSuccessResponse({
+        planetaryPositions: cached.planetaryPositions,
+        zodiacSign: sunSign ?? "aries",
+        lunarPhase: "new moon",
+        elementalInfluence,
+        accuracy,
+        calculationTimestamp: new Date(cached.timestamp).toISOString(),
+      });
+    }
+
+    // Fallback: balanced defaults when no cached chart exists
     const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
       zodiacSign: "aries" as StandardZodiacSignType,

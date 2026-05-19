@@ -439,6 +439,22 @@ class AstrologizeApiCache {
   }
 
   /**
+   * Return the most recently stored cache entry regardless of coordinates.
+   * Used by getLatestAstrologicalState to avoid returning hardcoded defaults
+   * when the user has already computed a real chart.
+   */
+  public getLatestEntry(): CachedAstrologicalData | null {
+    if (this.cache.size === 0) return null;
+    let latest: CachedAstrologicalData | null = null;
+    for (const entry of this.cache.values()) {
+      if (!latest || entry.timestamp > latest.timestamp) {
+        latest = entry;
+      }
+    }
+    return latest;
+  }
+
+  /**
    * Public methods for cache management
    */
   public getCacheStats() {
