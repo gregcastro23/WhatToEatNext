@@ -33,25 +33,6 @@ export async function PUT(
     return unauthorizedResponse();
   }
 
-  // 1. Try legacy JSONB first
-  const members = user.profile.groupMembers || [];
-  const idx = members.findIndex((m) => m.id === commensalId);
-  
-  if (idx === -1) {
-    // 2. Try the new manual_companion_charts table (if not in legacy)
-    const manualCompanions = await commensalDatabase.getManualCompanionsForUser(user.id);
-    const manualIdx = manualCompanions.findIndex(m => m.id === commensalId);
-    
-    if (manualIdx === -1) {
-      return NextResponse.json({ success: false, message: "Commensal not found" }, { status: 404 });
-    }
-    
-    // For now, if they are in the table, we'll support updating them there
-    // Actually, I haven't implemented updateManualCompanion yet, so I'll just focus on DELETE for now
-    // and return 404 for PUT if not in legacy (MVP)
-    return NextResponse.json({ success: false, message: "Update for non-legacy companions not yet implemented" }, { status: 501 });
-  }
-
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -63,18 +44,50 @@ export async function PUT(
   }
   const { name, relationship } = body as { name?: string; relationship?: string };
 
-  const updated = { ...members[idx] };
-  if (name) updated.name = name;
-  if (relationship) updated.relationship = relationship as any;
+  // 1. Try legacy JSONB first
+  const members = user.profile.groupMembers || [];
+  const idx = members.findIndex((m) => m.id === commensalId);
 
-  members[idx] = updated;
-  try {
-    await userDatabase.updateUserProfile(user.id, { groupMembers: members });
-    return NextResponse.json({ success: true, commensal: updated });
-  } catch (error) {
-    _logger.error(`[PUT /api/user/commensals/${commensalId}] Failed to update profile`, error);
-    return NextResponse.json({ success: false, message: "Failed to update companion" }, { status: 500 });
+  if (idx !== -1) {
+    const updated = { ...members[idx] };
+    if (name) updated.name = name;
+    if (relationship) updated.relationship = relationship as any;
+
+    members[idx] = updated;
+    try {
+      await userDatabase.updateUserProfile(user.id, { groupMembers: members });
+      return NextResponse.json({ success: true, commensal: updated });
+    } catch (error) {
+      _logger.error(`[PUT /api/user/commensals/${commensalId}] Failed to update profile`, error);
+      return NextResponse.json(
+        { success: false, message: "Failed to update companion" },
+        { status: 500 },
+      );
+    }
   }
+
+  // 2. Fall through to the new manual_companion_charts table.
+  if (name === undefined && relationship === undefined) {
+    return NextResponse.json(
+      { success: false, message: "At least one of name or relationship must be provided" },
+      { status: 400 },
+    );
+  }
+
+  const updated = await commensalDatabase.updateManualCompanion(
+    commensalId,
+    user.id,
+    { name, relationship },
+  );
+
+  if (!updated) {
+    return NextResponse.json(
+      { success: false, message: "Commensal not found" },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json({ success: true, commensal: updated });
 }
 
 /** DELETE /api/user/commensals/[commensalId] */
