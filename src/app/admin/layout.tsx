@@ -52,7 +52,8 @@ export default function AdminLayout({
   };
 
   const navItems = [
-    { href: "/admin", label: "Dashboard", icon: "📊" },
+    { href: "/admin", label: "Overview", icon: "📊" },
+    { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
     { href: "/admin/users", label: "Users", icon: "👥" },
     { href: "/admin/settings", label: "Settings", icon: "⚙️" },
   ];
@@ -108,6 +109,13 @@ export default function AdminLayout({
         </div>
       </div>
     );
+  }
+
+  // The High Alchemist dashboard at /admin/dashboard renders its own
+  // full-bleed chrome (top bar + side rail), so we skip the legacy
+  // Tailwind sidebar there. /admin and /admin/users etc. keep it.
+  if (pathname?.startsWith("/admin/dashboard")) {
+    return <>{children}</>;
   }
 
   return (
