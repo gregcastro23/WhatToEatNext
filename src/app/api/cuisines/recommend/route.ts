@@ -14,6 +14,7 @@
  */
 import { NextResponse } from "next/server";
 import { allRecipes } from "@/data/recipes/index";
+import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
@@ -179,14 +180,23 @@ async function handleRequest(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+async function handleGet(request: Request) {
   const rl = await rateLimit(request, CUISINES_LIMIT);
   if (!rl.allowed) return rl.response!;
   return handleRequest(request);
 }
 
-export async function POST(request: Request) {
+async function handlePost(request: Request) {
   const rl = await rateLimit(request, CUISINES_LIMIT);
   if (!rl.allowed) return rl.response!;
   return handleRequest(request);
 }
+
+export const GET = withObservability(
+  { routeName: "/api/cuisines/recommend" },
+  handleGet,
+);
+export const POST = withObservability(
+  { routeName: "/api/cuisines/recommend" },
+  handlePost,
+);

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
@@ -25,7 +26,7 @@ function getCookingMethods(recipe: Record<string, unknown>): string[] {
     .filter(Boolean);
 }
 
-export async function GET(request: Request, props: { params: Promise<{ recipeId: string }> }) {
+async function handleGet(request: Request, props: { params: Promise<{ recipeId: string }> }) {
   const rl = await rateLimit(request, RECIPE_DETAIL_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
@@ -116,3 +117,8 @@ export async function GET(request: Request, props: { params: Promise<{ recipeId:
     );
   }
 }
+
+export const GET = withObservability(
+  { routeName: "/api/recipes/:recipeId" },
+  handleGet,
+);

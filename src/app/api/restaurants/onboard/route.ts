@@ -12,6 +12,12 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import type { NextRequest } from "next/server";
+// Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
+// `stripe` default export as the actual class with merged namespace —
+// so `Stripe.Account`, `Stripe.AccountCreateParams`, etc. resolve
+// directly. CJS resolution would see a `StripeConstructor` wrapper
+// instead; we align the scripts tsconfig to bundler resolution to
+// avoid that mismatch.
 import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
