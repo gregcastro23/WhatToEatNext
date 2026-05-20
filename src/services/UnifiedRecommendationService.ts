@@ -10,6 +10,7 @@ import type {
 } from "@/types/alchemy";
 import { IngredientService } from "./IngredientService";
 import { unifiedIngredientService } from "./UnifiedIngredientService";
+import type { IngredientCategory } from "../data/ingredients/types";
 import type { CookingMethod } from "../types/cooking";
 import type { Ingredient, UnifiedIngredient } from "../types/ingredient";
 import type { Recipe } from "../types/recipe";
@@ -21,6 +22,26 @@ import type {
     RecommendationResult,
     RecommendationServiceInterface
 } from "./interfaces/RecommendationServiceInterface";
+
+/**
+ * Narrows a UnifiedIngredient to an Ingredient.
+ *
+ * UnifiedIngredient is structurally similar but has weaker typing on three
+ * fields: `qualities` is optional (Ingredient requires it), `category` is
+ * `string` (Ingredient requires the IngredientCategory union), and a few
+ * "extra" fields are typed as `unknown` (storage, preparation, …). The
+ * data files producing UnifiedIngredients already use valid
+ * IngredientCategory values, so a single localized cast is correct; the
+ * mapper fills in `qualities` and narrows `category` explicitly so the
+ * cast at the end only papers over the `unknown`-typed fields.
+ */
+function toIngredient(source: UnifiedIngredient): Ingredient {
+  return {
+    ...source,
+    qualities: source.qualities ?? [],
+    category: source.category as IngredientCategory,
+  } as Ingredient;
+}
 
 // Removed unused, import: PlanetaryAlignment
 /**
@@ -279,9 +300,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       scores[item.ingredient.name] = item.score;
     });
     return {
-      items: (limitedIngredients || []).map(
-        (item) => item.ingredient,
-      ) as unknown as Ingredient[], // TODO: Review this cast for type safety
+      items: (limitedIngredients || []).map((item) => toIngredient(item.ingredient)),
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(
@@ -816,9 +835,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       scores[item.ingredient.name] = item.score;
     });
     return {
-      items: (limitedIngredients || []).map(
-        (item) => item.ingredient as unknown as Ingredient,
-      ),
+      items: (limitedIngredients || []).map((item) => toIngredient(item.ingredient)),
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(

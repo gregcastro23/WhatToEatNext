@@ -20,6 +20,8 @@ declare module "next-auth" {
       role: string;
       tier: SubscriptionTier;
       onboardingComplete: boolean;
+      /** JWT id (jti) — used by middleware to look up revocation state. */
+      sessionId?: string;
     };
   }
 
