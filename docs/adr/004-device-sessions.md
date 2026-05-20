@@ -34,7 +34,16 @@ CREATE TABLE device_sessions (
 
 On sign-in, the JWT callback in `auth.ts` generates a UUID as `jti`, writes a row to `device_sessions`, and stores the `jti` as `token.sessionId`.
 
-**Revocation**: Deleting a `device_sessions` row doesn't invalidate the cookie (JWTs are self-contained), but the `AccountSessions` component calls `DELETE /api/auth/sessions/[id]` which removes the row. Future middleware can check for the row's existence to gate access — the groundwork is laid.
+**Revocation**: Soft revocation is implemented via [src/lib/auth/sessionRevocation.ts](../../src/lib/auth/sessionRevocation.ts). When `AUTH_REVOCATION_CHECK=on`, the middleware `authorized()` callback calls `isJtiRevoked(jti)`, which:
+
+1. Looks up `session:revoked:<jti>` in Upstash Redis (negative cache); a hit denies immediately.
+2. On cache miss, queries `device_sessions` and treats `revoked_at IS NOT NULL OR row missing` as revoked.
+3. Lazy-populates Redis with TTL = remaining JWT lifetime so the next request from any instance is fast.
+4. Fails open if both stores error — matches every other DB-touching path in this codebase.
+
+The `DELETE /api/auth/sessions/[id]` and `POST /api/auth/sessions/revoke-all` endpoints write to Postgres only; the Redis cache is populated lazily by the middleware on the next protected-route hit. This is a one-write-path design to minimize coupling between the revoke endpoint and the cache backend.
+
+Belt-and-braces: the `jwt()` callback also re-validates on `trigger === "update"` and returns `null` if the jti is revoked. Pure API-only consumers (no protected-page hits) keep a revoked JWT alive until its natural 30-day expiry; this is the "soft" part of the design.
 
 **Fallback**: `GET /api/auth/sessions` falls back to JWT introspection if the DB is unavailable, returning the current session only.
 
@@ -46,6 +55,6 @@ On sign-in, the JWT callback in `auth.ts` generates a UUID as `jti`, writes a ro
 - No change to NextAuth session strategy — edge auth still works
 
 **Negative:**
-- Revocation is soft (row deleted but token still valid until expiry). Full revocation requires middleware checking the DB on every request — deferred.
-- `device_sessions` rows must be cleaned up. Expired rows linger until the next sign-in or a cron job. A cleanup migration or Railway cron is not yet implemented.
+- Revocation is soft: middleware checks the revocation store on every protected-route hit, but API-only consumers (no middleware match) keep working until the JWT's natural 30-day expiry. Hard revocation across every authenticated request was an explicit non-goal — adding a lookup to every `auth()` call was rejected for perf reasons.
+- `device_sessions` rows must be cleaned up. Expired rows linger until the next sign-in or a cron job. The daily `device-sessions-cleanup` Railway cron (see [CRON_JOBS.md](../deployment/CRON_JOBS.md)) prunes rows whose `last_seen_at` is older than the JWT `maxAge`, and prunes revoked rows after a short grace period.
 - If `device_sessions` write fails on sign-in (DB unavailable), the JWT still works but no session row is written. Silent degradation.

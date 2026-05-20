@@ -254,13 +254,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               }
             }
             
-            // TODO(agent-sync): On first sign-in for an @agentic.alchm.kitchen
-            // email, POST to the FastAPI backend's /api/internal/agent-sync
-            // (defined in backend/alchm_kitchen/main.py:2724) with
-            // X-Sync-Secret=ALCHM_KITCHEN_SYNC_SECRET so the planetary_agents
-            // DB row gets its alchmKitchenUserId without waiting for the
-            // periodic scripts/backfill-agent-sync.ts run. Wrap in a fire-and-
-            // forget IIFE — must never block sign-in.
+            // On first sign-in for an @agentic.alchm.kitchen email, ping the
+            // backend's /api/internal/agent-sync so the WTEN user row gets
+            // is_agent=true and a clean display_name immediately, rather than
+            // waiting for the next scripts/backfill-agent-sync.ts run. Fire
+            // and forget — must never block sign-in.
+            if (isNewUser && user.email!.endsWith("@agentic.alchm.kitchen")) {
+              const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+              const apiBase = (
+                process.env.API_BASE_URL || process.env.BACKEND_URL || ""
+              ).replace(/\/$/, "");
+              if (syncSecret && apiBase) {
+                try {
+                  const resp = await fetch(`${apiBase}/api/internal/agent-sync`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "X-Sync-Secret": syncSecret,
+                    },
+                    body: JSON.stringify({
+                      email: user.email,
+                      displayName: user.name ?? undefined,
+                    }),
+                  });
+                  if (resp.ok) {
+                    logger.info(`agent-sync ok for ${user.email}`);
+                  } else {
+                    const text = await resp.text().catch(() => "(unreadable)");
+                    logger.warn(
+                      `agent-sync HTTP ${resp.status} for ${user.email}: ${text}`,
+                    );
+                  }
+                } catch (syncErr) {
+                  logger.warn("agent-sync request failed (non-blocking):", syncErr);
+                }
+              } else {
+                logger.warn(
+                  `agent-sync skipped for ${user.email}: missing ALCHM_KITCHEN_SYNC_SECRET or API_BASE_URL/BACKEND_URL`,
+                );
+              }
+            }
 
             // 1. Auto-provision premium
             if (isAdminEmail(user.email!) || isPremiumEmail(user.email!)) {
@@ -395,6 +428,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       if (account) {
         token.provider = account.provider;
+      }
+
+      // Soft session revocation: on explicit session updates (e.g. after a
+      // client calls `session.update()`), re-validate the jti against the
+      // revocation store. If revoked, return null so NextAuth invalidates
+      // the cookie. Belt-and-braces with the middleware check; protected
+      // routes are already gated there. The natural updateAge refresh path
+      // is intentionally NOT checked here — API-only users (no protected
+      // page hits) keep a revoked JWT alive until its 30-day expiry, which
+      // is acceptable for the "soft" revocation model.
+      if (
+        process.env.AUTH_REVOCATION_CHECK === "on" &&
+        trigger === "update" &&
+        typeof token.sessionId === "string" &&
+        token.sessionId.length > 0
+      ) {
+        try {
+          const { isJtiRevoked } = await import("./sessionRevocation");
+          if (await isJtiRevoked(token.sessionId)) {
+            logger.info(
+              `Revoked jti detected on session.update for ${token.email}; clearing token`,
+            );
+            return null;
+          }
+        } catch (revErr) {
+          // Fail-open consistent with sessionRevocation.ts.
+          logger.warn("jwt-callback revocation check errored (non-blocking):", revErr);
+        }
       }
 
       // Resolve role, tier, and onboarding status from DB (on sign-in or session update)

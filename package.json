@@ -34,6 +34,7 @@
     "build:size-check": "next build && bun scripts/check-route-sizes.cjs",
     "check-route-sizes": "bun scripts/check-route-sizes.cjs",
     "audit:ingredients": "bun scripts/auditIngredients.ts",
+    "cleanup:device-sessions": "bun scripts/cleanup-device-sessions.ts",
     "audit:ingredient-quality": "bun scripts/auditIngredientDataQuality.ts",
     "ingredients:standardize-descriptions": "bun scripts/standardizeIngredientDescriptions.ts",
     "ingredients:batch-enrich": "bun scripts/batchEnrichIngredients.ts",

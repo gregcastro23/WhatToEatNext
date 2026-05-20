@@ -428,10 +428,8 @@ export async function testAstrologizeApi(): Promise<boolean> {
   }
 }
 
-/**
- * Fetch astrological recipe recommendations based on birth data.
- */
-export async function fetchAstrologicalRecipes(birthData: {
+/** Birth chart input accepted by the recipe-recommendation endpoint. */
+export interface RecipeRecommendationBirthData {
   year: number;
   month: number;
   day: number;
@@ -439,8 +437,88 @@ export async function fetchAstrologicalRecipes(birthData: {
   minute: number;
   latitude: number;
   longitude: number;
-}): Promise<any> {
-  // TODO: Define a proper interface for recipe recommendations
+}
+
+/**
+ * One contributing-ingredient row attached to each recommended recipe.
+ * Shape matches the `matching_ingredients` entries built by the backend at
+ * backend/alchm_kitchen/main.py:1977.
+ */
+export interface RecipeRecommendationMatchingIngredient {
+  ingredient: string;
+  sign: string;
+  base_affinity: number;
+  lunar_modifier: number;
+  seasonal_modifier: number;
+  weighted_environmental_score: number;
+}
+
+export interface RecipeRecommendationOptimalWindow {
+  date: string;
+  start_time: string;
+  end_time?: string;
+  food_type: string;
+  [key: string]: unknown;
+}
+
+export interface RecipeRecommendationElementalProperties {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+}
+
+/**
+ * One recommended recipe in the response's `recommendations` array.
+ * Mirrors the dict appended at backend/alchm_kitchen/main.py:2127.
+ */
+export interface RecipeRecommendation {
+  recipe_id: string;
+  name: string;
+  weighted_environmental_score: number;
+  matching_ingredients: RecipeRecommendationMatchingIngredient[];
+  isEnvironmentalMatch: boolean;
+  environmentalMatchDetails?: string;
+  optimal_cooking_window: RecipeRecommendationOptimalWindow | null;
+  elementalProperties: RecipeRecommendationElementalProperties | null;
+  spirit_score: number;
+  matter_score: number;
+  essence_score: number;
+  substance_score: number;
+  kinetic_val: number;
+  thermo_val: number;
+  total_potency_score: number;
+  collective_potency_modifier_applied: number;
+}
+
+export interface RecipeRecommendationLunarPhase {
+  phase_name: string;
+  [key: string]: unknown;
+}
+
+export interface RecipeRecommendationSeasonalContext {
+  current_zodiac_season: string;
+  boosted_ingredients: Record<string, unknown>;
+}
+
+/**
+ * Response envelope returned by
+ * POST /api/astrological/recipe-recommendations-by-chart. Shape is defined
+ * at backend/alchm_kitchen/main.py:2152.
+ */
+export interface RecipeRecommendationResponse {
+  request_params: Record<string, unknown>;
+  lunar_phase: RecipeRecommendationLunarPhase | null;
+  seasonal_context: RecipeRecommendationSeasonalContext;
+  recommendations: RecipeRecommendation[];
+}
+
+/**
+ * Fetch astrological recipe recommendations based on birth data.
+ */
+export async function fetchAstrologicalRecipes(
+  birthData: RecipeRecommendationBirthData,
+): Promise<RecipeRecommendationResponse> {
   return astrologizeApiCircuitBreaker.call(async () => {
     log.info("Fetching astrological recipe recommendations with: ", birthData);
 
@@ -459,7 +537,7 @@ export async function fetchAstrologicalRecipes(birthData: {
       );
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as RecipeRecommendationResponse;
     log.info("Successfully fetched astrological recipe recommendations.");
     return data;
   });

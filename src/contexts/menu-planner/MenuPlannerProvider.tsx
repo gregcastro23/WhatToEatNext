@@ -57,7 +57,6 @@ import {
   getMealsForDay,
 } from "@/utils/dayCircuitCalculations";
 import { generateGroceryList } from "@/utils/groceryListGenerator";
-import { estimateWeeklyGroceryCost } from "@/utils/instacart/priceEstimator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
 import {
@@ -67,11 +66,11 @@ import {
 } from "@/utils/menuPlanner/recommendationBridge";
 import PantryManager from "@/utils/pantryManager";
 import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
+import { useCostEstimation } from "./useCostEstimation";
+import { useGenerationPreferences } from "./useGenerationPreferences";
 import { useMealSlots } from "./useMealSlots";
 import { useWeekNavigation } from "./useWeekNavigation";
 import type {
-  NutritionalTargets,
-  GenerationPreferences,
   Participant,
   MenuPlannerContextType,
 } from "./types";
@@ -79,29 +78,6 @@ import type {
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
-
-const GENERATION_PREFS_STORAGE_KEY = "alchm-generation-preferences";
-
-const DEFAULT_NUTRITIONAL_TARGETS: NutritionalTargets = {
-  dailyCalories: null,
-  dailyProteinG: null,
-  dailyCarbsG: null,
-  dailyFatG: null,
-  dailyFiberG: null,
-  prioritizeProtein: false,
-  prioritizeFiber: false,
-};
-
-const DEFAULT_GENERATION_PREFERENCES: GenerationPreferences = {
-  preferredCuisines: [],
-  dietaryRestrictions: [],
-  excludeIngredients: [],
-  requiredIngredients: [],
-  preferredCookingMethods: [],
-  flavorPreferences: [],
-  maxPrepTimeMinutes: null,
-  nutritionalTargets: DEFAULT_NUTRITIONAL_TARGETS,
-};
 
 const GROCERY_LIST_OPTIONS = {
   consolidateBy: "ingredient" as const,
@@ -324,58 +300,13 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // -- Generation preferences --
-  const [generationPreferences, setGenerationPreferencesRaw] =
-    useState<GenerationPreferences>(() => {
-      if (typeof window === "undefined") return DEFAULT_GENERATION_PREFERENCES;
-      try {
-        const saved = localStorage.getItem(GENERATION_PREFS_STORAGE_KEY);
-        return saved
-          ? { ...DEFAULT_GENERATION_PREFERENCES, ...JSON.parse(saved) }
-          : DEFAULT_GENERATION_PREFERENCES;
-      } catch {
-        return DEFAULT_GENERATION_PREFERENCES;
-      }
-    });
-
-  const setGenerationPreferences = useCallback(
-    (prefs: GenerationPreferences) => {
-      setGenerationPreferencesRaw(prefs);
-      try {
-        localStorage.setItem(GENERATION_PREFS_STORAGE_KEY, JSON.stringify(prefs));
-      } catch {
-        // localStorage may be unavailable
-      }
-    },
-    [],
-  );
-
-  const updateGenerationPreference = useCallback(
-    <K extends keyof GenerationPreferences>(
-      key: K,
-      value: GenerationPreferences[K],
-    ) => {
-      setGenerationPreferencesRaw((prev) => {
-        const updated = { ...prev, [key]: value };
-        try {
-          localStorage.setItem(GENERATION_PREFS_STORAGE_KEY, JSON.stringify(updated));
-        } catch {
-          // localStorage may be unavailable
-        }
-        return updated;
-      });
-    },
-    [],
-  );
-
-  const resetGenerationPreferences = useCallback(() => {
-    setGenerationPreferencesRaw(DEFAULT_GENERATION_PREFERENCES);
-    try {
-      localStorage.removeItem(GENERATION_PREFS_STORAGE_KEY);
-    } catch {
-      // localStorage may be unavailable
-    }
-  }, []);
+  // -- Generation preferences (extracted hook) --
+  const {
+    generationPreferences,
+    setGenerationPreferences,
+    updateGenerationPreference,
+    resetGenerationPreferences,
+  } = useGenerationPreferences();
 
   const isMountedRef = useRef(false);
 
@@ -914,92 +845,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }) {
     await persistMenu();
   }, [persistMenu]);
 
-  // -------------------------------------------------------------------------
-  // Cost estimation
-  // -------------------------------------------------------------------------
-
-  const [estimatedCostState, setEstimatedCostState] = useState<{
-    total: number;
-    confidence: "high" | "medium" | "low";
-    breakdown: Array<{
-      ingredient: string;
-      estimatedCost: number;
-      confidence: string;
-    }>;
-  }>({ total: 0, confidence: "low", breakdown: [] });
-
-  useEffect(() => {
-    if (!currentMenu) return;
-
-    const recipesWithIngredients = currentMenu.meals
-      .filter((m) => m.recipe)
-      .map((m) => ({
-        ingredients: (m.recipe!.ingredients || []).map((ing: any) => ({
-          name: typeof ing === "string" ? ing : ing.name ?? "",
-          amount: typeof ing === "string" ? 1 : ing.amount ?? 1,
-          unit: typeof ing === "string" ? "each" : ing.unit ?? "each",
-          category: typeof ing === "string" ? undefined : ing.category,
-          optional: typeof ing === "string" ? false : ing.optional,
-        })),
-        servings: m.servings || 1,
-        dietaryFlags: [
-          m.recipe?.isVegetarian ? "vegetarian" : "",
-          m.recipe?.isVegan ? "vegan" : "",
-          m.recipe?.isGlutenFree ? "gluten-free" : "",
-          m.recipe?.isDairyFree ? "dairy-free" : "",
-        ].filter(Boolean),
-      }));
-
-    if (recipesWithIngredients.length === 0) {
-      setEstimatedCostState({ total: 0, confidence: "low", breakdown: [] });
-      return;
-    }
-
-    const { totalCost, recipeBreakdown } = estimateWeeklyGroceryCost(
-      recipesWithIngredients,
-      inventory,
-    );
-    const allIngredientsBreakdown = recipeBreakdown.flatMap((rb) => rb.breakdown);
-    const avgMatchRatio =
-      recipeBreakdown.reduce(
-        (acc, rb) =>
-          acc +
-          (rb.confidence === "high" ? 1 : rb.confidence === "medium" ? 0.5 : 0),
-        0,
-      ) / recipeBreakdown.length;
-
-    setEstimatedCostState({
-      total: totalCost,
-      confidence:
-        avgMatchRatio >= 0.7 ? "high" : avgMatchRatio >= 0.4 ? "medium" : "low",
-      breakdown: allIngredientsBreakdown,
-    });
-
-    const probeTimeout = setTimeout(() => {
-      void (async () => {
-        try {
-          const lineItems = allIngredientsBreakdown
-            .slice(0, 50)
-            .map((b) => ({ name: b.ingredient, display_text: b.ingredient }));
-          const response = await fetch("/api/instacart/price-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ line_items: lineItems }),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            if (data.confidence === "high") {
-              setEstimatedCostState((prev) => ({ ...prev, confidence: "high" }));
-            }
-          }
-        } catch (err) {
-          logger.warn("Cost probe failed:", err);
-        }
-      })();
-    }, 2000);
-
-    return () => clearTimeout(probeTimeout);
-  }, [currentMenu, inventory]);
+  // -- Cost estimation (extracted hook) --
+  const estimatedCostState = useCostEstimation({ currentMenu, inventory });
 
   const loadMenu = useCallback(
     async (menuId: string) => {

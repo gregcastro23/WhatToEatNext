@@ -1,9 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
+
+/**
+ * Same-origin guard for the ?return= param. Accepts only pathname-style
+ * values ("/foo", "/foo?bar=1"). Rejects "//evil.com", "https://evil.com",
+ * "javascript:..." and anything else that isn't an internal path.
+ */
+function sanitizeReturn(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  if (!raw.startsWith("/") || raw.startsWith("//")) return null;
+  if (raw.startsWith("/\\")) return null;
+  return raw;
+}
 
 /**
  * Onboarding Portal
@@ -12,6 +24,8 @@ import { LocationSearch } from "@/components/onboarding/LocationSearch";
  */
 export default function OnboardingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = sanitizeReturn(searchParams?.get("return"));
   const { data: session, status, update: updateSession } = useSession();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,7 +95,10 @@ export default function OnboardingPage() {
 
       await updateSession();
       document.cookie = "onboarding_completed=1; path=/; max-age=2592000; SameSite=Lax";
-      window.location.href = "/?prompt=natal";
+      // If the user was redirected here by middleware, drop them back at
+      // their original destination; otherwise default to the homepage with
+      // the natal-chart nudge.
+      window.location.href = returnTo ?? "/?prompt=natal";
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       setIsSkipping(false);
@@ -168,7 +185,7 @@ export default function OnboardingPage() {
       // JWT cookie is sent with the request. Client-side navigation can
       // race with cookie propagation, causing the middleware to still see
       // onboardingComplete=false and redirect back to /onboarding.
-      window.location.href = "/profile";
+      window.location.href = returnTo ?? "/profile";
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {

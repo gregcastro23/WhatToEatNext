@@ -130,11 +130,14 @@ export const authConfig = {
     },
 
     /**
-     * Runs in Edge Runtime (middleware). Must not use any Node.js APIs.
+     * Runs in middleware (currently Node.js runtime per src/middleware.ts).
      * The session object here is populated from the JWT cookie, which
      * was enriched by the jwt/session callbacks in auth.ts during sign-in.
+     *
+     * Server-only modules must still be dynamically imported so this file
+     * stays loadable from any context that imports authConfig.
      */
-    authorized({ auth: session, request }) {
+    async authorized({ auth: session, request }) {
       const { pathname } = request.nextUrl;
 
       // Routes that require authentication
@@ -164,16 +167,37 @@ export const authConfig = {
         const tier = (user.tier as string) || "free";
         const isAdmin = user.role === "admin";
 
+        // Soft session revocation: when AUTH_REVOCATION_CHECK=on, look up
+        // the jti against the Redis/Postgres revocation store. If the
+        // session has been revoked (DELETE /api/auth/sessions/[id], mass
+        // revoke, or row deleted), redirect to /login as if the session
+        // had expired. Fail-open if both stores error.
+        if (
+          process.env.AUTH_REVOCATION_CHECK === "on" &&
+          (isProtected || isPremiumRoute) &&
+          typeof user.sessionId === "string" &&
+          user.sessionId.length > 0
+        ) {
+          const { isJtiRevoked } = await import("./sessionRevocation");
+          if (await isJtiRevoked(user.sessionId)) {
+            return Response.redirect(new URL("/login", request.nextUrl.origin));
+          }
+        }
+
         // Also check the short-lived cookie set after onboarding completes.
         // This prevents a redirect loop when the JWT hasn't propagated yet
         // (e.g., serverless instance isolation, DB unavailable for JWT callback).
         const onboardingCookie = request.cookies.get("onboarding_completed")?.value === "1";
 
-        // Authenticated but onboarding incomplete -> force /onboarding
+        // Authenticated but onboarding incomplete -> force /onboarding,
+        // preserving the original destination via ?return= so the user
+        // lands back where they started after completing or skipping.
         if (!onboardingComplete && !onboardingCookie && pathname.startsWith("/profile")) {
-          return Response.redirect(
-            new URL("/onboarding", request.nextUrl.origin),
-          );
+          const onboardingUrl = new URL("/onboarding", request.nextUrl.origin);
+          const originalPath =
+            request.nextUrl.pathname + request.nextUrl.search;
+          onboardingUrl.searchParams.set("return", originalPath);
+          return Response.redirect(onboardingUrl);
         }
 
         // Authenticated and onboarding complete -> skip onboarding page
@@ -219,6 +243,9 @@ export const authConfig = {
         session.user.tier = (token.tier as "free" | "premium") || "free";
         session.user.onboardingComplete =
           (token.onboardingComplete as boolean) ?? false;
+        // Surface the JWT id so middleware can look up revocation state
+        // without re-decoding the token.
+        session.user.sessionId = token.deviceSessionId ?? token.sessionId;
       }
       return session;
     },
