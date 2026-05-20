@@ -7,8 +7,8 @@
  */
 
 import { NextResponse } from "next/server";
-import { executeQuery } from "@/lib/database";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { executeQuery } from "@/lib/database";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -33,15 +33,23 @@ interface AdminUserRow {
   subscription_tier: string | null;
   subscription_status: string | null;
   active_sessions: number | null;
+  // ESMS token balances joined from token_balances; null when the user
+  // has no row yet (i.e. has never received a credit).
+  spirit: string | null;
+  essence: string | null;
+  matter: string | null;
+  substance: string | null;
 }
 
 /**
  * GET /api/admin/users
  *
  * Returns a paginated user list with subscription tier, login count,
- * and active session count joined in a single query (no N+1).
+ * active session count, and ESMS token balances joined in a single
+ * query (no N+1).
  *
  * Query parameters:
+ *   q         — alias for `search`; substring match on email or name
  *   search    — substring match on email or name
  *   status    — "active" | "inactive"
  *   tier      — "free" | "premium"
@@ -56,7 +64,11 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const search = searchParams.get("search")?.toLowerCase()?.trim() || null;
+    // Accept both `?q=` (admin panel shorthand) and `?search=` (existing).
+    const search =
+      searchParams.get("q")?.toLowerCase()?.trim() ||
+      searchParams.get("search")?.toLowerCase()?.trim() ||
+      null;
     const status = searchParams.get("status");
     const tierFilter = searchParams.get("tier");
     const page = Math.max(parseInt(searchParams.get("page") ?? "1", 10) || 1, 1);
@@ -124,10 +136,15 @@ export async function GET(request: NextRequest) {
          up.natal_chart->>'dominantElement' AS dominant_element,
          s.tier::text AS subscription_tier,
          s.status::text AS subscription_status,
-         ds.active_sessions
+         ds.active_sessions,
+         tb.spirit::text     AS spirit,
+         tb.essence::text    AS essence,
+         tb.matter::text     AS matter,
+         tb.substance::text  AS substance
        FROM users u
        LEFT JOIN user_profiles up ON up.user_id = u.id
        LEFT JOIN user_subscriptions s ON s.user_id = u.id
+       LEFT JOIN token_balances tb ON tb.user_id = u.id
        ${sessionsLateral}
        ${whereSql}
        ORDER BY u.created_at DESC
@@ -138,6 +155,9 @@ export async function GET(request: NextRequest) {
     const users = result.rows.map((row) => {
       const isAdmin = (row.role || "").toUpperCase() === "ADMIN";
       const effectiveTier = isAdmin ? "premium" : (row.subscription_tier ?? "free");
+      // token_balances columns come back as strings (PG numeric → text via ::text);
+      // parseFloat → 0 fallback keeps the admin UI numeric-safe.
+      const toNum = (v: string | null) => (v === null ? 0 : Number.parseFloat(v) || 0);
       return {
         id: row.id,
         email: row.email,
@@ -153,6 +173,12 @@ export async function GET(request: NextRequest) {
         activeSessions: row.active_sessions ?? 0,
         dominantElement: row.dominant_element ?? null,
         hasCompletedOnboarding: row.onboarding_completed === true,
+        balances: {
+          spirit: toNum(row.spirit),
+          essence: toNum(row.essence),
+          matter: toNum(row.matter),
+          substance: toNum(row.substance),
+        },
       };
     });
 

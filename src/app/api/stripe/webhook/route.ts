@@ -12,6 +12,12 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
+// Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
+// `stripe` default export as the actual class with merged namespace —
+// so `Stripe.Account`, `Stripe.PaymentIntent`, `Stripe.Checkout.Session`
+// resolve directly. CJS resolution would see a `StripeConstructor`
+// wrapper instead; we align the scripts tsconfig to bundler resolution
+// to avoid that mismatch.
 import type Stripe from "stripe";
 
 /**

@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
@@ -40,7 +41,7 @@ const ELEMENT_METHODS: Record<string, string[]> = {
   Air:   ["Sautéing", "Wok-frying", "Smoking", "Dehydrating"],
 };
 
-export async function POST(request: NextRequest) {
+async function handlePost(request: NextRequest) {
   const rl = await rateLimit(request, RECS_LIMIT);
   if (!rl.allowed) return rl.response!;
   try {
@@ -201,6 +202,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+function handleGet() {
   return NextResponse.json({ message: "Use POST with optional { includeChartAnalysis: true }" });
 }
+
+export const POST = withObservability(
+  { routeName: "/api/personalized-recommendations" },
+  handlePost,
+);
+export const GET = withObservability(
+  { routeName: "/api/personalized-recommendations", skipUserResolution: true },
+  handleGet,
+);

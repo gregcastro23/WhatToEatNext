@@ -4,6 +4,7 @@
  */
 import { NextResponse } from "next/server";
 import { getServerRecipes } from "@/actions/recipes";
+import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import type { Recipe } from "@/types/recipe";
 
@@ -64,7 +65,7 @@ function filterRecipes(
   });
 }
 
-export async function GET(request: Request) {
+async function handleGet(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
   if (!rl.allowed) return rl.response!;
   try {
@@ -126,7 +127,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+async function handlePost(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
   if (!rl.allowed) return rl.response!;
   // Allow POST with body params as an alternative to GET query params
@@ -159,8 +160,11 @@ export async function POST(request: Request) {
     params.set("offset", String(offset));
 
     const syntheticReq = new Request(`${new URL(request.url).origin}/api/recipes?${params}`);
-    return GET(syntheticReq);
+    return handleGet(syntheticReq);
   } catch (_error) {
     return NextResponse.json({ success: false, error: "Invalid request" }, { status: 400 });
   }
 }
+
+export const GET = withObservability({ routeName: "/api/recipes" }, handleGet);
+export const POST = withObservability({ routeName: "/api/recipes" }, handlePost);

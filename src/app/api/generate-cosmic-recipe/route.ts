@@ -9,6 +9,7 @@ import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
+import { withObservability } from "@/lib/observability/withObservability";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
@@ -52,7 +53,7 @@ const cosmicRecipeBodySchema = z.object({
   preferredCuisine: z.string().trim().max(80).optional(),
 });
 
-export async function POST(request: NextRequest) {
+async function handlePost(request: NextRequest) {
   // Auth'd users → token economy (Spirit/Essence per cosmic recipe) is the throttle.
   // Anonymous → 2 demo cosmic recipes per IP per day, then sign-in nudge.
   const access = await gateDemoOrAuth(request, {
@@ -354,3 +355,8 @@ ${cuisineEntry ? `- Honours the statistical profile of ${cuisineEntry.cuisine} c
 
   return response;
 }
+
+export const POST = withObservability(
+  { routeName: "/api/generate-cosmic-recipe" },
+  handlePost,
+);

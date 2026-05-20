@@ -411,7 +411,9 @@ export default function AdvancedMetricsPanel() {
           )}
           <button
             type="button"
-            onClick={sendDigestPreview}
+            onClick={() => {
+              void sendDigestPreview();
+            }}
             disabled={digestState.loading}
             className="px-3 py-2 rounded bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium disabled:opacity-50"
           >

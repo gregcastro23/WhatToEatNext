@@ -1,0 +1,450 @@
+/* =========================================================
+   ALCHM.KITCHEN · ADMIN DASHBOARD STYLES
+   Ported from design handoff styles.css + Admin Dashboard.html.
+   Imported as plain (global) CSS rather than a CSS module so
+   Next.js's webpack "pure selectors" rule doesn't reject the
+   prototype's flat .lab / .panel / .t-tag class names. Scoping
+   stays effective in practice — these names only exist inside
+   .dashboard-root and aren't used elsewhere in the app.
+   ========================================================= */
+
+.dashboard-root {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  background: #050409;
+  color: #F2EDFF;
+}
+
+/* Scope tokens to the dashboard root so the rest of the
+   app (Tailwind, marketing pages) is untouched. */
+.dashboard-root {
+  --bg: #07060B;
+  --bg-elev: #0E0C16;
+  --bg-elev-2: #15121F;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-hi: rgba(255, 255, 255, 0.055);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-hi: rgba(255, 255, 255, 0.14);
+  --fg: #F2EDFF;
+  --fg-dim: #B5ADCC;
+  --fg-mute: #6E6884;
+  --fg-faint: #3F3A52;
+
+  --accent: oklch(0.72 0.18 305);
+  --accent-2: oklch(0.78 0.14 65);
+  --accent-soft: color-mix(in oklch, var(--accent), transparent 70%);
+  --accent-glow: color-mix(in oklch, var(--accent), transparent 80%);
+
+  --el-fire: oklch(0.74 0.17 35);
+  --el-water: oklch(0.74 0.13 230);
+  --el-earth: oklch(0.74 0.11 130);
+  --el-air: oklch(0.85 0.07 90);
+
+  --f-display: "Cormorant Garamond", "EB Garamond", serif;
+  --f-body: "Manrope", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(120, 90, 255, 0.06), transparent 60%),
+    radial-gradient(900px 700px at 90% 90%, rgba(255, 160, 80, 0.04), transparent 60%),
+    #050409;
+}
+
+.dashboard-root *,
+.dashboard-root *::before,
+.dashboard-root *::after {
+  box-sizing: border-box;
+}
+
+/* Palette themes — toggled via data-palette on .dashboard-root */
+.dashboard-root[data-palette="violet"] {
+  --accent: oklch(0.72 0.18 305);
+  --accent-2: oklch(0.78 0.14 65);
+}
+.dashboard-root[data-palette="bio"] {
+  --accent: oklch(0.82 0.20 165);
+  --accent-2: oklch(0.78 0.14 90);
+}
+.dashboard-root[data-palette="copper"] {
+  --accent: oklch(0.78 0.16 60);
+  --accent-2: oklch(0.70 0.18 25);
+}
+.dashboard-root[data-palette="prism"] {
+  --accent: oklch(0.74 0.22 330);
+  --accent-2: oklch(0.78 0.16 220);
+}
+.dashboard-root[data-palette] {
+  --accent-soft: color-mix(in oklch, var(--accent), transparent 70%);
+  --accent-glow: color-mix(in oklch, var(--accent), transparent 80%);
+}
+
+/* =========================================================
+   ARTBOARD SHELL — the laboratory background + grid + grain
+   ========================================================= */
+.lab {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(1000px 700px at 15% 0%, rgba(140, 100, 255, 0.10), transparent 60%),
+    radial-gradient(700px 600px at 100% 100%, rgba(255, 170, 90, 0.06), transparent 60%),
+    linear-gradient(180deg, #0A0712 0%, #07060B 100%);
+  color: var(--fg);
+  overflow: hidden;
+  font-family: var(--f-body);
+}
+
+.lab::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 95%);
+  pointer-events: none;
+}
+
+.lab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Admin shell tweaks */
+.admin-shell {
+  min-height: 100vh;
+}
+.admin-shell.no-grid::before {
+  display: none;
+}
+.admin-shell.density-compact .panel,
+.admin-shell.density-compact .panel-glow,
+.admin-shell.density-compact .panel-flat {
+  font-size: 12px;
+}
+
+/* =========================================================
+   TYPOGRAPHY UTILS
+   ========================================================= */
+.t-display {
+  font-family: var(--f-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.t-mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+.t-tag {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.t-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.t-num {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.005));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+}
+.panel-flat {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.panel-glow {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.005));
+  border: 1px solid var(--line-hi);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 1px var(--accent-glow),
+    0 30px 80px -40px var(--accent-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Corner registration marks */
+.regmarks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.regmarks::before,
+.regmarks::after,
+.regmarks > i::before,
+.regmarks > i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--line-hi);
+}
+.regmarks::before {
+  top: 6px;
+  left: 6px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.regmarks::after {
+  top: 6px;
+  right: 6px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.regmarks > i::before {
+  bottom: 6px;
+  left: 6px;
+  border-right: 0;
+  border-top: 0;
+  position: absolute;
+}
+.regmarks > i::after {
+  bottom: 6px;
+  right: 6px;
+  border-left: 0;
+  border-top: 0;
+  position: absolute;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.dashboard-root .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line-hi);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+.dashboard-root .btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.dashboard-root .btn-primary {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--accent), transparent 60%), color-mix(in oklch, var(--accent), transparent 80%));
+  border-color: color-mix(in oklch, var(--accent), transparent 40%);
+  color: var(--fg);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--accent), transparent 60%),
+    0 12px 40px -10px var(--accent-soft);
+}
+.dashboard-root .btn-primary:hover {
+  background: linear-gradient(180deg, color-mix(in oklch, var(--accent), transparent 40%), color-mix(in oklch, var(--accent), transparent 70%));
+}
+.dashboard-root .btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+}
+
+/* =========================================================
+   TAGS / CHIPS
+   ========================================================= */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.chip-active {
+  color: var(--fg);
+  background: color-mix(in oklch, var(--accent), transparent 80%);
+  border-color: color-mix(in oklch, var(--accent), transparent 50%);
+}
+
+/* =========================================================
+   ELEMENTAL DOTS
+   ========================================================= */
+.el-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.el-fire {
+  background: var(--el-fire);
+  box-shadow: 0 0 12px var(--el-fire);
+}
+.el-water {
+  background: var(--el-water);
+  box-shadow: 0 0 12px var(--el-water);
+}
+.el-earth {
+  background: var(--el-earth);
+  box-shadow: 0 0 12px var(--el-earth);
+}
+.el-air {
+  background: var(--el-air);
+  box-shadow: 0 0 12px var(--el-air);
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+@keyframes orbitRot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1200%);
+  }
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.3;
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.dashboard-root.motion-off [data-motion] {
+  animation: none !important;
+}
+
+/* =========================================================
+   DATA TABLE
+   ========================================================= */
+.data-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.data-row:last-child {
+  border-bottom: none;
+}
+.data-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* =========================================================
+   DIVIDER WITH TICKS
+   ========================================================= */
+.rule {
+  position: relative;
+  height: 1px;
+  background: var(--line);
+}
+.rule::before,
+.rule::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: var(--line-hi);
+}
+.rule::before {
+  left: 0;
+}
+.rule::after {
+  right: 0;
+}
+
+.glyph-svg {
+  stroke: currentColor;
+  fill: none;
+}
+.glyph-fill {
+  fill: currentColor;
+}
+
+/* slim scrollbars inside the dashboard surface */
+.dashboard-root ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.dashboard-root ::-webkit-scrollbar-thumb {
+  background: var(--line-hi);
+  border-radius: 999px;
+}
+.dashboard-root ::-webkit-scrollbar-track {
+  background: transparent;
+}
