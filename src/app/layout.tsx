@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, JetBrains_Mono, Manrope } from "next/font/google";
-import React from "react";
+import React, { Suspense } from "react";
 import SignInModal from "@/components/auth/SignInModal";
 import TokenShopModal from "@/components/economy/TokenShopModal";
 import { GroceryCartDrawer } from "@/components/grocery-cart/GroceryCartDrawer";
@@ -149,7 +149,16 @@ export default function RootLayout({
           <AppChromeTabBar>
             <MobileGlassTabBar />
           </AppChromeTabBar>
-          <SignInModal />
+          {/*
+            SignInModal reads URL params (?signin=true) via useSearchParams,
+            which forces a CSR bailout on any statically-prerendered page
+            that mounts the root layout. Wrapping it in <Suspense> keeps
+            those pages cacheable — the modal is mounted but invisible until
+            opened, so the fallback can safely be null.
+          */}
+          <Suspense fallback={null}>
+            <SignInModal />
+          </Suspense>
           <TokenShopModal />
           <GroceryCartDrawer />
         </ClientProviders>
