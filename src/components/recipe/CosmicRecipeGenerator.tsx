@@ -188,38 +188,61 @@ export default function CosmicRecipeGenerator() {
 
   const [object, setObject] = useState<Partial<CosmicRecipe> | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [lastPayload, setLastPayload] = useState<unknown>(null);
 
   const submit = async (payload: any) => {
     setIsLoading(true);
     setObject(undefined);
+    setErrorMessage(null);
+    setLastPayload(payload);
     try {
       const res = await fetch('/api/generate-cosmic-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
-      if (res.ok) {
-        const data = await res.json();
-        setObject(data);
-        if (data?.title) {
-          try {
-            const stored = mapCosmicToStoreRecipe(
-              data as CosmicRecipe,
-              preferredCuisineRef.current || undefined,
-            );
-            saveRecipeToStore(stored);
-            setSavedRecipeId(stored.id);
-          } catch (err) {
-            console.error("Failed to persist cosmic recipe", err);
-          }
-          await generateImage(data.title, data.short_description || "");
+      if (!res.ok) {
+        let message = "We couldn't conjure a recipe this time. Please try again.";
+        if (res.status === 401) message = "Please sign in to generate cosmic recipes.";
+        else if (res.status === 402) message = "Upgrade to premium to keep generating recipes.";
+        else if (res.status === 429) message = "You're generating recipes faster than the cosmos can keep up. Please wait a moment.";
+        else if (res.status >= 500) message = "The recipe service is temporarily unavailable. Please try again shortly.";
+        try {
+          const data = await res.json();
+          if (typeof data?.message === "string") message = data.message;
+          else if (typeof data?.error === "string") message = data.error;
+        } catch {
+          /* keep default message */
         }
+        setErrorMessage(message);
+        return;
+      }
+      const data = await res.json();
+      setObject(data);
+      if (data?.title) {
+        try {
+          const stored = mapCosmicToStoreRecipe(
+            data as CosmicRecipe,
+            preferredCuisineRef.current || undefined,
+          );
+          saveRecipeToStore(stored);
+          setSavedRecipeId(stored.id);
+        } catch (err) {
+          console.error("Failed to persist cosmic recipe", err);
+        }
+        await generateImage(data.title, data.short_description || "");
       }
     } catch (e) {
       console.error(e);
+      setErrorMessage("Network error while generating your recipe. Check your connection and try again.");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const retryLastGeneration = () => {
+    if (lastPayload) void submit(lastPayload);
   };
 
   const handleGenerate = () => {
@@ -397,6 +420,30 @@ export default function CosmicRecipeGenerator() {
           )}
         </div>
       </div>
+
+      {/* Error State */}
+      {errorMessage && !isLoading && (
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="mb-6 p-4 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 flex flex-col sm:flex-row sm:items-center gap-3"
+        >
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-red-800 dark:text-red-300">
+              Couldn&apos;t generate a recipe
+            </p>
+            <p className="text-sm text-red-700 dark:text-red-400">{errorMessage}</p>
+          </div>
+          <button
+            type="button"
+            onClick={retryLastGeneration}
+            disabled={!lastPayload}
+            className="whitespace-nowrap px-4 py-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-sm font-bold rounded-lg shadow-sm transition-colors"
+          >
+            Try again
+          </button>
+        </div>
+      )}
 
       {/* Results Section */}
       {object && (

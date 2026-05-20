@@ -41,21 +41,24 @@ export async function POST(req: Request) {
       });
     } catch (error) {
       if (error instanceof InstacartConfigurationError) {
+        logger.warn("Instacart IDP misconfigured", error);
         return NextResponse.json({
           confidence: "low",
-          message: error.message,
+          message: "Instacart integration unavailable.",
         });
       }
       throw error;
     }
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      // Consume the body so the connection can be released, but don't surface
+      // upstream details — they can leak internal IDs and request shapes.
+      await response.json().catch(() => ({}));
+      logger.warn("Instacart IDP rejected payload", { status: response.status });
       return NextResponse.json({
         confidence: "low",
         reason: "IDP rejected payload",
         validated_item_count: 0,
-        details: errorData
       });
     }
 

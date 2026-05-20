@@ -184,7 +184,13 @@ function HomeSection({
 export default function AlchmKitchenHome(): JSX.Element {
   return (
     <>
-      <main
+      {/*
+        The root layout (src/app/layout.tsx) already provides the <main>
+        landmark, so this wrapper is a <div>. We expose a single visually-hidden
+        <h1> so screen readers and crawlers get a clear page title even though
+        the visual design uses display-style section headers.
+      */}
+      <div
         style={{
           maxWidth: 1100,
           margin: "0 auto",
@@ -204,7 +210,21 @@ export default function AlchmKitchenHome(): JSX.Element {
             scrollbar-width: thin;
             scrollbar-color: color-mix(in oklch, var(--accent), transparent 70%) transparent;
           }
+          .alchm-sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+          }
         `}</style>
+        <h1 className="alchm-sr-only">
+          Alchm Kitchen — personalized food recommendations powered by your natal chart and the live sky
+        </h1>
 
         {/* Natal chart soft-prompt banner (shown after skip) */}
         <NatalPromptBanner />
@@ -294,7 +314,7 @@ export default function AlchmKitchenHome(): JSX.Element {
             Open the Laboratory →
           </Link>
         </div>
-      </main>
+      </div>
       <AgentsFeedThread />
     </>
   );
