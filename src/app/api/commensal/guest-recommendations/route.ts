@@ -36,10 +36,13 @@ export async function POST(req: Request) {
     const raw = await req.json().catch(() => null);
     const parsed = bodySchema.safeParse(raw);
     if (!parsed.success) {
+      const first = parsed.error.issues[0];
+      const path = first?.path.join(".") || "request";
+      const message = first ? `${path}: ${first.message}` : "Invalid request payload";
       return NextResponse.json(
         {
           success: false,
-          message: parsed.error.issues[0]?.message ?? "Invalid request payload",
+          message,
           issues: parsed.error.issues.slice(0, 5).map((i) => ({
             path: i.path.join("."),
             message: i.message,
