@@ -102,6 +102,19 @@ export default function TokenShopModal() {
     return () => clearInterval(interval);
   }, [open, fetchShop]);
 
+  // Escape key to close
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -146,11 +159,21 @@ export default function TokenShopModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
-      <div className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-[2rem] border border-white/20 bg-gradient-to-br from-slate-950/95 via-indigo-950/90 to-purple-950/90 shadow-[0_25px_80px_rgba(0,0,0,0.65)]">
+    <div
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setOpen(false);
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="token-shop-title"
+        className="w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-[2rem] border border-white/20 bg-gradient-to-br from-slate-950/95 via-indigo-950/90 to-purple-950/90 shadow-[0_25px_80px_rgba(0,0,0,0.65)]"
+      >
         <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between gap-3">
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/70">
+            <h2 id="token-shop-title" className="text-sm font-black uppercase tracking-[0.3em] text-white/70">
               Token Shop
             </h2>
             <p className="text-xs text-white/40">

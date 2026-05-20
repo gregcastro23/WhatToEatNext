@@ -68,6 +68,31 @@ export default function SignInModal() {
     }
   }, [status, isOpen]);
 
+  // Escape key handler + restore focus on close
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!isOpen) return;
+    previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        handleCloseModal();
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    // Move focus into the dialog (first focusable element)
+    const focusable = dialogRef.current?.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    focusable?.focus();
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      previouslyFocusedRef.current?.focus?.();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
   const handleCloseModal = () => {
     setIsOpen(false);
     setIsSigningIn(false); // Reset spinner
@@ -111,28 +136,35 @@ export default function SignInModal() {
   if (!isOpen || status === 'authenticated') return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-      <div 
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+      onClick={(e) => {
+        // Click-outside dismissal (only when clicking the backdrop itself)
+        if (e.target === e.currentTarget) handleCloseModal();
+      }}
+    >
+      <div
+        ref={dialogRef}
         className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full border border-purple-100 relative mt-16 md:mt-0"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="modal-title"
+        aria-labelledby="signin-modal-title"
       >
-        <button 
+        <button
           onClick={handleCloseModal}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors"
-          aria-label="Close modal"
+          className="absolute top-4 right-4 min-w-[44px] min-h-[44px] text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-colors flex items-center justify-center"
+          aria-label="Close sign-in dialog"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 id="modal-title" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 mb-2">
+          <h2 id="signin-modal-title" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600 mb-2">
             Welcome to Alchm Kitchen
-          </h1>
+          </h2>
           <p className="text-gray-600 text-sm">
             Sign in to unlock your personalized culinary journey based on
             alchemical and astrological insights.

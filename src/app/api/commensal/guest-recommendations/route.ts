@@ -1,16 +1,12 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import type { ElementalProperties as AlchemyElementalProperties } from "@/types/alchemy";
-import type { BirthData, GroupMember } from "@/types/natalChart";
+import type { GroupMember } from "@/types/natalChart";
 import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
 import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
-
-interface GuestInput {
-  name: string;
-  birthData: BirthData;
-}
 
 interface CookingMethodSummary {
   method: string;
@@ -18,48 +14,41 @@ interface CookingMethodSummary {
   reasons: string[];
 }
 
-function isValidBirthData(b: unknown): b is BirthData {
-  if (!b || typeof b !== "object") return false;
-  const data = b as Record<string, unknown>;
-  return (
-    typeof data.dateTime === "string" &&
-    data.dateTime.length > 0 &&
-    typeof data.latitude === "number" &&
-    Number.isFinite(data.latitude) &&
-    typeof data.longitude === "number" &&
-    Number.isFinite(data.longitude)
-  );
-}
+const birthDataSchema = z
+  .object({
+    dateTime: z.string().min(1),
+    latitude: z.number().finite().min(-90).max(90),
+    longitude: z.number().finite().min(-180).max(180),
+  })
+  .passthrough();
+
+const guestSchema = z.object({
+  name: z.string().trim().min(1, "name is required").max(120),
+  birthData: birthDataSchema,
+});
+
+const bodySchema = z.object({
+  guests: z.array(guestSchema).min(1, "At least one guest is required").max(12),
+});
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { guests } = body as { guests?: GuestInput[] };
-
-    if (!Array.isArray(guests) || guests.length === 0) {
+    const raw = await req.json().catch(() => null);
+    const parsed = bodySchema.safeParse(raw);
+    if (!parsed.success) {
       return NextResponse.json(
-        { success: false, message: "At least one guest is required" },
+        {
+          success: false,
+          message: parsed.error.issues[0]?.message ?? "Invalid request payload",
+          issues: parsed.error.issues.slice(0, 5).map((i) => ({
+            path: i.path.join("."),
+            message: i.message,
+          })),
+        },
         { status: 400 },
       );
     }
-
-    for (const [i, guest] of guests.entries()) {
-      if (!guest?.name || typeof guest.name !== "string") {
-        return NextResponse.json(
-          { success: false, message: `Guest ${i + 1}: name is required` },
-          { status: 400 },
-        );
-      }
-      if (!isValidBirthData(guest.birthData)) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: `Guest ${i + 1} (${guest.name}): birthData must include dateTime (ISO string), latitude, and longitude`,
-          },
-          { status: 400 },
-        );
-      }
-    }
+    const { guests } = parsed.data;
 
     // Calculate natal charts for all guests in parallel.
     const natalCharts = await Promise.all(

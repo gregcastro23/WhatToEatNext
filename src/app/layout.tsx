@@ -37,22 +37,35 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 // app/layout.tsx
-// Force dynamic rendering for all pages - the app relies on runtime
-// context providers (Chakra, Theme, User, Alchemical) that require
-// a client-side React environment during rendering.
-export const dynamic = "force-dynamic";
+// Note: `force-dynamic` is intentionally NOT applied at the root layout. The
+// per-request providers (Chakra, User, Alchemical) only run inside the
+// (alchm) route group, which sets dynamic = "force-dynamic" itself. Marketing
+// and auth-shell routes outside that group remain cacheable at the segment
+// level, which dramatically improves TTFB and CDN hit rates.
 export const viewport = {
   themeColor: "#07060B",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
 };
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://alchm.kitchen";
+const SITE_TITLE = "Alchm Kitchen — What to Eat Next";
+const SITE_DESCRIPTION =
+  "Personalized food recommendations based on your chakra energies and astrological harmony.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Alchm Kitchen — What to Eat Next",
+    default: SITE_TITLE,
     template: "%s | Alchm Kitchen",
   },
-  description:
-    "Personalized food recommendations based on your chakra energies and astrological harmony",
+  description: SITE_DESCRIPTION,
+  applicationName: "Alchm Kitchen",
   manifest: "/manifest.json",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/alchm-icon-64.png", sizes: "64x64", type: "image/png" },
@@ -60,6 +73,38 @@ export const metadata: Metadata = {
       { url: "/alchm-icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: "/alchm-icon-512.png",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Alchm Kitchen",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/alchm-icon-512.png",
+        width: 512,
+        height: 512,
+        alt: "Alchm Kitchen",
+      },
+    ],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/alchm-icon-512.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

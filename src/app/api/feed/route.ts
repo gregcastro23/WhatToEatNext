@@ -3,6 +3,7 @@
  * GET /api/feed - Fetch recent community feed events
  */
 
+import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
@@ -11,7 +12,17 @@ import { userDatabase } from "@/services/userDatabaseService";
 export const dynamic = "force-dynamic";
 
 if (!process.env.INTERNAL_API_SECRET) {
-  console.warn("[feed] INTERNAL_API_SECRET is not set — the POST handler will accept all agent writes without authentication");
+  console.warn("[feed] INTERNAL_API_SECRET is not set — the POST handler will reject all agent writes until the secret is configured");
+}
+
+function isAuthorizedAgentRequest(authHeader: string | null): boolean {
+  const internalSecret = process.env.INTERNAL_API_SECRET;
+  // Fail closed: without a configured secret, agent writes are rejected.
+  if (!internalSecret || !authHeader) return false;
+  const expected = Buffer.from(`Bearer ${internalSecret}`);
+  const received = Buffer.from(authHeader);
+  if (received.length !== expected.length) return false;
+  return timingSafeEqual(received, expected);
 }
 
 export async function GET(request: Request) {
@@ -37,11 +48,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    // Basic service-to-service auth check
-    const authHeader = request.headers.get("Authorization");
-    const internalSecret = process.env.INTERNAL_API_SECRET;
-    
-    if (internalSecret && authHeader !== `Bearer ${internalSecret}`) {
+    if (!isAuthorizedAgentRequest(request.headers.get("Authorization"))) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

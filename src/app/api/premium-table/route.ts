@@ -5,20 +5,43 @@
  */
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
+import { subscriptionService } from "@/services/subscriptionService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const PREMIUM_TABLE_LIMIT = { window: 60_000, max: 10, bucket: "premium-table" };
+
 export async function POST(request: NextRequest) {
+  const rl = await rateLimit(request, PREMIUM_TABLE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
-    const user = await getDatabaseUserFromRequest(request);
-    
-    // We just check if user exists for logging/analytics conceptually, but allow unauthenticated friends
-    if (user) {
-      console.log(`[premium-table] User ${user.id} requested composite chart.`);
+    const user = await getDatabaseUserFromRequest(request).catch(() => null);
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: "Authentication required to compute composite charts." },
+        { status: 401 },
+      );
     }
+
+    const subscription = await subscriptionService.getUserSubscription(user.id);
+    if (!subscription || subscription.tier !== "premium") {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Premium subscription required.",
+          upgradeUrl: "/upgrade",
+        },
+        { status: 402 },
+      );
+    }
+
+    console.log(`[premium-table] Premium user ${user.id} requested composite chart.`);
 
     const body = await request.json().catch(() => ({}));
     const { hostData, friendData } = body;

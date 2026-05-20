@@ -14,30 +14,12 @@
  */
 
 import NextAuth from "next-auth";
+import { isAdminEmail, isPremiumEmail } from "@/lib/auth/adminEmails";
 import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
 import { UserRole } from "./roles";
 
 const logger = createLogger("auth");
-
-/** Admin emails that automatically get ADMIN role and full premium access */
-const ADMIN_EMAILS = [
-  process.env.AUTH_ADMIN_EMAIL || "xalchm@gmail.com",
-  "gregcastro23@gmail.com",
-  "cookingwithcastrollc@gmail.com",
-];
-
-/** Emails that automatically get full premium access (but NOT admin role) */
-const PREMIUM_EMAILS = [
-  "alchmnft@gmail.com",
-  "liskater@gmail.com",
-  "roberttcastro1@gmail.com",
-  "zaby250@gmail.com",
-  "atd250@gmail.com",
-];
-
-const isAdminEmail = (email: string) => ADMIN_EMAILS.includes(email);
-const isPremiumEmail = (email: string) => PREMIUM_EMAILS.includes(email);
 
 /** 
  * Simple short-lived cache to prevent redundant DB hits during the 
@@ -296,7 +278,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
 
             // 1. Auto-provision premium
-            if (isAdminEmail(user.email!) || isPremiumEmail(user.email!)) {
+            if (isAdminEmail(user.email) || isPremiumEmail(user.email)) {
               const { subscriptionService } = await import("@/services/subscriptionService");
               const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
               if (sub.tier !== "premium") {
@@ -380,8 +362,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
               // Premium daily insight — only if user has a natal chart
               const isPremium =
-                isAdminEmail(user.email!) ||
-                isPremiumEmail(user.email!) ||
+                isAdminEmail(user.email) ||
+                isPremiumEmail(user.email) ||
                 (dbUser)?.tier === "premium";
               const natalChart =
                 (dbUser)?.profile?.natalChart ||

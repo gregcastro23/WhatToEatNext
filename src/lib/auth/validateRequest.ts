@@ -8,6 +8,7 @@
 
 import { jwtVerify, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
+import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { UserRole } from "@/lib/auth/roles";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -261,7 +262,7 @@ export async function validateAdminRequest(
     return result;
   }
 
-  if (!result.user.roles.includes("admin") || result.user.email !== "gregcastro23@gmail.com") {
+  if (!result.user.roles.includes("admin") || !isAdminEmail(result.user.email)) {
     return {
       error: NextResponse.json(
         { success: false, message: "Admin access required" },
