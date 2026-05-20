@@ -15,11 +15,21 @@
 
 import NextAuth from "next-auth";
 import { isAdminEmail, isPremiumEmail } from "@/lib/auth/adminEmails";
+import { logAuthEvent } from "@/services/authEventsService";
 import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";
 import { UserRole } from "./roles";
 
 const logger = createLogger("auth");
+
+const PROVIDER_GOOGLE = "google";
+
+function describeError(err: unknown): { code: string; message: string } {
+  if (err instanceof Error) {
+    return { code: err.name || "Error", message: err.message.slice(0, 500) };
+  }
+  return { code: "UnknownError", message: String(err).slice(0, 500) };
+}
 
 /** 
  * Simple short-lived cache to prevent redundant DB hits during the 
@@ -79,7 +89,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signOut(message) {
       // In JWT mode NextAuth passes { token } — delete the DB session record so
       // the session slot is freed and can no longer be used to verify revocation.
-      const sessionId = (message as any)?.token?.sessionId as string | undefined;
+      const token = (message as any)?.token as
+        | { sessionId?: string; userId?: string; email?: string }
+        | undefined;
+      const sessionId = token?.sessionId;
       if (sessionId) {
         try {
           const { executeQuery } = await import("@/lib/database");
@@ -91,6 +104,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           logger.warn("Session cleanup on signOut failed (non-blocking):", e);
         }
       }
+      void logAuthEvent({
+        type: "signout",
+        status: "info",
+        userId: token?.userId ?? null,
+        email: token?.email ?? null,
+        metadata: { sessionId: sessionId ?? null },
+      });
     },
   },
   callbacks: {
@@ -99,13 +119,53 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async signIn({ user, account }) {
       logger.info(`signIn callback started for ${user.email}`);
+      const provider = account?.provider ?? PROVIDER_GOOGLE;
+
+      void logAuthEvent({
+        type: "signin_started",
+        status: "info",
+        email: user.email ?? null,
+        provider,
+      });
+
       if (!user.email || !account) {
         logger.warn("signIn failed: Missing email or account");
+        void logAuthEvent({
+          type: "signin_aborted",
+          status: "failure",
+          email: user.email ?? null,
+          provider,
+          errorCode: "missing_email_or_account",
+          errorMessage: "Provider returned without email or account context",
+        });
         return true;
       }
 
       try {
-        let dbUser = await getCachedUser(user.email);
+        let dbUser: any = null;
+        try {
+          dbUser = await getCachedUser(user.email);
+          void logAuthEvent({
+            type: "signin_user_lookup_success",
+            status: "success",
+            email: user.email,
+            userId: dbUser?.id ?? null,
+            provider,
+            metadata: { isNewUser: !dbUser },
+          });
+        } catch (lookupErr) {
+          const { code, message } = describeError(lookupErr);
+          void logAuthEvent({
+            type: "signin_user_lookup_failed",
+            status: "failure",
+            email: user.email,
+            provider,
+            errorCode: code,
+            errorMessage: message,
+          });
+          throw lookupErr;
+        }
+
         const isNewUser = !dbUser;
         logger.info(`User lookup complete. isNewUser: ${isNewUser}`);
 
@@ -117,19 +177,40 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           // 8s timeout: createUser opens a transaction with 3+ INSERTs. On cold-start
           // the connection setup alone can eat 2-3s before the first query runs.
-          dbUser = await Promise.race([
-            userDatabase.createUser({
+          try {
+            dbUser = await Promise.race([
+              userDatabase.createUser({
+                email: user.email,
+                name: user.name || "",
+                image: user.image || undefined,
+                roles: isAdmin
+                  ? [UserRole.ADMIN, UserRole.USER]
+                  : [UserRole.USER],
+              }),
+              new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8000))
+            ]);
+            if (dbUser) {
+              userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+              void logAuthEvent({
+                type: "signin_user_created",
+                status: "success",
+                userId: dbUser.id,
+                email: user.email,
+                provider,
+                metadata: { isAdmin },
+              });
+            }
+          } catch (createErr) {
+            const { code, message } = describeError(createErr);
+            void logAuthEvent({
+              type: "signin_user_create_failed",
+              status: "failure",
               email: user.email,
-              name: user.name || "",
-              image: user.image || undefined,
-              roles: isAdmin
-                ? [UserRole.ADMIN, UserRole.USER]
-                : [UserRole.USER],
-            }),
-            new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8000))
-          ]);
-          if (dbUser) {
-            userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+              provider,
+              errorCode: code,
+              errorMessage: message,
+            });
+            throw createErr;
           }
         } else if (isAdmin && !dbUser.roles.includes(UserRole.ADMIN)) {
           // Promote existing user to admin if they are in the admin list but don't have the role yet
@@ -139,6 +220,43 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // Refresh cache
           dbUser.roles = [UserRole.ADMIN, UserRole.USER];
           userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+          void logAuthEvent({
+            type: "signin_role_promoted",
+            status: "info",
+            userId: dbUser.id,
+            email: user.email,
+            metadata: { newRole: "ADMIN" },
+          });
+        }
+
+        // Bump login_count + last_login_at on every successful sign-in so we
+        // have real "active user" telemetry. Non-blocking — a failure here is
+        // logged but never breaks the sign-in flow.
+        if (dbUser?.id) {
+          void (async () => {
+            try {
+              const { userDatabase } = await import("@/services/userDatabaseService");
+              await userDatabase.updateUserAuth(dbUser.id, { lastLoginAt: new Date() });
+              void logAuthEvent({
+                type: "signin_last_login_updated",
+                status: "success",
+                userId: dbUser.id,
+                email: user.email,
+                provider,
+              });
+            } catch (updateErr) {
+              const { code, message } = describeError(updateErr);
+              void logAuthEvent({
+                type: "signin_last_login_update_failed",
+                status: "failure",
+                userId: dbUser.id,
+                email: user.email,
+                provider,
+                errorCode: code,
+                errorMessage: message,
+              });
+            }
+          })();
         }
 
         // Persist OAuth account link so accounts table stays in sync.
@@ -169,8 +287,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   account.session_state ?? null,
                 ]
               );
+              void logAuthEvent({
+                type: "signin_account_link_success",
+                status: "success",
+                userId: dbUser.id,
+                email: user.email,
+                provider: account.provider,
+              });
             } catch (e) {
               logger.warn("Account link upsert failed (non-blocking):", e);
+              const { code, message } = describeError(e);
+              void logAuthEvent({
+                type: "signin_account_link_failed",
+                status: "failure",
+                userId: dbUser.id,
+                email: user.email,
+                provider: account.provider,
+                errorCode: code,
+                errorMessage: message,
+              });
             }
           })();
         }
@@ -393,9 +528,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // the "Configuration" error page. Instead log the error and return true
         // so the user can still sign in. The JWT callback will handle missing data.
         logger.error(`DB error during signIn for ${user.email} (non-blocking):`, error);
+        const { code, message } = describeError(error);
+        void logAuthEvent({
+          type: "signin_aborted",
+          status: "failure",
+          email: user.email,
+          provider,
+          errorCode: code,
+          errorMessage: message,
+        });
       }
 
       logger.info(`signIn callback completed for ${user.email}`);
+      void logAuthEvent({
+        type: "signin_complete",
+        status: "success",
+        email: user.email,
+        provider,
+      });
       return true;
     },
 
