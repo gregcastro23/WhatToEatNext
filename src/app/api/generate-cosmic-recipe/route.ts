@@ -3,6 +3,7 @@
  * Requests a structured cosmic recipe using the planetary_agents microservice.
  * Uses the cosmicRecipeSchema for structured output.
  */
+import { z } from "zod";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import {
   applyPersonalizedPricing,
@@ -32,6 +33,24 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 60;
+
+const birthDataSchema = z
+  .object({
+    dateTime: z.string().min(1).optional(),
+    latitude: z.number().finite().optional(),
+    longitude: z.number().finite().optional(),
+  })
+  .passthrough()
+  .optional();
+
+const cosmicRecipeBodySchema = z.object({
+  prompt: z.string().trim().max(2000).optional(),
+  diet: z.string().trim().max(200).optional(),
+  ingredients_main: z.array(z.string().max(80)).max(40).optional(),
+  disallowed_ingredients: z.array(z.string().max(80)).max(40).optional(),
+  birthData: birthDataSchema,
+  preferredCuisine: z.string().trim().max(80).optional(),
+});
 
 export async function POST(request: NextRequest) {
   // Auth'd users → token economy (Spirit/Essence per cosmic recipe) is the throttle.
@@ -111,7 +130,27 @@ export async function POST(request: NextRequest) {
   const demoMode = access.mode === "demo";
   const userId: string | null = access.mode === "auth" ? access.userId : null;
 
-  const body = await request.json();
+  const rawBody = await request.json().catch(() => null);
+  if (!rawBody || typeof rawBody !== "object") {
+    return new Response(
+      JSON.stringify({ error: "invalid_request", message: "Request body must be JSON." }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
+  const parsed = cosmicRecipeBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return new Response(
+      JSON.stringify({
+        error: "invalid_request",
+        message: "Recipe input failed validation.",
+        issues: parsed.error.issues.slice(0, 5).map((i) => ({
+          path: i.path.join("."),
+          message: i.message,
+        })),
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
   const {
     prompt,
     diet,
@@ -119,14 +158,7 @@ export async function POST(request: NextRequest) {
     disallowed_ingredients: disallowedIngredients,
     birthData,
     preferredCuisine,
-  } = body as {
-    prompt?: string;
-    diet?: string;
-    ingredients_main?: string[];
-    disallowed_ingredients?: string[];
-    birthData?: unknown;
-    preferredCuisine?: string;
-  };
+  } = parsed.data;
 
   // Get current sky for context
   const raw = getAccuratePlanetaryPositions(new Date());

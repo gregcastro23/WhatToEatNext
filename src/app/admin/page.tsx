@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
 
 interface DashboardStats {
   totalUsers: number;
@@ -167,6 +168,11 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Advanced metrics (auth events, abuse, observability, digest) */}
+      <div className="mb-8">
+        <AdvancedMetricsPanel />
       </div>
 
       {/* Recent Users */}

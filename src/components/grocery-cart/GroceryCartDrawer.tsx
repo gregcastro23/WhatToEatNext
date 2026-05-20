@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
@@ -20,6 +20,19 @@ export function GroceryCartDrawer() {
   } = useGroceryCart();
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
+
+  // Escape key handler — closes the drawer for keyboard users
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isOpen, close]);
 
   const handleCheckout = async () => {
     setCheckingOut(true);
@@ -57,6 +70,7 @@ export function GroceryCartDrawer() {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
+        aria-modal="true"
         aria-label="Grocery cart"
         aria-hidden={!isOpen}
       >
@@ -75,7 +89,7 @@ export function GroceryCartDrawer() {
           <button
             type="button"
             onClick={close}
-            className="text-gray-400 hover:text-white text-2xl leading-none p-1"
+            className="text-gray-400 hover:text-white text-2xl leading-none flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full hover:bg-white/5"
             aria-label="Close grocery cart"
           >
             ×

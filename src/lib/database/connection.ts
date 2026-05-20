@@ -1,5 +1,6 @@
 import pkg from 'pg';
 import { logger } from "../logger";
+import { recordSlowQuery } from "../observability/slowQueryLog";
 import { databaseConfig } from "./config";
 import type { Pool, PoolClient, QueryResult } from "pg";
 
@@ -221,6 +222,10 @@ export async function executeQuery<_T extends any = any>(
     }
     const result = await getDatabasePool().query(query, params);
     const executionTime = Date.now() - startTime;
+    // Push to the in-memory slow-query ring (threshold defaults to 200ms).
+    // The admin observability endpoint reads this; production traffic should
+    // surface gradual regressions here long before they trip the >1s warn.
+    recordSlowQuery(executionTime, query, result.rowCount);
     if (executionTime > 1000) {
       // Log slow queries (>1s)
       void logger.warn("Slow database query detected", {
