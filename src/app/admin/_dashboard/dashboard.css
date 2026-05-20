@@ -1,11 +1,14 @@
 /* =========================================================
    ALCHM.KITCHEN · ADMIN DASHBOARD STYLES
    Ported from design handoff styles.css + Admin Dashboard.html.
-   Class names exposed globally via :global so the React JSX
-   from the prototype can be reused verbatim.
+   Imported as plain (global) CSS rather than a CSS module so
+   Next.js's webpack "pure selectors" rule doesn't reject the
+   prototype's flat .lab / .panel / .t-tag class names. Scoping
+   stays effective in practice — these names only exist inside
+   .dashboard-root and aren't used elsewhere in the app.
    ========================================================= */
 
-.root {
+.dashboard-root {
   position: relative;
   isolation: isolate;
   width: 100%;
@@ -16,7 +19,7 @@
 
 /* Scope tokens to the dashboard root so the rest of the
    app (Tailwind, marketing pages) is untouched. */
-.root {
+.dashboard-root {
   --bg: #07060B;
   --bg-elev: #0E0C16;
   --bg-elev-2: #15121F;
@@ -55,30 +58,30 @@
     #050409;
 }
 
-.root *,
-.root *::before,
-.root *::after {
+.dashboard-root *,
+.dashboard-root *::before,
+.dashboard-root *::after {
   box-sizing: border-box;
 }
 
-/* Palette themes — toggled via data-palette on .root */
-.root[data-palette="violet"] {
+/* Palette themes — toggled via data-palette on .dashboard-root */
+.dashboard-root[data-palette="violet"] {
   --accent: oklch(0.72 0.18 305);
   --accent-2: oklch(0.78 0.14 65);
 }
-.root[data-palette="bio"] {
+.dashboard-root[data-palette="bio"] {
   --accent: oklch(0.82 0.20 165);
   --accent-2: oklch(0.78 0.14 90);
 }
-.root[data-palette="copper"] {
+.dashboard-root[data-palette="copper"] {
   --accent: oklch(0.78 0.16 60);
   --accent-2: oklch(0.70 0.18 25);
 }
-.root[data-palette="prism"] {
+.dashboard-root[data-palette="prism"] {
   --accent: oklch(0.74 0.22 330);
   --accent-2: oklch(0.78 0.16 220);
 }
-.root[data-palette] {
+.dashboard-root[data-palette] {
   --accent-soft: color-mix(in oklch, var(--accent), transparent 70%);
   --accent-glow: color-mix(in oklch, var(--accent), transparent 80%);
 }
@@ -86,7 +89,7 @@
 /* =========================================================
    ARTBOARD SHELL — the laboratory background + grid + grain
    ========================================================= */
-:global(.lab) {
+.lab {
   position: relative;
   width: 100%;
   height: 100%;
@@ -99,7 +102,7 @@
   font-family: var(--f-body);
 }
 
-:global(.lab::before) {
+.lab::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -111,7 +114,7 @@
   pointer-events: none;
 }
 
-:global(.lab::after) {
+.lab::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -122,45 +125,45 @@
 }
 
 /* Admin shell tweaks */
-:global(.admin-shell) {
+.admin-shell {
   min-height: 100vh;
 }
-:global(.admin-shell.no-grid::before) {
+.admin-shell.no-grid::before {
   display: none;
 }
-:global(.admin-shell.density-compact .panel),
-:global(.admin-shell.density-compact .panel-glow),
-:global(.admin-shell.density-compact .panel-flat) {
+.admin-shell.density-compact .panel,
+.admin-shell.density-compact .panel-glow,
+.admin-shell.density-compact .panel-flat {
   font-size: 12px;
 }
 
 /* =========================================================
    TYPOGRAPHY UTILS
    ========================================================= */
-:global(.t-display) {
+.t-display {
   font-family: var(--f-display);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
-:global(.t-mono) {
+.t-mono {
   font-family: var(--f-mono);
   font-variant-numeric: tabular-nums;
 }
-:global(.t-tag) {
+.t-tag {
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-mute);
 }
-:global(.t-label) {
+.t-label {
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--fg-dim);
 }
-:global(.t-num) {
+.t-num {
   font-family: var(--f-mono);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
@@ -169,19 +172,19 @@
 /* =========================================================
    PANELS
    ========================================================= */
-:global(.panel) {
+.panel {
   position: relative;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.005));
   border: 1px solid var(--line);
   border-radius: var(--radius);
   backdrop-filter: blur(12px);
 }
-:global(.panel-flat) {
+.panel-flat {
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
-:global(.panel-glow) {
+.panel-glow {
   position: relative;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.005));
   border: 1px solid var(--line-hi);
@@ -193,41 +196,41 @@
 }
 
 /* Corner registration marks */
-:global(.regmarks) {
+.regmarks {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-:global(.regmarks::before),
-:global(.regmarks::after),
-:global(.regmarks > i::before),
-:global(.regmarks > i::after) {
+.regmarks::before,
+.regmarks::after,
+.regmarks > i::before,
+.regmarks > i::after {
   content: "";
   position: absolute;
   width: 10px;
   height: 10px;
   border: 1px solid var(--line-hi);
 }
-:global(.regmarks::before) {
+.regmarks::before {
   top: 6px;
   left: 6px;
   border-right: 0;
   border-bottom: 0;
 }
-:global(.regmarks::after) {
+.regmarks::after {
   top: 6px;
   right: 6px;
   border-left: 0;
   border-bottom: 0;
 }
-:global(.regmarks > i::before) {
+.regmarks > i::before {
   bottom: 6px;
   left: 6px;
   border-right: 0;
   border-top: 0;
   position: absolute;
 }
-:global(.regmarks > i::after) {
+.regmarks > i::after {
   bottom: 6px;
   right: 6px;
   border-left: 0;
@@ -238,7 +241,7 @@
 /* =========================================================
    BUTTONS
    ========================================================= */
-:global(.btn) {
+.dashboard-root .btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -254,11 +257,11 @@
   cursor: pointer;
   transition: all 200ms ease;
 }
-:global(.btn:hover) {
+.dashboard-root .btn:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.22);
 }
-:global(.btn-primary) {
+.dashboard-root .btn-primary {
   background: linear-gradient(180deg, color-mix(in oklch, var(--accent), transparent 60%), color-mix(in oklch, var(--accent), transparent 80%));
   border-color: color-mix(in oklch, var(--accent), transparent 40%);
   color: var(--fg);
@@ -266,10 +269,10 @@
     0 0 0 1px color-mix(in oklch, var(--accent), transparent 60%),
     0 12px 40px -10px var(--accent-soft);
 }
-:global(.btn-primary:hover) {
+.dashboard-root .btn-primary:hover {
   background: linear-gradient(180deg, color-mix(in oklch, var(--accent), transparent 40%), color-mix(in oklch, var(--accent), transparent 70%));
 }
-:global(.btn-ghost) {
+.dashboard-root .btn-ghost {
   background: transparent;
   border-color: var(--line);
 }
@@ -277,7 +280,7 @@
 /* =========================================================
    TAGS / CHIPS
    ========================================================= */
-:global(.chip) {
+.chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -291,7 +294,7 @@
   border: 1px solid var(--line);
   border-radius: 999px;
 }
-:global(.chip-active) {
+.chip-active {
   color: var(--fg);
   background: color-mix(in oklch, var(--accent), transparent 80%);
   border-color: color-mix(in oklch, var(--accent), transparent 50%);
@@ -300,25 +303,25 @@
 /* =========================================================
    ELEMENTAL DOTS
    ========================================================= */
-:global(.el-dot) {
+.el-dot {
   width: 8px;
   height: 8px;
   border-radius: 999px;
   display: inline-block;
 }
-:global(.el-fire) {
+.el-fire {
   background: var(--el-fire);
   box-shadow: 0 0 12px var(--el-fire);
 }
-:global(.el-water) {
+.el-water {
   background: var(--el-water);
   box-shadow: 0 0 12px var(--el-water);
 }
-:global(.el-earth) {
+.el-earth {
   background: var(--el-earth);
   box-shadow: 0 0 12px var(--el-earth);
 }
-:global(.el-air) {
+.el-air {
   background: var(--el-air);
   box-shadow: 0 0 12px var(--el-air);
 }
@@ -378,14 +381,14 @@
   }
 }
 
-:global(.motion-off [data-motion]) {
+.dashboard-root.motion-off [data-motion] {
   animation: none !important;
 }
 
 /* =========================================================
    DATA TABLE
    ========================================================= */
-:global(.data-row) {
+.data-row {
   display: grid;
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
@@ -394,23 +397,23 @@
   border-bottom: 1px solid var(--line);
   font-size: 13px;
 }
-:global(.data-row:last-child) {
+.data-row:last-child {
   border-bottom: none;
 }
-:global(.data-row:hover) {
+.data-row:hover {
   background: rgba(255, 255, 255, 0.02);
 }
 
 /* =========================================================
    DIVIDER WITH TICKS
    ========================================================= */
-:global(.rule) {
+.rule {
   position: relative;
   height: 1px;
   background: var(--line);
 }
-:global(.rule::before),
-:global(.rule::after) {
+.rule::before,
+.rule::after {
   content: "";
   position: absolute;
   top: -3px;
@@ -418,30 +421,30 @@
   height: 7px;
   background: var(--line-hi);
 }
-:global(.rule::before) {
+.rule::before {
   left: 0;
 }
-:global(.rule::after) {
+.rule::after {
   right: 0;
 }
 
-:global(.glyph-svg) {
+.glyph-svg {
   stroke: currentColor;
   fill: none;
 }
-:global(.glyph-fill) {
+.glyph-fill {
   fill: currentColor;
 }
 
 /* slim scrollbars inside the dashboard surface */
-.root :global(::-webkit-scrollbar) {
+.dashboard-root ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-.root :global(::-webkit-scrollbar-thumb) {
+.dashboard-root ::-webkit-scrollbar-thumb {
   background: var(--line-hi);
   border-radius: 999px;
 }
-.root :global(::-webkit-scrollbar-track) {
+.dashboard-root ::-webkit-scrollbar-track {
   background: transparent;
 }

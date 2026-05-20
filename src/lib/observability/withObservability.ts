@@ -25,17 +25,20 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { extractClientIp, hashIp } from "./hashIp";
 import { recordRequest } from "./requestLog";
 
-type AnyContext = Record<string, unknown>;
-
 /**
- * Handler signature — accepts either `Request` (what the route file
- * usually types) or `NextRequest` (what Next.js actually passes at
- * runtime). The wrapper coerces internally so the route doesn't need
- * to be edited beyond the export.
+ * Handler signature — a rest tuple so the same wrapper works for
+ * non-dynamic routes (`GET(request)`) and dynamic routes
+ * (`GET(request, { params: Promise<...> })`). TypeScript infers
+ * `TRest` from the supplied handler, and Next.js's auto-generated
+ * route type check accepts whatever shape Next itself emitted.
+ *
+ * The wrapper accepts either `Request` (what route files usually
+ * type) or `NextRequest` (what Next.js actually passes); contravariance
+ * makes the substitution safe.
  */
-export type ObservedHandler<TCtx extends AnyContext = AnyContext> = (
+export type ObservedHandler<TRest extends unknown[] = []> = (
   request: NextRequest,
-  context: TCtx,
+  ...rest: TRest
 ) => Promise<Response> | Response;
 
 export interface ObservabilityOptions {
@@ -62,18 +65,18 @@ export interface ObservabilityOptions {
  *     async (request) => { ... },
  *   );
  */
-export function withObservability<TCtx extends AnyContext = AnyContext>(
+export function withObservability<TRest extends unknown[] = []>(
   options: ObservabilityOptions,
-  handler: ObservedHandler<TCtx>,
-): ObservedHandler<TCtx> {
-  return async (request, context) => {
+  handler: ObservedHandler<TRest>,
+): ObservedHandler<TRest> {
+  return async (request, ...rest) => {
     const startedAt = performance.now();
     const method = request.method;
     let response: Response;
     let threw: unknown;
 
     try {
-      const result = handler(request, context);
+      const result = handler(request, ...rest);
       response = result instanceof Promise ? await result : result;
     } catch (err) {
       threw = err;

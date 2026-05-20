@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AgentFeedControlRoom } from "./agents";
-import styles from "./dashboard.module.css";
+import "./dashboard.css";
 import { PALETTES, type AdminDashboardData, type Density, type PaletteKey } from "./data";
 import {
   SubdomainMatrix,
@@ -86,14 +86,14 @@ export function Dashboard({ data }: DashboardProps) {
 
   return (
     <div
-      className={`${styles.root} ${motion ? "" : "motion-off"}`}
+      className={`dashboard-root ${motion ? "" : "motion-off"}`}
       data-palette={palette}
     >
       {/* Style overrides driven by the palette state. Set via inline style
           on root so component children inherit through CSS custom props. */}
       <style>
         {`
-          .${styles.root} {
+          .dashboard-root {
             --accent: ${PALETTES[palette].accent};
             --accent-2: ${PALETTES[palette].accent2};
             --accent-soft: color-mix(in oklch, ${PALETTES[palette].accent}, transparent 70%);
