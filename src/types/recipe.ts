@@ -493,8 +493,6 @@ export interface RecipeProps {
   elements?: ElementalProperties;
   dominantElements?: Array<[string, number]>;
 }
-// ========== MISSING TYPES FOR TS2305 FIXES ==========
-// RecipeSearchCriteria (causing error in LegacyRecipeAdapter.ts)
 export interface RecipeSearchCriteria {
   cuisine?: string[];
   mealType?: string[];

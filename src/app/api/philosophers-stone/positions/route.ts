@@ -262,24 +262,3 @@ function getDominantElement(properties: any): string {
     current.value > max.value ? current : max,
   ).name;
 }
-
-/**
- * Helper function to get complementary elements
- */
-function _getComplementaryElements(properties: any): string[] {
-  const elements = [
-    { name: "Fire", value: properties.Fire || 0 },
-    { name: "Water", value: properties.Water || 0 },
-    { name: "Earth", value: properties.Earth || 0 },
-    { name: "Air", value: properties.Air || 0 },
-  ];
-
-  // Elements work best with themselves and similar values
-  const sorted = elements.sort((a, b) => b.value - a.value);
-  const dominant = sorted[0];
-
-  // Return elements that are reasonably close in value (within 0.3)
-  return sorted
-    .filter((el) => Math.abs(el.value - dominant.value) <= 0.3)
-    .map((el) => el.name);
-}
