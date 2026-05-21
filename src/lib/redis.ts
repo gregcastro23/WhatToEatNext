@@ -25,11 +25,15 @@ export function getRedisClient(): Redis | null {
   }
 }
 
-export async function redisGet(key: string): Promise<string | null> {
+// NOTE: the Upstash REST client (@upstash/redis) auto-serializes objects on
+// SET and auto-parses JSON-shaped values on GET. Callers must not double-encode
+// with JSON.stringify/JSON.parse — the previous contract did, and the resulting
+// double-parse produced literal `"[object Object]"` strings on read.
+export async function redisGet<T = unknown>(key: string): Promise<T | null> {
   try {
     const client = getRedisClient();
     if (!client) return null;
-    return await client.get<string>(key);
+    return await client.get<T>(key);
   } catch (err) {
     console.error("[Redis] GET failed:", err);
     return null;
@@ -38,14 +42,13 @@ export async function redisGet(key: string): Promise<string | null> {
 
 export async function redisSet(
   key: string,
-  value: string,
+  value: unknown,
   ttlSeconds: number,
 ): Promise<void> {
   try {
     const client = getRedisClient();
     if (!client) return;
-    await client.set(key, value, { ex: ttlSeconds });
-    console.debug("[Redis] SET success:", key);
+    await client.set(key, value as never, { ex: ttlSeconds });
   } catch (err) {
     console.error("[Redis] SET failed:", err);
   }

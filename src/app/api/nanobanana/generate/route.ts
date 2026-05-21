@@ -34,10 +34,10 @@ export async function POST(req: NextRequest) {
 
     // Try to get cached result
     try {
-      const cached = await redisGet(cacheKey);
+      const cached = await redisGet<unknown>(cacheKey);
       if (cached) {
         console.debug("[NanoBanana] Serving cached image result");
-        return NextResponse.json(JSON.parse(cached));
+        return NextResponse.json(cached);
       }
     } catch (err) {
       console.warn("[NanoBanana] Redis read failed:", err);
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
     // Cache the successful result
     if (data.url) {
-      await redisSet(cacheKey, JSON.stringify(data), CACHE_TTL).catch((err) =>
+      await redisSet(cacheKey, data, CACHE_TTL).catch((err) =>
         console.warn("[NanoBanana] Redis write failed:", err),
       );
     }

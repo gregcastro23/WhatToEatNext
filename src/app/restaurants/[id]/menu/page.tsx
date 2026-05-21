@@ -22,16 +22,24 @@ interface RestaurantRow {
 }
 
 async function getRestaurant(id: string): Promise<RestaurantRow | null> {
-  const result = await executeQuery<RestaurantRow>(
-    `SELECT id, name, menu_url, external_provider, external_id,
-            stripe_connect_account_id, deliverect_location_id
-     FROM restaurants
-     WHERE id = $1
-     LIMIT 1`,
-    [id],
-  );
+  // Treat DB errors as "not found" — `notFound()` only triggers on a null
+  // return value, so any thrown error here would bubble up as a React Server
+  // Components crash instead of a clean 404.
+  try {
+    const result = await executeQuery<RestaurantRow>(
+      `SELECT id, name, menu_url, external_provider, external_id,
+              stripe_connect_account_id, deliverect_location_id
+       FROM restaurants
+       WHERE id = $1
+       LIMIT 1`,
+      [id],
+    );
 
-  return result.rows[0] ?? null;
+    return result.rows[0] ?? null;
+  } catch (err) {
+    console.error(`[restaurants/${id}/menu] DB lookup failed:`, err);
+    return null;
+  }
 }
 
 function appUrl(): string {

@@ -97,6 +97,16 @@ export class AlchmAPIClient {
     url: string,
     init?: RequestInit,
   ): Promise<TResponse> {
+    // When NEXT_PUBLIC_BACKEND_URL is unset (typical local dev), URLs end up
+    // relative (e.g. "/api/v1/cuisines"). Node's fetch requires absolute URLs
+    // and throws ERR_INVALID_URL — surface a clearer error and let callers
+    // catch it without leaking the raw TypeError into server-rendered pages.
+    if (url.startsWith("/")) {
+      throw new Error(
+        `AlchmAPIClient: backend endpoint not configured (relative URL: ${url}). ` +
+          `Set NEXT_PUBLIC_BACKEND_URL or NEXT_PUBLIC_KITCHEN_BACKEND_URL.`,
+      );
+    }
     const response = await fetch(url, init);
     if (!response.ok) {
       const statusText = response.statusText || "Unknown Error";
@@ -189,6 +199,11 @@ export class AlchmAPIClient {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
+      // Don't cache rejected promises — a single transient failure would
+      // permanently break the call site otherwise.
+      this._cache.cuisines.catch(() => {
+        this._cache.cuisines = undefined;
+      });
     }
     return this._cache.cuisines;
   }
@@ -211,6 +226,9 @@ export class AlchmAPIClient {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
+      this._cache.sauces.catch(() => {
+        this._cache.sauces = undefined;
+      });
     }
     return this._cache.sauces;
   }
@@ -221,6 +239,9 @@ export class AlchmAPIClient {
       this._cache.ingredients = this.request<Record<string, any>>(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
+      });
+      this._cache.ingredients.catch(() => {
+        this._cache.ingredients = undefined;
       });
     }
     return this._cache.ingredients;

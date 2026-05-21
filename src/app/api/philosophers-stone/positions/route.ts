@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { alchemize } from "@/constants/alchemicalPillars";
 import { rateLimit } from "@/lib/rateLimit";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
+import { alchemize } from "@/services/RealAlchemizeService";
 import { logger } from "@/utils/logger";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -52,23 +52,16 @@ export async function GET(request: NextRequest) {
         );
 
         // Calculate thermodynamic metrics using the alchemizer engine
-        const thermodynamicMetrics = alchemize(planetaryPositions);
+        const alchemizeResult = alchemize(planetaryPositions);
+        const { heat, entropy, reactivity, gregsEnergy } =
+          alchemizeResult.thermodynamicProperties;
+        const { kalchm, monica } = alchemizeResult;
 
         // Derive elemental properties from thermodynamics
-        type WithMonicaKalchm = typeof thermodynamicMetrics & {
-          monica?: number;
-          kalchm?: number;
-        };
-        const t = thermodynamicMetrics as WithMonicaKalchm;
-        const Fire =
-          ((t as any)?.heat || 0) * 0.2 + ((t as any)?.reactivity || 0) * 0.2;
-        const Water =
-          (t.monica || 0) * 0.6 + (1 - thermodynamicMetrics.heat) * 0.4;
-        const Earth =
-          (t.kalchm || 0) * 0.5 + (1 - thermodynamicMetrics.entropy) * 0.5;
-        const Air =
-          ((t as any)?.entropy || 0) * 0.2 +
-          ((t as any)?.reactivity || 0) * 0.2;
+        const Fire = heat * 0.2 + reactivity * 0.2;
+        const Water = monica * 0.6 + (1 - heat) * 0.4;
+        const Earth = kalchm * 0.5 + (1 - entropy) * 0.5;
+        const Air = entropy * 0.2 + reactivity * 0.2;
         const total = Fire + Water + Earth + Air;
         const elementalBalance = {
           Fire: Fire / total,
@@ -78,7 +71,7 @@ export async function GET(request: NextRequest) {
         };
 
         response.alchemicalProperties = alchemicalProperties;
-        response.thermodynamicMetrics = thermodynamicMetrics;
+        response.thermodynamicMetrics = { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
 
         // Add philosophers stone interpretation
         response.interpretation = {
@@ -87,12 +80,12 @@ export async function GET(request: NextRequest) {
           transformativePower: alchemicalProperties.Substance,
           elementalBalance,
           thermodynamicState: {
-            heat: thermodynamicMetrics.heat,
-            entropy: thermodynamicMetrics.entropy,
-            reactivity: thermodynamicMetrics.reactivity,
-            gregEnergy: thermodynamicMetrics.gregsEnergy,
-            kalchm: thermodynamicMetrics.kalchm,
-            monica: thermodynamicMetrics.monica,
+            heat,
+            entropy,
+            reactivity,
+            gregEnergy: gregsEnergy,
+            kalchm,
+            monica,
           },
         };
 
@@ -176,23 +169,20 @@ export async function POST(request: NextRequest) {
           signMap,
           diurnal
         );
-        const thermodynamicMetrics = alchemize(planetaryPositions);
+        const alchemizeResult2 = alchemize(planetaryPositions);
+        const {
+          heat: heat2,
+          entropy: entropy2,
+          reactivity: reactivity2,
+          gregsEnergy: gregsEnergy2,
+        } = alchemizeResult2.thermodynamicProperties;
+        const { kalchm: kalchm2, monica: monica2 } = alchemizeResult2;
 
         // Derive elemental properties from thermodynamics
-        type WithMonicaKalchm2 = typeof thermodynamicMetrics & {
-          monica?: number;
-          kalchm?: number;
-        };
-        const t2 = thermodynamicMetrics as WithMonicaKalchm2;
-        const Fire2 =
-          ((t2 as any)?.heat || 0) * 0.2 + ((t2 as any)?.reactivity || 0) * 0.2;
-        const Water2 =
-          (t2.monica || 0) * 0.6 + (1 - thermodynamicMetrics.heat) * 0.4;
-        const Earth2 =
-          (t2.kalchm || 0) * 0.5 + (1 - thermodynamicMetrics.entropy) * 0.5;
-        const Air2 =
-          ((t2 as any)?.entropy || 0) * 0.2 +
-          ((t2 as any)?.reactivity || 0) * 0.2;
+        const Fire2 = heat2 * 0.2 + reactivity2 * 0.2;
+        const Water2 = monica2 * 0.6 + (1 - heat2) * 0.4;
+        const Earth2 = kalchm2 * 0.5 + (1 - entropy2) * 0.5;
+        const Air2 = entropy2 * 0.2 + reactivity2 * 0.2;
         const total2 = Fire2 + Water2 + Earth2 + Air2;
         const elementalBalance2 = {
           Fire: Fire2 / total2,
@@ -202,7 +192,14 @@ export async function POST(request: NextRequest) {
         };
 
         response.alchemicalProperties = alchemicalProperties;
-        response.thermodynamicMetrics = thermodynamicMetrics;
+        response.thermodynamicMetrics = {
+          heat: heat2,
+          entropy: entropy2,
+          reactivity: reactivity2,
+          gregsEnergy: gregsEnergy2,
+          kalchm: kalchm2,
+          monica: monica2,
+        };
 
         // Enhanced interpretation for specific date/location
         response.philosophersStone = {
@@ -221,9 +218,9 @@ export async function POST(request: NextRequest) {
             dominantElement: getDominantElement(elementalBalance2),
           },
           alchemicalPotential: {
-            transformationReadiness: thermodynamicMetrics.reactivity,
-            stabilityIndex: 1 - thermodynamicMetrics.entropy,
-            energeticPotential: thermodynamicMetrics.gregsEnergy,
+            transformationReadiness: reactivity2,
+            stabilityIndex: 1 - entropy2,
+            energeticPotential: gregsEnergy2,
           },
         };
       } catch (alchemicalError) {
