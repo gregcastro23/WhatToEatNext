@@ -442,6 +442,27 @@ class AlchemizeResponse(BaseModel):
     confidence: float
     metadata: Dict[str, Any]
 
+class PhilosophersStonePositionsRequest(BaseModel):
+    year: Optional[int] = None
+    month: Optional[int] = None
+    day: Optional[int] = None
+    hour: Optional[int] = None
+    minute: Optional[int] = None
+    customPlanets: Optional[Dict[str, Any]] = None
+
+class PhilosophersStonePositionsResponse(BaseModel):
+    elementalProperties: Dict[str, float]
+    thermodynamicProperties: Dict[str, float]
+    esms: Dict[str, float]
+    planetaryMomentum: Dict[str, float]
+    kalchm: float
+    monica: float
+    score: float
+    normalized: bool
+    confidence: float
+    metadata: Dict[str, Any]
+    perPlanet: Optional[Dict[str, Any]] = None
+
 PLANET_ALCHM_PERIODS = {
     "Pluto": 247.94,
     "Neptune": 164.79,
@@ -695,6 +716,102 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
     }
 
 
+def calculate_local_philosophers_stone(
+    dt: datetime,
+    custom_planets: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Detailed alchemize payload matching the planetary_agents canonical schema.
+
+    Wraps calculate_local_alchemize, then:
+    - replaces the placeholder zero momentum with real day-over-day longitude deltas
+      (computed from Swiss Ephemeris positions at dt and dt - 1 day);
+    - adds a perPlanet block (per-planet esms, sect/sign elements, weights, dignity).
+    """
+    req = AlchemizeRequest(
+        year=dt.year,
+        month=dt.month,
+        date=dt.day,
+        hour=dt.hour,
+        minute=dt.minute,
+        planetaryPositions=custom_planets,
+    )
+    base = calculate_local_alchemize(req)
+    positions = base.get("planetaryPositions", {}) or {}
+
+    prev_dt = dt - timedelta(days=1)
+    prev_calc = calculate_planetary_positions_swisseph(
+        prev_dt.year,
+        prev_dt.month,
+        prev_dt.day,
+        prev_dt.hour,
+        prev_dt.minute,
+        FOREST_HILLS_COORDINATES["latitude"],
+        FOREST_HILLS_COORDINATES["longitude"],
+        "tropical",
+    )
+    prev_positions = prev_calc.get("positions", {}) if isinstance(prev_calc, dict) else {}
+
+    diurnal = is_sect_diurnal(dt)
+    per_planet: Dict[str, Any] = {}
+    momentum: Dict[str, float] = {}
+
+    for planet, position in positions.items():
+        if not isinstance(position, dict):
+            continue
+        sign_raw = str(position.get("sign", "Aries"))
+        sign_lower = sign_raw.lower() or "aries"
+
+        period = PLANET_ALCHM_PERIODS.get(planet, 1.0)
+        alchm_weight = 1.0 if planet == "Ascendant" else normalize_alchm_weight(period)
+
+        alchemy = PLANETARY_ALCHEMY.get(planet)
+        dignity = get_planetary_dignity(planet, sign_lower)
+        dignity_multiplier = max(0.5, 1.0 + dignity * 0.15) if alchemy else 1.0
+
+        planet_esms = {"Spirit": 0.0, "Essence": 0.0, "Matter": 0.0, "Substance": 0.0}
+        if alchemy:
+            for key in planet_esms:
+                planet_esms[key] = alchemy[key] * dignity_multiplier * alchm_weight
+
+        sign_element = ZODIAC_ELEMENTS.get(sign_lower, "Air")
+        sect_element = get_planetary_sect_element(planet, diurnal)
+        planet_elements = {"Fire": 0.0, "Water": 0.0, "Earth": 0.0, "Air": 0.0}
+        planet_elements[sign_element] += 0.6
+        planet_elements[sect_element] += 0.4
+
+        per_planet[planet] = {
+            "esms": planet_esms,
+            "elements": planet_elements,
+            "sign": sign_raw,
+            "signElement": sign_element,
+            "sectElement": sect_element,
+            "alchmWeight": alchm_weight,
+            "dignityMultiplier": dignity_multiplier,
+        }
+
+        prev = prev_positions.get(planet)
+        if isinstance(prev, dict):
+            curr_long = position.get("exactLongitude")
+            if curr_long is None:
+                curr_long = float(position.get("degree", 0)) + float(position.get("minute", 0)) / 60.0
+            hist_long = prev.get("exactLongitude")
+            if hist_long is None:
+                hist_long = float(prev.get("degree", 0)) + float(prev.get("minute", 0)) / 60.0
+            delta = float(curr_long) - float(hist_long)
+            if delta > 180:
+                delta -= 360
+            elif delta < -180:
+                delta += 360
+            momentum[planet] = delta * alchm_weight
+        else:
+            momentum[planet] = 0.0
+
+    base["planetaryMomentum"] = momentum
+    base["perPlanet"] = per_planet
+    base.pop("planetaryPositions", None)
+    return base
+
+
 class TokenRatesRequest(BaseModel):
     datetime: Optional[str] = None
     location: Optional[Dict[str, float]] = None
@@ -806,6 +923,56 @@ async def alchemize_current_moment(request: AlchemizeRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Alchemical calculation failed: {str(e)}")
+
+
+def _philosophers_stone_moment(
+    year: Optional[int],
+    month: Optional[int],
+    day: Optional[int],
+    hour: Optional[int],
+    minute: Optional[int],
+) -> datetime:
+    now = datetime.utcnow()
+    return datetime(
+        year if year is not None else now.year,
+        month if month is not None else now.month,
+        day if day is not None else now.day,
+        hour if hour is not None else 0,
+        minute if minute is not None else 0,
+    )
+
+
+@app.get("/api/philosophers-stone/positions", response_model=PhilosophersStonePositionsResponse)
+async def get_philosophers_stone_positions(
+    year: Optional[int] = None,
+    month: Optional[int] = None,
+    day: Optional[int] = None,
+    hour: Optional[int] = None,
+    minute: Optional[int] = None,
+):
+    """Canonical alchemize_detailed schema (proxied by WTEN's /api/philosophers-stone/positions)."""
+    try:
+        dt = _philosophers_stone_moment(year, month, day, hour, minute)
+        return calculate_local_philosophers_stone(dt)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Philosophers stone calculation failed: {str(e)}")
+
+
+@app.post("/api/philosophers-stone/positions", response_model=PhilosophersStonePositionsResponse)
+async def post_philosophers_stone_positions(request: PhilosophersStonePositionsRequest):
+    """POST variant accepting customPlanets override (otherwise identical to GET)."""
+    try:
+        dt = _philosophers_stone_moment(
+            request.year, request.month, request.day, request.hour, request.minute
+        )
+        return calculate_local_philosophers_stone(dt, custom_planets=request.customPlanets)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Philosophers stone calculation failed: {str(e)}")
+
 
 @app.get("/planetary/current")
 async def get_current_planetary_positions():
