@@ -14,8 +14,8 @@
  */
 
 import { NextResponse } from "next/server";
-import { executeQuery } from "@/lib/database";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { executeQuery } from "@/lib/database";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
