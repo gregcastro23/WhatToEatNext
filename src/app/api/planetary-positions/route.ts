@@ -188,10 +188,10 @@ export async function GET(request: NextRequest) {
     const cacheKey = `planetary_pos:${y}-${m}-${d}-${h}:${lat}:${lon}`;
 
     try {
-      const cached = await redisGet(cacheKey);
+      const cached = await redisGet<unknown>(cacheKey);
       if (cached) {
         console.debug("[PlanetaryPos] Serving cached positions");
-        return NextResponse.json(JSON.parse(cached));
+        return NextResponse.json(cached);
       }
     } catch (err) {
       console.warn("[PlanetaryPos] Redis read failed:", err);
@@ -201,7 +201,7 @@ export async function GET(request: NextRequest) {
     if (backendPositions) {
       const resp = toResponse(backendPositions, "backend-pyswisseph");
       const data = await resp.json();
-      await redisSet(cacheKey, JSON.stringify(data), 3600).catch(() => {});
+      await redisSet(cacheKey, data, 3600).catch(() => {});
       return NextResponse.json(data);
     }
 
@@ -219,7 +219,7 @@ export async function GET(request: NextRequest) {
     const fallbackPositions = calculateLocalPositions(fallbackDate);
     const resp = toResponse(fallbackPositions, "local-astronomy-engine");
     const data = await resp.json();
-    await redisSet(cacheKey, JSON.stringify(data), 3600).catch(() => {});
+    await redisSet(cacheKey, data, 3600).catch(() => {});
     return NextResponse.json(data);
   } catch (error) {
     console.error("[planetary-positions] Error:", error);

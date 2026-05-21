@@ -14,9 +14,9 @@ export async function getValidatedAssetUrl(path: string | null | undefined): Pro
   const cacheKey = `asset_valid:${path}`;
   
   try {
-    const cached = await redisGet(cacheKey);
-    if (cached === "1") return `${ASSET_DOMAIN}/${path}`;
-    if (cached === "0") return undefined;
+    const cached = await redisGet<boolean>(cacheKey);
+    if (cached === true) return `${ASSET_DOMAIN}/${path}`;
+    if (cached === false) return undefined;
   } catch (err) {
     console.warn("[AssetCache] Redis lookup failed:", err);
   }
@@ -29,7 +29,7 @@ export async function getValidatedAssetUrl(path: string | null | undefined): Pro
   
   // Asynchronously "warm" the cache for this path as valid
   // In a real scenario, we'd do a HEAD request to R2 here.
-  void redisSet(cacheKey, "1", ASSET_CACHE_TTL).catch(() => {});
+  void redisSet(cacheKey, true, ASSET_CACHE_TTL).catch(() => {});
   
   return fullUrl;
 }
@@ -39,5 +39,5 @@ export async function getValidatedAssetUrl(path: string | null | undefined): Pro
  */
 export async function invalidateAsset(path: string): Promise<void> {
   const cacheKey = `asset_valid:${path}`;
-  await redisSet(cacheKey, "0", ASSET_CACHE_TTL * 7).catch(() => {});
+  await redisSet(cacheKey, false, ASSET_CACHE_TTL * 7).catch(() => {});
 }

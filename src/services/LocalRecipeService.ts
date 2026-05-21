@@ -273,12 +273,11 @@ export class LocalRecipeService {
 
     // L2: Redis catalog cache (cross-instance — target <20ms)
     try {
-      const cached = await redisGet(REDIS_CATALOG_KEY);
-      if (cached) {
-        const recipes = JSON.parse(cached) as Recipe[];
-        this._allRecipes = recipes;
+      const cached = await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
+      if (cached && Array.isArray(cached) && cached.length > 0) {
+        this._allRecipes = cached;
         this._allRecipesLoadedAt = Date.now();
-        return recipes;
+        return cached;
       }
     } catch (err) {
       logger.warn("Redis cache read failed, falling through to DB:", err);
@@ -290,8 +289,8 @@ export class LocalRecipeService {
 
       if (recipes.length === 0) {
         logger.warn("Database recipes table returned 0 rows, gracefully resolving local hardcoded payload fallback");
-        const { allRecipes } = await import("@/data/recipes/index");
-        this._allRecipes = allRecipes;
+        const { getServerRecipes } = await import("@/actions/recipes");
+        this._allRecipes = await getServerRecipes();
         this._allRecipesLoadedAt = Date.now();
         return this._allRecipes;
       }
@@ -300,7 +299,7 @@ export class LocalRecipeService {
       this._allRecipesLoadedAt = Date.now();
 
       // Populate Redis asynchronously so we don't block the response
-      redisSet(REDIS_CATALOG_KEY, JSON.stringify(recipes), REDIS_TTL_SECONDS).catch(() => {});
+      redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
 
       // Part 3: Warm Image Asset Cache
       this.warmImageAssetCache(recipes);
@@ -308,8 +307,8 @@ export class LocalRecipeService {
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
-      const { allRecipes } = await import("@/data/recipes/index");
-      return allRecipes;
+      const { getServerRecipes } = await import("@/actions/recipes");
+      return getServerRecipes();
     }
   }
 
@@ -361,8 +360,9 @@ export class LocalRecipeService {
       // Ultimate local fallback
       try {
         const decodedId = decodeURIComponent(recipeId);
-        const { allRecipes } = await import("@/data/recipes/index");
-        return allRecipes.find((r) => String(r.id) === decodedId || r.name === decodedId) || null;
+        const { getServerRecipes } = await import("@/actions/recipes");
+        const recipes = await getServerRecipes();
+        return recipes.find((r) => String(r.id) === decodedId || r.name === decodedId) || null;
       } catch (_innerError) {
         return null;
       }

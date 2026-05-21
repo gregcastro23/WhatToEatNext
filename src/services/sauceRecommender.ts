@@ -21,7 +21,13 @@ export class SauceRecommender {
       cookingMethod?: string;
     },
   ): Promise<string[]> {
-    const cuisinesMap = await alchmAPI.getCuisines();
+    let cuisinesMap: Record<string, any>;
+    try {
+      cuisinesMap = await alchmAPI.getCuisines();
+    } catch (err) {
+      console.warn("[SauceRecommender] cuisines fetch failed, skipping:", err);
+      return [];
+    }
     const cuisine = cuisinesMap[cuisineName];
     if (!cuisine || !cuisine.sauceRecommender) {
       return [];
