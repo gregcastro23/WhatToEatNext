@@ -260,6 +260,134 @@ class UserDatabaseService {
   }
 
   /**
+   * Idempotent upsert of an @agentic.alchm.kitchen agent identity.
+   *
+   * Mirrors the canonical Python implementation at
+   * backend/alchm_kitchen/main.py POST /api/internal/agent-sync so a feed
+   * POST and a sign-in fan-out produce identical DB state. Used by the
+   * /api/feed POST handler to provision PA-emitted agents that haven't
+   * been synced yet.
+   *
+   * Throws when called with an email outside the agentic namespace —
+   * callers must guard before invoking.
+   */
+  async ensureAgent(
+    email: string,
+    displayName?: string,
+  ): Promise<UserWithProfile> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    const normalizedEmail = email.toLowerCase().trim();
+    if (!normalizedEmail.endsWith("@agentic.alchm.kitchen")) {
+      throw new Error(
+        `ensureAgent: refusing to auto-provision outside @agentic.alchm.kitchen namespace (got: ${normalizedEmail})`,
+      );
+    }
+
+    const resolvedName =
+      displayName?.trim() ||
+      normalizedEmail
+        .split("@")[0]
+        .split("-")
+        .filter(Boolean)
+        .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+        .join(" ") ||
+      "Agent";
+
+    if (!db) {
+      // No DATABASE_URL — fall through to in-memory cache (build/test path).
+      const existingId = this.emailIndex.get(normalizedEmail);
+      if (existingId) {
+        const existing = this.users.get(existingId);
+        if (existing) {
+          existing.isAgent = true;
+          existing.profile.name ||= resolvedName;
+          return existing;
+        }
+      }
+      const userId = randomUUID();
+      const now = new Date();
+      const user: UserWithProfile = {
+        id: userId,
+        email: normalizedEmail,
+        passwordHash: "AGENT_NO_LOGIN",
+        roles: ["user" as UserRole],
+        isActive: true,
+        isAgent: true,
+        createdAt: now,
+        profile: {
+          userId,
+          name: resolvedName,
+          email: normalizedEmail,
+          preferences: {},
+          groupMembers: [],
+          diningGroups: [],
+        },
+      };
+      this.users.set(userId, user);
+      this.emailIndex.set(normalizedEmail, userId);
+      return user;
+    }
+
+    const generatedId = randomUUID();
+    try {
+      await db.withTransaction(async (client) => {
+        const insertUser = await client.query(
+          `INSERT INTO users
+             (id, email, password_hash, role, is_active, email_verified, is_agent,
+              name, profile, preferences, login_count, created_at, updated_at)
+           VALUES
+             ($1, $2, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true,
+              $3, $4::jsonb, '{}'::jsonb, 0, now(), now())
+           ON CONFLICT (email) DO UPDATE
+             SET is_agent   = true,
+                 name       = COALESCE(EXCLUDED.name, users.name),
+                 updated_at = now()
+           RETURNING id`,
+          [
+            generatedId,
+            normalizedEmail,
+            resolvedName,
+            JSON.stringify({
+              email: normalizedEmail,
+              isAgent: true,
+              name: resolvedName,
+            }),
+          ],
+        );
+        if (insertUser.rowCount === 0) {
+          throw new Error("ensureAgent: upsert returned no row");
+        }
+        const finalId = insertUser.rows[0].id as string;
+        await client.query(
+          `INSERT INTO user_profiles (user_id, name)
+           VALUES ($1, $2)
+           ON CONFLICT (user_id) DO UPDATE
+             SET name = COALESCE(EXCLUDED.name, user_profiles.name),
+                 updated_at = CURRENT_TIMESTAMP`,
+          [finalId, resolvedName],
+        );
+      });
+
+      const fresh = await this.getUserByEmail(normalizedEmail);
+      if (!fresh) {
+        throw new Error(
+          "ensureAgent: upsert succeeded but lookup returned no user",
+        );
+      }
+      _logger.info("ensureAgent: agent provisioned/refreshed", {
+        email: normalizedEmail,
+        userId: fresh.id,
+      });
+      return fresh;
+    } catch (error) {
+      _logger.error("ensureAgent: failed to upsert agent", error);
+      throw new Error("Failed to provision agent", { cause: error });
+    }
+  }
+
+  /**
    * Update user profile
    */
   async updateUserProfile(

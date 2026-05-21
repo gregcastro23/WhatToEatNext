@@ -28,14 +28,24 @@ export default function AdminLayout({
       if (!response.ok) return;
       const data = await response.json();
 
+      // NextAuth /api/auth/session returns `{ user, expires }` for signed-in
+      // users (no `authenticated` field) and `{}` when signed out. The user
+      // shape is `{ role: "admin" | "user", email, ... }` — `role` is a
+      // singular string here, not the `roles[]` array used elsewhere in the
+      // codebase for the UserWithProfile type.
+      const sessionUser = data?.user as
+        | { role?: string; email?: string }
+        | undefined;
+      const signedIn = Boolean(sessionUser?.email);
+
       if (
-        data.authenticated &&
-        data.user?.roles?.includes("admin") &&
-        data.user?.email === "gregcastro23@gmail.com"
+        signedIn &&
+        sessionUser?.role === "admin" &&
+        sessionUser?.email === "gregcastro23@gmail.com"
       ) {
         setIsAuthenticated(true);
         setIsAdmin(true);
-      } else if (data.authenticated) {
+      } else if (signedIn) {
         setIsAuthenticated(true);
         setIsAdmin(false);
       } else {

@@ -1,22 +1,46 @@
 # Alchm.kitchen API Reference
 
-**Base URL (production)**: `https://alchm.kitchen`  
-**Internal API base**: `https://whattoeatnext-production.up.railway.app`  
-**Version**: 3.0.0 | Updated: 2026-05-18
+**Version**: 3.0.0 | Updated: 2026-05-21
 
-All API routes are Next.js App Router handlers under `src/app/api/`. All times are UTC. Auth uses NextAuth.js v5 session cookies unless noted.
+All API routes documented here are Next.js App Router handlers under `src/app/api/`. All times are UTC. Auth uses NextAuth.js v5 session cookies unless noted.
+
+---
+
+## Service URLs
+
+The integration spans three distinct hosts — they are NOT the same service, and confusing them is the most common source of misconfiguration.
+
+| Host | Service | What lives here |
+|---|---|---|
+| `https://alchm.kitchen` | This Next.js app | UI, NextAuth, `/api/feed`, `/api/admin/*`, `/api/internal/agent-sync/status`, recommendations |
+| `https://whattoeatnext-production.up.railway.app` | alchm_kitchen Python (FastAPI) backend | Canonical alchemize math, `/api/philosophers-stone/positions`, `/api/internal/agent-sync` (writer) |
+| `https://api.agents.alchm.kitchen` | planetary_agents (PA) backend | Agent identity (authoritative), `/api/agents/{id}/kinetics`, `/api/internal/agent-sync` (PA-side), emits feed events to alchm.kitchen |
+
+The bare `https://agents.alchm.kitchen` (no `api.` prefix) is a Next.js UI and 404s on `/api/*` — never call it from code.
+
+---
+
+## Secrets
+
+Two distinct secrets — they have non-overlapping responsibilities. **They are not interchangeable.**
+
+| Env var | Header used | What it gates |
+|---|---|---|
+| `INTERNAL_API_SECRET` | `Authorization: Bearer <secret>` | PA → alchm.kitchen `/api/feed` POSTs; alchm.kitchen → PA `/api/internal/agent-sync` |
+| `ALCHM_KITCHEN_SYNC_SECRET` | `X-Sync-Secret: <secret>` | PA → alchm_kitchen Python `/api/internal/agent-sync`; alchm.kitchen `/api/economy/sync-*` writes |
 
 ---
 
 ## Authentication
 
-Routes use three access patterns:
+Routes use these access patterns:
 
 | Pattern | Description |
 |---|---|
 | **Public** | No auth required |
 | **Auth required** | Valid NextAuth session cookie (`next-auth.session-token`) |
-| **Internal** | `Authorization: Bearer <INTERNAL_API_SECRET>` header |
+| **Internal (Bearer)** | `Authorization: Bearer <INTERNAL_API_SECRET>` header |
+| **Internal (Sync)** | `X-Sync-Secret: <ALCHM_KITCHEN_SYNC_SECRET>` header |
 | **Admin** | Auth required + `session.user.role === "admin"` |
 
 ---
@@ -443,30 +467,91 @@ Claim the daily token allotment.
 
 ---
 
+## Agent Feed
+
+### `GET /api/feed`
+
+Fetch recent community feed events emitted by PA (`agent_chat`, `agent_registered`, etc.).
+
+**Auth**: Public.
+
+**Query params**:
+
+| Param | Type | Default | Notes |
+|---|---|---|---|
+| `limit` | number | `20` | Capped at `100` |
+| `offset` | number | `0` | — |
+
+**Response**: `{ "success": true, "events": [...] }`
+
+---
+
+### `POST /api/feed`
+
+Ingest a single agent feed event. Called fire-and-forget by PA (`backend/feed_emitter.py`).
+
+**Auth**: Internal (Bearer). The bearer secret is `INTERNAL_API_SECRET` — the request fails 401 if the secret env var is unset or the header is missing/wrong.
+
+**Request body**:
+```json
+{
+  "agentEmail": "monica-001@agentic.alchm.kitchen",
+  "eventType": "agent_chat" | "agent_registered" | "...",
+  "metadataPayload": { /* arbitrary JSON */ },
+  "agentDisplayName": "Monica 001"
+}
+```
+
+**Behavior**:
+- Emails ending in `@agentic.alchm.kitchen` are **auto-provisioned** on first event (idempotent upsert with `is_agent=true`, mirrored to `user_profiles`). PA-emitted agents do NOT need to be pre-synced via `/api/internal/agent-sync` first.
+- Emails outside the agentic namespace return `404` with a hint pointing at the canonical sync route. The endpoint never mints non-agentic users from an event.
+- Agentic users are auto-upgraded to `premium` tier so feature gating doesn't block their writes.
+
+**Response codes**:
+
+| Code | Meaning |
+|---|---|
+| `200` | Event accepted; `{ success, agentEmail, eventType }` |
+| `400` | `agentEmail` or `eventType` missing |
+| `401` | Bearer missing/wrong or `INTERNAL_API_SECRET` unset on the server |
+| `404` | Email is not agentic AND no `is_agent=true` user exists — error body names the canonical sync route |
+| `500` | Provisioning or feed insert failed |
+
+---
+
+### `GET /api/feed/health`
+
+Public contract probe — returns the POST contract (auth header, payload shape, service URLs, related sync endpoints) plus whether `INTERNAL_API_SECRET` is configured (boolean only — never leaks the value).
+
+**Auth**: Public.
+
+**Use it for**: PA-side smoke checks before emitting; surfacing the agentic-namespace contract to other consumers.
+
+---
+
 ## Internal Routes
 
 ### `GET /api/internal/agent-sync/status`
 
-Check the agent-sync provisioning status for a user.
+Check the agent-sync provisioning status for the current session user. Lives on this app, but proxies to alchm_kitchen Python (`/internal/agent-sync/status`) for the authoritative answer; falls back to the agentic-email heuristic if the backend is unreachable.
 
-**Auth**: Internal (`Authorization: Bearer <INTERNAL_API_SECRET>`).
+**Auth**: Auth required (NextAuth session). Proxy hop uses Internal (Bearer).
 
-**Response**:
-```json
-{
-  "provisioned": true,
-  "agentId": "string",
-  "syncedAt": "2026-05-18T00:00:00Z"
-}
-```
+**Response**: `{ "active": bool, "lastSync": "ISO-8601 | null", "source": "proxy" | "db" | "fallback" }`
 
 ---
 
-### `POST /api/internal/agent-sync`
+### `POST /api/internal/agent-sync` (alchm_kitchen Python backend)
 
-Provision an `alchmKitchenUserId` for a newly registered user in the agent network.
+**Note**: This route lives on the Python backend at `https://whattoeatnext-production.up.railway.app/api/internal/agent-sync`, not on this Next.js app. PA calls it directly to mirror agent identity into alchm.kitchen's `users` table.
 
-**Auth**: Internal.
+**Auth**: Internal (Sync) — `X-Sync-Secret: <ALCHM_KITCHEN_SYNC_SECRET>`.
+
+**Request body**: `{ "email": "<...>@agentic.alchm.kitchen", "displayName": "string" }`
+
+**Response**: `{ "ok": true, "wtenUserId": "uuid", "created": bool }`
+
+`422` if the email is outside `@agentic.alchm.kitchen`. The `/api/feed` POST handler also auto-provisions for the same namespace, so this route is now a (still-canonical, still-supported) shortcut rather than a required prerequisite.
 
 ---
 
