@@ -20,8 +20,8 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { executeQuery } from "@/lib/database";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { executeQuery } from "@/lib/database";
 import { getEventCounts } from "@/services/authEventsService";
 import emailService from "@/services/emailService";
 import type { NextRequest } from "next/server";
