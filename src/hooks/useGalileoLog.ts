@@ -22,32 +22,6 @@ export function useGalileoLog(defaultComponentName?: string) {
   const [lastResult, setLastResult] = useState<LogResult | null>(null)
   const [componentMounted, setComponentMounted] = useState(false)
 
-  // Set component as mounted in useEffect
-  useEffect(() => {
-    setComponentMounted(true)
-
-    // When component unmounts, log that event
-    return () => {
-      if (defaultComponentName) {
-        logEvent('Component unmounted', {
-          componentName: defaultComponentName,
-          level: 'info',
-        })
-      }
-      setComponentMounted(false)
-    }
-  }, [defaultComponentName])
-
-  // Log component mounted event
-  useEffect(() => {
-    if (componentMounted && defaultComponentName) {
-      logEvent('Component mounted', {
-        componentName: defaultComponentName,
-        level: 'info',
-      })
-    }
-  }, [componentMounted, defaultComponentName])
-
   // Internal function to log events
   const logEvent = useCallback(
     async (message: string, options: LogOptions = {}): Promise<LogResult> => {
@@ -80,6 +54,32 @@ export function useGalileoLog(defaultComponentName?: string) {
     },
     [defaultComponentName]
   )
+
+  // Set component as mounted in useEffect
+  useEffect(() => {
+    setComponentMounted(true)
+
+    // When component unmounts, log that event
+    return () => {
+      if (defaultComponentName) {
+        void logEvent('Component unmounted', {
+          componentName: defaultComponentName,
+          level: 'info',
+        })
+      }
+      setComponentMounted(false)
+    }
+  }, [defaultComponentName, logEvent])
+
+  // Log component mounted event
+  useEffect(() => {
+    if (componentMounted && defaultComponentName) {
+      void logEvent('Component mounted', {
+        componentName: defaultComponentName,
+        level: 'info',
+      })
+    }
+  }, [componentMounted, defaultComponentName, logEvent])
 
   const log = useCallback(
     async (message: string, options: LogOptions = {}): Promise<LogResult> => {

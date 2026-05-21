@@ -304,7 +304,7 @@ export function combineElementObjects(
   return combined_object
 }
 
-// Get ranking of elements by value
+// Get ranking of elements by value (top `rank` slots, max 4)
 export function getElementRanking(
   element_object: Record<string, number>,
   rank = 1
@@ -316,21 +316,22 @@ export function getElementRanking(
     4: '',
   }
 
-  let largest_element_value = -Infinity
-  let largest_element = ''
+  const remaining = new Map(Object.entries(element_object))
+  const slots = Math.max(0, Math.min(rank, 4))
 
-  // Find the largest element
-  for (const element in element_object) {
-    if (element_object[element] > largest_element_value) {
-      largest_element_value = element_object[element]
-      largest_element = element
+  for (let i = 1; i <= slots; i++) {
+    let topElement = ''
+    let topValue = -Infinity
+    for (const [element, value] of remaining) {
+      if (value > topValue) {
+        topValue = value
+        topElement = element
+      }
     }
+    if (!topElement) break
+    element_rank_dict[i] = topElement
+    remaining.delete(topElement)
   }
-
-  element_rank_dict[1] = largest_element
-
-  // For a complete implementation, you would continue to find 2nd, 3rd, and 4th
-  // largest elements, but this simplified version just returns the dominant element
 
   return element_rank_dict
 }
@@ -394,20 +395,11 @@ export function alchemize(
 
   // Simplified implementation for UI integration
   const horoscope = horoscope_dict['tropical'] || horoscope_dict
-  const silent_mode = true
 
   // Determine if time is diurnal or nocturnal
   let diurnal_or_nocturnal = 'Diurnal'
   if (birth_info['hour'] < 5 || birth_info['hour'] > 17) {
     diurnal_or_nocturnal = 'Nocturnal'
-  }
-
-  // Create metadata and initial alchmInfo structure
-  const metadata: Record<string, any> = {
-    name: 'Alchm NFT',
-    description:
-      'Alchm is unlike any other NFT collection on Earth. Just like people, no two Alchm NFTs are the same, and there is no limit on how many can exist. Your Alchm NFT has no random features, and is completely customized and unique to you. By minting, you gain permanent access to limitless information about your astrology and identity through our sites and apps.',
-    attributes: [],
   }
 
   // Initialize the alchemical information object
