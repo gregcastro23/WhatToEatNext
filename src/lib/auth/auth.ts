@@ -371,44 +371,62 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               }
             }
             
-            // On first sign-in for an @agentic.alchm.kitchen email, ping the
-            // backend's /api/internal/agent-sync so the WTEN user row gets
-            // is_agent=true and a clean display_name immediately, rather than
-            // waiting for the next scripts/backfill-agent-sync.ts run. Fire
-            // and forget — must never block sign-in.
+            // On first sign-in for an @agentic.alchm.kitchen email, POST to
+            // PA's /api/internal/agent-sync. PA is the authority for agent
+            // identities and propagates downstream to alchm.kitchen itself
+            // (WTEN → PA → alchm.kitchen). Fire and forget — must never block
+            // sign-in.
             if (isNewUser && user.email!.endsWith("@agentic.alchm.kitchen")) {
-              const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
-              const apiBase = (
-                process.env.API_BASE_URL || process.env.BACKEND_URL || ""
+              const email = user.email!;
+              const displayName = user.name ?? undefined;
+              const agentId = email.split("@")[0]; // e.g. "monica-001"
+
+              const paSecret = process.env.INTERNAL_API_SECRET;
+              // PA Python backend is at api.agents.alchm.kitchen — the bare
+              // agents.alchm.kitchen domain is the Next.js UI and would 404.
+              const paBase = (
+                process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
+                process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
+                "https://api.agents.alchm.kitchen"
               ).replace(/\/$/, "");
-              if (syncSecret && apiBase) {
-                try {
-                  const resp = await fetch(`${apiBase}/api/internal/agent-sync`, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "X-Sync-Secret": syncSecret,
-                    },
-                    body: JSON.stringify({
-                      email: user.email,
-                      displayName: user.name ?? undefined,
-                    }),
-                  });
-                  if (resp.ok) {
-                    logger.info(`agent-sync ok for ${user.email}`);
-                  } else {
-                    const text = await resp.text().catch(() => "(unreadable)");
+
+              if (!paSecret || !paBase) {
+                logger.warn(
+                  `agent-sync skipped for ${email}: missing INTERNAL_API_SECRET or PA base URL`,
+                );
+              } else {
+                void (async () => {
+                  try {
+                    const resp = await fetch(
+                      `${paBase}/api/internal/agent-sync`,
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          "X-Sync-Secret": paSecret,
+                        },
+                        body: JSON.stringify({
+                          agentId,
+                          displayName: displayName ?? agentId,
+                          email,
+                        }),
+                      },
+                    );
+                    if (resp.ok) {
+                      logger.info(`agent-sync ok for ${email} → PA`);
+                    } else {
+                      const text = await resp.text().catch(() => "(unreadable)");
+                      logger.warn(
+                        `agent-sync HTTP ${resp.status} for ${email} → PA: ${text}`,
+                      );
+                    }
+                  } catch (syncErr) {
                     logger.warn(
-                      `agent-sync HTTP ${resp.status} for ${user.email}: ${text}`,
+                      `agent-sync request failed for ${email} → PA (non-blocking):`,
+                      syncErr,
                     );
                   }
-                } catch (syncErr) {
-                  logger.warn("agent-sync request failed (non-blocking):", syncErr);
-                }
-              } else {
-                logger.warn(
-                  `agent-sync skipped for ${user.email}: missing ALCHM_KITCHEN_SYNC_SECRET or API_BASE_URL/BACKEND_URL`,
-                );
+                })();
               }
             }
 
