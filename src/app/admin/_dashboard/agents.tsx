@@ -4,12 +4,15 @@ import React from "react";
 import { Glyph, Sparkline } from "./atoms";
 import { seeded } from "./data";
 import { Card } from "./hero";
+import { PaAgentSyncPanel } from "./PaAgentSyncPanel";
 
 // ============================================================
 // AGENT FEED CONTROL ROOM
 // ============================================================
 export function AgentFeedControlRoom() {
   return (
+    <>
+    <PaAgentSyncPanel />
     <section style={{ marginBottom: 14 }}>
       <div
         style={{
@@ -89,6 +92,7 @@ export function AgentFeedControlRoom() {
         <AgentReasoningTrace />
       </div>
     </section>
+    </>
   );
 }
 

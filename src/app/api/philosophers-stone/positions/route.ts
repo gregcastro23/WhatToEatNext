@@ -1,15 +1,103 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 import { getCurrentPlanetaryPositions } from "@/services/astrologizeApi";
-import { alchemize } from "@/services/RealAlchemizeService";
+import { alchemizeDetailed } from "@/services/RealAlchemizeService";
 import { logger } from "@/utils/logger";
-import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "philosophers-stone-positions" };
 
+// alchm.kitchen is the canonical math owner — it calculates all alchemical
+// quantities. The philosophers-stone endpoint lives there (or will be added
+// there). PA is for agent-keyed state only. Local alchemizeDetailed() fallback
+// kicks in if alchm.kitchen hasn't shipped the endpoint yet — the math is
+// equivalent.
+const ALCHM_KITCHEN_URL = (
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.API_BASE_URL ||
+  process.env.BACKEND_URL ||
+  ""
+).replace(/\/+$/, "");
+
+const PROXY_TIMEOUT_MS = 4000;
+
+type StoneResponse = {
+  elementalProperties: Record<string, number>;
+  thermodynamicProperties: Record<string, number>;
+  esms: Record<string, number>;
+  planetaryMomentum: Record<string, number>;
+  kalchm: number;
+  monica: number;
+  score: number;
+  normalized: boolean;
+  confidence: number;
+  metadata: Record<string, unknown>;
+  perPlanet?: Record<string, unknown>;
+};
+
+function dtToBackendParams(dt: Date): URLSearchParams {
+  const p = new URLSearchParams();
+  p.set("year", String(dt.getUTCFullYear()));
+  p.set("month", String(dt.getUTCMonth() + 1));
+  p.set("day", String(dt.getUTCDate()));
+  p.set("hour", String(dt.getUTCHours()));
+  p.set("minute", String(dt.getUTCMinutes()));
+  return p;
+}
+
+async function fetchFromBackend(
+  init: { method: "GET"; dt: Date } | { method: "POST"; body: unknown },
+): Promise<StoneResponse | null> {
+  if (!ALCHM_KITCHEN_URL) return null;
+  const url = `${ALCHM_KITCHEN_URL}/api/philosophers-stone/positions`;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PROXY_TIMEOUT_MS);
+  try {
+    const res =
+      init.method === "GET"
+        ? await fetch(`${url}?${dtToBackendParams(init.dt).toString()}`, {
+            signal: controller.signal,
+            cache: "no-store",
+          })
+        : await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(init.body),
+            signal: controller.signal,
+            cache: "no-store",
+          });
+    if (!res.ok) {
+      logger.warn(
+        `philosophers-stone proxy: backend returned ${res.status}, falling back to local`,
+      );
+      return null;
+    }
+    return (await res.json()) as StoneResponse;
+  } catch (err) {
+    logger.warn("philosophers-stone proxy: backend unreachable, falling back", err);
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function computeLocally(dt: Date): Promise<StoneResponse> {
+  const positions = await getCurrentPlanetaryPositions();
+  // alchemizeDetailed returns DetailedAlchemicalResult whose elementalProperties
+  // uses the strictly-typed ElementalProperties (Fire/Water/Earth/Air without
+  // an index signature) — incompatible with our wider Record<string, number>
+  // contract by structural typing. The shape is correct at runtime, just
+  // narrower at the type level, so cast through unknown.
+  return alchemizeDetailed(positions, null, dt) as unknown as StoneResponse;
+}
+
 /**
- * GET /api/philosophers-stone/positions - Get planetary positions with alchemical calculations
+ * GET /api/philosophers-stone/positions
+ *
+ * Proxies the FastAPI backend's identical endpoint and returns its canonical
+ * schema (elementalProperties / thermodynamicProperties / esms / perPlanet / ...).
+ * Falls back to a local `alchemizeDetailed()` calculation if the backend is
+ * unreachable or returns a non-2xx.
  */
 export async function GET(request: NextRequest) {
   const rl = await rateLimit(request, RATE_LIMIT);
@@ -17,89 +105,22 @@ export async function GET(request: NextRequest) {
 
   try {
     const { searchParams } = new URL(request.url);
-    const date = searchParams.get("date");
-    const includeAlchemical = searchParams.get("alchemical") !== "false"; // Default to true
-
-    logger.info(
-      `Philosophers stone positions requested for date: ${date || "current"}`,
-    );
-
-    // Get current planetary positions
-    const planetaryPositions = await getCurrentPlanetaryPositions();
-
-    const response: any = {
-      timestamp: new Date().toISOString(),
-      date: date || new Date().toISOString().split("T")[0],
-      planetaryPositions,
-      source: "calculated",
-    };
-
-    // Add alchemical calculations if requested
-    if (includeAlchemical) {
-      try {
-        // Calculate alchemical properties from planetary positions
-        const requestDate = date ? new Date(date) : new Date();
-        const diurnal = isSectDiurnal(requestDate);
-        
-        const signMap: Record<string, string> = {};
-        for (const [planet, data] of Object.entries(planetaryPositions)) {
-          signMap[planet] = typeof data === 'object' && data !== null ? (data as any).sign : String(data);
-        }
-        
-        const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
-          signMap,
-          diurnal
-        );
-
-        // Calculate thermodynamic metrics using the alchemizer engine
-        const alchemizeResult = alchemize(planetaryPositions);
-        const { heat, entropy, reactivity, gregsEnergy } =
-          alchemizeResult.thermodynamicProperties;
-        const { kalchm, monica } = alchemizeResult;
-
-        // Derive elemental properties from thermodynamics
-        const Fire = heat * 0.2 + reactivity * 0.2;
-        const Water = monica * 0.6 + (1 - heat) * 0.4;
-        const Earth = kalchm * 0.5 + (1 - entropy) * 0.5;
-        const Air = entropy * 0.2 + reactivity * 0.2;
-        const total = Fire + Water + Earth + Air;
-        const elementalBalance = {
-          Fire: Fire / total,
-          Water: Water / total,
-          Earth: Earth / total,
-          Air: Air / total,
-        };
-
-        response.alchemicalProperties = alchemicalProperties;
-        response.thermodynamicMetrics = { heat, entropy, reactivity, gregsEnergy, kalchm, monica };
-
-        // Add philosophers stone interpretation
-        response.interpretation = {
-          spiritualEssence: alchemicalProperties.Spirit,
-          materialManifestation: alchemicalProperties.Matter,
-          transformativePower: alchemicalProperties.Substance,
-          elementalBalance,
-          thermodynamicState: {
-            heat,
-            entropy,
-            reactivity,
-            gregEnergy: gregsEnergy,
-            kalchm,
-            monica,
-          },
-        };
-
-        logger.info("Alchemical calculations completed successfully");
-      } catch (alchemicalError) {
-        logger.warn("Alchemical calculation failed:", alchemicalError);
-        response.alchemicalError = "Failed to calculate alchemical properties";
-        // Continue without alchemical data rather than failing the request
-      }
+    const dateParam = searchParams.get("date");
+    const dt = dateParam ? new Date(dateParam) : new Date();
+    if (Number.isNaN(dt.getTime())) {
+      return NextResponse.json(
+        { success: false, error: "Invalid `date` parameter" },
+        { status: 400 },
+      );
     }
+
+    const proxied = await fetchFromBackend({ method: "GET", dt });
+    const data = proxied ?? (await computeLocally(dt));
 
     return NextResponse.json({
       success: true,
-      ...response,
+      source: proxied ? "proxy" : "fallback",
+      ...data,
     });
   } catch (error) {
     logger.error("Philosophers stone positions error:", error);
@@ -108,7 +129,6 @@ export async function GET(request: NextRequest) {
         success: false,
         error: "Failed to retrieve planetary positions",
         details: error instanceof Error ? error.message : "Unknown error",
-        timestamp: new Date().toISOString(),
       },
       { status: 500 },
     );
@@ -116,149 +136,73 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * POST /api/philosophers-stone/positions - Calculate positions for specific date/location
+ * POST /api/philosophers-stone/positions
+ *
+ * Forwards the request body (year/month/day/hour/minute/customPlanets) to the
+ * backend. Accepts a legacy `date` field as well, which is split into
+ * year/month/day/hour/minute before forwarding.
  */
 export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
   try {
-    const body = await request.json();
-    const {
-      date,
-      latitude,
-      longitude,
-      includeAlchemical = true,
-      customPlanets, // Optional: override with custom planetary positions
-    } = body;
+    const body = (await request.json()) as Record<string, unknown>;
 
-    logger.info(`Custom philosophers stone calculation requested`, {
-      date,
-      hasLocation: !!(latitude && longitude),
-      includeAlchemical,
-    });
-
-    let planetaryPositions = customPlanets;
-
-    // If no custom planets provided, calculate for the given date/location
-    if (!planetaryPositions) {
-      // For now, use the default calculation
-      // In a full implementation, this would calculate positions for specific date/location
-      planetaryPositions = await getCurrentPlanetaryPositions();
+    let dt: Date;
+    if (typeof body.date === "string") {
+      dt = new Date(body.date);
+    } else if (
+      typeof body.year === "number" ||
+      typeof body.month === "number" ||
+      typeof body.day === "number"
+    ) {
+      const now = new Date();
+      dt = new Date(
+        Date.UTC(
+          (body.year as number) ?? now.getUTCFullYear(),
+          ((body.month as number) ?? now.getUTCMonth() + 1) - 1,
+          (body.day as number) ?? now.getUTCDate(),
+          (body.hour as number) ?? 0,
+          (body.minute as number) ?? 0,
+        ),
+      );
+    } else {
+      dt = new Date();
+    }
+    if (Number.isNaN(dt.getTime())) {
+      return NextResponse.json(
+        { success: false, error: "Invalid date payload" },
+        { status: 400 },
+      );
     }
 
-    const response: any = {
-      timestamp: new Date().toISOString(),
-      requestDate: date,
-      location: latitude && longitude ? { latitude, longitude } : null,
-      planetaryPositions,
+    const backendBody = {
+      year: dt.getUTCFullYear(),
+      month: dt.getUTCMonth() + 1,
+      day: dt.getUTCDate(),
+      hour: dt.getUTCHours(),
+      minute: dt.getUTCMinutes(),
+      customPlanets: body.customPlanets,
     };
 
-    // Add alchemical calculations
-    if (includeAlchemical) {
-      try {
-        const requestDate = date ? new Date(date) : new Date();
-        const diurnal = isSectDiurnal(requestDate);
-        
-        const signMap: Record<string, string> = {};
-        for (const [planet, data] of Object.entries(planetaryPositions)) {
-          signMap[planet] = typeof data === 'object' && data !== null ? (data as any).sign : String(data);
-        }
-        
-        const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
-          signMap,
-          diurnal
-        );
-        const alchemizeResult2 = alchemize(planetaryPositions);
-        const {
-          heat: heat2,
-          entropy: entropy2,
-          reactivity: reactivity2,
-          gregsEnergy: gregsEnergy2,
-        } = alchemizeResult2.thermodynamicProperties;
-        const { kalchm: kalchm2, monica: monica2 } = alchemizeResult2;
-
-        // Derive elemental properties from thermodynamics
-        const Fire2 = heat2 * 0.2 + reactivity2 * 0.2;
-        const Water2 = monica2 * 0.6 + (1 - heat2) * 0.4;
-        const Earth2 = kalchm2 * 0.5 + (1 - entropy2) * 0.5;
-        const Air2 = entropy2 * 0.2 + reactivity2 * 0.2;
-        const total2 = Fire2 + Water2 + Earth2 + Air2;
-        const elementalBalance2 = {
-          Fire: Fire2 / total2,
-          Water: Water2 / total2,
-          Earth: Earth2 / total2,
-          Air: Air2 / total2,
-        };
-
-        response.alchemicalProperties = alchemicalProperties;
-        response.thermodynamicMetrics = {
-          heat: heat2,
-          entropy: entropy2,
-          reactivity: reactivity2,
-          gregsEnergy: gregsEnergy2,
-          kalchm: kalchm2,
-          monica: monica2,
-        };
-
-        // Enhanced interpretation for specific date/location
-        response.philosophersStone = {
-          stone: {
-            essence: alchemicalProperties.Spirit > 0.5 ? "refined" : "raw",
-            matter: alchemicalProperties.Matter > 0.5 ? "purified" : "impure",
-            substance:
-              alchemicalProperties.Substance > 0.5 ? "transmuted" : "base",
-          },
-          elementalProfile: {
-            // Elements reinforce themselves - no opposing forces
-            Fire: elementalBalance2.Fire,
-            Water: elementalBalance2.Water,
-            Earth: elementalBalance2.Earth,
-            Air: elementalBalance2.Air,
-            dominantElement: getDominantElement(elementalBalance2),
-          },
-          alchemicalPotential: {
-            transformationReadiness: reactivity2,
-            stabilityIndex: 1 - entropy2,
-            energeticPotential: gregsEnergy2,
-          },
-        };
-      } catch (alchemicalError) {
-        logger.warn("Alchemical calculation failed:", alchemicalError);
-        response.alchemicalError = "Failed to calculate alchemical properties";
-      }
-    }
+    const proxied = await fetchFromBackend({ method: "POST", body: backendBody });
+    const data = proxied ?? (await computeLocally(dt));
 
     return NextResponse.json({
       success: true,
-      ...response,
+      source: proxied ? "proxy" : "fallback",
+      ...data,
     });
   } catch (error) {
     logger.error("Custom philosophers stone calculation error:", error);
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to calculate custom planetary positions",
+        error: "Failed to calculate planetary positions",
         details: error instanceof Error ? error.message : "Unknown error",
-        timestamp: new Date().toISOString(),
       },
       { status: 500 },
     );
   }
-}
-
-/**
- * Helper function to determine dominant element
- */
-function getDominantElement(properties: any): string {
-  const elements = [
-    { name: "Fire", value: properties.Fire || 0 },
-    { name: "Water", value: properties.Water || 0 },
-    { name: "Earth", value: properties.Earth || 0 },
-    { name: "Air", value: properties.Air || 0 },
-  ];
-
-  return elements.reduce((max, current) =>
-    current.value > max.value ? current : max,
-  ).name;
 }
