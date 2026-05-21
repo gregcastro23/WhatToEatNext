@@ -1,6 +1,6 @@
 // src/constants/alchemicalPillars.ts
 
-import type { Season, ElementalProperties, QuantityScaledProperties, ThermodynamicMetrics } from "@/types/alchemy"; // Importing ElementalProperties and QuantityScaledProperties from alchemy (or celestial if preferred)
+import type { Season, ElementalProperties, QuantityScaledProperties } from "@/types/alchemy";
 import type { AlchemicalProperty, Element, LunarPhase} from "@/types/celestial";
 
 /**
@@ -1317,26 +1317,6 @@ export interface EnhancedCookingMethod {
   suitable_for?: string[];
   benefits?: string[];
   [key: string]: unknown;
-}
-
-// Placeholder functions that were previously missing 'export' or entirely missing
-/**
- * Placeholder for the alchemize function.
- * @param input The input to alchemize.
- * @returns The alchemized output.
- */
-export function alchemize<T>(_input: T): ThermodynamicMetrics {
-  console.warn("alchemize function is a placeholder, returning mock ThermodynamicMetrics.");
-  // Placeholder implementation to return a mock ThermodynamicMetrics object
-  // In a real scenario, this function would perform complex alchemical calculations
-  return {
-    heat: Math.random(),
-    entropy: Math.random(),
-    reactivity: Math.random(),
-    gregsEnergy: Math.random() * 100,
-    kalchm: Math.random() * 10,
-    monica: Math.random() * 5,
-  };
 }
 
 /**
