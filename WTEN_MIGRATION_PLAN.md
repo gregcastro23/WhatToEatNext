@@ -1,6 +1,6 @@
 # wten-migration-ui-components/ Port — Multi-Session Plan
 
-This plan ports the untracked `wten-migration-ui-components/` directory (a paste of the [`planetary_agents-main`](file:///Users/cookingwithcastro/Desktop/planetary_agents-main) Next.js app's UI surface) into the WhatToEatNext codebase under `src/`. The work is split across 11 sessions because the full dep closure is ~60-80 files / 25-40k LOC — too large for one chat.
+This plan ports the untracked `wten-migration-ui-components/` directory (a paste of the [`planetary_agents-main`](file:///Users/cookingwithcastro/Desktop/planetary_agents-main) Next.js app's UI surface) into the WhatToEatNext codebase under `src/`. After Session 1's full transitive-dep closure (2026-05-20), the scope is **~54 files / ~22k LOC** — split across 11 sessions because that's still too large for one chat.
 
 Each session prompt below is **self-contained**. Copy-paste a session into a fresh Claude Code chat and it will have everything it needs to do that session's work.
 
@@ -33,62 +33,115 @@ The source repo uses the same `@/*` → `src/*` convention but its `src/` is the
 - CSS Modules' "pure selectors" rule rejects `:global(.foo)` without a local class.
 - `wten-migration-ui-components/` has 20+ non-import TS errors (TS2339, TS2769, TS2345) that survive even after all imports resolve. Session 11 fixes those.
 
-### Dep graph (level 1, audited 2026-05-20)
+### Dep graph — full closure (audited 2026-05-20, Session 1)
 
-Modules in `planetary_agents-main/` that need porting, grouped by likely session and ordered roughly by dep direction (leaves → roots):
+All modules in `planetary_agents-main/` that need porting. Topo-sorted: leaves first, then ordered so each module's deps appear above it. "Internal deps" lists OTHER modules in this table (not external libs or shadcn UI).
 
-| Module                                       | LOC  | Imports from (relative paths within source)              |
-| -------------------------------------------- | ---- | -------------------------------------------------------- |
-| `lib/observability.ts`                       | 12   | (none)                                                   |
-| `lib/kinetics-integration.ts`                | 16   | (none)                                                   |
-| `lib/calculate-transits.ts`                  | 56   | (none)                                                   |
-| `lib/performance-cache.ts`                   | 154  | (none)                                                   |
-| `hooks/useGalileoLog.ts`                     | 140  | `react`                                                  |
-| `lib/structured-logger.ts`                   | 420  | (probably none — utility logger)                         |
-| `lib/agent-types.ts`                         | 499  | (probably leaf — types)                                  |
-| `lib/unified-agent-types.ts`                 | 255  | (probably leaf — types)                                  |
-| `lib/elemental-reinforcement.ts`             | 430  | (TBD)                                                    |
-| `lib/core-energy-rules.ts`                   | 523  | (probably leaf — rule definitions)                       |
-| `lib/galileo-logger.ts`                      | 548  | `./core-energy-rules`                                    |
-| `lib/moon-phase-calculator.ts`               | 396  | (probably leaf — math)                                   |
-| `lib/planetary-motion-tracker.ts`            | 473  | (TBD)                                                    |
-| `lib/planetary-api-client.ts`                | 291  | (TBD)                                                    |
-| `lib/planetary-config-helper.ts`             | 240  | `./agent-types`, `./astrological-data`, `./moon-phase-calculator`, `./unified-agent-types` |
-| `lib/enhanced-astronomical-calculator.ts`    | 881  | (TBD — likely deep)                                      |
-| `lib/monica/horoscope-generator.ts`          | 679  | `../ephemeris/degree-calendar-map`, `../ephemeris/solar-ephemeris`, `./alchemical-trainer` |
-| `lib/alchemizer.ts`                          | 1122 | `./monica/horoscope-generator`, `./observability`, `./performance-cache` |
-| `lib/celestial-energy-calculator.ts`         | 729  | `./monica/horoscope-generator`                           |
-| `lib/agents/consciousness-memory.ts`         | 413  | `../agent-types`, `../kinetics-client`, `./kinetic-profiles` |
-| `lib/agents/kinetic-profiles.ts`             | 732  | (TBD)                                                    |
-| `lib/unified-agent-factory.ts`               | 430  | `./agent-types`                                          |
-| `lib/alchemical-kinetics-sampler.ts`         | 33   | (probably leaf)                                          |
-| `lib/services/planetary-agent-activation.ts` | 445  | `../moon-phase-calculator`, `../planetary-config-helper`, `../unified-agent-factory`, `../unified-agent-types` |
-| `lib/degree-agent-matcher.ts`                | 916  | `./agent-types`, `./celestial-energy-calculator`         |
-| `lib/degree-planetary-agent-mapping.ts`      | 406  | (TBD)                                                    |
-| `lib/dynamic-aspects-engine.ts`              | 571  | `./planetary-motion-tracker`                             |
-| `lib/astrological-pattern-recognition.ts`    | 667  | `./planetary-motion-tracker`                             |
-| `lib/temporal-analysis-engine.ts`            | 979  | `./agents/consciousness-memory`, `./agents/kinetic-profiles`, `./alchemical-kinetics-sampler`, `./planetary-api-client`, `@/lib/structured-logger` |
-| `lib/runes/rune-system.ts`                   | 431  | (TBD)                                                    |
-| `lib/runes/sign-vector-runes.ts`             | 701  | `./rune-system`                                          |
-| `components/natal-chart-input.tsx`           | 294  | (TBD)                                                    |
-| `components/planetary-agent-display.tsx`     | 345  | (TBD)                                                    |
-| `components/natal-chart-manager.tsx`         | 475  | `@/components/natal-chart-input`, `@/components/planetary-agent-display` |
-| `components/charts/aspect-phase-indicator.tsx` | 392 | (leaf — react + badge)                                   |
-| `components/transit-comparison.tsx`          | 604  | (TBD — UI only)                                          |
-| `components/transit-dashboard.tsx`           | 966  | `./planetary-agent-display`                              |
-| `components/transit-notification-center.tsx` | 566  | (UI only)                                                |
-| `components/job-monitoring-dashboard.tsx`    | 500  | (UI only — needs separator+switch from shadcn)           |
-| `components/misc/cosmic-time-laboratory.tsx` | 572  | `@/lib/elemental-reinforcement`                          |
-| `components/misc/temporal-oracle.tsx`        | 460  | `@/lib/temporal-analysis-engine`                         |
-| `components/misc/temporal-timeline.tsx`      | 661  | `@/lib/elemental-reinforcement`, `@/lib/temporal-analysis-engine` |
+#### Leaves (no internal deps; can be ported in any order)
 
-(TBD = imports not yet audited. Session 1 finalizes these.)
+| Module | LOC | Notes |
+| --- | ---: | --- |
+| `lib/observability.ts` | 12 | Port to `src/lib/observability-legacy.ts` — name clash with existing `src/lib/observability/` dir |
+| `lib/kinetics-integration.ts` | 16 | |
+| `lib/performance-cache.ts` | 154 | |
+| `lib/structured-logger.ts` | 420 | |
+| `lib/agent-types.ts` | 499 | Pure types |
+| `lib/astrological-data.ts` | 199 | **NEW** (transitive — surfaced in Session 1) |
+| `lib/elemental-reinforcement.ts` | 430 | |
+| `lib/core-energy-rules.ts` | 523 | |
+| `lib/moon-phase-calculator.ts` | 396 | |
+| `lib/planetary-motion-tracker.ts` | 473 | |
+| `lib/planetary-api-client.ts` | 291 | Check for env var `NEXT_PUBLIC_PLANETARY_API_URL` or similar |
+| `lib/enhanced-astronomical-calculator.ts` | 881 | Pure math, no deps |
+| `lib/ephemeris/solar-ephemeris.ts` | 357 | **NEW** (transitive) |
+| `lib/historical-transit-data.ts` | 690 | **NEW** (transitive) |
+| `lib/kinetics-client.ts` | 27 | **NEW** (transitive) |
+| `lib/astrological-character-vectors.ts` | 740 | **NEW** (transitive) |
+| `lib/agents/kinetic-profiles.ts` | 732 | |
+| `lib/alchemical-kinetics-sampler.ts` | 33 | |
+| `lib/degree-planetary-agent-mapping.ts` | 406 | |
+| `lib/runes/rune-system.ts` | 431 | |
+| `lib/historical-transits.ts` | 274 | **NEW** (transitive). **ADAPTATION REQUIRED**: drops `@prisma/client` import — see "Severed chains" below |
+| `hooks/useGalileoLog.ts` | 140 | react-only |
+
+#### Single-dep tier
+
+| Module | LOC | Internal deps |
+| --- | ---: | --- |
+| `lib/unified-agent-types.ts` | 255 | `agent-types` |
+| `lib/galileo-logger.ts` | 548 | `core-energy-rules` |
+| `lib/ephemeris/degree-calendar-map.ts` | 405 | `ephemeris/solar-ephemeris` (**NEW**) |
+| `lib/calculate-transits.ts` | 56 | `enhanced-astronomical-calculator` |
+| `lib/transit-patterns.ts` | 380 | `historical-transit-data`, `historical-transits` (**NEW**) |
+| `lib/astrological-pattern-recognition.ts` | 667 | `planetary-motion-tracker` |
+| `lib/degree-agent-mapping.ts` | 541 | `agents/kinetic-profiles` (**NEW** — distinct from `degree-planetary-agent-mapping`) |
+| `lib/runes/sign-vector-runes.ts` | 701 | `astrological-character-vectors` (**NEW**), `runes/rune-system` |
+
+#### Multi-dep tier
+
+| Module | LOC | Internal deps |
+| --- | ---: | --- |
+| `lib/monica/horoscope-generator.ts` | 679 | `enhanced-astronomical-calculator`, `ephemeris/solar-ephemeris`, `ephemeris/degree-calendar-map`. **ADAPTATION**: inline `BirthInfo` (was imported from `./alchemical-trainer`) — see "Severed chains" |
+| `lib/planetary-config-helper.ts` | 240 | `unified-agent-types`, `agent-types`, `astrological-data`, `moon-phase-calculator` |
+| `lib/agents/consciousness-memory.ts` | 413 | `agent-types`, `kinetics-client`, `agents/kinetic-profiles` |
+| `lib/unified-agent-factory.ts` | 430 | `unified-agent-types`, `agent-types`, `astrological-data`, `moon-phase-calculator` |
+| `lib/dynamic-aspects-engine.ts` | 571 | `planetary-motion-tracker`, `astrological-pattern-recognition` |
+| `lib/alchemizer.ts` | 1122 | `performance-cache`, `monica/horoscope-generator`, `observability` |
+| `lib/celestial-energy-calculator.ts` | 729 | `monica/horoscope-generator` |
+| `lib/services/planetary-agent-activation.ts` | 445 | `degree-planetary-agent-mapping`, `unified-agent-factory`, `unified-agent-types`, `astrological-data`, `moon-phase-calculator`, `planetary-config-helper` |
+| `lib/temporal-analysis-engine.ts` | 979 | `agents/kinetic-profiles`, `planetary-api-client`, `agents/consciousness-memory`, `structured-logger`, `alchemical-kinetics-sampler`, `transit-patterns`, `astrological-pattern-recognition`, `degree-agent-mapping` |
+| `lib/degree-agent-matcher.ts` | 916 | `agent-types`, `celestial-energy-calculator` |
+
+#### Components (UI leaves — only depend on shadcn + react + lucide-react + date-fns)
+
+| Module | LOC | shadcn / external |
+| --- | ---: | --- |
+| `components/charts/aspect-phase-indicator.tsx` | 392 | ui/badge |
+| `components/natal-chart-input.tsx` | 294 | ui/button+input+label+card+textarea+select |
+| `components/planetary-agent-display.tsx` | 345 | ui/badge+card+button+separator |
+| `components/transit-comparison.tsx` | 604 | ui/card+button+badge+dialog+select+progress+alert+separator+checkbox+label, date-fns |
+| `components/transit-notification-center.tsx` | 566 | ui/button+card+badge+dialog+select+tabs+alert-dialog, date-fns |
+| `components/job-monitoring-dashboard.tsx` | 500 | ui/card+button+badge+dialog+select+switch+progress+alert+separator+label, date-fns |
+
+#### Components (with internal deps)
+
+| Module | LOC | Internal deps |
+| --- | ---: | --- |
+| `components/misc/cosmic-time-laboratory.tsx` | 572 | `elemental-reinforcement` |
+| `components/misc/temporal-oracle.tsx` | 460 | `temporal-analysis-engine` (+ ui/textarea) |
+| `components/misc/temporal-timeline.tsx` | 661 | `elemental-reinforcement`, `temporal-analysis-engine` (+ recharts) |
+| `components/natal-chart-manager.tsx` | 475 | `natal-chart-input`, `planetary-agent-display` (+ ui/dialog+alert-dialog) |
+| `components/transit-dashboard.tsx` | 966 | `planetary-agent-display` (+ ui/tabs+slider+dialog+alert-dialog+select+switch+input+label+checkbox) |
+
+**Total: 39 lib files + 1 hook + 11 components = 51 modules, ~21,600 LOC** (plus 3 wten-only components and 2 small adapter edits).
 
 ### shadcn UI components missing in target
-Run once (likely in Session 2):
+
+Target already has: `avatar`, `badge`, `button`, `card`, `checkbox`, `input`, `label`, `progress`, `scroll-area`, `select`, `slider`, `tabs`. Required by the ports but missing: `dialog`, `separator`, `switch`, `alert`, `textarea`, `alert-dialog` (6 components — note `alert-dialog` was missed in the original plan; surfaced by Session 1's audit). Run once in Session 2:
+
 ```bash
-bunx shadcn add dialog separator switch alert textarea
+bunx shadcn add dialog separator switch alert textarea alert-dialog
 ```
+
+### External npm packages
+
+- **`date-fns`**: NOT in target `package.json`. Used by 5 ported components (`format`, `formatDistanceToNow`, `differenceInDays`). Source uses `date-fns@2.30.0`. Run `bun add date-fns@2` in Session 2.
+- **`recharts`**: target has `^3.8.1` ✓. No action.
+- **`lucide-react` — version mismatch flag**: target has `^1.14.0` (the OLD 1.x line, frozen 2021). Source uses `^0.542.0` (the modern, maintained 0.x line — same package, renumbered). The two versions have different icon name sets. Recommend upgrading target to `^0.542.0` BEFORE Session 8 (the first component-porting session): `bun add lucide-react@^0.542.0`. The existing target consumers use common icons (`Flame`, `Droplets`, `AlertTriangle`, `RefreshCw`, …) that all exist in the modern version — low regression risk.
+- **`@prisma/client`**: source uses this in `lib/historical-transits.ts`. Target uses raw `pg` (no Prisma). Do NOT install — strip the import instead (see "Severed chains" below).
+
+### Severed chains (deliberately not ported)
+
+**`alchemical-trainer` chain** — 6 files / 2,889 LOC of training-pipeline code that the UI does not need. The ONLY hook is one `BirthInfo` type import in `monica/horoscope-generator.ts:4`. Adaptation: inline the `BirthInfo` interface in `horoscope-generator.ts` (7 fields: `year`, `month`, `day`, `hour`, `minute`, `latitude`, `longitude` — `alchemical-trainer.ts:21-29`). This eliminates:
+
+- `lib/monica/alchemical-trainer.ts` (893L)
+- `lib/monica/monica-constant.ts` (362L)
+- `lib/services/planetary-position-sync.ts` (511L)
+- `lib/services/sync-monitoring.ts` (377L)
+- `lib/backend.ts` (608L) — would have required Prisma schema port
+- `lib/planetary-hour.ts` (138L)
+
+**`@prisma/client` in `historical-transits.ts`** — only used in `getTransitsForDate(date, prisma?: PrismaClient)` as an optional path; the function already has a fallback that returns `[]`. Adaptation: drop the `@prisma/client` import + simplify `getTransitsForDate` to always return `[]`. The wten UI never passes a prisma instance, so this is a no-op for the live code path.
 
 ### Modules that exist in `wten/` but NOT in source repo (port-from-wten)
 - `wten-migration-ui-components/components/misc/alchm-quantities-display.tsx`
@@ -108,40 +161,39 @@ After each session's ports:
 
 ---
 
-## Session 1 — Full closure audit + final session breakdown
+## Session 1 — Full closure audit + final session breakdown ✅ COMPLETE
 
-**Pre-flight:**
+This session is **done** (2026-05-20). The dep table above and Sessions 2–11 below reflect its findings. Summary of what changed vs. the original plan:
+
+**Closure (transitive deps surfaced)**
+- 8 new modules pulled in by level-1 deps: `astrological-data` (199L), `monica/alchemical-trainer` (severed — see below), `ephemeris/solar-ephemeris` (357L), `ephemeris/degree-calendar-map` (405L), `kinetics-client` (27L), `transit-patterns` (380L), `degree-agent-mapping` (541L), `astrological-character-vectors` (740L).
+- 2 more pulled in by `transit-patterns`: `historical-transit-data` (690L), `historical-transits` (274L, Prisma-stripped).
+
+**Severed chains**
+- The `alchemical-trainer` → `monica-constant` → `planetary-position-sync` → `sync-monitoring` → `backend` chain (6 files / 2,889 LOC, plus `@prisma/client` schema port) is deliberately not ported. Sole hook is one `BirthInfo` type import in `monica/horoscope-generator.ts` — inline it (the interface is 7 trivial fields).
+- `historical-transits.ts` references `@prisma/client` only in an optional path. Strip the import; the function already falls back to `[]`.
+
+**External packages**
+- Install: `date-fns@2` (not in target).
+- Upgrade before Session 8: `lucide-react@^0.542.0` (target's `^1.14.0` is the abandoned 1.x line).
+- 6 shadcn components to add (Session 2): `dialog`, `separator`, `switch`, `alert`, `textarea`, `alert-dialog` (the last was missed in the original plan).
+
+**Scope decision**
+- Total: 51 modules + 3 wten-only components ≈ **54 files, ~22k LOC**.
+- Under the 80-file / 50k-LOC abort threshold from this plan. **Recommended: continue.**
+
+**Pre-flight (for reference):**
 ```bash
 git fetch origin master
 git checkout -b claude/wten-migration-session-1 origin/master
 bun install
 ```
 
-**What's done:** This document exists with a level-1 dep audit. Most TBD entries above need to be resolved.
-
-**This session's scope:** Do the full transitive-dep closure so the rest of the plan is accurate. NO porting yet.
-
-1. For every module listed in the table above with `(TBD)` imports, read the source file in `~/Desktop/planetary_agents-main/` and record:
-   - All `import` / `export ... from` statements
-   - For each, classify: `react`/external lib (no port), `@/components/ui/*` (shadcn — check if exists), `@/...` aliased (probably ports to source repo's `lib/components/hooks/`), relative path (siblings to port).
-2. Recurse on any newly-discovered modules until closure (i.e., every transitive dep is either external or already in the table).
-3. Produce the **final** table: every module to port, its LOC, its dependencies (in terms of OTHER modules in the table). Topo-sort so leaves come first.
-4. Identify any **external npm packages** the source uses that aren't in target `package.json` (search `import ... from '<pkg-name>'`). Append a "Packages to install" section.
-5. **Update this `WTEN_MIGRATION_PLAN.md`** with the closed dep table and a revised session 2–11 breakdown if the closure changes things.
-6. **DECISION POINT**: if the closure exceeds 80 files or 50k LOC, surface that to the user and recommend either:
-   - Continue (accept the multi-week timeline).
-   - Delete `wten-migration-ui-components/` entirely (give up on the port, keep the planetary_agents-main repo separate).
-   - Reduce scope (port only a subset — e.g., only what's needed for the `/time-laboratory` route).
-
 **Acceptance criteria:**
-- [ ] Updated `WTEN_MIGRATION_PLAN.md` with full closure table
-- [ ] No source code changes in `src/` yet
-- [ ] PR opened against `master` with title `docs(wten-migration): closure audit + final session breakdown`
-- [ ] PR description explicitly notes the scope discovery and recommended path forward
-
-**Common gotchas:**
-- Some imports in the source repo may resolve to its own `types/` or `utils/` dirs — those need to be added to the table too.
-- `package.json` in source has its own dep list; cross-reference against target's `package.json` for missing packages.
+- [x] `WTEN_MIGRATION_PLAN.md` updated with full closure table
+- [x] No source code changes in `src/` yet
+- [x] PR opened against `master` with title `docs(wten-migration): closure audit + final session breakdown`
+- [x] PR description notes scope discovery and recommended path forward (stacks on #415)
 
 ---
 
@@ -158,21 +210,24 @@ bun install
 - Session 1's closure audit is complete; the dep table in `WTEN_MIGRATION_PLAN.md` is authoritative.
 - `wten-migration-ui-components/**` is in `tsconfig.json` exclude (don't touch that — Session 11 removes it).
 
-**This session's scope:** Add the 5 missing shadcn components, then port the smallest leaf modules. These have no dependencies on other ported modules, so they're a low-risk warmup.
+**This session's scope:** Add the 6 missing shadcn components, install `date-fns`, then port the smallest leaf modules. These have no dependencies on other ported modules, so they're a low-risk warmup.
 
-1. Install shadcn components: `bunx shadcn add dialog separator switch alert textarea`. Commit those files separately.
-2. Port these files **verbatim** from `~/Desktop/planetary_agents-main/` to `src/`:
-   - `lib/observability.ts` → `src/lib/observability.ts` (12L). NOTE: target already has `src/lib/observability/` (the admin-panel directory from PR #412) — port the source file to `src/lib/observability-legacy.ts` and update wten/ imports to match, OR merge cleanly with the existing module if shape allows. Check before clobbering.
+1. Install shadcn components: `bunx shadcn add dialog separator switch alert textarea alert-dialog`. Commit those files separately.
+2. Install `date-fns`: `bun add date-fns@2` (source uses 2.30.0; later components rely on `format`, `formatDistanceToNow`, `differenceInDays`). Single small commit.
+3. Port these files **verbatim** from `~/Desktop/planetary_agents-main/` to `src/`:
+   - `lib/observability.ts` → `src/lib/observability-legacy.ts` (12L). NOTE: target already has `src/lib/observability/` (directory) — file/dir collision avoided by the `-legacy` suffix. Update `alchemizer.ts` import path during Session 5 to `'./observability-legacy'`. The source file is a single `recordElementalLogicMode` placeholder; merging into the existing observability module is overkill.
    - `lib/kinetics-integration.ts` → `src/lib/kinetics-integration.ts` (16L)
-   - `lib/calculate-transits.ts` → `src/lib/calculate-transits.ts` (56L)
+   - `lib/calculate-transits.ts` → `src/lib/calculate-transits.ts` (56L) — imports `./enhanced-astronomical-calculator` (NOT YET PORTED — order matters: port enhanced-astronomical-calculator FIRST or move calculate-transits to Session 4).
    - `lib/performance-cache.ts` → `src/lib/performance-cache.ts` (154L)
    - `hooks/useGalileoLog.ts` → `src/hooks/useGalileoLog.ts` (140L)
-3. For each port: check its imports. If it imports an external lib not in target `package.json`, install with `bun add <pkg>`. If it imports another not-yet-ported module, that's a sequencing error — surface and stop.
-4. Verify each file typechecks. Spot-check by temporarily editing `tsconfig.json` to UN-exclude just the wten/ files that consume these modules, run `bun run typecheck`, confirm imports resolve, then revert the tsconfig change.
+4. **Sequencing note**: `calculate-transits.ts` depends on `enhanced-astronomical-calculator` which is Session 4. EITHER port `enhanced-astronomical-calculator` opportunistically in Session 2 (it's a leaf — no deps), OR defer `calculate-transits` to Session 4. Recommended: port `enhanced-astronomical-calculator.ts` (881L) in this session too — it's a heavy leaf and dragging it in here unblocks `calculate-transits`. Adjust acceptance criteria below.
+5. For each port: verify its imports against the target tree. If imports another not-yet-ported module, that's a sequencing error — surface and stop.
+6. Verify each file typechecks. Spot-check by temporarily editing `tsconfig.json` to UN-exclude just the wten/ files that consume these modules, run `bun run typecheck`, confirm imports resolve, then revert the tsconfig change.
 
 **Acceptance criteria:**
-- [ ] 5 shadcn components added (dialog, separator, switch, alert, textarea)
-- [ ] 5 leaf modules ported into `src/`
+- [ ] 6 shadcn components added (dialog, separator, switch, alert, textarea, alert-dialog)
+- [ ] `date-fns` installed
+- [ ] 5–6 leaf modules ported into `src/` (5 originals + optional `enhanced-astronomical-calculator`)
 - [ ] `bun run typecheck` passes (0 errors)
 - [ ] `bun run lint` passes (0 errors)
 - [ ] `bun run build` succeeds (move `wten/` aside if it interferes)
@@ -229,19 +284,23 @@ bun install
 
 **What's done:** Sessions 1–3. Types, loggers, rules are in `src/`.
 
-**This session's scope:** Port the astronomy math layer.
+**This session's scope:** Port the astronomy math layer + ephemeris.
 
-1. `lib/moon-phase-calculator.ts` → `src/lib/moon-phase-calculator.ts` (396L)
-2. `lib/planetary-motion-tracker.ts` → `src/lib/planetary-motion-tracker.ts` (473L)
-3. `lib/planetary-api-client.ts` → `src/lib/planetary-api-client.ts` (291L)
-4. `lib/planetary-config-helper.ts` → `src/lib/planetary-config-helper.ts` (240L) — depends on `agent-types` (✓ done), `moon-phase-calculator` (step 1), `unified-agent-types` (✓ done), and `astrological-data` (NEW — check if it exists in source, port if so).
-5. `lib/enhanced-astronomical-calculator.ts` → `src/lib/enhanced-astronomical-calculator.ts` (881L) — likely heavy, audit imports first
-6. Port any `ephemeris/*` files surfaced by Session 1's audit.
+1. `lib/astrological-data.ts` → `src/lib/astrological-data.ts` (199L) — leaf
+2. `lib/moon-phase-calculator.ts` → `src/lib/moon-phase-calculator.ts` (396L) — leaf
+3. `lib/planetary-motion-tracker.ts` → `src/lib/planetary-motion-tracker.ts` (473L) — leaf
+4. `lib/planetary-api-client.ts` → `src/lib/planetary-api-client.ts` (291L) — leaf
+5. `lib/ephemeris/solar-ephemeris.ts` → `src/lib/ephemeris/solar-ephemeris.ts` (357L) — leaf (creates `src/lib/ephemeris/` dir)
+6. `lib/ephemeris/degree-calendar-map.ts` → `src/lib/ephemeris/degree-calendar-map.ts` (405L) — depends on solar-ephemeris (step 5)
+7. `lib/planetary-config-helper.ts` → `src/lib/planetary-config-helper.ts` (240L) — depends on `agent-types` (Session 3), `unified-agent-types` (Session 3), `astrological-data` (step 1), `moon-phase-calculator` (step 2)
+8. `lib/enhanced-astronomical-calculator.ts` → `src/lib/enhanced-astronomical-calculator.ts` (881L) — leaf. If already ported opportunistically in Session 2, skip.
+9. `lib/calculate-transits.ts` → `src/lib/calculate-transits.ts` (56L) — depends on enhanced-astronomical-calculator. Same caveat as step 8.
 
-For `planetary-api-client.ts`: this probably makes HTTP requests to an external service. Check what URL/endpoint and whether the target has env vars for it.
+For `planetary-api-client.ts`: it makes HTTP requests to an external service. Check what URL/endpoint and whether the target has env vars for it (`NEXT_PUBLIC_PLANETARY_API_URL` or similar — grep the source file).
 
 **Acceptance criteria:**
-- [ ] All astronomy modules ported
+- [ ] 7–9 astronomy + ephemeris modules ported (depending on Session 2's opportunistic ports)
+- [ ] `src/lib/ephemeris/` directory created
 - [ ] `bun run typecheck` passes
 - [ ] `bun run lint` passes
 - [ ] `bun run build` succeeds
@@ -266,14 +325,28 @@ bun install
 
 **This session's scope:** Port the alchemy / horoscope generation core. These are the biggest single files; budget extra time.
 
-1. Port `lib/monica/horoscope-generator.ts` → `src/lib/monica/horoscope-generator.ts` (679L) — depends on `ephemeris/*` (Session 4) and `./alchemical-trainer` (port separately if not yet in `src/`).
-2. Port `lib/alchemizer.ts` → `src/lib/alchemizer.ts` (1122L) — THE biggest single file. Depends on `monica/horoscope-generator`, `observability`, `performance-cache`.
-3. Port `lib/celestial-energy-calculator.ts` → `src/lib/celestial-energy-calculator.ts` (729L) — depends on `monica/horoscope-generator`.
+1. Port `lib/monica/horoscope-generator.ts` → `src/lib/monica/horoscope-generator.ts` (679L) — depends on `enhanced-astronomical-calculator` (Session 2/4), `ephemeris/solar-ephemeris` (Session 4), `ephemeris/degree-calendar-map` (Session 4). **ADAPTATION REQUIRED**: source line 4 reads `import { BirthInfo } from './alchemical-trainer'`. Replace that import with an inlined interface declaration in `horoscope-generator.ts` itself:
+   ```ts
+   export interface BirthInfo {
+     year: number
+     month: number
+     day: number
+     hour: number
+     minute: number
+     latitude: number
+     longitude: number
+   }
+   ```
+   This severs the alchemical-trainer chain. Source for the interface: `alchemical-trainer.ts:21-29`. Do NOT port alchemical-trainer or any of its downstream deps (monica-constant, planetary-position-sync, sync-monitoring, backend, planetary-hour).
+2. Port `lib/alchemizer.ts` → `src/lib/alchemizer.ts` (1122L) — THE biggest single file. Depends on `monica/horoscope-generator` (step 1), `observability-legacy` (Session 2 — note: source imports `./observability` but target file is `observability-legacy.ts`), `performance-cache` (Session 2). Update the observability import path during port.
+3. Port `lib/celestial-energy-calculator.ts` → `src/lib/celestial-energy-calculator.ts` (729L) — depends on `monica/horoscope-generator` (step 1).
 
-For each: copy verbatim, adapt aliases, run typecheck.
+For each: copy verbatim except the documented adaptations, adapt aliases, run typecheck.
 
 **Acceptance criteria:**
-- [ ] 3 core modules ported (+ `alchemical-trainer` if needed)
+- [ ] 3 core modules ported
+- [ ] `BirthInfo` inlined in `horoscope-generator.ts` (no `alchemical-trainer` import)
+- [ ] `alchemizer.ts` observability import points at `observability-legacy`
 - [ ] `bun run typecheck` passes
 - [ ] `bun run lint` passes
 - [ ] `bun run build` succeeds
@@ -281,6 +354,7 @@ For each: copy verbatim, adapt aliases, run typecheck.
 
 **Common gotchas:**
 - `alchemizer.ts` has the alchemy formula. The codebase has its own elemental logic — DON'T merge. Port as a sibling, deduplicate later if needed.
+- Circular import: `alchemizer → monica/horoscope-generator → ` (no longer to alchemical-trainer after sever, but `alchemizer` is imported BY other modules indirectly — verify no init-time cycle in target).
 
 ---
 
@@ -297,23 +371,22 @@ bun install
 
 **This session's scope:** Port the agent layer — types, profiles, matchers.
 
-1. Port `lib/agents/kinetic-profiles.ts` → `src/lib/agents/kinetic-profiles.ts` (732L) — audit its deps first
-2. Port `lib/agents/consciousness-memory.ts` → `src/lib/agents/consciousness-memory.ts` (413L) — depends on `agent-types`, `kinetics-client` (NEW, port), `kinetic-profiles` (step 1)
-3. Port `lib/unified-agent-factory.ts` → `src/lib/unified-agent-factory.ts` (430L) — depends on `agent-types`
-4. Port `lib/alchemical-kinetics-sampler.ts` → `src/lib/alchemical-kinetics-sampler.ts` (33L) — leaf
-5. Port `lib/services/planetary-agent-activation.ts` → `src/lib/services/planetary-agent-activation.ts` (445L) — depends on moon-phase-calculator, planetary-config-helper, unified-agent-factory, unified-agent-types
-6. Port `lib/degree-agent-matcher.ts` → `src/lib/degree-agent-matcher.ts` (916L) — depends on agent-types, celestial-energy-calculator
-7. Port `lib/degree-planetary-agent-mapping.ts` → `src/lib/degree-planetary-agent-mapping.ts` (406L) — audit deps
+1. Port `lib/kinetics-client.ts` → `src/lib/kinetics-client.ts` (27L) — leaf, brought in by consciousness-memory
+2. Port `lib/agents/kinetic-profiles.ts` → `src/lib/agents/kinetic-profiles.ts` (732L) — leaf. (Target's `src/lib/agents/` already has unrelated files; no name collision.)
+3. Port `lib/agents/consciousness-memory.ts` → `src/lib/agents/consciousness-memory.ts` (413L) — depends on `agent-types` (Session 3), `kinetics-client` (step 1), `agents/kinetic-profiles` (step 2)
+4. Port `lib/unified-agent-factory.ts` → `src/lib/unified-agent-factory.ts` (430L) — depends on `unified-agent-types` (Session 3), `agent-types` (Session 3), `astrological-data` (Session 4), `moon-phase-calculator` (Session 4)
+5. Port `lib/alchemical-kinetics-sampler.ts` → `src/lib/alchemical-kinetics-sampler.ts` (33L) — leaf
+6. Port `lib/degree-planetary-agent-mapping.ts` → `src/lib/degree-planetary-agent-mapping.ts` (406L) — leaf
+7. Port `lib/services/planetary-agent-activation.ts` → `src/lib/services/planetary-agent-activation.ts` (445L) — depends on `degree-planetary-agent-mapping` (step 6), `unified-agent-factory` (step 4), `unified-agent-types` (Session 3), `astrological-data` (Session 4), `moon-phase-calculator` (Session 4), `planetary-config-helper` (Session 4). Creates `src/lib/services/` dir.
+8. Port `lib/degree-agent-matcher.ts` → `src/lib/degree-agent-matcher.ts` (916L) — depends on `agent-types` (Session 3), `celestial-energy-calculator` (Session 5)
 
 **Acceptance criteria:**
-- [ ] 7 agent modules ported
+- [ ] 8 agent modules ported
+- [ ] `src/lib/services/` directory created
 - [ ] `bun run typecheck` passes
 - [ ] `bun run lint` passes
 - [ ] `bun run build` succeeds
 - [ ] PR opened with title `feat(wten-migration): agents + matchers (session 6)`
-
-**Common gotchas:**
-- `kinetics-client` is a new module discovered transitively — verify it exists in source before assuming.
 
 ---
 
@@ -328,23 +401,36 @@ bun install
 
 **What's done:** Sessions 1–6. Agent layer in `src/`.
 
-**This session's scope:** Port the aspect / pattern / rune / temporal layers.
+**This session's scope:** Port the aspect / pattern / rune / temporal layers. This is the heaviest session — 10 files, ~5,400 LOC.
 
-1. `lib/dynamic-aspects-engine.ts` → `src/lib/dynamic-aspects-engine.ts` (571L) — depends on planetary-motion-tracker (done)
-2. `lib/astrological-pattern-recognition.ts` → `src/lib/astrological-pattern-recognition.ts` (667L) — depends on planetary-motion-tracker (done)
-3. `lib/runes/rune-system.ts` → `src/lib/runes/rune-system.ts` (431L)
-4. `lib/runes/sign-vector-runes.ts` → `src/lib/runes/sign-vector-runes.ts` (701L) — depends on `./rune-system` (step 3)
-5. `lib/temporal-analysis-engine.ts` → `src/lib/temporal-analysis-engine.ts` (979L) — depends on consciousness-memory (done), kinetic-profiles (done), alchemical-kinetics-sampler (done), planetary-api-client (done), structured-logger (done)
+Leaf-tier ports (no deps on other Session 7 files):
+1. `lib/astrological-character-vectors.ts` → `src/lib/astrological-character-vectors.ts` (740L) — leaf
+2. `lib/historical-transit-data.ts` → `src/lib/historical-transit-data.ts` (690L) — leaf
+3. `lib/historical-transits.ts` → `src/lib/historical-transits.ts` (274L) — **ADAPTATION**: source line 1 reads `import { PrismaClient } from '@prisma/client'` and the function `getTransitsForDate(date, prisma?: PrismaClient)` uses it optionally. Drop the import; change the signature to `getTransitsForDate(date: Date)` returning `Promise<HistoricalTransit[]>` that always returns `[]` (the existing fallback). The pure helpers (`findLastOccurrence`, `getPlanetCycleLength`, etc.) carry over verbatim.
+4. `lib/runes/rune-system.ts` → `src/lib/runes/rune-system.ts` (431L) — leaf (creates `src/lib/runes/` dir)
+5. `lib/astrological-pattern-recognition.ts` → `src/lib/astrological-pattern-recognition.ts` (667L) — depends on `planetary-motion-tracker` (Session 4)
+
+Single-dep tier:
+6. `lib/transit-patterns.ts` → `src/lib/transit-patterns.ts` (380L) — depends on `historical-transit-data` (step 2), `historical-transits` (step 3)
+7. `lib/degree-agent-mapping.ts` → `src/lib/degree-agent-mapping.ts` (541L) — depends on `agents/kinetic-profiles` (Session 6). NOTE: distinct file from `degree-planetary-agent-mapping.ts`.
+8. `lib/runes/sign-vector-runes.ts` → `src/lib/runes/sign-vector-runes.ts` (701L) — depends on `astrological-character-vectors` (step 1), `runes/rune-system` (step 4)
+9. `lib/dynamic-aspects-engine.ts` → `src/lib/dynamic-aspects-engine.ts` (571L) — depends on `planetary-motion-tracker` (Session 4), `astrological-pattern-recognition` (step 5)
+
+Final-tier:
+10. `lib/temporal-analysis-engine.ts` → `src/lib/temporal-analysis-engine.ts` (979L) — depends on `agents/kinetic-profiles` (Session 6), `planetary-api-client` (Session 4), `agents/consciousness-memory` (Session 6), `structured-logger` (Session 3), `alchemical-kinetics-sampler` (Session 6), `transit-patterns` (step 6), `astrological-pattern-recognition` (step 5), `degree-agent-mapping` (step 7).
 
 **Acceptance criteria:**
-- [ ] 5 modules ported
+- [ ] 10 modules ported
+- [ ] `src/lib/runes/` directory created
+- [ ] `historical-transits.ts` Prisma-stripped (no `@prisma/client` import; `getTransitsForDate` always returns `[]`)
 - [ ] `bun run typecheck` passes
 - [ ] `bun run lint` passes
 - [ ] `bun run build` succeeds
 - [ ] PR opened with title `feat(wten-migration): aspects + runes + temporal (session 7)`
 
 **Common gotchas:**
-- `temporal-analysis-engine` is one of the largest files (979L) — read it in chunks. Don't try to read+port in one pass.
+- `temporal-analysis-engine` is the largest file (979L) — read it in chunks. Don't try to read+port in one pass.
+- `degree-agent-mapping.ts` vs `degree-planetary-agent-mapping.ts` — two distinct files. Don't confuse them. The former lives in this session (depends on kinetic-profiles), the latter was Session 6.
 
 ---
 
@@ -377,7 +463,8 @@ After each port, run a localized typecheck by temporarily un-excluding just one 
 
 **Common gotchas:**
 - `'use client'` directive — source files probably have it. Preserve it.
-- date-fns version mismatch between source and target. Check `package.json` versions; upgrade or pin if API shape differs.
+- **BEFORE this session**, upgrade `lucide-react`: `bun add lucide-react@^0.542.0`. Target's `^1.14.0` is the abandoned 1.x line and lacks icons like `MessageCircle`, `Sparkles`, `TrendingUp`/`TrendingDown`. The existing 5 target consumers use icons (`Flame`, `Droplets`, `AlertTriangle`, etc.) that exist in 0.x, so the upgrade is low-risk.
+- `date-fns` should already be installed from Session 2.
 
 ---
 
@@ -492,20 +579,21 @@ bun install
 
 ---
 
-## Total scope estimate (subject to Session 1 revision)
+## Total scope estimate (Session 1 closure, 2026-05-20)
 
 | Group | Files | LOC |
 | :--- | ---: | ---: |
-| shadcn UI components | 5 | (auto) |
-| `src/lib/` (level 1) | 13 | 7,690 |
-| `src/lib/` (level 2, transitive) | ~14 | 5,700 |
-| `src/hooks/` | 1 | 140 |
-| `src/components/` (UI) | 10 | 5,545 |
+| shadcn UI components | 6 | (auto) |
+| `src/lib/*` (39 files) | 39 | 16,193 |
+| `src/hooks/*` | 1 | 140 |
+| `src/components/*` (from source) | 11 | 6,189 |
+| `src/components/*` (from wten staging only) | 3 | (varies) |
+| Adapter edits (inline BirthInfo, strip Prisma) | 2 | ~20 |
 | Non-import error fixes (Session 11) | ~10 | ~50 (changes) |
-| **Total** | **~53** | **~19,000** |
+| **Total** | **~62** | **~22,600** |
 
-Plus Session 1's audit may surface more level-3 transitive deps not yet known.
+**Scope decision: CONTINUE.** Under the 80-file / 50k-LOC abort threshold. The severed `alchemical-trainer` chain (6 files / 2,889 LOC + Prisma schema port) reduced total scope by ~13% and eliminated a hard blocker.
 
-**Estimated wall time**: 15–35 hours of focused work across 11 sessions. Realistic schedule: 2–4 weeks at 1 session per 2–3 days.
+**Estimated wall time**: 15–25 hours of focused work across 11 sessions (slightly under the original 15–35h estimate, due to the sever). Realistic schedule: 2–3 weeks at 1 session per 2–3 days.
 
-**If at any point during execution the scope expands past 70 files or 30k LOC, STOP and re-evaluate with the user.** The migration may not be worth the cost.
+**If at any point during execution the scope expands past 80 files or 30k LOC, STOP and re-evaluate with the user.** The closure looks tight, but unexpected level-N transitive deps inside the ports (e.g., a function referencing a sibling file not detected by static import analysis) could surface.
