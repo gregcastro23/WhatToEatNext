@@ -132,3 +132,6 @@ backend/.env
 
 .claude/
 .venv/
+
+# wten migration: local-only paste of planetary_agents UI surface for in-flight ports
+/wten-migration-ui-components/

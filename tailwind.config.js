@@ -40,6 +40,42 @@ export default {
         "el-water": "oklch(0.74 0.13 230)",
         "el-earth": "oklch(0.74 0.11 130)",
         "el-air": "oklch(0.85 0.07 90)",
+        // shadcn semantic tokens (back the standard bg-primary, text-muted-foreground,
+        // border-input, etc. classes used by the ported shadcn components). Variables
+        // live under .alchm-root / .lab scope in globals.css.
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: {
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
+        },
+        secondary: {
+          DEFAULT: "var(--secondary)",
+          foreground: "var(--secondary-foreground)",
+        },
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
+        },
+        accent: {
+          DEFAULT: "var(--shadcn-accent)",
+          foreground: "var(--accent-foreground)",
+        },
+        destructive: {
+          DEFAULT: "var(--destructive)",
+          foreground: "var(--destructive-foreground)",
+        },
+        card: {
+          DEFAULT: "var(--card)",
+          foreground: "var(--card-foreground)",
+        },
+        popover: {
+          DEFAULT: "var(--popover)",
+          foreground: "var(--popover-foreground)",
+        },
+        border: "var(--border)",
+        input: "var(--input)",
+        ring: "var(--ring)",
       },
       fontFamily: {
         display: [

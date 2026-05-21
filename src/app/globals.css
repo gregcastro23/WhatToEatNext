@@ -278,6 +278,30 @@ a {
   --f-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
   --radius: 14px;
   --radius-sm: 8px;
+
+  /* shadcn semantic tokens mapped to the alchm palette so shadcn UI
+     components (dialog, alert, etc.) inherit the theme when nested
+     under .alchm-root / .lab. --shadcn-accent is named separately to
+     avoid colliding with the existing --accent (alchm-violet). */
+  --background: var(--bg);
+  --foreground: var(--fg);
+  --card: var(--bg-elev);
+  --card-foreground: var(--fg);
+  --popover: var(--bg-elev-2);
+  --popover-foreground: var(--fg);
+  --primary: var(--accent);
+  --primary-foreground: var(--fg);
+  --secondary: var(--bg-elev-2);
+  --secondary-foreground: var(--fg-dim);
+  --muted: var(--bg-elev);
+  --muted-foreground: var(--fg-mute);
+  --shadcn-accent: var(--bg-elev-2);
+  --accent-foreground: var(--fg);
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: var(--fg);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--accent);
 }
 
 .lab {
