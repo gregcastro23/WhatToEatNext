@@ -99,6 +99,7 @@
     "__tests__/**",
     "Alchm Kitchen/**",
     "alchm-app-integration/**",
+    "wten-migration-ui-components/**",
     "src/app/alchemicalEngine.ts",
     "src/app/personalized-ingredients/**",
     "src/components/PersonalizedIngredientPage.tsx",
