@@ -195,6 +195,7 @@
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^2.30.0",
     "framer-motion": "^12.38.0",
     "hono": "^4.12.18",
     "ioredis": "^5.10.1",
