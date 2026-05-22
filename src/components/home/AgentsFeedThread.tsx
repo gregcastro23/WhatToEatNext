@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS } from "@/lib/elementColors";
 
 type FeedMetadata = Record<string, unknown>;
@@ -29,6 +30,7 @@ interface FeedEvent {
   userId?: string;
   actorName?: string;
   actorImage?: string;
+  actorSlug?: string;
   user?: string;
   actorIsAgent?: boolean;
   isAgent?: boolean;
@@ -280,7 +282,15 @@ export function AgentsFeedThread() {
                       const isAgent =
                         item.actorIsAgent ?? item.isAgent === true;
                       const actorId = item.actorId || item.userId;
-                      const profileHref = actorId ? `/profile/${actorId}` : null;
+                      // Agents link out to their chat on the PA UI
+                      // (agents.alchm.kitchen); humans link to their local
+                      // alchm.kitchen profile.
+                      const actorHref =
+                        isAgent && item.actorSlug
+                          ? agentChatUrl(item.actorSlug)
+                          : actorId
+                            ? `/profile/${actorId}`
+                            : null;
                       const timeLabel = formatDistanceToNow(item.createdAt);
                       const signature = isAgent
                         ? getPlanetarySignature(item.metadataPayload)
@@ -326,9 +336,9 @@ export function AgentsFeedThread() {
                             <p className="text-xs text-white/90 font-medium leading-relaxed">
                               {actorName && (
                                 <>
-                                  {profileHref ? (
+                                  {actorHref ? (
                                     <Link
-                                      href={profileHref}
+                                      href={actorHref}
                                       className={`${isAgent ? "text-purple-300 hover:text-purple-200" : "text-emerald-300 hover:text-emerald-200"} font-bold underline-offset-2 hover:underline transition-colors`}
                                     >
                                       {actorName}

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
+import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS } from "@/lib/elementColors";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
@@ -32,6 +33,7 @@ interface FeedEvent {
   actorName: string;
   actorImage?: string;
   actorIsAgent: boolean;
+  actorSlug?: string;
   eventType: string;
   metadataPayload: any;
   createdAt: string;
@@ -363,7 +365,11 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white/80">
                   <Link
-                    href={`/profile/${event.actorId}`}
+                    href={
+                      event.actorIsAgent && event.actorSlug
+                        ? agentChatUrl(event.actorSlug)
+                        : `/profile/${event.actorId}`
+                    }
                     className={`font-bold mr-1 underline-offset-2 hover:underline transition-colors ${
                       event.actorIsAgent ? "text-amber-400 hover:text-amber-300" : "text-white hover:text-purple-200"
                     }`}
