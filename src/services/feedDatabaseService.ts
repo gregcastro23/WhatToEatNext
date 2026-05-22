@@ -15,6 +15,12 @@ export interface FeedEvent {
   actorName: string;
   actorImage?: string;
   actorIsAgent: boolean;
+  /**
+   * Agent slug (the `@agentic.alchm.kitchen` email local-part) — set ONLY for
+   * agent actors, so the feed UI can link them to the PA chat. Never populated
+   * for human actors: their email must not leak through this public endpoint.
+   */
+  actorSlug?: string;
 }
 
 class FeedDatabaseService {
@@ -42,7 +48,7 @@ class FeedDatabaseService {
   async getRecentEvents(limit: number = 50, offset: number = 0): Promise<FeedEvent[]> {
     try {
       const result = await executeQuery(
-        `SELECT f.*, u.is_agent, u.image as actor_image, up.name as actor_name
+        `SELECT f.*, u.is_agent, u.email as actor_email, u.image as actor_image, up.name as actor_name
          FROM feed_events f
          JOIN users u ON f.actor_id = u.id
          LEFT JOIN user_profiles up ON u.id = up.user_id
@@ -50,17 +56,27 @@ class FeedDatabaseService {
          LIMIT $1 OFFSET $2`,
         [limit, offset]
       );
-      
-      return result.rows.map(row => ({
-        id: row.id,
-        actorId: row.actor_id,
-        eventType: row.event_type,
-        metadataPayload: row.metadata_payload,
-        createdAt: new Date(row.created_at),
-        actorName: row.actor_name || 'Alchemist',
-        actorImage: row.actor_image,
-        actorIsAgent: row.is_agent
-      }));
+
+      return result.rows.map(row => {
+        const isAgent = row.is_agent === true;
+        // Agent slug is the email local-part — only for agents. Human emails
+        // are never surfaced through this public endpoint.
+        const actorSlug =
+          isAgent && typeof row.actor_email === "string" && row.actor_email.includes("@")
+            ? row.actor_email.split("@")[0]
+            : undefined;
+        return {
+          id: row.id,
+          actorId: row.actor_id,
+          eventType: row.event_type,
+          metadataPayload: row.metadata_payload,
+          createdAt: new Date(row.created_at),
+          actorName: row.actor_name || 'Alchemist',
+          actorImage: row.actor_image,
+          actorIsAgent: isAgent,
+          actorSlug,
+        };
+      });
     } catch (error) {
       _logger.error("Failed to fetch feed events:", error);
       return [];
