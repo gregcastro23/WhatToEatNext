@@ -4725,7 +4725,7 @@ export const indian = {
           alchemicalProperties: {"Spirit":4.5,"Essence":4.16,"Matter":4.14,"Substance":3.74},
           thermodynamicProperties: {"heat":0.1253,"entropy":0.4335,"reactivity":2.686,"gregsEnergy":-1.0391,"kalchm":6.576,"monica":0.5298},
           substitutions: [{"originalIngredient":"Toor dal","substituteOptions":["Red lentils (masoor dal)","Chana dal (chickpea lentils)"]},{"originalIngredient":"Ghee","substituteOptions":["Coconut oil","Butter"]}],
-            nutritionPerServing: {"calories":72,"proteinG":2,"carbsG":12,"fatG":2,"fiberG":2,"sodiumMg":7,"sugarG":4,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Vitamin folate","Vitamin B6","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Magnesium","Iron","Calcium","Phosphorus"]}
+            nutritionPerServing: {"calories":72,"proteinG":2,"carbsG":12,"fatG":2,"fiberG":2,"sodiumMg":7,"sugarG":4,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Folate","Vitamin B6","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Magnesium","Iron","Calcium","Phosphorus"]}
         },
         {
           name: "Palak Paneer",
@@ -4740,7 +4740,7 @@ export const indian = {
           alchemicalProperties: {"Spirit":3.02,"Essence":3.93,"Matter":4.08,"Substance":3.68},
           thermodynamicProperties: {"heat":0.0593,"entropy":0.3032,"reactivity":1.9501,"gregsEnergy":-0.5318,"kalchm":0.1628,"monica":0.241},
           substitutions: [{"originalIngredient":"Paneer","substituteOptions":["Extra-firm tofu","Halloumi cheese"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew cream"]}],
-            nutritionPerServing: {"calories":59,"proteinG":2,"carbsG":10,"fatG":2,"fiberG":2,"sodiumMg":8,"sugarG":5,"vitamins":["Vitamin K","Vitamin A","Vitamin C","Vitamin folate","Vitamin B6","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Iron","Calcium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":59,"proteinG":2,"carbsG":10,"fatG":2,"fiberG":2,"sodiumMg":8,"sugarG":5,"vitamins":["Vitamin K","Vitamin A","Vitamin C","Folate","Vitamin B6"],"minerals":["Iron","Calcium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Chicken Tikka Masala",
@@ -4755,7 +4755,7 @@ export const indian = {
           alchemicalProperties: {"Spirit":2.9,"Essence":3.69,"Matter":3.69,"Substance":3.47},
           thermodynamicProperties: {"heat":0.0645,"entropy":0.3317,"reactivity":2.2079,"gregsEnergy":-0.6678,"kalchm":0.2924,"monica":0.6974},
           substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Paneer cubes","Cauliflower florets","Shrimp"]},{"originalIngredient":"Heavy cream","substituteOptions":["Coconut cream","Cashew paste"]}],
-            nutritionPerServing: {"calories":101,"proteinG":13,"carbsG":9,"fatG":2,"fiberG":2,"sodiumMg":34,"sugarG":5,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
+            nutritionPerServing: {"calories":101,"proteinG":13,"carbsG":9,"fatG":2,"fiberG":2,"sodiumMg":34,"sugarG":5,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
         },
         {
           name: "Biryani",
@@ -4770,7 +4770,7 @@ export const indian = {
           alchemicalProperties: {"Spirit":3.11,"Essence":3.73,"Matter":3.94,"Substance":3.68},
           thermodynamicProperties: {"heat":0.0672,"entropy":0.3452,"reactivity":2.0256,"gregsEnergy":-0.6321,"kalchm":0.1723,"monica":1.3128},
           substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Lamb (raan biryani)","Vegetables and paneer (veg biryani)"]},{"originalIngredient":"Saffron","substituteOptions":["Turmeric for color only (flavor differs)"]}],
-            nutritionPerServing: {"calories":94,"proteinG":11,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":26,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
+            nutritionPerServing: {"calories":94,"proteinG":11,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":26,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
         },
         {
           name: "Aloo Chaat",
@@ -4785,7 +4785,7 @@ export const indian = {
           alchemicalProperties: {"Spirit":3.13,"Essence":4.31,"Matter":4.68,"Substance":4.3},
           thermodynamicProperties: {"heat":0.0505,"entropy":0.312,"reactivity":1.8583,"gregsEnergy":-0.5293,"kalchm":0.0266,"monica":0.8564},
           substitutions: [{"originalIngredient":"Sev","substituteOptions":["Crushed papdi","Crushed puffed rice (murmura)"]},{"originalIngredient":"Pomegranate seeds","substituteOptions":["Diced mango","Diced apple"]}],
-            nutritionPerServing: {"calories":56,"proteinG":1,"carbsG":14,"fatG":0,"fiberG":2,"sodiumMg":42,"sugarG":10,"vitamins":["Vitamin B1","Vitamin B3","Vitamin C","Vitamin A","Vitamin B6","Vitamin folate","Vitamin K"],"minerals":["Potassium","Magnesium","Iron","Manganese"]}
+            nutritionPerServing: {"calories":56,"proteinG":1,"carbsG":14,"fatG":0,"fiberG":2,"sodiumMg":42,"sugarG":10,"vitamins":["Vitamin B1","Vitamin B3","Vitamin C","Vitamin A","Vitamin B6","Folate","Vitamin K"],"minerals":["Potassium","Magnesium","Iron","Manganese"]}
         },
       ],
     },

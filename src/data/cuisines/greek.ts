@@ -5097,7 +5097,7 @@ export const greek: Cuisine = {
           alchemicalProperties: {"Spirit":1.78,"Essence":2.83,"Matter":2.99,"Substance":2.73},
           thermodynamicProperties: {"heat":0.0361,"entropy":0.2509,"reactivity":1.5365,"gregsEnergy":-0.3494,"kalchm":0.1292,"monica":0.8752},
           substitutions: [{"originalIngredient":"Feta cheese","substituteOptions":["Ricotta plus salt","Goat cheese"]},{"originalIngredient":"Phyllo dough","substituteOptions":["Puff pastry (different texture)"]}],
-            nutritionPerServing: {"calories":34,"proteinG":0,"carbsG":2,"fatG":3,"fiberG":0,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin K","Vitamin A","Vitamin C","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Iron","Calcium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":34,"proteinG":0,"carbsG":2,"fatG":3,"fiberG":0,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin K","Vitamin A","Vitamin C","Folate","Vitamin B6","Vitamin E"],"minerals":["Iron","Calcium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Dolmades",
@@ -5112,7 +5112,7 @@ export const greek: Cuisine = {
           alchemicalProperties: {"Spirit":3.06,"Essence":4.25,"Matter":3.56,"Substance":3.23},
           thermodynamicProperties: {"heat":0.0658,"entropy":0.2706,"reactivity":2.362,"gregsEnergy":-0.5734,"kalchm":3.5406,"monica":-0.122},
           substitutions: [{"originalIngredient":"Brined grape leaves","substituteOptions":["Blanched cabbage leaves","Chard leaves"]},{"originalIngredient":"Currants","substituteOptions":["Raisins","Dried cranberries"]}],
-            nutritionPerServing: {"calories":135,"proteinG":11,"carbsG":17,"fatG":6,"fiberG":11,"sodiumMg":21,"sugarG":3,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Calcium","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":135,"proteinG":11,"carbsG":17,"fatG":6,"fiberG":11,"sodiumMg":21,"sugarG":3,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Folate","Vitamin B6","Vitamin E"],"minerals":["Calcium","Iron","Potassium","Manganese"]}
         },
         {
           name: "Avgolemono",
@@ -5127,7 +5127,7 @@ export const greek: Cuisine = {
           alchemicalProperties: {"Spirit":1.63,"Essence":2.54,"Matter":2.79,"Substance":2.67},
           thermodynamicProperties: {"heat":0.0337,"entropy":0.2656,"reactivity":1.7876,"gregsEnergy":-0.4411,"kalchm":0.0982,"monica":0.0922},
           substitutions: [{"originalIngredient":"Chicken broth","substituteOptions":["Vegetable broth","Lamb broth"]},{"originalIngredient":"Orzo","substituteOptions":["Short-grain rice","Broken vermicelli"]}],
-            nutritionPerServing: {"calories":292,"proteinG":54,"carbsG":2,"fatG":6,"fiberG":1,"sodiumMg":129,"sugarG":1,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium"]}
+            nutritionPerServing: {"calories":292,"proteinG":54,"carbsG":2,"fatG":6,"fiberG":1,"sodiumMg":129,"sugarG":1,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium"]}
         },
         {
           name: "Kleftiko",
@@ -5142,7 +5142,7 @@ export const greek: Cuisine = {
           alchemicalProperties: {"Spirit":3.3,"Essence":4.2,"Matter":3.95,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0691,"entropy":0.3079,"reactivity":2.1107,"gregsEnergy":-0.5809,"kalchm":0.8704,"monica":0.4842},
           substitutions: [{"originalIngredient":"Lamb shoulder","substituteOptions":["Goat shoulder","Bone-in chicken (reduce time)"]},{"originalIngredient":"Kefalotyri cheese","substituteOptions":["Pecorino Romano","Aged Manchego"]}],
-            nutritionPerServing: {"calories":144,"proteinG":13,"carbsG":8,"fatG":7,"fiberG":2,"sodiumMg":33,"sugarG":4,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin folate","Vitamin E","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium","Calcium"]}
+            nutritionPerServing: {"calories":144,"proteinG":13,"carbsG":8,"fatG":7,"fiberG":2,"sodiumMg":33,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Vitamin C","Folate","Vitamin E","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium","Calcium"]}
         },
         {
           name: "Loukoumades",

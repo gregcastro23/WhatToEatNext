@@ -117,6 +117,57 @@ function asStringArray(value: unknown): string[] | undefined {
   return undefined;
 }
 
+// Real vitamin letter/number designators. Anything else following "Vitamin "
+// is either a mislabeled nutrient (niacin → Niacin) or generated junk
+// ("Vitamin 0", "Vitamin 1") and is dropped or repaired.
+const REAL_VITAMIN_TOKENS = new Set([
+  "a", "c", "d", "e", "k", "b1", "b2", "b3", "b5", "b6", "b7", "b9", "b12",
+]);
+
+// Nutrients that source data sometimes mislabels as "Vitamin <name>".
+const MICRO_RENAME: Record<string, string> = {
+  niacin: "Niacin",
+  folate: "Folate",
+  thiamin: "Thiamin",
+  thiamine: "Thiamin",
+  riboflavin: "Riboflavin",
+  biotin: "Biotin",
+};
+
+/**
+ * Clean a vitamin/mineral string list: drop auto-generated placeholder
+ * entries ("Vitamin 0", "1", "2"), repair mislabeled nutrients
+ * ("Vitamin niacin" → "Niacin"), canonicalize vitamin casing, and
+ * de-duplicate. Returns `undefined` when nothing usable remains.
+ */
+function sanitizeMicroList(value: unknown): string[] | undefined {
+  const raw = asStringArray(value);
+  if (!raw) return undefined;
+
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const entry of raw) {
+    let s = entry.trim();
+    if (!s) continue;
+    // Pure-numeric placeholders: "0", "1", "2.5".
+    if (/^\d+(\.\d+)?$/.test(s)) continue;
+    const vit = s.match(/^vitamins?\s+(.+)$/i);
+    if (vit) {
+      const token = vit[1].trim();
+      if (/^\d+$/.test(token)) continue; // "Vitamin 0"
+      const lc = token.toLowerCase();
+      if (MICRO_RENAME[lc]) s = MICRO_RENAME[lc];
+      else if (REAL_VITAMIN_TOKENS.has(lc)) s = `Vitamin ${token.toUpperCase()}`;
+      else s = `Vitamin ${token}`;
+    }
+    const key = s.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(s);
+  }
+  return out.length ? out : undefined;
+}
+
 /**
  * Pull numeric vitamin/mineral values from a record that may be keyed by
  * symbol ("A", "K"), name ("Vitamin C"), or short form ("b12").
@@ -179,8 +230,8 @@ export function normalizeRecipeNutrition(
         perServing.saturatedFatG ?? perServing.saturatedFat,
       );
     }
-    out.vitamins = asStringArray(perServing.vitamins);
-    out.minerals = asStringArray(perServing.minerals);
+    out.vitamins = sanitizeMicroList(perServing.vitamins);
+    out.minerals = sanitizeMicroList(perServing.minerals);
   }
 
   // --- Source 2: legacy flat `dish.nutrition` -----------------------------
@@ -194,8 +245,8 @@ export function normalizeRecipeNutrition(
     out.sugar = num(flat.sugar ?? flat.sugarG);
     out.sodium = num(flat.sodium ?? flat.sodiumMg);
     if (flat.saturatedFat != null) out.saturatedFat = num(flat.saturatedFat);
-    out.vitamins ??= asStringArray(flat.vitamins);
-    out.minerals ??= asStringArray(flat.minerals);
+    out.vitamins ??= sanitizeMicroList(flat.vitamins);
+    out.minerals ??= sanitizeMicroList(flat.minerals);
     applyMicroMap(asRecord(flat.vitamins), VITAMIN_KEY_MAP, out);
     applyMicroMap(asRecord(flat.minerals), MINERAL_KEY_MAP, out);
   }
@@ -216,8 +267,8 @@ export function normalizeRecipeNutrition(
         out.saturatedFat = num(macros.saturatedFat);
       }
     }
-    out.vitamins ??= asStringArray(profile.vitamins);
-    out.minerals ??= asStringArray(profile.minerals);
+    out.vitamins ??= sanitizeMicroList(profile.vitamins);
+    out.minerals ??= sanitizeMicroList(profile.minerals);
     applyMicroMap(asRecord(profile.vitamins), VITAMIN_KEY_MAP, out);
     applyMicroMap(asRecord(profile.minerals), MINERAL_KEY_MAP, out);
   }
@@ -250,4 +301,27 @@ export function hasNutritionData(
       (nutrition.carbs ?? 0) > 0 ||
       (nutrition.fat ?? 0) > 0,
   );
+}
+
+/**
+ * Stricter than `hasNutritionData`: rejects payloads that are physically
+ * impossible or were generated as stubs — calories with no macros, an
+ * implausibly tiny calorie count for a recipe serving (the cuisine files
+ * contain stub values like `calories: 1`), or an implausibly huge one
+ * (a sign the ingredient-based aggregator mis-scaled). Used to decide
+ * whether to trust a recipe's nutrition or treat it as missing.
+ */
+export function isPlausibleNutrition(
+  nutrition: Partial<NormalizedRecipeNutrition> | null | undefined,
+): boolean {
+  if (!nutrition) return false;
+  const calories = nutrition.calories ?? 0;
+  const macros =
+    (nutrition.protein ?? 0) +
+    (nutrition.carbs ?? 0) +
+    (nutrition.fat ?? 0);
+  if (calories < 40) return false; // missing or stub-tiny serving
+  if (calories > 2000) return false; // implausible for a single serving
+  if (macros === 0) return false; // calories with no macronutrients
+  return true;
 }

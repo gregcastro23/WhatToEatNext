@@ -196,7 +196,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":4.13,"Essence":4.61,"Matter":4.23,"Substance":4.14},
           thermodynamicProperties: {"heat":0.0886,"entropy":0.3643,"reactivity":2.7174,"gregsEnergy":-0.9014,"kalchm":2.5103,"monica":-0.0376},
           substitutions: [{"originalIngredient":"ground pork","substituteOptions":["chicken breast, poached and shredded","firm tofu, crumbled (vegetarian)"]},{"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian/vegan)","tamari (gluten-free)"]}],
-            nutritionPerServing: {"calories":439,"proteinG":39,"carbsG":22,"fatG":21,"fiberG":3,"sodiumMg":84,"sugarG":6,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","Calcium"]}
+            nutritionPerServing: {"calories":439,"proteinG":39,"carbsG":22,"fatG":21,"fiberG":3,"sodiumMg":84,"sugarG":6,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","Calcium"]}
         },
         {
           name: "Patongo with Sangkaya",
@@ -241,7 +241,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":4.68,"Essence":5.26,"Matter":5.21,"Substance":5.01},
           thermodynamicProperties: {"heat":0.0817,"entropy":0.3669,"reactivity":2.4699,"gregsEnergy":-0.8245,"kalchm":0.4878,"monica":-0.0376},
           substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp (added in last 2 minutes)"]},{"originalIngredient":"chai poh (preserved mustard greens)","substituteOptions":["sliced pickled ginger","finely chopped kimchi"]}],
-            nutritionPerServing: {"calories":504,"proteinG":46,"carbsG":22,"fatG":24,"fiberG":3,"sodiumMg":99,"sugarG":6,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":504,"proteinG":46,"carbsG":22,"fatG":24,"fiberG":3,"sodiumMg":99,"sugarG":6,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
         },
       ],
     },
@@ -260,7 +260,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":3.79,"Essence":5.01,"Matter":3.85,"Substance":3.59},
           thermodynamicProperties: {"heat":0.0871,"entropy":0.3209,"reactivity":3.1312,"gregsEnergy":-0.9175,"kalchm":28.3411,"monica":0.5572},
           substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","minced beef","firm tofu crumbled (vegetarian)"]},{"originalIngredient":"holy basil (kra pao)","substituteOptions":["Italian basil plus a few Thai sweet basil leaves (approximate substitute)","no perfect substitute - the dish is fundamentally different without it"]}],
-            nutritionPerServing: {"calories":143,"proteinG":10,"carbsG":9,"fatG":8,"fiberG":1,"sodiumMg":24,"sugarG":6,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":143,"proteinG":10,"carbsG":9,"fatG":8,"fiberG":1,"sodiumMg":24,"sugarG":6,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Khao Soi",
@@ -275,7 +275,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":3.25,"Essence":4.37,"Matter":4.76,"Substance":4.55},
           thermodynamicProperties: {"heat":0.052,"entropy":0.3351,"reactivity":2.0153,"gregsEnergy":-0.6232,"kalchm":0.0175,"monica":0.4654},
           substitutions: [{"originalIngredient":"chicken drumsticks","substituteOptions":["firm tofu (vegetarian)","beef shank slices","shrimp (much shorter cooking time)"]},{"originalIngredient":"egg noodles","substituteOptions":["rice noodles (gluten-free)","ramen noodles"]}],
-            nutritionPerServing: {"calories":55508,"proteinG":547,"carbsG":1300,"fatG":5712,"fiberG":500,"sodiumMg":3711,"sugarG":800,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium"]}
+            nutritionPerServing: {"calories":55508,"proteinG":547,"carbsG":1300,"fatG":5712,"fiberG":500,"sodiumMg":3711,"sugarG":800,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium"]}
         },
         {
           "name": "Authentic Som Tam",
@@ -381,7 +381,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"straw mushrooms","substituteOptions":["oyster mushrooms","shiitake mushrooms"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus nori flakes (vegetarian)"]}
           ],
-            nutritionPerServing: {"calories":315,"proteinG":57,"carbsG":15,"fatG":5,"fiberG":4,"sodiumMg":441,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium","0","1"]}
+            nutritionPerServing: {"calories":315,"proteinG":57,"carbsG":15,"fatG":5,"fiberG":4,"sodiumMg":441,"sugarG":3,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium"]}
         },
         {
           name: "Yum Woon Sen",
@@ -396,7 +396,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":3.29,"Essence":5.59,"Matter":4.89,"Substance":4.62},
           thermodynamicProperties: {"heat":0.0437,"entropy":0.2653,"reactivity":2.4568,"gregsEnergy":-0.6082,"kalchm":0.2743,"monica":0.5298},
           substitutions: [{"originalIngredient":"glass noodles","substituteOptions":["rice vermicelli","shirataki noodles (low-carb)"]},{"originalIngredient":"dried shrimp","substituteOptions":["1 tbsp fish sauce plus toasted sesame seeds","nori flakes for umami (vegetarian)"]}],
-            nutritionPerServing: {"calories":61,"proteinG":9,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":89,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":61,"proteinG":9,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":89,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -413,7 +413,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":4.08,"Essence":5.49,"Matter":3.7,"Substance":3.38},
           thermodynamicProperties: {"heat":0.0969,"entropy":0.3008,"reactivity":3.8442,"gregsEnergy":-1.0593,"kalchm":458.8395,"monica":0.5486},
           substitutions: [{"originalIngredient":"green papaya","substituteOptions":["green mango (more sour)","kohlrabi (firm and mild)","cucumber (softer result)"]},{"originalIngredient":"dried shrimp","substituteOptions":["nori flakes plus toasted sesame (vegetarian)","no substitute if omitting - it creates a different dish"]}],
-            nutritionPerServing: {"calories":171,"proteinG":8,"carbsG":37,"fatG":1,"fiberG":6,"sodiumMg":79,"sugarG":13,"vitamins":["Vitamin C","Vitamin A","Vitamin folate","Vitamin B6","Vitamin K","Vitamin B12","Vitamin niacin","Vitamin B1","Vitamin B3"],"minerals":["Potassium","Manganese","Selenium","Phosphorus","Magnesium","Iron"]}
+            nutritionPerServing: {"calories":171,"proteinG":8,"carbsG":37,"fatG":1,"fiberG":6,"sodiumMg":79,"sugarG":13,"vitamins":["Vitamin C","Vitamin A","Folate","Vitamin B6","Vitamin K","Vitamin B12","Niacin","Vitamin B1","Vitamin B3"],"minerals":["Potassium","Manganese","Selenium","Phosphorus","Magnesium","Iron"]}
         },
       ],
       winter: [
@@ -430,7 +430,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":4.43,"Essence":5.54,"Matter":5.48,"Substance":4.89},
           thermodynamicProperties: {"heat":0.0704,"entropy":0.3146,"reactivity":2.1899,"gregsEnergy":-0.6185,"kalchm":0.3659,"monica":0.0278},
           substitutions: [{"originalIngredient":"pork leg","substituteOptions":["pork belly (richer)","chicken thighs (shorter braise, 45 minutes)"]},{"originalIngredient":"palm sugar","substituteOptions":["brown sugar","rock sugar (traditional Chinese substitute)"]}],
-            nutritionPerServing: {"calories":312,"proteinG":35,"carbsG":1,"fatG":18,"fiberG":0,"sodiumMg":73,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":312,"proteinG":35,"carbsG":1,"fatG":18,"fiberG":0,"sodiumMg":73,"sugarG":1,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Tom Kha Gai",
@@ -470,7 +470,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"full-fat coconut milk","substituteOptions":["light coconut milk (less rich result)"]}
           ],
-            nutritionPerServing: {"calories":55491,"proteinG":548,"carbsG":1315,"fatG":5706,"fiberG":504,"sodiumMg":3713,"sugarG":803,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium","Potassium","Calcium","0","1"]}
+            nutritionPerServing: {"calories":55491,"proteinG":548,"carbsG":1315,"fatG":5706,"fiberG":504,"sodiumMg":3713,"sugarG":803,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium","Potassium","Calcium"]}
         },
         {
           name: "Kuay Teow Reua",
@@ -485,7 +485,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":3.8,"Essence":5.72,"Matter":6.01,"Substance":5.41},
           thermodynamicProperties: {"heat":0.0457,"entropy":0.2858,"reactivity":1.9895,"gregsEnergy":-0.5229,"kalchm":0.0077,"monica":0.4},
           substitutions: [{"originalIngredient":"pork blood","substituteOptions":["extra dark soy sauce and a splash of balsamic for color and depth (vegetarian-adjacent)","omit entirely for a cleaner broth"]},{"originalIngredient":"pork","substituteOptions":["beef brisket and beef balls (Thai-Chinese beef boat noodles variant)","chicken"]}],
-            nutritionPerServing: {"calories":165,"proteinG":18,"carbsG":1,"fatG":9,"fiberG":0,"sodiumMg":39,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":165,"proteinG":18,"carbsG":1,"fatG":9,"fiberG":0,"sodiumMg":39,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
         },
       ],
     },
@@ -2252,7 +2252,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce plus a pinch of salt (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice mixed with a small amount of rice vinegar (less depth)"]}
           ],
-            nutritionPerServing: {"calories":222,"proteinG":22,"carbsG":31,"fatG":3,"fiberG":4,"sodiumMg":304,"sugarG":21,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B1","Vitamin B3","Vitamin C","Vitamin B6","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Potassium","Magnesium","Iron","Manganese","0","1"]}
+            nutritionPerServing: {"calories":222,"proteinG":22,"carbsG":31,"fatG":3,"fiberG":4,"sodiumMg":304,"sugarG":21,"vitamins":["Vitamin B12","Niacin","Vitamin B1","Vitamin B3","Vitamin C","Vitamin B6","Folate"],"minerals":["Selenium","Phosphorus","Potassium","Magnesium","Iron","Manganese"]}
         },
         {
           name: "Pad Krapow Moo",
@@ -2267,7 +2267,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":3.29,"Essence":4.2,"Matter":3.2,"Substance":2.97},
           thermodynamicProperties: {"heat":0.095,"entropy":0.3368,"reactivity":3.1601,"gregsEnergy":-0.9693,"kalchm":19.8909,"monica":0.7162},
           substitutions: [{"originalIngredient":"Holy basil","substituteOptions":["Thai sweet basil (though structurally incorrect, it is common)"]}],
-            nutritionPerServing: {"calories":136,"proteinG":13,"carbsG":8,"fatG":6,"fiberG":1,"sodiumMg":29,"sugarG":5,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":136,"proteinG":13,"carbsG":8,"fatG":6,"fiberG":1,"sodiumMg":29,"sugarG":5,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Pla Neung Manao",
@@ -2282,7 +2282,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":4.03,"Essence":3.6,"Matter":2.18,"Substance":1.99},
           thermodynamicProperties: {"heat":0.2276,"entropy":0.4987,"reactivity":6.4464,"gregsEnergy":-2.9875,"kalchm":1286.8134,"monica":-0.1032},
           substitutions: [{"originalIngredient":"Whole fish","substituteOptions":["Fish fillets (reduce steaming time)"]}],
-            nutritionPerServing: {"calories":93,"proteinG":4,"carbsG":24,"fatG":0,"fiberG":3,"sodiumMg":12,"sugarG":12,"vitamins":["Vitamin C","Vitamin folate","Vitamin B6"],"minerals":["Potassium","Calcium","Manganese","Selenium"]}
+            nutritionPerServing: {"calories":93,"proteinG":4,"carbsG":24,"fatG":0,"fiberG":3,"sodiumMg":12,"sugarG":12,"vitamins":["Vitamin C","Folate","Vitamin B6"],"minerals":["Potassium","Calcium","Manganese","Selenium"]}
         },
         {
           name: "Gaeng Keow Wan Gai",
@@ -2320,7 +2320,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"Thai eggplant","substituteOptions":["zucchini","bamboo shoots","baby corn"]}
           ],
-            nutritionPerServing: {"calories":55543,"proteinG":558,"carbsG":1307,"fatG":5707,"fiberG":503,"sodiumMg":3738,"sugarG":801,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin B1","Vitamin K","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium","Copper","0","1"]}
+            nutritionPerServing: {"calories":55543,"proteinG":558,"carbsG":1307,"fatG":5707,"fiberG":503,"sodiumMg":3738,"sugarG":801,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Vitamin B1","Vitamin K"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Iron","Magnesium","Copper"]}
         },
         {
           name: "Gaeng Daeng Moo",
@@ -2358,7 +2358,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"bamboo shoots","substituteOptions":["hearts of palm","Thai eggplant","zucchini"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
           ],
-            nutritionPerServing: {"calories":55577,"proteinG":548,"carbsG":1307,"fatG":5717,"fiberG":502,"sodiumMg":3705,"sugarG":801,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","0","1"]}
+            nutritionPerServing: {"calories":55577,"proteinG":548,"carbsG":1307,"fatG":5717,"fiberG":502,"sodiumMg":3705,"sugarG":801,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
         {
           name: "Larb Gai",
@@ -2395,7 +2395,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"toasted rice powder","substituteOptions":["panko breadcrumbs, toasted (different texture but similar function)"]}
           ],
-            nutritionPerServing: {"calories":400,"proteinG":68,"carbsG":11,"fatG":8,"fiberG":2,"sodiumMg":163,"sugarG":5,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":400,"proteinG":68,"carbsG":11,"fatG":8,"fiberG":2,"sodiumMg":163,"sugarG":5,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
         },
         {
           name: "Chicken Satay with Peanut Sauce",
@@ -2435,7 +2435,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"roasted peanuts","substituteOptions":["cashews (nut allergy note)","sunflower seed butter (nut-free)"]}
           ],
-            nutritionPerServing: {"calories":27962,"proteinG":298,"carbsG":661,"fatG":2864,"fiberG":252,"sodiumMg":1920,"sugarG":407,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin K","Vitamin B1","Vitamin B3"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium","Iron","Manganese","Magnesium"]}
+            nutritionPerServing: {"calories":27962,"proteinG":298,"carbsG":661,"fatG":2864,"fiberG":252,"sodiumMg":1920,"sugarG":407,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate","Vitamin K","Vitamin B1","Vitamin B3"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Calcium","Iron","Manganese","Magnesium"]}
         },
         {
           name: "Pad See Ew",
@@ -2473,7 +2473,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"Chinese broccoli","substituteOptions":["broccolini","bok choy","regular broccoli florets"]},
             {"originalIngredient":"fresh wide rice noodles","substituteOptions":["dried wide rice noodles, soaked"]}
           ],
-            nutritionPerServing: {"calories":267,"proteinG":26,"carbsG":9,"fatG":14,"fiberG":2,"sodiumMg":76,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":267,"proteinG":26,"carbsG":9,"fatG":14,"fiberG":2,"sodiumMg":76,"sugarG":4,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Khao Pad Kra Pao Moo",
@@ -2512,7 +2512,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"holy basil","substituteOptions":["Thai sweet basil (less peppery result)"]},
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]}
           ],
-            nutritionPerServing: {"calories":317,"proteinG":30,"carbsG":8,"fatG":18,"fiberG":1,"sodiumMg":65,"sugarG":5,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":317,"proteinG":30,"carbsG":8,"fatG":18,"fiberG":1,"sodiumMg":65,"sugarG":5,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Suea Rong Hai",
@@ -2551,7 +2551,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"fish sauce","substituteOptions":["soy sauce (vegetarian)"]},
             {"originalIngredient":"tamarind paste","substituteOptions":["lime juice plus a touch of brown sugar"]}
           ],
-            nutritionPerServing: {"calories":602,"proteinG":57,"carbsG":17,"fatG":33,"fiberG":3,"sodiumMg":157,"sugarG":10,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin B1","Vitamin B3","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Calcium","Potassium"]}
+            nutritionPerServing: {"calories":602,"proteinG":57,"carbsG":17,"fatG":33,"fiberG":3,"sodiumMg":157,"sugarG":10,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin B1","Vitamin B3","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Calcium","Potassium"]}
         },
       ],
       summer: [
@@ -2583,7 +2583,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":2.64,"Essence":3.71,"Matter":3.46,"Substance":3.19},
           thermodynamicProperties: {"heat":0.0585,"entropy":0.2899,"reactivity":2.3943,"gregsEnergy":-0.6356,"kalchm":0.5664,"monica":0.0922},
           substitutions: [{"originalIngredient":"Minced pork","substituteOptions":["Minced chicken","More seafood"]}],
-            nutritionPerServing: {"calories":61,"proteinG":9,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":89,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":61,"proteinG":9,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":89,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       winter: [
@@ -2600,7 +2600,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":2.59,"Essence":3.53,"Matter":4.71,"Substance":4.15},
           thermodynamicProperties: {"heat":0.0388,"entropy":0.3,"reactivity":1.371,"gregsEnergy":-0.3726,"kalchm":0.0019,"monica":0.4842},
           substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Chicken thighs (reduce braise time)"]}],
-            nutritionPerServing: {"calories":399,"proteinG":11,"carbsG":18,"fatG":33,"fiberG":4,"sodiumMg":45,"sugarG":13,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin B1","Vitamin B3"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Potassium"]}
+            nutritionPerServing: {"calories":399,"proteinG":11,"carbsG":18,"fatG":33,"fiberG":4,"sodiumMg":45,"sugarG":13,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate","Vitamin B1","Vitamin B3"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Potassium"]}
         },
         {
           name: "Tom Yum Goong Nam Khon",
@@ -2615,7 +2615,7 @@ export const thai: Cuisine = {
           alchemicalProperties: {"Spirit":3.81,"Essence":5.26,"Matter":3.07,"Substance":2.86},
           thermodynamicProperties: {"heat":0.1056,"entropy":0.2933,"reactivity":5.0447,"gregsEnergy":-1.3739,"kalchm":1603.1993,"monica":-0.2241},
           substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}],
-            nutritionPerServing: {"calories":217,"proteinG":37,"carbsG":23,"fatG":2,"fiberG":6,"sodiumMg":515,"sugarG":4,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin C","Vitamin folate","Vitamin B6","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Potassium","Calcium","0","1"]}
+            nutritionPerServing: {"calories":217,"proteinG":37,"carbsG":23,"fatG":2,"fiberG":6,"sodiumMg":515,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C","Folate","Vitamin B6"],"minerals":["Selenium","Phosphorus","Potassium","Calcium"]}
         },
         {
           name: "Gaeng Panang Neua",
@@ -2681,7 +2681,7 @@ export const thai: Cuisine = {
             {"originalIngredient":"ripe mangoes","substituteOptions":["ripe peaches (summer)","ripe jackfruit","durian (for a richer result)"]},
             {"originalIngredient":"toasted mung beans","substituteOptions":["toasted sesame seeds","crispy fried shallots"]}
           ],
-            nutritionPerServing: {"calories":55250,"proteinG":501,"carbsG":1313,"fatG":5700,"fiberG":501,"sodiumMg":4182,"sugarG":812,"vitamins":["Vitamin C","Vitamin A","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Manganese","Iron","Magnesium","Phosphorus","Calcium","Copper","Potassium"]}
+            nutritionPerServing: {"calories":55250,"proteinG":501,"carbsG":1313,"fatG":5700,"fiberG":501,"sodiumMg":4182,"sugarG":812,"vitamins":["Vitamin C","Vitamin A","Folate","Vitamin B6","Vitamin E"],"minerals":["Manganese","Iron","Magnesium","Phosphorus","Calcium","Copper","Potassium"]}
         },
         {
           name: "Tub Tim Grob",

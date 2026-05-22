@@ -6,7 +6,7 @@ import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import {
-  hasNutritionData,
+  isPlausibleNutrition,
   normalizeRecipeNutrition,
 } from "@/utils/recipeNutrition";
 import { getAssetUrl } from "@/utils/urlUtils";
@@ -40,9 +40,25 @@ function lowerArray(value: unknown): string[] | undefined {
   return undefined;
 }
 
+/** Coerce a value to a finite number, or `undefined` when it isn't one. */
+function toFiniteNumber(value: unknown): number | undefined {
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+/** Reduce a value to an array of trimmed, non-empty strings, or `undefined`. */
+function toStringArray(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const out = value
+    .filter((v): v is string => typeof v === "string")
+    .map((v) => v.trim())
+    .filter((v) => v.length > 0);
+  return out.length ? out : undefined;
+}
+
 /**
  * Extract and normalize recipes from the static cuisine data files.
- * This is the authoritative source for the 351 recipes.
+ * This is the authoritative source for the full recipe catalog.
  */
 function extractRecipesFromCuisines(
   cuisines: Array<{ key: string; cuisine: Cuisine }>,
@@ -110,6 +126,57 @@ function extractRecipesFromCuisines(
             dietaryTags.push("dairyFree");
 
           const imageUrl = getAssetUrl((dish.image as string) ?? (dish.image_url as string));
+
+          // ── Rich fields the cuisine schema carries that earlier
+          //    extraction silently dropped (cooking methods, the alchemical
+          //    SMES grid, the Monica constant, astrological affinities and
+          //    ingredient substitutions). ──
+          const alchemicalProps = (dish.alchemicalProperties ?? {}) as Record<
+            string,
+            unknown
+          >;
+          const thermo = (dish.thermodynamicProperties ?? {}) as Record<
+            string,
+            unknown
+          >;
+          const astro = (dish.astrologicalAffinities ?? {}) as Record<
+            string,
+            unknown
+          >;
+
+          // Regional variant — e.g. `details.cuisine: "Italian (Sicily)"`
+          // surfaces as a "Sicily" badge on the card.
+          const detailsCuisine =
+            typeof details.cuisine === "string" ? details.cuisine : "";
+          const regionMatch = detailsCuisine.match(/\(([^)]+)\)/);
+          const regionalVariant =
+            (typeof dish.regionalVariant === "string" &&
+              dish.regionalVariant) ||
+            (regionMatch ? regionMatch[1].trim() : undefined);
+
+          const cookingMethod = toStringArray(classifications.cookingMethods);
+          const planets = toStringArray(astro.planets);
+          const signs = toStringArray(astro.signs);
+          const lunarPhases = toStringArray(astro.lunarPhases);
+          const monicaConstant = toFiniteNumber(thermo.monica);
+
+          const substitutions = (
+            Array.isArray(dish.substitutions) ? dish.substitutions : []
+          )
+            .map((entry: unknown) => {
+              const s = (entry ?? {}) as Record<string, unknown>;
+              const original =
+                (typeof s.original === "string" && s.original) ||
+                (typeof s.originalIngredient === "string" &&
+                  s.originalIngredient) ||
+                "";
+              const alternatives =
+                toStringArray(s.alternatives) ??
+                toStringArray(s.substituteOptions) ??
+                [];
+              return { original, alternatives };
+            })
+            .filter((s) => s.original && s.alternatives.length > 0);
 
           const recipe: IndexedRecipe = {
             id:
@@ -183,26 +250,65 @@ function extractRecipesFromCuisines(
                 Earth: 0.25,
                 Air: 0.25,
               }) as Recipe["elementalProperties"],
+            cookingMethod,
+            spiceLevel:
+              (details.spiceLevel as Recipe["spiceLevel"]) ?? undefined,
+            regionalVariant,
+            // Alchemical SMES grid + Monica constant — powers the recipe
+            // detail page's "Alchemical Scores" panel.
+            spirit: toFiniteNumber(alchemicalProps.Spirit),
+            essence: toFiniteNumber(alchemicalProps.Essence),
+            matter: toFiniteNumber(alchemicalProps.Matter),
+            substance: toFiniteNumber(alchemicalProps.Substance),
+            monicaScore: toFiniteNumber(dish.monicaScore),
+            monicaScoreLabel:
+              typeof dish.monicaScoreLabel === "string"
+                ? dish.monicaScoreLabel
+                : undefined,
+            monicaOptimization:
+              monicaConstant != null
+                ? {
+                    originalMonica: monicaConstant,
+                    optimizedMonica: monicaConstant,
+                    optimizationScore: 0,
+                    temperatureAdjustments: [],
+                    timingAdjustments: [],
+                    intensityModifications: [],
+                    planetaryTimingRecommendations: [],
+                  }
+                : undefined,
+            // Astrological affinities — powers the detail page's
+            // "Astrological Affinities" panel and planetary scoring.
+            planetaryInfluences:
+              planets && planets.length > 0
+                ? { favorable: planets, unfavorable: [], neutral: [] }
+                : undefined,
+            zodiacInfluences: signs,
+            lunarPhaseInfluences:
+              lunarPhases as Recipe["lunarPhaseInfluences"],
+            substitutions: substitutions.length > 0 ? substitutions : undefined,
           };
 
           // ── Nutrition pipeline ──
           //
           // 1. Try the canonical field-name mapping (reads
           //    nutritionPerServing / nutritionalProfile / nutrition).
-          // 2. If that produces nothing, compute from the ingredient list
-          //    via UnifiedIngredientService.
-          // 3. If both fail, log a dev-only warning and leave nutrition
-          //    undefined so the counter gracefully skips this recipe.
+          // 2. If that produces nothing *plausible* — some cuisine files
+          //    carry stub macros like `calories: 1` — compute from the
+          //    ingredient list via UnifiedIngredientService.
+          // 3. If both fail (or the computed total is itself implausible),
+          //    log a dev-only warning and leave nutrition undefined so the
+          //    UI gracefully omits the section rather than showing garbage.
           stats.total++;
           const normalized = normalizeRecipeNutrition(
             dish as Record<string, unknown>,
           );
-          if (normalized && hasNutritionData(normalized)) {
+          if (normalized && isPlausibleNutrition(normalized)) {
             recipe.nutrition = normalized;
             stats.fromSource++;
           } else {
             const computed = computeRecipeNutritionFromIngredients(recipe);
-            if (computed && hasNutritionData(computed)) {
+            if (computed && isPlausibleNutrition(computed)) {
               recipe.nutrition = computed;
               stats.fromIngredients++;
             } else {
@@ -317,7 +423,7 @@ export async function getServerRecipes(): Promise<Recipe[]> {
 /**
  * Return the prebuilt mealType × season index, building it on demand if
  * `getServerRecipes` hasn't been called yet. Used by the recommendation
- * bridge to avoid scanning all 351 recipes on every generation request.
+ * bridge to avoid scanning the entire recipe catalog on every request.
  */
 export async function getServerRecipeIndex(): Promise<RecipeIndex> {
   if (!_cachedIndex) {

@@ -4441,7 +4441,7 @@ export const italian: Cuisine = {
           alchemicalProperties: {"Spirit":4.19,"Essence":4.93,"Matter":4.66,"Substance":4.2},
           thermodynamicProperties: {"heat":0.084,"entropy":0.3399,"reactivity":2.4773,"gregsEnergy":-0.758,"kalchm":1.952,"monica":0.4842},
           substitutions: [{"originalIngredient":"Veal shanks","substituteOptions":["Beef ossobuco (longer braise time required)"]},{"originalIngredient":"White wine","substituteOptions":["Dry vermouth","Chicken stock"]}],
-            nutritionPerServing: {"calories":16538,"proteinG":3101,"carbsG":7,"fatG":361,"fiberG":1,"sodiumMg":7406,"sugarG":3,"vitamins":["Vitamin E","Vitamin K","Vitamin C","Vitamin B6","Vitamin folate","Vitamin A","Vitamin niacin","Vitamin B12"],"minerals":["Potassium","Manganese","Selenium","Phosphorus","Zinc","Calcium"]}
+            nutritionPerServing: {"calories":16538,"proteinG":3101,"carbsG":7,"fatG":361,"fiberG":1,"sodiumMg":7406,"sugarG":3,"vitamins":["Vitamin E","Vitamin K","Vitamin C","Vitamin B6","Folate","Vitamin A","Niacin","Vitamin B12"],"minerals":["Potassium","Manganese","Selenium","Phosphorus","Zinc","Calcium"]}
         },
         {
           name: "Focaccia Genovese",

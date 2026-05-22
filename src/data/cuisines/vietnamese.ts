@@ -247,7 +247,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":3.37,"Essence":4.19,"Matter":3.92,"Substance":3.9},
           thermodynamicProperties: {"heat":0.0682,"entropy":0.3311,"reactivity":2.5588,"gregsEnergy":-0.779,"kalchm":0.568,"monica":0.4188},
           substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork ribs (for Cháo Sườn)"]}],
-            nutritionPerServing: {"calories":434,"proteinG":78,"carbsG":5,"fatG":9,"fiberG":1,"sodiumMg":185,"sugarG":0,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin A"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","Iron","Manganese","Calcium"]}
+            nutritionPerServing: {"calories":434,"proteinG":78,"carbsG":5,"fatG":9,"fiberG":1,"sodiumMg":185,"sugarG":0,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin A"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","Iron","Manganese","Calcium"]}
         },
         {
           name: "Bánh Cuốn",
@@ -262,7 +262,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.54,"Essence":3.66,"Matter":3.56,"Substance":3.14},
           thermodynamicProperties: {"heat":0.051,"entropy":0.2608,"reactivity":2.0639,"gregsEnergy":-0.4874,"kalchm":0.3691,"monica":0.3344},
           substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["More mushrooms and tofu (vegetarian)"]}],
-            nutritionPerServing: {"calories":52,"proteinG":6,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":12,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
+            nutritionPerServing: {"calories":52,"proteinG":6,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":12,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
         },
         {
           "name": "Authentic Xôi Xéo",
@@ -547,7 +547,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.63,"Essence":4.61,"Matter":4.03,"Substance":3.67},
           thermodynamicProperties: {"heat":0.043,"entropy":0.2493,"reactivity":2.4004,"gregsEnergy":-0.5553,"kalchm":0.4492,"monica":0.2511},
           substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Chicken thighs"]}],
-            nutritionPerServing: {"calories":119,"proteinG":12,"carbsG":4,"fatG":6,"fiberG":1,"sodiumMg":34,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin A","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":119,"proteinG":12,"carbsG":4,"fatG":6,"fiberG":1,"sodiumMg":34,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin A","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Bún Bò Huế",
@@ -562,7 +562,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":3.62,"Essence":4.54,"Matter":4.88,"Substance":4.56},
           thermodynamicProperties: {"heat":0.0624,"entropy":0.3427,"reactivity":2.2126,"gregsEnergy":-0.6958,"kalchm":0.0438,"monica":-0.2053},
           substitutions: [{"originalIngredient":"Congealed pork blood","substituteOptions":["Omit entirely (common in diaspora)"]}],
-            nutritionPerServing: {"calories":418,"proteinG":41,"carbsG":15,"fatG":22,"fiberG":3,"sodiumMg":95,"sugarG":6,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Calcium","Manganese"]}
+            nutritionPerServing: {"calories":418,"proteinG":41,"carbsG":15,"fatG":22,"fiberG":3,"sodiumMg":95,"sugarG":6,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Calcium","Manganese"]}
         },
         {
           name: "Gỏi Cuốn",
@@ -577,7 +577,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.19,"Essence":3.34,"Matter":3.72,"Substance":3.55},
           thermodynamicProperties: {"heat":0.0356,"entropy":0.2904,"reactivity":1.8803,"gregsEnergy":-0.5105,"kalchm":0.0263,"monica":0.6236},
           substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Fried tofu (for vegetarian)"]}],
-            nutritionPerServing: {"calories":40,"proteinG":6,"carbsG":1,"fatG":2,"fiberG":0,"sodiumMg":43,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":40,"proteinG":6,"carbsG":1,"fatG":2,"fiberG":0,"sodiumMg":43,"sugarG":1,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Cơm Gà Hội An",
@@ -592,7 +592,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.41,"Essence":3.24,"Matter":3.23,"Substance":3.15},
           thermodynamicProperties: {"heat":0.0532,"entropy":0.3069,"reactivity":2.0007,"gregsEnergy":-0.5608,"kalchm":0.2293,"monica":0.5298},
           substitutions: [{"originalIngredient":"Free-range chicken","substituteOptions":["Standard chicken (though less authentic in texture)"]}],
-            nutritionPerServing: {"calories":66,"proteinG":10,"carbsG":3,"fatG":1,"fiberG":1,"sodiumMg":25,"sugarG":1,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron","Calcium"]}
+            nutritionPerServing: {"calories":66,"proteinG":10,"carbsG":3,"fatG":1,"fiberG":1,"sodiumMg":25,"sugarG":1,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate","Vitamin K"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron","Calcium"]}
         },
         {
           name: "Bánh Xèo",
@@ -607,7 +607,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":1.78,"Essence":3.39,"Matter":3.35,"Substance":3.23},
           thermodynamicProperties: {"heat":0.0298,"entropy":0.2707,"reactivity":1.9534,"gregsEnergy":-0.499,"kalchm":0.0691,"monica":0.3344},
           substitutions: [{"originalIngredient":"Pork and shrimp","substituteOptions":["Mushrooms and tofu"]}],
-            nutritionPerServing: {"calories":368,"proteinG":8,"carbsG":8,"fatG":36,"fiberG":3,"sodiumMg":64,"sugarG":5,"vitamins":["Vitamin C","Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Manganese","Iron","Magnesium","Phosphorus","Selenium","Zinc","Potassium"]}
+            nutritionPerServing: {"calories":368,"proteinG":8,"carbsG":8,"fatG":36,"fiberG":3,"sodiumMg":64,"sugarG":5,"vitamins":["Vitamin C","Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Manganese","Iron","Magnesium","Phosphorus","Selenium","Zinc","Potassium"]}
         },
       ],
     },
@@ -2528,7 +2528,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":3.23,"Essence":3.05,"Matter":2.7,"Substance":2.6},
           thermodynamicProperties: {"heat":0.1303,"entropy":0.4365,"reactivity":3.0701,"gregsEnergy":-1.2099,"kalchm":7.5548,"monica":0.3252},
           substitutions: [{"originalIngredient":"Catfish","substituteOptions":["Salmon","Pork belly (for Thịt Kho)"]}],
-            nutritionPerServing: {"calories":181,"proteinG":2,"carbsG":10,"fatG":16,"fiberG":5,"sodiumMg":2,"sugarG":2,"vitamins":["Vitamin folate","Vitamin K","Vitamin C","Vitamin A","Vitamin B6"],"minerals":["Manganese","Copper","Iron","Calcium","Selenium","Potassium"]}
+            nutritionPerServing: {"calories":181,"proteinG":2,"carbsG":10,"fatG":16,"fiberG":5,"sodiumMg":2,"sugarG":2,"vitamins":["Folate","Vitamin K","Vitamin C","Vitamin A","Vitamin B6"],"minerals":["Manganese","Copper","Iron","Calcium","Selenium","Potassium"]}
         },
         {
           "name": "Authentic Cơm Tấm",
@@ -2662,7 +2662,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.7,"Essence":4.08,"Matter":3.63,"Substance":3.16},
           thermodynamicProperties: {"heat":0.0602,"entropy":0.275,"reactivity":2.3384,"gregsEnergy":-0.5829,"kalchm":1.1084,"monica":0.8752},
           substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Firm tofu (cut large and deep-fried first)"]}],
-            nutritionPerServing: {"calories":161,"proteinG":13,"carbsG":12,"fatG":7,"fiberG":2,"sodiumMg":39,"sugarG":8,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Potassium"]}
+            nutritionPerServing: {"calories":161,"proteinG":13,"carbsG":12,"fatG":7,"fiberG":2,"sodiumMg":39,"sugarG":8,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Potassium"]}
         },
             {
               "name": "Authentic Phở Bò",
@@ -3099,7 +3099,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":4.05,"Essence":4.44,"Matter":3.98,"Substance":3.72},
           thermodynamicProperties: {"heat":0.1,"entropy":0.3817,"reactivity":2.7363,"gregsEnergy":-0.9444,"kalchm":6.6776,"monica":0.4842},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thigh","Tofu (for vegetarian banh mi)"]},{"originalIngredient":"Fish sauce","substituteOptions":["Soy sauce plus a drop of lime"]}],
-            nutritionPerServing: {"calories":88,"proteinG":7,"carbsG":9,"fatG":3,"fiberG":2,"sodiumMg":24,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Manganese"]}
+            nutritionPerServing: {"calories":88,"proteinG":7,"carbsG":9,"fatG":3,"fiberG":2,"sodiumMg":24,"sugarG":4,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate","Vitamin A","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Manganese"]}
         },
         {
           name: "Com Tam",
@@ -3114,7 +3114,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":3.22,"Essence":3.92,"Matter":3.45,"Substance":3.23},
           thermodynamicProperties: {"heat":0.0819,"entropy":0.329,"reactivity":2.5159,"gregsEnergy":-0.746,"kalchm":2.8892,"monica":0.3344},
           substitutions: [{"originalIngredient":"Pork chops","substituteOptions":["Chicken thigh","Grilled tofu steak"]},{"originalIngredient":"Broken rice","substituteOptions":["Jasmine rice","Steamed rice"]}],
-            nutritionPerServing: {"calories":224,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Manganese"]}
+            nutritionPerServing: {"calories":224,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Manganese"]}
         },
         {
           name: "Bun Bo Hue",
@@ -3129,7 +3129,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.58,"Essence":4.01,"Matter":4.26,"Substance":4.0},
           thermodynamicProperties: {"heat":0.0412,"entropy":0.2968,"reactivity":2.0068,"gregsEnergy":-0.5544,"kalchm":0.0246,"monica":0.4654},
           substitutions: [{"originalIngredient":"Shrimp paste","substituteOptions":["Fish sauce (milder flavor)","Anchovy paste"]},{"originalIngredient":"Beef shank","substituteOptions":["Beef brisket","Pork shoulder"]}],
-            nutritionPerServing: {"calories":97,"proteinG":10,"carbsG":3,"fatG":5,"fiberG":1,"sodiumMg":41,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Calcium"]}
+            nutritionPerServing: {"calories":97,"proteinG":10,"carbsG":3,"fatG":5,"fiberG":1,"sodiumMg":41,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Calcium"]}
         },
         {
           name: "Cao Lau",
@@ -3144,7 +3144,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":1.83,"Essence":3.59,"Matter":3.46,"Substance":3.16},
           thermodynamicProperties: {"heat":0.0284,"entropy":0.2261,"reactivity":1.769,"gregsEnergy":-0.3716,"kalchm":0.1069,"monica":0.9218},
           substitutions: [{"originalIngredient":"Cao Lau noodles","substituteOptions":["Thick udon noodles","Wide rice noodles"]},{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Ga Nuong)","Firm tofu"]}],
-            nutritionPerServing: {"calories":26,"proteinG":3,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":6,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
+            nutritionPerServing: {"calories":26,"proteinG":3,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":6,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
         },
         {
           name: "Mi Quang",
@@ -3159,7 +3159,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.59,"Essence":4.01,"Matter":4.2,"Substance":3.91},
           thermodynamicProperties: {"heat":0.0414,"entropy":0.2847,"reactivity":1.8897,"gregsEnergy":-0.4966,"kalchm":0.036,"monica":0.3064},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken breast","Crab meat"]},{"originalIngredient":"Shrimp","substituteOptions":["Squid","Tofu"]}],
-            nutritionPerServing: {"calories":31,"proteinG":4,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":24,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
+            nutritionPerServing: {"calories":31,"proteinG":4,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":24,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
         },
         {
           name: "Banh Cuon",
@@ -3174,7 +3174,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":2.18,"Essence":4.23,"Matter":5.11,"Substance":4.49},
           thermodynamicProperties: {"heat":0.0222,"entropy":0.245,"reactivity":1.4423,"gregsEnergy":-0.3312,"kalchm":0.0007,"monica":0.1754},
           substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground shrimp","Ground chicken","Tofu and mushroom mix"]},{"originalIngredient":"Wood ear mushrooms","substituteOptions":["Shiitake mushrooms","King oyster mushrooms"]}],
-            nutritionPerServing: {"calories":52,"proteinG":6,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":12,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
+            nutritionPerServing: {"calories":52,"proteinG":6,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":12,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
         },
         {
           name: "Che Ba Mau",
@@ -3189,7 +3189,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":1.89,"Essence":2.38,"Matter":2.54,"Substance":2.44},
           thermodynamicProperties: {"heat":0.0525,"entropy":0.2918,"reactivity":1.8454,"gregsEnergy":-0.4859,"kalchm":0.2788,"monica":0.4188},
           substitutions: [{"originalIngredient":"Pandan leaves","substituteOptions":["Pandan extract","Matcha powder for green color"]},{"originalIngredient":"Adzuki beans","substituteOptions":["Red kidney beans","Black-eyed peas"]}],
-            nutritionPerServing: {"calories":47,"proteinG":0,"carbsG":2,"fatG":4,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin folate"],"minerals":["Manganese","Copper","Iron"]}
+            nutritionPerServing: {"calories":47,"proteinG":0,"carbsG":2,"fatG":4,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Folate"],"minerals":["Manganese","Copper","Iron"]}
         },
         ],
     },
@@ -3223,7 +3223,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":1.93,"Essence":2.6,"Matter":2.7,"Substance":2.4},
           thermodynamicProperties: {"heat":0.0505,"entropy":0.2511,"reactivity":1.7745,"gregsEnergy":-0.3951,"kalchm":0.3572,"monica":-0.0188},
           substitutions: [{"originalIngredient":"Saba bananas","substituteOptions":["Plantains"]}],
-            nutritionPerServing: {"calories":243,"proteinG":3,"carbsG":30,"fatG":15,"fiberG":4,"sodiumMg":10,"sugarG":16,"vitamins":["Vitamin B6","Vitamin C","Vitamin folate"],"minerals":["Potassium","Magnesium","Manganese","Iron","Phosphorus"]}
+            nutritionPerServing: {"calories":243,"proteinG":3,"carbsG":30,"fatG":15,"fiberG":4,"sodiumMg":10,"sugarG":16,"vitamins":["Vitamin B6","Vitamin C","Folate"],"minerals":["Potassium","Magnesium","Manganese","Iron","Phosphorus"]}
         },
         {
           name: "Bánh Flan",

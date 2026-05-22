@@ -4441,7 +4441,7 @@ export const french: Cuisine = {
               alchemicalProperties: {"Spirit":5.0,"Essence":5.7,"Matter":4.18,"Substance":3.83},
               thermodynamicProperties: {"heat":0.1189,"entropy":0.3548,"reactivity":3.777,"gregsEnergy":-1.2213,"kalchm":940.0881,"monica":-0.3001},
               substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}],
-                nutritionPerServing: {"calories":69,"proteinG":2,"carbsG":13,"fatG":2,"fiberG":3,"sodiumMg":9,"sugarG":7,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K","Vitamin A","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron"]}
+                nutritionPerServing: {"calories":69,"proteinG":2,"carbsG":13,"fatG":2,"fiberG":3,"sodiumMg":9,"sugarG":7,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin K","Vitamin A","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron"]}
             },
             {
               name: "Quiche Lorraine",

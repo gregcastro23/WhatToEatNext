@@ -4825,7 +4825,7 @@ export const chinese = {
           alchemicalProperties: {"Spirit":2.39,"Essence":2.91,"Matter":3.87,"Substance":3.71},
           thermodynamicProperties: {"heat":0.0441,"entropy":0.3441,"reactivity":1.58,"gregsEnergy":-0.4995,"kalchm":0.0074,"monica":0.0078},
           substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Scallop and shrimp blend","Crab meat"]},{"originalIngredient":"Wheat starch","substituteOptions":["Tapioca starch alone (slightly different texture)"]}],
-            nutritionPerServing: {"calories":47,"proteinG":4,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":55,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Phosphorus","0","1","2","Manganese","Iron","Calcium"]}
+            nutritionPerServing: {"calories":47,"proteinG":4,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":55,"sugarG":0,"vitamins":["Vitamin B12","Niacin"],"minerals":["Selenium","Phosphorus","Manganese","Iron","Calcium"]}
         },
         {
           name: "Mapo Tofu",
@@ -4840,7 +4840,7 @@ export const chinese = {
           alchemicalProperties: {"Spirit":3.55,"Essence":3.98,"Matter":4.75,"Substance":4.45},
           thermodynamicProperties: {"heat":0.0679,"entropy":0.387,"reactivity":2.022,"gregsEnergy":-0.7147,"kalchm":0.0174,"monica":0.3064},
           substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Shiitake mushrooms (vegetarian version)"]},{"originalIngredient":"Doubanjiang","substituteOptions":["Gochujang plus soy sauce (different flavor profile)"]}],
-            nutritionPerServing: {"calories":142,"proteinG":20,"carbsG":7,"fatG":3,"fiberG":1,"sodiumMg":49,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
+            nutritionPerServing: {"calories":142,"proteinG":20,"carbsG":7,"fatG":3,"fiberG":1,"sodiumMg":49,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
         {
           name: "Zhajiangmian",
@@ -4855,7 +4855,7 @@ export const chinese = {
           alchemicalProperties: {"Spirit":2.64,"Essence":3.34,"Matter":3.85,"Substance":3.35},
           thermodynamicProperties: {"heat":0.0545,"entropy":0.293,"reactivity":1.5557,"gregsEnergy":-0.4014,"kalchm":0.0707,"monica":0.3252},
           substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground beef","Firm tofu crumbled (vegetarian)"]},{"originalIngredient":"Yellow soybean paste","substituteOptions":["Miso paste plus soy sauce"]}],
-            nutritionPerServing: {"calories":53,"proteinG":4,"carbsG":6,"fatG":2,"fiberG":1,"sodiumMg":9,"sugarG":3,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":53,"proteinG":4,"carbsG":6,"fatG":2,"fiberG":1,"sodiumMg":9,"sugarG":3,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Congee",
@@ -4870,7 +4870,7 @@ export const chinese = {
           alchemicalProperties: {"Spirit":4.27,"Essence":4.68,"Matter":3.61,"Substance":3.26},
           thermodynamicProperties: {"heat":0.1177,"entropy":0.3456,"reactivity":3.2538,"gregsEnergy":-1.0069,"kalchm":138.9912,"monica":0.4188},
           substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Pork (pork congee)","Fish fillet","Shrimp"]},{"originalIngredient":"Chicken broth","substituteOptions":["Pork bone broth","Vegetable broth"]}],
-            nutritionPerServing: {"calories":283,"proteinG":44,"carbsG":11,"fatG":5,"fiberG":1,"sodiumMg":106,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","0","1","2","Manganese"]}
+            nutritionPerServing: {"calories":283,"proteinG":44,"carbsG":11,"fatG":5,"fiberG":1,"sodiumMg":106,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Wonton Soup",
@@ -4885,7 +4885,7 @@ export const chinese = {
           alchemicalProperties: {"Spirit":3.28,"Essence":4.35,"Matter":3.81,"Substance":3.87},
           thermodynamicProperties: {"heat":0.065,"entropy":0.3246,"reactivity":2.7264,"gregsEnergy":-0.8199,"kalchm":0.9588,"monica":0.0734},
           substitutions: [{"originalIngredient":"Wonton wrappers","substituteOptions":["Gyoza wrappers","Homemade egg dough wrappers"]},{"originalIngredient":"Ground pork","substituteOptions":["Chicken and shrimp","Tofu and water chestnuts"]}],
-            nutritionPerServing: {"calories":500,"proteinG":51,"carbsG":6,"fatG":29,"fiberG":1,"sodiumMg":124,"sugarG":3,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","0","1","2","Manganese","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":500,"proteinG":51,"carbsG":6,"fatG":29,"fiberG":1,"sodiumMg":124,"sugarG":3,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate","Vitamin K","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Calcium","Magnesium"]}
         },
         ],
       spring: [],

@@ -80,6 +80,13 @@ function formatTime(minutes: number | undefined): string {
   return mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
 }
 
+/** Strip a leading "Step 3:" / "3." / "3)" enumerator from instruction text.
+ * The instructions UI renders its own numbered badges, so an inline enumerator
+ * from the source would render as a double number. */
+function stripStepPrefix(text: string): string {
+  return text.replace(/^\s*(?:step\s*)?\d+\s*[:.)]\s*/i, "").trim();
+}
+
 function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
   const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
   if (details?.prepTimeMinutes != null) {
@@ -245,7 +252,7 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
 
   text += `--- INSTRUCTIONS ---\n\n`;
   recipe.instructions.forEach((inst, i) => {
-    text += `${i + 1}. ${inst}\n\n`;
+    text += `${i + 1}. ${stripStepPrefix(inst)}\n\n`;
   });
 
   if (nutrition) {
@@ -907,7 +914,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                 copied
                   ? "bg-emerald-500/20 border border-emerald-500/50 text-emerald-300"
-                  : "bg-white/10/80 border border-white/10/50 text-white/80 hover:bg-white/10/80 hover:text-amber-300"
+                  : "bg-white/10 border border-white/10 text-white/80 hover:bg-white/20 hover:text-amber-300"
               }`}
             >
               {copied ? (
@@ -1050,7 +1057,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
                         )}
                         <p className="text-white/80 leading-relaxed pt-0.5">
                           <InteractiveInstruction
-                            text={instruction}
+                            text={stripStepPrefix(instruction)}
                             onTechniqueClick={setSelectedTechnique}
                           />
                         </p>
