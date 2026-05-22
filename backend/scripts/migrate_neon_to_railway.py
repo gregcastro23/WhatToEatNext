@@ -11,8 +11,12 @@ sys.path.insert(0, str(backend_dir))
 
 from database.models import Base, Ingredient, Recipe, RecipeIngredient, RecipeContext, ElementalProperties, PlanetaryInfluence, ZodiacAffinity, SeasonalAssociation
 
-NEON_URL = "postgresql://neondb_owner:npg_kHLuO2D3wZEg@ep-patient-bread-amcjoqiw-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require"
-RAILWAY_URL = "postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@tramway.proxy.rlwy.net:35670/railway"
+NEON_URL = os.environ.get("NEON_DATABASE_URL", "")
+RAILWAY_URL = os.environ.get("RAILWAY_DATABASE_URL", "")
+if not NEON_URL or not RAILWAY_URL:
+    raise SystemExit(
+        "Set NEON_DATABASE_URL and RAILWAY_DATABASE_URL before running this migration."
+    )
 
 source_engine = create_engine(NEON_URL)
 dest_engine = create_engine(RAILWAY_URL)

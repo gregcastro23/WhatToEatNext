@@ -64,12 +64,13 @@ class DatabaseConfig(BaseSettings):
             
             # Ensure hostname is postgres.railway.internal
             v = re.sub(r'@[^:/]+', '@postgres.railway.internal', v)
-            if "@" not in v:
-                v = v.replace("://", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            db_password = os.getenv("DB_PASSWORD", "")
+            if db_password and "@" not in v:
+                v = v.replace("://", f"://postgres:{db_password}@")
             
             # Ensure password is present if user is postgres
-            if "postgresql://postgres@" in v:
-                v = v.replace("://postgres@", "://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@")
+            if db_password and "postgresql://postgres@" in v:
+                v = v.replace("://postgres@", f"://postgres:{db_password}@")
             
             is_internal_railway = True
 
