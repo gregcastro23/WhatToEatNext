@@ -6,9 +6,10 @@
  * `live: false` fallback so the dashboard never hard-fails.
  */
 
-import { executeQuery } from "@/lib/database";
+import { checkDatabaseHealth, executeQuery } from "@/lib/database";
 import { getDatabasePool } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { summarizeRecent } from "@/lib/observability/requestLog";
 import { getRecentSlowQueries } from "@/lib/observability/slowQueryLog";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
@@ -364,4 +365,86 @@ export async function getAuditEvents(): Promise<AuditEventsData> {
     _logger.error("[auditEvents] auth_events query failed:", error);
     return { events: [], live: false };
   }
+}
+
+// ─── Platform Pulse · top-bar health strip ─────────────────────────────
+
+export interface PlatformPulse {
+  state: "NOMINAL" | "DEGRADED" | "INCIDENT";
+  /** Composite 0–100 health score. */
+  score: number;
+  /** Request success rate (%) over the in-memory request-log window. */
+  availability: number;
+  activeIncidents: number;
+  /** p95 request latency (ms) over the request-log window. */
+  p95: number;
+  /** 5xx error rate (%) over the request-log window. */
+  errRate: number;
+  /** Time since this server process started (≈ time since last deploy). */
+  deployFreshness: string;
+}
+
+function formatProcessUptime(seconds: number): string {
+  if (seconds < 90) return `${Math.round(seconds)}s`;
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 90) return `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 36) {
+    const remMinutes = minutes % 60;
+    return remMinutes > 0 ? `${hours}h ${remMinutes}m` : `${hours}h`;
+  }
+  return `${Math.floor(hours / 24)}d`;
+}
+
+/**
+ * Live platform health for the dashboard's top-bar pulse strip. Latency and
+ * error rate come from the in-memory request log (`summarizeRecent`), DB
+ * reachability from a health probe, and deploy freshness from process uptime.
+ * No external uptime/APM service is required — degraded signals lower the
+ * score rather than failing the panel.
+ */
+export async function getPlatformPulse(): Promise<PlatformPulse> {
+  const summary = summarizeRecent();
+
+  let dbHealthy = false;
+  try {
+    const dbHealth = await checkDatabaseHealth();
+    dbHealthy = dbHealth.healthy;
+  } catch {
+    dbHealthy = false;
+  }
+
+  const errRate = Number((summary.errorRate * 100).toFixed(2));
+  const highErrors = errRate > 5;
+  const highLatency = summary.p95LatencyMs > 1000;
+
+  let activeIncidents = 0;
+  if (!dbHealthy) activeIncidents += 1;
+  if (highErrors) activeIncidents += 1;
+
+  let state: PlatformPulse["state"] = "NOMINAL";
+  if (!dbHealthy) state = "INCIDENT";
+  else if (highErrors || highLatency) state = "DEGRADED";
+
+  // Start at 100, deduct for each degraded signal.
+  let score = 100;
+  if (!dbHealthy) score -= 60;
+  score -= Math.min(30, errRate * 3);
+  if (highLatency) score -= 10;
+  score = Math.max(0, Number(score.toFixed(1)));
+
+  const availability =
+    summary.count > 0
+      ? Number(((1 - summary.errorRate) * 100).toFixed(3))
+      : 100;
+
+  return {
+    state,
+    score,
+    availability,
+    activeIncidents,
+    p95: summary.p95LatencyMs,
+    errRate,
+    deployFreshness: formatProcessUptime(process.uptime()),
+  };
 }

@@ -5,10 +5,10 @@
  * @requires Authentication - Admin role required
  *
  * Response shape: `AdminDashboardData` from src/app/admin/_dashboard/data.ts.
- * Real values come from the user database; everything else is filled with
- * the deterministic seed used by the original prototype so the visual
- * output stays stable. See `meta.mockedFields` for the list of fields
- * that still need real telemetry wiring.
+ * Every telemetry panel is wired to a live source (user database, request
+ * log, ephemeris, Postgres stat views, Planetary Agents backend); only the
+ * admin identity card is static. `meta.mockedFields` lists any panels still
+ * on seeded data — currently empty.
  */
 
 import { NextResponse, type NextRequest } from "next/server";
@@ -21,6 +21,7 @@ import {
   getCatalogTrending,
   getCosmicYield,
   getDatabaseObservability,
+  getPlatformPulse,
 } from "@/services/dashboardPanelsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getSkyConditions } from "@/services/skyConditionsService";
@@ -31,21 +32,6 @@ export const runtime = "nodejs";
 
 const PA_BACKEND_URL =
   process.env.PLANETARY_AGENTS_API_URL || "https://api.agents.alchm.kitchen";
-
-const MOCKED_FIELDS = [
-  "pulse", // TODO: wire to real /api/health + uptime monitor
-  "services", // TODO: per-service health from infra metrics
-  "kpis", // TODO: MRR, NDCG, agent dispatches from real telemetry
-  "agents", // TODO: agents.alchm.kitchen mesh status feed
-  "incidents", // TODO: incident manager / PagerDuty
-  "deploys", // TODO: deploy history from Railway/CI
-  "featureFlags", // TODO: feature flag store
-  "moderation", // TODO: moderation queue table
-  "commerce", // TODO: Stripe orders + MRR rollup
-  "geo", // TODO: session geo aggregation
-  "errors", // TODO: Sentry / error tracker
-  "cost", // TODO: cloud cost rollup
-];
 
 /**
  * Helper to fetch external APIs safely with a timeout
@@ -170,6 +156,7 @@ export async function GET(request: NextRequest) {
     const dbObservabilityPromise = getDatabaseObservability();
     const catalogTrendingPromise = getCatalogTrending();
     const auditEventsPromise = getAuditEvents();
+    const platformPulsePromise = getPlatformPulse();
 
     let paHealth = "offline";
     let paAgentCount = 0;
@@ -212,6 +199,7 @@ export async function GET(request: NextRequest) {
     const dbObservability = await dbObservabilityPromise;
     const catalogTrending = await catalogTrendingPromise;
     const auditEvents = await auditEventsPromise;
+    const platformPulse = await platformPulsePromise;
 
     const data: AdminDashboardData = {
       user: {
@@ -226,16 +214,7 @@ export async function GET(request: NextRequest) {
         location: "Brooklyn, NY · 40.6782°N",
         onCall: true,
       },
-      pulse: {
-        // Mocked — replace with real /api/health telemetry once available.
-        state: "NOMINAL",
-        score: 98.7,
-        uptime30d: 99.978,
-        activeIncidents: 1,
-        p95: 184,
-        errRate: 0.04,
-        deployFreshness: "23m",
-      },
+      pulse: platformPulse,
       stats,
       recentUsers,
       skyConditions,
@@ -245,7 +224,7 @@ export async function GET(request: NextRequest) {
       auditEvents,
       meta: {
         generatedAt: now.toISOString(),
-        mockedFields: MOCKED_FIELDS,
+        mockedFields: [],
       },
     };
 

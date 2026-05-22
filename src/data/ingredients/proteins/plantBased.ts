@@ -23,6 +23,21 @@ function createIngredientMapping(
 
 const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   tempeh: createIngredientMapping("tempeh", {
+    image_url: "ingredients/tempeh.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory", "nutty"],
+        secondary: ["earthy", "mushroom-like"],
+        notes: "Firm, fermented soybean cake with a nutty, mushroom-forward savor that takes marinade aggressively.",
+      },
+      cookingMethods: ["pan-fry", "steam", "grill", "braise", "bake"],
+      cuisineAffinity: ["Indonesian", "Southeast-Asian"],
+      preparationTips: [
+        "Steam slices 10 minutes before marinating to open the pores and mellow any bitterness.",
+        "Cut into thin slabs or cubes, or crumble it for a ground-meat texture.",
+        "Pan-fry until deeply golden and crisp at the edges.",
+      ],
+    },
     description:
       "Traditional Indonesian cake of whole soybeans bound by live Rhizopus oligosporus mycelium into a firm, sliceable block. Fermentation predigests soy proteins, boosts bioavailable isoflavones, and develops a savory, nutty, mushroom-forward flavor unique among soy products. Sold fresh or pasteurized in flat bricks; accepts marinades aggressively and crisps beautifully when pan-fried, grilled, or braised.",
     regionalOrigins: ["Java", "Bali", "Sumatra", "global artisan"],
@@ -220,6 +235,20 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   seitan: createIngredientMapping("seitan", {
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory", "umami"],
+        secondary: ["chewy", "wheaty"],
+        notes: "Wheat-gluten 'wheat meat' with a dense, satisfyingly chewy, meat-like bite.",
+      },
+      cookingMethods: ["braise", "pan-fry", "grill", "stir-fry"],
+      cuisineAffinity: ["Chinese", "American"],
+      preparationTips: [
+        "Slice or tear into bite-size pieces against the grain for tenderness.",
+        "Brown it hard in a hot pan to build a savory crust.",
+        "Simmer in seasoned broth to carry flavor into the dense interior.",
+      ],
+    },
     description:
       "Vital wheat gluten hydrated and cooked into a dense, chewy, meat-mimetic protein block long used in Chinese Buddhist temple cuisine as 'mian jin' or mock meat. Kneading and rinsing wheat flour (or reconstituting isolated gluten) yields a stretchy matrix that braises, steams, deep-fries, or grills into remarkably beef- or poultry-like textures. Not suitable for celiac or gluten-intolerant diners.",
     regionalOrigins: ["China", "Japan", "Taiwan", "global vegetarian"],
@@ -384,6 +413,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   tofu_varieties: createIngredientMapping("tofu_varieties", {
+    image_url: "ingredients/firm_tofu.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["mild", "neutral"],
+        secondary: ["creamy", "savory"],
+        notes: "Soybean curd ranging from silken and custardy to extra-firm; its flavor comes from what it absorbs.",
+      },
+      cookingMethods: ["pan-fry", "braise", "steam", "blend", "stir-fry"],
+      cuisineAffinity: ["Chinese", "Japanese", "Korean"],
+      preparationTips: [
+        "Press firm tofu 15-30 minutes to expel water so it browns and soaks up marinade.",
+        "Cube firm tofu for stir-fries; keep silken tofu whole, as it breaks easily.",
+        "Freeze and thaw firm tofu for a chewier, sponge-like texture.",
+      ],
+    },
     description:
       "Soybean curd produced by coagulating fresh soy milk with nigari (magnesium chloride), gypsum (calcium sulfate), or acid and pressing the resulting curds. Textures span silken (custardy, uncurdled) through soft, firm, extra-firm, and pressed/baked forms, each suited to specific techniques — silken for blending and mapo tofu, firm for stir-fry, frozen-then-thawed for meaty sponge. A Han Chinese invention now central to East and Southeast Asian cuisines.",
     regionalOrigins: ["China", "Japan", "Korea", "Vietnam", "global"],
@@ -581,6 +625,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   legumes_protein: createIngredientMapping("legumes_protein", {
+    image_url: "ingredients/lentils.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["earthy", "savory"],
+        secondary: ["nutty", "mild"],
+        notes: "Cooked legumes used as a protein base — earthy, hearty, and endlessly adaptable.",
+      },
+      cookingMethods: ["simmer", "boil", "braise", "puree"],
+      cuisineAffinity: ["Indian", "Mediterranean", "Middle-Eastern"],
+      preparationTips: [
+        "Soak dried legumes overnight to shorten the cook and improve digestibility.",
+        "Salt toward the end — early salt can toughen the skins.",
+        "Simmer gently; a hard boil breaks the legumes apart.",
+      ],
+    },
     description:
       "Category index covering pulse proteins — dry beans, peas, lentils, and cowpeas — prized for complementary amino acids, soluble fiber, resistant starch, and nitrogen-fixing sustainability credentials. Legumes form the backbone of every meat-light culinary tradition from Levantine mezze and Mexican frijoles to Indian dal and Italian pasta e fagioli. Properly soaked and simmered they yield silky purees, firm salads, or hearty stews.",
     regionalOrigins: ["global — Fertile Crescent origin, domesticated 10,000+ years ago"],
@@ -851,6 +910,20 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   textured_vegetable_protein: createIngredientMapping(
     "textured_vegetable_protein",
     {
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["savory", "neutral"],
+          secondary: ["mild", "wheaty"],
+          notes: "Defatted soy flour dried into a quick-rehydrating crumble that mimics ground meat.",
+        },
+        cookingMethods: ["rehydrate", "simmer", "fry"],
+        cuisineAffinity: ["American"],
+        preparationTips: [
+          "Rehydrate in hot seasoned broth about 10 minutes before cooking.",
+          "Squeeze out the excess liquid so it browns rather than steams.",
+          "Season generously — TVP is bland on its own.",
+        ],
+      },
       elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
       astrologicalProfile: {
         rulingPlanets: ["Moon", "Venus"],
@@ -963,6 +1036,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   ),
 
   jackfruit_young: createIngredientMapping("jackfruit_young", {
+    image_url: "ingredients/jackfruit.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["neutral", "mild"],
+        secondary: ["savory", "subtle"],
+        notes: "Unripe jackfruit — neutral and fibrous, it shreds into a convincing pulled-meat texture.",
+      },
+      cookingMethods: ["braise", "simmer", "saute", "bake"],
+      cuisineAffinity: ["Indian", "Southeast-Asian", "American"],
+      preparationTips: [
+        "Use canned young (green) jackfruit in brine, not the sweet ripe fruit.",
+        "Pull the chunks apart with two forks to shred the fibers.",
+        "Braise in a bold sauce — it carries flavor like pulled pork.",
+      ],
+    },
     description:
       "Unripe green jackfruit — the dense, starchy, neutral-flavored pods of Artocarpus heterophyllus harvested before sweetness develops. When simmered or braised, the bulb fibers shred into remarkably pork-like strands that absorb smoke, barbecue, or curry flavors. Long a staple in South Indian (Kerala 'chakka'), Sri Lankan 'polos', and Filipino 'ginataang langka' cuisines; now a global plant-based meat alternative. Sold canned in brine (not syrup).",
     regionalOrigins: ["Kerala", "Sri Lanka", "Bangladesh", "Philippines", "Southeast Asia"],
@@ -1102,6 +1190,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   quinoa_protein: createIngredientMapping("quinoa_protein", {
+    image_url: "ingredients/quinoa.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A complete-protein pseudo-grain with a delicate nutty flavor and a slight crunch.",
+      },
+      cookingMethods: ["boil", "steam", "pilaf"],
+      cuisineAffinity: ["South-American"],
+      preparationTips: [
+        "Rinse well to wash off the bitter natural saponin coating.",
+        "Toast the dry grains in a little oil before adding liquid for a nuttier flavor.",
+        "Use a 1:2 grain-to-water ratio; rest and fluff after cooking.",
+      ],
+    },
     description:
       "Protein-dense pseudocereal from Chenopodium quinoa, an Andean goosefoot relative cultivated for 5,000+ years on the altiplano of Peru, Bolivia, and Ecuador. Unlike true grains, quinoa delivers all nine essential amino acids, making it a rare complete plant protein. Saponin-coated seeds require thorough rinsing, then cook in ~15 minutes into fluffy spiral-germ grains. Red and black varieties hold shape better for salads; white is softest for pilafs and porridges.",
     regionalOrigins: ["Peruvian Andes", "Bolivian altiplano", "Ecuador", "global cultivation"],
@@ -1253,6 +1356,20 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   hemp_protein: createIngredientMapping("hemp_protein", {
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["nutty", "earthy"],
+        secondary: ["grassy", "mild"],
+        notes: "Hemp-seed protein powder with a soft, nutty, slightly grassy flavor.",
+      },
+      cookingMethods: ["blend", "raw", "bake"],
+      cuisineAffinity: ["American"],
+      preparationTips: [
+        "Blend into smoothies, where its grassy note disappears.",
+        "Stir into batters and energy bites for a protein boost.",
+        "Start with a small amount; the earthy flavor builds quickly.",
+      ],
+    },
     description:
       "Protein-rich powder and hulled seeds ('hemp hearts') from Cannabis sativa cultivated for non-psychoactive food use. Hemp delivers a rare plant-based ratio of omega-6 to omega-3 fatty acids (~3:1) plus edestin and albumin proteins that are highly digestible. Nutty, grassy flavor reads best in smoothies, energy bars, granolas, and pesto bases. Unlike flax or chia, hemp hearts are soft enough to eat raw with no grinding required.",
     regionalOrigins: ["Canada (primary)", "France", "Romania", "China"],
@@ -1369,6 +1486,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   pea_protein: createIngredientMapping("pea_protein", {
+    image_url: "ingredients/peas.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory", "mild"],
+        secondary: ["earthy", "neutral"],
+        notes: "Yellow-pea protein with a fairly neutral, mildly savory flavor; the base of many meat substitutes.",
+      },
+      cookingMethods: ["blend", "bake"],
+      cuisineAffinity: ["American"],
+      preparationTips: [
+        "Blend into smoothies and shakes for a clean protein boost.",
+        "Whisk thoroughly — pea protein can clump in cold liquid.",
+        "Pair with cocoa or fruit to mask any faint earthy note.",
+      ],
+    },
     description:
       "Isolated protein fraction extracted from yellow split peas (Pisum sativum) via wet fractionation or dry milling. Neutral-flavored, allergen-friendly (soy-free, gluten-free, dairy-free), and high in BCAAs, it is the backbone of most modern plant-based burgers, sausages, and protein drinks. Forms gels on heating, emulsifies fats, and extrudes into fibrous meat-analog textures. Best hydrated with a touch of acid or salt to tame mild legume-earthiness.",
     regionalOrigins: ["Canada (prairies)", "France", "USA", "global processors"],
@@ -1480,6 +1612,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   chickpea_protein: createIngredientMapping("chickpea_protein", {
+    image_url: "ingredients/chickpeas.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["nutty", "savory"],
+        secondary: ["earthy", "mild"],
+        notes: "Chickpea-based protein with a gentle, nutty, legume flavor.",
+      },
+      cookingMethods: ["blend", "bake", "cook"],
+      cuisineAffinity: ["Middle-Eastern", "Mediterranean"],
+      preparationTips: [
+        "Whisk into batters; chickpea flour also sets into a savory pancake.",
+        "Blend into smoothies for a mild, nutty protein boost.",
+        "Cook chickpea-flour batters fully — raw, they taste bitter.",
+      ],
+    },
     description:
       "Protein-forward flour and isolate derived from Cicer arietinum — the garbanzo bean domesticated in southeastern Anatolia ~9,500 years ago. Besan (gram flour) is central to South Asian pakoras, socca/farinata of Nice and Liguria, and Provençal panisse; the cooking liquid (aquafaba) whips into stable vegan meringues. Delivers ~20g protein per 100g dry with a rich nutty-legume flavor that fries and bakes into firm, satisfying textures.",
     regionalOrigins: ["India", "Turkey", "Middle East", "North Africa", "Mediterranean"],
@@ -1586,6 +1733,20 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   lupin_protein: createIngredientMapping("lupin_protein", {
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory", "nutty"],
+        secondary: ["earthy", "mild"],
+        notes: "High-protein lupin-bean flour or flakes with a mild, nutty taste.",
+      },
+      cookingMethods: ["bake", "blend", "cook"],
+      cuisineAffinity: ["Mediterranean", "Australian"],
+      preparationTips: [
+        "Use de-bittered (sweet) lupin — bitter varieties need long soaking.",
+        "Blend the flour into batters and breads for extra protein.",
+        "It is a legume — treat it with care around peanut allergies.",
+      ],
+    },
     description:
       "Ultra-high-protein legume (~40% dry protein) from sweet-cultivar Lupinus angustifolius or L. albus, traditionally brined as Mediterranean 'lupini' bean snacks and increasingly milled into flour for gluten-free pastas and meat analogs. Among the most sustainable crops on record — nitrogen-fixing, low-water, and cold-tolerant. Bitter wild varieties contain alkaloids; only sweet cultivars or thoroughly de-bittered beans are food-safe. Allergenic for some (cross-reacts with peanut).",
     regionalOrigins: ["Mediterranean basin", "Australia", "Andes — tarwi"],
@@ -1705,6 +1866,21 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   fava_protein: createIngredientMapping("fava_protein", {
+    image_url: "ingredients/fava_beans.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["earthy", "savory"],
+        secondary: ["nutty", "green"],
+        notes: "Fava-bean protein with an earthy, slightly green, legume flavor.",
+      },
+      cookingMethods: ["blend", "bake", "cook"],
+      cuisineAffinity: ["Mediterranean", "Middle-Eastern"],
+      preparationTips: [
+        "Blend into smoothies; pair with fruit to soften the earthy note.",
+        "Whisk into batters for a protein lift.",
+        "Treat it as a legume — note it around legume allergies.",
+      ],
+    },
     description:
       "Broad beans (Vicia faba), one of the oldest cultivated legumes — found in Neolithic deposits across the Mediterranean and Nile Valley. Fresh green favas dominate Italian springtime menus (crudo with pecorino); dried and split favas build Egyptian 'ful medames', Sicilian 'maccu', and Portuguese 'favada'. Rare warning: individuals with G6PD deficiency may develop favism, an acute hemolytic reaction to raw or undercooked fava consumption.",
     regionalOrigins: ["Egypt", "Mediterranean basin", "Middle East", "North Africa", "Latin America"],
@@ -1815,6 +1991,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   flax_seeds: {
+    image_url: "ingredients/flaxseed.png",
     name: "flax seeds",
     description: "Tiny brown or golden seeds of *Linum usitatissimum*, exceptionally rich in alpha-linolenic acid (plant omega-3), lignans, and soluble fiber. Whole seeds pass through largely undigested — grind just before use to access their nutrients. Mixed with water, ground flax forms a gel ('flax egg') that binds vegan baked goods.",
     origin: ["Mediterranean", "Middle East"],

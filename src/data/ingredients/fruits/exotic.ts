@@ -74,7 +74,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2 weeks whole, 3-5 days arils",
       notes: "Arils freeze beautifully",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Pomegranate is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "tart"],
+        secondary: ["bright", "wine-like"],
+        notes: "Hundreds of juicy, jewel-like arils — sweet-tart and crunchy — packed around a bitter pith.",
+      },
+      cookingMethods: ["raw", "juice", "garnish"],
+      cuisineAffinity: ["Middle-Eastern", "Mediterranean", "Indian"],
+      preparationTips: [
+        "Score the skin into quarters and break it open underwater — arils sink, pith floats.",
+        "Or hold a halved fruit cut-side down and whack the skin with a spoon.",
+        "Wear an apron; pomegranate juice stains permanently.",
+      ],
+    }
   },
 
   fig: {
@@ -155,7 +168,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days ripe",
       notes: "Very delicate when ripe",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Fig is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "honeyed"],
+        secondary: ["floral", "jammy"],
+        notes: "Lusciously sweet with a soft, seedy interior; highly perishable and best eaten ripe.",
+      },
+      cookingMethods: ["raw", "roast", "grill", "preserve"],
+      cuisineAffinity: ["Mediterranean", "Middle-Eastern"],
+      preparationTips: [
+        "Trim the tough stem tip; the skin is edible.",
+        "Tear or quarter ripe figs rather than slicing — they are very soft.",
+        "Halve and roast or grill cut-side up to concentrate the sweetness.",
+      ],
+    }
   },
 
   grape: {
@@ -230,7 +256,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Store unwashed in perforated bag",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Grape is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "juicy"],
+        secondary: ["bright", "floral"],
+        notes: "Crisp and sweet; varieties run from seedless table grapes to wine and raisin types.",
+      },
+      cookingMethods: ["raw", "roast", "preserve"],
+      cuisineAffinity: ["Mediterranean", "European"],
+      preparationTips: [
+        "Rinse and pull the grapes from the stems just before serving.",
+        "Roast on the vine to deepen and concentrate the flavor.",
+        "Halve seedless grapes for salads so they don't roll.",
+      ],
+    }
   },
 
   date: {
@@ -305,7 +344,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "months",
       notes: "Natural preservative properties",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Date is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "caramel"],
+        secondary: ["rich", "honeyed"],
+        notes: "Intensely sweet with a caramel, toffee-like depth; Medjool are large and soft, Deglet Noor firmer.",
+      },
+      cookingMethods: ["raw", "stuff", "bake", "blend"],
+      cuisineAffinity: ["Middle-Eastern", "North-African"],
+      preparationTips: [
+        "Slit lengthwise and remove the single hard pit.",
+        "Soak firm dates in warm water to soften them for blending.",
+        "Stuff soft Medjools with nuts or cheese.",
+      ],
+    }
   },
 
   kiwano: {
@@ -380,7 +432,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "several months",
       notes: "Cucumber-lime flavor, gel-like interior",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Kiwano (Horned Melon) is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["mild", "tart"],
+        secondary: ["refreshing", "cucumber-like"],
+        notes: "Spiky orange shell over lime-green jelly; tastes faintly of cucumber and banana.",
+      },
+      cookingMethods: ["raw", "juice", "garnish"],
+      cuisineAffinity: ["African"],
+      preparationTips: [
+        "Halve and squeeze or scoop out the seedy green jelly.",
+        "The seeds are edible — eat them along with the pulp.",
+        "Use the hollowed, horned shell as a striking serving cup.",
+      ],
+    }
   },
 
   feijoa: {
@@ -455,7 +520,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Tastes like pineapple-guava-mint blend",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Feijoa (Pineapple Guava) is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "tart"],
+        secondary: ["aromatic", "minty"],
+        notes: "Perfumed flesh tasting of pineapple, guava, and mint; slightly grainy near the skin.",
+      },
+      cookingMethods: ["raw", "preserve", "bake"],
+      cuisineAffinity: ["New-Zealand", "South-American"],
+      preparationTips: [
+        "Halve and scoop the jelly-like flesh with a spoon.",
+        "Skip the bitter skin — eat only the fragrant interior.",
+        "Use it ripe and slightly soft; underripe feijoa is gritty.",
+      ],
+    }
   },
 
   tamarind: {
@@ -530,7 +608,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "months in pod, indefinite as paste",
       notes: "Essential in many cuisines",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Tamarind is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sour", "tangy"],
+        secondary: ["sweet", "date-like"],
+        notes: "Brown sticky pulp inside a brittle pod — intensely sour with a date-like sweetness.",
+      },
+      cookingMethods: ["paste", "sauce", "infuse"],
+      cuisineAffinity: ["Indian", "Thai", "Mexican"],
+      preparationTips: [
+        "Soak block tamarind in hot water, then mash and strain out the seeds and fibers.",
+        "Use a little — the pulp is concentrated and very sour.",
+        "Balance it with sugar in sauces and chutneys.",
+      ],
+    }
   },
 
   loquat_exotic: {
@@ -605,7 +696,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Very perishable, best fresh",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Loquat is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "tart"],
+        secondary: ["floral", "apricot-like"],
+        notes: "Small, tangy-sweet fruit tasting of apricot and citrus; bruises and oxidizes quickly.",
+      },
+      cookingMethods: ["raw", "preserve", "poach"],
+      cuisineAffinity: ["Chinese", "Mediterranean"],
+      preparationTips: [
+        "Twist out the few large, glossy seeds.",
+        "Peel the thin skin if it feels tough; otherwise eat it whole.",
+        "Use loquats ripe — they do not sweeten after picking.",
+      ],
+    }
   },
 
   cactus_pear: {
@@ -680,7 +784,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Handle carefully - small spines remain",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Cactus Pear (Prickly Pear) is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "mild"],
+        secondary: ["melon-like", "floral"],
+        notes: "Magenta or green flesh, melon-like and mildly sweet, dotted with hard edible seeds.",
+      },
+      cookingMethods: ["raw", "juice", "preserve"],
+      cuisineAffinity: ["Mexican", "Mediterranean"],
+      preparationTips: [
+        "Wear gloves — the skin carries tiny, near-invisible barbed glochids.",
+        "Trim both ends, slit the skin lengthwise, and peel it back.",
+        "Strain the juice to remove the hard seeds.",
+      ],
+    }
   },
 
   quince_exotic: {
@@ -755,7 +872,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 months",
       notes: "Extremely aromatic, perfumes room",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Quince is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["tart", "astringent"],
+        secondary: ["floral", "honeyed"],
+        notes: "Hard, astringent, and inedible raw; long cooking turns it pink, tender, and perfumed.",
+      },
+      cookingMethods: ["poach", "bake", "preserve"],
+      cuisineAffinity: ["Mediterranean", "Middle-Eastern"],
+      preparationTips: [
+        "Always cook quince — it is hard and astringent raw.",
+        "Peel and core it; the flesh is dense, so use a sturdy knife.",
+        "Slow-cook with sugar until the flesh turns rosy pink.",
+      ],
+    }
   },
 
   passion_fruit_exotic: {
@@ -830,7 +960,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1 week, 2-3 weeks refrigerated",
       notes: "Ripe when wrinkled",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Passion Fruit is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["tart", "aromatic"],
+        secondary: ["floral", "tropical"],
+        notes: "Intensely perfumed and sharply tart; the crunchy seeds are edible.",
+      },
+      cookingMethods: ["raw", "juice", "sauce"],
+      cuisineAffinity: ["Brazilian", "Southeast-Asian", "Australian"],
+      preparationTips: [
+        "Choose wrinkled fruit — a dimpled skin means it is ripe.",
+        "Halve and scoop the pulp and seeds out with a spoon.",
+        "Strain the pulp if you want the juice without the seeds.",
+      ],
+    }
   },
 
   custard_apple: {
@@ -905,7 +1048,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days ripe",
       notes: "Tastes like banana-pineapple-vanilla blend",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Custard Apple (Cherimoya) is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "creamy"],
+        secondary: ["tropical", "floral"],
+        notes: "Custard-soft flesh tasting of banana, pineapple, and vanilla.",
+      },
+      cookingMethods: ["raw", "blend", "dessert"],
+      cuisineAffinity: ["South-American"],
+      preparationTips: [
+        "Eat it ripe and soft — it should yield to gentle pressure.",
+        "Halve and scoop the creamy flesh with a spoon.",
+        "Pick around the large black seeds, which are inedible.",
+      ],
+    }
   },
 
   sapote: {
@@ -980,7 +1136,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days ripe",
       notes: "Sweet potato-pumpkin flavor",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Sapote (Mamey) is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "rich"],
+        secondary: ["creamy", "nutty"],
+        notes: "Dense, creamy salmon-colored flesh tasting of sweet potato, almond, and pumpkin.",
+      },
+      cookingMethods: ["raw", "blend", "dessert"],
+      cuisineAffinity: ["Mexican", "Caribbean"],
+      preparationTips: [
+        "Use it fully ripe and soft, or the flesh is starchy and bland.",
+        "Halve, scoop the flesh, and discard the large central seed.",
+        "Blend into milkshakes and ice cream.",
+      ],
+    }
   },
 
   plantain: {
@@ -1055,7 +1224,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Green plantains for savory, yellow-black for sweet",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Plantain is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["starchy", "mild"],
+        secondary: ["sweet", "savory"],
+        notes: "A cooking banana — starchy and savory when green, sweet when black-ripe; always cooked.",
+      },
+      cookingMethods: ["fry", "boil", "bake", "roast"],
+      cuisineAffinity: ["Caribbean", "African", "South-American"],
+      preparationTips: [
+        "Cook rather than eat raw — plantains are starchy and bland uncooked.",
+        "Cut off the ends, score the thick skin lengthwise, and peel it back.",
+        "Use green for savory tostones; use black-ripe for sweet maduros.",
+      ],
+    }
   },
 
   breadfruit: {
@@ -1130,7 +1312,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Tastes like fresh bread when cooked",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Breadfruit is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["starchy", "mild"],
+        secondary: ["nutty", "savory"],
+        notes: "A large starchy fruit cooked like a potato — bread-like roasted, creamy boiled.",
+      },
+      cookingMethods: ["roast", "boil", "fry", "bake"],
+      cuisineAffinity: ["Caribbean", "Pacific-Islander"],
+      preparationTips: [
+        "Always cook breadfruit — it is starchy and inedible raw.",
+        "Peel, quarter, and cut out the central core before cooking.",
+        "Roast whole over flame for a smoky, bread-like result.",
+      ],
+    }
   },
 
   cloudberry: {
@@ -1205,7 +1400,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days",
       notes: "Very rare and prized in Nordic countries",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Cloudberry is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["tart", "sweet"],
+        secondary: ["floral", "musky"],
+        notes: "Rare amber berry from northern bogs — tart and aromatic, like a perfumed raspberry.",
+      },
+      cookingMethods: ["raw", "preserve", "sauce"],
+      cuisineAffinity: ["Scandinavian"],
+      preparationTips: [
+        "Handle gently — ripe cloudberries are extremely soft.",
+        "Pick when amber and soft; firm red berries are underripe.",
+        "Cook into jam, or fold raw into cream for a Nordic dessert.",
+      ],
+    }
   },
 
   boysenberry: {
@@ -1280,7 +1488,20 @@ const rawExoticFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days",
       notes: "Raspberry-blackberry-loganberry hybrid",
     },
-    culinaryProfile: { "flavorProfile": { "primary": ["balanced"], "secondary": ["supporting"], "notes": "Boysenberry is used to support structure, aroma, and balance in context-specific recipes." }, "cookingMethods": ["mix", "saute", "simmer"], "cuisineAffinity": ["global"], "preparationTips": ["Adjust quantity to taste and recipe context.", "Add in stages to control extraction and final balance."] }
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "tart"],
+        secondary: ["wine-like", "earthy"],
+        notes: "A blackberry-raspberry cross — large, deep maroon, juicy, and winey.",
+      },
+      cookingMethods: ["raw", "preserve", "bake", "sauce"],
+      cuisineAffinity: ["American", "Australian"],
+      preparationTips: [
+        "Handle gently and use quickly — boysenberries are soft and perishable.",
+        "Rinse just before use and drain well.",
+        "Sieve the puree to remove the seeds for smooth sauces.",
+      ],
+    }
   },
 };
 

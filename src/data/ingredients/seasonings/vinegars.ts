@@ -171,7 +171,7 @@ const rawVinegars = {
           taste: ["Mild", "Balanced", "Natural"],
           aroma: ["Fresh", "Clean", "Subtle"],
           texture: ["Pleasant", "Smooth", "Appealing"],
-          notes: "Characteristic commercial profile",
+          notes: "Smooth, mellow acidity with a touch of sweetness.",
         },
         culinaryProfile: {
           flavorProfile: {
@@ -198,7 +198,7 @@ const rawVinegars = {
             taste: ["Mild", "Balanced", "Natural"],
             aroma: ["Fresh", "Clean", "Subtle"],
             texture: ["Pleasant", "Smooth", "Appealing"],
-            notes: "Characteristic glazes profile",
+            notes: "Glossy and syrupy, with concentrated sweet-tart flavor.",
           },
           culinaryProfile: {
             flavorProfile: {

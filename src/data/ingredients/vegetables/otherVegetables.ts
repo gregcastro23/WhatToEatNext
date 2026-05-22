@@ -190,7 +190,20 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Artichoke is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["nutty", "earthy"],
+          secondary: ["sweet", "mineral"],
+          notes: "Subtly sweet and nutty; cut surfaces oxidize and brown quickly.",
+        },
+        cookingMethods: ["steam", "braise", "grill", "boil"],
+        cuisineAffinity: ["Italian", "French", "Mediterranean"],
+        preparationTips: [
+          "Snap off the tough outer leaves and trim the spiky tips and stem.",
+          "Rub every cut surface with lemon to stop it browning.",
+          "Scoop out the fuzzy inner choke before cooking or serving.",
+        ],
+      }
 },
   cucumber: {
       image_url: "ingredients/cucumber.png",
@@ -227,7 +240,20 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cucumber is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["fresh", "watery"],
+          secondary: ["grassy", "mild"],
+          notes: "Cool and crisp; mostly water, so it favors raw and quick preparations.",
+        },
+        cookingMethods: ["raw", "pickle", "quick-saute"],
+        cuisineAffinity: ["Mediterranean", "Middle-Eastern", "Asian"],
+        preparationTips: [
+          "Peel if the skin is waxed or thick; leave it on for color and crunch.",
+          "Halve lengthwise and scoop out the seeds when you want less water.",
+          "Slice, salt, and drain 15 minutes before dressing for crisp salads.",
+        ],
+      }
 },
   okra: {
       image_url: "ingredients/okra.png",
@@ -261,7 +287,20 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Okra is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["grassy", "mild"],
+          secondary: ["earthy", "green"],
+          notes: "Releases a thickening mucilage when cut and stewed; high, dry heat keeps it crisp.",
+        },
+        cookingMethods: ["fry", "roast", "grill", "stew"],
+        cuisineAffinity: ["Southern-US", "Indian", "African", "Cajun"],
+        preparationTips: [
+          "Keep the pods whole or cut them large to limit the slippery texture.",
+          "Pat the pods completely dry; surface moisture increases sliminess.",
+          "Cook hot and fast — roast, grill, or fry — or pair with acid like tomato.",
+        ],
+      }
 },
   zucchini: {
       image_url: "ingredients/zucchini.png",
@@ -295,7 +334,20 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Zucchini is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["mild", "fresh"],
+          secondary: ["grassy", "delicate"],
+          notes: "Delicate and watery; high heat keeps it from turning soggy.",
+        },
+        cookingMethods: ["saute", "grill", "roast", "raw", "spiralize"],
+        cuisineAffinity: ["Italian", "Mediterranean", "French"],
+        preparationTips: [
+          "Trim both ends; there is no need to peel it.",
+          "Cut into even coins, half-moons, or planks, then salt and blot to shed water.",
+          "Cook quickly over high heat to avoid a mushy texture.",
+        ],
+      }
 },
   fennel: {
       image_url: "ingredients/fennel.png",
@@ -329,7 +381,20 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Fennel is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["anise", "sweet"],
+          secondary: ["fresh", "licorice"],
+          notes: "Crisp and anise-like raw; roasting mellows it into a soft, gentle sweetness.",
+        },
+        cookingMethods: ["raw", "roast", "braise", "grill"],
+        cuisineAffinity: ["Italian", "Mediterranean", "French"],
+        preparationTips: [
+          "Trim the stalks and base, and reserve the feathery fronds as a herb.",
+          "Halve through the core and slice thin against the grain for salads.",
+          "Cut into wedges through the core so they hold together when roasted.",
+        ],
+      }
 },
   celery: {
       image_url: "ingredients/celery.png",

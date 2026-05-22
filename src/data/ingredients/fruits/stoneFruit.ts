@@ -61,7 +61,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Peach is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "floral"],
+          secondary: ["honeyed", "tangy"],
+          notes: "Fragrant and juicy when ripe; freestone types release the pit cleanly, clingstone do not.",
+        },
+        cookingMethods: ["raw", "grill", "bake", "poach", "preserve"],
+        cuisineAffinity: ["American", "Mediterranean", "French"],
+        preparationTips: [
+          "Score an X in the base and blanch 30 seconds to slip off the skin.",
+          "Cut along the natural seam and twist the halves apart to free the pit.",
+          "Brush cut faces with oil before grilling so they caramelize without sticking.",
+        ],
+      }
 },
   plum: {
       image_url: "ingredients/plum.png",
@@ -122,7 +135,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Plum is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["floral", "wine-like"],
+          notes: "Tart skin over sweet flesh; that balance suits both fresh eating and baking.",
+        },
+        cookingMethods: ["raw", "bake", "roast", "preserve", "poach"],
+        cuisineAffinity: ["European", "American", "Asian"],
+        preparationTips: [
+          "Cut along the seam and twist to halve, then pry out the pit.",
+          "Leave the skin on — it sets a beautiful color in jams and tarts.",
+          "Roast halves cut-side up with a little sugar to concentrate the flavor.",
+        ],
+      }
 },
   apricot: {
       image_url: "ingredients/apricot.png",
@@ -176,7 +202,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Apricot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "musky"],
+          secondary: ["tart", "floral"],
+          notes: "Delicately sweet with a faint almond note; it barely ripens once picked.",
+        },
+        cookingMethods: ["raw", "bake", "roast", "dry", "preserve"],
+        cuisineAffinity: ["Middle-Eastern", "Mediterranean", "French"],
+        preparationTips: [
+          "Halve along the seam and lift out the small pit — no peeling needed.",
+          "Choose fruit that yields gently; hard apricots stay mealy.",
+          "Halve and roast cut-side up to deepen the flavor for tarts and compotes.",
+        ],
+      }
 },
   cherry: {
       image_url: "ingredients/cherry.png",
@@ -230,7 +269,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cherry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["wine-like", "floral"],
+          notes: "Ranges from sweet (Bing) to sour (Morello); sour types are bred for cooking.",
+        },
+        cookingMethods: ["raw", "bake", "preserve", "poach"],
+        cuisineAffinity: ["European", "American"],
+        preparationTips: [
+          "Use a cherry pitter, or push the pit out with a chopstick over a bowl.",
+          "Stem and rinse just before use to keep the fruit firm.",
+          "Choose sour Morello or Montmorency cherries for pies and preserves.",
+        ],
+      }
 },
   nectarine: {
       image_url: "ingredients/nectarine.png",
@@ -284,7 +336,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Nectarine is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "floral"],
+          secondary: ["tangy", "honeyed"],
+          notes: "A smooth-skinned peach — same flavor, firmer flesh, no fuzz to peel.",
+        },
+        cookingMethods: ["raw", "grill", "bake", "poach"],
+        cuisineAffinity: ["American", "Mediterranean", "French"],
+        preparationTips: [
+          "No need to peel — the smooth skin is pleasant to eat.",
+          "Cut along the seam and twist to halve; freestone types release the pit cleanly.",
+          "Slice into wedges for salads, or halve to grill cut-side down.",
+        ],
+      }
 },
   greengage: {
       image_url: "ingredients/greengage.png",
@@ -338,7 +403,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Greengage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "honeyed"],
+          secondary: ["floral", "mellow"],
+          notes: "A green-skinned dessert plum prized for its intense, honeyed sweetness.",
+        },
+        cookingMethods: ["raw", "bake", "preserve"],
+        cuisineAffinity: ["French", "English", "European"],
+        preparationTips: [
+          "Eat ripe and fresh — greengages are at their best raw.",
+          "Halve and twist to remove the pit; leave the skin on.",
+          "Use slightly underripe fruit for jam, where the higher pectin helps it set.",
+        ],
+      }
 },
   damson: {
       image_url: "ingredients/damson.png",
@@ -392,7 +470,20 @@ const rawStoneFruit = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Damson is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "astringent"],
+          secondary: ["sweet", "wine-like"],
+          notes: "A small, intensely tart plum — too sharp to eat raw, superb cooked into jams.",
+        },
+        cookingMethods: ["preserve", "bake", "poach"],
+        cuisineAffinity: ["English", "European"],
+        preparationTips: [
+          "Cook rather than eat raw — damsons are bracingly tart fresh.",
+          "Simmer whole, then lift out the pits as they float free.",
+          "Their high pectin sets jam quickly without any added pectin.",
+        ],
+      }
 },
 };
 

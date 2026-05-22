@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawSquash = {
   "butternut squash": {
       image_url: "ingredients/butternut squash.png",
-    description: "Butternut Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "A tan-skinned winter squash (*Cucurbita moschata*) with dense, deep-orange flesh that turns sweet and nutty when roasted. The solid neck is all flesh; the bulbous base holds the seeds.",
     name: "Butternut squash",
     origin: ["North America", "Mesoamerica"],
     elementalProperties: {
@@ -72,7 +72,20 @@ const rawSquash = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Butternut Squash is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "nutty"],
+          secondary: ["earthy", "buttery"],
+          notes: "Dense and sweet; caramelizes deeply when roasted.",
+        },
+        cookingMethods: ["roast", "puree", "steam", "braise"],
+        cuisineAffinity: ["American", "Italian", "Middle-Eastern"],
+        preparationTips: [
+          "Peel with a sturdy vegetable peeler, then halve and scoop out the seeds.",
+          "Cut into even cubes so they brown at the same rate.",
+          "Microwave the whole squash 2-3 minutes to soften the skin before peeling.",
+        ],
+      }
 },
   zucchini: {
       image_url: "ingredients/zucchini.png",
@@ -131,7 +144,20 @@ const rawSquash = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Zucchini is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["mild", "fresh"],
+          secondary: ["grassy", "delicate"],
+          notes: "Delicate and watery; high heat keeps it from turning soggy.",
+        },
+        cookingMethods: ["saute", "grill", "roast", "raw", "spiralize"],
+        cuisineAffinity: ["Italian", "Mediterranean", "French"],
+        preparationTips: [
+          "Trim both ends; there is no need to peel it.",
+          "Cut into even coins, half-moons, or planks, then salt and blot to shed water.",
+          "Cook quickly over high heat to avoid a mushy texture.",
+        ],
+      }
 },
   pumpkin: {
       image_url: "ingredients/pumpkin.png",
@@ -203,11 +229,24 @@ const rawSquash = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pumpkin is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "earthy"],
+          secondary: ["nutty", "mellow"],
+          notes: "Sugar (pie) pumpkins are sweet and dense; large field pumpkins are watery and bland.",
+        },
+        cookingMethods: ["roast", "puree", "braise", "steam"],
+        cuisineAffinity: ["American", "Mediterranean", "Asian"],
+        preparationTips: [
+          "Cook with a sweet 'sugar' or 'pie' pumpkin, not a stringy carving pumpkin.",
+          "Halve, scoop the seeds, and roast cut-side down, then scoop out the soft flesh.",
+          "Cut peeled flesh into even chunks if roasting it in pieces.",
+        ],
+      }
 },
   "acorn squash": {
       image_url: "ingredients/acorn squash.png",
-    description: "Acorn Squash is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "A small, ribbed winter squash (*Cucurbita pepo*) named for its acorn shape. Its mildly sweet, slightly fibrous yellow-orange flesh is ideal for roasting in halves, and the ridged skin softens enough to eat once cooked.",
     name: "Acorn squash",
     origin: ["North America"],
     elementalProperties: {
@@ -275,7 +314,20 @@ const rawSquash = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Acorn Squash is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "nutty"],
+          secondary: ["earthy", "peppery"],
+          notes: "Mildly sweet with fibrous flesh; the ridged skin becomes edible once roasted.",
+        },
+        cookingMethods: ["roast", "bake", "steam"],
+        cuisineAffinity: ["American", "French"],
+        preparationTips: [
+          "Halve through the stem and scoop out the seeds.",
+          "Cut into rings or wedges following the ridges for even pieces.",
+          "Roast cut-side down first to steam the flesh tender, then flip to caramelize.",
+        ],
+      }
 },
 };
 

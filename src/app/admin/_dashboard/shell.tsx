@@ -148,7 +148,7 @@ function AdminTopBar({
         </div>
         <span style={{ width: 1, height: 18, background: "var(--line)" }} />
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <TopMetric label="UPT 30D" value={`${pulse.uptime30d}%`} />
+          <TopMetric label="AVAIL" value={`${pulse.availability}%`} />
           <TopMetric label="P95" value={`${pulse.p95}ms`} />
           <TopMetric label="ERR" value={`${pulse.errRate}%`} tone={pulse.errRate > 0.1 ? "warn" : "ok"} />
           <TopMetric label="DEPLOY" value={pulse.deployFreshness} />

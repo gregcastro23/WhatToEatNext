@@ -13,7 +13,7 @@
  * - mealType: optional meal type ("breakfast" | "lunch" | "dinner" | "snack" | "brunch" | "dessert")
  */
 import { NextResponse } from "next/server";
-import { allRecipes } from "@/data/recipes/index";
+import { getAllRecipes } from "@/data/recipes/index";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
@@ -44,9 +44,10 @@ const CUISINE_MAP: Record<string, { cuisines: string[]; cookingMethods: string[]
 /**
  * Get recipe counts per cuisine from local data.
  */
-function getRecipeCounts(): Record<string, number> {
+async function getRecipeCounts(): Promise<Record<string, number>> {
   const counts: Record<string, number> = {};
-  for (const recipe of allRecipes) {
+  const recipes = await getAllRecipes();
+  for (const recipe of recipes) {
     const cuisine = typeof recipe.cuisine === "string" ? recipe.cuisine.toLowerCase() : "";
     if (cuisine) {
       counts[cuisine] = (counts[cuisine] || 0) + 1;
@@ -141,7 +142,7 @@ async function handleRequest(request: Request) {
       mealType:   searchParams.get("mealType")   ?? undefined,
     });
 
-    const recipeCounts = getRecipeCounts();
+    const recipeCounts = await getRecipeCounts();
 
     // Try Railway backend first
     const backendData = await fetchFromBackend({ zodiacSign, season, mealType });

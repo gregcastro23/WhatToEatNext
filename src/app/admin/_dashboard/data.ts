@@ -84,7 +84,8 @@ export interface AdminDashboardData {
   pulse: {
     state: "NOMINAL" | "DEGRADED" | "INCIDENT";
     score: number;
-    uptime30d: number;
+    /** Request success rate (%) over the in-memory request-log window. */
+    availability: number;
     activeIncidents: number;
     p95: number;
     errRate: number;
@@ -119,11 +120,8 @@ export interface AdminDashboardData {
   /** Recent auth events — computed by getAuditEvents(). */
   auditEvents: AuditEventsData;
   /**
-   * Fields below are not yet wired to a real backend.
-   * They are filled by the API route from deterministic seeds
-   * so the visual output stays stable. Real wire-up is follow-up
-   * work — see the TODO comments next to each field in
-   * /api/admin/dashboard/route.ts.
+   * Generation metadata. `mockedFields` lists any panels still served
+   * from seeded fixtures rather than a live source — currently empty.
    */
   meta: {
     generatedAt: string;
@@ -166,12 +164,12 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   pulse: {
     state: "NOMINAL",
-    score: 98.7,
-    uptime30d: 99.978,
-    activeIncidents: 1,
-    p95: 184,
-    errRate: 0.04,
-    deployFreshness: "23m",
+    score: 100,
+    availability: 100,
+    activeIncidents: 0,
+    p95: 0,
+    errRate: 0,
+    deployFreshness: "—",
   },
   stats: {
     totalUsers: 0,
@@ -206,19 +204,6 @@ export const FALLBACK_DATA: AdminDashboardData = {
   auditEvents: { events: [], live: false },
   meta: {
     generatedAt: new Date(0).toISOString(),
-    mockedFields: [
-      "pulse",
-      "services",
-      "kpis",
-      "agents",
-      "incidents",
-      "deploys",
-      "featureFlags",
-      "moderation",
-      "commerce",
-      "geo",
-      "errors",
-      "cost",
-    ],
+    mockedFields: [],
   },
 };

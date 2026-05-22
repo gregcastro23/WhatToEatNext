@@ -161,12 +161,44 @@ export const coverageCurationOverrides: Record<string, Partial<IngredientMapping
     subCategory: "bouquet_garni",
     compositeElements: ["thyme", "bay leaf", "parsley"],
     description: "Shorthand for herb bouquet components (e.g., bouquet garni) used to infuse stocks and braises.",
+    qualities: ["aromatic", "herbal", "infusing"],
+    culinaryApplications: {
+      commonUses: ["stocks", "soups", "braises", "court-bouillon"],
+    },
+    culinaryProfile: {
+      preparationTips: [
+        "Tie the herb sprigs into a tight bundle with kitchen twine, or wrap them in a square of cheesecloth.",
+        "Knot a long tail of twine to the pot handle so the bundle is easy to fish out.",
+        "Add early so it has time to infuse, then remove before serving — it flavors the liquid, it is not eaten.",
+      ],
+      cookingMethods: ["simmer", "braise", "infuse"],
+      cuisineAffinity: ["French", "European"],
+    },
   },
   mirepoix: {
     category: "aromatic_base",
     subCategory: "mirepoix",
     compositeElements: ["onion", "carrots", "celery"],
     description: "Traditional French aromatic flavor base made of diced vegetables gently cooked in fat.",
+    qualities: ["aromatic", "savory", "foundational"],
+    culinaryApplications: {
+      commonUses: ["stocks", "soups", "braises", "stews", "sauces"],
+    },
+    culinaryProfile: {
+      preparationTips: [
+        "Cut onion, carrot, and celery to a uniform 1/4-inch (small) dice so they cook evenly.",
+        "Hold the classic ratio of 2 parts onion to 1 part carrot to 1 part celery by volume.",
+        "Dice larger for long braises and stocks; cut a fine brunoise for quick-cooking sauces.",
+      ],
+      cookingMethods: ["sweat", "sauté"],
+      cuisineAffinity: ["French", "European", "American"],
+    },
+    storage: {
+      container: "airtight container",
+      temperature: "refrigerated",
+      duration: "up to 3 days raw",
+      notes: "Best diced fresh; freeze cut mirepoix for longer storage.",
+    },
   },
   chili_flakes: {
     category: "spice",

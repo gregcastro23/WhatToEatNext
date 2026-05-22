@@ -1,16 +1,35 @@
 import type { Recipe } from "@/types/recipe";
-import { flattenCuisineRecipes } from "@/utils/recipe/recipeStandardization";
+import {
+  flattenCuisineRecipes,
+  PRIMARY_CUISINE_KEYS,
+} from "@/utils/recipe/recipeStandardization";
 
 // Export the flattener for external use (e.g., AlchemicalDataContext)
 export { flattenCuisineRecipes };
 
+let _allRecipesCache: Recipe[] | null = null;
+
 /**
- * Get all recipes asynchronously to avoid bundling large static data in the client.
- * This should be used on the server or inside an async context.
+ * Get all recipes asynchronously. Hydrates every primary cuisine's full dish
+ * data — the ~200KB-per-cuisine files are dynamically imported so they never
+ * land in the client bundle — and flattens it into the recipe catalog.
+ *
+ * The synchronous `cuisinesMap` export only carries metadata (empty dishes),
+ * so it must NOT be used here; `getCuisineData()` performs the real load.
+ * Result is memoized for the lifetime of the process.
  */
 export async function getAllRecipes(): Promise<Recipe[]> {
-  const { cuisinesMap } = await import("@/data/cuisines/index");
-  return flattenCuisineRecipes(cuisinesMap) || [];
+  if (_allRecipesCache) return _allRecipesCache;
+  const { getCuisineData } = await import("@/data/cuisines/index");
+  const hydratedCuisines: Record<string, unknown> = {};
+  await Promise.all(
+    PRIMARY_CUISINE_KEYS.map(async (key) => {
+      const cuisine = await getCuisineData(key);
+      if (cuisine) hydratedCuisines[key] = cuisine;
+    }),
+  );
+  _allRecipesCache = flattenCuisineRecipes(hydratedCuisines) || [];
+  return _allRecipesCache;
 }
 
 // Legacy exports - WARNING: these will pull in everything if accessed!
