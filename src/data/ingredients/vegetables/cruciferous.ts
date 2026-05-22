@@ -84,7 +84,20 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cauliflower is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["nutty", "mild"],
+          secondary: ["sweet", "cabbage-like"],
+          notes: "Sweetens and turns nutty when roasted; can taste sulfurous if overcooked.",
+        },
+        cookingMethods: ["roast", "steam", "saute", "rice", "mash"],
+        cuisineAffinity: ["Indian", "Mediterranean", "American", "European"],
+        preparationTips: [
+          "Cut out the dense core, then break or cut the head into even florets.",
+          "Slice through the core into thick 'steaks' for roasting or searing.",
+          "Pulse florets in a food processor to make cauliflower 'rice'.",
+        ],
+      }
 },
   broccoli: {
       image_url: "ingredients/broccoli.png",

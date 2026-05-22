@@ -46,7 +46,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Basil is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["herbal", "mild"],
+          secondary: ["sweet", "peppery"],
+          notes: "Milder and hay-like compared to fresh basil; better in cooked sauces than as a finish.",
+        },
+        cookingMethods: ["simmer", "season", "bloom"],
+        cuisineAffinity: ["Italian", "Mediterranean"],
+        preparationTips: [
+          "Crumble between your fingers as you add it to release the oils.",
+          "Add early in cooking — dried basil needs time to rehydrate.",
+          "Use about one-third the amount you would of fresh basil.",
+        ],
+      }
 },
 
   dried_oregano: {
@@ -96,7 +109,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Oregano is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["pungent", "earthy"],
+          secondary: ["peppery", "minty"],
+          notes: "Robust and slightly bitter; one of the few herbs often preferred dried over fresh.",
+        },
+        cookingMethods: ["simmer", "season", "bloom"],
+        cuisineAffinity: ["Italian", "Greek", "Mexican"],
+        preparationTips: [
+          "Crumble between your fingers to release the aromatic oils.",
+          "Add early — its robust flavor stands up to long cooking.",
+          "Mediterranean and Mexican oregano differ; match it to the dish.",
+        ],
+      }
 },
 
   dried_thyme: {
@@ -140,7 +166,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Thyme is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["earthy", "herbal"],
+          secondary: ["minty", "woody"],
+          notes: "Holds its flavor well dried; a backbone herb for braises and stocks.",
+        },
+        cookingMethods: ["simmer", "braise", "season"],
+        cuisineAffinity: ["French", "Mediterranean"],
+        preparationTips: [
+          "Rub between your palms to crumble and release the oils.",
+          "Add early in cooking — thyme stands up to long simmering.",
+          "Use about one-third the amount of fresh thyme.",
+        ],
+      }
 },
 
   dried_rosemary: {
@@ -184,7 +223,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Rosemary is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["piney", "resinous"],
+          secondary: ["woody", "camphorous"],
+          notes: "Intensely piney; dried needles stay stiff, so crush or grind them.",
+        },
+        cookingMethods: ["roast", "braise", "season"],
+        cuisineAffinity: ["Italian", "Mediterranean"],
+        preparationTips: [
+          "Crush or grind the stiff dried needles — they don't soften much.",
+          "Add early so the resinous flavor mellows into the dish.",
+          "Use sparingly; dried rosemary is potent.",
+        ],
+      }
 },
 
   dried_sage: {
@@ -232,7 +284,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Sage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["earthy", "savory"],
+          secondary: ["peppery", "minty"],
+          notes: "Warm and slightly musty; a classic with poultry, pork, and stuffing.",
+        },
+        cookingMethods: ["season", "bloom", "braise"],
+        cuisineAffinity: ["Italian", "English", "American"],
+        preparationTips: [
+          "Crumble between your fingers as you add it.",
+          "Add early — dried sage's flavor deepens with cooking.",
+          "Rubbed sage is fluffier and milder than ground sage.",
+        ],
+      }
 },
 
   dried_bay_leaves: {
@@ -276,7 +341,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Bay Leaves is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["aromatic", "woody"],
+          secondary: ["herbal", "subtle"],
+          notes: "Whole dried leaves that release a slow, woody aroma into long-cooked dishes.",
+        },
+        cookingMethods: ["simmer", "braise", "infuse"],
+        cuisineAffinity: ["Mediterranean", "European"],
+        preparationTips: [
+          "Add whole at the start of long-cooked dishes.",
+          "Always remove the leaves before serving — they stay stiff and sharp.",
+          "Lightly crack a leaf to release more aroma.",
+        ],
+      }
 },
 
   dried_marjoram: {
@@ -319,7 +397,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Marjoram is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "floral"],
+          secondary: ["herbal", "mild"],
+          notes: "Sweeter and gentler than oregano, its close cousin; delicate, so add it late.",
+        },
+        cookingMethods: ["season", "finish"],
+        cuisineAffinity: ["Mediterranean", "European"],
+        preparationTips: [
+          "Crumble between your fingers to release the oils.",
+          "Add toward the end — marjoram is more delicate than oregano.",
+          "Use about one-third the amount of fresh marjoram.",
+        ],
+      }
 },
 
   dried_savory: {
@@ -362,7 +453,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Savory is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["peppery", "herbal"],
+          secondary: ["thyme-like", "earthy"],
+          notes: "Peppery and thyme-like; the classic herb for beans and lentils.",
+        },
+        cookingMethods: ["simmer", "season", "braise"],
+        cuisineAffinity: ["European", "Mediterranean"],
+        preparationTips: [
+          "Crumble between your fingers as you add it.",
+          "Add early — savory stands up to long cooking.",
+          "Stir into bean and lentil dishes, where it shines.",
+        ],
+      }
 },
 
   dried_chervil: {
@@ -405,7 +509,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Chervil is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["delicate", "anise"],
+          secondary: ["parsley-like", "mild"],
+          notes: "Faint anise note; loses much of its delicate flavor when dried.",
+        },
+        cookingMethods: ["season", "finish"],
+        cuisineAffinity: ["French"],
+        preparationTips: [
+          "Add near the end — chervil's flavor is fragile.",
+          "Crumble lightly between your fingers as you add it.",
+          "Use generously; dried chervil is mild.",
+        ],
+      }
 },
 
   dried_tarragon: {
@@ -448,7 +565,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Tarragon is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["anise", "sweet"],
+          secondary: ["grassy", "aromatic"],
+          notes: "Distinctly anise-like; holds its character reasonably well when dried.",
+        },
+        cookingMethods: ["season", "sauce", "finish"],
+        cuisineAffinity: ["French"],
+        preparationTips: [
+          "Crumble between your fingers to release the anise oils.",
+          "Add midway through cooking; long simmering dulls it.",
+          "Essential to béarnaise and other classic French sauces.",
+        ],
+      }
 },
 
   dried_dill: {
@@ -491,7 +621,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Dill is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["grassy", "anise"],
+          secondary: ["fresh", "mild"],
+          notes: "Milder than fresh dill weed; convenient for dips, dressings, and pickles.",
+        },
+        cookingMethods: ["season", "finish"],
+        cuisineAffinity: ["Scandinavian", "Eastern-European"],
+        preparationTips: [
+          "Crumble between your fingers as you add it.",
+          "Add late — dried dill is gentle and fades with heat.",
+          "Rehydrate briefly in the dish's liquid for dips and dressings.",
+        ],
+      }
 },
 
   dried_mint: {
@@ -539,7 +682,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Mint is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["cooling", "sweet"],
+          secondary: ["herbal", "bright"],
+          notes: "Cooling and concentrated; common in Middle Eastern and North African cooking.",
+        },
+        cookingMethods: ["season", "infuse", "finish"],
+        cuisineAffinity: ["Middle-Eastern", "North-African", "Greek"],
+        preparationTips: [
+          "Crumble between your fingers to release the menthol oils.",
+          "Add toward the end, or sprinkle over the finished dish.",
+          "Common in spice rubs, yogurt sauces, and teas.",
+        ],
+      }
 },
 
   dried_fennel: {
@@ -587,7 +743,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Fennel is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "anise"],
+          secondary: ["aromatic", "warm"],
+          notes: "Sweet, licorice-like dried fennel seed used to season dishes and spice blends.",
+        },
+        cookingMethods: ["bloom", "grind", "season"],
+        cuisineAffinity: ["Italian", "Indian", "Mediterranean"],
+        preparationTips: [
+          "Toast the seeds briefly to deepen the flavor.",
+          "Crush or grind just before use for the strongest aroma.",
+          "Bloom whole seeds in hot oil at the start of cooking.",
+        ],
+      }
 },
 
   dried_parsley: {
@@ -630,7 +799,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Parsley is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["herbal", "mild"],
+          secondary: ["grassy", "green"],
+          notes: "Mild and mostly for color; far less vivid than fresh parsley.",
+        },
+        cookingMethods: ["season", "garnish"],
+        cuisineAffinity: ["European", "American"],
+        preparationTips: [
+          "Crumble between your fingers as you add it.",
+          "Use mainly for a touch of color — the flavor is faint.",
+          "Rehydrate in a little water if using it as a garnish.",
+        ],
+      }
 },
 
   dried_cilantro: {
@@ -673,7 +855,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Cilantro is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["citrusy", "herbal"],
+          secondary: ["mild", "grassy"],
+          notes: "Loses most of its punch when dried; fresh cilantro is far more vivid.",
+        },
+        cookingMethods: ["season"],
+        cuisineAffinity: ["Mexican", "Indian", "Southeast-Asian"],
+        preparationTips: [
+          "Crumble between your fingers as you add it.",
+          "Add early; dried cilantro needs time to release what flavor it has.",
+          "Where possible, prefer fresh cilantro for its bright flavor.",
+        ],
+      }
 },
 
   dried_chives: {
@@ -716,7 +911,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Chives is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["mild", "oniony"],
+          secondary: ["grassy", "delicate"],
+          notes: "Gentle onion note; freeze-dried chives keep more color and flavor.",
+        },
+        cookingMethods: ["season", "garnish", "finish"],
+        cuisineAffinity: ["French", "American"],
+        preparationTips: [
+          "Add near the end, or use as a garnish.",
+          "Rehydrate briefly in the dish's moisture to plump them.",
+          "Choose freeze-dried chives for the best color and flavor.",
+        ],
+      }
 },
 
   dried_lemon_balm: {
@@ -764,7 +972,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Lemon Balm is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["citrusy", "minty"],
+          secondary: ["floral", "mild"],
+          notes: "Soft lemon-mint aroma; mostly used for teas and infusions.",
+        },
+        cookingMethods: ["infuse", "tea"],
+        cuisineAffinity: ["European"],
+        preparationTips: [
+          "Steep in hot water for a calming herbal tea.",
+          "Crumble lightly to release the lemony oils.",
+          "Strain after infusing — the dried leaves stay papery.",
+        ],
+      }
 },
 
   dried_lavender: {
@@ -812,7 +1033,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Lavender is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["floral", "sweet"],
+          secondary: ["perfumed", "herbal"],
+          notes: "Intensely floral; use a light hand or it turns soapy.",
+        },
+        cookingMethods: ["infuse", "bake", "season"],
+        cuisineAffinity: ["French", "Mediterranean"],
+        preparationTips: [
+          "Use culinary-grade lavender, and only a pinch — too much tastes soapy.",
+          "Infuse into cream, sugar, or syrup, then strain.",
+          "Grind with sugar to distribute its flavor evenly in baking.",
+        ],
+      }
 },
 
   dried_summer_savory: {
@@ -855,7 +1089,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Summer Savory is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["peppery", "mild"],
+          secondary: ["thyme-like", "sweet"],
+          notes: "The milder, sweeter savory — gentler than winter savory.",
+        },
+        cookingMethods: ["season", "simmer"],
+        cuisineAffinity: ["European", "Mediterranean"],
+        preparationTips: [
+          "Crumble between your fingers as you add it.",
+          "Add early in cooking so the flavor blends in.",
+          "Pairs naturally with beans, lentils, and eggs.",
+        ],
+      }
 },
 
   dried_lovage: {
@@ -898,7 +1145,20 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dried Lovage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["celery-like", "savory"],
+          secondary: ["herbal", "intense"],
+          notes: "Concentrated celery-and-herb flavor; potent, so use it sparingly.",
+        },
+        cookingMethods: ["simmer", "stock", "season"],
+        cuisineAffinity: ["European"],
+        preparationTips: [
+          "Use sparingly — dried lovage is very concentrated.",
+          "Add early to soups and stocks for a savory, celery-like depth.",
+          "Crumble between your fingers as you add it.",
+        ],
+      }
 },
 
   chervil: {

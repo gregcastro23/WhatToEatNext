@@ -1155,18 +1155,31 @@ export const EnhancedIngredientRecommender: React.FC<
                   </span>
                 )}
               </div>
-              <div className="mt-1 flex flex-wrap gap-1">
+              <div className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
                 <span className="text-xs capitalize text-slate-400">
                   {formatIngredientName(ingredient.category)}
                 </span>
-                {ingredient.subcategory && (
-                  <>
-                    <span className="text-xs text-slate-600">•</span>
+                {(() => {
+                  const categoryLabel = formatIngredientName(ingredient.category);
+                  const subLabel = ingredient.subcategory
+                    ? formatIngredientName(ingredient.subcategory)
+                    : "";
+                  // Skip a subcategory that merely echoes the name or category.
+                  if (
+                    !subLabel ||
+                    subLabel.toLowerCase() === displayName.toLowerCase() ||
+                    subLabel.toLowerCase() === categoryLabel.toLowerCase()
+                  ) {
+                    return null;
+                  }
+                  // Bullet + label kept in one span so the separator never
+                  // orphans onto its own line when the row wraps.
+                  return (
                     <span className="text-xs capitalize text-slate-400">
-                      {formatIngredientName(ingredient.subcategory)}
+                      <span className="text-slate-600">·</span> {subLabel}
                     </span>
-                  </>
-                )}
+                  );
+                })()}
               </div>
             </div>
             <div className="flex shrink-0 flex-col items-end gap-2">
@@ -1231,6 +1244,29 @@ export const EnhancedIngredientRecommender: React.FC<
               </div>
             </motion.div>
           )}
+
+          {/* Composite elements — what an aromatic base / blend is built from */}
+          {(() => {
+            const composite = (ingredient as any).compositeElements;
+            if (!Array.isArray(composite) || composite.length === 0) return null;
+            return (
+              <div className="mb-3">
+                <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                  Made from
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {composite.map((part: unknown) => (
+                    <span
+                      key={String(part)}
+                      className="rounded-md border border-amber-300/20 bg-amber-500/10 px-2 py-1 text-xs capitalize text-amber-100"
+                    >
+                      {formatIngredientName(String(part))}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Qualities badges */}
           {ingredient.qualities &&
@@ -1402,6 +1438,40 @@ export const EnhancedIngredientRecommender: React.FC<
             );
           })()}
 
+          {/* ── HOW TO PREP ───────────────────────────────────── */}
+          {(() => {
+            const tips: string[] = [];
+            const cp = (ingredient as any).culinaryProfile;
+            if (Array.isArray(cp?.preparationTips)) {
+              tips.push(...cp.preparationTips);
+            }
+            const prep = (ingredient as any).preparation;
+            if (Array.isArray(prep?.methods)) {
+              tips.push(...prep.methods);
+            }
+            if (tips.length === 0) return null;
+            return (
+              <div className="mb-3">
+                <div className="mb-1 text-xs font-medium text-gray-500 dark:text-slate-400">
+                  🔪 How to prep
+                </div>
+                <ul className="space-y-0.5">
+                  {tips.slice(0, 3).map((tip, idx) => (
+                    <li
+                      key={idx}
+                      className="flex gap-1.5 text-xs text-gray-600 dark:text-slate-300"
+                    >
+                      <span className="text-amber-300/70" aria-hidden="true">
+                        •
+                      </span>
+                      <span>{String(tip)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })()}
+
           {/* ── BEST COOKING METHODS ──────────────────────────── */}
           {(() => {
             const methods: string[] | undefined =
@@ -1462,6 +1532,29 @@ export const EnhancedIngredientRecommender: React.FC<
               );
             }
             return null;
+          })()}
+
+          {/* ── STORAGE ───────────────────────────────────────── */}
+          {(() => {
+            const s = (ingredient as any).storage;
+            if (!s || typeof s !== "object") return null;
+            const temperature =
+              typeof s.temperature === "string" ? s.temperature : null;
+            const duration = typeof s.duration === "string" ? s.duration : null;
+            const container =
+              typeof s.container === "string" ? s.container : null;
+            const place = [container, temperature].filter(Boolean).join(", ");
+            if (!place && !duration) return null;
+            return (
+              <div className="mb-2 text-xs text-gray-600 dark:text-slate-300">
+                <span className="font-medium text-gray-500 dark:text-slate-400">
+                  📦 Storage:{" "}
+                </span>
+                {place}
+                {place && duration ? " · " : ""}
+                {duration ? `keeps ${duration}` : ""}
+              </div>
+            );
           })()}
 
           {/* ── ORIGIN + SEASONALITY ──────────────────────────── */}

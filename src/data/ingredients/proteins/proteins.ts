@@ -1184,7 +1184,7 @@ const rawProteins: Record<string, Partial<IngredientMapping>> = {
 },
   long_beans: {
       image_url: "ingredients/long_beans.png",
-    description: "Long Beans is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "Also called yardlong beans, these slender pods can grow over a foot long. They have a denser, chewier texture and a nuttier, less sweet flavor than green beans, and hold up well to stir-frying.",
     name: "long beans",
     origin: ["Worldwide"],
     season: ["all"],

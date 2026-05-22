@@ -233,7 +233,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "single layer on paper towels",
       notes: "Extremely delicate, use quickly",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Raspberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["floral", "bright"],
+          notes: "Intensely fragrant and fragile; the hollow core makes it delicate to handle.",
+        },
+        cookingMethods: ["raw", "preserve", "bake", "sauce"],
+        cuisineAffinity: ["European", "American"],
+        preparationTips: [
+          "Handle gently; raspberries bruise and mold within a day or two.",
+          "Do not wash until ready to use — excess water turns them mushy.",
+          "Press through a fine sieve to make a smooth, seedless coulis.",
+        ],
+      }
 },
 
   strawberry: {
@@ -306,7 +319,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "original container or single layer",
       notes: "Store unwashed with hulls attached",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Strawberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["floral", "bright"],
+          notes: "Sweetest at peak ripeness; flavor fades quickly after picking.",
+        },
+        cookingMethods: ["raw", "preserve", "bake", "macerate"],
+        cuisineAffinity: ["American", "European"],
+        preparationTips: [
+          "Hull with a paring knife, or push a straw up through the base.",
+          "Rinse before hulling so the berries do not absorb water.",
+          "Macerate sliced berries with a little sugar to draw out a syrup.",
+        ],
+      }
 },
 
   blackberry: {
@@ -380,7 +406,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "single layer preferred",
       notes: "Very delicate, use quickly",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Blackberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["wine-like", "earthy"],
+          notes: "Deep and winey; the seeds are noticeable, so sieving suits smooth preparations.",
+        },
+        cookingMethods: ["raw", "preserve", "bake", "sauce"],
+        cuisineAffinity: ["European", "American"],
+        preparationTips: [
+          "Rinse gently just before use and drain well.",
+          "Sieve the puree to remove the hard seeds for sauces and sorbets.",
+          "Toss with a little flour before baking so they don't sink in batters.",
+        ],
+      }
 },
 
   cranberry: {
@@ -454,7 +493,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "original bag or container",
       notes: "Can be frozen for months",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Cranberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "astringent"],
+          secondary: ["bitter", "bright"],
+          notes: "Bracingly sour raw; needs sugar and heat to become palatable.",
+        },
+        cookingMethods: ["preserve", "sauce", "bake", "dry"],
+        cuisineAffinity: ["American", "Scandinavian"],
+        preparationTips: [
+          "Cook with sugar — raw cranberries are too sour to eat.",
+          "Simmer just until the berries pop, then stop to keep some texture.",
+          "Sort out and discard any soft or shriveled berries before cooking.",
+        ],
+      }
 },
 
   gooseberry: {
@@ -521,7 +573,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "ventilated container",
       notes: "Can be frozen whole",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Gooseberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "sharp"],
+          secondary: ["grassy", "floral"],
+          notes: "Sharp and grassy when green; dessert varieties sweeten as they ripen.",
+        },
+        cookingMethods: ["preserve", "bake", "sauce", "raw"],
+        cuisineAffinity: ["English", "European"],
+        preparationTips: [
+          "Top and tail each berry — pinch off the stem and blossom ends.",
+          "Cook tart green gooseberries with sugar for fools and crumbles.",
+          "Eat sweet, ripe dessert varieties raw.",
+        ],
+      }
 },
 
   elderberry: {
@@ -588,7 +653,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "sealed container",
       notes: "Must be cooked before eating, toxic when raw",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Elderberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "earthy"],
+          secondary: ["wine-like", "musky"],
+          notes: "Must be cooked — raw elderberries and their stems are mildly toxic.",
+        },
+        cookingMethods: ["preserve", "syrup", "bake"],
+        cuisineAffinity: ["European"],
+        preparationTips: [
+          "Always cook elderberries — never eat them raw.",
+          "Strip the berries from the stems with a fork; discard all stems.",
+          "Simmer and strain to make syrup, then sweeten to taste.",
+        ],
+      }
 },
 
   mulberry: {
@@ -655,7 +733,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "single layer preferred",
       notes: "Extremely delicate, stains easily",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Mulberry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "mild"],
+          secondary: ["earthy", "honeyed"],
+          notes: "Soft and honey-sweet with low acidity; stains everything it touches.",
+        },
+        cookingMethods: ["raw", "preserve", "bake"],
+        cuisineAffinity: ["Middle-Eastern", "Asian", "European"],
+        preparationTips: [
+          "Pick or buy fully dark — mulberries do not ripen after harvest.",
+          "Snip off the tiny green stem if it bothers you; it is edible.",
+          "Handle on a surface you don't mind staining deep purple.",
+        ],
+      }
 },
 
   goji_berry: {
@@ -729,7 +820,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "sealed container",
       notes: "Usually sold dried",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Goji Berry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tangy"],
+          secondary: ["herbal", "savory"],
+          notes: "Usually sold dried; faintly tomato-like, chewy, and mildly sweet.",
+        },
+        cookingMethods: ["raw", "rehydrate", "infuse", "bake"],
+        cuisineAffinity: ["Chinese", "Asian"],
+        preparationTips: [
+          "Soak dried goji berries about 10 minutes to plump them before use.",
+          "Add to broths and teas to infuse, or scatter dried over grain bowls.",
+          "The soaking liquid is flavorful — use it rather than discard it.",
+        ],
+      }
 },
 
   acai_berry: {
@@ -803,7 +907,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "sealed bag",
       notes: "Usually sold frozen as puree",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Acai Berry is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["earthy", "bitter"],
+          secondary: ["chocolatey", "mild"],
+          notes: "Low in sugar with a chocolate-berry note; sold as frozen puree or powder, not fresh.",
+        },
+        cookingMethods: ["blend", "raw"],
+        cuisineAffinity: ["Brazilian", "American"],
+        preparationTips: [
+          "Use frozen unsweetened puree packs or powder — fresh acai is not exported.",
+          "Blend frozen packs with just a splash of liquid for a thick bowl base.",
+          "Sweeten with banana or honey, since acai itself is barely sweet.",
+        ],
+      }
 },
 
   currant_red: {
@@ -870,7 +987,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "ventilated container",
       notes: "Can be frozen on stems",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Red Currant is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "bright"],
+          secondary: ["sweet", "wine-like"],
+          notes: "Jewel-bright and sharply tart; high pectin makes it set jelly easily.",
+        },
+        cookingMethods: ["preserve", "sauce", "raw", "bake"],
+        cuisineAffinity: ["European", "Scandinavian"],
+        preparationTips: [
+          "Run a fork down each cluster to strip the currants from the stem.",
+          "Their high pectin sets jelly fast — no added pectin needed.",
+          "Leave a few on the sprig as a tart-sweet garnish.",
+        ],
+      }
 },
 
   currant_black: {
@@ -937,7 +1067,20 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       container: "ventilated container",
       notes: "Very high vitamin C content",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Black Currant is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "musky"],
+          secondary: ["earthy", "wine-like"],
+          notes: "Intensely aromatic and tart with a distinctive musky depth; rarely eaten raw.",
+        },
+        cookingMethods: ["preserve", "syrup", "sauce", "bake"],
+        cuisineAffinity: ["European", "English"],
+        preparationTips: [
+          "Strip the berries from the stems with a fork.",
+          "Cook with sugar — raw black currants are very tart.",
+          "Simmer and strain for cordials and crème de cassis.",
+        ],
+      }
 },
 };
 

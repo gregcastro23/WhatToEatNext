@@ -39,7 +39,20 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Heirloom Carrot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "earthy"],
+          secondary: ["bright", "mineral"],
+          notes: "Heirloom varieties range from sweet to faintly peppery; color is no guide to flavor.",
+        },
+        cookingMethods: ["roast", "glaze", "raw", "braise", "puree"],
+        cuisineAffinity: ["French", "Middle-Eastern", "American", "Asian"],
+        preparationTips: [
+          "Scrub rather than peel thin-skinned heirlooms to keep their color and nutrients.",
+          "Cut on a steep bias for quick cooking, or into batons for roasting.",
+          "Halve or quarter thick carrots lengthwise so the pieces roast evenly.",
+        ],
+      }
 },
   black_radish: {
       image_url: "ingredients/black_radish.png",
@@ -78,7 +91,20 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Black Radish is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["pungent", "peppery"],
+          secondary: ["earthy", "sharp"],
+          notes: "Much hotter and earthier than red radish; mellows considerably with cooking or salting.",
+        },
+        cookingMethods: ["raw", "roast", "braise", "saute"],
+        cuisineAffinity: ["Eastern-European", "Russian", "French"],
+        preparationTips: [
+          "Peel the tough, dark skin before use.",
+          "Slice paper-thin and salt 10-15 minutes to tame the heat for salads.",
+          "Cut into wedges or batons for roasting, which sweetens the sharp bite.",
+        ],
+      }
 },
   carrot: {
       image_url: "ingredients/carrot.png",
@@ -262,7 +288,20 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Ginger is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["pungent", "warm"],
+          secondary: ["citrusy", "spicy"],
+          notes: "Fresh ginger is bright and hot; cooking softens it into a warm, rounded spice.",
+        },
+        cookingMethods: ["grate", "mince", "slice", "infuse", "stir-fry"],
+        cuisineAffinity: ["Chinese", "Indian", "Thai", "Japanese"],
+        preparationTips: [
+          "Scrape off the thin skin with the edge of a spoon.",
+          "Grate on a microplane for even dispersion, or mince it finely.",
+          "Slice into coins and smash them to infuse broths and braises, then discard.",
+        ],
+      }
 },
   jerusalem_artichoke: {
       image_url: "ingredients/jerusalem_artichoke.png",
@@ -301,7 +340,20 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Jerusalem Artichoke is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["nutty", "sweet"],
+          secondary: ["earthy", "creamy"],
+          notes: "Tastes like a nutty water chestnut raw; turns sweet and creamy when roasted.",
+        },
+        cookingMethods: ["roast", "saute", "puree", "raw", "braise"],
+        cuisineAffinity: ["French", "Italian", "American"],
+        preparationTips: [
+          "Scrub well; peeling is optional since the knobby skin is thin.",
+          "Slice thin for quick cooking, or halve them for roasting.",
+          "Drop cut pieces into acidulated water to keep them from browning.",
+        ],
+      }
 },
   carrots: {
       image_url: "ingredients/carrots.png",

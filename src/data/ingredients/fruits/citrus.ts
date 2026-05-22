@@ -67,7 +67,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.1, sour: 0.9, bitter: 0.3, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lemon is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sour", "bright"],
+          secondary: ["floral", "tangy"],
+          notes: "Pure acidity with fragrant oils in the zest; a workhorse for balancing richness.",
+        },
+        cookingMethods: ["juice", "zest", "raw", "preserve", "candy"],
+        cuisineAffinity: ["Mediterranean", "Middle-Eastern", "French"],
+        preparationTips: [
+          "Zest before juicing — the fragrant oils are all in the colored peel.",
+          "Roll the lemon firmly on the counter before juicing to release more juice.",
+          "Avoid the bitter white pith when zesting.",
+        ],
+      }
 },
 
   orange: {
@@ -135,7 +148,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { spicy: 0, sweet: 0.6, sour: 0.5, bitter: 0.2, salty: 0, umami: 0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Orange is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "citrusy"],
+          secondary: ["floral", "bright"],
+          notes: "Sweet and aromatic; both the juice and the zest carry flavor.",
+        },
+        cookingMethods: ["juice", "zest", "raw", "segment"],
+        cuisineAffinity: ["Mediterranean", "American", "Middle-Eastern"],
+        preparationTips: [
+          "Zest before peeling to capture the aromatic oils.",
+          "Supreme the fruit — cut away peel and pith, then slice between the membranes.",
+          "Roll firmly on the counter before juicing to maximize the yield.",
+        ],
+      }
 },
 
   lime: {
@@ -203,7 +229,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lime is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sour", "bright"],
+          secondary: ["floral", "sharp"],
+          notes: "Sharper and more aromatic than lemon; central to Latin American and Southeast Asian cooking.",
+        },
+        cookingMethods: ["juice", "zest", "raw"],
+        cuisineAffinity: ["Mexican", "Thai", "Vietnamese", "Indian"],
+        preparationTips: [
+          "Zest before juicing — the peel oils are intensely aromatic.",
+          "Roll on the counter or microwave 10 seconds to loosen the juice.",
+          "Add lime juice at the end of cooking; heat dulls its brightness.",
+        ],
+      }
 },
 
   grapefruit: {
@@ -273,7 +312,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Grapefruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["bitter", "sour"],
+          secondary: ["sweet", "floral"],
+          notes: "Tart and pleasantly bitter; pink and red varieties are sweeter than white.",
+        },
+        cookingMethods: ["juice", "raw", "segment", "broil"],
+        cuisineAffinity: ["American", "Mediterranean"],
+        preparationTips: [
+          "Supreme the segments to escape the bitter membranes.",
+          "Halve crosswise and loosen the segments with a serrated knife to eat with a spoon.",
+          "A sprinkle of sugar and a quick broil tames the bitterness.",
+        ],
+      }
 },
 
   mandarin: {
@@ -335,7 +387,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Mandarin is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "fragrant"],
+          secondary: ["honeyed", "mild"],
+          notes: "Loose-skinned and easy to peel; sweeter and less acidic than orange.",
+        },
+        cookingMethods: ["raw", "juice", "segment"],
+        cuisineAffinity: ["Chinese", "Mediterranean"],
+        preparationTips: [
+          "Peel by hand — the loose skin slips off easily.",
+          "Pull the segments apart and remove any seeds and stringy pith.",
+          "Eat fresh; the delicate flavor fades when cooked.",
+        ],
+      }
 },
 
   clementine: {
@@ -403,7 +468,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.7, salty: 0.0, sour: 0.3, bitter: 0.05, umami: 0.0, spicy: 0.0 }, aroma: { fruity: 0.9, floral: 0.3, fresh: 0.7 }, texture: { juicy: 0.7, tender: 0.6, soft: 0.5 } },
       pairingRecommendations: { complementary: ["citrus", "honey", "vanilla", "dairy", "mint"], contrasting: ["chili", "salt", "vinegar"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Clementine is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "fragrant"],
+          secondary: ["bright", "mild"],
+          notes: "A seedless mandarin hybrid — sweet, easy to peel, the classic winter snacking citrus.",
+        },
+        cookingMethods: ["raw", "juice", "segment"],
+        cuisineAffinity: ["Mediterranean", "European"],
+        preparationTips: [
+          "Peel by hand; the skin comes away cleanly.",
+          "Separate the segments — clementines are reliably seedless.",
+          "Best eaten fresh and out of hand.",
+        ],
+      }
 },
 
   pomelo: {
@@ -501,7 +579,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         },
       },
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pomelo is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "mild"],
+          secondary: ["floral", "faintly-bitter"],
+          notes: "The largest citrus — thick rind over firm flesh that holds its shape, gently sweet.",
+        },
+        cookingMethods: ["raw", "segment", "salad"],
+        cuisineAffinity: ["Thai", "Chinese", "Southeast-Asian"],
+        preparationTips: [
+          "Score and peel away the very thick rind and pith.",
+          "Pull each segment open and remove the tough membrane and seeds.",
+          "Break the firm flesh into juicy beads for salads.",
+        ],
+      }
 },
 
   yuzu: {
@@ -574,7 +665,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 weeks",
       notes: "Highly aromatic and prized in Japanese cuisine",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Yuzu is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sour", "aromatic"],
+          secondary: ["floral", "grapefruit-like"],
+          notes: "Intensely fragrant Japanese citrus — too sour to eat, prized for its peel and juice.",
+        },
+        cookingMethods: ["zest", "juice", "infuse"],
+        cuisineAffinity: ["Japanese", "Korean"],
+        preparationTips: [
+          "Use the fragrant zest and juice — yuzu is not eaten as a fruit.",
+          "A little goes a long way; the aroma is highly concentrated.",
+          "Add the juice off the heat to preserve its perfume.",
+        ],
+      }
 },
 
   bergamot: {
@@ -647,7 +751,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2 weeks",
       notes: "Primarily used for zest and oil in Earl Grey tea",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Bergamot is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["floral", "sour"],
+          secondary: ["bitter", "aromatic"],
+          notes: "Highly aromatic and bitter; the peel flavors Earl Grey tea and marmalade.",
+        },
+        cookingMethods: ["zest", "infuse", "preserve"],
+        cuisineAffinity: ["Italian", "English"],
+        preparationTips: [
+          "Use the zest — bergamot is too sour and bitter to eat raw.",
+          "Infuse the peel into tea, syrups, or custards.",
+          "Cook the whole fruit into marmalade to mellow the bitterness.",
+        ],
+      }
 },
 
   kumquat: {
@@ -720,7 +837,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2 weeks",
       notes: "Eat whole - sweet peel, tart flesh",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kumquat is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "sour"],
+          secondary: ["bright", "floral"],
+          notes: "Eaten whole — the peel is sweet and the flesh is tart, an inverted citrus.",
+        },
+        cookingMethods: ["raw", "preserve", "candy"],
+        cuisineAffinity: ["Chinese", "Mediterranean"],
+        preparationTips: [
+          "Eat whole — the sweet skin balances the sour flesh.",
+          "Roll between your fingers first to release the peel oils.",
+          "Slice thin and remove the seeds for salads and garnishes.",
+        ],
+      }
 },
 
   finger_lime: {
@@ -793,7 +923,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 weeks",
       notes: "Caviar-like pearls burst with flavor",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Finger Lime is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sour", "bright"],
+          secondary: ["tangy", "fresh"],
+          notes: "Australian citrus whose flesh forms tiny juice pearls — 'citrus caviar'.",
+        },
+        cookingMethods: ["raw", "garnish"],
+        cuisineAffinity: ["Australian"],
+        preparationTips: [
+          "Halve crosswise and gently squeeze out the pearl-like vesicles.",
+          "Add the pearls raw at the last moment — heat bursts them.",
+          "Use as a finishing garnish on seafood and desserts.",
+        ],
+      }
 },
 
   blood_orange: {
@@ -866,7 +1009,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Distinctive raspberry-like flavor, burgundy flesh",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Blood Orange is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["berry-like", "floral"],
+          notes: "Crimson flesh with a raspberry-tinged orange flavor; color deepens in cold weather.",
+        },
+        cookingMethods: ["juice", "raw", "segment"],
+        cuisineAffinity: ["Italian", "Mediterranean"],
+        preparationTips: [
+          "Supreme the segments to show off the crimson flesh.",
+          "Zest before peeling — the peel is fragrant too.",
+          "Juice for a vivid, berry-tinged splash in dressings and drinks.",
+        ],
+      }
 },
 
   tangerine: {
@@ -939,7 +1095,20 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: "1-2 weeks",
       notes: "Very easy to peel and segment",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Tangerine is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tangy"],
+          secondary: ["fragrant", "bright"],
+          notes: "A bright, slightly tart mandarin type with a loose, easy-peel skin.",
+        },
+        cookingMethods: ["raw", "juice", "segment"],
+        cuisineAffinity: ["American", "Mediterranean"],
+        preparationTips: [
+          "Peel by hand — the skin lifts off easily.",
+          "Separate the segments and pick out any seeds.",
+          "Eat fresh or juice; the flavor is best raw.",
+        ],
+      }
 },
 };
 

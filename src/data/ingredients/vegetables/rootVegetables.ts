@@ -4,7 +4,7 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 const rawRootVegetables = {
   "sweet potato": {
       image_url: "ingredients/sweet potato.png",
-    description: "Sweet Potato is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "A sweet, starchy root (*Ipomoea batatas*) with vivid orange flesh rich in beta-carotene. Slow roasting converts its starch to sugar for deep caramelization, while the thin skin is nutritious and edible.",
     name: "Sweet potato",
     origin: ["Central and South America"],
 
@@ -61,7 +61,20 @@ const rawRootVegetables = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Sweet Potato is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "earthy"],
+          secondary: ["creamy", "chestnut-like"],
+          notes: "Naturally sweet; slow roasting converts starch to sugar for deep caramelization.",
+        },
+        cookingMethods: ["roast", "bake", "mash", "fry", "steam"],
+        cuisineAffinity: ["American", "Caribbean", "Asian"],
+        preparationTips: [
+          "Scrub well; peeling is optional since the skin is nutritious.",
+          "Cut into even cubes or wedges so the pieces cook at the same rate.",
+          "Soak cut fries in cold water to rinse off surface starch for a crisper result.",
+        ],
+      }
 },
 
   parsnip: {
@@ -104,7 +117,20 @@ const rawRootVegetables = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Parsnip is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "earthy"],
+          secondary: ["nutty", "spiced"],
+          notes: "Sweeter and more aromatic than carrot, with notes of nutmeg; sweetens after a frost.",
+        },
+        cookingMethods: ["roast", "mash", "puree", "braise"],
+        cuisineAffinity: ["English", "French", "European"],
+        preparationTips: [
+          "Peel the skin, which can be fibrous and slightly bitter.",
+          "Cut out the woody core of large parsnips before cooking.",
+          "Cut into even batons or chunks so they roast evenly.",
+        ],
+      }
 },
 
   beet: {
@@ -148,7 +174,20 @@ const rawRootVegetables = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Beet is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["earthy", "sweet"],
+          secondary: ["mineral", "cooling"],
+          notes: "Deeply earthy from geosmin; balances beautifully with acid and fresh cheese.",
+        },
+        cookingMethods: ["roast", "steam", "raw", "pickle", "boil"],
+        cuisineAffinity: ["Eastern-European", "French", "Mediterranean"],
+        preparationTips: [
+          "Roast whole in foil, then slip the skins off once cool enough to handle.",
+          "Wear gloves and use a dedicated board — beet juice stains everything.",
+          "Grate raw on the large holes of a box grater for slaws and salads.",
+        ],
+      }
 },
 
   turnip: {
@@ -191,7 +230,20 @@ const rawRootVegetables = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Turnip is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["peppery", "mild"],
+          secondary: ["sweet", "cabbage-like"],
+          notes: "Crisp and slightly peppery raw; sweetens and mellows when cooked.",
+        },
+        cookingMethods: ["roast", "mash", "braise", "raw"],
+        cuisineAffinity: ["French", "English", "Japanese"],
+        preparationTips: [
+          "Peel larger turnips; young salad turnips can simply be scrubbed.",
+          "Cut into even wedges or cubes for roasting and braising.",
+          "Slice small, sweet turnips thin to serve raw.",
+        ],
+      }
 },
 };
 

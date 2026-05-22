@@ -58,7 +58,7 @@ const rawStarchy: Record<string, Partial<IngredientMapping>> = {
 },
   russet_potatoes: {
       image_url: "ingredients/russet_potatoes.png",
-    description: "Russet Potatoes is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "A large, starchy potato with rough brown skin and dry, fluffy flesh. Low in moisture and high in starch, russets bake into light, fluffy interiors and fry crisp, but they fall apart if boiled for salads.",
     name: "russet potatoes",
     origin: ["Andes"],
     season: ["fall", "winter"],

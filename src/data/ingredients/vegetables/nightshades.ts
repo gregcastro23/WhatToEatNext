@@ -347,7 +347,20 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Eggplant is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["mild", "earthy"],
+          secondary: ["smoky", "bitter"],
+          notes: "Spongy raw, turning silky and rich when cooked through; older fruit can be bitter.",
+        },
+        cookingMethods: ["roast", "grill", "fry", "braise", "saute"],
+        cuisineAffinity: ["Mediterranean", "Middle-Eastern", "Italian", "Asian"],
+        preparationTips: [
+          "Cut into even slices or cubes; uneven pieces cook inconsistently.",
+          "Salt the cut surfaces 20-30 minutes and blot to draw out moisture and bitterness.",
+          "Cook until fully collapsed and creamy — undercooked eggplant is spongy.",
+        ],
+      }
 },
 
   tomato_paste: {
@@ -578,7 +591,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
 
   green_peppers: {
       image_url: "ingredients/green_peppers.png",
-    description: "Green Peppers is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "Unripe bell peppers (*Capsicum annuum*), crisp and hollow with a fresh, grassy, slightly bitter flavor that sweetens as the pepper ripens to red. They keep their crunch raw and soften without collapsing when cooked.",
     name: "green peppers",
     origin: ["South India"],
     season: ["all"],

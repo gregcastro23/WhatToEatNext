@@ -30,6 +30,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   onClick,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
 
   // Determine the dominant element to style the card
   const dominantElement = getDominantElement(
@@ -86,13 +87,14 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
         onClick={handleClick}
       >
         <div className="relative h-32 w-full overflow-hidden bg-black/30">
-          {imageUrl ? (
+          {imageUrl && !imgFailed ? (
             <Image
               src={String(imageUrl)}
               alt={`${ingredient.name} ingredient`}
               fill
               loading="lazy"
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              onError={() => setImgFailed(true)}
               className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
             />
           ) : (

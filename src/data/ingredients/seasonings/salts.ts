@@ -51,7 +51,7 @@ const rawSalts = {
           taste: ["Mild", "Balanced", "Natural"],
           aroma: ["Fresh", "Clean", "Subtle"],
           texture: ["Pleasant", "Smooth", "Appealing"],
-          notes: "Characteristic camargue profile",
+          notes: "Delicate, mineral-rich flakes with a clean, bright salinity.",
           culinaryProfile: {
             flavorProfile: {
               primary: ["balanced"],
@@ -61,7 +61,7 @@ const rawSalts = {
                 taste: ["Mild", "Balanced", "Natural"],
                 aroma: ["Fresh", "Clean", "Subtle"],
                 texture: ["Pleasant", "Smooth", "Appealing"],
-                notes: "Characteristic flavorProfile profile",
+                notes: "Clean, balanced salt character.",
                 // Removed excessive sensoryProfile nesting
                 // Removed nested content
                 // Removed nested content

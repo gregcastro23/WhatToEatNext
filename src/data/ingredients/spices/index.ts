@@ -80,6 +80,21 @@ export const spices = fixIngredientMappings({
   ...(spiceBlends as any),
   ...enhancedSpicesIngredients, // Add our enhanced spices with full data
   cumin: {
+    image_url: "ingredients/cumin.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["earthy", "warm"],
+        secondary: ["nutty", "pungent"],
+        notes: "Warm, earthy seed spice central to Mexican, Indian, and Middle Eastern cooking.",
+      },
+      cookingMethods: ["toast", "bloom", "grind", "season"],
+      cuisineAffinity: ["Mexican", "Indian", "Middle-Eastern"],
+      preparationTips: [
+        "Toast whole seeds in a dry pan until fragrant before grinding.",
+        "Grind fresh — pre-ground cumin fades quickly.",
+        "Bloom in hot oil at the start of cooking to build a savory base.",
+      ],
+    },
     name: "cumin",
     elementalProperties: { Earth: 0.48, Fire: 0.27, Air: 0.17, Water: 0.08 },
     astrologicalProfile: {
@@ -157,6 +172,21 @@ export const spices = fixIngredientMappings({
     },
   },
   cayenne: {
+    image_url: "ingredients/cayenne_pepper.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["hot", "pungent"],
+        secondary: ["sharp", "fruity"],
+        notes: "Fiery ground chili used in small amounts to add clean, building heat.",
+      },
+      cookingMethods: ["season", "bloom"],
+      cuisineAffinity: ["Cajun", "Indian", "Mexican"],
+      preparationTips: [
+        "Add a pinch at a time — cayenne is potent and the heat builds.",
+        "Bloom briefly in fat to round out the raw edge.",
+        "Stir in early for background heat, or late for a sharper kick.",
+      ],
+    },
     name: "cayenne",
     elementalProperties: { Fire: 0.72, Earth: 0.15, Air: 0.08, Water: 0.05 },
     astrologicalProfile: {
@@ -203,6 +233,21 @@ export const spices = fixIngredientMappings({
     },
   },
   paprika: {
+    image_url: "ingredients/paprika.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet", "earthy"],
+        secondary: ["warm", "fruity"],
+        notes: "Ground dried red peppers — sweet and mild, smoked, or hot depending on the type.",
+      },
+      cookingMethods: ["bloom", "season", "garnish"],
+      cuisineAffinity: ["Hungarian", "Spanish", "American"],
+      preparationTips: [
+        "Bloom in warm oil or fat to release the color and flavor.",
+        "Add off direct high heat; paprika scorches and turns bitter fast.",
+        "Use smoked paprika for a deep, wood-fired flavor.",
+      ],
+    },
     elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 },
     name: "paprika",
     qualities: ["earthy", "warm", "sweet"],
@@ -252,6 +297,21 @@ export const spices = fixIngredientMappings({
     },
   },
   turmeric: {
+    image_url: "ingredients/turmeric.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["earthy", "bitter"],
+        secondary: ["warm", "peppery"],
+        notes: "Golden rhizome spice — earthy and faintly bitter, prized for color and warmth.",
+      },
+      cookingMethods: ["bloom", "season", "simmer"],
+      cuisineAffinity: ["Indian", "Southeast-Asian", "Middle-Eastern"],
+      preparationTips: [
+        "Bloom in hot oil with other spices to mellow its raw bitterness.",
+        "Use a light hand — too much turns a dish bitter and chalky.",
+        "It stains everything yellow; keep it off porous boards and cloth.",
+      ],
+    },
     elementalProperties: { Fire: 0.3, Earth: 0.5, Air: 0.1, Water: 0.1 },
     name: "turmeric",
     qualities: ["earthy", "bitter", "warm"],

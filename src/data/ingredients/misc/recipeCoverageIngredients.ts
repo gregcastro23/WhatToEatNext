@@ -44,16 +44,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -105,16 +105,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -166,16 +166,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -227,16 +227,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -288,16 +288,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -349,16 +349,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -410,16 +410,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -471,16 +471,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -532,16 +532,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -593,16 +593,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -654,16 +654,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -715,16 +715,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sour", "sharp"],
+        secondary: ["bright", "tangy"],
+        notes: "An acid; it brightens and balances rich or fatty dishes.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["dress", "deglaze", "pickle", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add at the end — heat dulls the bright acidity.",
+        "Use a splash to lift and balance a rich dish.",
+        "Balance the sharpness with a little fat, salt, or sweetness.",
       ],
     },
     pairingRecommendations: {
@@ -776,16 +776,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -837,16 +837,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -898,16 +898,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -959,16 +959,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1020,16 +1020,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -1082,16 +1082,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1144,16 +1144,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1205,16 +1205,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -1266,16 +1266,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -1327,16 +1327,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1388,16 +1388,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1449,16 +1449,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -1510,16 +1510,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -1571,16 +1571,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -1632,16 +1632,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -1693,16 +1693,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1754,16 +1754,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -1815,16 +1815,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -1876,16 +1876,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -1937,16 +1937,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -1998,16 +1998,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -2059,16 +2059,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2120,16 +2120,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -2181,16 +2181,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -2242,16 +2242,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -2303,16 +2303,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -2364,16 +2364,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -2425,16 +2425,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2486,16 +2486,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2547,16 +2547,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -2608,16 +2608,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2669,16 +2669,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -2730,16 +2730,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2791,16 +2791,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -2852,16 +2852,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2913,16 +2913,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -2974,16 +2974,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -3035,16 +3035,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -3096,16 +3096,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -3157,16 +3157,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -3218,16 +3218,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -3279,16 +3279,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -3340,16 +3340,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -3401,16 +3401,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -3462,16 +3462,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -3523,16 +3523,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -3584,16 +3584,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -3645,16 +3645,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -3706,16 +3706,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -3767,16 +3767,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -3828,16 +3828,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -3890,16 +3890,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -3951,16 +3951,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -4012,16 +4012,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -4073,16 +4073,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -4134,16 +4134,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -4195,16 +4195,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -4256,16 +4256,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -4317,16 +4317,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -4378,16 +4378,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -4439,16 +4439,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -4500,16 +4500,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -4561,16 +4561,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -4622,16 +4622,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -4683,16 +4683,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -4744,16 +4744,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -4805,16 +4805,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -4866,16 +4866,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -4927,16 +4927,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -4989,16 +4989,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -5050,16 +5050,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -5111,16 +5111,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5172,16 +5172,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -5233,16 +5233,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5294,16 +5294,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5355,16 +5355,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5416,16 +5416,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5477,16 +5477,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -5538,16 +5538,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5599,16 +5599,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5660,16 +5660,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5721,16 +5721,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5782,16 +5782,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5843,16 +5843,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -5904,16 +5904,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -5965,16 +5965,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6026,16 +6026,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -6087,16 +6087,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -6148,16 +6148,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6209,16 +6209,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6270,16 +6270,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -6331,16 +6331,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6392,16 +6392,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6453,16 +6453,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -6514,16 +6514,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -6575,16 +6575,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -6636,16 +6636,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6697,16 +6697,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6759,16 +6759,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -6820,16 +6820,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -6881,16 +6881,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -6942,16 +6942,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -7003,16 +7003,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7064,16 +7064,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -7125,16 +7125,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -7186,16 +7186,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -7248,16 +7248,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -7309,16 +7309,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7370,16 +7370,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7431,16 +7431,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7492,16 +7492,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7553,16 +7553,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7614,16 +7614,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -7675,16 +7675,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7736,16 +7736,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7797,16 +7797,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7858,16 +7858,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -7919,16 +7919,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -7980,16 +7980,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -8041,16 +8041,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8102,16 +8102,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8163,16 +8163,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8224,16 +8224,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -8285,16 +8285,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8346,16 +8346,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -8407,16 +8407,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8468,16 +8468,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8529,16 +8529,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -8590,16 +8590,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sour", "sharp"],
+        secondary: ["bright", "tangy"],
+        notes: "An acid; it brightens and balances rich or fatty dishes.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["dress", "deglaze", "pickle", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add at the end — heat dulls the bright acidity.",
+        "Use a splash to lift and balance a rich dish.",
+        "Balance the sharpness with a little fat, salt, or sweetness.",
       ],
     },
     pairingRecommendations: {
@@ -8651,16 +8651,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -8712,16 +8712,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8773,16 +8773,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8834,16 +8834,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8895,16 +8895,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -8956,16 +8956,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9017,16 +9017,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9078,16 +9078,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -9139,16 +9139,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9200,16 +9200,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -9261,16 +9261,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -9322,16 +9322,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9383,16 +9383,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -9444,16 +9444,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9505,16 +9505,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9566,16 +9566,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9627,16 +9627,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -9688,16 +9688,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9749,16 +9749,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -9810,16 +9810,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9871,16 +9871,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9932,16 +9932,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -9993,16 +9993,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -10054,16 +10054,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -10115,16 +10115,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -10176,16 +10176,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -10237,16 +10237,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -10298,16 +10298,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -10359,16 +10359,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -10420,16 +10420,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -10481,16 +10481,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -10542,16 +10542,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -10603,16 +10603,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -10664,16 +10664,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -10725,16 +10725,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -10786,16 +10786,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -10847,16 +10847,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -10908,16 +10908,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -10969,16 +10969,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11030,16 +11030,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11091,16 +11091,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11152,16 +11152,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11213,16 +11213,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11274,16 +11274,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11335,16 +11335,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11396,16 +11396,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11457,16 +11457,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11518,16 +11518,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11579,16 +11579,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -11640,16 +11640,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11701,16 +11701,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11762,16 +11762,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -11823,16 +11823,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -11884,16 +11884,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -11945,16 +11945,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -12006,16 +12006,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -12067,16 +12067,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12128,16 +12128,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -12189,16 +12189,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12250,16 +12250,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12311,16 +12311,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12372,16 +12372,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12433,16 +12433,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -12494,16 +12494,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -12555,16 +12555,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -12616,16 +12616,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -12677,16 +12677,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12738,16 +12738,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -12799,16 +12799,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12860,16 +12860,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -12921,16 +12921,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -12982,16 +12982,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13043,16 +13043,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13104,16 +13104,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -13165,16 +13165,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -13226,16 +13226,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13287,16 +13287,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13348,16 +13348,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13409,16 +13409,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13470,16 +13470,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -13531,16 +13531,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13592,16 +13592,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13653,16 +13653,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -13714,16 +13714,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -13775,16 +13775,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -13836,16 +13836,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -13897,16 +13897,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -13958,16 +13958,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14019,16 +14019,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -14080,16 +14080,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14141,16 +14141,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14202,16 +14202,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -14263,16 +14263,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14324,16 +14324,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -14385,16 +14385,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14446,16 +14446,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14507,16 +14507,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -14568,16 +14568,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14629,16 +14629,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14690,16 +14690,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -14751,16 +14751,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -14812,16 +14812,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14873,16 +14873,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14934,16 +14934,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -14995,16 +14995,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15056,16 +15056,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -15117,16 +15117,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -15178,16 +15178,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -15239,16 +15239,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15300,16 +15300,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15361,16 +15361,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -15422,16 +15422,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -15483,16 +15483,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15544,16 +15544,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15605,16 +15605,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sour", "sharp"],
+        secondary: ["bright", "tangy"],
+        notes: "An acid; it brightens and balances rich or fatty dishes.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["dress", "deglaze", "pickle", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add at the end — heat dulls the bright acidity.",
+        "Use a splash to lift and balance a rich dish.",
+        "Balance the sharpness with a little fat, salt, or sweetness.",
       ],
     },
     pairingRecommendations: {
@@ -15666,16 +15666,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -15727,16 +15727,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15788,16 +15788,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -15849,16 +15849,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15910,16 +15910,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -15971,16 +15971,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16032,16 +16032,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16093,16 +16093,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16154,16 +16154,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16215,16 +16215,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -16276,16 +16276,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16337,16 +16337,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16398,16 +16398,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -16459,16 +16459,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16520,16 +16520,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16581,16 +16581,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16642,16 +16642,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16703,16 +16703,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -16764,16 +16764,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16825,16 +16825,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -16886,16 +16886,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -16947,16 +16947,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17008,16 +17008,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17069,16 +17069,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17130,16 +17130,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17191,16 +17191,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17252,16 +17252,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17313,16 +17313,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17374,16 +17374,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17435,16 +17435,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17496,16 +17496,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17557,16 +17557,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17618,16 +17618,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -17679,16 +17679,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17740,16 +17740,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17801,16 +17801,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17862,16 +17862,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -17923,16 +17923,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -17984,16 +17984,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18045,16 +18045,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18106,16 +18106,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18167,16 +18167,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -18228,16 +18228,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18289,16 +18289,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18350,16 +18350,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -18411,16 +18411,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18472,16 +18472,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -18533,16 +18533,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -18594,16 +18594,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18655,16 +18655,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -18716,16 +18716,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18777,16 +18777,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -18838,16 +18838,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -18899,16 +18899,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -18960,16 +18960,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19021,16 +19021,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -19082,16 +19082,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19143,16 +19143,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19204,16 +19204,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -19265,16 +19265,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19326,16 +19326,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -19387,16 +19387,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19448,16 +19448,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -19509,16 +19509,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19570,16 +19570,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19631,16 +19631,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19692,16 +19692,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19753,16 +19753,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19814,16 +19814,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19875,16 +19875,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19936,16 +19936,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -19997,16 +19997,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -20058,16 +20058,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20119,16 +20119,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20180,16 +20180,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -20241,16 +20241,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20302,16 +20302,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20363,16 +20363,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20424,16 +20424,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -20485,16 +20485,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20546,16 +20546,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -20607,16 +20607,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20668,16 +20668,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20729,16 +20729,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20790,16 +20790,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20851,16 +20851,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -20912,16 +20912,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -20973,16 +20973,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -21034,16 +21034,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "pungent"],
+        secondary: ["aromatic", "balanced"],
+        notes: "A seasoning; add it gradually and taste as you go.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["season", "finish", "bloom"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Season in layers and taste as you build the dish.",
+        "Make a final adjustment just before serving.",
+        "A touch of acid or salt sharpens a flat-tasting dish.",
       ],
     },
     pairingRecommendations: {
@@ -21095,16 +21095,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -21156,16 +21156,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -21217,16 +21217,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -21279,16 +21279,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -21340,16 +21340,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -21401,16 +21401,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -21462,16 +21462,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -21523,16 +21523,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -21584,16 +21584,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -21645,16 +21645,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -21706,16 +21706,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -21767,16 +21767,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -21828,16 +21828,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -21889,16 +21889,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -21950,16 +21950,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -22011,16 +22011,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -22072,16 +22072,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -22133,16 +22133,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22194,16 +22194,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22255,16 +22255,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -22316,16 +22316,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22377,16 +22377,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22438,16 +22438,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22499,16 +22499,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22560,16 +22560,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22621,16 +22621,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -22682,16 +22682,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22743,16 +22743,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22804,16 +22804,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["creamy", "rich"],
+        secondary: ["mild", "tangy"],
+        notes: "A dairy product; sensitive to heat, so add it gently and avoid boiling.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["melt", "whisk", "fold", "simmer"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Bring to room temperature before cooking to prevent curdling.",
+        "Add off the heat or on low — high heat can split dairy.",
+        "Keep chilled and use within its date for the best flavor.",
       ],
     },
     pairingRecommendations: {
@@ -22865,16 +22865,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["sweet", "bright"],
+        secondary: ["juicy", "fresh"],
+        notes: "A fruit; best used ripe, often raw or only lightly cooked.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "roast", "preserve", "juice"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use ripe fruit for the best flavor and texture.",
+        "Rinse just before use; cut close to serving to limit browning.",
+        "A little acid or sugar can balance and brighten the flavor.",
       ],
     },
     pairingRecommendations: {
@@ -22926,16 +22926,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -22987,16 +22987,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -23048,16 +23048,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -23109,16 +23109,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23170,16 +23170,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23231,16 +23231,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23292,16 +23292,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -23353,16 +23353,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23414,16 +23414,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23475,16 +23475,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23536,16 +23536,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23597,16 +23597,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23658,16 +23658,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -23719,16 +23719,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23780,16 +23780,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -23841,16 +23841,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -23902,16 +23902,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -23963,16 +23963,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "earthy"],
+        secondary: ["savory", "green"],
+        notes: "A vegetable; cut it to a uniform size so the pieces cook evenly.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "roast", "steam", "braise"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Wash and trim, then cut to a uniform size for even cooking.",
+        "High dry heat caramelizes; gentle moist heat keeps it tender.",
+        "Season in stages and finish with acid or fat to balance.",
       ],
     },
     pairingRecommendations: {
@@ -24024,16 +24024,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24085,16 +24085,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24146,16 +24146,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24207,16 +24207,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24268,16 +24268,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24329,16 +24329,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24390,16 +24390,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24451,16 +24451,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24512,16 +24512,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24573,16 +24573,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24634,16 +24634,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24695,16 +24695,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24756,16 +24756,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -24817,16 +24817,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["rich", "smooth"],
+        secondary: ["nutty", "savory"],
+        notes: "A cooking fat; match the oil's smoke point to the cooking method.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["saute", "fry", "finish", "dress"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Use refined, high-smoke-point oils for searing and frying.",
+        "Reserve delicate, flavorful oils for finishing and dressings.",
+        "Store cool and dark to keep the oil from going rancid.",
       ],
     },
     pairingRecommendations: {
@@ -24878,16 +24878,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -24939,16 +24939,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -25000,16 +25000,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25061,16 +25061,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -25122,16 +25122,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25183,16 +25183,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25244,16 +25244,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["warm", "pungent"],
+        secondary: ["aromatic", "earthy"],
+        notes: "Concentrated dried spice; bloom or toast it to release the aromatic oils.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["bloom", "toast", "grind", "season"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Toast whole spices briefly, then grind just before use for the fullest aroma.",
+        "Bloom ground spice in hot oil or fat to deepen the flavor.",
+        "Store airtight away from heat and light; replace it yearly.",
       ],
     },
     pairingRecommendations: {
@@ -25305,16 +25305,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["nutty", "earthy"],
+        secondary: ["mild", "wholesome"],
+        notes: "A grain or starch; rinse and cook it in the right ratio of liquid until tender.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["boil", "steam", "simmer", "pilaf"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Rinse to remove surface starch before cooking.",
+        "Use the correct grain-to-liquid ratio and avoid over-stirring.",
+        "Rest covered off the heat, then fluff before serving.",
       ],
     },
     pairingRecommendations: {
@@ -25366,16 +25366,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["savory", "umami"],
+        secondary: ["rich", "hearty"],
+        notes: "A protein component; cook it to a safe internal temperature and rest before serving.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["sear", "roast", "braise", "grill"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Pat dry and season well before searing for a good crust.",
+        "Bring it close to room temperature before cooking for even results.",
+        "Rest after cooking so the juices redistribute.",
       ],
     },
     pairingRecommendations: {
@@ -25427,16 +25427,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25488,16 +25488,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["fresh", "herbal"],
+        secondary: ["aromatic", "green"],
+        notes: "A culinary herb; tender herbs go in late, hardy herbs can cook longer.",
       },
-      cookingMethods: ["mix", "simmer", "finish"],
+      cookingMethods: ["raw", "finish", "infuse"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Add tender herbs at the end to keep their fresh aroma.",
+        "Hardy herbs can be added earlier and stand up to heat.",
+        "Bruise or chop to release the aromatic oils.",
       ],
     },
     pairingRecommendations: {
@@ -25549,16 +25549,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25610,16 +25610,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25671,16 +25671,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25732,16 +25732,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25793,16 +25793,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25854,16 +25854,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25915,16 +25915,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -25976,16 +25976,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {
@@ -26037,16 +26037,16 @@ export const recipeCoverageIngredients: Record<
     },
     culinaryProfile: {
       flavorProfile: {
-        primary: ["contextual"],
-        secondary: ["supporting"],
-        notes:
-          "Recipe-derived placeholder profile; refine with domain curation.",
+        primary: ["contextual", "savory"],
+        secondary: ["supporting", "balanced"],
+        notes: "A recipe component; follow its role and quantity as written in the recipe.",
       },
       cookingMethods: ["mix", "simmer", "finish"],
       cuisineAffinity: ["global"],
       preparationTips: [
-        "Calibrate quantity to recipe context.",
-        "Prefer explicit measurements in production recipes.",
+        "Follow the recipe's stated quantity and method for this item.",
+        "Add it at the stage the recipe indicates for the best result.",
+        "Taste and adjust the seasoning around it as you cook.",
       ],
     },
     pairingRecommendations: {

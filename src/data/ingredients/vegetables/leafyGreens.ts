@@ -116,7 +116,20 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kale is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["earthy", "mineral"],
+          secondary: ["bitter", "cabbage-like"],
+          notes: "Sturdy and bitter raw; softens and sweetens with heat or a massage.",
+        },
+        cookingMethods: ["saute", "braise", "raw", "roast", "steam"],
+        cuisineAffinity: ["American", "Italian", "Mediterranean"],
+        preparationTips: [
+          "Strip the leaves from the tough central rib and discard the stems.",
+          "For raw salads, massage the torn leaves with oil and salt to tenderize them.",
+          "Tear or chop into bite-size pieces so they wilt evenly.",
+        ],
+      }
 },
   spinach: {
       image_url: "ingredients/spinach.png",
@@ -268,7 +281,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
 },
   "swiss chard": {
       image_url: "ingredients/swiss chard.png",
-    description: "Swiss Chard is a vegetable ingredient that contributes structure, micronutrients, and a broad range of textures depending on cut and heat level. High heat emphasizes caramelization and sweetness, while gentle cooking preserves water content and delicate notes. Prep consistently so pieces cook evenly and integrate cleanly into the dish.",
+    description: "A leafy green (*Beta vulgaris*) related to the beet, with broad glossy leaves and crisp, often brightly colored stems. The mild, slightly sweet leaves cook quickly while the crunchy ribs need a head start.",
     name: "Swiss chard",
     origin: ["Mediterranean", "Sicily"],
     elementalProperties: { Water: 0.39, Earth: 0.33, Air: 0.21, Fire: 0.07 },
@@ -309,7 +322,20 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     },
       sensoryProfile: { taste: { sweet: 0.2, salty: 0.0, sour: 0.05, bitter: 0.2, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.7, earthy: 0.3, grassy: 0.3 }, texture: { crisp: 0.5, juicy: 0.3, tender: 0.4 } },
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Swiss Chard is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["earthy", "mineral"],
+          secondary: ["sweet", "beet-like"],
+          notes: "Mild and slightly sweet; the crunchy stems need a head start over the leaves.",
+        },
+        cookingMethods: ["saute", "braise", "steam", "raw"],
+        cuisineAffinity: ["Mediterranean", "Italian", "French"],
+        preparationTips: [
+          "Separate the leaves from the stems — the stems take longer to cook.",
+          "Slice the stems crosswise and start them first, then add the chopped leaves.",
+          "Cut the leaves into wide ribbons so they wilt quickly and evenly.",
+        ],
+      }
 },
   lettuce: {
       image_url: "ingredients/lettuce.png",

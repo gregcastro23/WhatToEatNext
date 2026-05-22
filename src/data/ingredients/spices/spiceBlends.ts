@@ -83,16 +83,22 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       taste: ["Mild"],
       aroma: ["Fresh"],
       texture: ["Standard"],
-      notes: "Characteristic garam_masala profile",
+      notes: "Warm, sweet, and deeply aromatic toasted-spice character.",
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ["balanced"],
+        primary: ["warm", "aromatic"],
+        secondary: ["sweet", "pungent"],
+        notes: "A warming North Indian blend of toasted spices — the name means 'warm spice mix'.",
       },
-
-      cookingMethods: ["versatile"],
-      cuisineAffinity: ["Global"],
+      cookingMethods: ["finish", "bloom", "season"],
+      cuisineAffinity: ["Indian"],
+      preparationTips: [
+        "Add toward the end of cooking — garam masala is a finishing spice.",
+        "Grind a fresh batch from toasted whole spices for the best aroma.",
+        "A pinch sprinkled over the plated dish lifts the whole flavor.",
+      ],
     },
 
     season: ["Year-round"],
@@ -198,16 +204,22 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       taste: ["Mild"],
       aroma: ["Fresh"],
       texture: ["Standard"],
-      notes: "Characteristic ras_el_hanout profile",
+      notes: "Complex, warm, and floral with layered spice depth.",
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ["balanced"],
+        primary: ["warm", "aromatic"],
+        secondary: ["floral", "complex"],
+        notes: "A complex North African blend — the name means 'top of the shop', the best a spice seller offers.",
       },
-
-      cookingMethods: ["versatile"],
-      cuisineAffinity: ["Global"],
+      cookingMethods: ["bloom", "season", "rub"],
+      cuisineAffinity: ["Moroccan", "North-African"],
+      preparationTips: [
+        "Bloom in oil or butter at the start of a tagine or stew.",
+        "Rub onto meat and vegetables before roasting.",
+        "Blends vary widely — taste yours and adjust the other seasonings.",
+      ],
     },
 
     season: ["Year-round"],
@@ -293,19 +305,19 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       tastes: ["pungent", "sweet", "bitter"],
     },
 
-    // Removed excessive sensoryProfile nesting
-    // Removed nested content
-    // Removed nested content
-    // Removed nested content
-    // Removed nested content
-
     culinaryProfile: {
       flavorProfile: {
-        primary: ["balanced"],
+        primary: ["herbal", "floral"],
+        secondary: ["aromatic", "savory"],
+        notes: "A dried blend of southern French herbs — thyme, rosemary, and savory, often with lavender.",
       },
-
-      cookingMethods: ["versatile"],
-      cuisineAffinity: ["Global"],
+      cookingMethods: ["season", "rub", "roast"],
+      cuisineAffinity: ["French", "Mediterranean"],
+      preparationTips: [
+        "Crumble between your fingers to release the oils as you add it.",
+        "Rub onto meats and vegetables before roasting or grilling.",
+        "Add early — the dried herbs need time to rehydrate and bloom.",
+      ],
     },
 
     season: ["Year-round"],
@@ -391,19 +403,19 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
     affinities: ["pork", "duck", "chicken", "seafood", "vegetables"],
 
-    // Removed excessive sensoryProfile nesting
-    // Removed nested content
-    // Removed nested content
-    // Removed nested content
-    // Removed nested content
-
     culinaryProfile: {
       flavorProfile: {
-        primary: ["balanced"],
+        primary: ["warm", "sweet"],
+        secondary: ["aromatic", "licorice"],
+        notes: "A balanced blend of star anise, fennel, clove, cinnamon, and Sichuan pepper.",
       },
-
-      cookingMethods: ["versatile"],
-      cuisineAffinity: ["Global"],
+      cookingMethods: ["season", "braise", "rub"],
+      cuisineAffinity: ["Chinese"],
+      preparationTips: [
+        "Use sparingly — five-spice is potent and the star anise dominates fast.",
+        "Rub onto meat before roasting, or add to braising liquid.",
+        "Bloom briefly in oil to round out the raw, sharp edge.",
+      ],
     },
 
     season: ["Year-round"],

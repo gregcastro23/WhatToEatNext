@@ -274,6 +274,21 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   }),
 
   shiso: createIngredientMapping("shiso", {
+    image_url: "ingredients/perilla_leaves.png",
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["minty", "citrusy"],
+        secondary: ["basil-like", "anise"],
+        notes: "Fragrant Japanese perilla leaf — a complex mix of mint, basil, and citrus notes.",
+      },
+      cookingMethods: ["raw", "garnish", "wrap"],
+      cuisineAffinity: ["Japanese", "Korean"],
+      preparationTips: [
+        "Use the leaves fresh and whole — shiso wilts and bruises quickly.",
+        "Stack and chiffonade (thinly slice) the leaves as a garnish.",
+        "Use whole leaves to wrap sushi, rice, or grilled meats.",
+      ],
+    },
     elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
     qualities: ["minty", "basil-like", "anise", "citrusy"],
     category: "culinary_herb",

@@ -74,7 +74,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       taste: ["sweet", "warm"],
       aroma: ["spicy", "woody"],
       texture: ["fine powder"],
-      notes: "Characteristic cinnamon profile",
+      notes: "Sweet, warm, and woody with gentle citrus undertones.",
     },
     culinaryProfile: {
       flavorProfile: {

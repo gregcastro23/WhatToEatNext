@@ -172,7 +172,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days refrigerated",
       notes: "Ripe when aromatic at base",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Pineapple is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["tropical", "bright"],
+          notes: "Juicy and tangy; its bromelain enzyme tenderizes meat and stops gelatin setting.",
+        },
+        cookingMethods: ["raw", "grill", "roast", "juice"],
+        cuisineAffinity: ["Caribbean", "Southeast-Asian", "Hawaiian"],
+        preparationTips: [
+          "Cut off the crown and base, stand it up, and slice the skin off in strips.",
+          "Remove the 'eyes' in diagonal channels, then cut around the fibrous core.",
+          "Grill thick rings to caramelize the sugars.",
+        ],
+      }
 },
 
   papaya: {
@@ -247,7 +260,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Ripe when mostly yellow with slight give",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Papaya is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "musky"],
+          secondary: ["mellow", "tropical"],
+          notes: "Soft, butter-textured flesh; crisp green unripe papaya is used as a vegetable.",
+        },
+        cookingMethods: ["raw", "juice", "salad"],
+        cuisineAffinity: ["Thai", "Caribbean", "Mexican"],
+        preparationTips: [
+          "Halve lengthwise and scoop out the round black seeds.",
+          "Squeeze lime over the flesh to lift its mild, musky sweetness.",
+          "Shred firm green papaya for som tum salad.",
+        ],
+      }
 },
 
   passion_fruit: {
@@ -329,7 +355,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "1 week, 2-3 weeks refrigerated",
       notes: "Ripe when wrinkled",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Passion Fruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "aromatic"],
+          secondary: ["floral", "tropical"],
+          notes: "Intensely perfumed and sharply tart; the crunchy seeds are edible.",
+        },
+        cookingMethods: ["raw", "juice", "sauce"],
+        cuisineAffinity: ["Brazilian", "Southeast-Asian", "Australian"],
+        preparationTips: [
+          "Choose wrinkled fruit — a dimpled skin means it is ripe.",
+          "Halve and scoop the pulp and seeds out with a spoon.",
+          "Strain the pulp if you want the juice without the seeds.",
+        ],
+      }
 },
 
   guava: {
@@ -404,7 +443,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days refrigerated",
       notes: "Extremely fragrant when ripe",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Guava is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "musky"],
+          secondary: ["floral", "tropical"],
+          notes: "Intensely fragrant; the whole fruit, including skin and seeds, is edible.",
+        },
+        cookingMethods: ["raw", "juice", "preserve"],
+        cuisineAffinity: ["Mexican", "Caribbean", "Southeast-Asian"],
+        preparationTips: [
+          "Eat the whole fruit — skin, flesh, and soft seeds are all edible.",
+          "Slice and salt, or dust with chili for a savory snack.",
+          "Cook it down into a firm paste to pair with cheese.",
+        ],
+      }
 },
 
   dragon_fruit: {
@@ -479,7 +531,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Very mild flavor, stunning appearance",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dragon Fruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["mild", "sweet"],
+          secondary: ["refreshing", "subtle"],
+          notes: "Mildly sweet with a kiwi-like crunch from tiny black seeds; flesh is white or magenta.",
+        },
+        cookingMethods: ["raw", "blend", "garnish"],
+        cuisineAffinity: ["Southeast-Asian"],
+        preparationTips: [
+          "Halve and scoop the flesh straight out with a spoon.",
+          "Or quarter it, peel back the leathery skin, and cube the flesh.",
+          "Chill before serving — it is best cold and refreshing.",
+        ],
+      }
 },
 
   lychee: {
@@ -554,7 +619,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days",
       notes: "Remove from shell just before eating",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lychee is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "floral"],
+          secondary: ["fragrant", "grape-like"],
+          notes: "Perfumed, rose-scented sweetness inside a bumpy red shell.",
+        },
+        cookingMethods: ["raw", "juice", "dessert"],
+        cuisineAffinity: ["Chinese", "Southeast-Asian"],
+        preparationTips: [
+          "Pinch and peel the bumpy shell away from the stem end.",
+          "Pop out the single large, glossy, inedible seed.",
+          "Eat fresh and cold; the perfume fades quickly.",
+        ],
+      }
 },
 
   rambutan: {
@@ -629,7 +707,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days",
       notes: "Similar to lychee but sweeter",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Rambutan is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "floral"],
+          secondary: ["creamy", "grape-like"],
+          notes: "A hairy-shelled lychee relative — sweet, mildly tangy, slightly creamier.",
+        },
+        cookingMethods: ["raw", "dessert"],
+        cuisineAffinity: ["Southeast-Asian"],
+        preparationTips: [
+          "Cut around the hairy shell and twist it open.",
+          "Eat the translucent flesh; discard the central seed.",
+          "Best eaten fresh and chilled.",
+        ],
+      }
 },
 
   longan: {
@@ -704,7 +795,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days fresh",
       notes: "Often sold dried or in syrup",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Longan is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "musky"],
+          secondary: ["floral", "honeyed"],
+          notes: "'Dragon eye' fruit — a smaller, muskier cousin of the lychee.",
+        },
+        cookingMethods: ["raw", "dry", "infuse"],
+        cuisineAffinity: ["Chinese", "Southeast-Asian"],
+        preparationTips: [
+          "Crack the thin, brittle shell and peel it away.",
+          "Eat the juicy flesh and discard the dark central seed.",
+          "Dried longan is used to sweeten Chinese soups and teas.",
+        ],
+      }
 },
 
   starfruit: {
@@ -779,7 +883,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Stunning star shape when sliced",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Starfruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["tart", "mild"],
+          secondary: ["floral", "crisp"],
+          notes: "Crisp and lightly tart; its cross-section forms a five-pointed star.",
+        },
+        cookingMethods: ["raw", "garnish", "juice"],
+        cuisineAffinity: ["Southeast-Asian", "Caribbean"],
+        preparationTips: [
+          "No need to peel — the waxy skin is edible.",
+          "Trim the browned ridge edges, then slice crosswise into stars.",
+          "Use the slices raw as a striking garnish.",
+        ],
+      }
 },
 
   persimmon: {
@@ -854,7 +971,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days when ripe",
       notes: "Must be fully ripe to avoid astringency",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Persimmon is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "honeyed"],
+          secondary: ["mellow", "floral"],
+          notes: "Fuyu types eat firm and crisp; Hachiya must be jelly-soft or they are harshly astringent.",
+        },
+        cookingMethods: ["raw", "bake", "dry"],
+        cuisineAffinity: ["Japanese", "Korean", "American"],
+        preparationTips: [
+          "Eat firm, flat Fuyu persimmons crisp, like an apple.",
+          "Wait until acorn-shaped Hachiya are completely soft, or they pucker the mouth.",
+          "Scoop soft Hachiya pulp out with a spoon for baking.",
+        ],
+      }
 },
 
   kiwi: {
@@ -929,7 +1059,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "5-7 days refrigerated",
       notes: "Ripe when yields to gentle pressure",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Kiwi is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tart"],
+          secondary: ["bright", "tropical"],
+          notes: "Bright, tangy-sweet green flesh flecked with edible black seeds.",
+        },
+        cookingMethods: ["raw", "juice", "garnish"],
+        cuisineAffinity: ["New-Zealand", "American"],
+        preparationTips: [
+          "Halve and scoop the flesh with a spoon, or peel and slice.",
+          "Its enzymes stop gelatin setting and curdle dairy over time.",
+          "Add to fruit salads just before serving.",
+        ],
+      }
 },
 
   jackfruit: {
@@ -1004,7 +1147,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "3-5 days cut and refrigerated",
       notes: "Massive fruit, often sold pre-cut or canned",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Jackfruit is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "tropical"],
+          secondary: ["musky", "mild"],
+          notes: "Ripe flesh is sweet and fragrant; unripe jackfruit is neutral and shreds like pulled meat.",
+        },
+        cookingMethods: ["raw", "braise", "fry", "curry"],
+        cuisineAffinity: ["Indian", "Southeast-Asian"],
+        preparationTips: [
+          "Oil your hands and knife — the fruit exudes a sticky latex.",
+          "Pull out the firm pods and discard the stringy fibers between them.",
+          "Use canned young (green) jackfruit for savory pulled-style dishes.",
+        ],
+      }
 },
 
   durian: {
@@ -1079,7 +1235,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "2-3 days",
       notes: "Extremely pungent smell, banned in some hotels",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Durian is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "savory"],
+          secondary: ["pungent", "creamy"],
+          notes: "Custard-rich and divisive — intensely sweet flesh with a famously powerful aroma.",
+        },
+        cookingMethods: ["raw", "dessert"],
+        cuisineAffinity: ["Southeast-Asian"],
+        preparationTips: [
+          "Wear gloves and pry the spiky husk open along its seams.",
+          "Lift out the creamy pods; eat the flesh and discard the seeds.",
+          "Eat fresh, or freeze the pods for a milder, ice-cream-like texture.",
+        ],
+      }
 },
 
   coconut: {
@@ -1163,7 +1332,20 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       duration: "months whole, days opened",
       notes: "Incredibly versatile - water, milk, meat, oil all used",
     },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Coconut is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "nutty"],
+          secondary: ["creamy", "rich"],
+          notes: "Mature coconut gives firm meat and rich milk; young coconut gives soft jelly and water.",
+        },
+        cookingMethods: ["raw", "toast", "milk", "curry"],
+        cuisineAffinity: ["Southeast-Asian", "Caribbean", "Indian"],
+        preparationTips: [
+          "Pierce the softest 'eye' and drain the water before cracking.",
+          "Tap firmly around the equator with a heavy knife to split it open.",
+          "Toast grated coconut to deepen its nutty flavor.",
+        ],
+      }
 },
 };
 

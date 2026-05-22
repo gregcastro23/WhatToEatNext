@@ -759,13 +759,24 @@ function calculateEnhancedPlanetaryScore(
   >,
   rulingPlanet: string,
 ): number {
-  if (!(ingredient as unknown as any).astrologicalProfile) return 0.5; // Neutral score for ingredients without profile
-  let score = 0;
-  let totalFactors = 0;
-  // Check ruling planet correspondence - this gets extra weight
   const ingredientData = ingredient as unknown as any;
   const astrologicalProfile = ingredientData.astrologicalProfile;
-  const rulingPlanets = astrologicalProfile.rulingPlanets as string[];
+  if (!astrologicalProfile) return 0.5; // Neutral score for ingredients without profile
+  let score = 0;
+  let totalFactors = 0;
+  // Ingredient astrological profiles are frequently partial — every array
+  // access below is defaulted so one missing field can't throw and abort
+  // the entire recommendation map.
+  const rulingPlanets: string[] = Array.isArray(astrologicalProfile.rulingPlanets)
+    ? astrologicalProfile.rulingPlanets
+    : [];
+  const signAffinities: string[] = Array.isArray(astrologicalProfile.signAffinities)
+    ? astrologicalProfile.signAffinities
+    : [];
+  const tarotAssociations: string[] = Array.isArray(astrologicalProfile.tarotAssociations)
+    ? astrologicalProfile.tarotAssociations
+    : [];
+  // Check ruling planet correspondence - this gets extra weight
   if (rulingPlanets.includes(rulingPlanet)) {
     score += 1.5; // Significant boost for ruling planet correspondence
     totalFactors += 1.5;
@@ -780,7 +791,6 @@ function calculateEnhancedPlanetaryScore(
       totalFactors += 1;
     }
     // Check sign affinities
-    const signAffinities = astrologicalProfile.signAffinities as string[];
     if (signAffinities.includes(position.sign.toLowerCase())) {
       score += 1;
       totalFactors += 1;
@@ -792,11 +802,7 @@ function calculateEnhancedPlanetaryScore(
       totalFactors += 0.8;
     }
     // Tarot card associations - add subtle influence
-    const tarotAssociations = astrologicalProfile.tarotAssociations as string[];
-    if (
-      decanInfo.tarotCard &&
-      tarotAssociations.includes(decanInfo.tarotCard)
-    ) {
+    if (decanInfo?.tarotCard && tarotAssociations.includes(decanInfo.tarotCard)) {
       score += 0.7;
       totalFactors += 0.7;
     }
@@ -945,7 +951,9 @@ export function getChakraBasedRecommendations(
               ingredientType.toLowerCase().includes(corr.toLowerCase()),
           ) || []),
         ],
-        description: `Supports ${chakra} chakra energy`,
+        description:
+          safeGetString(ingredientData.description) ||
+          `Supports ${chakra} chakra energy`,
         totalScore: energy / 10,
         elementalScore: 0,
         astrologicalScore: 0,

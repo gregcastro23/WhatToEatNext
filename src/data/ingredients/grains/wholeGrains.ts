@@ -374,7 +374,20 @@ const rawWholeGrains = {
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       pairingRecommendations: { complementary: ["butter", "olive oil", "stock", "herbs", "alliums"], contrasting: ["citrus", "vinegar", "raw herbs"], toAvoid: [] },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Brown Rice is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["nutty", "earthy"],
+          secondary: ["mild", "wholesome"],
+          notes: "Whole-grain rice with the bran intact — nuttier, chewier, and slower-cooking than white.",
+        },
+        cookingMethods: ["boil", "steam", "pilaf"],
+        cuisineAffinity: ["Asian", "American"],
+        preparationTips: [
+          "Rinse until the water runs clear to wash off surface starch.",
+          "Use more water and a longer cook than white rice — about 45 minutes.",
+          "Rest covered 10 minutes off the heat, then fluff with a fork.",
+        ],
+      }
 },
 
   quinoa: {
@@ -1445,6 +1458,7 @@ const rawWholeGrains = {
 },
 
   rolled_oats: {
+    image_url: "ingredients/oats.png",
     name: "rolled oats",
     description: "Whole oat groats that have been steamed, then flattened between heavy rollers. Cook faster than steel-cut (~5 min) while keeping more texture and beta-glucan fiber than instant. The everyday workhorse of overnight oats, oatmeal, granola, energy bites, and homemade oat milk.",
     origin: ["Northern Europe"],

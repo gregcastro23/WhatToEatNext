@@ -228,7 +228,20 @@ const rawAromaticHerbs = {
       nutritionalProfile: { serving_size: "1 tbsp fresh", calories: 1, macros: { protein: 0.1, carbs: 0.2, fat: 0, fiber: 0.1 }, vitamins: { K: 0.3, A: 0.1, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "category default" },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lovage is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["herbal", "celery-like"],
+          secondary: ["savory", "intense"],
+          notes: "Tastes like an intense, peppery celery; a little goes a long way.",
+        },
+        cookingMethods: ["raw", "soup", "stock", "saute"],
+        cuisineAffinity: ["European", "English"],
+        preparationTips: [
+          "Use sparingly — lovage is far stronger than celery.",
+          "Chop the tender young leaves; older stems are tough and bitter.",
+          "Add stems to stocks and soups, and the leaves toward the end.",
+        ],
+      }
 },
 
   "lemon verbena": {
@@ -297,7 +310,20 @@ const rawAromaticHerbs = {
     modality: "Mutable",
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Lemon Verbena is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["citrusy", "floral"],
+          secondary: ["bright", "aromatic"],
+          notes: "Intensely lemon-scented leaves; prized for teas, syrups, and desserts.",
+        },
+        cookingMethods: ["infuse", "raw", "tea"],
+        cuisineAffinity: ["French", "South-American"],
+        preparationTips: [
+          "Bruise or tear the leaves to release the lemon oils.",
+          "Steep in hot liquid to infuse, then strain — the leaves stay fibrous.",
+          "Use fresh; the aroma fades fast once dried.",
+        ],
+      }
 },
 
   savory: {
@@ -369,7 +395,20 @@ const rawAromaticHerbs = {
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Savory is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["peppery", "herbal"],
+          secondary: ["thyme-like", "minty"],
+          notes: "Peppery, thyme-like herb — summer savory is milder, winter savory sharper.",
+        },
+        cookingMethods: ["saute", "braise", "season"],
+        cuisineAffinity: ["European", "Mediterranean"],
+        preparationTips: [
+          "Strip the small leaves from the woody stems.",
+          "Add early in cooking so the peppery flavor mellows into the dish.",
+          "A classic with beans — it is known as the 'bean herb'.",
+        ],
+      }
 },
 
   "curry leaf": {
@@ -445,7 +484,20 @@ const rawAromaticHerbs = {
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Curry Leaf is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["aromatic", "citrusy"],
+          secondary: ["nutty", "savory"],
+          notes: "Bright, curry-scented leaves essential to South Indian cooking — unrelated to curry powder.",
+        },
+        cookingMethods: ["temper", "fry", "infuse"],
+        cuisineAffinity: ["Indian", "Sri-Lankan"],
+        preparationTips: [
+          "Fry whole leaves in hot oil until they crackle to release the aroma.",
+          "Use fresh — dried curry leaves lose most of their fragrance.",
+          "Add the tempered oil and leaves to the dish; the leaves stay in.",
+        ],
+      }
 },
 
   chervil: {
@@ -507,7 +559,20 @@ const rawAromaticHerbs = {
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Chervil is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["delicate", "anise"],
+          secondary: ["parsley-like", "mild"],
+          notes: "Delicate parsley relative with a faint anise note; one of the French fines herbes.",
+        },
+        cookingMethods: ["raw", "garnish", "finish"],
+        cuisineAffinity: ["French"],
+        preparationTips: [
+          "Add at the very end — heat destroys its delicate flavor.",
+          "Snip the feathery fronds rather than chopping them hard.",
+          "Use generously; chervil is mild.",
+        ],
+      }
 },
 
   dill: {
@@ -562,7 +627,20 @@ const rawAromaticHerbs = {
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Dill is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["fresh", "grassy"],
+          secondary: ["anise", "citrusy"],
+          notes: "Feathery, fresh herb with a grassy anise note; central to Scandinavian and Eastern European cooking.",
+        },
+        cookingMethods: ["raw", "finish", "pickle"],
+        cuisineAffinity: ["Scandinavian", "Eastern-European", "Greek"],
+        preparationTips: [
+          "Snip the feathery fronds from the tougher stems.",
+          "Add at the end — dill's flavor fades with long cooking.",
+          "Use the stems and seed heads to flavor pickling brine.",
+        ],
+      }
 },
 
   bay_leaf: {
@@ -615,7 +693,20 @@ const rawAromaticHerbs = {
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Bay Leaf is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["aromatic", "herbal"],
+          secondary: ["woody", "subtle"],
+          notes: "Releases a subtle, woody, eucalyptus-like aroma slowly into long-cooked dishes.",
+        },
+        cookingMethods: ["simmer", "braise", "infuse"],
+        cuisineAffinity: ["Mediterranean", "European", "Indian"],
+        preparationTips: [
+          "Add whole at the start of long-cooked dishes.",
+          "Always remove the leaves before serving — they stay stiff and sharp.",
+          "Lightly crack a dried leaf to release more aroma.",
+        ],
+      }
 },
   anise: {
       image_url: "ingredients/anise.png",
@@ -663,7 +754,20 @@ const rawAromaticHerbs = {
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       pairingRecommendations: { complementary: ["olive oil", "lemon", "garlic", "butter", "tomato"], contrasting: ["chili", "vinegar", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Wrap in damp paper towel, bag loosely — 5-7 days.", notes: "Hardy herbs (rosemary, thyme) freeze well; tender herbs (basil, cilantro) wilt fast." },
-      culinaryProfile: {"flavorProfile":{"primary":["balanced"],"secondary":["supporting"],"notes":"Anise is used to support structure, aroma, and balance in context-specific recipes."},"cookingMethods":["mix","saute","simmer"],"cuisineAffinity":["global"],"preparationTips":["Adjust quantity to taste and recipe context.","Add in stages to control extraction and final balance."]}
+      culinaryProfile: {
+        flavorProfile: {
+          primary: ["sweet", "licorice"],
+          secondary: ["aromatic", "warm"],
+          notes: "Sweet, licorice-flavored seed used in baking, liqueurs, and spice blends.",
+        },
+        cookingMethods: ["bake", "infuse", "grind"],
+        cuisineAffinity: ["Mediterranean", "Middle-Eastern"],
+        preparationTips: [
+          "Lightly toast the seeds to deepen their flavor.",
+          "Crush or grind just before use for the strongest aroma.",
+          "Infuse whole seeds into syrups and liquids, then strain.",
+        ],
+      }
 },
 };
 
