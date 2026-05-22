@@ -13,7 +13,7 @@ The local development environment has been equipped with a NextAuth admin bypass
    lsof -ti:3002 | xargs kill -9 2>/dev/null || true
    ```
 3. **Live Database Access**: Connects directly to the live Railway PostgreSQL database.
-   - Connection URL: `postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@tramway.proxy.rlwy.net:35670/railway`
+   - Connection URL: `postgresql://postgres:<password>@tramway.proxy.rlwy.net:35670/railway` — the password is supplied via `.env.local` / Railway env, never committed
    - *Note*: Always verify that env variables are loaded correctly by Bun modules without hoisting interference.
 
 ---
