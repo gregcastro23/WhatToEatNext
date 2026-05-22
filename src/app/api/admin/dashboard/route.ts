@@ -14,6 +14,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { getAgentNetworkTelemetry } from "@/services/agentTelemetryService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
 
@@ -113,6 +114,11 @@ export async function GET(request: NextRequest) {
         isActive: u.isActive,
       }));
 
+    // Kick off live telemetry aggregation in parallel with the PA backend
+    // probe below. getAgentNetworkTelemetry never rejects — degraded sources
+    // surface as `live: false` metrics.
+    const telemetryPromise = getAgentNetworkTelemetry();
+
     let paHealth = "offline";
     let paAgentCount = 0;
 
@@ -180,6 +186,11 @@ export async function GET(request: NextRequest) {
       },
     };
 
+    // Live metaphysical telemetry — feed-event rate + event-type entropy from
+    // the database, elemental harmony from the live ephemeris. Supersedes the
+    // former `meta.mockedTelemetry` seed fixture.
+    const telemetry = await telemetryPromise;
+
     const paIntegration = {
       endpoints: {
         alchmNextApp: "https://alchm.kitchen",
@@ -190,14 +201,7 @@ export async function GET(request: NextRequest) {
       health: paHealth,
       agentCount: paAgentCount,
       lastFeedEmit: feedEmitTracker.getLastEmit(),
-      meta: {
-        mockedFields: ["agentHarmony", "transmutationRate", "spiritualEntropy"],
-        mockedTelemetry: {
-          agentHarmony: "94.2%",
-          transmutationRate: "3.42 kg/hr",
-          spiritualEntropy: "0.11",
-        },
-      },
+      telemetry,
     };
 
     // Backwards-compatible response: legacy `/admin` reads `stats` and

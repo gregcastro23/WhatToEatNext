@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
+import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 import { Dashboard } from "../_dashboard/Dashboard";
 import { FALLBACK_DATA, type AdminDashboardData } from "../_dashboard/data";
 
@@ -18,33 +19,30 @@ export default function AdminDashboardPage() {
   const [data, setData] = useState<AdminDashboardData>(FALLBACK_DATA);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (): Promise<{ ok: boolean }> => {
     try {
       const res = await fetch("/api/admin/dashboard", { cache: "no-store" });
       if (!res.ok) {
         setError(`Failed to load dashboard (HTTP ${res.status})`);
-        return;
+        return { ok: false };
       }
       const json = (await res.json()) as { success: boolean; data?: AdminDashboardData };
       if (json.success && json.data) {
         setData(json.data);
         setError(null);
-      } else {
-        setError("Dashboard payload missing");
+        return { ok: true };
       }
+      setError("Dashboard payload missing");
+      return { ok: false };
     } catch (_err) {
       setError("Failed to connect to admin API");
+      return { ok: false };
     }
   }, []);
 
-  useEffect(() => {
-    void fetchData();
-    // Refresh every 30s for the rest of the page lifetime.
-    const id = setInterval(() => {
-      void fetchData();
-    }, 30_000);
-    return () => clearInterval(id);
-  }, [fetchData]);
+  // Visibility-aware polling with error backoff — pauses on hidden tabs,
+  // refreshes immediately on refocus, and slows down while the API is failing.
+  useHardenedPolling(fetchData, { baseIntervalMs: 30_000 });
 
   return (
     <>

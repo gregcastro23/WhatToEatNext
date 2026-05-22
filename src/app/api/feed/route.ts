@@ -29,6 +29,13 @@ export const dynamic = "force-dynamic";
 
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 
+// Edge-case ceilings: bound agent-supplied fields so a malformed or hostile
+// payload fails fast with a 4xx instead of surfacing as a DB-level 500.
+const MAX_EVENT_TYPE_LENGTH = 50; // matches feed_events.event_type VARCHAR(50)
+const MAX_AGENT_EMAIL_LENGTH = 320; // RFC 5321 maximum addressable length
+const MAX_DISPLAY_NAME_LENGTH = 120;
+const MAX_METADATA_BYTES = 16_384; // 16 KB ceiling on a single event payload
+
 if (!process.env.INTERNAL_API_SECRET) {
   console.warn(
     "[feed] INTERNAL_API_SECRET is not set - the POST handler will reject all agent writes until the secret is configured",
@@ -128,7 +135,10 @@ export async function POST(request: Request) {
 
     const incomingAgentEmail = asString(body.agentEmail);
     const incomingEventType = asString(body.eventType);
-    const agentDisplayName = asString(body.agentDisplayName);
+    const agentDisplayName = asString(body.agentDisplayName)?.slice(
+      0,
+      MAX_DISPLAY_NAME_LENGTH,
+    );
     const metadataPayload = isRecord(body.metadataPayload) ? body.metadataPayload : {};
 
     agentEmail = incomingAgentEmail || agentEmail;
@@ -139,6 +149,40 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Missing required fields", required: ["agentEmail", "eventType"] },
         { status: 400 },
+      );
+    }
+
+    // Field-size hardening — reject oversized input before it can overflow a
+    // VARCHAR column or bloat the JSONB payload at insert time.
+    if (incomingEventType.length > MAX_EVENT_TYPE_LENGTH) {
+      rememberFeedEmit(eventType, agentEmail, 400);
+      return NextResponse.json(
+        { error: "eventType exceeds maximum length", maxLength: MAX_EVENT_TYPE_LENGTH },
+        { status: 400 },
+      );
+    }
+
+    if (incomingAgentEmail.length > MAX_AGENT_EMAIL_LENGTH) {
+      rememberFeedEmit(eventType, agentEmail, 400);
+      return NextResponse.json(
+        { error: "agentEmail exceeds maximum length", maxLength: MAX_AGENT_EMAIL_LENGTH },
+        { status: 400 },
+      );
+    }
+
+    const metadataBytes = Buffer.byteLength(
+      JSON.stringify(metadataPayload),
+      "utf8",
+    );
+    if (metadataBytes > MAX_METADATA_BYTES) {
+      rememberFeedEmit(eventType, agentEmail, 413);
+      return NextResponse.json(
+        {
+          error: "metadataPayload exceeds maximum size",
+          maxBytes: MAX_METADATA_BYTES,
+          receivedBytes: metadataBytes,
+        },
+        { status: 413 },
       );
     }
 
