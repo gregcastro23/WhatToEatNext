@@ -11,14 +11,17 @@
  * that still need real telemetry wiring.
  */
 
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
-import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const PA_BACKEND_URL =
+  process.env.PLANETARY_AGENTS_API_URL || "https://api.agents.alchm.kitchen";
 
 const MOCKED_FIELDS = [
   "pulse", // TODO: wire to real /api/health + uptime monitor
@@ -40,6 +43,39 @@ const MOCKED_FIELDS = [
   "db", // TODO: pg / qdrant / redis store stats
 ];
 
+/**
+ * Helper to fetch external APIs safely with a timeout
+ */
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 2000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    return response;
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+function getAgentCount(payload: unknown): number {
+  if (Array.isArray(payload)) return payload.length;
+  if (!payload || typeof payload !== "object") return 0;
+
+  const record = payload as Record<string, unknown>;
+  if (Array.isArray(record.agents)) return record.agents.length;
+  if (typeof record.count === "number") return record.count;
+  if (typeof record.total === "number") return record.total;
+
+  return 0;
+}
+
+/**
+ * GET /api/admin/dashboard
+ * Returns dashboard statistics, recent users, and cross-project PA observability.
+ */
 export async function GET(request: NextRequest) {
   try {
     const authResult = await validateAdminRequest(request);
@@ -77,6 +113,42 @@ export async function GET(request: NextRequest) {
         isActive: u.isActive,
       }));
 
+    let paHealth = "offline";
+    let paAgentCount = 0;
+
+    try {
+      const internalSecret = process.env.INTERNAL_API_SECRET;
+      const headers: Record<string, string> = {
+        Accept: "application/json",
+      };
+
+      if (internalSecret) {
+        headers.Authorization = `Bearer ${internalSecret}`;
+      }
+
+      const [healthRes, agentsRes] = await Promise.allSettled([
+        fetchWithTimeout(`${PA_BACKEND_URL}/health`, { headers }, 2000),
+        fetchWithTimeout(`${PA_BACKEND_URL}/api/agents`, { headers }, 2000),
+      ]);
+
+      if (healthRes.status === "fulfilled" && healthRes.value.ok) {
+        const healthData = (await healthRes.value.json().catch(() => ({}))) as {
+          status?: string;
+          health?: string;
+        };
+        paHealth = healthData.status || healthData.health || "healthy";
+      } else {
+        paHealth = healthRes.status === "fulfilled" ? "unhealthy" : "offline";
+      }
+
+      if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
+        paAgentCount = getAgentCount(await agentsRes.value.json().catch(() => []));
+      }
+    } catch (err) {
+      console.error("Failed to query Planetary Agents backend metrics:", err);
+      paHealth = "offline";
+    }
+
     const data: AdminDashboardData = {
       user: {
         handle: "gregcastro23",
@@ -108,10 +180,36 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    // Backwards-compatible response: legacy `/admin` (PR #412) reads
-    // `stats` and `recentUsers` from the top level; the new
-    // `/admin/dashboard` reads `data`. Both shapes ship together.
-    return NextResponse.json({ success: true, stats, recentUsers, data });
+    const paIntegration = {
+      endpoints: {
+        alchmNextApp: "https://alchm.kitchen",
+        paUi: "https://agents.alchm.kitchen",
+        paBackend: PA_BACKEND_URL,
+        wtenLegacyBackend: "https://whattoeatnext-production.up.railway.app",
+      },
+      health: paHealth,
+      agentCount: paAgentCount,
+      lastFeedEmit: feedEmitTracker.getLastEmit(),
+      meta: {
+        mockedFields: ["agentHarmony", "transmutationRate", "spiritualEntropy"],
+        mockedTelemetry: {
+          agentHarmony: "94.2%",
+          transmutationRate: "3.42 kg/hr",
+          spiritualEntropy: "0.11",
+        },
+      },
+    };
+
+    // Backwards-compatible response: legacy `/admin` reads `stats` and
+    // `recentUsers` from the top level; `/admin/dashboard` reads `data`;
+    // the new PA panel reads `paIntegration`.
+    return NextResponse.json({
+      success: true,
+      stats,
+      recentUsers,
+      data,
+      paIntegration,
+    });
   } catch (error) {
     console.error("Admin dashboard error:", error);
     return NextResponse.json(

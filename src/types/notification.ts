@@ -13,7 +13,8 @@ export type NotificationType =
   | 'commensal_request'
   | 'commensal_accepted'
   | 'quest_completed'
-  | 'master_quest_broadcast';
+  | 'master_quest_broadcast'
+  | 'agent_broadcast';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -65,4 +66,5 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   commensal_accepted: { bg: '#F3E5F5', border: '#CE93D8', icon: '🎉' },
   quest_completed:    { bg: '#E0F7FA', border: '#7986CB', icon: '🏆' },
   master_quest_broadcast: { bg: '#FFF3E0', border: '#FFB74D', icon: '🌌' },
+  agent_broadcast:    { bg: '#F3E8FF', border: '#C084FC', icon: '🤖' },
 };

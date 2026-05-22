@@ -89,6 +89,8 @@
   ],
   "exclude": [
     "node_modules",
+    "wten-migration-ui-components",
+    "wten-migration-ui-components/**",
     "tests/**",
     "demo-*",
     "run-*",
