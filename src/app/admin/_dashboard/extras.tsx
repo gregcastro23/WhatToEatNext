@@ -1,6 +1,10 @@
 "use client";
 
 import React from "react";
+import type {
+  CosmicYieldData,
+  DatabaseObservabilityData,
+} from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
 import { seeded } from "./data";
 import { Card } from "./hero";
@@ -497,21 +501,19 @@ export function RecipeQualityInspector() {
 // ============================================================
 // COSMIC YIELD ECONOMY
 // ============================================================
-export function CosmicYieldEconomy() {
+export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
   const burndata = seeded(51, 30, 0.4, 0.85);
   const mintdata = seeded(53, 30, 0.45, 0.9);
-  const top = [
-    { who: "@kemi.adekunle", bal: "8,420 CY", rank: 1, d: "+220 · 24h" },
-    { who: "@hiro.matsui", bal: "6,180 CY", rank: 2, d: "+184" },
-    { who: "@a.bertolucci", bal: "5,720 CY", rank: 3, d: "+142" },
-    { who: "@noor.eldin", bal: "4,840 CY", rank: 4, d: "+118" },
-    { who: "@vera.j", bal: "3,940 CY", rank: 5, d: "+84" },
-    { who: "@gregcastro23", bal: "∞ ROOT", rank: "—", d: "you", you: true },
-  ];
+  const maxSink = Math.max(1, ...data.sinks24h.map((s) => s.amount));
+  const sinks = data.sinks24h.map((s) => ({
+    k: s.source.replace(/_/g, " "),
+    v: Math.round(s.amount),
+    p: s.amount / maxSink,
+  }));
   return (
     <Card
       title="Cosmic Yield · internal economy"
-      subtitle="184,212 CY in circulation · 14d half-life"
+      subtitle={`${Math.round(data.inCirculation).toLocaleString()} CY in circulation · ${data.live ? "live ledger" : "cached"}`}
       right={
         <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
           OPEN LEDGER
@@ -521,10 +523,27 @@ export function CosmicYieldEconomy() {
       <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 14 }}>
         <div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
-            <Stat2 k="Minted · 30d" v="48,210" d="grants, feedback rewards" />
-            <Stat2 k="Burned · 30d" v="32,840" d="cart fees, premium boosts" />
-            <Stat2 k="Velocity" v="2.4x" d="MoM" />
-            <Stat2 k="Net flow" v="+15,370" d="inflationary tilt" accent />
+            <Stat2
+              k="Minted · 30d"
+              v={Math.round(data.minted30d).toLocaleString()}
+              d="credits across all sources"
+            />
+            <Stat2
+              k="Burned · 30d"
+              v={Math.round(data.burned30d).toLocaleString()}
+              d="debits across all sinks"
+            />
+            <Stat2
+              k="Circulation"
+              v={Math.round(data.inCirculation).toLocaleString()}
+              d="ESMS token balances"
+            />
+            <Stat2
+              k="Net flow · 30d"
+              v={`${data.netFlow30d >= 0 ? "+" : ""}${Math.round(data.netFlow30d).toLocaleString()}`}
+              d={data.netFlow30d >= 0 ? "inflationary tilt" : "deflationary tilt"}
+              accent
+            />
           </div>
           <div
             style={{
@@ -564,12 +583,12 @@ export function CosmicYieldEconomy() {
           </div>
           <div className="t-tag" style={{ marginTop: 10, marginBottom: 4 }}>SINKS · LAST 24H</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            {[
-              { k: "Premium boost · Restaurant Creator", v: 1820, p: 0.62 },
-              { k: "Procurement subsidies", v: 1240, p: 0.42 },
-              { k: "Dinner party host gifts", v: 980, p: 0.32 },
-              { k: "Galileo image gen credits", v: 612, p: 0.2 },
-            ].map((s) => (
+            {sinks.length === 0 && (
+              <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                no debits in last 24h
+              </span>
+            )}
+            {sinks.map((s) => (
               <div
                 key={s.k}
                 style={{
@@ -611,40 +630,44 @@ export function CosmicYieldEconomy() {
           </div>
         </div>
         <div>
-          <div className="t-tag" style={{ marginBottom: 6 }}>TOP HOLDERS · NON-ROOT</div>
+          <div className="t-tag" style={{ marginBottom: 6 }}>TOP HOLDERS · BY BALANCE</div>
           <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
-            {top.map((t, i) => (
+            {data.topHolders.length === 0 && (
+              <div style={{ padding: "10px 12px", textAlign: "center" }}>
+                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                  no token holders yet
+                </span>
+              </div>
+            )}
+            {data.topHolders.map((t, i) => (
               <div
                 key={i}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "24px 1fr 84px 60px",
+                  gridTemplateColumns: "24px 1fr 110px",
                   padding: "8px 10px",
                   alignItems: "center",
                   gap: 6,
-                  borderBottom: i === top.length - 1 ? "none" : "1px solid var(--line)",
-                  background: t.you ? "color-mix(in oklch, var(--accent), transparent 88%)" : "transparent",
+                  borderBottom:
+                    i === data.topHolders.length - 1 ? "none" : "1px solid var(--line)",
                 }}
               >
-                <span
-                  className="t-num"
-                  style={{ fontSize: 10, color: t.you ? "var(--accent)" : "var(--fg-mute)" }}
-                >
-                  {t.rank}
+                <span className="t-num" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
+                  {i + 1}
                 </span>
-                <span className="t-mono" style={{ fontSize: 11, color: t.you ? "var(--accent)" : "var(--accent-2)" }}>
-                  {t.who}
-                </span>
-                <span className="t-num" style={{ fontSize: 11, color: "var(--fg)", textAlign: "right" }}>{t.bal}</span>
                 <span
                   className="t-mono"
                   style={{
-                    fontSize: 9,
-                    color: t.you ? "var(--accent)" : "var(--el-earth)",
-                    textAlign: "right",
+                    fontSize: 11,
+                    color: "var(--accent-2)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
-                  {t.d}
+                  {t.handle}
+                </span>
+                <span className="t-num" style={{ fontSize: 11, color: "var(--fg)", textAlign: "right" }}>
+                  {Math.round(t.balance).toLocaleString()} CY
                 </span>
               </div>
             ))}
@@ -1078,52 +1101,128 @@ export function CostBurndown() {
 // ============================================================
 // DATABASE / STORAGE / VECTORS
 // ============================================================
-export function DatabaseStorage() {
-  const stores: Array<{
-    name: string;
-    kind: string;
-    sz: string;
-    ops: string;
-    lat: string;
-    load: number;
-    ic: React.ComponentProps<typeof Glyph>["name"];
-    color: string;
-  }> = [
-    { name: "postgres · primary", kind: "OLTP", sz: "42.1 GB", ops: "12,840/s", lat: "4ms", load: 0.42, ic: "diamond", color: "var(--el-earth)" },
-    { name: "postgres · 2 replicas", kind: "RO", sz: "42.1 GB", ops: "8,120/s", lat: "5ms", load: 0.28, ic: "diamond", color: "var(--el-earth)" },
-    { name: "redis · hot · keyspace", kind: "CACHE", sz: "3.2 GB", ops: "84k/s", lat: "0.4ms", load: 0.58, ic: "ring", color: "var(--el-water)" },
-    { name: "s3 · images blob", kind: "OBJECT", sz: "412 GB", ops: "420/s", lat: "180ms", load: 0.18, ic: "bookmark", color: "var(--el-air)" },
-    { name: "qdrant · embeddings", kind: "VECTOR", sz: "8.4 GB · 12.4M vecs", ops: "640/s", lat: "12ms", load: 0.34, ic: "atom", color: "var(--accent)" },
-    { name: "clickhouse · events", kind: "OLAP", sz: "84 GB", ops: "ingest 18k/s", lat: "queries 240ms", load: 0.52, ic: "wave", color: "var(--accent-2)" },
-  ];
+function formatBytes(bytes: number): string {
+  if (bytes <= 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  const i = Math.min(
+    units.length - 1,
+    Math.floor(Math.log(bytes) / Math.log(1024)),
+  );
+  return `${(bytes / 1024 ** i).toFixed(i === 0 ? 0 : 1)} ${units[i] ?? "B"}`;
+}
+
+export function DatabaseStorage({ data }: { data: DatabaseObservabilityData }) {
+  const { pool, slowQueries, tables, live } = data;
+  const poolLoad = pool.max > 0 ? pool.total / pool.max : 0;
+  const maxTableSize = Math.max(1, ...tables.map((t) => t.sizeBytes));
   return (
     <Card
-      title="Database · Storage · Vectors"
-      subtitle="6 stores · 591.8 GB total"
+      title="Database · Postgres observability"
+      subtitle={`${formatBytes(data.dbSizeBytes)} · ${data.activeConnections} active connections`}
       right={
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>● HEALTHY</span>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)" }}
+        >
+          {live ? "● LIVE" : "○ CACHED"}
+        </span>
       }
     >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: 8,
+          marginBottom: 10,
+        }}
+      >
+        <Stat2
+          k="Pool · in use"
+          v={`${pool.total} / ${pool.max}`}
+          d={`${Math.round(poolLoad * 100)}% of max`}
+          accent={poolLoad > 0.8}
+        />
+        <Stat2 k="Idle" v={String(pool.idle)} d="ready connections" />
+        <Stat2
+          k="Waiting"
+          v={String(pool.waiting)}
+          d="queued acquires"
+          accent={pool.waiting > 0}
+        />
+        <Stat2 k="DB size" v={formatBytes(data.dbSizeBytes)} d="current database" />
+      </div>
+
+      <div className="t-tag" style={{ marginBottom: 4 }}>SLOW QUERIES · ACTIVE &gt; 200MS</div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 3, marginBottom: 10 }}>
+        {slowQueries.length === 0 ? (
+          <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>
+            none — all active queries under 200ms
+          </span>
+        ) : (
+          slowQueries.map((q, i) => (
+            <div
+              key={i}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 64px",
+                gap: 8,
+                alignItems: "center",
+                fontSize: 10,
+              }}
+            >
+              <span
+                className="t-mono"
+                style={{
+                  color: "var(--fg-dim)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {q.query}
+              </span>
+              <span className="t-num" style={{ textAlign: "right", color: "var(--el-fire)" }}>
+                {q.durationMs}ms
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="t-tag" style={{ marginBottom: 4 }}>LARGEST TABLES</div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {stores.map((s, i) => (
+        {tables.length === 0 && (
+          <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            table stats unavailable
+          </span>
+        )}
+        {tables.map((t, i) => (
           <div
-            key={s.name}
+            key={t.name}
             style={{
               display: "grid",
-              gridTemplateColumns: "20px 1.4fr 60px 1fr 1fr 0.8fr 60px",
+              gridTemplateColumns: "20px 1.4fr 90px 80px 0.8fr",
               gap: 8,
               alignItems: "center",
-              padding: "10px 0",
-              borderBottom: i === stores.length - 1 ? "none" : "1px solid var(--line)",
+              padding: "8px 0",
+              borderBottom: i === tables.length - 1 ? "none" : "1px solid var(--line)",
               fontSize: 11,
             }}
           >
-            <Glyph name={s.ic} size={14} style={{ color: s.color }} />
-            <span style={{ color: "var(--fg)" }}>{s.name}</span>
-            <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}>{s.kind}</span>
-            <span className="t-mono" style={{ fontSize: 10.5, color: "var(--fg-dim)" }}>{s.sz}</span>
-            <span className="t-mono" style={{ fontSize: 10.5, color: "var(--fg-dim)" }}>{s.ops}</span>
-            <span className="t-mono" style={{ fontSize: 10.5, color: "var(--fg-dim)" }}>{s.lat}</span>
+            <Glyph name="diamond" size={12} style={{ color: "var(--el-earth)" }} />
+            <span style={{ color: "var(--fg)" }}>{t.name}</span>
+            <span
+              className="t-mono"
+              style={{ fontSize: 10, color: "var(--fg-dim)", textAlign: "right" }}
+            >
+              {t.rows.toLocaleString()} rows
+            </span>
+            <span
+              className="t-mono"
+              style={{ fontSize: 10, color: "var(--fg-dim)", textAlign: "right" }}
+            >
+              {formatBytes(t.sizeBytes)}
+            </span>
             <div
               style={{
                 position: "relative",
@@ -1135,10 +1234,10 @@ export function DatabaseStorage() {
             >
               <div
                 style={{
-                  width: `${s.load * 100}%`,
+                  width: `${(t.sizeBytes / maxTableSize) * 100}%`,
                   height: "100%",
-                  background: s.color,
-                  boxShadow: `0 0 6px ${s.color}`,
+                  background: "var(--el-earth)",
+                  boxShadow: "0 0 6px var(--el-earth)",
                 }}
               />
             </div>

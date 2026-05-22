@@ -1,6 +1,10 @@
 "use client";
 
 import React from "react";
+import type {
+  AuditEventsData,
+  CatalogTrendingData,
+} from "@/services/dashboardPanelsService";
 import { CompatibilityRing, ElementalMeter, Glyph, Sparkline } from "./atoms";
 import { seeded } from "./data";
 import { Card, Legend, MiniStat } from "./hero";
@@ -700,8 +704,10 @@ export function EngineHealth() {
 // ============================================================
 export function CatalogState({
   realCards,
+  trending,
 }: {
   realCards?: Array<{ label: string; value: string; delta: string; icon: string }>;
+  trending?: CatalogTrendingData;
 }) {
   const cards =
     realCards ??
@@ -711,22 +717,7 @@ export function CatalogState({
       { label: "Cuisines", value: "184", delta: "—", icon: "ring" },
       { label: "Methods", value: "62", delta: "+1 · molecular", icon: "triangle-up-bar" },
     ];
-  const trending = [
-    { name: "miso-glazed eggplant", c: "JPN", v: "+412%", elemental: "earth", rank: 1, vol: 1820 },
-    { name: "salt-baked branzino", c: "MED", v: "+318%", elemental: "water", rank: 2, vol: 1640 },
-    { name: "pho gà (chicken)", c: "VNM", v: "+204%", elemental: "fire", rank: 3, vol: 1488 },
-    { name: "burnt cabbage · brown butter", c: "NOR", v: "+186%", elemental: "earth", rank: 4, vol: 1310 },
-    { name: "kheer · cardamom", c: "IND", v: "+142%", elemental: "air", rank: 5, vol: 1102 },
-    { name: "chile crisp · sichuan", c: "CHN", v: "+118%", elemental: "fire", rank: 6, vol: 982 },
-    { name: "ribollita", c: "ITA", v: "+96%", elemental: "earth", rank: 7, vol: 874 },
-    { name: "ceviche · leche de tigre", c: "PER", v: "+88%", elemental: "water", rank: 8, vol: 813 },
-  ];
-  const elColor: Record<string, string> = {
-    fire: "var(--el-fire)",
-    water: "var(--el-water)",
-    earth: "var(--el-earth)",
-    air: "var(--el-air)",
-  };
+  const recipes = trending?.recipes ?? [];
   return (
     <Card
       title="Catalog · State of the Pantry"
@@ -753,27 +744,36 @@ export function CatalogState({
           </div>
         ))}
       </div>
-      <div className="t-tag" style={{ marginBottom: 6 }}>TRENDING · LAST 24H</div>
+      <div className="t-tag" style={{ marginBottom: 6 }}>
+        TOP RECIPES · BY POPULARITY{trending && !trending.live ? " · CACHED" : ""}
+      </div>
       <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "24px 1fr 50px 60px 60px",
+            gridTemplateColumns: "24px 1fr 64px 64px 48px",
             padding: "6px 10px",
             borderBottom: "1px solid var(--line-hi)",
             background: "rgba(255,255,255,0.02)",
           }}
         >
-          {["#", "Recipe", "Cuisine", "Delta", "Views"].map((h, i) => (
+          {["#", "Recipe", "Cuisine", "Rating", "Pop"].map((h, i) => (
             <span key={h} className="t-tag" style={{ fontSize: 8.5, textAlign: i >= 3 ? "right" : "left" }}>{h}</span>
           ))}
         </div>
-        {trending.map((r) => (
+        {recipes.length === 0 && (
+          <div style={{ padding: "10px", textAlign: "center" }}>
+            <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+              no recipe data
+            </span>
+          </div>
+        )}
+        {recipes.map((r, i) => (
           <div
-            key={r.name}
+            key={`${i}-${r.name}`}
             style={{
               display: "grid",
-              gridTemplateColumns: "24px 1fr 50px 60px 60px",
+              gridTemplateColumns: "24px 1fr 64px 64px 48px",
               padding: "8px 10px",
               borderBottom: "1px solid var(--line)",
               fontSize: 11.5,
@@ -781,28 +781,35 @@ export function CatalogState({
             }}
           >
             <span className="t-num" style={{ color: "var(--fg-mute)", fontSize: 10 }}>
-              {String(r.rank).padStart(2, "0")}
+              {String(i + 1).padStart(2, "0")}
             </span>
-            <span style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-              <span
-                className="el-dot"
-                style={{ background: elColor[r.elemental], boxShadow: `0 0 6px ${elColor[r.elemental]}` }}
-              />
-              <span
-                style={{
-                  color: "var(--fg)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {r.name}
-              </span>
+            <span
+              style={{
+                color: "var(--fg)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {r.name}
             </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{r.c}</span>
-            <span className="t-num" style={{ textAlign: "right", color: "var(--el-earth)", fontSize: 11 }}>{r.v}</span>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9.5,
+                color: "var(--fg-mute)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {r.cuisine}
+            </span>
+            <span className="t-num" style={{ textAlign: "right", color: "var(--el-earth)", fontSize: 11 }}>
+              ★ {r.rating.toFixed(1)}
+            </span>
             <span className="t-num" style={{ textAlign: "right", color: "var(--fg-dim)", fontSize: 11 }}>
-              {r.vol.toLocaleString()}
+              {Math.round(r.popularity * 100)}
             </span>
           </div>
         ))}
@@ -1187,57 +1194,76 @@ export function FeatureFlagsPanel() {
   );
 }
 
-export function AuditLogPanel() {
-  const entries = [
-    { t: "21:45", who: "@gregcastro23", a: "approved", o: "recipe #c8f1ad", ip: "73.21.x.x" },
-    { t: "21:42", who: "@gregcastro23", a: "promoted", o: "engine v17.4 · 100%", ip: "73.21.x.x" },
-    { t: "21:30", who: "@gregcastro23", a: "rolled back", o: "billing webhook · #412de8", ip: "73.21.x.x" },
-    { t: "20:08", who: "@gregcastro23", a: "set flag", o: "cosmic-recipe-v2 → 100%", ip: "73.21.x.x" },
-    { t: "19:51", who: "@deploybot", a: "deploy", o: "main · #7c3091", ip: "ci · github" },
-    { t: "18:22", who: "@gregcastro23", a: "edited", o: "ingredient · heirloom tomato", ip: "73.21.x.x" },
-    { t: "17:04", who: "@gregcastro23", a: "exported", o: "users · 30d pro list", ip: "73.21.x.x" },
-  ];
+export function AuditLogPanel({ data }: { data: AuditEventsData }) {
+  const { events, live } = data;
   return (
     <Card
-      title="Audit · admin actions"
-      subtitle="immutable · last 24h"
+      title="Audit · auth events"
+      subtitle="sign-in · sign-out · failures"
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          EXPORT
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)" }}
+        >
+          {live ? "● LIVE" : "○ CACHED"}
+        </span>
       }
     >
       <div style={{ display: "flex", flexDirection: "column" }}>
-        {entries.map((e, i) => (
-          <div
-            key={i}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "40px 92px 70px 1fr 50px",
-              gap: 8,
-              alignItems: "baseline",
-              padding: "8px 0",
-              borderBottom: i === entries.length - 1 ? "none" : "1px solid var(--line)",
-              fontFamily: "var(--f-mono)",
-              fontSize: 10.5,
-            }}
+        {events.length === 0 && (
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: "var(--fg-mute)", padding: "8px 0" }}
           >
-            <span style={{ color: "var(--fg-mute)" }}>{e.t}</span>
-            <span style={{ color: "var(--accent-2)" }}>{e.who}</span>
-            <span style={{ color: "var(--accent)" }}>{e.a}</span>
-            <span
+            no auth events recorded
+          </span>
+        )}
+        {events.map((e, i) => {
+          const statusColor =
+            e.status === "failure"
+              ? "var(--el-fire)"
+              : e.status === "success"
+                ? "var(--el-earth)"
+                : "var(--fg-mute)";
+          return (
+            <div
+              key={i}
               style={{
-                color: "var(--fg-dim)",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                display: "grid",
+                gridTemplateColumns: "42px 1fr 96px 56px",
+                gap: 8,
+                alignItems: "baseline",
+                padding: "8px 0",
+                borderBottom: i === events.length - 1 ? "none" : "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 10.5,
               }}
             >
-              {e.o}
-            </span>
-            <span style={{ color: "var(--fg-mute)", textAlign: "right", fontSize: 9 }}>{e.ip}</span>
-          </div>
-        ))}
+              <span style={{ color: "var(--fg-mute)" }}>{e.createdAt.slice(11, 16)}</span>
+              <span
+                style={{
+                  color: "var(--accent-2)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {e.email}
+              </span>
+              <span
+                style={{
+                  color: "var(--accent)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {e.eventType}
+              </span>
+              <span style={{ color: statusColor, textAlign: "right" }}>{e.status}</span>
+            </div>
+          );
+        })}
       </div>
     </Card>
   );

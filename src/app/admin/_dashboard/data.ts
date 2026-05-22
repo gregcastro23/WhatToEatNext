@@ -8,6 +8,14 @@
  * prototype used, so the visual output matches one-for-one.
  */
 
+import type {
+  AuditEventsData,
+  CatalogTrendingData,
+  CosmicYieldData,
+  DatabaseObservabilityData,
+} from "@/services/dashboardPanelsService";
+import type { SkyConditionsData } from "@/services/skyConditionsService";
+
 // ============================================================
 // DETERMINISTIC PSEUDO-RANDOM — used for sparkline / heatmap fill
 // ============================================================
@@ -87,6 +95,10 @@ export interface AdminDashboardData {
     activeUsers: number;
     newUsersToday: number;
     completedOnboarding: number;
+    totalRecipes: number;
+    totalIngredients: number;
+    totalSubscriptions: number;
+    totalTransactions: number;
   };
   recentUsers: Array<{
     id: string;
@@ -96,6 +108,16 @@ export interface AdminDashboardData {
     dominantElement: string | null;
     isActive: boolean;
   }>;
+  /** Live planetary snapshot — computed by getSkyConditions(). */
+  skyConditions: SkyConditionsData;
+  /** Live token-economy rollup — computed by getCosmicYield(). */
+  cosmicYield: CosmicYieldData;
+  /** Live Postgres observability — computed by getDatabaseObservability(). */
+  dbObservability: DatabaseObservabilityData;
+  /** Top recipes by popularity — computed by getCatalogTrending(). */
+  catalogTrending: CatalogTrendingData;
+  /** Recent auth events — computed by getAuditEvents(). */
+  auditEvents: AuditEventsData;
   /**
    * Fields below are not yet wired to a real backend.
    * They are filled by the API route from deterministic seeds
@@ -113,6 +135,22 @@ export interface AdminDashboardData {
 // ============================================================
 // FALLBACK / SEED — used during loading and as the API mock
 // ============================================================
+const SKY_SEED: SkyConditionsData = {
+  headline: "Awaiting ephemeris",
+  live: false,
+  generatedAt: new Date(0).toISOString(),
+  planets: [
+    { symbol: "☉", name: "Sun", position: "—", speed: "—", retrograde: false, stationing: false },
+    { symbol: "☽", name: "Moon", position: "—", speed: "—", retrograde: false, stationing: false },
+    { symbol: "☿", name: "Mercury", position: "—", speed: "—", retrograde: false, stationing: false },
+    { symbol: "♀", name: "Venus", position: "—", speed: "—", retrograde: false, stationing: false },
+    { symbol: "♂", name: "Mars", position: "—", speed: "—", retrograde: false, stationing: false },
+    { symbol: "♃", name: "Jupiter", position: "—", speed: "—", retrograde: false, stationing: false },
+    { symbol: "♄", name: "Saturn", position: "—", speed: "—", retrograde: false, stationing: false },
+  ],
+  aspects: [],
+};
+
 export const FALLBACK_DATA: AdminDashboardData = {
   user: {
     handle: "gregcastro23",
@@ -140,8 +178,32 @@ export const FALLBACK_DATA: AdminDashboardData = {
     activeUsers: 0,
     newUsersToday: 0,
     completedOnboarding: 0,
+    totalRecipes: 0,
+    totalIngredients: 0,
+    totalSubscriptions: 0,
+    totalTransactions: 0,
   },
   recentUsers: [],
+  skyConditions: SKY_SEED,
+  cosmicYield: {
+    inCirculation: 0,
+    minted30d: 0,
+    burned30d: 0,
+    netFlow30d: 0,
+    sinks24h: [],
+    topHolders: [],
+    live: false,
+  },
+  dbObservability: {
+    pool: { total: 0, idle: 0, waiting: 0, max: 0 },
+    dbSizeBytes: 0,
+    activeConnections: 0,
+    tables: [],
+    slowQueries: [],
+    live: false,
+  },
+  catalogTrending: { recipes: [], live: false },
+  auditEvents: { events: [], live: false },
   meta: {
     generatedAt: new Date(0).toISOString(),
     mockedFields: [
@@ -150,18 +212,13 @@ export const FALLBACK_DATA: AdminDashboardData = {
       "kpis",
       "agents",
       "incidents",
-      "skyConditions",
       "deploys",
       "featureFlags",
-      "audit",
       "moderation",
       "commerce",
-      "catalog",
-      "cosmicYield",
       "geo",
       "errors",
       "cost",
-      "db",
     ],
   },
 };

@@ -14,8 +14,16 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { executeQuery } from "@/lib/database";
 import { getAgentNetworkTelemetry } from "@/services/agentTelemetryService";
+import {
+  getAuditEvents,
+  getCatalogTrending,
+  getCosmicYield,
+  getDatabaseObservability,
+} from "@/services/dashboardPanelsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
+import { getSkyConditions } from "@/services/skyConditionsService";
 import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
@@ -30,18 +38,13 @@ const MOCKED_FIELDS = [
   "kpis", // TODO: MRR, NDCG, agent dispatches from real telemetry
   "agents", // TODO: agents.alchm.kitchen mesh status feed
   "incidents", // TODO: incident manager / PagerDuty
-  "skyConditions", // TODO: astrologize /api/transit
   "deploys", // TODO: deploy history from Railway/CI
   "featureFlags", // TODO: feature flag store
-  "audit", // TODO: admin audit log table
   "moderation", // TODO: moderation queue table
   "commerce", // TODO: Stripe orders + MRR rollup
-  "catalog", // partially wired — counts from db, trending mocked
-  "cosmicYield", // TODO: token economy ledger
   "geo", // TODO: session geo aggregation
   "errors", // TODO: Sentry / error tracker
   "cost", // TODO: cloud cost rollup
-  "db", // TODO: pg / qdrant / redis store stats
 ];
 
 /**
@@ -74,6 +77,20 @@ function getAgentCount(payload: unknown): number {
 }
 
 /**
+ * Run a scalar COUNT query, degrading to 0 on any failure so a single missing
+ * table or transient DB error can't fail the entire dashboard payload.
+ */
+async function safeCount(label: string, sql: string): Promise<number> {
+  try {
+    const result = await executeQuery(sql);
+    return Number(result.rows[0]?.count ?? 0);
+  } catch (error) {
+    console.error(`[admin/dashboard] ${label} count failed:`, error);
+    return 0;
+  }
+}
+
+/**
  * GET /api/admin/dashboard
  * Returns dashboard statistics, recent users, and cross-project PA observability.
  */
@@ -84,7 +101,33 @@ export async function GET(request: NextRequest) {
       return authResult.error;
     }
 
-    const allUsers = await userDatabase.getAllUsers();
+    // getAllUsers() is critical — its failure still 500s the dashboard via the
+    // outer catch. The catalog counts are supplementary: safeCount swallows a
+    // failed COUNT and returns 0, so one missing table or transient DB error
+    // can't take down the whole payload.
+    const [
+      allUsers,
+      totalRecipes,
+      totalIngredients,
+      totalSubscriptions,
+      totalTransactions,
+    ] = await Promise.all([
+      userDatabase.getAllUsers(),
+      safeCount("recipes", "SELECT COUNT(*)::integer AS count FROM recipes"),
+      safeCount(
+        "ingredients",
+        "SELECT COUNT(*)::integer AS count FROM ingredients",
+      ),
+      safeCount(
+        "active subscriptions",
+        "SELECT COUNT(*)::integer AS count FROM user_subscriptions WHERE status = 'active'",
+      ),
+      safeCount(
+        "token transactions",
+        "SELECT COUNT(*)::integer AS count FROM token_transactions",
+      ),
+    ]);
+
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
@@ -95,6 +138,10 @@ export async function GET(request: NextRequest) {
       completedOnboarding: allUsers.filter(
         (u) => u.profile.birthData && u.profile.natalChart,
       ).length,
+      totalRecipes,
+      totalIngredients,
+      totalSubscriptions,
+      totalTransactions,
     };
 
     const recentUsers = [...allUsers]
@@ -114,10 +161,15 @@ export async function GET(request: NextRequest) {
         isActive: u.isActive,
       }));
 
-    // Kick off live telemetry aggregation in parallel with the PA backend
-    // probe below. getAgentNetworkTelemetry never rejects — degraded sources
-    // surface as `live: false` metrics.
+    // Kick off live telemetry + sky-conditions aggregation in parallel with
+    // the PA backend probe below. Neither rejects — degraded sources surface
+    // as `live: false`.
     const telemetryPromise = getAgentNetworkTelemetry();
+    const skyConditionsPromise = getSkyConditions();
+    const cosmicYieldPromise = getCosmicYield();
+    const dbObservabilityPromise = getDatabaseObservability();
+    const catalogTrendingPromise = getCatalogTrending();
+    const auditEventsPromise = getAuditEvents();
 
     let paHealth = "offline";
     let paAgentCount = 0;
@@ -155,6 +207,12 @@ export async function GET(request: NextRequest) {
       paHealth = "offline";
     }
 
+    const skyConditions = await skyConditionsPromise;
+    const cosmicYield = await cosmicYieldPromise;
+    const dbObservability = await dbObservabilityPromise;
+    const catalogTrending = await catalogTrendingPromise;
+    const auditEvents = await auditEventsPromise;
+
     const data: AdminDashboardData = {
       user: {
         handle: "gregcastro23",
@@ -180,6 +238,11 @@ export async function GET(request: NextRequest) {
       },
       stats,
       recentUsers,
+      skyConditions,
+      cosmicYield,
+      dbObservability,
+      catalogTrending,
+      auditEvents,
       meta: {
         generatedAt: now.toISOString(),
         mockedFields: MOCKED_FIELDS,

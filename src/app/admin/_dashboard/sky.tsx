@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import type { SkyConditionsData } from "@/services/skyConditionsService";
 import { Sparkline } from "./atoms";
 import { seeded } from "./data";
 import { Card } from "./hero";
@@ -8,21 +9,19 @@ import { Card } from "./hero";
 // ============================================================
 // SKY CONDITIONS — current planetary positions
 // ============================================================
-export function SkyConditions() {
-  const planets = [
-    { sym: "☉", n: "Sun", pos: "06°41′ Gem", speed: "+0.96°/d", state: "DIRECT", color: "var(--accent-2)" },
-    { sym: "☽", n: "Moon", pos: "22°08′ Vir", speed: "+13.2°/d", state: "DIRECT", color: "var(--el-water)" },
-    { sym: "☿", n: "Mercury", pos: "01°14′ Gem", speed: "+1.84°/d", state: "DIRECT", color: "var(--el-air)" },
-    { sym: "♀", n: "Venus", pos: "29°47′ Tau", speed: "-0.04°/d", state: "Rx · stationing", color: "var(--el-fire)", warn: true },
-    { sym: "♂", n: "Mars", pos: "14°22′ Leo", speed: "+0.68°/d", state: "HOUR · live", color: "var(--accent)", live: true },
-    { sym: "♃", n: "Jupiter", pos: "08°53′ Gem", speed: "+0.22°/d", state: "DIRECT", color: "var(--el-earth)" },
-    { sym: "♄", n: "Saturn", pos: "00°12′ Ari", speed: "+0.11°/d", state: "DIRECT", color: "var(--fg-mute)" },
-  ];
-  const aspects = [
-    { a: "☿", op: "△", b: "♄", deg: "0°14′", kind: "applying", color: "var(--el-earth)" },
-    { a: "♂", op: "□", b: "♀", deg: "2°41′", kind: "applying", color: "var(--el-fire)" },
-    { a: "☉", op: "✶", b: "♃", deg: "1°06′", kind: "separating", color: "var(--accent-2)" },
-  ];
+const PLANET_COLOR: Record<string, string> = {
+  Sun: "var(--accent-2)",
+  Moon: "var(--el-water)",
+  Mercury: "var(--el-air)",
+  Venus: "var(--el-fire)",
+  Mars: "var(--accent)",
+  Jupiter: "var(--el-earth)",
+  Saturn: "var(--fg-mute)",
+};
+
+export function SkyConditions({ data }: { data: SkyConditionsData }) {
+  const { planets, aspects, headline, live } = data;
+  const retrogradeCount = planets.filter((p) => p.retrograde).length;
   return (
     <section
       className="panel"
@@ -30,57 +29,67 @@ export function SkyConditions() {
     >
       <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 18, alignItems: "center" }}>
         <div>
-          <div className="t-tag" style={{ fontSize: 8.5 }}>SKY CONDITIONS · LIVE</div>
+          <div className="t-tag" style={{ fontSize: 8.5 }}>
+            SKY CONDITIONS · {live ? "LIVE" : "CACHED"}
+          </div>
           <div className="t-display" style={{ fontSize: 16, marginTop: 2 }}>
-            Mars hour <span style={{ color: "var(--accent)" }}>♂</span> · Venus stationing Rx
+            {headline}
           </div>
           <div
             className="t-mono"
             style={{ fontSize: 9, color: "var(--fg-mute)", marginTop: 2, letterSpacing: "0.12em" }}
           >
-            VSOP87 · DE440 · IAU 2006 · drift &lt; 0.4″
+            VSOP87 · DE440 · IAU 2006 · geocentric
           </div>
         </div>
 
         <div style={{ display: "flex", gap: 4, overflowX: "auto", padding: "2px 0" }}>
-          {planets.map((p) => (
-            <div
-              key={p.n}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                padding: "4px 8px",
-                border: `1px solid ${p.live ? p.color : "var(--line)"}`,
-                borderRadius: 999,
-                background: p.live ? "color-mix(in oklch, var(--accent), transparent 88%)" : "rgba(255,255,255,0.02)",
-                whiteSpace: "nowrap",
-                boxShadow: p.live ? `0 0 18px color-mix(in oklch, ${p.color}, transparent 75%)` : "none",
-              }}
-            >
-              <span style={{ fontFamily: "JetBrains Mono", fontSize: 12, color: p.color }}>{p.sym}</span>
-              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg)" }}>{p.pos}</span>
-              <span className="t-mono" style={{ fontSize: 9, color: p.warn ? "var(--el-fire)" : "var(--fg-mute)" }}>
-                {p.speed}
-              </span>
-              {p.warn && (
-                <span className="t-mono" style={{ fontSize: 8, color: "var(--el-fire)", letterSpacing: "0.12em" }}>
-                  Rx
-                </span>
-              )}
-              {p.live && (
+          {planets.map((p) => {
+            const color = PLANET_COLOR[p.name] ?? "var(--fg-mute)";
+            const flagged = p.retrograde || p.stationing;
+            return (
+              <div
+                key={p.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  padding: "4px 8px",
+                  border: `1px solid ${flagged ? color : "var(--line)"}`,
+                  borderRadius: 999,
+                  background: flagged
+                    ? `color-mix(in oklch, ${color}, transparent 90%)`
+                    : "rgba(255,255,255,0.02)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span style={{ fontFamily: "JetBrains Mono", fontSize: 12, color }}>{p.symbol}</span>
+                <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg)" }}>{p.position}</span>
                 <span
-                  style={{
-                    width: 5,
-                    height: 5,
-                    borderRadius: 999,
-                    background: p.color,
-                    boxShadow: `0 0 6px ${p.color}`,
-                  }}
-                />
-              )}
-            </div>
-          ))}
+                  className="t-mono"
+                  style={{ fontSize: 9, color: flagged ? "var(--el-fire)" : "var(--fg-mute)" }}
+                >
+                  {p.speed}
+                </span>
+                {p.retrograde && (
+                  <span
+                    className="t-mono"
+                    style={{ fontSize: 8, color: "var(--el-fire)", letterSpacing: "0.12em" }}
+                  >
+                    Rx
+                  </span>
+                )}
+                {p.stationing && !p.retrograde && (
+                  <span
+                    className="t-mono"
+                    style={{ fontSize: 8, color: "var(--el-fire)", letterSpacing: "0.12em" }}
+                  >
+                    SR
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <div
@@ -92,18 +101,34 @@ export function SkyConditions() {
             borderLeft: "1px solid var(--line)",
           }}
         >
-          {aspects.map((a, i) => (
-            <div key={i} style={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
-              <div className="t-mono" style={{ fontSize: 12, color: a.color, letterSpacing: "0.1em" }}>
-                {a.a}
-                {a.op}
-                {a.b}
+          {aspects.length === 0 ? (
+            <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+              no major aspects
+            </span>
+          ) : (
+            aspects.map((a, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
+                <div
+                  className="t-mono"
+                  style={{
+                    fontSize: 12,
+                    color: a.applying ? "var(--accent)" : "var(--fg-mute)",
+                    letterSpacing: "0.1em",
+                  }}
+                >
+                  {a.a}
+                  {a.op}
+                  {a.b}
+                </div>
+                <div
+                  className="t-mono"
+                  style={{ fontSize: 8, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+                >
+                  {a.orb}
+                </div>
               </div>
-              <div className="t-mono" style={{ fontSize: 8, color: "var(--fg-mute)", letterSpacing: "0.14em" }}>
-                {a.deg}
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
@@ -121,7 +146,7 @@ export function SkyConditions() {
         <div className="t-tag" style={{ fontSize: 8 }}>PLANETARY HOUR · 60-MIN BAR</div>
         <PlanetaryHourBar />
         <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.12em" }}>
-          NEXT · <span style={{ color: "var(--el-air)" }}>☿ MERCURY</span> @ 22:34 UTC · +47m
+          {planets.length} BODIES · {retrogradeCount} Rx · {aspects.length} ASPECTS
         </div>
       </div>
     </section>

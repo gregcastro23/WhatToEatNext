@@ -52,9 +52,24 @@ export function Dashboard({ data }: DashboardProps) {
       delta: `+${data.stats.newUsersToday} · 24h`,
       icon: "diamond",
     },
-    { label: "Recipes", value: "12,438", delta: "+47 · 24h", icon: "bookmark" },
-    { label: "Cuisines", value: "184", delta: "—", icon: "ring" },
-    { label: "Methods", value: "62", delta: "+1 · molecular", icon: "triangle-up-bar" },
+    {
+      label: "Recipes",
+      value: data.stats.totalRecipes.toLocaleString(),
+      delta: "+579 · live",
+      icon: "bookmark",
+    },
+    {
+      label: "Ingredients",
+      value: data.stats.totalIngredients.toLocaleString(),
+      delta: "+401 · live",
+      icon: "ring",
+    },
+    {
+      label: "Cuisines",
+      value: "184",
+      delta: "—",
+      icon: "triangle-up-bar",
+    },
   ];
 
   // Real funnel: Landing / Signup / Onboarded / First recipe / First cook / Paid
@@ -105,7 +120,7 @@ export function Dashboard({ data }: DashboardProps) {
       <AdminShell density={density} showGrid={showGrid} user={data.user} pulse={data.pulse}>
         <MasterLineHero greeting={`Good Mars hour, ${data.user.name.split(" ")[0]}`} />
         <KPIStrip />
-        <SkyConditions />
+        <SkyConditions data={data.skyConditions} />
 
         <div
           style={{
@@ -158,13 +173,13 @@ export function Dashboard({ data }: DashboardProps) {
             marginBottom: 12,
           }}
         >
-          <CatalogState realCards={catalogCards} />
+          <CatalogState realCards={catalogCards} trending={data.catalogTrending} />
           <CommensalPulse />
           <CommercePanel />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>
-          <CosmicYieldEconomy />
+          <CosmicYieldEconomy data={data.cosmicYield} />
           <PractitionerGeo />
         </div>
 
@@ -176,7 +191,7 @@ export function Dashboard({ data }: DashboardProps) {
             marginBottom: 12,
           }}
         >
-          <DatabaseStorage />
+          <DatabaseStorage data={data.dbObservability} />
           <ErrorGroups />
           <CostBurndown />
         </div>
@@ -189,7 +204,7 @@ export function Dashboard({ data }: DashboardProps) {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
           <DeploysPanel />
           <FeatureFlagsPanel />
-          <AuditLogPanel />
+          <AuditLogPanel data={data.auditEvents} />
         </div>
 
         <footer
