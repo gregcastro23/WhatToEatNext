@@ -487,7 +487,7 @@ export const agentKineticProfiles: Record<string, KineticProfile> = {
 
   confucius: {
     alignment: ['Saturn', 'Jupiter', 'Mercury'],
-    velocitySignature: { Fire: 0.5, Water: 0.8, Air: 0.85, Earth: 0.9 },
+    velocitySignature: { Fire: 0.5, Water: 0.8, Air: 0.85, Earth: 0.95 },
     powerThresholds: [70, 210, 490, 980],
     evolutionRate: 0.95,
     specialAbilities: [

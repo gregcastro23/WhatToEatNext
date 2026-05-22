@@ -9,6 +9,7 @@
 import { executeQuery } from "@/lib/database";
 import { getDatabasePool } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { getRecentSlowQueries } from "@/lib/observability/slowQueryLog";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
 
@@ -171,17 +172,18 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
          WHERE datname = current_database()`,
       ),
       executeQuery(
-        `SELECT
-           LEFT(query, 120) AS query,
-           EXTRACT(EPOCH FROM (now() - query_start)) * 1000 AS duration_ms
-         FROM pg_stat_activity
-         WHERE state = 'active'
-           AND query_start IS NOT NULL
-           AND now() - query_start > INTERVAL '200 milliseconds'
-           AND query NOT ILIKE '%pg_stat_activity%'
-         ORDER BY duration_ms DESC
-         LIMIT 5`,
-      ),
+        `SELECT 
+           tags->>'query' AS query,
+           metric_value::float8 AS duration_ms
+         FROM system_metrics
+         WHERE metric_name = 'slow_query_duration_ms'
+           AND timestamp > now() - INTERVAL '24 hours'
+         ORDER BY timestamp DESC
+         LIMIT 5`
+      ).catch(err => {
+        _logger.warn("[dbObservability] failed to query system_metrics for slow queries, falling back:", err);
+        return { rows: [] };
+      }),
       executeQuery(
         `SELECT
            relname AS name,
@@ -193,7 +195,22 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       ),
     ]);
 
-    const slowRows = slowRes.rows as Array<{ query: string; duration_ms: number }>;
+    const dbSlowQueries = (slowRes.rows || []).map((r) => ({
+      query: String(r.query ?? "").trim(),
+      durationMs: Math.round(Number(r.duration_ms ?? 0)),
+    }));
+
+    // Merge with in-memory slow queries if fewer than 5 rows returned
+    let finalSlowQueries = [...dbSlowQueries];
+    if (finalSlowQueries.length < 5) {
+      const needed = 5 - finalSlowQueries.length;
+      const inMemorySlows = getRecentSlowQueries(needed).map(entry => ({
+        query: entry.preview,
+        durationMs: entry.ms,
+      }));
+      finalSlowQueries = [...finalSlowQueries, ...inMemorySlows];
+    }
+
     const tableRows = tablesRes.rows as Array<{
       name: string;
       rows: number;
@@ -204,10 +221,7 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       pool,
       dbSizeBytes: Number(sizeRes.rows[0]?.bytes ?? 0),
       activeConnections: Number(connRes.rows[0]?.count ?? 0),
-      slowQueries: slowRows.map((r) => ({
-        query: String(r.query ?? "").trim(),
-        durationMs: Math.round(Number(r.duration_ms ?? 0)),
-      })),
+      slowQueries: finalSlowQueries,
       tables: tableRows.map((r) => ({
         name: String(r.name),
         rows: Math.round(Number(r.rows ?? 0)),
@@ -216,13 +230,20 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       live: true,
     };
   } catch (error) {
-    _logger.error("[dbObservability] stat-view query failed:", error);
+    _logger.error("[dbObservability] stat-view query failed, falling back to in-memory slow queries:", error);
+    
+    // Fall back completely to in-memory slow queries when query fails
+    const fallbackSlowQueries = getRecentSlowQueries(5).map(entry => ({
+      query: entry.preview,
+      durationMs: entry.ms,
+    }));
+
     return {
       pool,
       dbSizeBytes: 0,
       activeConnections: 0,
       tables: [],
-      slowQueries: [],
+      slowQueries: fallbackSlowQueries,
       live: false,
     };
   }

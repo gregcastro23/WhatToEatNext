@@ -226,6 +226,23 @@ export async function executeQuery<_T extends any = any>(
     // The admin observability endpoint reads this; production traffic should
     // surface gradual regressions here long before they trip the >1s warn.
     recordSlowQuery(executionTime, query, result.rowCount);
+    
+    // Persist slow queries to system_metrics table (excluding self-telemetry)
+    if (executionTime >= 200 && !query.toLowerCase().includes("system_metrics")) {
+      getDatabasePool().query(
+        `INSERT INTO system_metrics (metric_name, metric_value, metric_unit, tags)
+         VALUES ($1, $2, $3, $4)`,
+        [
+          "slow_query_duration_ms",
+          executionTime,
+          "ms",
+          { query: query.substring(0, 500), rowCount: result.rowCount }
+        ]
+      ).catch(err => {
+        console.warn("Failed to write slow query to system_metrics:", err.message);
+      });
+    }
+
     if (executionTime > 1000) {
       // Log slow queries (>1s)
       void logger.warn("Slow database query detected", {

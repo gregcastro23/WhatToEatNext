@@ -1,12 +1,12 @@
 export const AlchemicalKineticsClient = {
-  get: async (_args: any) => {
+  get: async (args: any) => {
     return {
       power: [{ power: 1.0 }],
       momentum: 1.0,
       timing: { planetaryHours: ['Sun'], seasonalInfluence: 'Neutral' },
     }
   },
-  put: async (_args: any) => {
+  put: async (args: any) => {
     return {
       ok: true,
       json: async () => ({
