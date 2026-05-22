@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
+import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 interface DashboardStats {
   totalUsers: number;
@@ -20,6 +21,25 @@ interface RecentUser {
   isActive: boolean;
 }
 
+interface TelemetryMetric {
+  /** Display-formatted value, e.g. "62.4%", "12 /hr", "0.43". */
+  value: string;
+  /** Raw numeric value behind the formatted string. */
+  raw: number;
+  /** true when computed from a real source; false when degraded to fallback. */
+  live: boolean;
+  /** Which real source feeds this metric. */
+  source: "database" | "ephemeris";
+}
+
+interface AgentTelemetry {
+  agentHarmony: TelemetryMetric;
+  transmutationRate: TelemetryMetric;
+  spiritualEntropy: TelemetryMetric;
+  generatedAt: string;
+  allLive: boolean;
+}
+
 interface PaIntegration {
   endpoints: {
     alchmNextApp: string;
@@ -35,10 +55,8 @@ interface PaIntegration {
     responseCode: number;
     timestamp: string;
   } | null;
-  meta: {
-    mockedFields: string[];
-    mockedTelemetry: Record<string, string>;
-  };
+  /** Live metaphysical telemetry; null when an older payload omits it. */
+  telemetry: AgentTelemetry | null;
 }
 
 /**
@@ -63,11 +81,7 @@ export default function AdminDashboardPage() {
     timestamp: string;
   } | null>(null);
 
-  useEffect(() => {
-    void fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (): Promise<{ ok: boolean }> => {
     try {
       setLoading(true);
       const response = await fetch("/api/admin/dashboard");
@@ -78,15 +92,22 @@ export default function AdminDashboardPage() {
         setStats(data.stats);
         setRecentUsers(data.recentUsers);
         setPaIntegration(data.paIntegration || null);
-      } else {
-        setError(data.message || "Failed to load dashboard");
+        setError(null);
+        return { ok: true };
       }
+      setError(data.message || "Failed to load dashboard");
+      return { ok: false };
     } catch (_err) {
       setError("Failed to connect to server");
+      return { ok: false };
     } finally {
       setLoading(false);
     }
   };
+
+  // Live polling for the operator feed observability + telemetry panels:
+  // visibility-aware with error backoff. Replaces a single mount fetch.
+  useHardenedPolling(fetchDashboardData, { baseIntervalMs: 30_000 });
 
   const handleSyncAll = async () => {
     try {
@@ -478,35 +499,8 @@ export default function AdminDashboardPage() {
 
           </div>
 
-          {/* Simulated / Seeded Telemetry Panel */}
-          <div className="bg-yellow-50/75 border-t border-yellow-100 p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">
-                Simulated Telemetry
-              </span>
-              <span className="text-[10px] text-amber-500 font-mono">meta.mockedFields</span>
-            </div>
-            <div className="grid grid-cols-3 gap-3 text-center">
-              <div className="p-2 bg-white/50 border border-yellow-100/50 rounded-lg">
-                <p className="text-[10px] text-amber-600 font-medium uppercase">Agent Harmony</p>
-                <p className="text-sm font-bold text-amber-900 mt-0.5">
-                  {paIntegration?.meta?.mockedTelemetry?.agentHarmony ?? "94.2%"}
-                </p>
-              </div>
-              <div className="p-2 bg-white/50 border border-yellow-100/50 rounded-lg">
-                <p className="text-[10px] text-amber-600 font-medium uppercase">Transmutation</p>
-                <p className="text-sm font-bold text-amber-900 mt-0.5">
-                  {paIntegration?.meta?.mockedTelemetry?.transmutationRate ?? "3.42 kg/h"}
-                </p>
-              </div>
-              <div className="p-2 bg-white/50 border border-yellow-100/50 rounded-lg">
-                <p className="text-[10px] text-amber-600 font-medium uppercase">Spiritual Entropy</p>
-                <p className="text-sm font-bold text-amber-900 mt-0.5">
-                  {paIntegration?.meta?.mockedTelemetry?.spiritualEntropy ?? "0.11"}
-                </p>
-              </div>
-            </div>
-          </div>
+          {/* Live Metaphysical Telemetry Panel */}
+          <TelemetryPanel telemetry={paIntegration?.telemetry ?? null} />
         </div>
 
         {/* Recent Users Card */}
@@ -597,6 +591,100 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function TelemetryMetricTile({
+  label,
+  metric,
+}: {
+  label: string;
+  metric: TelemetryMetric | undefined;
+}) {
+  const live = metric?.live ?? false;
+  return (
+    <div
+      className={`p-2 bg-white/60 border rounded-lg ${
+        live ? "border-emerald-100" : "border-amber-100"
+      }`}
+    >
+      <p
+        className={`text-[10px] font-medium uppercase ${
+          live ? "text-emerald-700" : "text-amber-700"
+        }`}
+      >
+        {label}
+      </p>
+      <p className="text-sm font-bold text-gray-900 mt-0.5">
+        {metric?.value ?? "—"}
+      </p>
+      <p className="mt-1 flex items-center justify-center gap-1 text-[9px] font-mono uppercase tracking-wide text-gray-400">
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${
+            live ? "bg-emerald-500" : "bg-amber-400"
+          }`}
+        />
+        {metric?.source ?? "offline"}
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Live metaphysical telemetry — replaces the former "Simulated Telemetry"
+ * fixture. Emerald "Live" badge when every metric resolved from its real
+ * source, amber "Degraded" when a source fell back, neutral "Awaiting" before
+ * the first payload arrives.
+ */
+function TelemetryPanel({ telemetry }: { telemetry: AgentTelemetry | null }) {
+  const hasTelemetry = telemetry !== null;
+  const allLive = telemetry?.allLive ?? false;
+
+  const tone = !hasTelemetry
+    ? {
+        wrap: "bg-gray-50 border-gray-100",
+        badge: "text-gray-500 bg-gray-200",
+        dot: "bg-gray-400",
+        label: "Telemetry · Awaiting",
+      }
+    : allLive
+      ? {
+          wrap: "bg-emerald-50/70 border-emerald-100",
+          badge: "text-emerald-800 bg-emerald-100",
+          dot: "bg-emerald-500 animate-pulse",
+          label: "Live Telemetry",
+        }
+      : {
+          wrap: "bg-amber-50/70 border-amber-100",
+          badge: "text-amber-800 bg-amber-100",
+          dot: "bg-amber-500 animate-pulse",
+          label: "Telemetry · Degraded",
+        };
+
+  return (
+    <div className={`border-t p-4 ${tone.wrap}`}>
+      <div className="flex items-center justify-between mb-2">
+        <span
+          className={`flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full ${tone.badge}`}
+        >
+          <span className={`h-2 w-2 rounded-full ${tone.dot}`} />
+          {tone.label}
+        </span>
+        <span className="text-[10px] text-gray-400 font-mono">
+          {hasTelemetry ? "db · ephemeris" : "—"}
+        </span>
+      </div>
+      <div className="grid grid-cols-3 gap-3 text-center">
+        <TelemetryMetricTile label="Agent Harmony" metric={telemetry?.agentHarmony} />
+        <TelemetryMetricTile label="Transmutation" metric={telemetry?.transmutationRate} />
+        <TelemetryMetricTile label="Spiritual Entropy" metric={telemetry?.spiritualEntropy} />
+      </div>
+      {telemetry && (
+        <p className="mt-2 text-center text-[9px] font-mono text-gray-400">
+          updated {new Date(telemetry.generatedAt).toLocaleTimeString()}
+        </p>
+      )}
     </div>
   );
 }
