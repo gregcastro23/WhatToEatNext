@@ -1,131 +1,86 @@
-# Continuation Prompt — Post-3.0
+# NEXT_SESSION_PROMPT — Dashboard & Telemetry Operations
 
-**Alchm.kitchen 3.0 is complete and deployed.**
-
-## Release status
-
-| Item | Status |
-|---|---|
-| PR #406 squash-merge | ⬜ Pending (ready — zero errors, zero warnings) |
-| `git tag v3.0.0` on master | ⬜ After PR #406 merges |
-| Railway Python backend | ✅ Deployed — commit `3361fe4` live |
-| Vercel frontend | ✅ Auto-deploys on master merge |
-
-**To finish the release after merging PR #406:**
-```bash
-git checkout master && git pull
-git tag -a v3.0.0 -m "Alchm.kitchen 3.0 — The Modern Alchemist"
-git push origin v3.0.0
-```
+Welcome to the next engineering session for **Alchm.kitchen (WhatToEatNext)**! 
+The local development environment has been equipped with a NextAuth admin bypass and a live-wired Railway PostgreSQL telemetry dashboard. Use this document as your direct instruction set to drive pending feature work and enforce codebase robustness.
 
 ---
 
-## What 3.0 shipped (PRs #402–#406)
+## 🚀 Active Development Environment
 
-### Navigation & chrome
-- **Nav IA** — `src/config/navigation.ts` (5-slot: Kitchen / Discover / Plan / Commensal / Lab)
-- **AppChrome** — `AppChromeFooter` + `AppChromeTabBar` gate footer/tab-bar on chromeless paths
-- **RedesignedHeader** — 5-slot nav with mega-menus + ⌘K affordance
-- **CommandPalette** — `src/components/nav/CommandPalette.tsx` — ⌘K global palette (routes + actions + recent)
-- **MobileGlassTabBar** — 5-slot bottom nav for mobile
-- **RedesignedFooter** — full footer for marketing pages
-- **Route group migration** — all auth-gated + app-surface pages now in `(alchm)` for dark chrome:
-  - `birth-chart`, `current-chart`, `recipe-generator`, `planetary-chart`, `restaurant-creator`
-  - `commensal`, `feed`, `cosmic-recipe`, `generated-recipe`, `food-tracking`
-  - `profile/*` (all 6 sub-pages)
-
-### Auth flows
-- **AuthHandshake** — 6-step checklist at `/auth/establishing`
-- **WelcomeBack** — returning-user splash
-- **UpgradeGate** — two-tier (Apprentice / Alchemist) at `/upgrade`
-- **AccountSessions** — device session log + revoke at `/profile/security`
-- **Device sessions** — `database/init/33-device-sessions.sql` + `GET/DELETE /api/auth/sessions`
-- **JWT augmentation** — `sessionId` + `deviceSessionId` in token
-
-### Onboarding
-- **Skip flow** — "Skip for now" CTA → `PATCH /api/onboarding { skipNatal: true }` → `/?prompt=natal`
-- **NatalPromptBanner** — soft-prompt ribbon on home feed, dismissable via localStorage
-
-### Backend hardening
-- **`_aspects` fix** — removed from positions dict in both pyswisseph + pyephem backends ✅ DEPLOYED
-- **Zod schema** — `SafePositionsRecord` transform filters non-object entries; `RailwayAspectSchema` added
-- **HistoricalStatsService** — `sanitizePositions()` strips arrays before `alchemize()`
-
-### Context refactor
-- **MenuPlannerContext** — 2182-line monolith → 5 modules in `src/contexts/menu-planner/`:
-  - `types.ts` (244 lines), `useWeekNavigation.ts` (65), `useMealSlots.ts` (498)
-  - `MenuPlannerProvider.tsx` (1280), `MenuPlannerContext.tsx` barrel (28)
-  - Public API unchanged — no consumers touched
-
-### Analytics
-- `track("command_palette_open")`
-- `track("upgrade_gate_shown", { tier, from })`
-- `track("upgrade_gate_converted", { plan: "alchemist" })`
-- `track("auth_handshake_completed", { stepsCompleted: 6 })`
-
-### Documentation
-- `CHANGELOG.md` — keep-a-changelog from v1.0.0 → 3.0.0
-- `README.md` — complete rewrite for v3.0
-- `docs/API_REFERENCE.md` — all `/api/*` routes documented
-- `docs/adr/001–005` — Architecture Decision Records
-- `package.json` — `3.0.0`
+1. **Development Runtime**: Always use **Bun v1.3.13**. Execute server instances using `bun --bun run dev`.
+2. **Process & Port Hygiene**: Dev server runs on **Port 3002**. Always ensure no zombie processes are listening on this port before starting:
+   ```bash
+   lsof -ti:3002 | xargs kill -9 2>/dev/null || true
+   ```
+3. **Live Database Access**: Connects directly to the live Railway PostgreSQL database.
+   - Connection URL: `postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@tramway.proxy.rlwy.net:35670/railway`
+   - *Note*: Always verify that env variables are loaded correctly by Bun modules without hoisting interference.
 
 ---
 
-## Repo state
+## 🔑 Administrative Development Bypass
 
-- **Branch for new work:** create fresh branch off `master` after PR #406 merges
-- **Base:** `master` (prod); `main` is stale — do not target it
-- **Runtime:** Bun 1.3.13. Never `npm`/`yarn`. Lockfile is `bun.lock`.
-- **Build:** `bun run build` passes with 0 TS errors, 0 lint warnings before every PR.
+To enable rapid local testing of admin surfaces without OAuth loops:
+- **Mock Account**: `gregcastro23@gmail.com`
+- **Role**: `admin`
+- **Tier**: `premium`
+- **Behavior**: When running locally (`NODE_ENV !== "production"`), the authentication layer automatically injects this admin session. You can navigate directly to protected routes such as `/admin` and `/admin/dashboard` to verify live updates.
 
 ---
 
-## Post-3.0 backlog (no priority order)
+## 📊 Newly Wired Live Telemetry Status
 
-### 3.1 candidates
+The **High Alchemist Dashboard (`/admin/dashboard`)** has been wired directly to the Railway PostgreSQL database, displaying real-time metrics instead of hardcoded placeholder stats:
+- **Total Users**: ~106 registered users (natal charts completed & onboarding states)
+- **Recipes**: 579 denormalized recipes live in the catalog (`recipes` table)
+- **Ingredients**: 401 elemental ingredients (`ingredients` table)
+- **Active Subscriptions**: 100 active premium tiers (`user_subscriptions` table)
+- **Transactions**: 772 token ledger entries (`token_transactions` table)
 
-**MenuPlannerProvider second pass**
-`MenuPlannerProvider.tsx` is still 1280 lines. The next extraction candidates:
-- `useCostEstimation.ts` — cost estimation + circuit metrics
-- `useGenerationPreferences.ts` — generation pref state + persistence debounce
-These share `currentMenu` state with the main provider, so they need careful interface design.
+---
 
-**Device session expiry cleanup**
-Expired `device_sessions` rows linger until next sign-in. Options:
-- Railway cron job: `DELETE FROM device_sessions WHERE expires_at < NOW()`
-- Next.js middleware: lazy-clean on auth requests (adds latency)
-- Scheduled `POST /api/internal/cleanup-sessions`
+## 🎯 High-Priority Next Tasks
 
-**Soft session revocation hardening**
-Currently `DELETE /api/auth/sessions/[id]` removes the DB row but the JWT stays valid until expiry (up to 30 days). Full revocation requires edge middleware to check the DB on every request for the `jti`. Adds ~1ms latency per request on Railway internal networking.
+Use the new live telemetry and developer bypass to build out the following pending robust database integrations:
 
-**Onboarding skip → natal chart completion return**
-Users who skipped onboarding see the `NatalPromptBanner`. Add a `?return=<route>` query to `/onboarding` so users who complete their chart mid-session are redirected back to where they were.
+### 1. 🌌 Astrological Transit Data Dynamic Integration
+*   **Current State**: Astro/Ephemeris widgets in the admin control room and recommendation engine currently use static seed formulas.
+*   **Goal**: Wire these components to query live ephemeris/transit data from `/api/transit` and the Railway python backend service.
+*   **Verification**: Ensure metrics like `agentHarmony` degrade gracefully to `live: false` if network calls fail.
 
-**`MealSlot.tsx` alchemicalQuantities type**
-`src/components/menu-planner/MealSlot.tsx:166` — `alchemicalQuantities` typed as `any`. Define the proper type once the economy types are stabilized.
+### 2. 🐢 Slow Query & Telemetry Tracking
+*   **Current State**: Database metrics are queried in real time, but performance metrics are not indexed.
+*   **Goal**: 
+    1. Query the `system_metrics` table for query execution logs.
+    2. Dynamically extract and display queries exceeding a **200ms latency threshold** within the admin panel's database observability view.
+    3. Monitor database connection pool usage (max 5 connections per dyno to preserve Railway limits).
 
-**Recipe popularity weighting**
-`src/utils/cuisine/cuisineAggregationEngine.ts:389` — popularity-based weighting when recipe popularity data is available. `food_diary` entries could serve as the signal.
+### 3. 🌀 WTEN UI Component Migration (5/11 Sessions Done)
+*   **Current State**: Migrating Next.js UI pages from `planetary_agents-main` sibling directory. Foundation libraries, leaf modules, and alchemy core are successfully ported.
+*   **Goal**: Pick up at **Session 6** of the migration checklist outlined in [WTEN_MIGRATION_PLAN.md](file:///Users/cookingwithcastro/Desktop/WhatToEatNext-master/WTEN_MIGRATION_PLAN.md).
+*   **Key Constraint**: Keep newly ported UI components in the excluded staging directory (`wten-migration-ui-components/`) until the final type-checking integration phase.
 
-**Seasonal adaptation methods**
-`src/data/unified/recipeBuilding.ts:2431` — 15 stub methods for seasonal ingredient substitution, cooking method adjustment, timing, temperature. Implement when seasonal recipe recommendations are a priority.
+### 4. 💳 Local Webhook & Stripe Event Verification
+*   **Current State**: OAuth bypass mock data exists, but checkout state syncing needs verification.
+*   **Goal**: Set up local Webhook endpoints using the Stripe CLI to sync real-time user subscriptions and verify that token transactions write properly to `token_transactions` on checkout events.
 
-**PA-API (Amazon affiliate)**
-`src/data/amazon/ingredientAsins.ts` — ASIN data exists but the affiliate API integration needs review. Low priority until Alchemist subscriber count justifies the integration cost.
+---
 
-### Known technical debt
+## 🛠️ Essential Verification Commands
 
-| File | Issue |
-|---|---|
-| `src/services/PlanetaryKineticsClient.ts:184` | Placeholder — requires per-user birth chart data from DB |
-| `src/services/PlanetaryAgentsAdapter.ts:428` | Placeholder — requires real user elemental property data |
-| `src/services/AstrologicalService.ts:305` | No integration with astrologize API result cache |
-| `src/utils/cuisineAggregations.ts:48` | Only African and American cuisine data complete |
+Always run these verification checks before staging or committing code changes:
 
-### Security / ops
+- **Local Build Check** (Must pass with 0 errors):
+  ```bash
+  bun run build
+  ```
+- **Type-Check and Lint**:
+  ```bash
+  bun run verify
+  ```
+- **Port Release One-Liner**:
+  ```bash
+  lsof -ti:3002 | xargs kill -9 2>/dev/null || true
+  ```
 
-- **`INTERNAL_API_SECRET`** — verify it is set in Vercel env vars. The `/api/feed` route logs a runtime warning if missing, meaning agent writes are unauthenticated in that case.
-- **Token economy shop items** — if `unlock-cosmic-recipe` or `unlock-basic-recipe` rows are missing from the DB, the AI gen routes return 500. Verify in Railway DB that these rows exist.
-- **Device sessions expiry cron** — expired rows accumulate until next sign-in. Schedule a cleanup job.
+Let's maintain the stunning dark glassmorphic styling cues and leverage live dashboard telemetry to build a robust, state-of-the-art alchemical culinary recommendations engine!
