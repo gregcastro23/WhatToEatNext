@@ -673,23 +673,7 @@ export const french: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 520,
-            "proteinG": 14,
-            "carbsG": 22,
-            "fatG": 42,
-            "fiberG": 1,
-            "sodiumMg": 580,
-            "sugarG": 2,
-            "vitamins": [
-              "Vitamin A",
-              "Vitamin B12"
-            ],
-            "minerals": [
-              "Calcium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":570,"proteinG":22,"carbsG":28,"fatG":41,"fiberG":1,"sodiumMg":880,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12","Vitamin D","Riboflavin"],"minerals":["Calcium","Iron","Selenium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.36,"Essence":2.84,"Matter":3.15,"Substance":3.16},
           thermodynamicProperties: {"heat":0.0559,"entropy":0.3431,"reactivity":1.8866,"gregsEnergy":-0.5914,"kalchm":0.1044,"monica":0.8752},

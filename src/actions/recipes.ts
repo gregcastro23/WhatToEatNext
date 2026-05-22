@@ -56,6 +56,89 @@ function toStringArray(value: unknown): string[] | undefined {
   return out.length ? out : undefined;
 }
 
+// ── Dietary inference (heuristic) ───────────────────────────────────────
+//
+// The cuisine schema has no isVegetarian/isVegan/etc. fields, so dietary
+// flags are inferred from ingredient names. Word-boundary regexes avoid
+// the most common false positives — "coconut milk" is not dairy, "rice
+// flour" is not gluten, "fish sauce" disqualifies vegetarian.
+//
+// The inference is conservative: it errs toward *withholding* a positive
+// claim. A recipe is only marked gluten-free when no ingredient triggers
+// any gluten keyword; "tortilla" (which could be corn or wheat) flags as
+// gluten even though some recipes are actually GF. This produces some
+// false negatives (recipes that genuinely are GF lose the badge) but
+// avoids the worse error of falsely claiming a diet a recipe doesn't meet.
+
+const MEAT_RE =
+  /\b(beef|chicken|pork|lamb|mutton|veal|bacon|ham|sausage|turkey|duck|goose|goat|rabbit|venison|prosciutto|pancetta|salami|chorizo|liver|gizzard|tripe|kidney|sweetbread|oxtail|brisket|sirloin|tenderloin|ribeye|loin|jerky|pepperoni|mortadella|guanciale|capicola|bresaola)\b/i;
+
+const FISH_RE =
+  /\b(fish|salmon|tuna|cod|shrimp|prawn|lobster|crab|oyster|mussel|clam|octopus|squid|anchov(?:y|ies)|calamari|scallop|bonito|mackerel|sardine|snapper|sole|halibut|trout|eel|caviar|roe|katsuobushi|herring|carp|pollock|tilapia|monkfish|swordfish|mahi)\b/i;
+
+const SEAFOOD_DERIVED_RE =
+  /\b(fish sauce|fish stock|oyster sauce|shrimp paste|nam pla|nuoc mam|dashi|bonito flakes|xo sauce)\b/i;
+
+const ANIMAL_DERIVED_RE =
+  /\b(gelatin(?:e)?|lard|tallow|suet|isinglass|rennet)\b/i;
+
+const DAIRY_RE =
+  /\b(milk|cheese|butter|cream|yogurt|yoghurt|ghee|whey|casein|parmesan|parmigiano|mozzarella|feta|ricotta|cheddar|gouda|brie|camembert|halloumi|manchego|provolone|mascarpone|labneh|paneer|kefir|buttermilk|asiago|gruy[eè]re|fontina|romano|cotija|queso)\b/i;
+
+// "milk"-suffixed plant milks that shouldn't trigger the dairy flag.
+const NON_DAIRY_RE =
+  /\b(coconut|almond|soy|oat|rice|cashew|hemp|hazelnut|nut)\s+milk\b/i;
+
+const EGG_RE = /\beggs?\b/i;
+const HONEY_RE = /\bhoney\b/i;
+
+const GLUTEN_RE =
+  /\b(wheat|flour|bread|pasta|couscous|bulgur|semolina|farro|barley|rye|malt|spelt|kamut|panko|breadcrumbs?|udon|soba|ramen|gnocchi|durum|pita|naan|chapati|paratha|tortilla|brioche|cornetto|baguette|focaccia|filo|phyllo|lasagn[ae]|fettuccine|tagliatelle|linguine|spaghetti|orzo|orecchiette|penne|rigatoni|fusilli|ravioli|tortellini|farfalle|cannelloni|pierogi|vareniki|pelmeni|dumpling wrappers?)\b/i;
+
+// Flour types that are gluten-free; allow these to suppress the generic
+// `/flour/` rule above.
+const GF_FLOUR_RE =
+  /\b(rice|almond|coconut|chickpea|gram|corn|tapioca|buckwheat|oat|millet|sorghum|teff|cassava|potato|amaranth|quinoa|hazelnut|nut|cornmeal)\s+flour\b/i;
+
+interface DietaryFlags {
+  isVegetarian: boolean;
+  isVegan: boolean;
+  isDairyFree: boolean;
+  isGlutenFree: boolean;
+}
+
+function inferDietary(ingredients: unknown[]): DietaryFlags {
+  let hasMeat = false;
+  let hasFish = false;
+  let hasAnimalDerived = false;
+  let hasDairy = false;
+  let hasEgg = false;
+  let hasHoney = false;
+  let hasGluten = false;
+
+  for (const ing of ingredients) {
+    const name =
+      ing && typeof ing === "object" && "name" in ing
+        ? String((ing as { name?: unknown }).name ?? "")
+        : "";
+    if (!name) continue;
+    if (MEAT_RE.test(name)) hasMeat = true;
+    if (FISH_RE.test(name) || SEAFOOD_DERIVED_RE.test(name)) hasFish = true;
+    if (ANIMAL_DERIVED_RE.test(name)) hasAnimalDerived = true;
+    if (DAIRY_RE.test(name) && !NON_DAIRY_RE.test(name)) hasDairy = true;
+    if (EGG_RE.test(name)) hasEgg = true;
+    if (HONEY_RE.test(name)) hasHoney = true;
+    if (GLUTEN_RE.test(name) && !GF_FLOUR_RE.test(name)) hasGluten = true;
+  }
+
+  const isVegetarian = !hasMeat && !hasFish && !hasAnimalDerived;
+  const isVegan = isVegetarian && !hasDairy && !hasEgg && !hasHoney;
+  const isDairyFree = !hasDairy;
+  const isGlutenFree = !hasGluten;
+
+  return { isVegetarian, isVegan, isDairyFree, isGlutenFree };
+}
+
 /**
  * Extract and normalize recipes from the static cuisine data files.
  * This is the authoritative source for the full recipe catalog.
@@ -124,6 +207,17 @@ function extractRecipesFromCuisines(
             dietaryTags.push("glutenFree");
           if (dish.isDairyFree || alchemical.dairyFree)
             dietaryTags.push("dairyFree");
+          // Heuristic fallback when source has no explicit dietary fields
+          // (which is every cuisine recipe in this repo today). Inference
+          // is conservative — it only claims a diet when the ingredient
+          // list reveals no disqualifying keywords.
+          if (dietaryTags.length === 0 && Array.isArray(dish.ingredients)) {
+            const inferred = inferDietary(dish.ingredients);
+            if (inferred.isVegetarian) dietaryTags.push("vegetarian");
+            if (inferred.isVegan) dietaryTags.push("vegan");
+            if (inferred.isDairyFree) dietaryTags.push("dairyFree");
+            if (inferred.isGlutenFree) dietaryTags.push("glutenFree");
+          }
 
           const imageUrl = getAssetUrl((dish.image as string) ?? (dish.image_url as string));
 

@@ -509,11 +509,7 @@ export const korean: Cuisine = {
             "signs": ["Aries", "Scorpio"],
             "lunarPhases": ["Full Moon"]
           },
-          "nutritionPerServing": {
-            "calories": 420, "proteinG": 14, "carbsG": 82, "fatG": 5, "fiberG": 3, "sodiumMg": 920, "sugarG": 15,
-            "vitamins": ["Vitamin A", "Vitamin C"],
-            "minerals": ["Calcium", "Iron"]
-          },
+          "nutritionPerServing": {"calories":360,"proteinG":9,"carbsG":73,"fatG":4,"fiberG":3,"sodiumMg":1100,"sugarG":16,"vitamins":["Vitamin C","Vitamin A","Vitamin B6"],"minerals":["Iron","Manganese","Selenium"]},
           "alchemicalProperties": { "Spirit": 5, "Essence": 6, "Matter": 8, "Substance": 7 },
           "thermodynamicProperties": { "heat": 0.08, "entropy": 0.4, "reactivity": 2.0, "gregsEnergy": -0.6, "kalchm": 0.9, "monica": 0.8 },
           "substitutions": []
@@ -2114,7 +2110,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":0.93,"Essence":1.99,"Matter":2.16,"Substance":2.07},
           thermodynamicProperties: {"heat":0.0169,"entropy":0.2275,"reactivity":1.7714,"gregsEnergy":-0.3862,"kalchm":0.1545,"monica":0.5468},
           substitutions: [{"originalIngredient":"Milk ice","substituteOptions":["Plain shaved ice with evaporated milk"]},{"originalIngredient":"Mochi","substituteOptions":["Chewy tteok pieces","Jelly cubes"]}],
-            nutritionPerServing: {"calories":23,"proteinG":1,"carbsG":5,"fatG":0,"fiberG":0,"sodiumMg":1,"sugarG":4,"vitamins":["Vitamin B1","Vitamin B6"],"minerals":["Iron","Potassium","Magnesium"]}
+            nutritionPerServing: {"calories":320,"proteinG":7,"carbsG":64,"fatG":5,"fiberG":4,"sodiumMg":95,"sugarG":38,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Calcium","Iron","Magnesium"]}
         },
       ],
       winter: [

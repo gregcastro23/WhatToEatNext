@@ -3238,7 +3238,7 @@ export const vietnamese: Cuisine = {
           alchemicalProperties: {"Spirit":1.68,"Essence":2.65,"Matter":2.17,"Substance":2.18},
           thermodynamicProperties: {"heat":0.0462,"entropy":0.2452,"reactivity":2.4312,"gregsEnergy":-0.55,"kalchm":1.0769,"monica":0.1754},
           substitutions: [{"originalIngredient":"Whole milk","substituteOptions":["Evaporated milk"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+            nutritionPerServing: {"calories":290,"proteinG":7,"carbsG":38,"fatG":12,"fiberG":0,"sodiumMg":80,"sugarG":35,"vitamins":["Vitamin A","Vitamin B12","Vitamin D","Riboflavin"],"minerals":["Calcium","Phosphorus","Selenium"]}
         },
       ],
     },

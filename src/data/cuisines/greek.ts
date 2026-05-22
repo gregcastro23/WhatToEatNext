@@ -1337,23 +1337,7 @@ export const greek: Cuisine = {
                               "New Moon"
                     ]
           },
-          "nutritionPerServing": {
-                    "calories": 230,
-                    "proteinG": 13,
-                    "carbsG": 34,
-                    "fatG": 5,
-                    "fiberG": 15,
-                    "sodiumMg": 600,
-                    "sugarG": 5,
-                    "vitamins": [
-                              "Vitamin C",
-                              "Vitamin A"
-                    ],
-                    "minerals": [
-                              "Iron",
-                              "Magnesium"
-                    ]
-          },
+          "nutritionPerServing": {"calories":240,"proteinG":14,"carbsG":38,"fatG":4,"fiberG":11,"sodiumMg":540,"sugarG":4,"vitamins":["Vitamin B6","Folate","Vitamin C"],"minerals":["Iron","Potassium","Magnesium","Phosphorus"]},
           "alchemicalProperties": {
                     "Spirit": 70,
                     "Essence": 90,
@@ -1488,23 +1472,7 @@ export const greek: Cuisine = {
                               "Waxing Gibbous"
                     ]
           },
-          "nutritionPerServing": {
-                    "calories": 290,
-                    "proteinG": 4,
-                    "carbsG": 30,
-                    "fatG": 18,
-                    "fiberG": 3,
-                    "sodiumMg": 100,
-                    "sugarG": 18,
-                    "vitamins": [
-                              "Vitamin E",
-                              "Vitamin B6"
-                    ],
-                    "minerals": [
-                              "Copper",
-                              "Zinc"
-                    ]
-          },
+          "nutritionPerServing": {"calories":330,"proteinG":5,"carbsG":36,"fatG":20,"fiberG":2,"sodiumMg":110,"sugarG":22,"vitamins":["Vitamin E"],"minerals":["Magnesium","Phosphorus","Manganese","Copper"]},
           "alchemicalProperties": {
                     "Spirit": 50,
                     "Essence": 80,
@@ -2685,23 +2653,7 @@ export const greek: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 320,
-            "proteinG": 12,
-            "carbsG": 25,
-            "fatG": 22,
-            "fiberG": 4,
-            "sodiumMg": 450,
-            "sugarG": 3,
-            "vitamins": [
-              "Vitamin A",
-              "Vitamin K"
-            ],
-            "minerals": [
-              "Calcium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":340,"proteinG":13,"carbsG":24,"fatG":22,"fiberG":3,"sodiumMg":590,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Folate"],"minerals":["Calcium","Iron","Magnesium"]},
           "alchemicalProperties": {
             "Spirit": 4,
             "Essence": 5,

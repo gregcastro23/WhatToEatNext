@@ -221,7 +221,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           )}
 
           {/* Tag chips */}
-          {(monicaLabel || spice || cookingMethod) && (
+          {(monicaLabel || spice || cookingMethod || recipe.isVegan || recipe.isVegetarian || recipe.isGlutenFree) && (
             <div className="flex flex-wrap gap-1.5">
               {monicaLabel && (
                 <span className="rounded border border-indigo-400/20 bg-indigo-500/10 px-1.5 py-0.5 text-[11px] text-indigo-300">
@@ -231,6 +231,20 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
               {spice && (
                 <span className="rounded border border-red-400/20 bg-red-500/10 px-1.5 py-0.5 text-[11px] text-red-300">
                   {"\u{1F336}️"} {spice.label}
+                </span>
+              )}
+              {recipe.isVegan ? (
+                <span className="rounded border border-emerald-400/30 bg-emerald-500/10 px-1.5 py-0.5 text-[11px] text-emerald-300">
+                  Vegan
+                </span>
+              ) : recipe.isVegetarian ? (
+                <span className="rounded border border-green-400/30 bg-green-500/10 px-1.5 py-0.5 text-[11px] text-green-300">
+                  Vegetarian
+                </span>
+              ) : null}
+              {recipe.isGlutenFree && (
+                <span className="rounded border border-yellow-400/20 bg-yellow-500/10 px-1.5 py-0.5 text-[11px] text-yellow-300">
+                  GF
                 </span>
               )}
               {cookingMethod && (

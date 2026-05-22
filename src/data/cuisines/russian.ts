@@ -222,7 +222,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":2.28,"Essence":4.39,"Matter":4.72,"Substance":4.44},
           thermodynamicProperties: {"heat":0.0257,"entropy":0.2711,"reactivity":1.7599,"gregsEnergy":-0.4514,"kalchm":0.0038,"monica":0.5952},
           substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}],
-            nutritionPerServing: {"calories":34,"proteinG":4,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":195,"sugarG":0,"vitamins":["Vitamin B12","Vitamin D","Niacin","Vitamin B6","Vitamin pantothenic_acid","Thiamin"],"minerals":["Selenium","Phosphorus","Potassium"]}
+            nutritionPerServing: {"calories":240,"proteinG":11,"carbsG":26,"fatG":11,"fiberG":1,"sodiumMg":480,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Selenium","Phosphorus"]}
         },
         {
           name: "Oladi",
@@ -965,23 +965,7 @@ export const russian: Cuisine = {
                               "Waxing Gibbous"
                     ]
           },
-          "nutritionPerServing": {
-                    "calories": 280,
-                    "proteinG": 6,
-                    "carbsG": 45,
-                    "fatG": 10,
-                    "fiberG": 2,
-                    "sodiumMg": 300,
-                    "sugarG": 1,
-                    "vitamins": [
-                              "Vitamin B1",
-                              "Vitamin B2"
-                    ],
-                    "minerals": [
-                              "Iron",
-                              "Calcium"
-                    ]
-          },
+          "nutritionPerServing": {"calories":310,"proteinG":9,"carbsG":38,"fatG":13,"fiberG":2,"sodiumMg":410,"sugarG":4,"vitamins":["Vitamin A","Niacin","Vitamin B12"],"minerals":["Iron","Selenium","Phosphorus"]},
           "alchemicalProperties": {
                     "Spirit": 0.2,
                     "Essence": 0.5,
@@ -2015,23 +1999,7 @@ export const russian: Cuisine = {
               "New Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 380,
-            "proteinG": 18,
-            "carbsG": 45,
-            "fatG": 15,
-            "fiberG": 2,
-            "sodiumMg": 500,
-            "sugarG": 8,
-            "vitamins": [
-              "Vitamin D",
-              "B12"
-            ],
-            "minerals": [
-              "Calcium",
-              "Phosphorus"
-            ]
-          },
+          "nutritionPerServing": {"calories":200,"proteinG":7,"carbsG":28,"fatG":7,"fiberG":1,"sodiumMg":280,"sugarG":4,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Manganese"]},
           "alchemicalProperties": {
             "Spirit": 5,
             "Essence": 5,
@@ -2150,23 +2118,7 @@ export const russian: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 420,
-            "proteinG": 12,
-            "carbsG": 25,
-            "fatG": 32,
-            "fiberG": 4,
-            "sodiumMg": 750,
-            "sugarG": 5,
-            "vitamins": [
-              "Vitamin A",
-              "Vitamin K"
-            ],
-            "minerals": [
-              "Potassium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":390,"proteinG":9,"carbsG":22,"fatG":30,"fiberG":4,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin A","Vitamin C","Vitamin K","Folate"],"minerals":["Iron","Potassium","Selenium"]},
           "alchemicalProperties": {
             "Spirit": 2,
             "Essence": 4,

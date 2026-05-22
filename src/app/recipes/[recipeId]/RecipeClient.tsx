@@ -683,6 +683,7 @@ export interface RecipeClientProps {
 export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps) {
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
+  const [heroImageFailed, setHeroImageFailed] = useState(false);
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(null);
   const [selectedTechnique, setSelectedTechnique] = useState<string | null>(null);
   const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(null);
@@ -691,6 +692,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   useEffect(() => {
     setDietaryMode(null);
     setTimeBudget(null);
+    setHeroImageFailed(false);
   }, [recipe.id]);
 
   const adaptation = useMemo(() => {
@@ -782,12 +784,27 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const substitutions = getSubstitutions(recipe);
   const pairings = getPairingRecommendations(recipe);
 
+  const heroImageUrl =
+    (typeof recipe.image === "string" && recipe.image) ||
+    (typeof recipe.imageUrl === "string" && recipe.imageUrl) ||
+    "";
+  const showHeroImage = heroImageUrl.length > 0 && !heroImageFailed;
+
   return (
     <main className="min-h-screen bg-[#08080e] text-white">
       {/* ===== Hero Header ===== */}
       <div
         className="relative overflow-hidden"
       >
+        {showHeroImage && (
+          <img
+            src={heroImageUrl}
+            alt=""
+            aria-hidden="true"
+            onError={() => setHeroImageFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-amber-900/20 via-slate-950/80 to-slate-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(251,191,36,0.08),transparent_60%)]" />
         <div className="relative max-w-5xl mx-auto px-4 pt-8 pb-12 md:pt-12 md:pb-16">

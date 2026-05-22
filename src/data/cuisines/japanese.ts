@@ -2958,7 +2958,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.23,"Essence":1.69,"Matter":1.53,"Substance":1.42},
           thermodynamicProperties: {"heat":0.0496,"entropy":0.2138,"reactivity":2.0008,"gregsEnergy":-0.3782,"kalchm":0.9929,"monica":-0.0188},
           substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}],
-            nutritionPerServing: {"calories":3,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":1,"sugarG":0,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":85,"proteinG":6,"carbsG":9,"fatG":3,"fiberG":2,"sodiumMg":870,"sugarG":2,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Calcium","Manganese","Magnesium"]}
         },
         {
           name: "Yakisoba (Stir-Fried Noodles)",
@@ -3418,7 +3418,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.85,"Essence":2.46,"Matter":2.0,"Substance":1.94},
           thermodynamicProperties: {"heat":0.0655,"entropy":0.2659,"reactivity":2.9487,"gregsEnergy":-0.7186,"kalchm":1.975,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}],
-            nutritionPerServing: {"calories":1,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":370,"proteinG":13,"carbsG":70,"fatG":4,"fiberG":4,"sodiumMg":1450,"sugarG":3,"vitamins":["Vitamin K","Niacin"],"minerals":["Iron","Manganese","Selenium","Phosphorus"]}
         },
         {
           name: "Tonkatsu",

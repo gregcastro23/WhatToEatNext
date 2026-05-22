@@ -2885,7 +2885,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":1.86,"Essence":3.38,"Matter":2.59,"Substance":2.25},
           thermodynamicProperties: {"heat":0.0417,"entropy":0.1864,"reactivity":2.2513,"gregsEnergy":-0.3779,"kalchm":2.6679,"monica":0.2861},
           substitutions: [{"originalIngredient":"Almonds","substituteOptions":["Cashews","Tiger nuts (authentic Mexican variation)"]},{"originalIngredient":"Dairy milk","substituteOptions":["Oat milk","Coconut milk"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+            nutritionPerServing: {"calories":180,"proteinG":3,"carbsG":38,"fatG":3,"fiberG":1,"sodiumMg":90,"sugarG":32,"vitamins":["Vitamin D"],"minerals":["Calcium","Manganese"]}
         },
         {
           name: "Sopa de Lima",

@@ -1964,23 +1964,7 @@ export const italian: Cuisine = {
                               "First Quarter"
                     ]
           },
-          "nutritionPerServing": {
-                    "calories": 510,
-                    "proteinG": 19,
-                    "carbsG": 65,
-                    "fatG": 18,
-                    "fiberG": 3,
-                    "sodiumMg": 700,
-                    "sugarG": 2,
-                    "vitamins": [
-                              "Vitamin B1",
-                              "Vitamin B2"
-                    ],
-                    "minerals": [
-                              "Calcium",
-                              "Phosphorous"
-                    ]
-          },
+          "nutritionPerServing": {"calories":470,"proteinG":18,"carbsG":55,"fatG":19,"fiberG":2,"sodiumMg":580,"sugarG":1,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus"]},
           "alchemicalProperties": {
                     "Spirit": 0.5,
                     "Essence": 0.6,
@@ -4426,7 +4410,7 @@ export const italian: Cuisine = {
           alchemicalProperties: {"Spirit":1.81,"Essence":1.82,"Matter":2.4,"Substance":2.42},
           thermodynamicProperties: {"heat":0.0611,"entropy":0.4059,"reactivity":1.7298,"gregsEnergy":-0.6409,"kalchm":0.1254,"monica":0.2598},
           substitutions: [{"originalIngredient":"Pecorino Romano","substituteOptions":["Parmigiano-Reggiano (milder result)"]},{"originalIngredient":"Tonnarelli","substituteOptions":["Spaghetti","Bucatini"]}],
-            nutritionPerServing: {"calories":3,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":582,"sugarG":0,"vitamins":["Vitamin K","Vitamin C","Vitamin A"],"minerals":["Iron","Manganese","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":460,"proteinG":19,"carbsG":56,"fatG":17,"fiberG":2,"sodiumMg":720,"sugarG":1,"vitamins":["Vitamin A","Riboflavin"],"minerals":["Calcium","Phosphorus","Selenium"]}
         },
         {
           name: "Ossobuco alla Milanese",
@@ -4475,7 +4459,7 @@ export const italian: Cuisine = {
           alchemicalProperties: {"Spirit":2.2,"Essence":2.68,"Matter":3.29,"Substance":3.28},
           thermodynamicProperties: {"heat":0.0471,"entropy":0.3576,"reactivity":1.7827,"gregsEnergy":-0.5904,"kalchm":0.0321,"monica":0.9844},
           substitutions: [{"originalIngredient":"Mascarpone cheese","substituteOptions":["Full-fat cream cheese blended with heavy cream (less rich result)"]},{"originalIngredient":"Marsala wine","substituteOptions":["Dark rum","Coffee liqueur","Omit for an alcohol-free version"]},{"originalIngredient":"Egg yolks (raw)","substituteOptions":["Pasteurized liquid egg yolks for food safety"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":291,"sugarG":0,"vitamins":[],"minerals":["Magnesium","Calcium"]}
+            nutritionPerServing: {"calories":430,"proteinG":7,"carbsG":38,"fatG":28,"fiberG":1,"sodiumMg":105,"sugarG":28,"vitamins":["Vitamin A","Vitamin B12","Vitamin D","Riboflavin"],"minerals":["Calcium","Phosphorus","Selenium"]}
         },
       ],
       summer: [

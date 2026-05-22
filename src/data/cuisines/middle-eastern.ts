@@ -237,7 +237,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":1.39,"Essence":2.12,"Matter":1.83,"Substance":1.61},
           thermodynamicProperties: {"heat":0.0533,"entropy":0.2358,"reactivity":1.7633,"gregsEnergy":-0.3625,"kalchm":1.1949,"monica":0.5486},
           substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}],
-            nutritionPerServing: {"calories":36,"proteinG":0,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin E","Vitamin K"],"minerals":[]}
+            nutritionPerServing: {"calories":330,"proteinG":8,"carbsG":41,"fatG":14,"fiberG":3,"sodiumMg":480,"sugarG":2,"vitamins":["Vitamin K","Vitamin E"],"minerals":["Iron","Calcium","Selenium","Manganese"]}
         },
         {
           name: "Labneh with Za'atar",
@@ -1754,23 +1754,7 @@ export const middleEastern: Cuisine = {
               "First Quarter"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 420,
-            "proteinG": 15,
-            "carbsG": 45,
-            "fatG": 22,
-            "fiberG": 12,
-            "sodiumMg": 450,
-            "sugarG": 5,
-            "vitamins": [
-              "Vitamin C",
-              "Folate"
-            ],
-            "minerals": [
-              "Iron",
-              "Magnesium"
-            ]
-          },
+          "nutritionPerServing": {"calories":330,"proteinG":13,"carbsG":32,"fatG":18,"fiberG":5,"sodiumMg":290,"sugarG":3,"vitamins":["Vitamin B6","Folate","Vitamin K"],"minerals":["Iron","Magnesium","Manganese","Copper"]},
           "alchemicalProperties": {
             "Spirit": 3,
             "Essence": 5,
@@ -1883,23 +1867,7 @@ export const middleEastern: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 350,
-            "proteinG": 12,
-            "carbsG": 28,
-            "fatG": 24,
-            "fiberG": 8,
-            "sodiumMg": 400,
-            "sugarG": 2,
-            "vitamins": [
-              "Vitamin C",
-              "B6"
-            ],
-            "minerals": [
-              "Calcium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":270,"proteinG":9,"carbsG":24,"fatG":17,"fiberG":6,"sodiumMg":380,"sugarG":2,"vitamins":["Vitamin B6","Folate","Vitamin C"],"minerals":["Iron","Magnesium","Phosphorus","Copper","Manganese"]},
           "alchemicalProperties": {
             "Spirit": 2,
             "Essence": 6,
@@ -2292,23 +2260,7 @@ export const middleEastern: Cuisine = {
               "Waning Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 220,
-            "proteinG": 4,
-            "carbsG": 18,
-            "fatG": 16,
-            "fiberG": 8,
-            "sodiumMg": 300,
-            "sugarG": 8,
-            "vitamins": [
-              "Vitamin C",
-              "Vitamin K"
-            ],
-            "minerals": [
-              "Potassium",
-              "Manganese"
-            ]
-          },
+          "nutritionPerServing": {"calories":200,"proteinG":5,"carbsG":14,"fatG":15,"fiberG":6,"sodiumMg":320,"sugarG":5,"vitamins":["Vitamin B6","Vitamin K","Folate"],"minerals":["Potassium","Magnesium","Manganese","Copper"]},
           "alchemicalProperties": {
             "Spirit": 5,
             "Essence": 5,
@@ -3211,7 +3163,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":1.68,"Essence":2.45,"Matter":3.58,"Substance":3.35},
           thermodynamicProperties: {"heat":0.0281,"entropy":0.3115,"reactivity":1.2754,"gregsEnergy":-0.3692,"kalchm":0.0039,"monica":0.3156},
           substitutions: [{"originalIngredient":"aged basmati rice","substituteOptions":["jasmine rice (shorter grain, different texture)","extra-long grain basmati"]},{"originalIngredient":"neutral oil","substituteOptions":["clarified butter (ghee) for richer flavor","coconut oil"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":262,"sugarG":0,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Magnesium","Calcium","Manganese","Iron"]}
+            nutritionPerServing: {"calories":450,"proteinG":8,"carbsG":65,"fatG":18,"fiberG":2,"sodiumMg":460,"sugarG":1,"vitamins":["Vitamin A"],"minerals":["Iron","Magnesium","Selenium","Manganese"]}
         },
         {
           name: "Lentil Soup (Shorbat Adas)",
