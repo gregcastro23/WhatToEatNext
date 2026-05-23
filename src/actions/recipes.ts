@@ -6,6 +6,10 @@ import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import {
+  calculateRecipeAlchemicalQuantities,
+  calculateRecipeElementalFromIngredients,
+} from "@/utils/recipeAlchemicalQuantities";
+import {
   isPlausibleNutrition,
   normalizeRecipeNutrition,
 } from "@/utils/recipeNutrition";
@@ -385,31 +389,60 @@ function extractRecipesFromCuisines(
 
           // ── Nutrition pipeline ──
           //
-          // 1. Try the canonical field-name mapping (reads
-          //    nutritionPerServing / nutritionalProfile / nutrition).
-          // 2. If that produces nothing *plausible* — some cuisine files
-          //    carry stub macros like `calories: 1` — compute from the
-          //    ingredient list via UnifiedIngredientService.
-          // 3. If both fail (or the computed total is itself implausible),
-          //    log a dev-only warning and leave nutrition undefined so the
-          //    UI gracefully omits the section rather than showing garbage.
+          // The recipe's nutrition IS the sum of its ingredients' nutrition,
+          // scaled by amount and per serving. We compute that first, and
+          // only fall back to the per-recipe `nutritionPerServing` block
+          // when the ingredient aggregator can't return a plausible total
+          // (e.g. the recipe references ingredients the unified DB doesn't
+          // know about). If both paths fail, the section is omitted.
           stats.total++;
-          const normalized = normalizeRecipeNutrition(
-            dish as Record<string, unknown>,
-          );
-          if (normalized && isPlausibleNutrition(normalized)) {
-            recipe.nutrition = normalized;
-            stats.fromSource++;
+          const computedNutrition = computeRecipeNutritionFromIngredients(recipe);
+          if (computedNutrition && isPlausibleNutrition(computedNutrition)) {
+            recipe.nutrition = computedNutrition;
+            stats.fromIngredients++;
           } else {
-            const computed = computeRecipeNutritionFromIngredients(recipe);
-            if (computed && isPlausibleNutrition(computed)) {
-              recipe.nutrition = computed;
-              stats.fromIngredients++;
+            const normalized = normalizeRecipeNutrition(
+              dish as Record<string, unknown>,
+            );
+            if (normalized && isPlausibleNutrition(normalized)) {
+              recipe.nutrition = normalized;
+              stats.fromSource++;
             } else {
               stats.missing++;
               if (stats.missingNames.length < 20) {
                 stats.missingNames.push(recipe.name);
               }
+            }
+          }
+
+          // ── Ingredient-derived alchemical & elemental overrides ──
+          //
+          // ESMS quantities are *additive* across ingredients; the recipe's
+          // Spirit = Σ Spirit_ingredient (and similarly E, M, S). Elemental
+          // composition is a *percentage* — each ingredient's Fire+Water+
+          // Earth+Air sums to 1.0, and the recipe is the ingredient-average
+          // share of each element. These computations are the canonical
+          // source of truth; the recipe-level values declared in the cuisine
+          // files are treated as initial guesses that the ingredient sum
+          // overrides whenever it's available.
+          const ingredientNames = recipe.ingredients
+            .map((ing) => ing.name)
+            .filter((n): n is string => typeof n === "string" && n.length > 0);
+
+          if (ingredientNames.length > 0) {
+            const alchemicalSummary =
+              calculateRecipeAlchemicalQuantities(ingredientNames);
+            recipe.spirit = alchemicalSummary.totalSpirit;
+            recipe.essence = alchemicalSummary.totalEssence;
+            recipe.matter = alchemicalSummary.totalMatter;
+            recipe.substance = alchemicalSummary.totalSubstance;
+            recipe.ingredientAlchemicalSummary = alchemicalSummary;
+
+            const elementalSummary =
+              calculateRecipeElementalFromIngredients(ingredientNames);
+            if (elementalSummary) {
+              recipe.elementalProperties =
+                elementalSummary.elementalProperties;
             }
           }
 

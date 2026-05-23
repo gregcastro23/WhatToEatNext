@@ -2,14 +2,28 @@
  * Recipe Alchemical Quantities
  *
  * Computes the summed alchemical profile (A#, Spirit, Essence, Matter, Substance)
- * for a recipe by aggregating per-ingredient alchemical quantities.
+ * AND the averaged elemental profile (Fire, Water, Earth, Air) for a recipe by
+ * aggregating per-ingredient values.
  *
- * Unlike elemental properties (normalized to sum to 1), ingredient alchemical
- * quantities are independent dimensions that are summed directly across all
- * recipe ingredients to produce the recipe's total alchemical quantity.
+ * The two profiles aggregate differently:
  *
- * A# for a recipe = Σ A#_ingredient = Σ (Spirit + Essence + Matter + Substance)
+ *   • ESMS quantities are *additive*. Each ingredient contributes its own
+ *     Spirit, Essence, Matter, Substance as independent dimensions that are
+ *     summed directly across all recipe ingredients. The recipe's total is
+ *     the simple sum.
+ *
+ *     Recipe Spirit = Σ Spirit_ingredient (and similarly for E, M, S).
+ *     Recipe A#     = Σ (Spirit_i + Essence_i + Matter_i + Substance_i).
+ *
+ *   • Elemental composition is a *percentage* — each ingredient's Fire +
+ *     Water + Earth + Air sums to 1.0, and the recipe's composition is the
+ *     ingredient-averaged share of each element (equivalent to summing the
+ *     four columns and renormalizing to sum to 1.0).
+ *
+ *     Recipe Fire = (Σ Fire_i) / (Σ (Fire_i + Water_i + Earth_i + Air_i))
  */
+
+import type { ElementalProperties } from "@/types/recipe";
 
 import { beveragesIngredients } from "@/data/ingredients/beverages/beverages";
 import { dairyIngredients } from "@/data/ingredients/dairy/dairy";
@@ -68,6 +82,15 @@ export interface RecipeAlchemicalSummary {
   matchRate: number; // fraction of ingredients matched in database (0-1)
 }
 
+export interface RecipeElementalSummary {
+  /** Normalized so Fire + Water + Earth + Air = 1.0 (unless all matched
+   * ingredients had a zero/degenerate elemental profile, in which case
+   * the function returns null). */
+  elementalProperties: ElementalProperties;
+  matchedCount: number;
+  matchRate: number;
+}
+
 // Default alchemical values for unmatched ingredients (neutral/average values)
 const DEFAULT_ALCHEMICAL: IngredientAlchemicalProperties = {
   Spirit: 0.25,
@@ -77,12 +100,23 @@ const DEFAULT_ALCHEMICAL: IngredientAlchemicalProperties = {
   aSharp: 1.00,
 };
 
+interface IngredientEntry {
+  key: string;
+  alchemical: IngredientAlchemicalProperties;
+  /** Present only when the source ingredient declared all four elements
+   * as numbers; otherwise undefined so the elemental aggregator can skip
+   * it (vs. polluting the recipe with defaults). */
+  elemental?: ElementalProperties;
+}
+
 /**
- * Build the consolidated ingredient alchemical lookup map.
- * Keys are normalized ingredient names; values are Spirit/Essence/Matter/Substance.
+ * Build the consolidated ingredient lookup map.
+ * Keys are normalized ingredient names; each entry carries both the
+ * Spirit/Essence/Matter/Substance alchemical quantities and, when the
+ * source ingredient declares one, its Fire/Water/Earth/Air composition.
  */
-function buildIngredientAlchemicalMap(): Map<string, { key: string; alchemical: IngredientAlchemicalProperties }> {
-  const map = new Map<string, { key: string; alchemical: IngredientAlchemicalProperties }>();
+function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
+  const map = new Map<string, IngredientEntry>();
 
   const allCollections: Record<string, Record<string, unknown>> = {
     ...beveragesIngredients,
@@ -138,15 +172,35 @@ function buildIngredientAlchemicalMap(): Map<string, { key: string; alchemical: 
       aSharp: spirit + essence + matter + substance,
     };
 
+    // Extract elementalProperties if all four are numbers.
+    const elemProps = ing.elementalProperties as
+      | Record<string, number>
+      | undefined;
+    let elemental: ElementalProperties | undefined;
+    if (
+      elemProps &&
+      typeof elemProps.Fire === "number" &&
+      typeof elemProps.Water === "number" &&
+      typeof elemProps.Earth === "number" &&
+      typeof elemProps.Air === "number"
+    ) {
+      elemental = {
+        Fire: elemProps.Fire,
+        Water: elemProps.Water,
+        Earth: elemProps.Earth,
+        Air: elemProps.Air,
+      };
+    }
+
     // Index by normalized key
     const normalizedKey = normalizeIngredientName(key);
-    map.set(normalizedKey, { key, alchemical });
+    map.set(normalizedKey, { key, alchemical, elemental });
 
     // Also index by the display name if different
     const displayName = (ing.name as string | undefined) ?? key;
     const normalizedDisplayName = normalizeIngredientName(displayName);
     if (normalizedDisplayName !== normalizedKey) {
-      map.set(normalizedDisplayName, { key, alchemical });
+      map.set(normalizedDisplayName, { key, alchemical, elemental });
     }
   }
 
@@ -163,7 +217,7 @@ function normalizeIngredientName(name: string): string {
 }
 
 // Lazily initialized lookup map
-let _ingredientAlchemicalMap: Map<string, { key: string; alchemical: IngredientAlchemicalProperties }> | null = null;
+let _ingredientAlchemicalMap: Map<string, IngredientEntry> | null = null;
 
 function getIngredientAlchemicalMap() {
   if (!_ingredientAlchemicalMap) {
@@ -172,16 +226,8 @@ function getIngredientAlchemicalMap() {
   return _ingredientAlchemicalMap;
 }
 
-/**
- * Look up alchemical properties for an ingredient by name.
- * Uses a multi-step matching strategy:
- *   1. Exact normalized name match
- *   2. Longest common word-token subset match
- * Returns null if no reasonable match is found.
- */
-export function lookupIngredientAlchemical(
-  ingredientName: string,
-): { key: string; alchemical: IngredientAlchemicalProperties } | null {
+/** Internal: full ingredient entry lookup (alchemical + elemental). */
+function lookupIngredient(ingredientName: string): IngredientEntry | null {
   const map = getIngredientAlchemicalMap();
   const normalized = normalizeIngredientName(ingredientName);
 
@@ -193,7 +239,7 @@ export function lookupIngredientAlchemical(
   const queryTokens = new Set(normalized.split(" ").filter((t) => t.length > 2));
   if (queryTokens.size === 0) return null;
 
-  let bestMatch: { key: string; alchemical: IngredientAlchemicalProperties } | null = null;
+  let bestMatch: IngredientEntry | null = null;
   let bestScore = 0;
 
   for (const [mapKey, value] of map.entries()) {
@@ -213,6 +259,20 @@ export function lookupIngredientAlchemical(
   }
 
   return bestMatch;
+}
+
+/**
+ * Look up alchemical properties for an ingredient by name.
+ * Uses a multi-step matching strategy:
+ *   1. Exact normalized name match
+ *   2. Longest common word-token subset match
+ * Returns null if no reasonable match is found.
+ */
+export function lookupIngredientAlchemical(
+  ingredientName: string,
+): { key: string; alchemical: IngredientAlchemicalProperties } | null {
+  const entry = lookupIngredient(ingredientName);
+  return entry ? { key: entry.key, alchemical: entry.alchemical } : null;
 }
 
 /**
@@ -274,5 +334,54 @@ export function calculateRecipeAlchemicalQuantities(
     totalASharp,
     perIngredient,
     matchRate,
+  };
+}
+
+/**
+ * Compute the recipe's elemental composition as the ingredient-averaged
+ * share of Fire / Water / Earth / Air, normalized to sum to 1.0.
+ *
+ * Ingredients that have no matched elemental profile are simply skipped
+ * (rather than pulled toward a `0.25/0.25/0.25/0.25` default), so a recipe
+ * dominated by an ingredient whose Fire is high stays Fire-leaning even
+ * when a few obscure flavorings are missing from the lookup table.
+ *
+ * Returns null when no ingredient matched, so callers can fall back to
+ * whatever the source recipe declared.
+ */
+export function calculateRecipeElementalFromIngredients(
+  ingredientNames: string[],
+): RecipeElementalSummary | null {
+  if (ingredientNames.length === 0) return null;
+
+  let fireSum = 0;
+  let waterSum = 0;
+  let earthSum = 0;
+  let airSum = 0;
+  let matched = 0;
+
+  for (const name of ingredientNames) {
+    const entry = lookupIngredient(name);
+    if (!entry?.elemental) continue;
+    fireSum += entry.elemental.Fire;
+    waterSum += entry.elemental.Water;
+    earthSum += entry.elemental.Earth;
+    airSum += entry.elemental.Air;
+    matched++;
+  }
+
+  if (matched === 0) return null;
+  const total = fireSum + waterSum + earthSum + airSum;
+  if (total <= 0) return null;
+
+  return {
+    elementalProperties: {
+      Fire: fireSum / total,
+      Water: waterSum / total,
+      Earth: earthSum / total,
+      Air: airSum / total,
+    },
+    matchedCount: matched,
+    matchRate: matched / ingredientNames.length,
   };
 }
