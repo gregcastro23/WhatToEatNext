@@ -23,7 +23,6 @@
  *     Recipe Fire = (Σ Fire_i) / (Σ (Fire_i + Water_i + Earth_i + Air_i))
  */
 
-
 import { beveragesIngredients } from "@/data/ingredients/beverages/beverages";
 import { dairyIngredients } from "@/data/ingredients/dairy/dairy";
 import { berries } from "@/data/ingredients/fruits/berries";
