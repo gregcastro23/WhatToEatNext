@@ -133,5 +133,10 @@ backend/.env
 .claude/
 .venv/
 
+# Yarn (toolchain is bun — yarn is fully retired in v3.0)
+.yarn/
+.yarnrc
+.yarnrc.yml
+
 # wten migration: local-only paste of planetary_agents UI surface for in-flight ports
 /wten-migration-ui-components/
