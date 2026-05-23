@@ -11,6 +11,7 @@ import {
   NAV_IA,
   PRIMARY_KEYS,
   activePrimaryFromPathname,
+  type NavRoute,
   type PrimaryKey,
 } from "@/config/navigation";
 import { Logo } from "./Logo";
@@ -74,6 +75,28 @@ const FEATURED_TILE: Record<PrimaryKey, {
   },
 };
 
+/**
+ * Visual grouping for the mega-menu's left column. Routes not listed here
+ * fall into a trailing "More" group, so adding a new entry to NAV_IA never
+ * silently drops it from the panel.
+ */
+const MENU_GROUPS: Partial<
+  Record<PrimaryKey, ReadonlyArray<{ label: string; paths: string[] }>>
+> = {
+  discover: [
+    { label: "Browse", paths: ["/cuisines", "/ingredients", "/cooking-methods", "/sauces"] },
+    { label: "Cook", paths: ["/recipes", "/recipe-builder"] },
+  ],
+  plan: [
+    { label: "Calendar", paths: ["/menu-planner", "/cosmic-recipe"] },
+    { label: "Day to day", paths: ["/pantry", "/grocery-cart", "/food-tracking"] },
+  ],
+  lab: [
+    { label: "Engine", paths: ["/lab", "/quantities"] },
+    { label: "Charts & Premium", paths: ["/planetary-chart", "/birth-chart", "/premium"] },
+  ],
+};
+
 export interface RedesignedHeaderProps {
   /** When provided, overrides the path-derived active key. */
   active?: PrimaryKey;
@@ -95,10 +118,12 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  // Hover-intent: close after 120ms when leaving both the trigger and the panel
+  // Generous 280ms delay so a slow cursor can bridge from the pill button to
+  // the mega-menu without the panel snapping shut mid-transit. A taller hover
+  // bridge (below) also catches the gap between trigger and panel.
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenMenu("none"), 120);
+    closeTimer.current = setTimeout(() => setOpenMenu("none"), 280);
   };
   const cancelClose = () => {
     if (closeTimer.current) {
@@ -158,19 +183,20 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
         }
         .alchm-pillnav {
           display: none;
+          position: relative;
         }
         @media (min-width: 900px) {
           .alchm-pillnav { display: flex; justify-content: center; }
         }
         .alchm-pill {
-          display: flex; gap: 2px; padding: 4px;
+          display: flex; gap: 6px; padding: 5px;
           background: rgba(255,255,255,0.025);
           border: 1px solid var(--line);
           border-radius: 999px;
         }
         .alchm-pill-btn {
           display: flex; align-items: center; gap: 8px;
-          padding: 8px 14px;
+          padding: 8px 16px;
           font-family: var(--f-mono);
           font-size: 11px;
           letter-spacing: 0.16em;
@@ -182,11 +208,13 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           cursor: pointer;
           white-space: nowrap;
           text-decoration: none;
+          transition: background 160ms ease, color 160ms ease;
         }
+        .alchm-pill-btn:hover { color: var(--fg); background: rgba(255,255,255,0.04); }
         .alchm-pill-btn[data-active="true"],
         .alchm-pill-btn[data-open="true"] {
           color: var(--fg);
-          background: rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.08);
         }
         .alchm-header-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
         .alchm-header-search {
@@ -258,6 +286,28 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
 
         {/* CENTER — primary nav pill (hidden on small screens) */}
         <nav className="alchm-pillnav" aria-label="Primary navigation">
+          {/*
+            Invisible hover bridge spanning the gap between the pill's bottom
+            edge and the mega-menu top. Without it, the cursor exits the pill
+            before reaching the panel and the close timer can fire mid-transit.
+            Anchored to .alchm-pillnav (position: relative) and only rendered
+            when a menu is open, so it never blocks header chrome interaction.
+          */}
+          {openMenu !== "none" && (
+            <div
+              aria-hidden="true"
+              onMouseEnter={cancelClose}
+              onMouseLeave={scheduleClose}
+              style={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                right: 0,
+                height: 32,
+                pointerEvents: "auto",
+              }}
+            />
+          )}
           <div className="alchm-pill" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
             {PRIMARY_KEYS.map((k) => {
               const section = NAV_IA[k];
@@ -446,6 +496,136 @@ function MegaMenu({
   if (!m || !m.routes.length) return null;
   const featured = FEATURED_TILE[menuKey];
 
+  const groupDef = MENU_GROUPS[menuKey];
+  const groups: Array<{ label: string | null; routes: NavRoute[] }> = (() => {
+    if (!groupDef) return [{ label: null, routes: m.routes }];
+    const claimed = new Set(groupDef.flatMap((g) => g.paths));
+    const out: Array<{ label: string | null; routes: NavRoute[] }> = groupDef.map((g) => ({
+      label: g.label,
+      routes: g.paths
+        .map((p) => m.routes.find((r) => r.path === p))
+        .filter((r): r is NavRoute => Boolean(r)),
+    }));
+    const orphans = m.routes.filter((r) => !claimed.has(r.path));
+    if (orphans.length > 0) out.push({ label: "More", routes: orphans });
+    return out;
+  })();
+
+  const renderRoute = (r: NavRoute): JSX.Element => {
+    const inner = (
+      <>
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 8,
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid var(--line)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--fg-dim)",
+            flexShrink: 0,
+          }}
+        >
+          <Glyph name={r.glyph} size={14} stroke={1.4} />
+        </div>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ fontFamily: "var(--f-body)", fontSize: 14, color: "var(--fg)" }}>
+              {r.label}
+            </span>
+            {r.external && (
+              <Glyph
+                name="arrow"
+                size={10}
+                stroke={1.6}
+                style={{ color: "var(--fg-faint)", transform: "rotate(-45deg)" }}
+              />
+            )}
+            {r.premium && (
+              <span
+                className="t-mono"
+                style={{
+                  fontSize: 8.5,
+                  color: "var(--accent-2)",
+                  letterSpacing: "0.16em",
+                  border: "1px solid color-mix(in oklch, var(--accent-2), transparent 60%)",
+                  padding: "1px 5px",
+                  borderRadius: 3,
+                }}
+              >
+                PREMIUM
+              </span>
+            )}
+          </div>
+          <div
+            className="t-mono"
+            style={{
+              fontSize: 9,
+              color: "var(--fg-mute)",
+              letterSpacing: "0.12em",
+              marginTop: 2,
+            }}
+          >
+            {r.hint.toUpperCase()}
+          </div>
+        </div>
+        <Glyph
+          name="arrow"
+          size={12}
+          stroke={1.4}
+          style={{ color: "var(--fg-faint)", opacity: 0.5 }}
+        />
+      </>
+    );
+
+    const style: React.CSSProperties = {
+      display: "grid",
+      gridTemplateColumns: "32px 1fr auto",
+      gap: 12,
+      alignItems: "center",
+      padding: "12px 14px",
+      borderRadius: 10,
+      color: "inherit",
+      textDecoration: "none",
+      transition: "background 140ms ease",
+    };
+
+    const hoverIn = (e: React.MouseEvent<HTMLElement>) => {
+      e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+    };
+    const hoverOut = (e: React.MouseEvent<HTMLElement>) => {
+      e.currentTarget.style.background = "transparent";
+    };
+
+    return r.external ? (
+      <a
+        key={r.path}
+        href={r.path}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={style}
+        onClick={onSelect}
+        onMouseEnter={hoverIn}
+        onMouseLeave={hoverOut}
+      >
+        {inner}
+      </a>
+    ) : (
+      <Link
+        key={r.path}
+        href={r.path}
+        style={style}
+        onClick={onSelect}
+        onMouseEnter={hoverIn}
+        onMouseLeave={hoverOut}
+      >
+        {inner}
+      </Link>
+    );
+  };
+
   return (
     <div
       role="menu"
@@ -469,25 +649,25 @@ function MegaMenu({
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "26px 32px",
+          padding: "30px 32px",
           display: "grid",
-          gridTemplateColumns: "1.5fr 1fr",
-          gap: 32,
+          gridTemplateColumns: "1.6fr 1fr",
+          gap: 40,
         }}
       >
-        {/* LEFT — route list */}
+        {/* LEFT — grouped route list */}
         <div>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 10,
-              marginBottom: 16,
+              marginBottom: 22,
             }}
           >
             <Glyph name={m.glyph} size={18} stroke={1.2} style={{ color: "var(--accent)" }} />
             <span className="t-tag" style={{ color: "var(--accent)" }}>
-              {m.label.toUpperCase()} · IA
+              {m.label.toUpperCase()}
             </span>
             <span style={{ flex: 1, height: 1, background: "var(--line)" }} />
             <span
@@ -497,137 +677,49 @@ function MegaMenu({
               {m.routes.length} ROUTES
             </span>
           </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-              gap: 4,
-            }}
-          >
-            {m.routes.map((r) => {
-              const inner = (
-                <>
-                  <div
+
+          {groups.map((group, idx) => (
+            <div
+              key={group.label ?? `flat-${idx}`}
+              style={{ marginBottom: idx === groups.length - 1 ? 0 : 26 }}
+            >
+              {group.label && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    margin: "0 0 10px",
+                    paddingLeft: 4,
+                  }}
+                >
+                  <span
+                    className="t-mono"
                     style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: 8,
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid var(--line)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "var(--fg-dim)",
-                      flexShrink: 0,
+                      fontSize: 9.5,
+                      color: "var(--accent-2)",
+                      letterSpacing: "0.22em",
+                      textTransform: "uppercase",
                     }}
                   >
-                    <Glyph name={r.glyph} size={14} stroke={1.4} />
-                  </div>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span
-                        style={{
-                          fontFamily: "var(--f-body)",
-                          fontSize: 14,
-                          color: "var(--fg)",
-                        }}
-                      >
-                        {r.label}
-                      </span>
-                      {r.external && (
-                        <Glyph
-                          name="arrow"
-                          size={10}
-                          stroke={1.6}
-                          style={{
-                            color: "var(--fg-faint)",
-                            transform: "rotate(-45deg)",
-                          }}
-                        />
-                      )}
-                      {r.premium && (
-                        <span
-                          className="t-mono"
-                          style={{
-                            fontSize: 8.5,
-                            color: "var(--accent-2)",
-                            letterSpacing: "0.16em",
-                            border: "1px solid color-mix(in oklch, var(--accent-2), transparent 60%)",
-                            padding: "1px 5px",
-                            borderRadius: 3,
-                          }}
-                        >
-                          PREMIUM
-                        </span>
-                      )}
-                    </div>
-                    <div
-                      className="t-mono"
-                      style={{
-                        fontSize: 9,
-                        color: "var(--fg-mute)",
-                        letterSpacing: "0.12em",
-                        marginTop: 2,
-                      }}
-                    >
-                      {r.hint.toUpperCase()}
-                    </div>
-                  </div>
-                  <Glyph
-                    name="arrow"
-                    size={12}
-                    stroke={1.4}
-                    style={{ color: "var(--fg-faint)", opacity: 0.5 }}
+                    {group.label}
+                  </span>
+                  <span
+                    style={{ flex: 1, height: 1, background: "var(--line)", opacity: 0.5 }}
                   />
-                </>
-              );
-
-              const style: React.CSSProperties = {
-                display: "grid",
-                gridTemplateColumns: "32px 1fr auto",
-                gap: 12,
-                alignItems: "center",
-                padding: "12px 14px",
-                borderRadius: 10,
-                color: "inherit",
-                textDecoration: "none",
-              };
-
-              return r.external ? (
-                <a
-                  key={r.path}
-                  href={r.path}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={style}
-                  onClick={onSelect}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.background = "rgba(255,255,255,0.03)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = "transparent")
-                  }
-                >
-                  {inner}
-                </a>
-              ) : (
-                <Link
-                  key={r.path}
-                  href={r.path}
-                  style={style}
-                  onClick={onSelect}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.background = "rgba(255,255,255,0.03)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = "transparent")
-                  }
-                >
-                  {inner}
-                </Link>
-              );
-            })}
-          </div>
+                </div>
+              )}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                  gap: 6,
+                }}
+              >
+                {group.routes.map(renderRoute)}
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* RIGHT — featured / contextual tile */}
