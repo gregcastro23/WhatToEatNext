@@ -100,20 +100,31 @@ export interface AdvancedConstants {
  * CORE THERMODYNAMIC FORMULAS
  * These are the fundamental calculations for Greg's Energy system
  */
+export interface ThermodynamicInputs {
+  spirit: number
+  essence: number
+  matter: number
+  substance: number
+  fire: number
+  water: number
+  air: number
+  earth: number
+}
+
 export class GregsEnergyCalculator {
   /**
    * Calculate Heat: (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
    */
-  static calculateHeat(
-    spirit: number,
-    fire: number,
-    substance: number,
-    essence: number,
-    matter: number,
-    water: number,
-    air: number,
-    earth: number
-  ): number {
+  static calculateHeat({
+    spirit,
+    fire,
+    substance,
+    essence,
+    matter,
+    water,
+    air,
+    earth,
+  }: ThermodynamicInputs): number {
     const numerator = Math.pow(spirit, 2) + Math.pow(fire, 2)
     const denominator = Math.pow(substance + essence + matter + water + air + earth, 2)
 
@@ -126,16 +137,16 @@ export class GregsEnergyCalculator {
   /**
    * Calculate Entropy: (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
    */
-  static calculateEntropy(
-    spirit: number,
-    substance: number,
-    fire: number,
-    air: number,
-    essence: number,
-    matter: number,
-    earth: number,
-    water: number
-  ): number {
+  static calculateEntropy({
+    spirit,
+    substance,
+    fire,
+    air,
+    essence,
+    matter,
+    earth,
+    water,
+  }: ThermodynamicInputs): number {
     const numerator =
       Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(fire, 2) + Math.pow(air, 2)
     const denominator = Math.pow(essence + matter + earth + water, 2)
@@ -149,16 +160,16 @@ export class GregsEnergyCalculator {
   /**
    * Calculate Reactivity: (Spirit² + Substance² + Essence² + Fire² + Air² + Water²) / (Matter + Earth)²
    */
-  static calculateReactivity(
-    spirit: number,
-    substance: number,
-    essence: number,
-    fire: number,
-    air: number,
-    water: number,
-    matter: number,
-    earth: number
-  ): number {
+  static calculateReactivity({
+    spirit,
+    substance,
+    essence,
+    fire,
+    air,
+    water,
+    matter,
+    earth,
+  }: ThermodynamicInputs): number {
     const numerator =
       Math.pow(spirit, 2) +
       Math.pow(substance, 2) +
@@ -188,30 +199,11 @@ export class GregsEnergyCalculator {
     alchemical: AlchemicalProperties,
     elemental: ElementalProperties
   ): ThermodynamicMetrics {
-    const { spirit, essence, matter, substance } = alchemical
-    const { fire, water, air, earth } = elemental
+    const inputs: ThermodynamicInputs = { ...alchemical, ...elemental }
 
-    const heat = this.calculateHeat(spirit, fire, substance, essence, matter, water, air, earth)
-    const entropy = this.calculateEntropy(
-      spirit,
-      substance,
-      fire,
-      air,
-      essence,
-      matter,
-      earth,
-      water
-    )
-    const reactivity = this.calculateReactivity(
-      spirit,
-      substance,
-      essence,
-      fire,
-      air,
-      water,
-      matter,
-      earth
-    )
+    const heat = this.calculateHeat(inputs)
+    const entropy = this.calculateEntropy(inputs)
+    const reactivity = this.calculateReactivity(inputs)
     const energy = this.calculateEnergy(heat, entropy, reactivity)
 
     return { heat, entropy, reactivity, energy }

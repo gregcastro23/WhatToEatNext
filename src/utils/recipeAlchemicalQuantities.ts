@@ -23,8 +23,6 @@
  *     Recipe Fire = (Σ Fire_i) / (Σ (Fire_i + Water_i + Earth_i + Air_i))
  */
 
-import type { ElementalProperties } from "@/types/recipe";
-
 import { beveragesIngredients } from "@/data/ingredients/beverages/beverages";
 import { dairyIngredients } from "@/data/ingredients/dairy/dairy";
 import { berries } from "@/data/ingredients/fruits/berries";
@@ -56,6 +54,7 @@ import { _otherVegetables } from "@/data/ingredients/vegetables/otherVegetables"
 import { squash } from "@/data/ingredients/vegetables/squash";
 import { starchy } from "@/data/ingredients/vegetables/starchy";
 import { _allVinegars } from "@/data/ingredients/vinegars/vinegars";
+import type { ElementalProperties } from "@/types/recipe";
 
 export interface IngredientAlchemicalProperties {
   Spirit: number;

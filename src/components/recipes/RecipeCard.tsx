@@ -1,6 +1,7 @@
 // src/components/recipes/RecipeCard.tsx
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import type { Recipe } from "@/types/recipe";
@@ -151,12 +152,14 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
         {/* ── Cover ── */}
         <div className={`relative h-28 bg-gradient-to-br ${ELEMENT_META[dom].cover} to-slate-950`}>
           {showImage ? (
-            <img
+            <Image
               src={rawImage}
               alt={recipe.name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               loading="lazy"
               onError={() => setImageFailed(true)}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="object-cover"
             />
           ) : (
             <span
@@ -225,7 +228,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             <div className="flex flex-wrap gap-1.5">
               {monicaLabel && (
                 <span className="rounded border border-indigo-400/20 bg-indigo-500/10 px-1.5 py-0.5 text-[11px] text-indigo-300">
-                  {"⚗"} {monicaLabel}
+                  ⚗ {monicaLabel}
                 </span>
               )}
               {spice && (

@@ -448,7 +448,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
               disabled={isGenerating || selectedAgents.length === 0}
             />
             <Button
-              onClick={handleSendMessage}
+              onClick={() => { void handleSendMessage(); }}
               disabled={!inputMessage.trim() || isGenerating || selectedAgents.length === 0}
               className="cosmic-button"
             >

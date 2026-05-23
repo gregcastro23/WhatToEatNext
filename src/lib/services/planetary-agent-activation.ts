@@ -7,19 +7,19 @@
  */
 
 import {
-  getPlanetaryAgentForDegree,
-  type PlanetaryAgentConfig,
-} from '../degree-planetary-agent-mapping'
-import { UnifiedAgentFactory } from '../unified-agent-factory'
-import type { PlanetaryConfig, UnifiedAgent } from '../unified-agent-types'
-import {
   getPlanetaryDignity,
   getSignElement,
   getPlanetaryElement,
   calculateElementalAffinity,
 } from '../astrological-data'
+import {
+  getPlanetaryAgentForDegree,
+  type PlanetaryAgentConfig,
+} from '../degree-planetary-agent-mapping'
 import { getLunarDegreePersonality } from '../moon-phase-calculator'
 import { PLANET_SYMBOLS, PLANET_COLORS } from '../planetary-config-helper'
+import { UnifiedAgentFactory } from '../unified-agent-factory'
+import type { PlanetaryConfig, UnifiedAgent } from '../unified-agent-types'
 
 export interface ActivatedPlanetaryAgent {
   // Degree information
@@ -307,6 +307,20 @@ export function getActivatedAgentRecommendations(activated: ActivatedPlanetaryAg
   const queries: string[] = []
   const consciousnessWork: string[] = []
 
+  // Affinity between the planet and its sign weighted with isDiurnal=true.
+  // A high affinity (≥0.85) means the planet's element matches the sign's
+  // element and the recommendations should lean into amplification; lower
+  // affinities get balancing/integration suggestions instead.
+  const elementalAffinity = calculateElementalAffinity(config.ruler, config.sign, true)
+
+  // The factory-built unified agent carries the dominant element and
+  // specialty derived from its consciousness profile — fold both into the
+  // queries so the agent is addressed by what it actually is, not just by
+  // its planetary role.
+  const agentSignature = agent.consciousness?.signature ?? agent.name
+  const agentSpecialty = agent.capabilities?.specialty ?? `${config.ruler} consciousness`
+  const agentDominantElement = agent.consciousness?.dominantElement
+
   // Element-based actions
   if (config.element === 'Fire') {
     actions.push('Take bold, decisive action', 'Express creativity freely', 'Lead with confidence')
@@ -342,6 +356,19 @@ export function getActivatedAgentRecommendations(activated: ActivatedPlanetaryAg
     consciousnessWork.push('Transform difficulties into wisdom')
   }
 
+  // Elemental-affinity overlay: when the planet and sign share an element
+  // (affinity ≥ 0.85) lean into amplification; otherwise suggest integration
+  // work that reconciles the two elements.
+  if (elementalAffinity >= 0.85) {
+    consciousnessWork.push(
+      `Amplify ${config.element} resonance — planet and sign are elementally aligned`,
+    )
+  } else if (agentDominantElement && agentDominantElement !== config.element) {
+    consciousnessWork.push(
+      `Bridge ${agentDominantElement} (your agent's nature) with ${config.element} (this degree's element)`,
+    )
+  }
+
   // Special degree recommendations
   if (config.isAnaretic) {
     actions.push('Complete unfinished business', 'Prepare for transitions')
@@ -353,11 +380,12 @@ export function getActivatedAgentRecommendations(activated: ActivatedPlanetaryAg
     consciousnessWork.push('Crisis as opportunity for growth', 'Heightened awareness')
   }
 
-  // Queries for the planetary agent
+  // Queries for the planetary agent — address the unified agent by its
+  // signature and lean on its specialty rather than the bare planet name.
   queries.push(
-    `${config.ruler} in ${config.sign}, what wisdom do you have for me at ${config.zodiacDegree}°?`,
+    `${agentSignature} (${config.ruler} in ${config.sign}), what wisdom do you have for me at ${config.zodiacDegree}°?`,
     `How can I best work with ${config.element} energy right now?`,
-    `What consciousness breakthrough is available through this ${config.modality} ${config.element} activation?`
+    `As a practitioner of ${agentSpecialty}, what consciousness breakthrough is available through this ${config.modality} ${config.element} activation?`,
   )
 
   if (transitInfo) {

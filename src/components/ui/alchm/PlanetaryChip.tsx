@@ -51,22 +51,27 @@ export function PlanetaryChip({
   style,
 }: PlanetaryChipProps): JSX.Element {
   const alch = useAlchemicalSafe();
-  const [now, setNow] = useState<Date>(() => new Date());
+  // `now` is null on the first render so SSR and the initial client render
+  // produce identical markup — using `new Date()` in useState would diverge
+  // (server local time vs. browser local time) and tear down the header
+  // subtree via React error #418, dropping the inline <style> with it.
+  const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
+    setNow(new Date());
     if (isStatic) return;
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, [isStatic]);
 
-  const fallbackIdx = ((now.getHours() - 6) + 14 * 7) % 7;
+  const fallbackIdx = now ? ((now.getHours() - 6) + 14 * 7) % 7 : 0;
   const resolvedPlanet =
     planet ??
     (alch?.planetaryHour && PLANET_GLYPHS[alch.planetaryHour] ? alch.planetaryHour : null) ??
     FALLBACK_ROTATION[fallbackIdx] ??
     "Sun";
   const resolvedSymbol = symbol ?? PLANET_GLYPHS[resolvedPlanet] ?? "☉";
-  const resolvedHour = hour ?? now.toTimeString().slice(0, 5);
+  const resolvedHour = hour ?? (now ? now.toTimeString().slice(0, 5) : "--:--");
   const elementVar = `var(--el-${PLANET_ELEMENT[resolvedPlanet] ?? "fire"})`;
 
   return (

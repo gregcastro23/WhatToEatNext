@@ -22,21 +22,24 @@ const FALLBACK_RULERS = ["Sun", "Venus", "Mercury", "Moon", "Saturn", "Jupiter",
  */
 export function CelestialHeaderClock(): JSX.Element {
   const alch = useAlchemicalSafe();
-  const [now, setNow] = useState<Date>(() => new Date());
+  // Same hydration-safety pattern as PlanetaryChip: defer Date() until after
+  // mount so SSR markup matches the first client render.
+  const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
+    setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  const fallbackIdx = ((now.getHours() - 6) + 14 * 7) % 7;
+  const fallbackIdx = now ? ((now.getHours() - 6) + 14 * 7) % 7 : 0;
   const ruler =
     (alch?.planetaryHour && PLANET_GLYPHS[alch.planetaryHour] ? alch.planetaryHour : null) ??
     FALLBACK_RULERS[fallbackIdx] ??
     "Sun";
   const glyph = PLANET_GLYPHS[ruler] ?? "☉";
-  const time = now.toTimeString().slice(0, 5);
-  const seconds = now.getSeconds().toString().padStart(2, "0");
+  const time = now ? now.toTimeString().slice(0, 5) : "--:--";
+  const seconds = now ? now.getSeconds().toString().padStart(2, "0") : "--";
 
   return (
     <div

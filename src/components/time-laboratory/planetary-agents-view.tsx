@@ -399,7 +399,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
                 size="sm"
                 variant="outline"
                 className="cosmic-button"
-                onClick={loadAgentActivations}
+                onClick={() => { void loadAgentActivations(); }}
                 disabled={isLoading}
               >
                 {isLoading ? (

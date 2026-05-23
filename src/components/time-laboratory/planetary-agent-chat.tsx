@@ -473,7 +473,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
               disabled={isTyping}
             />
             <Button
-              onClick={handleSendMessage}
+              onClick={() => { void handleSendMessage(); }}
               disabled={!inputMessage.trim() || isTyping}
               className="cosmic-button p-2 sm:p-3"
               size="sm"

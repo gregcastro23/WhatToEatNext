@@ -1,17 +1,6 @@
 // Unified Agent Factory - Converting between agent types
 // Creates unified agents from historical agents, planetary configs, and Monica roles
 
-import type {
-  UnifiedAgent,
-  UnifiedAgentType,
-  AgentFactory,
-  MonicaRole,
-  PlanetaryConfig,
-  ConsciousnessProfile,
-  AgentCapabilities,
-  AgentMemory,
-} from './unified-agent-types'
-import type { CraftedAgent } from './agent-types'
 import {
   getPlanetaryDignity,
   getSignElement,
@@ -24,6 +13,28 @@ import {
   getLunarDegreePersonality,
   getMoonPhaseEmoji,
 } from './moon-phase-calculator'
+import type { CraftedAgent } from './agent-types'
+import type {
+  UnifiedAgent,
+  UnifiedAgentType,
+  AgentFactory,
+  MonicaRole,
+  PlanetaryConfig,
+  ConsciousnessProfile,
+  AgentCapabilities,
+  AgentMemory,
+} from './unified-agent-types'
+
+// Empty memory carries the same shape on every freshly constructed agent;
+// hoist it so the factory methods don't repeat themselves and the typed
+// `AgentMemory` shape is enforced exactly once.
+const blankMemory = (): AgentMemory => ({
+  sessionContext: [],
+  crossAgentLearning: {},
+  userInteractionPatterns: {},
+  groupDynamicsLearning: [],
+  lastUpdated: new Date(),
+})
 
 export class UnifiedAgentFactory implements AgentFactory {
   createFromHistorical(agent: CraftedAgent): UnifiedAgent {
@@ -60,13 +71,7 @@ export class UnifiedAgentFactory implements AgentFactory {
         memoryRetention: agent.stats.kineticEvolution?.memoryPersistence || 0.7,
       },
 
-      memory: {
-        sessionContext: [],
-        crossAgentLearning: {},
-        userInteractionPatterns: {},
-        groupDynamicsLearning: [],
-        lastUpdated: new Date(),
-      },
+      memory: blankMemory(),
 
       appearance: {
         avatar: agent.appearance.avatar,
@@ -92,62 +97,83 @@ export class UnifiedAgentFactory implements AgentFactory {
     const planetaryElement = getPlanetaryElement(config.planet) || getSignElement(config.sign)
     const dignity = getPlanetaryDignity(config.planet, config.sign)
     const moonDegree = config.moonDegree || getMoonDegree()
-    const moonPersonality = config.moonPersonality || getLunarDegreePersonality(moonDegree)
+    // PlanetaryConfig.moonPersonality is an optional string label that the
+    // caller may pass in (e.g., "Pisces dreamer"); we still need the full
+    // structured personality for alchemical/illumination math, so always
+    // resolve it from the moon degree.
+    const moonPersonality = getLunarDegreePersonality(moonDegree)
+    const moonLabel = config.moonPersonality ?? moonPersonality.personality
+    const moonPhase = calculateMoonPhase()
+    const moonEmoji = getMoonPhaseEmoji(moonPhase)
 
-    // Calculate consciousness level based on planetary dignity and degree
+    // Affinity between the planet and its sign element (same element → 0.9,
+    // otherwise 0.7). Maps into a small monica modifier and a kinetic boost
+    // so signs that resonate with their planet read as fractionally more
+    // active.
+    const affinity = calculateElementalAffinity(
+      config.planet,
+      config.sign,
+      (config as { isDiurnal?: boolean }).isDiurnal ?? true,
+    )
+
     const consciousnessLevel = this.calculatePlanetaryConsciousness(
       config.planet,
       dignity,
-      parseFloat(config.degree)
+      parseFloat(config.degree),
     )
-    const monicaConstant = this.calculatePlanetaryMonica(
+    const baseMonica = this.calculatePlanetaryMonica(
       config.planet,
       config.sign,
-      parseFloat(config.degree)
+      parseFloat(config.degree),
     )
+    // Lunar alchemical bonus + planet/sign affinity nudge the Monica constant
+    // so two transits with the same planet/sign/degree but at different
+    // moon phases produce distinguishable agents.
+    const lunarSpiritBonus = moonPersonality.alchemicalBonus.spirit
+    const monicaConstant = Number(
+      (baseMonica + lunarSpiritBonus * 0.2 + (affinity - 0.7) * 0.5).toFixed(2),
+    )
+
+    const consciousness: ConsciousnessProfile = {
+      level: consciousnessLevel,
+      monicaConstant,
+      dominantElement: planetaryElement as ConsciousnessProfile['dominantElement'],
+      signature:
+        `PLANETARY-${config.planet.toUpperCase()}-${config.sign.toUpperCase()}-${config.degree}` +
+        `-${moonPhase.replace(/\s+/g, '_').toUpperCase()}`,
+      evolutionStage: 1,
+      kineticProfile: {
+        consciousnessVelocity: 0.5 * affinity,
+        interactionMomentum: 0.3 + moonPersonality.illumination / 1000,
+        evolutionTrajectory: 'stable',
+        aspectSensitivity: 0.8,
+      },
+    }
+
+    const capabilities: AgentCapabilities = {
+      specialty: this.getPlanetarySpecialty(config.planet),
+      wisdomDomains: this.getPlanetaryWisdomDomains(config.planet),
+      teachingStyle: this.getPlanetaryTeachingStyle(config.planet),
+      resonanceType: this.getPlanetaryResonance(config.planet),
+      uniquePower: `${config.planet} planetary channeling — ${moonLabel} (${moonPersonality.emotionalTone})`,
+      conversationStyle: this.mapPlanetaryStyle(config.planet),
+      crossEraAdaptation: false,
+      collaborationStyle: this.mapPlanetaryCollaboration(config.planet),
+      memoryRetention: 0.6,
+    }
+
+    const type: UnifiedAgentType = 'planetary'
 
     return {
       id: `planetary-${config.planet.toLowerCase()}-${config.sign.toLowerCase()}-${config.degree}`,
       name: `${config.planet} in ${config.sign}`,
-      title: `Planetary Agent: ${config.planet} at ${config.degree}°`,
-      type: 'planetary',
-
-      consciousness: {
-        level: consciousnessLevel,
-        monicaConstant,
-        dominantElement: planetaryElement as any,
-        signature: `PLANETARY-${config.planet.toUpperCase()}-${config.sign.toUpperCase()}-${config.degree}`,
-        evolutionStage: 1,
-        kineticProfile: {
-          consciousnessVelocity: 0.5,
-          interactionMomentum: 0.3,
-          evolutionTrajectory: 'stable',
-          aspectSensitivity: 0.8,
-        },
-      },
-
-      capabilities: {
-        specialty: this.getPlanetarySpecialty(config.planet),
-        wisdomDomains: this.getPlanetaryWisdomDomains(config.planet),
-        teachingStyle: this.getPlanetaryTeachingStyle(config.planet),
-        resonanceType: this.getPlanetaryResonance(config.planet),
-        uniquePower: `${config.planet} planetary channeling`,
-        conversationStyle: this.mapPlanetaryStyle(config.planet),
-        crossEraAdaptation: false, // Planetary agents are more fixed in time
-        collaborationStyle: this.mapPlanetaryCollaboration(config.planet),
-        memoryRetention: 0.6,
-      },
-
-      memory: {
-        sessionContext: [],
-        crossAgentLearning: {},
-        userInteractionPatterns: {},
-        groupDynamicsLearning: [],
-        lastUpdated: new Date(),
-      },
-
+      title: `Planetary Agent: ${config.planet} at ${config.degree}° ${moonEmoji} ${moonPhase}`,
+      type,
+      consciousness,
+      capabilities,
+      memory: blankMemory(),
       appearance: {
-        avatar: config.symbol,
+        avatar: `${moonEmoji}${config.symbol}`,
         color: config.color,
         symbol: config.symbol,
         aura: {
@@ -156,9 +182,7 @@ export class UnifiedAgentFactory implements AgentFactory {
           intensity: 0.7,
         },
       },
-
       planetaryData: config,
-
       active: false,
       status: 'idle',
       lastActivity: new Date(),
@@ -204,13 +228,7 @@ export class UnifiedAgentFactory implements AgentFactory {
         memoryRetention: 1.0,
       },
 
-      memory: {
-        sessionContext: [],
-        crossAgentLearning: {},
-        userInteractionPatterns: {},
-        groupDynamicsLearning: [],
-        lastUpdated: new Date(),
-      },
+      memory: blankMemory(),
 
       appearance: {
         avatar: '✨',

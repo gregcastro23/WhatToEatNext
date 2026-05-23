@@ -21,7 +21,7 @@ const ALCHM_KITCHEN_URL = (
 
 const PROXY_TIMEOUT_MS = 4000;
 
-type StoneResponse = {
+interface StoneResponse {
   elementalProperties: Record<string, number>;
   thermodynamicProperties: Record<string, number>;
   esms: Record<string, number>;
@@ -33,7 +33,7 @@ type StoneResponse = {
   confidence: number;
   metadata: Record<string, unknown>;
   perPlanet?: Record<string, unknown>;
-};
+}
 
 function dtToBackendParams(dt: Date): URLSearchParams {
   const p = new URLSearchParams();

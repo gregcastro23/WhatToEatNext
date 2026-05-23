@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
@@ -775,12 +776,15 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
         className="relative overflow-hidden"
       >
         {showHeroImage && (
-          <img
+          <Image
             src={heroImageUrl}
             alt=""
             aria-hidden="true"
+            fill
+            sizes="100vw"
+            priority
             onError={() => setHeroImageFailed(true)}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="object-cover"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-amber-900/20 via-slate-950/80 to-slate-950" />
