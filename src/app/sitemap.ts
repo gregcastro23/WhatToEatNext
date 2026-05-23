@@ -1,6 +1,9 @@
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { MetadataRoute } from "next";
 
+// The sitemap enumerates recipes from the local server payload (no Redis,
+// no DB). Going through LocalRecipeService would hit a no-store Upstash
+// fetch, which forces Next.js to bail out of static rendering and logs a
+// [Redis] GET failed / Dynamic server usage error during `next build`.
 export const revalidate = 3600; // regenerate sitemap at most hourly
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://alchm.kitchen";
@@ -31,7 +34,8 @@ const STATIC_ROUTES: Array<{
 
 async function getRecipeEntries(now: Date): Promise<MetadataRoute.Sitemap> {
   try {
-    const recipes = await LocalRecipeService.getAllRecipes();
+    const { getServerRecipes } = await import("@/actions/recipes");
+    const recipes = await getServerRecipes();
     return recipes
       .map((recipe) => (recipe?.id ? String(recipe.id) : ""))
       .filter(Boolean)

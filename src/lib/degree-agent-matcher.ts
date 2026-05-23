@@ -369,7 +369,7 @@ export class DegreeAgentMatcher {
     const activatedAgents: AgentActivationDetail[] = []
 
     // Check each agent for activations
-    for (const [agentId, profile] of this.agentProfiles.entries()) {
+    for (const profile of this.agentProfiles.values()) {
       const activation = this.checkAgentActivation(profile, planet, degree, moment)
 
       if (activation) {
@@ -648,13 +648,22 @@ export class DegreeAgentMatcher {
   ): string {
     if (activatedAgents.length === 0) return 'Neutral'
 
-    // Find dominant element among activated agents
+    // Sum agent alignments, then bias by the live sky's elemental balance.
+    // Multiplying by kinetic.power scales the sky's influence so a calm sky
+    // doesn't drown out the agent contribution.
     const elementCounts = { Fire: 0, Water: 0, Air: 0, Earth: 0 }
 
     activatedAgents.forEach(agent => {
       Object.entries(agent.elementalAlignment).forEach(([element, value]) => {
         elementCounts[element as keyof typeof elementCounts] += value
       })
+    })
+
+    const skyWeight = Math.max(0, moment.kinetic?.power ?? 0)
+    Object.entries(moment.elemental ?? {}).forEach(([element, value]) => {
+      if (element in elementCounts) {
+        elementCounts[element as keyof typeof elementCounts] += value * skyWeight
+      }
     })
 
     const dominantElement = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0][0]

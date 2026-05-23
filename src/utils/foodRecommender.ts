@@ -5,11 +5,11 @@ import { herbs } from "@/data/ingredients/herbs";
 import { miscIngredients } from "@/data/ingredients/misc/misc";
 import { oils } from "@/data/ingredients/oils";
 import {
+  eggs,
   legumes,
   meats,
   plantBased,
   poultry,
-  _proteins,
   seafood,
 } from "@/data/ingredients/proteins";
 import { seasonings } from "@/data/ingredients/seasonings";
@@ -24,11 +24,6 @@ import type {
 } from "@/types/alchemy";
 // Removed unused, _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from "@/types/celestial";
-
-// Extract eggs from _proteins by filtering category (eggs has no dedicated barrel export)
-const eggs = Object.entries(_proteins)
-  .filter(([_, value]) => (value as any).category === "egg")
-  .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export interface EnhancedIngredient {
   name: string;

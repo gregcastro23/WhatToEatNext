@@ -16,22 +16,22 @@
 
 import React, { useState } from "react";
 
-type SyncResult = {
+interface SyncResult {
   agentId: string;
   email: string;
   ok: boolean;
   status?: number;
   error?: string;
-};
+}
 
-type SyncResponse = {
+interface SyncResponse {
   success: boolean;
   synced?: number;
   failed?: number;
   results?: SyncResult[];
   note?: string;
   error?: string;
-};
+}
 
 const AGENTIC_DOMAIN = "@agentic.alchm.kitchen";
 

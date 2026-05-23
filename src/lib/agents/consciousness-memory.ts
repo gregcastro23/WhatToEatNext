@@ -4,10 +4,8 @@
  * Integrates with existing kinetics infrastructure for temporal consciousness sampling
  */
 
-import { agentKineticProfiles } from './kinetic-profiles'
-import type { KineticProfile } from './kinetic-profiles'
-import type { CraftedAgent } from '../agent-types'
 import { AlchemicalKineticsClient } from '../kinetics-client'
+import { agentKineticProfiles } from './kinetic-profiles'
 
 export interface ConsciousnessMemorySnapshot {
   timestamp: Date

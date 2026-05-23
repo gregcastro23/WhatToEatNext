@@ -296,12 +296,12 @@ export function combineElementObjects(
   element_object_1: Record<string, number>,
   element_object_2: Record<string, number>
 ): Record<string, number> {
-  const combined_object = createElementObject()
-  combined_object['Fire'] = element_object_1['Fire'] + element_object_2['Fire']
-  combined_object['Water'] = element_object_1['Water'] + element_object_2['Water']
-  combined_object['Air'] = element_object_1['Air'] + element_object_2['Air']
-  combined_object['Earth'] = element_object_1['Earth'] + element_object_2['Earth']
-  return combined_object
+  const combinedObject = createElementObject()
+  combinedObject['Fire'] = element_object_1['Fire'] + element_object_2['Fire']
+  combinedObject['Water'] = element_object_1['Water'] + element_object_2['Water']
+  combinedObject['Air'] = element_object_1['Air'] + element_object_2['Air']
+  combinedObject['Earth'] = element_object_1['Earth'] + element_object_2['Earth']
+  return combinedObject
 }
 
 // Get ranking of elements by value (top `rank` slots, max 4)
@@ -309,7 +309,7 @@ export function getElementRanking(
   element_object: Record<string, number>,
   rank = 1
 ): Record<number, string> {
-  const element_rank_dict: Record<number, string> = {
+  const elementRankDict: Record<number, string> = {
     1: '',
     2: '',
     3: '',
@@ -329,11 +329,11 @@ export function getElementRanking(
       }
     }
     if (!topElement) break
-    element_rank_dict[i] = topElement
+    elementRankDict[i] = topElement
     remaining.delete(topElement)
   }
 
-  return element_rank_dict
+  return elementRankDict
 }
 
 // Get sum of all element values
@@ -397,9 +397,9 @@ export function alchemize(
   const horoscope = horoscope_dict['tropical'] || horoscope_dict
 
   // Determine if time is diurnal or nocturnal
-  let diurnal_or_nocturnal = 'Diurnal'
+  let diurnalOrNocturnal = 'Diurnal'
   if (birth_info['hour'] < 5 || birth_info['hour'] > 17) {
-    diurnal_or_nocturnal = 'Nocturnal'
+    diurnalOrNocturnal = 'Nocturnal'
   }
 
   // Initialize the alchemical information object
@@ -460,32 +460,32 @@ export function alchemize(
 
   // Process Ascendant information first (if available)
   if (horoscope.Ascendant?.Sign?.label) {
-    const rising_sign = horoscope.Ascendant.Sign.label
+    const risingSign = horoscope.Ascendant.Sign.label
     // Set Ascendant element based on rising sign
-    const rising_element = signInfo[rising_sign]?.Element || 'Earth'
+    const risingElement = signInfo[risingSign]?.Element || 'Earth'
 
     // Update alchmInfo with Ascendant data
-    alchmInfo['Planets']['Ascendant']['Diurnal Element'] = rising_element
-    alchmInfo['Planets']['Ascendant']['Nocturnal Element'] = rising_element
+    alchmInfo['Planets']['Ascendant']['Diurnal Element'] = risingElement
+    alchmInfo['Planets']['Ascendant']['Nocturnal Element'] = risingElement
 
     // Set Major Arcana for Ascendant if available
-    if (signInfo[rising_sign]?.['Major Tarot Card']) {
-      alchmInfo['Major Arcana']['Ascendant'] = signInfo[rising_sign]['Major Tarot Card']
+    if (signInfo[risingSign]?.['Major Tarot Card']) {
+      alchmInfo['Major Arcana']['Ascendant'] = signInfo[risingSign]['Major Tarot Card']
     }
   }
 
   // Process Sun placement to get Sun Sign and Chart Ruler
-  let sun_sign = ''
+  let sunSign = ''
   if (horoscope.CelestialBodies?.all) {
     const sunData = horoscope.CelestialBodies.all.find((p: any) => p.label === 'Sun')
     if (sunData?.Sign?.label) {
-      sun_sign = sunData.Sign.label
-      alchmInfo['Sun Sign'] = sun_sign
-      alchmInfo['Chart Ruler'] = signInfo[sun_sign]?.Ruler || ''
+      sunSign = sunData.Sign.label
+      alchmInfo['Sun Sign'] = sunSign
+      alchmInfo['Chart Ruler'] = signInfo[sunSign]?.Ruler || ''
 
       // Set Major Arcana for Sun if available
-      if (signInfo[sun_sign]?.['Major Tarot Card']) {
-        alchmInfo['Major Arcana']['Sun'] = signInfo[sun_sign]['Major Tarot Card']
+      if (signInfo[sunSign]?.['Major Tarot Card']) {
+        alchmInfo['Major Arcana']['Sun'] = signInfo[sunSign]['Major Tarot Card']
       }
     }
   }
@@ -511,33 +511,33 @@ export function alchemize(
 
           // Add elemental effect from planet-sign affinity (using core alchemizer logic)
           if (planetInfo[planet]) {
-            let elemental_effect_value = 0
+            let elementalEffectValue = 0
 
             // Different logic for Sun/Moon vs other planets
             if (planet === 'Sun' || planet === 'Moon') {
               // For Sun/Moon: use time-based diurnal/nocturnal element
               const planetElement =
-                diurnal_or_nocturnal === 'Diurnal'
+                diurnalOrNocturnal === 'Diurnal'
                   ? planetInfo[planet]['Diurnal Element']
                   : planetInfo[planet]['Nocturnal Element']
 
               if (planetElement === element) {
-                elemental_effect_value = 1
+                elementalEffectValue = 1
               }
             } else {
               // For other planets: check both diurnal and nocturnal elements
               if (planetInfo[planet]['Diurnal Element'] === element) {
-                elemental_effect_value = 1
+                elementalEffectValue = 1
               } else if (planetInfo[planet]['Nocturnal Element'] === element) {
-                elemental_effect_value = 1
+                elementalEffectValue = 1
               } else {
                 // Elemental logic compliance: if additive-only is enabled, do not penalize mismatches
-                elemental_effect_value = ADDITIVE_ONLY_ELEMENTS ? 0 : -1
+                elementalEffectValue = ADDITIVE_ONLY_ELEMENTS ? 0 : -1
               }
             }
 
             // Apply the elemental effect
-            alchmInfo['Total Effect Value'][element] += elemental_effect_value
+            alchmInfo['Total Effect Value'][element] += elementalEffectValue
 
             // Store the planet's sign and element
             if (!alchmInfo['Planets'][planet]) {
@@ -547,21 +547,21 @@ export function alchemize(
             alchmInfo['Planets'][planet]['Element'] = element
 
             // Calculate planetary dignities and effects
-            const dignity_effect = planetInfo[planet]['Dignity Effect']?.[sign] || 0
-            let total_effect_multiplier = 1
+            const dignityEffect = planetInfo[planet]['Dignity Effect']?.[sign] || 0
+            let totalEffectMultiplier = 1
 
             // Apply dignity effect to total multiplier
-            if (dignity_effect) {
-              total_effect_multiplier += Math.abs(dignity_effect) * 0.1
+            if (dignityEffect) {
+              totalEffectMultiplier += Math.abs(dignityEffect) * 0.1
             }
 
             // Store the total effect multiplier
-            alchmInfo['Planets'][planet]['Total Effect Multiplier'] = total_effect_multiplier
+            alchmInfo['Planets'][planet]['Total Effect Multiplier'] = totalEffectMultiplier
 
             // Calculate alchemical values for this planet (following core alchemizer logic)
             if (planetInfo[planet]['Alchemy']) {
-              const base_alchemy_values = planetInfo[planet]['Alchemy']
-              const alchemy_values: Record<string, any> = {}
+              const baseAlchemyValues = planetInfo[planet]['Alchemy']
+              const alchemyValues: Record<string, any> = {}
 
               // Initialize Day/Night Alchemy tracking for this planet
               if (!alchmInfo['Planets'][planet]['Alchemy Effects']) {
@@ -569,46 +569,46 @@ export function alchemize(
               }
 
               // Spirit - goes to Day Alchemy
-              if (base_alchemy_values['Spirit']) {
-                const spirit_bonus = base_alchemy_values['Spirit'] * total_effect_multiplier
-                alchemy_values['Spirit'] = spirit_bonus
-                alchmInfo['Alchemy Effects']['Total Spirit'] += spirit_bonus
-                alchemy_values['Day Alchemy'] = { Spirit: spirit_bonus }
+              if (baseAlchemyValues['Spirit']) {
+                const spiritBonus = baseAlchemyValues['Spirit'] * totalEffectMultiplier
+                alchemyValues['Spirit'] = spiritBonus
+                alchmInfo['Alchemy Effects']['Total Spirit'] += spiritBonus
+                alchemyValues['Day Alchemy'] = { Spirit: spiritBonus }
               }
 
               // Essence - goes to Night if planet has Spirit, Day if not
-              if (base_alchemy_values['Essence']) {
-                const essence_bonus = base_alchemy_values['Essence'] * total_effect_multiplier
-                alchemy_values['Essence'] = essence_bonus
-                alchmInfo['Alchemy Effects']['Total Essence'] += essence_bonus
+              if (baseAlchemyValues['Essence']) {
+                const essenceBonus = baseAlchemyValues['Essence'] * totalEffectMultiplier
+                alchemyValues['Essence'] = essenceBonus
+                alchmInfo['Alchemy Effects']['Total Essence'] += essenceBonus
 
-                if (alchemy_values['Spirit']) {
-                  alchemy_values['Night Alchemy'] = { Essence: essence_bonus }
-                  alchmInfo['Alchemy Effects']['Total Night Essence'] += essence_bonus
+                if (alchemyValues['Spirit']) {
+                  alchemyValues['Night Alchemy'] = { Essence: essenceBonus }
+                  alchmInfo['Alchemy Effects']['Total Night Essence'] += essenceBonus
                 } else {
-                  alchemy_values['Day Alchemy'] = { Essence: essence_bonus }
-                  alchmInfo['Alchemy Effects']['Total Day Essence'] += essence_bonus
+                  alchemyValues['Day Alchemy'] = { Essence: essenceBonus }
+                  alchmInfo['Alchemy Effects']['Total Day Essence'] += essenceBonus
                 }
               }
 
               // Matter - goes to Night Alchemy
-              if (base_alchemy_values['Matter']) {
-                const matter_bonus = base_alchemy_values['Matter'] * total_effect_multiplier
-                alchemy_values['Matter'] = matter_bonus
-                alchmInfo['Alchemy Effects']['Total Matter'] += matter_bonus
-                alchemy_values['Night Alchemy'] = { Matter: matter_bonus }
+              if (baseAlchemyValues['Matter']) {
+                const matterBonus = baseAlchemyValues['Matter'] * totalEffectMultiplier
+                alchemyValues['Matter'] = matterBonus
+                alchmInfo['Alchemy Effects']['Total Matter'] += matterBonus
+                alchemyValues['Night Alchemy'] = { Matter: matterBonus }
               }
 
               // Substance - goes to Night Alchemy
-              if (base_alchemy_values['Substance']) {
-                const substance_bonus = base_alchemy_values['Substance'] * total_effect_multiplier
-                alchemy_values['Substance'] = substance_bonus
-                alchmInfo['Alchemy Effects']['Total Substance'] += substance_bonus
-                alchemy_values['Night Alchemy'] = { Substance: substance_bonus }
+              if (baseAlchemyValues['Substance']) {
+                const substanceBonus = baseAlchemyValues['Substance'] * totalEffectMultiplier
+                alchemyValues['Substance'] = substanceBonus
+                alchmInfo['Alchemy Effects']['Total Substance'] += substanceBonus
+                alchemyValues['Night Alchemy'] = { Substance: substanceBonus }
               }
 
               // Store the planet's alchemy effects
-              alchmInfo['Planets'][planet]['Alchemy Effects'] = alchemy_values
+              alchmInfo['Planets'][planet]['Alchemy Effects'] = alchemyValues
             }
           }
         }
@@ -656,11 +656,11 @@ export function alchemize(
   alchmInfo['Dominant Element'] = getElementRanking(alchmInfo['Total Effect Value'])[1]
 
   // Calculate percentages for modalities
-  const total_planets = alchmInfo['# Cardinal'] + alchmInfo['# Fixed'] + alchmInfo['# Mutable']
-  if (total_planets > 0) {
-    alchmInfo['% Cardinal'] = alchmInfo['# Cardinal'] / total_planets
-    alchmInfo['% Fixed'] = alchmInfo['# Fixed'] / total_planets
-    alchmInfo['% Mutable'] = alchmInfo['# Mutable'] / total_planets
+  const totalPlanets = alchmInfo['# Cardinal'] + alchmInfo['# Fixed'] + alchmInfo['# Mutable']
+  if (totalPlanets > 0) {
+    alchmInfo['% Cardinal'] = alchmInfo['# Cardinal'] / totalPlanets
+    alchmInfo['% Fixed'] = alchmInfo['# Fixed'] / totalPlanets
+    alchmInfo['% Mutable'] = alchmInfo['# Mutable'] / totalPlanets
 
     // Determine dominant modality
     if (

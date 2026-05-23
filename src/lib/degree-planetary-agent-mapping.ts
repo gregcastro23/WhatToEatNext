@@ -290,6 +290,20 @@ export function getNatalPlanetaryAgents(
 
 // Helper functions
 
+// Exact exaltation degrees by planet (Ptolemaic / traditional). When a planet
+// transits within ORB of these degrees in its sign of exaltation, dignity is
+// at its absolute peak — stronger than the rest of the sign of exaltation.
+const EXACT_EXALTATION_DEGREE: Record<string, number> = {
+  Sun: 19, // Aries
+  Moon: 3, // Taurus
+  Jupiter: 15, // Cancer
+  Mercury: 15, // Virgo
+  Saturn: 21, // Libra
+  Mars: 28, // Capricorn
+  Venus: 27, // Pisces
+}
+const EXALTATION_ORB = 2 // ± degrees around the exact point that still count
+
 function getRulerDignity(
   ruler: string,
   sign: string,
@@ -297,12 +311,22 @@ function getRulerDignity(
 ): 'domicile' | 'exaltation' | 'detriment' | 'fall' | 'peregrine' {
   const signConfig = ZODIAC_SIGNS[sign as keyof typeof ZODIAC_SIGNS]
 
+  // Exaltation takes precedence over domicile when the planet is at its
+  // exact exaltation point — even if it also rules the sign (Mercury at 15°
+  // Virgo is the canonical case).
+  if (ruler === signConfig.exalted) {
+    const exact = EXACT_EXALTATION_DEGREE[ruler]
+    if (exact !== undefined && Math.abs(zodiacDegree - exact) <= EXALTATION_ORB) {
+      return 'exaltation'
+    }
+  }
+
   // Ruler is in its home sign (domicile)
   if (ruler === signConfig.ruler) {
     return 'domicile'
   }
 
-  // Check if ruler is exalted in this sign
+  // Ruler is in the sign of its exaltation, just not at the exact degree
   if (ruler === signConfig.exalted) {
     return 'exaltation'
   }

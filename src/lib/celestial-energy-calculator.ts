@@ -317,10 +317,10 @@ export class CelestialEnergyCalculator {
    */
   private calculateAlchemicalMetrics(sample: any, horoscope: HoroscopeData) {
     // Calculate A# (Alchemical Number) using advanced formula
-    const A_number = this.calculateAlchemicalNumber(sample, horoscope)
+    const aNumber = this.calculateAlchemicalNumber(sample, horoscope)
 
     return {
-      A_number,
+      A_number: aNumber,
       spirit: sample.spirit || 0,
       matter: sample.matter || 0,
       essence: sample.essence || 0,
@@ -339,7 +339,7 @@ export class CelestialEnergyCalculator {
     const Substance = sample.substance || 0
 
     // Base A# calculation
-    let A_number = Spirit + Matter + Essence + Substance
+    let aNumber = Spirit + Matter + Essence + Substance
 
     // Planetary amplifications
     const sunDegree = this.extractPlanetaryDegrees(horoscope)['Sun']
@@ -355,9 +355,9 @@ export class CelestialEnergyCalculator {
     const PHI = 1.618033988749
     const consciousnessEnhancement = (Spirit / (Matter + 1)) * PHI * 0.05
 
-    A_number = A_number * solarAmplification * lunarModulation + consciousnessEnhancement
+    aNumber = aNumber * solarAmplification * lunarModulation + consciousnessEnhancement
 
-    return Math.round(A_number * 1000) / 1000 // Round to 3 decimal places
+    return Math.round(aNumber * 1000) / 1000 // Round to 3 decimal places
   }
 
   /**

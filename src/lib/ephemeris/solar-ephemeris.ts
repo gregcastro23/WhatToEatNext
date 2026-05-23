@@ -129,19 +129,19 @@ export function calculateSolarPosition(date: Date): SolarPosition {
 
   // Mean anomaly of the Sun
   const M = 357.52911 + 35999.05029 * T - 0.0001537 * T2
-  const M_rad = (M * Math.PI) / 180
+  const mRad = (M * Math.PI) / 180
 
   // Eccentricity of Earth's orbit
   const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * T2
 
   // Sun's equation of center (accurate to 0.0001°)
   const C =
-    (1.914602 - 0.004817 * T - 0.000014 * T2) * Math.sin(M_rad) +
-    (0.019993 - 0.000101 * T) * Math.sin(2 * M_rad) +
-    0.000289 * Math.sin(3 * M_rad)
+    (1.914602 - 0.004817 * T - 0.000014 * T2) * Math.sin(mRad) +
+    (0.019993 - 0.000101 * T) * Math.sin(2 * mRad) +
+    0.000289 * Math.sin(3 * mRad)
 
   // True longitude of the Sun
-  const true_longitude = L0 + C
+  const trueLongitude = L0 + C
 
   // True anomaly
   const v = M + C
@@ -151,38 +151,38 @@ export function calculateSolarPosition(date: Date): SolarPosition {
 
   // Apparent longitude (including aberration)
   const aberration = -0.00569 - 0.00478 * Math.sin(((259.2 - 1934.134 * T) * Math.PI) / 180)
-  const apparent_longitude = normalizeDegrees(true_longitude + aberration)
+  const apparentLongitude = normalizeDegrees(trueLongitude + aberration)
 
   // Obliquity of the ecliptic
   const epsilon = 23.439291 - 0.0130042 * T - 0.00000016 * T2 + 0.000000504 * T3
-  const epsilon_rad = (epsilon * Math.PI) / 180
+  const epsilonRad = (epsilon * Math.PI) / 180
 
   // Right ascension and declination
-  const lambda_rad = (apparent_longitude * Math.PI) / 180
-  const alpha = Math.atan2(Math.cos(epsilon_rad) * Math.sin(lambda_rad), Math.cos(lambda_rad))
-  const delta = Math.asin(Math.sin(epsilon_rad) * Math.sin(lambda_rad))
+  const lambdaRad = (apparentLongitude * Math.PI) / 180
+  const alpha = Math.atan2(Math.cos(epsilonRad) * Math.sin(lambdaRad), Math.cos(lambdaRad))
+  const delta = Math.asin(Math.sin(epsilonRad) * Math.sin(lambdaRad))
 
   // Equation of time (in minutes)
-  const y = Math.tan(epsilon_rad / 2) ** 2
-  const eq_time =
+  const y = Math.tan(epsilonRad / 2) ** 2
+  const eqTime =
     (4 *
       (y * Math.sin((2 * L0 * Math.PI) / 180) -
-        2 * e * Math.sin(M_rad) +
-        4 * e * y * Math.sin(M_rad) * Math.cos((2 * L0 * Math.PI) / 180) -
+        2 * e * Math.sin(mRad) +
+        4 * e * y * Math.sin(mRad) * Math.cos((2 * L0 * Math.PI) / 180) -
         0.5 * y * y * Math.sin((4 * L0 * Math.PI) / 180) -
-        1.25 * e * e * Math.sin(2 * M_rad)) *
+        1.25 * e * e * Math.sin(2 * mRad)) *
       180) /
     Math.PI
 
   // Daily motion (approximate)
-  const daily_motion = 360 / 365.25 // More precise calculation would account for orbital position
+  const dailyMotion = 360 / 365.25 // More precise calculation would account for orbital position
 
   return {
-    longitude: apparent_longitude,
+    longitude: apparentLongitude,
     latitude: 0, // Sun's latitude is essentially 0
     distance: R,
-    speed: daily_motion * (1 / R ** 2), // Kepler's law adjustment
-    equation_of_time: eq_time,
+    speed: dailyMotion * (1 / R ** 2), // Kepler's law adjustment
+    equation_of_time: eqTime,
     declination: (delta * 180) / Math.PI,
     right_ascension: normalizeDegrees((alpha * 180) / Math.PI),
   }
@@ -193,18 +193,18 @@ export function calculateSolarPosition(date: Date): SolarPosition {
  */
 export function longitudeToZodiac(longitude: number): ZodiacPosition {
   const normalized = normalizeDegrees(longitude)
-  const sign_index = Math.floor(normalized / 30)
-  const degree_in_sign = normalized % 30
-  const minute_in_degree = (degree_in_sign % 1) * 60
-  const decan = Math.floor(degree_in_sign / 10) + 1
-  const sign = ZODIAC_SIGNS[sign_index]
+  const signIndex = Math.floor(normalized / 30)
+  const degreeInSign = normalized % 30
+  const minuteInDegree = (degreeInSign % 1) * 60
+  const decan = Math.floor(degreeInSign / 10) + 1
+  const sign = ZODIAC_SIGNS[signIndex]
 
   return {
     absolute_longitude: normalized,
     sign,
-    sign_index,
-    degree_in_sign,
-    minute_in_degree,
+    sign_index: signIndex,
+    degree_in_sign: degreeInSign,
+    minute_in_degree: minuteInDegree,
     decan,
     decan_ruler: DECAN_RULERS[sign as keyof typeof DECAN_RULERS][decan - 1],
   }
