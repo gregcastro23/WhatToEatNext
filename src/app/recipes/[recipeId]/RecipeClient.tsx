@@ -80,6 +80,13 @@ function formatTime(minutes: number | undefined): string {
   return mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
 }
 
+/** Strip a leading "Step 3:" / "3." / "3)" enumerator from instruction text.
+ * The instructions UI renders its own numbered badges, so an inline enumerator
+ * from the source would render as a double number. */
+function stripStepPrefix(text: string): string {
+  return text.replace(/^\s*(?:step\s*)?\d+\s*[:.)]\s*/i, "").trim();
+}
+
 function getTimeMinutes(recipe: Recipe): { prep: number; cook: number } {
   const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
   if (details?.prepTimeMinutes != null) {
@@ -245,7 +252,7 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
 
   text += `--- INSTRUCTIONS ---\n\n`;
   recipe.instructions.forEach((inst, i) => {
-    text += `${i + 1}. ${inst}\n\n`;
+    text += `${i + 1}. ${stripStepPrefix(inst)}\n\n`;
   });
 
   if (nutrition) {
@@ -501,95 +508,73 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }) {
     <SectionCard title="Alchemical Scores" icon={"\u2697\uFE0F"}>
       <div className="space-y-6">
 
-        {/* ── Ingredient-Summed A# ── */}
-        {hasIngASharp && (
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <span className="text-sm font-semibold text-white/80">A<sup className="text-amber-400">#</sup></span>
-                <span className="text-xs text-white/60 ml-2">Ingredient Sum</span>
+        {/* ── A# (Spirit + Essence + Matter + Substance) ──
+         *
+         * One number. Recipe ESMS is the sum of its ingredients' ESMS, so
+         * the recipe-level fields and `ingredientAlchemicalSummary.total*`
+         * are the same quantity — we prefer the summary source because it
+         * carries the per-ingredient match rate, falling back to the
+         * recipe-level fields when (e.g. a DB-sourced recipe) the summary
+         * isn't present. */}
+        {(hasASharp || hasIngASharp) && (() => {
+          const useSummary = hasIngASharp && !!ingAlch;
+          const value = useSummary ? ingTotalASharp : aSharp;
+          const segments = useSummary ? ingASharpSegments : aSharpSegments;
+          const componentValue = (prop: "Spirit" | "Essence" | "Matter" | "Substance") => {
+            if (useSummary && ingAlch) {
+              return prop === "Spirit" ? ingAlch.totalSpirit
+                : prop === "Essence" ? ingAlch.totalEssence
+                : prop === "Matter" ? ingAlch.totalMatter
+                : ingAlch.totalSubstance;
+            }
+            return prop === "Spirit" ? spirit
+              : prop === "Essence" ? essence
+              : prop === "Matter" ? matter
+              : substance;
+          };
+          return (
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-semibold text-white/80">
+                  A<sup className="text-amber-400">#</sup>
+                </span>
+                <span className="text-xs text-white/60 font-mono">
+                  Σ ingredients ={" "}
+                  <span className="text-amber-300 font-bold">{value.toFixed(2)}</span>
+                </span>
               </div>
-              <span className="text-xs text-white/60 font-mono">
-                Σ ingredients = <span className="text-amber-300 font-bold">{ingTotalASharp.toFixed(2)}</span>
-              </span>
-            </div>
 
-            <SegmentedDonut
-              segments={ingASharpSegments}
-              centerLabel={ingTotalASharp.toFixed(1)}
-              centerSublabel="A#"
-            />
+              <SegmentedDonut
+                segments={segments}
+                centerLabel={value.toFixed(1)}
+                centerSublabel="A#"
+              />
 
-            {/* Per-component totals */}
-            <div className="grid grid-cols-2 gap-1.5 mt-3">
-              {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
-                const val = prop === "Spirit" ? (ingAlch?.totalSpirit ?? 0)
-                  : prop === "Essence" ? (ingAlch?.totalEssence ?? 0)
-                  : prop === "Matter" ? (ingAlch?.totalMatter ?? 0)
-                  : (ingAlch?.totalSubstance ?? 0);
-                const cfg = ESMS_CONFIG[prop];
-                if (val === 0) return null;
-                return (
-                  <div key={prop} className="flex items-center gap-1.5 text-xs">
-                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
-                    <span className="text-white/60">{cfg.label}</span>
-                    <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Match rate indicator */}
-            {ingAlch && ingAlch.matchRate < 1 && (
-              <p className="text-xs text-white/60 mt-2">
-                {Math.round(ingAlch.matchRate * 100)}% of ingredients matched in alchemical database
-              </p>
-            )}
-          </div>
-        )}
-
-        {hasIngASharp && (hasASharp || hasMonicaDisplay) && (
-          <div className="border-t border-white/10" />
-        )}
-
-        {/* ── Planetary A# gauge ── */}
-        {hasASharp && (
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <span className="text-sm font-semibold text-white/80">A<sup className="text-amber-400">#</sup></span>
-                <span className="text-xs text-white/60 ml-2">Planetary</span>
+              <div className="grid grid-cols-2 gap-1.5 mt-3">
+                {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
+                  const val = componentValue(prop);
+                  const cfg = ESMS_CONFIG[prop];
+                  if (val === 0) return null;
+                  return (
+                    <div key={prop} className="flex items-center gap-1.5 text-xs">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
+                      <span className="text-white/60">{cfg.label}</span>
+                      <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
+                    </div>
+                  );
+                })}
               </div>
-              <span className="text-xs text-white/60 font-mono">
-                S+E+M+Sb = <span className="text-amber-300 font-bold">{aSharp.toFixed(2)}</span>
-              </span>
+
+              {useSummary && ingAlch && ingAlch.matchRate < 1 && (
+                <p className="text-xs text-white/60 mt-2">
+                  {Math.round(ingAlch.matchRate * 100)}% of ingredients matched in alchemical database
+                </p>
+              )}
             </div>
+          );
+        })()}
 
-            <SegmentedDonut
-              segments={aSharpSegments}
-              centerLabel={aSharp.toFixed(1)}
-              centerSublabel="A#"
-            />
-
-            {/* ESMS value row */}
-            <div className="grid grid-cols-2 gap-1.5 mt-3">
-              {(["Spirit", "Essence", "Matter", "Substance"] as const).map((prop) => {
-                const val = prop === "Spirit" ? spirit : prop === "Essence" ? essence : prop === "Matter" ? matter : substance;
-                const cfg = ESMS_CONFIG[prop];
-                if (val === 0) return null;
-                return (
-                  <div key={prop} className="flex items-center gap-1.5 text-xs">
-                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: cfg.color }} />
-                    <span className="text-white/60">{cfg.label}</span>
-                    <span className={`${cfg.text} font-semibold ml-auto`}>{val.toFixed(2)}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {hasASharp && hasMonicaDisplay && (
+        {(hasASharp || hasIngASharp) && hasMonicaDisplay && (
           <div className="border-t border-white/10" />
         )}
 
@@ -676,6 +661,7 @@ export interface RecipeClientProps {
 export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps) {
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
+  const [heroImageFailed, setHeroImageFailed] = useState(false);
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(null);
   const [selectedTechnique, setSelectedTechnique] = useState<string | null>(null);
   const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(null);
@@ -684,6 +670,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   useEffect(() => {
     setDietaryMode(null);
     setTimeBudget(null);
+    setHeroImageFailed(false);
   }, [recipe.id]);
 
   const adaptation = useMemo(() => {
@@ -775,12 +762,27 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const substitutions = getSubstitutions(recipe);
   const pairings = getPairingRecommendations(recipe);
 
+  const heroImageUrl =
+    (typeof recipe.image === "string" && recipe.image) ||
+    (typeof recipe.imageUrl === "string" && recipe.imageUrl) ||
+    "";
+  const showHeroImage = heroImageUrl.length > 0 && !heroImageFailed;
+
   return (
     <main className="min-h-screen bg-[#08080e] text-white">
       {/* ===== Hero Header ===== */}
       <div
         className="relative overflow-hidden"
       >
+        {showHeroImage && (
+          <img
+            src={heroImageUrl}
+            alt=""
+            aria-hidden="true"
+            onError={() => setHeroImageFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-amber-900/20 via-slate-950/80 to-slate-950" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(251,191,36,0.08),transparent_60%)]" />
         <div className="relative max-w-5xl mx-auto px-4 pt-8 pb-12 md:pt-12 md:pb-16">
@@ -907,7 +909,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 ${
                 copied
                   ? "bg-emerald-500/20 border border-emerald-500/50 text-emerald-300"
-                  : "bg-white/10/80 border border-white/10/50 text-white/80 hover:bg-white/10/80 hover:text-amber-300"
+                  : "bg-white/10 border border-white/10 text-white/80 hover:bg-white/20 hover:text-amber-300"
               }`}
             >
               {copied ? (
@@ -1050,7 +1052,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
                         )}
                         <p className="text-white/80 leading-relaxed pt-0.5">
                           <InteractiveInstruction
-                            text={instruction}
+                            text={stripStepPrefix(instruction)}
                             onTechniqueClick={setSelectedTechnique}
                           />
                         </p>

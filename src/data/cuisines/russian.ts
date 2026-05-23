@@ -188,7 +188,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":0.6,"Essence":1.33,"Matter":2.49,"Substance":2.06},
           thermodynamicProperties: {"heat":0.0084,"entropy":0.222,"reactivity":0.6974,"gregsEnergy":-0.1464,"kalchm":0.025,"monica":0.3156},
           substitutions: [{"originalIngredient":"roasted buckwheat groats","substituteOptions":["millet","whole oats","brown rice (longer cook time)"]},{"originalIngredient":"butter","substituteOptions":["ghee","cold-pressed sunflower oil (traditional vegan)"]}],
-            nutritionPerServing: {"calories":107,"proteinG":11,"carbsG":0,"fatG":7,"fiberG":0,"sodiumMg":310,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
+            nutritionPerServing: {"calories":107,"proteinG":11,"carbsG":0,"fatG":7,"fiberG":0,"sodiumMg":310,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
         },
         {
           name: "Blini",
@@ -222,7 +222,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":2.28,"Essence":4.39,"Matter":4.72,"Substance":4.44},
           thermodynamicProperties: {"heat":0.0257,"entropy":0.2711,"reactivity":1.7599,"gregsEnergy":-0.4514,"kalchm":0.0038,"monica":0.5952},
           substitutions: [{"originalIngredient":"buckwheat flour","substituteOptions":["all-purpose flour only (for white blini)","oat flour"]},{"originalIngredient":"smoked salmon","substituteOptions":["smetana and jam (sweet version)","mushroom pate (vegetarian)"]}],
-            nutritionPerServing: {"calories":34,"proteinG":4,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":195,"sugarG":0,"vitamins":["Vitamin B12","Vitamin D","Vitamin niacin","Vitamin B6","Vitamin pantothenic_acid","Vitamin thiamine"],"minerals":["Selenium","Phosphorus","Potassium"]}
+            nutritionPerServing: {"calories":240,"proteinG":11,"carbsG":26,"fatG":11,"fiberG":1,"sodiumMg":480,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Selenium","Phosphorus"]}
         },
         {
           name: "Oladi",
@@ -281,7 +281,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":5.92,"Essence":6.77,"Matter":7.53,"Substance":6.83},
           thermodynamicProperties: {"heat":0.0722,"entropy":0.3584,"reactivity":2.0845,"gregsEnergy":-0.6748,"kalchm":0.0078,"monica":0.3064},
           substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}],
-            nutritionPerServing: {"calories":421,"proteinG":42,"carbsG":5,"fatG":24,"fiberG":1,"sodiumMg":119,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
+            nutritionPerServing: {"calories":421,"proteinG":42,"carbsG":5,"fatG":24,"fiberG":1,"sodiumMg":119,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
         },
         {
           name: "Pelmeni",
@@ -296,7 +296,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":1.43,"Essence":3.12,"Matter":3.67,"Substance":3.08},
           thermodynamicProperties: {"heat":0.018,"entropy":0.2034,"reactivity":1.3278,"gregsEnergy":-0.2521,"kalchm":0.0154,"monica":0.5298},
           substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}],
-            nutritionPerServing: {"calories":63,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":15,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Magnesium","Manganese"]}
+            nutritionPerServing: {"calories":63,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":15,"sugarG":1,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Magnesium","Manganese"]}
         },
         {
           name: "Shchi",
@@ -311,7 +311,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":2.47,"Essence":2.75,"Matter":3.75,"Substance":3.44},
           thermodynamicProperties: {"heat":0.0526,"entropy":0.3418,"reactivity":1.6112,"gregsEnergy":-0.4982,"kalchm":0.0151,"monica":0.2598},
           substitutions: [{"originalIngredient":"Sauerkraut","substituteOptions":["Fresh cabbage (for Shchi iz svezhey kapusty)"]}],
-            nutritionPerServing: {"calories":66,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":19,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin A","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":66,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":19,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin A","Vitamin K","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Ukha",
@@ -326,7 +326,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":2.36,"Essence":2.42,"Matter":3.03,"Substance":2.84},
           thermodynamicProperties: {"heat":0.0661,"entropy":0.3496,"reactivity":2.0416,"gregsEnergy":-0.6476,"kalchm":0.1155,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Prized fish","substituteOptions":["Cod","Halibut"]}],
-            nutritionPerServing: {"calories":17,"proteinG":0,"carbsG":4,"fatG":0,"fiberG":1,"sodiumMg":5,"sugarG":2,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Potassium","Manganese"]}
+            nutritionPerServing: {"calories":17,"proteinG":0,"carbsG":4,"fatG":0,"fiberG":1,"sodiumMg":5,"sugarG":2,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin A","Vitamin K"],"minerals":["Potassium","Manganese"]}
         },
       ],
       winter: [
@@ -343,7 +343,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":3.17,"Essence":3.29,"Matter":3.1,"Substance":2.98},
           thermodynamicProperties: {"heat":0.1,"entropy":0.3895,"reactivity":2.7561,"gregsEnergy":-0.9734,"kalchm":2.2571,"monica":0.2598},
           substitutions: [{"originalIngredient":"Mixed cured meats","substituteOptions":["Mixed fish (for Fish Solyanka)","Wild mushrooms (for Mushroom Solyanka)"]}],
-            nutritionPerServing: {"calories":217,"proteinG":22,"carbsG":1,"fatG":13,"fiberG":0,"sodiumMg":60,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
+            nutritionPerServing: {"calories":217,"proteinG":22,"carbsG":1,"fatG":13,"fiberG":0,"sodiumMg":60,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
         },
       ],
     },
@@ -965,23 +965,7 @@ export const russian: Cuisine = {
                               "Waxing Gibbous"
                     ]
           },
-          "nutritionPerServing": {
-                    "calories": 280,
-                    "proteinG": 6,
-                    "carbsG": 45,
-                    "fatG": 10,
-                    "fiberG": 2,
-                    "sodiumMg": 300,
-                    "sugarG": 1,
-                    "vitamins": [
-                              "Vitamin B1",
-                              "Vitamin B2"
-                    ],
-                    "minerals": [
-                              "Iron",
-                              "Calcium"
-                    ]
-          },
+          "nutritionPerServing": {"calories":310,"proteinG":9,"carbsG":38,"fatG":13,"fiberG":2,"sodiumMg":410,"sugarG":4,"vitamins":["Vitamin A","Niacin","Vitamin B12"],"minerals":["Iron","Selenium","Phosphorus"]},
           "alchemicalProperties": {
                     "Spirit": 0.2,
                     "Essence": 0.5,
@@ -2015,23 +1999,7 @@ export const russian: Cuisine = {
               "New Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 380,
-            "proteinG": 18,
-            "carbsG": 45,
-            "fatG": 15,
-            "fiberG": 2,
-            "sodiumMg": 500,
-            "sugarG": 8,
-            "vitamins": [
-              "Vitamin D",
-              "B12"
-            ],
-            "minerals": [
-              "Calcium",
-              "Phosphorus"
-            ]
-          },
+          "nutritionPerServing": {"calories":200,"proteinG":7,"carbsG":28,"fatG":7,"fiberG":1,"sodiumMg":280,"sugarG":4,"vitamins":["Vitamin A","Vitamin B12","Vitamin D"],"minerals":["Calcium","Iron","Manganese"]},
           "alchemicalProperties": {
             "Spirit": 5,
             "Essence": 5,
@@ -2150,23 +2118,7 @@ export const russian: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 420,
-            "proteinG": 12,
-            "carbsG": 25,
-            "fatG": 32,
-            "fiberG": 4,
-            "sodiumMg": 750,
-            "sugarG": 5,
-            "vitamins": [
-              "Vitamin A",
-              "Vitamin K"
-            ],
-            "minerals": [
-              "Potassium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":390,"proteinG":9,"carbsG":22,"fatG":30,"fiberG":4,"sodiumMg":680,"sugarG":4,"vitamins":["Vitamin A","Vitamin C","Vitamin K","Folate"],"minerals":["Iron","Potassium","Selenium"]},
           "alchemicalProperties": {
             "Spirit": 2,
             "Essence": 4,
@@ -2196,7 +2148,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":2.17,"Essence":3.4,"Matter":4.56,"Substance":3.97},
           thermodynamicProperties: {"heat":0.031,"entropy":0.2884,"reactivity":1.365,"gregsEnergy":-0.3626,"kalchm":0.0014,"monica":0.8752},
           substitutions: [{"originalIngredient":"Beef tenderloin","substituteOptions":["Portobello mushrooms (vegetarian)"]}],
-            nutritionPerServing: {"calories":219,"proteinG":22,"carbsG":3,"fatG":13,"fiberG":0,"sodiumMg":60,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":219,"proteinG":22,"carbsG":3,"fatG":13,"fiberG":0,"sodiumMg":60,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Golubtsy",
@@ -2211,7 +2163,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":1.6,"Essence":3.23,"Matter":4.02,"Substance":3.57},
           thermodynamicProperties: {"heat":0.0193,"entropy":0.2429,"reactivity":1.3568,"gregsEnergy":-0.3104,"kalchm":0.0037,"monica":0.4654},
           substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushrooms and buckwheat (vegetarian)"]}],
-            nutritionPerServing: {"calories":126,"proteinG":12,"carbsG":5,"fatG":7,"fiberG":1,"sodiumMg":36,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Vitamin folate","Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin A"],"minerals":["Manganese","Potassium","Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
+            nutritionPerServing: {"calories":126,"proteinG":12,"carbsG":5,"fatG":7,"fiberG":1,"sodiumMg":36,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Folate","Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin A"],"minerals":["Manganese","Potassium","Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
         },
         {
           name: "Kotlety",
@@ -2226,7 +2178,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":1.66,"Essence":2.89,"Matter":3.57,"Substance":3.06},
           thermodynamicProperties: {"heat":0.0278,"entropy":0.2493,"reactivity":1.3434,"gregsEnergy":-0.3071,"kalchm":0.0173,"monica":0.5486},
           substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Ground chicken","Ground turkey"]}],
-            nutritionPerServing: {"calories":64,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":16,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":64,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":16,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Olivier Salad",
@@ -2359,7 +2311,7 @@ export const russian: Cuisine = {
               alchemicalProperties: {"Spirit":3.67,"Essence":3.11,"Matter":3.68,"Substance":3.55},
               thermodynamicProperties: {"heat":0.1057,"entropy":0.4469,"reactivity":2.0034,"gregsEnergy":-0.7896,"kalchm":0.3708,"monica":0.0922},
               substitutions: [{"originalIngredient":"sauerkraut","substituteOptions":["fresh shredded cabbage marinated in vinegar","pickled red cabbage"]},{"originalIngredient":"sunflower oil","substituteOptions":["light olive oil","rapeseed oil"]}],
-                nutritionPerServing: {"calories":25,"proteinG":0,"carbsG":4,"fatG":1,"fiberG":1,"sodiumMg":6,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B6","Vitamin folate","Vitamin 0"],"minerals":["Potassium","Manganese","Iron","Calcium"]}
+                nutritionPerServing: {"calories":25,"proteinG":0,"carbsG":4,"fatG":1,"fiberG":1,"sodiumMg":6,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Manganese","Iron","Calcium"]}
             },
             {
               name: "Pirozhki",
@@ -2395,7 +2347,7 @@ export const russian: Cuisine = {
               alchemicalProperties: {"Spirit":3.37,"Essence":5.32,"Matter":6.07,"Substance":5.25},
               thermodynamicProperties: {"heat":0.0381,"entropy":0.2714,"reactivity":1.6092,"gregsEnergy":-0.3987,"kalchm":0.0013,"monica":1.4238},
               substitutions: [{"originalIngredient":"ground beef","substituteOptions":["braised cabbage with hard-boiled egg (vegetarian)","mashed potato and cheese","sauteed mushrooms with onion"]},{"originalIngredient":"all-purpose flour","substituteOptions":["half whole wheat flour for a nuttier dough"]}],
-                nutritionPerServing: {"calories":34,"proteinG":3,"carbsG":2,"fatG":2,"fiberG":0,"sodiumMg":8,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+                nutritionPerServing: {"calories":34,"proteinG":3,"carbsG":2,"fatG":2,"fiberG":0,"sodiumMg":8,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
             },
             {
               name: "Medovik",
@@ -2462,7 +2414,7 @@ export const russian: Cuisine = {
               alchemicalProperties: {"Spirit":2.77,"Essence":3.84,"Matter":5.55,"Substance":4.76},
               thermodynamicProperties: {"heat":0.0337,"entropy":0.2894,"reactivity":1.3264,"gregsEnergy":-0.3501,"kalchm":0.0001,"monica":0.528},
               substitutions: [{"originalIngredient":"kvas","substituteOptions":["kefir thinned with water and lemon juice","sparkling mineral water with sour cream base only"]},{"originalIngredient":"boiled beef","substituteOptions":["cooked chicken breast","smoked salmon"]}],
-                nutritionPerServing: {"calories":39,"proteinG":1,"carbsG":9,"fatG":0,"fiberG":2,"sodiumMg":3,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate"],"minerals":["Potassium","Manganese"]}
+                nutritionPerServing: {"calories":39,"proteinG":1,"carbsG":9,"fatG":0,"fiberG":2,"sodiumMg":3,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Manganese"]}
             },
             {
               name: "Rassolnik",
@@ -2498,7 +2450,7 @@ export const russian: Cuisine = {
               alchemicalProperties: {"Spirit":3.17,"Essence":4.76,"Matter":5.55,"Substance":4.93},
               thermodynamicProperties: {"heat":0.0386,"entropy":0.2785,"reactivity":1.6738,"gregsEnergy":-0.4275,"kalchm":0.0019,"monica":0.3064},
               substitutions: [{"originalIngredient":"beef kidney","substituteOptions":["beef chuck (milder)","chicken thighs","pork ribs"]},{"originalIngredient":"pearl barley","substituteOptions":["brown rice","whole wheat berries"]}],
-                nutritionPerServing: {"calories":63,"proteinG":4,"carbsG":7,"fatG":2,"fiberG":2,"sodiumMg":16,"sugarG":4,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin 0","Vitamin 1","Vitamin C","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","0","1","Potassium","Manganese"]}
+                nutritionPerServing: {"calories":63,"proteinG":4,"carbsG":7,"fatG":2,"fiberG":2,"sodiumMg":16,"sugarG":4,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
             },
             {
               name: "Plov",
@@ -2535,7 +2487,7 @@ export const russian: Cuisine = {
               alchemicalProperties: {"Spirit":4.41,"Essence":4.24,"Matter":4.77,"Substance":4.25},
               thermodynamicProperties: {"heat":0.1003,"entropy":0.4073,"reactivity":2.0812,"gregsEnergy":-0.7473,"kalchm":0.3934,"monica":0.6596},
               substitutions: [{"originalIngredient":"bone-in lamb","substituteOptions":["beef chuck","chicken thighs (shorter cook time)"]},{"originalIngredient":"devzira or basmati rice","substituteOptions":["jasmine rice"]}],
-                nutritionPerServing: {"calories":368,"proteinG":46,"carbsG":10,"fatG":15,"fiberG":2,"sodiumMg":120,"sugarG":4,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin A","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Calcium"]}
+                nutritionPerServing: {"calories":368,"proteinG":46,"carbsG":10,"fatG":15,"fiberG":2,"sodiumMg":120,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Vitamin A","Vitamin K","Vitamin C","Folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Calcium"]}
             }
         ],
       winter: [
@@ -2552,7 +2504,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":3.39,"Essence":3.77,"Matter":4.81,"Substance":4.4},
           thermodynamicProperties: {"heat":0.0607,"entropy":0.3588,"reactivity":1.6654,"gregsEnergy":-0.5369,"kalchm":0.0072,"monica":0.9218},
           substitutions: [{"originalIngredient":"beef chuck or pork shoulder","substituteOptions":["lamb shoulder","venison stew meat"]},{"originalIngredient":"tomato paste","substituteOptions":["fresh tomatoes, diced","adjika (Georgian chili paste) for a spicier version"]}],
-            nutritionPerServing: {"calories":242,"proteinG":21,"carbsG":11,"fatG":13,"fiberG":2,"sodiumMg":64,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin A","Vitamin K","Vitamin C","Vitamin folate","Vitamin 0"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":242,"proteinG":21,"carbsG":11,"fatG":13,"fiberG":2,"sodiumMg":64,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin A","Vitamin K","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
       ],
     },
@@ -2649,7 +2601,7 @@ export const russian: Cuisine = {
           alchemicalProperties: {"Spirit":1.43,"Essence":3.12,"Matter":3.67,"Substance":3.08},
           thermodynamicProperties: {"heat":0.018,"entropy":0.2034,"reactivity":1.3278,"gregsEnergy":-0.2521,"kalchm":0.0154,"monica":0.5298},
           substitutions: [{"originalIngredient":"Pork/beef mix","substituteOptions":["Mushroom and potato (Vareniki)"]}],
-            nutritionPerServing: {"calories":63,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":15,"sugarG":1,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Magnesium","Manganese"]}
+            nutritionPerServing: {"calories":63,"proteinG":6,"carbsG":3,"fatG":3,"fiberG":0,"sodiumMg":15,"sugarG":1,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Magnesium","Manganese"]}
         },
       ],
     },

@@ -301,7 +301,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":1.69,"Essence":1.66,"Matter":1.79,"Substance":1.71},
           thermodynamicProperties: {"heat":0.0815,"entropy":0.3385,"reactivity":1.8089,"gregsEnergy":-0.5308,"kalchm":0.7934,"monica":0.4188},
           substitutions: [{"originalIngredient":"Black bean purée","substituteOptions":["Pinto bean purée"]}],
-            nutritionPerServing: {"calories":13,"proteinG":0,"carbsG":3,"fatG":0,"fiberG":1,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate"],"minerals":["Potassium","Manganese"]}
+            nutritionPerServing: {"calories":13,"proteinG":0,"carbsG":3,"fatG":0,"fiberG":1,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Manganese"]}
         },
         {
           name: "Huevos Motuleños",
@@ -352,7 +352,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.34,"Essence":3.13,"Matter":3.1,"Substance":2.94},
           thermodynamicProperties: {"heat":0.0548,"entropy":0.2862,"reactivity":2.2315,"gregsEnergy":-0.5839,"kalchm":0.3272,"monica":-0.0188},
           substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}],
-            nutritionPerServing: {"calories":67,"proteinG":8,"carbsG":7,"fatG":1,"fiberG":2,"sodiumMg":29,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin A","Vitamin K","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","0","1"]}
+            nutritionPerServing: {"calories":67,"proteinG":8,"carbsG":7,"fatG":1,"fiberG":2,"sodiumMg":29,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin A","Vitamin K","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -369,7 +369,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.44,"Essence":3.13,"Matter":2.72,"Substance":2.68},
           thermodynamicProperties: {"heat":0.0761,"entropy":0.3373,"reactivity":3.0426,"gregsEnergy":-0.9503,"kalchm":1.4684,"monica":0.4376},
           substitutions: [{"originalIngredient":"Raw shrimp","substituteOptions":["Scallops","Cauliflower (for vegan)"]}],
-            nutritionPerServing: {"calories":64,"proteinG":11,"carbsG":5,"fatG":1,"fiberG":1,"sodiumMg":1310,"sugarG":2,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin C","Vitamin B6","Vitamin folate"],"minerals":["Selenium","Phosphorus","Potassium","Manganese","Magnesium","Calcium"]}
+            nutritionPerServing: {"calories":64,"proteinG":11,"carbsG":5,"fatG":1,"fiberG":1,"sodiumMg":1310,"sugarG":2,"vitamins":["Vitamin B12","Niacin","Vitamin C","Vitamin B6","Folate"],"minerals":["Selenium","Phosphorus","Potassium","Manganese","Magnesium","Calcium"]}
         },
       ],
       winter: [
@@ -2293,7 +2293,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":3.43,"Essence":4.47,"Matter":4.88,"Substance":4.69},
           thermodynamicProperties: {"heat":0.0546,"entropy":0.342,"reactivity":1.9327,"gregsEnergy":-0.6065,"kalchm":0.0172,"monica":1.0328},
           substitutions: [{"originalIngredient":"Poached chicken","substituteOptions":["Turkey","Enchilada filling"]}],
-            nutritionPerServing: {"calories":176,"proteinG":27,"carbsG":8,"fatG":3,"fiberG":1,"sodiumMg":66,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin A","Vitamin K","Vitamin folate","Vitamin niacin","Vitamin B12"],"minerals":["Potassium","Magnesium","Manganese","Selenium","Phosphorus","Zinc"]}
+            nutritionPerServing: {"calories":176,"proteinG":27,"carbsG":8,"fatG":3,"fiberG":1,"sodiumMg":66,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin A","Vitamin K","Folate","Niacin","Vitamin B12"],"minerals":["Potassium","Magnesium","Manganese","Selenium","Phosphorus","Zinc"]}
         },
         {
           name: "Chiles en Nogada",
@@ -2308,7 +2308,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.42,"Essence":4.31,"Matter":3.55,"Substance":3.34},
           thermodynamicProperties: {"heat":0.0405,"entropy":0.2358,"reactivity":2.2889,"gregsEnergy":-0.4992,"kalchm":0.9137,"monica":0.8272},
           substitutions: [{"originalIngredient":"Ground pork/beef","substituteOptions":["Lentils and mushrooms (vegetarian)"]}],
-            nutritionPerServing: {"calories":100,"proteinG":6,"carbsG":12,"fatG":4,"fiberG":2,"sodiumMg":16,"sugarG":9,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":100,"proteinG":6,"carbsG":12,"fatG":4,"fiberG":2,"sodiumMg":16,"sugarG":9,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin K","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Cochinita Pibil",
@@ -2323,7 +2323,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.63,"Essence":2.88,"Matter":2.82,"Substance":2.5},
           thermodynamicProperties: {"heat":0.0899,"entropy":0.3349,"reactivity":2.0858,"gregsEnergy":-0.6086,"kalchm":1.4554,"monica":0.2511},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}],
-            nutritionPerServing: {"calories":163,"proteinG":13,"carbsG":15,"fatG":6,"fiberG":3,"sodiumMg":26,"sugarG":9,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Magnesium","Manganese"]}
+            nutritionPerServing: {"calories":163,"proteinG":13,"carbsG":15,"fatG":6,"fiberG":3,"sodiumMg":26,"sugarG":9,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Magnesium","Manganese"]}
         },
         {
           name: "Birria",
@@ -2338,7 +2338,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.81,"Essence":3.17,"Matter":3.34,"Substance":3.15},
           thermodynamicProperties: {"heat":0.0777,"entropy":0.3668,"reactivity":2.3148,"gregsEnergy":-0.7713,"kalchm":0.339,"monica":0.4842},
           substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Goat","Lamb"]}],
-            nutritionPerServing: {"calories":133,"proteinG":11,"carbsG":7,"fatG":7,"fiberG":1,"sodiumMg":31,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":133,"proteinG":11,"carbsG":7,"fatG":7,"fiberG":1,"sodiumMg":31,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin K","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Tamales Verdes",
@@ -2353,7 +2353,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":1.44,"Essence":2.39,"Matter":3.48,"Substance":3.34},
           thermodynamicProperties: {"heat":0.0204,"entropy":0.3076,"reactivity":1.2675,"gregsEnergy":-0.3695,"kalchm":0.0032,"monica":-0.2064},
           substitutions: [{"originalIngredient":"Pork lard","substituteOptions":["Vegetable shortening (for vegan)"]}],
-            nutritionPerServing: {"calories":95,"proteinG":16,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":37,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
+            nutritionPerServing: {"calories":95,"proteinG":16,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":37,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium"]}
         },
             {
               "name": "Authentic Pozole Rojo",
@@ -2795,7 +2795,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.63,"Essence":2.88,"Matter":2.82,"Substance":2.5},
           thermodynamicProperties: {"heat":0.0899,"entropy":0.3349,"reactivity":2.0858,"gregsEnergy":-0.6086,"kalchm":1.4554,"monica":0.2511},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken (Pollo Pibil)","Jackfruit"]}],
-            nutritionPerServing: {"calories":163,"proteinG":13,"carbsG":15,"fatG":6,"fiberG":3,"sodiumMg":26,"sugarG":9,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Magnesium","Manganese"]}
+            nutritionPerServing: {"calories":163,"proteinG":13,"carbsG":15,"fatG":6,"fiberG":3,"sodiumMg":26,"sugarG":9,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Calcium","Magnesium","Manganese"]}
         },
         {
           name: "Mole Negro",
@@ -2810,7 +2810,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":3.5,"Essence":4.1,"Matter":4.67,"Substance":4.5},
           thermodynamicProperties: {"heat":0.0639,"entropy":0.3757,"reactivity":1.9636,"gregsEnergy":-0.6738,"kalchm":0.0225,"monica":1.0328},
           substitutions: [{"originalIngredient":"Chicken","substituteOptions":["Turkey","Duck"]},{"originalIngredient":"Mexican chocolate","substituteOptions":["Dark chocolate plus cinnamon"]}],
-            nutritionPerServing: {"calories":211,"proteinG":35,"carbsG":6,"fatG":4,"fiberG":1,"sodiumMg":85,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6","Vitamin A","Vitamin folate","Vitamin niacin","Vitamin B12"],"minerals":["Potassium","Magnesium","Manganese","Selenium","Phosphorus","Zinc"]}
+            nutritionPerServing: {"calories":211,"proteinG":35,"carbsG":6,"fatG":4,"fiberG":1,"sodiumMg":85,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6","Vitamin A","Folate","Niacin","Vitamin B12"],"minerals":["Potassium","Magnesium","Manganese","Selenium","Phosphorus","Zinc"]}
         },
         {
           name: "Birria de Res",
@@ -2825,7 +2825,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":3.55,"Essence":4.65,"Matter":4.85,"Substance":4.5},
           thermodynamicProperties: {"heat":0.0587,"entropy":0.323,"reactivity":2.1029,"gregsEnergy":-0.6206,"kalchm":0.0619,"monica":0.5308},
           substitutions: [{"originalIngredient":"Beef chuck","substituteOptions":["Lamb shoulder","Goat meat"]},{"originalIngredient":"Ancho chilies","substituteOptions":["Poblano dried","Dried New Mexico chilies"]}],
-            nutritionPerServing: {"calories":424,"proteinG":42,"carbsG":8,"fatG":24,"fiberG":1,"sodiumMg":116,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":424,"proteinG":42,"carbsG":8,"fatG":24,"fiberG":1,"sodiumMg":116,"sugarG":5,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Pozole Rojo",
@@ -2840,7 +2840,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":3.56,"Essence":3.86,"Matter":4.01,"Substance":3.69},
           thermodynamicProperties: {"heat":0.0849,"entropy":0.3634,"reactivity":2.2289,"gregsEnergy":-0.7252,"kalchm":0.5205,"monica":0.1388},
           substitutions: [{"originalIngredient":"Pork shoulder","substituteOptions":["Chicken thighs","Beef chuck"]},{"originalIngredient":"Hominy","substituteOptions":["Canned white corn (texture differs)"]}],
-            nutritionPerServing: {"calories":299,"proteinG":32,"carbsG":4,"fatG":17,"fiberG":0,"sodiumMg":68,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":299,"proteinG":32,"carbsG":4,"fatG":17,"fiberG":0,"sodiumMg":68,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Chiles Rellenos",
@@ -2855,7 +2855,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.9,"Essence":3.55,"Matter":2.96,"Substance":2.78},
           thermodynamicProperties: {"heat":0.0864,"entropy":0.3314,"reactivity":2.7218,"gregsEnergy":-0.8155,"kalchm":4.6216,"monica":1.3128},
           substitutions: [{"originalIngredient":"Oaxacan cheese","substituteOptions":["Mozzarella","Monterey Jack","Chihuahua cheese"]},{"originalIngredient":"Poblano peppers","substituteOptions":["Anaheim peppers (milder)"]}],
-            nutritionPerServing: {"calories":101,"proteinG":1,"carbsG":6,"fatG":8,"fiberG":1,"sodiumMg":6,"sugarG":4,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Vitamin folate","Vitamin B6"],"minerals":["Potassium","Manganese","Selenium"]}
+            nutritionPerServing: {"calories":101,"proteinG":1,"carbsG":6,"fatG":8,"fiberG":1,"sodiumMg":6,"sugarG":4,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Folate","Vitamin B6"],"minerals":["Potassium","Manganese","Selenium"]}
         },
         {
           name: "Enfrijoladas",
@@ -2870,7 +2870,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.8,"Essence":3.27,"Matter":4.02,"Substance":3.81},
           thermodynamicProperties: {"heat":0.0551,"entropy":0.3463,"reactivity":1.6602,"gregsEnergy":-0.5199,"kalchm":0.0196,"monica":0.5298},
           substitutions: [{"originalIngredient":"Black beans","substituteOptions":["Pinto beans","Bayo beans"]},{"originalIngredient":"Queso fresco","substituteOptions":["Cotija","Feta cheese"]}],
-            nutritionPerServing: {"calories":13,"proteinG":0,"carbsG":3,"fatG":0,"fiberG":1,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate"],"minerals":["Potassium","Manganese"]}
+            nutritionPerServing: {"calories":13,"proteinG":0,"carbsG":3,"fatG":0,"fiberG":1,"sodiumMg":1,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Folate"],"minerals":["Potassium","Manganese"]}
         },
         {
           name: "Agua de Horchata",
@@ -2885,7 +2885,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":1.86,"Essence":3.38,"Matter":2.59,"Substance":2.25},
           thermodynamicProperties: {"heat":0.0417,"entropy":0.1864,"reactivity":2.2513,"gregsEnergy":-0.3779,"kalchm":2.6679,"monica":0.2861},
           substitutions: [{"originalIngredient":"Almonds","substituteOptions":["Cashews","Tiger nuts (authentic Mexican variation)"]},{"originalIngredient":"Dairy milk","substituteOptions":["Oat milk","Coconut milk"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+            nutritionPerServing: {"calories":180,"proteinG":3,"carbsG":38,"fatG":3,"fiberG":1,"sodiumMg":90,"sugarG":32,"vitamins":["Vitamin D"],"minerals":["Calcium","Manganese"]}
         },
         {
           name: "Sopa de Lima",
@@ -2900,7 +2900,7 @@ export const mexican = {
           alchemicalProperties: {"Spirit":2.47,"Essence":4.2,"Matter":3.26,"Substance":2.9},
           thermodynamicProperties: {"heat":0.0493,"entropy":0.2216,"reactivity":2.7077,"gregsEnergy":-0.5507,"kalchm":3.746,"monica":0.8564},
           substitutions: [{"originalIngredient":"Yucatecan lima","substituteOptions":["Key limes","Regular limes plus a strip of bergamot zest"]},{"originalIngredient":"Habanero","substituteOptions":["Scotch bonnet","Serrano pepper"]}],
-            nutritionPerServing: {"calories":55,"proteinG":6,"carbsG":6,"fatG":1,"fiberG":2,"sodiumMg":15,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin 0","Vitamin 1","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Selenium","Phosphorus","Zinc","0","1","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":55,"proteinG":6,"carbsG":6,"fatG":1,"fiberG":2,"sodiumMg":15,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate","Vitamin K","Vitamin A"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
         },
       ],
     },
@@ -3023,7 +3023,7 @@ export const mexican = {
         alchemicalProperties: {"Spirit":2.34,"Essence":3.13,"Matter":3.1,"Substance":2.94},
         thermodynamicProperties: {"heat":0.0548,"entropy":0.2862,"reactivity":2.2315,"gregsEnergy":-0.5839,"kalchm":0.3272,"monica":-0.0188},
         substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Beef shank (for Caldo de Res)"]}],
-          nutritionPerServing: {"calories":67,"proteinG":8,"carbsG":7,"fatG":1,"fiberG":2,"sodiumMg":29,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin A","Vitamin K","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","0","1"]}
+          nutritionPerServing: {"calories":67,"proteinG":8,"carbsG":7,"fatG":1,"fiberG":2,"sodiumMg":29,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin A","Vitamin K","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
     },
       {
         name: "Elote",

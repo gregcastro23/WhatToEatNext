@@ -2958,7 +2958,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.23,"Essence":1.69,"Matter":1.53,"Substance":1.42},
           thermodynamicProperties: {"heat":0.0496,"entropy":0.2138,"reactivity":2.0008,"gregsEnergy":-0.3782,"kalchm":0.9929,"monica":-0.0188},
           substitutions: [{"originalIngredient":"silken tofu","substituteOptions":["abura-age (fried tofu pouches)","nameko mushrooms"]},{"originalIngredient":"wakame seaweed","substituteOptions":["spinach","shredded napa cabbage"]}],
-            nutritionPerServing: {"calories":3,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":1,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":85,"proteinG":6,"carbsG":9,"fatG":3,"fiberG":2,"sodiumMg":870,"sugarG":2,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Calcium","Manganese","Magnesium"]}
         },
         {
           name: "Yakisoba (Stir-Fried Noodles)",
@@ -2989,7 +2989,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.58,"Essence":3.28,"Matter":3.9,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0524,"entropy":0.3438,"reactivity":1.7892,"gregsEnergy":-0.5628,"kalchm":0.0261,"monica":0.2786},
           substitutions: [{"originalIngredient":"pork belly","substituteOptions":["chicken thigh","shrimp","firm tofu"]},{"originalIngredient":"yakisoba noodles","substituteOptions":["ramen noodles","udon noodles"]}],
-            nutritionPerServing: {"calories":219,"proteinG":19,"carbsG":11,"fatG":11,"fiberG":3,"sodiumMg":60,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
+            nutritionPerServing: {"calories":219,"proteinG":19,"carbsG":11,"fatG":11,"fiberG":3,"sodiumMg":60,"sugarG":4,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Folate","Vitamin A"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
         {
           name: "Takoyaki (Octopus Balls)",
@@ -3022,7 +3022,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":3.86,"Essence":4.54,"Matter":3.78,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0946,"entropy":0.3585,"reactivity":3.0116,"gregsEnergy":-0.9852,"kalchm":10.7617,"monica":0.4376},
           substitutions: [{"originalIngredient":"cooked octopus (tako)","substituteOptions":["shrimp","squid","melting cheese (for cheese takoyaki)"]},{"originalIngredient":"tenkasu (tempura scraps)","substituteOptions":["corn","pickled daikon"]}],
-            nutritionPerServing: {"calories":26,"proteinG":0,"carbsG":4,"fatG":1,"fiberG":1,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate","Vitamin B6","Vitamin C"],"minerals":["Iron","Manganese","Magnesium","Potassium"]}
+            nutritionPerServing: {"calories":26,"proteinG":0,"carbsG":4,"fatG":1,"fiberG":1,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Folate","Vitamin B6","Vitamin C"],"minerals":["Iron","Manganese","Magnesium","Potassium"]}
         },
         {
           name: "Zaru Soba (Cold Buckwheat Noodles)",
@@ -3050,7 +3050,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.11,"Essence":2.6,"Matter":2.28,"Substance":2.14},
           thermodynamicProperties: {"heat":0.0701,"entropy":0.2807,"reactivity":2.316,"gregsEnergy":-0.58,"kalchm":1.7378,"monica":-0.0188},
           substitutions: [{"originalIngredient":"dried soba noodles","substituteOptions":["udon noodles (for zaru udon)","rice noodles"]},{"originalIngredient":"mentsuyu dipping sauce","substituteOptions":["homemade soy sauce, mirin, and dashi blend"]}],
-            nutritionPerServing: {"calories":8,"proteinG":0,"carbsG":2,"fatG":0,"fiberG":1,"sodiumMg":3,"sugarG":1,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":8,"proteinG":0,"carbsG":2,"fatG":0,"fiberG":1,"sodiumMg":3,"sugarG":1,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Manganese"]}
         },
         {
           name: "Gyudon (Beef Rice Bowl)",
@@ -3081,7 +3081,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":3.16,"Essence":3.73,"Matter":4.21,"Substance":3.86},
           thermodynamicProperties: {"heat":0.0631,"entropy":0.334,"reactivity":1.8742,"gregsEnergy":-0.5629,"kalchm":0.0659,"monica":-0.0188},
           substitutions: [{"originalIngredient":"thinly sliced beef ribeye or chuck","substituteOptions":["pork belly (for butadon)","chicken thigh (for toriniku don)"]},{"originalIngredient":"dashi stock","substituteOptions":["chicken broth","water with kombu"]}],
-            nutritionPerServing: {"calories":348,"proteinG":34,"carbsG":6,"fatG":20,"fiberG":1,"sodiumMg":92,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":348,"proteinG":34,"carbsG":6,"fatG":20,"fiberG":1,"sodiumMg":92,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Ochazuke (Tea Over Rice)",
@@ -3111,7 +3111,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.38,"Essence":3.85,"Matter":3.65,"Substance":3.42},
           thermodynamicProperties: {"heat":0.0406,"entropy":0.2523,"reactivity":2.08,"gregsEnergy":-0.4842,"kalchm":0.1869,"monica":0.8752},
           substitutions: [{"originalIngredient":"hot green tea (sencha or hojicha)","substituteOptions":["hot dashi","hot kombu water"]},{"originalIngredient":"umeboshi (pickled plum)","substituteOptions":["salted cod roe (mentaiko)","pickled daikon"]}],
-            nutritionPerServing: {"calories":77,"proteinG":4,"carbsG":11,"fatG":2,"fiberG":1,"sodiumMg":8,"sugarG":10,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin B12","Vitamin D","Vitamin niacin","Vitamin B6","Vitamin pantothenic_acid","Vitamin thiamine"],"minerals":["0","1","Selenium","Phosphorus","Potassium"]}
+            nutritionPerServing: {"calories":77,"proteinG":4,"carbsG":11,"fatG":2,"fiberG":1,"sodiumMg":8,"sugarG":10,"vitamins":["Vitamin B12","Vitamin D","Niacin","Vitamin B6","Vitamin pantothenic_acid","Thiamin"],"minerals":["Selenium","Phosphorus","Potassium"]}
         },
         {
           name: "Tamago Kake Gohan (Raw Egg Over Rice)",
@@ -3172,7 +3172,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.83,"Essence":3.89,"Matter":5.36,"Substance":5.03},
           thermodynamicProperties: {"heat":0.0351,"entropy":0.33,"reactivity":1.4927,"gregsEnergy":-0.4576,"kalchm":0.0001,"monica":0.0278},
           substitutions: [{"originalIngredient":"thinly sliced beef","substituteOptions":["pork belly (more traditional in Osaka)","chicken thigh"]},{"originalIngredient":"shirataki noodles","substituteOptions":["snap peas","green beans"]}],
-            nutritionPerServing: {"calories":207,"proteinG":17,"carbsG":4,"fatG":13,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":207,"proteinG":17,"carbsG":4,"fatG":13,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Folate","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
       ],
       winter: [
@@ -3324,7 +3324,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.51,"Essence":2.52,"Matter":2.97,"Substance":2.95},
           thermodynamicProperties: {"heat":0.0277,"entropy":0.2932,"reactivity":1.8137,"gregsEnergy":-0.5041,"kalchm":0.031,"monica":0.009},
           substitutions: [{"originalIngredient":"Chashu pork","substituteOptions":["Braised tofu","Roasted chicken"]}],
-            nutritionPerServing: {"calories":825,"proteinG":92,"carbsG":0,"fatG":48,"fiberG":0,"sodiumMg":192,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":825,"proteinG":92,"carbsG":0,"fatG":48,"fiberG":0,"sodiumMg":192,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin K","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -3341,7 +3341,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.31,"Essence":2.42,"Matter":2.17,"Substance":2.25},
           thermodynamicProperties: {"heat":0.0396,"entropy":0.299,"reactivity":2.3171,"gregsEnergy":-0.6531,"kalchm":0.363,"monica":0.4376},
           substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Pork belly","Shiitake mushrooms"]}],
-            nutritionPerServing: {"calories":139,"proteinG":24,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":62,"sugarG":1,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin K","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Iron","Manganese"]}
+            nutritionPerServing: {"calories":139,"proteinG":24,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":62,"sugarG":1,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin K","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Iron","Manganese"]}
         },
         {
           name: "Oyakodon (Chicken and Egg Rice Bowl)",
@@ -3373,7 +3373,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":3.04,"Essence":4.17,"Matter":4.13,"Substance":3.96},
           thermodynamicProperties: {"heat":0.0539,"entropy":0.3047,"reactivity":2.1178,"gregsEnergy":-0.5914,"kalchm":0.139,"monica":-0.0188},
           substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["salmon (for sake don)","ground pork"]},{"originalIngredient":"mitsuba","substituteOptions":["scallions","shiso leaves"]}],
-            nutritionPerServing: {"calories":270,"proteinG":47,"carbsG":5,"fatG":5,"fiberG":1,"sodiumMg":113,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
+            nutritionPerServing: {"calories":270,"proteinG":47,"carbsG":5,"fatG":5,"fiberG":1,"sodiumMg":113,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate","Vitamin K"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese","Iron"]}
         },
         {
           name: "Okonomiyaki",
@@ -3388,7 +3388,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.68,"Essence":3.38,"Matter":3.61,"Substance":3.46},
           thermodynamicProperties: {"heat":0.0585,"entropy":0.3389,"reactivity":1.9597,"gregsEnergy":-0.6056,"kalchm":0.1141,"monica":0.8752},
           substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Shrimp","Mochi"]}],
-            nutritionPerServing: {"calories":434,"proteinG":47,"carbsG":5,"fatG":24,"fiberG":2,"sodiumMg":112,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Vitamin folate","Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin"],"minerals":["Manganese","Potassium","Selenium","Zinc","Phosphorus","Iron"]}
+            nutritionPerServing: {"calories":434,"proteinG":47,"carbsG":5,"fatG":24,"fiberG":2,"sodiumMg":112,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Folate","Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin"],"minerals":["Manganese","Potassium","Selenium","Zinc","Phosphorus","Iron"]}
         },
         {
           name: "Tempura",
@@ -3403,7 +3403,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.99,"Essence":3.16,"Matter":2.66,"Substance":2.59},
           thermodynamicProperties: {"heat":0.0518,"entropy":0.2975,"reactivity":2.7527,"gregsEnergy":-0.767,"kalchm":0.9399,"monica":0.4376},
           substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Kabocha squash","Mushroom"]}],
-            nutritionPerServing: {"calories":340,"proteinG":80,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":1168,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin"],"minerals":["Selenium","Phosphorus"]}
+            nutritionPerServing: {"calories":340,"proteinG":80,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":1168,"sugarG":0,"vitamins":["Vitamin B12","Niacin"],"minerals":["Selenium","Phosphorus"]}
         },
         {
           name: "Udon Noodle Soup",
@@ -3418,7 +3418,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.85,"Essence":2.46,"Matter":2.0,"Substance":1.94},
           thermodynamicProperties: {"heat":0.0655,"entropy":0.2659,"reactivity":2.9487,"gregsEnergy":-0.7186,"kalchm":1.975,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Kamaboko","substituteOptions":["Fried tofu (Abura-age)","Poached egg"]}],
-            nutritionPerServing: {"calories":1,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":370,"proteinG":13,"carbsG":70,"fatG":4,"fiberG":4,"sodiumMg":1450,"sugarG":3,"vitamins":["Vitamin K","Niacin"],"minerals":["Iron","Manganese","Selenium","Phosphorus"]}
         },
         {
           name: "Tonkatsu",
@@ -3433,7 +3433,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":1.98,"Essence":3.2,"Matter":3.35,"Substance":3.05},
           thermodynamicProperties: {"heat":0.0392,"entropy":0.2695,"reactivity":1.6813,"gregsEnergy":-0.4138,"kalchm":0.0929,"monica":0.8752},
           substitutions: [{"originalIngredient":"Pork loin chops","substituteOptions":["Chicken breast (for Chicken Katsu)","Firm tofu"]}],
-            nutritionPerServing: {"calories":228,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":2,"sodiumMg":64,"sugarG":3,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":228,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":2,"sodiumMg":64,"sugarG":3,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Chawanmushi",
@@ -3448,7 +3448,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.73,"Essence":3.75,"Matter":3.45,"Substance":3.55},
           thermodynamicProperties: {"heat":0.055,"entropy":0.3313,"reactivity":2.735,"gregsEnergy":-0.8511,"kalchm":0.3424,"monica":-0.1032},
           substitutions: [{"originalIngredient":"Shrimp","substituteOptions":["Ginkgo nuts","Extra mushrooms"]}],
-            nutritionPerServing: {"calories":250,"proteinG":51,"carbsG":0,"fatG":5,"fiberG":0,"sodiumMg":366,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus","Zinc"]}
+            nutritionPerServing: {"calories":250,"proteinG":51,"carbsG":0,"fatG":5,"fiberG":0,"sodiumMg":366,"sugarG":0,"vitamins":["Vitamin B12","Niacin","Vitamin B6"],"minerals":["Selenium","Phosphorus","Zinc"]}
         },
         {
           name: "Yakitori",
@@ -3463,7 +3463,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.23,"Essence":2.93,"Matter":3.67,"Substance":3.7},
           thermodynamicProperties: {"heat":0.044,"entropy":0.3914,"reactivity":1.7896,"gregsEnergy":-0.6565,"kalchm":0.0093,"monica":0.4376},
           substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","chicken hearts","chicken skin skewers"]},{"originalIngredient":"bamboo skewers","substituteOptions":["metal skewers"]}],
-            nutritionPerServing: {"calories":418,"proteinG":78,"carbsG":1,"fatG":9,"fiberG":0,"sodiumMg":1350,"sugarG":0,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Calcium"]}
+            nutritionPerServing: {"calories":418,"proteinG":78,"carbsG":1,"fatG":9,"fiberG":0,"sodiumMg":1350,"sugarG":0,"vitamins":["Vitamin B6","Niacin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Calcium"]}
         },
         {
           name: "Miso Ramen",
@@ -3478,7 +3478,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":2.56,"Essence":3.56,"Matter":4.1,"Substance":3.75},
           thermodynamicProperties: {"heat":0.0453,"entropy":0.3036,"reactivity":1.771,"gregsEnergy":-0.4924,"kalchm":0.022,"monica":0.009},
           substitutions: [{"originalIngredient":"pork bones","substituteOptions":["chicken bones (for tori paitan)","vegetable stock with soy milk (for vegan)"]},{"originalIngredient":"chashu pork belly","substituteOptions":["braised chicken thigh","marinated tofu"]}],
-            nutritionPerServing: {"calories":1241,"proteinG":138,"carbsG":1,"fatG":72,"fiberG":0,"sodiumMg":290,"sugarG":0,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":1241,"proteinG":138,"carbsG":1,"fatG":72,"fiberG":0,"sodiumMg":290,"sugarG":0,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin K","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Katsudon (Breaded Pork Cutlet Rice Bowl)",
@@ -3512,7 +3512,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":3.76,"Essence":4.95,"Matter":5.36,"Substance":5.01},
           thermodynamicProperties: {"heat":0.0564,"entropy":0.3372,"reactivity":1.9962,"gregsEnergy":-0.6168,"kalchm":0.0154,"monica":0.8564},
           substitutions: [{"originalIngredient":"pork loin chops","substituteOptions":["chicken breast (for chicken katsudon)","firm tofu (for vegan katsudon)"]},{"originalIngredient":"panko breadcrumbs","substituteOptions":["crushed cornflakes","regular breadcrumbs"]}],
-            nutritionPerServing: {"calories":228,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":228,"proteinG":24,"carbsG":5,"fatG":12,"fiberG":1,"sodiumMg":50,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Gyoza",
@@ -3527,7 +3527,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":3.7,"Essence":3.69,"Matter":3.53,"Substance":3.27},
           thermodynamicProperties: {"heat":0.1113,"entropy":0.4116,"reactivity":2.6031,"gregsEnergy":-0.96,"kalchm":3.7884,"monica":0.3344},
           substitutions: [{"originalIngredient":"ground pork","substituteOptions":["ground chicken","shrimp and pork mix"]},{"originalIngredient":"napa cabbage","substituteOptions":["regular green cabbage","bok choy"]}],
-            nutritionPerServing: {"calories":316,"proteinG":30,"carbsG":7,"fatG":18,"fiberG":2,"sodiumMg":77,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium","0","1","2"]}
+            nutritionPerServing: {"calories":316,"proteinG":30,"carbsG":7,"fatG":18,"fiberG":2,"sodiumMg":77,"sugarG":4,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
         {
           name: "Karaage",
@@ -3542,7 +3542,7 @@ export const japanese: Cuisine = {
           alchemicalProperties: {"Spirit":3.48,"Essence":4.18,"Matter":3.85,"Substance":3.63},
           thermodynamicProperties: {"heat":0.0826,"entropy":0.3635,"reactivity":2.5587,"gregsEnergy":-0.8476,"kalchm":1.5658,"monica":0.4376},
           substitutions: [{"originalIngredient":"chicken thigh","substituteOptions":["chicken breast","firm tofu"]},{"originalIngredient":"potato starch","substituteOptions":["cornstarch","tapioca starch"]}],
-            nutritionPerServing: {"calories":440,"proteinG":78,"carbsG":7,"fatG":9,"fiberG":1,"sodiumMg":188,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","Manganese","Calcium"]}
+            nutritionPerServing: {"calories":440,"proteinG":78,"carbsG":7,"fatG":9,"fiberG":1,"sodiumMg":188,"sugarG":3,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Magnesium","Potassium","Manganese","Calcium"]}
         },
       ],
     },

@@ -87,8 +87,17 @@ async function handleGet(request: Request) {
     const element = url.searchParams.get("element");
     const cuisine = url.searchParams.get("cuisine");
     const search = url.searchParams.get("q") || url.searchParams.get("search");
-    const limit = Math.min(parseInt(url.searchParams.get("limit") || "20", 10), 50);
-    const offset = parseInt(url.searchParams.get("offset") || "0", 10);
+    // Default page size stays modest, but the catalog page legitimately
+    // needs the full set (~580 recipes) in one request — it scores and
+    // sorts every recipe client-side — so the hard cap is generous.
+    const limitParam = parseInt(url.searchParams.get("limit") || "20", 10);
+    const limit = Math.min(
+      Number.isFinite(limitParam) && limitParam > 0 ? limitParam : 20,
+      1000,
+    );
+    const offsetParam = parseInt(url.searchParams.get("offset") || "0", 10);
+    const offset =
+      Number.isFinite(offsetParam) && offsetParam > 0 ? offsetParam : 0;
 
     try {
       const { LocalRecipeService } = await import("@/services/LocalRecipeService");

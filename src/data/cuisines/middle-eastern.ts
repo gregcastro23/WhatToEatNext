@@ -223,7 +223,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.38,"Essence":2.99,"Matter":2.2,"Substance":1.96},
           thermodynamicProperties: {"heat":0.0889,"entropy":0.2703,"reactivity":2.4487,"gregsEnergy":-0.5731,"kalchm":9.8256,"monica":0.4842},
           substitutions: [{"originalIngredient":"Fava beans","substituteOptions":["Chickpeas (for Balila)"]}],
-            nutritionPerServing: {"calories":61,"proteinG":1,"carbsG":6,"fatG":4,"fiberG":1,"sodiumMg":2,"sugarG":2,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium"]}
+            nutritionPerServing: {"calories":61,"proteinG":1,"carbsG":6,"fatG":4,"fiberG":1,"sodiumMg":2,"sugarG":2,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium"]}
         },
         {
           name: "Manakish Za'atar",
@@ -237,7 +237,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":1.39,"Essence":2.12,"Matter":1.83,"Substance":1.61},
           thermodynamicProperties: {"heat":0.0533,"entropy":0.2358,"reactivity":1.7633,"gregsEnergy":-0.3625,"kalchm":1.1949,"monica":0.5486},
           substitutions: [{"originalIngredient":"Za'atar blend","substituteOptions":["Akkawi cheese (for Manakish Jebne)"]}],
-            nutritionPerServing: {"calories":36,"proteinG":0,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin E","Vitamin K"],"minerals":[]}
+            nutritionPerServing: {"calories":330,"proteinG":8,"carbsG":41,"fatG":14,"fiberG":3,"sodiumMg":480,"sugarG":2,"vitamins":["Vitamin K","Vitamin E"],"minerals":["Iron","Calcium","Selenium","Manganese"]}
         },
         {
           name: "Labneh with Za'atar",
@@ -1754,23 +1754,7 @@ export const middleEastern: Cuisine = {
               "First Quarter"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 420,
-            "proteinG": 15,
-            "carbsG": 45,
-            "fatG": 22,
-            "fiberG": 12,
-            "sodiumMg": 450,
-            "sugarG": 5,
-            "vitamins": [
-              "Vitamin C",
-              "Folate"
-            ],
-            "minerals": [
-              "Iron",
-              "Magnesium"
-            ]
-          },
+          "nutritionPerServing": {"calories":330,"proteinG":13,"carbsG":32,"fatG":18,"fiberG":5,"sodiumMg":290,"sugarG":3,"vitamins":["Vitamin B6","Folate","Vitamin K"],"minerals":["Iron","Magnesium","Manganese","Copper"]},
           "alchemicalProperties": {
             "Spirit": 3,
             "Essence": 5,
@@ -1883,23 +1867,7 @@ export const middleEastern: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 350,
-            "proteinG": 12,
-            "carbsG": 28,
-            "fatG": 24,
-            "fiberG": 8,
-            "sodiumMg": 400,
-            "sugarG": 2,
-            "vitamins": [
-              "Vitamin C",
-              "B6"
-            ],
-            "minerals": [
-              "Calcium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":270,"proteinG":9,"carbsG":24,"fatG":17,"fiberG":6,"sodiumMg":380,"sugarG":2,"vitamins":["Vitamin B6","Folate","Vitamin C"],"minerals":["Iron","Magnesium","Phosphorus","Copper","Manganese"]},
           "alchemicalProperties": {
             "Spirit": 2,
             "Essence": 6,
@@ -2292,23 +2260,7 @@ export const middleEastern: Cuisine = {
               "Waning Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 220,
-            "proteinG": 4,
-            "carbsG": 18,
-            "fatG": 16,
-            "fiberG": 8,
-            "sodiumMg": 300,
-            "sugarG": 8,
-            "vitamins": [
-              "Vitamin C",
-              "Vitamin K"
-            ],
-            "minerals": [
-              "Potassium",
-              "Manganese"
-            ]
-          },
+          "nutritionPerServing": {"calories":200,"proteinG":5,"carbsG":14,"fatG":15,"fiberG":6,"sodiumMg":320,"sugarG":5,"vitamins":["Vitamin B6","Vitamin K","Folate"],"minerals":["Potassium","Magnesium","Manganese","Copper"]},
           "alchemicalProperties": {
             "Spirit": 5,
             "Essence": 5,
@@ -2337,7 +2289,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.83,"Essence":2.97,"Matter":2.88,"Substance":2.8},
           thermodynamicProperties: {"heat":0.0901,"entropy":0.3648,"reactivity":2.3084,"gregsEnergy":-0.752,"kalchm":1.281,"monica":0.4},
           substitutions: [{"originalIngredient":"Jameed","substituteOptions":["Greek yogurt mixed with liquid kashk or buttermilk"]}],
-            nutritionPerServing: {"calories":66,"proteinG":9,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":21,"sugarG":0,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper"]}
+            nutritionPerServing: {"calories":66,"proteinG":9,"carbsG":0,"fatG":3,"fiberG":0,"sodiumMg":21,"sugarG":0,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper"]}
         },
         {
           name: "Hummus",
@@ -2351,7 +2303,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.83,"Essence":3.69,"Matter":3.9,"Substance":3.61},
           thermodynamicProperties: {"heat":0.0548,"entropy":0.2992,"reactivity":1.7958,"gregsEnergy":-0.4825,"kalchm":0.113,"monica":0.4188},
           substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}],
-            nutritionPerServing: {"calories":15,"proteinG":0,"carbsG":2,"fatG":1,"fiberG":0,"sodiumMg":389,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":15,"proteinG":0,"carbsG":2,"fatG":1,"fiberG":0,"sodiumMg":389,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium","Magnesium"]}
         },
       ],
     },
@@ -2369,7 +2321,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.0,"Essence":3.43,"Matter":2.94,"Substance":2.54},
           thermodynamicProperties: {"heat":0.0971,"entropy":0.315,"reactivity":2.6112,"gregsEnergy":-0.7255,"kalchm":7.2812,"monica":0.4842},
           substitutions: [{"originalIngredient":"Dried mint","substituteOptions":["Fresh mint","Oregano"]}],
-            nutritionPerServing: {"calories":101,"proteinG":3,"carbsG":11,"fatG":4,"fiberG":3,"sodiumMg":8,"sugarG":7,"vitamins":["Vitamin B1","Vitamin B6","Vitamin K","Vitamin C","Vitamin A","Vitamin folate","Vitamin E"],"minerals":["Manganese","Copper","Potassium","Selenium"]}
+            nutritionPerServing: {"calories":101,"proteinG":3,"carbsG":11,"fatG":4,"fiberG":3,"sodiumMg":8,"sugarG":7,"vitamins":["Vitamin B1","Vitamin B6","Vitamin K","Vitamin C","Vitamin A","Folate","Vitamin E"],"minerals":["Manganese","Copper","Potassium","Selenium"]}
         },
         {
           name: "Kuzi",
@@ -2383,7 +2335,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.55,"Essence":3.82,"Matter":4.17,"Substance":3.85},
           thermodynamicProperties: {"heat":0.0807,"entropy":0.3776,"reactivity":2.0641,"gregsEnergy":-0.6986,"kalchm":0.2172,"monica":0.8564},
           substitutions: [{"originalIngredient":"bone-in lamb shoulder","substituteOptions":["bone-in goat shoulder","beef chuck roast"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","garam masala with extra allspice"]}],
-            nutritionPerServing: {"calories":100,"proteinG":12,"carbsG":1,"fatG":5,"fiberG":0,"sodiumMg":29,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium"]}
+            nutritionPerServing: {"calories":100,"proteinG":12,"carbsG":1,"fatG":5,"fiberG":0,"sodiumMg":29,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Vitamin C","Folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium"]}
         },
       ],
       summer: [
@@ -2399,7 +2351,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.92,"Essence":4.45,"Matter":5.2,"Substance":4.95},
           thermodynamicProperties: {"heat":0.0685,"entropy":0.3973,"reactivity":2.0185,"gregsEnergy":-0.7335,"kalchm":0.0112,"monica":0.6887},
           substitutions: [{"originalIngredient":"lamb","substituteOptions":["beef sirloin for shish kebab","portobello mushrooms for vegetarian option"]},{"originalIngredient":"baharat spice blend","substituteOptions":["ras el hanout","seven spice blend (allspice, black pepper, cinnamon, coriander, cumin, cloves, nutmeg)"]}],
-            nutritionPerServing: {"calories":94,"proteinG":11,"carbsG":6,"fatG":3,"fiberG":1,"sodiumMg":26,"sugarG":3,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin E","Vitamin K","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium"]}
+            nutritionPerServing: {"calories":94,"proteinG":11,"carbsG":6,"fatG":3,"fiberG":1,"sodiumMg":26,"sugarG":3,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin E","Vitamin K","Folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Manganese","Potassium"]}
         },
         {
           "name": "Authentic Mujaddara",
@@ -2504,7 +2456,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.86,"Essence":4.38,"Matter":3.62,"Substance":3.52},
           thermodynamicProperties: {"heat":0.1037,"entropy":0.3852,"reactivity":3.1199,"gregsEnergy":-1.0981,"kalchm":13.4131,"monica":0.6887},
           substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}],
-            nutritionPerServing: {"calories":117,"proteinG":16,"carbsG":5,"fatG":3,"fiberG":1,"sodiumMg":40,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin E","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium","Calcium"]}
+            nutritionPerServing: {"calories":117,"proteinG":16,"carbsG":5,"fatG":3,"fiberG":1,"sodiumMg":40,"sugarG":3,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin E","Vitamin K","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium","Calcium"]}
         },
 
         {
@@ -2601,7 +2553,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.68,"Essence":3.83,"Matter":3.84,"Substance":3.58},
           thermodynamicProperties: {"heat":0.0503,"entropy":0.29,"reactivity":1.9839,"gregsEnergy":-0.5249,"kalchm":0.1427,"monica":0.8752},
           substitutions: [{"originalIngredient":"croissants","substituteOptions":["puff pastry sheets (baked and broken)","brioche","day-old pan dulce"]},{"originalIngredient":"golden raisins","substituteOptions":["dried apricots, chopped","dried dates, pitted and sliced"]}],
-            nutritionPerServing: {"calories":28,"proteinG":0,"carbsG":1,"fatG":3,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin folate"],"minerals":["Manganese","Copper","Iron"]}
+            nutritionPerServing: {"calories":28,"proteinG":0,"carbsG":1,"fatG":3,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Folate"],"minerals":["Manganese","Copper","Iron"]}
         },
 
         {
@@ -2616,7 +2568,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.64,"Essence":4.09,"Matter":3.42,"Substance":3.01},
           thermodynamicProperties: {"heat":0.0561,"entropy":0.2485,"reactivity":2.3155,"gregsEnergy":-0.5193,"kalchm":2.2291,"monica":0.8752},
           substitutions: [{"originalIngredient":"akkawi/mozzarella cheese","substituteOptions":["ricotta mixed with a small amount of mozzarella","sweet whey cheese (ricotta salata, desalted)"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","a thin strip of lemon zest in the syrup"]}],
-            nutritionPerServing: {"calories":118,"proteinG":3,"carbsG":18,"fatG":3,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin thiamin","Vitamin niacin","Vitamin riboflavin","Vitamin folate","Vitamin B6","Vitamin C"],"minerals":["Selenium","Manganese","Phosphorus","Iron","Magnesium","Zinc"]}
+            nutritionPerServing: {"calories":118,"proteinG":3,"carbsG":18,"fatG":3,"fiberG":1,"sodiumMg":0,"sugarG":0,"vitamins":["Thiamin","Niacin","Riboflavin","Folate","Vitamin B6","Vitamin C"],"minerals":["Selenium","Manganese","Phosphorus","Iron","Magnesium","Zinc"]}
         },
 
         {
@@ -2631,7 +2583,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.49,"Essence":3.52,"Matter":5.0,"Substance":4.84},
           thermodynamicProperties: {"heat":0.0647,"entropy":0.4457,"reactivity":1.7184,"gregsEnergy":-0.7011,"kalchm":0.001,"monica":0.8752},
           substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}],
-            nutritionPerServing: {"calories":83,"proteinG":9,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Magnesium","Potassium","Manganese","Calcium"]}
+            nutritionPerServing: {"calories":83,"proteinG":9,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Thiamin","Vitamin C","Folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Magnesium","Potassium","Manganese","Calcium"]}
         },
 
         {
@@ -2646,7 +2598,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.13,"Essence":4.94,"Matter":5.17,"Substance":4.77},
           thermodynamicProperties: {"heat":0.0407,"entropy":0.2846,"reactivity":1.8745,"gregsEnergy":-0.4928,"kalchm":0.0113,"monica":0.3156},
           substitutions: [{"originalIngredient":"chicken","substituteOptions":["lamb neck or shoulder pieces","chickpeas for a vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","bell peppers","potatoes"]}],
-            nutritionPerServing: {"calories":147,"proteinG":22,"carbsG":4,"fatG":4,"fiberG":2,"sodiumMg":52,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin B1","Vitamin K","Vitamin C","Vitamin folate","Vitamin B5","Vitamin A","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Copper","Potassium","Magnesium"]}
+            nutritionPerServing: {"calories":147,"proteinG":22,"carbsG":4,"fatG":4,"fiberG":2,"sodiumMg":52,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin B1","Vitamin K","Vitamin C","Folate","Vitamin B5","Vitamin A"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Copper","Potassium","Magnesium"]}
         },
 
         {
@@ -2661,7 +2613,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.19,"Essence":4.02,"Matter":3.8,"Substance":3.6},
           thermodynamicProperties: {"heat":0.0671,"entropy":0.3235,"reactivity":2.3493,"gregsEnergy":-0.6929,"kalchm":0.6764,"monica":0.5486},
           substitutions: [{"originalIngredient":"bulgur wheat","substituteOptions":["quinoa (gluten-free)","cooked millet","cauliflower rice (low-carb)"]},{"originalIngredient":"flat-leaf parsley","substituteOptions":["a mix of parsley and cilantro","arugula for a peppery variation"]}],
-            nutritionPerServing: {"calories":96,"proteinG":2,"carbsG":17,"fatG":3,"fiberG":4,"sodiumMg":591,"sugarG":8,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Vitamin folate","Vitamin B6","Vitamin E"],"minerals":["Potassium","Manganese","Magnesium","Calcium"]}
+            nutritionPerServing: {"calories":96,"proteinG":2,"carbsG":17,"fatG":3,"fiberG":4,"sodiumMg":591,"sugarG":8,"vitamins":["Vitamin C","Vitamin K","Vitamin A","Folate","Vitamin B6","Vitamin E"],"minerals":["Potassium","Manganese","Magnesium","Calcium"]}
         },
 
         {
@@ -2676,7 +2628,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":1.9,"Essence":2.55,"Matter":3.3,"Substance":3.15},
           thermodynamicProperties: {"heat":0.0409,"entropy":0.3398,"reactivity":1.4766,"gregsEnergy":-0.4609,"kalchm":0.0193,"monica":1.3128},
           substitutions: [{"originalIngredient":"Lean beef","substituteOptions":["Potato and pumpkin (for vegan Kibbeh)"]}],
-            nutritionPerServing: {"calories":75,"proteinG":9,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":22,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin pantothenic_acid"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Copper"]}
+            nutritionPerServing: {"calories":75,"proteinG":9,"carbsG":0,"fatG":4,"fiberG":0,"sodiumMg":22,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin pantothenic_acid"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Copper"]}
         },
 
         {
@@ -2691,7 +2643,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":1.8,"Essence":2.45,"Matter":2.83,"Substance":2.6},
           thermodynamicProperties: {"heat":0.0435,"entropy":0.281,"reactivity":1.5995,"gregsEnergy":-0.406,"kalchm":0.1136,"monica":0.8752},
           substitutions: [{"originalIngredient":"Ghee","substituteOptions":["Coconut oil"]}],
-            nutritionPerServing: {"calories":103,"proteinG":1,"carbsG":4,"fatG":10,"fiberG":2,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3"],"minerals":["Manganese","Copper","Iron"]}
+            nutritionPerServing: {"calories":103,"proteinG":1,"carbsG":4,"fatG":10,"fiberG":2,"sodiumMg":0,"sugarG":0,"vitamins":["Folate"],"minerals":["Manganese","Copper","Iron"]}
         },
           {
             "name": "Authentic Hummus bi Tahini",
@@ -3127,7 +3079,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.83,"Essence":3.69,"Matter":3.9,"Substance":3.61},
           thermodynamicProperties: {"heat":0.0548,"entropy":0.2992,"reactivity":1.7958,"gregsEnergy":-0.4825,"kalchm":0.113,"monica":0.4188},
           substitutions: [{"originalIngredient":"dried chickpeas","substituteOptions":["canned chickpeas (shorter cook, less creamy)","white beans for a lighter version"]},{"originalIngredient":"raw tahini","substituteOptions":["roasted tahini (nuttier, darker)","sunflower seed butter"]}],
-            nutritionPerServing: {"calories":15,"proteinG":0,"carbsG":2,"fatG":1,"fiberG":0,"sodiumMg":389,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":15,"proteinG":0,"carbsG":2,"fatG":1,"fiberG":0,"sodiumMg":389,"sugarG":1,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin E","Vitamin K"],"minerals":["Manganese","Selenium","Potassium","Calcium","Magnesium"]}
         },
         {
           name: "Falafel",
@@ -3141,7 +3093,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.22,"Essence":3.98,"Matter":5.06,"Substance":4.57},
           thermodynamicProperties: {"heat":0.0521,"entropy":0.3453,"reactivity":1.6156,"gregsEnergy":-0.5057,"kalchm":0.0028,"monica":0.8752},
           substitutions: [{"originalIngredient":"chickpeas","substituteOptions":["fava beans (Egyptian-style falafel)","half chickpeas and half fava beans"]},{"originalIngredient":"cilantro","substituteOptions":["additional parsley for cilantro-averse palates"]}],
-            nutritionPerServing: {"calories":29,"proteinG":1,"carbsG":7,"fatG":0,"fiberG":1,"sodiumMg":585,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K"],"minerals":["Potassium","Manganese","Selenium","Iron","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":29,"proteinG":1,"carbsG":7,"fatG":0,"fiberG":1,"sodiumMg":585,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin K"],"minerals":["Potassium","Manganese","Selenium","Iron","Calcium","Magnesium"]}
         },
         {
           name: "Baba Ghanoush",
@@ -3169,7 +3121,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.46,"Essence":3.58,"Matter":4.35,"Substance":4.01},
           thermodynamicProperties: {"heat":0.0371,"entropy":0.2907,"reactivity":1.429,"gregsEnergy":-0.3783,"kalchm":0.0056,"monica":0.6974},
           substitutions: [{"originalIngredient":"long-grain white rice","substituteOptions":["bulgur wheat (traditional variation)","brown rice (longer cook time)"]},{"originalIngredient":"brown or green lentils","substituteOptions":["Puy lentils (firmer texture)","split peas"]}],
-            nutritionPerServing: {"calories":80,"proteinG":1,"carbsG":10,"fatG":4,"fiberG":2,"sodiumMg":585,"sugarG":5,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin E","Vitamin K"],"minerals":["Potassium","Manganese","Iron","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":80,"proteinG":1,"carbsG":10,"fatG":4,"fiberG":2,"sodiumMg":585,"sugarG":5,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin E","Vitamin K"],"minerals":["Potassium","Manganese","Iron","Calcium","Magnesium"]}
         },
         {
           name: "Maqluba",
@@ -3183,7 +3135,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":2.83,"Essence":4.67,"Matter":4.9,"Substance":4.6},
           thermodynamicProperties: {"heat":0.0366,"entropy":0.283,"reactivity":1.8554,"gregsEnergy":-0.4884,"kalchm":0.0094,"monica":0.381},
           substitutions: [{"originalIngredient":"bone-in chicken pieces","substituteOptions":["lamb shoulder","cauliflower and chickpeas for vegetarian version"]},{"originalIngredient":"eggplant","substituteOptions":["zucchini","potatoes"]}],
-            nutritionPerServing: {"calories":167,"proteinG":27,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":64,"sugarG":2,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin B1","Vitamin K","Vitamin C","Vitamin A","Vitamin folate","Vitamin E"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Copper","Potassium"]}
+            nutritionPerServing: {"calories":167,"proteinG":27,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":64,"sugarG":2,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin B1","Vitamin K","Vitamin C","Vitamin A","Folate","Vitamin E"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Copper","Potassium"]}
         },
         {
           name: "Lamb Kofta Kebabs",
@@ -3197,7 +3149,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.37,"Essence":4.3,"Matter":5.1,"Substance":4.84},
           thermodynamicProperties: {"heat":0.0534,"entropy":0.3611,"reactivity":1.8363,"gregsEnergy":-0.6097,"kalchm":0.0038,"monica":0.6887},
           substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["80/20 ground beef","half lamb and half beef","ground turkey with added olive oil"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}],
-            nutritionPerServing: {"calories":78,"proteinG":9,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":78,"proteinG":9,"carbsG":3,"fatG":3,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Vitamin C","Folate","Vitamin K"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Calcium","Magnesium"]}
         },
         {
           name: "Persian Tahdig",
@@ -3211,7 +3163,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":1.68,"Essence":2.45,"Matter":3.58,"Substance":3.35},
           thermodynamicProperties: {"heat":0.0281,"entropy":0.3115,"reactivity":1.2754,"gregsEnergy":-0.3692,"kalchm":0.0039,"monica":0.3156},
           substitutions: [{"originalIngredient":"aged basmati rice","substituteOptions":["jasmine rice (shorter grain, different texture)","extra-long grain basmati"]},{"originalIngredient":"neutral oil","substituteOptions":["clarified butter (ghee) for richer flavor","coconut oil"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":262,"sugarG":0,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Magnesium","Calcium","Manganese","Iron"]}
+            nutritionPerServing: {"calories":450,"proteinG":8,"carbsG":65,"fatG":18,"fiberG":2,"sodiumMg":460,"sugarG":1,"vitamins":["Vitamin A"],"minerals":["Iron","Magnesium","Selenium","Manganese"]}
         },
         {
           name: "Lentil Soup (Shorbat Adas)",
@@ -3225,7 +3177,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.61,"Essence":4.57,"Matter":4.78,"Substance":4.42},
           thermodynamicProperties: {"heat":0.0616,"entropy":0.3197,"reactivity":2.0808,"gregsEnergy":-0.6036,"kalchm":0.0847,"monica":0.6974},
           substitutions: [{"originalIngredient":"red lentils","substituteOptions":["yellow split peas (longer cook time)","green lentils (will not dissolve, must be blended)"]},{"originalIngredient":"water","substituteOptions":["vegetable broth for more depth","chicken broth"]}],
-            nutritionPerServing: {"calories":35,"proteinG":1,"carbsG":6,"fatG":1,"fiberG":1,"sodiumMg":584,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron","Calcium","Magnesium"]}
+            nutritionPerServing: {"calories":35,"proteinG":1,"carbsG":6,"fatG":1,"fiberG":1,"sodiumMg":584,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin K","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron","Calcium","Magnesium"]}
         },
         {
           name: "Harira",
@@ -3239,7 +3191,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":4.41,"Essence":5.6,"Matter":5.11,"Substance":4.66},
           thermodynamicProperties: {"heat":0.0751,"entropy":0.3167,"reactivity":2.4856,"gregsEnergy":-0.7121,"kalchm":1.9821,"monica":0.4654},
           substitutions: [{"originalIngredient":"lamb shoulder","substituteOptions":["beef chuck","chicken thighs","omit for vegan version"]},{"originalIngredient":"all-purpose flour","substituteOptions":["cornstarch slurry (half the amount)","rice flour"]}],
-            nutritionPerServing: {"calories":54,"proteinG":3,"carbsG":9,"fatG":1,"fiberG":2,"sodiumMg":10,"sugarG":3,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin K","Vitamin A","Vitamin folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Magnesium","Calcium"]}
+            nutritionPerServing: {"calories":54,"proteinG":3,"carbsG":9,"fatG":1,"fiberG":2,"sodiumMg":10,"sugarG":3,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Potassium","Manganese","Magnesium","Calcium"]}
         },
         {
           name: "Dolma",
@@ -3253,7 +3205,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.63,"Essence":5.24,"Matter":4.38,"Substance":3.95},
           thermodynamicProperties: {"heat":0.0635,"entropy":0.2679,"reactivity":2.4681,"gregsEnergy":-0.5978,"kalchm":4.3206,"monica":0.3156},
           substitutions: [{"originalIngredient":"brined grape leaves","substituteOptions":["blanched Swiss chard leaves","blanched cabbage leaves"]},{"originalIngredient":"ground lamb","substituteOptions":["ground beef","omit and double the rice and herbs for vegan version"]}],
-            nutritionPerServing: {"calories":46,"proteinG":3,"carbsG":5,"fatG":2,"fiberG":2,"sodiumMg":9,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin folate","Vitamin E"],"minerals":["Calcium","Iron","Zinc","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":46,"proteinG":3,"carbsG":5,"fatG":2,"fiberG":2,"sodiumMg":9,"sugarG":2,"vitamins":["Vitamin A","Vitamin K","Vitamin C","Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Folate","Vitamin E"],"minerals":["Calcium","Iron","Zinc","Phosphorus","Selenium","Magnesium","Potassium","Manganese"]}
         },
         {
           name: "Shawarma",
@@ -3267,7 +3219,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.86,"Essence":4.38,"Matter":3.62,"Substance":3.52},
           thermodynamicProperties: {"heat":0.1037,"entropy":0.3852,"reactivity":3.1199,"gregsEnergy":-1.0981,"kalchm":13.4131,"monica":0.6887},
           substitutions: [{"originalIngredient":"chicken thighs","substituteOptions":["lamb shoulder","cauliflower steaks for vegan version"]},{"originalIngredient":"garlic sauce (toum)","substituteOptions":["tahini sauce","hummus"]}],
-            nutritionPerServing: {"calories":117,"proteinG":16,"carbsG":5,"fatG":3,"fiberG":1,"sodiumMg":40,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin E","Vitamin K","Vitamin C","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium","Calcium"]}
+            nutritionPerServing: {"calories":117,"proteinG":16,"carbsG":5,"fatG":3,"fiberG":1,"sodiumMg":40,"sugarG":3,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin E","Vitamin K","Vitamin C","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium","Calcium"]}
         },
         {
           name: "Kofta Kebab",
@@ -3281,7 +3233,7 @@ export const middleEastern: Cuisine = {
           alchemicalProperties: {"Spirit":3.49,"Essence":3.52,"Matter":5.0,"Substance":4.84},
           thermodynamicProperties: {"heat":0.0647,"entropy":0.4457,"reactivity":1.7184,"gregsEnergy":-0.7011,"kalchm":0.001,"monica":0.8752},
           substitutions: [{"originalIngredient":"ground lamb","substituteOptions":["ground beef only","ground turkey (lower fat, add olive oil)"]},{"originalIngredient":"allspice","substituteOptions":["baharat spice blend","equal parts cinnamon and nutmeg"]}],
-            nutritionPerServing: {"calories":83,"proteinG":9,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Vitamin niacin","Vitamin B6","Vitamin riboflavin","Vitamin pantothenic_acid","Vitamin thiamin","Vitamin C","Vitamin folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Magnesium","Potassium","Manganese","Calcium"]}
+            nutritionPerServing: {"calories":83,"proteinG":9,"carbsG":3,"fatG":4,"fiberG":1,"sodiumMg":604,"sugarG":1,"vitamins":["Vitamin B12","Niacin","Vitamin B6","Riboflavin","Vitamin pantothenic_acid","Thiamin","Vitamin C","Folate","Vitamin K","Vitamin A"],"minerals":["Zinc","Selenium","Phosphorus","Iron","Copper","Magnesium","Potassium","Manganese","Calcium"]}
         },
     ],
     },

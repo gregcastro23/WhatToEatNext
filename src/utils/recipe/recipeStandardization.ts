@@ -281,9 +281,21 @@ export function standardizeRecipe(
     standardized.allergens = [standardized.allergens];
   }
 
+  // Cooking methods live under `classifications.cookingMethods` in the
+  // cuisine data; the legacy top-level `cookingMethods`/`cookingMethod`
+  // are also accepted. Without this lookup the Monica heuristic always
+  // received an empty array and produced a flat default for every recipe.
+  const classifications = (standardized.classifications ?? {}) as Record<
+    string,
+    unknown
+  >;
   const methods = Array.isArray(standardized.cookingMethods)
     ? standardized.cookingMethods
-    : [];
+    : Array.isArray(standardized.cookingMethod)
+      ? (standardized.cookingMethod as unknown[])
+      : Array.isArray(classifications.cookingMethods)
+        ? (classifications.cookingMethods as unknown[])
+        : [];
   const monicaScore = calculateMethodMonicaScore(methods);
   standardized.monicaScore = monicaScore;
   standardized.monicaScoreLabel = classifyMonicaScoreLabel(monicaScore);

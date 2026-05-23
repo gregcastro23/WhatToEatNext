@@ -22,7 +22,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.01,"Essence":3.02,"Matter":3.49,"Substance":2.9},
           thermodynamicProperties: {"heat":0.0386,"entropy":0.2441,"reactivity":1.3603,"gregsEnergy":-0.2934,"kalchm":0.0666,"monica":0.5486},
           substitutions: [{"originalIngredient":"Butter","substituteOptions":["Gochujang (for heat)","Omit for traditional"]}],
-            nutritionPerServing: {"calories":18,"proteinG":0,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["0","1","2"]}
+            nutritionPerServing: {"calories":18,"proteinG":0,"carbsG":0,"fatG":2,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
         },
         {
           name: "Juk",
@@ -37,7 +37,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.15,"Essence":2.88,"Matter":2.82,"Substance":2.44},
           thermodynamicProperties: {"heat":0.0567,"entropy":0.2468,"reactivity":2.0417,"gregsEnergy":-0.4472,"kalchm":0.6651,"monica":-0.0188},
           substitutions: [{"originalIngredient":"Minced vegetables","substituteOptions":["Abalone (for Jeonbokjuk)","Minced beef"]}],
-            nutritionPerServing: {"calories":339,"proteinG":62,"carbsG":0,"fatG":8,"fiberG":0,"sodiumMg":148,"sugarG":0,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Phosphorus","Zinc","0","1","2"]}
+            nutritionPerServing: {"calories":339,"proteinG":62,"carbsG":0,"fatG":8,"fiberG":0,"sodiumMg":148,"sugarG":0,"vitamins":["Vitamin B6","Niacin","Vitamin B12"],"minerals":["Selenium","Phosphorus","Zinc"]}
         },
       ],
       summer: [
@@ -141,7 +141,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.59,"Essence":3.73,"Matter":3.28,"Substance":2.99},
           thermodynamicProperties: {"heat":0.0642,"entropy":0.2905,"reactivity":2.5439,"gregsEnergy":-0.6749,"kalchm":1.2263,"monica":0.3064},
           substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Canned tuna","More tofu (vegan)"]}],
-            nutritionPerServing: {"calories":70,"proteinG":7,"carbsG":4,"fatG":3,"fiberG":1,"sodiumMg":16,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin K","Vitamin folate","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":70,"proteinG":7,"carbsG":4,"fatG":3,"fiberG":1,"sodiumMg":16,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin K","Folate","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
       ],
       summer: [
@@ -158,7 +158,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.06,"Essence":2.98,"Matter":4.11,"Substance":4.03},
           thermodynamicProperties: {"heat":0.0294,"entropy":0.3294,"reactivity":1.5617,"gregsEnergy":-0.485,"kalchm":0.0013,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken breast","Tofu for vegetarian"]},{"originalIngredient":"Dongchimi brine","substituteOptions":["Diluted apple cider vinegar with a pinch of sugar"]}],
-            nutritionPerServing: {"calories":539,"proteinG":55,"carbsG":1,"fatG":33,"fiberG":0,"sodiumMg":150,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
+            nutritionPerServing: {"calories":539,"proteinG":55,"carbsG":1,"fatG":33,"fiberG":0,"sodiumMg":150,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium"]}
         },
       ],
       winter: [
@@ -175,7 +175,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.42,"Essence":3.51,"Matter":4.12,"Substance":3.83},
           thermodynamicProperties: {"heat":0.0388,"entropy":0.2892,"reactivity":1.6953,"gregsEnergy":-0.4515,"kalchm":0.0119,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Beef brisket","substituteOptions":["Chicken for a lighter broth","Omit for vegetarian with kelp-only stock"]},{"originalIngredient":"Garaetteok","substituteOptions":["Mandu (dumplings) for Tteok-mandu-guk"]}],
-            nutritionPerServing: {"calories":379,"proteinG":36,"carbsG":1,"fatG":25,"fiberG":0,"sodiumMg":99,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","0","1","2"]}
+            nutritionPerServing: {"calories":379,"proteinG":36,"carbsG":1,"fatG":25,"fiberG":0,"sodiumMg":99,"sugarG":0,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin K","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese"]}
         },
       ],
     },
@@ -509,11 +509,7 @@ export const korean: Cuisine = {
             "signs": ["Aries", "Scorpio"],
             "lunarPhases": ["Full Moon"]
           },
-          "nutritionPerServing": {
-            "calories": 420, "proteinG": 14, "carbsG": 82, "fatG": 5, "fiberG": 3, "sodiumMg": 920, "sugarG": 15,
-            "vitamins": ["Vitamin A", "Vitamin C"],
-            "minerals": ["Calcium", "Iron"]
-          },
+          "nutritionPerServing": {"calories":360,"proteinG":9,"carbsG":73,"fatG":4,"fiberG":3,"sodiumMg":1100,"sugarG":16,"vitamins":["Vitamin C","Vitamin A","Vitamin B6"],"minerals":["Iron","Manganese","Selenium"]},
           "alchemicalProperties": { "Spirit": 5, "Essence": 6, "Matter": 8, "Substance": 7 },
           "thermodynamicProperties": { "heat": 0.08, "entropy": 0.4, "reactivity": 2.0, "gregsEnergy": -0.6, "kalchm": 0.9, "monica": 0.8 },
           "substitutions": []
@@ -1366,7 +1362,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.65,"Essence":2.58,"Matter":2.67,"Substance":2.53},
           thermodynamicProperties: {"heat":0.1061,"entropy":0.4286,"reactivity":2.2304,"gregsEnergy":-0.85,"kalchm":1.059,"monica":0.4376},
           substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Beef short ribs (Galbi)","Thick-cut mushrooms"]}],
-            nutritionPerServing: {"calories":147,"proteinG":13,"carbsG":6,"fatG":8,"fiberG":0,"sodiumMg":28,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","0","1","2"]}
+            nutritionPerServing: {"calories":147,"proteinG":13,"carbsG":6,"fatG":8,"fiberG":0,"sodiumMg":28,"sugarG":4,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Sundubu Jjigae",
@@ -1381,7 +1377,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.98,"Essence":3.38,"Matter":3.39,"Substance":3.01},
           thermodynamicProperties: {"heat":0.0892,"entropy":0.361,"reactivity":2.5197,"gregsEnergy":-0.8206,"kalchm":0.9184,"monica":0.0278},
           substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Pork belly","Enoki mushrooms"]}],
-            nutritionPerServing: {"calories":44,"proteinG":1,"carbsG":6,"fatG":2,"fiberG":0,"sodiumMg":4,"sugarG":4,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin C","Vitamin B6"],"minerals":["0","1","2","Manganese","Selenium"]}
+            nutritionPerServing: {"calories":44,"proteinG":1,"carbsG":6,"fatG":2,"fiberG":0,"sodiumMg":4,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Manganese","Selenium"]}
         },
         {
           "name": "Authentic Korean Bulgogi",
@@ -1462,7 +1458,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.11,"Essence":3.27,"Matter":3.75,"Substance":3.65},
           thermodynamicProperties: {"heat":0.0385,"entropy":0.333,"reactivity":1.7994,"gregsEnergy":-0.5607,"kalchm":0.0145,"monica":0.2786},
           substitutions: [{"originalIngredient":"Chicken thighs","substituteOptions":["Spicy pork","Extra tofu and mushrooms"]}],
-            nutritionPerServing: {"calories":105,"proteinG":17,"carbsG":5,"fatG":2,"fiberG":2,"sodiumMg":53,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium"]}
+            nutritionPerServing: {"calories":105,"proteinG":17,"carbsG":5,"fatG":2,"fiberG":2,"sodiumMg":53,"sugarG":3,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C","Vitamin K","Folate"],"minerals":["Selenium","Phosphorus","Zinc","Manganese","Potassium"]}
         },
         {
           name: "Haemul Pajeon",
@@ -1492,7 +1488,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.61,"Essence":4.35,"Matter":4.5,"Substance":4.2},
           thermodynamicProperties: {"heat":0.0716,"entropy":0.3532,"reactivity":2.3088,"gregsEnergy":-0.7439,"kalchm":0.171,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Pork neck bones","substituteOptions":["Pork ribs","Beef neck bones"]},{"originalIngredient":"Perilla leaves","substituteOptions":["Fresh basil","Sesame leaves"]}],
-            nutritionPerServing: {"calories":175,"proteinG":18,"carbsG":4,"fatG":10,"fiberG":0,"sodiumMg":39,"sugarG":2,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin K","Vitamin folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","0","1","2"]}
+            nutritionPerServing: {"calories":175,"proteinG":18,"carbsG":4,"fatG":10,"fiberG":0,"sodiumMg":39,"sugarG":2,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Bossam",
@@ -1507,7 +1503,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.65,"Essence":3.83,"Matter":3.55,"Substance":3.4},
           thermodynamicProperties: {"heat":0.0996,"entropy":0.3771,"reactivity":2.6849,"gregsEnergy":-0.9128,"kalchm":3.3549,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Pork belly","substituteOptions":["Pork shoulder for leaner version","Beef brisket"]},{"originalIngredient":"Fresh oysters","substituteOptions":["Omit for a simpler version"]}],
-            nutritionPerServing: {"calories":185,"proteinG":19,"carbsG":13,"fatG":6,"fiberG":2,"sodiumMg":120,"sugarG":5,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin folate","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
+            nutritionPerServing: {"calories":185,"proteinG":19,"carbsG":13,"fatG":6,"fiberG":2,"sodiumMg":120,"sugarG":5,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Folate","Vitamin K"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","Magnesium"]}
         },
             {
               "name": "Authentic Jeonju Bibimbap",
@@ -1941,7 +1937,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.69,"Essence":3.57,"Matter":3.33,"Substance":3.21},
           thermodynamicProperties: {"heat":0.0665,"entropy":0.3294,"reactivity":2.4557,"gregsEnergy":-0.7423,"kalchm":0.58,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Eomuk fish cakes","substituteOptions":["Tofu puffs","Sliced mushrooms"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock","Water with a pinch of dashi powder"]}],
-            nutritionPerServing: {"calories":5,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":5,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Manganese"]}
         },
         {
           name: "Kimbap",
@@ -1956,7 +1952,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.77,"Essence":2.9,"Matter":3.5,"Substance":3.14},
           thermodynamicProperties: {"heat":0.0713,"entropy":0.3487,"reactivity":1.6267,"gregsEnergy":-0.4959,"kalchm":0.1265,"monica":0.6974},
           substitutions: [{"originalIngredient":"Beef bulgogi","substituteOptions":["Tuna with mayonnaise","Imitation crab sticks"]},{"originalIngredient":"Danmuji","substituteOptions":["Regular pickle strips"]}],
-            nutritionPerServing: {"calories":45,"proteinG":3,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":16,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin K","Vitamin A","Vitamin C","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Calcium","Potassium","Manganese","0","1","2"]}
+            nutritionPerServing: {"calories":45,"proteinG":3,"carbsG":3,"fatG":2,"fiberG":1,"sodiumMg":16,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin K","Vitamin A","Vitamin C","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Calcium","Potassium","Manganese"]}
         },
         {
           name: "Mandu",
@@ -1971,7 +1967,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.86,"Essence":4.0,"Matter":4.38,"Substance":4.05},
           thermodynamicProperties: {"heat":0.0854,"entropy":0.3803,"reactivity":2.0764,"gregsEnergy":-0.7042,"kalchm":0.2527,"monica":0.3156},
           substitutions: [{"originalIngredient":"Ground pork","substituteOptions":["Ground chicken","Mushroom and tofu for vegetarian"]},{"originalIngredient":"Mandu wrappers","substituteOptions":["Gyoza wrappers","Homemade flour wrappers"]}],
-            nutritionPerServing: {"calories":57,"proteinG":4,"carbsG":6,"fatG":2,"fiberG":2,"sodiumMg":18,"sugarG":4,"vitamins":["Vitamin thiamin","Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin riboflavin","Vitamin C","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese","0","1","2"]}
+            nutritionPerServing: {"calories":57,"proteinG":4,"carbsG":6,"fatG":2,"fiberG":2,"sodiumMg":18,"sugarG":4,"vitamins":["Thiamin","Vitamin B6","Niacin","Vitamin B12","Riboflavin","Vitamin C","Vitamin K","Folate"],"minerals":["Selenium","Zinc","Phosphorus","Iron","Potassium","Manganese"]}
         },
         {
           name: "Doenjang Jjigae",
@@ -1986,7 +1982,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.23,"Essence":3.51,"Matter":3.99,"Substance":3.68},
           thermodynamicProperties: {"heat":0.073,"entropy":0.3529,"reactivity":2.0352,"gregsEnergy":-0.6452,"kalchm":0.1198,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Doenjang","substituteOptions":["Japanese miso (milder result)","Red miso"]},{"originalIngredient":"Anchovy-kelp stock","substituteOptions":["Vegetable stock for vegetarian"]}],
-            nutritionPerServing: {"calories":28,"proteinG":1,"carbsG":5,"fatG":0,"fiberG":0,"sodiumMg":3,"sugarG":3,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin 3","Vitamin 4","Vitamin C","Vitamin B6"],"minerals":["0","1","2","Manganese","Selenium"]}
+            nutritionPerServing: {"calories":28,"proteinG":1,"carbsG":5,"fatG":0,"fiberG":0,"sodiumMg":3,"sugarG":3,"vitamins":["Vitamin C","Vitamin B6"],"minerals":["Manganese","Selenium"]}
         },
         {
           name: "Galbijjim",
@@ -2001,7 +1997,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.81,"Essence":4.82,"Matter":4.8,"Substance":4.31},
           thermodynamicProperties: {"heat":0.0676,"entropy":0.3113,"reactivity":2.1307,"gregsEnergy":-0.5957,"kalchm":0.317,"monica":0.0278},
           substitutions: [{"originalIngredient":"Asian pear","substituteOptions":["Kiwi fruit","Grated apple"]},{"originalIngredient":"Chestnuts","substituteOptions":["Water chestnuts","Omit"]}],
-            nutritionPerServing: {"calories":369,"proteinG":19,"carbsG":53,"fatG":10,"fiberG":6,"sodiumMg":57,"sugarG":40,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin 0","Vitamin 1","Vitamin C","Vitamin 2","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","0","1","Manganese","Potassium","2","Copper"]}
+            nutritionPerServing: {"calories":369,"proteinG":19,"carbsG":53,"fatG":10,"fiberG":6,"sodiumMg":57,"sugarG":40,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin A","Vitamin K"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Potassium","Copper"]}
         },
         {
           name: "Seolleongtang",
@@ -2016,7 +2012,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.52,"Essence":2.76,"Matter":3.6,"Substance":3.5},
           thermodynamicProperties: {"heat":0.0556,"entropy":0.3633,"reactivity":1.8423,"gregsEnergy":-0.6138,"kalchm":0.021,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Ox leg bones","substituteOptions":["Pork neck bones","Chicken carcasses for a lighter version"]},{"originalIngredient":"Somyeon noodles","substituteOptions":["Rice cakes","Udon noodles"]}],
-            nutritionPerServing: {"calories":29,"proteinG":2,"carbsG":3,"fatG":1,"fiberG":1,"sodiumMg":7,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Vitamin niacin","Vitamin riboflavin","Vitamin thiamin","Vitamin K","Vitamin folate","Vitamin C","Vitamin A"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Calcium","Potassium"]}
+            nutritionPerServing: {"calories":29,"proteinG":2,"carbsG":3,"fatG":1,"fiberG":1,"sodiumMg":7,"sugarG":1,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin K","Folate","Vitamin C","Vitamin A"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Manganese","Calcium","Potassium"]}
         },
         {
           name: "Jjimdak",
@@ -2031,7 +2027,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.09,"Essence":4.08,"Matter":5.06,"Substance":4.74},
           thermodynamicProperties: {"heat":0.0449,"entropy":0.3348,"reactivity":1.7006,"gregsEnergy":-0.5244,"kalchm":0.0017,"monica":0.0278},
           substitutions: [{"originalIngredient":"Whole chicken","substituteOptions":["Bone-in thighs only","Duck pieces"]},{"originalIngredient":"Oyster sauce","substituteOptions":["Additional soy sauce with a pinch of sugar"]}],
-            nutritionPerServing: {"calories":76,"proteinG":9,"carbsG":6,"fatG":2,"fiberG":1,"sodiumMg":29,"sugarG":3,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin 0","Vitamin 1","Vitamin 2","Vitamin A","Vitamin K","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","0","1","2","Potassium","Manganese"]}
+            nutritionPerServing: {"calories":76,"proteinG":9,"carbsG":6,"fatG":2,"fiberG":1,"sodiumMg":29,"sugarG":3,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin A","Vitamin K","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Potassium","Manganese"]}
         },
         {
           name: "Bibim Guksu",
@@ -2046,7 +2042,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.34,"Essence":4.03,"Matter":4.09,"Substance":3.96},
           thermodynamicProperties: {"heat":0.0712,"entropy":0.3683,"reactivity":2.413,"gregsEnergy":-0.8175,"kalchm":0.2089,"monica":0.0922},
           substitutions: [{"originalIngredient":"Somyeon noodles","substituteOptions":["Buckwheat noodles","Udon noodles"]},{"originalIngredient":"Gochujang","substituteOptions":["Sambal oelek mixed with miso"]}],
-            nutritionPerServing: {"calories":37,"proteinG":1,"carbsG":6,"fatG":1,"fiberG":3,"sodiumMg":16,"sugarG":3,"vitamins":["Vitamin 0","Vitamin 1","Vitamin 2","Vitamin C","Vitamin K","Vitamin folate"],"minerals":["0","1","2","Manganese","Potassium"]}
+            nutritionPerServing: {"calories":37,"proteinG":1,"carbsG":6,"fatG":1,"fiberG":3,"sodiumMg":16,"sugarG":3,"vitamins":["Vitamin C","Vitamin K","Folate"],"minerals":["Manganese","Potassium"]}
         },
         {
           name: "Haemul Dubu Jorim",
@@ -2061,7 +2057,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":3.96,"Essence":4.25,"Matter":3.76,"Substance":3.56},
           thermodynamicProperties: {"heat":0.1094,"entropy":0.3997,"reactivity":3.0586,"gregsEnergy":-1.1132,"kalchm":8.1594,"monica":0.7628},
           substitutions: [{"originalIngredient":"Mixed seafood","substituteOptions":["Additional tofu","Chicken pieces"]},{"originalIngredient":"Anchovy stock","substituteOptions":["Vegetable stock","Water with dashi"]}],
-            nutritionPerServing: {"calories":40,"proteinG":2,"carbsG":7,"fatG":1,"fiberG":1,"sodiumMg":6,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin K","Vitamin folate","Vitamin 0","Vitamin 1","Vitamin 2"],"minerals":["Manganese","Selenium","Iron","0","1","2"]}
+            nutritionPerServing: {"calories":40,"proteinG":2,"carbsG":7,"fatG":1,"fiberG":1,"sodiumMg":6,"sugarG":4,"vitamins":["Vitamin C","Vitamin B6","Vitamin K","Folate"],"minerals":["Manganese","Selenium","Iron"]}
         }
         ],
       winter: [
@@ -2078,7 +2074,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":2.46,"Essence":3.11,"Matter":3.35,"Substance":3.23},
           thermodynamicProperties: {"heat":0.0596,"entropy":0.3497,"reactivity":2.1599,"gregsEnergy":-0.6957,"kalchm":0.1232,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Spam","substituteOptions":["Turkey Spam","Sliced ham"]},{"originalIngredient":"Hot dogs","substituteOptions":["Smoked sausage","Tofu puffs"]}],
-            nutritionPerServing: {"calories":5,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Vitamin folate"],"minerals":["Iron","Manganese"]}
+            nutritionPerServing: {"calories":5,"proteinG":0,"carbsG":1,"fatG":0,"fiberG":0,"sodiumMg":2,"sugarG":0,"vitamins":["Vitamin K","Folate"],"minerals":["Iron","Manganese"]}
         },
       ],
       summer: [
@@ -2095,7 +2091,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":1.86,"Essence":2.83,"Matter":3.4,"Substance":3.11},
           thermodynamicProperties: {"heat":0.0335,"entropy":0.2702,"reactivity":1.5614,"gregsEnergy":-0.3884,"kalchm":0.0276,"monica":-0.0376},
           substitutions: [{"originalIngredient":"Fresh ginseng","substituteOptions":["Dried ginseng slices","Ginseng tea bags"]},{"originalIngredient":"Ginkgo nuts","substituteOptions":["Pine nuts","Chestnuts"]}],
-            nutritionPerServing: {"calories":269,"proteinG":36,"carbsG":24,"fatG":4,"fiberG":2,"sodiumMg":90,"sugarG":16,"vitamins":["Vitamin B6","Vitamin niacin","Vitamin B12","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Manganese"]}
+            nutritionPerServing: {"calories":269,"proteinG":36,"carbsG":24,"fatG":4,"fiberG":2,"sodiumMg":90,"sugarG":16,"vitamins":["Vitamin B6","Niacin","Vitamin B12","Vitamin C"],"minerals":["Selenium","Phosphorus","Zinc","Manganese"]}
         },
       ],
     },
@@ -2114,7 +2110,7 @@ export const korean: Cuisine = {
           alchemicalProperties: {"Spirit":0.93,"Essence":1.99,"Matter":2.16,"Substance":2.07},
           thermodynamicProperties: {"heat":0.0169,"entropy":0.2275,"reactivity":1.7714,"gregsEnergy":-0.3862,"kalchm":0.1545,"monica":0.5468},
           substitutions: [{"originalIngredient":"Milk ice","substituteOptions":["Plain shaved ice with evaporated milk"]},{"originalIngredient":"Mochi","substituteOptions":["Chewy tteok pieces","Jelly cubes"]}],
-            nutritionPerServing: {"calories":23,"proteinG":1,"carbsG":5,"fatG":0,"fiberG":0,"sodiumMg":1,"sugarG":4,"vitamins":["Vitamin B1","Vitamin B6"],"minerals":["Iron","Potassium","Magnesium"]}
+            nutritionPerServing: {"calories":320,"proteinG":7,"carbsG":64,"fatG":5,"fiberG":4,"sodiumMg":95,"sugarG":38,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Calcium","Iron","Magnesium"]}
         },
       ],
       winter: [

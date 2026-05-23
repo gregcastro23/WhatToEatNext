@@ -6,7 +6,11 @@ import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import {
-  hasNutritionData,
+  calculateRecipeAlchemicalQuantities,
+  calculateRecipeElementalFromIngredients,
+} from "@/utils/recipeAlchemicalQuantities";
+import {
+  isPlausibleNutrition,
   normalizeRecipeNutrition,
 } from "@/utils/recipeNutrition";
 import { getAssetUrl } from "@/utils/urlUtils";
@@ -40,9 +44,108 @@ function lowerArray(value: unknown): string[] | undefined {
   return undefined;
 }
 
+/** Coerce a value to a finite number, or `undefined` when it isn't one. */
+function toFiniteNumber(value: unknown): number | undefined {
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+/** Reduce a value to an array of trimmed, non-empty strings, or `undefined`. */
+function toStringArray(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const out = value
+    .filter((v): v is string => typeof v === "string")
+    .map((v) => v.trim())
+    .filter((v) => v.length > 0);
+  return out.length ? out : undefined;
+}
+
+// ── Dietary inference (heuristic) ───────────────────────────────────────
+//
+// The cuisine schema has no isVegetarian/isVegan/etc. fields, so dietary
+// flags are inferred from ingredient names. Word-boundary regexes avoid
+// the most common false positives — "coconut milk" is not dairy, "rice
+// flour" is not gluten, "fish sauce" disqualifies vegetarian.
+//
+// The inference is conservative: it errs toward *withholding* a positive
+// claim. A recipe is only marked gluten-free when no ingredient triggers
+// any gluten keyword; "tortilla" (which could be corn or wheat) flags as
+// gluten even though some recipes are actually GF. This produces some
+// false negatives (recipes that genuinely are GF lose the badge) but
+// avoids the worse error of falsely claiming a diet a recipe doesn't meet.
+
+const MEAT_RE =
+  /\b(beef|chicken|pork|lamb|mutton|veal|bacon|ham|sausage|turkey|duck|goose|goat|rabbit|venison|prosciutto|pancetta|salami|chorizo|liver|gizzard|tripe|kidney|sweetbread|oxtail|brisket|sirloin|tenderloin|ribeye|loin|jerky|pepperoni|mortadella|guanciale|capicola|bresaola)\b/i;
+
+const FISH_RE =
+  /\b(fish|salmon|tuna|cod|shrimp|prawn|lobster|crab|oyster|mussel|clam|octopus|squid|anchov(?:y|ies)|calamari|scallop|bonito|mackerel|sardine|snapper|sole|halibut|trout|eel|caviar|roe|katsuobushi|herring|carp|pollock|tilapia|monkfish|swordfish|mahi)\b/i;
+
+const SEAFOOD_DERIVED_RE =
+  /\b(fish sauce|fish stock|oyster sauce|shrimp paste|nam pla|nuoc mam|dashi|bonito flakes|xo sauce)\b/i;
+
+const ANIMAL_DERIVED_RE =
+  /\b(gelatin(?:e)?|lard|tallow|suet|isinglass|rennet)\b/i;
+
+const DAIRY_RE =
+  /\b(milk|cheese|butter|cream|yogurt|yoghurt|ghee|whey|casein|parmesan|parmigiano|mozzarella|feta|ricotta|cheddar|gouda|brie|camembert|halloumi|manchego|provolone|mascarpone|labneh|paneer|kefir|buttermilk|asiago|gruy[eè]re|fontina|romano|cotija|queso)\b/i;
+
+// "milk"-suffixed plant milks that shouldn't trigger the dairy flag.
+const NON_DAIRY_RE =
+  /\b(coconut|almond|soy|oat|rice|cashew|hemp|hazelnut|nut)\s+milk\b/i;
+
+const EGG_RE = /\beggs?\b/i;
+const HONEY_RE = /\bhoney\b/i;
+
+const GLUTEN_RE =
+  /\b(wheat|flour|bread|pasta|couscous|bulgur|semolina|farro|barley|rye|malt|spelt|kamut|panko|breadcrumbs?|udon|soba|ramen|gnocchi|durum|pita|naan|chapati|paratha|tortilla|brioche|cornetto|baguette|focaccia|filo|phyllo|lasagn[ae]|fettuccine|tagliatelle|linguine|spaghetti|orzo|orecchiette|penne|rigatoni|fusilli|ravioli|tortellini|farfalle|cannelloni|pierogi|vareniki|pelmeni|dumpling wrappers?)\b/i;
+
+// Flour types that are gluten-free; allow these to suppress the generic
+// `/flour/` rule above.
+const GF_FLOUR_RE =
+  /\b(rice|almond|coconut|chickpea|gram|corn|tapioca|buckwheat|oat|millet|sorghum|teff|cassava|potato|amaranth|quinoa|hazelnut|nut|cornmeal)\s+flour\b/i;
+
+interface DietaryFlags {
+  isVegetarian: boolean;
+  isVegan: boolean;
+  isDairyFree: boolean;
+  isGlutenFree: boolean;
+}
+
+function inferDietary(ingredients: unknown[]): DietaryFlags {
+  let hasMeat = false;
+  let hasFish = false;
+  let hasAnimalDerived = false;
+  let hasDairy = false;
+  let hasEgg = false;
+  let hasHoney = false;
+  let hasGluten = false;
+
+  for (const ing of ingredients) {
+    const name =
+      ing && typeof ing === "object" && "name" in ing
+        ? String((ing as { name?: unknown }).name ?? "")
+        : "";
+    if (!name) continue;
+    if (MEAT_RE.test(name)) hasMeat = true;
+    if (FISH_RE.test(name) || SEAFOOD_DERIVED_RE.test(name)) hasFish = true;
+    if (ANIMAL_DERIVED_RE.test(name)) hasAnimalDerived = true;
+    if (DAIRY_RE.test(name) && !NON_DAIRY_RE.test(name)) hasDairy = true;
+    if (EGG_RE.test(name)) hasEgg = true;
+    if (HONEY_RE.test(name)) hasHoney = true;
+    if (GLUTEN_RE.test(name) && !GF_FLOUR_RE.test(name)) hasGluten = true;
+  }
+
+  const isVegetarian = !hasMeat && !hasFish && !hasAnimalDerived;
+  const isVegan = isVegetarian && !hasDairy && !hasEgg && !hasHoney;
+  const isDairyFree = !hasDairy;
+  const isGlutenFree = !hasGluten;
+
+  return { isVegetarian, isVegan, isDairyFree, isGlutenFree };
+}
+
 /**
  * Extract and normalize recipes from the static cuisine data files.
- * This is the authoritative source for the 351 recipes.
+ * This is the authoritative source for the full recipe catalog.
  */
 function extractRecipesFromCuisines(
   cuisines: Array<{ key: string; cuisine: Cuisine }>,
@@ -108,8 +211,70 @@ function extractRecipesFromCuisines(
             dietaryTags.push("glutenFree");
           if (dish.isDairyFree || alchemical.dairyFree)
             dietaryTags.push("dairyFree");
+          // Heuristic fallback when source has no explicit dietary fields
+          // (which is every cuisine recipe in this repo today). Inference
+          // is conservative — it only claims a diet when the ingredient
+          // list reveals no disqualifying keywords.
+          if (dietaryTags.length === 0 && Array.isArray(dish.ingredients)) {
+            const inferred = inferDietary(dish.ingredients);
+            if (inferred.isVegetarian) dietaryTags.push("vegetarian");
+            if (inferred.isVegan) dietaryTags.push("vegan");
+            if (inferred.isDairyFree) dietaryTags.push("dairyFree");
+            if (inferred.isGlutenFree) dietaryTags.push("glutenFree");
+          }
 
           const imageUrl = getAssetUrl((dish.image as string) ?? (dish.image_url as string));
+
+          // ── Rich fields the cuisine schema carries that earlier
+          //    extraction silently dropped (cooking methods, the alchemical
+          //    SMES grid, the Monica constant, astrological affinities and
+          //    ingredient substitutions). ──
+          const alchemicalProps = (dish.alchemicalProperties ?? {}) as Record<
+            string,
+            unknown
+          >;
+          const thermo = (dish.thermodynamicProperties ?? {}) as Record<
+            string,
+            unknown
+          >;
+          const astro = (dish.astrologicalAffinities ?? {}) as Record<
+            string,
+            unknown
+          >;
+
+          // Regional variant — e.g. `details.cuisine: "Italian (Sicily)"`
+          // surfaces as a "Sicily" badge on the card.
+          const detailsCuisine =
+            typeof details.cuisine === "string" ? details.cuisine : "";
+          const regionMatch = detailsCuisine.match(/\(([^)]+)\)/);
+          const regionalVariant =
+            (typeof dish.regionalVariant === "string" &&
+              dish.regionalVariant) ||
+            (regionMatch ? regionMatch[1].trim() : undefined);
+
+          const cookingMethod = toStringArray(classifications.cookingMethods);
+          const planets = toStringArray(astro.planets);
+          const signs = toStringArray(astro.signs);
+          const lunarPhases = toStringArray(astro.lunarPhases);
+          const monicaConstant = toFiniteNumber(thermo.monica);
+
+          const substitutions = (
+            Array.isArray(dish.substitutions) ? dish.substitutions : []
+          )
+            .map((entry: unknown) => {
+              const s = (entry ?? {}) as Record<string, unknown>;
+              const original =
+                (typeof s.original === "string" && s.original) ||
+                (typeof s.originalIngredient === "string" &&
+                  s.originalIngredient) ||
+                "";
+              const alternatives =
+                toStringArray(s.alternatives) ??
+                toStringArray(s.substituteOptions) ??
+                [];
+              return { original, alternatives };
+            })
+            .filter((s) => s.original && s.alternatives.length > 0);
 
           const recipe: IndexedRecipe = {
             id:
@@ -183,33 +348,101 @@ function extractRecipesFromCuisines(
                 Earth: 0.25,
                 Air: 0.25,
               }) as Recipe["elementalProperties"],
+            cookingMethod,
+            spiceLevel:
+              (details.spiceLevel as Recipe["spiceLevel"]) ?? undefined,
+            regionalVariant,
+            // Alchemical SMES grid + Monica constant — powers the recipe
+            // detail page's "Alchemical Scores" panel.
+            spirit: toFiniteNumber(alchemicalProps.Spirit),
+            essence: toFiniteNumber(alchemicalProps.Essence),
+            matter: toFiniteNumber(alchemicalProps.Matter),
+            substance: toFiniteNumber(alchemicalProps.Substance),
+            monicaScore: toFiniteNumber(dish.monicaScore),
+            monicaScoreLabel:
+              typeof dish.monicaScoreLabel === "string"
+                ? dish.monicaScoreLabel
+                : undefined,
+            monicaOptimization:
+              monicaConstant != null
+                ? {
+                    originalMonica: monicaConstant,
+                    optimizedMonica: monicaConstant,
+                    optimizationScore: 0,
+                    temperatureAdjustments: [],
+                    timingAdjustments: [],
+                    intensityModifications: [],
+                    planetaryTimingRecommendations: [],
+                  }
+                : undefined,
+            // Astrological affinities — powers the detail page's
+            // "Astrological Affinities" panel and planetary scoring.
+            planetaryInfluences:
+              planets && planets.length > 0
+                ? { favorable: planets, unfavorable: [], neutral: [] }
+                : undefined,
+            zodiacInfluences: signs,
+            lunarPhaseInfluences:
+              lunarPhases as Recipe["lunarPhaseInfluences"],
+            substitutions: substitutions.length > 0 ? substitutions : undefined,
           };
 
           // ── Nutrition pipeline ──
           //
-          // 1. Try the canonical field-name mapping (reads
-          //    nutritionPerServing / nutritionalProfile / nutrition).
-          // 2. If that produces nothing, compute from the ingredient list
-          //    via UnifiedIngredientService.
-          // 3. If both fail, log a dev-only warning and leave nutrition
-          //    undefined so the counter gracefully skips this recipe.
+          // The recipe's nutrition IS the sum of its ingredients' nutrition,
+          // scaled by amount and per serving. We compute that first, and
+          // only fall back to the per-recipe `nutritionPerServing` block
+          // when the ingredient aggregator can't return a plausible total
+          // (e.g. the recipe references ingredients the unified DB doesn't
+          // know about). If both paths fail, the section is omitted.
           stats.total++;
-          const normalized = normalizeRecipeNutrition(
-            dish as Record<string, unknown>,
-          );
-          if (normalized && hasNutritionData(normalized)) {
-            recipe.nutrition = normalized;
-            stats.fromSource++;
+          const computedNutrition = computeRecipeNutritionFromIngredients(recipe);
+          if (computedNutrition && isPlausibleNutrition(computedNutrition)) {
+            recipe.nutrition = computedNutrition;
+            stats.fromIngredients++;
           } else {
-            const computed = computeRecipeNutritionFromIngredients(recipe);
-            if (computed && hasNutritionData(computed)) {
-              recipe.nutrition = computed;
-              stats.fromIngredients++;
+            const normalized = normalizeRecipeNutrition(
+              dish as Record<string, unknown>,
+            );
+            if (normalized && isPlausibleNutrition(normalized)) {
+              recipe.nutrition = normalized;
+              stats.fromSource++;
             } else {
               stats.missing++;
               if (stats.missingNames.length < 20) {
                 stats.missingNames.push(recipe.name);
               }
+            }
+          }
+
+          // ── Ingredient-derived alchemical & elemental overrides ──
+          //
+          // ESMS quantities are *additive* across ingredients; the recipe's
+          // Spirit = Σ Spirit_ingredient (and similarly E, M, S). Elemental
+          // composition is a *percentage* — each ingredient's Fire+Water+
+          // Earth+Air sums to 1.0, and the recipe is the ingredient-average
+          // share of each element. These computations are the canonical
+          // source of truth; the recipe-level values declared in the cuisine
+          // files are treated as initial guesses that the ingredient sum
+          // overrides whenever it's available.
+          const ingredientNames = recipe.ingredients
+            .map((ing) => ing.name)
+            .filter((n): n is string => typeof n === "string" && n.length > 0);
+
+          if (ingredientNames.length > 0) {
+            const alchemicalSummary =
+              calculateRecipeAlchemicalQuantities(ingredientNames);
+            recipe.spirit = alchemicalSummary.totalSpirit;
+            recipe.essence = alchemicalSummary.totalEssence;
+            recipe.matter = alchemicalSummary.totalMatter;
+            recipe.substance = alchemicalSummary.totalSubstance;
+            recipe.ingredientAlchemicalSummary = alchemicalSummary;
+
+            const elementalSummary =
+              calculateRecipeElementalFromIngredients(ingredientNames);
+            if (elementalSummary) {
+              recipe.elementalProperties =
+                elementalSummary.elementalProperties;
             }
           }
 
@@ -317,7 +550,7 @@ export async function getServerRecipes(): Promise<Recipe[]> {
 /**
  * Return the prebuilt mealType × season index, building it on demand if
  * `getServerRecipes` hasn't been called yet. Used by the recommendation
- * bridge to avoid scanning all 351 recipes on every generation request.
+ * bridge to avoid scanning the entire recipe catalog on every request.
  */
 export async function getServerRecipeIndex(): Promise<RecipeIndex> {
   if (!_cachedIndex) {

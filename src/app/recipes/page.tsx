@@ -22,10 +22,11 @@ function RecipesPageContent() {
     setIsLoading(true);
     setError(null);
     try {
-      const url = cuisine 
-        ? `/api/recipes?cuisine=${encodeURIComponent(cuisine)}`
-        : "/api/recipes";
-      const res = await fetch(url);
+      // Request the full catalog — this page scores and sorts every recipe
+      // client-side, so it must not be capped to the API's default page size.
+      const params = new URLSearchParams({ limit: "1000" });
+      if (cuisine) params.set("cuisine", cuisine);
+      const res = await fetch(`/api/recipes?${params.toString()}`);
       if (!res.ok) {
         setRecipes([]);
         setIsLoading(false);
@@ -47,6 +48,10 @@ function RecipesPageContent() {
       setIsScoring(true);
       try {
         const scoringService = PlanetaryScoringService.getInstance();
+        // Warm the shared planetary-position cache once up front. Otherwise
+        // the concurrent scoreRecipe() calls below would each fire their own
+        // /api/astrologize request (one per recipe in the catalog).
+        await scoringService.getCurrentPlanetaryPositions();
         const scoredRecipes = await Promise.all(
           cuisineRecipes.map(async (recipe) => {
             const r = recipe;

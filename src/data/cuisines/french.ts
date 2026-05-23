@@ -673,23 +673,7 @@ export const french: Cuisine = {
               "Full Moon"
             ]
           },
-          "nutritionPerServing": {
-            "calories": 520,
-            "proteinG": 14,
-            "carbsG": 22,
-            "fatG": 42,
-            "fiberG": 1,
-            "sodiumMg": 580,
-            "sugarG": 2,
-            "vitamins": [
-              "Vitamin A",
-              "Vitamin B12"
-            ],
-            "minerals": [
-              "Calcium",
-              "Iron"
-            ]
-          },
+          "nutritionPerServing": {"calories":570,"proteinG":22,"carbsG":28,"fatG":41,"fiberG":1,"sodiumMg":880,"sugarG":3,"vitamins":["Vitamin A","Vitamin B12","Vitamin D","Riboflavin"],"minerals":["Calcium","Iron","Selenium","Phosphorus"]},
 
           alchemicalProperties: {"Spirit":2.36,"Essence":2.84,"Matter":3.15,"Substance":3.16},
           thermodynamicProperties: {"heat":0.0559,"entropy":0.3431,"reactivity":1.8866,"gregsEnergy":-0.5914,"kalchm":0.1044,"monica":0.8752},
@@ -4441,7 +4425,7 @@ export const french: Cuisine = {
               alchemicalProperties: {"Spirit":5.0,"Essence":5.7,"Matter":4.18,"Substance":3.83},
               thermodynamicProperties: {"heat":0.1189,"entropy":0.3548,"reactivity":3.777,"gregsEnergy":-1.2213,"kalchm":940.0881,"monica":-0.3001},
               substitutions: [{"originalIngredient":"Fresh shellfish","substituteOptions":["Frozen mussels (thawed)","Shrimp"]},{"originalIngredient":"Rascasse or bony stock fish","substituteOptions":["Fish stock made from store-bought fish stock base"]}],
-                nutritionPerServing: {"calories":69,"proteinG":2,"carbsG":13,"fatG":2,"fiberG":3,"sodiumMg":9,"sugarG":7,"vitamins":["Vitamin C","Vitamin B6","Vitamin folate","Vitamin K","Vitamin A","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron"]}
+                nutritionPerServing: {"calories":69,"proteinG":2,"carbsG":13,"fatG":2,"fiberG":3,"sodiumMg":9,"sugarG":7,"vitamins":["Vitamin C","Vitamin B6","Folate","Vitamin K","Vitamin A","Vitamin E"],"minerals":["Potassium","Manganese","Selenium","Iron"]}
             },
             {
               name: "Quiche Lorraine",
