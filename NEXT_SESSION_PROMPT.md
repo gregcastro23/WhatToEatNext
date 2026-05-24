@@ -1,7 +1,9 @@
 # NEXT_SESSION_PROMPT — Dashboard & Telemetry Operations
 
-Welcome to the next engineering session for **Alchm.kitchen (WhatToEatNext)**! 
-The local development environment has been equipped with a NextAuth admin bypass and a live-wired Railway PostgreSQL telemetry dashboard. Use this document as your direct instruction set to drive pending feature work and enforce codebase robustness.
+Welcome to the next engineering session for **Alchm.kitchen (WhatToEatNext)**!
+The High Alchemist dashboard is live-wired to the Railway PostgreSQL database.
+Use this document as your direct instruction set to drive pending feature work
+and enforce codebase robustness.
 
 ---
 
@@ -12,36 +14,25 @@ The local development environment has been equipped with a NextAuth admin bypass
    ```bash
    lsof -ti:3002 | xargs kill -9 2>/dev/null || true
    ```
-3. **Live Database Access**: Connects directly to the live Railway PostgreSQL database.
-   - Connection URL: `postgresql://postgres:<password>@tramway.proxy.rlwy.net:35670/railway` — the password is supplied via `.env.local` / Railway env, never committed
-   - *Note*: Always verify that env variables are loaded correctly by Bun modules without hoisting interference.
+3. **Live Database Access**: Production connects to Railway PostgreSQL via internal networking (`postgres.railway.internal`). For local dev, use the Railway public proxy URL from your `.env.local` — passwords are never committed.
 
 ---
 
-## 🔑 Administrative Development Bypass
+## 🔑 Authentication
 
-To enable rapid local testing of admin surfaces without OAuth loops:
-- **Mock Account**: `gregcastro23@gmail.com`
-- **Role**: `admin`
-- **Tier**: `premium`
-- **Behavior**: When running locally (`NODE_ENV !== "production"`), the authentication layer automatically injects this admin session. You can navigate directly to protected routes such as `/admin` and `/admin/dashboard` to verify live updates.
+Local and production auth are identical: sign in via Google OAuth at `/auth/signin`. No dev-mode bypass exists or should exist — admin gating is enforced by `validateAdminRequest` server-side and the email allowlist in `src/lib/auth/adminEmails.ts`.
 
 ---
 
-## 📊 Newly Wired Live Telemetry Status
+## 📊 Live Telemetry
 
-The **High Alchemist Dashboard (`/admin/dashboard`)** has been wired directly to the Railway PostgreSQL database, displaying real-time metrics instead of hardcoded placeholder stats:
-- **Total Users**: ~106 registered users (natal charts completed & onboarding states)
-- **Recipes**: 579 denormalized recipes live in the catalog (`recipes` table)
-- **Ingredients**: 401 elemental ingredients (`ingredients` table)
-- **Active Subscriptions**: 100 active premium tiers (`user_subscriptions` table)
-- **Transactions**: 772 token ledger entries (`token_transactions` table)
+The **High Alchemist Dashboard (`/admin/dashboard`)** is wired to the Railway PostgreSQL database. Counts (users, recipes, ingredients, subscriptions, transactions) are queried live on each load — check the dashboard itself for current values rather than relying on point-in-time numbers in docs.
 
 ---
 
 ## 🎯 High-Priority Next Tasks
 
-Use the new live telemetry and developer bypass to build out the following pending robust database integrations:
+Use the live telemetry surface to build out the following pending robust database integrations:
 
 ### 1. 🌌 Astrological Transit Data Dynamic Integration
 *   **Current State**: Astro/Ephemeris widgets in the admin control room and recommendation engine currently use static seed formulas.
@@ -61,7 +52,7 @@ Use the new live telemetry and developer bypass to build out the following pendi
 *   **Key Constraint**: Keep newly ported UI components in the excluded staging directory (`wten-migration-ui-components/`) until the final type-checking integration phase.
 
 ### 4. 💳 Local Webhook & Stripe Event Verification
-*   **Current State**: OAuth bypass mock data exists, but checkout state syncing needs verification.
+*   **Current State**: Checkout state syncing needs end-to-end verification against live Stripe events.
 *   **Goal**: Set up local Webhook endpoints using the Stripe CLI to sync real-time user subscriptions and verify that token transactions write properly to `token_transactions` on checkout events.
 
 ---
