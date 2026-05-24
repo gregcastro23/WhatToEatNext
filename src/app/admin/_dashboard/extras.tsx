@@ -1112,7 +1112,7 @@ function formatBytes(bytes: number): string {
 }
 
 export function DatabaseStorage({ data }: { data: DatabaseObservabilityData }) {
-  const { pool, slowQueries, tables, live } = data;
+  const { pool, slowQueries, slowQueryThresholdMs, tables, live } = data;
   const poolLoad = pool.max > 0 ? pool.total / pool.max : 0;
   const maxTableSize = Math.max(1, ...tables.map((t) => t.sizeBytes));
   return (
@@ -1152,11 +1152,13 @@ export function DatabaseStorage({ data }: { data: DatabaseObservabilityData }) {
         <Stat2 k="DB size" v={formatBytes(data.dbSizeBytes)} d="current database" />
       </div>
 
-      <div className="t-tag" style={{ marginBottom: 4 }}>SLOW QUERIES · ACTIVE &gt; 200MS</div>
+      <div className="t-tag" style={{ marginBottom: 4 }}>
+        SLOW QUERIES · LAST 24H &gt; {slowQueryThresholdMs}MS
+      </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 3, marginBottom: 10 }}>
         {slowQueries.length === 0 ? (
           <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>
-            none — all active queries under 200ms
+            none — all logged queries under {slowQueryThresholdMs}ms
           </span>
         ) : (
           slowQueries.map((q, i) => (

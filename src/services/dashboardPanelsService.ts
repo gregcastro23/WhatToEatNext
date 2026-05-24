@@ -10,7 +10,10 @@ import { checkDatabaseHealth, executeQuery } from "@/lib/database";
 import { getDatabasePool } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { summarizeRecent } from "@/lib/observability/requestLog";
-import { getRecentSlowQueries } from "@/lib/observability/slowQueryLog";
+import {
+  getRecentSlowQueries,
+  getSlowQueryThresholdMs,
+} from "@/lib/observability/slowQueryLog";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
 
@@ -136,8 +139,10 @@ export interface DatabaseObservabilityData {
   activeConnections: number;
   /** largest tables by total relation size */
   tables: DatabaseTable[];
-  /** active queries currently running longer than 200ms */
+  /** persisted slow queries from the last 24h above `slowQueryThresholdMs`, worst first */
   slowQueries: SlowQuery[];
+  /** the latency threshold (ms) above which a query is treated as slow */
+  slowQueryThresholdMs: number;
   /** true when the Postgres stat views resolved; false when degraded. */
   live: boolean;
 }
@@ -145,10 +150,15 @@ export interface DatabaseObservabilityData {
 /**
  * Postgres observability for the Database panel — connection-pool usage
  * (read from the in-process pg.Pool), database size, active connections,
- * largest tables, and active queries exceeding a 200ms latency threshold.
- * Uses only standard stat views — no pg_stat_statements extension required.
+ * largest tables, and persisted slow queries over the last 24h that
+ * exceed `getSlowQueryThresholdMs()` (default 200ms, Railway dyno pool
+ * defaults to 5 — see DB_MAX_CONNECTIONS). Uses only standard stat views
+ * — no pg_stat_statements extension required. Each source degrades
+ * independently so the dashboard never hard-fails.
  */
 export async function getDatabaseObservability(): Promise<DatabaseObservabilityData> {
+  const slowQueryThresholdMs = getSlowQueryThresholdMs();
+
   // Pool counters live on the in-process pool — readable without a query.
   const pool = { total: 0, idle: 0, waiting: 0, max: 0 };
   try {
@@ -172,15 +182,21 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
         `SELECT COUNT(*)::int AS count FROM pg_stat_activity
          WHERE datname = current_database()`,
       ),
+      // Filter on metric_value explicitly: the write side gates at the same
+      // threshold, but a future env override on either side would otherwise
+      // silently desynchronize the panel. Sort by duration so operators see
+      // the worst offenders first, not just the most recent.
       executeQuery(
-        `SELECT 
+        `SELECT
            tags->>'query' AS query,
            metric_value::float8 AS duration_ms
          FROM system_metrics
          WHERE metric_name = 'slow_query_duration_ms'
+           AND metric_value >= $1
            AND timestamp > now() - INTERVAL '24 hours'
-         ORDER BY timestamp DESC
-         LIMIT 5`
+         ORDER BY metric_value DESC
+         LIMIT 5`,
+        [slowQueryThresholdMs],
       ).catch(err => {
         _logger.warn("[dbObservability] failed to query system_metrics for slow queries, falling back:", err);
         return { rows: [] };
@@ -201,7 +217,8 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       durationMs: Math.round(Number(r.duration_ms ?? 0)),
     }));
 
-    // Merge with in-memory slow queries if fewer than 5 rows returned
+    // Merge with in-memory slow queries if fewer than 5 rows returned. The
+    // in-memory ring uses the same threshold, so values are already filtered.
     let finalSlowQueries = [...dbSlowQueries];
     if (finalSlowQueries.length < 5) {
       const needed = 5 - finalSlowQueries.length;
@@ -211,6 +228,7 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       }));
       finalSlowQueries = [...finalSlowQueries, ...inMemorySlows];
     }
+    finalSlowQueries.sort((a, b) => b.durationMs - a.durationMs);
 
     const tableRows = tablesRes.rows as Array<{
       name: string;
@@ -223,6 +241,7 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       dbSizeBytes: Number(sizeRes.rows[0]?.bytes ?? 0),
       activeConnections: Number(connRes.rows[0]?.count ?? 0),
       slowQueries: finalSlowQueries,
+      slowQueryThresholdMs,
       tables: tableRows.map((r) => ({
         name: String(r.name),
         rows: Math.round(Number(r.rows ?? 0)),
@@ -232,8 +251,7 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
     };
   } catch (error) {
     _logger.error("[dbObservability] stat-view query failed, falling back to in-memory slow queries:", error);
-    
-    // Fall back completely to in-memory slow queries when query fails
+
     const fallbackSlowQueries = getRecentSlowQueries(5).map(entry => ({
       query: entry.preview,
       durationMs: entry.ms,
@@ -245,6 +263,7 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
       activeConnections: 0,
       tables: [],
       slowQueries: fallbackSlowQueries,
+      slowQueryThresholdMs,
       live: false,
     };
   }

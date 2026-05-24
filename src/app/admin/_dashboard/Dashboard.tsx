@@ -118,7 +118,9 @@ export function Dashboard({ data }: DashboardProps) {
       </style>
 
       <AdminShell density={density} showGrid={showGrid} user={data.user} pulse={data.pulse}>
-        <MasterLineHero greeting={`Good Mars hour, ${data.user.name.split(" ")[0]}`} />
+        <MasterLineHero
+          greeting={`Good ${data.skyConditions.planetaryHour.planet} hour, ${data.user.name.split(" ")[0]}`}
+        />
         <KPIStrip />
         <SkyConditions data={data.skyConditions} />
 
@@ -139,7 +141,7 @@ export function Dashboard({ data }: DashboardProps) {
 
         <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
           <SEMSDistribution />
-          <AstronomicalEngine />
+          <AstronomicalEngine live={data.skyConditions.live} />
         </div>
 
         <div
@@ -226,11 +228,31 @@ export function Dashboard({ data }: DashboardProps) {
             <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>build · #c8f1ad</span>
           </div>
           <div style={{ display: "flex", gap: 18 }}>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--accent)" }}>● mars hour · 21:46 UTC</span>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9.5,
+                color: data.skyConditions.planetaryHour.live ? "var(--accent)" : "var(--fg-mute)",
+              }}
+            >
+              ● {data.skyConditions.planetaryHour.planet.toLowerCase()} hour
+              {" · "}
+              {new Date(data.skyConditions.generatedAt)
+                .toISOString()
+                .slice(11, 16)} UTC
+            </span>
             <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
               JD 2460814.71 · VSOP87/DE440
             </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--el-earth)" }}>● all systems · 98.7%</span>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9.5,
+                color: data.skyConditions.live ? "var(--el-earth)" : "var(--fg-mute)",
+              }}
+            >
+              {data.skyConditions.live ? "● all systems · live" : "○ ephemeris · degraded"}
+            </span>
           </div>
         </footer>
       </AdminShell>

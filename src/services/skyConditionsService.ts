@@ -12,6 +12,8 @@
  */
 
 import { _logger } from "@/lib/logger";
+import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
+import type { Planet } from "@/types/celestial";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { getCurrentPlanetaryPositionsServer } from "@/utils/serverPlanetaryCalculations";
 
@@ -42,11 +44,42 @@ export interface SkyAspect {
   applying: boolean;
 }
 
+export interface PlanetaryHourSegment {
+  /** clock hour 0-23 */
+  hour: number;
+  /** planet ruling this hour, as an astrological glyph */
+  symbol: string;
+  /** planet name (e.g. "Mars") */
+  planet: Planet;
+  /** true for the segment containing now */
+  isLive: boolean;
+  /** true for hours earlier today than now */
+  isPast: boolean;
+}
+
+export interface PlanetaryHourSnapshot {
+  /** glyph of the current planetary hour ruler */
+  symbol: string;
+  /** name of the current planetary hour ruler */
+  planet: Planet;
+  /** planetary day ruler (e.g. "Mars" on a Tuesday) */
+  dayRuler: Planet;
+  /** day-or-night index of the current planetary hour, 0-11 */
+  hourNumber: number;
+  isDaytime: boolean;
+  /** 24-clock-hour view used by the dashboard's planetary-hour bar */
+  segments: PlanetaryHourSegment[];
+  /** true when computed from the calculator; false when degraded. */
+  live: boolean;
+}
+
 export interface SkyConditionsData {
   /** short derived summary, e.g. "Mercury stationing · 2 planets retrograde" */
   headline: string;
   planets: SkyPlanet[];
   aspects: SkyAspect[];
+  /** current planetary day/hour + 24-hour bar for the planetary-hour widget */
+  planetaryHour: PlanetaryHourSnapshot;
   /** true when computed from the live ephemeris; false when degraded. */
   live: boolean;
   generatedAt: string;
@@ -103,8 +136,18 @@ const ASPECT_ORB = 6;
 /** Daily motion (deg/day) below which a non-luminary is "stationing". */
 const STATIONING_SPEED = 0.08;
 
+const DEGRADED_PLANETARY_HOUR: PlanetaryHourSnapshot = {
+  symbol: "—",
+  planet: "Sun",
+  dayRuler: "Sun",
+  hourNumber: 0,
+  isDaytime: true,
+  segments: [],
+  live: false,
+};
+
 /** Neutral snapshot returned when the ephemeris is unavailable. */
-const DEGRADED_SKY: Omit<SkyConditionsData, "generatedAt"> = {
+const DEGRADED_SKY: Omit<SkyConditionsData, "generatedAt" | "planetaryHour"> = {
   headline: "Sky telemetry unavailable",
   live: false,
   planets: TRADITIONAL_PLANETS.map((name) => ({
@@ -117,6 +160,49 @@ const DEGRADED_SKY: Omit<SkyConditionsData, "generatedAt"> = {
   })),
   aspects: [],
 };
+
+/**
+ * Resolve the current planetary hour bar from `PlanetaryHourCalculator`,
+ * including the 24-clock-hour view consumed by the dashboard widget.
+ * Degrades independently — a failure here doesn't bring down the rest of
+ * the sky snapshot.
+ */
+function buildPlanetaryHourSnapshot(now: Date): PlanetaryHourSnapshot {
+  try {
+    const calc = new PlanetaryHourCalculator();
+    const current = calc.getCurrentPlanetaryHour();
+    const dayRuler = calc.getCurrentPlanetaryDay();
+    const dailyHours = calc.getDailyPlanetaryHours(now);
+    const liveClockHour = now.getHours();
+
+    const segments: PlanetaryHourSegment[] = Array.from(
+      { length: 24 },
+      (_, hour) => {
+        const planet: Planet = dailyHours.get(hour) ?? dayRuler;
+        return {
+          hour,
+          symbol: PLANET_GLYPH[planet] ?? "?",
+          planet,
+          isLive: hour === liveClockHour,
+          isPast: hour < liveClockHour,
+        };
+      },
+    );
+
+    return {
+      symbol: PLANET_GLYPH[current.planet] ?? "?",
+      planet: current.planet,
+      dayRuler,
+      hourNumber: current.hourNumber,
+      isDaytime: current.isDaytime,
+      segments,
+      live: true,
+    };
+  } catch (error) {
+    _logger.error("[skyConditions] planetary-hour calculation failed:", error);
+    return DEGRADED_PLANETARY_HOUR;
+  }
+}
 
 function formatPosition(p: PlanetPosition): string {
   const degree = Number.isFinite(p.degree) ? p.degree : 0;
@@ -223,10 +309,16 @@ function buildHeadline(planets: SkyPlanet[]): string {
 
 /**
  * Resolve the live sky-conditions snapshot for the admin dashboard.
- * Never rejects — a failed ephemeris degrades to `live: false`.
+ * Never rejects — ephemeris and planetary-hour sources degrade
+ * independently to `live: false` so the dashboard never hard-fails.
  */
 export async function getSkyConditions(): Promise<SkyConditionsData> {
-  const generatedAt = new Date().toISOString();
+  const now = new Date();
+  const generatedAt = now.toISOString();
+  // Planetary-hour data is local-only and cheap — compute it first so it can
+  // ship even when the ephemeris call fails.
+  const planetaryHour = buildPlanetaryHourSnapshot(now);
+
   try {
     const positions = await getCurrentPlanetaryPositionsServer();
 
@@ -253,18 +345,19 @@ export async function getSkyConditions(): Promise<SkyConditionsData> {
 
     if (planets.length === 0) {
       _logger.error("[skyConditions] ephemeris returned no traditional planets");
-      return { ...DEGRADED_SKY, generatedAt };
+      return { ...DEGRADED_SKY, planetaryHour, generatedAt };
     }
 
     return {
       headline: buildHeadline(planets),
       planets,
       aspects: computeAspects(positions),
+      planetaryHour,
       live: true,
       generatedAt,
     };
   } catch (error) {
     _logger.error("[skyConditions] ephemeris computation failed:", error);
-    return { ...DEGRADED_SKY, generatedAt };
+    return { ...DEGRADED_SKY, planetaryHour, generatedAt };
   }
 }

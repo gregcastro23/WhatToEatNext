@@ -147,6 +147,15 @@ const SKY_SEED: SkyConditionsData = {
     { symbol: "♄", name: "Saturn", position: "—", speed: "—", retrograde: false, stationing: false },
   ],
   aspects: [],
+  planetaryHour: {
+    symbol: "—",
+    planet: "Sun",
+    dayRuler: "Sun",
+    hourNumber: 0,
+    isDaytime: true,
+    segments: [],
+    live: false,
+  },
 };
 
 export const FALLBACK_DATA: AdminDashboardData = {
@@ -198,6 +207,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
     activeConnections: 0,
     tables: [],
     slowQueries: [],
+    slowQueryThresholdMs: 200,
     live: false,
   },
   catalogTrending: { recipes: [], live: false },
