@@ -219,34 +219,37 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
         }
       }}
     >
-      <div
-        role="link"
-        tabIndex={0}
-        onClick={() => { router.push(cookHref); }}
-        onKeyDown={(e) => { if (e.key === 'Enter') router.push(cookHref); }}
-      >
-        <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl overflow-hidden cursor-pointer transform transition-all duration-300 hover:border-purple-400/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-900/30">
-          {/* Ambient planet glow */}
+      <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl overflow-hidden transform transition-all duration-300 hover:border-purple-400/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-900/30">
+        {/* Ambient planet glow */}
+        <div
+          className={`absolute -top-20 -right-20 w-64 h-64 ${planetGlow} rounded-full blur-[80px] pointer-events-none opacity-70`}
+        />
+
+        {/* Rank Badge */}
+        <div className="absolute top-3 left-3 z-20">
+          <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg shadow-purple-900/40 border border-white/20">
+            #{rank}
+          </div>
+        </div>
+
+        {/* Score Badge */}
+        <div className="absolute top-3 right-3 z-20">
           <div
-            className={`absolute -top-20 -right-20 w-64 h-64 ${planetGlow} rounded-full blur-[80px] pointer-events-none opacity-70`}
-          />
-
-          {/* Rank Badge */}
-          <div className="absolute top-3 left-3 z-20">
-            <div className="w-9 h-9 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-full flex items-center justify-center font-black text-sm shadow-lg shadow-purple-900/40 border border-white/20">
-              #{rank}
-            </div>
+            className={`px-3 py-1 ${scoreColor} text-white rounded-full font-black text-sm shadow-lg border`}
+          >
+            {cuisine.score}%
           </div>
+        </div>
 
-          {/* Score Badge */}
-          <div className="absolute top-3 right-3 z-20">
-            <div
-              className={`px-3 py-1 ${scoreColor} text-white rounded-full font-black text-sm shadow-lg border`}
-            >
-              {cuisine.score}%
-            </div>
-          </div>
-
+        {/* Clickable surface — header + content navigates to cookHref. Buttons live OUTSIDE this so the hover preview can't intercept their clicks. */}
+        <div
+          role="link"
+          tabIndex={0}
+          onClick={() => { router.push(cookHref); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') router.push(cookHref); }}
+          aria-label={`Explore ${cuisine.cuisine} recipes`}
+          className="relative cursor-pointer"
+        >
           {/* Header with gradient */}
           <div
             className={`relative h-32 bg-gradient-to-br ${headerGradient} overflow-hidden border-b border-white/5`}
@@ -263,7 +266,7 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
           </div>
 
           {/* Content */}
-          <div className="p-5 space-y-3 relative z-10">
+          <div className="p-5 pb-3 space-y-3 relative z-10">
             {/* Planetary badge */}
             <div className="flex items-center gap-2">
               <div
@@ -310,34 +313,12 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
                 {cuisine.optimalTiming}
               </div>
             </div>
-
-            {/* Action Buttons — Cook It (amber/orange) vs Order It (purple/rose) */}
-            <div
-              className="grid grid-cols-2 gap-2 mt-3"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Link
-                href={cookHref}
-                className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-amber-900/30 border border-amber-400/40 transition-all"
-                aria-label={`Cook ${cuisine.cuisine} at home`}
-              >
-                <span aria-hidden className="text-base">🥘</span>
-                Cook It
-              </Link>
-              <Link
-                href={orderHref}
-                className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
-                aria-label={`Find ${cuisine.cuisine} restaurants near me`}
-              >
-                <span aria-hidden className="text-base">📍</span>
-                Order It
-              </Link>
-            </div>
           </div>
 
-          {/* Hover Preview */}
+          {/* Hover Preview — only covers the clickable surface, NOT the buttons below.
+              pointer-events-none lets hover tracking continue against the underlying card. */}
           {showPreview && cuisine.topRecipes.length > 0 && (
-            <div className="absolute inset-0 z-30 bg-[#0c0c14]/95 backdrop-blur-sm p-5 flex flex-col justify-center rounded-2xl border border-purple-400/30">
+            <div className="absolute inset-0 z-30 bg-[#0c0c14]/95 backdrop-blur-sm p-5 flex flex-col justify-center border-y border-purple-400/30 pointer-events-none">
               <h4 className="font-black text-purple-200 uppercase tracking-widest text-xs mb-3">
                 Top Recipes
               </h4>
@@ -363,6 +344,27 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
               </div>
             </div>
           )}
+        </div>
+
+        {/* Action Buttons — sibling of the clickable surface so the hover preview can't cover them.
+            Cook It → cuisine-filtered recipe database. Order It → restaurant finder. */}
+        <div className="grid grid-cols-2 gap-2 px-5 pb-5 relative z-40">
+          <Link
+            href={cookHref}
+            className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-amber-900/30 border border-amber-400/40 transition-all"
+            aria-label={`Cook ${cuisine.cuisine} at home`}
+          >
+            <span aria-hidden className="text-base">🥘</span>
+            Cook It
+          </Link>
+          <Link
+            href={orderHref}
+            className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
+            aria-label={`Find ${cuisine.cuisine} restaurants near me`}
+          >
+            <span aria-hidden className="text-base">📍</span>
+            Order It
+          </Link>
         </div>
       </div>
     </div>
