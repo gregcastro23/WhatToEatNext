@@ -22,6 +22,10 @@ import {
   getCosmicYield,
   getDatabaseObservability,
   getPlatformPulse,
+  getEnginePerformance,
+  getPractitionerCohorts,
+  getCommerceTelemetry,
+  getPageTelemetry,
 } from "@/services/dashboardPanelsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getSkyConditions } from "@/services/skyConditionsService";
@@ -157,6 +161,10 @@ export async function GET(request: NextRequest) {
     const catalogTrendingPromise = getCatalogTrending();
     const auditEventsPromise = getAuditEvents();
     const platformPulsePromise = getPlatformPulse();
+    const enginePerformancePromise = getEnginePerformance();
+    const practitionerCohortsPromise = getPractitionerCohorts();
+    const commerceTelemetryPromise = getCommerceTelemetry();
+    const pageTelemetryPromise = getPageTelemetry();
 
     let paHealth = "offline";
     let paAgentCount = 0;
@@ -200,6 +208,10 @@ export async function GET(request: NextRequest) {
     const catalogTrending = await catalogTrendingPromise;
     const auditEvents = await auditEventsPromise;
     const platformPulse = await platformPulsePromise;
+    const enginePerformance = await enginePerformancePromise;
+    const practitionerCohorts = await practitionerCohortsPromise;
+    const commerce = await commerceTelemetryPromise;
+    const pageTelemetry = await pageTelemetryPromise;
 
     const data: AdminDashboardData = {
       user: {
@@ -222,6 +234,10 @@ export async function GET(request: NextRequest) {
       dbObservability,
       catalogTrending,
       auditEvents,
+      enginePerformance,
+      practitionerCohorts,
+      commerce,
+      pageTelemetry,
       meta: {
         generatedAt: now.toISOString(),
         mockedFields: [],

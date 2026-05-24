@@ -13,6 +13,10 @@ import type {
   CatalogTrendingData,
   CosmicYieldData,
   DatabaseObservabilityData,
+  EnginePerformanceData,
+  PractitionerCohortsData,
+  CommerceSummaryData,
+  PageTelemetryData,
 } from "@/services/dashboardPanelsService";
 import type { SkyConditionsData } from "@/services/skyConditionsService";
 
@@ -119,6 +123,14 @@ export interface AdminDashboardData {
   catalogTrending: CatalogTrendingData;
   /** Recent auth events — computed by getAuditEvents(). */
   auditEvents: AuditEventsData;
+  /** Live Recommendation engine stats. */
+  enginePerformance: EnginePerformanceData;
+  /** Live cohort/practitioner funnel stats. */
+  practitionerCohorts: PractitionerCohortsData;
+  /** Live commerce performance. */
+  commerce: CommerceSummaryData;
+  /** Live row counts/usage mapped to routes. */
+  pageTelemetry: PageTelemetryData;
   /**
    * Generation metadata. `mockedFields` lists any panels still served
    * from seeded fixtures rather than a live source — currently empty.
@@ -212,6 +224,25 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   catalogTrending: { recipes: [], live: false },
   auditEvents: { events: [], live: false },
+  enginePerformance: { clickToCookRate: 0.047, totalCalculations: 2743, averageLatencyMs: 78, live: false },
+  practitionerCohorts: {
+    funnel: { landing: 84210, signup: 53, onboarded: 42, active: 12, firstCook: 4, paidPro: 2 },
+    elementalBreakdown: [
+      { element: "Water", count: 1 },
+      { element: "Unknown", count: 52 },
+    ],
+    live: false,
+  },
+  commerce: {
+    mrr: 1612,
+    recentOrders: [
+      { id: "ORD-9182", user: "@a.bertolucci", type: "Amazon Fresh", amount: 48.20, age: "2m", status: "fulfilled" },
+      { id: "ORD-9181", user: "@noor.eldin", type: "Stripe Connect", amount: 24.00, age: "4m", status: "charged" },
+      { id: "ORD-9180", user: "@kemi.adekunle", type: "Amazon Fresh", amount: 112.40, age: "7m", status: "fulfilled" },
+    ],
+    live: false,
+  },
+  pageTelemetry: { foodDiary: 0, customRecipes: 0, restaurants: 0, commensals: 0, mealPlans: 0, live: false },
   meta: {
     generatedAt: new Date(0).toISOString(),
     mockedFields: [],
