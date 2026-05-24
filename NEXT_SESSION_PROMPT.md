@@ -2,13 +2,14 @@
 
 Welcome to the next engineering session for **Alchm.kitchen (WhatToEatNext)**.
 
-The previous session shipped a single multi-debt PR covering five operational items:
+The previous session shipped a single multi-debt PR covering six operational items:
 
 1. **`system_health_snapshots`** — hourly snapshots of the full `SystemStatusPayload` (JSONB) for drift detection and transition-based alerting.
 2. **`alertService` with 3 sinks** — fires on `OK ↔ DEGRADED ↔ INCIDENT` transitions to DB (`alert_events`), Slack webhook, and email via Resend. Each sink dispatches independently.
 3. **4 new synthetic probes** — `cosmic-recipe` (hourly, real gen), `recommendations` (15 min), `stripe-webhook` (15 min, unsigned-body 4xx assertion), `auth-handshake` (15 min, `GET /api/auth/sessions`).
 4. **Observability log persistence** — `request_log_entries` + `slow_query_log_entries` tables with hydration on cold start (in-memory ring stays the fast path).
-5. **Doc cleanup** — `CLAUDE.md` corrected (MenuPlannerProvider was already extracted; recipe-cap tech debt removed as it's intentional design).
+5. **Recipe-gen now charges all four ESMS tokens** — `unlock-cosmic-recipe` and `unlock-basic-recipe` shop-item bases moved from `{spirit, essence}` only to all four axes (cosmic 7.5 × 4 = 30 total; basic 2.5 × 4 = 10 total). The existing personalization layer (`applyPersonalizedPricing` × natal × current sky) now shapes the debit across **all four** axes — Matter/Substance debits used to always be zero. Migration 40.
+6. **Doc cleanup** — `CLAUDE.md` corrected (MenuPlannerProvider was already extracted; recipe hard-cap tech debt removed as it's intentional design).
 
 **Everything is wired but most of it is dormant** until env vars land — that's the most important first task below.
 
@@ -30,13 +31,14 @@ The previous session shipped a single multi-debt PR covering five operational it
 
 ## 🔥 Priority 1 — Apply migrations + wire env vars (~30 min)
 
-The new tables aren't in prod yet. Apply the three migrations and set the env vars before any cron fires usefully.
+The new tables aren't in prod yet. Apply the four migrations and set the env vars before any cron fires usefully.
 
 **Apply migrations (in order):**
 ```bash
 railway run --service Postgres bun scripts/run-sql-migration.ts database/init/37-system-health-snapshots.sql
 railway run --service Postgres bun scripts/run-sql-migration.ts database/init/38-alert-events.sql
 railway run --service Postgres bun scripts/run-sql-migration.ts database/init/39-observability-persistence.sql
+railway run --service Postgres bun scripts/run-sql-migration.ts database/init/40-recipe-shop-items-four-token-cost.sql
 
 # Verify
 railway run --service Postgres bun scripts/verify-table.ts system_health_snapshots
@@ -44,6 +46,12 @@ railway run --service Postgres bun scripts/verify-table.ts alert_events
 railway run --service Postgres bun scripts/verify-table.ts request_log_entries
 railway run --service Postgres bun scripts/verify-table.ts slow_query_log_entries
 ```
+
+> **Migration 40 sanity check:** confirm `unlock-cosmic-recipe` charges all four tokens after the update.
+> ```bash
+> railway connect Postgres -- -c "SELECT slug, cost_spirit, cost_essence, cost_matter, cost_substance FROM shop_items WHERE slug LIKE 'unlock-%-recipe';"
+> # cosmic: 7.5 / 7.5 / 7.5 / 7.5   basic: 2.5 / 2.5 / 2.5 / 2.5
+> ```
 
 **Set / verify Vercel env vars:**
 

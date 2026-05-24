@@ -219,8 +219,11 @@ ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO shop_items (slug, title, description, category, cost_spirit, cost_essence, cost_matter, cost_substance, is_one_time, sort_order)
 VALUES
-    ('unlock-cosmic-recipe', 'Cosmic Recipe Generation', 'Generate one AI cosmic recipe aligned with current planetary positions', 'feature', 15, 15, 0, 0, false, 40),
-    ('unlock-basic-recipe', 'Basic Recipe Generation', 'Generate one AI recipe recommendation', 'feature', 5, 5, 0, 0, false, 41),
+    -- Recipe generation charges all four ESMS axes (total preserved); the
+    -- personalization layer (livePricing.ts) shapes the per-axis debit by
+    -- the caller's natal chart × current sky.
+    ('unlock-cosmic-recipe', 'Cosmic Recipe Generation', 'Generate one AI cosmic recipe aligned with current planetary positions', 'feature', 7.5, 7.5, 7.5, 7.5, false, 40),
+    ('unlock-basic-recipe', 'Basic Recipe Generation', 'Generate one AI recipe recommendation', 'feature', 2.5, 2.5, 2.5, 2.5, false, 41),
     ('unlock-restaurant-creator', 'Restaurant Creator Access', 'Create a custom restaurant with full menu builder', 'feature', 0, 10, 10, 0, false, 42),
     ('unlock-advanced-charts', 'Advanced Planetary Charts', 'Access advanced transit analysis and planetary charts', 'feature', 0, 0, 0, 20, false, 43),
     ('unlock-food-journal-photo', 'Food Journal Photo Upload', 'Attach a photo to your food lab journal entry', 'feature', 0, 5, 5, 0, false, 44),
