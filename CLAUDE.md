@@ -67,6 +67,11 @@ PLANETARY_AGENTS_API_URL=https://api.agents.alchm.kitchen        # PA Python/Fas
 NEXT_PUBLIC_PLANETARY_AGENTS_URL=https://api.agents.alchm.kitchen
 NEXT_PUBLIC_AGENTS_UI_URL=https://agents.alchm.kitchen           # PA Next.js UI (agent chat)
 
+# Cron / synthetic monitoring
+CRON_SECRET=<random-32-char-secret>                              # Vercel cron header
+SYNTHETIC_PROBE_TOKEN=<jwt-for-synthetic-user>                   # bearer for /api/onboarding probe call
+SYNTHETIC_PROBE_BASE_URL=https://alchm.kitchen                   # optional override; defaults to VERCEL_URL
+
 # Auth (NextAuth.js v5)
 AUTH_SECRET=<auth-secret>
 AUTH_GOOGLE_ID=<google-client-id>
@@ -122,12 +127,30 @@ SMTP_USER=<smtp-user>
 
 Admin-gated to `gregcastro23@gmail.com` with `role === "admin"` (`src/app/admin/layout.tsx`).
 
-- **`/admin`** — Overview: user stats, `AdvancedMetricsPanel`, Planetary Agents Integration card (endpoint registry, agent sync controls, webhook observability, live telemetry), recent users. Live-polled via `useHardenedPolling`.
-- **`/admin/dashboard`** — High Alchemist dashboard (✦): full-bleed dark operator console, ~25 panels in `src/app/admin/_dashboard/`. Mix of live data and seeded prototype panels.
-- **`/admin/users`** — user list + per-user status toggle and token grants
+- **`/admin`** — Operational dashboard. Top-to-bottom:
+  - `TodaysHighlightsPanel` — 8 tiles, 24h vs prior-24h deltas (signups, active users, onboardings, recipe activity, diary entries, token txns, agent events, sign-in failures). 5 min polling.
+  - `LiveActivityPanel` — merged chronological feed from 6 sources (`users`, `auth_events`, `user_profiles`, `feed_events`, `token_transactions`, `user_interactions`) with per-category filter chips. 30s polling.
+  - `SystemStatusPanel` — per-flow health for 8 critical flows (auth, onboarding, recommendations, AI generation, economy, payments, agents, database) + external dependency strip (PA, Stripe, Google OAuth). 60s polling.
+  - `OnboardingFunnelPanel` — 24h funnel (signups → birth data → natal chart → complete), stuck-user table (>1h, not onboarded), `/api/onboarding` health, recent completions. 2 min polling.
+  - `ApiRouteHealthPanel` — top endpoints by traffic with per-route 4xx/5xx + p95. 30s polling.
+  - `AdvancedMetricsPanel` + Planetary Agents card + Recent Users — existing.
+- **`/admin/dashboard`** — High Alchemist dashboard (✦): full-bleed dark operator console. Agent topology + role distribution + dispatch stream + leaderboard now wired to live data via `/api/admin/agents/network`. Deep role-specific panels (sous-chef, galileo, substitution, pantry, procurement, lineage) + reasoning trace have been removed; rebuild per-role panels when there's real role-specific telemetry to surface.
+- **`/admin/users`** — user list with **User Type tabs** (All / Humans / Agents) and counts; ⚹ badge + purple-tinted rows for agents; agent profile (Monica constant, bio, 24h feed-event count) shown in row + detail modal; per-user status toggle + token grants.
 - **`/admin/settings`** — admin settings
-- **Admin API** — `/api/admin/{dashboard,users,users/stats,users/[userId],abuse,observability,digest,agent-sync,planetary-sync,send-test-email}`; all behind `validateAdminRequest`
+- **Admin API** — `/api/admin/{dashboard,users,users/stats,users/[userId],abuse,observability,digest,agent-sync,planetary-sync,send-test-email,system-status,onboarding-health,live-activity,todays-highlights,agents/network}`; all behind `validateAdminRequest`. The five panel endpoints share a 5s in-memory cache (`src/lib/cache/memoryCache.ts`).
 - **`AdvancedMetricsPanel`** — renders sign-up/activity rollups + auth events, abuse detection (suspicious IPs/emails), in-memory request + slow-query rings, digest preview, and a Grant Tokens control
+
+### Operational health services
+
+All compute from existing signals — no new instrumentation required. Each service degrades independently to `live: false` on source failure so a single broken source can't take down the panel.
+
+- **`src/services/systemStatusService.ts`** — `getSystemStatus()` runs 8 flow probes + 3 dependency probes in parallel. Status taxonomy: `OK | DEGRADED | INCIDENT | UNKNOWN`. Exported helpers `worst()` and `statusFromPathHealth()` are unit-tested.
+- **`src/services/onboardingHealthService.ts`** — `getOnboardingHealth()` returns 24h funnel, stuck users (>1h not onboarded), `/api/onboarding` request-log slice, recent completions, skip rate. Exported `diagnose()` (pure function) is unit-tested.
+- **`src/services/liveActivityService.ts`** — `getLiveActivity()` merges 6 sources via `Promise.allSettled`, normalizes to a common `ActivityEvent`, sorts by timestamp DESC, caps at 50. Each source has per-query LIMIT 25, 6h window.
+- **`src/services/todaysHighlightsService.ts`** — `getTodaysHighlights()` runs 8 pair-count queries (today vs prior-24h) in parallel. Sign-in-failures is the only "less is better" metric (inverted delta tone).
+- **`src/services/userTimelineService.ts`** — `getUserTimeline(userId)` backs the `/admin/users/[id]` deep-dive page. Identity + token balances + subscription + lifetime stats + chronological event timeline (auth/feed/token/interaction events) for one user.
+- **`src/services/syntheticProbeService.ts`** — `runOnboardingSkipProbe()` exercises `PATCH /api/onboarding` from a Vercel cron every 15 min so we catch breakage at low traffic. Results stored in `synthetic_probe_results` table. `systemStatusService` reads the latest row and downgrades the onboarding flow to INCIDENT on a fresh failure, DEGRADED on stale probe (cron broken). Requires `CRON_SECRET` + `SYNTHETIC_PROBE_TOKEN` env vars.
+- **`src/lib/observability/requestLog.ts`** — extended with `summarizePath()` (per-prefix health) and `summarizeAllPaths()` (per-distinct-path stats) so endpoints don't have to re-scan the ring on every probe.
 
 ### Planetary Agents (PA) integration
 
@@ -172,7 +195,7 @@ Public API unchanged — no consumers touched.
 - `CHANGELOG.md` — keep-a-changelog from v1.0.0 → 3.0.0
 - `README.md` — rewritten for v3.0
 - `docs/API_REFERENCE.md` — all `/api/*` routes
-- `docs/adr/001–005` — Architecture Decision Records
+- `docs/adr/001–006` — Architecture Decision Records (006 = operational admin dashboard)
 - `WTEN_MIGRATION_PLAN.md` — multi-session plan for the `planetary_agents-main` UI port
 - `NEXT_SESSION_PROMPT.md` — post-3.0 backlog and known technical debt
 
@@ -188,4 +211,4 @@ Porting the `planetary_agents-main` Next.js UI surface into this repo's `src/`. 
 
 ---
 
-_Updated May 22, 2026 — Post-3.0: admin operator console, Planetary Agents integration, live agent telemetry, and the WTEN migration in progress. Bun 1.3.13. Sub-1ms DB latency via Railway internal networking._
+_Updated May 24, 2026 — Operational admin dashboard: per-flow system status, live activity stream, onboarding funnel watch, today's highlights. All health computed from existing signals. Bun 1.3.13._

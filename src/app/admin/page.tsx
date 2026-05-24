@@ -3,14 +3,12 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
+import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
+import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
+import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
+import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
+import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
-
-interface DashboardStats {
-  totalUsers: number;
-  activeUsers: number;
-  newUsersToday: number;
-  completedOnboarding: number;
-}
 
 interface RecentUser {
   id: string;
@@ -63,11 +61,8 @@ interface PaIntegration {
  * Admin Dashboard - Overview of system statistics & integration observability
  */
 export default function AdminDashboardPage() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   const [paIntegration, setPaIntegration] = useState<PaIntegration | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Sync state management
   const [syncing, setSyncing] = useState(false);
@@ -83,25 +78,19 @@ export default function AdminDashboardPage() {
 
   const fetchDashboardData = async (): Promise<{ ok: boolean }> => {
     try {
-      setLoading(true);
       const response = await fetch("/api/admin/dashboard");
-      if (!response.ok) throw new Error(`Server error (${response.status})`);
+      if (!response.ok) return { ok: false };
       const data = await response.json();
-
       if (data.success) {
-        setStats(data.stats);
         setRecentUsers(data.recentUsers);
         setPaIntegration(data.paIntegration || null);
-        setError(null);
         return { ok: true };
       }
-      setError(data.message || "Failed to load dashboard");
       return { ok: false };
     } catch (_err) {
-      setError("Failed to connect to server");
+      // Each sub-panel reports its own connection errors — silent fail
+      // here is fine.
       return { ok: false };
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -234,107 +223,39 @@ export default function AdminDashboardPage() {
     }
   };
 
-  if (loading && !stats) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4" />
-          <p className="text-gray-600">Loading dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-        <p className="text-red-700">{error}</p>
-        <button
-          onClick={() => { void fetchDashboardData(); }}
-          className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
+  // Each panel manages its own loading state, so we no longer block the
+  // page on the legacy dashboard payload. The PA card + Recent Users
+  // card below render their own loading placeholders.
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard</h1>
+        <p className="text-sm sm:text-base text-gray-600 mt-1">
           Welcome to the alchm.kitchen admin panel
         </p>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide">
-                Total Users
-              </p>
-              <p className="text-3xl font-bold text-gray-800 mt-1">
-                {stats?.totalUsers || 0}
-              </p>
-            </div>
-            <div className="bg-purple-100 p-3 rounded-full">
-              <span className="text-2xl">👥</span>
-            </div>
-          </div>
-        </div>
+      {/* Today's headline counts — 24h vs prior 24h. The "did anything happen
+          today?" glance at the top of the dashboard. Polls every 60s. */}
+      <TodaysHighlightsPanel />
 
-        <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide">
-                Active Users
-              </p>
-              <p className="text-3xl font-bold text-green-600 mt-1">
-                {stats?.activeUsers || 0}
-              </p>
-            </div>
-            <div className="bg-green-100 p-3 rounded-full">
-              <span className="text-2xl">✅</span>
-            </div>
-          </div>
-        </div>
+      {/* Live activity feed — merged stream of signups, sign-ins, onboardings,
+          recipe views, food diary entries, token movements, and agent events.
+          The "what's happening right now" hero. Polls every 10s. */}
+      <LiveActivityPanel />
 
-        <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide">
-                New Today
-              </p>
-              <p className="text-3xl font-bold text-blue-600 mt-1">
-                {stats?.newUsersToday || 0}
-              </p>
-            </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <span className="text-2xl">🆕</span>
-            </div>
-          </div>
-        </div>
+      {/* System Status — per-flow health for every critical user-facing
+          surface plus external dependencies. Polls every 15s. */}
+      <SystemStatusPanel />
 
-        <div className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide">
-                Onboarded
-              </p>
-              <p className="text-3xl font-bold text-orange-600 mt-1">
-                {stats?.completedOnboarding || 0}
-              </p>
-            </div>
-            <div className="bg-orange-100 p-3 rounded-full">
-              <span className="text-2xl">🎯</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Onboarding flow watch — surfaces stuck users, recent errors,
+          and the 24h funnel so we always know if signup is working. */}
+      <OnboardingFunnelPanel />
+
+      {/* Per-route API health — top endpoints by traffic with error +
+          latency badges. Catches a single route degrading. */}
+      <ApiRouteHealthPanel />
 
       {/* Advanced metrics (auth events, abuse, observability, digest) */}
       <div className="mb-8">

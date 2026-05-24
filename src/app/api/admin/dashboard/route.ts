@@ -213,17 +213,47 @@ export async function GET(request: NextRequest) {
     const commerce = await commerceTelemetryPromise;
     const pageTelemetry = await pageTelemetryPromise;
 
+    // Resolve the admin identity from the validated session rather than
+    // hardcoding a single operator. Falls back to the session token payload
+    // when the DB lookup fails so the panel always renders something.
+    const adminEmail = authResult.user.email;
+    let adminDbUser: Awaited<ReturnType<typeof userDatabase.getUserById>> | null =
+      null;
+    try {
+      adminDbUser = await userDatabase.getUserById(authResult.user.userId);
+    } catch (err) {
+      console.error(
+        `[admin/dashboard] failed to resolve admin user ${authResult.user.userId}:`,
+        err,
+      );
+    }
+    const adminName =
+      adminDbUser?.profile.name ||
+      authResult.user.email.split("@")[0] ||
+      "Operator";
+    const adminHandle = adminEmail.split("@")[0] || "operator";
+    const adminJoined = adminDbUser?.createdAt
+      ? new Date(adminDbUser.createdAt).toISOString().slice(0, 10)
+      : new Date(now).toISOString().slice(0, 10);
+    // BirthData stores lat/lon (no place name) — render coordinates when known.
+    const lat = adminDbUser?.profile.birthData?.latitude;
+    const lon = adminDbUser?.profile.birthData?.longitude;
+    const adminLocation =
+      typeof lat === "number" && typeof lon === "number"
+        ? `${lat.toFixed(2)}°${lat >= 0 ? "N" : "S"} · ${lon.toFixed(2)}°${lon >= 0 ? "E" : "W"}`
+        : "—";
+
     const data: AdminDashboardData = {
       user: {
-        handle: "gregcastro23",
-        name: "Greg Castro",
-        email: "gregcastro23@gmail.com",
+        handle: adminHandle,
+        name: adminName,
+        email: adminEmail,
         role: "ARCHITECT",
-        badge: "ALCH-0001",
-        initial: "G",
-        tier: "ROOT",
-        joined: "2023-08-14",
-        location: "Brooklyn, NY · 40.6782°N",
+        badge: `ALCH-${(adminDbUser?.id || "").slice(0, 6).toUpperCase() || "0001"}`,
+        initial: (adminName[0] || "A").toUpperCase(),
+        tier: authResult.user.roles.includes("admin") ? "ROOT" : "ALCHEMIST",
+        joined: adminJoined,
+        location: adminLocation,
         onCall: true,
       },
       pulse: platformPulse,

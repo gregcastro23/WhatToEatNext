@@ -109,3 +109,139 @@ export function summarizeRecent(windowMs: number = 5 * 60 * 1000): RequestSummar
     topPaths,
   };
 }
+
+/**
+ * Per-path health metrics. Backs the admin "API route health" panel and the
+ * per-flow status service (e.g. /api/onboarding gets a separate computation
+ * from /api/recipes).
+ *
+ * Path matching is a substring + prefix scan; paths like `/api/recipes/:id`
+ * fall under any of `/api/recipes`, `/api/recipes/`, depending on which the
+ * caller passes. Dynamic ids stay in the raw path — we don't normalize.
+ */
+export interface PathHealth {
+  /** Matcher used. Returned verbatim so panels can label the row. */
+  pathPrefix: string;
+  count: number;
+  errors4xx: number;
+  errors5xx: number;
+  successRate: number;
+  errorRate: number;
+  p50LatencyMs: number;
+  p95LatencyMs: number;
+  /** Most recent failure (status >= 400) for context. Null when none. */
+  lastFailure: RequestLogEntry | null;
+  /** Most recent request matching the prefix. Null when no traffic. */
+  lastSeen: RequestLogEntry | null;
+  /** True when at least one matching request was captured in-window. */
+  observed: boolean;
+}
+
+/**
+ * Compute per-path health over the window. `pathPrefix` matches any request
+ * whose path startsWith the prefix — handles dynamic segments without route
+ * normalization. Returns a zeroed PathHealth with `observed: false` when no
+ * matching traffic appears in-window.
+ */
+export function summarizePath(
+  pathPrefix: string,
+  windowMs: number = 5 * 60 * 1000,
+): PathHealth {
+  const cutoff = Date.now() - windowMs;
+  const matching = ring.filter(
+    (r) =>
+      new Date(r.at).getTime() >= cutoff && r.path.startsWith(pathPrefix),
+  );
+
+  const lastSeen = matching.length > 0 ? matching[matching.length - 1] : null;
+  const lastFailure =
+    matching.filter((r) => r.status >= 400).slice(-1)[0] ?? null;
+
+  if (matching.length === 0) {
+    return {
+      pathPrefix,
+      count: 0,
+      errors4xx: 0,
+      errors5xx: 0,
+      successRate: 1,
+      errorRate: 0,
+      p50LatencyMs: 0,
+      p95LatencyMs: 0,
+      lastFailure: null,
+      lastSeen: null,
+      observed: false,
+    };
+  }
+
+  const errors4xx = matching.filter(
+    (r) => r.status >= 400 && r.status < 500,
+  ).length;
+  const errors5xx = matching.filter((r) => r.status >= 500).length;
+  const errors = errors4xx + errors5xx;
+  const latencies = matching.map((r) => r.latencyMs).sort((a, b) => a - b);
+  const pick = (p: number) =>
+    latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * p))];
+
+  return {
+    pathPrefix,
+    count: matching.length,
+    errors4xx,
+    errors5xx,
+    successRate: 1 - errors / matching.length,
+    errorRate: errors / matching.length,
+    p50LatencyMs: pick(0.5),
+    p95LatencyMs: pick(0.95),
+    lastFailure,
+    lastSeen,
+    observed: true,
+  };
+}
+
+/**
+ * Per-path summary for every distinct path seen in-window. Backs the
+ * "API route health" admin panel — sorts by request volume descending.
+ */
+export interface PathSummary {
+  path: string;
+  count: number;
+  errors4xx: number;
+  errors5xx: number;
+  errorRate: number;
+  p50LatencyMs: number;
+  p95LatencyMs: number;
+  lastSeenAt: string;
+}
+
+export function summarizeAllPaths(
+  windowMs: number = 5 * 60 * 1000,
+): PathSummary[] {
+  const cutoff = Date.now() - windowMs;
+  const recent = ring.filter((r) => new Date(r.at).getTime() >= cutoff);
+  const byPath = new Map<string, RequestLogEntry[]>();
+  for (const r of recent) {
+    const list = byPath.get(r.path);
+    if (list) list.push(r);
+    else byPath.set(r.path, [r]);
+  }
+  const out: PathSummary[] = [];
+  for (const [path, entries] of byPath.entries()) {
+    const errors4xx = entries.filter(
+      (r) => r.status >= 400 && r.status < 500,
+    ).length;
+    const errors5xx = entries.filter((r) => r.status >= 500).length;
+    const latencies = entries.map((r) => r.latencyMs).sort((a, b) => a - b);
+    const pick = (p: number) =>
+      latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * p))];
+    out.push({
+      path,
+      count: entries.length,
+      errors4xx,
+      errors5xx,
+      errorRate: (errors4xx + errors5xx) / entries.length,
+      p50LatencyMs: pick(0.5),
+      p95LatencyMs: pick(0.95),
+      lastSeenAt: entries[entries.length - 1].at,
+    });
+  }
+  return out.sort((a, b) => b.count - a.count);
+}

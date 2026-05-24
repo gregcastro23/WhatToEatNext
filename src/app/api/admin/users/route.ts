@@ -30,9 +30,12 @@ interface AdminUserRow {
   login_count: number | null;
   onboarding_completed: boolean | null;
   dominant_element: string | null;
+  bio: string | null;
+  monica_constant: string | null;
   subscription_tier: string | null;
   subscription_status: string | null;
   active_sessions: number | null;
+  feed_events_24h: number | null;
   // ESMS token balances joined from token_balances; null when the user
   // has no row yet (i.e. has never received a credit).
   spirit: string | null;
@@ -53,8 +56,13 @@ interface AdminUserRow {
  *   search    — substring match on email or name
  *   status    — "active" | "inactive"
  *   tier      — "free" | "premium"
+ *   userType  — "human" | "agent" | "all" (default "all"); agents are
+ *               users with `is_agent = true` (typically @agentic.alchm.kitchen)
  *   page      — 1-indexed (default 1)
  *   pageSize  — 1..200 (default 50)
+ *
+ * When userType="all", humans are sorted before agents so operators see real
+ * users first; within each group rows fall back to newest-first.
  */
 export async function GET(request: NextRequest) {
   try {
@@ -71,6 +79,7 @@ export async function GET(request: NextRequest) {
       null;
     const status = searchParams.get("status");
     const tierFilter = searchParams.get("tier");
+    const userType = (searchParams.get("userType") || "all").toLowerCase();
     const page = Math.max(parseInt(searchParams.get("page") ?? "1", 10) || 1, 1);
     const pageSize = Math.min(
       Math.max(parseInt(searchParams.get("pageSize") ?? `${DEFAULT_PAGE_SIZE}`, 10) || DEFAULT_PAGE_SIZE, 1),
@@ -96,6 +105,12 @@ export async function GET(request: NextRequest) {
       where.push(`(COALESCE(s.tier, 'free') = 'free' AND u.role <> 'ADMIN')`);
     }
 
+    if (userType === "agent") {
+      where.push(`u.is_agent = true`);
+    } else if (userType === "human") {
+      where.push(`COALESCE(u.is_agent, false) = false`);
+    }
+
     const whereSql = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
 
     // Pull users + profile + subscription + active session count in ONE query.
@@ -105,6 +120,14 @@ export async function GET(request: NextRequest) {
       FROM device_sessions
       WHERE user_id = u.id::text AND revoked_at IS NULL
     ) ds ON true`;
+
+    // Trailing-24h feed-event count per user — surfaces agent activity in the
+    // admin list. Joined lateral so the COUNT runs once per row, not N+1.
+    const feedActivityLateral = `LEFT JOIN LATERAL (
+      SELECT COUNT(*)::int AS feed_events_24h
+      FROM feed_events
+      WHERE actor_id = u.id AND created_at > NOW() - INTERVAL '24 hours'
+    ) fa ON true`;
 
     const countResult = await executeQuery<{ total: number }>(
       `SELECT COUNT(DISTINCT u.id)::int AS total
@@ -121,6 +144,14 @@ export async function GET(request: NextRequest) {
     params.push((page - 1) * pageSize);
     const offsetIdx = params.length;
 
+    // Sort: when caller hasn't restricted by userType, surface humans before
+    // agents (operators look at real users first); within each group fall back
+    // to newest-created.
+    const orderSql =
+      userType === "all"
+        ? `ORDER BY COALESCE(u.is_agent, false) ASC, u.created_at DESC`
+        : `ORDER BY u.created_at DESC`;
+
     const result = await executeQuery<AdminUserRow>(
       `SELECT
          u.id::text AS id,
@@ -133,10 +164,13 @@ export async function GET(request: NextRequest) {
          u.last_login_at,
          u.login_count,
          up.onboarding_completed,
-         up.natal_chart->>'dominantElement' AS dominant_element,
+         COALESCE(up.dominant_element, up.natal_chart->>'dominantElement') AS dominant_element,
+         up.bio,
+         up.monica_constant::text AS monica_constant,
          s.tier::text AS subscription_tier,
          s.status::text AS subscription_status,
          ds.active_sessions,
+         fa.feed_events_24h,
          tb.spirit::text     AS spirit,
          tb.essence::text    AS essence,
          tb.matter::text     AS matter,
@@ -146,8 +180,9 @@ export async function GET(request: NextRequest) {
        LEFT JOIN user_subscriptions s ON s.user_id = u.id
        LEFT JOIN token_balances tb ON tb.user_id = u.id
        ${sessionsLateral}
+       ${feedActivityLateral}
        ${whereSql}
-       ORDER BY u.created_at DESC
+       ${orderSql}
        LIMIT $${limitIdx} OFFSET $${offsetIdx}`,
       params,
     );
@@ -172,6 +207,9 @@ export async function GET(request: NextRequest) {
         loginCount: row.login_count ?? 0,
         activeSessions: row.active_sessions ?? 0,
         dominantElement: row.dominant_element ?? null,
+        bio: row.bio ?? null,
+        monicaConstant: row.monica_constant !== null ? toNum(row.monica_constant) : null,
+        feedEvents24h: row.feed_events_24h ?? 0,
         hasCompletedOnboarding: row.onboarding_completed === true,
         balances: {
           spirit: toNum(row.spirit),
@@ -182,10 +220,46 @@ export async function GET(request: NextRequest) {
       };
     });
 
+    // Counts by user type so the UI can render filter pills with badges
+    // without a second round-trip. These reflect the same search/status/tier
+    // filters as the page, but ignore userType — the point is to know the
+    // full agent + human split inside the rest of the filter set.
+    //
+    // The userType clause was the only `where` entry that didn't push a
+    // param, so filtering it out leaves the remaining positional `$1..$N`
+    // references intact against `countParams` (predicate params only — we
+    // slice off the trailing limit/offset that the user query appended).
+    const nonUserTypeWhere = where.filter(
+      (clause) =>
+        !clause.includes("u.is_agent = true") &&
+        !clause.includes("COALESCE(u.is_agent, false) = false"),
+    );
+    const countWhereSql =
+      nonUserTypeWhere.length > 0 ? `WHERE ${nonUserTypeWhere.join(" AND ")}` : "";
+    const countParams = params.slice(0, params.length - 2);
+
+    const countsByType = await executeQuery<{ humans: number; agents: number }>(
+      `SELECT
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false)::int AS humans,
+         COUNT(*) FILTER (WHERE u.is_agent = true)::int AS agents
+       FROM users u
+       LEFT JOIN user_profiles up ON up.user_id = u.id
+       LEFT JOIN user_subscriptions s ON s.user_id = u.id
+       ${countWhereSql}`,
+      countParams,
+    );
+    const humansCount = countsByType.rows[0]?.humans ?? 0;
+    const agentsCount = countsByType.rows[0]?.agents ?? 0;
+
     return NextResponse.json({
       success: true,
       users,
       total,
+      counts: {
+        all: humansCount + agentsCount,
+        humans: humansCount,
+        agents: agentsCount,
+      },
       pagination: {
         page,
         pageSize,
@@ -199,9 +273,32 @@ export async function GET(request: NextRequest) {
     // still renders something usable when Postgres is temporarily unreachable.
     try {
       const users = await userDatabase.getAllUsers();
+      // Honor the userType filter when degraded so the UI tabs still work.
+      const { searchParams: degradedSearch } = new URL(request.url);
+      const degradedUserType = (
+        degradedSearch.get("userType") || "all"
+      ).toLowerCase();
+      const filtered = users.filter((u) => {
+        if (degradedUserType === "agent") return u.isAgent === true;
+        if (degradedUserType === "human") return u.isAgent !== true;
+        return true;
+      });
+      // When showing both, surface humans before agents (matches DB path).
+      if (degradedUserType === "all") {
+        filtered.sort((a, b) => {
+          const aAgent = a.isAgent === true ? 1 : 0;
+          const bAgent = b.isAgent === true ? 1 : 0;
+          if (aAgent !== bAgent) return aAgent - bAgent;
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        });
+      }
+      const humans = users.filter((u) => u.isAgent !== true).length;
+      const agents = users.filter((u) => u.isAgent === true).length;
       return NextResponse.json({
         success: true,
-        users: users.map((u) => ({
+        users: filtered.map((u) => ({
           id: u.id,
           email: u.email,
           name: u.profile.name ?? null,
@@ -215,10 +312,14 @@ export async function GET(request: NextRequest) {
           loginCount: 0,
           activeSessions: 0,
           dominantElement: u.profile.natalChart?.dominantElement ?? null,
+          bio: null,
+          monicaConstant: null,
+          feedEvents24h: 0,
           hasCompletedOnboarding: !!(u.profile.birthData && u.profile.natalChart),
         })),
-        total: users.length,
-        pagination: { page: 1, pageSize: users.length, total: users.length, totalPages: 1 },
+        total: filtered.length,
+        counts: { all: humans + agents, humans, agents },
+        pagination: { page: 1, pageSize: filtered.length, total: filtered.length, totalPages: 1 },
         degraded: true,
       });
     } catch {
