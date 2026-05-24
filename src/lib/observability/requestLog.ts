@@ -1,19 +1,15 @@
 /**
- * In-memory request log
+ * Request log — bounded in-memory ring + DB-backed persistence
  *
  * A bounded ring buffer of the most recent HTTP requests handled by this
- * Node process. Built for the admin observability endpoint — not a
- * replacement for proper APM. Three reasons we don't write every request
- * to Postgres:
- *
- *   1. Doubles the DB write load (every API call → an extra INSERT).
- *   2. The data is most useful for ~minutes, not forever.
- *   3. Many requests are auth-failure pings, health checks, prefetches —
- *      cheap signal-to-noise gain by sampling success and full-fidelity
- *      capturing failures.
+ * Node process backs every admin observability query. Persistence to
+ * `request_log_entries` is fire-and-forget so the ring stays the fast
+ * read path while cold starts can hydrate from durable storage rather
+ * than starting empty.
  *
  * Pair this with the `auth_events` table for durable auth audit, and with
- * Railway's stdout logs for full retention.
+ * Railway's stdout logs for full-detail retention. Retention on the DB
+ * table is enforced by `prune_observability_logs()` (7 days by default).
  *
  * @file src/lib/observability/requestLog.ts
  */
@@ -43,7 +39,7 @@ export interface RecordOptions {
 }
 
 export function recordRequest(opts: RecordOptions): void {
-  ring.push({
+  const entry: RequestLogEntry = {
     id: nextId++,
     at: new Date().toISOString(),
     method: opts.method,
@@ -52,8 +48,90 @@ export function recordRequest(opts: RecordOptions): void {
     latencyMs: opts.latencyMs,
     userId: opts.userId ?? null,
     ipHash: opts.ipHash ?? null,
-  });
+  };
+  ring.push(entry);
   if (ring.length > RING_SIZE) ring.shift();
+
+  // Fire-and-forget durable mirror. Dynamic import breaks the
+  // request-log <-> connection circular dependency.
+  void persistRequestEntry(entry);
+}
+
+async function persistRequestEntry(entry: RequestLogEntry): Promise<void> {
+  if (typeof window !== "undefined") return;
+  if (!process.env.DATABASE_URL) return;
+  try {
+    const { executeQuery } = await import("@/lib/database/connection");
+    await executeQuery(
+      `INSERT INTO request_log_entries
+         (at, method, path, status, latency_ms, user_id, ip_hash)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        entry.at,
+        entry.method,
+        entry.path,
+        entry.status,
+        entry.latencyMs,
+        entry.userId,
+        entry.ipHash,
+      ],
+    );
+  } catch {
+    // Observability writes must never crash the request path.
+  }
+}
+
+// Hydration kicks off on first read after cold start. Fire-and-forget;
+// the first read may return an empty/partial ring while it runs, which
+// is fine — subsequent polls (admin panel polls every 30s) see the
+// populated ring.
+let hydrationStarted = false;
+function ensureHydrated(): void {
+  if (hydrationStarted) return;
+  hydrationStarted = true;
+  if (typeof window !== "undefined") return;
+  if (!process.env.DATABASE_URL) return;
+  void (async () => {
+    try {
+      const { executeQuery } = await import("@/lib/database/connection");
+      const result = await executeQuery<{
+        at: Date;
+        method: string;
+        path: string;
+        status: number;
+        latency_ms: number;
+        user_id: string | null;
+        ip_hash: string | null;
+      }>(
+        `SELECT at, method, path, status, latency_ms, user_id, ip_hash
+         FROM request_log_entries
+         ORDER BY at DESC
+         LIMIT $1`,
+        [RING_SIZE],
+      );
+      // Already-buffered live entries take precedence (we don't want to
+      // displace newer in-memory entries with older DB ones).
+      const liveAtSet = new Set(ring.map((r) => r.at));
+      const hydrated: RequestLogEntry[] = result.rows
+        .reverse() // ascending so newest ends at ring tail
+        .filter((row) => !liveAtSet.has(new Date(row.at).toISOString()))
+        .map((row) => ({
+          id: nextId++,
+          at: new Date(row.at).toISOString(),
+          method: row.method,
+          path: row.path,
+          status: row.status,
+          latencyMs: row.latency_ms,
+          userId: row.user_id,
+          ipHash: row.ip_hash,
+        }));
+      const combined = [...hydrated, ...ring].slice(-RING_SIZE);
+      ring.length = 0;
+      ring.push(...combined);
+    } catch {
+      // Persistence layer offline — keep operating in pure-memory mode.
+    }
+  })();
 }
 
 export interface RequestLogQuery {
@@ -63,6 +141,7 @@ export interface RequestLogQuery {
 }
 
 export function getRecentRequests(q: RequestLogQuery = {}): RequestLogEntry[] {
+  ensureHydrated();
   const limit = Math.min(Math.max(q.limit ?? 100, 1), RING_SIZE);
   let view = ring.slice().reverse();
   if (typeof q.statusGte === "number") {
@@ -85,6 +164,7 @@ export interface RequestSummary {
 }
 
 export function summarizeRecent(windowMs: number = 5 * 60 * 1000): RequestSummary {
+  ensureHydrated();
   const cutoff = Date.now() - windowMs;
   const recent = ring.filter((r) => new Date(r.at).getTime() >= cutoff);
   const count = recent.length;
@@ -147,6 +227,7 @@ export function summarizePath(
   pathPrefix: string,
   windowMs: number = 5 * 60 * 1000,
 ): PathHealth {
+  ensureHydrated();
   const cutoff = Date.now() - windowMs;
   const matching = ring.filter(
     (r) =>
@@ -215,6 +296,7 @@ export interface PathSummary {
 export function summarizeAllPaths(
   windowMs: number = 5 * 60 * 1000,
 ): PathSummary[] {
+  ensureHydrated();
   const cutoff = Date.now() - windowMs;
   const recent = ring.filter((r) => new Date(r.at).getTime() >= cutoff);
   const byPath = new Map<string, RequestLogEntry[]>();

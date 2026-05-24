@@ -68,9 +68,13 @@ NEXT_PUBLIC_PLANETARY_AGENTS_URL=https://api.agents.alchm.kitchen
 NEXT_PUBLIC_AGENTS_UI_URL=https://agents.alchm.kitchen           # PA Next.js UI (agent chat)
 
 # Cron / synthetic monitoring
-CRON_SECRET=<random-32-char-secret>                              # Vercel cron header
-SYNTHETIC_PROBE_TOKEN=<jwt-for-synthetic-user>                   # bearer for /api/onboarding probe call
+CRON_SECRET=<random-32-char-secret>                              # Vercel cron header (all /api/cron/* routes)
+SYNTHETIC_PROBE_TOKEN=<jwt-for-synthetic-user>                   # bearer for synthetic-probe calls (onboarding, recipe, recommendations, auth)
 SYNTHETIC_PROBE_BASE_URL=https://alchm.kitchen                   # optional override; defaults to VERCEL_URL
+
+# Alerting (system-health snapshot cron uses these — all optional, each sink degrades independently)
+ALERT_SLACK_WEBHOOK_URL=<slack-incoming-webhook-url>             # optional; alerts skip Slack when unset
+SLOW_QUERY_THRESHOLD_MS=200                                       # tunable threshold for slow_query_log
 
 # Auth (NextAuth.js v5)
 AUTH_SECRET=<auth-secret>
@@ -149,8 +153,30 @@ All compute from existing signals — no new instrumentation required. Each serv
 - **`src/services/liveActivityService.ts`** — `getLiveActivity()` merges 6 sources via `Promise.allSettled`, normalizes to a common `ActivityEvent`, sorts by timestamp DESC, caps at 50. Each source has per-query LIMIT 25, 6h window.
 - **`src/services/todaysHighlightsService.ts`** — `getTodaysHighlights()` runs 8 pair-count queries (today vs prior-24h) in parallel. Sign-in-failures is the only "less is better" metric (inverted delta tone).
 - **`src/services/userTimelineService.ts`** — `getUserTimeline(userId)` backs the `/admin/users/[id]` deep-dive page. Identity + token balances + subscription + lifetime stats + chronological event timeline (auth/feed/token/interaction events) for one user.
-- **`src/services/syntheticProbeService.ts`** — `runOnboardingSkipProbe()` exercises `PATCH /api/onboarding` from a Vercel cron every 15 min so we catch breakage at low traffic. Results stored in `synthetic_probe_results` table. `systemStatusService` reads the latest row and downgrades the onboarding flow to INCIDENT on a fresh failure, DEGRADED on stale probe (cron broken). Requires `CRON_SECRET` + `SYNTHETIC_PROBE_TOKEN` env vars.
-- **`src/lib/observability/requestLog.ts`** — extended with `summarizePath()` (per-prefix health) and `summarizeAllPaths()` (per-distinct-path stats) so endpoints don't have to re-scan the ring on every probe.
+- **`src/services/syntheticProbeService.ts`** — 5 cron-driven probes exercise critical flows so we catch breakage at low traffic:
+  - `runOnboardingSkipProbe()` — `PATCH /api/onboarding`, every 15 min.
+  - `runCosmicRecipeProbe()` — `POST /api/generate-cosmic-recipe`, hourly (sparse — spends tokens).
+  - `runRecommendationsProbe()` — `POST /api/personalized-recommendations`, every 15 min.
+  - `runStripeWebhookProbe()` — `POST /api/stripe/webhook` (unsigned, expects 4xx from sig validator), every 15 min. Never injects real events.
+  - `runAuthHandshakeProbe()` — `GET /api/auth/sessions`, every 15 min.
+
+  All results land in `synthetic_probe_results` keyed by `probe_name`. `systemStatusService` reads latest-per-name via `evaluateSyntheticProbe()` and downgrades each flow to INCIDENT on fresh failure, DEGRADED on stale probe (cron broken). Requires `CRON_SECRET` + `SYNTHETIC_PROBE_TOKEN` env vars. Shared auth helper at `src/app/api/cron/_lib/cronAuth.ts`.
+- **`src/services/healthSnapshotService.ts`** — `writeSnapshot()` persists hourly captures of the full `SystemStatusPayload` to `system_health_snapshots` (JSONB). `getLatestSnapshot()` powers transition detection; `getRecentSnapshotOverall()` powers drift / week-over-week views.
+- **`src/services/alertService.ts`** — fires operator alerts on status transitions. Pure `classifyTransition()` + `diffPayloadsForAlerts()` (unit-tested). `dispatchAlert()` writes to three sinks in parallel: DB (`alert_events` table) + Slack webhook (`ALERT_SLACK_WEBHOOK_URL`) + email via Resend (to `ADMIN_EMAILS`). Each sink dispatches independently; one broken webhook never blocks the others. UNKNOWN transitions don't alert (monitoring loss, not health). Recoveries to OK alert as `info`.
+- **`src/lib/observability/requestLog.ts`** — extended with `summarizePath()` (per-prefix health) and `summarizeAllPaths()` (per-distinct-path stats). Writes are mirrored to `request_log_entries` via fire-and-forget; on cold start the in-memory ring hydrates from the last 500 DB rows on first read.
+- **`src/lib/observability/slowQueryLog.ts`** — same persistence pattern against `slow_query_log_entries` (uses raw pool to avoid recursion). Threshold tunable via `SLOW_QUERY_THRESHOLD_MS`.
+- **`src/lib/observability/alertLog.ts`** — in-memory ring of the last 100 dispatched alerts, hydrated from `alert_events` on cold start (`hydrateAlertRingFromDb()`). Backs the recent-alerts admin panel without paying a DB round-trip per poll.
+
+### Cron registry (vercel.json)
+
+| Path | Schedule | Purpose |
+| --- | --- | --- |
+| `/api/cron/synthetic-onboarding` | `*/15 * * * *` | onboarding-skip probe |
+| `/api/cron/synthetic-recommendations` | `*/15 * * * *` | recommendations probe |
+| `/api/cron/synthetic-stripe-webhook` | `*/15 * * * *` | stripe-webhook reachability probe |
+| `/api/cron/synthetic-auth-handshake` | `*/15 * * * *` | auth-handshake probe |
+| `/api/cron/synthetic-cosmic-recipe` | `0 * * * *` | cosmic-recipe gen probe (hourly — spends tokens) |
+| `/api/cron/system-health-snapshot` | `0 * * * *` | hourly status snapshot + transition-based alert dispatch |
 
 ### Planetary Agents (PA) integration
 
@@ -173,13 +199,15 @@ Three-project loop: **alchm.kitchen** (this repo) ↔ **PA** ↔ **WTEN backend*
 
 ### MenuPlannerContext (refactored)
 
-2182-line monolith split into 5 modules in `src/contexts/menu-planner/`:
+2182-line monolith split into 7 modules in `src/contexts/menu-planner/`:
 
-- `types.ts` (244 lines)
-- `useWeekNavigation.ts` (65)
-- `useMealSlots.ts` (498)
-- `MenuPlannerProvider.tsx` (1280 — still a candidate for further extraction: `useCostEstimation`, `useGenerationPreferences`)
-- `MenuPlannerContext.tsx` barrel (28)
+- `types.ts`
+- `useWeekNavigation.ts`
+- `useMealSlots.ts`
+- `useCostEstimation.ts`
+- `useGenerationPreferences.ts`
+- `MenuPlannerProvider.tsx` (composes the four hooks above)
+- `MenuPlannerContext.tsx` barrel
 
 Public API unchanged — no consumers touched.
 
@@ -211,4 +239,4 @@ Porting the `planetary_agents-main` Next.js UI surface into this repo's `src/`. 
 
 ---
 
-_Updated May 24, 2026 — Operational admin dashboard: per-flow system status, live activity stream, onboarding funnel watch, today's highlights. All health computed from existing signals. Bun 1.3.13._
+_Updated May 24, 2026 — Operational admin dashboard: per-flow system status, live activity stream, onboarding funnel watch, today's highlights. Hourly health snapshots + transition-based alerting (Slack + email + DB sinks). 5 synthetic probes covering onboarding, cosmic-recipe gen, recommendations, Stripe webhook reachability, auth handshake. Observability rings (request log, slow-query log, alert log) persisted to DB so cold starts don't lose history. Bun 1.3.13._

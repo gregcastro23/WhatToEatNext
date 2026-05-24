@@ -1,14 +1,16 @@
 /**
- * Slow query in-memory ring.
+ * Slow query log — bounded in-memory ring + DB-backed persistence
  *
  * Captures Postgres queries whose execution time exceeds a configurable
- * threshold (default 200ms). The existing stdout logger already warns on
- * >1s queries, but we want a finer-grained record for the admin
- * observability dashboard and to spot creeping regressions.
+ * threshold (default 200ms). The existing stdout logger already warns
+ * on >1s queries; this ring + the mirrored `slow_query_log_entries`
+ * table back the admin observability dashboard and let us spot creeping
+ * regressions across cold starts.
  *
- * Stored in-memory only; if scale demands persistence we can flush this
- * to a table later. Process restarts wipe the ring, which is fine for
- * "what's slow right now" use cases.
+ * Persistence uses the raw pool (not executeQuery) to avoid recursion —
+ * persisting a slow-query record would otherwise log itself as a slow
+ * query and loop. Hydration on first read pulls the last N rows from
+ * the DB into the ring.
  *
  * @file src/lib/observability/slowQueryLog.ts
  */
@@ -43,17 +45,83 @@ export function recordSlowQuery(
   rowCount: number | null,
 ): void {
   if (ms < threshold) return;
-  ring.push({
+  const entry: SlowQueryEntry = {
     id: nextId++,
     at: new Date().toISOString(),
     ms: Math.round(ms),
     preview: query.length > 200 ? `${query.slice(0, 200)}…` : query,
     rowCount,
-  });
+  };
+  ring.push(entry);
   if (ring.length > RING_SIZE) ring.shift();
+
+  // Skip persistence for self-writes — would loop forever otherwise.
+  if (query.toLowerCase().includes("slow_query_log_entries")) return;
+  void persistSlowQueryEntry(entry);
+}
+
+async function persistSlowQueryEntry(entry: SlowQueryEntry): Promise<void> {
+  if (typeof window !== "undefined") return;
+  if (!process.env.DATABASE_URL) return;
+  try {
+    // Dynamic import + raw pool query (bypass executeQuery to avoid
+    // re-entry through the slow-query recorder). The cycle is intentional
+    // and broken at runtime by the lazy import.
+    // eslint-disable-next-line import/no-cycle
+    const { getDatabasePool } = await import("@/lib/database/connection");
+    await getDatabasePool().query(
+      `INSERT INTO slow_query_log_entries (at, ms, preview, row_count)
+       VALUES ($1, $2, $3, $4)`,
+      [entry.at, entry.ms, entry.preview, entry.rowCount],
+    );
+  } catch {
+    // Observability writes never crash the query path.
+  }
+}
+
+let hydrationStarted = false;
+function ensureHydrated(): void {
+  if (hydrationStarted) return;
+  hydrationStarted = true;
+  if (typeof window !== "undefined") return;
+  if (!process.env.DATABASE_URL) return;
+  void (async () => {
+    try {
+      const { getDatabasePool } = await import("@/lib/database/connection");
+      const result = await getDatabasePool().query<{
+        at: Date;
+        ms: number;
+        preview: string;
+        row_count: number | null;
+      }>(
+        `SELECT at, ms, preview, row_count
+         FROM slow_query_log_entries
+         ORDER BY at DESC
+         LIMIT $1`,
+        [RING_SIZE],
+      );
+      const liveAtSet = new Set(ring.map((r) => r.at));
+      const hydrated: SlowQueryEntry[] = result.rows
+        .reverse()
+        .filter((row) => !liveAtSet.has(new Date(row.at).toISOString()))
+        .map((row) => ({
+          id: nextId++,
+          at: new Date(row.at).toISOString(),
+          ms: row.ms,
+          preview: row.preview,
+          rowCount: row.row_count,
+        }));
+      const combined = [...hydrated, ...ring].slice(-RING_SIZE);
+      ring.length = 0;
+      ring.push(...combined);
+    } catch {
+      // Persistence offline — operate in pure-memory mode.
+    }
+  })();
 }
 
 export function getRecentSlowQueries(limit: number = 50): SlowQueryEntry[] {
+  ensureHydrated();
   const n = Math.min(Math.max(limit, 1), RING_SIZE);
   return ring.slice().reverse().slice(0, n);
 }
@@ -66,6 +134,7 @@ export interface SlowQuerySummary {
 }
 
 export function summarizeSlowQueries(windowMs: number = 5 * 60 * 1000): SlowQuerySummary {
+  ensureHydrated();
   const cutoff = Date.now() - windowMs;
   const recent = ring.filter((r) => new Date(r.at).getTime() >= cutoff);
   const slowestMs = recent.reduce((m, r) => Math.max(m, r.ms), 0);
