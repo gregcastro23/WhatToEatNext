@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import type { SkyConditionsData } from "@/services/skyConditionsService";
+import type {
+  PlanetaryHourSnapshot,
+  SkyConditionsData,
+} from "@/services/skyConditionsService";
 import { Sparkline } from "./atoms";
 import { seeded } from "./data";
 import { Card } from "./hero";
@@ -20,7 +23,7 @@ const PLANET_COLOR: Record<string, string> = {
 };
 
 export function SkyConditions({ data }: { data: SkyConditionsData }) {
-  const { planets, aspects, headline, live } = data;
+  const { planets, aspects, headline, live, planetaryHour } = data;
   const retrogradeCount = planets.filter((p) => p.retrograde).length;
   return (
     <section
@@ -143,8 +146,10 @@ export function SkyConditions({ data }: { data: SkyConditionsData }) {
           alignItems: "center",
         }}
       >
-        <div className="t-tag" style={{ fontSize: 8 }}>PLANETARY HOUR · 60-MIN BAR</div>
-        <PlanetaryHourBar />
+        <div className="t-tag" style={{ fontSize: 8 }}>
+          PLANETARY HOUR · {planetaryHour.live ? "LIVE" : "CACHED"}
+        </div>
+        <PlanetaryHourBar snapshot={planetaryHour} />
         <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.12em" }}>
           {planets.length} BODIES · {retrogradeCount} Rx · {aspects.length} ASPECTS
         </div>
@@ -153,23 +158,29 @@ export function SkyConditions({ data }: { data: SkyConditionsData }) {
   );
 }
 
-function PlanetaryHourBar() {
-  const planets = ["♂", "☉", "♀", "☿", "☽", "♄", "♃"];
-  const segs = Array.from({ length: 24 }, (_, i) => {
-    const idx = (i + 3) % 7;
-    const isLive = i === 8;
-    const isPast = i < 8;
-    return { sym: planets[idx], isLive, isPast };
-  });
-  const colors: Record<string, string> = {
-    "♂": "var(--el-fire)",
-    "☉": "var(--accent-2)",
-    "♀": "var(--el-water)",
-    "☿": "var(--el-air)",
-    "☽": "#D6CFE8",
-    "♄": "var(--fg-mute)",
-    "♃": "var(--el-earth)",
-  };
+const PLANETARY_HOUR_COLORS: Record<string, string> = {
+  "♂": "var(--el-fire)",
+  "☉": "var(--accent-2)",
+  "♀": "var(--el-water)",
+  "☿": "var(--el-air)",
+  "☽": "#D6CFE8",
+  "♄": "var(--fg-mute)",
+  "♃": "var(--el-earth)",
+};
+
+function PlanetaryHourBar({ snapshot }: { snapshot: PlanetaryHourSnapshot }) {
+  // Empty segments (degraded state) — render a uniform muted strip so the
+  // bar doesn't collapse layout while the ephemeris recovers.
+  const segs = snapshot.segments.length > 0
+    ? snapshot.segments
+    : Array.from({ length: 24 }, (_, hour) => ({
+        hour,
+        symbol: "·",
+        planet: snapshot.dayRuler,
+        isLive: false,
+        isPast: false,
+      }));
+
   return (
     <div
       style={{
@@ -180,29 +191,33 @@ function PlanetaryHourBar() {
         height: 22,
       }}
     >
-      {segs.map((s, i) => (
-        <div
-          key={i}
-          style={{
-            background: s.isLive
-              ? "var(--accent)"
-              : s.isPast
-                ? `color-mix(in oklch, ${colors[s.sym]}, transparent 70%)`
-                : "rgba(255,255,255,0.04)",
-            border: `1px solid ${s.isLive ? "var(--accent)" : "var(--line)"}`,
-            borderRadius: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "JetBrains Mono",
-            fontSize: 9,
-            color: s.isLive ? "#0A0712" : s.isPast ? "var(--fg-dim)" : "var(--fg-mute)",
-            boxShadow: s.isLive ? "0 0 12px var(--accent)" : "none",
-          }}
-        >
-          {s.sym}
-        </div>
-      ))}
+      {segs.map((s) => {
+        const color = PLANETARY_HOUR_COLORS[s.symbol] ?? "var(--fg-mute)";
+        return (
+          <div
+            key={s.hour}
+            title={`${String(s.hour).padStart(2, "0")}:00 · ${s.planet}`}
+            style={{
+              background: s.isLive
+                ? "var(--accent)"
+                : s.isPast
+                  ? `color-mix(in oklch, ${color}, transparent 70%)`
+                  : "rgba(255,255,255,0.04)",
+              border: `1px solid ${s.isLive ? "var(--accent)" : "var(--line)"}`,
+              borderRadius: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "JetBrains Mono",
+              fontSize: 9,
+              color: s.isLive ? "#0A0712" : s.isPast ? "var(--fg-dim)" : "var(--fg-mute)",
+              boxShadow: s.isLive ? "0 0 12px var(--accent)" : "none",
+            }}
+          >
+            {s.symbol}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -210,14 +225,14 @@ function PlanetaryHourBar() {
 // ============================================================
 // ASTRONOMICAL ENGINE
 // ============================================================
-export function AstronomicalEngine() {
+export function AstronomicalEngine({ live = false }: { live?: boolean } = {}) {
   const refs = [
-    { k: "EPHEMERIS", v: "DE440 · 2020-2050", ok: true },
-    { k: "VSOP87 KERNEL", v: "rev · 2024-03-12", ok: true },
-    { k: "IAU 2006 PRECESSION", v: "P03 · OK", ok: true },
-    { k: "ΔT MODEL", v: "ESPENAK-MEEUS", ok: true },
-    { k: "LEAP SECOND TABLE", v: "37s · 2017-01-01", ok: true },
-    { k: "JPL HORIZONS DRIFT", v: "max · 0.38″ Saturn", ok: true },
+    { k: "EPHEMERIS", v: "DE440 · 2020-2050", ok: live },
+    { k: "VSOP87 KERNEL", v: "rev · 2024-03-12", ok: live },
+    { k: "IAU 2006 PRECESSION", v: "P03 · OK", ok: live },
+    { k: "ΔT MODEL", v: "ESPENAK-MEEUS", ok: live },
+    { k: "LEAP SECOND TABLE", v: "37s · 2017-01-01", ok: live },
+    { k: "JPL HORIZONS DRIFT", v: "max · 0.38″ Saturn", ok: live },
   ];
   const compute = [
     { k: "natal · /api/natal", rps: 38, p95: "184ms", color: "var(--accent)" },
@@ -231,7 +246,12 @@ export function AstronomicalEngine() {
       title="Astronomical Engine · astrologize"
       subtitle="planetary truth source · sub-ms hot path"
       right={
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>● HEALTHY · 99.998%</span>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)" }}
+        >
+          {live ? "● LIVE EPHEMERIS" : "○ DEGRADED"}
+        </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>

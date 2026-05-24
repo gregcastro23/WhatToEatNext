@@ -8,20 +8,6 @@ import type { AstrologicalState } from "@/types/celestial";
 import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 // Removed unused culinary type-only imports
 
-// Mock planetary data for calculations
-const _mockPlanetaryData = {
-  flavorProfiles: {
-    sweet: 0.7,
-    _sour: 0.4,
-    _salty: 0.5,
-    _bitter: 0.2,
-    _umami: 0.6,
-    _spicy: 0.3,
-  },
-  _foodAssociations: ["vegetables", "grains", "fruits", "proteins"],
-  _herbalAssociations: { Herbs: ["basil", "thyme", "mint", "rosemary"] },
-};
-
 /**
  * Generates top sauce recommendations based on elemental and astrological alignments.
  * @param currentElementalProfile The user's current elemental profile.
