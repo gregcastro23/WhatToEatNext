@@ -201,7 +201,7 @@ export default function LiveActivityPanel() {
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between">
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <span
             className={`h-2.5 w-2.5 rounded-full ${
@@ -222,7 +222,7 @@ export default function LiveActivityPanel() {
       </div>
 
       {/* Filter chips */}
-      <div className="px-6 py-3 border-b border-gray-100 bg-white flex flex-wrap gap-2">
+      <div className="px-4 sm:px-6 py-3 border-b border-gray-100 bg-white flex flex-wrap gap-2 overflow-x-auto no-scrollbar">
         <FilterChip
           label="All"
           count={totalEvents}
@@ -308,7 +308,7 @@ function EventRow({ event }: { event: ActivityEvent }) {
   const statusStyle = STATUS_STYLE[event.status];
   const actor = event.actor;
   return (
-    <li className="px-6 py-3 hover:bg-gray-50">
+    <li className="px-4 sm:px-6 py-3 hover:bg-gray-50">
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 mt-1.5">
           <span className={`block h-2 w-2 rounded-full ${catStyle.dot}`} />

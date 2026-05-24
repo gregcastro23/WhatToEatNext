@@ -120,7 +120,7 @@ export default function TodaysHighlightsPanel() {
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-      <div className="px-6 py-3 border-b border-gray-100 flex items-baseline justify-between">
+      <div className="px-4 sm:px-6 py-3 border-b border-gray-100 flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="text-lg font-bold text-gray-800">Today</h2>
         <span className="text-[10px] text-gray-400 font-mono">
           24h vs prior 24h · updated {formatRelative(data.generatedAt)}

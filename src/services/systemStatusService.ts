@@ -27,6 +27,7 @@ import {
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
+import { getLatestProbeResults } from "@/services/syntheticProbeService";
 
 export type FlowStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
 
@@ -266,10 +267,38 @@ async function probeOnboarding(): Promise<FlowHealth> {
     funnelLive = false;
   }
 
+  // Synthetic probe — surfaces breakage even when organic traffic is sparse.
+  // We pull the latest result per probe_name and look for "onboarding-skip"
+  // specifically. Absence is OK (no synthetic monitoring configured).
+  let syntheticFreshFailure = false;
+  let syntheticStale = false;
+  let syntheticLastStatus: string | null = null;
+  let syntheticLastAt: string | null = null;
+  let syntheticErrorMessage: string | null = null;
+  try {
+    const latest = await getLatestProbeResults();
+    const onboardingProbe = latest.find(
+      (r) => r.probeName === "onboarding-skip",
+    );
+    if (onboardingProbe) {
+      syntheticLastStatus = onboardingProbe.status;
+      syntheticLastAt = onboardingProbe.startedAt;
+      syntheticErrorMessage = onboardingProbe.errorMessage;
+      const ageMs = Date.now() - new Date(onboardingProbe.startedAt).getTime();
+      syntheticStale = ageMs > 90 * 60 * 1000; // > 90 min implies cron broke (runs every 15m).
+      syntheticFreshFailure =
+        !syntheticStale && onboardingProbe.status !== "success";
+    }
+  } catch (err) {
+    _logger.warn("[systemStatus] synthetic probe lookup failed:", err);
+  }
+
   // Status logic:
   // - INCIDENT when /api/onboarding is observed AND >50% are erroring.
-  // - DEGRADED when many stuck users OR error rate climbing, OR signups exist
-  //   but completions are 0.
+  // - INCIDENT when the most recent synthetic probe (run within 90 min) failed
+  //   — the flow is broken even if no organic users have noticed yet.
+  // - DEGRADED when many stuck users, error rate climbing, signups without
+  //   completions, or the synthetic probe is stale (cron may be broken).
   const pathStatus = statusFromPathHealth(onboardingHealth, {
     warnErrorRate: 0.1,
     warnP95Ms: 5000,
@@ -279,7 +308,9 @@ async function probeOnboarding(): Promise<FlowHealth> {
   let status: FlowStatus;
   if (!funnelLive && pathStatus === "UNKNOWN") status = "UNKNOWN";
   else if (pathStatus === "INCIDENT") status = "INCIDENT";
+  else if (syntheticFreshFailure) status = "INCIDENT";
   else if (pathStatus === "DEGRADED") status = "DEGRADED";
+  else if (syntheticStale) status = "DEGRADED";
   else if (stuckUsers >= 5) status = "DEGRADED";
   else if (signupsLast24h > 0 && onboardedLast24h === 0 && signupsLast24h >= 3)
     // Signups arriving but nobody finishing — strong "broken" signal.
@@ -290,6 +321,20 @@ async function probeOnboarding(): Promise<FlowHealth> {
     signupsLast24h > 0 ? onboardedLast24h / signupsLast24h : 1;
 
   const issues: FlowIssue[] = [];
+  if (syntheticFreshFailure && syntheticLastAt) {
+    issues.push({
+      at: syntheticLastAt,
+      message: `Synthetic onboarding probe ${syntheticLastStatus}${syntheticErrorMessage ? `: ${syntheticErrorMessage}` : ""}`,
+      severity: "error",
+    });
+  }
+  if (syntheticStale && syntheticLastAt) {
+    issues.push({
+      at: syntheticLastAt,
+      message: `Synthetic probe last ran >90min ago — cron may have stopped`,
+      severity: "warn",
+    });
+  }
   if (stuckUsers >= 5) {
     issues.push({
       at: checkedAt,
@@ -317,11 +362,15 @@ async function probeOnboarding(): Promise<FlowHealth> {
       status === "OK"
         ? `${onboardedLast24h}/${signupsLast24h} signups onboarded in 24h (${formatPct(completionRate, 0)})`
         : status === "DEGRADED"
-          ? stuckUsers >= 5
-            ? `${stuckUsers} users stuck mid-onboarding`
-            : `Completion rate ${formatPct(completionRate, 0)} — investigate`
+          ? syntheticStale
+            ? "Synthetic probe stale — cron may have stopped"
+            : stuckUsers >= 5
+              ? `${stuckUsers} users stuck mid-onboarding`
+              : `Completion rate ${formatPct(completionRate, 0)} — investigate`
           : status === "INCIDENT"
-            ? `/api/onboarding is failing (${formatPct(onboardingHealth.errorRate)} error rate)`
+            ? syntheticFreshFailure
+              ? "Synthetic onboarding probe failing — flow is broken"
+              : `/api/onboarding is failing (${formatPct(onboardingHealth.errorRate)} error rate)`
             : "Awaiting signals",
     metrics: [
       { label: "Signups · 24h", value: `${signupsLast24h}`, raw: signupsLast24h },
@@ -336,9 +385,9 @@ async function probeOnboarding(): Promise<FlowHealth> {
         raw: stuckUsers,
       },
       {
-        label: "p95 · /api/onboarding",
-        value: formatLatency(onboardingHealth.p95LatencyMs),
-        raw: onboardingHealth.p95LatencyMs,
+        label: "Synthetic",
+        value: syntheticLastStatus ?? "—",
+        raw: syntheticFreshFailure ? 0 : 1,
       },
     ],
     issues,

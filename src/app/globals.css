@@ -496,3 +496,8 @@ a {
 .alchm-rule::before { left: 0; }
 .alchm-rule::after { right: 0; }
 
+/* Hide scrollbars on overflow containers (used by the mobile admin nav +
+   activity feed filter chips) while preserving scroll behavior. */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+

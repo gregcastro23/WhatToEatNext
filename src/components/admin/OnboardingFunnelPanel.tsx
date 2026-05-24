@@ -195,7 +195,7 @@ export default function OnboardingFunnelPanel() {
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       {/* Banner */}
       <div
-        className={`px-6 py-4 border-b ${style.banner} flex items-center justify-between`}
+        className={`px-4 sm:px-6 py-4 border-b ${style.banner} flex items-center justify-between gap-3`}
       >
         <div className="flex items-center gap-3">
           <span className={`h-3 w-3 rounded-full ${style.dot}`} />
@@ -213,7 +213,7 @@ export default function OnboardingFunnelPanel() {
         </span>
       </div>
 
-      <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
         {/* Funnel */}
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
@@ -336,7 +336,7 @@ export default function OnboardingFunnelPanel() {
 
       {/* Stuck users — only when present */}
       {data.stuckUsers.length > 0 && (
-        <div className="px-6 py-5 border-t border-gray-100 bg-amber-50">
+        <div className="px-4 sm:px-6 py-5 border-t border-gray-100 bg-amber-50">
           <h3 className="text-xs font-bold uppercase tracking-wider text-amber-900 mb-3 flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
             Stuck users ({data.stuckUsers.length})
@@ -381,7 +381,7 @@ export default function OnboardingFunnelPanel() {
       )}
 
       {/* Recent successes */}
-      <div className="px-6 py-5 border-t border-gray-100">
+      <div className="px-4 sm:px-6 py-5 border-t border-gray-100">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
           Recent successful onboardings
         </h3>

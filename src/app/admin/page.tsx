@@ -227,11 +227,11 @@ export default function AdminDashboardPage() {
   // page on the legacy dashboard payload. The PA card + Recent Users
   // card below render their own loading placeholders.
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard</h1>
+        <p className="text-sm sm:text-base text-gray-600 mt-1">
           Welcome to the alchm.kitchen admin panel
         </p>
       </div>

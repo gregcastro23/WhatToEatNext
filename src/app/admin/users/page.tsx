@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { looseIncludes } from "@/utils/searchNormalize";
 
@@ -191,10 +192,10 @@ export default function AdminUsersPage() {
   return (
     <div>
       {/* Header */}
-      <div className="mb-8 flex flex-wrap items-baseline justify-between gap-2">
+      <div className="mb-6 flex flex-wrap items-baseline justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Users</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Users</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
             Manage user accounts. Humans and planetary agents are tracked separately.
           </p>
         </div>
@@ -293,7 +294,8 @@ export default function AdminUsersPage() {
         </div>
       )}
 
-      {/* Users Table */}
+      {/* Users Table — wide table sits inside a horizontal-scroll wrapper so
+          narrow viewports can scroll the table without overflowing the page. */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {loading ? (
           <div className="p-8 text-center">
@@ -301,7 +303,8 @@ export default function AdminUsersPage() {
             <p className="text-gray-600">Loading users...</p>
           </div>
         ) : (
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[760px]">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -475,11 +478,19 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => setSelectedUser(user)}
-                            className="text-sm text-purple-600 hover:text-purple-800"
+                          <Link
+                            href={`/admin/users/${user.id}`}
+                            className="text-sm font-medium text-purple-600 hover:text-purple-800"
                           >
-                            View
+                            Open
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedUser(user)}
+                            className="text-sm text-gray-500 hover:text-gray-700"
+                            title="Quick peek without leaving the page"
+                          >
+                            Quick
                           </button>
                           {!user.roles.includes("admin") && (
                             <>
@@ -517,6 +528,7 @@ export default function AdminUsersPage() {
               )}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 

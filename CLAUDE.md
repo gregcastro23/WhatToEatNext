@@ -67,6 +67,11 @@ PLANETARY_AGENTS_API_URL=https://api.agents.alchm.kitchen        # PA Python/Fas
 NEXT_PUBLIC_PLANETARY_AGENTS_URL=https://api.agents.alchm.kitchen
 NEXT_PUBLIC_AGENTS_UI_URL=https://agents.alchm.kitchen           # PA Next.js UI (agent chat)
 
+# Cron / synthetic monitoring
+CRON_SECRET=<random-32-char-secret>                              # Vercel cron header
+SYNTHETIC_PROBE_TOKEN=<jwt-for-synthetic-user>                   # bearer for /api/onboarding probe call
+SYNTHETIC_PROBE_BASE_URL=https://alchm.kitchen                   # optional override; defaults to VERCEL_URL
+
 # Auth (NextAuth.js v5)
 AUTH_SECRET=<auth-secret>
 AUTH_GOOGLE_ID=<google-client-id>
@@ -143,6 +148,8 @@ All compute from existing signals — no new instrumentation required. Each serv
 - **`src/services/onboardingHealthService.ts`** — `getOnboardingHealth()` returns 24h funnel, stuck users (>1h not onboarded), `/api/onboarding` request-log slice, recent completions, skip rate. Exported `diagnose()` (pure function) is unit-tested.
 - **`src/services/liveActivityService.ts`** — `getLiveActivity()` merges 6 sources via `Promise.allSettled`, normalizes to a common `ActivityEvent`, sorts by timestamp DESC, caps at 50. Each source has per-query LIMIT 25, 6h window.
 - **`src/services/todaysHighlightsService.ts`** — `getTodaysHighlights()` runs 8 pair-count queries (today vs prior-24h) in parallel. Sign-in-failures is the only "less is better" metric (inverted delta tone).
+- **`src/services/userTimelineService.ts`** — `getUserTimeline(userId)` backs the `/admin/users/[id]` deep-dive page. Identity + token balances + subscription + lifetime stats + chronological event timeline (auth/feed/token/interaction events) for one user.
+- **`src/services/syntheticProbeService.ts`** — `runOnboardingSkipProbe()` exercises `PATCH /api/onboarding` from a Vercel cron every 15 min so we catch breakage at low traffic. Results stored in `synthetic_probe_results` table. `systemStatusService` reads the latest row and downgrades the onboarding flow to INCIDENT on a fresh failure, DEGRADED on stale probe (cron broken). Requires `CRON_SECRET` + `SYNTHETIC_PROBE_TOKEN` env vars.
 - **`src/lib/observability/requestLog.ts`** — extended with `summarizePath()` (per-prefix health) and `summarizeAllPaths()` (per-distinct-path stats) so endpoints don't have to re-scan the ring on every probe.
 
 ### Planetary Agents (PA) integration

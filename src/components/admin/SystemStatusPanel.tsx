@@ -170,7 +170,7 @@ export default function SystemStatusPanel() {
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       {/* Banner */}
       <div
-        className={`px-6 py-4 flex items-center justify-between border-b ${overallStyle.border}`}
+        className={`px-4 sm:px-6 py-4 flex items-center justify-between gap-3 border-b ${overallStyle.border}`}
       >
         <div className="flex items-center gap-3">
           <span
@@ -194,7 +194,7 @@ export default function SystemStatusPanel() {
       </div>
 
       {/* Flow grid */}
-      <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {data.flows.map((flow) => (
           <FlowTile
             key={flow.id}
@@ -208,7 +208,7 @@ export default function SystemStatusPanel() {
       </div>
 
       {/* Dependency strip */}
-      <div className="px-6 py-4 border-t border-gray-100 bg-gray-50">
+      <div className="px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
           External Dependencies
         </h3>
@@ -237,7 +237,7 @@ function FlowTile({
       type="button"
       onClick={onToggle}
       className={`text-left p-4 rounded-lg border-2 transition-all hover:shadow-md ${style.border} ${
-        expanded ? "ring-2 ring-purple-300 col-span-2" : ""
+        expanded ? "ring-2 ring-purple-300 sm:col-span-2" : ""
       }`}
     >
       <div className="flex items-start justify-between mb-2">

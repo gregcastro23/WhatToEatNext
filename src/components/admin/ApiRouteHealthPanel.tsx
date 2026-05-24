@@ -126,7 +126,7 @@ export default function ApiRouteHealthPanel() {
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+      <div className="px-4 sm:px-6 py-4 border-b border-gray-100 bg-gray-50 flex flex-wrap justify-between items-center gap-3">
         <div>
           <h2 className="text-lg font-bold text-gray-800">API Route Health</h2>
           <p className="text-xs text-gray-500">

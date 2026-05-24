@@ -130,9 +130,43 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 text-white fixed h-full">
+    <div className="min-h-screen bg-gray-100 lg:flex">
+      {/* Mobile top nav (< lg). On wider screens this hides; the sidebar takes over. */}
+      <header className="lg:hidden sticky top-0 z-20 bg-gray-800 text-white shadow">
+        <div className="flex items-center justify-between px-4 py-3">
+          <h1 className="text-base font-bold bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
+            alchm.kitchen · Admin
+          </h1>
+          <Link
+            href="/"
+            className="text-xs text-gray-400 hover:text-white transition-colors"
+          >
+            ← Site
+          </Link>
+        </div>
+        <nav
+          className="flex overflow-x-auto border-t border-gray-700 no-scrollbar"
+          aria-label="Admin sections"
+        >
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex-shrink-0 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors whitespace-nowrap ${
+                pathname === item.href
+                  ? "bg-gray-700 text-white border-b-2 border-purple-500"
+                  : ""
+              }`}
+            >
+              <span className="mr-2">{item.icon}</span>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </header>
+
+      {/* Sidebar (lg+). Fixed-position so the main content scrolls underneath. */}
+      <aside className="hidden lg:block w-64 bg-gray-800 text-white fixed h-full">
         <div className="p-6">
           <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
             alchm.kitchen
@@ -168,8 +202,10 @@ export default function AdminLayout({
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">{children}</main>
+      {/* Main Content — no left-margin on mobile (top nav lives at the top
+          instead). On lg+ the sidebar is fixed at 256px so we push content
+          right by that much. Padding scales down on small screens. */}
+      <main className="flex-1 lg:ml-64 p-4 sm:p-6 lg:p-8">{children}</main>
     </div>
   );
 }
