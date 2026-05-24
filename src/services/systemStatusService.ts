@@ -27,7 +27,10 @@ import {
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
-import { getLatestProbeResults } from "@/services/syntheticProbeService";
+import {
+  getLatestProbeResults,
+  type LatestProbeRow,
+} from "@/services/syntheticProbeService";
 
 export type FlowStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
 
@@ -142,13 +145,89 @@ function issueFromFailure(
   };
 }
 
+/**
+ * Normalize the latest result for a given probe_name into a small
+ * struct the flow-probe functions can fold into their status verdict.
+ *
+ * Each consumer probe knows its cron cadence, so it passes the
+ * stale-after threshold (slightly longer than the cron interval, e.g.
+ * 15-min probe gets 90-min stale window — three missed runs).
+ *
+ * Absence ⇒ no influence (probe not configured / first deploy).
+ */
+export interface SyntheticProbeInfluence {
+  metricValue: string;
+  metricRaw: number;
+  /** Most-recent failure inside the stale window. */
+  freshFailure: boolean;
+  /** Probe ran but the most recent result is older than staleAfterMs. */
+  stale: boolean;
+  /** Probe has never reported (or the table is empty). */
+  missing: boolean;
+  lastStatus: string | null;
+  lastAt: string | null;
+  errorMessage: string | null;
+  issue: FlowIssue | null;
+}
+
+export function evaluateSyntheticProbe(
+  probeName: string,
+  latest: LatestProbeRow[],
+  staleAfterMs: number,
+): SyntheticProbeInfluence {
+  const row = latest.find((r) => r.probeName === probeName);
+  if (!row) {
+    return {
+      metricValue: "—",
+      metricRaw: 0,
+      freshFailure: false,
+      stale: false,
+      missing: true,
+      lastStatus: null,
+      lastAt: null,
+      errorMessage: null,
+      issue: null,
+    };
+  }
+  const ageMs = Date.now() - new Date(row.startedAt).getTime();
+  const stale = ageMs > staleAfterMs;
+  const freshFailure = !stale && row.status !== "success";
+  const issue: FlowIssue | null = freshFailure
+    ? {
+        at: row.startedAt,
+        message: `Synthetic ${probeName} ${row.status}${row.errorMessage ? `: ${row.errorMessage}` : ""}`,
+        severity: "error",
+      }
+    : stale
+      ? {
+          at: row.startedAt,
+          message: `Synthetic ${probeName} last ran ${Math.round(ageMs / 60_000)}min ago — cron may have stopped`,
+          severity: "warn",
+        }
+      : null;
+  return {
+    metricValue: row.status,
+    metricRaw: freshFailure ? 0 : 1,
+    freshFailure,
+    stale,
+    missing: false,
+    lastStatus: row.status,
+    lastAt: row.startedAt,
+    errorMessage: row.errorMessage,
+    issue,
+  };
+}
+
 // ─── Flow probes ──────────────────────────────────────────────────────
 
 const FIVE_MIN = 5 * 60 * 1000;
 const ONE_HOUR = 60 * 60 * 1000;
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
-async function probeAuth(): Promise<FlowHealth> {
+const STALE_15MIN = 90 * 60 * 1000; // 15-min cron → 3 missed runs.
+const STALE_HOURLY = 4 * 60 * 60 * 1000; // hourly cron → 4 missed runs.
+
+async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   // /api/auth covers next-auth handler + session pings; very high traffic.
   const session = summarizePath("/api/auth", FIVE_MIN);
@@ -175,9 +254,16 @@ async function probeAuth(): Promise<FlowHealth> {
       ? failures24h / (signins24h + failures24h)
       : 0;
 
+  const handshake = evaluateSyntheticProbe(
+    "auth-handshake",
+    latest,
+    STALE_15MIN,
+  );
+
   let status: FlowStatus;
   if (!session.observed && !authEventsLive) status = "UNKNOWN";
   else if (failureRate24h >= 0.5) status = "INCIDENT";
+  else if (handshake.freshFailure) status = "INCIDENT";
   else if (
     failureRate24h >= 0.2 ||
     statusFromPathHealth(session, {
@@ -187,11 +273,14 @@ async function probeAuth(): Promise<FlowHealth> {
     }) === "INCIDENT"
   ) {
     status = "DEGRADED";
+  } else if (handshake.stale) {
+    status = "DEGRADED";
   } else {
     status = "OK";
   }
 
   const issues: FlowIssue[] = [];
+  if (handshake.issue) issues.push(handshake.issue);
   const sessionIssue = issueFromFailure(session, "auth");
   if (sessionIssue) issues.push(sessionIssue);
 
@@ -205,9 +294,13 @@ async function probeAuth(): Promise<FlowHealth> {
       status === "OK"
         ? `${signins24h} successful sign-ins in 24h`
         : status === "DEGRADED"
-          ? `${failures24h} sign-in failures in 24h (${formatPct(failureRate24h)})`
+          ? handshake.stale
+            ? "Synthetic auth-handshake probe stale"
+            : `${failures24h} sign-in failures in 24h (${formatPct(failureRate24h)})`
           : status === "INCIDENT"
-            ? `Sign-ins failing — ${formatPct(failureRate24h)} failure rate 24h`
+            ? handshake.freshFailure
+              ? "Synthetic auth-handshake probe failing"
+              : `Sign-ins failing — ${formatPct(failureRate24h)} failure rate 24h`
             : "No auth signal in window",
     metrics: [
       { label: "Sign-ins · 24h", value: `${signins24h}`, raw: signins24h },
@@ -222,9 +315,9 @@ async function probeAuth(): Promise<FlowHealth> {
         raw: session.p95LatencyMs,
       },
       {
-        label: "Failure rate",
-        value: formatPct(failureRate24h),
-        raw: failureRate24h,
+        label: "Synthetic",
+        value: handshake.metricValue,
+        raw: handshake.metricRaw,
       },
     ],
     issues,
@@ -233,7 +326,7 @@ async function probeAuth(): Promise<FlowHealth> {
   };
 }
 
-async function probeOnboarding(): Promise<FlowHealth> {
+async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const onboardingHealth = summarizePath("/api/onboarding", ONE_HOUR);
 
@@ -267,31 +360,14 @@ async function probeOnboarding(): Promise<FlowHealth> {
     funnelLive = false;
   }
 
-  // Synthetic probe — surfaces breakage even when organic traffic is sparse.
-  // We pull the latest result per probe_name and look for "onboarding-skip"
-  // specifically. Absence is OK (no synthetic monitoring configured).
-  let syntheticFreshFailure = false;
-  let syntheticStale = false;
-  let syntheticLastStatus: string | null = null;
-  let syntheticLastAt: string | null = null;
-  let syntheticErrorMessage: string | null = null;
-  try {
-    const latest = await getLatestProbeResults();
-    const onboardingProbe = latest.find(
-      (r) => r.probeName === "onboarding-skip",
-    );
-    if (onboardingProbe) {
-      syntheticLastStatus = onboardingProbe.status;
-      syntheticLastAt = onboardingProbe.startedAt;
-      syntheticErrorMessage = onboardingProbe.errorMessage;
-      const ageMs = Date.now() - new Date(onboardingProbe.startedAt).getTime();
-      syntheticStale = ageMs > 90 * 60 * 1000; // > 90 min implies cron broke (runs every 15m).
-      syntheticFreshFailure =
-        !syntheticStale && onboardingProbe.status !== "success";
-    }
-  } catch (err) {
-    _logger.warn("[systemStatus] synthetic probe lookup failed:", err);
-  }
+  const synthetic = evaluateSyntheticProbe(
+    "onboarding-skip",
+    latest,
+    STALE_15MIN,
+  );
+  const syntheticFreshFailure = synthetic.freshFailure;
+  const syntheticStale = synthetic.stale;
+  const syntheticLastStatus = synthetic.lastStatus;
 
   // Status logic:
   // - INCIDENT when /api/onboarding is observed AND >50% are erroring.
@@ -321,20 +397,7 @@ async function probeOnboarding(): Promise<FlowHealth> {
     signupsLast24h > 0 ? onboardedLast24h / signupsLast24h : 1;
 
   const issues: FlowIssue[] = [];
-  if (syntheticFreshFailure && syntheticLastAt) {
-    issues.push({
-      at: syntheticLastAt,
-      message: `Synthetic onboarding probe ${syntheticLastStatus}${syntheticErrorMessage ? `: ${syntheticErrorMessage}` : ""}`,
-      severity: "error",
-    });
-  }
-  if (syntheticStale && syntheticLastAt) {
-    issues.push({
-      at: syntheticLastAt,
-      message: `Synthetic probe last ran >90min ago — cron may have stopped`,
-      severity: "warn",
-    });
-  }
+  if (synthetic.issue) issues.push(synthetic.issue);
   if (stuckUsers >= 5) {
     issues.push({
       at: checkedAt,
@@ -396,7 +459,9 @@ async function probeOnboarding(): Promise<FlowHealth> {
   };
 }
 
-async function probeRecommendations(): Promise<FlowHealth> {
+async function probeRecommendations(
+  latest: LatestProbeRow[],
+): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const personalized = summarizePath(
     "/api/personalized-recommendations",
@@ -415,13 +480,21 @@ async function probeRecommendations(): Promise<FlowHealth> {
   const errorRate = totalRequests > 0 ? totalErrors / totalRequests : 0;
   const worstP95 = combined.reduce((m, h) => Math.max(m, h.p95LatencyMs), 0);
 
+  const synthetic = evaluateSyntheticProbe(
+    "recommendations",
+    latest,
+    STALE_15MIN,
+  );
+
   let status: FlowStatus;
-  if (observed.length === 0) status = "UNKNOWN";
-  else if (errorRate >= 0.5) status = "INCIDENT";
-  else if (errorRate >= 0.1 || worstP95 >= 3000) status = "DEGRADED";
+  if (observed.length === 0 && synthetic.missing) status = "UNKNOWN";
+  else if (errorRate >= 0.5 || synthetic.freshFailure) status = "INCIDENT";
+  else if (errorRate >= 0.1 || worstP95 >= 3000 || synthetic.stale)
+    status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
+  if (synthetic.issue) issues.push(synthetic.issue);
   for (const probe of [personalized, transmutation, cuisines]) {
     const issue = issueFromFailure(probe, "recommendation");
     if (issue) issues.push(issue);
@@ -437,9 +510,13 @@ async function probeRecommendations(): Promise<FlowHealth> {
       status === "OK"
         ? `${totalRequests} requests · ${formatLatency(worstP95)} p95`
         : status === "DEGRADED"
-          ? `Latency or errors elevated · p95 ${formatLatency(worstP95)}`
+          ? synthetic.stale
+            ? "Synthetic recommendations probe stale"
+            : `Latency or errors elevated · p95 ${formatLatency(worstP95)}`
           : status === "INCIDENT"
-            ? `Recommendation endpoints failing (${formatPct(errorRate)})`
+            ? synthetic.freshFailure
+              ? "Synthetic recommendations probe failing"
+              : `Recommendation endpoints failing (${formatPct(errorRate)})`
             : "No recommendation traffic in window",
     metrics: [
       { label: "Requests · 5m", value: `${totalRequests}`, raw: totalRequests },
@@ -454,12 +531,9 @@ async function probeRecommendations(): Promise<FlowHealth> {
         raw: worstP95,
       },
       {
-        label: "Personalized OK",
-        value:
-          personalized.observed
-            ? formatPct(personalized.successRate)
-            : "—",
-        raw: personalized.successRate,
+        label: "Synthetic",
+        value: synthetic.metricValue,
+        raw: synthetic.metricRaw,
       },
     ],
     issues: issues.slice(0, 3),
@@ -468,7 +542,9 @@ async function probeRecommendations(): Promise<FlowHealth> {
   };
 }
 
-async function probeAIGeneration(): Promise<FlowHealth> {
+async function probeAIGeneration(
+  latest: LatestProbeRow[],
+): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const cosmic = summarizePath("/api/generate-cosmic-recipe", FIVE_MIN);
   const aiGenerate = summarizePath("/api/recipes/generate", FIVE_MIN);
@@ -480,14 +556,24 @@ async function probeAIGeneration(): Promise<FlowHealth> {
   const worstP95 = combined.reduce((m, h) => Math.max(m, h.p95LatencyMs), 0);
   const errorRate = totalRequests > 0 ? totalErrors / totalRequests : 0;
 
+  // Cosmic-recipe probe runs hourly (expensive). Allow 4× stale window
+  // before degrading the flow.
+  const synthetic = evaluateSyntheticProbe(
+    "cosmic-recipe",
+    latest,
+    STALE_HOURLY,
+  );
+
   let status: FlowStatus;
-  if (observed.length === 0) status = "UNKNOWN";
-  else if (errorRate >= 0.4) status = "INCIDENT";
+  if (observed.length === 0 && synthetic.missing) status = "UNKNOWN";
+  else if (errorRate >= 0.4 || synthetic.freshFailure) status = "INCIDENT";
   // AI generation is naturally slow — be lenient on latency, strict on errors.
-  else if (errorRate >= 0.1 || worstP95 >= 30_000) status = "DEGRADED";
+  else if (errorRate >= 0.1 || worstP95 >= 30_000 || synthetic.stale)
+    status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
+  if (synthetic.issue) issues.push(synthetic.issue);
   for (const probe of combined) {
     const issue = issueFromFailure(probe, "ai-generation");
     if (issue) issues.push(issue);
@@ -503,19 +589,22 @@ async function probeAIGeneration(): Promise<FlowHealth> {
       status === "OK"
         ? `${totalRequests} generations · ${formatLatency(worstP95)} p95`
         : status === "DEGRADED"
-          ? `Generation slow or partially failing`
+          ? synthetic.stale
+            ? "Synthetic cosmic-recipe probe stale"
+            : `Generation slow or partially failing`
           : status === "INCIDENT"
-            ? `AI generation failing (${formatPct(errorRate)})`
+            ? synthetic.freshFailure
+              ? "Synthetic cosmic-recipe probe failing"
+              : `AI generation failing (${formatPct(errorRate)})`
             : "No AI-generation traffic in window",
     metrics: [
       { label: "Requests · 5m", value: `${totalRequests}`, raw: totalRequests },
       { label: "5xx · 5m", value: `${totalErrors}`, raw: totalErrors },
       { label: "p95", value: formatLatency(worstP95), raw: worstP95 },
       {
-        label: "Cosmic recipe",
-        value:
-          cosmic.observed ? formatPct(cosmic.successRate) : "—",
-        raw: cosmic.successRate,
+        label: "Synthetic",
+        value: synthetic.metricValue,
+        raw: synthetic.metricRaw,
       },
     ],
     issues: issues.slice(0, 3),
@@ -597,7 +686,7 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
   };
 }
 
-async function probePayments(): Promise<FlowHealth> {
+async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const checkout = summarizePath("/api/stripe/checkout", ONE_HOUR);
   const webhook = summarizePath("/api/stripe/webhook", ONE_HOUR);
@@ -623,14 +712,21 @@ async function probePayments(): Promise<FlowHealth> {
   const errorRate = totalRequests > 0 ? errors5xx / totalRequests : 0;
   const observed = combined.some((h) => h.observed);
 
+  const synthetic = evaluateSyntheticProbe(
+    "stripe-webhook",
+    latest,
+    STALE_15MIN,
+  );
+
   let status: FlowStatus;
-  if (!live && !observed) status = "UNKNOWN";
-  else if (errorRate >= 0.3) status = "INCIDENT";
+  if (!live && !observed && synthetic.missing) status = "UNKNOWN";
+  else if (errorRate >= 0.3 || synthetic.freshFailure) status = "INCIDENT";
   else if (errorRate >= 0.05) status = "DEGRADED";
-  else if (webhook.errors5xx > 0) status = "DEGRADED";
+  else if (webhook.errors5xx > 0 || synthetic.stale) status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
+  if (synthetic.issue) issues.push(synthetic.issue);
   if (webhook.errors5xx > 0 && webhook.lastFailure) {
     issues.push({
       at: webhook.lastFailure.at,
@@ -652,9 +748,13 @@ async function probePayments(): Promise<FlowHealth> {
       status === "OK"
         ? `${activeSubs} active subs · MRR $${mrr.toLocaleString()}`
         : status === "DEGRADED"
-          ? `Webhook or checkout errors detected`
+          ? synthetic.stale
+            ? "Synthetic stripe-webhook probe stale"
+            : `Webhook or checkout errors detected`
           : status === "INCIDENT"
-            ? `Stripe endpoints failing (${formatPct(errorRate)})`
+            ? synthetic.freshFailure
+              ? "Synthetic stripe-webhook probe failing"
+              : `Stripe endpoints failing (${formatPct(errorRate)})`
             : "No payment traffic in window",
     metrics: [
       { label: "Active subs", value: `${activeSubs}`, raw: activeSubs },
@@ -665,9 +765,9 @@ async function probePayments(): Promise<FlowHealth> {
         raw: webhook.errors5xx,
       },
       {
-        label: "Checkout p95",
-        value: formatLatency(checkout.p95LatencyMs),
-        raw: checkout.p95LatencyMs,
+        label: "Synthetic",
+        value: synthetic.metricValue,
+        raw: synthetic.metricRaw,
       },
     ],
     issues: issues.slice(0, 3),
@@ -960,6 +1060,11 @@ function probeGoogleOAuthDependency(): DependencyHealth {
  * Never rejects — each flow degrades independently to UNKNOWN.
  */
 export async function getSystemStatus(): Promise<SystemStatusPayload> {
+  // Pull latest synthetic-probe results ONCE — each flow probe that
+  // consumes synthetic data reads from this snapshot to avoid 5+
+  // redundant DB queries per dashboard refresh.
+  const latestProbes = await getLatestProbeResults().catch(() => []);
+
   const [
     auth,
     onboarding,
@@ -971,16 +1076,20 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     database,
     paDep,
   ] = await Promise.all([
-    probeAuth().catch(unknownFlow("auth", "Authentication")),
-    probeOnboarding().catch(unknownFlow("onboarding", "New-User Onboarding")),
-    probeRecommendations().catch(
+    probeAuth(latestProbes).catch(unknownFlow("auth", "Authentication")),
+    probeOnboarding(latestProbes).catch(
+      unknownFlow("onboarding", "New-User Onboarding"),
+    ),
+    probeRecommendations(latestProbes).catch(
       unknownFlow("recommendations", "Recipe Recommendations"),
     ),
-    probeAIGeneration().catch(
+    probeAIGeneration(latestProbes).catch(
       unknownFlow("ai-generation", "AI Recipe Generation"),
     ),
     probeTokenEconomy().catch(unknownFlow("economy", "Token Economy")),
-    probePayments().catch(unknownFlow("payments", "Payments · Stripe")),
+    probePayments(latestProbes).catch(
+      unknownFlow("payments", "Payments · Stripe"),
+    ),
     probeAgents().catch(unknownFlow("agents", "Planetary Agents")),
     probeDatabase().catch(unknownFlow("database", "Database")),
     probePADependency().catch(
