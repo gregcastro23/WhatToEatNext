@@ -163,7 +163,7 @@ export function Dashboard({ data }: DashboardProps) {
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-          <EngineHealth />
+          <EngineHealth enginePerformance={(data as any)?.enginePerformance ?? null} />
           <RecipeQualityInspector />
         </div>
 
@@ -177,7 +177,7 @@ export function Dashboard({ data }: DashboardProps) {
         >
           <CatalogState realCards={catalogCards} trending={data.catalogTrending} />
           <CommensalPulse />
-          <CommercePanel />
+          <CommercePanel commerceSummary={(data as any)?.commerceSummary ?? null} />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>

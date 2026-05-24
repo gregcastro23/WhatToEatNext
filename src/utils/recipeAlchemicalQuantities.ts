@@ -36,6 +36,7 @@ import { wholeGrains } from "@/data/ingredients/grains/wholeGrains";
 import { driedHerbs } from "@/data/ingredients/herbs/driedHerbs";
 import { freshHerbs } from "@/data/ingredients/herbs/freshHerbs";
 import { medicinalHerbs } from "@/data/ingredients/herbs/medicinalHerbs";
+import { miscIngredients } from "@/data/ingredients/misc/misc";
 import { oilsIngredients } from "@/data/ingredients/oils/oils";
 import { legumes as proteinLegumes } from "@/data/ingredients/proteins/legumes";
 import { _meats } from "@/data/ingredients/proteins/meat";
@@ -44,6 +45,7 @@ import { seafood } from "@/data/ingredients/proteins/seafood";
 import { aromatics } from "@/data/ingredients/seasonings/aromatics";
 import { _peppers } from "@/data/ingredients/seasonings/peppers";
 import { salts } from "@/data/ingredients/seasonings/salts";
+import { spices } from "@/data/ingredients/spices";
 import { alliums } from "@/data/ingredients/vegetables/alliums";
 import { cruciferous } from "@/data/ingredients/vegetables/cruciferous";
 import { fungi } from "@/data/ingredients/vegetables/fungi";
@@ -131,6 +133,7 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
     ...driedHerbs,
     ...freshHerbs,
     ...medicinalHerbs,
+    ...miscIngredients,
     ...oilsIngredients,
     ...proteinLegumes,
     ..._meats,
@@ -139,6 +142,7 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
     ...aromatics,
     ..._peppers,
     ...salts,
+    ...spices,
     ...alliums,
     ...cruciferous,
     ...fungi,

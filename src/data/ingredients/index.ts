@@ -3,9 +3,12 @@ import type { Ingredient } from "@/types";
 import type { UnifiedIngredient } from "@/types/unified";
 import { standardizeIngredient } from "@/utils/dataStandardization";
 import { determineIngredientModality } from "@/utils/ingredientUtils";
+import { beveragesIngredients } from "./beverages/beverages";
+import { dairy as dairyCollection } from "./dairy";
 import { fruits } from "./fruits";
 import { allGrains } from "./grains";
 import { allHerbs } from "./herbs";
+import { miscIngredients } from "./misc/misc";
 import { _allOils } from "./oils";
 import { _meats as meatsData } from "./proteins/meat";
 import { plantBased as plantBasedData } from "./proteins/plantBased";
@@ -302,6 +305,9 @@ export const allIngredients = (() => {
   const processedSeafood = processIngredientCollection(seafoodData);
   const processedHerbs = processIngredientCollection(herbsCollection);
   const processedSpices = processIngredientCollection(spicesCollection);
+  const processedDairy = processIngredientCollection(dairyCollection);
+  const processedMisc = processIngredientCollection(miscIngredients);
+  const processedBeverages = processIngredientCollection(beveragesIngredients);
   // Create a map to deduplicate by normalized name
   const result: Record<string, Ingredient> = {};
   // Helper function to normalize ingredient name for comparison
@@ -324,7 +330,10 @@ export const allIngredients = (() => {
     { source: processedPoultry, priority: 9 },
     { source: processedSeafood, priority: 10 },
     { source: processedHerbs, priority: 11 },
-    { source: processedSpices, priority: 12 }, // Highest priority
+    { source: processedSpices, priority: 12 },
+    { source: processedDairy, priority: 13 },
+    { source: processedMisc, priority: 14 },
+    { source: processedBeverages, priority: 15 }, // Highest priority
   ];
   // Sort collections by priority
   collectionsList.sort((a, b) => a.priority - b.priority);

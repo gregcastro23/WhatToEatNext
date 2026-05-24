@@ -1,1 +1,1164 @@
-[]
+[
+  {
+    "name": "shoyu",
+    "occurrences": 30,
+    "sampleRecipes": [
+      "hsca / Fried Tempeh (for Tempeh Reuben Sandwich)",
+      "hsca / Warm Pinto Bean Salad with Shiitake",
+      "hsca / Vegan Caesar Salad"
+    ]
+  },
+  {
+    "name": "agave syrup",
+    "occurrences": 16,
+    "sampleRecipes": [
+      "hsca / Fresh Ketchup (for Red Lentil and Toasted Sunflower Burger)",
+      "hsca / MEDITERRANEAN-INSPIRED PASTA SALAD",
+      "hsca / Coleslaw"
+    ]
+  },
+  {
+    "name": "vanilla",
+    "occurrences": 15,
+    "sampleRecipes": [
+      "hsca / Blueberry Syrup",
+      "hsca / CHOCOLATE PUDDING",
+      "hsca / ARUGULA, OLIVE OIL, BALSAMIC REDUCTION"
+    ]
+  },
+  {
+    "name": "agave",
+    "occurrences": 7,
+    "sampleRecipes": [
+      "hsca / Pomegranate, Blueberry, and Ginger Elixir",
+      "hsca / Hibiscus-Mint Cooler",
+      "hsca / BABY BOK CHOY AND RED CABBAGE SLAW (FOR SEAFOOD SAUSAGE)"
+    ]
+  },
+  {
+    "name": "seitan",
+    "occurrences": 7,
+    "sampleRecipes": [
+      "hsca / GLAZED SEITAN STIR FRY",
+      "hsca / Jerk Seitan Sloppy Joe's",
+      "hsca / Seitan Croquettes"
+    ]
+  },
+  {
+    "name": "sherry",
+    "occurrences": 4,
+    "sampleRecipes": [
+      "hsca / Mushroom-Walnut Pâté",
+      "hsca / DARK ONION SOUP WITH WHOLE GRAIN CROUTONS",
+      "hsca / CREAM OF MUSHROOM SOUP WITH ROUX"
+    ]
+  },
+  {
+    "name": "stock",
+    "occurrences": 4,
+    "sampleRecipes": [
+      "hsca / Cream of Mushroom Soup",
+      "hsca / CREAMY CARROT SOUP WITH POTATO",
+      "hsca / SMOKY GREEN SPLIT PEA SOUP"
+    ]
+  },
+  {
+    "name": "plus one tablespoon agave",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / Cucumber Agua Fresca"
+    ]
+  },
+  {
+    "name": "frisee",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / GOAT CHEESE, BEET, AND WALNUT SALAD",
+      "hsca / FRISEE SALAD WITH GRILLED BABY CARROTS, CUCUMBER, AND RADISHES WITH AVOCADO DRESSING",
+      "hsca / SAUTÉED CHICKEN LIVERS WITH ONION, APPLE, AND FRISÉE"
+    ]
+  },
+  {
+    "name": "peeled",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / CREAMY FRESH HORSERADISH DRESSING",
+      "hsca / CRUCIFEROUS SALAD"
+    ]
+  },
+  {
+    "name": "grand marnier",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / CRÊPES SUZETTE",
+      "hsca / Raspberry Sauce (for Almond Fruit Tart)"
+    ]
+  },
+  {
+    "name": "brandy",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / CRÊPES SUZETTE",
+      "hsca / SAUTÉED CHICKEN LIVERS WITH ONION, APPLE, AND FRISÉE",
+      "hsca / FRENCH WALNUT TART"
+    ]
+  },
+  {
+    "name": "peppercorns",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / Curry Marinade",
+      "hsca / VEGETARIAN BORDELAISE",
+      "hsca / Whole Poached Norwegian Salmon"
+    ]
+  },
+  {
+    "name": "mirepoix",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / WHITE VEAL STOCK",
+      "hsca / BROWN BEEF STOCK",
+      "hsca / CHICKEN STOCK"
+    ]
+  },
+  {
+    "name": "6 cups stock",
+    "occurrences": 3,
+    "sampleRecipes": [
+      "hsca / CREAM OF BROCCOLI SOUP",
+      "hsca / CREAM OF CARROT SOUP WITH POTATO",
+      "hsca / CREAM OF CARROT SOUP WITH OATS"
+    ]
+  },
+  {
+    "name": "hibiscus tea leaves",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Hibiscus-Mint Cooler"
+    ]
+  },
+  {
+    "name": "pectin powder",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / \\\"CHEESE\\\" MEDALLIONS (FOR SPINACH-SHIITAKE SALAD)",
+      "hsca / SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS"
+    ]
+  },
+  {
+    "name": "madeira wine",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Mushroom Consommé",
+      "hsca / Green Bean and Walnut Pâté"
+    ]
+  },
+  {
+    "name": "polenta",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Vegetable-Polenta Napoleons",
+      "hsca / Polenta, Goat Cheese, and Black Bean Terrine"
+    ]
+  },
+  {
+    "name": "brussels sprouts",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / CRUCIFEROUS SALAD",
+      "hsca / HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS"
+    ]
+  },
+  {
+    "name": "poppy seeds",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / OATMEAL DULSE CRACKERS",
+      "hsca / WHOLE WHEAT POPPYSEED BREAD"
+    ]
+  },
+  {
+    "name": "4 tablespoons shoyu",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / TERIYAKI SAUCE",
+      "hsca / BAKED MILLET CROQUETTES"
+    ]
+  },
+  {
+    "name": "tabasco sauce",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / HOT WINGS WITH STILTON-YOGURT DRESSING",
+      "hsca / Barbecue Tofu"
+    ]
+  },
+  {
+    "name": "recipe polenta",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / BROILED AND/OR BAKED POLENTA",
+      "hsca / PAN-FRIED POLENTA CAKES"
+    ]
+  },
+  {
+    "name": "millet",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / BAKED MILLET CROQUETTES",
+      "hsca / PAN-FRIED MILLET CROQUETTES"
+    ]
+  },
+  {
+    "name": "brown roux",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / SAUCE ESPAGNOLE (BROWN SAUCE)",
+      "hsca / MUSHROOM SAUCE"
+    ]
+  },
+  {
+    "name": "blond roux",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / APPLE-MUSTARD SAUCE",
+      "hsca / ROASTED GARLIC SAUCE"
+    ]
+  },
+  {
+    "name": "loosely packed",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / CHERMOULA SAUCE"
+    ]
+  },
+  {
+    "name": "loosely packed wakame",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / SEA PALM, WAKAME AND DULSE SEAWEED SALAD WITH CREAMY CARROT DRESSING",
+      "hsca / WAKAME, SEITAN, AND TOASTED WALNUT CASSEROLE"
+    ]
+  },
+  {
+    "name": "phyllo",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / ARAME STRUDEL",
+      "hsca / PHYLLO CUPS WITH SAUTÉED APPLES"
+    ]
+  },
+  {
+    "name": "boneless",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / CHICKEN BREASTS IN MUSHROOM SAUCE",
+      "hsca / SAUTÉED CHICKEN BREAST MARSALA WITH CRIMINI MUSHROOMS"
+    ]
+  },
+  {
+    "name": "cold",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / CHICKEN BREASTS IN MUSHROOM SAUCE",
+      "hsca / BUTTER CRUST"
+    ]
+  },
+  {
+    "name": "miso marinade",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Miso-Marinated Tofu",
+      "hsca / Miso-Marinated Salmon"
+    ]
+  },
+  {
+    "name": "8 inch skewers",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / TEMPEH VEGETABLE KEBOBS",
+      "hsca / Skewered Fruit with Chocolate Fondue"
+    ]
+  },
+  {
+    "name": "flounder filets",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / HAZELNUT-CRUSTED FLOUNDER",
+      "hsca / Flounder en Papillote"
+    ]
+  },
+  {
+    "name": "1 1 2 teaspoons shoyu",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / PAN-FRIED MILLET CROQUETTES",
+      "hsca / WAKAME, SEITAN, AND TOASTED WALNUT CASSEROLE"
+    ]
+  },
+  {
+    "name": "rum",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Sticky Buns",
+      "hsca / COCONUT-LIME CREAM TART"
+    ]
+  },
+  {
+    "name": "kahlua",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / CHOCOLATE GELATO",
+      "hsca / COFFEE GRANITA"
+    ]
+  },
+  {
+    "name": "2 teaspoons agave syrup",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Salted Pecan and Rosemary Brittle",
+      "hsca / Salted Almond and Thyme Brittle"
+    ]
+  },
+  {
+    "name": "pound whole wheat phyllo",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "hsca / Phyllo Triangles with Feta and Kale",
+      "hsca / Phyllo Triangles with Tofu and Spinach"
+    ]
+  },
+  {
+    "name": "organic",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Watermelon Juice"
+    ]
+  },
+  {
+    "name": "boiled",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SWEET POTATO WAFFLES"
+    ]
+  },
+  {
+    "name": "applesauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Vegan and Gluten-Free Spiced Fruit Muffins"
+    ]
+  },
+  {
+    "name": "recipe cheese medallions",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SPINACH-SHIITAKE SALAD"
+    ]
+  },
+  {
+    "name": "endive",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GOAT CHEESE, BEET, AND WALNUT SALAD"
+    ]
+  },
+  {
+    "name": "uettes",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GOAT CHEESE, BEET, AND WALNUT SALAD"
+    ]
+  },
+  {
+    "name": "soymilk",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CREAMY FRESH HORSERADISH DRESSING"
+    ]
+  },
+  {
+    "name": "recipe spelt bread",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Tempeh Reuben Sandwich"
+    ]
+  },
+  {
+    "name": "bowtie pasta",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / KASHA VARNISHKES (KASHA WITH BOWTIES)"
+    ]
+  },
+  {
+    "name": "plain crepes",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CRÊPES SUZETTE"
+    ]
+  },
+  {
+    "name": "brandy or rum",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / PLAIN CRÊPES (CLASSIC)"
+    ]
+  },
+  {
+    "name": "gallon glass jar",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BEET KVASS"
+    ]
+  },
+  {
+    "name": "cheesecloth",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BEET KVASS"
+    ]
+  },
+  {
+    "name": "small heads baby bok choy",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BABY BOK CHOY AND RED CABBAGE SLAW (FOR SEAFOOD SAUSAGE)"
+    ]
+  },
+  {
+    "name": "horseradish",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HORSERADISH AND LEMON CONDIMENT"
+    ]
+  },
+  {
+    "name": "toppings poppy seeds",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BAGELS"
+    ]
+  },
+  {
+    "name": "block tofu",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Tofu Ricotta"
+    ]
+  },
+  {
+    "name": "radish",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / WILD RICE SALAD"
+    ]
+  },
+  {
+    "name": "mesclun greens",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / MUSHROOMS A LA GRECQUE"
+    ]
+  },
+  {
+    "name": "gluten free or whole wheat fusilli",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / MEDITERRANEAN-INSPIRED PASTA SALAD"
+    ]
+  },
+  {
+    "name": "dandelion greens",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / WATERCRESS AND DANDELION GREENS WITH BABY ARTICHOKES"
+    ]
+  },
+  {
+    "name": "kabocha squash",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Kabocha Salad"
+    ]
+  },
+  {
+    "name": "haricots verts",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / NIÇOISE SALAD"
+    ]
+  },
+  {
+    "name": "mesclun",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / POACHED CHICKEN AND ROASTED ASPARAGUS"
+    ]
+  },
+  {
+    "name": "red endive",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / POACHED CHICKEN AND ROASTED ASPARAGUS"
+    ]
+  },
+  {
+    "name": "celeriac",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CELERIAC WITH GRILLED ASPARAGUS AND EGGS"
+    ]
+  },
+  {
+    "name": "red belgian endive",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BEET SALAD WITH GREENS AND PISTACHIO-CRUSTED GOAT CHEESE MEDALLIONS"
+    ]
+  },
+  {
+    "name": "reserved braising liquid",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CURRIED CHICKEN SALAD ON PAPADAM WITH YOGURT RAITA"
+    ]
+  },
+  {
+    "name": "mini papadam",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CURRIED CHICKEN SALAD ON PAPADAM WITH YOGURT RAITA"
+    ]
+  },
+  {
+    "name": "treviso",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / PINE NUT RICOTTA ON TREVISO LEAVES"
+    ]
+  },
+  {
+    "name": "shelled edamame",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SCALLION, EDAMAME, AND LEEK DUMPLINGS"
+    ]
+  },
+  {
+    "name": "diagonally",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SCALLION, EDAMAME, AND LEEK DUMPLINGS"
+    ]
+  },
+  {
+    "name": "1 1 2 cups whole wheat bread crumbs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GREEN LENTIL TERRINE"
+    ]
+  },
+  {
+    "name": "micro greens for garnish",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Beet Terrine"
+    ]
+  },
+  {
+    "name": "whole wheat bread crumbs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / RED LENTIL PÂTÉ"
+    ]
+  },
+  {
+    "name": "loaf french or italian whole wheat bread",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Croutons for Vegan Caesar Salad"
+    ]
+  },
+  {
+    "name": "lightly toasted poppy seeds",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HASHED BRUSSEL SPROUTS WITH CARROTS AND POPPY SEEDS"
+    ]
+  },
+  {
+    "name": "3 tablespoons agave syrup",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / POMEGRANATE REDUCTION"
+    ]
+  },
+  {
+    "name": "romaine hearts",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SHAVED FENNEL & ORANGE SALAD W/ PISTACHIO COATED 'CHEESE' MEDALLIONS"
+    ]
+  },
+  {
+    "name": "crumbled stilton cheese",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HOT WINGS WITH STILTON-YOGURT DRESSING"
+    ]
+  },
+  {
+    "name": "cocktail sauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Poached Shrimp"
+    ]
+  },
+  {
+    "name": "freshly grated horseradish",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Cocktail Sauce"
+    ]
+  },
+  {
+    "name": "red miso",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Orange-Miso Barbecue Sauce"
+    ]
+  },
+  {
+    "name": "leaves bok choy",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Refried Soba with Vegetables"
+    ]
+  },
+  {
+    "name": "pita",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / ROASTED RED PEPPER CHICKPEA PURÉE"
+    ]
+  },
+  {
+    "name": "great northern beans",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE"
+    ]
+  },
+  {
+    "name": "loose lapsang souchong tea",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SMOKY GREEN SPLIT PEA SOUP"
+    ]
+  },
+  {
+    "name": "bonito flakes",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / ICHIBAN DASHI"
+    ]
+  },
+  {
+    "name": "bones necks",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CHICKEN STOCK"
+    ]
+  },
+  {
+    "name": "sauce espagnole",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / VEGETARIAN BORDELAISE"
+    ]
+  },
+  {
+    "name": "agave syrup or more to taste",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Tomato Sauce"
+    ]
+  },
+  {
+    "name": "veloute sauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Sauce Supreme"
+    ]
+  },
+  {
+    "name": "plus 1 teaspoon red miso",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Carrot-Beet Sauce"
+    ]
+  },
+  {
+    "name": "szechwan peppercorns",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY"
+    ]
+  },
+  {
+    "name": "small dried arbol chilies",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY"
+    ]
+  },
+  {
+    "name": "baby bok choy",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY"
+    ]
+  },
+  {
+    "name": "refined",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BLENDER MAYONNAISE"
+    ]
+  },
+  {
+    "name": "wakame",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / WAKAME CUCUMBER SALAD WITH ORANGE"
+    ]
+  },
+  {
+    "name": "hiziki",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HIZIKI CAVIAR"
+    ]
+  },
+  {
+    "name": "loosely packed hiziki",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HIZIKI WITH CARROTS, ONIONS, AND AGÉ TOFU"
+    ]
+  },
+  {
+    "name": "shoyu to taste",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HIZIKI WITH CARROTS, ONIONS, AND AGÉ TOFU"
+    ]
+  },
+  {
+    "name": "bok choy stems and leaves",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / ARAME WITH VEGETABLES"
+    ]
+  },
+  {
+    "name": "filet of sole",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SEAFOOD SAUSAGE"
+    ]
+  },
+  {
+    "name": "3 ounce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Broiled Arctic Char Over Black Quinoa, Rapini, and Capers"
+    ]
+  },
+  {
+    "name": "bunch rapini",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Black Quinoa with Capers and Rapini (for Broiled Arctic Char)"
+    ]
+  },
+  {
+    "name": "dried hiziki",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HIZIKI WITH FRESH LEMON"
+    ]
+  },
+  {
+    "name": "to 3 tablespoons shoyu",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HIZIKI WITH FRESH LEMON"
+    ]
+  },
+  {
+    "name": "xanthan gum",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Gluten-Free, Egg-Free Mini Pizzas"
+    ]
+  },
+  {
+    "name": "bread crumbs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Ravioli with Beet Stuffing"
+    ]
+  },
+  {
+    "name": "dried porcinis",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Herb Ravioli with Porcini Mushroom Pesto and Tofu \\\"Ricotta\\\""
+    ]
+  },
+  {
+    "name": "winter squash",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / PUMPKIN, SAGE, AND PECAN RAVIOLI"
+    ]
+  },
+  {
+    "name": "small cooked",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / FOCACCIA WITH HERBS"
+    ]
+  },
+  {
+    "name": "skewers for kebobs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / TEMPEH VEGETABLE KEBOBS"
+    ]
+  },
+  {
+    "name": "pasta cooked al dente",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / TEMPEH “BOLOGNESE”"
+    ]
+  },
+  {
+    "name": "teriyaki sauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / TOFU TERIYAKI"
+    ]
+  },
+  {
+    "name": "tofu",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Miso-Marinated Tofu"
+    ]
+  },
+  {
+    "name": "reserved marinade",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Tempeh Scaloppini"
+    ]
+  },
+  {
+    "name": "cup shoyu",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / BASIC SEITAN RECIPE"
+    ]
+  },
+  {
+    "name": "burdock",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SEITAN STEW"
+    ]
+  },
+  {
+    "name": "daikon",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SEITAN STEW"
+    ]
+  },
+  {
+    "name": "pounds seitan",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SEITAN STEW"
+    ]
+  },
+  {
+    "name": "flax",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Seitan Croquettes"
+    ]
+  },
+  {
+    "name": "rilled seitan cubes",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Indian-Style Seitan Kebabs with Mango Coulis"
+    ]
+  },
+  {
+    "name": "cup panko bread crumbs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / HORSERADISH-CRUSTED SALMON"
+    ]
+  },
+  {
+    "name": "bass filets",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / POTATO-CRUSTED BASS FILETS"
+    ]
+  },
+  {
+    "name": "monkfish filets",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / MONKFISH WITH LEMON-CAPER BUTTER"
+    ]
+  },
+  {
+    "name": "whole bass",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SALT-CRUSTED BAKED BASS"
+    ]
+  },
+  {
+    "name": "gluten free bread crumbs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Flounder Roulades"
+    ]
+  },
+  {
+    "name": "10 flounder filets",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Flounder Roulades"
+    ]
+  },
+  {
+    "name": "sheets parchment",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Flounder en Papillote"
+    ]
+  },
+  {
+    "name": "blackening spice mix",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Blackened Shrimp"
+    ]
+  },
+  {
+    "name": "skewers",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Blackened Shrimp"
+    ]
+  },
+  {
+    "name": "aduki beans",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / ADZUKI BEAN STEW"
+    ]
+  },
+  {
+    "name": "dried chipotle",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / PINTO BEAN STEW"
+    ]
+  },
+  {
+    "name": "ounce package seitan",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Grilled Seitan"
+    ]
+  },
+  {
+    "name": "recipe chimichurri sauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Grilled Seitan"
+    ]
+  },
+  {
+    "name": "recipe romesco sauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Baked Tofu"
+    ]
+  },
+  {
+    "name": "recipe chermoula sauce",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / PAN-FRIED TEMPEH"
+    ]
+  },
+  {
+    "name": "whole wheat elbow pasta",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / WAKAME, SEITAN, AND TOASTED WALNUT CASSEROLE"
+    ]
+  },
+  {
+    "name": "carob powder",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CAROB CAKE WITH WALNUTS"
+    ]
+  },
+  {
+    "name": "2 pounds kabocha squash",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / KABOCHA SQUASH PIE"
+    ]
+  },
+  {
+    "name": "partially blind baked 9 inch crust",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / KABOCHA SQUASH PIE"
+    ]
+  },
+  {
+    "name": "yam",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SWEET POTATO PECAN PIE"
+    ]
+  },
+  {
+    "name": "blind baked 9 inch tart shell",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SWEET CRANBERRY TART"
+    ]
+  },
+  {
+    "name": "toasted",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / SWEET CRANBERRY TART"
+    ]
+  },
+  {
+    "name": "cream",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / CARAMELIZED ONION TART"
+    ]
+  },
+  {
+    "name": "garnet yams cooked and mashed",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GLUTEN-FREE SWEET POTATO PECAN TART"
+    ]
+  },
+  {
+    "name": "large",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / TRI-COLOR FRUIT TERRINE"
+    ]
+  },
+  {
+    "name": "stemmed",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / TRI-COLOR FRUIT TERRINE"
+    ]
+  },
+  {
+    "name": "large pearl tapioca",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Tapioca Pudding"
+    ]
+  },
+  {
+    "name": "campari",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GRAPEFRUIT-CAMPARI GRANITA"
+    ]
+  },
+  {
+    "name": "peppermint extract",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Mint-Chocolate Ganache Truffles"
+    ]
+  },
+  {
+    "name": "cacao nibs",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Chocolate Bark"
+    ]
+  },
+  {
+    "name": "uette",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Truffled Portobello Mousse"
+    ]
+  },
+  {
+    "name": "vanilla or rum",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / PHYLLO CUPS WITH SAUTÉED APPLES"
+    ]
+  },
+  {
+    "name": "container edible flowers",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Almond-Fruit Tart with Almond Crust"
+    ]
+  },
+  {
+    "name": "container gold dust and brush",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Golden Turmeric 'Panna Cotta' with Ginger-Pepper Lace Cookies"
+    ]
+  },
+  {
+    "name": "2 tablespoons vanilla",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Crème Anglaise (Stirred Custard)"
+    ]
+  },
+  {
+    "name": "mam ruoc",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "vietnamese / Bún Bò Huế"
+    ]
+  }
+]

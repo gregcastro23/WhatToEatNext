@@ -102,6 +102,66 @@ function calculateMonica(
   return 0;
 }
 /**
+ * USDA-derived nutritional fallback for entries whose source files omit
+ * `nutritionalProfile`. Values reflect a single typical culinary serving.
+ */
+const NUTRITION_FALLBACK: Record<string, Record<string, unknown>> = {
+  mint:               { serving_size: "1 tbsp fresh (2g)",  calories: 1,  macros: { protein: 0.1, carbs: 0.2, fat: 0.0, fiber: 0.1 }, vitamins: { K: 0.30, A: 0.10, C: 0.05 }, minerals: { iron: 0.05, manganese: 0.04 }, source: "USDA" },
+  rosemary:           { serving_size: "1 tsp dried (1.2g)", calories: 4,  macros: { protein: 0.1, carbs: 0.8, fat: 0.2, fiber: 0.5 }, vitamins: { A: 0.04, C: 0.02, B6: 0.02 }, minerals: { calcium: 0.04, iron: 0.04, manganese: 0.12 }, source: "USDA" },
+  basil:              { serving_size: "1 tbsp fresh (3g)",  calories: 1,  macros: { protein: 0.1, carbs: 0.1, fat: 0.0, fiber: 0.05 }, vitamins: { K: 0.35, A: 0.05, C: 0.03 }, minerals: { iron: 0.04, manganese: 0.07 }, source: "USDA" },
+  shiso:              { serving_size: "1 tbsp fresh (3g)",  calories: 1,  macros: { protein: 0.1, carbs: 0.2, fat: 0.0, fiber: 0.1 }, vitamins: { K: 0.30, A: 0.15, C: 0.05 }, minerals: { iron: 0.05, calcium: 0.03 }, source: "USDA approximate" },
+  cinnamon:           { serving_size: "1 tsp ground (2.6g)", calories: 6,  macros: { protein: 0.1, carbs: 2.1, fat: 0.0, fiber: 1.4 }, vitamins: { K: 0.01 }, minerals: { calcium: 0.03, iron: 0.03, manganese: 0.22 }, source: "USDA" },
+  paprika:            { serving_size: "1 tsp (2.3g)",        calories: 6,  macros: { protein: 0.3, carbs: 1.2, fat: 0.3, fiber: 0.8 }, vitamins: { A: 0.42, E: 0.07, B6: 0.05 }, minerals: { iron: 0.09, potassium: 0.02 }, source: "USDA" },
+  turmeric:           { serving_size: "1 tsp ground (3g)",   calories: 9,  macros: { protein: 0.3, carbs: 1.9, fat: 0.3, fiber: 0.7 }, vitamins: { C: 0.01, B6: 0.04 }, minerals: { iron: 0.16, manganese: 0.26, potassium: 0.05 }, source: "USDA" },
+  cumin:              { serving_size: "1 tsp ground (2.1g)", calories: 8,  macros: { protein: 0.4, carbs: 0.9, fat: 0.5, fiber: 0.2 }, vitamins: { A: 0.02, E: 0.04 }, minerals: { iron: 0.22, calcium: 0.02, magnesium: 0.02 }, source: "USDA" },
+  cayenne:            { serving_size: "1 tsp (1.8g)",        calories: 6,  macros: { protein: 0.2, carbs: 1.0, fat: 0.3, fiber: 0.5 }, vitamins: { A: 0.15, C: 0.02, E: 0.05 }, minerals: { iron: 0.04, potassium: 0.02 }, source: "USDA" },
+  red_wine_vinegar:   { serving_size: "1 tbsp (15ml)",       calories: 3,  macros: { protein: 0.0, carbs: 0.1, fat: 0.0, fiber: 0.0 }, vitamins: {}, minerals: { potassium: 0.01 }, source: "USDA" },
+  sherry_vinegar:     { serving_size: "1 tbsp (15ml)",       calories: 3,  macros: { protein: 0.0, carbs: 0.1, fat: 0.0, fiber: 0.0 }, vitamins: {}, minerals: { potassium: 0.01 }, source: "USDA approximate" },
+  champagne_vinegar:  { serving_size: "1 tbsp (15ml)",       calories: 3,  macros: { protein: 0.0, carbs: 0.0, fat: 0.0, fiber: 0.0 }, vitamins: {}, minerals: {}, source: "USDA approximate" },
+  malt_vinegar:       { serving_size: "1 tbsp (15ml)",       calories: 2,  macros: { protein: 0.0, carbs: 0.4, fat: 0.0, fiber: 0.0 }, vitamins: {}, minerals: { potassium: 0.01 }, source: "USDA" },
+  mirepoix:           { serving_size: "1 cup chopped (150g)", calories: 60, macros: { protein: 1.2, carbs: 14, fat: 0.2, fiber: 4.0 }, vitamins: { A: 0.55, C: 0.15, K: 0.12 }, minerals: { potassium: 0.12, manganese: 0.10 }, source: "computed: 2 onion + 1 carrot + 1 celery" },
+};
+
+/**
+ * Canonical 7-axis flavor signatures per ingredient category, used as a
+ * last-resort fallback when no taste data was authored. Values target a
+ * representative member of the family and sum to a reasonable intensity.
+ */
+function pickCategoryFlavorDefault(
+  category: string,
+  subcategory: string,
+): Record<string, number> | null {
+  const c = category.toLowerCase();
+  const s = subcategory.toLowerCase();
+
+  if (c.includes("vinegar") || s.includes("vinegar")) {
+    return { sweet: 0.05, salt: 0.05, salty: 0.05, sour: 0.85, bitter: 0.1, umami: 0.05, spicy: 0, aromatic: 0.4 };
+  }
+  if (c.includes("protein") || c === "meat" || c === "seafood" || c === "poultry") {
+    return { sweet: 0.1, salt: 0.2, salty: 0.2, sour: 0, bitter: 0.05, umami: 0.7, spicy: 0, aromatic: 0.2 };
+  }
+  if (c.includes("aromatic")) {
+    return { sweet: 0.2, salt: 0.1, salty: 0.1, sour: 0.05, bitter: 0.1, umami: 0.45, spicy: 0.05, aromatic: 0.7 };
+  }
+  if (c.includes("herb")) {
+    return { sweet: 0.1, salt: 0, salty: 0, sour: 0, bitter: 0.3, umami: 0.05, spicy: 0.05, aromatic: 0.85 };
+  }
+  if (c.includes("spice")) {
+    return { sweet: 0.1, salt: 0, salty: 0, sour: 0, bitter: 0.2, umami: 0.05, spicy: 0.5, aromatic: 0.85 };
+  }
+  if (c.includes("salt") || s.includes("salt")) {
+    return { sweet: 0, salt: 0.95, salty: 0.95, sour: 0, bitter: 0.05, umami: 0.1, spicy: 0, aromatic: 0.1 };
+  }
+  if (c.includes("oil")) {
+    return { sweet: 0.05, salt: 0, salty: 0, sour: 0, bitter: 0.1, umami: 0.1, spicy: 0.05, aromatic: 0.5 };
+  }
+  if (c.includes("sweet") || s.includes("sweetener")) {
+    return { sweet: 0.9, salt: 0, salty: 0, sour: 0, bitter: 0, umami: 0, spicy: 0, aromatic: 0.3 };
+  }
+  return null;
+}
+
+/**
  * Enhance existing ingredient with unified properties
  */
 function enhanceIngredient(
@@ -167,11 +227,102 @@ function enhanceIngredient(
     kalchm,
     thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics,
   );
+  // Project sensoryProfile.taste → flavorProfile so consumers reading the
+  // canonical 7-axis flavorProfile see the authored taste data (only ~1.7% of
+  // entries declare a top-level flavorProfile; ~97% live under sensoryProfile).
+  const sensory = (ingredient as any).sensoryProfile;
+  const tasteSrc = sensory?.taste;
+  let projectedFlavorProfile = (ingredient as any).flavorProfile;
+  if (!projectedFlavorProfile && tasteSrc && typeof tasteSrc === "object") {
+    const sweet = Number(tasteSrc.sweet) || 0;
+    const salty = Number(tasteSrc.salty ?? tasteSrc.salt) || 0;
+    const sour = Number(tasteSrc.sour) || 0;
+    const bitter = Number(tasteSrc.bitter) || 0;
+    const umami = Number(tasteSrc.umami) || 0;
+    const spicy = Number(tasteSrc.spicy) || 0;
+    // Derive aromatic from the aroma object's max intensity if present.
+    const aroma = sensory?.aroma;
+    let aromatic = 0;
+    if (aroma && typeof aroma === "object") {
+      for (const v of Object.values(aroma)) {
+        const n = Number(v);
+        if (Number.isFinite(n) && n > aromatic) aromatic = n;
+      }
+    }
+    projectedFlavorProfile = {
+      sweet,
+      salt: salty,
+      salty,
+      sour,
+      bitter,
+      umami,
+      spicy,
+      aromatic,
+    };
+  }
+
+  // Category-default flavor profile when neither sensoryProfile.taste nor
+  // flavorProfile was authored (or projected profile is all zero). Tuned to
+  // match the canonical sensory signature for each ingredient family.
+  const cat = String(ingredientData.category || sourceCategory).toLowerCase();
+  const subcat = String(((ingredient as any).subcategory || (ingredient as any).subCategory || "")).toLowerCase();
+  function flavorTotal(fp: Record<string, number> | undefined): number {
+    if (!fp) return 0;
+    return ["sweet","salty","sour","bitter","umami","spicy","aromatic"]
+      .reduce((s, a) => s + (Number((fp as any)[a]) || 0), 0);
+  }
+  if (flavorTotal(projectedFlavorProfile) === 0) {
+    const fallback = pickCategoryFlavorDefault(cat, subcat);
+    if (fallback) projectedFlavorProfile = fallback;
+  }
+
+  // Backfill nutritionalProfile from the hand-curated fallback table when
+  // the source ingredient omits it.
+  const existingNutrition = (ingredient as any).nutritionalProfile;
+  const hasNutrition =
+    existingNutrition &&
+    typeof existingNutrition === "object" &&
+    Object.keys(existingNutrition).length > 0;
+  const nutritionalProfile = hasNutrition
+    ? existingNutrition
+    : (NUTRITION_FALLBACK[ingredientName.toLowerCase().replace(/\s+/g, "_")] ||
+       NUTRITION_FALLBACK[String(ingredientData.name || "").toLowerCase().replace(/\s+/g, "_")] ||
+       undefined);
+
+  // Backfill rulingPlanets from the dominant element when missing.
+  // Each element maps to two canonical planets per traditional astrology.
+  const existingAstro = (ingredient as any).astrologicalProfile;
+  let astrologicalProfile = existingAstro;
+  const existingPlanets: unknown[] = Array.isArray(existingAstro?.rulingPlanets)
+    ? existingAstro.rulingPlanets
+    : [];
+  if (existingPlanets.length === 0) {
+    const ep = elementalProps;
+    let dom: keyof ElementalProperties = "Fire";
+    let domVal = ep.Fire;
+    for (const k of ["Water", "Earth", "Air"] as Array<keyof ElementalProperties>) {
+      if ((ep[k] ?? 0) > domVal) { dom = k; domVal = ep[k] ?? 0; }
+    }
+    const planetMap: Record<string, [string, string]> = {
+      Fire: ["Sun", "Mars"],
+      Water: ["Moon", "Neptune"],
+      Earth: ["Saturn", "Venus"],
+      Air: ["Mercury", "Uranus"],
+    };
+    astrologicalProfile = {
+      ...(existingAstro || {}),
+      rulingPlanets: planetMap[dom],
+    };
+  }
+
   // Create enhanced unified ingredient by spreading all original properties
   // and then overriding with computed/normalized values
   return {
     // Spread all original properties first to preserve culinary details
     ...(ingredient as any),
+    ...(projectedFlavorProfile && { flavorProfile: projectedFlavorProfile }),
+    ...(astrologicalProfile && { astrologicalProfile }),
+    ...(nutritionalProfile && { nutritionalProfile }),
     // Override with normalized core properties
     name: ingredientName,
     category: String(ingredientData.category || sourceCategory),
@@ -277,7 +428,7 @@ export const unifiedBeverages = createUnifiedCollection(
   "beverages",
 );
 // Combine all unified collections
-export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
+const _rawUnified: { [key: string]: UnifiedIngredient } = {
   ...unifiedDairy,
   ...unifiedFruits,
   ...unifiedVegetables,
@@ -291,6 +442,57 @@ export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
   ...unifiedMisc,
   ...unifiedBeverages,
 };
+
+// Collapse singular/plural collisions so Object.values(...) doesn't double-count.
+// Both the singular and plural keys end up referencing the SAME merged object,
+// so direct-by-key access still works for legacy callers (e.g. `unifiedIngredients.onions`).
+function _singularKey(key: string): string {
+  return key
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/ies$/, "y")
+    .replace(/sses$/, "ss")
+    .replace(/oes$/, "o")
+    .replace(/ves$/, "f")
+    .replace(/s$/, "")
+    .replace(/\s+/g, "_");
+}
+
+(() => {
+  // Group keys by their canonical singular form.
+  const groups: Record<string, string[]> = {};
+  for (const k of Object.keys(_rawUnified)) {
+    const canon = _singularKey(k);
+    (groups[canon] ||= []).push(k);
+  }
+  for (const [_canon, keys] of Object.entries(groups)) {
+    if (keys.length < 2) continue;
+    // Prefer the singular form as canonical; otherwise the most data-complete.
+    const ranked = [...keys].sort((a, b) => {
+      const aIsSingular = a.length <= b.length ? -1 : 1;
+      const aLen = Object.keys(_rawUnified[a]).length;
+      const bLen = Object.keys(_rawUnified[b]).length;
+      if (aLen !== bLen) return bLen - aLen;
+      return aIsSingular;
+    });
+    const primaryKey = ranked[0];
+    const primary = _rawUnified[primaryKey];
+    // Shallow-merge sibling fields into the primary so the merged object inherits
+    // any unique fields present only on the alias.
+    for (const sib of ranked.slice(1)) {
+      const s = _rawUnified[sib] as Record<string, unknown>;
+      for (const [field, value] of Object.entries(s)) {
+        if ((primary as Record<string, unknown>)[field] == null && value != null) {
+          (primary as Record<string, unknown>)[field] = value;
+        }
+      }
+    }
+    // Point every alias at the merged primary so iteration via a Set dedupes by identity.
+    for (const k of keys) _rawUnified[k] = primary;
+  }
+})();
+
+export const unifiedIngredients: { [key: string]: UnifiedIngredient } = _rawUnified;
 // Helper functions for working with unified ingredients
 /**
  * Get a unified ingredient by name
