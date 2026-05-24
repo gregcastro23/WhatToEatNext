@@ -24,7 +24,7 @@ planet_type_enum = ENUM('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'S
 zodiac_sign_enum = ENUM('Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces', name='zodiac_sign')
 lunar_phase_enum = ENUM('New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent', name='lunar_phase')
 season_enum = ENUM('Spring', 'Summer', 'Autumn', 'Winter', name='season')
-cuisine_type_enum = ENUM('Italian', 'French', 'Chinese', 'Japanese', 'Indian', 'Mexican', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Middle Eastern', 'American', 'African', 'Russian', name='cuisine_type')
+cuisine_type_enum = ENUM('Italian', 'French', 'Chinese', 'Japanese', 'Indian', 'Mexican', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Middle Eastern', 'American', 'African', 'Russian', 'Hsca', name='cuisine_type')
 dietary_restriction_enum = ENUM('Vegetarian', 'Vegan', 'Gluten Free', 'Dairy Free', 'Keto', 'Paleo', 'Low Carb', 'Kosher', 'Halal', name='dietary_restriction')
 
 # ==========================================

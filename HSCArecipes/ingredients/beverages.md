@@ -1,0 +1,229 @@
+# HSCA Recipe Ingredients - Beverages
+
+This file lists all raw ingredients from the HSCA Recipes that are categorized under the **Beverages** group.
+
+**Total Unique Items**: 221
+
+## Ingredients List
+
+- 1 (2 pound) organic, seedless watermelon, scrubbed and peeled up to white pith *(Base: `seedless watermelon scrubbed and up to white pith`)*
+- 1 1/2 cup water *(Base: `water`)*
+- 1 1/2 cups arame, loosely packed (1.5 ounces), soaked in water to cover for 10 minutes, drained *(Base: `arame loosely packed soaked in water to cover for minutes`)*
+- 1 1/2 cups boiling water *(Base: `boiling water`)*
+- 1 1/2 cups cold water *(Base: `water`)*
+- 1 1/2 cups water *(Base: `water`)*
+- 1 1/2 cups water or vegetable stock *(Base: `water or vegetable stock`)*
+- 1 1/2 teaspoon hot water *(Base: `water`)*
+- 1 1/2 teaspoon white miso dissolved in 1 tablespoon water *(Base: `white miso dissolved in water`)*
+- 1 1/2 teaspoons baking soda *(Base: `baking soda`)*
+- 1 1/2 teaspoons white wine vinegar OR *(Base: `white wine vinegar or`)*
+- 1 1/2-1 3/4 cups warm water *(Base: `water`)*
+- 1 1/2-2 cups water *(Base: `water`)*
+- 1 1/2-2 tablespoons boiling water *(Base: `boiling water`)*
+- 1 1/3 cup boiling water *(Base: `boiling water`)*
+- 1 1/3 cups hot stock OR hot water *(Base: `stock or water`)*
+- 1 1/4 cup boiling water OR stock *(Base: `boiling water or stock`)*
+- 1 1/4 cups boiling water *(Base: `boiling water`)*
+- 1 1/4 cups boiling water or stock *(Base: `boiling water or stock`)*
+- 1 1/4 cups warm water (110°) *(Base: `water`)*
+- 1 1/4 cups water *(Base: `water`)*
+- 1 3/4 cups boiling water *(Base: `boiling water`)*
+- 1 3/4 cups water *(Base: `water`)*
+- 1 3/4 cups water OR stock *(Base: `water or stock`)*
+- 1 3/4 cups water, divided *(Base: `water`)*
+- 1 cup boiling water *(Base: `boiling water`)*
+- 1 cup cashews, soaked 4 hours to overnight (discard soaking water) *(Base: `cashews soaked hours to overnight discard soaking water`)*
+- 1 cup dry white wine *(Base: `white wine`)*
+- 1 cup filtered water *(Base: `filtered water`)*
+- 1 cup loosely packed sea palm (1 ounce), soaked in cold water for 10 minutes, drained, chopped, set aside *(Base: `loosely packed sea palm soaked in water for minutes set aside`)*
+- 1 cup loosely packed wakame (1 ounce), rinsed, soaked in 1/4 cup water for 10 minutes, drained, coarsely chopped *(Base: `loosely packed wakame rinsed soaked in water for minutes`)*
+- 1 cup lukewarm water *(Base: `lukewarm water`)*
+- 1 cup pine nuts, soaked overnight in 2 cups water, and drained *(Base: `pine nuts soaked overnight in water and`)*
+- 1 cup raisins, soaked in hot water until soft and drained *(Base: `raisins soaked in water until soft and`)*
+- 1 cup red wine *(Base: `red wine`)*
+- 1 cup warm water *(Base: `water`)*
+- 1 cup water *(Base: `water`)*
+- 1 cup water (omit if marinating fish) *(Base: `water omit if marinating fish`)*
+- 1 cup white or red wine or 2 tablespoons balsamic vinegar *(Base: `white or red wine or balsamic vinegar`)*
+- 1 cup wild rice (soaked in 2 cups water for 8 hours and drained) *(Base: `wild rice soaked in water for hours and`)*
+- 1 egg mixed with 1 tablespoon water *(Base: `egg mixed with water`)*
+- 1 gallon + 2 quarts water *(Base: `water`)*
+- 1 gallon water *(Base: `water`)*
+- 1 heaping tablespoon instant coffee *(Base: `heaping instant coffee`)*
+- 1 pound russet potatoes, peeled, grated, soaked for 15 minutes in water *(Base: `russet potatoes soaked for minutes in water`)*
+- 1 pound watercress (2 bunches), stemmed *(Base: `watercress stemmed`)*
+- 1 quart water *(Base: `water`)*
+- 1 quart water, approximately *(Base: `water approximately`)*
+- 1 red onion (6 ounces), 1/8-inch salad slice, soaked in water for 10 minutes, drained *(Base: `red onion -inch salad soaked in water for minutes`)*
+- 1 tablespoon + 1 1/2 teaspoons arrowroot dissolved in 2 tablespoons water *(Base: `arrowroot dissolved in water`)*
+- 1 tablespoon + 1 1/2 teaspoons cold water *(Base: `water`)*
+- 1 tablespoon arrowroot dissolved in 2 tablespoons cold water *(Base: `arrowroot dissolved in water`)*
+- 1 tablespoon baking soda *(Base: `baking soda`)*
+- 1 tablespoon flax seed, ground, mixed with 3 tablespoons water *(Base: `flax seed mixed with water`)*
+- 1 tablespoon ground instant coffee *(Base: `instant coffee`)*
+- 1 tablespoon instant coffee *(Base: `instant coffee`)*
+- 1 tablespoon kuzu dissolved in 1/2 cup water *(Base: `kuzu dissolved in water`)*
+- 1 tablespoon kuzu, dissolved in 2 tablespoons water *(Base: `kuzu dissolved in water`)*
+- 1 tablespoon kuzu, dissolved in tablespoon water *(Base: `kuzu dissolved in water`)*
+- 1 tablespoon loose Lapsang Souchong tea *(Base: `loose lapsang souchong tea`)*
+- 1 tablespoon wasabi powder, mixed with water to make spreadable paste *(Base: `wasabi powder mixed with water to make spreadable paste`)*
+- 1 teaspoon arrowroot dissolved in 3 teaspoons cold water *(Base: `arrowroot dissolved in water`)*
+- 1 teaspoon baking soda *(Base: `baking soda`)*
+- 1 teaspoon red wine vinegar, or more to taste *(Base: `red wine vinegar or more to taste`)*
+- 1-2 tablespoons water *(Base: `water`)*
+- 1/2 cup arame, loosely packed (.05 ounces), soaked 10 minutes in water to cover, drained *(Base: `arame loosely packed soaked minutes in water to cover`)*
+- 1/2 cup boiling water *(Base: `boiling water`)*
+- 1/2 cup boiling water mixed 1 heaping tablespoon instant coffee *(Base: `boiling water mixed heaping instant coffee`)*
+- 1/2 cup bulgur wheat, soaked in water until soft and drained *(Base: `bulgur wheat soaked in water until soft and`)*
+- 1/2 cup hiziki (loosely packed), soaked 10 minutes in water to cover and drained *(Base: `hiziki loosely packed soaked minutes in water to cover and`)*
+- 1/2 cup honey, whisked with 2 tablespoons water *(Base: `honey whisked with water`)*
+- 1/2 cup large pearl tapioca, soaked in 2 cups water for 30 minutes, drained *(Base: `pearl tapioca soaked in water for minutes`)*
+- 1/2 cup loosely packed dulse (.04 ounces), soaked in cold water to cover for 1 minute, drained, chopped, set aside *(Base: `loosely packed dulse soaked in water to cover for minute set aside`)*
+- 1/2 cup raisins, soaked for 5 minutes in hot water and drained *(Base: `raisins soaked for minutes in water and`)*
+- 1/2 cup warm water *(Base: `water`)*
+- 1/2 cup water *(Base: `water`)*
+- 1/2 cup water (or more if necessary) *(Base: `water or more if necessary`)*
+- 1/2 cup water or more as needed *(Base: `water or more as needed`)*
+- 1/2 cup white wine *(Base: `white wine`)*
+- 1/2 gallon salted water *(Base: `water`)*
+- 1/2 ounce dried porcini mushrooms, soaked 20 minutes in water (reserve soaking water) *(Base: `porcini mushrooms soaked minutes in water reserve soaking water`)*
+- 1/2 pound buckwheat noodles (soba), boiled, rinsed in cold water, drained *(Base: `buckwheat noodles soba boiled rinsed in water`)*
+- 1/2 tablespoon warm water *(Base: `water`)*
+- 1/2 teaspoon baking soda *(Base: `baking soda`)*
+- 1/2-3/4 cup white wine *(Base: `white wine`)*
+- 1/3 - 3/4 cup white wine (or red wine or sherry) *(Base: `white wine or red wine or sherry`)*
+- 1/3 cup blanched almonds, soaked 10 minutes in warm water and strained *(Base: `blanched almonds soaked minutes in water and`)*
+- 1/3 cup canned water chestnuts, peeled and sliced *(Base: `water chestnuts and`)*
+- 1/3 cup dried mango, soaked in 1 cup boiling water until soft (drain and reserve soaking liquid) *(Base: `mango soaked in boiling water until soft drain and reserve soaking`)*
+- 1/3 cup dry white wine *(Base: `white wine`)*
+- 1/3 cup loosely packed hiziki (.05 ounces), soaked 30 minutes in water to cover, drained, set aside *(Base: `loosely packed hiziki soaked minutes in water to cover set aside`)*
+- 1/3 cup red wine *(Base: `red wine`)*
+- 1/3 cup sun-dried tomatoes, rehydrated in hot water until soft, drained, chopped *(Base: `sun-dried tomatoes rehydrated in water until soft`)*
+- 1/3 cup water *(Base: `water`)*
+- 1/3 cup white wine *(Base: `white wine`)*
+- 1/3 teaspoon baking soda *(Base: `baking soda`)*
+- 1/3 teaspoon orange blossom water *(Base: `orange blossom water`)*
+- 1/3-1/2 cups water *(Base: `water`)*
+- 1/4 cup Madeira wine *(Base: `madeira wine`)*
+- 1/4 cup calcium water *(Base: `calcium water`)*
+- 1/4 cup dry white wine *(Base: `white wine`)*
+- 1/4 cup filtered water *(Base: `filtered water`)*
+- 1/4 cup flax seed, ground to powder in a coffee grinder *(Base: `flax seed to powder in coffee grinder`)*
+- 1/4 cup golden raisins (soaked in 1/4 cup water, 10-15 minutes) *(Base: `golden raisins soaked in water minutes`)*
+- 1/4 cup good quality instant coffee *(Base: `good quality instant coffee`)*
+- 1/4 cup instant coffee *(Base: `instant coffee`)*
+- 1/4 cup kuzu mixed with 1/2 cup water *(Base: `kuzu mixed with water`)*
+- 1/4 cup loosely packed wakame (.03 ounces), soaked in cold water to cover for 10 minutes, drained, chopped, set aside *(Base: `loosely packed wakame soaked in water to cover for minutes set aside`)*
+- 1/4 cup madeira wine *(Base: `madeira wine`)*
+- 1/4 cup red quinoa, ground to powder in a coffee grinder *(Base: `red quinoa to powder in coffee grinder`)*
+- 1/4 cup red wine *(Base: `red wine`)*
+- 1/4 cup wakame (loosely packed), soaked 10 minutes in water to cover and drained *(Base: `wakame loosely packed soaked minutes in water to cover and`)*
+- 1/4 cup water *(Base: `water`)*
+- 1/4 cup water (or as needed) *(Base: `water or as needed`)*
+- 1/4 cup white wine *(Base: `white wine`)*
+- 1/4 cup white wine or stock *(Base: `white wine or stock`)*
+- 1/4 teaspoon baking soda *(Base: `baking soda`)*
+- 1/4-1/2 cup ice cold filtered water *(Base: `ice filtered water`)*
+- 1/4-1/3 cup ice water *(Base: `ice water`)*
+- 1/8 cup water *(Base: `water`)*
+- 10 cups cold water *(Base: `water`)*
+- 10 cups water *(Base: `water`)*
+- 10 to 12 cups water *(Base: `to water`)*
+- 12 (8-inch) skewers for kebobs, soaked in water *(Base: `-inch skewers for kebobs soaked in water`)*
+- 12 1/2 cups water *(Base: `water`)*
+- 14 cups water *(Base: `water`)*
+- 2 1/2 cups warm water *(Base: `water`)*
+- 2 1/2 cups warm water (110°) *(Base: `water`)*
+- 2 1/2 cups warm water (110°F) *(Base: `water °f`)*
+- 2 1/2 cups water *(Base: `water`)*
+- 2 1/2 cups water (110° F) *(Base: `water`)*
+- 2 1/3 cups warm water (110° F) *(Base: `water`)*
+- 2 1/4 cups warm water (110°F) *(Base: `water °f`)*
+- 2 Tbsp kuzu dissolved in 2 Tbsp water *(Base: `kuzu dissolved in water`)*
+- 2 bunches watercress, stemmed *(Base: `watercress stemmed`)*
+- 2 cups boiling water *(Base: `boiling water`)*
+- 2 cups cold water *(Base: `water`)*
+- 2 cups filtered water *(Base: `filtered water`)*
+- 2 cups red wine *(Base: `red wine`)*
+- 2 cups warm water *(Base: `water`)*
+- 2 cups warm water (110°) *(Base: `water`)*
+- 2 cups water *(Base: `water`)*
+- 2 cups white wine *(Base: `white wine`)*
+- 2 eggs, beaten with 1 tablespoon water *(Base: `eggs beaten with water`)*
+- 2 gallons water *(Base: `water`)*
+- 2 ounces fennel bulbs (1 small), cored, thinly sliced, soaked bowl of cold water *(Base: `fennel bulbs cored soaked bowl of water`)*
+- 2 quarts filtered water *(Base: `filtered water`)*
+- 2 quarts water *(Base: `water`)*
+- 2 quarts white wine *(Base: `white wine`)*
+- 2 tablespoons flax, ground, and mixed with 3 tablespoons water *(Base: `flax and mixed with water`)*
+- 2 tablespoons ground kuzu, mixed with 3 tablespoons water *(Base: `kuzu mixed with water`)*
+- 2 tablespoons kuzu + 3 tablespoons water *(Base: `kuzu water`)*
+- 2 tablespoons kuzu dissolved in 2 tablespoons water *(Base: `kuzu dissolved in water`)*
+- 2 tablespoons kuzu dissolved in 2 tablespoons water for thickening marinade *(Base: `kuzu dissolved in water for thickening marinade`)*
+- 2 tablespoons red wine *(Base: `red wine`)*
+- 2 tablespoons vegetable stock or water *(Base: `vegetable stock or water`)*
+- 2 tablespoons wasabi powder, mixed with water to form smooth paste *(Base: `wasabi powder mixed with water to form smooth paste`)*
+- 2 tablespoons water *(Base: `water`)*
+- 2 tablespoons white miso dissolved in 2 tablespoons warm water *(Base: `white miso dissolved in water`)*
+- 2 teaspoons baking soda *(Base: `baking soda`)*
+- 2 teaspoons barley malt syrup dissolved in 2 teaspoons water *(Base: `barley malt syrup dissolved in water`)*
+- 2-3 tablespoons red wine *(Base: `red wine`)*
+- 2-5 tablespoons ice cold water *(Base: `ice water`)*
+- 2/3 cup lukewarm filtered water *(Base: `lukewarm filtered water`)*
+- 2/3 cup red wine *(Base: `red wine`)*
+- 2/3 cup warm water *(Base: `water`)*
+- 3 1/2 cups boiling water *(Base: `boiling water`)*
+- 3 1/2 cups water *(Base: `water`)*
+- 3 cup amaranth, soaked 6 hours in water to cover with 2 tablespoons of lemon juice *(Base: `amaranth soaked hours in water to cover with of lemon juice`)*
+- 3 cups boiling water *(Base: `boiling water`)*
+- 3 cups filtered water *(Base: `filtered water`)*
+- 3 cups warm water (110°F) *(Base: `water °f`)*
+- 3 cups water *(Base: `water`)*
+- 3 cups water + 1 cup water *(Base: `water water`)*
+- 3 dried shiitake mushrooms (rehydrated in hot water until completely tender), cut into paper thin slices *(Base: `shiitake mushrooms rehydrated in water until completely tender cut into paper thin`)*
+- 3 eggs beaten with 2 tablespoons water *(Base: `eggs beaten with water`)*
+- 3 ounces soba noodles, boiled, rinsed in cold water, and drained in a colander *(Base: `soba noodles boiled rinsed in water and in colander`)*
+- 3 quarts water *(Base: `water`)*
+- 3 tablespoons + 1 teaspoon agar flakes, combined with 1 1/2 cups water (soaked for 10 minutes) *(Base: `agar flakes combined with water soaked for minutes`)*
+- 3 tablespoons kuzu, dissolved in 1/2 cup water *(Base: `kuzu dissolved in water`)*
+- 3 tablespoons water *(Base: `water`)*
+- 3 tablespoons white miso dissolved in 3 tablespoons warm water *(Base: `white miso dissolved in water`)*
+- 3/4 cup (1 1/2 ounces) hibiscus tea leaves *(Base: `hibiscus tea leaves`)*
+- 3/4 cup water *(Base: `water`)*
+- 3/4 cup white wine *(Base: `white wine`)*
+- 4 bunches watercress, stemmed *(Base: `watercress stemmed`)*
+- 4 cups stock *(Base: `stock`)*
+- 4 cups water *(Base: `water`)*
+- 4 tablespoons coconut sugar (buzzed to powder in coffee grinder) *(Base: `coconut sugar buzzed to powder in coffee grinder`)*
+- 4-5 tablespoons water *(Base: `water`)*
+- 5 cups water *(Base: `water`)*
+- 5 dried unsulphured apricots, soaked in boiling water until soft (about 5 minutes) *(Base: `unsulphured apricots soaked in boiling water until soft about minutes`)*
+- 5 quarts cold water *(Base: `water`)*
+- 5 quarts water *(Base: `water`)*
+- 5-6 cups stock *(Base: `stock`)*
+- 6 cups filtered water *(Base: `filtered water`)*
+- 6 cups salted water (1 tablespoon sea salt) *(Base: `water sea salt`)*
+- 6 cups water *(Base: `water`)*
+- 6 cups watermelon (about 2 pounds), seeded and cut into chunks *(Base: `watermelon about seeded and cut into chunks`)*
+- 6 kukicha tea bags (1/2 cup loose kukicha) *(Base: `kukicha tea loose kukicha`)*
+- 6 quarts water *(Base: `water`)*
+- 6 quarts water or enough to cover by 2 inches *(Base: `water or enough to cover by`)*
+- 6 tablespoons agar flakes, processed in coffee grinder until fine *(Base: `agar flakes processed in coffee grinder until fine`)*
+- 6-8 cups filtered water *(Base: `filtered water`)*
+- 8 cups boiling water *(Base: `boiling water`)*
+- 8 cups stock *(Base: `stock`)*
+- 8 cups vegetable stock or filtered water *(Base: `vegetable stock or filtered water`)*
+- 8 cups water *(Base: `water`)*
+- 8 ounces filtered water *(Base: `filtered water`)*
+- 8 ounces wild watercress, trimmed *(Base: `wild watercress trimmed`)*
+- 8-9 cups filtered water *(Base: `filtered water`)*
+- About 3/4 cup hot water *(Base: `about water`)*
+- Chilled juice OR water to bind as needed *(Base: `chilled juice or water to bind as needed`)*
+- Filtered water, as needed *(Base: `filtered water as needed`)*
+- Optional: 1/2 cup white wine *(Base: `optional: white wine`)*
+- Splash of white wine for deglazing *(Base: `splash of white wine for deglazing`)*
+- Up to 2 teaspoons filtered water *(Base: `up to filtered water`)*
+- olive oil OR rice syrup diluted with water for brushing *(Base: `olive oil or rice syrup diluted with water for brushing`)*
+- water *(Base: `water`)*
+- water to cover *(Base: `water to cover`)*
+- ¾ cup water *(Base: `water`)*

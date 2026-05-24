@@ -1,0 +1,50 @@
+{
+  "name": "HSCA",
+  "elementalProperties": {
+    "Fire": 0.25,
+    "Earth": 0.35,
+    "Water": 0.25,
+    "Air": 0.15
+  },
+  "description": "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
+  "id": "hsca",
+  "dishes": {
+    "breakfast": {
+      "spring": [],
+      "summer": [],
+      "autumn": [],
+      "winter": []
+    },
+    "lunch": {
+      "spring": [],
+      "summer": [],
+      "autumn": [],
+      "winter": []
+    },
+    "dinner": {
+      "spring": [],
+      "summer": [],
+      "autumn": [],
+      "winter": []
+    },
+    "dessert": {
+      "spring": [],
+      "summer": [],
+      "autumn": [],
+      "winter": []
+    }
+  },
+  "motherSauces": {},
+  "traditionalSauces": {},
+  "sauceRecommender": {
+    "forProtein": {},
+    "forVegetable": {},
+    "forCookingMethod": {},
+    "byAstrological": {},
+    "byRegion": {},
+    "byDietary": {}
+  },
+  "cookingTechniques": [],
+  "regionalCuisines": {},
+  "astrologicalInfluences": []
+}

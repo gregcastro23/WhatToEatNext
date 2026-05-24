@@ -1,0 +1,131 @@
+# HSCA Recipe Ingredients - Grains
+
+This file lists all raw ingredients from the HSCA Recipes that are categorized under the **Grains** group.
+
+**Total Unique Items**: 123
+
+## Ingredients List
+
+- 1 1/2 cup all-purpose flour *(Base: `all-purpose flour`)*
+- 1 1/2 cups all-purpose flour *(Base: `all-purpose flour`)*
+- 1 1/2 cups cooked long grain rice, cooled *(Base: `long grain rice cooled`)*
+- 1 1/2 cups cooked wild rice, cooled *(Base: `wild rice cooled`)*
+- 1 1/2 cups rolled oats *(Base: `rolled oats`)*
+- 1 1/2 cups whole wheat Panko breadcrumbs *(Base: `wheat panko breadcrumbs`)*
+- 1 3/4 cups panko breadcrumbs *(Base: `panko breadcrumbs`)*
+- 1 cup Panko breadcrumbs *(Base: `panko breadcrumbs`)*
+- 1 cup all-purpose flour *(Base: `all-purpose flour`)*
+- 1 cup brown basmati rice, washed *(Base: `brown basmati rice washed`)*
+- 1 cup cooked millet OR rice OR bread crumbs *(Base: `millet or rice or bread crumbs`)*
+- 1 cup cooked wild rice (from 1/3 cup raw rice) *(Base: `wild rice from rice`)*
+- 1 cup food-processed rolled oats *(Base: `food-processed rolled oats`)*
+- 1 cup kasha, medium grain (Wolf's brand is best) *(Base: `kasha grain wolf's brand is best`)*
+- 1 cup long grain brown rice, washed *(Base: `long grain brown rice washed`)*
+- 1 cup millet, washed and drained *(Base: `millet washed and`)*
+- 1 cup oats *(Base: `oats`)*
+- 1 cup quinoa, rinsed *(Base: `quinoa rinsed`)*
+- 1 cup quinoa, washed and drained *(Base: `quinoa washed and`)*
+- 1 cup rice flour *(Base: `rice flour`)*
+- 1 cup rice syrup *(Base: `rice syrup`)*
+- 1 cup rice syrup OR 3/4 cups honey *(Base: `rice syrup or honey`)*
+- 1 cup rolled oats *(Base: `rolled oats`)*
+- 1 ounce all-purpose flour (3 tablespoons) *(Base: `all-purpose flour`)*
+- 1 ounce all-purpose flour (6 tablespoons) *(Base: `all-purpose flour`)*
+- 1 prepared recipe Almond-Oat Crust *(Base: `prepared recipe almond-oat crust`)*
+- 1 tablespoon + 1 teaspoon brown rice syrup *(Base: `brown rice syrup`)*
+- 1 tablespoon barley malt syrup *(Base: `barley malt syrup`)*
+- 1 tablespoon brown rice vinegar *(Base: `brown rice vinegar`)*
+- 1 tablespoon rice syrup *(Base: `rice syrup`)*
+- 1 tablespoon rice syrup OR honey *(Base: `rice syrup or honey`)*
+- 1 tablespoon rice syrup OR honey OR maple syrup *(Base: `rice syrup or honey or maple syrup`)*
+- 1 tablespoon rice syrup or honey *(Base: `rice syrup or honey`)*
+- 1 tablespoon rice syrup or honey or maple syrup *(Base: `rice syrup or honey or maple syrup`)*
+- 1 tablespoon rice vinegar or to taste *(Base: `rice vinegar or to taste`)*
+- 1 tablespoon rice wine vinegar *(Base: `rice wine vinegar`)*
+- 1 teaspoon brown rice syrup *(Base: `brown rice syrup`)*
+- 1 teaspoon brown rice vinegar *(Base: `brown rice vinegar`)*
+- 1 teaspoon mellow barley miso *(Base: `mellow barley miso`)*
+- 1 teaspoon rice syrup *(Base: `rice syrup`)*
+- 1-1 1/2 tablespoons rice syrup *(Base: `rice syrup`)*
+- 1/2 cup + 3 tablespoons all-purpose flour *(Base: `all-purpose flour`)*
+- 1/2 cup all-purpose flour *(Base: `all-purpose flour`)*
+- 1/2 cup black quinoa, rinsed and dry-roasted in pan *(Base: `black quinoa rinsed and dry-roasted in pan`)*
+- 1/2 cup brown rice syrup *(Base: `brown rice syrup`)*
+- 1/2 cup oats *(Base: `oats`)*
+- 1/2 cup panko breadcrumbs *(Base: `panko breadcrumbs`)*
+- 1/2 cup rice syrup *(Base: `rice syrup`)*
+- 1/2 cup rolled oats *(Base: `rolled oats`)*
+- 1/2 cup short grain brown rice, rinsed and drained *(Base: `short grain brown rice rinsed and`)*
+- 1/2 cup tapioca flour *(Base: `tapioca flour`)*
+- 1/2 cup whole wheat breadcrumbs *(Base: `wheat breadcrumbs`)*
+- 1/2 cup wild rice, soaked overnight, drained, and rinsed *(Base: `wild rice soaked overnight and rinsed`)*
+- 1/2 cups rolled oats *(Base: `rolled oats`)*
+- 1/2 pound Soba noodles, cooked, drained, and rinsed *(Base: `soba noodles and rinsed`)*
+- 1/2 pound Thai rice noodles *(Base: `thai rice noodles`)*
+- 1/3 cup brown rice syrup *(Base: `brown rice syrup`)*
+- 1/3 cup rice syrup *(Base: `rice syrup`)*
+- 1/3 cup rice syrup OR 1/2 cup honey *(Base: `rice syrup or honey`)*
+- 1/3 cup rolled oats *(Base: `rolled oats`)*
+- 1/3 cup tapioca flour (1 cup) *(Base: `tapioca flour`)*
+- 1/4 cup all-purpose flour *(Base: `all-purpose flour`)*
+- 1/4 cup breadcrumbs *(Base: `breadcrumbs`)*
+- 1/4 cup brown rice syrup *(Base: `brown rice syrup`)*
+- 1/4 cup brown rice vinegar *(Base: `brown rice vinegar`)*
+- 1/4 cup long grain brown rice, soaked overnight *(Base: `long grain brown rice soaked overnight`)*
+- 1/4 cup plain breadcrumbs *(Base: `plain breadcrumbs`)*
+- 1/4 cup rice syrup *(Base: `rice syrup`)*
+- 1/4 cup rolled oats *(Base: `rolled oats`)*
+- 1/4 cup whole wheat breadcrumbs (optional) *(Base: `wheat breadcrumbs`)*
+- 1/4 teaspoon brown rice syrup *(Base: `brown rice syrup`)*
+- 1/8 cup rice syrup *(Base: `rice syrup`)*
+- 2 cups all-purpose flour *(Base: `all-purpose flour`)*
+- 2 cups long grain brown rice, rinsed and drained *(Base: `long grain brown rice rinsed and`)*
+- 2 cups rolled oats *(Base: `rolled oats`)*
+- 2 cups short grain brown rice, soaked and rinsed *(Base: `short grain brown rice soaked and rinsed`)*
+- 2 cups short grain brown rice, soaked overnight, drained, rinsed *(Base: `short grain brown rice soaked overnight rinsed`)*
+- 2 cups short grain brown rice, washed *(Base: `short grain brown rice washed`)*
+- 2 ounces soba noodles, broken in half *(Base: `soba noodles broken in half`)*
+- 2 tablespoon rice syrup *(Base: `rice syrup`)*
+- 2 tablespoons all-purpose flour *(Base: `all-purpose flour`)*
+- 2 tablespoons barley malt syrup *(Base: `barley malt syrup`)*
+- 2 tablespoons barley, soaked *(Base: `barley soaked`)*
+- 2 tablespoons brown rice syrup *(Base: `brown rice syrup`)*
+- 2 tablespoons brown rice vinegar *(Base: `brown rice vinegar`)*
+- 2 tablespoons brown rice vinegar or cider vinegar *(Base: `brown rice vinegar or cider vinegar`)*
+- 2 tablespoons chia seeds *(Base: `chia seeds`)*
+- 2 tablespoons cup rice syrup *(Base: `rice syrup`)*
+- 2 tablespoons flaxseed *(Base: `flaxseed`)*
+- 2 tablespoons rice syrup *(Base: `rice syrup`)*
+- 2 tablespoons rice syrup (if tomatoes seem too acidic), optional *(Base: `rice syrup if tomatoes seem too acidic`)*
+- 2 tablespoons rice/maple syrup (optional) *(Base: `rice/maple syrup`)*
+- 2 tablespoons whole wheat berries, soaked *(Base: `wheat berries soaked`)*
+- 2 teaspoons brown rice vinegar *(Base: `brown rice vinegar`)*
+- 2 teaspoons rice syrup *(Base: `rice syrup`)*
+- 2 teaspoons rice syrup (optional) *(Base: `rice syrup`)*
+- 2-3 cups all-purpose flour *(Base: `all-purpose flour`)*
+- 3 tablespoons gluten free breadcrumbs mixed with 2 tablespoons maple crystals *(Base: `gluten free breadcrumbs mixed with maple crystals`)*
+- 3 tablespoons gluten-free whole rolled oats *(Base: `gluten-free rolled oats`)*
+- 3 tablespoons rice syrup *(Base: `rice syrup`)*
+- 3 tablespoons rice syrup, warmed *(Base: `rice syrup`)*
+- 3/4 cup all-purpose flour *(Base: `all-purpose flour`)*
+- 3/4 cup brown rice syrup *(Base: `brown rice syrup`)*
+- 3/4 cup millet, washed and drained *(Base: `millet washed and`)*
+- 3/4 cup rice syrup OR 1/2 cup honey *(Base: `rice syrup or honey`)*
+- 3/4 cup short grain brown rice, rinsed *(Base: `short grain brown rice rinsed`)*
+- 3/4 cup white basmati rice, soaked overnight *(Base: `white basmati rice soaked overnight`)*
+- 4 cups all-purpose flour *(Base: `all-purpose flour`)*
+- 4 cups long grain brown rice *(Base: `long grain brown rice`)*
+- 4 ounces (3/4 cup) all-purpose flour *(Base: `all-purpose flour`)*
+- 5 tablespoons brown rice vinegar *(Base: `brown rice vinegar`)*
+- 6 tablespoons Arborio rice *(Base: `arborio rice`)*
+- 6 tablespoons barley malt *(Base: `barley malt`)*
+- 6 tablespoons breadcrumbs *(Base: `breadcrumbs`)*
+- 6 tablespoons brown rice vinegar *(Base: `brown rice vinegar`)*
+- 6 tablespoons rice flour *(Base: `rice flour`)*
+- 6 tablespoons rice syrup *(Base: `rice syrup`)*
+- 8 ounces gluten-free or whole wheat fusilli *(Base: `gluten-free or wheat fusilli`)*
+- 8-10 sheets rice paper *(Base: `rice paper`)*
+- Black Quinoa with Capers and Rapini (see following recipe) *(Base: `black quinoa with capers and rapini see following recipe`)*
+- ½ gallon glass jar *(Base: `glass`)*
+- ½ pound whole wheat phyllo (8 sheets) *(Base: `wheat phyllo`)*
+- ¾ cup rice syrup *(Base: `rice syrup`)*

@@ -598,6 +598,32 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ["autumn", "winter"],
     dietarySuitability: ["omnivore", "some-vegetarian"],
   },
+  hsca: {
+    id: "hsca",
+    name: "HSCA",
+    description:
+      "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and restorative elemental balance.",
+    flavorProfiles: {
+      spicy: 0.3,
+      sweet: 0.4,
+      sour: 0.4,
+      bitter: 0.4,
+      salty: 0.5,
+      umami: 0.6,
+    },
+    elementalAlignment: {
+      Fire: 0.25,
+      Earth: 0.35,
+      Water: 0.25,
+      Air: 0.15,
+    },
+    signatureTechniques: ["steaming", "simmering", "raw", "fermenting"],
+    signatureIngredients: ["kombu", "miso", "kuzu", "brown rice", "ginger"],
+    traditionalMealPatterns: ["three-tier clean eating", "macrobiotic balance"],
+    planetaryResonance: ["Moon", "Saturn", "Venus"],
+    seasonalPreference: ["all"],
+    dietarySuitability: ["vegan", "vegetarian", "macrobiotic", "gluten-free"],
+  },
 
   // More cuisines as needed...
 };

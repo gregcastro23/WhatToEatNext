@@ -13,7 +13,7 @@ CREATE TYPE planet_type AS ENUM ('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jup
 CREATE TYPE zodiac_sign AS ENUM ('Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces');
 CREATE TYPE lunar_phase AS ENUM ('New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent');
 CREATE TYPE season AS ENUM ('Spring', 'Summer', 'Autumn', 'Winter');
-CREATE TYPE cuisine_type AS ENUM ('Italian', 'French', 'Chinese', 'Japanese', 'Indian', 'Mexican', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Middle Eastern', 'American', 'African', 'Russian');
+CREATE TYPE cuisine_type AS ENUM ('Italian', 'French', 'Chinese', 'Japanese', 'Indian', 'Mexican', 'Thai', 'Vietnamese', 'Korean', 'Greek', 'Middle Eastern', 'American', 'African', 'Russian', 'Hsca');
 CREATE TYPE dietary_restriction AS ENUM ('Vegetarian', 'Vegan', 'Gluten Free', 'Dairy Free', 'Keto', 'Paleo', 'Low Carb', 'Kosher', 'Halal');
 
 -- ==========================================

@@ -5,6 +5,383 @@ import { recipeCoverageIngredients } from "./recipeCoverageIngredients";
 
 // Misc ingredients extracted from cuisine files
 const rawMisc: Record<string, Partial<IngredientMapping>> = {
+
+  kuzu: {
+    image_url: "ingredients/kuzu.png",
+    description: "Traditional Japanese wild mountain root starch (*Pueraria lobata*), highly valued in macrobiotic cooking for its thickening quality and soothing effect on the digestive system. It produces a glossy, translucent sauce that doesn't separate when cooled. It provides an exceptionally smooth mouthfeel and gentle, stabilizing energy.",
+    name: "kuzu",
+    origin: ["Japan"],
+    season: ["all"],
+    elementalProperties: { Earth: 0.45, Water: 0.35, Air: 0.10, Fire: 0.10 },
+    qualities: ["soothing", "thickener", "stabilizing", "macrobiotic"],
+    category: "misc",
+    subCategory: "thickener",
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn", "Moon"],
+      favorableZodiac: ["capricorn", "cancer"],
+      seasonalAffinity: ["winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (10g)",
+      calories: 35,
+      macros: { protein: 0, carbs: 8.6, fat: 0, fiber: 0, sugar: 0, sodium: 0.002 },
+      vitamins: {},
+      minerals: { calcium: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.0,
+      salty: 0.0,
+      sour: 0.0,
+      bitter: 0.1,
+      umami: 0.1,
+      spicy: 0.0,
+      aromatic: 0.1
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.1, umami: 0.1, spicy: 0.0 }, 
+      aroma: { neutral: 0.8 }, 
+      texture: { silky: 0.9, smooth: 0.8 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["neutral"], secondary: ["starchy", "soothing"], notes: "Absorbs surrounding flavors while providing a silky texture." }, 
+      cookingMethods: ["dissolve", "simmer", "whisk", "thicken"], 
+      cuisineAffinity: ["Japanese", "macrobiotic", "Asian"], 
+      preparationTips: ["Always dissolve in cold liquid first before heating.", "Crush chunks into a fine powder before measuring."] 
+    },
+    pairingRecommendations: { complementary: ["shoyu", "tamari", "ginger", "apple juice", "miso"], contrasting: [], toAvoid: [] },
+    storage: { pantry: "Airtight, cool dry.", notes: "Extremely stable shelf life if kept dry." }
+  },
+  maple_crystals: {
+    image_url: "ingredients/maple_crystals.png",
+    description: "Dehydrated pure maple sap (*Acer saccharum*) crystallized into a dry, granular sweetener. Retains the complex, woody caramel profile of maple syrup in a dry form, making it exceptional for dusting, baking, or dry spice rubs. It represents a concentrated, crystallizing expression of the Earth and Fire elements.",
+    name: "maple crystals",
+    origin: ["Northeastern North America"],
+    season: ["spring"],
+    elementalProperties: { Fire: 0.40, Earth: 0.35, Water: 0.15, Air: 0.10 },
+    qualities: ["sweet", "granular", "caramel", "natural"],
+    category: "misc",
+    subCategory: "sweetener",
+    astrologicalProfile: {
+      rulingPlanets: ["Sun", "Mercury"],
+      favorableZodiac: ["leo", "virgo"],
+      seasonalAffinity: ["spring", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (4g)",
+      calories: 15,
+      macros: { protein: 0, carbs: 3.8, fat: 0, fiber: 0, sugar: 3.6, sodium: 0.001 },
+      vitamins: {},
+      minerals: { manganese: 0.08, zinc: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.85,
+      salt: 0.0,
+      salty: 0.0,
+      sour: 0.0,
+      bitter: 0.1,
+      umami: 0.1,
+      spicy: 0.0,
+      aromatic: 0.4
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.85, salty: 0.0, sour: 0.0, bitter: 0.1, umami: 0.1, spicy: 0.0 }, 
+      aroma: { sweet: 0.7, woody: 0.5, caramel: 0.6 }, 
+      texture: { crunchy: 0.4, varied: 0.5 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["sweet"], secondary: ["caramel", "woody", "maple"], notes: "Brings deep, complex sweetness with natural mineral undertones." }, 
+      cookingMethods: ["mix", "bake", "dust", "dissolve"], 
+      cuisineAffinity: ["North American", "global"], 
+      preparationTips: ["Substitute for granulated sugar at a 1:1 ratio for maple flavor.", "Keep tightly sealed as it is highly hygroscopic."] 
+    },
+    pairingRecommendations: { complementary: ["cinnamon", "oats", "pecans", "walnuts", "ginger", "vanilla"], contrasting: ["salt", "acid"], toAvoid: [] },
+    storage: { pantry: "Airtight, cool dry.", notes: "Will clump if exposed to humidity." }
+  },
+  agar_flakes: {
+    image_url: "ingredients/agar_flakes.png",
+    description: "A dry, flaked vegetarian gelatin substitute made from red algae (seaweed). Used to set gelled desserts, aspics, and terrines. Unlike animal gelatin, agar sets at room temperature and remains firm at higher temperatures. Offers pure Water and Earth properties.",
+    name: "agar flakes",
+    origin: ["Japan", "East Asia"],
+    season: ["all"],
+    elementalProperties: { Water: 0.40, Earth: 0.35, Air: 0.15, Fire: 0.10 },
+    qualities: ["gelling", "cooling", "sea-derived", "unflavored"],
+    category: "misc",
+    subCategory: "thickener",
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Venus"],
+      favorableZodiac: ["cancer", "taurus"],
+      seasonalAffinity: ["summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (4g)",
+      calories: 12,
+      macros: { protein: 0.1, carbs: 3.0, fat: 0, fiber: 2.8, sugar: 0, sodium: 0.04 },
+      vitamins: {},
+      minerals: { calcium: 0.02, iron: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.0,
+      salt: 0.1,
+      salty: 0.1,
+      sour: 0.0,
+      bitter: 0.0,
+      umami: 0.1,
+      spicy: 0.0,
+      aromatic: 0.0
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.0, salty: 0.1, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, 
+      aroma: { neutral: 0.9 }, 
+      texture: { dry: 0.5, firm: 0.6 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["neutral"], secondary: ["briny"], notes: "Virtually flavorless, serves purely structural purposes." }, 
+      cookingMethods: ["boil", "simmer", "dissolve", "set"], 
+      cuisineAffinity: ["Asian", "global", "macrobiotic"], 
+      preparationTips: ["Requires simmering for 5-10 minutes to activate gelling properties fully.", "Use 1-2 tablespoons per cup of liquid for a firm set."] 
+    },
+    pairingRecommendations: { complementary: ["fruit juices", "coconut milk", "sweeteners", "citrus"], contrasting: [], toAvoid: [] },
+    storage: { pantry: "Keep dry in airtight bags.", notes: "Has an indefinite shelf life." }
+  },
+  agar_powder: {
+    image_url: "ingredients/agar_powder.png",
+    description: "Highly concentrated, finely ground agar-agar seaweed powder. Sets much more powerfully than agar flakes, requiring a smaller volume to achieve the same structural gelling strength. Highly stabilizing, ruled by Saturn's organizing power.",
+    name: "agar powder",
+    origin: ["East Asia"],
+    season: ["all"],
+    elementalProperties: { Water: 0.45, Earth: 0.40, Air: 0.10, Fire: 0.05 },
+    qualities: ["concentrated", "gelling", "stabilizing", "structural"],
+    category: "misc",
+    subCategory: "thickener",
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn", "Moon"],
+      favorableZodiac: ["capricorn", "cancer"],
+      seasonalAffinity: ["winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (2g)",
+      calories: 6,
+      macros: { protein: 0.1, carbs: 1.5, fat: 0, fiber: 1.4, sugar: 0, sodium: 0.02 },
+      vitamins: {},
+      minerals: { calcium: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.0,
+      salt: 0.05,
+      salty: 0.05,
+      sour: 0.0,
+      bitter: 0.0,
+      umami: 0.05,
+      spicy: 0.0,
+      aromatic: 0.0
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.0, salty: 0.05, sour: 0.0, bitter: 0.0, umami: 0.05, spicy: 0.0 }, 
+      aroma: { neutral: 0.95 }, 
+      texture: { powdery: 0.8, firm: 0.8 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["neutral"], secondary: ["structural"], notes: "Provides a clean, firm break in jellies without adding any taste." }, 
+      cookingMethods: ["boil", "whisk", "dissolve", "set"], 
+      cuisineAffinity: ["global", "molecular_gastronomy", "Asian"], 
+      preparationTips: ["1 teaspoon of powder equals roughly 1 tablespoon of flakes.", "Whisk into cold liquid first, boil for 2-3 minutes, then cool to set."] 
+    },
+    pairingRecommendations: { complementary: ["matcha", "almond milk", "sweeteners", "purées"], contrasting: [], toAvoid: [] },
+    storage: { pantry: "Airtight container in dry pantry.", notes: "Store away from heat and light." }
+  },
+  agave_nectar: {
+    image_url: "ingredients/agave_nectar.png",
+    description: "Liquid sweetener extracted from the core of the agave succulent plant (*Agave tequilana*). Known for its high solubility, mild neutral sweetness, and lower glycemic index compared to standard sucrose. Expresses a beautiful harmony of Fire, Water, and Earth.",
+    name: "agave nectar",
+    origin: ["Mexico"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.35, Water: 0.35, Earth: 0.20, Air: 0.10 },
+    qualities: ["sweet", "liquid", "succulent-derived", "soluble"],
+    category: "misc",
+    subCategory: "sweetener",
+    astrologicalProfile: {
+      rulingPlanets: ["Sun", "Venus"],
+      favorableZodiac: ["leo", "taurus"],
+      seasonalAffinity: ["summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (21g)",
+      calories: 60,
+      macros: { protein: 0, carbs: 16.0, fat: 0, fiber: 0, sugar: 16.0, sodium: 0.001 },
+      vitamins: {},
+      minerals: { potassium: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.9,
+      salt: 0.0,
+      salty: 0.0,
+      sour: 0.05,
+      bitter: 0.0,
+      umami: 0.0,
+      spicy: 0.0,
+      aromatic: 0.2
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.9, salty: 0.0, sour: 0.05, bitter: 0.0, umami: 0.0, spicy: 0.0 }, 
+      aroma: { sweet: 0.5, floral: 0.4 }, 
+      texture: { syrupy: 0.7, smooth: 0.8 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["sweet"], secondary: ["floral", "neutral"], notes: "Provides clean sweetness without overpowering other delicate flavors." }, 
+      cookingMethods: ["mix", "stir", "drizzle", "dissolve"], 
+      cuisineAffinity: ["Mexican", "global", "raw_food"], 
+      preparationTips: ["Dissolves instantly in cold liquids, making it perfect for iced drinks.", "Sweeter than honey, so use slightly less."] 
+    },
+    pairingRecommendations: { complementary: ["lime juice", "tequila", "berries", "avocado", "chocolate"], contrasting: ["chili", "salt"], toAvoid: [] },
+    storage: { pantry: "Cool, dry pantry.", notes: "Does not crystallize easily like honey." }
+  },
+  arrowroot_powder: {
+    image_url: "ingredients/arrowroot_powder.png",
+    description: "A highly digestible starch extracted from the rhizomes of the arrowroot plant (*Maranta arundinacea*). Creates a beautifully glossy, perfectly clear sheen in sauces and fillings, and does not break down in acidic ingredients like cornstarch does. Grounding Earth properties with Air flexibility.",
+    name: "arrowroot powder",
+    origin: ["Central America", "Caribbean"],
+    season: ["all"],
+    elementalProperties: { Earth: 0.50, Air: 0.25, Water: 0.15, Fire: 0.10 },
+    qualities: ["digestible", "thickener", "gluten-free", "glossy"],
+    category: "misc",
+    subCategory: "thickener",
+    astrologicalProfile: {
+      rulingPlanets: ["Mercury", "Jupiter"],
+      favorableZodiac: ["virgo", "sagittarius"],
+      seasonalAffinity: ["fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (8g)",
+      calories: 28,
+      macros: { protein: 0, carbs: 7.0, fat: 0, fiber: 0.2, sugar: 0, sodium: 0.001 },
+      vitamins: {},
+      minerals: { potassium: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.05,
+      salt: 0.0,
+      salty: 0.0,
+      sour: 0.0,
+      bitter: 0.0,
+      umami: 0.05,
+      spicy: 0.0,
+      aromatic: 0.05
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.05, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.05, spicy: 0.0 }, 
+      aroma: { neutral: 0.9 }, 
+      texture: { powdery: 0.7, smooth: 0.6 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["neutral"], secondary: ["starchy"], notes: "Provides a clean, transparent thickening effect without starchiness." }, 
+      cookingMethods: ["dissolve", "whisk", "simmer", "coat"], 
+      cuisineAffinity: ["global", "gluten-free"], 
+      preparationTips: ["Ideal for acidic sauces as it won't cloud or lose thickening power.", "Do not overcook as arrowroot can become stringy or lose viscosity."] 
+    },
+    pairingRecommendations: { complementary: ["lemon", "lime", "berries", "broth", "coconut milk"], contrasting: [], toAvoid: [] },
+    storage: { pantry: "Keep airtight in dry cupboard.", notes: "Keep container tightly closed." }
+  },
+  chickpea_miso: {
+    image_url: "ingredients/chickpea_miso.png",
+    description: "A rich, fermented paste crafted from cooked chickpeas, rice koji, and sea salt. Providing a fantastic soy-free alternative to traditional soy miso, it features a beautifully mellow, sweet-savory umami depth. Represents Earth and Water alchemical maturity.",
+    name: "chickpea miso",
+    origin: ["Japan", "North America (artisanal)"],
+    season: ["all"],
+    elementalProperties: { Earth: 0.40, Water: 0.30, Air: 0.15, Fire: 0.15 },
+    qualities: ["fermented", "savory", "soy-free", "rich", "macrobiotic"],
+    category: "misc",
+    subCategory: "thickener",
+    astrologicalProfile: {
+      rulingPlanets: ["Jupiter", "Saturn"],
+      favorableZodiac: ["sagittarius", "capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp (16g)",
+      calories: 30,
+      macros: { protein: 1.5, carbs: 5.0, fat: 0.5, fiber: 1.0, sugar: 2.0, sodium: 0.45 },
+      vitamins: { B12: 0.01 },
+      minerals: { zinc: 0.02, iron: 0.02 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.2,
+      salt: 0.6,
+      salty: 0.6,
+      sour: 0.1,
+      bitter: 0.05,
+      umami: 0.7,
+      spicy: 0.0,
+      aromatic: 0.3
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.2, salty: 0.6, sour: 0.1, bitter: 0.05, umami: 0.7, spicy: 0.0 }, 
+      aroma: { fermented: 0.6, rich: 0.5, salty: 0.4 }, 
+      texture: { pasty: 0.8, creamy: 0.7 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["savory", "salty"], secondary: ["sweet", "fermented", "rich"], notes: "Provides a milder, sweeter umami profile than soy-based miso." }, 
+      cookingMethods: ["whisk", "blend", "rub", "simmer"], 
+      cuisineAffinity: ["Japanese", "macrobiotic", "fusion"], 
+      preparationTips: ["Avoid boiling miso to preserve active probiotic enzymes and delicate aromatics.", "Whisk with a small amount of warm broth before adding to the pot."] 
+    },
+    pairingRecommendations: { complementary: ["ginger", "garlic", "scallions", "sesame oil", "tofu", "tahini"], contrasting: ["lemon juice", "vinegar"], toAvoid: [] },
+    storage: { pantry: "Refrigerate after opening.", notes: "Fermentation keeps it viable for many months." }
+  },
+  almond_extract: {
+    image_url: "ingredients/almond_extract.png",
+    description: "A highly aromatic flavoring agent made by dissolving the essential oil of bitter almonds in alcohol. Delivers a highly potent, sweet marzipan-like fragrance that enhances baked goods, stone fruit fillings, and confections. Expresses pure Air and Fire volatility.",
+    name: "almond extract",
+    origin: ["Mediterranean", "Europe"],
+    season: ["all"],
+    elementalProperties: { Air: 0.50, Fire: 0.30, Earth: 0.10, Water: 0.10 },
+    qualities: ["highly-aromatic", "potent", "volatile", "sweet-scented"],
+    category: "misc",
+    subCategory: "binding_agent",
+    astrologicalProfile: {
+      rulingPlanets: ["Mercury"],
+      favorableZodiac: ["gemini"],
+      seasonalAffinity: ["winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tsp (5g)",
+      calories: 12,
+      macros: { protein: 0, carbs: 0.5, fat: 0, fiber: 0, sugar: 0.1, sodium: 0 },
+      vitamins: {},
+      minerals: {},
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.3,
+      salt: 0.0,
+      salty: 0.0,
+      sour: 0.0,
+      bitter: 0.2,
+      umami: 0.0,
+      spicy: 0.1,
+      aromatic: 0.95
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.3, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.1 }, 
+      aroma: { sweet: 0.8, nutty: 0.6, marzipan: 0.9 }, 
+      texture: { liquid: 0.9 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["aromatic"], secondary: ["sweet", "marzipan", "nutty"], notes: "Incredibly potent aroma, mimics sweet almonds but with deeper cherry-stone notes." }, 
+      cookingMethods: ["mix", "whisk", "fold", "infuse"], 
+      cuisineAffinity: ["European", "baking"], 
+      preparationTips: ["Extremely potent — a few drops go a long way.", "Pairs exceptionally well with cherries, peaches, plums, and vanilla."] 
+    },
+    pairingRecommendations: { complementary: ["cherry", "peach", "plum", "vanilla", "chocolate", "oats"], contrasting: ["salt", "acid"], toAvoid: [] },
+    storage: { pantry: "Store in a cool, dark place away from heat.", notes: "Keep bottle tightly capped to prevent alcohol evaporation." }
+  },
   sugar: {
       image_url: "ingredients/sugar.png",
     description: "Refined sucrose crystallized from sugarcane (*Saccharum officinarum*) or sugar beets (*Beta vulgaris*) — the default sweetener of Western cooking and a critical functional ingredient beyond taste. In baking sugar tenderizes by competing for water, stabilizes foams, browns via Maillard and caramelization, and preserves by binding water activity. Granulated, superfine (caster), confectioners', turbinado, and demerara differ in crystal size, moisture, and residual molasses — each behaving differently in creaming, dissolving, or finishing.",

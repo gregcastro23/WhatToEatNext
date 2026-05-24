@@ -2,6 +2,183 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
+
+  kombu: {
+    image_url: "ingredients/kombu.png",
+    name: "kombu",
+    category: "vegetable",
+    subcategory: "sea_vegetable",
+    description: "Thick, dried deep-ocean kelp (*Saccharina japonica*) that acts as the cornerstone of Japanese dashi broth. Packed with natural glutamic acid (umami), it physically tenderizes beans and adds unparalleled mineral richness to cooking liquids. Dominant in Water and Earth alchemical properties.",
+    elementalProperties: { Water: 0.55, Earth: 0.35, Air: 0.05, Fire: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ["Neptune", "Moon"],
+      favorableZodiac: ["pisces", "cancer"],
+      seasonalAffinity: ["winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 strip (5g)",
+      calories: 10,
+      macros: { protein: 0.5, carbs: 2.5, fat: 0.1, fiber: 1.5, sugar: 0, sodium: 0.12 },
+      vitamins: { K: 0.05 },
+      minerals: { iodine: 1.5, calcium: 0.02, magnesium: 0.03 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.5,
+      salty: 0.5,
+      sour: 0.05,
+      bitter: 0.1,
+      umami: 0.9,
+      spicy: 0.0,
+      aromatic: 0.3
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.5, sour: 0.05, bitter: 0.1, umami: 0.9, spicy: 0.0 }, 
+      aroma: { oceanic: 0.8, briny: 0.7 }, 
+      texture: { firm: 0.7, chewy: 0.6 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["umami", "briny"], secondary: ["oceanic", "savory"], notes: "Provides unmatched umami depth to broths and grain cooking liquids." }, 
+      cookingMethods: ["simmer", "steep", "boil", "infuse"], 
+      cuisineAffinity: ["Japanese", "macrobiotic", "Asian"], 
+      preparationTips: ["Do not wash off the white powder on the surface — it is mannitol, which holds concentrated umami.", "Remove kombu from boiling broth right before it boils to avoid bitter, slimy textures."] 
+    },
+    pairingRecommendations: { complementary: ["shoyu", "ginger", "shiitake", "beans", "tofu", "mirin"], contrasting: ["citrus"], toAvoid: [] },
+    storage: { pantry: "Store in a dry, cool pantry.", notes: "Will keep indefinitely if kept away from humidity." }
+  },
+  arame: {
+    image_url: "ingredients/arame.png",
+    name: "arame",
+    category: "vegetable",
+    subcategory: "sea_vegetable",
+    description: "A mild, sweet, dark-brown sea vegetable (*Eisenia bicyclis*) pre-shredded into delicate threads. Its gentle flavor and soft, yielding texture make it the ideal starter sea vegetable for salads, side dishes, and grain bowls. Highly supportive of Water and Earth.",
+    elementalProperties: { Water: 0.45, Earth: 0.40, Air: 0.10, Fire: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ["Venus", "Moon"],
+      favorableZodiac: ["taurus", "pisces"],
+      seasonalAffinity: ["summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "1/4 cup dry (5g)",
+      calories: 12,
+      macros: { protein: 0.6, carbs: 2.8, fat: 0.1, fiber: 1.8, sugar: 0.2, sodium: 0.15 },
+      vitamins: {},
+      minerals: { iron: 0.02, calcium: 0.03, magnesium: 0.02 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.25,
+      salt: 0.3,
+      salty: 0.3,
+      sour: 0.0,
+      bitter: 0.1,
+      umami: 0.4,
+      spicy: 0.0,
+      aromatic: 0.2
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.25, salty: 0.3, sour: 0.0, bitter: 0.1, umami: 0.4, spicy: 0.0 }, 
+      aroma: { briny: 0.5, mild: 0.6 }, 
+      texture: { soft: 0.7, shredded: 0.8 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["briny", "sweet"], secondary: ["mild", "earthy"], notes: "Extremely delicate and quick to prepare, sweet and oceanic." }, 
+      cookingMethods: ["soak", "sauté", "simmer", "toss"], 
+      cuisineAffinity: ["Japanese", "macrobiotic"], 
+      preparationTips: ["Soaks in cold water in just 5-10 minutes, expanding dramatically.", "Sauté briefly with sesame oil and mirin before simmering for a delicious side dish."] 
+    },
+    pairingRecommendations: { complementary: ["carrots", "onions", "sesame seeds", "sesame oil", "soy sauce", "mirin"], contrasting: ["rice vinegar"], toAvoid: [] },
+    storage: { pantry: "Keep dry in airtight bags.", notes: "Check for moisture occasionally." }
+  },
+  hijiki: {
+    image_url: "ingredients/hijiki.png",
+    name: "hijiki",
+    category: "vegetable",
+    subcategory: "sea_vegetable",
+    description: "A highly traditional, thick, black twig-like sea vegetable (*Sargassum fusiforme*). When rehydrated and simmered, it develops a deep, earthy texture and rich mineral taste. It is commonly prepared with root vegetables and soy sauce. Grounding Earth-Water energy.",
+    elementalProperties: { Earth: 0.45, Water: 0.40, Air: 0.10, Fire: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn", "Moon"],
+      favorableZodiac: ["capricorn", "scorpio"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1/4 cup dry (5g)",
+      calories: 11,
+      macros: { protein: 0.5, carbs: 3.0, fat: 0.1, fiber: 2.2, sugar: 0, sodium: 0.18 },
+      vitamins: {},
+      minerals: { iron: 0.05, calcium: 0.07, magnesium: 0.03 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.4,
+      salty: 0.4,
+      sour: 0.0,
+      bitter: 0.2,
+      umami: 0.5,
+      spicy: 0.0,
+      aromatic: 0.15
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.4, sour: 0.0, bitter: 0.2, umami: 0.5, spicy: 0.0 }, 
+      aroma: { earthy: 0.6, briny: 0.5 }, 
+      texture: { chewy: 0.8, firm: 0.7 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["earthy", "briny"], secondary: ["savory", "bitter"], notes: "Has a robust, almost wood-like integrity that holds up to long braising." }, 
+      cookingMethods: ["soak", "simmer", "sauté", "braise"], 
+      cuisineAffinity: ["Japanese", "macrobiotic"], 
+      preparationTips: ["Requires soaking for 15-20 minutes in cold water, expanding up to five times in volume.", "Braise with carrots, lotus root, and fried tofu for a classic Japanese preparation."] 
+    },
+    pairingRecommendations: { complementary: ["carrots", "aburaage", "soy sauce", "sake", "mirin", "lotus root"], contrasting: [], toAvoid: [] },
+    storage: { pantry: "Store dry, away from humidity.", notes: "Extremely stable shelf life." }
+  },
+  dulse: {
+    image_url: "ingredients/dulse.png",
+    name: "dulse",
+    category: "vegetable",
+    subcategory: "sea_vegetable",
+    description: "A vibrant red, leafy sea vegetable (*Palmaria palmata*) with a distinctively savory, smoky flavor. Often referred to as 'sea bacon,' it can be fried until crisp or crumbled raw onto dishes to add saltiness and deep ocean umami. Harmonizes Water, Earth, and Fire.",
+    elementalProperties: { Water: 0.35, Earth: 0.35, Fire: 0.20, Air: 0.10 },
+    astrologicalProfile: {
+      rulingPlanets: ["Mars", "Neptune"],
+      favorableZodiac: ["scorpio", "pisces"],
+      seasonalAffinity: ["spring", "summer"],
+    },
+    nutritionalProfile: {
+      serving_size: "2 tbsp (7g)",
+      calories: 18,
+      macros: { protein: 1.5, carbs: 3.0, fat: 0.1, fiber: 1.2, sugar: 0.1, sodium: 0.25 },
+      vitamins: { B6: 0.05, B12: 0.01 },
+      minerals: { iron: 0.03, potassium: 0.28, iodine: 0.08 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.5,
+      salty: 0.5,
+      sour: 0.05,
+      bitter: 0.15,
+      umami: 0.7,
+      spicy: 0.05,
+      aromatic: 0.4
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.5, sour: 0.05, bitter: 0.15, umami: 0.7, spicy: 0.05 }, 
+      aroma: { smoky: 0.6, oceanic: 0.6, savory: 0.5 }, 
+      texture: { thin: 0.8, crispy: 0.7 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["smoky", "salty"], secondary: ["umami", "oceanic"], notes: "Unique amongst sea greens for its distinctively smoky, bacon-like qualities when cooked." }, 
+      cookingMethods: ["pan-fry", "bake", "crumble", "soak"], 
+      cuisineAffinity: ["Atlantic Canadian", "Irish", "macrobiotic", "global"], 
+      preparationTips: ["Toast dry in a hot skillet for 2-3 minutes until green and crispy to release a bacon-like flavor.", "Crumble raw flakes directly over salads, grains, or popcorn."] 
+    },
+    pairingRecommendations: { complementary: ["potatoes", "butter", "olive oil", "avocado", "lemon", "grains"], contrasting: ["sweet apples", "maple"], toAvoid: [] },
+    storage: { pantry: "Keep in a cool, dark cabinet in a sealed bag.", notes: "Check for mineral salt crystal deposits on leaves, which is natural." }
+  },
   asparagus: {
       image_url: "ingredients/asparagus.png",
     name: "asparagus",

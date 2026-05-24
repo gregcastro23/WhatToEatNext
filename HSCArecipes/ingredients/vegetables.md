@@ -1,0 +1,515 @@
+# HSCA Recipe Ingredients - Vegetables
+
+This file lists all raw ingredients from the HSCA Recipes that are categorized under the **Vegetables** group.
+
+**Total Unique Items**: 507
+
+## Ingredients List
+
+- 1 1/2 - 2 pounds kabocha squash (1 small), halved *(Base: `kabocha squash`)*
+- 1 1/2 cups tomato puree *(Base: `tomato puree`)*
+- 1 1/2 large cucumbers (2 1/4 pounds), peeled, ends discarded *(Base: `cucumbers ends discarded`)*
+- 1 1/2 ounces carrots, minced *(Base: `carrots`)*
+- 1 1/2 ounces shallots (1 medium), minced *(Base: `shallots`)*
+- 1 1/2 pounds beets, trimmed *(Base: `beets trimmed`)*
+- 1 1/2 pounds carrots (2 medium), 1-inch roll cut *(Base: `carrots -inch roll cut`)*
+- 1 1/2 pounds garnet yams (2 large) cooked and mashed (about 2 1/4 cups) *(Base: `garnet yams and mashed about`)*
+- 1 1/2 pounds onions, cut into 1/2-inch pieces *(Base: `onions cut into -inch`)*
+- 1 1/2 pounds spinach, triple-washed *(Base: `spinach triple-washed`)*
+- 1 1/2 pounds tomatoes, seeded and chopped *(Base: `tomatoes seeded and`)*
+- 1 1/2 teaspoons peeled ginger root, cut into thin matchsticks (1/2-inch knob) *(Base: `ginger root cut into thin matchsticks -inch knob`)*
+- 1 1/2 zucchinis (1 pound), trimmed *(Base: `zucchinis trimmed`)*
+- 1 1/4 cups mushroom or onion stock *(Base: `mushroom or onion stock`)*
+- 1 1/4 ounces ginger, peeled and minced *(Base: `ginger and`)*
+- 1 1/4 pounds shiitake mushrooms, sliced thinly (6 cups packed) *(Base: `shiitake mushrooms packed`)*
+- 1 28-ounce can peeled tomatoes, chopped (pulsed in food processor) *(Base: `-ounce tomatoes pulsed in food processor`)*
+- 1 28-ounce can whole tomatoes, drained OR 2 pounds fresh tomatoes, concassé, 1/2-inch dice *(Base: `-ounce tomatoes or tomatoes concassé -inch dice`)*
+- 1 English cucumber (12 ounces), peel, seed, cut into 3-inch julienne *(Base: `english cucumber peel seed cut into -inch julienne`)*
+- 1 Spanish onion (12 ounces), peeled and small diced *(Base: `spanish onion and`)*
+- 1 bunch Swiss chard, about 3/4 pound *(Base: `swiss chard about`)*
+- 1 bunch asparagus, trimmed *(Base: `asparagus trimmed`)*
+- 1 bunch celery (15 stalks or 2 pounds), cleaned *(Base: `celery or cleaned`)*
+- 1 can (14 ounce) chopped tomatoes *(Base: `tomatoes`)*
+- 1 carrot (6 ounces), cut into 4-inch long, thin matchsticks *(Base: `carrot cut into -inch long thin matchsticks`)*
+- 1 carrot cut (6-8 ounces), cut into 3-inch julienne, blanched for 1 1/2 minutes and shocked *(Base: `carrot cut cut into -inch julienne blanched for minutes and shocked`)*
+- 1 carrot, cut into thin matchsticks *(Base: `carrot cut into thin matchsticks`)*
+- 1 celery rib, coarsely chopped *(Base: `celery rib`)*
+- 1 clove garlic *(Base: `garlic`)*
+- 1 clove garlic, minced *(Base: `garlic`)*
+- 1 clove of garlic *(Base: `of garlic`)*
+- 1 clove of garlic, minced *(Base: `of garlic`)*
+- 1 cup chickpeas, soaked overnight *(Base: `chickpeas soaked overnight`)*
+- 1 cup chickpeas, soaked overnight, drained, and rinsed *(Base: `chickpeas soaked overnight and rinsed`)*
+- 1 cup chopped onion, 1/4-inch dice *(Base: `onion -inch dice`)*
+- 1 cup cooked chickpeas *(Base: `chickpeas`)*
+- 1 cup dried hiziki (rinsed and soaked 15-20 minutes) *(Base: `hiziki rinsed and soaked minutes`)*
+- 1 cup minced onion (8 ounces) *(Base: `onion`)*
+- 1 cup mushroom stock reduced to 1/2 cup *(Base: `mushroom stock reduced to`)*
+- 1 cup peanuts, roasted *(Base: `peanuts`)*
+- 1 cup sliced shallots *(Base: `shallots`)*
+- 1 cup tomato puree *(Base: `tomato puree`)*
+- 1 garlic clove *(Base: `garlic`)*
+- 1 garlic clove (sliced) *(Base: `garlic`)*
+- 1 garlic clove, minced *(Base: `garlic`)*
+- 1 garlic clove, sliced thin *(Base: `garlic thin`)*
+- 1 head Romaine lettuce, chopped *(Base: `romaine lettuce`)*
+- 1 head cauliflower, bite-size florets *(Base: `cauliflower bite-size florets`)*
+- 1 head celery, coarsely chopped *(Base: `celery`)*
+- 1 head garlic *(Base: `garlic`)*
+- 1 head garlic, roasted and paste extracted *(Base: `garlic and paste extracted`)*
+- 1 head garlic, roasted, cooled, and paste extracted *(Base: `garlic cooled and paste extracted`)*
+- 1 head garlic, roasted, paste extracted *(Base: `garlic paste extracted`)*
+- 1 head garlic, smashed and peeled *(Base: `garlic smashed and`)*
+- 1 head green cabbage (about 2 pounds), quartered, core removed and thinly sliced *(Base: `green cabbage about core removed and`)*
+- 1 head hydroponic lettuce, leaves separated *(Base: `hydroponic lettuce leaves separated`)*
+- 1 head red cabbage (about 2 pounds), quartered, core removed and thinly sliced *(Base: `red cabbage about core removed and`)*
+- 1 head roasted garlic, paste extracted *(Base: `garlic paste extracted`)*
+- 1 large bunch spinach (3/4 pound), washed, stemmed, cooked until tender, drained, and finely chopped *(Base: `spinach washed stemmed until tender and`)*
+- 1 large carrot cut into matchsticks *(Base: `carrot cut into matchsticks`)*
+- 1 large clove garlic, slivered (1 tablespoon) *(Base: `garlic slivered`)*
+- 1 large onion (12 ounces), medium dice *(Base: `onion dice`)*
+- 1 large onion, small dice *(Base: `onion dice`)*
+- 1 large ripe tomato (peeled, seeded and chopped) *(Base: `ripe tomato seeded and`)*
+- 1 large yellow onion (___ ounces), medium dice *(Base: `yellow onion ___ dice`)*
+- 1 medium onion (about 1/2 pound), small dice *(Base: `onion about dice`)*
+- 1 medium potato (about 1/2 pound), peeled and cut into small dice *(Base: `potato about and cut into dice`)*
+- 1 medium size onion, sliced into salad slice *(Base: `size onion into salad`)*
+- 1 onion (1/2 pound), minced *(Base: `onion`)*
+- 1 onion (12 ounces), cut into medium dice *(Base: `onion cut into dice`)*
+- 1 onion (12 ounces), finely chopped (1 cup) *(Base: `onion`)*
+- 1 onion, small dice *(Base: `onion dice`)*
+- 1 ounce carrot, finely chopped (approximately 2 tablespoons) *(Base: `carrot approximately`)*
+- 1 ounce carrot, medium dice *(Base: `carrot dice`)*
+- 1 ounce celery, finely chopped (approximately 2 tablespoons) *(Base: `celery approximately`)*
+- 1 ounce celery, medium dice *(Base: `celery dice`)*
+- 1 ounce dried porcini mushrooms *(Base: `porcini mushrooms`)*
+- 1 ounce fresh ginger, peeled and cut into julienne (1 ounce) *(Base: `ginger and cut into julienne`)*
+- 1 ounce fresh ginger, peeled, cut into julienne (1 tablespoon) *(Base: `ginger cut into julienne`)*
+- 1 ounce ginger root, juiced (2 tablespoons) *(Base: `ginger root`)*
+- 1 ounce ginger, juiced (1 tablespoon) *(Base: `ginger`)*
+- 1 ounce ginger, minced *(Base: `ginger`)*
+- 1 ounce ginger, washed, unpeeled *(Base: `ginger washed unpeeled`)*
+- 1 ounce onion, minced *(Base: `onion`)*
+- 1 parsnip (6 ounces), 1/4-inch slices *(Base: `parsnip -inch`)*
+- 1 pint cherry tomatoes, halved *(Base: `cherry tomatoes`)*
+- 1 pound Jerusalem artichokes (6 large), peeled, matchsticks *(Base: `jerusalem artichokes matchsticks`)*
+- 1 pound Kirby cucumbers *(Base: `kirby cucumbers`)*
+- 1 pound Lacinata kale, stemmed, leaves roughly chopped *(Base: `lacinata kale stemmed leaves roughly`)*
+- 1 pound Lacinato kale (1 bunch), stemmed, chiffonade *(Base: `lacinato kale stemmed chiffonade`)*
+- 1 pound baby carrots, peeled (retain 1/4-inch of stem) *(Base: `baby carrots retain -inch of stem`)*
+- 1 pound button mushrooms, cleaned, stemmed, sliced *(Base: `button mushrooms cleaned stemmed`)*
+- 1 pound carrots (2 large), medium dice *(Base: `carrots dice`)*
+- 1 pound carrots, 3/4-inch dice *(Base: `carrots -inch dice`)*
+- 1 pound carrots, roll cut *(Base: `carrots roll cut`)*
+- 1 pound cauliflower (1/2 head), florets, blanched, shocked *(Base: `cauliflower florets blanched shocked`)*
+- 1 pound cremini mushrooms, stemmed, sliced *(Base: `cremini mushrooms stemmed`)*
+- 1 pound cremini mushrooms, thinly sliced *(Base: `cremini mushrooms`)*
+- 1 pound crimini mushrooms, cleaned, stemmed, and halved *(Base: `crimini mushrooms cleaned stemmed and`)*
+- 1 pound daikon (1 medium), ½-inch half moon slices *(Base: `daikon -inch half moon`)*
+- 1 pound eggplant (1 medium) *(Base: `eggplant`)*
+- 1 pound eggplant (1 small), peeled, 1/2-inch dice *(Base: `eggplant -inch dice`)*
+- 1 pound fennel bulb (1 medium), stalks and core removed, thinly sliced *(Base: `fennel bulb and core removed`)*
+- 1 pound fennel bulb, chopped *(Base: `fennel bulb`)*
+- 1 pound fresh beets *(Base: `beets`)*
+- 1 pound mushrooms, sliced *(Base: `mushrooms`)*
+- 1 pound onion, cut into 1/2 inch medium dice *(Base: `onion cut into dice`)*
+- 1 pound onions, small dice *(Base: `onions dice`)*
+- 1 pound parsnips, roll cut *(Base: `parsnips roll cut`)*
+- 1 pound red onion (3 medium), sauté slice *(Base: `red onion sauté`)*
+- 1 pound russet potatoes, peeled and sliced 1/4-inch thick *(Base: `russet potatoes and -inch thick`)*
+- 1 pound shallots, quartered *(Base: `shallots`)*
+- 1 pound small redskin potatoes, scrubbed, halved *(Base: `redskin potatoes scrubbed`)*
+- 1 pound spinach, stemmed, steamed, and wrung of excess moisture *(Base: `spinach stemmed steamed and wrung of excess moisture`)*
+- 1 pound sweet potatoes, large dice *(Base: `sweet potatoes dice`)*
+- 1 pound sweet potatoes, peeled, grated (large hole side of grater) *(Base: `sweet potatoes hole side of grater`)*
+- 1 pound zucchini, cut into 1/2-inch pieces *(Base: `zucchini cut into -inch`)*
+- 1 pound zucchini, shredded (large side of grater) *(Base: `zucchini side of grater`)*
+- 1 recipe Creamy Artichoke Dressing (see recipe below) *(Base: `recipe creamy artichoke dressing see recipe below`)*
+- 1 recipe Creamy Fresh Horseradish Dressing (recipe below) *(Base: `recipe creamy horseradish dressing recipe below`)*
+- 1 recipe Tomato “Cream” Sauce (see following recipe) *(Base: `recipe tomato “cream” sauce see following recipe`)*
+- 1 red onion (4 ounces), finely chopped *(Base: `red onion`)*
+- 1 red onion, thinly sliced *(Base: `red onion`)*
+- 1 rib celery, medium dice *(Base: `rib celery dice`)*
+- 1 rib celery, minced *(Base: `rib celery`)*
+- 1 small beet, all but last inch of stem trimmed *(Base: `beet all but last of stem trimmed`)*
+- 1 small carrot, finely grated *(Base: `carrot`)*
+- 1 small carrot, peeled and large diced *(Base: `carrot and`)*
+- 1 small cooked, peeled and mashed potato, room temperature *(Base: `and mashed potato room temperature`)*
+- 1 small red onion, chopped *(Base: `red onion`)*
+- 1 small red onion, minced *(Base: `red onion`)*
+- 1 small red onion, sliced thin *(Base: `red onion thin`)*
+- 1 small red onion, small dice *(Base: `red onion dice`)*
+- 1 small to medium onion, small dice *(Base: `to onion dice`)*
+- 1 stalk celery (1 ounce), trimmed, 1-inch dice *(Base: `celery trimmed -inch dice`)*
+- 1 stalk celery, finely minced *(Base: `celery`)*
+- 1 tablespoon + 1 1/2 teaspoons minced garlic *(Base: `garlic`)*
+- 1 tablespoon brown ginger *(Base: `brown ginger`)*
+- 1 tablespoon chopped fresh ginger *(Base: `ginger`)*
+- 1 tablespoon chopped garlic (1 large clove) *(Base: `garlic`)*
+- 1 tablespoon chopped garlic (2 large cloves) *(Base: `garlic`)*
+- 1 tablespoon ground ginger *(Base: `ginger`)*
+- 1 tablespoon minced garlic *(Base: `garlic`)*
+- 1 tablespoon minced garlic (1 large clove) *(Base: `garlic`)*
+- 1 tablespoon minced ginger (1 ounce) *(Base: `ginger`)*
+- 1 tablespoon shallots *(Base: `shallots`)*
+- 1 teaspoon ground ginger *(Base: `ginger`)*
+- 1 teaspoon minced garlic (1 small clove garlic) *(Base: `garlic garlic`)*
+- 1 teaspoon minced garlic (1 small clove) *(Base: `garlic`)*
+- 1 teaspoon minced garlic (2 cloves) *(Base: `garlic`)*
+- 1 yam OR sweet potato, peeled and large diced *(Base: `yam or sweet potato and`)*
+- 1 zucchini (7 ounces), seeded, cut into 3-inch julienne *(Base: `zucchini seeded cut into -inch julienne`)*
+- 1 zucchini, cut into large dice *(Base: `zucchini cut into dice`)*
+- 1-inch piece of ginger root, scrubbed, unpeeled *(Base: `-inch of ginger root scrubbed unpeeled`)*
+- 1/2 carrot (3 ounces), 3/4-inch dice *(Base: `carrot -inch dice`)*
+- 1/2 cup boiled, food-milled sweet potato *(Base: `boiled food-milled sweet potato`)*
+- 1/2 cup chickpeas, soaked overnight *(Base: `chickpeas soaked overnight`)*
+- 1/2 cup chickpeas, soaked overnight, drained, and rinsed *(Base: `chickpeas soaked overnight and rinsed`)*
+- 1/2 cup dulse, loosely packed *(Base: `dulse loosely packed`)*
+- 1/2 cup dulse, loosely packed (.04 ounces) *(Base: `dulse loosely packed`)*
+- 1/2 cup finely chopped onion *(Base: `onion`)*
+- 1/2 cup tomato paste *(Base: `tomato paste`)*
+- 1/2 head garlic roasted, garlic paste extracted *(Base: `garlic garlic paste extracted`)*
+- 1/2 medium potato (___ ounces), peeled, large dice *(Base: `potato ___ dice`)*
+- 1/2 onion (5 ounces), 1/4-inch dice *(Base: `onion -inch dice`)*
+- 1/2 ounce dried porcini mushrooms *(Base: `porcini mushrooms`)*
+- 1/2 ounce red onion, minced *(Base: `red onion`)*
+- 1/2 pound Cremini mushrooms *(Base: `cremini mushrooms`)*
+- 1/2 pound Shiitake mushrooms *(Base: `shiitake mushrooms`)*
+- 1/2 pound baby spinach *(Base: `baby spinach`)*
+- 1/2 pound button mushrooms, washed, coarsely chopped *(Base: `button mushrooms washed`)*
+- 1/2 pound carrot (1 large), peeled and chopped *(Base: `carrot and`)*
+- 1/2 pound carrot (1 large), small dice *(Base: `carrot dice`)*
+- 1/2 pound carrot, coarsely chopped *(Base: `carrot`)*
+- 1/2 pound carrots (1 large), 1/2-inch quarter moons *(Base: `carrots -inch quarter moons`)*
+- 1/2 pound carrots (1 large), medium dice *(Base: `carrots dice`)*
+- 1/2 pound carrots (2 medium), 1/4-inch half-moon cut *(Base: `carrots -inch half-moon cut`)*
+- 1/2 pound celery, cut into 1/2-inch pieces *(Base: `celery cut into -inch`)*
+- 1/2 pound cremini mushrooms, stemmed, thinly sliced *(Base: `cremini mushrooms stemmed`)*
+- 1/2 pound fennel (1/2 small), cored, thinly sliced *(Base: `fennel cored`)*
+- 1/2 pound fingerling potatoes, 1-inch size pieces *(Base: `fingerling potatoes -inch size`)*
+- 1/2 pound fresh shiitake mushrooms (18), stemmed, thinly sliced *(Base: `shiitake mushrooms stemmed`)*
+- 1/2 pound green beans, trimmed *(Base: `green beans trimmed`)*
+- 1/2 pound mushrooms, washed, stemmed, cut into quarters *(Base: `mushrooms washed stemmed cut into quarters`)*
+- 1/2 pound onion (1 medium), large dice *(Base: `onion dice`)*
+- 1/2 pound onion (1/2 large), peeled and chopped *(Base: `onion and`)*
+- 1/2 pound onion, small dice *(Base: `onion dice`)*
+- 1/2 pound parsnips (1 large), medium dice *(Base: `parsnips dice`)*
+- 1/2 pound spring onions (2 bunches), trimmed and halved lengthwise (leave about 1-inch stem intact) *(Base: `spring onions trimmed and lengthwise leave about -inch stem intact`)*
+- 1/2 red onion, sauté sliced *(Base: `red onion sauté`)*
+- 1/2 red onion, small dice *(Base: `red onion dice`)*
+- 1/2 small red cabbage, shaved thinly *(Base: `red cabbage shaved`)*
+- 1/2 small red onion (2 ounces), minced *(Base: `red onion`)*
+- 1/2 small red onion, minced *(Base: `red onion`)*
+- 1/2 teaspoon fennel seed *(Base: `fennel seed`)*
+- 1/2 teaspoon ground fennel *(Base: `fennel`)*
+- 1/2 teaspoon ground ginger *(Base: `ginger`)*
+- 1/2 zucchini, cut in half lengthwise, then into 1/2 inch slices *(Base: `zucchini cut in half lengthwise then into`)*
+- 1/2 zucchini, cut in half lengthwise, then into 1/2" slices *(Base: `zucchini cut in half lengthwise then into`)*
+- 1/3 ounce dried shiitake mushrooms (5) *(Base: `shiitake mushrooms`)*
+- 1/4 cup Sesame-Garlic Dressing (see recipe below) *(Base: `sesame-garlic dressing see recipe below`)*
+- 1/4 cup carrot, finely minced *(Base: `carrot`)*
+- 1/4 cup minced garlic (4 large cloves) *(Base: `garlic`)*
+- 1/4 cup minced red onion (2 ounces) *(Base: `red onion`)*
+- 1/4 cup minced shallots *(Base: `shallots`)*
+- 1/4 cup minced shallots (2 1/2 ounces) *(Base: `shallots`)*
+- 1/4 cup onion, minced *(Base: `onion`)*
+- 1/4 cup peanuts, toasted, chopped *(Base: `peanuts`)*
+- 1/4 cup peeled, roughly chopped horseradish *(Base: `roughly horseradish`)*
+- 1/4 cup tomato paste *(Base: `tomato paste`)*
+- 1/4 head red cabbage (12 ounces) shredded *(Base: `red cabbage`)*
+- 1/4 ounce fresh ginger, minced *(Base: `ginger`)*
+- 1/4 pound carrot, small dice *(Base: `carrot dice`)*
+- 1/4 pound carrots, (1 small) small dice *(Base: `carrots dice`)*
+- 1/4 pound cremini mushrooms, stemmed, sliced *(Base: `cremini mushrooms stemmed`)*
+- 1/4 pound frozen peas (about 1/2 cup), thawed *(Base: `peas about thawed`)*
+- 1/4 pound horseradish, peeled *(Base: `horseradish`)*
+- 1/4 pound onions (1/2 small), small dice *(Base: `onions dice`)*
+- 1/4 pound potato, peeled and large diced *(Base: `potato and`)*
+- 1/4 pound roasted carrots, reserved from salad *(Base: `carrots reserved from salad`)*
+- 1/4 teaspoon dried ginger *(Base: `ginger`)*
+- 1/4 teaspoon fennel seed, toasted and ground *(Base: `fennel seed and`)*
+- 1/4 teaspoon ginger *(Base: `ginger`)*
+- 1/4 teaspoon ground fennel seed *(Base: `fennel seed`)*
+- 1/4 teaspoon ground ginger *(Base: `ginger`)*
+- 1/4 teaspoon ground ginger (optional) *(Base: `ginger`)*
+- 1/8 teaspoon ground ginger *(Base: `ginger`)*
+- 10 ounces green beans, trimmed *(Base: `green beans trimmed`)*
+- 10 ounces onion (1 large), sauté slice *(Base: `onion sauté`)*
+- 10 ounces onion (1 medium), sauté slice *(Base: `onion sauté`)*
+- 10 ounces onion (1 medium), sauté slices *(Base: `onion sauté`)*
+- 12 cherry tomatoes *(Base: `cherry tomatoes`)*
+- 12 ounces Napa cabbage, shredded *(Base: `napa cabbage`)*
+- 12 ounces broccoli rabe (1/2 bunch), stemmed and chopped *(Base: `broccoli rabe stemmed and`)*
+- 12 ounces carrot (1 large), ½-inch roll cut *(Base: `carrot -inch roll cut`)*
+- 12 ounces carrots, finely shredded (2 cups) *(Base: `carrots`)*
+- 12 ounces green cabbage, cored, chiffonade *(Base: `green cabbage cored chiffonade`)*
+- 12 ounces onion (1 large), large dice *(Base: `onion dice`)*
+- 12 ounces onion (1 large), medium dice *(Base: `onion dice`)*
+- 12 ounces onion (1 large), minced *(Base: `onion`)*
+- 12 ounces onion (1 large), piqué *(Base: `onion piqué`)*
+- 12 ounces onion (1 large), small dice *(Base: `onion dice`)*
+- 12 ounces onion, medium dice *(Base: `onion dice`)*
+- 12 ounces onion, small dice *(Base: `onion dice`)*
+- 12 ounces onions (1 large), small dice *(Base: `onions dice`)*
+- 14-ounce can crushed tomatoes *(Base: `-ounce tomatoes`)*
+- 15 fresh shiitake mushrooms, stemmed and sliced thinly *(Base: `shiitake mushrooms stemmed and`)*
+- 18 ounces beets (3-4 medium), peeled, medium dice *(Base: `beets dice`)*
+- 18 ounces broccoli (1 small bunch) *(Base: `broccoli`)*
+- 2 1/2 pounds carrots, washed and trimmed *(Base: `carrots washed and trimmed`)*
+- 2 English cucumbers, small dice *(Base: `english cucumbers dice`)*
+- 2 broccoli stalks (12 ounces), peeled, cut into 1-inch pieces *(Base: `broccoli cut into -inch`)*
+- 2 bunches spinach (about 1 1/2 pounds), stemmed, washed, and chopped *(Base: `spinach about stemmed washed and`)*
+- 2 celery stalks, thinly sliced *(Base: `celery`)*
+- 2 cloves garlic *(Base: `garlic`)*
+- 2 cloves garlic, minced *(Base: `garlic`)*
+- 2 cloves garlic, peeled *(Base: `garlic`)*
+- 2 cloves garlic, peeled & coarsely chopped *(Base: `garlic`)*
+- 2 cloves garlic, peeled and crushed *(Base: `garlic and`)*
+- 2 cloves garlic, peeled and sliced *(Base: `garlic and`)*
+- 2 cloves garlic, pressed *(Base: `garlic pressed`)*
+- 2 cloves garlic, sliced *(Base: `garlic`)*
+- 2 cloves garlic, smashed *(Base: `garlic smashed`)*
+- 2 cloves garlic, thinly sliced *(Base: `garlic`)*
+- 2 cloves of garlic, peeled *(Base: `of garlic`)*
+- 2 cucumbers, thinly sliced *(Base: `cucumbers`)*
+- 2 cucumbers, thinly sliced on mandolin *(Base: `cucumbers on mandolin`)*
+- 2 cup green beans, washed, trimmed, cut into 1-inch lengths *(Base: `green beans washed trimmed cut into -inch lengths`)*
+- 2 cups peanuts, roasted *(Base: `peanuts`)*
+- 2 cups pureed tomatoes *(Base: `tomatoes`)*
+- 2 cups sliced mushrooms (button, or Portobello, or combination) *(Base: `mushrooms button or portobello or combination`)*
+- 2 fennel bulbs (reserve fronds), shaved *(Base: `fennel bulbs reserve fronds shaved`)*
+- 2 garlic cloves *(Base: `garlic`)*
+- 2 garlic cloves, minced *(Base: `garlic`)*
+- 2 garlic cloves, peeled *(Base: `garlic`)*
+- 2 heads Romaine lettuce *(Base: `romaine lettuce`)*
+- 2 heads broccoli, bite-size florets (and stems trimmed and cut to bite-size pieces) *(Base: `broccoli bite-size florets and stems trimmed and cut to bite-size`)*
+- 2 heads garlic, feathery outer layers removed *(Base: `garlic feathery outer layers removed`)*
+- 2 heads garlic, roasted and paste extracted *(Base: `garlic and paste extracted`)*
+- 2 heads red oak leaf lettuce *(Base: `red oak leaf lettuce`)*
+- 2 large carrots, peeled and cut into 1/8-inch wide matchsticks *(Base: `carrots and cut into -inch wide matchsticks`)*
+- 2 large cloves garlic, halved lengthwise *(Base: `garlic lengthwise`)*
+- 2 large cloves garlic, minced (2 tablespoons) *(Base: `garlic`)*
+- 2 large garlic cloves, minced *(Base: `garlic`)*
+- 2 large garlic cloves, sliced *(Base: `garlic`)*
+- 2 large onions, 1/2 inch dice *(Base: `onions dice`)*
+- 2 large onions, thinly sliced *(Base: `onions`)*
+- 2 large yellow onions (approximately 1 1/2 pounds), medium dice *(Base: `yellow onions approximately dice`)*
+- 2 medium artichokes (1 pound) *(Base: `artichokes`)*
+- 2 medium carrots (about 12 ounces), cut into 1/4-inch wide quarter moon slices *(Base: `carrots about cut into -inch wide quarter moon`)*
+- 2 medium cloves garlic *(Base: `garlic`)*
+- 2 medium zucchini, thinly sliced in 1/4 moons *(Base: `zucchini in moons`)*
+- 2 onions (1 1/2 pounds), finely chopped (2 cups) *(Base: `onions`)*
+- 2 onions (2 pounds), peeled and large dice *(Base: `onions and dice`)*
+- 2 ounces (12) shiitake mushrooms, stemmed, thinly sliced *(Base: `shiitake mushrooms stemmed`)*
+- 2 ounces English cucumber (3/4), thinly sliced *(Base: `english cucumber`)*
+- 2 ounces dried shiitake mushrooms *(Base: `shiitake mushrooms`)*
+- 2 ounces ginger, peeled, slivered (2 tablespoons) *(Base: `ginger slivered`)*
+- 2 ounces ginger, thinly sliced *(Base: `ginger`)*
+- 2 ounces mushrooms, small dice *(Base: `mushrooms dice`)*
+- 2 ounces onion, finely chopped (approximately 1/4 cup) *(Base: `onion approximately`)*
+- 2 ounces onion, medium dice *(Base: `onion dice`)*
+- 2 ounces onion, minced *(Base: `onion`)*
+- 2 ounces red onion (1/2 small), thin rounds *(Base: `red onion thin rounds`)*
+- 2 ounces yellow onion, small dice *(Base: `yellow onion dice`)*
+- 2 parsnips, 1/4-inch slices *(Base: `parsnips -inch`)*
+- 2 pound asparagus, trimmed and cut into 1-inch diagonals *(Base: `asparagus trimmed and cut into -inch diagonals`)*
+- 2 pounds button mushrooms, sliced *(Base: `button mushrooms`)*
+- 2 pounds cabbage, cored, chiffonade *(Base: `cabbage cored chiffonade`)*
+- 2 pounds carrots, cut into 1/2-inch pieces *(Base: `carrots cut into -inch`)*
+- 2 pounds carrots, peeled, 1/2-inch rounds *(Base: `carrots -inch rounds`)*
+- 2 pounds cremini mushrooms, cleaned, stemmed, halved if large *(Base: `cremini mushrooms cleaned stemmed if`)*
+- 2 pounds onion (3 large), small dice *(Base: `onion dice`)*
+- 2 pounds onions, peeled, large dice *(Base: `onions dice`)*
+- 2 pounds peeled Yukon gold potatoes, large dice *(Base: `yukon gold potatoes dice`)*
+- 2 pounds russet potatoes *(Base: `russet potatoes`)*
+- 2 pounds sweet potatoes (2 large), medium dice *(Base: `sweet potatoes dice`)*
+- 2 ribs celery, cut into small dice *(Base: `ribs celery cut into dice`)*
+- 2 ribs celery, diagonal slice *(Base: `ribs celery diagonal`)*
+- 2 ribs celery, small dice *(Base: `ribs celery dice`)*
+- 2 ribs celery, strings removed, brunoise *(Base: `ribs celery strings removed brunoise`)*
+- 2 ribs celery, ½-inch thick diagonal slices *(Base: `ribs celery -inch thick diagonal`)*
+- 2 ripe tomatoes, seeded and cut into small dice *(Base: `ripe tomatoes seeded and cut into dice`)*
+- 2 ripe tomatoes, seeded and finely chopped *(Base: `ripe tomatoes seeded and`)*
+- 2 shallots, minced *(Base: `shallots`)*
+- 2 tablespoons chopped garlic (2 large cloves) *(Base: `garlic`)*
+- 2 tablespoons juiced ginger (2 ounces) *(Base: `ginger`)*
+- 2 tablespoons minced garlic (2 large cloves) *(Base: `garlic`)*
+- 2 tablespoons minced red onion (1 ounce) *(Base: `red onion`)*
+- 2 tablespoons minced shallots *(Base: `shallots`)*
+- 2 tablespoons tomato paste *(Base: `tomato paste`)*
+- 2 tablespoons tomato puree *(Base: `tomato puree`)*
+- 2 teaspoons chopped garlic (1 clove) *(Base: `garlic`)*
+- 2 teaspoons ginger, minced *(Base: `ginger`)*
+- 2 teaspoons minced garlic *(Base: `garlic`)*
+- 2 teaspoons minced garlic (1 small clove garlic) *(Base: `garlic garlic`)*
+- 2-3 cloves garlic, peeled *(Base: `garlic`)*
+- 2-3 medium organic beets (¾ pound), scrubbed (not peeled), chopped in 1-inch pieces *(Base: `beets scrubbed not in -inch`)*
+- 2-3 ounces sliced fresh shiitake AND/OR cremini mushrooms *(Base: `shiitake and/or cremini mushrooms`)*
+- 2-3 ounces sliced fresh shiitake and/or cremini mushrooms *(Base: `shiitake and/or cremini mushrooms`)*
+- 2-3 tomatoes, chopped *(Base: `tomatoes`)*
+- 2-inch ginger, peeled and minced *(Base: `-inch ginger and`)*
+- 2-ounce fresh ginger *(Base: `-ounce ginger`)*
+- 2/3 cup potato starch *(Base: `potato starch`)*
+- 20 small beets, roasted, peeled and cut into bite size pieces *(Base: `beets and cut into bite size`)*
+- 25 fennel fronds *(Base: `fennel fronds`)*
+- 28-ounce can tomato puree (3 1/4 cups) *(Base: `-ounce tomato puree`)*
+- 3 cloves garlic, crushed *(Base: `garlic`)*
+- 3 cloves garlic, minced *(Base: `garlic`)*
+- 3 cloves garlic, peeled *(Base: `garlic`)*
+- 3 cloves garlic, peeled and cut in half *(Base: `garlic and cut in half`)*
+- 3 cloves garlic, roughly chopped *(Base: `garlic roughly`)*
+- 3 cloves garlic, sliced *(Base: `garlic`)*
+- 3 cloves garlic, thinly sliced *(Base: `garlic`)*
+- 3 garlic cloves, sliced *(Base: `garlic`)*
+- 3 large beets, washed and trimmed *(Base: `beets washed and trimmed`)*
+- 3 large celery stalks (3/4 pound), cleaned *(Base: `celery cleaned`)*
+- 3 large cloves garlic, smashed *(Base: `garlic smashed`)*
+- 3 large cloves garlic, thinly sliced *(Base: `garlic`)*
+- 3 medium potatoes, peeled, cut into medium dice *(Base: `potatoes cut into dice`)*
+- 3 onions, cut into medium dice *(Base: `onions cut into dice`)*
+- 3 ounces carrots (1/2 large), matchsticks *(Base: `carrots matchsticks`)*
+- 3 ounces fresh horseradish, peeled and finely grated *(Base: `horseradish and`)*
+- 3 ounces green beans, 1-inch diagonal slice *(Base: `green beans -inch diagonal`)*
+- 3 ounces radish (3), matchsticks *(Base: `radish matchsticks`)*
+- 3 ounces shallots (1 large), minced *(Base: `shallots`)*
+- 3 ounces sliced ginger *(Base: `ginger`)*
+- 3 ounces snow peas (about 25), julienne *(Base: `snow peas about julienne`)*
+- 3 pounds onions (3-4 large), sauté slice *(Base: `onions sauté`)*
+- 3 ribs celery (6 ounces), large dice *(Base: `ribs celery dice`)*
+- 3 ribs celery, medium dice *(Base: `ribs celery dice`)*
+- 3 ribs celery, minced *(Base: `ribs celery`)*
+- 3 ribs celery, small dice *(Base: `ribs celery dice`)*
+- 3 slices ginger (about 1/4 inch thick) *(Base: `ginger about thick`)*
+- 3 stalks celery, 1/4-inch sliced *(Base: `celery -inch`)*
+- 3 tablespoon peeled and sliced ginger *(Base: `and ginger`)*
+- 3 tablespoons chopped garlic (3 large cloves garlic) *(Base: `garlic garlic`)*
+- 3 tablespoons minced garlic (3 large cloves) *(Base: `garlic`)*
+- 3 tablespoons minced shallots (1 ounce) *(Base: `shallots`)*
+- 3 tablespoons tomato paste *(Base: `tomato paste`)*
+- 3-4 cloves garlic, sliced *(Base: `garlic`)*
+- 3/4 cup grated carrot *(Base: `carrot`)*
+- 3/4 pound stemmed spinach *(Base: `stemmed spinach`)*
+- 3/4 teaspoon minced garlic *(Base: `garlic`)*
+- 4 Portobello mushrooms, stemmed and cleaned *(Base: `portobello mushrooms stemmed and cleaned`)*
+- 4 bunches Lacinata kale, washed and chopped into bite sized pieces *(Base: `lacinata kale washed and into bite sized`)*
+- 4 carrots (1 pound), 1/4-inch diagonal *(Base: `carrots -inch diagonal`)*
+- 4 carrots (2 pounds), 1/4-inch diagonal *(Base: `carrots -inch diagonal`)*
+- 4 cloves garlic, minced *(Base: `garlic`)*
+- 4 cloves garlic, minced (1 packed tablespoon) *(Base: `garlic packed`)*
+- 4 cloves garlic, peeled *(Base: `garlic`)*
+- 4 cloves garlic, sliced *(Base: `garlic`)*
+- 4 cloves garlic, sliced thin *(Base: `garlic thin`)*
+- 4 cloves garlic, thinly sliced *(Base: `garlic`)*
+- 4 cups yam (cooked then pureed) *(Base: `yam then`)*
+- 4 garlic cloves, sliced *(Base: `garlic`)*
+- 4 half-inch slices of ginger *(Base: `half-inch of ginger`)*
+- 4 large Portobello mushrooms (approximately 1 1/2 pounds), sliced with stems *(Base: `portobello mushrooms approximately with stems`)*
+- 4 large cloves garlic, peeled and minced *(Base: `garlic and`)*
+- 4 large onions (about 4 pounds), sauté slice *(Base: `onions about sauté`)*
+- 4 large zucchinis *(Base: `zucchinis`)*
+- 4 ounces (1/4 small head) cauliflower, cut into bit-sized florets *(Base: `cauliflower cut into bit-sized florets`)*
+- 4 ounces English cucumber (1/2 cucumber) peeled, sliced, seeded *(Base: `english cucumber cucumber seeded`)*
+- 4 ounces English cucumber (1/2 cucumber), peeled, thinly sliced *(Base: `english cucumber cucumber`)*
+- 4 ounces English cucumber (1/2 medium), thin diagonal slices *(Base: `english cucumber thin diagonal`)*
+- 4 ounces English cucumber (1/2 medium), thinly sliced, halved *(Base: `english cucumber`)*
+- 4 ounces arame, soaked 15 minutes and drained *(Base: `arame soaked minutes and`)*
+- 4 ounces carrot (1 small), 1/2-inch quarter moon slices *(Base: `carrot -inch quarter moon`)*
+- 4 ounces carrot (1 small), large dice *(Base: `carrot dice`)*
+- 4 ounces carrot (1/2 large), minced *(Base: `carrot`)*
+- 4 ounces carrot, peeled and matchstick cut *(Base: `carrot and matchstick cut`)*
+- 4 ounces carrots (1/2 medium), matchstick *(Base: `carrots matchstick`)*
+- 4 ounces carrots (1/2 medium), roll cut *(Base: `carrots roll cut`)*
+- 4 ounces cauliflower (1/4 small head), cut into bite-sized florets *(Base: `cauliflower cut into bite-sized florets`)*
+- 4 ounces cucumber, seeded and small dice *(Base: `cucumber seeded and dice`)*
+- 4 ounces frozen peas (1 1/2 cups), thawed *(Base: `peas thawed`)*
+- 4 ounces green beans, trimmed and cut into 2-inch pieces *(Base: `green beans trimmed and cut into -inch`)*
+- 4 ounces onion (1 small), minced *(Base: `onion`)*
+- 4 ounces onion (1 small), sauté slice *(Base: `onion sauté`)*
+- 4 ounces onion (1/2 medium), fine dice *(Base: `onion fine dice`)*
+- 4 ounces onion (1/2 medium), sauté slice *(Base: `onion sauté`)*
+- 4 ounces onion (1/2 medium), small dice *(Base: `onion dice`)*
+- 4 ounces onion (1/2 onion), minced *(Base: `onion onion`)*
+- 4 ounces onion (1/2 small), minced *(Base: `onion`)*
+- 4 ounces onion (1/4 large), medium dice *(Base: `onion dice`)*
+- 4 ounces onion, sauté slice *(Base: `onion sauté`)*
+- 4 ounces onions (1/2 large), medium dice *(Base: `onions dice`)*
+- 4 ounces potato (1/2 medium), peeled, medium dice *(Base: `potato dice`)*
+- 4 ounces red onion (1 small), 1/8-inch rounds *(Base: `red onion -inch rounds`)*
+- 4 ounces red onion, minced *(Base: `red onion`)*
+- 4 ounces red onions, salad slice *(Base: `red onions salad`)*
+- 4 ounces shallots (2 medium), minced *(Base: `shallots`)*
+- 4 ounces snow peas, cut in half on bias *(Base: `snow peas cut in half on bias`)*
+- 4 ounces tomato paste *(Base: `tomato paste`)*
+- 4 ounces zucchini, seeded, julienned *(Base: `zucchini seeded julienned`)*
+- 4 shallots (1/2 pound), peeled, coarsely chopped *(Base: `shallots`)*
+- 4 shallots, peeled, coarsely chopped *(Base: `shallots`)*
+- 4 slices of ginger *(Base: `of ginger`)*
+- 5 cloves garlic, minced *(Base: `garlic`)*
+- 5 cloves garlic, sliced *(Base: `garlic`)*
+- 5 cloves garlic, smashed, peeled *(Base: `garlic smashed`)*
+- 5 large cloves garlic *(Base: `garlic`)*
+- 5 medium garlic cloves, roasted *(Base: `garlic`)*
+- 5 ounces carrots (2 small), matchstick *(Base: `carrots matchstick`)*
+- 6 English cucumbers with skin (12 ounces each), seeded and cut into 1-inch pieces *(Base: `english cucumbers with skin each seeded and cut into -inch`)*
+- 6 carrots (2 1/2 pounds), peeled, coarsely chopped *(Base: `carrots`)*
+- 6 cloves garlic, roughly chopped *(Base: `garlic roughly`)*
+- 6 large carrots (___ pound), peeled, 1/2-inch rounds *(Base: `carrots ___ -inch rounds`)*
+- 6 large cremini mushrooms, stemmed and cut in half *(Base: `cremini mushrooms stemmed and cut in half`)*
+- 6 onions (5 pounds), peeled and large dice *(Base: `onions and dice`)*
+- 6 onions (5 pounds), peeled, coarsely chopped (approximately 1/2-inch pieces) *(Base: `onions approximately -inch`)*
+- 6 onions, peeled, coarsely chopped (approximately 1/2-inch pieces) *(Base: `onions approximately -inch`)*
+- 6 ounces (1/2 large) onion, piqué *(Base: `onion piqué`)*
+- 6 ounces baby spinach *(Base: `baby spinach`)*
+- 6 ounces beet (1 small), peeled, sliced into 1/8 inch thick rounds with mandolin *(Base: `beet into thick rounds with mandolin`)*
+- 6 ounces carrot (1 medium carrot), large dice *(Base: `carrot carrot dice`)*
+- 6 ounces carrot (1 medium), matchsticks *(Base: `carrot matchsticks`)*
+- 6 ounces carrot (1 medium), small dice *(Base: `carrot dice`)*
+- 6 ounces onion (1 medium), fine dice *(Base: `onion fine dice`)*
+- 6 ounces onion (1 medium), medium dice *(Base: `onion dice`)*
+- 6 ounces onion, large dice *(Base: `onion dice`)*
+- 6 ounces onion, medium dice *(Base: `onion dice`)*
+- 6 ounces red cabbage, cored, chiffonade *(Base: `red cabbage cored chiffonade`)*
+- 6 ounces red cabbage, finely shredded *(Base: `red cabbage`)*
+- 6 ounces red onion, large dice *(Base: `red onion dice`)*
+- 6 ounces red onion, thin salad slice *(Base: `red onion thin salad`)*
+- 6 ounces shallots (3 medium), minced *(Base: `shallots`)*
+- 6 ounces shallots, (3 medium), minced *(Base: `shallots`)*
+- 6 ounces snow peas, julienned and blanched *(Base: `snow peas julienned and blanched`)*
+- 6 ounces zucchini, grated *(Base: `zucchini`)*
+- 6 ribs celery (12 ounces), medium dice *(Base: `ribs celery dice`)*
+- 6 stalks celery, 1/4-inch sliced *(Base: `celery -inch`)*
+- 6 tablespoon finely minced red onion *(Base: `red onion`)*
+- 7 ounces carrot, grated *(Base: `carrot`)*
+- 7 ounces tomato paste (3/4 cup) *(Base: `tomato paste`)*
+- 8 cloves garlic, peeled & crushed *(Base: `garlic`)*
+- 8 cloves garlic, peeled and crushed *(Base: `garlic and`)*
+- 8 cloves garlic, sliced *(Base: `garlic`)*
+- 8 garlic cloves, thinly sliced *(Base: `garlic`)*
+- 8 ounces Cipollini onions, root end trimmed and outer skins removed *(Base: `cipollini onions root end trimmed and outer skins removed`)*
+- 8 ounces carrot (1 large), 1-inch roll cut *(Base: `carrot -inch roll cut`)*
+- 8 ounces carrot (1 large), brunoise *(Base: `carrot brunoise`)*
+- 8 ounces carrot (1 medium), julienne, blanched, shocked *(Base: `carrot julienne blanched shocked`)*
+- 8 ounces carrot, medium dice *(Base: `carrot dice`)*
+- 8 ounces carrots (1 large), 1/4-inch half moons *(Base: `carrots -inch half moons`)*
+- 8 ounces carrots (1 medium), 1/4-inch diagonal slices *(Base: `carrots -inch diagonal`)*
+- 8 ounces carrots, matchstick *(Base: `carrots matchstick`)*
+- 8 ounces carrots, quarter moons (1/2-inch thick) *(Base: `carrots quarter moons -inch thick`)*
+- 8 ounces cremini mushrooms, stemmed and thinly sliced *(Base: `cremini mushrooms stemmed and`)*
+- 8 ounces onion (1 medium), grated *(Base: `onion`)*
+- 8 ounces onion (1 medium), medium dice *(Base: `onion dice`)*
+- 8 ounces onion (1 medium), sauté slice *(Base: `onion sauté`)*
+- 8 ounces onion (1 medium), small dice *(Base: `onion dice`)*
+- 8 ounces onions (1 medium), large dice *(Base: `onions dice`)*
+- 8 ounces onions (1 medium), minced *(Base: `onions`)*
+- 8 ounces parsnip, medium dice *(Base: `parsnip dice`)*
+- 8 ounces parsnips (1 large), 1/4-inch diagonal slices *(Base: `parsnips -inch diagonal`)*
+- 8 ounces portobello mushrooms, thinly sliced *(Base: `portobello mushrooms`)*
+- 8 ounces shiitake mushrooms, thinly sliced *(Base: `shiitake mushrooms`)*
+- 8 ounces yellow onion (1 medium), large dice *(Base: `yellow onion dice`)*
+- 8 ounces zucchini, seeded and grated *(Base: `zucchini seeded and`)*
+- Pinch dried ginger *(Base: `ginger`)*
+- Poached garlic cloves (2) from crouton recipe *(Base: `poached garlic from crouton recipe`)*
+- Sliced tomato *(Base: `tomato`)*
+- ½ pound shallots, minced *(Base: `shallots`)*
+- ½ pound shiitake mushrooms, stemmed and halved *(Base: `shiitake mushrooms stemmed and`)*
+- ½ teaspoon ground fennel *(Base: `fennel`)*

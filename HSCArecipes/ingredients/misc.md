@@ -1,0 +1,867 @@
+# HSCA Recipe Ingredients - Misc
+
+This file lists all raw ingredients from the HSCA Recipes that are categorized under the **Misc** group.
+
+**Total Unique Items**: 859
+
+## Ingredients List
+
+- 1 (3-4 pound) whole bass, gills, fins, and viscera removed *(Base: `bass gills fins and viscera removed`)*
+- 1 (5-inch) piece kombu *(Base: `-inch kombu`)*
+- 1 - 1 1/2 teaspoons salt *(Base: `salt`)*
+- 1 1/2 cups blanched almonds *(Base: `blanched almonds`)*
+- 1 1/2 cups cashews, soaked and drained (approximately 2 cups soaked) *(Base: `cashews soaked and approximately soaked`)*
+- 1 1/2 cups maple crystals *(Base: `maple crystals`)*
+- 1 1/2 cups maple crystals, divided *(Base: `maple crystals`)*
+- 1 1/2 cups maple crystals, sifted *(Base: `maple crystals`)*
+- 1 1/2 cups pecans *(Base: `pecans`)*
+- 1 1/2 cups raspberries *(Base: `raspberries`)*
+- 1 1/2 cups walnuts, lightly toasted and coarsely chopped *(Base: `walnuts lightly and`)*
+- 1 1/2 cups walnuts, lightly toasted, coarsely chopped *(Base: `walnuts lightly`)*
+- 1 1/2 cups walnuts, toasted *(Base: `walnuts`)*
+- 1 1/2 cups yellow cornmeal *(Base: `yellow cornmeal`)*
+- 1 1/2 ounces dried porcinis (1 1/2 cups) *(Base: `porcinis`)*
+- 1 1/2 pounds (2 small heads) romaine lettuce, bite-size pieces *(Base: `romaine lettuce bite-size`)*
+- 1 1/2 pounds romaine lettuce (2 small heads), bite-size pieces *(Base: `romaine lettuce bite-size`)*
+- 1 1/2 tablespoon umeboshi paste *(Base: `umeboshi paste`)*
+- 1 1/2 tablespoons Sherry Vinaigrette (recipe below) *(Base: `sherry vinaigrette recipe below`)*
+- 1 1/2 tablespoons cashew butter *(Base: `cashew butter`)*
+- 1 1/2 tablespoons dry yeast *(Base: `yeast`)*
+- 1 1/2 tablespoons maple syrup *(Base: `maple syrup`)*
+- 1 1/2 tablespoons tamari *(Base: `tamari`)*
+- 1 1/2 teaspoon baking powder *(Base: `baking powder`)*
+- 1 1/2 teaspoon salt *(Base: `salt`)*
+- 1 1/2 teaspoons Dijon mustard *(Base: `dijon mustard`)*
+- 1 1/2 teaspoons Dijon style mustard *(Base: `dijon style mustard`)*
+- 1 1/2 teaspoons baking powder *(Base: `baking powder`)*
+- 1 1/2 teaspoons ginger juice (1/2 ounce) *(Base: `ginger juice`)*
+- 1 1/2 teaspoons ginger juice, or more to taste *(Base: `ginger juice or more to taste`)*
+- 1 1/2 teaspoons mirin *(Base: `mirin`)*
+- 1 1/2 teaspoons salt *(Base: `salt`)*
+- 1 1/2 teaspoons sherry vinegar, or more to taste *(Base: `sherry vinegar or more to taste`)*
+- 1 1/2 teaspoons shoyu *(Base: `shoyu`)*
+- 1 1/2 teaspoons tamari *(Base: `tamari`)*
+- 1 1/2 teaspoons umeboshi paste *(Base: `umeboshi paste`)*
+- 1 1/2 teaspoons vanilla extract *(Base: `vanilla extract`)*
+- 1 1/2 teaspoons white balsamic vinegar OR *(Base: `white balsamic vinegar or`)*
+- 1 1/2 teaspoons xanthan gum *(Base: `xanthan gum`)*
+- 1 1/4 cup vegetable stock *(Base: `vegetable stock`)*
+- 1 1/4 cups chopped chocolate, divided *(Base: `chocolate`)*
+- 1 1/4 cups maple syrup *(Base: `maple syrup`)*
+- 1 1/4 cups organic ketchup (10 ounces) *(Base: `ketchup`)*
+- 1 1/4 cups vegetable stock *(Base: `vegetable stock`)*
+- 1 1/4 cups walnuts, well toasted and cooled *(Base: `walnuts well and cooled`)*
+- 1 1/4 ounces bittersweet chocolate, finely chopped *(Base: `bittersweet chocolate`)*
+- 1 1/4 pound Brussels sprouts, ends trimmed and finely sliced *(Base: `brussels sprouts ends trimmed and`)*
+- 1 10-ounce bag frozen blueberries (approximately 2 1/2 cups) *(Base: `-ounce blueberries approximately`)*
+- 1 3/4 cups vegetable stock, warmed *(Base: `vegetable stock`)*
+- 1 bag pita (6 pieces), cut into triangles and oven toasted *(Base: `pita cut into triangles and oven`)*
+- 1 baguette, sliced and toasted *(Base: `baguette and`)*
+- 1 bunch radishes, small dice *(Base: `radishes dice`)*
+- 1 bunch rapini (1 pound), washed and trimmed (2 inches of stem removed) *(Base: `rapini washed and trimmed of stem removed`)*
+- 1 bunch watercress *(Base: `watercress`)*
+- 1 chipotle chile *(Base: `chipotle chile`)*
+- 1 container edible flowers *(Base: `edible flowers`)*
+- 1 container gold dust and brush *(Base: `gold dust and brush`)*
+- 1 cup aduki beans, soaked overnight, drained and rinsed *(Base: `aduki beans soaked overnight and rinsed`)*
+- 1 cup agave, room temperature *(Base: `agave room temperature`)*
+- 1 cup almonds *(Base: `almonds`)*
+- 1 cup beet juice (without foam), strained (approximately 1 pound beets) *(Base: `beet juice without foam approximately beets`)*
+- 1 cup blanched almonds *(Base: `blanched almonds`)*
+- 1 cup blueberries, optional *(Base: `blueberries`)*
+- 1 cup bulgur *(Base: `bulgur`)*
+- 1 cup bulgur, cooked, still warm *(Base: `bulgur still`)*
+- 1 cup cannellini beans, soaked overnight, drained and rinsed *(Base: `cannellini beans soaked overnight and rinsed`)*
+- 1 cup cashew butter *(Base: `cashew butter`)*
+- 1 cup cashews, soaked overnight and drained *(Base: `cashews soaked overnight and`)*
+- 1 cup chocolate chips *(Base: `chocolate chips`)*
+- 1 cup confectioner's sugar *(Base: `confectioner's sugar`)*
+- 1 cup cornmeal *(Base: `cornmeal`)*
+- 1 cup cous-cous *(Base: `cous-cous`)*
+- 1 cup currants *(Base: `currants`)*
+- 1 cup fresh or frozen and thawed blueberries *(Base: `or and thawed blueberries`)*
+- 1 cup kasha *(Base: `kasha`)*
+- 1 cup kasha (medium or fine granulation) *(Base: `kasha or fine granulation`)*
+- 1 cup lightly packed dried cherries *(Base: `lightly packed cherries`)*
+- 1 cup maple crystals *(Base: `maple crystals`)*
+- 1 cup maple syrup *(Base: `maple syrup`)*
+- 1 cup olives, pitted and chopped *(Base: `olives pitted and`)*
+- 1 cup organic ketchup *(Base: `ketchup`)*
+- 1 cup pecans *(Base: `pecans`)*
+- 1 cup pecans, lightly toasted and cooled *(Base: `pecans lightly and cooled`)*
+- 1 cup pecans, roasted and cooled *(Base: `pecans and cooled`)*
+- 1 cup pecans, roughly chopped *(Base: `pecans roughly`)*
+- 1 cup pine nuts, toasted *(Base: `pine nuts`)*
+- 1 cup pistachios *(Base: `pistachios`)*
+- 1 cup pitted black olives, preferably Kalamata *(Base: `pitted black olives preferably kalamata`)*
+- 1 cup plus 2 tablespoons walnuts, well toasted and divided *(Base: `plus walnuts well and`)*
+- 1 cup polenta *(Base: `polenta`)*
+- 1 cup rinsed and pitted Niçoise OR Kalamata olives *(Base: `rinsed and pitted niçoise or kalamata olives`)*
+- 1 cup room-temperature vegetable stock *(Base: `room-temperature vegetable stock`)*
+- 1 cup semisweet chocolate chips *(Base: `semisweet chocolate chips`)*
+- 1 cup stemmed, frozen strawberries (8 ounces) OR 1/2 bag (10-ounce) frozen strawberries *(Base: `stemmed strawberries or -ounce strawberries`)*
+- 1 cup toasted, chopped walnuts *(Base: `walnuts`)*
+- 1 cup unsalted cashews, finely ground *(Base: `cashews`)*
+- 1 cup vegetable stock *(Base: `vegetable stock`)*
+- 1 cup walnuts, roasted *(Base: `walnuts`)*
+- 1 cup walnuts, toasted *(Base: `walnuts`)*
+- 1 cup walnuts, toasted and chopped *(Base: `walnuts and`)*
+- 1 cup walnuts, toasted and cooled *(Base: `walnuts and cooled`)*
+- 1 cup walnuts, toasted, cooled, ground *(Base: `walnuts cooled`)*
+- 1 cup yellow cornmeal *(Base: `yellow cornmeal`)*
+- 1 dried chipotle *(Base: `chipotle`)*
+- 1 ear corn, kernels cut from cob *(Base: `ear corn kernels cut from cob`)*
+- 1 egg, beaten *(Base: `egg beaten`)*
+- 1 egg, lightly beaten *(Base: `egg lightly beaten`)*
+- 1 head radicchio, sliced into thin ribbons *(Base: `radicchio into thin ribbons`)*
+- 1 head red Belgian endive, leaves separated *(Base: `red belgian endive leaves separated`)*
+- 1 head red endive, separated *(Base: `red endive separated`)*
+- 1 head romaine lettuce, cut or torn into bite-size pieces *(Base: `romaine lettuce cut or torn into bite-size`)*
+- 1 head romaine lettuce, washed, spun, chopped *(Base: `romaine lettuce washed spun`)*
+- 1 jalapeno pepper, brunoise *(Base: `jalapeno pepper brunoise`)*
+- 1 jalapeno pepper, minced *(Base: `jalapeno pepper`)*
+- 1 jalapeno pepper, seeded and minced *(Base: `jalapeno pepper seeded and`)*
+- 1 jalapeno, minced (1 teaspoon) *(Base: `jalapeno`)*
+- 1 large egg, beaten *(Base: `egg beaten`)*
+- 1 leek, julienned and washed *(Base: `leek julienned and washed`)*
+- 1 medium red bell pepper, roasted, peeled, and seeded *(Base: `red bell pepper and seeded`)*
+- 1 package radishes, slice *(Base: `radishes`)*
+- 1 piece kombu *(Base: `kombu`)*
+- 1 pint blueberries, washed and stemmed *(Base: `blueberries washed and stemmed`)*
+- 1 pint fresh raspberries *(Base: `raspberries`)*
+- 1 pint raspberries *(Base: `raspberries`)*
+- 1 pint strawberries, sliced *(Base: `strawberries`)*
+- 1 pound Brussels sprouts, finely shredded *(Base: `brussels sprouts`)*
+- 1 pound bittersweet chocolate, chopped *(Base: `bittersweet chocolate`)*
+- 1 pound firm tofu *(Base: `tofu`)*
+- 1 pound frisée, bite-size pieces *(Base: `frisée bite-size`)*
+- 1 pound mirepoix *(Base: `mirepoix`)*
+- 1 pound phyllo *(Base: `phyllo`)*
+- 1 pound pistachio nuts, finely chopped *(Base: `pistachio nuts`)*
+- 1 pound red pepper, cut into large dice *(Base: `red pepper cut into dice`)*
+- 1 pound red peppers (3 large) *(Base: `red peppers`)*
+- 1 pound salt cod, soaked and rinsed *(Base: `salt cod soaked and rinsed`)*
+- 1 pound white fish fillet (sole, flounder, sea bass OR red snapper) *(Base: `white fish fillet sole flounder sea bass or red snapper`)*
+- 1 prepared Cornmeal Crust (recipe below) *(Base: `prepared cornmeal crust recipe below`)*
+- 1 quart fresh beet juice (2 pound beets) *(Base: `beet juice beets`)*
+- 1 quart vegetable stock *(Base: `vegetable stock`)*
+- 1 recipe Chermoula Sauce (recipe following) *(Base: `recipe chermoula sauce recipe following`)*
+- 1 recipe Polenta *(Base: `recipe polenta`)*
+- 1 recipe Romesco Sauce (recipe following) *(Base: `recipe romesco sauce recipe following`)*
+- 1 red pepper (8 ounces), seeded, pith removed, and cut into 1/8-inch strips *(Base: `red pepper seeded pith removed and cut into -inch`)*
+- 1 red pepper, brunoise *(Base: `red pepper brunoise`)*
+- 1 red pepper, cut into julienne *(Base: `red pepper cut into julienne`)*
+- 1 red pepper, seeded and finely chopped *(Base: `red pepper seeded and`)*
+- 1 roasted red pepper, peeled, seeded, and cut into small dice (1/4 inch) *(Base: `red pepper seeded and cut into dice`)*
+- 1 scant tablespoon Dijon mustard *(Base: `scant dijon mustard`)*
+- 1 sheet nori, toasted and crumbled *(Base: `nori and crumbled`)*
+- 1 small jalapeno pepper *(Base: `jalapeno pepper`)*
+- 1 small jalapeno, seeded, ribs removed, minced *(Base: `jalapeno seeded ribs removed`)*
+- 1 small jalapeno, seeded, roughly chopped *(Base: `jalapeno seeded roughly`)*
+- 1 strip kombu, about 1 inch *(Base: `kombu about`)*
+- 1 strip kombu, about 4 inches *(Base: `kombu about`)*
+- 1 tablespoon + 1 1/2 teaspoons chopped jalapeno pepper, minced *(Base: `jalapeno pepper`)*
+- 1 tablespoon + 1 1/2 teaspoons dry yeast *(Base: `yeast`)*
+- 1 tablespoon + 1 1/2 teaspoons shoyu *(Base: `shoyu`)*
+- 1 tablespoon + 1 3/4 teaspoons baking powder *(Base: `baking powder`)*
+- 1 tablespoon Dijon mustard *(Base: `dijon mustard`)*
+- 1 tablespoon Worcestershire sauce *(Base: `worcestershire sauce`)*
+- 1 tablespoon agave nectar *(Base: `agave nectar`)*
+- 1 tablespoon baking powder *(Base: `baking powder`)*
+- 1 tablespoon brandy *(Base: `brandy`)*
+- 1 tablespoon brandy (optional) *(Base: `brandy`)*
+- 1 tablespoon capers, drained *(Base: `capers`)*
+- 1 tablespoon capers, rinsed *(Base: `capers rinsed`)*
+- 1 tablespoon cider vinegar *(Base: `cider vinegar`)*
+- 1 tablespoon cream of tartar *(Base: `cream of tartar`)*
+- 1 tablespoon currants *(Base: `currants`)*
+- 1 tablespoon diced Kalamata olives *(Base: `kalamata olives`)*
+- 1 tablespoon drained capers, minced *(Base: `capers`)*
+- 1 tablespoon dry yeast *(Base: `yeast`)*
+- 1 tablespoon fresh ground ginger juice *(Base: `ginger juice`)*
+- 1 tablespoon ginger juice *(Base: `ginger juice`)*
+- 1 tablespoon ginger juice (1 ounce piece of ginger) *(Base: `ginger juice of ginger`)*
+- 1 tablespoon ginger juice (1-ounce ginger) *(Base: `ginger juice -ounce ginger`)*
+- 1 tablespoon honey *(Base: `honey`)*
+- 1 tablespoon maple crystals *(Base: `maple crystals`)*
+- 1 tablespoon maple syrup *(Base: `maple syrup`)*
+- 1 tablespoon mirin *(Base: `mirin`)*
+- 1 tablespoon mustard *(Base: `mustard`)*
+- 1 tablespoon rum *(Base: `rum`)*
+- 1 tablespoon salt *(Base: `salt`)*
+- 1 tablespoon sea salt (or 1 ½ tablespoons if not using whey/juice) *(Base: `sea salt or if not using whey/juice`)*
+- 1 tablespoon shoyu *(Base: `shoyu`)*
+- 1 tablespoon sifted cocoa powder *(Base: `cocoa powder`)*
+- 1 tablespoon sriracha *(Base: `sriracha`)*
+- 1 tablespoon stone-ground mustard *(Base: `stone-ground mustard`)*
+- 1 tablespoon tamari *(Base: `tamari`)*
+- 1 tablespoon tamari or to taste *(Base: `tamari or to taste`)*
+- 1 tablespoon umeboshi paste *(Base: `umeboshi paste`)*
+- 1 tablespoon umeboshi paste or to taste *(Base: `umeboshi paste or to taste`)*
+- 1 tablespoon umeboshi vinegar *(Base: `umeboshi vinegar`)*
+- 1 tablespoon vanilla *(Base: `vanilla`)*
+- 1 tablespoon vanilla extract *(Base: `vanilla extract`)*
+- 1 tablespoon vodka (optional) *(Base: `vodka`)*
+- 1 tablespoon warm maple syrup *(Base: `maple syrup`)*
+- 1 tablespoon white sesame seeds, lightly toasted *(Base: `white sesame seeds lightly`)*
+- 1 teaspoon Dijon mustard *(Base: `dijon mustard`)*
+- 1 teaspoon Szechwan peppercorns, ground *(Base: `szechwan peppercorns`)*
+- 1 teaspoon almond extract *(Base: `almond extract`)*
+- 1 teaspoon baking powder *(Base: `baking powder`)*
+- 1 teaspoon cracked black pepper *(Base: `cracked black pepper`)*
+- 1 teaspoon fresh herbs, optional *(Base: `herbs`)*
+- 1 teaspoon freshly ground black pepper *(Base: `freshly black pepper`)*
+- 1 teaspoon ginger juice *(Base: `ginger juice`)*
+- 1 teaspoon maple crystals *(Base: `maple crystals`)*
+- 1 teaspoon mirin *(Base: `mirin`)*
+- 1 teaspoon mustard *(Base: `mustard`)*
+- 1 teaspoon mustard seed *(Base: `mustard seed`)*
+- 1 teaspoon pure vanilla extract *(Base: `vanilla extract`)*
+- 1 teaspoon salt *(Base: `salt`)*
+- 1 teaspoon salt, finely ground *(Base: `salt`)*
+- 1 teaspoon shoyu *(Base: `shoyu`)*
+- 1 teaspoon smoked paprika for garnish *(Base: `smoked paprika for garnish`)*
+- 1 teaspoon stone-ground mustard *(Base: `stone-ground mustard`)*
+- 1 teaspoon tamari or to taste *(Base: `tamari or to taste`)*
+- 1 teaspoon vanilla *(Base: `vanilla`)*
+- 1 teaspoon vanilla extract *(Base: `vanilla extract`)*
+- 1 teaspoon warm maple syrup *(Base: `maple syrup`)*
+- 1 to 2 teaspoons salt *(Base: `to salt`)*
+- 1 tsp vanilla extract *(Base: `vanilla extract`)*
+- 1 unbaked 9-inch pie dough *(Base: `unbaked -inch pie dough`)*
+- 1 unbaked 9-inch pie dough (single crust) *(Base: `unbaked -inch pie dough single crust`)*
+- 1 whole wheat baguette, sliced and oven toasted *(Base: `wheat baguette and oven`)*
+- 1 whole-wheat baguette, toasted *(Base: `whole-wheat baguette`)*
+- 1 yellow pepper, seeded and julienned *(Base: `yellow pepper seeded and julienned`)*
+- 1 ¼ cups maple crystals *(Base: `maple crystals`)*
+- 1-2 jalapeño peppers, minced *(Base: `jalapeño peppers`)*
+- 1-2 tablespoons maple crystals *(Base: `maple crystals`)*
+- 1-2 tablespoons tamari, or more to taste *(Base: `tamari or more to taste`)*
+- 1-2 tablespoons umeboshi paste *(Base: `umeboshi paste`)*
+- 1-2 tablespoons vanilla *(Base: `vanilla`)*
+- 1.5 pounds cauliflower - 1 pound cored and cut into florets, 1/2 pound cut into florets and sliced 1/4-inch thick for garnish *(Base: `cauliflower cored and cut into florets cut into florets and -inch thick for garnish`)*
+- 1/2 - 1 teaspoon red pepper flakes (to taste) *(Base: `red pepper flakes to taste`)*
+- 1/2 - 3/4 teaspoon salt *(Base: `salt`)*
+- 1/2 bunch arugula, cleaned and chopped into bite sized pieces (5 cups) *(Base: `arugula cleaned and into bite sized`)*
+- 1/2 cup (heaping) fresh blueberries *(Base: `heaping blueberries`)*
+- 1/2 cup Kalamata olives, chopped *(Base: `kalamata olives`)*
+- 1/2 cup agave *(Base: `agave`)*
+- 1/2 cup almonds *(Base: `almonds`)*
+- 1/2 cup almonds, toasted and chopped *(Base: `almonds and`)*
+- 1/2 cup blanched almonds *(Base: `blanched almonds`)*
+- 1/2 cup blueberries, rinsed *(Base: `blueberries rinsed`)*
+- 1/2 cup brown sugar *(Base: `brown sugar`)*
+- 1/2 cup cannellini beans, soaked overnight, drained, and rinsed *(Base: `cannellini beans soaked overnight and rinsed`)*
+- 1/2 cup cashews *(Base: `cashews`)*
+- 1/2 cup cashews, soaked 4 hours to overnight (discard soaking liquid) *(Base: `cashews soaked hours to overnight discard soaking`)*
+- 1/2 cup cashews, soaked overnight and drained *(Base: `cashews soaked overnight and`)*
+- 1/2 cup chocolate chips *(Base: `chocolate chips`)*
+- 1/2 cup chopped pecans *(Base: `pecans`)*
+- 1/2 cup chopped red pepper, 1/4-inch dice *(Base: `red pepper -inch dice`)*
+- 1/2 cup chopped walnuts *(Base: `walnuts`)*
+- 1/2 cup cocoa *(Base: `cocoa`)*
+- 1/2 cup cocoa powder *(Base: `cocoa powder`)*
+- 1/2 cup cornmeal *(Base: `cornmeal`)*
+- 1/2 cup currants *(Base: `currants`)*
+- 1/2 cup dark brown sugar *(Base: `dark brown sugar`)*
+- 1/2 cup dried cranberries, chopped *(Base: `cranberries`)*
+- 1/2 cup finely chopped walnuts *(Base: `walnuts`)*
+- 1/2 cup frozen or fresh cranberries (could use blueberries or cherries, instead) *(Base: `or cranberries could use blueberries or cherries instead`)*
+- 1/2 cup granulated sugar *(Base: `granulated sugar`)*
+- 1/2 cup green microgreens *(Base: `green microgreens`)*
+- 1/2 cup hazelnuts *(Base: `hazelnuts`)*
+- 1/2 cup honey *(Base: `honey`)*
+- 1/2 cup juice from citrus (see above) *(Base: `juice from citrus see above`)*
+- 1/2 cup light brown sugar *(Base: `light brown sugar`)*
+- 1/2 cup maple crystals *(Base: `maple crystals`)*
+- 1/2 cup maple crystals (or to taste) *(Base: `maple crystals or to taste`)*
+- 1/2 cup maple syrup *(Base: `maple syrup`)*
+- 1/2 cup melted oil *(Base: `oil`)*
+- 1/2 cup navy beans, soaked *(Base: `navy beans soaked`)*
+- 1/2 cup of mixed fresh herbs + more for garnish *(Base: `of mixed herbs more for garnish`)*
+- 1/2 cup pecans *(Base: `pecans`)*
+- 1/2 cup pecans, chopped *(Base: `pecans`)*
+- 1/2 cup pecans, finely chopped *(Base: `pecans`)*
+- 1/2 cup pecans, toasted and chopped *(Base: `pecans and`)*
+- 1/2 cup pecans, toasted and coarsely chopped *(Base: `pecans and`)*
+- 1/2 cup pecans, toasted in oven and coarsely chopped *(Base: `pecans in oven and`)*
+- 1/2 cup pistachios, finely chopped *(Base: `pistachios`)*
+- 1/2 cup pistachios, lightly toasted, ground *(Base: `pistachios lightly`)*
+- 1/2 cup pistachios, toasted *(Base: `pistachios`)*
+- 1/2 cup pitted and chopped olives *(Base: `pitted and olives`)*
+- 1/2 cup powdered maple crystals *(Base: `maple crystals`)*
+- 1/2 cup raisins *(Base: `raisins`)*
+- 1/2 cup semi-sweet chocolate pieces *(Base: `semi-sweet chocolate`)*
+- 1/2 cup shoyu *(Base: `shoyu`)*
+- 1/2 cup sugar *(Base: `sugar`)*
+- 1/2 cup toasted pecans, coarsely chopped *(Base: `pecans`)*
+- 1/2 cup toasted sesame seeds *(Base: `sesame seeds`)*
+- 1/2 cup vegetable stock OR bean liquid from cooked chickpeas *(Base: `vegetable stock or bean from chickpeas`)*
+- 1/2 cup walnuts, chopped *(Base: `walnuts`)*
+- 1/2 cup walnuts, coarsely chopped (optional for top of cake) *(Base: `walnuts for top of cake`)*
+- 1/2 cup walnuts, toasted and chopped *(Base: `walnuts and`)*
+- 1/2 cup walnuts, toasted, and finely chopped *(Base: `walnuts and`)*
+- 1/2 cup warm maple syrup *(Base: `maple syrup`)*
+- 1/2 cup white sugar *(Base: `white sugar`)*
+- 1/2 cup wine vinegar *(Base: `wine vinegar`)*
+- 1/2 cup yellow cornmeal *(Base: `yellow cornmeal`)*
+- 1/2 inch piece of kombu *(Base: `of kombu`)*
+- 1/2 ounce unsweetened chocolate, chopped *(Base: `unsweetened chocolate`)*
+- 1/2 pound (8 ounces) maple crystals *(Base: `maple crystals`)*
+- 1/2 pound baby bok choy, stems and leaves separated, both thinly sliced *(Base: `baby bok choy stems and leaves separated both`)*
+- 1/2 pound chicory, bite-size pieces *(Base: `chicory bite-size`)*
+- 1/2 pound chicory, chopped *(Base: `chicory`)*
+- 1/2 pound haricots verts, stems trimmed *(Base: `haricots verts stems trimmed`)*
+- 1/2 pound radicchio, bite-size pieces *(Base: `radicchio bite-size`)*
+- 1/2 pound radicchio, chopped *(Base: `radicchio`)*
+- 1/2 pound romaine lettuce (1 head), bite-size pieces *(Base: `romaine lettuce bite-size`)*
+- 1/2 pound romaine lettuce, bite-size pieces *(Base: `romaine lettuce bite-size`)*
+- 1/2 pound semi-sweet chocolate, coarsely chopped *(Base: `semi-sweet chocolate`)*
+- 1/2 red pepper *(Base: `red pepper`)*
+- 1/2 sheet nori seaweed, julienne *(Base: `nori seaweed julienne`)*
+- 1/2 teaspoon Dijon mustard *(Base: `dijon mustard`)*
+- 1/2 teaspoon Dijon mustard or more to taste *(Base: `dijon mustard or more to taste`)*
+- 1/2 teaspoon allspice *(Base: `allspice`)*
+- 1/2 teaspoon baking powder *(Base: `baking powder`)*
+- 1/2 teaspoon cayenne pepper *(Base: `cayenne pepper`)*
+- 1/2 teaspoon chili flakes *(Base: `chili flakes`)*
+- 1/2 teaspoon freshly ground black pepper *(Base: `freshly black pepper`)*
+- 1/2 teaspoon ginger juice *(Base: `ginger juice`)*
+- 1/2 teaspoon ground allspice *(Base: `allspice`)*
+- 1/2 teaspoon mirin *(Base: `mirin`)*
+- 1/2 teaspoon pure vanilla extract *(Base: `vanilla extract`)*
+- 1/2 teaspoon red pepper flakes *(Base: `red pepper flakes`)*
+- 1/2 teaspoon salt *(Base: `salt`)*
+- 1/2 teaspoon salt, finely ground *(Base: `salt`)*
+- 1/2 teaspoon salt, or more to taste *(Base: `salt or more to taste`)*
+- 1/2 teaspoon tamari *(Base: `tamari`)*
+- 1/2 teaspoon truffle salt *(Base: `truffle salt`)*
+- 1/2 teaspoon umeboshi paste *(Base: `umeboshi paste`)*
+- 1/2 teaspoon vanilla *(Base: `vanilla`)*
+- 1/2 teaspoon vanilla extract *(Base: `vanilla extract`)*
+- 1/2 teaspoon white peppercorn crushed in saucepan *(Base: `white peppercorn in saucepan`)*
+- 1/2 teaspoons freshly ground black pepper *(Base: `freshly black pepper`)*
+- 1/2 teaspoons prepared mustard *(Base: `prepared mustard`)*
+- 1/2 to 3/4 teaspoon salt *(Base: `to salt`)*
+- 1/2 yellow pepper, cut into twelve equal pieces *(Base: `yellow pepper cut into twelve equal`)*
+- 1/3 cup bittersweet chocolate chips *(Base: `bittersweet chocolate chips`)*
+- 1/3 cup chopped walnuts *(Base: `walnuts`)*
+- 1/3 cup currants *(Base: `currants`)*
+- 1/3 cup frozen corn or 1-2 ears fresh corn in season, kernels removed *(Base: `corn or ears corn in season kernels removed`)*
+- 1/3 cup maple crystals *(Base: `maple crystals`)*
+- 1/3 cup maple crystals, sifted *(Base: `maple crystals`)*
+- 1/3 cup maple syrup *(Base: `maple syrup`)*
+- 1/3 cup mirin *(Base: `mirin`)*
+- 1/3 cup navy beans, soaked, rinsed, drained *(Base: `navy beans soaked rinsed`)*
+- 1/3 cup shoyu *(Base: `shoyu`)*
+- 1/3 cup tamari *(Base: `tamari`)*
+- 1/3 cup toasted sesame seeds *(Base: `sesame seeds`)*
+- 1/3 cup walnuts, oven-roasted and ground in food processor to breadcrumb texture *(Base: `walnuts oven-roasted and in food processor to breadcrumb texture`)*
+- 1/3 cup walnuts, toasted, chopped *(Base: `walnuts`)*
+- 1/3 jalapeno, minced (optional) *(Base: `jalapeno`)*
+- 1/3 large leek (4 ounces), white portion small-diced, green portion discarded *(Base: `leek white portion small-diced green portion discarded`)*
+- 1/3 ounce ancho chili (1 medium) *(Base: `ancho chili`)*
+- 1/3 red pepper (3 ounces), julienne *(Base: `red pepper julienne`)*
+- 1/3 red pepper, brunoise *(Base: `red pepper brunoise`)*
+- 1/3 sheet nori, toasted *(Base: `nori`)*
+- 1/3 teaspoon ground allspice *(Base: `allspice`)*
+- 1/3 teaspoon red pepper flakes *(Base: `red pepper flakes`)*
+- 1/3 teaspoon umeboshi paste *(Base: `umeboshi paste`)*
+- 1/3 teaspoon vanilla extract *(Base: `vanilla extract`)*
+- 1/3 teaspoon vegan Worcestershire sauce *(Base: `vegan worcestershire sauce`)*
+- 1/3 yellow pepper, cut into twelve equal pieces *(Base: `yellow pepper cut into twelve equal`)*
+- 1/4 cup (2 ounces), Worcestershire sauce *(Base: `worcestershire sauce`)*
+- 1/4 cup + 1 Tbsp maple syrup *(Base: `maple syrup`)*
+- 1/4 cup + 1 tablespoon maple syrup *(Base: `maple syrup`)*
+- 1/4 cup + 2 tablespoons cocoa powder *(Base: `cocoa powder`)*
+- 1/4 cup + 2 tablespoons maple crystals *(Base: `maple crystals`)*
+- 1/4 cup + 2 tablespoons maple syrup *(Base: `maple syrup`)*
+- 1/4 cup + 2 tablespoons powdered maple crystals *(Base: `maple crystals`)*
+- 1/4 cup Campari *(Base: `campari`)*
+- 1/4 cup Dijon mustard *(Base: `dijon mustard`)*
+- 1/4 cup Grand Marnier *(Base: `grand marnier`)*
+- 1/4 cup Kahlua *(Base: `kahlua`)*
+- 1/4 cup Kalamata olives, pitted and chopped *(Base: `kalamata olives pitted and`)*
+- 1/4 cup Tabasco sauce *(Base: `tabasco sauce`)*
+- 1/4 cup agave *(Base: `agave`)*
+- 1/4 cup almond meal, sifted *(Base: `almond meal`)*
+- 1/4 cup bittersweet chocolate chips *(Base: `bittersweet chocolate chips`)*
+- 1/4 cup black sesame seeds *(Base: `black sesame seeds`)*
+- 1/4 cup blanched almonds, toasted *(Base: `blanched almonds`)*
+- 1/4 cup brandy *(Base: `brandy`)*
+- 1/4 cup capers, rinsed *(Base: `capers rinsed`)*
+- 1/4 cup chopped walnuts *(Base: `walnuts`)*
+- 1/4 cup cognac or brandy *(Base: `cognac or brandy`)*
+- 1/4 cup currants *(Base: `currants`)*
+- 1/4 cup dried navy beans, soaked *(Base: `navy beans soaked`)*
+- 1/4 cup ginger juice (approximately 3-inch piece) *(Base: `ginger juice approximately -inch`)*
+- 1/4 cup green olives, halved *(Base: `green olives`)*
+- 1/4 cup hazelnuts, toasted, skins rubbed off *(Base: `hazelnuts skins rubbed off`)*
+- 1/4 cup macadamia nuts *(Base: `macadamia nuts`)*
+- 1/4 cup maple crystals *(Base: `maple crystals`)*
+- 1/4 cup maple syrup *(Base: `maple syrup`)*
+- 1/4 cup mirin *(Base: `mirin`)*
+- 1/4 cup oil-cured black olives, pitted, coarsely chopped *(Base: `oil-cured black olives pitted`)*
+- 1/4 cup pine nuts OR walnuts *(Base: `pine nuts or walnuts`)*
+- 1/4 cup pine nuts, toasted *(Base: `pine nuts`)*
+- 1/4 cup pistachios, roasted and chopped *(Base: `pistachios and`)*
+- 1/4 cup pitted Kalamata olives, chopped *(Base: `pitted kalamata olives`)*
+- 1/4 cup pitted Kalamata olives, coarsely chopped *(Base: `pitted kalamata olives`)*
+- 1/4 cup plus one tablespoon agave *(Base: `plus one agave`)*
+- 1/4 cup raisins *(Base: `raisins`)*
+- 1/4 cup raw honey *(Base: `honey`)*
+- 1/4 cup roasted hazelnuts, coarsely chopped *(Base: `hazelnuts`)*
+- 1/4 cup sesame seeds, toasted *(Base: `sesame seeds`)*
+- 1/4 cup shoyu *(Base: `shoyu`)*
+- 1/4 cup sliced almonds, toasted *(Base: `almonds`)*
+- 1/4 cup tamari *(Base: `tamari`)*
+- 1/4 cup vanilla extract *(Base: `vanilla extract`)*
+- 1/4 cup vodka *(Base: `vodka`)*
+- 1/4 cup walnuts, toasted, chopped *(Base: `walnuts`)*
+- 1/4 cup white sesame seeds *(Base: `white sesame seeds`)*
+- 1/4 cup white sugar *(Base: `white sugar`)*
+- 1/4 jalapeño, seeded and minced *(Base: `jalapeño seeded and`)*
+- 1/4 ounce micro-greens for garnish *(Base: `micro-greens for garnish`)*
+- 1/4 pound burdock root, thin diagonal slice *(Base: `burdock root thin diagonal`)*
+- 1/4 pound silken tofu *(Base: `tofu`)*
+- 1/4 sheet nori, toasted and crumbled *(Base: `nori and crumbled`)*
+- 1/4 teaspoon allspice *(Base: `allspice`)*
+- 1/4 teaspoon almond extract *(Base: `almond extract`)*
+- 1/4 teaspoon baking powder *(Base: `baking powder`)*
+- 1/4 teaspoon baking powder (optional) *(Base: `baking powder`)*
+- 1/4 teaspoon black pepper or more to taste *(Base: `black pepper or more to taste`)*
+- 1/4 teaspoon cayenne *(Base: `cayenne`)*
+- 1/4 teaspoon cayenne pepper *(Base: `cayenne pepper`)*
+- 1/4 teaspoon cream of tartar *(Base: `cream of tartar`)*
+- 1/4 teaspoon freshly ground black pepper *(Base: `freshly black pepper`)*
+- 1/4 teaspoon freshly ground white pepper *(Base: `freshly white pepper`)*
+- 1/4 teaspoon ground cloves *(Base: ``)*
+- 1/4 teaspoon maple syrup *(Base: `maple syrup`)*
+- 1/4 teaspoon marjoram leaf, chopped (1 sprig) *(Base: `marjoram leaf`)*
+- 1/4 teaspoon red pepper flakes *(Base: `red pepper flakes`)*
+- 1/4 teaspoon salt *(Base: `salt`)*
+- 1/4 teaspoon salt or to taste *(Base: `salt or to taste`)*
+- 1/4 teaspoon sumac *(Base: `sumac`)*
+- 1/4 teaspoon umeboshi vinegar *(Base: `umeboshi vinegar`)*
+- 1/4 teaspoon vanilla extract *(Base: `vanilla extract`)*
+- 1/4 to 1/2 cup artichoke cooking liquid or vegetable stock *(Base: `to artichoke cooking or vegetable stock`)*
+- 1/4 to 1/2 teaspoon black pepper *(Base: `to black pepper`)*
+- 1/4 to 1/2 teaspoon of salt *(Base: `to of salt`)*
+- 1/4 tsp almond extract *(Base: `almond extract`)*
+- 1/4-1/2 teaspoon salt *(Base: `salt`)*
+- 1/8 teaspoon allspice *(Base: `allspice`)*
+- 1/8 teaspoon cayenne *(Base: `cayenne`)*
+- 1/8 teaspoon ground allspice *(Base: `allspice`)*
+- 1/8 teaspoon peppercorns *(Base: `peppercorns`)*
+- 1/8 teaspoon salt *(Base: `salt`)*
+- 10 ounces leeks (3 medium), washed, trimmed, cut into 1/8-inch half moons *(Base: `leeks washed trimmed cut into -inch half moons`)*
+- 10 ounces red peppers (2 medium) *(Base: `red peppers`)*
+- 10 ounces shelled edamame *(Base: `shelled edamame`)*
+- 10 ounces yellow pepper (2 medium), medium dice *(Base: `yellow pepper dice`)*
+- 10 tablespoons maple crystals *(Base: `maple crystals`)*
+- 10 whole cloves *(Base: ``)*
+- 10-ounce bag frozen blueberries *(Base: `-ounce blueberries`)*
+- 12 corn tortillas *(Base: `corn tortillas`)*
+- 12 ounces filet of sole *(Base: `filet of sole`)*
+- 12 ounces romaine lettuce (2 heads), bite-size pieces *(Base: `romaine lettuce bite-size`)*
+- 12 strawberries, stemmed *(Base: `strawberries stemmed`)*
+- 12-8 inch skewers *(Base: `skewers`)*
+- 14 ounce can whole tomatoes, chopped (reserve juice from can) *(Base: `tomatoes reserve juice from`)*
+- 15 Plain Crêpes (recipe follows) *(Base: `plain crêpes recipe follows`)*
+- 16 sliced almonds for garnish *(Base: `almonds for garnish`)*
+- 16-ounce bag corn chips *(Base: `-ounce corn chips`)*
+- 2 (28 ounce) cans whole tomatoes (including juice) *(Base: `tomatoes including juice`)*
+- 2 1/2 cups cashews, soaked overnight *(Base: `cashews soaked overnight`)*
+- 2 1/2 cups maple crystals *(Base: `maple crystals`)*
+- 2 1/2 cups vegetable stock, divided *(Base: `vegetable stock`)*
+- 2 1/2 tablespoons Dijon mustard *(Base: `dijon mustard`)*
+- 2 1/2 tablespoons shoyu *(Base: `shoyu`)*
+- 2 12-ounces bags frozen raspberries *(Base: `-ounces raspberries`)*
+- 2 baguettes, cut into 1/2" slices and toasted *(Base: `baguettes cut into and`)*
+- 2 cloves *(Base: ``)*
+- 2 cups Croutons (recipe below) *(Base: `croutons recipe below`)*
+- 2 cups Velouté Sauce (reserved from recipe above) *(Base: `velouté sauce reserved from recipe above`)*
+- 2 cups blueberries, washed and drained *(Base: `blueberries washed and`)*
+- 2 cups cashews, soaked overnight *(Base: `cashews soaked overnight`)*
+- 2 cups cocoa powder *(Base: `cocoa powder`)*
+- 2 cups crushed pistachios *(Base: `pistachios`)*
+- 2 cups finely chopped semisweet chocolate *(Base: `semisweet chocolate`)*
+- 2 cups finely chopped semisweet chocolate, divided *(Base: `semisweet chocolate`)*
+- 2 cups frozen raspberries (6 ounces) *(Base: `raspberries`)*
+- 2 cups ground bittersweet chocolate (10 oz chocolate ground in food processor = about 2 cups) *(Base: `bittersweet chocolate chocolate in food processor about`)*
+- 2 cups hazelnuts, toasted, skins removed *(Base: `hazelnuts skins removed`)*
+- 2 cups pitted frozen cherries (1 1/2 pounds) OR 1 (10-ounce) bag frozen cherries *(Base: `pitted cherries or -ounce cherries`)*
+- 2 cups raisins *(Base: `raisins`)*
+- 2 cups raspberries, rinsed and drained *(Base: `raspberries rinsed and`)*
+- 2 cups soaked cashews *(Base: `soaked cashews`)*
+- 2 cups toasted walnuts *(Base: `walnuts`)*
+- 2 cups toasted walnuts, chopped *(Base: `walnuts`)*
+- 2 cups vegetable stock *(Base: `vegetable stock`)*
+- 2 cups walnuts, roasted *(Base: `walnuts`)*
+- 2 eggs, beaten *(Base: `eggs beaten`)*
+- 2 heads Treviso (red endive) *(Base: `treviso red endive`)*
+- 2 heads frisee *(Base: `frisee`)*
+- 2 large anchovy fillets *(Base: `anchovy fillets`)*
+- 2 large eggs, lightly beaten *(Base: `eggs lightly beaten`)*
+- 2 large red peppers (1 pound), roasted, skinned and seeded *(Base: `red peppers skinned and seeded`)*
+- 2 limes, juiced *(Base: `limes`)*
+- 2 medium red peppers, roasted, seeded, and cut into medium dice *(Base: `red peppers seeded and cut into dice`)*
+- 2 ounces baby arugula, chopped *(Base: `baby arugula`)*
+- 2 ounces dandelion greens, stemmed, chopped *(Base: `dandelion greens stemmed`)*
+- 2 ounces radicchio, chiffonade *(Base: `radicchio chiffonade`)*
+- 2 pieces kombu *(Base: `kombu`)*
+- 2 pints blueberries (4 cups) *(Base: `blueberries`)*
+- 2 pints strawberries, stemmed and rinsed *(Base: `strawberries stemmed and rinsed`)*
+- 2 pints strawberries, trimmed and sliced *(Base: `strawberries trimmed and`)*
+- 2 pounds bittersweet chocolate, ground *(Base: `bittersweet chocolate`)*
+- 2 pounds celeriac (1 large), peeled, thin half-moon slices *(Base: `celeriac thin half-moon`)*
+- 2 pounds firm tofu *(Base: `tofu`)*
+- 2 quarts vegetable stock *(Base: `vegetable stock`)*
+- 2 red peppers (10 ounces), roasted, peeled, seeded, and pureed in blender *(Base: `red peppers seeded and in blender`)*
+- 2 scallions, thin diagonal slice, for garnish *(Base: `scallions thin diagonal for garnish`)*
+- 2 sheets nori, cut in thin strips *(Base: `nori cut in thin`)*
+- 2 small heads baby bok choy (8 ounces), leaves separated from stalks *(Base: `baby bok choy leaves separated from`)*
+- 2 tablespoon dry yeast *(Base: `yeast`)*
+- 2 tablespoon maple syrup *(Base: `maple syrup`)*
+- 2 tablespoons + 1 1/2 teaspoons shoyu *(Base: `shoyu`)*
+- 2 tablespoons Dijon mustard *(Base: `dijon mustard`)*
+- 2 tablespoons Grand Marnier *(Base: `grand marnier`)*
+- 2 tablespoons Kalamata olives, pitted, minced *(Base: `kalamata olives pitted`)*
+- 2 tablespoons agave *(Base: `agave`)*
+- 2 tablespoons agave nectar *(Base: `agave nectar`)*
+- 2 tablespoons arame *(Base: `arame`)*
+- 2 tablespoons black sesame seeds, toasted *(Base: `black sesame seeds`)*
+- 2 tablespoons cacao nibs *(Base: `cacao nibs`)*
+- 2 tablespoons capers *(Base: `capers`)*
+- 2 tablespoons capers, rinsed *(Base: `capers rinsed`)*
+- 2 tablespoons cashew butter *(Base: `cashew butter`)*
+- 2 tablespoons cider vinegar *(Base: `cider vinegar`)*
+- 2 tablespoons cornmeal *(Base: `cornmeal`)*
+- 2 tablespoons dry yeast *(Base: `yeast`)*
+- 2 tablespoons ginger juice (1 ounce ginger) *(Base: `ginger juice ginger`)*
+- 2 tablespoons ginger juice (1-inch knob ginger) *(Base: `ginger juice -inch knob ginger`)*
+- 2 tablespoons ginger juice (1-ounce piece) *(Base: `ginger juice -ounce`)*
+- 2 tablespoons ginger juice (3 ounces fresh ginger) *(Base: `ginger juice ginger`)*
+- 2 tablespoons grated ginger, squeezed to make juice *(Base: `ginger to make juice`)*
+- 2 tablespoons honey *(Base: `honey`)*
+- 2 tablespoons kuzu dissolved in 1/4 cup juice *(Base: `kuzu dissolved in juice`)*
+- 2 tablespoons maple crystals *(Base: `maple crystals`)*
+- 2 tablespoons maple syrup *(Base: `maple syrup`)*
+- 2 tablespoons mirin *(Base: `mirin`)*
+- 2 tablespoons molasses *(Base: `molasses`)*
+- 2 tablespoons peppercorns *(Base: `peppercorns`)*
+- 2 tablespoons pine nuts *(Base: `pine nuts`)*
+- 2 tablespoons raisins *(Base: `raisins`)*
+- 2 tablespoons red pepper, brunoise *(Base: `red pepper brunoise`)*
+- 2 tablespoons seeded and minced jalapeno (1 jalapeno) *(Base: `seeded and jalapeno jalapeno`)*
+- 2 tablespoons sesame seeds *(Base: `sesame seeds`)*
+- 2 tablespoons sesame seeds, toasted *(Base: `sesame seeds`)*
+- 2 tablespoons shoyu *(Base: `shoyu`)*
+- 2 tablespoons sliced almonds, toasted *(Base: `almonds`)*
+- 2 tablespoons tamari *(Base: `tamari`)*
+- 2 tablespoons tamari or more to taste *(Base: `tamari or more to taste`)*
+- 2 tablespoons tamari or to taste *(Base: `tamari or to taste`)*
+- 2 tablespoons umeboshi paste *(Base: `umeboshi paste`)*
+- 2 tablespoons vanilla extract *(Base: `vanilla extract`)*
+- 2 tablespoons vegan Worcestershire sauce *(Base: `vegan worcestershire sauce`)*
+- 2 tablespoons vodka *(Base: `vodka`)*
+- 2 tablespoons warm maple syrup *(Base: `maple syrup`)*
+- 2 tablespoons yeast *(Base: `yeast`)*
+- 2 tablespoons yellow pepper, brunoise *(Base: `yellow pepper brunoise`)*
+- 2 teaspoon vanilla extract *(Base: `vanilla extract`)*
+- 2 teaspoons Dijon mustard *(Base: `dijon mustard`)*
+- 2 teaspoons Tabasco sauce *(Base: `tabasco sauce`)*
+- 2 teaspoons almond extract *(Base: `almond extract`)*
+- 2 teaspoons baking powder *(Base: `baking powder`)*
+- 2 teaspoons black peppercorns *(Base: `black peppercorns`)*
+- 2 teaspoons capers *(Base: `capers`)*
+- 2 teaspoons dry yeast *(Base: `yeast`)*
+- 2 teaspoons ginger juice *(Base: `ginger juice`)*
+- 2 teaspoons ginger juice (1/2-inch knob ginger) *(Base: `ginger juice -inch knob ginger`)*
+- 2 teaspoons maple crystals *(Base: `maple crystals`)*
+- 2 teaspoons prepared mustard *(Base: `prepared mustard`)*
+- 2 teaspoons rum *(Base: `rum`)*
+- 2 teaspoons salt *(Base: `salt`)*
+- 2 teaspoons sherry vinegar or to taste *(Base: `sherry vinegar or to taste`)*
+- 2 teaspoons shoyu OR tamari *(Base: `shoyu or tamari`)*
+- 2 teaspoons umeboshi paste *(Base: `umeboshi paste`)*
+- 2 teaspoons umeboshi vinegar *(Base: `umeboshi vinegar`)*
+- 2 teaspoons vanilla *(Base: `vanilla`)*
+- 2 teaspoons vanilla extract *(Base: `vanilla extract`)*
+- 2 to 3 tablespoons mirin *(Base: `to mirin`)*
+- 2 unbaked 9-inch pie doughs *(Base: `unbaked -inch pie doughs`)*
+- 2 whole scallions, chopped, for garnish *(Base: `scallions for garnish`)*
+- 2 ½ teaspoons Dijon mustard *(Base: `dijon mustard`)*
+- 2-3 tablespoons black sesame seeds, to garnish *(Base: `black sesame seeds to garnish`)*
+- 2-3 tablespoons filling of choice (e.g., onions, garlic, peppers, tomato, cheese, mushrooms, etc.) *(Base: `filling of choice onions garlic peppers tomato cheese mushrooms etc`)*
+- 2-3 tablespoons shoyu OR tamari *(Base: `shoyu or tamari`)*
+- 2-3 tablespoons vegetable stock, or more as needed *(Base: `vegetable stock or more as needed`)*
+- 2-4 tablespoons shoyu *(Base: `shoyu`)*
+- 2-inch piece kombu *(Base: `-inch kombu`)*
+- 2-inch piece rinsed kombu *(Base: `-inch rinsed kombu`)*
+- 2/3 cup cannellini beans, soaked and drained *(Base: `cannellini beans soaked and`)*
+- 2/3 cup dried cranberries, chopped *(Base: `cranberries`)*
+- 2/3 cup ground macadamia nuts *(Base: `macadamia nuts`)*
+- 2/3 cup maple crystals *(Base: `maple crystals`)*
+- 2/3 cup maple syrup *(Base: `maple syrup`)*
+- 2/3 cup pecans, roughly chopped *(Base: `pecans roughly`)*
+- 2/3 cup sake *(Base: `sake`)*
+- 20 wonton wrappers *(Base: `wonton wrappers`)*
+- 3 1/2 cups walnuts, toasted and coarsely chopped *(Base: `walnuts and`)*
+- 3 Roma tomatoes, concassé *(Base: `roma tomatoes concassé`)*
+- 3 Romaine hearts, sliced into 3/4 inch pieces *(Base: `romaine hearts into`)*
+- 3 cups almonds *(Base: `almonds`)*
+- 3 cups blanched almonds, dried well *(Base: `blanched almonds well`)*
+- 3 cups blanched almonds, roasted *(Base: `blanched almonds`)*
+- 3 cups cranberries, rinsed *(Base: `cranberries rinsed`)*
+- 3 cups fresh cranberries, rinsed *(Base: `cranberries rinsed`)*
+- 3 cups maple syrup *(Base: `maple syrup`)*
+- 3 cups pecans, roasted *(Base: `pecans`)*
+- 3 eggs, beaten + 3 egg yolks *(Base: `eggs beaten egg yolks`)*
+- 3 fenugreek seeds *(Base: `fenugreek seeds`)*
+- 3 large eggs, beaten *(Base: `eggs beaten`)*
+- 3 large eggs, beaten + 3 egg yolks *(Base: `eggs beaten egg yolks`)*
+- 3 large eggs, slightly beaten *(Base: `eggs slightly beaten`)*
+- 3 ounces arugula, bite-size pieces *(Base: `arugula bite-size`)*
+- 3 peppercorns *(Base: `peppercorns`)*
+- 3 red radishes, small dice *(Base: `red radishes dice`)*
+- 3 tablespoon Maple crystals *(Base: `maple crystals`)*
+- 3 tablespoons Dijon mustard *(Base: `dijon mustard`)*
+- 3 tablespoons black sesame seeds, toasted then ground *(Base: `black sesame seeds then`)*
+- 3 tablespoons cashew butter *(Base: `cashew butter`)*
+- 3 tablespoons cocoa powder *(Base: `cocoa powder`)*
+- 3 tablespoons cocoa powder, sifted *(Base: `cocoa powder`)*
+- 3 tablespoons currants *(Base: `currants`)*
+- 3 tablespoons dried cranberries *(Base: `cranberries`)*
+- 3 tablespoons ginger juice (1-inch knob) *(Base: `ginger juice -inch knob`)*
+- 3 tablespoons ginger juice (3 ounce piece of ginger) *(Base: `ginger juice of ginger`)*
+- 3 tablespoons ginger juice (5 ounces fresh ginger) *(Base: `ginger juice ginger`)*
+- 3 tablespoons ginger juice (5 ounces ginger) *(Base: `ginger juice ginger`)*
+- 3 tablespoons hazelnuts, toasted, chopped *(Base: `hazelnuts`)*
+- 3 tablespoons maple crystals *(Base: `maple crystals`)*
+- 3 tablespoons maple sugar *(Base: `maple sugar`)*
+- 3 tablespoons maple syrup *(Base: `maple syrup`)*
+- 3 tablespoons pine nuts, toasted *(Base: `pine nuts`)*
+- 3 tablespoons pistachios, lightly roasted, coarsely chopped *(Base: `pistachios lightly`)*
+- 3 tablespoons salt *(Base: `salt`)*
+- 3 tablespoons sesame seeds *(Base: `sesame seeds`)*
+- 3 tablespoons shoyu *(Base: `shoyu`)*
+- 3 tablespoons tamari *(Base: `tamari`)*
+- 3 tablespoons toasted pine nuts *(Base: `pine nuts`)*
+- 3 tablespoons vodka *(Base: `vodka`)*
+- 3 tablespoons warm maple syrup *(Base: `maple syrup`)*
+- 3-4 tablespoons (1 ounce) crème fraîche *(Base: `crème fraîche`)*
+- 3-4 tablespoons oil for frying *(Base: `oil for frying`)*
+- 3-4 tablespoons shoyu *(Base: `shoyu`)*
+- 3/4 cup Marsala wine *(Base: `marsala wine`)*
+- 3/4 cup agave nectar *(Base: `agave nectar`)*
+- 3/4 cup blanched almonds *(Base: `blanched almonds`)*
+- 3/4 cup blanched almonds, toasted and cooled *(Base: `blanched almonds and cooled`)*
+- 3/4 cup chocolate chips *(Base: `chocolate chips`)*
+- 3/4 cup cocoa powder, sifted *(Base: `cocoa powder`)*
+- 3/4 cup currants *(Base: `currants`)*
+- 3/4 cup honey *(Base: `honey`)*
+- 3/4 cup maple crystals *(Base: `maple crystals`)*
+- 3/4 cup maple syrup *(Base: `maple syrup`)*
+- 3/4 cup pignoli nuts *(Base: `pignoli nuts`)*
+- 3/4 cup pistachios, toasted and chopped *(Base: `pistachios and`)*
+- 3/4 cup polenta *(Base: `polenta`)*
+- 3/4 cup powdered sugar (optional, for garnish) *(Base: `sugar for garnish`)*
+- 3/4 cup raisins (optional) *(Base: `raisins`)*
+- 3/4 cup raw cashews *(Base: `cashews`)*
+- 3/4 cup shoyu *(Base: `shoyu`)*
+- 3/4 cup sugar *(Base: `sugar`)*
+- 3/4 cup sweet ground cocoa *(Base: `sweet cocoa`)*
+- 3/4 cup vegetable stock *(Base: `vegetable stock`)*
+- 3/4 cup walnuts for pesto plus 1/2 cup for garnish *(Base: `walnuts for pesto plus for garnish`)*
+- 3/4 cup walnuts, finely chopped *(Base: `walnuts`)*
+- 3/4 teaspoon salt *(Base: `salt`)*
+- 3/4 teaspoon vanilla extract *(Base: `vanilla extract`)*
+- 3/4 teaspoons salt *(Base: `salt`)*
+- 3/8 teaspoon salt *(Base: `salt`)*
+- 32 wonton wrappers *(Base: `wonton wrappers`)*
+- 4 black peppercorns *(Base: `black peppercorns`)*
+- 4 cups blanched almonds *(Base: `blanched almonds`)*
+- 4 cups pecans *(Base: `pecans`)*
+- 4 cups strawberries (12 ounces) *(Base: `strawberries`)*
+- 4 cups vegetable stock *(Base: `vegetable stock`)*
+- 4 dashes Worcestershire sauce *(Base: `worcestershire sauce`)*
+- 4 ears corn *(Base: `ears corn`)*
+- 4 endive *(Base: `endive`)*
+- 4 flounder filets *(Base: `flounder filets`)*
+- 4 large eggs, lightly beaten *(Base: `eggs lightly beaten`)*
+- 4 leaves bok choy (leaves and stems), cut into chiffonade *(Base: `leaves bok choy leaves and stems cut into chiffonade`)*
+- 4 monkfish filets, seasoned with salt and pepper *(Base: `monkfish filets seasoned with salt and pepper`)*
+- 4 ounces bittersweet chocolate *(Base: `bittersweet chocolate`)*
+- 4 ounces duck bacon (5 slices), roasted at 375°F for 10 minutes *(Base: `duck bacon at °f for minutes`)*
+- 4 ounces frisee, chopped into bite-size pieces *(Base: `frisee into bite-size`)*
+- 4 ounces gruyere cheese, grated (2 cups) *(Base: `gruyere cheese`)*
+- 4 ounces mesclun greens *(Base: `mesclun greens`)*
+- 4 ounces tomatoes (1 Roma tomato), concassé *(Base: `tomatoes roma tomato concassé`)*
+- 4 sheets parchment *(Base: `parchment`)*
+- 4 tablespoon maple crystals *(Base: `maple crystals`)*
+- 4 teaspoons dry yeast *(Base: `yeast`)*
+- 5 black peppercorns *(Base: `black peppercorns`)*
+- 5 cups vegetable stock *(Base: `vegetable stock`)*
+- 5 ounces baby arugula *(Base: `baby arugula`)*
+- 5 ounces green pepper (1 small), seeded and minced *(Base: `green pepper seeded and`)*
+- 5 ounces yellow pepper (1 medium), brunoise *(Base: `yellow pepper brunoise`)*
+- 5 tablespoons shoyu *(Base: `shoyu`)*
+- 5-inch piece kombu *(Base: `-inch kombu`)*
+- 6 cups Vegetable Stock *(Base: `vegetable stock`)*
+- 6 cups blanched almonds *(Base: `blanched almonds`)*
+- 6 cups vegetable stock *(Base: `vegetable stock`)*
+- 6 large kale or collard leaves (1/2 pound), washed, trimmed, stems intact *(Base: `kale or collard leaves washed trimmed stems intact`)*
+- 6 ounces 'white mirepoix' (2 ounces each: white portion of leeks, celery, and parsnips) *(Base: `'white mirepoix' each: white portion of leeks celery and parsnips`)*
+- 6 ounces baby arugula *(Base: `baby arugula`)*
+- 6 ounces bittersweet chocolate (1 cup), melted *(Base: `bittersweet chocolate`)*
+- 6 ounces burdock (1 piece), ½-inch roll cut *(Base: `burdock -inch roll cut`)*
+- 6 ounces chicory, bite-size pieces *(Base: `chicory bite-size`)*
+- 6 ounces collard greens (6 leaves), stemmed, and cut into bite-sized pieces *(Base: `collard greens leaves stemmed and cut into bite-sized`)*
+- 6 ounces leeks (1 large), washed, trimmed, cut into 1/8-inch half moons *(Base: `leeks washed trimmed cut into -inch half moons`)*
+- 6 ounces mesclun *(Base: `mesclun`)*
+- 6 ounces semi-sweet dark chocolate (1 cup), ground, and melted *(Base: `semi-sweet dark chocolate and`)*
+- 6 radishes, brunoise *(Base: `radishes brunoise`)*
+- 6 sheets nori *(Base: `nori`)*
+- 6 strawberries *(Base: `strawberries`)*
+- 6 strawberries, sliced OR 1/2 pint raspberries *(Base: `strawberries or raspberries`)*
+- 6 tablespoons brown sugar *(Base: `brown sugar`)*
+- 6 tablespoons maple syrup *(Base: `maple syrup`)*
+- 6 tablespoons sugar *(Base: `sugar`)*
+- 6 tablespoons toasted pine nuts *(Base: `pine nuts`)*
+- 6 tablespoons white sugar *(Base: `white sugar`)*
+- 7 cups boiling vegetable stock *(Base: `boiling vegetable stock`)*
+- 7 nori sheets *(Base: `nori`)*
+- 7 ounces radishes (1 bunch), matchsticks *(Base: `radishes matchsticks`)*
+- 7 ounces radishes (1 bunch), stemmed, sliced into thin rounds *(Base: `radishes stemmed into thin rounds`)*
+- 7 ounces radishes (1 bunch), thinly sliced rounds *(Base: `radishes rounds`)*
+- 7 sheets Toasted Nori, torn into tiny pieces *(Base: `nori torn into tiny`)*
+- 7 tablespoons blanched almonds *(Base: `blanched almonds`)*
+- 8 bass filets, skin removed, seasoned with salt and pepper *(Base: `bass filets skin removed seasoned with salt and pepper`)*
+- 8 cups Vegetable Stock *(Base: `vegetable stock`)*
+- 8 cups vegetable stock *(Base: `vegetable stock`)*
+- 8 flounder filets, seasoned with salt and pepper *(Base: `flounder filets seasoned with salt and pepper`)*
+- 8 ounces arugula *(Base: `arugula`)*
+- 8 ounces bok choy stems and leaves, chiffonade *(Base: `bok choy stems and leaves chiffonade`)*
+- 8 ounces leeks (2 stalks), 1/2 inch half-moons, rinsed well *(Base: `leeks half-moons rinsed well`)*
+- 8 ounces semisweet chocolate, chopped *(Base: `semisweet chocolate`)*
+- 8 ounces soba noodles *(Base: `soba noodles`)*
+- 8 pounds bones (necks, backs, wing tips) *(Base: `bones necks backs wing tips`)*
+- 8 sheets phyllo dough *(Base: `phyllo dough`)*
+- 8-10 flounder filets, seasoned with salt and pepper *(Base: `flounder filets seasoned with salt and pepper`)*
+- 9 tablespoons cocoa powder *(Base: `cocoa powder`)*
+- Additional salt and pepper to taste *(Base: `additional salt and pepper to taste`)*
+- Additional salt to taste *(Base: `additional salt to taste`)*
+- Aquafaba strained from 2 cans of chickpeas, beaten to stiff peaks *(Base: `aquafaba from of chickpeas beaten to stiff peaks`)*
+- Beet Chips for garnish (recipe below) *(Base: `beet chips for garnish recipe below`)*
+- Black pepper to taste *(Base: `black pepper to taste`)*
+- Bouquet Garni: *(Base: `bouquet garni:`)*
+- Brandy OR rum, optional *(Base: `brandy or rum`)*
+- Canola oil for frying (1/4 - 1/2 cup) *(Base: `canola oil for frying`)*
+- Canola oil for frying (1/4 cup) *(Base: `canola oil for frying`)*
+- Canola oil for frying (2/3 cup) *(Base: `canola oil for frying`)*
+- Chickpea Crêpe (recipe below) *(Base: `chickpea crêpe recipe below`)*
+- Chocolate Coating (recipe following) *(Base: `chocolate coating recipe following`)*
+- Chocolate Fondue (recipe below) *(Base: `chocolate fondue recipe below`)*
+- Cocktail Sauce (see recipe below) *(Base: `cocktail sauce see recipe below`)*
+- Cornmeal for dredging *(Base: `cornmeal for dredging`)*
+- Curried Chickpea Filling (recipe follows) *(Base: `curried chickpea filling recipe follows`)*
+- Dash hot sauce *(Base: `sauce`)*
+- Dash hot sauce, or more to taste *(Base: `sauce or more to taste`)*
+- Fresh Ketchup (see following recipe) *(Base: `ketchup see following recipe`)*
+- Fresh cracked pepper *(Base: `cracked pepper`)*
+- Fresh herbs for garnish *(Base: `herbs for garnish`)*
+- Freshly ground black pepper *(Base: `freshly black pepper`)*
+- Freshly ground black pepper to taste *(Base: `freshly black pepper to taste`)*
+- Freshly ground black pepper, to taste *(Base: `freshly black pepper to taste`)*
+- Freshly ground cracked black pepper taste *(Base: `freshly cracked black pepper taste`)*
+- Garnish: 1 scallion, cut into thin diagonal *(Base: `garnish: scallion cut into thin diagonal`)*
+- Ground cinnamon for garnish *(Base: `cinnamon for garnish`)*
+- Ground pepper, to taste *(Base: `pepper to taste`)*
+- Juice from 1/4 cup peeled and grated ginger *(Base: `juice from and ginger`)*
+- Ketchup (recipe below) *(Base: `ketchup recipe below`)*
+- Mustard *(Base: `mustard`)*
+- No-taste oil for frying *(Base: `no-taste oil for frying`)*
+- One 8-inch piece kombu *(Base: `one -inch kombu`)*
+- Pepper *(Base: `pepper`)*
+- Pepper to taste *(Base: `pepper to taste`)*
+- Pickles *(Base: `pickles`)*
+- Pinch cayenne *(Base: `cayenne`)*
+- Pinch cayenne pepper *(Base: `cayenne pepper`)*
+- Pinch cracked red pepper flakes *(Base: `cracked red pepper flakes`)*
+- Pinch crushed red pepper flakes *(Base: `red pepper flakes`)*
+- Pinch freshly ground black pepper *(Base: `freshly black pepper`)*
+- Pinch ground cloves *(Base: ``)*
+- Pinch of ground black pepper *(Base: `of black pepper`)*
+- Pinch of salt *(Base: `of salt`)*
+- Pinch of sea salt and freshly ground black pepper to taste *(Base: `of sea salt and freshly black pepper to taste`)*
+- Pinch red pepper flakes *(Base: `red pepper flakes`)*
+- Pinch salt *(Base: `salt`)*
+- Salt *(Base: `salt`)*
+- Salt and black pepper to taste *(Base: `salt and black pepper to taste`)*
+- Salt and freshly ground black pepper to taste *(Base: `salt and freshly black pepper to taste`)*
+- Salt and freshly ground black pepper, to taste *(Base: `salt and freshly black pepper to taste`)*
+- Salt and pepper to season fish *(Base: `salt and pepper to season fish`)*
+- Salt and pepper to taste *(Base: `salt and pepper to taste`)*
+- Salt and pepper, to season fish *(Base: `salt and pepper to season fish`)*
+- Salt and pepper, to taste *(Base: `salt and pepper to taste`)*
+- Salt and pinch freshly ground black pepper to taste *(Base: `salt and freshly black pepper to taste`)*
+- Salt to taste *(Base: `salt to taste`)*
+- Salt, to taste *(Base: `salt to taste`)*
+- Scant 1/4 teaspoon black pepper *(Base: `scant black pepper`)*
+- Sea salt and black pepper to taste *(Base: `sea salt and black pepper to taste`)*
+- Sea salt and freshly ground black pepper *(Base: `sea salt and freshly black pepper`)*
+- Sea salt and freshly ground black pepper to taste *(Base: `sea salt and freshly black pepper to taste`)*
+- Sea salt and freshly ground black pepper, to taste *(Base: `sea salt and freshly black pepper to taste`)*
+- Sea salt and freshly ground pepper to taste *(Base: `sea salt and freshly pepper to taste`)*
+- Sea salt and ground white pepper to taste *(Base: `sea salt and white pepper to taste`)*
+- Sea salt and pepper to taste *(Base: `sea salt and pepper to taste`)*
+- Sea salt and pepper, to taste *(Base: `sea salt and pepper to taste`)*
+- Sea salt and white pepper to taste *(Base: `sea salt and white pepper to taste`)*
+- Sesame seeds *(Base: `sesame seeds`)*
+- Six 8-inch skewers *(Base: `six -inch skewers`)*
+- Skewers *(Base: `skewers`)*
+- Splash hot sauce *(Base: `splash sauce`)*
+- Tabasco OR hot sauce to taste *(Base: `tabasco or sauce to taste`)*
+- Tabasco or hot sauce *(Base: `tabasco or sauce`)*
+- Teriyaki Sauce (see recipe below) *(Base: `teriyaki sauce see recipe below`)*
+- Toppings: poppy seeds, garlic, sesame seeds, Kosher salt, minced onion *(Base: `toppings: poppy seeds garlic sesame seeds kosher salt onion`)*
+- Whole Grain Croutons (recipe below) *(Base: `grain croutons recipe below`)*
+- black pepper and sea salt to taste *(Base: `black pepper and sea salt to taste`)*
+- black pepper, freshly ground *(Base: `black pepper freshly`)*
+- bouquet garni *(Base: `bouquet garni`)*
+- cinnamon to garnish *(Base: `cinnamon to garnish`)*
+- cornmeal (for dredging) *(Base: `cornmeal for dredging`)*
+- cornmeal for dredging *(Base: `cornmeal for dredging`)*
+- dash hot sauce *(Base: `sauce`)*
+- large pinch salt *(Base: `salt`)*
+- no taste oil for frying *(Base: `no taste oil for frying`)*
+- optional: 1 teaspoon Dijon-type mustard *(Base: `optional: dijon-type mustard`)*
+- optional: 1/2 teaspoon Dijon-type mustard *(Base: `optional: dijon-type mustard`)*
+- pepper *(Base: `pepper`)*
+- pepper to taste *(Base: `pepper to taste`)*
+- pinch cayenne *(Base: `cayenne`)*
+- pinch cloves *(Base: ``)*
+- pinch ground cloves *(Base: ``)*
+- pinch of chili flakes *(Base: `of chili flakes`)*
+- pinch of salt *(Base: `of salt`)*
+- pinch pepper *(Base: `pepper`)*
+- pinch salt *(Base: `salt`)*
+- pinch salt and pepper *(Base: `salt and pepper`)*
+- salt to taste *(Base: `salt to taste`)*
+- sea salt and black pepper to taste *(Base: `sea salt and black pepper to taste`)*
+- sea salt and black pepper, freshly ground *(Base: `sea salt and black pepper freshly`)*
+- sea salt and freshly ground pepper to taste *(Base: `sea salt and freshly pepper to taste`)*
+- sea salt and pepper to taste *(Base: `sea salt and pepper to taste`)*
+- toasted baguette (1/4-inch slices), pita, toast points, or crackers *(Base: `baguette -inch pita toast points or crackers`)*
+- toasted nuts to garnish *(Base: `nuts to garnish`)*
+- white or cayenne pepper to taste *(Base: `white or cayenne pepper to taste`)*
+- ¼ cup + 2 tablespoons blanched almonds, ground to fine meal (measure then grind) *(Base: `blanched almonds to fine meal measure then grind`)*
+- ¼ cup maple syrup *(Base: `maple syrup`)*
+- ¼ teaspoon baking powder *(Base: `baking powder`)*
+- ½ cup cashews, toasted, coarsely chopped *(Base: `cashews`)*
+- ½ cup finely chopped pistachios or almonds *(Base: `pistachios or almonds`)*
+- ½ cup maple syrup *(Base: `maple syrup`)*
+- ½ cup mayonnaise *(Base: `mayonnaise`)*
+- ½ teaspoon vanilla extract *(Base: `vanilla extract`)*
+- ¾ cup shoyu *(Base: `shoyu`)*

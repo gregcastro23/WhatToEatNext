@@ -3106,7 +3106,7 @@ export const middleEastern: Cuisine = {
           astrologicalAffinities: {"planets":["Mars","Moon"],"signs":["scorpio","cancer"],"lunarPhases":["Waning Gibbous"]},
           alchemicalProperties: {"Spirit":2.79,"Essence":3.52,"Matter":3.75,"Substance":3.47},
           thermodynamicProperties: {"heat":0.0609,"entropy":0.3264,"reactivity":2.0274,"gregsEnergy":-0.6007,"kalchm":0.1379,"monica":1.3128},
-          substitutions: [{"originalIngredient":"globe eggplants","substituteOptions":["Japanese eggplants (thinner, char faster)","zucchini for a milder version"]},{"originalIngredient":"tahini","substituteOptions":["Greek yogurt for a lighter, less smoky version"]}],
+          substitutions: [{"originalIngredient":"globe eggplants","substituteOptions":["Japanese eggplants (thinner, char faster)","zucchini for a milder version"]},{"originalIngredient":"tahini","substituteOptions":["Greek yogurt for a lighter, less smoky version"]},{"originalIngredient":"extra virgin olive oil","substituteOptions":["omit for low-fat HSCA baseline"]}],
             nutritionPerServing: {"calories":33,"proteinG":1,"carbsG":2,"fatG":1,"fiberG":2,"sodiumMg":292,"sugarG":1,"vitamins":["Vitamin B1","Vitamin B6","Vitamin K","Vitamin C","Vitamin E"],"minerals":["Manganese","Copper","Selenium","Magnesium","Calcium"]}
         },
         {
