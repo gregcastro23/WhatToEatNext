@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { validateRequest, getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
+import { logger } from "@/utils/logger";
 import { rowToEntry, getUserEntries, saveUserEntries, generateShareToken, type FoodLabEntry } from "./shared";
 import type { NextRequest } from "next/server";
 
@@ -16,6 +17,41 @@ async function getDbModule() {
     try { _dbMod = await import("@/lib/database"); } catch { /* unavailable */ }
   }
   return _dbMod;
+}
+
+/**
+ * Classify a DB error so we know whether the in-memory fallback is honest.
+ *
+ * - "unavailable": the DB isn't reachable (connection refused, timeout, DNS).
+ *   The row was never offered to Postgres. Falling back to in-memory is fine
+ *   — we just lose persistence for this dev or transient-outage window.
+ * - "rejected": the DB IS reachable and answered with an error (constraint
+ *   violation, syntax error, permission denied). The row is bad. Falling back
+ *   would lie to the user — return 5xx instead so the client knows.
+ */
+function classifyDbError(err: unknown): "unavailable" | "rejected" {
+  const code =
+    err instanceof Error && "code" in err
+      ? String((err as { code?: unknown }).code ?? "")
+      : "";
+  const networkCodes = new Set([
+    "ECONNREFUSED",
+    "ECONNRESET",
+    "ETIMEDOUT",
+    "ENOTFOUND",
+    "EHOSTUNREACH",
+    "ENETUNREACH",
+    "EAI_AGAIN",
+  ]);
+  if (networkCodes.has(code)) return "unavailable";
+  // AggregateError from pg-pool wraps per-attempt connection failures.
+  if (err instanceof AggregateError) return "unavailable";
+  // Postgres SQLSTATE codes are 5-char alphanumerics. If we got one, the DB
+  // accepted the query and rejected the data — that's a real failure.
+  if (/^[A-Z0-9]{5}$/.test(code)) return "rejected";
+  // Unknown shape — be conservative and treat as rejected so we don't silently
+  // pretend a write succeeded.
+  return "rejected";
 }
 
 export const dynamic = "force-dynamic";
@@ -37,7 +73,15 @@ export async function GET(request: NextRequest) {
       );
       const entries = result.rows.map(rowToEntry);
       return NextResponse.json({ success: true, entries, count: entries.length });
-    } catch { /* fall through */ }
+    } catch (err) {
+      // Reads are safe to fall back from — worst case the user sees a stale
+      // in-memory view. But still log so an operator can see persistent
+      // outages instead of silently degraded reads.
+      logger.warn(
+        `[food-lab] GET DB read failed (${classifyDbError(err)}); serving in-memory fallback for user ${userId}`,
+        err,
+      );
+    }
   }
 
   const entries = getUserEntries(userId);
@@ -121,10 +165,33 @@ export async function POST(request: NextRequest) {
         await reportQuestEventBestEffort(userId, "upload_food_photo");
       }
       return NextResponse.json({ success: true, entry }, { status: 201 });
-    } catch { /* fall through */ }
+    } catch (err) {
+      const kind = classifyDbError(err);
+      if (kind === "rejected") {
+        // The DB answered "no" — the row is bad. Don't pretend success by
+        // falling back to RAM; the user's data would be lost on restart and
+        // they'd never know.
+        logger.error(
+          `[food-lab] POST DB rejected entry for user ${userId}`,
+          err,
+        );
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Failed to save lab entry",
+          },
+          { status: 500 },
+        );
+      }
+      // DB unreachable — fall back to in-memory but log so it's visible.
+      logger.warn(
+        `[food-lab] POST DB unavailable (${kind}); writing to in-memory fallback for user ${userId}`,
+        err,
+      );
+    }
   }
 
-  // In-memory fallback
+  // In-memory fallback (DB module unavailable or transient outage).
   const existing = getUserEntries(userId);
   saveUserEntries(userId, [entry, ...existing]);
   await reportQuestEventBestEffort(userId, "cook_recipe");

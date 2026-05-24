@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, Suspense, useCallback } from "react";
-import { FaWind } from "react-icons/fa";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
-import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import type { Recipe } from "@/types/recipe";
 
@@ -15,12 +13,9 @@ function RecipesPageContent() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isScoring, setIsScoring] = useState(false);
-  const [isRefining, setIsRefining] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const fetchAndScoreRecipes = useCallback(async () => {
     setIsLoading(true);
-    setError(null);
     try {
       // Request the full catalog — this page scores and sorts every recipe
       // client-side, so it must not be capped to the API's default page size.
@@ -91,35 +86,6 @@ function RecipesPageContent() {
     void fetchAndScoreRecipes();
   }, [cuisine, fetchAndScoreRecipes]);
 
-  const handleRefine = async () => {
-    if (!cuisine) return;
-    setIsRefining(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/recipes/refine", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cuisine }),
-      });
-      const data = await res.json();
-      if (data.success && data.recipes) {
-        setRecipes(data.recipes);
-        if (data.balances) {
-          emitTokenEconomyUpdate({
-            source: "refresh",
-            credits: { substance: -5 },
-          });
-        }
-      } else {
-        setError(data.error || "Failed to refine recipes");
-      }
-    } catch (_err) {
-      setError("An error occurred while communicating with the Alchemical Oracle.");
-    } finally {
-      setIsRefining(false);
-    }
-  };
-
   const displayCuisine = cuisine
     ? cuisine.charAt(0).toUpperCase() + cuisine.slice(1)
     : "All";
@@ -132,27 +98,12 @@ function RecipesPageContent() {
             {displayCuisine} Recipes
           </h1>
           {!isLoading && (
-            <div className="flex flex-col items-center gap-4">
-              <p className="text-lg text-gray-400">
-                {recipes.length} recipes
-                {isScoring || isRefining
-                  ? " - consulting the heavens..."
-                  : " sorted by current planetary alignment"}
-              </p>
-
-              {recipes.length > 0 && cuisine && (
-                <button
-                  onClick={() => { void handleRefine(); }}
-                  disabled={isRefining || isLoading || isScoring}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold uppercase tracking-wider bg-purple-600/20 text-purple-300 border border-purple-500/50 hover:bg-purple-600/40 transition-colors disabled:opacity-50"
-                  title="Spend 5 Substance to use the Alchemical Oracle"
-                >
-                  <FaWind className="w-4 h-4" />
-                  {isRefining ? "Refining..." : "Refine with Substance (5 🝉)"}
-                </button>
-              )}
-              {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
-            </div>
+            <p className="text-lg text-gray-400">
+              {recipes.length} recipes
+              {isScoring
+                ? " - consulting the heavens..."
+                : " sorted by current planetary alignment"}
+            </p>
           )}
         </div>
 

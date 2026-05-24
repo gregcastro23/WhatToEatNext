@@ -67,6 +67,8 @@ export const NAV_IA: NavIA = {
       { label: "Sauces", path: "/sauces", glyph: "wave", hint: "Mother sauces and lineages" },
       { label: "Recipes", path: "/recipes", glyph: "bookmark", hint: "12,438 · filtered to your hour" },
       { label: "Recipe Builder", path: "/recipe-builder", glyph: "plus", hint: "Compose from raw materials" },
+      { label: "Restaurants", path: "/restaurants", glyph: "atom", hint: "Local · ranked by cosmic alignment" },
+      { label: "Recipe Generator", path: "/recipe-generator", glyph: "spiral", hint: "AI-generated · carousel · tuned to your hour" },
     ],
   },
   plan: {
@@ -101,6 +103,7 @@ export const NAV_IA: NavIA = {
     routes: [
       { label: "Recommendation Engine", path: "/lab", glyph: "orbital", hint: "Live signal flow · weights · overrides" },
       { label: "Planetary Chart", path: "/planetary-chart", glyph: "ring", hint: "Current transit · zoomable", premium: true },
+      { label: "Current Chart", path: "/current-chart", glyph: "wave", hint: "Live sky × your natal" },
       { label: "Alchm Quantities", path: "/quantities", glyph: "crosshair", hint: "ESMS · Monica constants · P=IV" },
       { label: "Standing Chart", path: "/birth-chart", glyph: "diamond", hint: "Your natal · stored encrypted" },
       { label: "Premium", path: "/premium", glyph: "diamond", hint: "Tier picker · Alchemist subscription" },
@@ -160,7 +163,8 @@ export function activePrimaryFromPathname(pathname: string | null | undefined): 
     pathname.startsWith("/sauces") ||
     pathname.startsWith("/recipes") ||
     pathname.startsWith("/recipe-generator") ||
-    pathname.startsWith("/recipe-builder")
+    pathname.startsWith("/recipe-builder") ||
+    pathname.startsWith("/restaurants")
   ) {
     return "discover";
   }

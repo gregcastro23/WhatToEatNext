@@ -84,8 +84,8 @@ const MENU_GROUPS: Partial<
   Record<PrimaryKey, ReadonlyArray<{ label: string; paths: string[] }>>
 > = {
   discover: [
-    { label: "Browse", paths: ["/cuisines", "/ingredients", "/cooking-methods", "/sauces"] },
-    { label: "Cook", paths: ["/recipes", "/recipe-builder"] },
+    { label: "Browse", paths: ["/cuisines", "/ingredients", "/cooking-methods", "/sauces", "/restaurants"] },
+    { label: "Cook", paths: ["/recipes", "/recipe-builder", "/recipe-generator"] },
   ],
   plan: [
     { label: "Calendar", paths: ["/menu-planner", "/cosmic-recipe"] },
@@ -93,7 +93,7 @@ const MENU_GROUPS: Partial<
   ],
   lab: [
     { label: "Engine", paths: ["/lab", "/quantities"] },
-    { label: "Charts & Premium", paths: ["/planetary-chart", "/birth-chart", "/premium"] },
+    { label: "Charts & Premium", paths: ["/planetary-chart", "/current-chart", "/birth-chart", "/premium"] },
   ],
 };
 
@@ -118,12 +118,12 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  // Generous 280ms delay so a slow cursor can bridge from the pill button to
+  // Generous 400ms delay so a slow cursor can bridge from the pill button to
   // the mega-menu without the panel snapping shut mid-transit. A taller hover
   // bridge (below) also catches the gap between trigger and panel.
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenMenu("none"), 280);
+    closeTimer.current = setTimeout(() => setOpenMenu("none"), 400);
   };
   const cancelClose = () => {
     if (closeTimer.current) {
@@ -137,13 +137,29 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
     setOpenMenu("none");
   }, [pathname]);
 
-  // Close on Escape; click-outside handled by overlay
+  // Close on Escape, and close on mousedown outside the header. The previous
+  // implementation used a full-viewport overlay div (z-30) for click-outside,
+  // but it sat above the hover bridge (z-auto) and stole mouseenter events
+  // during pill → menu transit, causing the menu to snap shut mid-hover.
+  // A document listener gives us click-outside without any z-index footprint.
   useEffect(() => {
+    if (openMenu === "none") return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && openMenu !== "none") setOpenMenu("none");
+      if (e.key === "Escape") setOpenMenu("none");
+    };
+    const onDocMouseDown = (e: MouseEvent) => {
+      const root = rootRef.current;
+      if (!root) return;
+      if (e.target instanceof Node && !root.contains(e.target)) {
+        setOpenMenu("none");
+      }
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDocMouseDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDocMouseDown);
+    };
   }, [openMenu]);
 
   const openPalette = () => window.dispatchEvent(new CustomEvent("alchm:palette:open"));
@@ -260,10 +276,6 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
         .alchm-header-planet { display: none; }
         @media (min-width: 1024px) {
           .alchm-header-planet { display: flex; }
-        }
-        .alchm-megamenu-overlay {
-          position: fixed; left: 0; right: 0; top: 0; bottom: 0;
-          z-index: 30; background: transparent;
         }
       `}</style>
 
@@ -461,21 +473,16 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
         </div>
       </div>
 
-      {/* MEGA MENU */}
+      {/* MEGA MENU — click-outside is handled by a document mousedown listener
+          above, so no z-index-fighting overlay sits between the pill and the
+          menu. The hover bridge inside .alchm-pillnav handles the hover gap. */}
       {openMenu !== "none" && (
-        <>
-          <div
-            className="alchm-megamenu-overlay"
-            onClick={() => setOpenMenu("none")}
-            aria-hidden="true"
-          />
-          <MegaMenu
-            menuKey={openMenu}
-            onMouseEnter={cancelClose}
-            onMouseLeave={scheduleClose}
-            onSelect={() => setOpenMenu("none")}
-          />
-        </>
+        <MegaMenu
+          menuKey={openMenu}
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
+          onSelect={() => setOpenMenu("none")}
+        />
       )}
     </div>
   );
