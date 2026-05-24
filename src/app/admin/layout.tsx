@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { isAdminEmail } from "@/lib/auth/adminEmails";
 
 /**
  * Admin Layout - Sidebar navigation for admin panel
@@ -41,7 +42,7 @@ export default function AdminLayout({
       if (
         signedIn &&
         sessionUser?.role === "admin" &&
-        sessionUser?.email === "gregcastro23@gmail.com"
+        isAdminEmail(sessionUser?.email)
       ) {
         setIsAuthenticated(true);
         setIsAdmin(true);
