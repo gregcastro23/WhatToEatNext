@@ -3,6 +3,63 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 // Beverages ingredients extracted from cuisine files
 const rawBeverages: Record<string, Partial<IngredientMapping>> = {
+
+  brown_stock: {
+    image_url: "ingredients/brown_stock.png",
+    description: "A rich, gelatinous liquid prepared by roasting veal or beef bones and aromatic vegetables before simmering them slowly for hours. The roasting triggers intensive Maillard reactions, producing a deeply savory, umami-rich foundation for sauces and soups. Earth-Water dominant bone reduction.",
+    name: "brown stock",
+    origin: ["France", "Western Europe"],
+    season: ["all"],
+    elementalProperties: { Water: 0.45, Earth: 0.35, Fire: 0.10, Air: 0.10 },
+    scaledElemental: { Water: 0.45, Earth: 0.35, Fire: 0.10, Air: 0.10 },
+    quantityBase: { amount: 240, unit: "ml" },
+    alchemicalProperties: {
+      Spirit: 0.25,
+      Essence: 0.55,
+      Matter: 0.50,
+      Substance: 0.80,
+    },
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.95 },
+    qualities: ["savory", "umami-rich", "gelatinous", "roasted", "deep"],
+    category: "beverage",
+    subCategory: "stock",
+    astrologicalProfile: {
+      rulingPlanets: ["Jupiter", "Saturn"],
+      favorableZodiac: ["sagittarius", "capricorn"],
+      seasonalAffinity: ["winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (240ml)",
+      calories: 40,
+      macros: { protein: 6.0, carbs: 1.0, fat: 1.0, fiber: 0, sugar: 0, sodium: 0.08 },
+      vitamins: { B12: 0.02 },
+      minerals: { phosphorus: 0.04, calcium: 0.02 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.05,
+      salt: 0.2,
+      salty: 0.2,
+      sour: 0.05,
+      bitter: 0.1,
+      umami: 0.85,
+      spicy: 0.0,
+      aromatic: 0.45
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.05, salty: 0.2, sour: 0.05, bitter: 0.1, umami: 0.85, spicy: 0.0 }, 
+      aroma: { roasted: 0.7, beefy: 0.8, savory: 0.6 }, 
+      texture: { gelatinous: 0.8, liquid: 0.9 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["umami", "savory"], secondary: ["roasted", "rich", "beefy"], notes: "Provides a powerful, mouth-coating savoriness and body due to dissolved collagen." }, 
+      cookingMethods: ["roast", "simmer", "strain", "reduce"], 
+      cuisineAffinity: ["French", "Western"], 
+      preparationTips: ["Do not salt the stock during brewing — season at the end to allow for safe reduction.", "Simmer extremely gently (do not boil) to prevent fat from emulsifying and clouding the stock."] 
+    },
+    pairingRecommendations: { complementary: ["red wine", "thyme", "rosemary", "shallots", "black pepper", "mushrooms"], contrasting: [], toAvoid: [] },
+    storage: { pantry: "Keep refrigerated for 3-5 days, or freeze up to 6 months.", notes: "Should solidify into a firm jelly when cold, showing strong gelatin extraction." }
+  },
   red_wine_vinaigrette: {
       image_url: "ingredients/red_wine_vinaigrette.png",
     description: "An alcoholic beverage fermented from the juice of grapes (*Vitis vinifera*), functioning as a crucial source of acid, aroma, and complexity in cooking. Dry white wines contribute bright tartness and fruit notes to seafood and poultry pan sauces, while robust red wines provide tannins and deep fruit flavors essential for long-simmered beef or lamb braises. Alcohol serves as a solvent, releasing flavor compounds in foods that are insoluble in water or fat.",

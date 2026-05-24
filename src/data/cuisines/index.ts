@@ -20,6 +20,7 @@ const cuisineImports: Record<string, CuisineImport> = {
   Russian: () => import("./russian").then(m => m.russian),
   Thai: () => import("./thai").then(m => m.thai),
   Vietnamese: () => import("./vietnamese").then(m => m.vietnamese),
+  HSCA: () => import("./hsca").then(m => m.cuisine),
 };
 
 // Metadata is kept synchronous to avoid placeholders and allow immediate UI render
@@ -94,6 +95,11 @@ export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
     name: "Vietnamese",
     elementalProperties: { Water: 0.4, Fire: 0.2, Earth: 0.2, Air: 0.2 },
     description: "Fresh, light flavors with an emphasis on herbs and clear broths.",
+  },
+  HSCA: {
+    name: "HSCA",
+    elementalProperties: { Fire: 0.25, Earth: 0.35, Water: 0.25, Air: 0.15 },
+    description: "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
   },
 };
 

@@ -157,6 +157,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
   const PRIMARY_KEYS = [
     "African", "American", "Chinese", "French", "Greek", "Indian", "Italian",
     "Japanese", "Korean", "Mexican", "Middle Eastern", "Russian", "Thai", "Vietnamese",
+    "HSCA",
   ];
 
   logger.debug("Available cuisines: ", PRIMARY_KEYS);

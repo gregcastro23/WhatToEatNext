@@ -22,6 +22,139 @@ const generateVegetableAttributes = (vegData: {
 });
 
 const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
+
+  arugula: {
+    image_url: "ingredients/arugula.png",
+    name: "arugula",
+    category: "vegetable",
+    subCategory: "leafy_green",
+    description: "A peppery, nutty, deeply lobed salad green (*Eruca vesicaria*) also known as rocket. Its high glucosinolate content gives it a distinctive spicy kick that balances rich cheeses, sweet fruits, and acidic dressings. Dominant in Fire and Air elements.",
+    elementalProperties: { Fire: 0.40, Air: 0.30, Earth: 0.20, Water: 0.10 },
+    astrologicalProfile: {
+      rulingPlanets: ["Mars"],
+      favorableZodiac: ["aries", "scorpio"],
+      seasonalAffinity: ["spring", "fall"],
+    },
+    nutritionalProfile: {
+      serving_size: "2 cups (40g)",
+      calories: 10,
+      macros: { protein: 1.0, carbs: 1.5, fat: 0.3, fiber: 0.6, sugar: 0.8, sodium: 0.01 },
+      vitamins: { K: 0.45, A: 0.10, C: 0.08 },
+      minerals: { calcium: 0.06, potassium: 0.03, magnesium: 0.02 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.05,
+      salty: 0.05,
+      sour: 0.1,
+      bitter: 0.4,
+      umami: 0.1,
+      spicy: 0.55,
+      aromatic: 0.45
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.05, sour: 0.1, bitter: 0.4, umami: 0.1, spicy: 0.55 }, 
+      aroma: { peppery: 0.7, nutty: 0.6 }, 
+      texture: { tender: 0.8, crisp: 0.5 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["peppery", "bitter"], secondary: ["nutty", "spicy"], notes: "Sharp peppery bite that stimulates digestion and clears phlegm." }, 
+      cookingMethods: ["raw", "toss", "wilt", "blend"], 
+      cuisineAffinity: ["Italian", "Mediterranean"], 
+      preparationTips: ["Toss with lemon juice and olive oil to mellow the bitter, peppery compounds.", "Scatter over hot pizzas just before serving for an elegant contrast."] 
+    },
+    pairingRecommendations: { complementary: ["lemon", "parmesan", "olive oil", "tomatoes", "pine nuts", "pears"], contrasting: ["honey", "balsamic vinegar"], toAvoid: [] },
+    storage: { pantry: "Refrigerate in a ventilated bag with dry paper towel.", notes: "Perishes quickly if exposed to excess moisture." }
+  },
+  radicchio: {
+    image_url: "ingredients/radicchio.png",
+    name: "radicchio",
+    category: "vegetable",
+    subCategory: "leafy_green",
+    description: "A stunning, compact Italian chicory (*Cichorium intybus*) with deep magenta leaves and white ribs. Features a sharp, sophisticated bitterness that transforms into a mellow, nutty sweetness when grilled, roasted, or sautéed. Earth-Air structured energy.",
+    elementalProperties: { Earth: 0.45, Air: 0.30, Water: 0.15, Fire: 0.10 },
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn"],
+      favorableZodiac: ["capricorn"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup chopped (40g)",
+      calories: 9,
+      macros: { protein: 0.6, carbs: 1.8, fat: 0.1, fiber: 0.4, sugar: 0.2, sodium: 0.01 },
+      vitamins: { K: 0.35, C: 0.04 },
+      minerals: { potassium: 0.03, copper: 0.02 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.05,
+      salty: 0.05,
+      sour: 0.05,
+      bitter: 0.75,
+      umami: 0.05,
+      spicy: 0.05,
+      aromatic: 0.3
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.05, sour: 0.05, bitter: 0.75, umami: 0.05, spicy: 0.05 }, 
+      aroma: { earthy: 0.4, clean: 0.5 }, 
+      texture: { crunchy: 0.8, firm: 0.7 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["bitter"], secondary: ["crisp", "earthy"], notes: "Deeply bitter leaves that clear internal damp-heat and fortify the liver." }, 
+      cookingMethods: ["raw", "grill", "roast", "sauté", "braise"], 
+      cuisineAffinity: ["Italian", "Venetian"], 
+      preparationTips: ["Soak cut leaves in cold water for 15-30 minutes to wash away excess bitterness for raw salads.", "Brush wedges with olive oil and grill until charred and tender."] 
+    },
+    pairingRecommendations: { complementary: ["balsamic vinegar", "olive oil", "walnuts", "blue cheese", "anchovies", "pancetta"], contrasting: ["honey", "figs", "oranges"], toAvoid: [] },
+    storage: { pantry: "Keep in the crisper drawer of refrigerator.", notes: "Highly resilient, will stay fresh for up to two weeks." }
+  },
+  chicory: {
+    image_url: "ingredients/chicory.png",
+    name: "chicory",
+    category: "vegetable",
+    subCategory: "leafy_green",
+    description: "A wild and cultivated family of bitter greens characterized by their cooling, digestive properties. Deeply traditional in peasant cooking, chicory provides a bitter, mineral-rich tonic that cuts through sweet or oily ingredients. Classic Earth-Air dominant.",
+    elementalProperties: { Earth: 0.50, Air: 0.25, Water: 0.15, Fire: 0.10 },
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn"],
+      favorableZodiac: ["capricorn", "aquarius"],
+      seasonalAffinity: ["spring", "winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 cup (50g)",
+      calories: 11,
+      macros: { protein: 0.8, carbs: 2.0, fat: 0.1, fiber: 1.8, sugar: 0.3, sodium: 0.02 },
+      vitamins: { A: 0.28, C: 0.10, folate: 0.08 },
+      minerals: { calcium: 0.05, iron: 0.03, potassium: 0.04 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.05,
+      salt: 0.05,
+      salty: 0.05,
+      sour: 0.05,
+      bitter: 0.8,
+      umami: 0.05,
+      spicy: 0.0,
+      aromatic: 0.2
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.05, salty: 0.05, sour: 0.05, bitter: 0.8, umami: 0.05, spicy: 0.0 }, 
+      aroma: { earthy: 0.5, cooling: 0.6 }, 
+      texture: { firm: 0.7, fibrous: 0.6 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["bitter"], secondary: ["earthy", "cooling"], notes: "Highly therapeutic bitter tonic that encourages bile flow and aids fat digestion." }, 
+      cookingMethods: ["sauté", "braise", "raw", "wilt"], 
+      cuisineAffinity: ["Mediterranean", "French", "macrobiotic"], 
+      preparationTips: ["Braise with garlic, lemon, and olive oil to beautifully soften both flavor and texture.", "Roots can be roasted and ground as a caffeine-free coffee substitute."] 
+    },
+    pairingRecommendations: { complementary: ["garlic", "lemon juice", "olive oil", "red pepper flakes", "cannellini beans"], contrasting: ["dates", "raisins"], toAvoid: [] },
+    storage: { pantry: "Wrap in plastic, refrigerate.", notes: "Dampness causes rot, keep dry." }
+  },
   kale: {
       image_url: "ingredients/kale.png",
     description: "A robust, hardy member of the cabbage family (*Brassica oleracea var. sabellica*) known for its dense texture and earthy, slightly bitter flavor. Its tough cellulose structure requires massaging with oil or acid when eaten raw, but allows it to hold up beautifully to long braising or roasting.",

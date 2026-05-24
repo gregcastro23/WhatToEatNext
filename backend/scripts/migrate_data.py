@@ -20,6 +20,7 @@ backend_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(backend_dir))
 
 from database import get_db_session, config
+from sqlalchemy import text
 from database.models import (
     Ingredient, Recipe, ElementalProperties, PlanetaryInfluence,
     ZodiacAffinity, SeasonalAssociation, RecipeIngredient,
@@ -60,6 +61,57 @@ Migration Summary:
 
 class DataMigrationError(Exception):
     pass
+
+
+def normalize_seasons(seasons_list):
+    if not seasons_list:
+        return []
+    res = []
+    mapping = {
+        'spring': 'Spring',
+        'summer': 'Summer',
+        'autumn': 'Autumn',
+        'winter': 'Winter'
+    }
+    for s in seasons_list:
+        if not s:
+            continue
+        s_lower = str(s).lower().strip()
+        if s_lower == 'all':
+            return ['Spring', 'Summer', 'Autumn', 'Winter']
+        mapped = mapping.get(s_lower)
+        if mapped:
+            res.append(mapped)
+        else:
+            res.append(str(s).title())
+    return list(set(res))
+
+
+def normalize_moon_phases(phases_list):
+    if not phases_list:
+        return []
+    res = []
+    mapping = {
+        'new moon': 'New Moon',
+        'waxing crescent': 'Waxing Crescent',
+        'first quarter': 'First Quarter',
+        'waxing gibbous': 'Waxing Gibbous',
+        'full moon': 'Full Moon',
+        'waning gibbous': 'Waning Gibbous',
+        'last quarter': 'Last Quarter',
+        'waning crescent': 'Waning Crescent',
+        'third quarter': 'Last Quarter'
+    }
+    for p in phases_list:
+        if not p:
+            continue
+        p_lower = str(p).lower().strip()
+        mapped = mapping.get(p_lower)
+        if mapped:
+            res.append(mapped)
+        else:
+            res.append(str(p).title())
+    return list(set(res))
 
 
 class DataMigrator:
@@ -220,7 +272,7 @@ class DataMigrator:
                 # Pre-fetch all existing recipe names in one query
                 existing_names: Set[str] = {
                     row[0] for row in session.execute(
-                        "SELECT name FROM recipes"
+                        text("SELECT name FROM recipes")
                     ).fetchall()
                 }
                 self.log(f"Found {len(existing_names)} existing recipes — will skip duplicates.")
@@ -229,7 +281,7 @@ class DataMigrator:
                 ingredient_id_map: Dict[str, str] = {
                     row[0].lower(): str(row[1])
                     for row in session.execute(
-                        "SELECT name, id FROM ingredients"
+                        text("SELECT name, id FROM ingredients")
                     ).fetchall()
                 }
 
@@ -258,6 +310,10 @@ class DataMigrator:
                         for t in data.get('dietary_tags', [])
                     ]
 
+                    # Resolve moon phases and seasons with fallback mappings
+                    raw_lunar = data.get('lunar', []) or data.get('astrologicalAffinities', {}).get('lunarPhases', [])
+                    raw_seasons = data.get('seasonal', []) or data.get('season', [])
+
                     # Denormalized read_model built up-front (no flush needed)
                     read_model = {
                         "id": recipe_id,
@@ -284,11 +340,11 @@ class DataMigrator:
                         ],
                         "contexts": [
                             {
-                                "lunar": data.get('lunar', []),
-                                "seasonal": data.get('seasonal', []) or data.get('season', []),
+                                "lunar": raw_lunar,
+                                "seasonal": raw_seasons,
                                 "timeOfDay": data.get('timeOfDay', []),
                             }
-                        ] if any(k in data for k in ('lunar', 'seasonal', 'season', 'timeOfDay')) else [],
+                        ] if (any(k in data for k in ('lunar', 'seasonal', 'season', 'timeOfDay')) or raw_lunar or raw_seasons) else [],
                     }
 
                     recipe_rows.append({
@@ -302,8 +358,8 @@ class DataMigrator:
                         'cook_time_minutes': data.get('cook_time_minutes', 30),
                         'servings': data.get('servings', 4),
                         'difficulty_level': data.get('difficulty_level', 2),
-                        'dietary_tags': json.dumps(dietary_tags),
-                        'allergens': json.dumps(data.get('allergens', [])),
+                        'dietary_tags': dietary_tags,
+                        'allergens': data.get('allergens', []),
                         'is_public': data.get('is_public', True),
                         'is_verified': data.get('is_verified', False),
                         'read_model': json.dumps(read_model),
@@ -327,16 +383,14 @@ class DataMigrator:
                         })
 
                     # Recipe context
-                    if any(k in data for k in ('lunar', 'seasonal', 'season', 'timeOfDay', 'occasion', 'energyIntention')):
+                    if any(k in data for k in ('lunar', 'seasonal', 'season', 'timeOfDay', 'occasion', 'energyIntention')) or raw_lunar or raw_seasons:
                         recipe_context_rows.append({
                             'id': str(uuid.uuid4()),
                             'recipe_id': recipe_id,
-                            'recommended_moon_phases': json.dumps(data.get('lunar', [])),
-                            'recommended_seasons': json.dumps(
-                                data.get('seasonal', []) or data.get('season', [])
-                            ),
-                            'time_of_day': json.dumps(data.get('timeOfDay', [])),
-                            'occasion': json.dumps(data.get('occasion', [])),
+                            'recommended_moon_phases': normalize_moon_phases(raw_lunar),
+                            'recommended_seasons': normalize_seasons(raw_seasons),
+                            'time_of_day': data.get('timeOfDay', []),
+                            'occasion': data.get('occasion', []),
                             'energy_intention': data.get('energyIntention'),
                         })
 

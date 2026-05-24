@@ -320,6 +320,7 @@ export const PRIMARY_CUISINE_KEYS = [
   "Russian",
   "Thai",
   "Vietnamese",
+  "HSCA",
 ] as const;
 
 /**

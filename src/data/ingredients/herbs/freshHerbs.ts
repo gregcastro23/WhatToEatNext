@@ -1,6 +1,62 @@
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawFreshHerbs = {
+
+  chives: {
+    image_url: "ingredients/chives.png",
+    description: "Elegant, thin, hollow green grass-like stems of the allium family (*Allium schoenoprasum*). Possesses a delicate, sweet onion fragrance and bright green visual appeal. Must be used fresh and raw as heat destroys its volatile oils. Active in Air and Fire elements.",
+    name: "Chives",
+    season: ["spring", "summer"],
+    category: "culinary_herb",
+    subCategory: "fresh_herb",
+    elementalProperties: { Air: 0.40, Fire: 0.35, Water: 0.15, Earth: 0.10 },
+    quantityBase: { amount: 3, unit: "g" },
+    scaledElemental: { Air: 0.40, Fire: 0.35, Water: 0.15, Earth: 0.10 },
+    alchemicalProperties: {
+      Spirit: 0.70,
+      Essence: 0.65,
+      Matter: 0.15,
+      Substance: 0.20,
+    },
+    kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 1.05 },
+    qualities: ["onion-like", "delicate", "aromatic", "fresh", "vibrant"],
+    astrologicalProfile: {
+      rulingPlanets: ["Mercury", "Mars"],
+      favorableZodiac: ["gemini", "aries"],
+      seasonalAffinity: ["spring"],
+    },
+    nutritionalProfile: {
+      serving_size: "1 tbsp chopped (3g)",
+      calories: 1,
+      macros: { protein: 0.1, carbs: 0.1, fat: 0.01, fiber: 0.1, sugar: 0.05, sodium: 0.001 },
+      vitamins: { A: 0.05, C: 0.02, K: 0.08 },
+      minerals: { potassium: 0.01 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.15,
+      salt: 0.0,
+      salty: 0.0,
+      sour: 0.0,
+      bitter: 0.05,
+      umami: 0.1,
+      spicy: 0.2,
+      aromatic: 0.75
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.15, salty: 0.0, sour: 0.0, bitter: 0.05, umami: 0.1, spicy: 0.2 }, 
+      aroma: { onion: 0.7, grassy: 0.5, fresh: 0.6 }, 
+      texture: { hollow: 0.8, crisp: 0.7 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["onion", "aromatic"], secondary: ["grassy", "sweet", "spicy"], notes: "Provides clean, subtle allium flavor without the heaviness of garlic or standard onions." }, 
+      cookingMethods: ["raw", "garnish", "fold", "infuse"], 
+      cuisineAffinity: ["French", "European", "global"], 
+      preparationTips: ["Always cut with a razor-sharp knife to avoid bruising the delicate cells.", "Add at the very last second as a raw garnish to preserve color and aroma."] 
+    },
+    pairingRecommendations: { complementary: ["potatoes", "eggs", "lemon", "butter", "sour cream", "yogurt", "tarragon"], contrasting: ["heavy spices"], toAvoid: [] },
+    storage: { pantry: "Wrap in damp paper towel, store in refrigerator crisper.", notes: "Use within 3-4 days of purchase." }
+  },
   basil: {
       image_url: "ingredients/basil.png",
     description: "A tender, aromatic herb (*Ocimum basilicum*) of the mint family, defined by its bright green, delicate leaves. Its complex flavor profile includes notes of anise, clove, and sweet citrus; because its volatile oils evaporate quickly, it should be added at the very end of cooking or used raw.",

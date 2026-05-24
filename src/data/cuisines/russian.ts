@@ -280,7 +280,7 @@ export const russian: Cuisine = {
 
           alchemicalProperties: {"Spirit":5.92,"Essence":6.77,"Matter":7.53,"Substance":6.83},
           thermodynamicProperties: {"heat":0.0722,"entropy":0.3584,"reactivity":2.0845,"gregsEnergy":-0.6748,"kalchm":0.0078,"monica":0.3064},
-          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["pork ribs","smoked sausage (for a lighter weekday version)"]}],
+          substitutions: [{"originalIngredient":"beef soup bones","substituteOptions":["vegetable stock (HSCA vegan variation)","mushroom and dried porcini broth (vegetarian)","chicken carcass"]},{"originalIngredient":"beef chuck","substituteOptions":["omit for HSCA vegan variation","pork ribs","smoked sausage (for a lighter weekday version)"]},{"originalIngredient":"smetana (sour cream)","substituteOptions":["Tofu Sour Cream (HSCA vegan variation)","creme fraiche"]}],
             nutritionPerServing: {"calories":421,"proteinG":42,"carbsG":5,"fatG":24,"fiberG":1,"sodiumMg":119,"sugarG":2,"vitamins":["Vitamin B12","Vitamin B6","Niacin","Riboflavin","Thiamin","Vitamin C","Vitamin K","Vitamin A","Folate"],"minerals":["Zinc","Iron","Phosphorus","Selenium","Magnesium","Potassium","Manganese","Calcium"]}
         },
         {

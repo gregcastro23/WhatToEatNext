@@ -2,6 +2,52 @@ import type { IngredientMapping } from "@/data/ingredients/types";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 const rawBuckwheat = {
+
+  kasha: {
+    image_url: "ingredients/kasha.png",
+    description: "Toasted whole buckwheat groats (*Fagopyrum esculentum*). The toasting process gelatinizes the surface starches, ensuring the groats cook into fluffy, separate kernels with a highly concentrated, rich, nutty, and smoky aroma. Deeply grounding Earth-Fire energy.",
+    name: "Kasha",
+    season: ["fall", "winter"],
+    category: "grain",
+    subCategory: "pseudo_cereal",
+    elementalProperties: { Earth: 0.55, Fire: 0.25, Air: 0.10, Water: 0.10 },
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn"],
+      favorableZodiac: ["capricorn", "taurus"],
+      seasonalAffinity: ["winter"],
+    },
+    nutritionalProfile: {
+      serving_size: "1/4 cup dry (43g)",
+      calories: 140,
+      macros: { protein: 5.0, carbs: 31.0, fat: 1.0, fiber: 4.0, sugar: 1.0, sodium: 0.005 },
+      vitamins: { niacin: 0.12, B6: 0.08 },
+      minerals: { manganese: 0.38, magnesium: 0.23, copper: 0.15, phosphorus: 0.10 },
+      source: "USDA FoodData Central",
+    },
+    flavorProfile: {
+      sweet: 0.1,
+      salt: 0.05,
+      salty: 0.05,
+      sour: 0.0,
+      bitter: 0.2,
+      umami: 0.3,
+      spicy: 0.0,
+      aromatic: 0.6
+    },
+    sensoryProfile: { 
+      taste: { sweet: 0.1, salty: 0.05, sour: 0.0, bitter: 0.2, umami: 0.3, spicy: 0.0 }, 
+      aroma: { nutty: 0.8, toasted: 0.9, smoky: 0.7 }, 
+      texture: { fluffy: 0.7, chewy: 0.6 } 
+    },
+    culinaryProfile: { 
+      flavorProfile: { primary: ["nutty", "toasty"], secondary: ["smoky", "earthy"], notes: "Intense, robust toasted grain flavor that is highly satisfying in cold weather." }, 
+      cookingMethods: ["boil", "steam", "toast", "whisk", "bake"], 
+      cuisineAffinity: ["Eastern European", "Jewish", "macrobiotic"], 
+      preparationTips: ["Coat dry groats with a beaten egg before cooking to prevent mushiness, then toast in dry pan until fragrant.", "Use a 1:2 grain to liquid ratio and simmer for 12-15 minutes."] 
+    },
+    pairingRecommendations: { complementary: ["mushrooms", "onions", "butter", "bow-tie pasta", "beef broth", "gravy"], contrasting: ["sour cream"], toAvoid: [] },
+    storage: { pantry: "Keep airtight in a dry pantry.", notes: "Highly stable thanks to the roasting process." }
+  },
   buckwheat: {
       image_url: "ingredients/buckwheat.png",
     description: "A nutrient-dense pseudocereal (*Fagopyrum esculentum*) that is completely unrelated to wheat and naturally gluten-free. It provides an aggressively earthy, nutty, and slightly bitter flavor, and is the essential ingredient in Japanese soba noodles and French Breton galettes (crepes).",

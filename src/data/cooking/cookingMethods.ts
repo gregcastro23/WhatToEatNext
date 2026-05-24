@@ -472,6 +472,138 @@ export const cookingMethods = {
     },
     suitable_for: ["vegetables", "fruits", "eggs", "ginger"],
   },
+  simmering: {
+    name: "Simmering",
+    elementalEffect: {
+      Water: 0.85,
+      Fire: 0.35,
+      Earth: 0.3,
+      Air: 0.1,
+    },
+    benefits: ["gentle heat transfer", "flavor extraction", "aroma concentration", "slow reduction"],
+    astrologicalInfluences: {
+      dominantPlanets: ["Moon", "Jupiter"],
+      lunarPhaseEffect: {
+        waxing_gibbous: 0.6,
+        full_moon: 0.5,
+      },
+    },
+    alchemicalProperties: {
+      Spirit: 0.2,
+      Essence: 0.8,
+      Matter: 0.6,
+      Substance: 0.4,
+    },
+    thermodynamicProperties: {
+      heat: 0.5,
+      entropy: 0.3,
+      reactivity: 0.3,
+    },
+    duration: {
+      min: 10,
+      max: 240,
+    },
+    suitable_for: ["broths", "stocks", "soups", "legumes", "slow-cooked sauces"],
+  },
+  blending_pureeing: {
+    name: "Blending & Pureeing",
+    elementalEffect: {
+      Air: 0.8,
+      Water: 0.6,
+      Earth: 0.2,
+      Fire: 0.1,
+    },
+    benefits: ["homogenization", "cellular breakdown", "texture smoothing", "emulsification"],
+    astrologicalInfluences: {
+      dominantPlanets: ["Mercury", "Uranus"],
+      lunarPhaseEffect: {
+        new_moon: 0.7,
+        waxing_crescent: 0.5,
+      },
+    },
+    alchemicalProperties: {
+      Spirit: 0.8,
+      Essence: 0.5,
+      Matter: 0.2,
+      Substance: 0.6,
+    },
+    thermodynamicProperties: {
+      heat: 0.2,
+      entropy: 0.8,
+      reactivity: 0.6,
+    },
+    duration: {
+      min: 1,
+      max: 5,
+    },
+    suitable_for: ["soups", "dressings", "pestos", "sauces", "puddings", "smoothies"],
+  },
+  frying: {
+    name: "Frying",
+    elementalEffect: {
+      Fire: 0.85,
+      Air: 0.5,
+      Earth: 0.3,
+      Water: 0.05,
+    },
+    benefits: ["crispiness development", "rapid cooking", "maillard reaction", "fat infusion"],
+    astrologicalInfluences: {
+      dominantPlanets: ["Mars", "Sun"],
+      lunarPhaseEffect: {
+        full_moon: 0.8,
+        waxing_gibbous: 0.6,
+      },
+    },
+    alchemicalProperties: {
+      Spirit: 0.9,
+      Essence: 0.2,
+      Matter: 0.4,
+      Substance: 0.3,
+    },
+    thermodynamicProperties: {
+      heat: 0.85,
+      entropy: 0.6,
+      reactivity: 0.8,
+    },
+    duration: {
+      min: 2,
+      max: 20,
+    },
+    suitable_for: ["tempeh", "tofu", "croquettes", "delicate proteins", "fritters"],
+  },
+  kneading: {
+    name: "Kneading",
+    elementalEffect: {
+      Earth: 0.85,
+      Air: 0.5,
+      Water: 0.3,
+      Fire: 0.15,
+    },
+    benefits: ["gluten development", "structural alignment", "elasticity building", "air incorporation"],
+    astrologicalInfluences: {
+      dominantPlanets: ["Saturn", "Earth"],
+      lunarPhaseEffect: {
+        waxing_crescent: 0.6,
+        first_quarter: 0.5,
+      },
+    },
+    alchemicalProperties: {
+      Spirit: 0.3,
+      Essence: 0.4,
+      Matter: 0.85,
+      Substance: 0.7,
+    },
+    thermodynamicProperties: {
+      heat: 0.3,
+      entropy: 0.2,
+      reactivity: 0.4,
+    },
+    duration: {
+      min: 5,
+      max: 20,
+    },
+    suitable_for: ["yeast breads", "spelt doughs", "pasta doughs", "flatbreads"],
+  },
 };
 
 // Export as default as well

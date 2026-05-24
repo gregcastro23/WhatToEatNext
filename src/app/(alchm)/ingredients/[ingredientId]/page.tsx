@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState, use, type JSX } from "react";
 import {
@@ -22,6 +23,8 @@ interface ApiIngredient {
   category: string;
   subcategory?: string;
   description?: string;
+  image_url?: string;
+  imageUrl?: string;
   elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
   flavorProfile?: Record<string, number>;
   seasonality?: string[] | string;
@@ -391,6 +394,7 @@ export default function IngredientHeroPage({
     ingredient.planetaryRuler ??
     ingredient.astrologicalProfile?.rulingPlanets?.[0] ??
     "—";
+  const heroImage = ingredient.image_url ?? ingredient.imageUrl ?? null;
 
   return (
     <Shell>
@@ -411,7 +415,31 @@ export default function IngredientHeroPage({
         {/* HERO ROW · 3 columns on tablet+ */}
         <section className="ihero-row">
           {/* Left: name + meta */}
-          <div className="alchm-panel" style={{ padding: "22px 24px" }}>
+          <div
+            className="alchm-panel"
+            style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}
+          >
+            {heroImage && (
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "16 / 9",
+                  background:
+                    "linear-gradient(135deg, color-mix(in oklch, var(--accent), transparent 80%), var(--bg))",
+                }}
+              >
+                <Image
+                  src={heroImage}
+                  alt={ingredient.name}
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
+              </div>
+            )}
+            <div style={{ padding: "22px 24px" }}>
             <div className="t-tag" style={{ color: "var(--accent)" }}>
               {ingredient.category?.toUpperCase()}
               {ingredient.subcategory ? ` · ${ingredient.subcategory.toUpperCase()}` : ""}
@@ -458,6 +486,7 @@ export default function IngredientHeroPage({
                   {q}
                 </span>
               ))}
+            </div>
             </div>
           </div>
 
