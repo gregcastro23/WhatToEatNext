@@ -724,6 +724,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   matcha: {
+      image_url: "https://assets.alchm.kitchen/ingredients/matcha.png",
     name: "matcha",
     description: "Vibrant green powder ground from shade-grown *Camellia sinensis* leaves (tencha). Because the whole leaf is consumed rather than steeped and discarded, matcha delivers ~3x the caffeine and L-theanine of regular green tea plus a concentrated dose of catechin antioxidants. Used in tea ceremony, lattes, smoothies, and baking.",
     origin: ["Japan"],
@@ -750,6 +751,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
 },
 
   spirulina: {
+      image_url: "https://assets.alchm.kitchen/ingredients/spirulina.png",
     name: "spirulina",
     description: "Deep blue-green powder made from dried *Arthrospira platensis* cyanobacteria. One of the densest plant proteins by weight (~60% protein) with bioavailable iron, B vitamins, and phycocyanin pigment. Strong marine-vegetal flavor, so typically blended into smoothies, energy bars, or dressings.",
     origin: ["Mexico", "Africa", "Hawaii"],

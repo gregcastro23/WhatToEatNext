@@ -11,7 +11,6 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { oloService } from "@/services/oloService";
 import type { RestaurantDiscoverySource } from "@/types/yelp";
 
 type SplitMode =
@@ -27,7 +26,6 @@ interface RestaurantOrderBody {
     name?: unknown;
     url?: unknown;
     stripeConnectedAccountId?: unknown;
-    oloRestaurantId?: unknown;
   };
   order?: {
     amountCents?: unknown;
@@ -302,35 +300,29 @@ async function recordOrderIntent(input: {
 async function findPartnerRouting(input: {
   restaurantId: string;
   provider: string;
-  oloRestaurantId?: string;
 }): Promise<{
   id: string;
   stripeConnectAccountId: string | null;
-  oloRestaurantId: string | null;
 } | null> {
   try {
     const { executeQuery } = await import("@/lib/database/connection");
     const result = await executeQuery<{
       id: string;
       stripe_connect_account_id: string | null;
-      olo_restaurant_id: string | null;
     }>(
-      `SELECT id, stripe_connect_account_id, olo_restaurant_id
+      `SELECT id, stripe_connect_account_id
        FROM restaurants
        WHERE id = $1
-          OR olo_restaurant_id = $1
-          OR ($3::text IS NOT NULL AND olo_restaurant_id = $3)
           OR (external_provider = $2 AND external_id = $1)
        ORDER BY updated_at DESC
        LIMIT 1`,
-      [input.restaurantId, input.provider || null, input.oloRestaurantId ?? null],
+      [input.restaurantId, input.provider || null],
     );
     const row = result.rows[0];
     return row
       ? {
           id: row.id,
           stripeConnectAccountId: row.stripe_connect_account_id,
-          oloRestaurantId: row.olo_restaurant_id,
         }
       : null;
   } catch {
@@ -368,7 +360,6 @@ export async function POST(request: Request) {
   const restaurantName = text(restaurant.name);
   const restaurantUrl = text(restaurant.url);
   const connectedAccountIdFromBody = text(restaurant.stripeConnectedAccountId);
-  const oloRestaurantIdFromBody = text(restaurant.oloRestaurantId);
   const cuisineType = text(body.cuisineType) || "Restaurant";
   const provider = text(body.provider) as RestaurantDiscoverySource | "";
   const orderCurrency = currency(body.order?.currency);
@@ -415,14 +406,11 @@ export async function POST(request: Request) {
   const partnerRouting = await findPartnerRouting({
     restaurantId,
     provider,
-    oloRestaurantId: oloRestaurantIdFromBody,
   });
   const connectedAccountId =
     connectedAccountIdFromBody || partnerRouting?.stripeConnectAccountId || null;
-  const oloRestaurantId =
-    oloRestaurantIdFromBody || partnerRouting?.oloRestaurantId || null;
   const internalRestaurantId = partnerRouting?.id || restaurantId;
-  const partnerSystem = oloRestaurantId ? "olo" : provider || "direct";
+  const partnerSystem = provider || "direct";
   const transferAmountCents = Math.max(subtotalCents - platformFeeCents, 0);
   const splitMode = resolveSplitMode(body.order?.splitMode, connectedAccountId ?? "");
 
@@ -491,25 +479,6 @@ export async function POST(request: Request) {
   }
 
   try {
-    const oloOrder = oloRestaurantId
-      ? await oloService.createOrder({
-          restaurantId: oloRestaurantId,
-          items: lineItems.map((item) => ({
-            id: item.id,
-            name: item.name,
-            quantity: item.quantity,
-            unitPriceCents: item.unitPriceCents,
-          })),
-          metadata: {
-            orderId,
-            restaurantId: internalRestaurantId,
-            cuisineType,
-            provider,
-          },
-        })
-      : null;
-    const oloOrderId = oloOrder?.id ?? "";
-
     const appUrl = appUrlFrom(request);
     const successUrl = new URL("/restaurants", appUrl);
     successUrl.searchParams.set("cuisine", cuisineType);
@@ -538,7 +507,6 @@ export async function POST(request: Request) {
       restaurantName: metadataValue(restaurantName),
       restaurantUrl: metadataValue(parsedRestaurantUrl.toString()),
       stripeConnectedAccountId: metadataValue(connectedAccountId ?? ""),
-      oloOrderId: metadataValue(oloOrderId),
       partnerSystem: metadataValue(partnerSystem),
       splitMode,
       transferGroup,
@@ -604,12 +572,11 @@ export async function POST(request: Request) {
         typeof checkoutSession.payment_intent === "string"
           ? checkoutSession.payment_intent
           : checkoutSession.payment_intent?.id ?? null,
-      partnerOrderId: oloOrderId || null,
-      partnerStatus: oloOrder?.status || (oloOrderId ? "created" : null),
+      partnerOrderId: null,
+      partnerStatus: null,
       metadata: {
         stripeCheckoutUrlCreated: Boolean(checkoutSession.url),
         transferGroup,
-        oloRestaurantId,
         specialInstructions: text(body.order?.specialInstructions) || undefined,
         preparationTime: numberFrom(body.order?.preparationTime),
       },

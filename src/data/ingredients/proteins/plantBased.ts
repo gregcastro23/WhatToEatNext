@@ -2025,6 +2025,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   },
 
   hemp_hearts: {
+      image_url: "https://assets.alchm.kitchen/ingredients/hemp_hearts.png",
     name: "hemp hearts",
     description: "Shelled seeds of *Cannabis sativa* (industrial hemp, non-psychoactive). Soft, slightly nutty seeds with a notable 10g protein per 3 tbsp serving and a near-ideal 3:1 omega-6:omega-3 ratio. Eaten raw on yogurt, salads, smoothies; no grinding required for digestion.",
     origin: ["Central Asia"],

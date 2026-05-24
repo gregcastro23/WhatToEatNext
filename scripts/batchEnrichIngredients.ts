@@ -50,6 +50,7 @@ interface Options {
   forceImages: boolean;
   limit: number;
   delayMs: number;
+  onlySlug?: string;
 }
 
 interface Candidate {
@@ -82,6 +83,8 @@ function parseArgs(): Options {
     return Number.isFinite(value) && value >= 0 ? value : fallback;
   };
 
+  const onlyRaw = process.argv.find((arg) => arg.startsWith("--only="));
+  const onlySlug = onlyRaw ? onlyRaw.split("=")[1]?.trim() || undefined : undefined;
   return {
     apply: args.has("--apply"),
     yes: args.has("--yes"),
@@ -89,6 +92,7 @@ function parseArgs(): Options {
     forceImages: args.has("--force-images"),
     limit: getValue("--limit", 25),
     delayMs: getValue("--delay-ms", 1200),
+    onlySlug,
   };
 }
 
@@ -164,7 +168,20 @@ function collectCandidates(project: Project, options: Options): Candidate[] {
         const object = assignment
           .getInitializer()
           ?.asKind(SyntaxKind.ObjectLiteralExpression);
-        if (!object || !getProp(object, "name")) continue;
+        if (!object) continue;
+
+        // Earlier this code required a `name` property, which silently skipped
+        // every entry in coverageCurationOverrides.ts (51 ingredients keyed by
+        // slug only — mirepoix, mirin, chili_flakes, radishes…). Fall back to
+        // the slug so those entries are included. Still skip pure boilerplate
+        // entries that have *no* identifying metadata at all.
+        if (
+          !getProp(object, "name") &&
+          !getProp(object, "category") &&
+          !getProp(object, "description")
+        ) {
+          continue;
+        }
 
         const slug = stripQuotes(assignment.getName());
         const name = getStringProp(object, "name") || slug.replace(/_/g, " ");
@@ -175,6 +192,10 @@ function collectCandidates(project: Project, options: Options): Candidate[] {
           "flavorDescription",
         ]);
         const missingImage = !hasImageProp(object);
+
+        // --only=<slug> narrows the set to a single ingredient (e.g. for
+        // targeted fixes like the lamb-face regeneration).
+        if (options.onlySlug && slug !== options.onlySlug) continue;
 
         if (missingDescription || (options.includeImages && (missingImage || options.forceImages))) {
           candidates.push({
@@ -341,9 +362,28 @@ async function generateIngredientImage(
     return { fallback: true, fallbackReason: "missing credentials" };
   }
 
+  // Category-aware framing. Without it SDXL renders "lamb" as a live sheep
+  // (face included). For animal-source proteins we explicitly anchor on the
+  // butcher cut. For seafood, the same trick — show the cut/fillet, not the
+  // living creature.
+  const lowerName = candidate.name.toLowerCase();
+  const lowerCategory = (candidate.category || "").toLowerCase();
+  const isAnimalProtein =
+    lowerCategory === "protein" ||
+    lowerCategory === "meat" ||
+    lowerCategory === "poultry" ||
+    lowerCategory === "seafood" ||
+    /\b(lamb|beef|pork|chicken|duck|turkey|veal|venison|rabbit|goat|fish|salmon|tuna|cod|trout|halibut|shrimp|prawn|crab|lobster)\b/.test(
+      lowerName,
+    );
+
+  const formClause = isAnimalProtein
+    ? `raw butcher's cut of ${candidate.name}, prime cuts only, no animal head, no face, no eyes, no live animal`
+    : `${candidate.name}`;
+
   const promptSegments = [
-    `premium culinary photograph of ${candidate.name}`,
-    candidate.category ? `(${candidate.category})` : "",
+    `premium culinary photograph of ${formClause}`,
+    candidate.category && !isAnimalProtein ? `(${candidate.category})` : "",
     "centered on dark slate surface",
     "studio lighting",
     "razor-sharp focus",
@@ -353,6 +393,27 @@ async function generateIngredientImage(
   ].filter(Boolean);
 
   const prompt = promptSegments.join(", ");
+  const negativePrompt = [
+    "live animal",
+    "animal face",
+    "animal head",
+    "eyes",
+    "fur",
+    "feathers",
+    "scales of living fish",
+    "whole carcass",
+    "hands",
+    "people",
+    "person",
+    "text",
+    "labels",
+    "watermark",
+    "logo",
+    "fantasy elements",
+    "cartoon",
+    "illustration",
+    "painting",
+  ].join(", ");
 
   const aiUrl = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/@cf/stabilityai/stable-diffusion-xl-base-1.0`;
 
@@ -363,7 +424,7 @@ async function generateIngredientImage(
         "Authorization": `Bearer ${apiToken}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt, negative_prompt: negativePrompt })
     });
 
     if (!aiResponse.ok) {
