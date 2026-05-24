@@ -136,9 +136,23 @@ export function resolveIngredientSlug(input: string): string | null {
     const byAlias = ALIAS_TO_SLUG.get(candidateInput);
     if (byAlias) return byAlias;
 
-    // Containment fallback for prefixed names like "fresh pandan leaves"
-    for (const [alias, candidate] of ALIAS_TO_SLUG.entries()) {
-      if (alias.length < 3) continue;
+    // Containment fallback for prefixed names like "fresh pandan leaves".
+    // Iterate longest-first so descriptive prefixes ("fresh", "dried")
+    // never win against the actual ingredient ("pandan leaves"). Also skip
+    // a stopword list of generic state/preparation descriptors that get
+    // promoted to slugs when a recipe lists them as bare ingredients.
+    const STOP = new Set([
+      "fresh", "dried", "frozen", "raw", "cooked", "ground", "whole",
+      "plain", "unsalted", "salted", "sweet", "warm", "hot", "cold",
+      "small", "medium", "large", "chopped", "minced", "sliced", "diced",
+      "to taste", "for garnish", "for serving", "optional",
+    ]);
+    const sortedAliases = Array.from(ALIAS_TO_SLUG.entries()).sort(
+      (a, b) => b[0].length - a[0].length,
+    );
+    for (const [alias, candidate] of sortedAliases) {
+      if (alias.length < 4) continue;
+      if (STOP.has(alias)) continue;
       const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const re = new RegExp(`(^|\\s)${escaped}(\\s|$)`);
       if (re.test(candidateInput)) return candidate;
