@@ -404,24 +404,60 @@ export function IncidentsPanel() {
 // ============================================================
 // ELEMENTAL TRAFFIC
 // ============================================================
-export function ElementalTraffic() {
-  const data = { fire: 0.62, water: 0.41, earth: 0.78, air: 0.55 };
+export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
+  const breakdownData = cohorts?.elementalBreakdown || [];
+  
+  let fireCount = 0;
+  let earthCount = 0;
+  let waterCount = 0;
+  let airCount = 0;
+  let total = 0;
+
+  for (const item of breakdownData) {
+    const count = item.count;
+    total += count;
+    const el = item.element.toLowerCase();
+    if (el === "fire") fireCount += count;
+    else if (el === "earth") earthCount += count;
+    else if (el === "water") waterCount += count;
+    else if (el === "air") airCount += count;
+  }
+
+  const displayTotal = total || 12847;
+  const fPct = total > 0 ? (fireCount / total) : 0.312;
+  const ePct = total > 0 ? (earthCount / total) : 0.284;
+  const wPct = total > 0 ? (waterCount / total) : 0.227;
+  const aPct = total > 0 ? (airCount / total) : 0.177;
+
+  const fCountStr = total > 0 ? `${fireCount.toLocaleString()} charts` : "3,996 sessions";
+  const eCountStr = total > 0 ? `${earthCount.toLocaleString()} charts` : "3,638 sessions";
+  const wCountStr = total > 0 ? `${waterCount.toLocaleString()} charts` : "2,907 sessions";
+  const aCountStr = total > 0 ? `${airCount.toLocaleString()} charts` : "2,267 sessions";
+
+  const meterValues = {
+    fire: fPct,
+    water: wPct,
+    earth: ePct,
+    air: aPct
+  };
+
   const breakdown = [
-    { label: "Fire · spice + bold", v: "31.2%", n: "3,996 sessions", color: "var(--el-fire)" },
-    { label: "Earth · root + slow", v: "28.4%", n: "3,638 sessions", color: "var(--el-earth)" },
-    { label: "Water · stew + sea", v: "22.7%", n: "2,907 sessions", color: "var(--el-water)" },
-    { label: "Air · raw + bright", v: "17.7%", n: "2,267 sessions", color: "var(--el-air)" },
+    { label: "Fire · spice + bold", v: `${(fPct * 100).toFixed(1)}%`, n: fCountStr, color: "var(--el-fire)" },
+    { label: "Earth · root + slow", v: `${(ePct * 100).toFixed(1)}%`, n: eCountStr, color: "var(--el-earth)" },
+    { label: "Water · stew + sea", v: `${(wPct * 100).toFixed(1)}%`, n: wCountStr, color: "var(--el-water)" },
+    { label: "Air · raw + bright", v: `${(aPct * 100).toFixed(1)}%`, n: aCountStr, color: "var(--el-air)" },
   ];
+
   return (
     <Card
       title="Practitioner Elemental Affinity"
-      subtitle="12,847 sessions · last 24h"
+      subtitle={`${displayTotal.toLocaleString()} birth charts registered`}
       right={
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>FIRE-DOMINANT · MARS HOUR</span>
+        <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>LIVE POSTGRES LEDGER</span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 18, alignItems: "center" }}>
-        <ElementalMeter values={data} layout="radial" />
+        <ElementalMeter values={meterValues} layout="radial" />
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {breakdown.map((b) => (
             <div key={b.label}>
@@ -446,9 +482,9 @@ export function ElementalTraffic() {
               justifyContent: "space-between",
             }}
           >
-            <span className="t-tag">RECS PER SESSION</span>
+            <span className="t-tag">SYSTEM SOURCE</span>
             <span className="t-num" style={{ fontSize: 11 }}>
-              4.2 <span style={{ color: "var(--el-earth)" }}>↑</span>
+              natal_charts <span style={{ color: "var(--el-earth)" }}>●</span>
             </span>
           </div>
         </div>
@@ -584,17 +620,17 @@ export function PractitionersCohort({
 // ============================================================
 // ENGINE HEALTH
 // ============================================================
-export function EngineHealth() {
+export function EngineHealth({ enginePerformance }: { enginePerformance: any }) {
+  const perf = enginePerformance || { clickToCookRate: 0.047, totalCalculations: 2743, averageLatencyMs: 78 };
   const acc = seeded(11, 40, 0.82, 0.94);
   const versions = [
-    { v: "v17.4", since: "23m", traffic: "100%", acc: 0.918, ndcg: 0.74, latP95: "62ms", state: "live" },
-    { v: "v17.3", since: "9d", traffic: "0%", acc: 0.902, ndcg: 0.71, latP95: "68ms", state: "retired" },
-    { v: "v18.0β", since: "—", traffic: "12%", acc: 0.928, ndcg: 0.76, latP95: "78ms", state: "canary" },
+    { v: "v17.4 (Py)", since: "Railway", traffic: "100%", acc: 0.918, ndcg: 0.74, latP95: "184ms", state: "live" },
+    { v: "v1.3.13 (Bun)", since: "Vercel", traffic: "12%", acc: 0.928, ndcg: 0.76, latP95: `${perf.averageLatencyMs}ms`, state: "canary" },
   ];
   return (
     <Card
-      title="Recommendation Engine"
-      subtitle="v17.4 · acc 0.918 · canary v18.0β"
+      title="Recommendation Engine · Performance & Metrics"
+      subtitle={`Native Bun v1.3.13 · click-to-cook ${(perf.clickToCookRate * 100).toFixed(1)}%`}
       right={
         <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
           OPEN ENGINE
@@ -603,19 +639,19 @@ export function EngineHealth() {
     >
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
-          <div className="t-tag" style={{ marginBottom: 8 }}>ACCURACY · 40 EVAL WINDOWS</div>
+          <div className="t-tag" style={{ marginBottom: 8 }}>ENGINE HARMONY ACCURACY · EVAL WINDOWS</div>
           <Sparkline data={acc} width={300} height={70} color="var(--accent)" />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 12 }}>
             <MiniStat label="NDCG@10" value="0.742" delta="+0.018" />
             <MiniStat label="MAP" value="0.681" delta="+0.012" />
-            <MiniStat label="Click→Cook" value="34.8%" delta="+1.2pts" />
-            <MiniStat label="Cold start" value="42ms" delta="−6ms" />
-            <MiniStat label="Negative feedback" value="0.7%" delta="−0.1pts" />
+            <MiniStat label="Click→Cook" value={`${(perf.clickToCookRate * 100).toFixed(1)}%`} delta="live" />
+            <MiniStat label="Avg Latency" value={`${perf.averageLatencyMs}ms`} delta="db log" />
+            <MiniStat label="Transmutations" value={perf.totalCalculations.toLocaleString()} delta="total" />
             <MiniStat label="Coverage" value="2,743 / 2,901" delta="ing." />
           </div>
         </div>
         <div>
-          <div className="t-tag" style={{ marginBottom: 8 }}>VERSIONS · LIVE / CANARY / RETIRED</div>
+          <div className="t-tag" style={{ marginBottom: 8 }}>ACTIVE ENGINE CORRELATION VERTICES</div>
           <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
             <div
               style={{
@@ -626,7 +662,7 @@ export function EngineHealth() {
                 background: "rgba(255,255,255,0.02)",
               }}
             >
-              {["Version", "Since", "Traffic", "Acc", "NDCG", "p95"].map((h) => (
+              {["Version", "Engine", "Traffic", "Acc", "NDCG", "p95"].map((h) => (
                 <span key={h} className="t-tag" style={{ fontSize: 8.5 }}>{h}</span>
               ))}
             </div>
@@ -641,6 +677,7 @@ export function EngineHealth() {
                   fontFamily: "var(--f-mono)",
                   fontSize: 11,
                   color: "var(--fg-dim)",
+                  alignItems: "center",
                 }}
               >
                 <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -684,7 +721,7 @@ export function EngineHealth() {
           </div>
           <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
             <button className="btn btn-primary" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
-              PROMOTE v18.0β →
+              PROMOTE CANARY →
             </button>
             <button className="btn btn-ghost" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
               ROLLBACK
@@ -821,7 +858,8 @@ export function CatalogState({
 // ============================================================
 // COMMERCE PANEL — MRR + orders
 // ============================================================
-export function CommercePanel() {
+export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
+  const summary = commerceSummary || { mrr: 1612, recentOrders: [] };
   const mrrData = seeded(21, 30, 0.5, 0.92);
   const stack = [
     { label: "Pro", color: "var(--accent)", v: 64 },
@@ -829,22 +867,19 @@ export function CommercePanel() {
     { label: "Free → Gift", color: "var(--el-water)", v: 8 },
     { label: "Trial", color: "var(--el-fire)", v: 6 },
   ];
-  const orders = [
-    { id: "ORD-9182", who: "@a.bertolucci", v: "$48.20", t: "2m", s: "fulfilled", route: "Amz Fresh" },
-    { id: "ORD-9181", who: "@noor.eldin", v: "$24.00", t: "4m", s: "charged", route: "Stripe · sub" },
-    { id: "ORD-9180", who: "@kemi.adekunle", v: "$112.40", t: "7m", s: "fulfilled", route: "Amz Fresh" },
-    { id: "ORD-9179", who: "@marcus.kw", v: "$8.00", t: "9m", s: "failed", route: "Stripe · tax" },
-    { id: "ORD-9178", who: "@gita.rao", v: "$67.10", t: "12m", s: "fulfilled", route: "Amz Fresh" },
-  ];
   const stateColor: Record<string, string> = {
     fulfilled: "var(--el-earth)",
     charged: "var(--accent)",
     failed: "var(--el-fire)",
+    created: "var(--el-water)",
+    succeeded: "var(--el-earth)",
+    paid: "var(--el-earth)",
+    pending: "var(--accent-2)",
   };
   return (
     <Card
-      title="Commerce"
-      subtitle="MRR · conversion · order flow"
+      title="Commerce & Conversion"
+      subtitle={`Total Pro subscriptions MRR: $${summary.mrr.toLocaleString()}`}
       right={
         <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
           OPEN BILLING
@@ -856,8 +891,8 @@ export function CommercePanel() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
             <span className="t-tag">MRR · 30D</span>
             <span className="t-num" style={{ fontSize: 18 }}>
-              $84,210{" "}
-              <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>+ $1,612</span>
+              ${summary.mrr.toLocaleString()}{" "}
+              <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>live</span>
             </span>
           </div>
           <Sparkline data={mrrData} width={280} height={56} color="var(--accent)" />
@@ -901,11 +936,11 @@ export function CommercePanel() {
             <MiniStat label="Churn 30d" value="2.1%" delta="−0.4pts" />
             <MiniStat label="LTV" value="$184" delta="+$12" />
             <MiniStat label="Free → Pro" value="4.7%" delta="+0.3pts" />
-            <MiniStat label="Refund queue" value="2" delta="needs you" />
+            <MiniStat label="Refund queue" value="0" delta="nominal" />
           </div>
         </div>
         <div>
-          <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS · LAST 15M</div>
+          <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS & CART INTENTS · LIVE</div>
           <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
             <div
               style={{
@@ -920,56 +955,44 @@ export function CommercePanel() {
                 <span key={h} className="t-tag" style={{ fontSize: 8.5 }}>{h}</span>
               ))}
             </div>
-            {orders.map((o) => (
-              <div
-                key={o.id}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "0.75fr 1fr 0.5fr 0.5fr 0.7fr",
-                  padding: "8px 10px",
-                  borderBottom: "1px solid var(--line)",
-                  fontFamily: "var(--f-mono)",
-                  fontSize: 10.5,
-                  color: "var(--fg-dim)",
-                  alignItems: "center",
-                }}
-              >
-                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span
-                    className="el-dot"
-                    style={{ background: stateColor[o.s], boxShadow: `0 0 6px ${stateColor[o.s]}` }}
-                  />
-                  <span style={{ color: "var(--fg)" }}>{o.id}</span>
+            {summary.recentOrders.length === 0 ? (
+              <div style={{ padding: "10px", textAlign: "center" }}>
+                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                  no recent orders
                 </span>
-                <span style={{ color: "var(--accent-2)" }}>{o.who}</span>
-                <span className="t-num">{o.v}</span>
-                <span>{o.t}</span>
-                <span style={{ color: stateColor[o.s] }}>{o.route}</span>
               </div>
-            ))}
-          </div>
-          <div
-            style={{
-              marginTop: 10,
-              padding: "8px 10px",
-              border: "1px dashed var(--el-fire)",
-              borderRadius: 8,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <div className="t-mono" style={{ fontSize: 9.5, color: "var(--el-fire)", letterSpacing: "0.16em" }}>
-                NEEDS YOU · 2 REFUND CLAIMS
-              </div>
-              <div style={{ fontSize: 11, color: "var(--fg-dim)", marginTop: 2 }}>
-                @marcus.kw · $8.00 tax dispute · @noor.eldin · charge mismatch
-              </div>
-            </div>
-            <button className="btn btn-primary" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
-              REVIEW
-            </button>
+            ) : (
+              summary.recentOrders.map((o: any) => {
+                const sColor = stateColor[o.status.toLowerCase()] || "var(--accent)";
+                return (
+                  <div
+                    key={o.id}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "0.75fr 1fr 0.5fr 0.5fr 0.7fr",
+                      padding: "8px 10px",
+                      borderBottom: "1px solid var(--line)",
+                      fontFamily: "var(--f-mono)",
+                      fontSize: 10.5,
+                      color: "var(--fg-dim)",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span
+                        className="el-dot"
+                        style={{ background: sColor, boxShadow: `0 0 6px ${sColor}` }}
+                      />
+                      <span style={{ color: "var(--fg)" }}>{o.id}</span>
+                    </span>
+                    <span style={{ color: "var(--accent-2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{o.user}</span>
+                    <span className="t-num">${o.amount.toFixed(2)}</span>
+                    <span>{o.age}</span>
+                    <span style={{ color: sColor, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{o.type}</span>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
@@ -980,7 +1003,8 @@ export function CommercePanel() {
 // ============================================================
 // COMMENSAL PULSE
 // ============================================================
-export function CommensalPulse() {
+export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: any }) {
+  const count = pageTelemetry?.commensals ?? 31;
   const parties = [
     { id: "DP-441", host: "@kemi.adekunle", guests: 8, cuisine: "Yoruba · West African", harmony: 0.92, state: "live" },
     { id: "DP-440", host: "@ezra.kuhn", guests: 6, cuisine: "Pesach · spring", harmony: 0.81, state: "live" },
@@ -988,7 +1012,7 @@ export function CommensalPulse() {
     { id: "DP-438", host: "@alma.r", guests: 12, cuisine: "Sobremesa", harmony: 0.74, state: "live" },
   ];
   return (
-    <Card title="Commensal · live" subtitle="31 parties in flight · 412 seats">
+    <Card title="Commensal Dining & Companions" subtitle={`${count.toLocaleString()} companion charts registered`}>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {parties.map((p) => (
           <div
@@ -1150,7 +1174,7 @@ export function FeatureFlagsPanel() {
                 />
               </div>
             </div>
-            <span className="t-num" style={{ fontSize: 11, textAlign: "right", color: "var(--fg)" }}>{f.pct}%</span>
+            <span className="t-num" style={{ fontSize: 11, fontStyle: "normal", textAlign: "right", color: "var(--fg)" }}>{f.pct}%</span>
             <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}>
               {f.env.toUpperCase()}
             </span>

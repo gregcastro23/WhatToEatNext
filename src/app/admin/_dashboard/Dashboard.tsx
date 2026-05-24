@@ -152,19 +152,19 @@ export function Dashboard({ data }: DashboardProps) {
             marginBottom: 12,
           }}
         >
-          <ElementalTraffic />
+          <ElementalTraffic cohorts={data.practitionerCohorts} />
           <PractitionersCohort realFunnel={realFunnel} />
           <IncidentsPanel />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 12, marginBottom: 12 }}>
-          <SubdomainMatrix />
-          <APIHeatmap />
+          <SubdomainMatrix pageTelemetry={data.pageTelemetry} />
+          <APIHeatmap db={data.dbObservability} />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-          <EngineHealth />
-          <RecipeQualityInspector />
+          <EngineHealth enginePerformance={data.enginePerformance} />
+          <RecipeQualityInspector trending={data.catalogTrending} />
         </div>
 
         <div
@@ -176,8 +176,8 @@ export function Dashboard({ data }: DashboardProps) {
           }}
         >
           <CatalogState realCards={catalogCards} trending={data.catalogTrending} />
-          <CommensalPulse />
-          <CommercePanel />
+          <CommensalPulse pageTelemetry={data.pageTelemetry} />
+          <CommercePanel commerceSummary={data.commerce} />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>
