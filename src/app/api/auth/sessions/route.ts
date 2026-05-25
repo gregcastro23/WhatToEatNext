@@ -58,11 +58,30 @@ function jwtFallback(
 
 export async function GET(request: Request) {
   const session = await auth();
-  const user = session?.user as
+  let user = session?.user as
     | { id?: string; tier?: string }
     | undefined;
+
+  // Bearer JWT fallback so API clients (and the synthetic auth-handshake
+  // probe) can hit this endpoint without a NextAuth cookie. Cookie path
+  // stays primary for real users.
   if (!user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const authHeader = request.headers.get("authorization") ?? "";
+    if (authHeader.startsWith("Bearer ")) {
+      try {
+        const { validateToken } = await import("@/lib/auth/validateRequest");
+        const result = await validateToken(authHeader.slice(7));
+        if (result.valid && result.user) {
+          user = { id: result.user.userId };
+        }
+      } catch {
+        /* token rejected — fall through to 401 */
+      }
+    }
+  }
+
+  if (!user?.id) {
+    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
 
   // Resolve the current jti from the JWT so we can mark the corresponding
