@@ -16,6 +16,13 @@ import type { ReactNode } from "react";
  */
 export const dynamic = "force-dynamic";
 
+// Cap the server function at 30s instead of inheriting the Vercel default 60s.
+// Every page in this group is either a 'use client' shell (no server-side
+// awaits) or wraps a single DB read that we already cap at 8s. 30s is more
+// than 3x the worst legitimate case, so any longer hang is a bug worth
+// surfacing fast — and a 30s failure is much better UX than 60s.
+export const maxDuration = 30;
+
 export default function AlchmLayout({ children }: { children: ReactNode }) {
   return (
     <div data-alchm-route="true" className="alchm-root lab">

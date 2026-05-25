@@ -5,6 +5,7 @@ import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalCons
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { auth } from '@/lib/auth/auth';
+import { withTimeout } from '@/lib/performance/withTimeout';
 import { userDatabase } from '@/services/userDatabaseService';
 
 
@@ -15,7 +16,15 @@ export default async function BirthChartPage() {
     redirect('/login');
   }
 
-  const profile = await userDatabase.getUserByEmail(session.user.email);
+  // 8s ceiling so a slow Railway lookup can't wedge the Vercel function until
+  // its 60s hard limit. On timeout we fall through the same redirect as a
+  // genuinely missing chart.
+  const profile = await withTimeout(
+    userDatabase.getUserByEmail(session.user.email),
+    8000,
+    null,
+    'birth-chart getUserByEmail',
+  );
   if (!profile?.profile?.natalChart) {
     redirect('/profile'); // Go to onboarding
   }
