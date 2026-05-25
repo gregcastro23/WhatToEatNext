@@ -20,6 +20,7 @@ function createIngredientMapping(id: string, properties: any) {
 
 const rawVinegars = {
   rice_vinegar: createIngredientMapping("rice_vinegar", {
+    image_url: "ingredients/rice_vinegar.png",
     elementalProperties: {
       Water: 0.4,
       Air: 0.3,
@@ -111,6 +112,7 @@ const rawVinegars = {
   }),
 
   balsamic_vinegar: createIngredientMapping("balsamic_vinegar", {
+    image_url: "ingredients/balsamic_vinegar.png",
     elementalProperties: {
       Water: 0.3,
       Earth: 0.4,
@@ -234,6 +236,7 @@ const rawVinegars = {
   }),
 
   sherry_vinegar: createIngredientMapping("sherry_vinegar", {
+    image_url: "ingredients/sherry_vinegar.png",
     elementalProperties: {
       Water: 0.5,
       Earth: 0.3,
@@ -352,6 +355,7 @@ const rawVinegars = {
   }),
 
   apple_cider_vinegar: createIngredientMapping("apple_cider_vinegar", {
+    image_url: "ingredients/apple_cider_vinegar.png",
     elementalProperties: {
       Water: 0.3,
       Air: 0.3,
@@ -453,6 +457,7 @@ const rawVinegars = {
   }),
 
   red_wine_vinegar: createIngredientMapping("red_wine_vinegar", {
+    image_url: "ingredients/red_wine_vinegar.png",
     elementalProperties: {
       Water: 0.3,
       Fire: 0.3,
@@ -564,6 +569,7 @@ const rawVinegars = {
   }),
 
   white_wine_vinegar: createIngredientMapping("white_wine_vinegar", {
+    image_url: "ingredients/white_wine_vinegar.png",
     qualities: ["bright", "clean", "crisp"],
     origin: ["France", "Germany", "Italy"],
     category: "vinegars",
@@ -626,6 +632,7 @@ const rawVinegars = {
   }),
 
   champagne_vinegar: createIngredientMapping("champagne_vinegar", {
+    image_url: "ingredients/champagne_vinegar.png",
     qualities: ["delicate", "floral", "elegant"],
     origin: ["France"],
     category: "vinegars",
@@ -675,6 +682,7 @@ const rawVinegars = {
   }),
 
   malt_vinegar: createIngredientMapping("malt_vinegar", {
+    image_url: "ingredients/malt_vinegar.png",
     elementalProperties: {
       Earth: 0.5,
       Fire: 0.3,

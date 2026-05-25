@@ -48,6 +48,8 @@ export const RecommendedIngredientSchema = z.object({
   /** 0-1 match score: f(transit_position, user.natal). */
   match_score: z.number().min(0).max(1),
   thermo: ThermoSignatureSchema,
+  /** R2 asset path (e.g. "ingredients/onion.png") or undefined when unavailable. */
+  image_url: z.string().optional(),
 });
 export type RecommendedIngredient = z.infer<typeof RecommendedIngredientSchema>;
 

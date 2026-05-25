@@ -139,6 +139,10 @@ export async function GET(request: Request) {
         Matter: 0.25,
         Substance: 0.25,
       };
+      const rawImage =
+        (ing as { image_url?: unknown }).image_url ??
+        (ing as { imageUrl?: unknown }).imageUrl ??
+        (ing as { image?: unknown }).image;
       return {
         id: slugify(ing.name),
         name: ing.name,
@@ -153,6 +157,7 @@ export async function GET(request: Request) {
           matter: Number((alch.Matter ?? 0).toFixed(4)),
           substance: Number((alch.Substance ?? 0).toFixed(4)),
         },
+        image_url: typeof rawImage === "string" && rawImage.trim().length > 0 ? rawImage : undefined,
       };
     });
 
