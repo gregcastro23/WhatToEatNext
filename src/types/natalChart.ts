@@ -67,7 +67,7 @@ export interface NatalChart {
 export interface GroupMember {
   id: string;
   name: string;
-  relationship?: "family" | "friend" | "partner" | "colleague" | "other";
+  relationship?: "self" | "family" | "friend" | "partner" | "colleague" | "other";
   birthData: BirthData;
   natalChart: NatalChart;
   createdAt: string;

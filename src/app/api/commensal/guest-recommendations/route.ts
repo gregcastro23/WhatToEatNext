@@ -4,7 +4,7 @@ import { EnhancedRecommendationService } from "@/services/EnhancedRecommendation
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import type { ElementalProperties as AlchemyElementalProperties } from "@/types/alchemy";
-import type { GroupMember } from "@/types/natalChart";
+import type { GroupMember, NatalChart, BirthData } from "@/types/natalChart";
 import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
 import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
 
@@ -53,19 +53,28 @@ export async function POST(req: Request) {
     }
     const { guests } = parsed.data;
 
-    // Calculate natal charts for all guests in parallel.
-    const natalCharts = await Promise.all(
-      guests.map((g) => calculateNatalChart(g.birthData)),
-    );
+    // If the request is authenticated and the user has a saved natal chart,
+    // include them as the first member so the composite is computed across
+    // (you + your commensals). Auth failures are non-blocking — the guest
+    // flow keeps working for anonymous users. Run the self lookup alongside
+    // the guest chart computations so we don't pay for them in serial.
+    const [selfMember, natalCharts] = await Promise.all([
+      loadAuthenticatedSelfMember(),
+      Promise.all(guests.map((g) => calculateNatalChart(g.birthData))),
+    ]);
 
-    const groupMembers: GroupMember[] = guests.map((guest, i) => ({
-      id: `guest_${i}`,
+    const commensalMembers: GroupMember[] = guests.map((guest, i) => ({
+      id: `commensal_${i}`,
       name: guest.name,
       relationship: "friend",
       birthData: guest.birthData,
       natalChart: natalCharts[i],
       createdAt: new Date().toISOString(),
     }));
+
+    const groupMembers: GroupMember[] = selfMember
+      ? [selfMember, ...commensalMembers]
+      : commensalMembers;
 
     // Composite chart for the whole group.
     const compositeChart = calculateCompositeNatalChart(
@@ -117,5 +126,59 @@ export async function POST(req: Request) {
       { success: false, message: "Failed to generate recommendations" },
       { status: 500 },
     );
+  }
+}
+
+function isCompleteBirthData(value: unknown): value is BirthData {
+  if (!value || typeof value !== "object") return false;
+  const b = value as Partial<BirthData>;
+  return (
+    typeof b.dateTime === "string" &&
+    b.dateTime.length > 0 &&
+    typeof b.latitude === "number" &&
+    Number.isFinite(b.latitude) &&
+    typeof b.longitude === "number" &&
+    Number.isFinite(b.longitude)
+  );
+}
+
+function isUsableNatalChart(value: unknown): value is NatalChart {
+  if (!value || typeof value !== "object") return false;
+  const c = value as Partial<NatalChart>;
+  return (
+    !!c.planetaryPositions &&
+    !!c.elementalBalance &&
+    !!c.alchemicalProperties
+  );
+}
+
+async function loadAuthenticatedSelfMember(): Promise<GroupMember | null> {
+  try {
+    const { auth } = await import("@/lib/auth/auth");
+    const session = await auth();
+    if (!session?.user?.id) return null;
+
+    const { userDatabase } = await import("@/services/userDatabaseService");
+    const user = await userDatabase.getUserById(session.user.id);
+    const birthData = user?.profile?.birthData;
+    const natalChart = user?.profile?.natalChart;
+    if (!isCompleteBirthData(birthData) || !isUsableNatalChart(natalChart)) {
+      return null;
+    }
+
+    return {
+      id: `self_${user!.id}`,
+      name: user?.profile?.name?.trim() || session.user.name?.trim() || "You",
+      relationship: "self",
+      birthData,
+      natalChart,
+      createdAt: new Date().toISOString(),
+    };
+  } catch (err) {
+    console.warn(
+      "guest-recommendations: skipped auth user lookup —",
+      err instanceof Error ? err.message : err,
+    );
+    return null;
   }
 }
