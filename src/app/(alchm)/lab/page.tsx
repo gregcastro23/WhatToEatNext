@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/alchm";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
+import { getAssetUrl } from "@/utils/urlUtils";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
 // floating-point values between server and client, tripping hydration warnings.
@@ -159,6 +160,7 @@ interface RecommendedIngredientPayload {
   hue: number;
   match_score: number;
   thermo: { spirit: number; essence: number; matter: number; substance: number };
+  image_url?: string;
 }
 
 function useRecommendedIngredients(limit = 8): IngredientCardData[] | null {
@@ -182,6 +184,7 @@ function useRecommendedIngredients(limit = 8): IngredientCardData[] | null {
             properties: it.thermo,
             planet: PLANET_GLYPH_LOOKUP[it.planet] ?? "☉",
             hue: it.hue,
+            imageUrl: getAssetUrl(it.image_url),
           })),
         );
       })

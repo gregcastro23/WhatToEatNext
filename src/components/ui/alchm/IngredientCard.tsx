@@ -1,3 +1,7 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
 import { CompatibilityRing } from "./CompatibilityRing";
 import type { JSX } from "react";
 
@@ -18,6 +22,8 @@ export interface IngredientCardData {
   planet: string;
   /** Hue 0-360 for the card backdrop tint */
   hue: number;
+  /** Optional resolved image URL — when present, overlays the gradient backdrop. */
+  imageUrl?: string;
 }
 
 export interface IngredientCardProps {
@@ -33,6 +39,8 @@ const PROP_LABELS: Array<[string, keyof IngredientCardData["properties"]]> = [
 ];
 
 export function IngredientCard({ ing, onClick }: IngredientCardProps): JSX.Element {
+  const [imgFailed, setImgFailed] = useState(false);
+  const showImage = Boolean(ing.imageUrl) && !imgFailed;
   return (
     <button
       type="button"
@@ -62,6 +70,28 @@ export function IngredientCard({ ing, onClick }: IngredientCardProps): JSX.Eleme
           borderBottom: "1px solid var(--line)",
         }}
       >
+        {showImage && ing.imageUrl && (
+          <Image
+            src={ing.imageUrl}
+            alt={ing.name}
+            fill
+            sizes="(min-width: 1100px) 25vw, (min-width: 600px) 50vw, 100vw"
+            loading="lazy"
+            onError={() => setImgFailed(true)}
+            style={{ objectFit: "cover", opacity: 0.78 }}
+          />
+        )}
+        {showImage && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(180deg, transparent 35%, rgba(8, 8, 14, 0.55) 100%)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
         <div style={{ position: "absolute", top: 8, left: 10, display: "flex", alignItems: "center", gap: 6 }}>
           <span className={`el-dot el-${ing.element}`} />
           <span className="t-tag" style={{ fontSize: 8 }}>

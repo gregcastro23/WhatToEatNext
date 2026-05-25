@@ -98,17 +98,34 @@ function parseServerProfile(
   data: Record<string, unknown>,
   fallbackUserId?: string,
 ): UserProfile {
+  const natalChart = data.natalChart as NatalChart | undefined;
+  const serverStats = data.stats as AlchemicalProfile | undefined;
+  // Server doesn't persist `stats` — derive from natalChart on load so the
+  // lab page (and any other consumer of user.stats) hydrates immediately.
+  let stats = serverStats;
+  if (!stats && natalChart?.planets?.length) {
+    try {
+      stats = calculateAlchemicalProfile(natalChart);
+    } catch (err) {
+      logger.warn("Failed to derive AlchemicalProfile from natalChart", err);
+    }
+  }
   return {
     userId: (data.userId || data.id || fallbackUserId || "") as string,
     name: data.name as string | undefined,
     email: data.email as string | undefined,
     preferences: data.preferences as Record<string, unknown> | undefined,
+    dietaryPreferences: data.dietaryPreferences as
+      | Record<string, unknown>
+      | undefined,
+    onboardingComplete: data.onboardingComplete as boolean | undefined,
     birthData: data.birthData as BirthData | undefined,
-    natalChart: data.natalChart as NatalChart | undefined,
+    natalChart,
     groupMembers: (data.groupMembers || []) as GroupMember[],
     diningGroups: (data.diningGroups || []) as DiningGroup[],
-    stats: data.stats as AlchemicalProfile | undefined,
+    stats,
     savedCharts: (data.savedCharts || []) as SavedChart[],
+    tokenEconomy: data.tokenEconomy as UserProfile["tokenEconomy"],
   };
 }
 
@@ -196,7 +213,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       let profileLoaded = false;
       if (storedProfile) {
         try {
-          const profile = JSON.parse(storedProfile) as UserProfile;
+          const rawProfile = JSON.parse(storedProfile) as Record<string, unknown>;
+          // Run cached profiles through parseServerProfile too so older caches
+          // (missing dietaryPreferences or stats) hydrate consistently.
+          const profile = parseServerProfile(rawProfile);
           setCurrentUser(profile);
           checkProfileCompleteness(profile);
           profileLoaded = true;

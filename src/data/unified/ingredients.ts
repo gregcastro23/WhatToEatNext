@@ -443,13 +443,21 @@ const _rawUnified: { [key: string]: UnifiedIngredient } = {
   ...unifiedBeverages,
 };
 
-// Collapse singular/plural collisions so Object.values(...) doesn't double-count.
-// Both the singular and plural keys end up referencing the SAME merged object,
-// so direct-by-key access still works for legacy callers (e.g. `unifiedIngredients.onions`).
+// Collapse singular/plural collisions. The plural alias gets dropped from the
+// exported map so `Object.values(unifiedIngredients).map(i => i.name)` doesn't
+// emit the same name twice (which crashes React lists keyed by name). Lookups
+// like `unifiedIngredients.onions` are handled by `getUnifiedIngredient()`
+// below, which falls back to the canonical singular form.
 function _singularKey(key: string): string {
+  // Strip variant tags first so e.g. "passion_fruit_exotic" clusters with
+  // "passion_fruit", then normalize. Lowercase and collapse non-alphanumerics
+  // so encoding-corrupted twins (e.g. "cr_me_fra_che" vs "creme_fraiche") fold
+  // together too.
   return key
     .toLowerCase()
-    .replace(/_/g, " ")
+    .replace(/_exotic$/, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
     .replace(/ies$/, "y")
     .replace(/sses$/, "ss")
     .replace(/oes$/, "o")
@@ -458,27 +466,34 @@ function _singularKey(key: string): string {
     .replace(/\s+/g, "_");
 }
 
+const _pluralAliasMap: Record<string, string> = {};
+
 (() => {
-  // Group keys by their canonical singular form.
+  // Group keys by the singular form of the ingredient's display name when
+  // available — names survive key-encoding bugs ("cr_me_fra_che" vs
+  // "creme_fraiche" both have name "crème fraîche"). Fall back to the key
+  // when the entry has no name.
   const groups: Record<string, string[]> = {};
   for (const k of Object.keys(_rawUnified)) {
-    const canon = _singularKey(k);
+    const ingredientName = (_rawUnified[k] as { name?: string }).name ?? "";
+    const canon = ingredientName ? _singularKey(ingredientName) : _singularKey(k);
     (groups[canon] ||= []).push(k);
   }
   for (const [_canon, keys] of Object.entries(groups)) {
     if (keys.length < 2) continue;
-    // Prefer the singular form as canonical; otherwise the most data-complete.
+    // Prefer the shortest key (typically the singular form); break ties by
+    // data-completeness, then by lexicographic order for determinism.
     const ranked = [...keys].sort((a, b) => {
-      const aIsSingular = a.length <= b.length ? -1 : 1;
+      if (a.length !== b.length) return a.length - b.length;
       const aLen = Object.keys(_rawUnified[a]).length;
       const bLen = Object.keys(_rawUnified[b]).length;
       if (aLen !== bLen) return bLen - aLen;
-      return aIsSingular;
+      return a.localeCompare(b);
     });
     const primaryKey = ranked[0];
     const primary = _rawUnified[primaryKey];
-    // Shallow-merge sibling fields into the primary so the merged object inherits
-    // any unique fields present only on the alias.
+    // Shallow-merge sibling fields into the primary so unique data from
+    // plural variants isn't lost, then drop the alias from the exported map.
     for (const sib of ranked.slice(1)) {
       const s = _rawUnified[sib] as Record<string, unknown>;
       for (const [field, value] of Object.entries(s)) {
@@ -486,13 +501,18 @@ function _singularKey(key: string): string {
           (primary as Record<string, unknown>)[field] = value;
         }
       }
+      _pluralAliasMap[sib] = primaryKey;
+      delete _rawUnified[sib];
     }
-    // Point every alias at the merged primary so iteration via a Set dedupes by identity.
-    for (const k of keys) _rawUnified[k] = primary;
   }
 })();
 
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = _rawUnified;
+
+/** Resolve a plural-form key to its canonical singular entry, if one exists. */
+export function resolveUnifiedIngredientKey(key: string): string {
+  return _pluralAliasMap[key] ?? key;
+}
 // Helper functions for working with unified ingredients
 /**
  * Get a unified ingredient by name
@@ -503,6 +523,11 @@ export function getUnifiedIngredient(
   // Try direct access first
   if (unifiedIngredients[name]) {
     return unifiedIngredients[name];
+  }
+  // Plural-alias fallback: legacy callers may still pass "onions" etc.
+  const canonical = resolveUnifiedIngredientKey(name);
+  if (canonical !== name && unifiedIngredients[canonical]) {
+    return unifiedIngredients[canonical];
   }
   // ✅ Pattern KK-1: Safe string conversion for case-insensitive search
   const normalizedName = String(name || "").toLowerCase();

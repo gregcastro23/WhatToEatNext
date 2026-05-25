@@ -289,10 +289,108 @@ export const VALID_CATEGORIES = [
   "vinegar",
   "seasoning",
 ] as const;
-// Compile all ingredients into a single collection with deduplication
-// Order matters - later sources overwrite earlier ones
+/**
+ * Crude rule-based singularizer for clustering plural/singular variants
+ * (onion/onions, leeks/leek, pita_breads/pita_bread, …). Goal is consistency
+ * across variants, not linguistic correctness — produced stems are cluster
+ * keys, not display names.
+ */
+function singularizeWord(word: string): string {
+  if (word.length < 4) return word;
+  // Latinate / Greek endings that stay plural-looking: citrus, asparagus, basis…
+  if (word.endsWith("us") || word.endsWith("ss") || word.endsWith("is")) return word;
+  if (word.endsWith("ies")) return `${word.slice(0, -3)}y`;
+  if (word.endsWith("oes")) return word.slice(0, -2);
+  if (word.endsWith("s")) return word.slice(0, -1);
+  return word;
+}
+
+/**
+ * Normalized cluster key for two ingredients that should be merged into one.
+ * Strips diacritics, lowercases, collapses non-alphanumerics to underscores,
+ * drops the "_exotic" variant suffix, and singularizes the last word.
+ */
+function ingredientClusterKey(name: string): string {
+  let s = name
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_|_$/g, "");
+  s = s.replace(/_exotic$/, "");
+  const parts = s.split("_");
+  if (parts.length > 0) {
+    parts[parts.length - 1] = singularizeWord(parts[parts.length - 1]);
+  }
+  return parts.join("_");
+}
+
+/**
+ * Score how "rich" an ingredient record is so we can pick the best base
+ * when merging duplicates. Image > description > culinary metadata > tags.
+ */
+function ingredientFieldRichness(ing: unknown): number {
+  const i = ing as Record<string, unknown>;
+  let score = 0;
+  if (typeof i.image_url === "string" && i.image_url.length > 0) score += 5;
+  if (typeof i.description === "string" && i.description.length > 60) score += 3;
+  if (i.culinaryProfile && typeof i.culinaryProfile === "object") score += 2;
+  if (i.culinaryApplications && typeof i.culinaryApplications === "object") score += 2;
+  if (i.astrologicalProfile && typeof i.astrologicalProfile === "object") score += 2;
+  if (i.nutritionalProfile && typeof i.nutritionalProfile === "object") score += 2;
+  if (Array.isArray(i.qualities) && i.qualities.length > 0) score += 1;
+  if (Array.isArray(i.cookingMethods) && i.cookingMethods.length > 0) score += 1;
+  if (Array.isArray(i.pairings) && i.pairings.length > 0) score += 1;
+  return score;
+}
+
+/** True when value is "missing enough" that we should backfill from another variant. */
+function isEmpty(value: unknown): boolean {
+  if (value === undefined || value === null) return true;
+  if (typeof value === "string") return value.trim().length === 0;
+  if (Array.isArray(value)) return value.length === 0;
+  if (typeof value === "object") return Object.keys(value).length === 0;
+  return false;
+}
+
+/**
+ * Merge N variants of the "same" ingredient (e.g. onion + onions) into one
+ * consensus record. The richest variant wins the base; emptier fields are
+ * backfilled from the others in descending-richness order. Display name
+ * prefers the shortest variant (usually the singular).
+ */
+function mergeIngredientVariants(variants: Ingredient[]): Ingredient {
+  if (variants.length === 1) return variants[0];
+  const sorted = [...variants].sort(
+    (a, b) => ingredientFieldRichness(b) - ingredientFieldRichness(a),
+  );
+  const base: Record<string, unknown> = { ...(sorted[0] as unknown as Record<string, unknown>) };
+  for (let i = 1; i < sorted.length; i++) {
+    const other = sorted[i] as unknown as Record<string, unknown>;
+    for (const key of Object.keys(other)) {
+      if (isEmpty(base[key]) && !isEmpty(other[key])) {
+        base[key] = other[key];
+      }
+    }
+  }
+  // Prefer the shortest variant name (typically the singular form).
+  const names = variants
+    .map((v) => (v as { name?: string }).name)
+    .filter((n): n is string => Boolean(n));
+  if (names.length > 0) {
+    const canonical = [...names].sort(
+      (a, b) => a.length - b.length || a.localeCompare(b),
+    )[0];
+    base.name = canonical;
+  }
+  return base as unknown as Ingredient;
+}
+
+// Compile all ingredients into a single collection with deduplication.
+// Singular/plural and _exotic variants are merged into one "consensus" entry
+// (e.g. onion + onions ⇒ one record with the richer set of fields).
 export const allIngredients = (() => {
-  // First process all collections separately
   const processedSeasonings = processIngredientCollection(seasonings);
   const processedVegetables = processIngredientCollection(_enhancedVegetables);
   const processedFruits = processIngredientCollection(fruits);
@@ -308,57 +406,57 @@ export const allIngredients = (() => {
   const processedDairy = processIngredientCollection(dairyCollection);
   const processedMisc = processIngredientCollection(miscIngredients);
   const processedBeverages = processIngredientCollection(beveragesIngredients);
-  // Create a map to deduplicate by normalized name
-  const result: Record<string, Ingredient> = {};
-  // Helper function to normalize ingredient name for comparison
-  const normalizeIngredientName = (name: string): string =>
-    name
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "_")
-      .replace(/[^a-z0-9_]/g, "");
-  // Build a list of collections in priority order (lowest to highest)
+
+  // Iteration order matters when two variants share a cluster key but were
+  // loaded under different source keys — the last seen key in this list wins
+  // the canonical slot. Higher-priority collections come last.
   const collectionsList = [
-    { source: processedSeasonings, priority: 1 },
-    { source: processedVegetables, priority: 2 },
-    { source: processedFruits, priority: 3 },
-    { source: processedGrains, priority: 4 },
-    { source: processedVinegars, priority: 5 },
-    { source: processedOils, priority: 6 },
-    { source: processedPlantBased, priority: 7 },
-    { source: processedMeats, priority: 8 },
-    { source: processedPoultry, priority: 9 },
-    { source: processedSeafood, priority: 10 },
-    { source: processedHerbs, priority: 11 },
-    { source: processedSpices, priority: 12 },
-    { source: processedDairy, priority: 13 },
-    { source: processedMisc, priority: 14 },
-    { source: processedBeverages, priority: 15 }, // Highest priority
+    processedSeasonings,
+    processedVegetables,
+    processedFruits,
+    processedGrains,
+    processedVinegars,
+    processedOils,
+    processedPlantBased,
+    processedMeats,
+    processedPoultry,
+    processedSeafood,
+    processedHerbs,
+    processedSpices,
+    processedDairy,
+    processedMisc,
+    processedBeverages,
   ];
-  // Sort collections by priority
-  collectionsList.sort((a, b) => a.priority - b.priority);
-  // Process collections in order
-  collectionsList.forEach(({ source }) => {
-    // Process each ingredient in the collection
-    Object.entries(source).forEach(([key, ingredient]) => {
-      // Store both the original key and any potential name-based key
-      // for better deduplication
-      result[key] = ingredient;
-      // Also index by normalized name if it differs from the key
-      const normalizedKey = normalizeIngredientName(ingredient.name || key);
-      if (normalizedKey !== key.toLowerCase().replace(/\s+/g, "_")) {
-        // Add 'name_' prefix to avoid collisions with original keys
-        result[`name_${normalizedKey}`] = ingredient;
-      }
-    });
-  });
-  // Remove the name_ prefixed duplicates for final export
-  const finalResult: Record<string, Ingredient> = {};
-  Object.entries(result).forEach(([key, value]) => {
-    if (!key.startsWith("name_")) {
-      finalResult[key] = value;
+
+  // 1) Bucket every variant under its cluster key.
+  const clusters = new Map<string, Array<{ key: string; ingredient: Ingredient }>>();
+  for (const source of collectionsList) {
+    for (const [key, ingredient] of Object.entries(source)) {
+      const cluster = ingredientClusterKey((ingredient as { name?: string }).name || key);
+      if (!clusters.has(cluster)) clusters.set(cluster, []);
+      clusters.get(cluster)!.push({ key, ingredient });
     }
-  });
+  }
+
+  // 2) Merge each cluster and emit one record under the singular key.
+  const finalResult: Record<string, Ingredient> = {};
+  for (const [, variants] of clusters) {
+    const merged = mergeIngredientVariants(variants.map((v) => v.ingredient));
+    // Pick the canonical key: prefer the variant whose key matches the merged
+    // name (so onion+onions ⇒ key "onion"), else the shortest key (usually
+    // the singular form).
+    const mergedName = (merged as { name?: string }).name ?? "";
+    const slug = ingredientClusterKey(mergedName);
+    const matchByName = variants.find(
+      (v) => v.key.toLowerCase().replace(/\s+/g, "_") === slug,
+    );
+    const canonicalKey =
+      matchByName?.key ??
+      [...variants].sort(
+        (a, b) => a.key.length - b.key.length || a.key.localeCompare(b.key),
+      )[0].key;
+    finalResult[canonicalKey] = merged;
+  }
   return finalResult;
 })();
 // Get a complete list of all ingredient names

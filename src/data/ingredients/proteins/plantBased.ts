@@ -235,6 +235,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   seitan: createIngredientMapping("seitan", {
+    image_url: "ingredients/seitan.png",
     culinaryProfile: {
       flavorProfile: {
         primary: ["savory", "umami"],
@@ -910,6 +911,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   textured_vegetable_protein: createIngredientMapping(
     "textured_vegetable_protein",
     {
+      image_url: "ingredients/textured_vegetable_protein.png",
       culinaryProfile: {
         flavorProfile: {
           primary: ["savory", "neutral"],
@@ -1356,6 +1358,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   hemp_protein: createIngredientMapping("hemp_protein", {
+    image_url: "ingredients/hemp_protein.png",
     culinaryProfile: {
       flavorProfile: {
         primary: ["nutty", "earthy"],
@@ -1733,6 +1736,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   lupin_protein: createIngredientMapping("lupin_protein", {
+    image_url: "ingredients/lupin_protein.png",
     culinaryProfile: {
       flavorProfile: {
         primary: ["savory", "nutty"],

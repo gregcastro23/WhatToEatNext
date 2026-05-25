@@ -124,6 +124,7 @@ export const spices = fixIngredientMappings({
   },
   cinnamon: {
     name: "cinnamon",
+    image_url: "ingredients/cinnamon.png",
     elementalProperties: { Fire: 0.57, Air: 0.23, Earth: 0.12, Water: 0.08 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Moon"],

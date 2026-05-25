@@ -109,6 +109,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 
   // Custom herbs
   basil: createIngredientMapping("basil", {
+    image_url: "ingredients/basil.png",
     elementalProperties: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 },
     qualities: ["aromatic", "sweet", "peppery"],
     category: "culinary_herb",
@@ -176,6 +177,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   }),
 
   mint: createIngredientMapping("mint", {
+    image_url: "ingredients/mint.png",
     elementalProperties: { Water: 0.55, Air: 0.32, Earth: 0.08, Fire: 0.05 },
     qualities: ["cooling", "refreshing", "aromatic"],
     category: "culinary_herb",
@@ -196,6 +198,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   }),
 
   rosemary: createIngredientMapping("rosemary", {
+    image_url: "ingredients/rosemary.png",
     elementalProperties: { Fire: 0.4, Earth: 0.35, Air: 0.2, Water: 0.05 },
     qualities: ["piney", "resinous", "aromatic"],
     category: "culinary_herb",
