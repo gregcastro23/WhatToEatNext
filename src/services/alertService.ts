@@ -17,6 +17,10 @@
  *     dashboard.
  *   - Worsenings (OK -> DEGRADED, OK -> INCIDENT, DEGRADED -> INCIDENT)
  *     alert as `warn` or `error` based on terminal status.
+ *   - Cooldown: a (component, current_status) pair that already fired
+ *     within ALERT_COOLDOWN_MINUTES (default 60) records the new alert
+ *     event to DB but skips Slack + email. Prevents flapping from
+ *     spamming operators while preserving the audit trail.
  *
  * Each sink (DB, Slack, email) dispatches independently with try/catch
  * — a broken webhook URL doesn't block the email and vice versa.
@@ -65,6 +69,78 @@ const SEVERITY_BY_TERMINAL: Record<FlowStatus, AlertSeverity> = {
   INCIDENT: "error",
   UNKNOWN: "info",
 };
+
+const DEFAULT_COOLDOWN_MINUTES = 60;
+
+function getCooldownMs(): number {
+  const raw = process.env.ALERT_COOLDOWN_MINUTES;
+  if (!raw) return DEFAULT_COOLDOWN_MINUTES * 60_000;
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return DEFAULT_COOLDOWN_MINUTES * 60_000;
+  }
+  return parsed * 60_000;
+}
+
+/**
+ * Pure cooldown decision: given the timestamp of the most recent
+ * non-suppressed dispatch for the same (component, current_status) pair,
+ * decide whether THIS candidate should be suppressed. Exported for tests.
+ *
+ * Suppression preserves the DB audit trail (the alert event still
+ * persists, just with `dispatch.suppressed = true`) but skips Slack +
+ * email so flapping doesn't spam operators.
+ *
+ * A cooldown of 0 disables suppression entirely (every transition alerts).
+ */
+export function shouldSuppressAlert(args: {
+  lastDispatchAt: string | null;
+  now: Date;
+  cooldownMs: number;
+}): { suppressed: boolean; reason?: string } {
+  if (args.cooldownMs <= 0) return { suppressed: false };
+  if (!args.lastDispatchAt) return { suppressed: false };
+  const lastMs = Date.parse(args.lastDispatchAt);
+  if (!Number.isFinite(lastMs)) return { suppressed: false };
+  const elapsed = args.now.getTime() - lastMs;
+  if (elapsed >= args.cooldownMs) return { suppressed: false };
+  const remainingMinutes = Math.ceil((args.cooldownMs - elapsed) / 60_000);
+  return {
+    suppressed: true,
+    reason: `Cooldown active — last alert ${args.lastDispatchAt}; ${remainingMinutes}m left of ${Math.round(args.cooldownMs / 60_000)}m window`,
+  };
+}
+
+async function getLastNonSuppressedDispatchAt(
+  component: string,
+  currentStatus: FlowStatus,
+  cooldownMs: number,
+): Promise<string | null> {
+  // No need to query when cooldown is disabled.
+  if (cooldownMs <= 0) return null;
+  try {
+    const result = await executeQuery<{ triggered_at: Date }>(
+      // Only consider dispatches that ACTUALLY went out — suppressed rows
+      // shouldn't extend the cooldown indefinitely (otherwise one alert
+      // followed by N suppressed snapshots would never re-fire).
+      `SELECT triggered_at FROM alert_events
+       WHERE component = $1
+         AND current_status = $2
+         AND COALESCE((dispatch->>'suppressed')::boolean, false) = false
+         AND triggered_at > NOW() - make_interval(secs => $3)
+       ORDER BY triggered_at DESC
+       LIMIT 1`,
+      [component, currentStatus, cooldownMs / 1000],
+    );
+    const row = result.rows[0];
+    if (!row) return null;
+    return new Date(row.triggered_at).toISOString();
+  } catch (err) {
+    // Fail open: a broken cooldown lookup must not drop real alerts.
+    _logger.warn("[alertService] cooldown lookup failed:", err);
+    return null;
+  }
+}
 
 /**
  * Decide whether a (previous, current) pair warrants an alert and, if
@@ -184,28 +260,49 @@ export async function dispatchAlert(
 ): Promise<DispatchedAlert> {
   const triggeredAt = new Date().toISOString();
 
-  const [slackResult, emailResult] = await Promise.all([
-    sendSlackAlert({
-      title: candidate.title,
-      message: candidate.message,
-      component: candidate.componentLabel,
-      previous: candidate.previous,
-      current: candidate.current,
-      severity: candidate.severity,
-    }).catch((err) => ({
-      ok: false,
-      error: err instanceof Error ? err.message : "unknown",
-    })),
-    sendAlertEmail(candidate).catch((err) => ({
-      ok: false,
-      error: err instanceof Error ? err.message : "unknown",
-    })),
-  ]);
+  const cooldownMs = getCooldownMs();
+  const lastDispatchAt = await getLastNonSuppressedDispatchAt(
+    candidate.component,
+    candidate.current,
+    cooldownMs,
+  );
+  const cooldown = shouldSuppressAlert({
+    lastDispatchAt,
+    now: new Date(triggeredAt),
+    cooldownMs,
+  });
 
-  const dispatch: AlertDispatchSummary = {
-    slack: slackResult,
-    email: emailResult,
-  };
+  let dispatch: AlertDispatchSummary;
+  if (cooldown.suppressed) {
+    dispatch = {
+      slack: { ok: false, error: "Suppressed by cooldown" },
+      email: { ok: false, error: "Suppressed by cooldown" },
+      suppressed: true,
+      suppressionReason: cooldown.reason,
+    };
+  } else {
+    const [slackResult, emailResult] = await Promise.all([
+      sendSlackAlert({
+        title: candidate.title,
+        message: candidate.message,
+        component: candidate.componentLabel,
+        previous: candidate.previous,
+        current: candidate.current,
+        severity: candidate.severity,
+      }).catch((err) => ({
+        ok: false,
+        error: err instanceof Error ? err.message : "unknown",
+      })),
+      sendAlertEmail(candidate).catch((err) => ({
+        ok: false,
+        error: err instanceof Error ? err.message : "unknown",
+      })),
+    ]);
+    dispatch = {
+      slack: slackResult,
+      email: emailResult,
+    };
+  }
 
   const dbId = await persistAlertEvent({
     triggeredAt,
