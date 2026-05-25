@@ -313,43 +313,42 @@ async function getLeaderboard(
 async function getInteractions(limit = 15): Promise<AgentNetworkPayload["interactions"]> {
   try {
     const result = await executeQuery<{
-      sessionId: string;
-      agentId1: string;
-      agentId2: string;
+      id: string;
       createdAt: Date;
-      agentName1: string | null;
-      agentName2: string | null;
-      userMessage: string;
-      agentResponse: string;
+      metadata_payload: any;
+      actor_id: string;
+      actor_name: string | null;
     }>(
-      `SELECT c1."sessionId", c1."agentId" AS "agentId1", c2."agentId" AS "agentId2",
-              c1."createdAt" AS "createdAt", h1.name AS "agentName1", h2.name AS "agentName2",
-              c1."userMessage" AS "userMessage", c1."agentResponse" AS "agentResponse"
-         FROM "AgentConversation" c1
-         JOIN "AgentConversation" c2 ON c1."sessionId" = c2."sessionId" AND c1."agentId" != c2."agentId"
-         LEFT JOIN historical_agents h1 ON c1."agentId" = h1."agentId"
-         LEFT JOIN historical_agents h2 ON c2."agentId" = h2."agentId"
-        ORDER BY c1."createdAt" DESC
-        LIMIT 30`
+      `SELECT f.id::text AS id,
+              f.created_at AS "createdAt",
+              f.metadata_payload,
+              u.id::text AS actor_id,
+              COALESCE(up.name, u.name) AS actor_name
+         FROM feed_events f
+         JOIN users u ON f.actor_id = u.id
+         LEFT JOIN user_profiles up ON up.user_id = u.id
+        WHERE u.is_agent = true
+          AND f.event_type = 'agent_chat'
+        ORDER BY f.created_at DESC
+        LIMIT $1`,
+      [limit]
     );
 
-    const seen = new Set<string>();
-    const entries: AgentInteractionEntry[] = [];
-    for (const row of result.rows) {
-      if (!seen.has(row.sessionId)) {
-        seen.add(row.sessionId);
-        entries.push({
-          sessionId: row.sessionId,
-          agentId1: row.agentId1,
-          agentId2: row.agentId2,
-          agentName1: row.agentName1 || row.agentId1,
-          agentName2: row.agentName2 || row.agentId2,
-          timestamp: new Date(row.createdAt).toISOString(),
-          preview: row.agentResponse || row.userMessage,
-        });
-      }
-    }
-    return { entries: entries.slice(0, limit), live: true };
+    const entries: AgentInteractionEntry[] = result.rows.map((row) => {
+      const meta = row.metadata_payload as Record<string, any> || {};
+      const targetName = meta.targetName || meta.withAgent || meta.partnerName || "User";
+      return {
+        sessionId: meta.sessionId || row.id,
+        agentId1: row.actor_id,
+        agentId2: meta.targetAgentId || "user",
+        agentName1: row.actor_name || "Agent",
+        agentName2: targetName,
+        timestamp: new Date(row.createdAt).toISOString(),
+        preview: meta.responsePreview || meta.messagePreview || "Discourse started",
+      };
+    });
+
+    return { entries, live: true };
   } catch (error) {
     console.error("[admin/agents/network] interactions query failed:", error);
     return { entries: [], live: false };
