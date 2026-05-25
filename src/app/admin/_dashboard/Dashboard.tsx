@@ -133,8 +133,8 @@ export function Dashboard({ data }: DashboardProps) {
           }}
         >
           <ArchitectCard user={data.user} />
-          <ServiceMatrix />
-          <LiveEventStream />
+          <ServiceMatrix systemStatus={data.systemStatus} />
+          <LiveEventStream liveActivity={data.liveActivity} />
         </div>
 
         <AgentFeedControlRoom />
@@ -154,7 +154,7 @@ export function Dashboard({ data }: DashboardProps) {
         >
           <ElementalTraffic cohorts={data.practitionerCohorts} />
           <PractitionersCohort realFunnel={realFunnel} />
-          <IncidentsPanel />
+          <IncidentsPanel recentAlerts={data.recentAlerts} />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 12, marginBottom: 12 }}>
@@ -194,13 +194,13 @@ export function Dashboard({ data }: DashboardProps) {
           }}
         >
           <DatabaseStorage data={data.dbObservability} />
-          <ErrorGroups />
+          <ErrorGroups errorGroups={data.errorGroups} />
           <CostBurndown />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
           <ModerationQueue />
-          <SecurityPanel />
+          <SecurityPanel security={data.security} />
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>

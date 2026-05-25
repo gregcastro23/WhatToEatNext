@@ -14,11 +14,16 @@ import type {
   CosmicYieldData,
   DatabaseObservabilityData,
   EnginePerformanceData,
+  ErrorGroupsData,
   PractitionerCohortsData,
   CommerceSummaryData,
   PageTelemetryData,
+  RecentAlertsData,
+  SecuritySummaryData,
 } from "@/services/dashboardPanelsService";
+import type { ActivityEvent } from "@/services/liveActivityService";
 import type { SkyConditionsData } from "@/services/skyConditionsService";
+import type { SystemStatusPayload } from "@/services/systemStatusService";
 
 // ============================================================
 // DETERMINISTIC PSEUDO-RANDOM — used for sparkline / heatmap fill
@@ -131,6 +136,16 @@ export interface AdminDashboardData {
   commerce: CommerceSummaryData;
   /** Live row counts/usage mapped to routes. */
   pageTelemetry: PageTelemetryData;
+  /** Per-flow + dependency health from systemStatusService. */
+  systemStatus: SystemStatusPayload;
+  /** Recent merged activity feed (auth + recipe + token + agent events). */
+  liveActivity: { entries: ActivityEvent[]; live: boolean };
+  /** Recent alert_events rows for the IncidentsPanel. */
+  recentAlerts: RecentAlertsData;
+  /** request_log_entries aggregated 5xx/4xx by path for ErrorGroups. */
+  errorGroups: ErrorGroupsData;
+  /** auth_events rollup for SecurityPanel. */
+  security: SecuritySummaryData;
   /**
    * Generation metadata. `mockedFields` lists any panels still served
    * from seeded fixtures rather than a live source — currently empty.
@@ -243,6 +258,23 @@ export const FALLBACK_DATA: AdminDashboardData = {
     live: false,
   },
   pageTelemetry: { foodDiary: 0, customRecipes: 0, restaurants: 0, commensals: 0, mealPlans: 0, live: false },
+  systemStatus: {
+    generatedAt: new Date(0).toISOString(),
+    overall: "UNKNOWN",
+    flows: [],
+    dependencies: [],
+  },
+  liveActivity: { entries: [], live: false },
+  recentAlerts: { entries: [], live: false },
+  errorGroups: { groups: [], windowMinutes: 60, live: false },
+  security: {
+    signinSuccess24h: 0,
+    signinFailure24h: 0,
+    uniqueIps24h: 0,
+    failingIps: [],
+    hourlyAttempts: Array.from({ length: 24 }, () => 0),
+    live: false,
+  },
   meta: {
     generatedAt: new Date(0).toISOString(),
     mockedFields: [],

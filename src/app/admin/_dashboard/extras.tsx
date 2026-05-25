@@ -4,6 +4,7 @@ import React from "react";
 import type {
   CosmicYieldData,
   DatabaseObservabilityData,
+  ErrorGroupsData,
   PageTelemetryData,
   CatalogTrendingData,
 } from "@/services/dashboardPanelsService";
@@ -802,127 +803,41 @@ function Stat2({ k, v, d, accent }: { k: string; v: string; d: string; accent?: 
 // ============================================================
 // PRACTITIONER GEO
 // ============================================================
+// ============================================================
+// PRACTITIONER GEO
+// Empty placeholder — no geo data captured yet (we store lat/lon on
+// birth charts but don't aggregate by location). Wire this up when
+// there's enough sample to draw something honest.
+// ============================================================
 export function PractitionerGeo() {
-  const hotspots = [
-    { name: "New York", x: 26, y: 38, n: 4120, intensity: 0.9 },
-    { name: "London", x: 48, y: 32, n: 3240, intensity: 0.8 },
-    { name: "Tokyo", x: 84, y: 42, n: 2840, intensity: 0.75 },
-    { name: "Berlin", x: 51, y: 30, n: 1820, intensity: 0.65 },
-    { name: "Mumbai", x: 68, y: 50, n: 1240, intensity: 0.55 },
-    { name: "Lagos", x: 49, y: 56, n: 980, intensity: 0.5 },
-    { name: "São Paulo", x: 32, y: 70, n: 760, intensity: 0.42 },
-    { name: "Seoul", x: 82, y: 40, n: 1340, intensity: 0.6 },
-    { name: "LA", x: 14, y: 42, n: 1820, intensity: 0.62 },
-    { name: "Sydney", x: 88, y: 76, n: 540, intensity: 0.35 },
-    { name: "Cairo", x: 56, y: 46, n: 480, intensity: 0.3 },
-    { name: "Mexico City", x: 18, y: 50, n: 720, intensity: 0.4 },
-  ];
-  const dots = seeded(61, 120, 0.05, 0.95).map((v, i) => {
-    const x = seeded(63 + i, 1, 5, 95)[0];
-    const y = seeded(67 + i, 1, 15, 85)[0];
-    return { x, y, v };
-  });
   return (
     <Card
       title="Practitioner Geography"
-      subtitle="12,847 active · last 24h · 96 countries"
+      subtitle="geo aggregation not configured"
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          OPEN MAP
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          ○ NO SOURCE
+        </span>
       }
     >
       <div
         style={{
-          position: "relative",
-          height: 240,
-          border: "1px solid var(--line)",
+          padding: "60px 12px",
+          textAlign: "center",
+          border: "1px dashed var(--line)",
           borderRadius: 8,
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(140,100,255,0.05), transparent 70%), rgba(0,0,0,0.25)",
-          overflow: "hidden",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(140,100,255,0.04), transparent 70%)",
         }}
       >
-        <svg
-          viewBox="0 0 100 60"
-          width="100%"
-          height="100%"
-          preserveAspectRatio="none"
-          style={{ display: "block" }}
-        >
-          <defs>
-            <pattern id="mapdots" width="2" height="2" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r="0.25" fill="rgba(255,255,255,0.06)" />
-            </pattern>
-          </defs>
-          <rect width="100" height="60" fill="url(#mapdots)" />
-          {[15, 30, 45].map((y) => (
-            <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="0.2" />
-          ))}
-          {[25, 50, 75].map((x) => (
-            <line key={x} x1={x} x2={x} y1="0" y2="60" stroke="rgba(255,255,255,0.04)" strokeWidth="0.2" />
-          ))}
-          {dots.map((d, i) => (
-            <circle
-              key={i}
-              cx={d.x}
-              cy={(d.y / 100) * 60}
-              r={d.v * 0.4}
-              fill="var(--accent)"
-              opacity={d.v * 0.4}
-            />
-          ))}
-          {hotspots.map((h) => (
-            <g key={h.name}>
-              <circle
-                cx={h.x}
-                cy={(h.y / 100) * 60}
-                r={2 + h.intensity * 3}
-                fill="var(--accent)"
-                opacity={h.intensity * 0.5}
-              />
-              <circle
-                cx={h.x}
-                cy={(h.y / 100) * 60}
-                r={0.8 + h.intensity * 1.2}
-                fill="var(--accent-2)"
-                style={{ filter: "drop-shadow(0 0 2px var(--accent-2))" }}
-              />
-              <text
-                x={h.x + 3}
-                y={(h.y / 100) * 60 + 1}
-                fill="var(--fg-dim)"
-                fontSize="2"
-                fontFamily="JetBrains Mono"
-              >
-                {h.name}
-              </text>
-            </g>
-          ))}
-        </svg>
-        <div style={{ position: "absolute", top: 8, left: 10, display: "flex", flexDirection: "column", gap: 2 }}>
-          <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)", letterSpacing: "0.14em" }}>
-            WORLD · DOT DENSITY
-          </span>
-          <span className="t-mono" style={{ fontSize: 9, color: "var(--accent)" }}>● 12 hot · NA/EU/EA</span>
+        <div style={{ fontSize: 12, color: "var(--fg-dim)", marginBottom: 4 }}>
+          No location aggregation yet
         </div>
-        <div style={{ position: "absolute", top: 8, right: 10, textAlign: "right" }}>
-          <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)", letterSpacing: "0.14em" }}>
-            BY REGION
-          </span>
-          <div style={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "flex-end", marginTop: 2 }}>
-            {[
-              { r: "NA", n: "5,420", p: 42 },
-              { r: "EU", n: "3,240", p: 25 },
-              { r: "APAC", n: "2,840", p: 22 },
-              { r: "LATAM", n: "820", p: 6 },
-              { r: "MEA", n: "520", p: 4 },
-            ].map((r) => (
-              <span key={r.r} className="t-mono" style={{ fontSize: 9, color: "var(--fg-dim)" }}>
-                <span style={{ color: "var(--fg-mute)" }}>{r.r}</span> {r.n} · {r.p}%
-              </span>
-            ))}
-          </div>
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          birth charts store coordinates · roll up by city / region when we have a sample
         </div>
       </div>
     </Card>
@@ -932,243 +847,176 @@ export function PractitionerGeo() {
 // ============================================================
 // ERROR GROUPS
 // ============================================================
-export function ErrorGroups() {
-  const errs = [
-    {
-      id: "E-7741",
-      title: "AmazonFreshAdapterError: tax mismatch on multi-state cart",
-      count: 184,
-      trend: "▲ 4.2x",
-      last: "2m",
-      fp: "amz-fresh",
-      recent: true,
-    },
-    {
-      id: "E-7740",
-      title: "TimeoutError: /api/transit > 8s",
-      count: 64,
-      trend: "▼ -22%",
-      last: "12m",
-      fp: "transit-svc",
-      recent: false,
-    },
-    {
-      id: "E-7738",
-      title: "GalileoQueueError: model overload retry",
-      count: 41,
-      trend: "▲ +18%",
-      last: "4m",
-      fp: "galileo",
-      recent: true,
-    },
-    {
-      id: "E-7735",
-      title: "PantryPushFailed: APNS rejected device token",
-      count: 22,
-      trend: "—",
-      last: "31m",
-      fp: "pantry-push",
-      recent: false,
-    },
-    {
-      id: "E-7728",
-      title: "AuthFlowError: OAuthCallback nonce mismatch",
-      count: 14,
-      trend: "▼ -8",
-      last: "1h",
-      fp: "auth",
-      recent: false,
-    },
-  ];
+function formatRelativeShort(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "now";
+  const m = Math.round(ms / 60000);
+  if (m < 1) return "<1m";
+  if (m < 60) return `${m}m`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `${h}h`;
+  return `${Math.round(h / 24)}d`;
+}
+
+export function ErrorGroups({ errorGroups }: { errorGroups: ErrorGroupsData }) {
+  const groups = errorGroups.groups;
+  const fiveXxTotal = groups.reduce((sum, g) => sum + g.fiveXxCount, 0);
   return (
     <Card
       title="Error Groups"
-      subtitle="top 5 · last 24h · grouped by stack fingerprint"
+      subtitle={
+        groups.length === 0
+          ? errorGroups.live
+            ? `no 4xx/5xx in last ${errorGroups.windowMinutes}m`
+            : "request log offline"
+          : `top ${groups.length} paths · ${fiveXxTotal} 5xx · ${errorGroups.windowMinutes}m window`
+      }
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          SENTRY
-        </button>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: errorGroups.live ? "var(--el-earth)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          {errorGroups.live ? "● LIVE" : "○ STALE"}
+        </span>
       }
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {errs.map((e, i) => (
-          <div
-            key={e.id}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "auto 1fr 60px 60px 36px",
-              gap: 8,
-              alignItems: "center",
-              padding: "10px 0",
-              borderBottom: i === errs.length - 1 ? "none" : "1px solid var(--line)",
-            }}
-          >
-            <span
-              style={{
-                width: 5,
-                height: 32,
-                borderRadius: 999,
-                background: e.recent ? "var(--el-fire)" : "var(--fg-faint)",
-                boxShadow: e.recent ? "0 0 6px var(--el-fire)" : "none",
-              }}
-            />
-            <div style={{ minWidth: 0 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>{e.id}</span>
+      {groups.length === 0 ? (
+        <div style={{ padding: "16px 0", textAlign: "center" }}>
+          <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
+            {errorGroups.live ? "all green" : "request_log_entries unavailable"}
+          </span>
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {groups.map((g, i) => {
+            const recent = Date.now() - new Date(g.lastSeenAt).getTime() < 5 * 60 * 1000;
+            const hot = g.fiveXxCount > 0;
+            return (
+              <div
+                key={g.path}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr 56px 56px 56px",
+                  gap: 8,
+                  alignItems: "center",
+                  padding: "10px 0",
+                  borderBottom: i === groups.length - 1 ? "none" : "1px solid var(--line)",
+                }}
+              >
                 <span
                   style={{
-                    fontSize: 11.5,
-                    color: "var(--fg)",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                    width: 5,
+                    height: 32,
+                    borderRadius: 999,
+                    background: hot ? "#FF5252" : recent ? "var(--el-fire)" : "var(--fg-faint)",
+                    boxShadow: hot ? "0 0 6px #FF5252" : recent ? "0 0 6px var(--el-fire)" : "none",
                   }}
+                />
+                <div style={{ minWidth: 0 }}>
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 11,
+                      color: "var(--fg)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      display: "block",
+                    }}
+                  >
+                    {g.path}
+                  </span>
+                  <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                    last · {formatRelativeShort(g.lastSeenAt)}
+                  </span>
+                </div>
+                <span
+                  className="t-num"
+                  style={{
+                    textAlign: "right",
+                    color: g.fiveXxCount > 0 ? "#FF5252" : "var(--fg-mute)",
+                    fontSize: 11,
+                  }}
+                  title="5xx responses"
                 >
-                  {e.title}
+                  {g.fiveXxCount}
+                </span>
+                <span
+                  className="t-num"
+                  style={{
+                    textAlign: "right",
+                    color: g.fourXxCount > 0 ? "var(--el-fire)" : "var(--fg-mute)",
+                    fontSize: 11,
+                  }}
+                  title="4xx responses"
+                >
+                  {g.fourXxCount}
+                </span>
+                <span
+                  className="t-num"
+                  style={{ textAlign: "right", color: "var(--fg-dim)", fontSize: 11 }}
+                  title="total in window"
+                >
+                  {g.totalCount}
                 </span>
               </div>
-              <div style={{ display: "flex", gap: 8, marginTop: 2 }}>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--accent-2)" }}>fp · {e.fp}</span>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>last · {e.last}</span>
-              </div>
-            </div>
-            <span className="t-num" style={{ textAlign: "right", color: "var(--fg)" }}>{e.count.toLocaleString()}</span>
-            <span
-              className="t-mono"
-              style={{
-                textAlign: "right",
-                fontSize: 10,
-                color: e.trend.startsWith("▲") ? "var(--el-fire)" : "var(--el-earth)",
-              }}
-            >
-              {e.trend}
-            </span>
-            <button className="btn btn-ghost" style={{ padding: "3px 8px", fontSize: 8 }} type="button">
-              OPEN
-            </button>
+            );
+          })}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr 56px 56px 56px",
+              gap: 8,
+              padding: "6px 0 0 13px",
+            }}
+          >
+            <span />
+            <span />
+            <span className="t-tag" style={{ fontSize: 8, textAlign: "right" }}>5XX</span>
+            <span className="t-tag" style={{ fontSize: 8, textAlign: "right" }}>4XX</span>
+            <span className="t-tag" style={{ fontSize: 8, textAlign: "right" }}>TOTAL</span>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </Card>
   );
 }
 
 // ============================================================
 // COST BURNDOWN
+// Empty placeholder until we wire billing data (Vercel, Railway, Stripe).
 // ============================================================
 export function CostBurndown() {
-  const buckets = [
-    { k: "Compute · API + engine", v: 1840, b: 3000, color: "var(--accent)" },
-    { k: "Galileo · GPU image gen", v: 1240, b: 1500, color: "var(--accent-2)", warn: true },
-    { k: "LLM · agent reasoning", v: 982, b: 1800, color: "var(--el-water)" },
-    { k: "Postgres + Vector store", v: 612, b: 800, color: "var(--el-earth)" },
-    { k: "Astronomical ephemeris", v: 184, b: 240, color: "var(--el-air)" },
-    { k: "CDN · edge", v: 420, b: 600, color: "var(--el-fire)" },
-    { k: "Amazon Fresh adapter", v: 84, b: 200, color: "#D6CFE8" },
-  ];
-  const total = buckets.reduce((s, b) => s + b.v, 0);
-  const budget = buckets.reduce((s, b) => s + b.b, 0);
   return (
     <Card
       title="Cost Burndown · MTD"
-      subtitle={`$${total.toLocaleString()} of $${budget.toLocaleString()} budgeted · ${Math.round((total / budget) * 100)}% utilized`}
+      subtitle="billing source not configured"
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          EXPORT
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          ○ NO SOURCE
+        </span>
       }
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {buckets.map((b) => {
-          const pct = b.v / b.b;
-          const projected = Math.round(b.v * 2.1);
-          return (
-            <div key={b.k}>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "16px 1fr 60px 80px 80px",
-                  gap: 8,
-                  alignItems: "center",
-                  marginBottom: 2,
-                }}
-              >
-                <span className="el-dot" style={{ background: b.color, boxShadow: `0 0 6px ${b.color}` }} />
-                <span style={{ fontSize: 11, color: "var(--fg-dim)" }}>{b.k}</span>
-                <span className="t-num" style={{ fontSize: 11, color: "var(--fg)", textAlign: "right" }}>
-                  ${b.v.toLocaleString()}
-                </span>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 9,
-                    color: b.warn ? "var(--el-fire)" : "var(--fg-mute)",
-                    textAlign: "right",
-                  }}
-                >
-                  of ${b.b.toLocaleString()}
-                </span>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 9,
-                    color: projected > b.b ? "var(--el-fire)" : "var(--fg-mute)",
-                    textAlign: "right",
-                  }}
-                >
-                  proj ${projected.toLocaleString()}
-                </span>
-              </div>
-              <div
-                style={{
-                  position: "relative",
-                  height: 6,
-                  background: "rgba(255,255,255,0.03)",
-                  borderRadius: 999,
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${Math.min(pct, 1) * 100}%`,
-                    height: "100%",
-                    background: b.color,
-                    boxShadow: `0 0 8px ${b.color}`,
-                    opacity: 0.85,
-                  }}
-                />
-                {pct > 0.9 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      top: -1,
-                      bottom: -1,
-                      width: 2,
-                      background: "var(--el-fire)",
-                      boxShadow: "0 0 6px var(--el-fire)",
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
       <div
         style={{
-          marginTop: 10,
-          padding: "8px 10px",
-          border: "1px dashed var(--el-fire)",
+          padding: "32px 12px",
+          textAlign: "center",
+          border: "1px dashed var(--line)",
           borderRadius: 8,
-          background: "color-mix(in oklch, var(--el-fire), transparent 94%)",
         }}
       >
-        <div className="t-tag" style={{ color: "var(--el-fire)", fontSize: 8.5 }}>OVERAGE FORECAST</div>
-        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginTop: 2 }}>
-          Galileo on track for <span style={{ color: "var(--el-fire)" }}>$2,604</span> ·{" "}
-          <span style={{ color: "var(--el-fire)" }}>+74%</span> over budget. Throttle option: cap free-tier image renders
-          at 3/recipe.
+        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+          No billing aggregation wired
+        </div>
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          connect Vercel + Railway billing APIs to populate
         </div>
       </div>
     </Card>

@@ -21,14 +21,19 @@ import {
   getCatalogTrending,
   getCosmicYield,
   getDatabaseObservability,
+  getErrorGroupSummary,
   getPlatformPulse,
   getEnginePerformance,
   getPractitionerCohorts,
   getCommerceTelemetry,
   getPageTelemetry,
+  getRecentAlerts,
+  getSecuritySummary,
 } from "@/services/dashboardPanelsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
+import { getLiveActivity } from "@/services/liveActivityService";
 import { getSkyConditions } from "@/services/skyConditionsService";
+import { getSystemStatus } from "@/services/systemStatusService";
 import { userDatabase } from "@/services/userDatabaseService";
 
 export const dynamic = "force-dynamic";
@@ -165,6 +170,11 @@ export async function GET(request: NextRequest) {
     const practitionerCohortsPromise = getPractitionerCohorts();
     const commerceTelemetryPromise = getCommerceTelemetry();
     const pageTelemetryPromise = getPageTelemetry();
+    const systemStatusPromise = getSystemStatus();
+    const liveActivityPromise = getLiveActivity();
+    const recentAlertsPromise = getRecentAlerts();
+    const errorGroupsPromise = getErrorGroupSummary();
+    const securityPromise = getSecuritySummary();
 
     let paHealth = "offline";
     let paAgentCount = 0;
@@ -212,6 +222,11 @@ export async function GET(request: NextRequest) {
     const practitionerCohorts = await practitionerCohortsPromise;
     const commerce = await commerceTelemetryPromise;
     const pageTelemetry = await pageTelemetryPromise;
+    const systemStatus = await systemStatusPromise;
+    const liveActivityResult = await liveActivityPromise;
+    const recentAlerts = await recentAlertsPromise;
+    const errorGroups = await errorGroupsPromise;
+    const security = await securityPromise;
 
     // Resolve the admin identity from the validated session rather than
     // hardcoding a single operator. Falls back to the session token payload
@@ -268,6 +283,14 @@ export async function GET(request: NextRequest) {
       practitionerCohorts,
       commerce,
       pageTelemetry,
+      systemStatus,
+      liveActivity: {
+        entries: liveActivityResult.events,
+        live: liveActivityResult.live,
+      },
+      recentAlerts,
+      errorGroups,
+      security,
       meta: {
         generatedAt: now.toISOString(),
         mockedFields: [],
