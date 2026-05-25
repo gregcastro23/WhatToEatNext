@@ -12,6 +12,7 @@ import {
   getDatabaseUserFromRequest,
 } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { withTimeout } from "@/lib/performance/withTimeout";
 import { UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -71,18 +72,30 @@ export async function GET(request: NextRequest) {
               _logger.info("[GET /api/user/profile] Migrating natal chart with sub-arcminute positions");
               try {
                 const birthDate = new Date(natalChart.birthData.dateTime);
-                const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
-                  latitude: natalChart.birthData.latitude,
-                  longitude: natalChart.birthData.longitude,
-                });
-                const updatedPlanets = natalChart.planets.map((p: any) => {
-                  const pos = rawPositions[p.name];
-                  return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
-                });
-                natalChart.planets = updatedPlanets;
-                void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
-                  _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
+                // 8s ceiling: the fallback ephemeris computation in
+                // getPlanetaryPositionsForDateTime is unbounded server-side
+                // math (no AbortController). Migration is best-effort — if
+                // we time out, return the un-migrated chart; the next call
+                // tries again.
+                const rawPositions = await withTimeout(
+                  getPlanetaryPositionsForDateTime(birthDate, {
+                    latitude: natalChart.birthData.latitude,
+                    longitude: natalChart.birthData.longitude,
+                  }),
+                  8000,
+                  null,
+                  "profile-hono lazy migration",
                 );
+                if (rawPositions) {
+                  const updatedPlanets = natalChart.planets.map((p: any) => {
+                    const pos = rawPositions[p.name];
+                    return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
+                  });
+                  natalChart.planets = updatedPlanets;
+                  void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
+                    _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
+                  );
+                }
               } catch (err) {
                 _logger.error("[GET /api/user/profile] Lazy migration failed", err);
               }
@@ -106,20 +119,28 @@ export async function GET(request: NextRequest) {
         _logger.info("[GET /api/user/profile] Migrating natal chart with sub-arcminute positions");
         try {
           const birthDate = new Date(natalChart.birthData.dateTime);
-          const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
-            latitude: natalChart.birthData.latitude,
-            longitude: natalChart.birthData.longitude,
-          });
-          // Update planet positions with exact longitudes
-          const updatedPlanets = natalChart.planets.map((p: any) => {
-            const pos = rawPositions[p.name];
-            return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
-          });
-          natalChart.planets = updatedPlanets;
-          // Persist the migrated chart asynchronously (don't block response)
-          void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
-            _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
+          // 8s ceiling: see comment in the Hono proxy branch above.
+          const rawPositions = await withTimeout(
+            getPlanetaryPositionsForDateTime(birthDate, {
+              latitude: natalChart.birthData.latitude,
+              longitude: natalChart.birthData.longitude,
+            }),
+            8000,
+            null,
+            "profile-fallback lazy migration",
           );
+          if (rawPositions) {
+            // Update planet positions with exact longitudes
+            const updatedPlanets = natalChart.planets.map((p: any) => {
+              const pos = rawPositions[p.name];
+              return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
+            });
+            natalChart.planets = updatedPlanets;
+            // Persist the migrated chart asynchronously (don't block response)
+            void userDatabase.updateUserProfile(user.id, { natalChart } as any, user.email).catch((err: any) =>
+              _logger.error("[GET /api/user/profile] Failed to persist migrated chart", err),
+            );
+          }
         } catch (err) {
           _logger.error("[GET /api/user/profile] Lazy migration failed", err);
         }

@@ -95,6 +95,19 @@ class NotificationDatabaseService {
           return rowToNotification(result.rows[0]);
         }
       } catch (error) {
+        // FK violation (23503) means user_id doesn't exist in users — silently
+        // skip rather than logging at error level. This happens for legitimate
+        // edge cases like demo-flow callers passing synthetic IDs or sessions
+        // outliving the underlying user row, and it pollutes the error stream
+        // when it's safe to ignore.
+        const code = (error as { code?: string })?.code;
+        if (code === "23503") {
+          _logger.warn(
+            "[Notification] FK violation on createNotification — user_id missing, skipping",
+            { userId, type },
+          );
+          return null;
+        }
         _logger.error("createNotification failed:", error);
         return null;
       }

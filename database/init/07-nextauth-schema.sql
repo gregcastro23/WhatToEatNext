@@ -6,10 +6,9 @@
 ALTER TABLE users DROP COLUMN IF EXISTS privy_id;
 
 -- 2. Setup Custom User Fields
-ALTER TABLE users ADD COLUMN IF NOT EXISTS "onboardingComplete" BOOLEAN DEFAULT false;
-ALTER TABLE users ADD COLUMN IF NOT EXISTS "birthDate" DATE;
-ALTER TABLE users ADD COLUMN IF NOT EXISTS "birthTime" TIME;
-ALTER TABLE users ADD COLUMN IF NOT EXISTS "birthLocation" VARCHAR(255);
+-- (Removed: users."onboardingComplete" / "birthDate" / "birthTime" / "birthLocation".
+-- These were never applied in prod and the app uses user_profiles.onboarding_completed
+-- + user_profiles.birth_data instead.)
 
 -- The 06 script might not have run on this DB. Let's ensure the user_role ENUM exists and has USER/ADMIN.
 DO $$

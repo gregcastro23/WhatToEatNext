@@ -3,6 +3,9 @@
 /.pnp
 .pnp.js
 
+# local-only scratch directory for one-off scripts, audits, exploratory work
+/scratch/
+
 # testing
 /coverage
 

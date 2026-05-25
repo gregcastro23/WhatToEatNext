@@ -52,6 +52,10 @@ ENV PATH=/home/alchm/.local/bin:$PATH
 # Copy backend application code
 COPY backend/ ./backend/
 
+# Migration runner needs the SQL files. We copy them into the image so the
+# backend can apply any unapplied database/init/*.sql on startup.
+COPY database/init/ ./database/init/
+
 # Ensure correct ownership
 RUN chown -R alchm:alchm /app /home/alchm
 
@@ -63,5 +67,10 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# Railway dynamically sets PORT, fallback to 8000
-CMD ["sh", "-c", "uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port ${PORT:-8000} --log-level info"]
+# On boot, apply any unapplied database/init/*.sql via the migration runner,
+# then start uvicorn. Runner exits 0 on success or when up-to-date, non-zero
+# on first failing migration. Railway will not start the web process if the
+# migration step fails (the && short-circuits), which is the desired behavior:
+# we'd rather see a failed deploy than serve traffic against a half-migrated
+# schema. Railway dynamically sets PORT, fallback to 8000.
+CMD ["sh", "-c", "python -m backend.scripts.run_init_migrations && uvicorn backend.alchm_kitchen.main:app --host 0.0.0.0 --port ${PORT:-8000} --log-level info"]

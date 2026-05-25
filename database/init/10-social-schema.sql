@@ -3,32 +3,33 @@
 -- Migration for expanding user social data ecosystem
 
 -- ==========================================
--- SAVED CHARTS (decoupled from user_profiles JSONB)
+-- SAVED CHARTS
+-- Source of truth: this file matches the actual prod schema as of 2026-05-25.
+-- The original design (owner_id / label / chart_type / birth_data JSONB /
+-- natal_chart JSONB) was superseded by hand-applied DDL that flattened the
+-- JSONB into structured columns (user_id / chart_name / birth_date /
+-- birth_time / birth_latitude / birth_longitude / timezone_str) and added a
+-- unique (user_id, chart_name) constraint. This file has been rewritten to
+-- describe the post-evolution shape so a fresh DB build produces the same
+-- table prod has today.
 -- ==========================================
 
 CREATE TABLE IF NOT EXISTS saved_charts (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  label VARCHAR(255) NOT NULL,                     -- e.g. "Personal", "Career/Mundane"
-  chart_type VARCHAR(50) NOT NULL DEFAULT 'manual', -- 'primary' | 'cosmic_identity' | 'manual'
-  birth_data JSONB NOT NULL,                        -- BirthData object
-  natal_chart JSONB NOT NULL,                       -- NatalChart object
-  is_primary BOOLEAN NOT NULL DEFAULT false,        -- true for the user's main birth chart
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id         UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  chart_name      VARCHAR(100) NOT NULL,            -- e.g. "Personal", "Career"
+  birth_date      TIMESTAMP WITH TIME ZONE NOT NULL,
+  birth_time      VARCHAR(50) NOT NULL,             -- e.g. "12:34:00" (string form)
+  birth_latitude  REAL NOT NULL,
+  birth_longitude REAL NOT NULL,
+  timezone_str    VARCHAR(100) NOT NULL,            -- IANA tz, e.g. "America/New_York"
+  is_primary      BOOLEAN NOT NULL,                 -- caller must supply; matches prod (no default)
+  created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
--- Enforce at most one primary chart per user
-CREATE UNIQUE INDEX IF NOT EXISTS idx_saved_charts_primary
-  ON saved_charts (owner_id) WHERE is_primary = true;
-
-CREATE INDEX IF NOT EXISTS idx_saved_charts_owner ON saved_charts (owner_id);
-CREATE INDEX IF NOT EXISTS idx_saved_charts_type ON saved_charts (chart_type);
-
--- Trigger for updated_at
-CREATE TRIGGER update_saved_charts_updated_at
-  BEFORE UPDATE ON saved_charts
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE INDEX IF NOT EXISTS idx_saved_charts_user ON saved_charts (user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_user_chart_name ON saved_charts (user_id, chart_name);
 
 -- ==========================================
 -- FRIENDSHIPS (many-to-many between registered users)
@@ -68,7 +69,6 @@ CREATE TRIGGER update_friendships_updated_at
 -- COMMENTS
 -- ==========================================
 
-COMMENT ON TABLE saved_charts IS 'Decoupled birth charts: primary, cosmic identities, and manual companion charts';
+COMMENT ON TABLE saved_charts IS 'Decoupled birth charts owned per user_id, identified by chart_name (e.g. "Personal", "Career"). is_primary marks the user''s main chart but is not enforced unique.';
 COMMENT ON TABLE friendships IS 'Many-to-many friendship relationships between registered users';
-COMMENT ON COLUMN saved_charts.chart_type IS 'primary = user main chart, cosmic_identity = alternate persona, manual = companion without account';
 COMMENT ON COLUMN friendships.status IS 'pending = awaiting acceptance, accepted = mutual friends, blocked = rejected/blocked';

@@ -15,6 +15,11 @@ interface EmailOptions {
   text?: string;
 }
 
+// Module-level flag: log Resend 403 (unverified-domain) once per process at
+// error level, then downgrade subsequent occurrences to warn so the hourly
+// alert-snapshot cron doesn't flood Vercel logs with the same line 24x/day.
+let resend403Logged = false;
+
 class EmailService {
   private resendApiKey: string | null = null;
   private smtpTransporter: any | null = null; // Use any for Transporter to avoid type issues with dynamic import
@@ -124,7 +129,25 @@ class EmailService {
 
       if (!response.ok) {
         const body = await response.text();
-        console.error(`Resend API error (${response.status}): ${body}`);
+        // 403 typically means the sender domain (fromAddress) isn't verified in
+        // the Resend dashboard. This is operator-fixable (verify the domain or
+        // switch fromAddress to a verified one) — log loudly the FIRST time per
+        // process so it's noticed, then downgrade to warn so the hourly cron
+        // doesn't flood the error stream with 24 duplicates per day.
+        if (response.status === 403) {
+          if (!resend403Logged) {
+            console.error(
+              `Resend API 403 — sender domain "${this.fromAddress}" not verified in Resend. ` +
+                `Verify the domain at https://resend.com/domains or set EMAIL_FROM_ADDRESS to a verified address. ` +
+                `Suppressing further duplicates this process. Body: ${body}`,
+            );
+            resend403Logged = true;
+          } else {
+            console.warn(`Resend API 403 (suppressed, see earlier log): ${body.slice(0, 200)}`);
+          }
+        } else {
+          console.error(`Resend API error (${response.status}): ${body}`);
+        }
         return false;
       }
 
