@@ -159,7 +159,12 @@ export function useGuestRecommendations(): UseGuestRecommendationsApi {
       const data = await fetchGuestRecommendations(guests);
       if (runIdRef.current !== myRunId) return;
 
-      const savableGuests: SavableGuest[] = (data.groupMembers ?? []).map(
+      // The API may prepend the authenticated user as a `self` member; only
+      // the commensals (non-self) should be offered for saving as companions.
+      const commensalMembers = (data.groupMembers ?? []).filter(
+        (m: GroupMember) => m.relationship !== "self",
+      );
+      const savableGuests: SavableGuest[] = commensalMembers.map(
         (m: GroupMember, i: number) => ({
           name: m.name ?? guests[i]?.name ?? `Guest ${i + 1}`,
           birthData: m.birthData ?? guests[i]?.birthData,

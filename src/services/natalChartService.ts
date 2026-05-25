@@ -83,6 +83,18 @@ interface AstrologizeResponse {
   };
 }
 
+// Resolve an absolute astrologize URL when running on the server (where
+// `fetch` rejects relative paths) and stay relative in the browser.
+function getAstrologizeApiUrl(): string {
+  if (typeof window === "undefined") {
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}/api/astrologize`;
+    }
+    return `http://localhost:${process.env.PORT || 3000}/api/astrologize`;
+  }
+  return "/api/astrologize";
+}
+
 /**
  * Normalize zodiac sign name from API to our lowercase format
  */
@@ -187,7 +199,7 @@ async function fetchPlanetaryPositions(
       zodiacSystem: "tropical" as const,
     };
 
-    const response = await fetch("/api/astrologize", {
+    const response = await fetch(getAstrologizeApiUrl(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
