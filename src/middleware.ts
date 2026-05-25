@@ -19,9 +19,36 @@ const authMiddleware = NextAuth(authConfig).auth as unknown as (
   request: NextRequest,
 ) => ReturnType<Response["clone"]> | Promise<Response | undefined> | undefined;
 
-export default function middleware(request: NextRequest) {
+// Slow-middleware diagnostic. Production tail-latency on /profile,
+// /current-chart, /restaurant-creator etc. occasionally exceeds Vercel's 60s
+// function timeout with no obvious code-path explanation; logging timings >1s
+// gives us a real signal in Vercel logs the next time it happens (look for
+// "[middleware] slow" in the error stream).
+const SLOW_MIDDLEWARE_THRESHOLD_MS = 1000;
+
+export default async function middleware(request: NextRequest) {
+  const started = Date.now();
   applyRequestAuthOrigin(request);
-  return authMiddleware(request);
+  try {
+    const result = await authMiddleware(request);
+    const elapsed = Date.now() - started;
+    if (elapsed > SLOW_MIDDLEWARE_THRESHOLD_MS) {
+      console.warn(
+        `[middleware] slow ${elapsed}ms ${request.method} ${request.nextUrl.pathname}`,
+      );
+    }
+    return result;
+  } catch (err) {
+    const elapsed = Date.now() - started;
+    console.error(
+      `[middleware] failed after ${elapsed}ms ${request.method} ${request.nextUrl.pathname}:`,
+      err,
+    );
+    // Don't let middleware errors block the request — return undefined so the
+    // page handler runs and can apply its own auth gate. NextAuth normally
+    // returns undefined here too when there's no redirect to issue.
+    return undefined;
+  }
 }
 
 export const runtime = "nodejs";
