@@ -10,6 +10,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   agentSlugFromEmail,
   fetchAgentProfile,
+  fetchAgentInteractions,
+  fetchAgentActions,
+  fetchAgentArtifacts,
 } from "@/lib/agents/fetchAgentProfile";
 import { executeQuery } from "@/lib/database";
 import { computeTasteGraph } from "@/services/userInteractionsService";
@@ -154,11 +157,28 @@ export async function GET(
     const dietaryPreferences = parseJsonField<Record<string, unknown>>(row.dietary_preferences, {});
     const profileLayout = parseJsonField<unknown[]>(row.profile_layout, ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
 
-    // For agent users, pull the rich CraftedAgent profile from
-    // planetary_agents-main. Cached 24h upstream-side; falls back to null
-    // (and the page degrades to the locally-mirrored fields) on any failure.
+    // For agent users, pull the rich CraftedAgent profile, interactions,
+    // actions, and artifacts from planetary_agents-main in parallel.
     const slug = row.is_agent ? agentSlugFromEmail(row.email) : null;
-    const agentProfile = slug ? await fetchAgentProfile(slug) : null;
+    
+    let agentProfile: any = null;
+    let agentInteractions: any[] = [];
+    let agentActions: any[] = [];
+    let agentArtifacts: any[] = [];
+
+    if (slug) {
+      const [profileRes, interactionsRes, actionsRes, artifactsRes] = await Promise.allSettled([
+        fetchAgentProfile(slug),
+        fetchAgentInteractions(slug),
+        fetchAgentActions(slug),
+        fetchAgentArtifacts(slug),
+      ]);
+
+      if (profileRes.status === "fulfilled") agentProfile = profileRes.value;
+      if (interactionsRes.status === "fulfilled") agentInteractions = interactionsRes.value || [];
+      if (actionsRes.status === "fulfilled") agentActions = actionsRes.value || [];
+      if (artifactsRes.status === "fulfilled") agentArtifacts = artifactsRes.value || [];
+    }
 
     return NextResponse.json({
       success: true,
@@ -170,6 +190,9 @@ export async function GET(
         isAgent: row.is_agent,
         agentSlug: slug,
         agentProfile,
+        agentInteractions,
+        agentActions,
+        agentArtifacts,
         bio: row.bio,
         dominantElement: row.dominant_element,
         natalChart,

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 import { Glyph } from "./atoms";
@@ -14,6 +15,18 @@ interface AgentRoleSlice {
   label: string;
   agentCount: number;
   events24h: number;
+}
+
+interface AgentInteractionEntry {
+  sessionId: string;
+  agentId1: string;
+  agentId2: string;
+  /** Local WTEN users.id for the chat partner, when we could resolve it. */
+  targetUserId: string | null;
+  agentName1: string;
+  agentName2: string;
+  timestamp: string;
+  preview: string;
 }
 
 interface AgentDispatchEntry {
@@ -36,6 +49,30 @@ interface AgentLeaderboardEntry {
   dominantElement: string | null;
 }
 
+type CosmicModifierKind =
+  | "amplify"
+  | "harmonize"
+  | "flow"
+  | "friction"
+  | "tension";
+
+interface CosmicModifierEntry {
+  id: string;
+  label: string;
+  bodyA: string;
+  symbolA: string;
+  bodyB: string;
+  symbolB: string;
+  aspectGlyph: string;
+  aspectName: string;
+  orbDegrees: number;
+  orbLabel: string;
+  applying: boolean;
+  kind: CosmicModifierKind;
+  velocityImpact: number;
+  description: string;
+}
+
 interface AgentNetworkData {
   generatedAt: string;
   totals: {
@@ -49,6 +86,12 @@ interface AgentNetworkData {
   roles: { entries: AgentRoleSlice[]; live: boolean };
   dispatch: { entries: AgentDispatchEntry[]; live: boolean };
   leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
+  interactions: { entries: AgentInteractionEntry[]; live: boolean };
+  modifiers: {
+    entries: CosmicModifierEntry[];
+    netVelocity: number;
+    live: boolean;
+  };
 }
 
 const EMPTY_NETWORK: AgentNetworkData = {
@@ -57,6 +100,8 @@ const EMPTY_NETWORK: AgentNetworkData = {
   roles: { entries: [], live: false },
   dispatch: { entries: [], live: false },
   leaderboard: { entries: [], live: false },
+  interactions: { entries: [], live: false },
+  modifiers: { entries: [], netVelocity: 0, live: false },
 };
 
 /** Stable color cycle so a given role label always gets the same accent. */
@@ -77,12 +122,33 @@ function colorForRole(id: string): string {
   return ROLE_COLOR_CYCLE[Math.abs(hash) % ROLE_COLOR_CYCLE.length];
 }
 
-function useAgentNetwork(): { data: AgentNetworkData; live: boolean } {
+/** Interactive filters threaded into the `/api/admin/agents/network` query. */
+interface AgentNetworkFilters {
+  with?: string;
+  topic?: string;
+}
+
+function useAgentNetwork(filters: AgentNetworkFilters = {}): {
+  data: AgentNetworkData;
+  live: boolean;
+  refreshNow: () => void;
+} {
   const [data, setData] = React.useState<AgentNetworkData>(EMPTY_NETWORK);
+
+  // Spread to primitives so `useCallback` dependency tracking is reliable.
+  const withFilter = (filters.with ?? "").trim();
+  const topicFilter = (filters.topic ?? "").trim();
 
   const poll = React.useCallback(async (): Promise<{ ok: boolean }> => {
     try {
-      const res = await fetch("/api/admin/agents/network", { cache: "no-store" });
+      const params = new URLSearchParams();
+      if (withFilter) params.set("with", withFilter);
+      if (topicFilter) params.set("topic", topicFilter);
+      const qs = params.toString();
+      const url = qs
+        ? `/api/admin/agents/network?${qs}`
+        : "/api/admin/agents/network";
+      const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) return { ok: false };
       const json = (await res.json()) as { success: boolean } & AgentNetworkData;
       if (json.success) {
@@ -93,26 +159,59 @@ function useAgentNetwork(): { data: AgentNetworkData; live: boolean } {
     } catch {
       return { ok: false };
     }
-  }, []);
+  }, [withFilter, topicFilter]);
 
-  useHardenedPolling(poll, { baseIntervalMs: 30_000 });
+  const { refreshNow } = useHardenedPolling(poll, { baseIntervalMs: 30_000 });
+
+  // Refresh as soon as the operator changes a filter — otherwise the panel
+  // would wait up to 30s for the next polling tick to reflect the new query.
+  React.useEffect(() => {
+    refreshNow();
+  }, [withFilter, topicFilter, refreshNow]);
 
   const live =
     data.totals.live_source &&
     data.roles.live &&
     data.dispatch.live &&
-    data.leaderboard.live;
+    data.leaderboard.live &&
+    data.interactions.live;
 
-  return { data, live };
+  return { data, live, refreshNow };
 }
 
 // ============================================================
 // AGENT FEED CONTROL ROOM
 // ============================================================
 export function AgentFeedControlRoom() {
-  const { data, live } = useAgentNetwork();
-  const { totals, roles, dispatch, leaderboard } = data;
+  // Operator-controlled discourse filters. Local input state stays
+  // unthrottled for responsive typing; we debounce the server-bound copy so
+  // the API isn't hammered on every keystroke.
+  const [withInput, setWithInput] = React.useState("");
+  const [topicInput, setTopicInput] = React.useState("");
+  const [debouncedWith, setDebouncedWith] = React.useState("");
+  const [debouncedTopic, setDebouncedTopic] = React.useState("");
+
+  React.useEffect(() => {
+    const t = setTimeout(() => setDebouncedWith(withInput.trim()), 350);
+    return () => clearTimeout(t);
+  }, [withInput]);
+  React.useEffect(() => {
+    const t = setTimeout(() => setDebouncedTopic(topicInput.trim()), 350);
+    return () => clearTimeout(t);
+  }, [topicInput]);
+
+  const { data, live } = useAgentNetwork({
+    with: debouncedWith,
+    topic: debouncedTopic,
+  });
+  const { totals, roles, dispatch, leaderboard, interactions, modifiers } = data;
   const activeDispatches = dispatch.entries.length;
+  const isInteractionsFiltered =
+    debouncedWith.length > 0 || debouncedTopic.length > 0;
+  const handleClearInteractionFilters = React.useCallback(() => {
+    setWithInput("");
+    setTopicInput("");
+  }, []);
 
   return (
     <>
@@ -182,8 +281,30 @@ export function AgentFeedControlRoom() {
         <AgentDispatchStream entries={dispatch.entries} live={dispatch.live} />
       </div>
 
-      <div style={{ marginTop: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 12, marginTop: 12 }}>
         <AgentLeaderboard entries={leaderboard.entries} live={leaderboard.live} />
+        <AgentInteractionsPanel
+          entries={interactions.entries}
+          live={interactions.live}
+          withInput={withInput}
+          onWithInputChange={setWithInput}
+          topicInput={topicInput}
+          onTopicInputChange={setTopicInput}
+          isFiltered={isInteractionsFiltered}
+          onClearFilters={handleClearInteractionFilters}
+        />
+      </div>
+
+      <div style={{ marginTop: 12 }}>
+        <ActiveCosmicModifiers
+          entries={modifiers.entries}
+          netVelocity={modifiers.netVelocity}
+          live={modifiers.live}
+        />
+      </div>
+
+      <div style={{ marginTop: 12 }}>
+        <MonicaCompanionTelemetry />
       </div>
     </section>
     </>
@@ -646,6 +767,48 @@ function shortAgentHandle(email: string, name: string | null): string {
   return at > 0 ? email.slice(0, at) : email;
 }
 
+/**
+ * Shared deep-link wrapper for agent name/badge cells. Routes the operator
+ * to `/profile/[userId]` while keeping the existing pill visuals. Falls back
+ * to a plain span when no `userId` is available (e.g. an unresolved chat
+ * partner or a human user counterparty).
+ */
+function AgentProfileLink({
+  userId,
+  title,
+  style,
+  children,
+}: {
+  userId: string | null | undefined;
+  title?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  if (!userId) {
+    return (
+      <span title={title} style={style}>
+        {children}
+      </span>
+    );
+  }
+  return (
+    <Link
+      href={`/profile/${encodeURIComponent(userId)}`}
+      title={title ?? "Open alchemical profile"}
+      prefetch={false}
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+        cursor: "pointer",
+        ...style,
+      }}
+      className="hover-accent"
+    >
+      {children}
+    </Link>
+  );
+}
+
 /** Format a recent ISO timestamp as `HH:MM:SS.s` to match the prototype rhythm. */
 function formatDispatchTime(iso: string): string {
   const d = new Date(iso);
@@ -736,8 +899,11 @@ function AgentDispatchStream({
               }}
             >
               <span style={{ color: "var(--fg-mute)" }}>{formatDispatchTime(d.timestamp)}</span>
-              <span
+              <AgentProfileLink
+                userId={d.agentId}
+                title={d.agentEmail}
                 style={{
+                  display: "inline-block",
                   padding: "1px 6px",
                   borderRadius: 999,
                   border: `1px solid ${colorForRole(d.role)}`,
@@ -745,10 +911,9 @@ function AgentDispatchStream({
                   fontSize: 8.5,
                   letterSpacing: "0.1em",
                 }}
-                title={d.agentEmail}
               >
                 {shortAgentHandle(d.agentEmail, d.agentName)}
-              </span>
+              </AgentProfileLink>
               <span
                 style={{
                   color: "var(--fg-dim)",
@@ -887,9 +1052,13 @@ function AgentLeaderboard({
                     boxShadow: `0 0 6px ${colorForRole(handle)}`,
                   }}
                 />
-                <span style={{ color: "var(--fg)" }} title={a.agentEmail}>
+                <AgentProfileLink
+                  userId={a.agentId}
+                  title={a.agentEmail}
+                  style={{ color: "var(--fg)" }}
+                >
                   {handle}
-                </span>
+                </AgentProfileLink>
                 {stale && (
                   <span
                     className="t-mono"
@@ -923,6 +1092,879 @@ function AgentLeaderboard({
         })
       )}
     </Card>
+  );
+}
+
+const DISCOURSE_FILTER_INPUT_STYLE: React.CSSProperties = {
+  background: "rgba(0,0,0,0.35)",
+  border: "1px solid var(--line)",
+  borderRadius: 6,
+  padding: "4px 8px",
+  fontFamily: "var(--f-mono)",
+  fontSize: 10,
+  color: "var(--fg)",
+  outline: "none",
+  letterSpacing: "0.04em",
+  minWidth: 0,
+};
+
+function AgentInteractionsPanel({
+  entries,
+  live,
+  withInput,
+  onWithInputChange,
+  topicInput,
+  onTopicInputChange,
+  isFiltered,
+  onClearFilters,
+}: {
+  entries: AgentInteractionEntry[];
+  live: boolean;
+  withInput: string;
+  onWithInputChange: (value: string) => void;
+  topicInput: string;
+  onTopicInputChange: (value: string) => void;
+  isFiltered: boolean;
+  onClearFilters: () => void;
+}) {
+  return (
+    <Card
+      title="Agent-to-Agent Discourses"
+      subtitle="live edge view of collective intelligence interactions"
+      right={
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: isFiltered
+              ? "var(--accent-2)"
+              : live
+                ? "var(--accent)"
+                : "var(--fg-mute)",
+          }}
+          title={
+            isFiltered
+              ? "Showing filtered discourses"
+              : live
+                ? "Live discourse feed"
+                : "Discourse feed offline"
+          }
+        >
+          {isFiltered ? "▣ FILTERED" : live ? "● LIVE" : "○ OFFLINE"}
+        </span>
+      }
+    >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "120px 1fr auto",
+          gap: 6,
+          marginBottom: 8,
+          alignItems: "center",
+        }}
+      >
+        <input
+          type="text"
+          value={withInput}
+          onChange={(e) => onWithInputChange(e.target.value)}
+          placeholder="filter agent…"
+          aria-label="Filter discourses by agent name or ID"
+          spellCheck={false}
+          autoComplete="off"
+          style={DISCOURSE_FILTER_INPUT_STYLE}
+        />
+        <input
+          type="text"
+          value={topicInput}
+          onChange={(e) => onTopicInputChange(e.target.value)}
+          placeholder="search topic or message…"
+          aria-label="Search discourse topic or message preview"
+          spellCheck={false}
+          autoComplete="off"
+          style={DISCOURSE_FILTER_INPUT_STYLE}
+        />
+        <button
+          type="button"
+          onClick={onClearFilters}
+          disabled={!isFiltered}
+          title={
+            isFiltered
+              ? "Clear discourse filters"
+              : "No filters applied"
+          }
+          style={{
+            background: "transparent",
+            border: "1px solid var(--line)",
+            borderRadius: 6,
+            padding: "4px 10px",
+            color: isFiltered ? "var(--accent)" : "var(--fg-mute)",
+            fontFamily: "var(--f-mono)",
+            fontSize: 9,
+            letterSpacing: "0.14em",
+            cursor: isFiltered ? "pointer" : "default",
+            opacity: isFiltered ? 1 : 0.4,
+          }}
+        >
+          CLEAR
+        </button>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1.6fr auto",
+          padding: "4px 0",
+          borderBottom: "1px solid var(--line-hi)",
+        }}
+      >
+        {["Source Agent", "Target Agent", "Discussion Preview", "Discourse Thread"].map((h, i) => (
+          <span
+            key={h}
+            className="t-tag"
+            style={{ fontSize: 8.5, textAlign: i === 3 ? "right" : "left" }}
+          >
+            {h}
+          </span>
+        ))}
+      </div>
+      {entries.length === 0 ? (
+        <div
+          style={{
+            padding: "24px 0",
+            textAlign: "center",
+            color: "var(--fg-mute)",
+            fontFamily: "var(--f-mono)",
+            fontSize: 10,
+          }}
+        >
+          {isFiltered
+            ? "no discourses match the current filter"
+            : live
+              ? "no agent discourses recorded"
+              : "discourse stream offline"}
+        </div>
+      ) : (
+        entries.map((interaction) => {
+          return (
+            <div
+              key={interaction.sessionId}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1.6fr auto",
+                padding: "8px 0",
+                alignItems: "center",
+                borderBottom: "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 11,
+              }}
+            >
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span
+                  className="el-dot"
+                  style={{
+                    background: colorForRole(interaction.agentName1),
+                    boxShadow: `0 0 6px ${colorForRole(interaction.agentName1)}`,
+                  }}
+                />
+                <AgentProfileLink
+                  userId={interaction.agentId1}
+                  style={{ color: "var(--fg)" }}
+                >
+                  {interaction.agentName1}
+                </AgentProfileLink>
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span
+                  className="el-dot"
+                  style={{
+                    background: colorForRole(interaction.agentName2),
+                    boxShadow: `0 0 6px ${colorForRole(interaction.agentName2)}`,
+                  }}
+                />
+                <AgentProfileLink
+                  userId={interaction.targetUserId}
+                  title={
+                    interaction.targetUserId
+                      ? undefined
+                      : "Counterparty has no local profile"
+                  }
+                  style={{ color: "var(--fg-dim)" }}
+                >
+                  {interaction.agentName2}
+                </AgentProfileLink>
+              </span>
+              <span
+                style={{
+                  color: "var(--fg-mute)",
+                  fontSize: 10,
+                  fontStyle: "italic",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  paddingRight: 10,
+                }}
+                title={interaction.preview}
+              >
+                &ldquo;{interaction.preview}&rdquo;
+              </span>
+              <span style={{ textAlign: "right" }}>
+                <a
+                  href={`https://agents.alchm.kitchen/gallery/chat/${encodeURIComponent(interaction.sessionId)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: 9,
+                    color: "var(--accent)",
+                    textDecoration: "none",
+                    border: "1px solid var(--accent)",
+                    padding: "2px 6px",
+                    borderRadius: 4,
+                    background: "rgba(0,0,0,0.2)",
+                  }}
+                  className="hover-accent"
+                >
+                  THREAD ↗
+                </a>
+              </span>
+            </div>
+          );
+        })
+      )}
+    </Card>
+  );
+}
+
+// ============================================================
+// MONICA COMPANION TELEMETRY
+// Sub-panel that proxies Monica rollups from the PA project (helpfulness,
+// average completion, top assisted pages) into the control room.
+// ============================================================
+interface MonicaTopPage {
+  path: string;
+  count: number;
+}
+
+interface MonicaTelemetryData {
+  window: "1h" | "24h" | "7d";
+  helpfulnessScore: number | null;
+  helpfulnessSampleSize: number;
+  avgCompletionMs: number | null;
+  totalInteractions: number;
+  contextualHelpRequests: number;
+  topPages: MonicaTopPage[];
+  live: boolean;
+  source: string;
+  error?: string;
+  generatedAt: string;
+}
+
+const EMPTY_MONICA: MonicaTelemetryData = {
+  window: "24h",
+  helpfulnessScore: null,
+  helpfulnessSampleSize: 0,
+  avgCompletionMs: null,
+  totalInteractions: 0,
+  contextualHelpRequests: 0,
+  topPages: [],
+  live: false,
+  source: "fallback",
+  generatedAt: new Date(0).toISOString(),
+};
+
+function formatMs(ms: number | null): string {
+  if (ms === null || !Number.isFinite(ms)) return "—";
+  if (ms < 1000) return `${Math.round(ms)}ms`;
+  const seconds = ms / 1000;
+  if (seconds < 60) return `${seconds.toFixed(1)}s`;
+  const minutes = seconds / 60;
+  return `${minutes.toFixed(1)}m`;
+}
+
+function formatHelpfulness(score: number | null): string {
+  if (score === null || !Number.isFinite(score)) return "—";
+  // PA may return either a 0-1 ratio or a 0-100 percent; coerce both into a
+  // 0-100 integer display so the metric is consistent regardless of shape.
+  const pct = score <= 1 ? score * 100 : score;
+  return `${Math.round(pct)}%`;
+}
+
+function MonicaCompanionTelemetry() {
+  const [data, setData] = React.useState<MonicaTelemetryData>(EMPTY_MONICA);
+  const [windowKey, setWindowKey] = React.useState<"1h" | "24h" | "7d">("24h");
+
+  const poll = React.useCallback(async (): Promise<{ ok: boolean }> => {
+    try {
+      const res = await fetch(
+        `/api/admin/agents/monica?window=${encodeURIComponent(windowKey)}`,
+        { cache: "no-store" },
+      );
+      if (!res.ok) return { ok: false };
+      const json = (await res.json()) as { success: boolean } & MonicaTelemetryData;
+      if (json.success) {
+        setData({ ...json, window: json.window ?? windowKey });
+        return { ok: true };
+      }
+      return { ok: false };
+    } catch {
+      return { ok: false };
+    }
+  }, [windowKey]);
+
+  const { refreshNow } = useHardenedPolling(poll, { baseIntervalMs: 60_000 });
+
+  React.useEffect(() => {
+    refreshNow();
+  }, [windowKey, refreshNow]);
+
+  const helpfulnessLabel = formatHelpfulness(data.helpfulnessScore);
+  const completionLabel = formatMs(data.avgCompletionMs);
+  const isLive = data.live;
+
+  return (
+    <Card
+      title="Monica · Companion Telemetry"
+      subtitle="contextual help, helpfulness ratings, page coverage"
+      right={
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", gap: 4 }}>
+            {(["1h", "24h", "7d"] as const).map((w) => {
+              const active = windowKey === w;
+              return (
+                <button
+                  key={w}
+                  type="button"
+                  onClick={() => setWindowKey(w)}
+                  className="t-mono"
+                  style={{
+                    background: active
+                      ? "color-mix(in oklch, var(--accent-2), transparent 75%)"
+                      : "transparent",
+                    border: `1px solid ${
+                      active ? "var(--accent-2)" : "var(--line)"
+                    }`,
+                    color: active ? "var(--accent-2)" : "var(--fg-mute)",
+                    borderRadius: 999,
+                    padding: "2px 8px",
+                    fontSize: 9,
+                    letterSpacing: "0.14em",
+                    cursor: "pointer",
+                  }}
+                >
+                  {w.toUpperCase()}
+                </button>
+              );
+            })}
+          </div>
+          <span
+            className="t-mono"
+            style={{
+              fontSize: 9,
+              color: isLive ? "var(--accent)" : "var(--fg-mute)",
+            }}
+            title={
+              isLive
+                ? "Live from planetary-agents"
+                : data.error
+                  ? `PA unreachable: ${data.error}`
+                  : "PA unreachable"
+            }
+          >
+            {isLive ? "● LIVE" : "○ OFFLINE"}
+          </span>
+        </div>
+      }
+    >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          gap: 8,
+          marginTop: 4,
+        }}
+      >
+        <MonicaMetricTile
+          label="Helpfulness"
+          value={helpfulnessLabel}
+          sub={
+            data.helpfulnessSampleSize > 0
+              ? `${data.helpfulnessSampleSize} rated`
+              : "no ratings yet"
+          }
+          accent="var(--el-water)"
+        />
+        <MonicaMetricTile
+          label="Avg Completion"
+          value={completionLabel}
+          sub={
+            data.totalInteractions > 0
+              ? `${data.totalInteractions} interactions`
+              : "no completed sessions"
+          }
+          accent="var(--accent-2)"
+        />
+        <MonicaMetricTile
+          label="Help Requests"
+          value={data.contextualHelpRequests.toLocaleString()}
+          sub={`${windowKey.toUpperCase()} window`}
+          accent="var(--accent)"
+        />
+      </div>
+
+      <div
+        style={{
+          marginTop: 12,
+          padding: "8px 10px",
+          border: "1px solid var(--line)",
+          borderRadius: 10,
+          background: "rgba(0,0,0,0.18)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            marginBottom: 6,
+          }}
+        >
+          <span className="t-tag" style={{ fontSize: 9 }}>
+            TOP ASSISTED PAGES
+          </span>
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: "var(--fg-mute)" }}
+          >
+            {data.topPages.length} {data.topPages.length === 1 ? "page" : "pages"}
+          </span>
+        </div>
+        {data.topPages.length === 0 ? (
+          <div
+            className="t-mono"
+            style={{
+              padding: "10px 0",
+              textAlign: "center",
+              fontSize: 10,
+              color: "var(--fg-mute)",
+              letterSpacing: "0.1em",
+            }}
+          >
+            {isLive
+              ? "no help requests recorded"
+              : data.error
+                ? "planetary-agents unreachable"
+                : "telemetry offline"}
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {data.topPages.slice(0, 6).map((page) => {
+              const max = data.topPages[0]?.count || 1;
+              const ratio = Math.min(1, page.count / max);
+              return (
+                <div
+                  key={page.path}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 60px",
+                    gap: 8,
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <div
+                      className="t-mono"
+                      title={page.path}
+                      style={{
+                        fontSize: 10.5,
+                        color: "var(--fg)",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {page.path}
+                    </div>
+                    <div
+                      style={{
+                        position: "relative",
+                        height: 3,
+                        marginTop: 4,
+                        background: "rgba(255,255,255,0.04)",
+                        borderRadius: 999,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: `${ratio * 100}%`,
+                          height: "100%",
+                          background: "var(--accent-2)",
+                          boxShadow: "0 0 6px var(--accent-2)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <span
+                    className="t-num"
+                    style={{
+                      textAlign: "right",
+                      fontSize: 11,
+                      color: "var(--fg-dim)",
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {page.count.toLocaleString()}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+function MonicaMetricTile({
+  label,
+  value,
+  sub,
+  accent,
+}: {
+  label: string;
+  value: string;
+  sub: string;
+  accent: string;
+}) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        padding: "10px 12px",
+        borderRadius: 10,
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.25))",
+        border: `1px solid color-mix(in oklch, ${accent}, transparent 65%)`,
+        backdropFilter: "blur(6px)",
+        overflow: "hidden",
+      }}
+    >
+      <span
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(60% 80% at 20% 0%, color-mix(in oklch, ${accent}, transparent 80%), transparent 70%)`,
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        className="t-tag"
+        style={{ fontSize: 8.5, color: "var(--fg-mute)", position: "relative" }}
+      >
+        {label}
+      </div>
+      <div
+        className="t-num"
+        style={{
+          fontSize: 22,
+          color: accent,
+          fontFamily: "var(--f-mono)",
+          letterSpacing: "0.02em",
+          marginTop: 2,
+          position: "relative",
+        }}
+      >
+        {value}
+      </div>
+      <div
+        className="t-mono"
+        style={{
+          marginTop: 2,
+          fontSize: 9,
+          color: "var(--fg-mute)",
+          position: "relative",
+        }}
+      >
+        {sub}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// ACTIVE COSMIC MODIFIERS
+// Surface the live astrological aspects as signed influences on agent
+// interaction velocity. Data is computed server-side by
+// `getCosmicModifiers()` and bundled into `/api/admin/agents/network`.
+// ============================================================
+const MODIFIER_KIND_COLOR: Record<CosmicModifierKind, string> = {
+  amplify: "var(--accent)",
+  harmonize: "var(--el-water)",
+  flow: "var(--el-earth)",
+  friction: "var(--el-fire)",
+  tension: "var(--accent-2)",
+};
+
+const MODIFIER_KIND_LABEL: Record<CosmicModifierKind, string> = {
+  amplify: "Amplify",
+  harmonize: "Harmonize",
+  flow: "Flow",
+  friction: "Friction",
+  tension: "Tension",
+};
+
+function formatImpact(value: number): string {
+  const sign = value > 0 ? "+" : value < 0 ? "−" : "";
+  return `${sign}${Math.abs(value).toFixed(2)}`;
+}
+
+function ActiveCosmicModifiers({
+  entries,
+  netVelocity,
+  live,
+}: {
+  entries: CosmicModifierEntry[];
+  netVelocity: number;
+  live: boolean;
+}) {
+  // Net velocity is a small signed scalar — anything above ±0.05 is enough
+  // to tip the network into a discernible mood. We surface that thresholded
+  // verdict in the header so operators don't have to read the bar.
+  const velocityVerdict =
+    netVelocity > 0.05
+      ? "elevated"
+      : netVelocity < -0.05
+        ? "subdued"
+        : "balanced";
+  const velocityColor =
+    netVelocity > 0.05
+      ? "var(--el-earth)"
+      : netVelocity < -0.05
+        ? "var(--el-fire)"
+        : "var(--accent)";
+  const barWidth = Math.min(100, Math.abs(netVelocity) * 100);
+  return (
+    <Card
+      title="Active Cosmic Modifiers"
+      subtitle="real-time aspect influences on agent interaction velocity"
+      right={
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: "var(--fg-mute)" }}
+          >
+            NET
+          </span>
+          <span
+            className="t-num"
+            style={{
+              fontSize: 12,
+              fontFamily: "var(--f-mono)",
+              color: velocityColor,
+              minWidth: 48,
+              textAlign: "right",
+            }}
+          >
+            {formatImpact(netVelocity)}
+          </span>
+          <span
+            className="t-mono"
+            style={{
+              fontSize: 9,
+              color: velocityColor,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            {velocityVerdict}
+          </span>
+          <span
+            className="t-mono"
+            style={{
+              fontSize: 9,
+              color: live ? "var(--accent)" : "var(--fg-mute)",
+              marginLeft: 6,
+            }}
+            title={
+              live ? "Computed from live ephemeris" : "Ephemeris unavailable"
+            }
+          >
+            {live ? "● LIVE" : "○ OFFLINE"}
+          </span>
+        </div>
+      }
+    >
+      <div
+        style={{
+          position: "relative",
+          height: 6,
+          marginTop: 4,
+          marginBottom: 12,
+          borderRadius: 999,
+          background: "rgba(255,255,255,0.03)",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: "50%",
+            width: 1,
+            background: "rgba(255,255,255,0.18)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: netVelocity >= 0 ? "50%" : `${50 - barWidth / 2}%`,
+            width: `${barWidth / 2}%`,
+            background: velocityColor,
+            boxShadow: `0 0 8px ${velocityColor}`,
+            transition: "all 200ms ease",
+          }}
+        />
+      </div>
+
+      {entries.length === 0 ? (
+        <div
+          className="t-mono"
+          style={{
+            padding: "20px 0",
+            textAlign: "center",
+            fontSize: 10,
+            color: "var(--fg-mute)",
+            letterSpacing: "0.1em",
+          }}
+        >
+          {live ? "no major aspects within orb" : "ephemeris unavailable"}
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+            gap: 8,
+          }}
+        >
+          {entries.map((m) => (
+            <CosmicModifierCard key={m.id} modifier={m} />
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function CosmicModifierCard({
+  modifier,
+}: {
+  modifier: CosmicModifierEntry;
+}) {
+  const color = MODIFIER_KIND_COLOR[modifier.kind];
+  const kindLabel = MODIFIER_KIND_LABEL[modifier.kind];
+  return (
+    <div
+      style={{
+        position: "relative",
+        padding: "10px 12px",
+        borderRadius: 10,
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.25))",
+        border: `1px solid color-mix(in oklch, ${color}, transparent 65%)`,
+        overflow: "hidden",
+      }}
+    >
+      <span
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(60% 80% at 20% 0%, color-mix(in oklch, ${color}, transparent 80%), transparent 70%)`,
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          gap: 6,
+          marginBottom: 6,
+        }}
+      >
+        <span
+          className="t-display"
+          style={{
+            fontSize: 18,
+            color: "var(--fg)",
+            letterSpacing: "0.04em",
+          }}
+          title={`${modifier.bodyA} ${modifier.aspectName} ${modifier.bodyB}`}
+        >
+          {modifier.symbolA}{" "}
+          <span style={{ color }}>{modifier.aspectGlyph}</span>{" "}
+          {modifier.symbolB}
+        </span>
+        <span
+          className="t-num"
+          style={{
+            fontSize: 12,
+            color,
+            fontFamily: "var(--f-mono)",
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          {formatImpact(modifier.velocityImpact)}
+        </span>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          marginBottom: 4,
+        }}
+      >
+        <span
+          className="t-tag"
+          style={{
+            fontSize: 8.5,
+            color,
+            letterSpacing: "0.14em",
+          }}
+        >
+          {kindLabel}
+        </span>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: "var(--fg-mute)",
+            letterSpacing: "0.06em",
+          }}
+        >
+          {modifier.orbLabel}
+          {" · "}
+          {modifier.applying ? "applying" : "separating"}
+        </span>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          fontSize: 10.5,
+          color: "var(--fg-dim)",
+          fontStyle: "italic",
+          lineHeight: 1.35,
+        }}
+      >
+        {modifier.description}
+      </div>
+    </div>
   );
 }
 

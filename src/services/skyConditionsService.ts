@@ -307,6 +307,189 @@ function buildHeadline(planets: SkyPlanet[]): string {
   return parts.length > 0 ? parts.join(" · ") : "All planets direct";
 }
 
+// ---------------------------------------------------------------------------
+// Cosmic modifiers — derived view of the same aspect data, framed as influences
+// on agent interaction velocity for the High Alchemist control room.
+// ---------------------------------------------------------------------------
+
+export type CosmicModifierKind =
+  | "amplify"
+  | "harmonize"
+  | "flow"
+  | "friction"
+  | "tension";
+
+export interface CosmicModifier {
+  /** stable machine id, e.g. `mercury-venus-conjunction` */
+  id: string;
+  /** display label, e.g. `☿ ☌ ♀` */
+  label: string;
+  /** name of the faster-moving body, e.g. `Mercury` */
+  bodyA: string;
+  /** astrological glyph of the faster body */
+  symbolA: string;
+  /** name of the slower-moving body */
+  bodyB: string;
+  /** astrological glyph of the slower body */
+  symbolB: string;
+  /** glyph of the aspect itself (☌ ✶ □ △ ☍) */
+  aspectGlyph: string;
+  /** human-readable aspect name */
+  aspectName: string;
+  /** orb from exact, in degrees */
+  orbDegrees: number;
+  /** orb formatted as e.g. "0°41′" */
+  orbLabel: string;
+  /** true when the orb is tightening toward exact */
+  applying: boolean;
+  /** tonal classification used by the UI for colour/iconography */
+  kind: CosmicModifierKind;
+  /** signed scalar influence on agent interaction velocity, ~[-0.2, 0.2] */
+  velocityImpact: number;
+  /** short flavour-text description of the effect on the agent network */
+  description: string;
+}
+
+export interface CosmicModifiersResult {
+  modifiers: CosmicModifier[];
+  /** sum of every modifier's velocity impact, clamped to ~[-1, 1] */
+  netVelocity: number;
+  /** true when computed from live ephemeris */
+  live: boolean;
+  generatedAt: string;
+}
+
+const ASPECT_PROFILES: Record<
+  string,
+  {
+    name: string;
+    kind: CosmicModifierKind;
+    impact: number;
+    description: (a: string, b: string) => string;
+  }
+> = {
+  "☌": {
+    name: "Conjunction",
+    kind: "amplify",
+    impact: 0.15,
+    description: (a, b) =>
+      `${a} fuses with ${b} — agents act with concentrated intent.`,
+  },
+  "✶": {
+    name: "Sextile",
+    kind: "harmonize",
+    impact: 0.08,
+    description: (a, b) =>
+      `${a} harmonizes with ${b} — gentle uplift in collaborative pacing.`,
+  },
+  "△": {
+    name: "Trine",
+    kind: "flow",
+    impact: 0.12,
+    description: (a, b) => `${a} flows with ${b} — agent interactions move with ease.`,
+  },
+  "□": {
+    name: "Square",
+    kind: "friction",
+    impact: -0.1,
+    description: (a, b) =>
+      `${a} clashes with ${b} — friction in deliberation, expect slower consensus.`,
+  },
+  "☍": {
+    name: "Opposition",
+    kind: "tension",
+    impact: -0.08,
+    description: (a, b) =>
+      `${a} opposes ${b} — agents drift toward polarized stances.`,
+  },
+};
+
+/**
+ * Resolve "Active Cosmic Modifiers" — the same major-aspect pass surfaced by
+ * `getSkyConditions`, but framed as signed influences on agent interaction
+ * velocity for the High Alchemist control room. Degrades to a `live: false`
+ * empty list when the ephemeris is unavailable.
+ */
+export async function getCosmicModifiers(): Promise<CosmicModifiersResult> {
+  const generatedAt = new Date().toISOString();
+  try {
+    const positions = await getCurrentPlanetaryPositionsServer();
+    const bodies = TRADITIONAL_PLANETS.map((name) => ({
+      name,
+      lon: positions[name]?.exactLongitude,
+      speed: positions[name]?.longitudeSpeed ?? 0,
+    })).filter(
+      (b): b is { name: PlanetName; lon: number; speed: number } =>
+        typeof b.lon === "number" && Number.isFinite(b.lon),
+    );
+
+    const modifiers: CosmicModifier[] = [];
+    for (let i = 0; i < bodies.length; i++) {
+      const bodyA = bodies[i];
+      if (!bodyA) continue;
+      for (let j = i + 1; j < bodies.length; j++) {
+        const bodyB = bodies[j];
+        if (!bodyB) continue;
+        const separation = foldSeparation(bodyA.lon, bodyB.lon);
+        let best: { angle: number; op: string; orb: number } | null = null;
+        for (const aspect of MAJOR_ASPECTS) {
+          const orb = Math.abs(separation - aspect.angle);
+          if (orb <= ASPECT_ORB && (best === null || orb < best.orb)) {
+            best = { angle: aspect.angle, op: aspect.op, orb };
+          }
+        }
+        if (best === null) continue;
+
+        const separationNext = foldSeparation(
+          bodyA.lon + bodyA.speed,
+          bodyB.lon + bodyB.speed,
+        );
+        const applying = Math.abs(separationNext - best.angle) < best.orb;
+
+        const aIsFaster = Math.abs(bodyA.speed) >= Math.abs(bodyB.speed);
+        const faster = aIsFaster ? bodyA : bodyB;
+        const slower = aIsFaster ? bodyB : bodyA;
+
+        const profile = ASPECT_PROFILES[best.op];
+        if (!profile) continue;
+
+        // Tighter orbs hit harder — scale impact linearly from 50% at the orb
+        // boundary up to 100% at exact.
+        const tightness = 1 - best.orb / ASPECT_ORB;
+        const velocityImpact = profile.impact * (0.5 + 0.5 * tightness);
+
+        modifiers.push({
+          id: `${faster.name.toLowerCase()}-${slower.name.toLowerCase()}-${profile.name.toLowerCase()}`,
+          label: `${PLANET_GLYPH[faster.name] ?? "?"} ${best.op} ${PLANET_GLYPH[slower.name] ?? "?"}`,
+          bodyA: faster.name,
+          symbolA: PLANET_GLYPH[faster.name] ?? "?",
+          bodyB: slower.name,
+          symbolB: PLANET_GLYPH[slower.name] ?? "?",
+          aspectGlyph: best.op,
+          aspectName: profile.name,
+          orbDegrees: best.orb,
+          orbLabel: formatOrb(best.orb),
+          applying,
+          kind: profile.kind,
+          velocityImpact: Math.round(velocityImpact * 1000) / 1000,
+          description: profile.description(faster.name, slower.name),
+        });
+      }
+    }
+
+    modifiers.sort((a, b) => a.orbDegrees - b.orbDegrees);
+    const netVelocity =
+      Math.round(
+        modifiers.reduce((sum, m) => sum + m.velocityImpact, 0) * 1000,
+      ) / 1000;
+
+    return { modifiers, netVelocity, live: true, generatedAt };
+  } catch (error) {
+    _logger.error("[skyConditions] cosmic modifiers failed:", error);
+    return { modifiers: [], netVelocity: 0, live: false, generatedAt };
+  }
+}
+
 /**
  * Resolve the live sky-conditions snapshot for the admin dashboard.
  * Never rejects — ephemeris and planetary-hour sources degrade
