@@ -32,7 +32,15 @@ import {
   SecurityPanel,
 } from "./panels";
 import { AdminShell, ArchitectCard } from "./shell";
-import { SkyConditions, AstronomicalEngine, SEMSDistribution } from "./sky";
+import { AstronomicalEngine, SEMSDistribution, SkyConditions } from "./sky";
+
+function shortSha(): string {
+  return (
+    process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ??
+    process.env.NEXT_PUBLIC_BUILD_ID ??
+    "local"
+  );
+}
 
 interface DashboardProps {
   data: AdminDashboardData;
@@ -117,14 +125,16 @@ export function Dashboard({ data }: DashboardProps) {
         `}
       </style>
 
-      <AdminShell density={density} showGrid={showGrid} user={data.user} pulse={data.pulse}>
+      <AdminShell density={density} showGrid={showGrid} user={data.user} pulse={data.pulse} data={data}>
         <MasterLineHero
           greeting={`Good ${data.skyConditions.planetaryHour.planet} hour, ${data.user.name.split(" ")[0]}`}
+          data={data}
         />
-        <KPIStrip />
+        <KPIStrip data={data} />
         <SkyConditions data={data.skyConditions} />
 
         <div
+          className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "320px 1.4fr 1fr",
@@ -132,19 +142,23 @@ export function Dashboard({ data }: DashboardProps) {
             marginBottom: 12,
           }}
         >
-          <ArchitectCard user={data.user} />
+          <ArchitectCard user={data.user} recentAlerts={data.recentAlerts} />
           <ServiceMatrix systemStatus={data.systemStatus} />
           <LiveEventStream liveActivity={data.liveActivity} />
         </div>
 
         <AgentFeedControlRoom />
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
           <SEMSDistribution />
-          <AstronomicalEngine live={data.skyConditions.live} />
+          <AstronomicalEngine
+            live={data.skyConditions.live}
+            pageTelemetry={data.pageTelemetry}
+          />
         </div>
 
         <div
+          className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1.4fr 1fr",
@@ -157,17 +171,18 @@ export function Dashboard({ data }: DashboardProps) {
           <IncidentsPanel recentAlerts={data.recentAlerts} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 12, marginBottom: 12 }}>
+        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 12, marginBottom: 12 }}>
           <SubdomainMatrix pageTelemetry={data.pageTelemetry} />
           <APIHeatmap db={data.dbObservability} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
           <EngineHealth enginePerformance={data.enginePerformance} />
           <RecipeQualityInspector trending={data.catalogTrending} />
         </div>
 
         <div
+          className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 0.9fr 1fr",
@@ -180,12 +195,13 @@ export function Dashboard({ data }: DashboardProps) {
           <CommercePanel commerceSummary={data.commerce} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>
           <CosmicYieldEconomy data={data.cosmicYield} />
           <PractitionerGeo />
         </div>
 
         <div
+          className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1.2fr 1fr 1fr",
@@ -198,12 +214,12 @@ export function Dashboard({ data }: DashboardProps) {
           <CostBurndown />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
           <ModerationQueue />
           <SecurityPanel security={data.security} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
           <DeploysPanel />
           <FeatureFlagsPanel />
           <AuditLogPanel data={data.auditEvents} />
@@ -218,16 +234,27 @@ export function Dashboard({ data }: DashboardProps) {
             border: "1px solid var(--line)",
             borderRadius: 10,
             background: "rgba(255,255,255,0.012)",
+            flexWrap: "wrap",
+            gap: 12,
           }}
         >
-          <div style={{ display: "flex", gap: 18 }}>
+          <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
             <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
-              alchm.kitchen · admin v2.7.4 · agentic.alchm.kitchen
+              alchm.kitchen · admin · agentic.alchm.kitchen
             </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>region · us-east-1</span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>build · #c8f1ad</span>
+            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+              region · {process.env.NEXT_PUBLIC_VERCEL_REGION ?? "—"}
+            </span>
+            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+              build · #{shortSha()}
+            </span>
+            {data.meta.mockedFields.length > 0 && (
+              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--el-fire)" }}>
+                mocked: {data.meta.mockedFields.join(", ")}
+              </span>
+            )}
           </div>
-          <div style={{ display: "flex", gap: 18 }}>
+          <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
             <span
               className="t-mono"
               style={{
@@ -237,12 +264,12 @@ export function Dashboard({ data }: DashboardProps) {
             >
               ● {data.skyConditions.planetaryHour.planet.toLowerCase()} hour
               {" · "}
-              {new Date(data.skyConditions.generatedAt)
-                .toISOString()
-                .slice(11, 16)} UTC
-            </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
-              JD 2460814.71 · VSOP87/DE440
+              {data.skyConditions.live
+                ? new Date(data.skyConditions.generatedAt)
+                    .toISOString()
+                    .slice(11, 16)
+                : "—"}{" "}
+              UTC
             </span>
             <span
               className="t-mono"
@@ -251,7 +278,22 @@ export function Dashboard({ data }: DashboardProps) {
                 color: data.skyConditions.live ? "var(--el-earth)" : "var(--fg-mute)",
               }}
             >
-              {data.skyConditions.live ? "● all systems · live" : "○ ephemeris · degraded"}
+              {data.skyConditions.live ? "● ephemeris · live" : "○ ephemeris · degraded"}
+            </span>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9.5,
+                color:
+                  data.pulse.state === "NOMINAL"
+                    ? "var(--el-earth)"
+                    : data.pulse.state === "DEGRADED"
+                      ? "var(--el-fire)"
+                      : "#FF5252",
+              }}
+            >
+              {data.pulse.state === "NOMINAL" ? "● " : "○ "}
+              systems · {data.pulse.state.toLowerCase()}
             </span>
           </div>
         </footer>

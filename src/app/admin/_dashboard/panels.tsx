@@ -9,7 +9,7 @@ import type {
 } from "@/services/dashboardPanelsService";
 import type { ActivityEvent } from "@/services/liveActivityService";
 import type { SystemStatusPayload } from "@/services/systemStatusService";
-import { CompatibilityRing, ElementalMeter, Glyph, Sparkline } from "./atoms";
+import { ElementalMeter, Glyph, Sparkline } from "./atoms";
 import { seeded } from "./data";
 import { Card, Legend, MiniStat } from "./hero";
 
@@ -659,117 +659,68 @@ export function PractitionersCohort({
 
 // ============================================================
 // ENGINE HEALTH
+// Only the metrics that have a real source (`enginePerformance`)
+// are shown — NDCG/MAP eval pipeline isn't wired yet, so we
+// label the slots honestly instead of fabricating numbers.
 // ============================================================
 export function EngineHealth({ enginePerformance }: { enginePerformance: any }) {
-  const perf = enginePerformance || { clickToCookRate: 0.047, totalCalculations: 2743, averageLatencyMs: 78 };
-  const acc = seeded(11, 40, 0.82, 0.94);
-  const versions = [
-    { v: "v17.4 (Py)", since: "Railway", traffic: "100%", acc: 0.918, ndcg: 0.74, latP95: "184ms", state: "live" },
-    { v: "v1.3.13 (Bun)", since: "Vercel", traffic: "12%", acc: 0.928, ndcg: 0.76, latP95: `${perf.averageLatencyMs}ms`, state: "canary" },
-  ];
+  const perf = enginePerformance || {
+    clickToCookRate: 0,
+    totalCalculations: 0,
+    averageLatencyMs: 0,
+    live: false,
+  };
+  const live = perf.live ?? false;
   return (
     <Card
       title="Recommendation Engine · Performance & Metrics"
-      subtitle={`Native Bun v1.3.13 · click-to-cook ${(perf.clickToCookRate * 100).toFixed(1)}%`}
+      subtitle={
+        live
+          ? `click-to-cook ${(perf.clickToCookRate * 100).toFixed(1)}% · ${perf.totalCalculations.toLocaleString()} calc total`
+          : "engine telemetry offline"
+      }
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          OPEN ENGINE
-        </button>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: live ? "var(--el-earth)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          {live ? "● LIVE" : "○ STALE"}
+        </span>
       }
     >
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-        <div>
-          <div className="t-tag" style={{ marginBottom: 8 }}>ENGINE HARMONY ACCURACY · EVAL WINDOWS</div>
-          <Sparkline data={acc} width={300} height={70} color="var(--accent)" />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 12 }}>
-            <MiniStat label="NDCG@10" value="0.742" delta="+0.018" />
-            <MiniStat label="MAP" value="0.681" delta="+0.012" />
-            <MiniStat label="Click→Cook" value={`${(perf.clickToCookRate * 100).toFixed(1)}%`} delta="live" />
-            <MiniStat label="Avg Latency" value={`${perf.averageLatencyMs}ms`} delta="db log" />
-            <MiniStat label="Transmutations" value={perf.totalCalculations.toLocaleString()} delta="total" />
-            <MiniStat label="Coverage" value="2,743 / 2,901" delta="ing." />
-          </div>
-        </div>
-        <div>
-          <div className="t-tag" style={{ marginBottom: 8 }}>ACTIVE ENGINE CORRELATION VERTICES</div>
-          <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "0.7fr 0.6fr 0.7fr 0.6fr 0.6fr 0.7fr",
-                padding: "6px 10px",
-                borderBottom: "1px solid var(--line-hi)",
-                background: "rgba(255,255,255,0.02)",
-              }}
-            >
-              {["Version", "Engine", "Traffic", "Acc", "NDCG", "p95"].map((h) => (
-                <span key={h} className="t-tag" style={{ fontSize: 8.5 }}>{h}</span>
-              ))}
-            </div>
-            {versions.map((v) => (
-              <div
-                key={v.v}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "0.7fr 0.6fr 0.7fr 0.6fr 0.6fr 0.7fr",
-                  padding: "8px 10px",
-                  borderBottom: "1px solid var(--line)",
-                  fontFamily: "var(--f-mono)",
-                  fontSize: 11,
-                  color: "var(--fg-dim)",
-                  alignItems: "center",
-                }}
-              >
-                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span
-                    className="el-dot"
-                    style={{
-                      background:
-                        v.state === "live"
-                          ? "var(--el-earth)"
-                          : v.state === "canary"
-                            ? "var(--accent)"
-                            : "var(--fg-faint)",
-                      boxShadow:
-                        v.state === "live"
-                          ? "0 0 6px var(--el-earth)"
-                          : v.state === "canary"
-                            ? "0 0 6px var(--accent)"
-                            : "none",
-                    }}
-                  />
-                  <span style={{ color: "var(--fg)" }}>{v.v}</span>
-                </span>
-                <span>{v.since}</span>
-                <span
-                  style={{
-                    color:
-                      v.state === "live"
-                        ? "var(--accent)"
-                        : v.state === "canary"
-                          ? "var(--accent-2)"
-                          : "var(--fg-mute)",
-                  }}
-                >
-                  {v.traffic}
-                </span>
-                <span>{v.acc}</span>
-                <span>{v.ndcg}</span>
-                <span>{v.latP95}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
-            <button className="btn btn-primary" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
-              PROMOTE CANARY →
-            </button>
-            <button className="btn btn-ghost" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
-              ROLLBACK
-            </button>
-            <button className="btn btn-ghost" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
-              EVAL SET
-            </button>
-          </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+        <MiniStat
+          label="Click→Cook"
+          value={live ? `${(perf.clickToCookRate * 100).toFixed(1)}%` : "—"}
+          delta="live"
+        />
+        <MiniStat
+          label="Avg latency"
+          value={live ? `${perf.averageLatencyMs}ms` : "—"}
+          delta="req log"
+        />
+        <MiniStat
+          label="Transmutations"
+          value={live ? perf.totalCalculations.toLocaleString() : "—"}
+          delta="total"
+        />
+      </div>
+      <div
+        style={{
+          marginTop: 12,
+          padding: "10px 12px",
+          border: "1px dashed var(--line)",
+          borderRadius: 8,
+        }}
+      >
+        <div className="t-tag" style={{ marginBottom: 4 }}>OFFLINE EVAL · NOT WIRED</div>
+        <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+          NDCG@10 · MAP · canary harness · promote/rollback controls — add an
+          eval pipeline + flag table to surface these here.
         </div>
       </div>
     </Card>
@@ -1042,53 +993,75 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
 
 // ============================================================
 // COMMENSAL PULSE
+// We don't yet capture per-party harmony or live state, so render
+// an honest snapshot of the row counts when commensals exist and
+// an empty state otherwise.
 // ============================================================
 export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: any }) {
-  const count = pageTelemetry?.commensals ?? 31;
-  const parties = [
-    { id: "DP-441", host: "@kemi.adekunle", guests: 8, cuisine: "Yoruba · West African", harmony: 0.92, state: "live" },
-    { id: "DP-440", host: "@ezra.kuhn", guests: 6, cuisine: "Pesach · spring", harmony: 0.81, state: "live" },
-    { id: "DP-439", host: "@hiro.matsui", guests: 4, cuisine: "Kaiseki", harmony: 0.88, state: "starting" },
-    { id: "DP-438", host: "@alma.r", guests: 12, cuisine: "Sobremesa", harmony: 0.74, state: "live" },
-  ];
+  const count = pageTelemetry?.commensals ?? 0;
+  const live = pageTelemetry?.live ?? false;
+  const mealPlans = pageTelemetry?.mealPlans ?? 0;
+  const customRecipes = pageTelemetry?.customRecipes ?? 0;
   return (
-    <Card title="Commensal Dining & Companions" subtitle={`${count.toLocaleString()} companion charts registered`}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {parties.map((p) => (
-          <div
-            key={p.id}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "auto 1fr auto",
-              gap: 12,
-              alignItems: "center",
-              padding: "8px 10px",
-              border: "1px solid var(--line)",
-              borderRadius: 8,
-            }}
-          >
-            <CompatibilityRing value={p.harmony} size={42} label="HARM" />
-            <div>
-              <div style={{ fontSize: 11.5, color: "var(--fg)" }}>{p.cuisine}</div>
-              <div style={{ display: "flex", gap: 8, marginTop: 2 }}>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--accent-2)" }}>{p.host}</span>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>· {p.guests} guests</span>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 9,
-                    color: p.state === "live" ? "var(--el-earth)" : "var(--accent)",
-                  }}
-                >
-                  · {p.state}
-                </span>
-              </div>
-            </div>
-            <Glyph name="chevron" size={14} style={{ color: "var(--fg-mute)" }} />
+    <Card
+      title="Commensal Dining & Companions"
+      subtitle={
+        live
+          ? `${count.toLocaleString()} companion charts · ${mealPlans.toLocaleString()} meal plans`
+          : "page telemetry offline"
+      }
+      right={
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: live ? "var(--el-earth)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          {live ? "● LIVE" : "○ STALE"}
+        </span>
+      }
+    >
+      {count === 0 ? (
+        <div
+          style={{
+            padding: "24px 12px",
+            textAlign: "center",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+            No commensal sessions yet
           </div>
-        ))}
-      </div>
+          <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            ratings + party-state will populate once /commensal traffic begins
+          </div>
+        </div>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+          <MetricTile label="Commensals" v={count.toLocaleString()} sub="companion rows" />
+          <MetricTile label="Meal plans" v={mealPlans.toLocaleString()} sub="saved plans" />
+          <MetricTile label="Custom recipes" v={customRecipes.toLocaleString()} sub="user-created" />
+          <MetricTile
+            label="Restaurants"
+            v={(pageTelemetry?.restaurants ?? 0).toLocaleString()}
+            sub="user-saved"
+          />
+        </div>
+      )}
     </Card>
+  );
+}
+
+function MetricTile({ label, v, sub }: { label: string; v: string; sub: string }) {
+  return (
+    <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "10px 12px" }}>
+      <div className="t-tag" style={{ fontSize: 8.5 }}>{label}</div>
+      <div className="t-num" style={{ fontSize: 20, color: "var(--fg)", marginTop: 4 }}>{v}</div>
+      <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", marginTop: 2 }}>{sub}</div>
+    </div>
   );
 }
 
