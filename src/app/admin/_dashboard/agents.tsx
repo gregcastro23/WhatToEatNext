@@ -16,6 +16,16 @@ interface AgentRoleSlice {
   events24h: number;
 }
 
+interface AgentInteractionEntry {
+  sessionId: string;
+  agentId1: string;
+  agentId2: string;
+  agentName1: string;
+  agentName2: string;
+  timestamp: string;
+  preview: string;
+}
+
 interface AgentDispatchEntry {
   id: string;
   timestamp: string;
@@ -49,6 +59,7 @@ interface AgentNetworkData {
   roles: { entries: AgentRoleSlice[]; live: boolean };
   dispatch: { entries: AgentDispatchEntry[]; live: boolean };
   leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
+  interactions: { entries: AgentInteractionEntry[]; live: boolean };
 }
 
 const EMPTY_NETWORK: AgentNetworkData = {
@@ -57,6 +68,7 @@ const EMPTY_NETWORK: AgentNetworkData = {
   roles: { entries: [], live: false },
   dispatch: { entries: [], live: false },
   leaderboard: { entries: [], live: false },
+  interactions: { entries: [], live: false },
 };
 
 /** Stable color cycle so a given role label always gets the same accent. */
@@ -101,7 +113,8 @@ function useAgentNetwork(): { data: AgentNetworkData; live: boolean } {
     data.totals.live_source &&
     data.roles.live &&
     data.dispatch.live &&
-    data.leaderboard.live;
+    data.leaderboard.live &&
+    data.interactions.live;
 
   return { data, live };
 }
@@ -111,7 +124,7 @@ function useAgentNetwork(): { data: AgentNetworkData; live: boolean } {
 // ============================================================
 export function AgentFeedControlRoom() {
   const { data, live } = useAgentNetwork();
-  const { totals, roles, dispatch, leaderboard } = data;
+  const { totals, roles, dispatch, leaderboard, interactions } = data;
   const activeDispatches = dispatch.entries.length;
 
   return (
@@ -182,8 +195,9 @@ export function AgentFeedControlRoom() {
         <AgentDispatchStream entries={dispatch.entries} live={dispatch.live} />
       </div>
 
-      <div style={{ marginTop: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 12, marginTop: 12 }}>
         <AgentLeaderboard entries={leaderboard.entries} live={leaderboard.live} />
+        <AgentInteractionsPanel entries={interactions.entries} live={interactions.live} />
       </div>
     </section>
     </>
@@ -917,6 +931,136 @@ function AgentLeaderboard({
                 title={a.dominantElement || "no element set"}
               >
                 {elementGlyph(a.dominantElement)}
+              </span>
+            </div>
+          );
+        })
+      )}
+    </Card>
+  );
+}
+
+function AgentInteractionsPanel({
+  entries,
+  live,
+}: {
+  entries: AgentInteractionEntry[];
+  live: boolean;
+}) {
+  return (
+    <Card
+      title="Agent-to-Agent Discourses"
+      subtitle="live edge view of collective intelligence interactions"
+      right={
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: live ? "var(--accent)" : "var(--fg-mute)" }}
+        >
+          {live ? "● LIVE" : "○ OFFLINE"}
+        </span>
+      }
+    >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1.6fr auto",
+          padding: "4px 0",
+          borderBottom: "1px solid var(--line-hi)",
+        }}
+      >
+        {["Source Agent", "Target Agent", "Discussion Preview", "Discourse Thread"].map((h, i) => (
+          <span
+            key={h}
+            className="t-tag"
+            style={{ fontSize: 8.5, textAlign: i === 3 ? "right" : "left" }}
+          >
+            {h}
+          </span>
+        ))}
+      </div>
+      {entries.length === 0 ? (
+        <div
+          style={{
+            padding: "24px 0",
+            textAlign: "center",
+            color: "var(--fg-mute)",
+            fontFamily: "var(--f-mono)",
+            fontSize: 10,
+          }}
+        >
+          {live ? "no agent discourses recorded" : "discourse stream offline"}
+        </div>
+      ) : (
+        entries.map((interaction) => {
+          return (
+            <div
+              key={interaction.sessionId}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1.6fr auto",
+                padding: "8px 0",
+                alignItems: "center",
+                borderBottom: "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 11,
+              }}
+            >
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span
+                  className="el-dot"
+                  style={{
+                    background: colorForRole(interaction.agentName1),
+                    boxShadow: `0 0 6px ${colorForRole(interaction.agentName1)}`,
+                  }}
+                />
+                <span style={{ color: "var(--fg)" }}>
+                  {interaction.agentName1}
+                </span>
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span
+                  className="el-dot"
+                  style={{
+                    background: colorForRole(interaction.agentName2),
+                    boxShadow: `0 0 6px ${colorForRole(interaction.agentName2)}`,
+                  }}
+                />
+                <span style={{ color: "var(--fg-dim)" }}>
+                  {interaction.agentName2}
+                </span>
+              </span>
+              <span
+                style={{
+                  color: "var(--fg-mute)",
+                  fontSize: 10,
+                  fontStyle: "italic",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  paddingRight: 10,
+                }}
+                title={interaction.preview}
+              >
+                &ldquo;{interaction.preview}&rdquo;
+              </span>
+              <span style={{ textAlign: "right" }}>
+                <a
+                  href={`https://agents.alchm.kitchen/gallery/chat/${encodeURIComponent(interaction.sessionId)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: 9,
+                    color: "var(--accent)",
+                    textDecoration: "none",
+                    border: "1px solid var(--accent)",
+                    padding: "2px 6px",
+                    borderRadius: 4,
+                    background: "rgba(0,0,0,0.2)",
+                  }}
+                  className="hover-accent"
+                >
+                  THREAD ↗
+                </a>
               </span>
             </div>
           );

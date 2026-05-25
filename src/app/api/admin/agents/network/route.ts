@@ -59,6 +59,16 @@ export interface AgentLeaderboardEntry {
   dominantElement: string | null;
 }
 
+export interface AgentInteractionEntry {
+  sessionId: string;
+  agentId1: string;
+  agentId2: string;
+  agentName1: string;
+  agentName2: string;
+  timestamp: string;
+  preview: string;
+}
+
 export interface AgentNetworkPayload {
   generatedAt: string;
   totals: {
@@ -72,6 +82,7 @@ export interface AgentNetworkPayload {
   roles: { entries: AgentRoleSlice[]; live: boolean };
   dispatch: { entries: AgentDispatchEntry[]; live: boolean };
   leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
+  interactions: { entries: AgentInteractionEntry[]; live: boolean };
 }
 
 /**
@@ -299,6 +310,52 @@ async function getLeaderboard(
   }
 }
 
+async function getInteractions(limit = 15): Promise<AgentNetworkPayload["interactions"]> {
+  try {
+    const result = await executeQuery<{
+      sessionId: string;
+      agentId1: string;
+      agentId2: string;
+      createdAt: Date;
+      agentName1: string | null;
+      agentName2: string | null;
+      userMessage: string;
+      agentResponse: string;
+    }>(
+      `SELECT c1."sessionId", c1."agentId" AS "agentId1", c2."agentId" AS "agentId2",
+              c1."createdAt" AS "createdAt", h1.name AS "agentName1", h2.name AS "agentName2",
+              c1."userMessage" AS "userMessage", c1."agentResponse" AS "agentResponse"
+         FROM "AgentConversation" c1
+         JOIN "AgentConversation" c2 ON c1."sessionId" = c2."sessionId" AND c1."agentId" != c2."agentId"
+         LEFT JOIN historical_agents h1 ON c1."agentId" = h1."agentId"
+         LEFT JOIN historical_agents h2 ON c2."agentId" = h2."agentId"
+        ORDER BY c1."createdAt" DESC
+        LIMIT 30`
+    );
+
+    const seen = new Set<string>();
+    const entries: AgentInteractionEntry[] = [];
+    for (const row of result.rows) {
+      if (!seen.has(row.sessionId)) {
+        seen.add(row.sessionId);
+        entries.push({
+          sessionId: row.sessionId,
+          agentId1: row.agentId1,
+          agentId2: row.agentId2,
+          agentName1: row.agentName1 || row.agentId1,
+          agentName2: row.agentName2 || row.agentId2,
+          timestamp: new Date(row.createdAt).toISOString(),
+          preview: row.agentResponse || row.userMessage,
+        });
+      }
+    }
+    return { entries: entries.slice(0, limit), live: true };
+  } catch (error) {
+    console.error("[admin/agents/network] interactions query failed:", error);
+    return { entries: [], live: false };
+  }
+}
+
 export async function GET(request: NextRequest) {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) {
@@ -322,14 +379,15 @@ export async function GET(request: NextRequest) {
     cacheKey,
     CACHE_TTL_MS,
     async () => {
-      // Run all four queries in parallel — each degrades independently to a
+      // Run all queries in parallel — each degrades independently to a
       // `live: false` empty result on error, so a single failed table can't
       // take out the whole panel.
-      const [totals, roles, dispatch, leaderboard] = await Promise.all([
+      const [totals, roles, dispatch, leaderboard, interactions] = await Promise.all([
         getTotals(),
         getRoles(),
         getDispatch(dispatchLimit),
         getLeaderboard(leaderboardLimit),
+        getInteractions(15),
       ]);
       return {
         generatedAt: new Date().toISOString(),
@@ -337,6 +395,7 @@ export async function GET(request: NextRequest) {
         roles,
         dispatch,
         leaderboard,
+        interactions,
       };
     },
   );

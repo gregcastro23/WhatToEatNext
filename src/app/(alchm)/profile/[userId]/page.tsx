@@ -32,6 +32,9 @@ interface PublicProfile {
   isAgent: boolean;
   agentSlug: string | null;
   agentProfile: CraftedAgentProfile | null;
+  agentInteractions?: any[];
+  agentActions?: any[];
+  agentArtifacts?: any[];
   bio: string | null;
   dominantElement: string | null;
   natalChart: any;
@@ -160,6 +163,9 @@ export default function PublicProfilePage() {
             agent={profile.agentProfile!}
             balances={profile.balances}
             handle={profile.handle}
+            interactions={profile.agentInteractions || []}
+            actions={profile.agentActions || []}
+            artifacts={profile.agentArtifacts || []}
           />
         ) : (
           <>

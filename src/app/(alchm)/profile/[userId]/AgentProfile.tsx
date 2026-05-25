@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import React from "react";
 import type {
   CraftedAgentProfile,
   Element,
 } from "@/lib/agents/craftedAgentTypes";
+import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
 
 interface Balances {
   spirit: number;
@@ -18,6 +20,9 @@ interface AgentProfileProps {
   agent: CraftedAgentProfile;
   balances: Balances;
   handle?: string | null;
+  interactions?: AgentInteraction[];
+  actions?: AgentAction[];
+  artifacts?: AgentArtifact[];
 }
 
 const ELEMENT_TINT: Record<Element, string> = {
@@ -53,7 +58,14 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function AgentProfile({ agent, balances, handle }: AgentProfileProps) {
+export default function AgentProfile({
+  agent,
+  balances,
+  handle,
+  interactions = [],
+  actions = [],
+  artifacts = [],
+}: AgentProfileProps) {
   const accent = agent.appearance?.color || "#7c3aed";
   const dominantElement = agent.consciousness?.dominantElement;
   const tint =
@@ -421,6 +433,136 @@ export default function AgentProfile({ agent, balances, handle }: AgentProfilePr
           </div>
         )}
       </section>
+
+      {/* 10.5. Recent Discourses, Actions, and Artifacts */}
+      {interactions && interactions.length > 0 && (
+        <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
+          <SectionLabel>Recent Discourses</SectionLabel>
+          <div className="space-y-4">
+            {interactions.map((interaction) => (
+              <div
+                key={interaction.id}
+                className="p-4 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-colors flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+              >
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
+                      interaction.kind === "agent_to_agent"
+                        ? "bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                        : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                    }`}>
+                      {interaction.kind === "agent_to_agent" ? "Agent-to-Agent" : "Agent-to-User"}
+                    </span>
+                    {interaction.kind === "agent_to_agent" && (
+                      <span className="text-white/60 font-semibold text-sm">
+                        With {interaction.counterparty.name}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm font-medium text-white mb-1">{interaction.topic}</p>
+                  <p className="text-xs text-white/50 italic font-serif leading-relaxed">
+                    &ldquo;{interaction.messagePreview}&rdquo;
+                  </p>
+                </div>
+                <div className="shrink-0 flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                  <span className="text-[10px] text-white/30 uppercase tracking-widest">
+                    {interaction.messageCount} turns
+                  </span>
+                  <a
+                    href={interaction.chatThread}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-lg border border-purple-500/30 hover:border-purple-500/60 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider transition-all"
+                  >
+                    View Discourse →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {artifacts && artifacts.length > 0 && (
+        <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
+          <SectionLabel>Created by this Agent</SectionLabel>
+          <div className="grid md:grid-cols-2 gap-4">
+            {artifacts.map((artifact) => (
+              <div
+                key={artifact.id}
+                className="p-4 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-colors flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest bg-amber-500/25 text-amber-300 border border-amber-500/30">
+                      {artifact.kind}
+                    </span>
+                    <span className="text-[10px] text-white/30 font-mono">
+                      {new Date(artifact.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-bold text-white mb-1">{artifact.title}</h3>
+                  <p className="text-xs text-white/60 leading-relaxed mb-4">{artifact.summary}</p>
+                </div>
+                {artifact.alchmKitchenPath && (
+                  <Link
+                    href={artifact.alchmKitchenPath}
+                    className="text-xs font-bold text-amber-400 hover:text-amber-300 uppercase tracking-widest inline-flex items-center gap-1 mt-auto hover:underline"
+                  >
+                    View Recipe ✦
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {actions && actions.length > 0 && (
+        <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
+          <SectionLabel>Action History</SectionLabel>
+          <div className="space-y-3 font-mono text-xs">
+            {actions.slice(0, 10).map((action) => (
+              <div
+                key={action.id}
+                className="py-2 px-3 rounded-lg border border-white/5 bg-white/[0.005] hover:bg-white/[0.015] flex justify-between items-center gap-4 transition-colors"
+              >
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <span className="text-white/30 text-[10px]">
+                    {new Date(action.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                  </span>
+                  <span className="text-purple-400 font-bold tracking-wide shrink-0">
+                    [{action.type.toUpperCase()}]
+                  </span>
+                  <span className="text-white/70 truncate">
+                    {action.metadata.topic || action.metadata.recipeName || action.metadata.messageExcerpt || JSON.stringify(action.metadata)}
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  {action.links.recipe && (
+                    <Link
+                      href={action.links.recipe.replace(/^https?:\/\/[^/]+/, "")}
+                      className="text-[10px] font-bold text-amber-400 hover:underline uppercase shrink-0"
+                    >
+                      Recipe
+                    </Link>
+                  )}
+                  {action.links.chatThread && (
+                    <a
+                      href={action.links.chatThread}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-bold text-purple-400 hover:underline uppercase shrink-0"
+                    >
+                      Thread
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 11. Natal Chart */}
       {Object.keys(planets).length > 0 && (
