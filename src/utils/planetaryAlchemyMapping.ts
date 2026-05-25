@@ -307,8 +307,9 @@ export function calculateAlchemicalFromPlanets(
   };
 
   const ignoredBodies = new Set([
-    "Ascendant", "Midheaven", "True Node", "South Node", 
-    "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node"
+    "Ascendant", "Midheaven", "True Node", "South Node",
+    "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node",
+    "NorthNode", "SouthNode", "MC",
   ]);
 
   for (const planet in planetaryPositions) {
@@ -388,8 +389,17 @@ export function calculateEnhancedAlchemicalFromPlanets(
     Substance: 0,
   };
 
+  const ignoredBodies = new Set([
+    "Ascendant", "Midheaven", "True Node", "South Node",
+    "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node",
+    "NorthNode", "SouthNode", "MC",
+  ]);
+
   // LAYER 1 & 2: Base ESMS with sect and dignity modifications
   for (const planet in planetaryPositions) {
+    if (ignoredBodies.has(planet)) {
+      continue;
+    }
     const sign = planetaryPositions[planet];
 
     // Get sect-based ESMS from new PLANETARY_SECTARIAN_ESMS constant

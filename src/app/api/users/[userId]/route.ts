@@ -98,7 +98,11 @@ export async function GET(
     const row = profileResult.rows[0];
     const realUserId = row.user_id;
 
-    const [feedResult, balanceResult, tasteGraph] = await Promise.all([
+    // Per-source isolation: a single missing table (e.g. migration 32 not
+    // applied) or a malformed row should not blank the whole profile. Each
+    // sub-query degrades to a safe empty value, so the page renders even
+    // when one slice is broken.
+    const [feedSettled, balanceSettled, tasteGraphSettled] = await Promise.allSettled([
       executeQuery<FeedRow>(
         `SELECT id, event_type, metadata_payload, created_at
            FROM feed_events
@@ -116,6 +120,26 @@ export async function GET(
       ),
       computeTasteGraph(realUserId),
     ]);
+
+    if (feedSettled.status === "rejected") {
+      console.warn("[GET /api/users/:userId] feed_events query failed:", feedSettled.reason);
+    }
+    if (balanceSettled.status === "rejected") {
+      console.warn("[GET /api/users/:userId] token_balances query failed:", balanceSettled.reason);
+    }
+    if (tasteGraphSettled.status === "rejected") {
+      console.warn("[GET /api/users/:userId] computeTasteGraph failed:", tasteGraphSettled.reason);
+    }
+
+    const feedResult = feedSettled.status === "fulfilled"
+      ? feedSettled.value
+      : { rows: [] as FeedRow[] };
+    const balanceResult = balanceSettled.status === "fulfilled"
+      ? balanceSettled.value
+      : { rows: [] as BalanceRow[] };
+    const tasteGraph = tasteGraphSettled.status === "fulfilled"
+      ? tasteGraphSettled.value
+      : null;
 
     const balance = balanceResult.rows[0] ?? {
       spirit: "0",
@@ -170,7 +194,15 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error("[GET /api/users/:userId]", error);
+    // Surface the actual failure cause in logs — the previous bare
+    // console.error truncated `error` to "[GET /api/users/:userId] er..."
+    // in Vercel, hiding the underlying message + stack.
+    const message = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error ? error.stack : undefined;
+    console.error(
+      `[GET /api/users/:userId] userId=${userId} message=${message}`,
+      stack ?? error,
+    );
     return NextResponse.json(
       { success: false, message: "Failed to load profile" },
       { status: 500 },

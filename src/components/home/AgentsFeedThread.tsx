@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS } from "@/lib/elementColors";
+import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 
 type FeedMetadata = Record<string, unknown>;
 
@@ -76,76 +77,11 @@ function formatDistanceToNow(dateValue?: string): string {
   return `${diffInDays}d ago`;
 }
 
-function getMetadataText(
-  metadata: FeedMetadata | undefined,
-  key: string,
-): string | undefined {
-  const value = metadata?.[key];
-  return typeof value === "string" && value.trim().length > 0
-    ? value
-    : undefined;
-}
-
-function getEventIcon(eventType?: string): string {
-  switch (eventType) {
-    case "claim_daily":
-      return "⚗️";
-    case "commensal_request":
-      return "🤝";
-    case "recipe_generation":
-      return "🍽️";
-    case "insight":
-      return "👁️";
-    case "lab_entry":
-      return "📓";
-    case "made_it":
-      return "✅";
-    default:
-      return "✨";
+function getEventNarration(event: FeedEvent) {
+  if (event.action?.trim()) {
+    return { icon: "✨", action: event.action, label: event.action, href: undefined };
   }
-}
-
-function getEventAction(event: FeedEvent): string {
-  if (event.action?.trim()) return event.action;
-
-  switch (event.eventType) {
-    case "claim_daily":
-      return "claimed their daily alchemical yield.";
-    case "commensal_request": {
-      const targetName = getMetadataText(event.metadataPayload, "targetName");
-      return targetName
-        ? `sent a dining companion request to ${targetName}.`
-        : "sent a dining companion request.";
-    }
-    case "recipe_generation": {
-      const recipeName = getMetadataText(event.metadataPayload, "recipeName");
-      return recipeName
-        ? `transmuted ingredients into ${recipeName}.`
-        : "transmuted ingredients into a new recipe.";
-    }
-    case "insight": {
-      const title = getMetadataText(event.metadataPayload, "insightTitle");
-      return title
-        ? `channeled an alchemical insight: "${title}".`
-        : "channeled a new alchemical insight.";
-    }
-    case "lab_entry": {
-      const dishName = getMetadataText(event.metadataPayload, "dishName");
-      return dishName
-        ? `recorded a new experiment: ${dishName}.`
-        : "recorded a new experiment in their lab book.";
-    }
-    case "made_it": {
-      const recipeName = getMetadataText(event.metadataPayload, "recipeName");
-      const rating = event.metadataPayload?.rating;
-      const base = recipeName ? `prepared ${recipeName}` : "prepared a community recipe";
-      return rating ? `${base} and gave it ${rating} stars.` : `${base}.`;
-    }
-    default:
-      return event.eventType
-        ? event.eventType.replaceAll("_", " ").trim()
-        : "recorded network activity.";
-  }
+  return narrateFeedEvent(event.eventType, event.metadataPayload);
 }
 
 function getPlanetarySignature(metadata?: FeedMetadata): PlanetarySignature | null {
@@ -282,19 +218,23 @@ export function AgentsFeedThread() {
                       const isAgent =
                         item.actorIsAgent ?? item.isAgent === true;
                       const actorId = item.actorId || item.userId;
-                      // Agents link out to their chat on the PA UI
-                      // (agents.alchm.kitchen); humans link to their local
-                      // alchm.kitchen profile.
+                      // Actor link: agents go to their PA chat surface,
+                      // humans go to their alchm.kitchen profile.
                       const actorHref =
                         isAgent && item.actorSlug
                           ? agentChatUrl(item.actorSlug)
                           : actorId
                             ? `/profile/${actorId}`
                             : null;
+                      // Agents ALSO get a deep-link to their alchm.kitchen
+                      // profile so users can see their full activity history.
+                      const profileHref =
+                        isAgent && actorId ? `/profile/${actorId}` : null;
                       const timeLabel = formatDistanceToNow(item.createdAt);
                       const signature = isAgent
                         ? getPlanetarySignature(item.metadataPayload)
                         : null;
+                      const narration = getEventNarration(item);
                       const natalPlacements =
                         signature?.natalPositions
                           ?.map(formatPlacement)
@@ -329,7 +269,7 @@ export function AgentsFeedThread() {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              getEventIcon(item.eventType)
+                              narration.icon
                             )}
                           </div>
                           <div className="flex-1">
@@ -357,13 +297,32 @@ export function AgentsFeedThread() {
                                   Agent
                                 </span>
                               )}{" "}
-                              {getEventAction(item)}
+                              {narration.href ? (
+                                <Link
+                                  href={narration.href}
+                                  className="text-white/85 hover:text-white underline decoration-purple-500/30 underline-offset-2"
+                                >
+                                  {narration.action}
+                                </Link>
+                              ) : (
+                                narration.action
+                              )}
                             </p>
-                            {timeLabel && (
-                              <p className="text-[10px] text-white/40 mt-1">
-                                {timeLabel}
-                              </p>
-                            )}
+                            <div className="flex items-center gap-2 mt-1">
+                              {timeLabel && (
+                                <p className="text-[10px] text-white/40">
+                                  {timeLabel}
+                                </p>
+                              )}
+                              {profileHref && (
+                                <Link
+                                  href={profileHref}
+                                  className="text-[10px] text-purple-300/70 hover:text-purple-200 uppercase tracking-wider"
+                                >
+                                  · view profile
+                                </Link>
+                              )}
+                            </div>
                             {signature && (
                               <div
                                 className={`mt-2 rounded-lg border px-2 py-1.5 ${
