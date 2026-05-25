@@ -103,9 +103,11 @@ class UserDatabaseService {
           ? "ADMIN"
           : "USER";
         await db.withTransaction(async (client) => {
+          // email_verified + login_count are NOT NULL in prod with no DEFAULT —
+          // omitting them violates the not-null constraint and blocks signup.
           const insertUserResult = await client.query(
-            `INSERT INTO users (id, email, name, image, password_hash, role, is_active, profile, preferences, created_at)
-             VALUES ($1, $2, $3, $4, $5, $6::user_role, $7, $8, $9, $10)
+            `INSERT INTO users (id, email, name, image, password_hash, role, is_active, email_verified, login_count, profile, preferences, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6::user_role, $7, $8, $9, $10, $11, $12)
              ON CONFLICT (email) DO NOTHING RETURNING id`,
             [
               userId,
@@ -115,6 +117,8 @@ class UserDatabaseService {
               user.passwordHash,
               primaryRole,
               true,
+              true,
+              0,
               JSON.stringify(user.profile),
               JSON.stringify(user.profile.preferences || {}),
               now,
