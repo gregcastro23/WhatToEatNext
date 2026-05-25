@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
+import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import AgentProfile from "./AgentProfile";
 
 interface NatalPosition {
@@ -56,15 +57,6 @@ const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
   essence: { symbol: "🝑", color: "text-blue-400" },
   matter: { symbol: "🝙", color: "text-emerald-400" },
   substance: { symbol: "🝉", color: "text-purple-400" },
-};
-
-const EVENT_LABEL: Record<string, string> = {
-  claim_daily: "Claimed daily yield",
-  commensal_request: "Sent a dining companion request",
-  recipe_generation: "Transmuted ingredients into a recipe",
-  insight: "Channeled an alchemical insight",
-  lab_entry: "Recorded an experiment",
-  made_it: "Prepared a community recipe",
 };
 
 function formatRelativeTime(iso: string): string {
@@ -306,22 +298,37 @@ export default function PublicProfilePage() {
               <p className="text-sm text-white/40">No recorded actions yet.</p>
             ) : (
               <ul className="space-y-3">
-                {profile.recentActivity.map((event) => (
-                  <li
-                    key={event.id}
-                    className="flex items-start gap-3 p-3 rounded-2xl border border-white/5 bg-white/[0.02]"
-                  >
-                    <span className="text-lg">✨</span>
-                    <div className="flex-1">
-                      <p className="text-sm text-white/85">
-                        {EVENT_LABEL[event.eventType] || event.eventType.replace(/_/g, " ")}
-                      </p>
-                      <p className="text-[10px] uppercase tracking-widest text-white/30 mt-1">
-                        {formatRelativeTime(event.createdAt)}
-                      </p>
-                    </div>
-                  </li>
-                ))}
+                {profile.recentActivity.map((event) => {
+                  const narration = narrateFeedEvent(
+                    event.eventType,
+                    event.metadataPayload,
+                  );
+                  return (
+                    <li
+                      key={event.id}
+                      className="flex items-start gap-3 p-3 rounded-2xl border border-white/5 bg-white/[0.02]"
+                    >
+                      <span className="text-lg">{narration.icon}</span>
+                      <div className="flex-1">
+                        {narration.href ? (
+                          <Link
+                            href={narration.href}
+                            className="text-sm text-white/85 hover:text-white underline decoration-purple-500/30 underline-offset-2"
+                          >
+                            {narration.label}
+                          </Link>
+                        ) : (
+                          <p className="text-sm text-white/85">
+                            {narration.label}
+                          </p>
+                        )}
+                        <p className="text-[10px] uppercase tracking-widest text-white/30 mt-1">
+                          {formatRelativeTime(event.createdAt)}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </section>

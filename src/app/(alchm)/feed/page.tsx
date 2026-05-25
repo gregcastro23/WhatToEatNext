@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS } from "@/lib/elementColors";
+import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
 
@@ -135,38 +136,8 @@ function formatPlacement(placement: SignaturePlacement): string | null {
   return `${placement.planet} ${degree}${sign}`.trim();
 }
 
-function getEventIcon(type: string): string {
-  switch (type) {
-    case "claim_daily":        return "⚗️";
-    case "commensal_request":  return "🤝";
-    case "recipe_generation":  return "🍽️";
-    case "insight":            return "👁️";
-    case "lab_entry":          return "📓";
-    case "made_it":            return "✅";
-    default:                   return "✨";
-  }
-}
-
-function getEventText(event: FeedEvent): string {
-  switch (event.eventType) {
-    case "claim_daily":
-      return `claimed their daily alchemical yield.`;
-    case "commensal_request":
-      return `sent a dining companion request to ${event.metadataPayload?.targetName || "another alchemist"}.`;
-    case "recipe_generation":
-      return `transmuted ingredients into ${event.metadataPayload?.recipeName || "a new recipe"}.`;
-    case "insight":
-      return `channeled an alchemical insight: "${event.metadataPayload?.insightTitle || "Universal Harmony"}".`;
-    case "lab_entry":
-      return `recorded a new experiment: ${event.metadataPayload?.dishName || "Alchemical Fusion"}.`;
-    case "made_it": {
-      const recipeName = event.metadataPayload?.recipeName || "a community recipe";
-      const rating = event.metadataPayload?.rating;
-      return rating ? `prepared ${recipeName} and gave it ${rating} stars.` : `prepared ${recipeName}.`;
-    }
-    default:
-      return `performed an alchemical action.`;
-  }
+function getEventNarration(event: FeedEvent) {
+  return narrateFeedEvent(event.eventType, event.metadataPayload);
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -338,6 +309,15 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
           const signature = event.actorIsAgent ? getPlanetarySignature(event.metadataPayload) : null;
           const natalPlacements =
             signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) || [];
+          const narration = getEventNarration(event);
+          // Agents get two destinations: their PA chat (for live discourse)
+          // and their alchm.kitchen profile (for full activity history).
+          const actorHref = event.actorIsAgent && event.actorSlug
+            ? agentChatUrl(event.actorSlug)
+            : `/profile/${event.actorId}`;
+          const agentProfileHref = event.actorIsAgent
+            ? `/profile/${event.actorId}`
+            : null;
           return (
             <motion.div
               key={event.id}
@@ -359,24 +339,29 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  getEventIcon(event.eventType)
+                  narration.icon
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white/80">
                   <Link
-                    href={
-                      event.actorIsAgent && event.actorSlug
-                        ? agentChatUrl(event.actorSlug)
-                        : `/profile/${event.actorId}`
-                    }
+                    href={actorHref}
                     className={`font-bold mr-1 underline-offset-2 hover:underline transition-colors ${
                       event.actorIsAgent ? "text-amber-400 hover:text-amber-300" : "text-white hover:text-purple-200"
                     }`}
                   >
                     {event.actorName}
                   </Link>{" "}
-                  <span className="text-white/60">{getEventText(event)}</span>
+                  {narration.href ? (
+                    <Link
+                      href={narration.href}
+                      className="text-white/80 hover:text-white underline decoration-purple-400/30 underline-offset-2"
+                    >
+                      {narration.action}
+                    </Link>
+                  ) : (
+                    <span className="text-white/60">{narration.action}</span>
+                  )}
                 </p>
                 <div className="flex items-center gap-3 mt-2">
                   <span className="text-[10px] text-white/30 font-mono">
@@ -386,6 +371,14 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                     <span className="text-[8px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-400/80 px-2 py-0.5 rounded-full border border-amber-500/20">
                       Historical Agent
                     </span>
+                  )}
+                  {agentProfileHref && (
+                    <Link
+                      href={agentProfileHref}
+                      className="text-[10px] text-amber-300/70 hover:text-amber-200 uppercase tracking-wider"
+                    >
+                      View profile →
+                    </Link>
                   )}
                 </div>
                 {signature && (
