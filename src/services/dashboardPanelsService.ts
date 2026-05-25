@@ -725,3 +725,230 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
     };
   }
 }
+
+// ─── Recent Alerts · alert_events table ────────────────────────────────
+
+export type AlertSeverityValue = "info" | "warn" | "error";
+
+export interface RecentAlertEntry {
+  id: number;
+  triggeredAt: string;
+  component: string;
+  previousStatus: string;
+  currentStatus: string;
+  severity: AlertSeverityValue;
+  title: string;
+  message: string;
+  suppressed: boolean;
+}
+
+export interface RecentAlertsData {
+  entries: RecentAlertEntry[];
+  live: boolean;
+}
+
+/**
+ * Pull the latest N rows from `alert_events` (PR #445 schema) so the
+ * IncidentsPanel can show real operator alerts instead of mock incidents.
+ * Returns `live: false` with an empty list when the table is missing or
+ * the query fails — never throws.
+ */
+export async function getRecentAlerts(
+  limit: number = 8,
+): Promise<RecentAlertsData> {
+  try {
+    const result = await executeQuery<{
+      id: number;
+      triggered_at: Date;
+      component: string;
+      previous_status: string;
+      current_status: string;
+      severity: AlertSeverityValue;
+      title: string;
+      message: string;
+      suppressed: boolean | null;
+    }>(
+      `SELECT id, triggered_at, component, previous_status, current_status,
+              severity, title, message,
+              COALESCE((dispatch->>'suppressed')::boolean, false) AS suppressed
+       FROM alert_events
+       ORDER BY triggered_at DESC
+       LIMIT $1`,
+      [limit],
+    );
+
+    return {
+      entries: result.rows.map((row) => ({
+        id: Number(row.id),
+        triggeredAt: new Date(row.triggered_at).toISOString(),
+        component: row.component,
+        previousStatus: row.previous_status,
+        currentStatus: row.current_status,
+        severity: row.severity,
+        title: row.title,
+        message: row.message,
+        suppressed: Boolean(row.suppressed),
+      })),
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getRecentAlerts] failed:", error);
+    return { entries: [], live: false };
+  }
+}
+
+// ─── Error Groups · request_log_entries rollup ────────────────────────
+
+export interface ErrorGroupEntry {
+  path: string;
+  fiveXxCount: number;
+  fourXxCount: number;
+  totalCount: number;
+  lastSeenAt: string;
+}
+
+export interface ErrorGroupsData {
+  groups: ErrorGroupEntry[];
+  windowMinutes: number;
+  live: boolean;
+}
+
+/**
+ * Bucket non-2xx requests over the last hour by path, ranked by 5xx
+ * count then total. Powers the ErrorGroups panel — replaces hardcoded
+ * E-7741 / E-7740 fixtures with the real recent error footprint.
+ */
+export async function getErrorGroupSummary(
+  windowMinutes: number = 60,
+): Promise<ErrorGroupsData> {
+  try {
+    const result = await executeQuery<{
+      path: string;
+      five_xx: number;
+      four_xx: number;
+      total: number;
+      last_seen: Date;
+    }>(
+      `SELECT path,
+              COUNT(*) FILTER (WHERE status >= 500)::int AS five_xx,
+              COUNT(*) FILTER (WHERE status >= 400 AND status < 500)::int AS four_xx,
+              COUNT(*)::int AS total,
+              MAX(at) AS last_seen
+       FROM request_log_entries
+       WHERE at > NOW() - make_interval(mins => $1) AND status >= 400
+       GROUP BY path
+       ORDER BY five_xx DESC, total DESC
+       LIMIT 8`,
+      [windowMinutes],
+    );
+
+    return {
+      groups: result.rows.map((row) => ({
+        path: row.path,
+        fiveXxCount: row.five_xx,
+        fourXxCount: row.four_xx,
+        totalCount: row.total,
+        lastSeenAt: new Date(row.last_seen).toISOString(),
+      })),
+      windowMinutes,
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getErrorGroupSummary] failed:", error);
+    return { groups: [], windowMinutes, live: false };
+  }
+}
+
+// ─── Security Summary · auth_events rollup ─────────────────────────────
+
+export interface SecurityFailingIp {
+  ipHash: string;
+  failures: number;
+}
+
+export interface SecuritySummaryData {
+  signinSuccess24h: number;
+  signinFailure24h: number;
+  uniqueIps24h: number;
+  failingIps: SecurityFailingIp[];
+  /** 24 hourly buckets, oldest first, of total sign-in attempts. */
+  hourlyAttempts: number[];
+  live: boolean;
+}
+
+/**
+ * Aggregate auth_events over the last 24h: success/failure counts,
+ * unique IP count, the top 5 failure-IPs, and a 24-bucket hourly
+ * histogram of attempts. Powers the SecurityPanel — replaces the
+ * "84 failed sign-ins" / "6 throttled IPs" fixtures.
+ */
+export async function getSecuritySummary(): Promise<SecuritySummaryData> {
+  const emptyHourly = Array.from({ length: 24 }, () => 0);
+  try {
+    const [counts, ips, hourly] = await Promise.all([
+      executeQuery<{
+        success: number;
+        failure: number;
+        unique_ips: number;
+      }>(
+        `SELECT
+           COUNT(*) FILTER (WHERE status = 'success')::int AS success,
+           COUNT(*) FILTER (WHERE status = 'failure')::int AS failure,
+           COUNT(DISTINCT ip_hash) FILTER (WHERE ip_hash IS NOT NULL)::int AS unique_ips
+         FROM auth_events
+         WHERE created_at > NOW() - INTERVAL '24 hours'`,
+      ),
+      executeQuery<{ ip_hash: string; failures: number }>(
+        `SELECT ip_hash, COUNT(*)::int AS failures
+         FROM auth_events
+         WHERE created_at > NOW() - INTERVAL '24 hours'
+           AND status = 'failure'
+           AND ip_hash IS NOT NULL
+         GROUP BY ip_hash
+         ORDER BY failures DESC
+         LIMIT 5`,
+      ),
+      executeQuery<{ hour_bucket: number; count: number }>(
+        // Bucket attempts into 24 hourly slots from oldest to newest.
+        `SELECT FLOOR(EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600)::int AS hour_bucket,
+                COUNT(*)::int AS count
+         FROM auth_events
+         WHERE created_at > NOW() - INTERVAL '24 hours'
+         GROUP BY hour_bucket
+         ORDER BY hour_bucket`,
+      ),
+    ]);
+
+    const countsRow = counts.rows[0];
+    for (const row of hourly.rows) {
+      const idx = 23 - row.hour_bucket;
+      if (idx >= 0 && idx < 24) {
+        emptyHourly[idx] = row.count;
+      }
+    }
+
+    return {
+      signinSuccess24h: countsRow?.success ?? 0,
+      signinFailure24h: countsRow?.failure ?? 0,
+      uniqueIps24h: countsRow?.unique_ips ?? 0,
+      failingIps: ips.rows.map((row) => ({
+        // Show only the last 6 chars of the hash so the UI surfaces something
+        // identifiable without leaking the full hash.
+        ipHash: row.ip_hash.slice(-6),
+        failures: row.failures,
+      })),
+      hourlyAttempts: emptyHourly,
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getSecuritySummary] failed:", error);
+    return {
+      signinSuccess24h: 0,
+      signinFailure24h: 0,
+      uniqueIps24h: 0,
+      failingIps: [],
+      hourlyAttempts: emptyHourly,
+      live: false,
+    };
+  }
+}

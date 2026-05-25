@@ -30,6 +30,12 @@ export interface AlertLogEntry {
 export interface AlertDispatchSummary {
   slack?: { ok: boolean; error?: string };
   email?: { ok: boolean; error?: string };
+  // Set when alertService skipped Slack/email because this (component,
+  // current_status) pair was already dispatched within the cooldown window.
+  // The DB row + ring entry are still recorded so the audit trail catches
+  // flapping; the sinks just don't fire.
+  suppressed?: boolean;
+  suppressionReason?: string;
 }
 
 const RING_SIZE = 100;

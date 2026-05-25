@@ -4,122 +4,142 @@ import React from "react";
 import type {
   AuditEventsData,
   CatalogTrendingData,
+  RecentAlertsData,
+  SecuritySummaryData,
 } from "@/services/dashboardPanelsService";
+import type { ActivityEvent } from "@/services/liveActivityService";
+import type { SystemStatusPayload } from "@/services/systemStatusService";
 import { CompatibilityRing, ElementalMeter, Glyph, Sparkline } from "./atoms";
 import { seeded } from "./data";
 import { Card, Legend, MiniStat } from "./hero";
 
 // ============================================================
-// SERVICE MATRIX
+// SERVICE MATRIX — wired to systemStatusService (8 flows + 3 deps)
 // ============================================================
-export function ServiceMatrix() {
-  const services = [
-    { name: "alchm-api", tier: "T1", health: "OK", p50: 28, p95: 184, qps: 1284, err: 0.04, instances: "8/8", color: "var(--el-earth)" },
-    { name: "alchm-engine-v17", tier: "T1", health: "OK", p50: 62, p95: 240, qps: 412, err: 0.02, instances: "6/6", color: "var(--accent-2)" },
-    { name: "alchm-auth", tier: "T1", health: "OK", p50: 18, p95: 96, qps: 187, err: 0.0, instances: "3/3", color: "var(--el-air)" },
-    { name: "pg-primary · 16.2", tier: "T1", health: "OK", p50: 4, p95: 18, qps: 3120, err: 0.0, instances: "1/1 · 2 replicas", color: "var(--el-earth)" },
-    { name: "redis-hot", tier: "T1", health: "OK", p50: 1, p95: 3, qps: 8120, err: 0.0, instances: "3/3", color: "var(--el-water)" },
-    { name: "queue · planner", tier: "T2", health: "WARN", p50: 220, p95: 1840, qps: 14, err: 0.18, instances: "2/2", color: "var(--el-fire)", note: "backlog · 318 jobs" },
-    { name: "search · meilisearch", tier: "T2", health: "OK", p50: 8, p95: 42, qps: 540, err: 0.01, instances: "2/2", color: "var(--el-water)" },
-    { name: "cdn · cf workers", tier: "T2", health: "OK", p50: 12, p95: 60, qps: 5240, err: 0.0, instances: "global · 312 PoPs", color: "var(--el-air)" },
-    { name: "ml · recsys-batch", tier: "T2", health: "OK", p50: 0, p95: 0, qps: 0, err: 0.0, instances: "nightly · 03:00 UTC", color: "var(--accent-2)" },
-    { name: "agents · mesh edge", tier: "T2", health: "WARN", p50: 84, p95: 320, qps: 218, err: 0.06, instances: "412/440", color: "var(--accent)", note: "28 nodes idle > 5m" },
-    { name: "stripe · billing", tier: "T3", health: "OK", p50: 142, p95: 510, qps: 9.4, err: 0.0, instances: "external · webhook q=0", color: "var(--el-earth)" },
-    { name: "amazon · fresh", tier: "T3", health: "OK", p50: 220, p95: 980, qps: 6.2, err: 0.01, instances: "external", color: "var(--el-air)" },
+const STATUS_COLOR: Record<string, string> = {
+  OK: "var(--el-earth)",
+  DEGRADED: "var(--el-fire)",
+  INCIDENT: "#FF5252",
+  UNKNOWN: "var(--fg-mute)",
+};
+
+export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayload }) {
+  const items: Array<{
+    id: string;
+    name: string;
+    tier: "Flow" | "Dep";
+    status: string;
+    summary: string;
+    metrics?: Array<{ label: string; value: string }>;
+  }> = [
+    ...systemStatus.flows.map((f) => ({
+      id: f.id,
+      name: f.label,
+      tier: "Flow" as const,
+      status: f.status,
+      summary: f.summary,
+      metrics: f.metrics?.slice(0, 2),
+    })),
+    ...systemStatus.dependencies.map((d) => ({
+      id: d.id,
+      name: d.label,
+      tier: "Dep" as const,
+      status: d.status,
+      summary: d.summary,
+      metrics: typeof d.latencyMs === "number"
+        ? [{ label: "ping", value: `${Math.round(d.latencyMs)}ms` }]
+        : undefined,
+    })),
   ];
+  const warnCount = items.filter((i) => i.status === "DEGRADED").length;
+  const incidentCount = items.filter((i) => i.status === "INCIDENT").length;
+
   return (
     <Card
       title="Service Matrix"
-      subtitle="12 services · 2 warnings"
+      subtitle={`${items.length} components · ${incidentCount} incident${incidentCount === 1 ? "" : "s"} · ${warnCount} degraded`}
       right={
         <div style={{ display: "flex", gap: 8 }}>
           <Legend color="var(--el-earth)" label="OK" />
-          <Legend color="var(--el-fire)" label="WARN" />
-          <Legend color="#FF5252" label="DOWN" />
+          <Legend color="var(--el-fire)" label="DEGRADED" />
+          <Legend color="#FF5252" label="INCIDENT" />
         </div>
       }
     >
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.6fr 0.4fr 0.5fr 0.6fr 0.6fr 0.6fr 0.6fr 1fr",
-          rowGap: 0,
-          fontSize: 11.5,
-        }}
-      >
-        <SvcHeader label="Service" />
-        <SvcHeader label="Tier" />
-        <SvcHeader label="State" />
-        <SvcHeader label="P50" right />
-        <SvcHeader label="P95" right />
-        <SvcHeader label="QPS" right />
-        <SvcHeader label="Err%" right />
-        <SvcHeader label="Instances" />
-        {services.map((s) => (
-          <React.Fragment key={s.name}>
-            <SvcCell>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span className="el-dot" style={{ background: s.color, boxShadow: `0 0 8px ${s.color}` }} />
-                <span style={{ color: "var(--fg)" }}>{s.name}</span>
-              </div>
-              {s.note && (
-                <div
-                  className="t-mono"
-                  style={{ fontSize: 9, color: "var(--el-fire)", marginTop: 2, letterSpacing: "0.1em" }}
-                >
-                  {s.note}
-                </div>
-              )}
-            </SvcCell>
-            <SvcCell>
-              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{s.tier}</span>
-            </SvcCell>
-            <SvcCell>
-              <span
-                className="t-mono"
-                style={{
-                  fontSize: 9,
-                  padding: "2px 7px",
-                  borderRadius: 999,
-                  background:
-                    s.health === "OK"
-                      ? "color-mix(in oklch, var(--el-earth), transparent 80%)"
-                      : "color-mix(in oklch, var(--el-fire), transparent 75%)",
-                  color: s.health === "OK" ? "var(--el-earth)" : "var(--el-fire)",
-                  border: `1px solid ${
-                    s.health === "OK"
-                      ? "color-mix(in oklch, var(--el-earth), transparent 60%)"
-                      : "color-mix(in oklch, var(--el-fire), transparent 50%)"
-                  }`,
-                }}
-              >
-                {s.health}
-              </span>
-            </SvcCell>
-            <SvcCell right>
-              <span className="t-num" style={{ color: "var(--fg-dim)" }}>
-                {s.p50}<span style={{ color: "var(--fg-faint)" }}>ms</span>
-              </span>
-            </SvcCell>
-            <SvcCell right>
-              <span className="t-num" style={{ color: s.p95 > 500 ? "var(--el-fire)" : "var(--fg)" }}>
-                {s.p95}<span style={{ color: "var(--fg-faint)" }}>ms</span>
-              </span>
-            </SvcCell>
-            <SvcCell right>
-              <span className="t-num" style={{ color: "var(--fg-dim)" }}>{s.qps.toLocaleString()}</span>
-            </SvcCell>
-            <SvcCell right>
-              <span className="t-num" style={{ color: s.err > 0.1 ? "var(--el-fire)" : "var(--fg-dim)" }}>
-                {s.err.toFixed(2)}
-              </span>
-            </SvcCell>
-            <SvcCell>
-              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{s.instances}</span>
-            </SvcCell>
-          </React.Fragment>
-        ))}
-      </div>
+      {items.length === 0 ? (
+        <div style={{ padding: 16, textAlign: "center" }}>
+          <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
+            system status unavailable
+          </span>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.6fr 0.5fr 0.7fr 2fr 1fr",
+            rowGap: 0,
+            fontSize: 11.5,
+          }}
+        >
+          <SvcHeader label="Component" />
+          <SvcHeader label="Kind" />
+          <SvcHeader label="State" />
+          <SvcHeader label="Summary" />
+          <SvcHeader label="Metrics" />
+          {items.map((it) => {
+            const color = STATUS_COLOR[it.status] ?? "var(--fg-mute)";
+            return (
+              <React.Fragment key={it.id}>
+                <SvcCell>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span className="el-dot" style={{ background: color, boxShadow: `0 0 8px ${color}` }} />
+                    <span style={{ color: "var(--fg)" }}>{it.name}</span>
+                  </div>
+                </SvcCell>
+                <SvcCell>
+                  <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{it.tier}</span>
+                </SvcCell>
+                <SvcCell>
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 9,
+                      padding: "2px 7px",
+                      borderRadius: 999,
+                      background: `color-mix(in oklch, ${color}, transparent 78%)`,
+                      color,
+                      border: `1px solid color-mix(in oklch, ${color}, transparent 55%)`,
+                    }}
+                  >
+                    {it.status}
+                  </span>
+                </SvcCell>
+                <SvcCell>
+                  <span style={{ color: "var(--fg-dim)", fontSize: 10.5 }}>{it.summary}</span>
+                </SvcCell>
+                <SvcCell>
+                  {it.metrics && it.metrics.length > 0 ? (
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      {it.metrics.map((m) => (
+                        <span
+                          key={m.label}
+                          className="t-mono"
+                          style={{ fontSize: 9.5, color: "var(--fg-mute)" }}
+                        >
+                          {m.label}:&nbsp;
+                          <span style={{ color: "var(--fg-dim)" }}>{m.value}</span>
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-faint)" }}>—</span>
+                  )}
+                </SvcCell>
+              </React.Fragment>
+            );
+          })}
+        </div>
+      )}
     </Card>
   );
 }
@@ -157,246 +177,266 @@ function SvcCell({ children, right }: { children: React.ReactNode; right?: boole
 }
 
 // ============================================================
-// LIVE EVENT STREAM
+// LIVE EVENT STREAM — wired to liveActivityService
 // ============================================================
-export function LiveEventStream() {
-  const events = [
-    { t: "21:46:08", k: "auth.signin", sev: "info", who: "@lila.fontana", msg: "Google · session est · IAD" },
-    { t: "21:46:04", k: "engine.predict", sev: "info", who: "engine-v17", msg: "score=0.918 · acc-cluster=warm" },
-    { t: "21:46:01", k: "cart.add", sev: "info", who: "@marcus.kw", msg: "+ heirloom tomato · $4.20 · Amz" },
-    { t: "21:45:58", k: "queue.spike", sev: "warn", who: "planner", msg: "backlog 318 > 200 threshold" },
-    { t: "21:45:54", k: "mesh.node.idle", sev: "warn", who: "mesh-edge", msg: "sous-chef-209 idle 6m · drain" },
-    { t: "21:45:50", k: "admin.signoff", sev: "ok", who: "@gregcastro23", msg: "approved · recipe #c8f1ad" },
-    { t: "21:45:47", k: "moderation.flag", sev: "warn", who: "auto", msg: "recipe #84a210 · profanity score 0.62" },
-    { t: "21:45:42", k: "billing.charge", sev: "info", who: "stripe", msg: "+$24.00 · pro · 0xc2…" },
-    { t: "21:45:39", k: "engine.canary", sev: "ok", who: "engine-v17", msg: "canary @ 12% · delta +0.014 acc" },
-    { t: "21:45:35", k: "auth.signup", sev: "ok", who: "@noor.eldin", msg: "onboarding · step Palate" },
-    { t: "21:45:31", k: "agent.dispatch", sev: "info", who: "agents.alchm.kit", msg: "sous-chef · dinner-party-441" },
-    { t: "21:45:28", k: "incident.update", sev: "err", who: "INC-2207", msg: "cart 5xx · 4 occurrences · mitigating" },
-    { t: "21:45:24", k: "search.reindex", sev: "info", who: "meili", msg: "ingredients +12 · re-rank" },
-    { t: "21:45:21", k: "deploy.preview", sev: "info", who: "@gregcastro23", msg: "branch fix/cart-checkout @ pr-1184" },
-    { t: "21:45:18", k: "auth.signin", sev: "info", who: "@kazu.tanaka", msg: "Google · NRT · returning" },
-    { t: "21:45:14", k: "engine.feedback", sev: "info", who: "@isobel.r", msg: "★ 5 · pad krapow · acc++" },
-    { t: "21:45:11", k: "feature.flag", sev: "ok", who: "@gregcastro23", msg: "cosmic-recipe-v2 → 100%" },
-    { t: "21:45:07", k: "auth.fail", sev: "warn", who: "203.0.113.7", msg: "OAuthCallback ×3 · throttled" },
-  ];
-  const sevColor: Record<string, string> = {
-    info: "var(--fg-dim)",
-    ok: "var(--el-earth)",
-    warn: "var(--el-fire)",
-    err: "#FF5252",
-  };
+const CATEGORY_COLOR: Record<string, string> = {
+  signup: "var(--el-earth)",
+  auth: "var(--accent-2)",
+  onboarding: "var(--el-water)",
+  recipe: "var(--accent)",
+  economy: "var(--el-fire)",
+  agent: "var(--el-air)",
+  diary: "var(--fg-dim)",
+};
+
+const STATUS_TINT: Record<string, string> = {
+  success: "var(--el-earth)",
+  failure: "#FF5252",
+  info: "var(--fg-dim)",
+};
+
+export function LiveEventStream({
+  liveActivity,
+}: {
+  liveActivity: { entries: ActivityEvent[]; live: boolean };
+}) {
+  const events = liveActivity.entries;
   return (
     <Card
       title="Live Event Stream"
-      subtitle={false}
+      subtitle={`${events.length} events · 6h window${liveActivity.live ? "" : " · degraded"}`}
       right={
-        <div style={{ display: "flex", gap: 6 }}>
-          <span className="chip chip-active" style={{ padding: "2px 8px", fontSize: 8 }}>ALL</span>
-          <span className="chip" style={{ padding: "2px 8px", fontSize: 8 }}>WARN+</span>
-          <span className="chip" style={{ padding: "2px 8px", fontSize: 8 }}>ADMIN</span>
-        </div>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: liveActivity.live ? "var(--el-earth)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          {liveActivity.live ? "● LIVE" : "○ STALE"}
+        </span>
       }
       padded={false}
       style={{ height: 480 }}
     >
       <div style={{ height: "100%", overflow: "auto", padding: "4px 0" }}>
-        {events.map((e, i) => (
-          <div
-            key={i}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "62px 8px 88px 1fr",
-              gap: 8,
-              alignItems: "baseline",
-              padding: "6px 14px",
-              fontFamily: "var(--f-mono)",
-              fontSize: 10.5,
-              borderBottom:
-                i === events.length - 1
-                  ? "none"
-                  : "1px solid color-mix(in oklch, var(--line), transparent 30%)",
-              color: "var(--fg-dim)",
-            }}
-          >
-            <span style={{ color: "var(--fg-mute)", fontSize: 9.5 }}>{e.t}</span>
-            <span
-              style={{
-                width: 4,
-                height: 4,
-                borderRadius: 999,
-                background: sevColor[e.sev],
-                boxShadow: `0 0 6px ${sevColor[e.sev]}`,
-              }}
-            />
-            <span style={{ color: sevColor[e.sev], fontSize: 9.5, letterSpacing: "0.08em" }}>{e.k}</span>
-            <span style={{ display: "flex", gap: 8, minWidth: 0 }}>
-              <span style={{ color: "var(--fg)", whiteSpace: "nowrap" }}>{e.who}</span>
-              <span style={{ color: "var(--fg-mute)" }}>·</span>
-              <span
-                style={{
-                  color: "var(--fg-dim)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {e.msg}
-              </span>
+        {events.length === 0 ? (
+          <div style={{ padding: 16, textAlign: "center" }}>
+            <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
+              no activity in the last 6h
             </span>
           </div>
-        ))}
+        ) : (
+          events.map((e, i) => {
+            const dot = STATUS_TINT[e.status] ?? CATEGORY_COLOR[e.category] ?? "var(--fg-mute)";
+            const cat = CATEGORY_COLOR[e.category] ?? "var(--accent)";
+            const time = new Date(e.at).toISOString().slice(11, 19);
+            return (
+              <div
+                key={`${e.category}-${e.id}-${i}`}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "62px 8px 88px 1fr",
+                  gap: 8,
+                  alignItems: "baseline",
+                  padding: "6px 14px",
+                  fontFamily: "var(--f-mono)",
+                  fontSize: 10.5,
+                  borderBottom:
+                    i === events.length - 1
+                      ? "none"
+                      : "1px solid color-mix(in oklch, var(--line), transparent 30%)",
+                  color: "var(--fg-dim)",
+                }}
+              >
+                <span style={{ color: "var(--fg-mute)", fontSize: 9.5 }}>{time}</span>
+                <span
+                  style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: 999,
+                    background: dot,
+                    boxShadow: `0 0 6px ${dot}`,
+                  }}
+                />
+                <span style={{ color: cat, fontSize: 9.5, letterSpacing: "0.08em" }}>
+                  {e.category}.{e.type}
+                </span>
+                <span style={{ display: "flex", gap: 8, minWidth: 0 }}>
+                  <span style={{ color: "var(--fg)", whiteSpace: "nowrap" }}>
+                    {e.actor?.name || e.actor?.email || "system"}
+                  </span>
+                  <span style={{ color: "var(--fg-mute)" }}>·</span>
+                  <span
+                    style={{
+                      color: "var(--fg-dim)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {e.description}
+                  </span>
+                </span>
+              </div>
+            );
+          })
+        )}
       </div>
     </Card>
   );
 }
 
 // ============================================================
-// INCIDENTS
+// INCIDENTS — wired to alert_events (from alertService dispatch)
 // ============================================================
-export function IncidentsPanel() {
-  interface Incident {
-    id: string;
-    sev: "MAJOR" | "MINOR";
-    title: string;
-    svc: string;
-    started: string;
-    assignee: string;
-    step: string;
-    progress: number;
-    timeline?: Array<{ t: string; e: string }>;
-  }
-  const items: Incident[] = [
-    {
-      id: "INC-2207",
-      sev: "MAJOR",
-      title: "Cart checkout 5xx · Amazon Fresh adapter",
-      svc: "amazon-fresh · stripe-bridge",
-      started: "21:31 UTC · 14m",
-      assignee: "@gregcastro23",
-      step: "Mitigating",
-      progress: 0.6,
-      timeline: [
-        { t: "21:31", e: "Pageduty paged · 4 alerts · 5xx rate 2.4%" },
-        { t: "21:33", e: "Greg ack · started rollback of #c8f1ad" },
-        { t: "21:38", e: "Adapter restored to v2.7.3 · errors -82%" },
-        { t: "21:45", e: "Monitoring · awaiting 5m clear window" },
-      ],
-    },
-    {
-      id: "INC-2204",
-      sev: "MINOR",
-      title: "Planner queue backlog · planetary refresh job",
-      svc: "queue.planner",
-      started: "21:18 UTC · 27m",
-      assignee: "auto",
-      step: "Auto-scaling",
-      progress: 0.3,
-    },
-  ];
+const SEVERITY_COLOR: Record<string, string> = {
+  error: "#FF5252",
+  warn: "var(--el-fire)",
+  info: "var(--el-water)",
+};
+
+function formatRelative(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "just now";
+  const m = Math.round(ms / 60000);
+  if (m < 1) return "just now";
+  if (m < 60) return `${m}m ago`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.round(h / 24);
+  return `${d}d ago`;
+}
+
+export function IncidentsPanel({
+  recentAlerts,
+}: {
+  recentAlerts: RecentAlertsData;
+}) {
+  const alerts = recentAlerts.entries;
+  const errorCount = alerts.filter((a) => a.severity === "error").length;
+  const warnCount = alerts.filter((a) => a.severity === "warn").length;
+  const subtitle =
+    alerts.length === 0
+      ? recentAlerts.live
+        ? "no alerts in window"
+        : "alert source offline"
+      : `${errorCount} error · ${warnCount} warn`;
+
   return (
     <Card
-      title="Active Incidents"
-      subtitle="1 major · 1 minor"
+      title="Recent Alerts"
+      subtitle={subtitle}
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          RUNBOOK
-        </button>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: recentAlerts.live ? "var(--el-earth)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          {recentAlerts.live ? "● LIVE" : "○ STALE"}
+        </span>
       }
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {items.map((inc) => {
-          const sevColor = inc.sev === "MAJOR" ? "#FF5252" : "var(--el-fire)";
-          return (
-            <div
-              key={inc.id}
-              style={{
-                border: `1px solid color-mix(in oklch, ${sevColor}, transparent 60%)`,
-                background: `linear-gradient(180deg, color-mix(in oklch, ${sevColor}, transparent 92%), transparent)`,
-                borderRadius: 10,
-                padding: 12,
-                position: "relative",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6 }}>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 9,
-                    padding: "2px 8px",
-                    borderRadius: 999,
-                    color: sevColor,
-                    border: `1px solid ${sevColor}`,
-                    background: "rgba(0,0,0,0.3)",
-                    letterSpacing: "0.16em",
-                  }}
-                >
-                  {inc.sev}
-                </span>
-                <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>{inc.id}</span>
-                <span style={{ marginLeft: "auto", fontFamily: "var(--f-mono)", fontSize: 9.5, color: "var(--fg-mute)" }}>
-                  {inc.started}
-                </span>
-              </div>
-              <div style={{ fontSize: 13, color: "var(--fg)", marginBottom: 4 }}>{inc.title}</div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", letterSpacing: "0.1em" }}>
-                  {inc.svc}
-                </span>
-                <span className="t-mono" style={{ fontSize: 9.5, color: "var(--accent-2)" }}>{inc.assignee}</span>
-              </div>
+      {alerts.length === 0 ? (
+        <div style={{ padding: "16px 0", textAlign: "center" }}>
+          <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
+            {recentAlerts.live ? "system is quiet" : "could not reach alert_events"}
+          </span>
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {alerts.map((alert) => {
+            const sevColor = SEVERITY_COLOR[alert.severity] ?? "var(--fg-mute)";
+            return (
               <div
+                key={alert.id}
                 style={{
-                  position: "relative",
-                  height: 4,
-                  background: "rgba(255,255,255,0.04)",
-                  borderRadius: 999,
-                  overflow: "hidden",
+                  border: `1px solid color-mix(in oklch, ${sevColor}, transparent 60%)`,
+                  background: `linear-gradient(180deg, color-mix(in oklch, ${sevColor}, transparent 92%), transparent)`,
+                  borderRadius: 10,
+                  padding: 10,
+                  opacity: alert.suppressed ? 0.55 : 1,
                 }}
               >
-                <div
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: `${inc.progress * 100}%`,
-                    background: `linear-gradient(90deg, ${sevColor}, color-mix(in oklch, ${sevColor}, transparent 50%))`,
-                    boxShadow: `0 0 12px ${sevColor}`,
-                  }}
-                />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-dim)", letterSpacing: "0.14em" }}>
-                  {inc.step.toUpperCase()}
-                </span>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-                  {Math.round(inc.progress * 100)}%
-                </span>
-              </div>
-              {inc.timeline && (
-                <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px dashed var(--line)" }}>
-                  {inc.timeline.map((t, i) => (
-                    <div
-                      key={i}
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 4 }}>
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 9,
+                      padding: "2px 8px",
+                      borderRadius: 999,
+                      color: sevColor,
+                      border: `1px solid ${sevColor}`,
+                      background: "rgba(0,0,0,0.3)",
+                      letterSpacing: "0.16em",
+                    }}
+                  >
+                    {alert.severity.toUpperCase()}
+                  </span>
+                  <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
+                    #{alert.id}
+                  </span>
+                  {alert.suppressed && (
+                    <span
+                      className="t-mono"
                       style={{
-                        display: "grid",
-                        gridTemplateColumns: "44px 1fr",
-                        gap: 8,
-                        fontSize: 10.5,
-                        padding: "2px 0",
+                        fontSize: 9,
+                        color: "var(--fg-mute)",
+                        letterSpacing: "0.14em",
                       }}
                     >
-                      <span className="t-mono" style={{ color: "var(--fg-mute)", fontSize: 9.5 }}>{t.t}</span>
-                      <span style={{ color: "var(--fg-dim)" }}>{t.e}</span>
-                    </div>
-                  ))}
+                      SUPPRESSED
+                    </span>
+                  )}
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      fontFamily: "var(--f-mono)",
+                      fontSize: 9.5,
+                      color: "var(--fg-mute)",
+                    }}
+                  >
+                    {formatRelative(alert.triggeredAt)}
+                  </span>
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+                <div style={{ fontSize: 12.5, color: "var(--fg)", marginBottom: 4 }}>{alert.title}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 9.5,
+                      color: "var(--fg-mute)",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    {alert.previousStatus} → {alert.currentStatus} · {alert.component}
+                  </span>
+                </div>
+                {alert.message && alert.message !== alert.title && (
+                  <div
+                    style={{
+                      marginTop: 6,
+                      fontSize: 10.5,
+                      color: "var(--fg-dim)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {alert.message}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </Card>
   );
 }
@@ -1054,165 +1094,71 @@ export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: any }) {
 
 // ============================================================
 // DEPLOYS · FEATURE FLAGS · AUDIT
+// Deploys + Feature flags have no live source yet — render an honest
+// empty state with a hint about how to wire them up. We avoid fake
+// SHAs and fake flags that look real but aren't.
 // ============================================================
 export function DeploysPanel() {
-  const deploys = [
-    { sha: "c8f1ad", branch: "main", who: "@gregcastro23", t: "23m", s: "live", note: "engine v17.4 cutover" },
-    { sha: "84a210", branch: "main", who: "@gregcastro23", t: "2h", s: "live", note: "fix · planner queue" },
-    { sha: "192bb7", branch: "fix/cart-checkout", who: "@gregcastro23", t: "5h", s: "preview", note: "pr-1184 · cart adapter" },
-    { sha: "7c3091", branch: "main", who: "@deploybot", t: "9h", s: "live", note: "deps · pg client" },
-    { sha: "412de8", branch: "main", who: "@gregcastro23", t: "1d", s: "rolled", note: "rollback · billing webhook" },
-    { sha: "ee920f", branch: "main", who: "@gregcastro23", t: "1d", s: "live", note: "nav IA · 5 primary" },
-  ];
-  const stateColor: Record<string, string> = {
-    live: "var(--el-earth)",
-    preview: "var(--accent)",
-    rolled: "var(--el-fire)",
-  };
   return (
-    <Card title="Deploys · last 7 days" subtitle="6 prod · 1 preview · 1 rollback">
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {deploys.map((d, i) => (
-          <div
-            key={d.sha}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "8px 70px 1fr 70px 50px",
-              gap: 10,
-              alignItems: "center",
-              padding: "8px 0",
-              borderBottom: i === deploys.length - 1 ? "none" : "1px solid var(--line)",
-              fontSize: 11,
-            }}
-          >
-            <span className="el-dot" style={{ background: stateColor[d.s], boxShadow: `0 0 6px ${stateColor[d.s]}` }} />
-            <span className="t-mono" style={{ color: "var(--fg)", fontSize: 10.5 }}>#{d.sha}</span>
-            <span
-              style={{
-                color: "var(--fg-dim)",
-                minWidth: 0,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {d.note}
-            </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--accent-2)" }}>{d.who}</span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", textAlign: "right" }}>{d.t}</span>
-          </div>
-        ))}
+    <Card
+      title="Deploys"
+      subtitle="Vercel deployments API not wired"
+      right={
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          ○ NO SOURCE
+        </span>
+      }
+    >
+      <div
+        style={{
+          padding: "32px 12px",
+          textAlign: "center",
+          border: "1px dashed var(--line)",
+          borderRadius: 8,
+        }}
+      >
+        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+          No deploy history wired
+        </div>
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          attach Vercel API token + query <code>/v6/deployments</code>
+        </div>
       </div>
     </Card>
   );
 }
 
 export function FeatureFlagsPanel() {
-  const flags = [
-    { key: "cosmic-recipe-v2", pct: 100, env: "prod", state: "on", owner: "@greg" },
-    { key: "engine-canary", pct: 12, env: "prod", state: "canary", owner: "@greg" },
-    { key: "agent-sync-badge", pct: 100, env: "prod", state: "on", owner: "@greg" },
-    { key: "commensal-12-guests", pct: 25, env: "prod", state: "ramp", owner: "@greg" },
-    { key: "amz-fresh-tax-fix", pct: 0, env: "prod", state: "off", owner: "@greg" },
-    { key: "barcode-scan-quick", pct: 50, env: "stg", state: "ramp", owner: "@greg" },
-  ];
-  const stateColor: Record<string, string> = {
-    on: "var(--el-earth)",
-    canary: "var(--accent)",
-    ramp: "var(--accent-2)",
-    off: "var(--fg-mute)",
-  };
   return (
     <Card
       title="Feature Flags"
-      subtitle="6 active · 1 ramping"
+      subtitle="no flag service configured"
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          NEW
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          ○ NO SOURCE
+        </span>
       }
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {flags.map((f, i) => (
-          <div
-            key={f.key}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 56px 50px 40px",
-              alignItems: "center",
-              gap: 8,
-              padding: "8px 0",
-              borderBottom: i === flags.length - 1 ? "none" : "1px solid var(--line)",
-              fontSize: 11,
-            }}
-          >
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span
-                  className="el-dot"
-                  style={{ background: stateColor[f.state], boxShadow: `0 0 6px ${stateColor[f.state]}` }}
-                />
-                <span className="t-mono" style={{ color: "var(--fg)", fontSize: 11 }}>{f.key}</span>
-              </div>
-              <div
-                style={{
-                  position: "relative",
-                  height: 3,
-                  background: "rgba(255,255,255,0.04)",
-                  borderRadius: 999,
-                  marginTop: 4,
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${f.pct}%`,
-                    height: "100%",
-                    background: stateColor[f.state],
-                    boxShadow: `0 0 6px ${stateColor[f.state]}`,
-                  }}
-                />
-              </div>
-            </div>
-            <span className="t-num" style={{ fontSize: 11, fontStyle: "normal", textAlign: "right", color: "var(--fg)" }}>{f.pct}%</span>
-            <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}>
-              {f.env.toUpperCase()}
-            </span>
-            <span
-              role="switch"
-              aria-checked={f.state !== "off"}
-              aria-label={`Feature flag ${f.key} · ${f.state}`}
-              style={{ display: "inline-flex", alignItems: "center", justifyContent: "flex-end" }}
-            >
-              <span
-                style={{
-                  width: 26,
-                  height: 14,
-                  borderRadius: 999,
-                  background:
-                    f.state === "off"
-                      ? "rgba(255,255,255,0.08)"
-                      : "color-mix(in oklch, var(--accent), transparent 60%)",
-                  position: "relative",
-                  border: "1px solid var(--line-hi)",
-                }}
-              >
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 1,
-                    left: f.state === "off" ? 1 : 12,
-                    width: 10,
-                    height: 10,
-                    borderRadius: 999,
-                    background: "var(--fg)",
-                    transition: "left 200ms ease",
-                  }}
-                />
-              </span>
-            </span>
-          </div>
-        ))}
+      <div
+        style={{
+          padding: "32px 12px",
+          textAlign: "center",
+          border: "1px dashed var(--line)",
+          borderRadius: 8,
+        }}
+      >
+        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+          No feature flag service
+        </div>
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          flags are env-var-only today · add a <code>feature_flags</code> table to surface them here
+        </div>
       </div>
     </Card>
   );
@@ -1295,73 +1241,87 @@ export function AuditLogPanel({ data }: { data: AuditEventsData }) {
 
 // ============================================================
 // MODERATION · SECURITY
+// Moderation queue has no live source yet — there's no user-generated
+// content moderation pipeline. Honest empty state until we add one.
 // ============================================================
 export function ModerationQueue() {
-  const items = [
-    { id: "MOD-441", kind: "recipe", who: "@silas.t", reason: "profanity · 0.62", at: "12m", sev: "warn" },
-    { id: "MOD-440", kind: "comment", who: "@anon.4192", reason: "spam · 0.91", at: "21m", sev: "warn" },
-    { id: "MOD-439", kind: "image", who: "@kavi.s", reason: "blurred · QC", at: "33m", sev: "info" },
-    { id: "MOD-438", kind: "report", who: "by @ana.p", reason: "abuse · DM", at: "1h", sev: "high" },
-    { id: "MOD-437", kind: "recipe", who: "@hyun.j", reason: "allergen flag", at: "1h", sev: "info" },
-    { id: "MOD-436", kind: "comment", who: "@anon.7811", reason: "spam · 0.84", at: "2h", sev: "warn" },
-    { id: "MOD-435", kind: "recipe", who: "@bea.l", reason: "duplicate", at: "3h", sev: "info" },
-  ];
-  const sevColor: Record<string, string> = { info: "var(--fg-mute)", warn: "var(--el-fire)", high: "#FF5252" };
   return (
     <Card
       title="Moderation Queue"
-      subtitle="7 pending · 2 high"
+      subtitle="no moderation pipeline configured"
       right={
-        <button className="btn btn-primary" style={{ padding: "5px 10px", fontSize: 9 }} type="button">
-          TRIAGE
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          ○ NO SOURCE
+        </span>
       }
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {items.map((m, i) => (
-          <div
-            key={m.id}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "64px 64px 1fr 1fr 40px",
-              gap: 8,
-              alignItems: "center",
-              padding: "8px 0",
-              borderBottom: i === items.length - 1 ? "none" : "1px solid var(--line)",
-              fontSize: 11,
-            }}
-          >
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{m.id}</span>
-            <span className="t-mono" style={{ fontSize: 9, color: "var(--accent-2)", letterSpacing: "0.14em" }}>
-              {m.kind.toUpperCase()}
-            </span>
-            <span style={{ color: "var(--fg-dim)" }}>{m.who}</span>
-            <span style={{ color: sevColor[m.sev] }}>{m.reason}</span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", textAlign: "right" }}>{m.at}</span>
-          </div>
-        ))}
+      <div
+        style={{
+          padding: "32px 12px",
+          textAlign: "center",
+          border: "1px dashed var(--line)",
+          borderRadius: 8,
+        }}
+      >
+        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+          No user content moderation pipeline
+        </div>
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          add a <code>moderation_queue</code> table + classifier when UGC ships
+        </div>
       </div>
     </Card>
   );
 }
 
-export function SecurityPanel() {
+export function SecurityPanel({ security }: { security: SecuritySummaryData }) {
+  const maxHourly = Math.max(...security.hourlyAttempts, 1);
   const items = [
-    { label: "Failed sign-ins · 24h", v: "84", delta: "+12", tone: "warn" },
-    { label: "Throttled IPs", v: "6", delta: "+1", tone: "warn" },
-    { label: "Suspicious sessions", v: "0", delta: "—", tone: "ok" },
-    { label: "Active root sessions", v: "1", delta: "you", tone: "ok" },
-    { label: "Linked agents · OAuth", v: "42", delta: "+2", tone: "ok" },
-    { label: "Secrets rotation due", v: "2", delta: "stripe · sendgrid", tone: "warn" },
+    {
+      label: "Sign-in failures · 24h",
+      v: security.signinFailure24h.toLocaleString(),
+      delta: security.signinFailure24h > 0 ? `${security.signinFailure24h} attempt${security.signinFailure24h === 1 ? "" : "s"}` : "clean",
+      tone: security.signinFailure24h > 0 ? "warn" : "ok",
+    },
+    {
+      label: "Sign-in successes · 24h",
+      v: security.signinSuccess24h.toLocaleString(),
+      delta: security.signinSuccess24h > 0 ? "live" : "quiet",
+      tone: "ok",
+    },
+    {
+      label: "Unique IPs · 24h",
+      v: security.uniqueIps24h.toLocaleString(),
+      delta: "auth_events",
+      tone: "ok",
+    },
+    {
+      label: "Top failing IP · 24h",
+      v: security.failingIps[0] ? `…${security.failingIps[0].ipHash}` : "—",
+      delta: security.failingIps[0]
+        ? `${security.failingIps[0].failures} fail${security.failingIps[0].failures === 1 ? "" : "s"}`
+        : "none",
+      tone: security.failingIps[0] ? "warn" : "ok",
+    },
   ];
   return (
     <Card
       title="Security"
-      subtitle="auth · sessions · keys"
+      subtitle={security.live ? "auth_events · 24h window" : "auth_events offline"}
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          SECRETS
-        </button>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: security.live ? "var(--el-earth)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          {security.live ? "● LIVE" : "○ STALE"}
+        </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
@@ -1381,23 +1341,30 @@ export function SecurityPanel() {
         ))}
       </div>
       <div style={{ marginTop: 10, padding: "8px 10px", border: "1px dashed var(--line)", borderRadius: 8 }}>
-        <div className="t-tag" style={{ marginBottom: 6 }}>SIGN-IN ATTEMPTS · 24H × 12 HOUR BUCKETS</div>
+        <div className="t-tag" style={{ marginBottom: 6 }}>SIGN-IN ATTEMPTS · LAST 24H × HOUR</div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)", gap: 2 }}>
-          {seeded(99, 24, 0.1, 0.9).map((v, i) => (
-            <div
-              key={i}
-              style={{
-                height: 16,
-                borderRadius: 2,
-                background: `color-mix(in oklch, var(--accent), transparent ${(1 - v) * 92}%)`,
-                border: "1px solid var(--line)",
-              }}
-            />
-          ))}
+          {security.hourlyAttempts.map((count, i) => {
+            const v = count / maxHourly;
+            return (
+              <div
+                key={i}
+                title={`${count} attempt${count === 1 ? "" : "s"}`}
+                style={{
+                  height: 16,
+                  borderRadius: 2,
+                  background:
+                    count === 0
+                      ? "rgba(255,255,255,0.03)"
+                      : `color-mix(in oklch, var(--accent), transparent ${(1 - v) * 92}%)`,
+                  border: "1px solid var(--line)",
+                }}
+              />
+            );
+          })}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
-          <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>00</span>
-          <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>12</span>
+          <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>−24h</span>
+          <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>−12h</span>
           <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>now</span>
         </div>
       </div>

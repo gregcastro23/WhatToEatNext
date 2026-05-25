@@ -704,11 +704,17 @@ class TokenEconomyService {
             RETURNING id
           ),
           updated AS (
+            -- Qualify token_balances.<col> on the right-hand side of each
+            -- SET so the planner doesn't see the bare column name as
+            -- ambiguous between token_balances and balance_check (both
+            -- have spirit/essence/matter/substance columns). Without
+            -- these qualifiers Postgres raises 42702 and the whole CTE
+            -- rolls back, surfacing as purchase_failed in the caller.
             UPDATE token_balances
-            SET spirit = spirit - $2,
-                essence = essence - $3,
-                matter = matter - $4,
-                substance = substance - $5,
+            SET spirit = token_balances.spirit - $2,
+                essence = token_balances.essence - $3,
+                matter = token_balances.matter - $4,
+                substance = token_balances.substance - $5,
                 updated_at = now()
             FROM balance_check bc
             WHERE token_balances.user_id = $1

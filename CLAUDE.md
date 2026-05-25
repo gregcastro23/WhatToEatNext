@@ -74,6 +74,7 @@ SYNTHETIC_PROBE_BASE_URL=https://alchm.kitchen                   # optional over
 
 # Alerting (system-health snapshot cron uses these — all optional, each sink degrades independently)
 ALERT_SLACK_WEBHOOK_URL=<slack-incoming-webhook-url>             # optional; alerts skip Slack when unset
+ALERT_COOLDOWN_MINUTES=60                                         # per (component, current_status) cooldown; 0 disables dedupe
 SLOW_QUERY_THRESHOLD_MS=200                                       # tunable threshold for slow_query_log
 
 # Auth (NextAuth.js v5)
@@ -162,7 +163,7 @@ All compute from existing signals — no new instrumentation required. Each serv
 
   All results land in `synthetic_probe_results` keyed by `probe_name`. `systemStatusService` reads latest-per-name via `evaluateSyntheticProbe()` and downgrades each flow to INCIDENT on fresh failure, DEGRADED on stale probe (cron broken). Requires `CRON_SECRET` + `SYNTHETIC_PROBE_TOKEN` env vars. Shared auth helper at `src/app/api/cron/_lib/cronAuth.ts`.
 - **`src/services/healthSnapshotService.ts`** — `writeSnapshot()` persists hourly captures of the full `SystemStatusPayload` to `system_health_snapshots` (JSONB). `getLatestSnapshot()` powers transition detection; `getRecentSnapshotOverall()` powers drift / week-over-week views.
-- **`src/services/alertService.ts`** — fires operator alerts on status transitions. Pure `classifyTransition()` + `diffPayloadsForAlerts()` (unit-tested). `dispatchAlert()` writes to three sinks in parallel: DB (`alert_events` table) + Slack webhook (`ALERT_SLACK_WEBHOOK_URL`) + email via Resend (to `ADMIN_EMAILS`). Each sink dispatches independently; one broken webhook never blocks the others. UNKNOWN transitions don't alert (monitoring loss, not health). Recoveries to OK alert as `info`.
+- **`src/services/alertService.ts`** — fires operator alerts on status transitions. Pure `classifyTransition()` + `diffPayloadsForAlerts()` + `shouldSuppressAlert()` (all unit-tested). `dispatchAlert()` writes to three sinks in parallel: DB (`alert_events` table) + Slack webhook (`ALERT_SLACK_WEBHOOK_URL`) + email via Resend (to `ADMIN_EMAILS`). Each sink dispatches independently; one broken webhook never blocks the others. UNKNOWN transitions don't alert (monitoring loss, not health). Recoveries to OK alert as `info`. **Cooldown** (`ALERT_COOLDOWN_MINUTES`, default 60): a repeat alert for the same `(component, current_status)` pair within the window records to DB with `dispatch.suppressed = true` but skips Slack + email. Prevents flapping from spamming operators while preserving the audit trail.
 - **`src/lib/observability/requestLog.ts`** — extended with `summarizePath()` (per-prefix health) and `summarizeAllPaths()` (per-distinct-path stats). Writes are mirrored to `request_log_entries` via fire-and-forget; on cold start the in-memory ring hydrates from the last 500 DB rows on first read.
 - **`src/lib/observability/slowQueryLog.ts`** — same persistence pattern against `slow_query_log_entries` (uses raw pool to avoid recursion). Threshold tunable via `SLOW_QUERY_THRESHOLD_MS`.
 - **`src/lib/observability/alertLog.ts`** — in-memory ring of the last 100 dispatched alerts, hydrated from `alert_events` on cold start (`hydrateAlertRingFromDb()`). Backs the recent-alerts admin panel without paying a DB round-trip per poll.
@@ -177,6 +178,7 @@ All compute from existing signals — no new instrumentation required. Each serv
 | `/api/cron/synthetic-auth-handshake` | `*/15 * * * *` | auth-handshake probe |
 | `/api/cron/synthetic-cosmic-recipe` | `0 * * * *` | cosmic-recipe gen probe (hourly — spends tokens) |
 | `/api/cron/system-health-snapshot` | `0 * * * *` | hourly status snapshot + transition-based alert dispatch |
+| `/api/cron/observability-prune` | `0 3 * * *` | daily prune of `request_log_entries` + `slow_query_log_entries` older than 7 days (override via `?retain=N`) |
 
 ### Planetary Agents (PA) integration
 

@@ -10,6 +10,7 @@ jest.mock("@/lib/database/connection", () => ({
 import {
   classifyTransition,
   diffPayloadsForAlerts,
+  shouldSuppressAlert,
 } from "@/services/alertService";
 import type {
   DependencyHealth,
@@ -165,5 +166,73 @@ describe("alertService.diffPayloadsForAlerts", () => {
     const b = makePayload("OK", [makeFlow("auth", "OK"), makeFlow("new", "DEGRADED")]);
     const candidates = diffPayloadsForAlerts(a, b);
     expect(candidates.map((c) => c.component)).not.toContain("new");
+  });
+});
+
+describe("alertService.shouldSuppressAlert", () => {
+  const now = new Date("2026-06-01T12:00:00Z");
+  const cooldownMs = 60 * 60_000; // 1 hour
+
+  it("does not suppress when there is no prior dispatch", () => {
+    expect(
+      shouldSuppressAlert({ lastDispatchAt: null, now, cooldownMs }),
+    ).toEqual({ suppressed: false });
+  });
+
+  it("suppresses when the last dispatch is within the cooldown window", () => {
+    const tenMinutesAgo = new Date(now.getTime() - 10 * 60_000).toISOString();
+    const result = shouldSuppressAlert({
+      lastDispatchAt: tenMinutesAgo,
+      now,
+      cooldownMs,
+    });
+    expect(result.suppressed).toBe(true);
+    expect(result.reason).toMatch(/Cooldown active/);
+    expect(result.reason).toMatch(/50m left/);
+  });
+
+  it("does NOT suppress when the cooldown window has elapsed", () => {
+    const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60_000).toISOString();
+    expect(
+      shouldSuppressAlert({
+        lastDispatchAt: twoHoursAgo,
+        now,
+        cooldownMs,
+      }),
+    ).toEqual({ suppressed: false });
+  });
+
+  it("disables suppression entirely when cooldownMs is 0", () => {
+    const fiveMinutesAgo = new Date(now.getTime() - 5 * 60_000).toISOString();
+    expect(
+      shouldSuppressAlert({
+        lastDispatchAt: fiveMinutesAgo,
+        now,
+        cooldownMs: 0,
+      }),
+    ).toEqual({ suppressed: false });
+  });
+
+  it("returns no suppression on malformed lastDispatchAt", () => {
+    expect(
+      shouldSuppressAlert({
+        lastDispatchAt: "not-a-date",
+        now,
+        cooldownMs,
+      }),
+    ).toEqual({ suppressed: false });
+  });
+
+  it("treats the cooldown boundary as expired (not suppressed)", () => {
+    const exactlyOneHourAgo = new Date(
+      now.getTime() - cooldownMs,
+    ).toISOString();
+    expect(
+      shouldSuppressAlert({
+        lastDispatchAt: exactlyOneHourAgo,
+        now,
+        cooldownMs,
+      }),
+    ).toEqual({ suppressed: false });
   });
 });
