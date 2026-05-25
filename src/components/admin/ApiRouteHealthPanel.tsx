@@ -24,19 +24,26 @@ interface RequestEntry {
   latencyMs: number;
 }
 
+interface ObservabilitySummary {
+  count: number;
+  p50LatencyMs: number;
+  p95LatencyMs: number;
+  p99LatencyMs: number;
+  errorRate: number;
+  topPaths: Array<{ path: string; count: number }>;
+}
+
 interface ObservabilityResponse {
   success: boolean;
-  summary: {
-    count: number;
-    p50LatencyMs: number;
-    p95LatencyMs: number;
-    p99LatencyMs: number;
-    errorRate: number;
-    topPaths: Array<{ path: string; count: number }>;
+  requests: {
+    summary: ObservabilitySummary;
+    recent: RequestEntry[];
+    recentFailures: RequestEntry[];
   };
-  recent: RequestEntry[];
-  failures: RequestEntry[];
-  slowQueries: Array<{ ms: number; preview: string }>;
+  slowQueries: {
+    summary: unknown;
+    recent: Array<{ ms: number; preview: string }>;
+  };
 }
 
 interface PerPathRow {
@@ -55,10 +62,10 @@ function quantile(values: number[], q: number): number {
 }
 
 function rowsFromObservability(payload: ObservabilityResponse): PerPathRow[] {
-  // The /admin/observability endpoint already returns `recent` (up to 100
+  // The /admin/observability endpoint returns `requests.recent` (up to 100
   // requests). Group locally for per-route stats — cheap, no extra fetch.
   const byPath = new Map<string, RequestEntry[]>();
-  for (const r of payload.recent) {
+  for (const r of payload.requests.recent) {
     const list = byPath.get(r.path);
     if (list) list.push(r);
     else byPath.set(r.path, [r]);
@@ -95,9 +102,7 @@ function rowStyle(row: PerPathRow) {
 
 export default function ApiRouteHealthPanel() {
   const [rows, setRows] = React.useState<PerPathRow[]>([]);
-  const [summary, setSummary] = React.useState<ObservabilityResponse["summary"] | null>(
-    null,
-  );
+  const [summary, setSummary] = React.useState<ObservabilitySummary | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   const poll = React.useCallback(async (): Promise<{ ok: boolean }> => {
@@ -108,12 +113,12 @@ export default function ApiRouteHealthPanel() {
         return { ok: false };
       }
       const json = (await res.json()) as ObservabilityResponse;
-      if (!json.success) {
+      if (!json.success || !json.requests) {
         setError("Observability payload malformed");
         return { ok: false };
       }
       setRows(rowsFromObservability(json));
-      setSummary(json.summary);
+      setSummary(json.requests.summary);
       setError(null);
       return { ok: true };
     } catch (_err) {

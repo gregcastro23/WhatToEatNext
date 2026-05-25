@@ -448,3 +448,127 @@
 .dashboard-root ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* =========================================================
+   RESPONSIVE / MOBILE
+   The dashboard ships with a 232px left rail, 56px top bar
+   and several 3-column inline grids. Below 960px we collapse
+   the rail into an off-canvas drawer toggled by a hamburger
+   button in the top bar, hide non-essential top-bar metrics,
+   and force inline-styled multi-col grids (tagged with the
+   .dash-stack helper) into a single column.
+   ========================================================= */
+.dash-hamburger {
+  display: none;
+}
+@media (max-width: 960px) {
+  /* shell: collapse the side rail into a drawer */
+  .admin-shell {
+    grid-template-rows: 56px 1fr;
+  }
+  .admin-shell > div[data-shell-body] {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-shell aside[data-shell-rail] {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    z-index: 20;
+    background: var(--bg);
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    border-right: 1px solid var(--line-hi);
+  }
+  .admin-shell.nav-open aside[data-shell-rail] {
+    transform: translateX(0);
+    box-shadow: 0 0 60px 0 var(--accent-glow);
+  }
+  .admin-shell.nav-open::after {
+    content: "";
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 15;
+    backdrop-filter: blur(2px);
+  }
+  .dash-hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--fg);
+    cursor: pointer;
+  }
+
+  /* hide top-bar clutter and the center metrics */
+  .admin-shell [data-shell-topbar-metrics],
+  .admin-shell [data-shell-time],
+  .admin-shell [data-shell-deploy-btn] {
+    display: none !important;
+  }
+  .admin-shell header[data-shell-topbar] {
+    grid-template-columns: auto 1fr auto !important;
+    gap: 8px !important;
+    padding: 0 12px !important;
+  }
+  .admin-shell main[data-shell-main] {
+    padding: 12px 12px 96px !important;
+  }
+
+  /* stack helpers — applied to inline-styled grids in Dashboard.tsx */
+  .dash-stack {
+    grid-template-columns: 1fr !important;
+  }
+  .dash-stack-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .dash-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .dash-hero-aside {
+    display: none !important;
+  }
+  .dash-hero-tickers {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .dash-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .dash-kpi-grid > div:nth-child(2n) {
+    border-right: none !important;
+  }
+  .dash-kpi-grid > div:nth-child(-n + 10) {
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  /* tighten panel internals */
+  .dashboard-root .panel,
+  .dashboard-root .panel-glow,
+  .dashboard-root .panel-flat {
+    min-width: 0;
+  }
+  .dashboard-root .panel > div,
+  .dashboard-root .panel-glow > div {
+    min-width: 0;
+  }
+
+  /* never let the master-line greeting bleed off-screen */
+  .dashboard-root .t-display {
+    font-size: 22px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .dash-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .dash-kpi-grid > div {
+    border-right: none !important;
+  }
+}

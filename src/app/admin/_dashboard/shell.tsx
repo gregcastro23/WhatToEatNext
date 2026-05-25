@@ -10,6 +10,7 @@ interface ShellProps {
   showGrid?: boolean;
   user: AdminDashboardData["user"];
   pulse: AdminDashboardData["pulse"];
+  data: AdminDashboardData;
 }
 
 export function AdminShell({
@@ -18,16 +19,49 @@ export function AdminShell({
   showGrid = true,
   user,
   pulse,
+  data,
 }: ShellProps) {
+  const [navOpen, setNavOpen] = React.useState(false);
+
+  // close the drawer whenever the viewport grows back to desktop width
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(min-width: 961px)");
+    const sync = (e: MediaQueryListEvent | MediaQueryList) => {
+      if (e.matches) setNavOpen(false);
+    };
+    sync(mql);
+    mql.addEventListener("change", sync);
+    return () => mql.removeEventListener("change", sync);
+  }, []);
+
   return (
     <div
-      className={`lab admin-shell density-${density} ${showGrid ? "" : "no-grid"}`}
-      style={{ display: "grid", gridTemplateRows: "56px 1fr", height: "100%", overflow: "hidden" }}
+      className={`lab admin-shell density-${density} ${showGrid ? "" : "no-grid"} ${
+        navOpen ? "nav-open" : ""
+      }`}
+      style={{
+        display: "grid",
+        gridTemplateRows: "56px 1fr",
+        height: "100%",
+        overflow: "hidden",
+      }}
     >
-      <AdminTopBar user={user} pulse={pulse} />
-      <div style={{ display: "grid", gridTemplateColumns: "232px 1fr", minHeight: 0 }}>
-        <AdminSideRail />
-        <main style={{ minWidth: 0, minHeight: 0, overflow: "auto", padding: "16px 20px 24px" }}>
+      <AdminTopBar
+        user={user}
+        pulse={pulse}
+        onToggleNav={() => setNavOpen((v) => !v)}
+      />
+      <div
+        data-shell-body=""
+        style={{ display: "grid", gridTemplateColumns: "232px 1fr", minHeight: 0 }}
+      >
+        <AdminSideRail data={data} />
+        <main
+          data-shell-main=""
+          style={{ minWidth: 0, minHeight: 0, overflow: "auto", padding: "16px 20px 24px" }}
+          onClick={() => navOpen && setNavOpen(false)}
+        >
           {children}
         </main>
       </div>
@@ -44,9 +78,11 @@ export function AdminShell({
 function AdminTopBar({
   user,
   pulse,
+  onToggleNav,
 }: {
   user: AdminDashboardData["user"];
   pulse: AdminDashboardData["pulse"];
+  onToggleNav: () => void;
 }) {
   const pulseColor =
     pulse.state === "NOMINAL"
@@ -56,6 +92,7 @@ function AdminTopBar({
         : "#FF5252";
   return (
     <header
+      data-shell-topbar=""
       style={{
         display: "grid",
         gridTemplateColumns: "auto 1fr auto",
@@ -71,6 +108,14 @@ function AdminTopBar({
     >
       {/* identity cluster */}
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <button
+          type="button"
+          aria-label="Open navigation"
+          className="dash-hamburger"
+          onClick={onToggleNav}
+        >
+          <Glyph name="crosshair" size={16} stroke={1.4} />
+        </button>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Glyph name="orbital" size={20} stroke={1.4} style={{ color: "var(--accent)" }} />
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.0 }}>
@@ -125,7 +170,10 @@ function AdminTopBar({
       </div>
 
       {/* center — global heartbeat */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18 }}>
+      <div
+        data-shell-topbar-metrics=""
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18 }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span
             style={{
@@ -158,7 +206,10 @@ function AdminTopBar({
 
       {/* right — time, search, alerts, deploy */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div style={{ display: "flex", flexDirection: "column", textAlign: "right", lineHeight: 1.1 }}>
+        <div
+          data-shell-time=""
+          style={{ display: "flex", flexDirection: "column", textAlign: "right", lineHeight: 1.1 }}
+        >
           <LiveTimecode format="JD" />
           <LiveTimecode format="UTC" />
         </div>
@@ -180,7 +231,12 @@ function AdminTopBar({
             }}
           />
         </button>
-        <button className="btn btn-primary" style={{ padding: "6px 12px", fontSize: 10 }} type="button">
+        <button
+          className="btn btn-primary"
+          data-shell-deploy-btn=""
+          style={{ padding: "6px 12px", fontSize: 10 }}
+          type="button"
+        >
           <Glyph name="triangle-up" size={10} /> DEPLOY
         </button>
       </div>
@@ -231,26 +287,113 @@ interface ModuleEntry {
   warn?: boolean;
 }
 
-const MODULES: ModuleEntry[] = [
-  { id: "overview", label: "Overview", glyph: "orbital", badge: null, active: true },
-  { id: "ops", label: "Operations", glyph: "crosshair", badge: "12 svc" },
-  { id: "engine", label: "Recommendation", glyph: "atom", badge: "v17.4" },
-  { id: "agents", label: "Agent Mesh", glyph: "ring", badge: "412 live" },
-  { id: "users", label: "Practitioners", glyph: "diamond", badge: "48.2k" },
-  { id: "catalog", label: "Catalog", glyph: "bookmark", badge: "2.9k / 12.4k" },
-  { id: "commensal", label: "Commensal", glyph: "wave", badge: "31" },
-  { id: "commerce", label: "Commerce", glyph: "triangle-up-bar", badge: "$84.2k" },
-  { id: "moderation", label: "Moderation", glyph: "flask", badge: "7", warn: true },
-  { id: "security", label: "Security", glyph: "spiral", badge: null },
-  { id: "experiments", label: "Experiments", glyph: "triangle-down-bar", badge: "6 live" },
-  { id: "deploys", label: "Deploys", glyph: "triangle-up", badge: null },
-  { id: "audit", label: "Audit Log", glyph: "bookmark", badge: null },
-  { id: "settings", label: "Settings", glyph: "settings", badge: null },
-];
+function formatCount(n: number): string {
+  if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+  return n.toLocaleString();
+}
 
-function AdminSideRail() {
+function formatCurrencyShort(n: number): string {
+  if (n >= 1000) return `$${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+  return `$${n.toLocaleString()}`;
+}
+
+function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "—";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let n = bytes;
+  let i = 0;
+  while (n >= 1024 && i < units.length - 1) {
+    n /= 1024;
+    i++;
+  }
+  return `${n.toFixed(n < 10 ? 1 : 0)} ${units[i]}`;
+}
+
+function AdminSideRail({ data }: { data: AdminDashboardData }) {
+  const flowsCount = data.systemStatus.flows.length + data.systemStatus.dependencies.length;
+  const activeAlerts = data.recentAlerts.entries.filter((a) => !a.suppressed && a.severity !== "info").length;
+  const recipeCount = data.stats.totalRecipes;
+  const ingredientCount = data.stats.totalIngredients;
+  const commensals = data.pageTelemetry.commensals;
+
+  const modules: ModuleEntry[] = [
+    { id: "overview", label: "Overview", glyph: "orbital", badge: null, active: true },
+    {
+      id: "ops",
+      label: "Operations",
+      glyph: "crosshair",
+      badge: flowsCount > 0 ? `${flowsCount} svc` : null,
+    },
+    {
+      id: "engine",
+      label: "Recommendation",
+      glyph: "atom",
+      badge: data.enginePerformance.live
+        ? `${data.enginePerformance.totalCalculations.toLocaleString()} calc`
+        : null,
+    },
+    {
+      id: "agents",
+      label: "Agent Mesh",
+      glyph: "ring",
+      badge: null,
+    },
+    {
+      id: "users",
+      label: "Practitioners",
+      glyph: "diamond",
+      badge: data.stats.totalUsers > 0 ? formatCount(data.stats.totalUsers) : null,
+    },
+    {
+      id: "catalog",
+      label: "Catalog",
+      glyph: "bookmark",
+      badge:
+        recipeCount + ingredientCount > 0
+          ? `${formatCount(recipeCount)} / ${formatCount(ingredientCount)}`
+          : null,
+    },
+    {
+      id: "commensal",
+      label: "Commensal",
+      glyph: "wave",
+      badge: commensals > 0 ? String(commensals) : null,
+    },
+    {
+      id: "commerce",
+      label: "Commerce",
+      glyph: "triangle-up-bar",
+      badge: data.commerce.live ? formatCurrencyShort(data.commerce.mrr) : null,
+    },
+    {
+      id: "moderation",
+      label: "Moderation",
+      glyph: "flask",
+      badge: activeAlerts > 0 ? String(activeAlerts) : null,
+      warn: activeAlerts > 0,
+    },
+    { id: "security", label: "Security", glyph: "spiral", badge: null },
+    { id: "experiments", label: "Experiments", glyph: "triangle-down-bar", badge: null },
+    { id: "deploys", label: "Deploys", glyph: "triangle-up", badge: null },
+    { id: "audit", label: "Audit Log", glyph: "bookmark", badge: null },
+    { id: "settings", label: "Settings", glyph: "settings", badge: null },
+  ];
+
+  const buildId =
+    process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ??
+    process.env.NEXT_PUBLIC_BUILD_ID ??
+    "local";
+  const region = process.env.NEXT_PUBLIC_VERCEL_REGION ?? "—";
+  const pool = data.dbObservability.pool;
+  const poolState =
+    pool.total === 0
+      ? "—"
+      : `${pool.total - pool.idle}/${pool.max} busy${pool.waiting > 0 ? ` · ${pool.waiting} wait` : ""}`;
+  const env = process.env.NEXT_PUBLIC_VERCEL_ENV ?? "prod";
+
   return (
     <aside
+      data-shell-rail=""
       style={{
         borderRight: "1px solid var(--line)",
         background: "linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.002))",
@@ -264,7 +407,7 @@ function AdminSideRail() {
       </div>
 
       <nav style={{ flex: 1, overflow: "auto", padding: "4px 8px 10px" }}>
-        {MODULES.map((m) => (
+        {modules.map((m) => (
           <div
             key={m.id}
             style={{
@@ -331,15 +474,37 @@ function AdminSideRail() {
       <div style={{ padding: 12, borderTop: "1px solid var(--line)" }}>
         <div className="t-tag" style={{ fontSize: 9, marginBottom: 6 }}>ENVIRONMENT</div>
         <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
-          <span className="chip chip-active" style={{ padding: "2px 8px", fontSize: 8 }}>PROD</span>
-          <span className="chip" style={{ padding: "2px 8px", fontSize: 8 }}>STAGING</span>
-          <span className="chip" style={{ padding: "2px 8px", fontSize: 8 }}>DEV</span>
+          <span
+            className={`chip ${env === "production" || env === "prod" ? "chip-active" : ""}`}
+            style={{ padding: "2px 8px", fontSize: 8 }}
+          >
+            PROD
+          </span>
+          <span
+            className={`chip ${env === "preview" || env === "staging" ? "chip-active" : ""}`}
+            style={{ padding: "2px 8px", fontSize: 8 }}
+          >
+            STAGING
+          </span>
+          <span
+            className={`chip ${env === "development" || env === "dev" ? "chip-active" : ""}`}
+            style={{ padding: "2px 8px", fontSize: 8 }}
+          >
+            DEV
+          </span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <SideKv k="REGION" v="us-east-1 · iad" />
-          <SideKv k="BUILD" v="2.7.4 · #c8f1ad" />
-          <SideKv k="DB" v="pg 16.2 · primary" />
-          <SideKv k="MESH" v="412/440 nodes" />
+          <SideKv k="REGION" v={region} />
+          <SideKv k="BUILD" v={`#${buildId}`} />
+          <SideKv
+            k="DB"
+            v={
+              data.dbObservability.live
+                ? `pg · ${formatBytes(data.dbObservability.dbSizeBytes)}`
+                : "pg · offline"
+            }
+          />
+          <SideKv k="POOL" v={poolState} />
         </div>
       </div>
     </aside>
@@ -350,26 +515,49 @@ function SideKv({ k, v }: { k: string; v: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
       <span className="t-mono" style={{ fontSize: 9, letterSpacing: "0.12em", color: "var(--fg-mute)" }}>{k}</span>
-      <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>{v}</span>
+      <span
+        className="t-mono"
+        style={{
+          fontSize: 9.5,
+          color: "var(--fg-dim)",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+          maxWidth: 130,
+        }}
+      >
+        {v}
+      </span>
     </div>
   );
 }
 
 // ============================================================
-// ARCHITECT CARD — Greg's identity + inbox
+// ARCHITECT CARD — identity + live alerts inbox
 // ============================================================
-export function ArchitectCard({ user }: { user: AdminDashboardData["user"] }) {
-  const queue = [
-    { kind: "SIGN-OFF", what: "Engine v18.0β · promote to 100%", sev: "high", age: "12m" },
-    { kind: "SIGN-OFF", what: "Refund · @marcus.kw · $8.00", sev: "med", age: "26m" },
-    { kind: "SIGN-OFF", what: "Restaurant Creator · @vera.j", sev: "med", age: "1h" },
-    { kind: "REVIEW", what: "Recipe · molecular caviar", sev: "low", age: "2h" },
-    { kind: "REVIEW", what: "PR-1184 · cart adapter", sev: "low", age: "5h" },
-  ] as const;
+function formatRelative(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "just now";
+  const m = Math.round(ms / 60000);
+  if (m < 1) return "<1m";
+  if (m < 60) return `${m}m`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `${h}h`;
+  return `${Math.round(h / 24)}d`;
+}
+
+export function ArchitectCard({
+  user,
+  recentAlerts,
+}: {
+  user: AdminDashboardData["user"];
+  recentAlerts: AdminDashboardData["recentAlerts"];
+}) {
+  const alerts = recentAlerts.entries.slice(0, 5);
   const sevColor: Record<string, string> = {
-    high: "var(--el-fire)",
-    med: "var(--accent)",
-    low: "var(--fg-mute)",
+    error: "var(--el-fire)",
+    warn: "var(--accent)",
+    info: "var(--fg-mute)",
   };
   return (
     <div className="panel-glow" style={{ padding: 16, position: "relative", overflow: "hidden" }}>
@@ -405,10 +593,21 @@ export function ArchitectCard({ user }: { user: AdminDashboardData["user"] }) {
             }}
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <div className="t-tag" style={{ fontSize: 8.5 }}>HIGH ALCHEMIST · ARCHITECT</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="t-tag" style={{ fontSize: 8.5 }}>HIGH ALCHEMIST · {user.role}</div>
           <div className="t-display" style={{ fontSize: 18, lineHeight: 1.1, marginTop: 2 }}>{user.name}</div>
-          <div className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)", letterSpacing: "0.1em", marginTop: 2 }}>
+          <div
+            className="t-mono"
+            style={{
+              fontSize: 10,
+              color: "var(--fg-mute)",
+              letterSpacing: "0.1em",
+              marginTop: 2,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             {user.email}
           </div>
         </div>
@@ -418,55 +617,81 @@ export function ArchitectCard({ user }: { user: AdminDashboardData["user"] }) {
         <KvLine k="BADGE" v={user.badge} />
         <KvLine k="TIER" v={user.tier} accent />
         <KvLine k="JOINED" v={user.joined} />
-        <KvLine k="REGION" v="iad" />
-        <KvLine k="ON CALL" v="YES · primary" accent />
-        <KvLine k="2FA" v="hw key · ok" />
+        <KvLine k="REGION" v={process.env.NEXT_PUBLIC_VERCEL_REGION ?? "—"} />
+        <KvLine k="ON CALL" v={user.onCall ? "YES · primary" : "no"} accent={user.onCall} />
+        <KvLine k="2FA" v={user.onCall ? "hw key · ok" : "—"} />
       </div>
 
       <div style={{ borderTop: "1px solid var(--line)", paddingTop: 10 }}>
-        <div className="t-tag" style={{ marginBottom: 8 }}>YOUR INBOX · 5 items want your sign-off</div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {queue.map((q, i) => (
-            <div
-              key={i}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "auto 1fr auto",
-                gap: 10,
-                alignItems: "center",
-                padding: "8px 4px",
-                borderBottom: i === queue.length - 1 ? "none" : "1px solid var(--line)",
-              }}
-            >
-              <span
-                className="t-mono"
-                style={{
-                  fontSize: 8.5,
-                  letterSpacing: "0.14em",
-                  padding: "2px 7px",
-                  borderRadius: 999,
-                  color: sevColor[q.sev],
-                  border: `1px solid ${sevColor[q.sev]}`,
-                  background: "rgba(0,0,0,0.3)",
-                }}
-              >
-                {q.kind}
-              </span>
-              <span
-                style={{
-                  fontSize: 11.5,
-                  color: "var(--fg-dim)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {q.what}
-              </span>
-              <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>{q.age}</span>
-            </div>
-          ))}
+        <div className="t-tag" style={{ marginBottom: 8 }}>
+          ALERT INBOX ·{" "}
+          {alerts.length === 0
+            ? recentAlerts.live
+              ? "system is quiet"
+              : "alert source offline"
+            : `${alerts.length} recent`}
         </div>
+        {alerts.length === 0 ? (
+          <div
+            style={{
+              padding: "18px 8px",
+              textAlign: "center",
+              border: "1px dashed var(--line)",
+              borderRadius: 8,
+              color: "var(--fg-mute)",
+              fontSize: 11,
+            }}
+          >
+            {recentAlerts.live ? "no alerts in window" : "alert_events unreachable"}
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {alerts.map((a, i) => (
+              <div
+                key={a.id}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr auto",
+                  gap: 10,
+                  alignItems: "center",
+                  padding: "8px 4px",
+                  borderBottom: i === alerts.length - 1 ? "none" : "1px solid var(--line)",
+                  opacity: a.suppressed ? 0.55 : 1,
+                }}
+              >
+                <span
+                  className="t-mono"
+                  style={{
+                    fontSize: 8.5,
+                    letterSpacing: "0.14em",
+                    padding: "2px 7px",
+                    borderRadius: 999,
+                    color: sevColor[a.severity] ?? "var(--fg-mute)",
+                    border: `1px solid ${sevColor[a.severity] ?? "var(--fg-mute)"}`,
+                    background: "rgba(0,0,0,0.3)",
+                  }}
+                >
+                  {a.severity.toUpperCase()}
+                </span>
+                <span
+                  style={{
+                    fontSize: 11.5,
+                    color: "var(--fg-dim)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                  title={a.title}
+                >
+                  {a.title}
+                </span>
+                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                  {formatRelative(a.triggeredAt)}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
@@ -483,9 +708,29 @@ export function ArchitectCard({ user }: { user: AdminDashboardData["user"] }) {
 
 function KvLine({ k, v, accent }: { k: string; v: string; accent?: boolean }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", borderBottom: "1px dashed var(--line)" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "4px 0",
+        borderBottom: "1px dashed var(--line)",
+        gap: 6,
+        minWidth: 0,
+      }}
+    >
       <span className="t-tag" style={{ fontSize: 8.5 }}>{k}</span>
-      <span className="t-mono" style={{ fontSize: 10, color: accent ? "var(--accent)" : "var(--fg-dim)" }}>{v}</span>
+      <span
+        className="t-mono"
+        style={{
+          fontSize: 10,
+          color: accent ? "var(--accent)" : "var(--fg-dim)",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {v}
+      </span>
     </div>
   );
 }

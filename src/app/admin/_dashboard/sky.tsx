@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
+import type { PageTelemetryData } from "@/services/dashboardPanelsService";
 import type {
   PlanetaryHourSnapshot,
   SkyConditionsData,
 } from "@/services/skyConditionsService";
-import { Sparkline } from "./atoms";
-import { seeded } from "./data";
 import { Card } from "./hero";
 
 // ============================================================
@@ -225,21 +224,33 @@ function PlanetaryHourBar({ snapshot }: { snapshot: PlanetaryHourSnapshot }) {
 // ============================================================
 // ASTRONOMICAL ENGINE
 // ============================================================
-export function AstronomicalEngine({ live = false }: { live?: boolean } = {}) {
+interface AstronomicalEngineProps {
+  live?: boolean;
+  pageTelemetry?: PageTelemetryData;
+}
+
+export function AstronomicalEngine({
+  live = false,
+  pageTelemetry,
+}: AstronomicalEngineProps = {}) {
   const refs = [
     { k: "EPHEMERIS", v: "DE440 · 2020-2050", ok: live },
     { k: "VSOP87 KERNEL", v: "rev · 2024-03-12", ok: live },
     { k: "IAU 2006 PRECESSION", v: "P03 · OK", ok: live },
     { k: "ΔT MODEL", v: "ESPENAK-MEEUS", ok: live },
     { k: "LEAP SECOND TABLE", v: "37s · 2017-01-01", ok: live },
-    { k: "JPL HORIZONS DRIFT", v: "max · 0.38″ Saturn", ok: live },
   ];
+
+  // pageTelemetry surfaces the row counts we actually capture in Postgres
+  // (no per-endpoint RPS). Show what we have; an "—" makes it obvious when
+  // we don't, instead of fabricating a number.
+  const t = pageTelemetry;
   const compute = [
-    { k: "natal · /api/natal", rps: 38, p95: "184ms", color: "var(--accent)" },
-    { k: "transit · /api/transit", rps: 142, p95: "62ms", color: "var(--accent-2)" },
-    { k: "houses · /api/houses", rps: 18, p95: "42ms", color: "var(--el-water)" },
-    { k: "asteroids · /api/asteroids", rps: 6, p95: "108ms", color: "var(--el-air)" },
-    { k: "fixed-stars · /api/stars", rps: 3, p95: "240ms", color: "var(--fg-mute)" },
+    { k: "natal · charts stored", count: t ? t.customRecipes : null, color: "var(--accent)" },
+    { k: "food diary · entries", count: t ? t.foodDiary : null, color: "var(--accent-2)" },
+    { k: "meal plans · saved", count: t ? t.mealPlans : null, color: "var(--el-water)" },
+    { k: "restaurants · stored", count: t ? t.restaurants : null, color: "var(--el-air)" },
+    { k: "commensals · saved", count: t ? t.commensals : null, color: "var(--fg-mute)" },
   ];
   return (
     <Card
@@ -286,14 +297,16 @@ export function AstronomicalEngine({ live = false }: { live?: boolean } = {}) {
           </div>
         </div>
         <div>
-          <div className="t-tag" style={{ marginBottom: 6 }}>COMPUTE · ENDPOINTS · 60s</div>
+          <div className="t-tag" style={{ marginBottom: 6 }}>
+            COMPUTE · USER-FACING SURFACES{pageTelemetry?.live ? "" : " · OFFLINE"}
+          </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             {compute.map((c, i) => (
               <div
                 key={c.k}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 50px 50px",
+                  gridTemplateColumns: "1fr 70px",
                   gap: 8,
                   alignItems: "center",
                   padding: "5px 0",
@@ -307,10 +320,10 @@ export function AstronomicalEngine({ live = false }: { live?: boolean } = {}) {
                   {c.k}
                 </span>
                 <span className="t-num" style={{ textAlign: "right", color: "var(--fg)" }}>
-                  {c.rps}
-                  <span style={{ color: "var(--fg-mute)" }}>/s</span>
+                  {c.count === null
+                    ? "—"
+                    : c.count.toLocaleString()}
                 </span>
-                <span className="t-num" style={{ textAlign: "right", color: "var(--fg-dim)" }}>{c.p95}</span>
               </div>
             ))}
           </div>
@@ -318,7 +331,7 @@ export function AstronomicalEngine({ live = false }: { live?: boolean } = {}) {
       </div>
 
       <div style={{ marginTop: 10, padding: "8px 10px", border: "1px dashed var(--line)", borderRadius: 8 }}>
-        <div className="t-tag" style={{ marginBottom: 4 }}>UPCOMING SKY EVENTS · DEMAND IMPACT FORECAST</div>
+        <div className="t-tag" style={{ marginBottom: 4 }}>UPCOMING SKY EVENTS · ILLUSTRATIVE</div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
           <SkyEvent t="+47m" e="☿ → Mercury hour" impact="planner load +18%" />
           <SkyEvent t="+2d" e="♀ stations direct" impact="cuisine: sweet/aromatic +24%" warn />
@@ -350,6 +363,9 @@ function SkyEvent({ t, e, impact, warn }: { t: string; e: string; impact: string
 
 // ============================================================
 // SEMS THERMODYNAMIC BALANCE
+// The SEMS rollup table doesn't exist yet — these are illustrative
+// values. We label the card with a "SAMPLE" badge so operators
+// don't read it as a live signal until the rollup is wired.
 // ============================================================
 export function SEMSDistribution() {
   const sems = [
@@ -370,9 +386,22 @@ export function SEMSDistribution() {
   return (
     <Card
       title="Alchm · SEMS Thermodynamic Balance"
-      subtitle="Spirit · Essence · Matter · Substance — site-wide across 184 active recipes"
+      subtitle="Spirit · Essence · Matter · Substance — sample rollup, not wired"
       right={
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--accent)" }}>K-EQUILIBRIUM · 1.214</span>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: "var(--el-fire)",
+            padding: "2px 8px",
+            borderRadius: 999,
+            border: "1px solid color-mix(in oklch, var(--el-fire), transparent 60%)",
+            background: "color-mix(in oklch, var(--el-fire), transparent 92%)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          ◌ SAMPLE
+        </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
@@ -497,32 +526,17 @@ export function SEMSDistribution() {
 
           <div
             style={{
-              border: "1px dashed var(--el-fire)",
+              border: "1px dashed var(--line)",
               borderRadius: 8,
               padding: "10px 12px",
-              background: "color-mix(in oklch, var(--el-fire), transparent 94%)",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-              <span className="t-tag" style={{ color: "var(--el-fire)" }}>ANOMALIES · 24H</span>
-              <span className="t-mono" style={{ fontSize: 9, color: "var(--el-fire)" }}>2 active</span>
+            <div className="t-tag" style={{ marginBottom: 4 }}>WHEN WIRED · SOURCE</div>
+            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", lineHeight: 1.6 }}>
+              SEMS rollup will read from a per-recipe thermodynamic score
+              table once recipe ingestion captures it. Calibration R² will
+              follow from the eval harness.
             </div>
-            <div style={{ fontSize: 11, color: "var(--fg-dim)", lineHeight: 1.5 }}>
-              <div>• Substance running 11pts below target band — recipes lacking minerality / base structure</div>
-              <div style={{ marginTop: 4 }}>• Engine v17.4 may be over-weighting Spirit during Mars hour</div>
-            </div>
-            <button className="btn btn-ghost" style={{ marginTop: 8, padding: "4px 10px", fontSize: 9 }} type="button">
-              OPEN DOSSIER →
-            </button>
-          </div>
-
-          <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "10px 12px" }}>
-            <div className="t-tag" style={{ marginBottom: 6 }}>CALIBRATION · OBSERVED vs PREDICTED</div>
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-              <span className="t-num" style={{ fontSize: 18 }}>0.942</span>
-              <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>R² · +0.018 vs 7d</span>
-            </div>
-            <Sparkline data={seeded(31, 30, 0.85, 0.96)} width={220} height={28} color="var(--accent)" />
           </div>
         </div>
       </div>
