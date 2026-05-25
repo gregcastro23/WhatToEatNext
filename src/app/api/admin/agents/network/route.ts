@@ -23,6 +23,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
+import {
+  getCosmicModifiers,
+  type CosmicModifier,
+} from "@/services/skyConditionsService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -63,6 +67,13 @@ export interface AgentInteractionEntry {
   sessionId: string;
   agentId1: string;
   agentId2: string;
+  /**
+   * Local WTEN users.id for the target agent, if we could resolve it from the
+   * PA metadata. `null` when the chat partner is a human user or when the
+   * `targetAgentId`/`withAgent` field doesn't map to a known agent in WTEN.
+   * Used by the dashboard to deep-link the target badge into /profile/[userId].
+   */
+  targetUserId: string | null;
   agentName1: string;
   agentName2: string;
   timestamp: string;
@@ -83,6 +94,18 @@ export interface AgentNetworkPayload {
   dispatch: { entries: AgentDispatchEntry[]; live: boolean };
   leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
   interactions: { entries: AgentInteractionEntry[]; live: boolean };
+  /**
+   * Active astrological aspects, framed as signed influences on agent
+   * interaction velocity. Derived from the live ephemeris via
+   * `getCosmicModifiers()`. Degrades to an empty `live: false` block when
+   * the ephemeris is unavailable.
+   */
+  modifiers: {
+    entries: CosmicModifier[];
+    /** sum of all modifier impacts in roughly [-1, 1] */
+    netVelocity: number;
+    live: boolean;
+  };
 }
 
 /**
@@ -310,37 +333,96 @@ async function getLeaderboard(
   }
 }
 
-async function getInteractions(limit = 15): Promise<AgentNetworkPayload["interactions"]> {
+async function getInteractions(
+  limit = 15,
+  filters: { withAgent?: string | null; topic?: string | null } = {},
+): Promise<AgentNetworkPayload["interactions"]> {
   try {
+    const withAgent = (filters.withAgent ?? "").trim().toLowerCase() || null;
+    const topic = (filters.topic ?? "").trim().toLowerCase() || null;
+
+    // Pull the freshest agent_chat events and try to map the chat partner to a
+    // local WTEN users.id. Resolution path (in priority order):
+    //   1. `targetAgentId` matches a WTEN users.id directly (cross-system UUID)
+    //   2. `targetAgentId` or `withAgent` is a slug we can append the
+    //      `@agentic.alchm.kitchen` suffix to and look up by email
+    // Both joins are LEFT — when neither matches we still surface the row, just
+    // without a target badge link.
     const result = await executeQuery<{
       id: string;
       createdAt: Date;
       metadata_payload: any;
       actor_id: string;
       actor_name: string | null;
+      target_user_id: string | null;
+      target_resolved_name: string | null;
     }>(
       `SELECT f.id::text AS id,
               f.created_at AS "createdAt",
               f.metadata_payload,
               u.id::text AS actor_id,
-              COALESCE(up.name, u.name) AS actor_name
+              COALESCE(up.name, u.name) AS actor_name,
+              COALESCE(target_uuid.id, target_email.id)::text AS target_user_id,
+              COALESCE(
+                target_uuid_up.name, target_uuid.name,
+                target_email_up.name, target_email.name
+              ) AS target_resolved_name
          FROM feed_events f
          JOIN users u ON f.actor_id = u.id
          LEFT JOIN user_profiles up ON up.user_id = u.id
+         LEFT JOIN users target_uuid
+           ON target_uuid.is_agent = true
+          AND target_uuid.id::text = f.metadata_payload->>'targetAgentId'
+         LEFT JOIN user_profiles target_uuid_up
+           ON target_uuid_up.user_id = target_uuid.id
+         LEFT JOIN users target_email
+           ON target_email.is_agent = true
+          AND target_uuid.id IS NULL
+          AND target_email.email = LOWER(
+                COALESCE(
+                  NULLIF(f.metadata_payload->>'targetAgentId', ''),
+                  NULLIF(f.metadata_payload->>'withAgent', '')
+                )
+              ) || '@agentic.alchm.kitchen'
+         LEFT JOIN user_profiles target_email_up
+           ON target_email_up.user_id = target_email.id
         WHERE u.is_agent = true
           AND f.event_type = 'agent_chat'
+          AND (
+            $2::text IS NULL
+            OR LOWER(COALESCE(up.name, u.name, '')) LIKE '%' || $2 || '%'
+            OR LOWER(u.email) LIKE '%' || $2 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'targetName', '')) LIKE '%' || $2 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'withAgent', '')) LIKE '%' || $2 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'partnerName', '')) LIKE '%' || $2 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'targetAgentId', '')) LIKE '%' || $2 || '%'
+          )
+          AND (
+            $3::text IS NULL
+            OR LOWER(COALESCE(f.metadata_payload->>'responsePreview', '')) LIKE '%' || $3 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'messagePreview', '')) LIKE '%' || $3 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'message', '')) LIKE '%' || $3 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'topic', '')) LIKE '%' || $3 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'subject', '')) LIKE '%' || $3 || '%'
+          )
         ORDER BY f.created_at DESC
         LIMIT $1`,
-      [limit]
+      [limit, withAgent, topic],
     );
 
     const entries: AgentInteractionEntry[] = result.rows.map((row) => {
-      const meta = row.metadata_payload as Record<string, any> || {};
-      const targetName = meta.targetName || meta.withAgent || meta.partnerName || "User";
+      const meta = (row.metadata_payload as Record<string, any>) || {};
+      const targetName =
+        row.target_resolved_name ||
+        meta.targetName ||
+        meta.withAgent ||
+        meta.partnerName ||
+        "User";
       return {
         sessionId: meta.sessionId || row.id,
         agentId1: row.actor_id,
         agentId2: meta.targetAgentId || "user",
+        targetUserId: row.target_user_id,
         agentName1: row.actor_name || "Agent",
         agentName2: targetName,
         timestamp: new Date(row.createdAt).toISOString(),
@@ -370,23 +452,56 @@ export async function GET(request: NextRequest) {
     Math.max(parseInt(searchParams.get("leaderboard") ?? "0", 10) || DEFAULT_LEADERBOARD_LIMIT, 1),
     MAX_LIMIT,
   );
+  // Trim+lower so cache keys are stable regardless of input casing/padding.
+  // Empty strings collapse to null so the route still hits the full-history
+  // cache slot when the operator clears the search bar.
+  const withFilter = (searchParams.get("with") ?? "").trim().toLowerCase() || null;
+  const topicFilter = (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
 
-  // Cache key includes limits so two callers with different ?dispatch=N
-  // values don't share each other's payload.
-  const cacheKey = `admin:agents/network:${dispatchLimit}:${leaderboardLimit}`;
+  // Cache key includes limits + filters so two callers with different
+  // ?dispatch=N / ?with= / ?topic= values don't share each other's payload.
+  const cacheKey = [
+    "admin:agents/network",
+    dispatchLimit,
+    leaderboardLimit,
+    withFilter ?? "_",
+    topicFilter ?? "_",
+  ].join(":");
   const payload = await memoize<AgentNetworkPayload>(
     cacheKey,
     CACHE_TTL_MS,
     async () => {
-      // Run all queries in parallel — each degrades independently to a
-      // `live: false` empty result on error, so a single failed table can't
-      // take out the whole panel.
-      const [totals, roles, dispatch, leaderboard, interactions] = await Promise.all([
+      // Run all sub-queries in parallel — each degrades independently to a
+      // `live: false` empty result on error, so a single failed table or a
+      // missing ephemeris source can't take out the whole panel.
+      const modifierTask = getCosmicModifiers()
+        .then((r) => ({
+          entries: r.modifiers,
+          netVelocity: r.netVelocity,
+          live: r.live,
+        }))
+        .catch((error) => {
+          console.error(
+            "[admin/agents/network] cosmic modifiers failed:",
+            error,
+          );
+          return { entries: [], netVelocity: 0, live: false };
+        });
+
+      const [
+        totals,
+        roles,
+        dispatch,
+        leaderboard,
+        interactions,
+        modifiers,
+      ] = await Promise.all([
         getTotals(),
         getRoles(),
         getDispatch(dispatchLimit),
         getLeaderboard(leaderboardLimit),
-        getInteractions(15),
+        getInteractions(15, { withAgent: withFilter, topic: topicFilter }),
+        modifierTask,
       ]);
       return {
         generatedAt: new Date().toISOString(),
@@ -395,6 +510,7 @@ export async function GET(request: NextRequest) {
         dispatch,
         leaderboard,
         interactions,
+        modifiers,
       };
     },
   );
