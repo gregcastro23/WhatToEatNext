@@ -225,6 +225,7 @@ const ONE_HOUR = 60 * 60 * 1000;
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
 const STALE_15MIN = 90 * 60 * 1000; // 15-min cron → 3 missed runs.
+const STALE_30MIN = 3 * 60 * 60 * 1000; // 30-min cron → 6 missed runs.
 const STALE_HOURLY = 4 * 60 * 60 * 1000; // hourly cron → 4 missed runs.
 
 async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
@@ -870,6 +871,99 @@ async function probeAgents(): Promise<FlowHealth> {
   };
 }
 
+async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
+  const checkedAt = new Date().toISOString();
+  const synthetic = evaluateSyntheticProbe("mcp", latest, STALE_30MIN);
+
+  // Pull a small 1h activity snapshot from mcp_invocations. Degrades
+  // independently to `live: false` so the panel never hard-fails when
+  // the table is missing.
+  let live = true;
+  let calls1h = 0;
+  let failures1h = 0;
+  let p95Ms = 0;
+  let distinctCallers = 0;
+  try {
+    const result = await executeQuery<{
+      calls: number;
+      failures: number;
+      p95: number;
+      callers: number;
+    }>(
+      `SELECT
+         COUNT(*)::int AS calls,
+         COUNT(*) FILTER (WHERE success = false)::int AS failures,
+         COALESCE(percentile_cont(0.95) WITHIN GROUP (ORDER BY latency_ms), 0)::float8 AS p95,
+         COUNT(DISTINCT caller)::int AS callers
+       FROM mcp_invocations
+       WHERE called_at > NOW() - INTERVAL '1 hour'`,
+    );
+    calls1h = result.rows[0]?.calls ?? 0;
+    failures1h = result.rows[0]?.failures ?? 0;
+    p95Ms = Number(result.rows[0]?.p95 ?? 0);
+    distinctCallers = result.rows[0]?.callers ?? 0;
+  } catch (err) {
+    _logger.warn("[systemStatus] mcp invocations query failed:", err);
+    live = false;
+  }
+
+  const errorRate = calls1h > 0 ? failures1h / calls1h : 0;
+
+  let status: FlowStatus;
+  if (!live && synthetic.missing) status = "UNKNOWN";
+  else if (synthetic.freshFailure || errorRate >= 0.5) status = "INCIDENT";
+  else if (synthetic.stale || errorRate >= 0.1 || p95Ms >= 5000)
+    status = "DEGRADED";
+  else status = "OK";
+
+  const issues: FlowIssue[] = [];
+  if (synthetic.issue) issues.push(synthetic.issue);
+  if (errorRate >= 0.1 && calls1h >= 5) {
+    issues.push({
+      at: checkedAt,
+      message: `${failures1h}/${calls1h} MCP tool calls failed in 1h (${formatPct(errorRate)})`,
+      severity: errorRate >= 0.5 ? "error" : "warn",
+    });
+  }
+
+  return {
+    id: "mcp",
+    label: "MCP Tool Surface",
+    description:
+      "Alchm MCP server tool layer (transits, alchemize, recipe gen) exposed to external LLM clients.",
+    status,
+    summary:
+      status === "OK"
+        ? calls1h > 0
+          ? `${calls1h} tool calls · ${distinctCallers} caller${distinctCallers === 1 ? "" : "s"} in 1h`
+          : "Idle — synthetic probe healthy"
+        : status === "DEGRADED"
+          ? synthetic.stale
+            ? "Synthetic MCP probe stale — cron may have stopped"
+            : errorRate >= 0.1
+              ? `${formatPct(errorRate)} of MCP calls failing in 1h`
+              : `MCP tool latency elevated (p95 ${formatLatency(p95Ms)})`
+          : status === "INCIDENT"
+            ? synthetic.freshFailure
+              ? "Synthetic MCP probe failing — tool layer broken"
+              : `MCP tool failure rate ${formatPct(errorRate)} in 1h`
+            : "Awaiting signals",
+    metrics: [
+      { label: "Calls · 1h", value: `${calls1h}`, raw: calls1h },
+      { label: "Failures · 1h", value: `${failures1h}`, raw: failures1h },
+      { label: "p95 · 1h", value: formatLatency(p95Ms), raw: p95Ms },
+      {
+        label: "Synthetic",
+        value: synthetic.metricValue,
+        raw: synthetic.metricRaw,
+      },
+    ],
+    issues: issues.slice(0, 3),
+    checkedAt,
+    live,
+  };
+}
+
 async function probeDatabase(): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   let healthy = false;
@@ -1073,6 +1167,7 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     economy,
     payments,
     agents,
+    mcp,
     database,
     paDep,
   ] = await Promise.all([
@@ -1091,6 +1186,7 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
       unknownFlow("payments", "Payments · Stripe"),
     ),
     probeAgents().catch(unknownFlow("agents", "Planetary Agents")),
+    probeMcp(latestProbes).catch(unknownFlow("mcp", "MCP Tool Surface")),
     probeDatabase().catch(unknownFlow("database", "Database")),
     probePADependency().catch(
       (): DependencyHealth => ({
@@ -1112,6 +1208,7 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     economy,
     payments,
     agents,
+    mcp,
     database,
   ];
 

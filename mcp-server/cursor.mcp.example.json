@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "alchm-kitchen": {
+      "command": "bun",
+      "args": [
+        "run",
+        "/REPLACE/WITH/ABSOLUTE/PATH/WhatToEatNext-master/mcp-server/src/index.ts"
+      ],
+      "env": {
+        "MCP_USER_API_KEY": "sk_alchm_live_REPLACE_ME"
+      }
+    }
+  }
+}
