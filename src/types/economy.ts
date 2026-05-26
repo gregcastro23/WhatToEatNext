@@ -27,7 +27,14 @@ export type TransactionSourceType =
   | "streak_bonus"
   | "alchemical_log"
   | "signup_grant"
-  | "admin";
+  | "admin"
+  /**
+   * One-shot ESMS bundle purchased via Stripe — drives the MCP top-up
+   * SKUs ($5/$20/$50 → 50/250/750 of each axis). Credited from the
+   * Stripe webhook on `checkout.session.completed` with the Stripe
+   * session id as the idempotency key.
+   */
+  | "mcp_top_up";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 

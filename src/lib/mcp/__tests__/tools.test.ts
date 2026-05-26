@@ -91,6 +91,7 @@ jest.mock("@/lib/mcp/auth", () => ({
 
 import { recordInvocation } from "@/lib/mcp/invocationLog";
 import { debitForTool } from "@/lib/mcp/auth";
+import { calculateNatalChart } from "@/services/natalChartService";
 import { invokeTool } from "@/lib/mcp/tools";
 
 const mockedDebit = debitForTool as jest.MockedFunction<typeof debitForTool>;
@@ -193,5 +194,24 @@ describe("invokeTool", () => {
     );
     expect(result.ok).toBe(false);
     expect(result.errorCode).toBe("NOT_FOUND");
+  });
+
+  it("surfaces the error.cause chain when a handler throws", async () => {
+    const mockedChart = calculateNatalChart as jest.MockedFunction<
+      typeof calculateNatalChart
+    >;
+    const root = new Error("Astrologize API error: Unauthorized");
+    const wrapped = new Error(
+      "Failed to calculate natal chart. Please check birth data and try again.",
+      { cause: root },
+    );
+    mockedChart.mockRejectedValueOnce(wrapped);
+
+    const result = await invokeTool("get_live_sky_transits", {});
+    expect(result.ok).toBe(false);
+    expect(result.errorCode).toBe("INTERNAL");
+    expect(result.errorMessage).toBe(
+      "Failed to calculate natal chart. Please check birth data and try again. ← Astrologize API error: Unauthorized",
+    );
   });
 });

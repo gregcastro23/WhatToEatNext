@@ -24,6 +24,10 @@ import { calculateNatalChart } from "@/services/natalChartService";
 import { recipeService } from "@/services/RecipeService";
 import { debitForTool, resolveCaller, type DebitOutcome } from "./auth";
 import { recordInvocation } from "./invocationLog";
+import {
+  computeSynastryOverlay,
+  getTransitNatalOverlay,
+} from "./synastryTools";
 
 export interface ToolResult<T = unknown> {
   ok: boolean;
@@ -271,7 +275,31 @@ export async function generateCosmicRecipe(
 export type ToolName =
   | "get_live_sky_transits"
   | "alchemize_ingredients"
-  | "generate_cosmic_recipe";
+  | "generate_cosmic_recipe"
+  | "compute_synastry_overlay"
+  | "get_transit_natal_overlay";
+
+/**
+ * Stringify an error and walk its `cause` chain so the root reason
+ * lands in `mcp_invocations.error_message` instead of the outermost
+ * wrapper. Bug surfaced when a 401 from a self-fetch was being masked
+ * by "Failed to calculate natal chart." Cap the chain at 4 hops to
+ * avoid pathological loops.
+ */
+function formatErrorWithCauseChain(err: unknown): string {
+  const parts: string[] = [];
+  let cursor: unknown = err;
+  for (let hop = 0; hop < 4 && cursor != null; hop++) {
+    if (cursor instanceof Error) {
+      parts.push(cursor.message);
+      cursor = (cursor as { cause?: unknown }).cause;
+    } else {
+      parts.push(String(cursor));
+      break;
+    }
+  }
+  return parts.length > 0 ? parts.join(" ← ") : "unknown";
+}
 
 /**
  * Single entry point used by both the stdio MCP server and the
@@ -307,6 +335,10 @@ export async function invokeTool(
         result = await alchemizeIngredients(args as unknown as AlchemizeArgs);
       } else if (name === "generate_cosmic_recipe") {
         result = await generateCosmicRecipe(args);
+      } else if (name === "compute_synastry_overlay") {
+        result = await computeSynastryOverlay(args);
+      } else if (name === "get_transit_natal_overlay") {
+        result = await getTransitNatalOverlay(args);
       } else {
         result = {
           ok: false,
@@ -322,7 +354,7 @@ export async function invokeTool(
       ok: false,
       data: null,
       errorCode: "INTERNAL",
-      errorMessage: err instanceof Error ? err.message : String(err),
+      errorMessage: formatErrorWithCauseChain(err),
       summary: { reason: "handler-threw" },
     };
   }

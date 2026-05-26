@@ -12,6 +12,12 @@ An [MCP server](https://modelcontextprotocol.io) exposing three alchemical tools
 
 `generate_cosmic_recipe` debits tokens only when called with a valid `_meta.apiKey`. Anonymous callers receive a `QUOTA` error rather than a free recipe.
 
+## Mint an API key
+
+End users mint, list, and revoke their own keys at [`/profile/api-keys`](https://alchm.kitchen/profile/api-keys). The plaintext is shown exactly once — paste it into the MCP client config immediately. The public onboarding doc lives at [`/docs/mcp`](https://alchm.kitchen/docs/mcp).
+
+Keys are stored as `sha256(plaintext)` in the `api_keys` table; the only place the plaintext ever appears is the `POST /api/account/api-keys` response body.
+
 ## Run
 
 ```bash

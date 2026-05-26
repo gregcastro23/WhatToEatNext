@@ -3,16 +3,14 @@ import { log } from "@/services/LoggingService";
 import { astrologizeApiCircuitBreaker } from "@/utils/apiCircuitBreaker";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
+import { getSelfBaseUrl } from "@/utils/urlUtils";
 
 // Use relative API endpoints so they hit the Next.js routes
 // The Next.js /api/... routes will securely proxy to the appropriate backend
 
 const getAstrologizeApiUrl = () => {
   if (typeof window === "undefined") {
-    if (process.env.VERCEL_URL) {
-      return `https://${process.env.VERCEL_URL}/api/astrologize`;
-    }
-    return `http://localhost:${process.env.PORT || 3000}/api/astrologize`;
+    return `${getSelfBaseUrl()}/api/astrologize`;
   }
   return `/api/astrologize`;
 };

@@ -10,6 +10,8 @@
 
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { handleMcpTopUpCheckout } from "@/lib/billing/handleMcpTopUpCheckout";
+import { MCP_TOP_UP_PURPOSE } from "@/lib/billing/mcpTopUp";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
 // Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
@@ -320,6 +322,15 @@ export async function POST(request: Request) {
         if (session.mode !== "subscription") {
           if (session.metadata?.purpose === "restaurant_order") {
             await handleRestaurantOrderCheckout(stripe, session);
+          } else if (session.metadata?.purpose === MCP_TOP_UP_PURPOSE) {
+            const result = await handleMcpTopUpCheckout({
+              id: session.id,
+              payment_status: session.payment_status,
+              metadata: session.metadata,
+            });
+            console.log(
+              `[webhook] MCP top-up ${result.outcome}: session=${session.id} user=${result.userId ?? "—"} sku=${result.sku ?? "—"}`,
+            );
           }
           break;
         }
