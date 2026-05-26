@@ -36,6 +36,7 @@ export interface AgentNetworkTelemetry {
   agentHarmony: TelemetryMetric;
   transmutationRate: TelemetryMetric;
   spiritualEntropy: TelemetryMetric;
+  mcpInvocationRate: TelemetryMetric;
   generatedAt: string;
   /** true only when every metric resolved from its live source. */
   allLive: boolean;
@@ -92,6 +93,28 @@ async function getFeedActivityTelemetry(): Promise<{
 }
 
 /**
+ * DB-backed metric: rate of MCP tool invocations in the last hour. Counts
+ * every caller (Claude Desktop, Cursor, the PA MCP bridge, the synthetic
+ * probe — the latter is a constant baseline, useful as a heartbeat).
+ */
+async function getMcpInvocationRate(): Promise<{
+  raw: number;
+  live: boolean;
+}> {
+  try {
+    const result = await executeQuery<{ calls: number }>(
+      `SELECT COUNT(*)::int AS calls
+       FROM mcp_invocations
+       WHERE called_at > NOW() - INTERVAL '1 hour'`,
+    );
+    return { raw: result.rows[0]?.calls ?? 0, live: true };
+  } catch (error) {
+    _logger.error("[agentTelemetry] mcp invocation rate query failed:", error);
+    return { raw: 0, live: false };
+  }
+}
+
+/**
  * Ephemeris-backed metric: elemental balance of the current sky. Harmony is
  * 1 minus the normalized L1 deviation from a perfectly even Fire/Water/Earth/Air
  * split (max possible L1 deviation from uniform is 1.5).
@@ -132,9 +155,10 @@ async function getAgentHarmony(): Promise<{ raw: number; live: boolean }> {
  * Never rejects — failed sources surface as degraded (`live: false`) metrics.
  */
 export async function getAgentNetworkTelemetry(): Promise<AgentNetworkTelemetry> {
-  const [feed, harmony] = await Promise.all([
+  const [feed, harmony, mcp] = await Promise.all([
     getFeedActivityTelemetry(),
     getAgentHarmony(),
+    getMcpInvocationRate(),
   ]);
 
   const agentHarmony: TelemetryMetric = {
@@ -155,12 +179,23 @@ export async function getAgentNetworkTelemetry(): Promise<AgentNetworkTelemetry>
     live: feed.live,
     source: "database",
   };
+  const mcpInvocationRate: TelemetryMetric = {
+    value: `${mcp.raw} /hr`,
+    raw: mcp.raw,
+    live: mcp.live,
+    source: "database",
+  };
 
   return {
     agentHarmony,
     transmutationRate,
     spiritualEntropy,
+    mcpInvocationRate,
     generatedAt: new Date().toISOString(),
-    allLive: agentHarmony.live && transmutationRate.live && spiritualEntropy.live,
+    allLive:
+      agentHarmony.live &&
+      transmutationRate.live &&
+      spiritualEntropy.live &&
+      mcpInvocationRate.live,
   };
 }

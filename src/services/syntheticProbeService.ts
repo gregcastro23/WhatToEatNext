@@ -30,6 +30,7 @@
 
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { invokeTool } from "@/lib/mcp/tools";
 
 const PROBE_TIMEOUT_MS = 10_000;
 
@@ -470,6 +471,93 @@ async function runJsonPostProbe(args: {
     status,
     latencyMs: Date.now() - t0,
     httpStatus,
+    errorMessage,
+    responsePayload,
+  };
+  await recordProbeResult(result);
+  return result;
+}
+
+/**
+ * Run the MCP probe: exercise the Alchm MCP tool layer in-process via
+ * `invokeTool()`. This catches breakage in:
+ *   - tool handler logic (`src/lib/mcp/tools.ts`),
+ *   - the invocation logger,
+ *   - the auth/token-debit wrapper.
+ *
+ * It does NOT exercise the stdio JSON-RPC transport — that's covered by
+ * the test harness in `mcp-server/src/__tests__/`.
+ *
+ * Two tool calls per run:
+ *   1. `get_live_sky_transits` — cheap; verifies ephemeris + chart
+ *      pipeline returns a dominantElement.
+ *   2. `generate_cosmic_recipe` — verifies the recipe catalog wrapper.
+ *      No `_meta.apiKey` is supplied so the token debit returns
+ *      `anonymous-caller` and no balance is burned.
+ *
+ * Records to `synthetic_probe_results` keyed `mcp`. The MCP probe
+ * cadence is 30 min (vercel.json), so systemStatusService treats >90 min
+ * as stale.
+ */
+export async function runMcpProbe(): Promise<ProbeResult> {
+  const probeName = "mcp";
+  const startedAt = new Date().toISOString();
+  const t0 = Date.now();
+
+  let status: ProbeStatus = "failure";
+  let errorMessage: string | null = null;
+  let responsePayload: Record<string, unknown> = {};
+
+  const callMeta = {
+    _meta: {
+      caller: "synthetic-probe",
+      internalSecret: process.env.INTERNAL_API_SECRET,
+    },
+  };
+
+  try {
+    const transits = await invokeTool("get_live_sky_transits", {
+      latitude: 40.7498,
+      longitude: -73.7976,
+      ...callMeta,
+    });
+
+    if (!transits.ok) {
+      errorMessage = `get_live_sky_transits failed: ${transits.errorMessage ?? "unknown"}`;
+      responsePayload = { transitsOk: false, ...transits.summary };
+    } else {
+      const recipes = await invokeTool("generate_cosmic_recipe", {
+        prompt: "synthetic probe",
+        ...callMeta,
+      });
+      responsePayload = {
+        transitsOk: true,
+        dominantElement: transits.summary.dominantElement ?? null,
+        recipesOk: recipes.ok,
+        recipesReturnedCount: recipes.summary.returnedCount ?? null,
+        recipesErrorCode: recipes.errorCode ?? null,
+      };
+      // The recipes call is allowed to return QUOTA — that's a token
+      // economy state, not a tool failure. Anything else non-ok is a
+      // genuine failure.
+      if (!recipes.ok && recipes.errorCode !== "QUOTA") {
+        errorMessage = `generate_cosmic_recipe failed: ${recipes.errorMessage ?? "unknown"}`;
+      } else {
+        status = "success";
+      }
+    }
+  } catch (err) {
+    errorMessage = err instanceof Error ? err.message : String(err);
+    responsePayload = { thrown: true };
+  }
+
+  const result: ProbeResult = {
+    probeName,
+    startedAt,
+    completedAt: new Date().toISOString(),
+    status,
+    latencyMs: Date.now() - t0,
+    httpStatus: null,
     errorMessage,
     responsePayload,
   };

@@ -87,3 +87,38 @@ bun run mcp-server/src/index.ts
 ```
 
 Ensure the `DATABASE_URL` is set in your environment variables to connect directly to the WTEN database, or run without it to automatically fallback to local static assets.
+
+See **[`README.md`](./README.md)** for the full setup, per-call auth (`_meta.apiKey`), connector config templates for Claude Desktop / Cursor, and the operational telemetry exposed on the admin dashboard.
+
+---
+
+## 🧱 Internal Code Layout
+
+The tool handlers, auth wrapper, and invocation logger live in `src/lib/mcp/` (Next.js app side) so the same code is exercised by:
+
+- **The stdio MCP server** (`mcp-server/src/index.ts`) — production surface for external LLM clients.
+- **The synthetic MCP probe** (`src/services/syntheticProbeService.ts` → `runMcpProbe()`) — cron-triggered health check that catches breakage at the handler layer even when no organic traffic flows.
+- **The unit tests** (`src/lib/mcp/__tests__/tools.test.ts`) — exercise handlers + auth gate without Bun.
+- **The integration test** (`mcp-server/src/__tests__/stdio.test.ts`, gated on `MCP_E2E=1`) — verifies the JSON-RPC transport.
+
+```
+src/lib/mcp/
+├── tools.ts          ← invokeTool() + 3 handlers; single source of truth
+├── auth.ts           ← _meta.apiKey resolution + ESMS token debit
+└── invocationLog.ts  ← fire-and-forget writes to mcp_invocations
+
+mcp-server/src/
+└── index.ts          ← stdio transport + MCP SDK registration; delegates to invokeTool
+```
+
+## 📊 Observability
+
+Every tool invocation writes one row to `mcp_invocations` (Postgres). That table feeds three surfaces:
+
+| Surface | What it shows | Source |
+| --- | --- | --- |
+| `/admin` → System Status → **MCP Tool Surface** flow | Call rate, error rate, p95 latency, synthetic-probe verdict (1h window) | `systemStatusService.probeMcp()` |
+| `/admin/dashboard` → Agent Telemetry → **mcpInvocationRate** | Live calls/hour as a 4th metric alongside transmutation/entropy/harmony | `agentTelemetryService.getAgentNetworkTelemetry()` |
+| `/api/cron/synthetic-mcp` | 30-min synthetic exercise of `get_live_sky_transits` + `generate_cosmic_recipe` | `syntheticProbeService.runMcpProbe()` |
+
+Retention is 7 days, swept by the existing `observability-prune` daily cron.
