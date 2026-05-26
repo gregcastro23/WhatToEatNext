@@ -78,6 +78,8 @@ async function handlePost(request: NextRequest) {
   });
   if (access.mode === "denied") return access.blocked;
 
+  let isPremiumUser = false;
+
   // Auth'd path: token economy is the throttle. Premium users skip the
   // shop-item debit but everyone else pays personalized live pricing — the
   // user's natal chart × the chart of the moment shapes the per-token cost.
@@ -86,52 +88,75 @@ async function handlePost(request: NextRequest) {
 
     const sub = await subscriptionService.getUserSubscription(userId);
     const isPremium = sub?.tier === "premium";
+    isPremiumUser = isPremium;
 
     if (!isPremium) {
-      const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
-      if (!item || !item.isActive) {
-        return new Response(JSON.stringify({
-          error: "shop_item_unavailable",
-          message: "Cosmic recipe unlock is not configured.",
-        }), {
-          status: 500,
-          headers: { "Content-Type": "application/json" },
-        });
+      let isFirstGeneration = true;
+      let count = 0;
+
+      // Check daily limit table to see if this is their first generation of the day
+      try {
+        const { executeQuery } = await import("@/lib/database");
+        const limitRows = await executeQuery(
+          `SELECT recipes_generated FROM user_daily_limits 
+           WHERE user_id = $1 AND date = CURRENT_DATE`,
+          [userId]
+        );
+        count = limitRows.rows[0]?.recipes_generated ?? 0;
+        isFirstGeneration = count === 0;
+      } catch (err) {
+        console.warn("[generate-cosmic-recipe] Failed to verify daily limit:", err);
       }
 
-      // Fetch natal chart for per-user pricing. Falls back to global multiplier
-      // when the user hasn't onboarded a chart yet.
-      const { userDatabase } = await import("@/services/userDatabaseService");
-      const dbUser = await userDatabase.getUserById(userId);
-      const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
+      // If they already generated their free daily recipe, charge them using their ESMS token balances
+      if (!isFirstGeneration) {
+        const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
+        if (!item || !item.isActive) {
+          return new Response(JSON.stringify({
+            error: "shop_item_unavailable",
+            message: "Cosmic recipe unlock is not configured.",
+          }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
 
-      const pricing = await getPersonalizedPricingContext(natalPositions);
-      const liveCost = applyPersonalizedPricing(
-        {
-          spirit: item.costSpirit,
-          essence: item.costEssence,
-          matter: item.costMatter,
-          substance: item.costSubstance,
-        },
-        pricing,
-      );
+        // Fetch natal chart for per-user pricing. Falls back to global multiplier
+        // when the user hasn't onboarded a chart yet.
+        const { userDatabase } = await import("@/services/userDatabaseService");
+        const dbUser = await userDatabase.getUserById(userId);
+        const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
 
-      const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
-        overrideCosts: liveCost,
-        descriptionSuffix: pricing.personalized
-          ? `live x${pricing.multiplier.toFixed(2)} · personalized`
-          : `live x${pricing.multiplier.toFixed(2)}`,
-      });
-      if (!purchase.success && purchase.reason !== "already_owned") {
-        return new Response(JSON.stringify({
-          error: "Insufficient tokens",
-          message: `Cosmic recipes require ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence right now${pricing.personalized ? " (your chart's rate)" : ""}. Earn more via the daily Cosmic Yield or upgrade to Premium!`,
-          liveCost,
+        const pricing = await getPersonalizedPricingContext(natalPositions);
+        const liveCost = applyPersonalizedPricing(
+          {
+            spirit: item.costSpirit,
+            essence: item.costEssence,
+            matter: item.costMatter,
+            substance: item.costSubstance,
+          },
           pricing,
-        }), {
-          status: 402,
-          headers: { "Content-Type": "application/json" },
+        );
+
+        const purchase = await tokenEconomy.purchaseShopItem(userId, "unlock-cosmic-recipe", {
+          overrideCosts: liveCost,
+          descriptionSuffix: pricing.personalized
+            ? `live x${pricing.multiplier.toFixed(2)} · personalized`
+            : `live x${pricing.multiplier.toFixed(2)}`,
         });
+
+        if (!purchase.success && purchase.reason !== "already_owned") {
+          return new Response(JSON.stringify({
+            error: "Insufficient tokens",
+            message: `You have generated your free recipe for today. Generating another requires ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence. Earn more via the daily Cosmic Yield, complete quests, or upgrade to Premium for unlimited generations!`,
+            liveCost,
+            pricing,
+            recipesGeneratedToday: count,
+          }), {
+            status: 402,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
       }
     }
 
@@ -265,6 +290,7 @@ async function handlePost(request: NextRequest) {
         thermodynamicProperties: alchemized?.thermodynamicProperties,
         disallowedIngredients: disallowedIngredients ?? undefined,
         userId: userId ?? undefined,
+        tier: isPremiumUser ? "premium" : "free",
       }),
     });
 
@@ -326,11 +352,39 @@ async function handlePost(request: NextRequest) {
     );
   }
 
+  // Increment recipes_generated count atomically in user_daily_limits for free-tier users
+  let updatedCount = 0;
+  if (access.mode === "auth") {
+    try {
+      const sub = await subscriptionService.getUserSubscription(access.userId);
+      const isPremium = sub?.tier === "premium";
+
+      if (!isPremium) {
+        const { executeQuery } = await import("@/lib/database");
+        const updateResult = await executeQuery(
+          `INSERT INTO user_daily_limits (user_id, date, recipes_generated)
+           VALUES ($1, CURRENT_DATE, 1)
+           ON CONFLICT (user_id, date)
+           DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
+           RETURNING recipes_generated`,
+          [access.userId]
+        );
+        updatedCount = updateResult.rows[0]?.recipes_generated ?? 1;
+      }
+    } catch (err) {
+      console.warn("[generate-cosmic-recipe] Failed to increment daily limits:", err);
+    }
+  }
+
   // Spread the recipe at the top level so the existing client
   // (CosmicRecipeGenerator → data.title / data.short_description / ...)
   // continues to work. The `success: true` sentinel is what the
   // synthetic-cosmic-recipe probe checks at HTTP 200.
-  let responseJson: Record<string, unknown> = { success: true, ...recipe };
+  let responseJson: Record<string, unknown> = { 
+    success: true, 
+    ...recipe,
+    recipesGeneratedToday: updatedCount,
+  };
 
   if (demoMode) {
     responseJson = {

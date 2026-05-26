@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import UserInsightsPanel from "@/components/admin/UserInsightsPanel";
 import { looseIncludes } from "@/utils/searchNormalize";
 
 /**
@@ -205,6 +206,9 @@ export default function AdminUsersPage() {
           <span className="font-semibold text-purple-700">{counts.agents}</span> agents
         </div>
       </div>
+
+      {/* Aggregate insights — demographics, activity, onboarding, tier, signups */}
+      <UserInsightsPanel />
 
       {/* User Type Tabs */}
       <div className="bg-white rounded-lg shadow p-2 mb-4 inline-flex gap-1">
@@ -659,6 +663,25 @@ export default function AdminUsersPage() {
                   </p>
                 </div>
               )}
+              {!selectedUser.isAgent && selectedUser.tier && (
+                <div>
+                  <span className="text-sm text-gray-500">Tier</span>
+                  <p>
+                    <span
+                      className={`px-2 py-1 rounded-full text-sm font-medium ${
+                        selectedUser.tier === "premium"
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {selectedUser.tier}
+                      {selectedUser.subscriptionStatus
+                        ? ` · ${selectedUser.subscriptionStatus}`
+                        : ""}
+                    </span>
+                  </p>
+                </div>
+              )}
               <DetailField
                 label={selectedUser.isAgent ? "Provisioned" : "Joined"}
                 value={new Date(selectedUser.createdAt).toLocaleString()}
@@ -667,6 +690,13 @@ export default function AdminUsersPage() {
                 <DetailField
                   label="Last login"
                   value={new Date(selectedUser.lastLoginAt).toLocaleString()}
+                />
+              )}
+              {(selectedUser.loginCount ?? 0) > 0 && (
+                <DetailField
+                  label="Lifetime sign-ins"
+                  value={`${selectedUser.loginCount}`}
+                  mono
                 />
               )}
               {(selectedUser.activeSessions ?? 0) > 0 && (

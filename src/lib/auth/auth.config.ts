@@ -246,6 +246,7 @@ export const authConfig = {
         // Surface the JWT id so middleware can look up revocation state
         // without re-decoding the token.
         session.user.sessionId = token.deviceSessionId ?? token.sessionId;
+        session.user.recipesGeneratedToday = token.recipesGeneratedToday ?? 0;
       }
       return session;
     },

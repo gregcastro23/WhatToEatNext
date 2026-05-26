@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { FutureRecipeSkeleton } from "@/components/premium/FutureRecipeSkeleton";
+import { TemporalFrictionGate } from "@/components/premium/TemporalFrictionGate";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
 import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { DiscoverySection } from "@/components/recipes/DiscoverySection";
@@ -660,6 +663,16 @@ export interface RecipeClientProps {
 }
 
 export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps) {
+  const { data: session } = useSession();
+
+  const dailyLimitReached = useMemo(() => {
+    if (!session) return false;
+    const isPremium = session.user?.tier === "premium" || session.user?.role === "ADMIN";
+    if (isPremium) return false;
+    const count = session.user?.recipesGeneratedToday ?? 0;
+    return count >= 1;
+  }, [session]);
+
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
   const [heroImageFailed, setHeroImageFailed] = useState(false);
@@ -1450,24 +1463,37 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
           onClose={() => setSelectedTechnique(null)}
         />
 
-        {/* ===== Discovery (elemental / alchemical / cuisine) ===== */}
-        <div className="pt-8">
-          <DiscoverySection recipeId={recipe.id} />
-        </div>
-
-        {/* ===== Similar Recipes (service-recommended fallback) ===== */}
-        {recommendedRecipes.length > 0 && (
-          <div className="pt-8">
-            <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
-              Also Recommended
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recommendedRecipes.map((rec) => (
-                <RecipeCard key={rec.id} recipe={rec} />
-              ))}
+        <TemporalFrictionGate dailyLimitReached={dailyLimitReached}>
+          {dailyLimitReached ? (
+            <div className="pt-8 space-y-8">
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                Next Cosmic Discovery
+              </h2>
+              <FutureRecipeSkeleton />
             </div>
-          </div>
-        )}
+          ) : (
+            <>
+              {/* ===== Discovery (elemental / alchemical / cuisine) ===== */}
+              <div className="pt-8">
+                <DiscoverySection recipeId={recipe.id} />
+              </div>
+
+              {/* ===== Similar Recipes (service-recommended fallback) ===== */}
+              {recommendedRecipes.length > 0 && (
+                <div className="pt-8">
+                  <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+                    Also Recommended
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {recommendedRecipes.map((rec) => (
+                      <RecipeCard key={rec.id} recipe={rec} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </TemporalFrictionGate>
       </div>
     </main>
   );

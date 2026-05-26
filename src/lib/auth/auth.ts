@@ -567,7 +567,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async jwt({ token, user, account, trigger }) {
+    async jwt({ token, user, account, trigger, session }) {
       // On initial sign-in, persist user info into the JWT
       if (user) {
         // NextAuth's user.id is the provider's account ID (e.g., Google sub).
@@ -578,6 +578,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       if (account) {
         token.provider = account.provider;
+      }
+
+      // Sync recipesGeneratedToday dynamically from trigger update
+      if (trigger === "update" && session && typeof session === "object" && "recipesGeneratedToday" in session) {
+        token.recipesGeneratedToday = session.recipesGeneratedToday;
       }
 
       // Soft session revocation: on explicit session updates (e.g. after a
@@ -692,11 +697,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 if (!token.tier) token.tier = "free";
               }
             }
+
+            // Resolve recipesGeneratedToday for free-tier users
+            if (token.tier === "free") {
+              try {
+                const { executeQuery } = await import("@/lib/database");
+                const limitRows = await executeQuery(
+                  `SELECT recipes_generated FROM user_daily_limits 
+                   WHERE user_id = $1 AND date = CURRENT_DATE`,
+                  [dbUser.id]
+                );
+                token.recipesGeneratedToday = limitRows.rows[0]?.recipes_generated ?? 0;
+              } catch (e) {
+                logger.warn("Failed to fetch recipes_generated for JWT:", e);
+                if (token.recipesGeneratedToday === undefined) {
+                  token.recipesGeneratedToday = 0;
+                }
+              }
+            } else {
+              token.recipesGeneratedToday = 0; // Premium users get unlimited
+            }
           } else {
             token.role = isAdminEmail(token.email) ? "admin" : "user";
             token.onboardingComplete = false;
             // Admin emails always get premium tier
             token.tier = isAdminEmail(token.email) ? "premium" : "free";
+            token.recipesGeneratedToday = 0;
           }
         } catch {
           // Fallback if DB unavailable
@@ -708,6 +734,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
           if (!token.tier) {
             token.tier = isAdminEmail(token.email) ? "premium" : "free";
+          }
+          if (token.recipesGeneratedToday === undefined) {
+            token.recipesGeneratedToday = 0;
           }
         }
       }

@@ -22,6 +22,7 @@ declare module "next-auth" {
       onboardingComplete: boolean;
       /** JWT id (jti) — used by middleware to look up revocation state. */
       sessionId?: string;
+      recipesGeneratedToday?: number;
     };
   }
 
@@ -46,5 +47,6 @@ declare module "next-auth/jwt" {
     sessionId?: string;
     /** UUID for the `device_sessions` table row (UI-facing revocation target). */
     deviceSessionId?: string;
+    recipesGeneratedToday?: number;
   }
 }
