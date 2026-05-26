@@ -99,6 +99,80 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           },
         },
       },
+      {
+        name: "compute_synastry_overlay",
+        description: `Compute the inter-aspect ledger between two agents' natal charts: pairwise planet-to-planet aspects (conjunction, sextile, square, trine, opposition) with orb/exactness, plus tension / harmony / intensification scores and a recommended target stance (clash | absorb | mirror). Drives the desktop Jing Arena's counter-move pool selection. Pure math; pg cache used when seeded. ${META_DOC}`,
+        inputSchema: {
+          type: "object",
+          required: ["agentA", "agentB"],
+          properties: {
+            agentA: {
+              type: "object",
+              required: ["id", "natalChart"],
+              properties: {
+                id: { type: "string", description: "Stable agent identifier" },
+                natalChart: {
+                  type: "object",
+                  description: "Natal chart with planets keyed by name, each having {sign, degree, retrograde?, house?}",
+                },
+              },
+            },
+            agentB: {
+              type: "object",
+              required: ["id", "natalChart"],
+              properties: {
+                id: { type: "string" },
+                natalChart: { type: "object" },
+              },
+            },
+            focusPlanets: {
+              type: "array",
+              items: { type: "string" },
+              description: "Planets to include (default: Sun, Moon, Mercury, Venus, Mars, Saturn, Jupiter)",
+            },
+            cacheStrategy: {
+              type: "string",
+              enum: ["read", "write", "bypass"],
+              description: "read = use synastry_scores if present; write = compute and upsert; bypass = compute, skip pg. Default: read.",
+            },
+          },
+        },
+      },
+      {
+        name: "get_transit_natal_overlay",
+        description: `Compute the current sky × one agent's natal chart: which transiting planets are activating which natal points, with aspect type/orb/exactness, dominant boost element, and continuous boost magnitude (0..1). Replaces the global 'Transit Active' badge with per-agent overlays. ${META_DOC}`,
+        inputSchema: {
+          type: "object",
+          required: ["agent"],
+          properties: {
+            agent: {
+              type: "object",
+              required: ["id", "natalChart"],
+              properties: {
+                id: { type: "string" },
+                natalChart: { type: "object" },
+              },
+            },
+            transitTime: {
+              type: "string",
+              description: "ISO 8601 timestamp for the transit moment (default: now)",
+            },
+            latitude: {
+              type: "number",
+              description: "Latitude for the transit chart (default: 40.7498 NYC)",
+            },
+            longitude: {
+              type: "number",
+              description: "Longitude for the transit chart (default: -73.7976 NYC)",
+            },
+            focusPlanets: {
+              type: "array",
+              items: { type: "string" },
+              description: "Transiting planets to include (default: Sun, Moon, Mars, Saturn, Jupiter, Pluto)",
+            },
+          },
+        },
+      },
     ],
   };
 });
@@ -143,7 +217,7 @@ async function main() {
   console.error("\n================ ALCHM.KITCHEN MCP SERVER STARTED ================");
   console.error("Engine: Bun v1.3.13 / Native TypeScript Support");
   console.error("Communication Protocol: Model Context Protocol (Stdio)");
-  console.error("Tools Loaded: get_live_sky_transits, alchemize_ingredients, generate_cosmic_recipe");
+  console.error("Tools Loaded: get_live_sky_transits, alchemize_ingredients, generate_cosmic_recipe, compute_synastry_overlay, get_transit_natal_overlay");
   console.error(
     `Auth: ${process.env.MCP_USER_API_KEY ? "MCP_USER_API_KEY env" : "_meta.apiKey per call"}`,
   );

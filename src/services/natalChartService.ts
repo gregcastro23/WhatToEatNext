@@ -24,6 +24,7 @@ import {
   getDominantElement,
   isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
+import { getSelfBaseUrl } from "@/utils/urlUtils";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
 
 /**
@@ -87,10 +88,7 @@ interface AstrologizeResponse {
 // `fetch` rejects relative paths) and stay relative in the browser.
 function getAstrologizeApiUrl(): string {
   if (typeof window === "undefined") {
-    if (process.env.VERCEL_URL) {
-      return `https://${process.env.VERCEL_URL}/api/astrologize`;
-    }
-    return `http://localhost:${process.env.PORT || 3000}/api/astrologize`;
+    return `${getSelfBaseUrl()}/api/astrologize`;
   }
   return "/api/astrologize";
 }
