@@ -69,7 +69,10 @@ export async function recordInvocation(
   try {
     const calledAt = new Date(startedAtMs).toISOString();
     const completedAt = new Date().toISOString();
-    const latencyMs = Date.now() - startedAtMs;
+    // Floor at 1ms so sub-millisecond execution (warm-cache hits on
+    // generate_cosmic_recipe, etc.) doesn't truncate to 0 and look like
+    // a measurement bug to anyone reading mcp_invocations for triage.
+    const latencyMs = Math.max(1, Date.now() - startedAtMs);
     await db.executeQuery(
       `INSERT INTO mcp_invocations
          (tool_name, called_at, completed_at, latency_ms, success,
