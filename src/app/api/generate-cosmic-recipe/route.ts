@@ -271,7 +271,7 @@ async function handlePost(request: NextRequest) {
   // back a validated CosmicRecipeResponse.
   const agentBaseUrl =
     process.env.PLANETARY_AGENTS_API_URL ||
-    process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
+    process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
     "https://api.agents.alchm.kitchen";
 
   let recipe: z.infer<typeof cosmicRecipeSchema>;

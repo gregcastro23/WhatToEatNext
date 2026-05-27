@@ -20,7 +20,6 @@ export interface EnhancedKineticData {
 // /api/agents/{id}/kinetics — would 404 silently if used here.
 const PA_URL = (
   process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-  process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
   'https://api.agents.alchm.kitchen'
 ).replace(/\/+$/, '')
 

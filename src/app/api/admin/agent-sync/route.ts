@@ -49,8 +49,8 @@ function getPaConfig(): { url: string; secret: string } | { error: string } {
   // agents.alchm.kitchen domain is the Next.js UI and does NOT serve
   // /api/internal/agent-sync (would silently 404).
   const base = (
+    process.env.PLANETARY_AGENTS_API_URL ||
     process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-    process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
     "https://api.agents.alchm.kitchen"
   ).replace(/\/+$/, "");
   if (!secret) return { error: "INTERNAL_API_SECRET not configured" };
