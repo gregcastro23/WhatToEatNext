@@ -385,8 +385,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               // PA Python backend is at api.agents.alchm.kitchen — the bare
               // agents.alchm.kitchen domain is the Next.js UI and would 404.
               const paBase = (
+                process.env.PLANETARY_AGENTS_API_URL ||
                 process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-                process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL ||
                 "https://api.agents.alchm.kitchen"
               ).replace(/\/$/, "");
 

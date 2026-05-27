@@ -43,11 +43,13 @@ export async function POST(req: NextRequest) {
       console.warn("[NanoBanana] Redis read failed:", err);
     }
 
-    // PA's image-gen route lives on the Next.js UI host (agents.alchm.kitchen),
-    // not the Python backend (api.agents.*) — it proxies to Cloudflare Workers
-    // AI from the UI app. Don't "fix" this to api.agents.alchm.kitchen.
+    // PA's image-gen route is served by the Python backend at
+    // api.agents.alchm.kitchen — the bare agents.alchm.kitchen host is the
+    // Next.js UI and does not serve /api/generate-image (would 404 silently).
     const agentBaseUrl =
-      process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL || "https://agents.alchm.kitchen";
+      process.env.PLANETARY_AGENTS_API_URL ||
+      process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
+      "https://api.agents.alchm.kitchen";
 
     // /api/generate-image expects { prompt }, not { title, description }.
     const promptParts = [

@@ -13,7 +13,9 @@ export const runtime = "nodejs";
 
 export async function GET() {
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_PLANETARY_KINETICS_URL;
+    const backendUrl =
+      process.env.PLANETARY_AGENTS_API_URL ||
+      process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL;
     if (!backendUrl) {
       return NextResponse.json(
         { success: false, error: "Planetary agents backend is not configured." },
