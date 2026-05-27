@@ -58,18 +58,34 @@ export interface InvocationOutcome {
   tokensDebited?: { spirit?: number; essence?: number; matter?: number; substance?: number } | null;
 }
 
+/**
+ * Pair of timing marks captured at tool entry:
+ * - `startedAt` is a `performance.now()` reading (fractional ms, monotonic).
+ *   Used solely to compute `latency_ms` with sub-ms resolution.
+ * - `calledAtIso` is a `new Date().toISOString()` captured at the same instant.
+ *   Used for the `called_at` wall-clock column because perf marks aren't an
+ *   epoch.
+ */
+export interface InvocationTiming {
+  startedAt: number;
+  calledAtIso: string;
+}
+
 /** Record one invocation. Never throws. */
 export async function recordInvocation(
   ctx: InvocationContext,
-  startedAtMs: number,
+  timing: InvocationTiming,
   outcome: InvocationOutcome,
 ): Promise<void> {
   const db = await getDb();
   if (!db) return;
   try {
-    const calledAt = new Date(startedAtMs).toISOString();
+    const calledAt = timing.calledAtIso;
     const completedAt = new Date().toISOString();
-    const latencyMs = Date.now() - startedAtMs;
+    // Floor at 1 so the column stays a positive integer even when a warm-cache
+    // call finishes in <0.5ms (which rounds to 0). Round because performance.now()
+    // returns fractional ms.
+    const latencyMs = Math.max(1, Math.round(performance.now() - timing.startedAt));
     await db.executeQuery(
       `INSERT INTO mcp_invocations
          (tool_name, called_at, completed_at, latency_ms, success,

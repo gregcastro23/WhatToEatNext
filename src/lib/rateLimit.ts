@@ -12,6 +12,26 @@
 import { NextResponse } from "next/server";
 import { getRedisClient } from "./redis";
 
+/**
+ * Map an api_keys.rate_limit_tier value to a per-minute request cap.
+ * The `authenticated` legacy default stays at 60 RPM so pre-existing
+ * keys minted before the tier-aware default (Item 3, May 2026) behave
+ * exactly as they did. New keys land on either `apprentice` or
+ * `alchemist` depending on the owner's subscription tier at mint time.
+ */
+export function rpmForTier(tier: string | null | undefined): number {
+  switch (tier) {
+    case "alchemist":
+      return 300;
+    case "apprentice":
+      return 60;
+    case "authenticated":
+      return 60;
+    default:
+      return 60;
+  }
+}
+
 interface Bucket {
   timestamps: number[];
 }

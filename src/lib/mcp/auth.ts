@@ -48,6 +48,12 @@ export interface ResolvedCaller {
   caller: string;
   /** True when the caller is the synthetic-probe internal user. */
   isSynthetic: boolean;
+  /**
+   * `api_keys.rate_limit_tier` value for the key that authenticated this
+   * call. Null when no key was used (anonymous, synthetic, or DB
+   * unavailable). Drives the per-key RPM cap via `rpmForTier()`.
+   */
+  rateLimitTier: string | null;
 }
 
 function hashKey(key: string): string {
@@ -104,24 +110,26 @@ export async function resolveCaller(
       apiKeyId: null,
       caller: callerTag === "unknown" ? "synthetic-probe" : callerTag,
       isSynthetic: true,
+      rateLimitTier: null,
     };
   }
 
   const key = extractApiKey(args);
   if (!key) {
-    return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false };
+    return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false, rateLimitTier: null };
   }
 
   const db = await getDb();
   if (!db) {
     // Without a DB we can't validate the key; treat as anonymous demo.
-    return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false };
+    return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false, rateLimitTier: null };
   }
 
   try {
     const result = await db.executeQuery<{
       id: string;
       user_id: string | null;
+      rate_limit_tier: string | null;
     }>(
       `UPDATE api_keys
          SET last_used_at = NOW(),
@@ -129,21 +137,22 @@ export async function resolveCaller(
        WHERE key_hash = $1
          AND is_active = true
          AND (expires_at IS NULL OR expires_at > NOW())
-       RETURNING id, user_id`,
+       RETURNING id, user_id, rate_limit_tier`,
       [hashKey(key)],
     );
     if (result.rows.length === 0) {
-      return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false };
+      return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false, rateLimitTier: null };
     }
     return {
       userId: result.rows[0].user_id,
       apiKeyId: result.rows[0].id,
       caller: callerTag,
       isSynthetic: false,
+      rateLimitTier: result.rows[0].rate_limit_tier ?? null,
     };
   } catch (err) {
     process.stderr.write(`[mcp/auth] key lookup failed: ${String(err)}\n`);
-    return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false };
+    return { userId: null, apiKeyId: null, caller: callerTag, isSynthetic: false, rateLimitTier: null };
   }
 }
 

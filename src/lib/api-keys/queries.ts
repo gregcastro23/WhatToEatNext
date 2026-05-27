@@ -9,9 +9,28 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { subscriptionService } from "@/services/subscriptionService";
 import { generateApiKey, type MintedKey } from "./keyMint";
 
 const DEFAULT_SCOPES = ["mcp:invoke"] as const;
+
+/**
+ * Map the user's subscription tier to the api_keys.rate_limit_tier
+ * value to mint with. Free users land on the `apprentice` per-key cap,
+ * premium users on `alchemist`. Falls through to the legacy
+ * `authenticated` default when the subscription lookup fails so a
+ * transient DB hiccup doesn't block key minting.
+ */
+export async function defaultRateLimitTier(userId: string): Promise<string> {
+  try {
+    const sub = await subscriptionService.getUserSubscription(userId);
+    if (sub?.tier === "premium") return "alchemist";
+    if (sub?.tier === "free") return "apprentice";
+  } catch {
+    // fall through
+  }
+  return "authenticated";
+}
 
 /** Strip leading/trailing whitespace and cap at 32 chars per scope. */
 function normalizeScopes(input: unknown): string[] {
@@ -78,7 +97,7 @@ export async function mintApiKey(
   const rateLimitTier =
     typeof input.rateLimitTier === "string" && input.rateLimitTier.length > 0
       ? input.rateLimitTier.slice(0, 20)
-      : "authenticated";
+      : await defaultRateLimitTier(input.userId);
 
   const minted: MintedKey = generateApiKey();
   const result = await executeQuery<ApiKeyRow>(
