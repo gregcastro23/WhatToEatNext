@@ -34,6 +34,7 @@ interface AgentTelemetry {
   agentHarmony: TelemetryMetric;
   transmutationRate: TelemetryMetric;
   spiritualEntropy: TelemetryMetric;
+  mcpInvocationRate: TelemetryMetric;
   generatedAt: string;
   allLive: boolean;
 }
@@ -596,10 +597,11 @@ function TelemetryPanel({ telemetry }: { telemetry: AgentTelemetry | null }) {
           {hasTelemetry ? "db · ephemeris" : "—"}
         </span>
       </div>
-      <div className="grid grid-cols-3 gap-3 text-center">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
         <TelemetryMetricTile label="Agent Harmony" metric={telemetry?.agentHarmony} />
         <TelemetryMetricTile label="Transmutation" metric={telemetry?.transmutationRate} />
         <TelemetryMetricTile label="Spiritual Entropy" metric={telemetry?.spiritualEntropy} />
+        <TelemetryMetricTile label="MCP Invocations" metric={telemetry?.mcpInvocationRate} />
       </div>
       {telemetry && (
         <p className="mt-2 text-center text-[9px] font-mono text-gray-400">
