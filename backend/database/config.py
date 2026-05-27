@@ -57,21 +57,35 @@ class DatabaseConfig(BaseSettings):
         # If we are on Railway or the URL is a cloud URL, force SSL
         # EXCEPT for internal Railway networking which doesn't use SSL
         is_internal_railway = ".railway.internal" in v
-        
-        # Workaround for possible hostname mismatch and missing credentials on Railway
+
+        # Workaround for possible hostname mismatch and missing credentials on Railway.
+        # Some legacy DATABASE_URL values came in with the wrong host (a stale
+        # tcp-proxy hostname etc.); the rewrite forced them back to the
+        # canonical internal Postgres host. With PgBouncer in front of Postgres
+        # we need to leave *known-good* internal hosts alone — otherwise the
+        # pooler's URL gets rewritten to the bare Postgres host and the pooler
+        # is bypassed.
+        ALLOWED_INTERNAL_HOSTS = {
+            "postgres.railway.internal",
+            "pgbouncer.railway.internal",
+        }
         if ".railway.internal" in v:
             import re
-            
-            # Ensure hostname is postgres.railway.internal
-            v = re.sub(r'@[^:/]+', '@postgres.railway.internal', v)
+
+            current_host_match = re.search(r'@([^:/]+)', v)
+            current_host = current_host_match.group(1) if current_host_match else ""
+            if current_host not in ALLOWED_INTERNAL_HOSTS:
+                # Hostname is something else under .railway.internal — fall back
+                # to the canonical Postgres host to preserve the legacy safeguard.
+                v = re.sub(r'@[^:/]+', '@postgres.railway.internal', v)
             db_password = os.getenv("DB_PASSWORD", "")
             if db_password and "@" not in v:
                 v = v.replace("://", f"://postgres:{db_password}@")
-            
+
             # Ensure password is present if user is postgres
             if db_password and "postgresql://postgres@" in v:
                 v = v.replace("://postgres@", f"://postgres:{db_password}@")
-            
+
             is_internal_railway = True
 
         if ("neon.tech" in v or os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT")) and not is_internal_railway:
