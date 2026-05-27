@@ -39,6 +39,13 @@ export interface DatabaseConfig {
   max: number;
   idleTimeoutMillis: number;
   connectionTimeoutMillis: number;
+  // Server-side per-statement cap (ms). Postgres cancels with code 57014 when
+  // a query runs longer than this. Floors pool-storm outliers at the cap
+  // instead of letting them block a function instance for many minutes.
+  statement_timeout: number;
+  // Client-side query timeout (ms). Belt-and-suspenders against the rare case
+  // where the server doesn't honor statement_timeout for the connection.
+  query_timeout: number;
 }
 // Configuration import
 // Environment-based configuration
@@ -54,6 +61,7 @@ function getDatabaseConfig(): DatabaseConfig {
     maxConnections,
     idleTimeout,
     connectionTimeout,
+    statementTimeoutMs,
   } = databaseConfig;
 
   if (databaseUrl) {
@@ -67,12 +75,14 @@ function getDatabaseConfig(): DatabaseConfig {
       password: url.password,
       // Enable SSL for any remote connection (non-localhost)
       ssl: url.hostname !== "localhost" && url.hostname !== "127.0.0.1"
-        ? { rejectUnauthorized: false } 
+        ? { rejectUnauthorized: false }
         : false,
       max: maxConnections,
 
       idleTimeoutMillis: idleTimeout,
       connectionTimeoutMillis: connectionTimeout,
+      statement_timeout: statementTimeoutMs,
+      query_timeout: statementTimeoutMs,
     };
   }
   // Local development configuration
@@ -86,6 +96,8 @@ function getDatabaseConfig(): DatabaseConfig {
     max: maxConnections,
     idleTimeoutMillis: idleTimeout,
     connectionTimeoutMillis: connectionTimeout,
+    statement_timeout: statementTimeoutMs,
+    query_timeout: statementTimeoutMs,
   };
 }
 // Connection pool instance
@@ -254,14 +266,25 @@ export async function executeQuery<_T extends any = any>(
     return result;
   } catch (error) {
     const executionTime = Date.now() - startTime;
-    const err = error as Error;
-    void logger.error("Database query failed", {
-      error: err.message,
-      stack: err.stack,
-      executionTime,
-      query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
-      paramCount: params.length,
-    });
+    const err = error as Error & { code?: string };
+    // Postgres surfaces statement_timeout cancels as code 57014. They look
+    // identical to "real" errors in the log unless we distinguish them, and
+    // they're the operational signal that the pool-storm cap is firing.
+    if (err.code === "57014") {
+      void logger.warn("Database query exceeded statement_timeout (57014)", {
+        executionTime,
+        query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
+        paramCount: params.length,
+      });
+    } else {
+      void logger.error("Database query failed", {
+        error: err.message,
+        stack: err.stack,
+        executionTime,
+        query: query.substring(0, 100) + (query.length > 100 ? "..." : ""),
+        paramCount: params.length,
+      });
+    }
     // Rethrow with better context if it's an ErrorEvent-like object
     if ((error as any).type === 'error') {
       throw new Error(`DB ErrorEvent: ${(error as any).message || 'Unknown connection error'}`);

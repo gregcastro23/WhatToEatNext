@@ -24,6 +24,7 @@ import { calculateNatalChart } from "@/services/natalChartService";
 import { recipeService } from "@/services/RecipeService";
 import { debitForTool, resolveCaller, type DebitOutcome } from "./auth";
 import { recordInvocation } from "./invocationLog";
+import { checkMcpRateLimit } from "./rateLimit";
 import {
   computeSynastryOverlay,
   getTransitNatalOverlay,
@@ -33,7 +34,7 @@ export interface ToolResult<T = unknown> {
   ok: boolean;
   data: T | null;
   /** Stable error code for caller-side handling. */
-  errorCode?: "INVALID_ARGS" | "QUOTA" | "INTERNAL" | "NOT_FOUND";
+  errorCode?: "INVALID_ARGS" | "QUOTA" | "INTERNAL" | "NOT_FOUND" | "RATE_LIMIT";
   errorMessage?: string;
   /** Small object suitable for persisting in `mcp_invocations.result_summary`. */
   summary: Record<string, unknown>;
@@ -311,11 +312,55 @@ export async function invokeTool(
   name: ToolName,
   args: Record<string, unknown>,
 ): Promise<ToolResult> {
-  const startedAtMs = Date.now();
+  // performance.now() gives fractional-ms resolution so warm-cache calls
+  // (well under 1ms) become distinguishable instead of all collapsing to
+  // the integer floor. calledAtIso is captured in parallel because the
+  // perf-mark isn't a wall-clock epoch and can't drive the called_at column.
+  const startedAt = performance.now();
+  const calledAtIso = new Date().toISOString();
   const caller = await resolveCaller(args);
 
   let result: ToolResult;
   let tokensDebited: DebitOutcome["amounts"] = null;
+
+  // Per-key sliding-window cap, derived from api_keys.rate_limit_tier.
+  // Synthetic-probe traffic is exempt because we don't want a slow
+  // burst of cron probes to chew into a user's RPM, and anonymous
+  // demo calls share a single bucket so an unauthenticated client
+  // can't crowd authed traffic.
+  if (!caller.isSynthetic) {
+    const rl = checkMcpRateLimit({
+      apiKeyId: caller.apiKeyId,
+      rateLimitTier: caller.rateLimitTier,
+    });
+    if (!rl.allowed) {
+      const retryAfterSec = Math.ceil(rl.resetMs / 1000);
+      const earlyResult: ToolResult = {
+        ok: false,
+        data: null,
+        errorCode: "RATE_LIMIT",
+        errorMessage: `MCP rate limit exceeded: ${rl.limit}/min. Retry in ${retryAfterSec}s.`,
+        summary: { reason: "rate-limited", limit: rl.limit, retryAfterSec },
+      };
+      void recordInvocation(
+        {
+          toolName: name,
+          arguments: args,
+          caller: caller.caller,
+          userId: caller.userId,
+          apiKeyId: caller.apiKeyId,
+        },
+        { startedAt, calledAtIso },
+        {
+          success: false,
+          errorMessage: earlyResult.errorMessage ?? null,
+          resultSummary: earlyResult.summary,
+          tokensDebited: null,
+        },
+      );
+      return earlyResult;
+    }
+  }
 
   try {
     const debit = await debitForTool(name, caller);
@@ -368,7 +413,7 @@ export async function invokeTool(
       userId: caller.userId,
       apiKeyId: caller.apiKeyId,
     },
-    startedAtMs,
+    { startedAt, calledAtIso },
     {
       success: result.ok,
       errorMessage: result.errorMessage ?? null,

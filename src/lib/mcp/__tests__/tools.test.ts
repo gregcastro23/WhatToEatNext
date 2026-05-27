@@ -82,11 +82,22 @@ jest.mock("@/lib/mcp/auth", () => ({
     apiKeyId: null,
     caller: "test",
     isSynthetic: false,
+    rateLimitTier: null,
   }),
   debitForTool: jest
     .fn()
     .mockResolvedValue({ applied: false, reason: "anonymous-caller", amounts: null }),
   TOOL_COSTS: {},
+}));
+
+jest.mock("@/lib/mcp/rateLimit", () => ({
+  checkMcpRateLimit: jest.fn().mockReturnValue({
+    allowed: true,
+    remaining: 999,
+    limit: 60,
+    resetMs: 60_000,
+  }),
+  __resetMcpRateLimit: jest.fn(),
 }));
 
 import { recordInvocation } from "@/lib/mcp/invocationLog";
@@ -185,6 +196,22 @@ describe("invokeTool", () => {
       "alchemize_ingredients",
       "get_live_sky_transits",
     ]);
+  });
+
+  it("passes a perf-mark + ISO timestamp pair as timing to recordInvocation", async () => {
+    await invokeTool("alchemize_ingredients", { ingredients: ["tomato"] });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const timing = mockedRecord.mock.calls[0][1] as {
+      startedAt: number;
+      calledAtIso: string;
+    };
+    expect(typeof timing.startedAt).toBe("number");
+    expect(Number.isFinite(timing.startedAt)).toBe(true);
+    expect(timing.startedAt).toBeGreaterThanOrEqual(0);
+    expect(typeof timing.calledAtIso).toBe("string");
+    expect(timing.calledAtIso).toMatch(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    );
   });
 
   it("returns NOT_FOUND for unknown tools", async () => {

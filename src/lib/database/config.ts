@@ -28,6 +28,15 @@ export const databaseConfig = {
   idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || "10000", 10),
   connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "5000", 10),
 
+  // Per-statement cap. Pool-acquisition storms (cold start + cron storms) used
+  // to surface as 1737s queries on trivial SELECTs because the SQL never started
+  // — the function instance was blocked waiting for a connection. With this
+  // cap, Postgres cancels the query at 5s (error code 57014) and the request
+  // fails fast instead of holding a function instance for 29 minutes. Pair
+  // with a proper pooler (PgBouncer/Supavisor) for the root-cause fix; this is
+  // the floor that should always be on.
+  statementTimeoutMs: parseInt(process.env.DB_STATEMENT_TIMEOUT_MS || "5000", 10),
+
   // Application settings
   environment: process.env.NODE_ENV || "development",
   logQueries: process.env.DB_LOG_QUERIES === "true",
@@ -79,6 +88,14 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   }
   if (databaseConfig.connectionTimeout < 100) {
     errors.push("DB_CONNECTION_TIMEOUT must be at least 100ms");
+  }
+  if (
+    databaseConfig.statementTimeoutMs < 100 ||
+    databaseConfig.statementTimeoutMs > 60000
+  ) {
+    errors.push(
+      "DB_STATEMENT_TIMEOUT_MS must be between 100ms and 60000ms",
+    );
   }
 
   return {
