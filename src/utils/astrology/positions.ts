@@ -249,6 +249,41 @@ function calculateLunarNodesInternal(date: Date): {
 }
 
 /**
+ * Default "live sky" vantage point. Current-moment calls carry no location of
+ * their own, so the app observes the present sky from New York (Eastern US).
+ */
+export const NEW_YORK_OBSERVER = { latitude: 40.7128, longitude: -74.006 } as const;
+
+/**
+ * Diurnal/nocturnal sect for the *current sky*, observed from New York.
+ *
+ * Sect drives the entire day/night ESMS split (day → Spirit/Essence, night →
+ * Matter/Substance), so it must reflect whether the Sun is actually above the
+ * observer's horizon — not a raw UTC hour. The location-less `isSectDiurnal`
+ * (UTC 06:00–18:00) is wrong for New York by ~5h (US afternoons read as "night").
+ * This computes the Sun's true altitude at NY for `date`; if astronomy-engine
+ * throws (it shouldn't at this latitude) it degrades to the UTC-hour heuristic.
+ *
+ * Use this for any "now"/live-sky sect; keep `isSectDiurnal(birthDate)` for natal
+ * charts, which should be evaluated at the birthplace, not New York.
+ */
+export function isCurrentSkyDiurnal(date: Date = new Date()): boolean {
+  try {
+    const observer = new Astronomy.Observer(
+      NEW_YORK_OBSERVER.latitude,
+      NEW_YORK_OBSERVER.longitude,
+      0,
+    );
+    const equ = Astronomy.Equator(Astronomy.Body.Sun, date, observer, true, true);
+    const hor = Astronomy.Horizon(date, observer, equ.ra, equ.dec, "normal");
+    return hor.altitude > 0;
+  } catch {
+    const hour = date.getUTCHours();
+    return hour >= 6 && hour < 18;
+  }
+}
+
+/**
  * Get accurate planetary positions using astronomy-engine
  * @param date Date to calculate positions for
  * @returns Record of planetary positions in degrees (0-360)

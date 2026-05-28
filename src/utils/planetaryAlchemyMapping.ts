@@ -389,18 +389,30 @@ export function calculateEnhancedAlchemicalFromPlanets(
     Substance: 0,
   };
 
+  // Physical-Vessel grounding: in the diurnal sect every planet maps to
+  // Spirit/Essence, so Matter & Substance collapse to 0 in any day chart lacking
+  // an Ascendant. Natal charts carry a computed Ascendant; a location-less "live
+  // sky" set does not — so inject one when absent, the single grounding chokepoint
+  // for all callers. The Ascendant's dignity is always Neutral so the sign is
+  // irrelevant (flat +1 to all four). Injected into a copy (never mutate the
+  // caller's input); since only signs feed ESMS, it can't become a phantom aspect.
+  const positions = planetaryPositions.Ascendant
+    ? planetaryPositions
+    : { ...planetaryPositions, Ascendant: "aries" };
+
+  // NOTE: the Ascendant is intentionally NOT ignored — see grounding note above.
   const ignoredBodies = new Set([
-    "Ascendant", "Midheaven", "True Node", "South Node",
+    "Midheaven", "True Node", "South Node",
     "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node",
     "NorthNode", "SouthNode", "MC",
   ]);
 
   // LAYER 1 & 2: Base ESMS with sect and dignity modifications
-  for (const planet in planetaryPositions) {
+  for (const planet in positions) {
     if (ignoredBodies.has(planet)) {
       continue;
     }
-    const sign = planetaryPositions[planet];
+    const sign = positions[planet];
 
     // Get sect-based ESMS from new PLANETARY_SECTARIAN_ESMS constant
     const sectEntry = PLANETARY_SECTARIAN_ESMS[planet as keyof typeof PLANETARY_SECTARIAN_ESMS];

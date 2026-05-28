@@ -2,11 +2,11 @@ import fs from "fs";
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
 import {
-    getPlanetarySectElement, isSectDiurnal, calculateEnhancedAlchemicalFromPlanets, PLANETARY_SECTARIAN_ESMS
+    getPlanetarySectElement, calculateEnhancedAlchemicalFromPlanets, PLANETARY_SECTARIAN_ESMS
 } from "@/utils/planetaryAlchemyMapping";
 import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
 import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 
 const PLANET_ALCHM_PERIODS: Record<string, number> = {
   Pluto: 247.94,
@@ -237,7 +237,7 @@ export function alchemize(
   // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
   // Using the provided `date` parameter ensures historical/forecast
   // calculations use the correct sect for that point in time.
-  const diurnal = isSectDiurnal(date);
+  const diurnal = isCurrentSkyDiurnal(date);
   
   // Momentum Tracking
   const planetaryMomentum: Record<string, number> = {};
@@ -318,6 +318,15 @@ export function alchemize(
       exactLongitude: pos.exactLongitude || (pos.degree + (pos.minute || 0) / 60),
       isRetrograde: pos.isRetrograde,
     };
+  }
+
+  // Physical-Vessel grounding constant: a location-less "live sky" has no
+  // computed Ascendant, but the sect ESMS model relies on it to supply the
+  // Matter/Substance baseline (a day chart maps every planet to Spirit/Essence,
+  // so both collapse to 0 without it). Added to signMap only — not positionData
+  // — so it grounds ESMS without injecting phantom aspects or element weight.
+  if (!signMap.Ascendant) {
+    signMap.Ascendant = "aries";
   }
 
   // Calculate aspects
@@ -492,7 +501,7 @@ export function alchemizeDetailed(
     Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     Ascendant: { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 },
   };
-  const diurnal = isSectDiurnal(date);
+  const diurnal = isCurrentSkyDiurnal(date);
   const planetaryMomentum: Record<string, number> = {};
   const perPlanet: Record<string, PerPlanetBreakdown> = {};
   const SIGN_WEIGHT = 0.6;
@@ -584,6 +593,15 @@ export function alchemizeDetailed(
       exactLongitude: pos.exactLongitude || (pos.degree + (pos.minute || 0) / 60),
       isRetrograde: pos.isRetrograde,
     };
+  }
+
+  // Physical-Vessel grounding constant: a location-less "live sky" has no
+  // computed Ascendant, but the sect ESMS model relies on it to supply the
+  // Matter/Substance baseline (a day chart maps every planet to Spirit/Essence,
+  // so both collapse to 0 without it). Added to signMap only — not positionData
+  // — so it grounds ESMS without injecting phantom aspects or element weight.
+  if (!signMap.Ascendant) {
+    signMap.Ascendant = "aries";
   }
 
   // Calculate aspects

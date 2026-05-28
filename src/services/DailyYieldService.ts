@@ -22,7 +22,8 @@ import {
   TRANSIT_BONUS_SCALE,
   getStreakMultiplier,
 } from "@/types/economy";
-import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { streakService } from "./StreakService";
 import { tokenEconomy } from "./TokenEconomyService";
@@ -141,7 +142,7 @@ class DailyYieldService {
     source: "railway" | "astronomy-engine" = "railway",
   ): Promise<void> {
     const todayStr = new Date().toISOString().slice(0, 10);
-    const diurnal = isSectDiurnal();
+    const diurnal = isCurrentSkyDiurnal();
     const transitESMS = calculateAlchemicalFromPlanets(positions, diurnal);
 
     const db = await getDbModule();
@@ -196,7 +197,7 @@ class DailyYieldService {
     }
 
     // Compute from natal chart via calculateAlchemicalFromPlanets
-    const diurnal = isSectDiurnal();
+    const diurnal = isCurrentSkyDiurnal();
     const natalESMS = calculateAlchemicalFromPlanets(natalPositions, diurnal);
     const weights = normalizeESMS(natalESMS);
 
@@ -231,7 +232,7 @@ class DailyYieldService {
     natalPositions: Record<string, string>,
     transitESMS: AlchemicalProperties,
   ): { spirit: number; essence: number; matter: number; substance: number } {
-    const diurnal = isSectDiurnal();
+    const diurnal = isCurrentSkyDiurnal();
     const natalESMS = calculateAlchemicalFromPlanets(natalPositions, diurnal);
 
     // Proportional delta: if transits amplify natal pattern → bonus

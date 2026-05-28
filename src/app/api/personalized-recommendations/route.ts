@@ -11,7 +11,7 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -125,7 +125,7 @@ async function handlePost(request: NextRequest) {
     } | null = null;
     if (includeChartAnalysis && Object.keys(natalPositions).length > 0) {
       const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnal(new Date(natalChart.birthData.dateTime)) : true;
-      const currentDiurnal = isSectDiurnal(new Date());
+      const currentDiurnal = isCurrentSkyDiurnal(new Date());
 
       const natalAlch = calculateEnhancedAlchemicalFromPlanets(natalPositions, natalDiurnal);
       const currentAlch = calculateEnhancedAlchemicalFromPlanets(currentPositions, currentDiurnal);

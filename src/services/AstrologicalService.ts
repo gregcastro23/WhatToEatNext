@@ -30,8 +30,8 @@ import { AstrologicalState as _CentralizedAstrologicalState } from "@/types/cele
 import {
   aggregateEnhancedZodiacElementals,
   calculateAlchemicalFromPlanets,
-  isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { createLogger } from "../utils/logger";
 import astrologizeApiCache from "./AstrologizeApiCache";
 
@@ -257,7 +257,7 @@ export class AstrologicalService {
         if (sign) signMap[planet] = sign;
       }
 
-      const diurnal = isSectDiurnal();
+      const diurnal = isCurrentSkyDiurnal();
       const elementalBoost = aggregateEnhancedZodiacElementals(signMap, diurnal);
       const rawAlchemical = calculateAlchemicalFromPlanets(signMap, diurnal);
 
@@ -340,7 +340,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
         if (sign) signMap[planet] = sign;
       }
 
-      const diurnal = isSectDiurnal(cached.date);
+      const diurnal = isCurrentSkyDiurnal(cached.date);
       const elementalInfluence = aggregateEnhancedZodiacElementals(signMap, diurnal);
 
       const sunSign = signMap["Sun"]?.toLowerCase() as StandardZodiacSignType | undefined;

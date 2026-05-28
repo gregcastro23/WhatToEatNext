@@ -10,7 +10,8 @@ import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
-import { isSectDiurnal, PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
+import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import {
   calculatePlanetaryPositions,
@@ -191,7 +192,7 @@ export async function GET(request: Request) {
           ? "cooling"
           : "stable";
 
-    const isDiurnalNow = isSectDiurnal(now);
+    const isDiurnalNow = isCurrentSkyDiurnal(now);
 
     // -----------------------------------------------------------------------
     // VECTOR ESMS + REACTIVE P=IV CIRCUIT — GEOCENTRIC FRAME

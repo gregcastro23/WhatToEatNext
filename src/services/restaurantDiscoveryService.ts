@@ -24,12 +24,11 @@ import type {
   RestaurantSearchResponse,
   YelpBusiness,
 } from "@/types/yelp";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { getLunarPhaseFromDate } from "@/utils/lunarPhaseUtils";
 import {
   aggregateEnhancedZodiacElementals,
   calculateAlchemicalFromPlanets,
-  isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
 import { getTimeFactors } from "@/utils/time";
 
@@ -243,7 +242,7 @@ export function buildAstrologicalState(now: Date = new Date()): CosmicComputatio
     }
   }
 
-  const diurnal = isSectDiurnal(now);
+  const diurnal = isCurrentSkyDiurnal(now);
   const domElements: ElementalProperties = aggregateEnhancedZodiacElementals(
     positionMap,
     diurnal,

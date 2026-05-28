@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
-import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
@@ -106,7 +106,7 @@ export async function GET(request: Request) {
           Water: parseFloat((ep.Water * scaleFactor).toFixed(2)),
           Earth: parseFloat((ep.Earth * scaleFactor).toFixed(2)),
           Air: parseFloat((ep.Air * scaleFactor).toFixed(2)),
-          isDiurnal: isSectDiurnal(timePoint),
+          isDiurnal: isCurrentSkyDiurnal(timePoint),
         });
       } catch (error) {
         logger.error(

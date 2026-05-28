@@ -1,6 +1,7 @@
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import type { AlchemicalProperties } from "@/types/celestial";
-import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
@@ -178,7 +179,7 @@ export async function getPersonalizedPricingContext(
   let perToken: EsmsCost = uniformPerToken(globalMultiplier);
 
   if (natalPositions && Object.keys(natalPositions).length > 0) {
-    const diurnal = isSectDiurnal(now);
+    const diurnal = isCurrentSkyDiurnal(now);
     const natalEsms = calculateAlchemicalFromPlanets(natalPositions, diurnal);
     natalWeights = normaliseEsms(natalEsms);
 

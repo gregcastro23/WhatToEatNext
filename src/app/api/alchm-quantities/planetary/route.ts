@@ -5,10 +5,10 @@ import { createLogger } from "@/utils/logger";
 import {
   PLANETARY_ALCHEMY,
   ZODIAC_ELEMENTS,
-  isSectDiurnal,
   getPlanetarySectElement,
   getZodiacQuality,
 } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
 import {
   calculatePlanetaryPositions,
@@ -72,7 +72,7 @@ export async function GET(request: Request) {
 
     // Determine current sect (diurnal / nocturnal) for this moment
     const now = new Date();
-    const diurnal = isSectDiurnal(now);
+    const diurnal = isCurrentSkyDiurnal(now);
 
     // Process each planet
     const planetNames = [

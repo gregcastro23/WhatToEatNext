@@ -5,8 +5,8 @@ import type { Recipe } from "@/types/recipe";
 import { logger } from "@/utils/logger";
 import {
   aggregateEnhancedZodiacElementals,
-  isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { RecipeService } from "./RecipeService";
 import type {
     CookingMethodRecommendationCriteria,
@@ -587,7 +587,7 @@ export class RecommendationService implements RecommendationServiceInterface {
     const signMap = Object.fromEntries(
       Object.entries(positions).map(([planet, pos]) => [planet, pos.sign]),
     );
-    return aggregateEnhancedZodiacElementals(signMap, isSectDiurnal());
+    return aggregateEnhancedZodiacElementals(signMap, isCurrentSkyDiurnal());
   }
 }
 // Export singleton instance

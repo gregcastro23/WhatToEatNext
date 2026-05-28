@@ -17,8 +17,8 @@ import { rateLimit } from "@/lib/rateLimit";
 import { AlchemizeQuerySchema } from "@/lib/validation/railway";
 import { calculateComprehensiveAspects, type PlanetaryPositionData } from "@/utils/aspectCalculator";
 import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import { calculateEnhancedAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
     }
 
     // Determine sect (day vs night)
-    const diurnal = isSectDiurnal(date);
+    const diurnal = isCurrentSkyDiurnal(date);
 
     // Calculate comprehensive aspects with the now-typed positionData
     const aspectsRaw = calculateComprehensiveAspects(positionData);
