@@ -2,11 +2,11 @@ import type { ThermodynamicMetrics } from "@/types/alchemical";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Ingredient } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { logger } from "@/utils/logger";
 import {
   aggregateEnhancedZodiacElementals,
 } from "@/utils/planetaryAlchemyMapping";
-import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { RecipeService } from "./RecipeService";
 import type {
     CookingMethodRecommendationCriteria,
