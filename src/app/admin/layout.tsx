@@ -65,6 +65,7 @@ export default function AdminLayout({
   const navItems = [
     { href: "/admin", label: "Overview", icon: "📊" },
     { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
+    { href: "/admin/mcp", label: "MCP Network ✦", icon: "🔌" },
     { href: "/admin/users", label: "Users", icon: "👥" },
     { href: "/admin/settings", label: "Settings", icon: "⚙️" },
   ];

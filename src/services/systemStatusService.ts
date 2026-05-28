@@ -27,6 +27,7 @@ import {
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
+import { getMcpNetworkSummary } from "@/services/mcpNetworkService";
 import {
   getLatestProbeResults,
   type LatestProbeRow,
@@ -882,7 +883,7 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
   let calls1h = 0;
   let failures1h = 0;
   let p95Ms = 0;
-  let distinctCallers = 0;
+  let _distinctCallers = 0;
   try {
     const result = await executeQuery<{
       calls: number;
@@ -901,7 +902,7 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
     calls1h = result.rows[0]?.calls ?? 0;
     failures1h = result.rows[0]?.failures ?? 0;
     p95Ms = Number(result.rows[0]?.p95 ?? 0);
-    distinctCallers = result.rows[0]?.callers ?? 0;
+    _distinctCallers = result.rows[0]?.callers ?? 0;
   } catch (err) {
     _logger.warn("[systemStatus] mcp invocations query failed:", err);
     live = false;
@@ -909,20 +910,39 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
 
   const errorRate = calls1h > 0 ? failures1h / calls1h : 0;
 
-  let status: FlowStatus;
-  if (!live && synthetic.missing) status = "UNKNOWN";
-  else if (synthetic.freshFailure || errorRate >= 0.5) status = "INCIDENT";
+  let wtenStatus: FlowStatus;
+  if (!live && synthetic.missing) wtenStatus = "UNKNOWN";
+  else if (synthetic.freshFailure || errorRate >= 0.5) wtenStatus = "INCIDENT";
   else if (synthetic.stale || errorRate >= 0.1 || p95Ms >= 5000)
-    status = "DEGRADED";
-  else status = "OK";
+    wtenStatus = "DEGRADED";
+  else wtenStatus = "OK";
+
+  // Probe Planetary Agents (PA) MCP status
+  const paStatus = await getMcpNetworkSummary().catch(() => null);
+  const paVerdict = paStatus?.live ? paStatus.verdict : "UNKNOWN";
+
+  // Combine verdicts to represent the worst of both servers
+  const combinedVerdict = worst([wtenStatus, paVerdict]);
 
   const issues: FlowIssue[] = [];
   if (synthetic.issue) issues.push(synthetic.issue);
   if (errorRate >= 0.1 && calls1h >= 5) {
     issues.push({
       at: checkedAt,
-      message: `${failures1h}/${calls1h} MCP tool calls failed in 1h (${formatPct(errorRate)})`,
+      message: `${failures1h}/${calls1h} WTEN MCP tool calls failed in 1h (${formatPct(errorRate)})`,
       severity: errorRate >= 0.5 ? "error" : "warn",
+    });
+  }
+
+  if (paVerdict === "DEGRADED" || paVerdict === "INCIDENT") {
+    issues.push({
+      at: checkedAt,
+      message: `Planetary Agents MCP status is ${paVerdict}${
+        paStatus?.syntheticProbe.consecutiveFailures
+          ? ` (${paStatus.syntheticProbe.consecutiveFailures} consecutive probe failures)`
+          : ""
+      }`,
+      severity: paVerdict === "INCIDENT" ? "error" : "warn",
     });
   }
 
@@ -930,37 +950,41 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
     id: "mcp",
     label: "MCP Tool Surface",
     description:
-      "Alchm MCP server tool layer (transits, alchemize, recipe gen) exposed to external LLM clients.",
-    status,
+      "WTEN and Planetary Agents MCP server tool layers exposed to LLM clients.",
+    status: combinedVerdict,
     summary:
-      status === "OK"
+      combinedVerdict === "OK"
         ? calls1h > 0
-          ? `${calls1h} tool calls · ${distinctCallers} caller${distinctCallers === 1 ? "" : "s"} in 1h`
-          : "Idle — synthetic probe healthy"
-        : status === "DEGRADED"
-          ? synthetic.stale
-            ? "Synthetic MCP probe stale — cron may have stopped"
-            : errorRate >= 0.1
-              ? `${formatPct(errorRate)} of MCP calls failing in 1h`
-              : `MCP tool latency elevated (p95 ${formatLatency(p95Ms)})`
-          : status === "INCIDENT"
-            ? synthetic.freshFailure
-              ? "Synthetic MCP probe failing — tool layer broken"
-              : `MCP tool failure rate ${formatPct(errorRate)} in 1h`
-            : "Awaiting signals",
+          ? `${calls1h} WTEN tool calls · WTEN & PA healthy`
+          : "Idle — WTEN & PA MCP healthy"
+        : combinedVerdict === "DEGRADED"
+          ? paVerdict === "DEGRADED"
+            ? `PA MCP degraded · p95 ${formatLatency(paStatus?.totals.p95LatencyMs ?? 0)}`
+            : synthetic.stale
+              ? "Synthetic WTEN MCP probe stale — cron may have stopped"
+              : errorRate >= 0.1
+                ? `${formatPct(errorRate)} of WTEN MCP calls failing in 1h`
+                : `WTEN MCP tool latency elevated (p95 ${formatLatency(p95Ms)})`
+          : combinedVerdict === "INCIDENT"
+            ? paVerdict === "INCIDENT"
+              ? "PA MCP has an active INCIDENT"
+              : synthetic.freshFailure
+                ? "Synthetic WTEN MCP probe failing — tool layer broken"
+                : `WTEN MCP tool failure rate ${formatPct(errorRate)} in 1h`
+            : "No MCP signals or PA telemetry unreachable",
     metrics: [
-      { label: "Calls · 1h", value: `${calls1h}`, raw: calls1h },
-      { label: "Failures · 1h", value: `${failures1h}`, raw: failures1h },
-      { label: "p95 · 1h", value: formatLatency(p95Ms), raw: p95Ms },
+      { label: "WTEN Calls · 1h", value: `${calls1h}`, raw: calls1h },
+      { label: "WTEN p95", value: formatLatency(p95Ms), raw: p95Ms },
+      { label: "PA MCP", value: paVerdict },
       {
-        label: "Synthetic",
-        value: synthetic.metricValue,
-        raw: synthetic.metricRaw,
+        label: "PA Calls · 1h",
+        value: paStatus?.totals.calls !== undefined ? `${paStatus.totals.calls}` : "—",
+        raw: paStatus?.totals.calls ?? 0,
       },
     ],
     issues: issues.slice(0, 3),
     checkedAt,
-    live,
+    live: live && (paStatus?.live ?? false),
   };
 }
 
