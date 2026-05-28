@@ -1,7 +1,7 @@
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import type { AlchemicalProperties } from "@/types/celestial";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
