@@ -19,6 +19,7 @@ import {
   aggregateEnhancedZodiacElementals,
   isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
+import { safeJsonParse } from "@/utils/typeGuards";
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;
@@ -289,11 +290,11 @@ class CommensalDatabaseService {
       return result.rows
         .filter((r: any) => {
           // Only include commensals who have completed onboarding (have natal chart)
-          const profile = typeof r.profile === "string" ? JSON.parse(r.profile) : r.profile;
+          const profile = typeof r.profile === "string" ? safeJsonParse(r.profile) : r.profile;
           return profile?.natalChart && Object.keys(profile.natalChart).length > 0;
         })
         .map((r: any) => {
-          const profile = typeof r.profile === "string" ? JSON.parse(r.profile) : r.profile;
+          const profile = typeof r.profile === "string" ? safeJsonParse(r.profile) : r.profile;
           const birthData = profile.birthData || profile.birth_data;
           const natalChart = profile.natalChart || profile.natal_chart;
           
@@ -430,8 +431,8 @@ class CommensalDatabaseService {
   private rowToSavedChart(row: any): SavedChart {
     return {
       id: row.id, ownerId: row.owner_id, label: row.label, chartType: row.chart_type,
-      birthData: typeof row.birth_data === "string" ? JSON.parse(row.birth_data) : row.birth_data,
-      natalChart: typeof row.natal_chart === "string" ? JSON.parse(row.natal_chart) : row.natal_chart,
+      birthData: typeof row.birth_data === "string" ? safeJsonParse(row.birth_data) : row.birth_data,
+      natalChart: typeof row.natal_chart === "string" ? safeJsonParse(row.natal_chart) : row.natal_chart,
       isPrimary: row.is_primary,
       createdAt: row.created_at?.toISOString?.() ?? row.created_at,
       updatedAt: row.updated_at?.toISOString?.() ?? row.updated_at,
@@ -452,8 +453,8 @@ class CommensalDatabaseService {
           id: r.id,
           name: r.name,
           relationship: r.relationship,
-          birthData: typeof r.birth_data === "string" ? JSON.parse(r.birth_data) : r.birth_data,
-          natalChart: typeof r.natal_chart === "string" ? JSON.parse(r.natal_chart) : r.natal_chart,
+          birthData: typeof r.birth_data === "string" ? safeJsonParse(r.birth_data) : r.birth_data,
+          natalChart: typeof r.natal_chart === "string" ? safeJsonParse(r.natal_chart) : r.natal_chart,
           createdAt: r.created_at?.toISOString?.() ?? r.created_at,
         }));
       } catch (error) {
@@ -623,7 +624,7 @@ class CommensalDatabaseService {
 
       if (profileResult.rows.length > 0) {
         const profile = typeof profileResult.rows[0].profile === "string"
-          ? JSON.parse(profileResult.rows[0].profile)
+          ? safeJsonParse(profileResult.rows[0].profile)
           : profileResult.rows[0].profile;
         const natalChart = profile?.natalChart || profile?.natal_chart;
         const birthData = profile?.birthData || profile?.birth_data;
@@ -647,7 +648,7 @@ class CommensalDatabaseService {
     birth_data: unknown;
   }): ElementalProperties | null {
     const natalChart = (typeof row.natal_chart === "string"
-      ? JSON.parse(row.natal_chart)
+      ? safeJsonParse(row.natal_chart)
       : row.natal_chart) as Partial<NatalChart> | null;
     if (!natalChart) return null;
 
@@ -667,7 +668,7 @@ class CommensalDatabaseService {
       if (Object.keys(positions).length === 0) return null;
 
       const birthData = (typeof row.birth_data === "string"
-        ? JSON.parse(row.birth_data)
+        ? safeJsonParse(row.birth_data)
         : row.birth_data) as Partial<BirthData> | null;
       const birthDate = birthData?.dateTime
         ? new Date(birthData.dateTime)

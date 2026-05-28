@@ -11,11 +11,14 @@
 
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { memoize } from "@/lib/cache/memoryCache";
 import { getUserInsights } from "@/services/userInsightsService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const CACHE_TTL_MS = 5_000;
 
 export async function GET(request: NextRequest) {
   try {
@@ -24,7 +27,9 @@ export async function GET(request: NextRequest) {
       return authResult.error;
     }
 
-    const payload = await getUserInsights();
+    const payload = await memoize("admin:user-insights", CACHE_TTL_MS, () =>
+      getUserInsights(),
+    );
     return NextResponse.json({ success: true, ...payload });
   } catch (error) {
     console.error("[admin/users/insights] Failed:", error);

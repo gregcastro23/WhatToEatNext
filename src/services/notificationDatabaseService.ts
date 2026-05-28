@@ -246,9 +246,12 @@ class NotificationDatabaseService {
     if (db) {
       try {
         const result = await db.executeQuery(
+          // "Today" = the current New York calendar day (domain timezone), not the
+          // DB session's CURRENT_DATE (UTC), so the once-per-day dedupe rolls over
+          // at ET midnight rather than UTC midnight.
           `SELECT id FROM notifications
            WHERE user_id = $1 AND type = 'daily_insight'
-             AND created_at >= CURRENT_DATE
+             AND created_at >= date_trunc('day', now() AT TIME ZONE 'America/New_York') AT TIME ZONE 'America/New_York'
            LIMIT 1`,
           [userId],
         );

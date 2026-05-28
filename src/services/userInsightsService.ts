@@ -129,7 +129,8 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
     sunSignsRes,
     medianRes,
     sessionsRes,
-  ] = await Promise.all([
+  ] = (await Promise.all(
+    [
     executeQuery<RollupRow>(
       `SELECT
          COUNT(*)::int AS total,
@@ -163,13 +164,16 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
     ),
 
     executeQuery<{ day: string; count: number }>(
+      // Bucket by New York calendar day (the app's domain timezone), not the DB
+      // session zone — a 9pm-ET signup must count toward that ET day, and the JS
+      // axis in fillSignupTrend() builds the same NY day keys.
       `SELECT
-         to_char(date_trunc('day', u.created_at), 'YYYY-MM-DD') AS day,
+         to_char(date_trunc('day', u.created_at AT TIME ZONE 'America/New_York'), 'YYYY-MM-DD') AS day,
          COUNT(*)::int AS count
        FROM users u
        WHERE u.created_at >= NOW() - INTERVAL '14 days'
          AND COALESCE(u.is_agent, false) = false
-       GROUP BY date_trunc('day', u.created_at)
+       GROUP BY date_trunc('day', u.created_at AT TIME ZONE 'America/New_York')
        ORDER BY day ASC`,
     ),
 
@@ -224,7 +228,27 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
        FROM device_sessions
        WHERE revoked_at IS NULL`,
     ),
-  ]);
+    ].map((p) =>
+      // Each sub-query degrades independently: a single failed aggregate returns
+      // empty rows (logged) instead of rejecting the whole insights payload.
+      // Consumers below already handle empty rows (e.g. `?? emptyRollup()`).
+      p.catch((e) => {
+        console.warn(
+          "[userInsights] sub-query failed, degrading to empty rows:",
+          e,
+        );
+        return { rows: [] as never[] };
+      }),
+    ),
+  )) as unknown as [
+    { rows: RollupRow[] },
+    { rows: Array<{ day: string; count: number }> },
+    { rows: Array<CountRow<string>> },
+    { rows: Array<CountRow<string>> },
+    { rows: Array<CountRow<string>> },
+    { rows: MedianRow[] },
+    { rows: ActiveSessionsRow[] },
+  ];
 
   const rollup = rollupRes.rows[0] ?? emptyRollup();
   const activeSessions = sessionsRes.rows[0]?.active_sessions ?? 0;
@@ -335,12 +359,22 @@ function fillSignupTrend(
   const byDay = new Map<string, number>();
   for (const row of rows) byDay.set(row.day, row.count);
 
+  // Build the 14-day axis in New York calendar days so the keys match the SQL's
+  // `AT TIME ZONE 'America/New_York'` buckets. Anchor on NY's current date at
+  // noon UTC (avoids any midnight/DST rollover when stepping back by day).
+  const nyToday = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const [y, m, dd] = nyToday.split("-").map(Number);
+  const anchor = new Date(Date.UTC(y, m - 1, dd, 12, 0, 0));
+
   const out: SignupTrendPoint[] = [];
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
   for (let i = 13; i >= 0; i--) {
-    const d = new Date(today);
-    d.setUTCDate(today.getUTCDate() - i);
+    const d = new Date(anchor);
+    d.setUTCDate(anchor.getUTCDate() - i);
     const day = d.toISOString().slice(0, 10);
     out.push({ day, count: byDay.get(day) ?? 0 });
   }

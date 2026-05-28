@@ -1,7 +1,12 @@
 import pkg from 'pg';
 import { logger } from "../logger";
+// Intentional, benign cycle: slowQueryLog lazily `import()`s this module's raw
+// pool at call time to avoid runtime recursion (see its own disable at the
+// import site). This static edge is the hot-path recordSlowQuery, called on
+// every query, so it stays static for perf.
+// eslint-disable-next-line import/no-cycle
 import { recordSlowQuery } from "../observability/slowQueryLog";
-import { databaseConfig } from "./config";
+import { databaseConfig, assertRuntimeDatabaseConfig } from "./config";
 import type { Pool, PoolClient, QueryResult } from "pg";
 
 // Robustly extract Pool and types from the pg package (handles various bundling scenarios)
@@ -11,6 +16,15 @@ const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unkno
 if (!PoolValue) {
   console.error("FATAL: pg.Pool is undefined. Environment might be incompatible with the current pg import strategy.");
 }
+
+// Throttle the per-query system_metrics persistence (in executeQuery below) so a
+// burst of slow queries — e.g. during pool contention — can't self-amplify by
+// each firing an extra pooled INSERT against the very pool that's already
+// saturated. The in-memory ring (recordSlowQuery) keeps full fidelity at zero
+// pool cost; this durable sink is sampled to at most one write per interval per
+// instance.
+let _lastSlowQueryMetricAt = 0;
+const SLOW_QUERY_METRIC_MIN_INTERVAL_MS = 2000;
 
 // Note: neonConfig is no longer used as we are using standard pg
 
@@ -107,7 +121,11 @@ export function initializeDatabase(): Pool {
   if (pool) {
     return pool;
   }
-  
+
+  // Fail fast in production if DATABASE_URL is unset (would silently fall back
+  // to the localhost default and "succeed" until the first query times out).
+  assertRuntimeDatabaseConfig();
+
   const config = getDatabaseConfig();
 
   pool = new PoolValue(config);
@@ -239,8 +257,14 @@ export async function executeQuery<_T extends any = any>(
     // surface gradual regressions here long before they trip the >1s warn.
     recordSlowQuery(executionTime, query, result.rowCount);
     
-    // Persist slow queries to system_metrics table (excluding self-telemetry)
-    if (executionTime >= 200 && !query.toLowerCase().includes("system_metrics")) {
+    // Persist slow queries to system_metrics (sampled — see throttle note at top).
+    const nowMs = Date.now();
+    if (
+      executionTime >= 200 &&
+      !query.toLowerCase().includes("system_metrics") &&
+      nowMs - _lastSlowQueryMetricAt >= SLOW_QUERY_METRIC_MIN_INTERVAL_MS
+    ) {
+      _lastSlowQueryMetricAt = nowMs;
       getDatabasePool().query(
         `INSERT INTO system_metrics (metric_name, metric_value, metric_unit, tags)
          VALUES ($1, $2, $3, $4)`,

@@ -29,6 +29,9 @@ describe("Cross-Backend Alchemical Quantities Verification Tests", () => {
       ...originalEnv,
       CROSS_BACKEND_SYNC_ENABLED: "true",
       NEXT_PUBLIC_BACKEND_URL: "https://whattoeatnext-production.up.railway.app",
+      // The route now fails closed and skips cross-verification when
+      // INTERNAL_API_SECRET is unset (the hardcoded fallback was removed).
+      INTERNAL_API_SECRET: "test-internal-secret",
     };
   });
 

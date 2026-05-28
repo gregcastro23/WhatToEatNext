@@ -1,11 +1,11 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
+import { getCuisineData, CUISINES_METADATA } from "@/data/cuisines/index";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
-import { getCuisineData, CUISINES_METADATA } from "@/data/cuisines/index";
-import type { NextRequest } from "next/server";
 import type { Cuisine } from "@/types/cuisine";
+import type { NextRequest } from "next/server";
 
 const RATE_LIMIT = { window: 60_000, max: 10, bucket: "nanobanana-generate" };
 const CACHE_TTL = 60 * 60 * 24 * 7; // 7 days
@@ -64,19 +64,6 @@ export async function POST(req: NextRequest) {
     const metadata = CUISINES_METADATA[cuisineKey];
     const cuisineName = metadata.name ?? cuisineKey;
 
-    const cacheKey = `gen_image_cuisine:${cuisineKey.toLowerCase()}`;
-
-    // Try to get cached result
-    try {
-      const cached = await redisGet<{ url: string }>(cacheKey);
-      if (cached) {
-        console.debug(`[NanoBanana-Cuisine] Serving cached image result for ${cuisineName}`);
-        return NextResponse.json(cached);
-      }
-    } catch (err) {
-      console.warn("[NanoBanana-Cuisine] Redis read failed:", err);
-    }
-
     // Load full cuisine data dynamically (contains dishes list)
     const cuisineData = await getCuisineData(cuisineKey);
     if (!cuisineData) {
@@ -97,8 +84,10 @@ export async function POST(req: NextRequest) {
       elementalLighting = "The setting has a cool, refreshing, and serene atmosphere, with soft morning light reflecting off elegant glass carafes and fresh, dew-kissed seafood platters.";
     } else if (earth > 0.35) {
       elementalLighting = "The dining scene is grounded and rustic, using textured hand-thrown ceramic tableware on a solid dark oak banquet table. Hearty whole grains, roasted root vegetables, and deep forest-green accents enrich the presentation.";
-    } else {
+    } else if (air > 0.35) {
       elementalLighting = "The composition is light, airy, and expansive, featuring delicate fresh herb garnishes and high-key, natural diffused sunlight casting soft, bright highlights across the feast.";
+    } else {
+      elementalLighting = "The table is balanced and harmonious, lit with even, naturalistic daylight that gives equal weight to every dish — neither dramatic nor stark, a poised culinary still life.";
     }
 
     const dishesSection = dishesList.length > 0 
@@ -113,6 +102,23 @@ export async function POST(req: NextRequest) {
       elementalLighting,
       "Beautifully plated, restaurant-quality, professional food styling, natural lighting, macro details, shallow depth of field, sharp focus, 8k resolution. No text, labels, or watermarks."
     ].filter(Boolean).join(" ");
+
+    // Content-address the cache by the generated prompt: when the dishes, elemental
+    // lighting, or description change, the hash changes and the image regenerates
+    // instead of serving a stale 7-day entry keyed only by cuisine name.
+    const promptHash = createHash("sha256").update(imagePrompt).digest("hex").slice(0, 16);
+    const cacheKey = `gen_image_cuisine:${cuisineKey.toLowerCase()}:${promptHash}`;
+
+    // Try to get cached result
+    try {
+      const cached = await redisGet<{ url: string }>(cacheKey);
+      if (cached) {
+        console.debug(`[NanoBanana-Cuisine] Serving cached image result for ${cuisineName}`);
+        return NextResponse.json(cached);
+      }
+    } catch (err) {
+      console.warn("[NanoBanana-Cuisine] Redis read failed:", err);
+    }
 
     const agentBaseUrl =
       process.env.PLANETARY_AGENTS_API_URL ||
