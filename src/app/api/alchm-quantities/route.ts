@@ -11,6 +11,7 @@ import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 import { isSectDiurnal, PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import {
   calculatePlanetaryPositions,
   getFallbackPlanetaryPositions,
@@ -316,13 +317,32 @@ export async function GET(request: Request) {
       if (diff > 180) diff = 360 - diff;
       return Math.abs(diff - target);
     };
-    const ASPECT_DEFS: Array<{ type: string; angle: number; maxOrb: number }> = [
-      { type: "conjunction", angle: 0, maxOrb: 8 },
-      { type: "opposition", angle: 180, maxOrb: 8 },
-      { type: "trine", angle: 120, maxOrb: 8 },
-      { type: "square", angle: 90, maxOrb: 7 },
-      { type: "sextile", angle: 60, maxOrb: 6 },
+    const ASPECT_DEFS: Array<{ type: string; angle: number }> = [
+      { type: "conjunction", angle: 0 },
+      { type: "opposition", angle: 180 },
+      { type: "trine", angle: 120 },
+      { type: "square", angle: 90 },
+      { type: "sextile", angle: 60 },
     ];
+    const PLANET_MOIETIES: Record<string, number> = {
+      Sun: 7.5,
+      Moon: 6.0,
+      Mercury: 3.5,
+      Venus: 3.5,
+      Mars: 4.0,
+      Jupiter: 4.5,
+      Saturn: 4.5,
+      Uranus: 2.5,
+      Neptune: 2.5,
+      Pluto: 2.5,
+    };
+    const ASPECT_SCALES: Record<string, number> = {
+      conjunction: 1.0,
+      opposition: 1.0,
+      trine: 0.9,
+      square: 0.8,
+      sextile: 0.6,
+    };
 
     let applyingStrengthSum = 0;
     let separatingStrengthSum = 0;
@@ -342,14 +362,32 @@ export async function GET(request: Request) {
         const L2 = longitudeOf(pos2);
         const m1 = toFinite(pos1?.longitudeSpeed);
         const m2 = toFinite(pos2?.longitudeSpeed);
+
+        const moiety1 = PLANET_MOIETIES[p1] ?? 3.0;
+        const moiety2 = PLANET_MOIETIES[p2] ?? 3.0;
+
+        // Gravitational/alchemical physical mass coupling
+        const w1 = normalizePlanetWeight(PLANET_WEIGHTS[p1] ?? 1.0);
+        const w2 = normalizePlanetWeight(PLANET_WEIGHTS[p2] ?? 1.0);
+        const combinedWeight = (w1 + w2) / 2;
+
         for (const def of ASPECT_DEFS) {
+          const aspectScale = ASPECT_SCALES[def.type] ?? 0.5;
+          const maxOrb = (moiety1 + moiety2) * aspectScale;
+
           const orb0 = orbBetween(L1, L2, def.angle);
-          if (orb0 > def.maxOrb) continue;
+          if (orb0 > maxOrb) continue;
           const L1n = (L1 + m1 * DT_DAYS + 360) % 360;
           const L2n = (L2 + m2 * DT_DAYS + 360) % 360;
           const orb1 = orbBetween(L1n, L2n, def.angle);
           const orbVel = (orb1 - orb0) / DT_DAYS;
-          const strength = Math.max(0, 1 - orb0 / def.maxOrb);
+          
+          // Cosine Bell Curve for smooth, non-linear degree of influence
+          const orbRatio = orb0 / maxOrb;
+          const degreeOfInfluence = (1 + Math.cos(Math.PI * orbRatio)) / 2;
+          
+          // Strength scales with closeness and gravitational mass weight
+          const strength = degreeOfInfluence * combinedWeight;
           if (orbVel < 0) applyingStrengthSum += strength;
           else separatingStrengthSum += strength;
           relAngVelMagSum += Math.abs(m1 - m2);
@@ -365,11 +403,20 @@ export async function GET(request: Request) {
       : (2 * Math.PI) / 365.25;
 
     // Capacitance C: energy storage from applying aspects. Floor avoids ÷0.
-    const capacitance = Math.max(0.01, applyingStrengthSum + 0.1);
-    // Inductance L: resistance to change from separating aspects.
-    const inductance = Math.max(0.01, separatingStrengthSum + 0.1);
-    // Resistance R: elemental dissipation. Earth/Water resist, Fire/Air conduct.
+    // Enhanced: scaled by Substance and Water element (capacitive holding potential)
     const el = nowAlch.elementalProperties;
+    const rawCapacitance = Math.max(0.01, applyingStrengthSum + 0.1);
+    const substanceRatio = quantities.Substance / Math.max(1, quantities.Matter);
+    const waterElement = toFinite(el.Water, 0.25);
+    const capacitance = Math.max(0.01, rawCapacitance * substanceRatio * waterElement * 4);
+
+    // Inductance L: resistance to change from separating aspects.
+    // Enhanced: scaled by Matter and Earth element (inductive structural resistance)
+    const rawInductance = Math.max(0.01, separatingStrengthSum + 0.1);
+    const earthElement = toFinite(el.Earth, 0.25);
+    const inductance = Math.max(0.01, rawInductance * quantities.Matter * earthElement * 0.5);
+
+    // Resistance R: elemental dissipation. Earth/Water resist, Fire/Air conduct.
     const resistance = Math.max(
       0.01,
       toFinite(el.Earth) * 2 + toFinite(el.Water) * 1.5 +

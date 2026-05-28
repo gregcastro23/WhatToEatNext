@@ -160,8 +160,9 @@ export function calculateComprehensiveAspects(
         const orb = Math.abs(diff - definition.angle);
 
         if (orb <= adjustedMaxOrb) {
-          // Calculate aspect strength based on orb (closer aspects are stronger)
-          const strength = 1 - orb / adjustedMaxOrb;
+          // Cosine Bell Curve for smooth, non-linear degree of influence
+          const orbRatio = orb / adjustedMaxOrb;
+          const strength = (1 + Math.cos(Math.PI * orbRatio)) / 2;
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {

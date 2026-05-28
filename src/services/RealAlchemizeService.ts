@@ -2,8 +2,11 @@ import fs from "fs";
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
 import {
-    getPlanetarySectElement, isSectDiurnal
+    getPlanetarySectElement, isSectDiurnal, calculateEnhancedAlchemicalFromPlanets, PLANETARY_SECTARIAN_ESMS
 } from "@/utils/planetaryAlchemyMapping";
+import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
+import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
+import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
 const PLANET_ALCHM_PERIODS: Record<string, number> = {
   Pluto: 247.94,
@@ -295,6 +298,44 @@ export function alchemize(
       planetaryMomentum[planet] = 0;
     }
   }
+
+  // Convert planetaryPositions to positionData and signMap for aspect/enhanced calculations
+  const positionData: Record<string, any> = {};
+  const signMap: Record<string, string> = {};
+  for (const [planet, pos] of Object.entries(planetaryPositions)) {
+    if (
+      planet === "NorthNode" || planet === "SouthNode" || planet === "True Node" || planet === "South Node" || 
+      planet === "Chiron" || planet === "Lilith" || planet === "Vertex" || planet === "Pars Fortune" || 
+      planet === "Mean Node" || planet === "MC"
+    ) {
+      continue;
+    }
+    const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
+    signMap[planet] = sign;
+    positionData[planet] = {
+      sign,
+      degree: pos.degree,
+      exactLongitude: pos.exactLongitude || (pos.degree + (pos.minute || 0) / 60),
+      isRetrograde: pos.isRetrograde,
+    };
+  }
+
+  // Calculate aspects
+  const aspectsRaw = calculateComprehensiveAspects(positionData);
+  const aspects: AspectWithStrength[] = aspectsRaw.map((a) => ({
+    planet1: a.planet1,
+    planet2: a.planet2,
+    type: a.type,
+    strength: a.strength,
+  }));
+
+  // Enhanced calculation
+  const enhancedESMS = calculateEnhancedAlchemicalFromPlanets(signMap, diurnal, aspects);
+  totals.Spirit = enhancedESMS.Spirit;
+  totals.Essence = enhancedESMS.Essence;
+  totals.Matter = enhancedESMS.Matter;
+  totals.Substance = enhancedESMS.Substance;
+
   // Calculate thermodynamic metrics using the exact formulas
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } =
     totals;
@@ -467,10 +508,13 @@ export function alchemizeDetailed(
 
     const planetEsms = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     if (alchemy) {
-      planetEsms.Spirit = alchemy.Spirit * dignityMultiplier * alchmWeight;
-      planetEsms.Essence = alchemy.Essence * dignityMultiplier * alchmWeight;
-      planetEsms.Matter = alchemy.Matter * dignityMultiplier * alchmWeight;
-      planetEsms.Substance = alchemy.Substance * dignityMultiplier * alchmWeight;
+      const sectEntry = PLANETARY_SECTARIAN_ESMS[planet as keyof typeof PLANETARY_SECTARIAN_ESMS];
+      const baseESMS = sectEntry ? (diurnal ? sectEntry.diurnal : sectEntry.nocturnal) : alchemy;
+
+      planetEsms.Spirit = baseESMS.Spirit * alchmWeight * dignityMultiplier;
+      planetEsms.Essence = baseESMS.Essence * alchmWeight * dignityMultiplier;
+      planetEsms.Matter = baseESMS.Matter * alchmWeight * dignityMultiplier;
+      planetEsms.Substance = baseESMS.Substance * alchmWeight * dignityMultiplier;
       totals.Spirit += planetEsms.Spirit;
       totals.Essence += planetEsms.Essence;
       totals.Matter += planetEsms.Matter;
@@ -520,6 +564,43 @@ export function alchemizeDetailed(
       dignityMultiplier,
     };
   }
+
+  // Convert planetaryPositions to positionData and signMap for aspect/enhanced calculations
+  const positionData: Record<string, any> = {};
+  const signMap: Record<string, string> = {};
+  for (const [planet, pos] of Object.entries(planetaryPositions)) {
+    if (
+      planet === "NorthNode" || planet === "SouthNode" || planet === "True Node" || planet === "South Node" || 
+      planet === "Chiron" || planet === "Lilith" || planet === "Vertex" || planet === "Pars Fortune" || 
+      planet === "Mean Node" || planet === "MC"
+    ) {
+      continue;
+    }
+    const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
+    signMap[planet] = sign;
+    positionData[planet] = {
+      sign,
+      degree: pos.degree,
+      exactLongitude: pos.exactLongitude || (pos.degree + (pos.minute || 0) / 60),
+      isRetrograde: pos.isRetrograde,
+    };
+  }
+
+  // Calculate aspects
+  const aspectsRaw = calculateComprehensiveAspects(positionData);
+  const aspects: AspectWithStrength[] = aspectsRaw.map((a) => ({
+    planet1: a.planet1,
+    planet2: a.planet2,
+    type: a.type,
+    strength: a.strength,
+  }));
+
+  // Enhanced calculation
+  const enhancedESMS = calculateEnhancedAlchemicalFromPlanets(signMap, diurnal, aspects);
+  totals.Spirit = enhancedESMS.Spirit;
+  totals.Essence = enhancedESMS.Essence;
+  totals.Matter = enhancedESMS.Matter;
+  totals.Substance = enhancedESMS.Substance;
 
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
@@ -617,10 +698,26 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     return convertedPositions;
   } catch (error) {
     _logger.warn(
-      "Error loading planetary positions from file, using fallback data: ",
+      "Error loading planetary positions from file, using dynamic Swiss/Astronomy-Engine positions: ",
       error,
     );
-    return getFallbackPlanetaryPositions();
+    try {
+      const accurate = getAccuratePlanetaryPositions(new Date());
+      const convertedPositions: Record<string, PlanetaryPosition> = {};
+      for (const [planetName, planetData] of Object.entries(accurate)) {
+        convertedPositions[planetName] = {
+          sign: normalizeSign(String(planetData.sign || "")),
+          degree: Math.floor(planetData.degree),
+          minute: Math.floor((planetData.degree - Math.floor(planetData.degree)) * 60),
+          isRetrograde: planetData.isRetrograde,
+          exactLongitude: planetData.exactLongitude,
+        };
+      }
+      return convertedPositions;
+    } catch (calcError) {
+      _logger.error("Failed to dynamically compute fallback planetary positions, reverting to static backup:", calcError);
+      return getFallbackPlanetaryPositions();
+    }
   }
 }
 /**

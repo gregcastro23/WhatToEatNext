@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { describe, expect, jest, test, beforeEach, afterEach } from "@jest/globals";
+import { describe, expect, jest, test, beforeEach, afterEach, afterAll } from "@jest/globals";
 
 jest.mock("../src/services/HistoricalStatsService", () => ({
   getCachedHistoricalStats: jest.fn().mockResolvedValue(null),
