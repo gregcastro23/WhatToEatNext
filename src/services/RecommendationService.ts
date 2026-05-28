@@ -393,12 +393,33 @@ export class RecommendationService implements RecommendationServiceInterface {
       ];
       let filteredMethods = [...defaultMethods];
       const scores: { [key: string]: number } = {};
-      // Apply elemental filtering (simplified)
+      // Score each method by how well its elemental nature aligns with the
+      // requested elemental profile — deterministic, not random.
+      const METHOD_ELEMENTAL_AFFINITY: Record<string, Partial<ElementalProperties>> = {
+        Grilling: { Fire: 1 },
+        "Stir-frying": { Fire: 0.6, Air: 0.4 },
+        Steaming: { Water: 0.7, Air: 0.3 },
+        Roasting: { Fire: 0.6, Earth: 0.4 },
+        Braising: { Water: 0.5, Earth: 0.5 },
+        Sautéing: { Fire: 0.6, Air: 0.4 },
+        Boiling: { Water: 1 },
+        Frying: { Fire: 0.8, Air: 0.2 },
+        "Slow-cooking": { Earth: 0.6, Water: 0.4 },
+      };
       if (criteria.elementalProperties) {
+        const el = criteria.elementalProperties;
         filteredMethods.forEach((method) => {
-          scores[method] = Math.random() * 0.5 + 0.5;
+          const affinity = METHOD_ELEMENTAL_AFFINITY[method] ?? {};
+          const dot =
+            (affinity.Fire ?? 0) * (el.Fire ?? 0) +
+            (affinity.Water ?? 0) * (el.Water ?? 0) +
+            (affinity.Earth ?? 0) * (el.Earth ?? 0) +
+            (affinity.Air ?? 0) * (el.Air ?? 0);
+          // Map the elemental dot-product into a stable 0.5–1.0 band so even a
+          // weak match remains a usable suggestion.
+          scores[method] = 0.5 + Math.min(0.5, Math.max(0, dot) * 0.5);
         });
-        // Sort by score
+        // Sort by score (highest elemental alignment first)
         filteredMethods.sort((a, b) => scores[b] - scores[a]);
       } else {
         // Default scores
@@ -568,13 +589,18 @@ export class RecommendationService implements RecommendationServiceInterface {
     const reactivity = Math.abs(Fire - Water) / 2;
     // Greg's Energy: Balance between heat and entropy
     const gregsEnergy = heat - entropy * reactivity;
+    // kalchm and monica are NOT derivable from elemental properties alone — they
+    // require the Spirit/Essence/Matter/Substance axes. This elemental-only path
+    // returns NaN sentinels rather than a fake 0 that masquerades as real; callers
+    // needing real values must use the canonical engine (RealAlchemizeService).
+    // Detect the not-computed case with Number.isFinite().
     return {
       heat,
       entropy,
       reactivity,
       gregsEnergy,
-      kalchm: 0, // Placeholder
-      monica: 0, // Placeholder
+      kalchm: NaN,
+      monica: NaN,
     };
   }
   /**

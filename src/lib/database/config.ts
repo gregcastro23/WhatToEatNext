@@ -104,6 +104,23 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   };
 }
 
+/**
+ * Runtime guard for the dangerous "missing DATABASE_URL in production" case.
+ *
+ * `databaseUrl` above always has a localhost default, so a missing env var passes
+ * validateDatabaseConfig()'s format check yet silently points the app at a
+ * non-existent local database. Call this at pool-creation time (NOT at import —
+ * module-level work hangs the Next build) to fail fast instead of limping along.
+ */
+export function assertRuntimeDatabaseConfig(): void {
+  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    throw new Error(
+      "DATABASE_URL is not set in production — refusing to start against the " +
+        "localhost default. Set DATABASE_URL (or DB_HOST/DB_NAME/DB_USER/DB_PASSWORD).",
+    );
+  }
+}
+
 // Initialize configuration and log warnings
 // DISABLED: Module-level logging causes Next.js build to hang during module scanning
 // These validations and logs should be called at runtime, not during import

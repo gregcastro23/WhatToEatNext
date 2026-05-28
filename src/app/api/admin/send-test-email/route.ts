@@ -9,16 +9,21 @@
  */
 
 import { NextResponse } from "next/server";
+import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import emailService from "@/services/emailService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const ADMIN_EMAILS = ["xalchm@gmail.com", "cookingwithcastrollc@gmail.com"];
-
 export async function POST(request: NextRequest) {
   try {
+    // Admin gate — require a valid session with admin role + allowlisted email.
+    const auth = await validateAdminRequest(request);
+    if ("error" in auth) {
+      return auth.error;
+    }
+
     const body = await request.json().catch(() => ({}));
 
     const {
@@ -32,20 +37,6 @@ export async function POST(request: NextRequest) {
       dominantElement?: string;
       type?: "welcome" | "admin" | "login";
     };
-
-    // Simple admin gate: request must come from an admin email or include the admin secret
-    const adminSecret = process.env.ADMIN_SECRET || process.env.AUTH_SECRET;
-    const providedSecret = request.headers.get("x-admin-secret");
-    const isAuthorized =
-      ADMIN_EMAILS.includes(to) ||
-      (adminSecret && providedSecret === adminSecret);
-
-    if (!isAuthorized && process.env.NODE_ENV === "production") {
-      return NextResponse.json(
-        { success: false, error: "Unauthorized" },
-        { status: 401 },
-      );
-    }
 
     // Re-check env vars in case they weren't available at module load
     emailService.ensureInitialized();

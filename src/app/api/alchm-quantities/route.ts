@@ -497,7 +497,15 @@ export async function GET(request: Request) {
       process.env.CROSS_BACKEND_SYNC_ENABLED === "true" ||
       process.env.CROSS_BACKEND_RECTIFICATION_ENABLED === "true";
 
-    if (isVerificationEnabled) {
+    const internalSecret = process.env.INTERNAL_API_SECRET;
+    if (isVerificationEnabled && !internalSecret) {
+      // Fail closed: never call the internal backend with a hardcoded fallback
+      // secret. If INTERNAL_API_SECRET is unset, skip cross-verification entirely.
+      logger.warn(
+        "Cross-backend verification enabled but INTERNAL_API_SECRET is unset; skipping verification.",
+      );
+    }
+    if (isVerificationEnabled && internalSecret) {
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
       try {
         const controller = new AbortController();
@@ -509,7 +517,7 @@ export async function GET(request: Request) {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${process.env.INTERNAL_API_SECRET || "882133EA-3D06-4DF2-A63C-F4114AB4EFBC"}`
+              "Authorization": `Bearer ${internalSecret}`
             },
             body: JSON.stringify({
               recipe: {
@@ -543,16 +551,30 @@ export async function GET(request: Request) {
           };
 
           const maxDiscrepancy = Math.max(discrepancy.Spirit, discrepancy.Essence, discrepancy.Matter, discrepancy.Substance);
-          const status = maxDiscrepancy < 0.05 ? ("verified" as const) : ("rectified" as const);
+
+          // A backend value is only authoritative when it's finite and > 0. An
+          // all-zero or partial payload means the backend couldn't compute it —
+          // treat that as a failure rather than rectifying healthy local values
+          // down to 0.
+          const usableAxes = ESMS_KEYS.filter(
+            (k) => Number.isFinite(backendQuantities[k]) && backendQuantities[k] > 0,
+          );
+          const backendUsable = usableAxes.length > 0;
+
+          const status = !backendUsable
+            ? ("failed" as const)
+            : maxDiscrepancy < 0.05
+              ? ("verified" as const)
+              : ("rectified" as const);
 
           const originalLocalQuantities = { ...quantities };
 
-          // Rectify local quantities to match backend authoritative values if discrepancy is detected
+          // Rectify ONLY the axes where the backend returned a usable (finite, >0)
+          // value; never overwrite a healthy local quantity with a 0/NaN.
           if (status === "rectified") {
-            quantities.Spirit = backendQuantities.Spirit;
-            quantities.Essence = backendQuantities.Essence;
-            quantities.Matter = backendQuantities.Matter;
-            quantities.Substance = backendQuantities.Substance;
+            for (const k of usableAxes) {
+              quantities[k] = backendQuantities[k];
+            }
           }
 
           crossVerification = {

@@ -8,6 +8,7 @@ import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
+import { safeJsonParse } from "@/utils/typeGuards";
 
 // Extended User type with profile data
 export interface UserWithProfile extends User {
@@ -742,24 +743,27 @@ class UserDatabaseService {
    * Convert database row to UserWithProfile object
    */
   private rowToUserWithProfile(row: any): UserWithProfile {
+    // Guarded JSON parsing: these are JSONB columns (node-postgres usually returns
+    // them pre-parsed), but a text-typed or double-encoded value would otherwise
+    // throw here and turn one corrupt row into a silent auth/profile-load outage.
     const birthData =
       typeof row.birth_data === "string"
-        ? JSON.parse(row.birth_data)
+        ? safeJsonParse(row.birth_data)
         : row.birth_data;
     const natalChart =
       typeof row.natal_chart === "string"
-        ? JSON.parse(row.natal_chart)
+        ? safeJsonParse(row.natal_chart)
         : row.natal_chart;
     const dietaryPreferences =
       typeof row.dietary_preferences === "string"
-        ? JSON.parse(row.dietary_preferences)
+        ? safeJsonParse(row.dietary_preferences, {})
         : row.dietary_preferences || {};
     // users.preferences is the canonical store for general preferences.
     // For legacy rows where general prefs were written to dietary_preferences,
     // fall back to that column if users.preferences is empty.
     const rawUserPrefs =
       typeof row.preferences === "string"
-        ? JSON.parse(row.preferences)
+        ? safeJsonParse(row.preferences, {})
         : row.preferences || {};
     const preferences =
       Object.keys(rawUserPrefs || {}).length > 0
@@ -767,11 +771,11 @@ class UserDatabaseService {
         : dietaryPreferences;
     const groupMembers =
       typeof row.group_members === "string"
-        ? JSON.parse(row.group_members)
+        ? safeJsonParse(row.group_members, [])
         : row.group_members || [];
     const diningGroups =
       typeof row.dining_groups === "string"
-        ? JSON.parse(row.dining_groups)
+        ? safeJsonParse(row.dining_groups, [])
         : row.dining_groups || [];
 
     // Map single 'role' ENUM column back to roles array

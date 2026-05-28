@@ -381,10 +381,18 @@ export function alchemize(
   const reactivity = (reactivityNum / (Matter || 1)) + Math.pow(Earth, 2);
   // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
-  // Kalchm (K_alchm)
-  const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+  // Kalchm (K_alchm). Clamp ESMS bases to a tiny positive epsilon first: a
+  // negative base (possible after aspect modifications subtract below 0) makes
+  // Math.pow return NaN, which would otherwise propagate into monica, pricing,
+  // and the API payload. x^x → 1 as x → 0, so valid inputs are unaffected.
+  const kSpirit = Math.max(Spirit, 1e-9);
+  const kEssence = Math.max(Essence, 1e-9);
+  const kMatter = Math.max(Matter, 1e-9);
+  const kSubstance = Math.max(Substance, 1e-9);
+  const kalchmRaw =
+    (Math.pow(kSpirit, kSpirit) * Math.pow(kEssence, kEssence)) /
+    (Math.pow(kMatter, kMatter) * Math.pow(kSubstance, kSubstance));
+  const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
   // Monica constant: −GregsEnergy / (Reactivity × ln(Kalchm))
   // Guards: kalchm must be > 0; lnK must be non-zero; reactivity must be non-zero
   let monica = 1.0; // Default value
@@ -431,8 +439,8 @@ export function alchemize(
       source: "alchemize",
       dominantElement,
       dominantModality: "Cardinal", // Simplified for now,
-      sunSign: planetaryPositions["Sun"].sign || "",
-      chartRuler: getZodiacElement(planetaryPositions["Sun"].sign || "aries"),
+      sunSign: planetaryPositions["Sun"]?.sign || "",
+      chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
       isDiurnal: diurnal,
     },
   };
@@ -640,9 +648,16 @@ export function alchemizeDetailed(
     Math.pow(Water, 2);
   const reactivity = reactivityNum / (Matter || 1) + Math.pow(Earth, 2);
   const gregsEnergy = heat - entropy * reactivity;
-  const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+  // Clamp ESMS bases to epsilon before pow/ratio so a negative base can't make
+  // kalchm NaN (mirrors alchemize()); x^x → 1 as x → 0 so valid inputs are unaffected.
+  const kSpirit = Math.max(Spirit, 1e-9);
+  const kEssence = Math.max(Essence, 1e-9);
+  const kMatter = Math.max(Matter, 1e-9);
+  const kSubstance = Math.max(Substance, 1e-9);
+  const kalchmRaw =
+    (Math.pow(kSpirit, kSpirit) * Math.pow(kEssence, kEssence)) /
+    (Math.pow(kMatter, kMatter) * Math.pow(kSubstance, kSubstance));
+  const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
   let monica = 1.0;
   if (kalchm > 0 && isFinite(kalchm)) {
     const lnK = Math.log(kalchm);

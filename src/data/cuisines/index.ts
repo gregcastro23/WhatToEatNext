@@ -148,7 +148,7 @@ export function processCuisineRecipes(cuisine: any): Cuisine {
   }
 
   const normalizedKey = name === "Middle Eastern" ? "MiddleEastern" : name;
-  const imageUrl = (cuisineImages as Record<string, string>)[normalizedKey] || undefined;
+  const imageUrl = cuisineImages[normalizedKey] || undefined;
 
   return {
     ...cuisine,
