@@ -21,6 +21,7 @@ export interface Cuisine {
   id: string;
   name: string;
   description?: string;
+  imageUrl?: string;
   alchemicalProperties?: Record<string, number>;
   astrologicalInfluences?: string[];
   dishes: CuisineDishes;
