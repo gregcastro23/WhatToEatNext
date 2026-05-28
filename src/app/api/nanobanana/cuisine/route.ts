@@ -1,4 +1,5 @@
 import { createHash } from "crypto";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { NextResponse } from "next/server";
 import { getCuisineData, CUISINES_METADATA } from "@/data/cuisines/index";
 import { auth } from "@/lib/auth/auth";
@@ -120,10 +121,7 @@ export async function POST(req: NextRequest) {
       console.warn("[NanoBanana-Cuisine] Redis read failed:", err);
     }
 
-    const agentBaseUrl =
-      process.env.PLANETARY_AGENTS_API_URL ||
-      process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-      "https://api.agents.alchm.kitchen";
+    const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
     console.log(`[NanoBanana-Cuisine] Calling PA image generation with prompt: ${imagePrompt}`);
 

@@ -28,13 +28,71 @@ class FeedDatabaseService {
   /**
    * Record a new feed event
    */
-  async createEvent(actorId: string, eventType: string, metadataPayload: any = {}): Promise<boolean> {
+  async createEvent(actorId: string, eventType: string, metadataPayload: any = {}, skipWebhook = false): Promise<boolean> {
     try {
       await executeQuery(
         `INSERT INTO feed_events (actor_id, event_type, metadata_payload)
          VALUES ($1, $2, $3)`,
         [actorId, eventType, JSON.stringify(metadataPayload)]
       );
+
+      // Secure Webhook Ingestion to Planetary Agents
+      if (!skipWebhook) {
+        // Query the database to check if this is an agentic user
+        const result = await executeQuery(
+          `SELECT u.email, u.is_agent, up.name as actor_name
+           FROM users u
+           LEFT JOIN user_profiles up ON u.id = up.user_id
+           WHERE u.id = $1`,
+          [actorId]
+        );
+
+        if (result && result.rows.length > 0) {
+          const user = result.rows[0];
+          if (user.is_agent === true) {
+            let agentEmail = user.email.toLowerCase().trim();
+            // Ensure canonical agent email format (ends with @agentic.alchm.kitchen)
+            if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
+              const agentId = agentEmail.split("@")[0];
+              agentEmail = `${agentId}@agentic.alchm.kitchen`;
+            }
+
+            const { getServiceUrlSafe } = await import("@/lib/serviceUrls");
+            const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
+            const internalSecret = process.env.INTERNAL_API_SECRET;
+
+            if (internalSecret) {
+              const payload = {
+                agentEmail,
+                eventType,
+                agentDisplayName: user.actor_name || agentEmail.split("@")[0],
+                metadataPayload,
+              };
+
+              fetch(`${PLANETARY_AGENTS_URL}/api/feed`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${internalSecret}`,
+                },
+                body: JSON.stringify(payload),
+              }).then(async (res) => {
+                if (!res.ok) {
+                  const text = await res.text().catch(() => "");
+                  _logger.error(`[Webhook PA] Failed to push event to PA: ${res.status} ${text}`);
+                } else {
+                  _logger.info(`[Webhook PA] Successfully pushed event ${eventType} to PA for agent ${agentEmail}`);
+                }
+              }).catch((err) => {
+                _logger.error("[Webhook PA] Error pushing to PA feed:", err);
+              });
+            } else {
+              _logger.warn("[Webhook PA] INTERNAL_API_SECRET not set. Skipping webhook.");
+            }
+          }
+        }
+      }
+
       return true;
     } catch (error) {
       _logger.error("Failed to create feed event:", error);

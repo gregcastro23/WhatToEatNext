@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -7,9 +8,6 @@ import type { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const PA_BACKEND_URL = (
-  process.env.PLANETARY_AGENTS_API_URL || "https://api.agents.alchm.kitchen"
-).replace(/\/+$/, "");
 const SYNC_TIMEOUT_MS = 8000;
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 
@@ -160,6 +158,7 @@ export async function POST(request: NextRequest) {
     headers["X-Internal-Secret"] = internalSecret;
 
     // 4. Dispatch each WTEN agent to the FastAPI backend boundary.
+    const PA_BACKEND_URL = getServiceUrl("planetaryAgentsApi");
     console.log(
       `[Admin Sync] Dispatching ${targets.length} ${action} target(s) to ${PA_BACKEND_URL}...`,
     );

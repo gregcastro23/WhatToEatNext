@@ -9,6 +9,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 // Simple logger fallback
 const _logger = {
@@ -39,7 +40,7 @@ export const BackendStatus: React.FC = () => {
   // Check backend health
   const checkHealth = useCallback(async () => {
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
+      const backendUrl = getServiceUrlSafe("wtenBackend");
       
       const [nextRes, pyRes] = await Promise.allSettled([
         fetch("/api/health"),
@@ -81,7 +82,7 @@ export const BackendStatus: React.FC = () => {
   // Demo backend calculations
   const runDemoCalculations = useCallback(async () => {
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
+      const backendUrl = getServiceUrlSafe("wtenBackend");
       
       // Real elemental calculation check
       const elementsStart = performance.now();

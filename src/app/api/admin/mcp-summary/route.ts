@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import type { NextRequest } from "next/server";
 
@@ -21,11 +22,7 @@ export async function GET(request: NextRequest) {
   const windowMinutes = parseInt(windowMinutesStr, 10) || 60;
 
   const secret = process.env.INTERNAL_API_SECRET;
-  const base = (
-    process.env.PLANETARY_AGENTS_API_URL ||
-    process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-    "https://api.agents.alchm.kitchen"
-  ).replace(/\/+$/, "");
+  const base = getServiceUrl("planetaryAgentsApi");
 
   if (!secret) {
     return NextResponse.json(

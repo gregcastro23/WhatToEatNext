@@ -14,6 +14,7 @@
  */
 
 import NextAuth from "next-auth";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { isAdminEmail, isPremiumEmail } from "@/lib/auth/adminEmails";
 import { logAuthEvent } from "@/services/authEventsService";
 import { createLogger } from "@/utils/logger";
@@ -384,13 +385,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               const paSecret = process.env.INTERNAL_API_SECRET;
               // PA Python backend is at api.agents.alchm.kitchen — the bare
               // agents.alchm.kitchen domain is the Next.js UI and would 404.
-              const paBase = (
-                process.env.PLANETARY_AGENTS_API_URL ||
-                process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-                "https://api.agents.alchm.kitchen"
-              ).replace(/\/$/, "");
+              // Safe resolver: never throw inside the sign-in path.
+              const paBase = getServiceUrlSafe("planetaryAgentsApi");
 
-              if (!paSecret || !paBase) {
+              if (!paSecret) {
                 logger.warn(
                   `agent-sync skipped for ${email}: missing INTERNAL_API_SECRET or PA base URL`,
                 );

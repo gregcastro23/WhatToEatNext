@@ -20,6 +20,7 @@
 
 import { checkDatabaseHealth, executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import {
   summarizePath,
   type PathHealth,
@@ -1068,8 +1069,9 @@ async function probeDatabase(): Promise<FlowHealth> {
 
 // ─── External dependency probes ──────────────────────────────────────
 
-const PA_BASE_URL =
-  process.env.PLANETARY_AGENTS_API_URL || "https://api.agents.alchm.kitchen";
+// Safe (non-throwing) resolver: this is a monitoring probe and must degrade
+// independently — a missing env should not crash the status panel.
+const PA_BASE_URL = getServiceUrlSafe("planetaryAgentsApi");
 
 async function probePADependency(): Promise<DependencyHealth> {
   const startedAt = Date.now();

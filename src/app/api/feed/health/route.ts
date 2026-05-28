@@ -10,6 +10,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 export const dynamic = "force-dynamic";
 
@@ -33,8 +34,8 @@ export async function GET() {
     },
     serviceUrls: {
       app: "https://alchm.kitchen",
-      planetaryAgentsBackend: "https://api.agents.alchm.kitchen",
-      alchmKitchenBackend: "https://whattoeatnext-production.up.railway.app",
+      planetaryAgentsBackend: getServiceUrlSafe("planetaryAgentsApi"),
+      alchmKitchenBackend: getServiceUrlSafe("wtenBackend"),
     },
     relatedEndpoints: {
       canonicalAgentSync:

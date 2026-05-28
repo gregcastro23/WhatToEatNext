@@ -1,6 +1,8 @@
 // src/lib/planetaryAgentsClient.ts
 
-export const PLANETARY_AGENTS_URL = process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL || 'https://api.agents.alchm.kitchen';
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
+
+export const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
 
 export async function fetchAgentForDegree(degree: number) {
   try {

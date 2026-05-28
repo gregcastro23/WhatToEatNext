@@ -12,6 +12,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
@@ -39,8 +40,9 @@ import { userDatabase } from "@/services/userDatabaseService";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const PA_BACKEND_URL =
-  process.env.PLANETARY_AGENTS_API_URL || "https://api.agents.alchm.kitchen";
+// Safe (non-throwing) resolver: the admin dashboard is a monitoring surface and
+// must render even when a dependency URL is unconfigured.
+const PA_BACKEND_URL = getServiceUrlSafe("planetaryAgentsApi");
 
 /**
  * Helper to fetch external APIs safely with a timeout
@@ -305,9 +307,9 @@ export async function GET(request: NextRequest) {
     const paIntegration = {
       endpoints: {
         alchmNextApp: "https://alchm.kitchen",
-        paUi: "https://agents.alchm.kitchen",
+        paUi: getServiceUrlSafe("agentsUi"),
         paBackend: PA_BACKEND_URL,
-        wtenLegacyBackend: "https://whattoeatnext-production.up.railway.app",
+        wtenLegacyBackend: getServiceUrlSafe("wtenBackend"),
       },
       health: paHealth,
       agentCount: paAgentCount,

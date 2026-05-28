@@ -1,3 +1,5 @@
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
+
 export type McpVerdict = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
 
 export interface McpNetworkSummary {
@@ -103,11 +105,7 @@ export async function getMcpNetworkSummary(windowMinutes: number = 60): Promise<
 
     if (isServer) {
       const secret = process.env.INTERNAL_API_SECRET || "";
-      const base = (
-        process.env.PLANETARY_AGENTS_API_URL ||
-        process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-        "https://api.agents.alchm.kitchen"
-      ).replace(/\/+$/, "");
+      const base = getServiceUrlSafe("planetaryAgentsApi");
       url = `${base}/api/admin/mcp-summary?windowMinutes=${windowMinutes}`;
       if (secret) {
         headers["X-Internal-Secret"] = secret;

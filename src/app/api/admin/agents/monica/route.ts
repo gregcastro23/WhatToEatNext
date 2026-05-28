@@ -17,6 +17,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 
@@ -54,11 +55,7 @@ export interface MonicaTelemetryPayload {
 }
 
 function paBaseUrl(): string {
-  return (
-    process.env.PLANETARY_AGENTS_API_URL ||
-    process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-    "https://api.agents.alchm.kitchen"
-  ).replace(/\/+$/, "");
+  return getServiceUrl("planetaryAgentsApi");
 }
 
 function emptyPayload(

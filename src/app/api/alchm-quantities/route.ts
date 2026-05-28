@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import { rateLimit } from "@/lib/rateLimit";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
@@ -506,7 +507,7 @@ export async function GET(request: Request) {
       );
     }
     if (isVerificationEnabled && internalSecret) {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
+      const backendUrl = getServiceUrlSafe("wtenBackend");
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 2000);

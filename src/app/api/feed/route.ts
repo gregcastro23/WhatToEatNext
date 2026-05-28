@@ -244,6 +244,7 @@ export async function POST(request: Request) {
       user.id,
       incomingEventType,
       metadataPayload,
+      true, // skipWebhook = true (prevents circular PA webhook forwarding)
     );
 
     if (!success) {

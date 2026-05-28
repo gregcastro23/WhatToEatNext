@@ -16,6 +16,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -48,13 +49,8 @@ function getPaConfig(): { url: string; secret: string } | { error: string } {
   // PA Python backend is at api.agents.alchm.kitchen — the bare
   // agents.alchm.kitchen domain is the Next.js UI and does NOT serve
   // /api/internal/agent-sync (would silently 404).
-  const base = (
-    process.env.PLANETARY_AGENTS_API_URL ||
-    process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-    "https://api.agents.alchm.kitchen"
-  ).replace(/\/+$/, "");
+  const base = getServiceUrl("planetaryAgentsApi");
   if (!secret) return { error: "INTERNAL_API_SECRET not configured" };
-  if (!base) return { error: "PA base URL not configured" };
   return { url: `${base}/api/internal/agent-sync`, secret };
 }
 

@@ -3,6 +3,7 @@ import {
   type KineticsLocation,
   type KineticsOptions,
 } from '@/services/PlanetaryKineticsClient'
+import { getServiceUrlSafe } from '@/lib/serviceUrls'
 import { logger } from '@/utils/logger'
 
 export interface EnhancedKineticData {
@@ -18,10 +19,7 @@ export interface EnhancedKineticData {
 // at passionate-vibrancy-production-2e31.up.railway.app). The bare
 // agents.alchm.kitchen domain is the Next.js UI and does NOT serve
 // /api/agents/{id}/kinetics — would 404 silently if used here.
-const PA_URL = (
-  process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-  'https://api.agents.alchm.kitchen'
-).replace(/\/+$/, '')
+const PA_URL = getServiceUrlSafe("planetaryAgentsApi")
 
 const AGENT_KINETICS_TIMEOUT_MS = 3500
 const DEFAULT_KINETICS: EnhancedKineticData = { energy: 1.0, momentum: 1.0 }

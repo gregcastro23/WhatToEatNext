@@ -1,4 +1,5 @@
 import { createHash } from "crypto";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
@@ -46,10 +47,7 @@ export async function POST(req: NextRequest) {
     // PA's image-gen route is served by the Python backend at
     // api.agents.alchm.kitchen — the bare agents.alchm.kitchen host is the
     // Next.js UI and does not serve /api/generate-image (would 404 silently).
-    const agentBaseUrl =
-      process.env.PLANETARY_AGENTS_API_URL ||
-      process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-      "https://api.agents.alchm.kitchen";
+    const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
     // /api/generate-image expects { prompt }, not { title, description }.
     const promptParts = [

@@ -16,6 +16,7 @@ import type {
   GroupDynamicsResponse,
 } from "@/types/kinetics";
 import { computeGroupDynamics } from "@/utils/groupDynamics";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 interface PlanetaryHourResponse {
   success: boolean;
@@ -457,5 +458,5 @@ export class PlanetaryAgentsAdapter {
 
 // Export singleton instance
 export const planetaryAgentsAdapter = new PlanetaryAgentsAdapter(
-  process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL || "https://api.agents.alchm.kitchen",
+  getServiceUrlSafe("planetaryAgentsApi"),
 );

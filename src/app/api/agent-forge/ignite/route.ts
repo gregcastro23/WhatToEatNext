@@ -15,6 +15,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database";
 import { geocodeLocationSingle } from "@/services/geocodingService";
@@ -177,10 +178,7 @@ export async function POST(req: Request) {
     // Direct Fallback if server-side fetch failed
     if (fallbackUsed || !cosmicRecipe) {
       console.log(`[ignite] Initiating direct fallback fetch to planetary agents API...`);
-      const agentBaseUrl =
-        process.env.PLANETARY_AGENTS_API_URL ||
-        process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-        "https://api.agents.alchm.kitchen";
+      const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
       const raw = getAccuratePlanetaryPositions(new Date());
       const dominantElement = getDominantElementFromPositions(raw);

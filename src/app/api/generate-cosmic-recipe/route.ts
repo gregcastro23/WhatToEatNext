@@ -21,6 +21,7 @@
  * now in place, WTEN simplifies to a proxy.
  */
 import { z } from "zod";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import {
   applyPersonalizedPricing,
@@ -269,10 +270,7 @@ async function handlePost(request: NextRequest) {
   // auto-retry on malformed output, and a 60s prompt-hash cache. WTEN
   // forwards the structured grounding fields it has computed and gets
   // back a validated CosmicRecipeResponse.
-  const agentBaseUrl =
-    process.env.PLANETARY_AGENTS_API_URL ||
-    process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL ||
-    "https://api.agents.alchm.kitchen";
+  const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
   let recipe: z.infer<typeof cosmicRecipeSchema>;
   try {

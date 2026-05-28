@@ -10,8 +10,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { subscriptionService } from "@/services/subscriptionService";
+import { getServiceUrl } from "@/lib/serviceUrls";
 
-const BACKEND_URL = process.env.BACKEND_URL || "https://whattoeatnext-production.up.railway.app";
 const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || "";
 
 export async function POST(request: Request) {
@@ -37,6 +37,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    const BACKEND_URL = getServiceUrl("wtenBackend");
     const body = await request.json();
 
     // Validate member count

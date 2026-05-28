@@ -36,7 +36,8 @@ def solve():
     
     # If it fails with org_id required, we need to find the org_id
     if projects_resp.status_code != 200:
-        log("Direct project list failed. Searching for organizations...")
+        log(f"Direct project list failed: Status {projects_resp.status_code}, Body: {projects_resp.text}")
+        log("Searching for organizations...")
         orgs_resp = requests.get(f"{BASE_URL}/organizations", headers=headers)
         if orgs_resp.status_code == 200:
             orgs = orgs_resp.json().get("organizations", [])
@@ -57,10 +58,14 @@ def solve():
                 if p_resp.status_code == 200:
                     project_list = p_resp.json().get("projects", [])
         else:
-            log(f"Failed to fetch organizations: {orgs_resp.text}")
-            return
-    else:
-        project_list = projects_resp.json().get("projects", [])
+            log(f"Failed to fetch organizations: Status {orgs_resp.status_code}, Body: {orgs_resp.text}")
+            log("Checking personal projects with user_id as org_id...")
+            p_resp = requests.get(f"{BASE_URL}/projects", headers=headers, params={"org_id": user_id})
+            if p_resp.status_code == 200:
+                project_list = p_resp.json().get("projects", [])
+            else:
+                log(f"Failed to fetch personal projects: {p_resp.text}")
+                return
 
     if not project_list:
         log("❌ No projects found.")

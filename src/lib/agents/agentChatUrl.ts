@@ -9,9 +9,9 @@
  * NEXT_PUBLIC_AGENTS_UI_URL; it defaults to the public UI domain.
  */
 
-const AGENTS_UI_URL = (
-  process.env.NEXT_PUBLIC_AGENTS_UI_URL || "https://agents.alchm.kitchen"
-).replace(/\/+$/, "");
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
+
+const AGENTS_UI_URL = getServiceUrlSafe("agentsUi");
 
 /**
  * Public chat URL for a planetary agent.

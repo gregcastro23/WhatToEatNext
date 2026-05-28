@@ -21,14 +21,14 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 export const dynamic = "force-dynamic";
 
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL ||
-  process.env.API_BASE_URL ||
-  process.env.BACKEND_URL ||
-  "https://whattoeatnext-production.up.railway.app";
+// Safe (non-throwing) resolver: this status endpoint is designed never to fail
+// the UI — it degrades to OFFLINE when the backend is unreachable, so a missing
+// env should fall back to the default rather than 500 the chip.
+const BACKEND_URL = getServiceUrlSafe("wtenBackend");
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET || "";
 const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 const PROXY_TIMEOUT_MS = 2500;

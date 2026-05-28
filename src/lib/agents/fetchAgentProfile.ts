@@ -1,7 +1,7 @@
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import type { CraftedAgentProfile } from "./craftedAgentTypes";
 
-const AGENTS_BASE_URL =
-  process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL || "https://api.agents.alchm.kitchen";
+const AGENTS_BASE_URL = getServiceUrlSafe("planetaryAgentsApi");
 
 export interface AgentInteraction {
   id: string;
