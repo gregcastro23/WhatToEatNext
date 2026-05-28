@@ -73,6 +73,36 @@ function rowToTransaction(row: any): TokenTransaction {
   };
 }
 
+// Single-statement credit: ensure the balance row exists, insert an immutable
+// ledger entry (idempotency-guarded), and apply the delta to the typed column —
+// all atomically. `column` is a constrained union literal (never user input),
+// so interpolating it is injection-safe. Params, in order:
+//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
+//   $5 sourceId  $6 description  $7 transactionGroupId  $8 idempotencyKey
+function creditTokensSql(
+  column: "spirit" | "essence" | "matter" | "substance",
+): string {
+  return `WITH ensure_balance AS (
+            INSERT INTO token_balances (user_id)
+            VALUES ($1)
+            ON CONFLICT (user_id) DO NOTHING
+          ),
+          inserted AS (
+            INSERT INTO token_transactions
+              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            VALUES
+              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4, $5, $6, $8)
+            ON CONFLICT (idempotency_key) DO NOTHING
+            RETURNING id
+          )
+          UPDATE token_balances
+          SET ${column} = ${column} + $3,
+              updated_at = now()
+          WHERE user_id = $1
+            AND EXISTS (SELECT 1 FROM inserted)
+          RETURNING *`;
+}
+
 // ─── Service Class ────────────────────────────────────────────────────
 
 class TokenEconomyService {
@@ -157,38 +187,17 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        // Use a transaction for atomicity
-        const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          inserted AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            VALUES
-              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4, $5, $6, $8)
-            ON CONFLICT (idempotency_key) DO NOTHING
-            RETURNING id
-          )
-          UPDATE token_balances
-          SET ${column} = ${column} + $3,
-              updated_at = now()
-          WHERE user_id = $1
-            AND EXISTS (SELECT 1 FROM inserted)
-          RETURNING *`,
-          [
-            userId,
-            tokenType,
-            amount,
-            sourceType,
-            opts?.sourceId || null,
-            opts?.description || null,
-            opts?.transactionGroupId || null,
-            opts?.idempotencyKey || null,
-          ],
-        );
+        // Single atomic statement (insert ledger row + apply delta).
+        const result = await db.executeQuery(creditTokensSql(column), [
+          userId,
+          tokenType,
+          amount,
+          sourceType,
+          opts?.sourceId || null,
+          opts?.description || null,
+          opts?.transactionGroupId || null,
+          opts?.idempotencyKey || null,
+        ]);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -321,28 +330,72 @@ class TokenEconomyService {
     },
   ): Promise<TokenBalances | null> {
     const groupId = crypto.randomUUID();
-    let lastBalances: TokenBalances | null = null;
+    const db = await getDbModule();
 
+    if (db) {
+      // All credits in ONE transaction so a multi-token grant is all-or-nothing:
+      // previously each credit auto-committed independently, so a failure on
+      // (say) the 3rd of 4 left a partially-applied grant. Per-type idempotency
+      // keys still make the whole grant safe to replay.
+      try {
+        const lastRow = await db.withTransaction(async (client) => {
+          let last: Record<string, unknown> | null = null;
+          for (const { tokenType, amount } of credits) {
+            if (amount <= 0) continue;
+            const column = tokenType.toLowerCase() as
+              | "spirit"
+              | "essence"
+              | "matter"
+              | "substance";
+            const idemKey = opts?.idempotencyKey
+              ? `${opts.idempotencyKey}:${tokenType}`
+              : null;
+            const res = await client.query(creditTokensSql(column), [
+              userId,
+              tokenType,
+              amount,
+              sourceType,
+              opts?.sourceId || null,
+              opts?.description || null,
+              groupId,
+              idemKey,
+            ]);
+            if (res.rows.length > 0) last = res.rows[0];
+          }
+          return last;
+        });
+
+        if (lastRow) return rowToBalances(lastRow);
+        // No row updated: every credit hit ON CONFLICT DO NOTHING (idempotency
+        // replay) or all amounts were non-positive. The balance already
+        // reflects any prior claim, so return the current balance.
+        return this.getBalances(userId);
+      } catch (error) {
+        _logger.error(
+          "[TokenEconomy] creditMultipleTokens failed, rolled back:",
+          error,
+        );
+        return null;
+      }
+    }
+
+    // In-memory fallback (no DB): apply sequentially via creditTokens.
+    let lastBalances: TokenBalances | null = null;
     for (const { tokenType, amount } of credits) {
       if (amount <= 0) continue;
-
       const idemKey = opts?.idempotencyKey
         ? `${opts.idempotencyKey}:${tokenType}`
         : undefined;
-
       lastBalances = await this.creditTokens(userId, tokenType, amount, sourceType, {
         sourceId: opts?.sourceId,
         description: opts?.description,
         idempotencyKey: idemKey,
         transactionGroupId: groupId,
       });
-
       if (lastBalances === null && idemKey) {
-        // Idempotency blocked — already claimed
         return null;
       }
     }
-
     return lastBalances || this.getBalances(userId);
   }
 

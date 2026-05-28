@@ -381,8 +381,10 @@ class CommensalDatabaseService {
     const db = await getDbModule();
     if (db) {
       try {
+        // LIMIT is a safety ceiling, not pagination — a user's saved charts are
+        // inherently few; the cap just bounds a pathological/abuse-driven read.
         const result = await db.executeQuery(
-          `SELECT * FROM saved_charts WHERE owner_id = $1 ORDER BY is_primary DESC, created_at ASC`,
+          `SELECT * FROM saved_charts WHERE owner_id = $1 ORDER BY is_primary DESC, created_at ASC LIMIT 500`,
           [userId],
         );
         return result.rows.map((r: any) => this.rowToSavedChart(r));
@@ -445,8 +447,9 @@ class CommensalDatabaseService {
     const db = await getDbModule();
     if (db) {
       try {
+        // LIMIT is a safety ceiling, not pagination — bounds a pathological read.
         const result = await db.executeQuery(
-          `SELECT * FROM manual_companion_charts WHERE owner_id::text = $1 ORDER BY created_at DESC`,
+          `SELECT * FROM manual_companion_charts WHERE owner_id::text = $1 ORDER BY created_at DESC LIMIT 500`,
           [userId],
         );
         return result.rows.map((r: any) => ({
