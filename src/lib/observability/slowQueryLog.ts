@@ -64,11 +64,10 @@ async function persistSlowQueryEntry(entry: SlowQueryEntry): Promise<void> {
   if (typeof window !== "undefined") return;
   if (!process.env.DATABASE_URL) return;
   try {
-    // Dynamic import + raw pool query (bypass executeQuery to avoid
-    // re-entry through the slow-query recorder). The cycle is intentional
-    // and broken at runtime by the lazy import.
-    // eslint-disable-next-line import/no-cycle
-    const { getDatabasePool } = await import("@/lib/database/connection");
+    // Raw pool query (bypass executeQuery to avoid re-entry through the
+    // slow-query recorder). The pool comes from the leaf rawPool module, so
+    // there is no import cycle with connection.ts.
+    const { getDatabasePool } = await import("@/lib/database/rawPool");
     await getDatabasePool().query(
       `INSERT INTO slow_query_log_entries (at, ms, preview, row_count)
        VALUES ($1, $2, $3, $4)`,
@@ -87,7 +86,7 @@ function ensureHydrated(): void {
   if (!process.env.DATABASE_URL) return;
   void (async () => {
     try {
-      const { getDatabasePool } = await import("@/lib/database/connection");
+      const { getDatabasePool } = await import("@/lib/database/rawPool");
       const result = await getDatabasePool().query<{
         at: Date;
         ms: number;
