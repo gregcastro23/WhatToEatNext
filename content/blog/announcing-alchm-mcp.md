@@ -20,8 +20,8 @@ summary: >
 
 > **DRAFT — not yet published.** Marketing pass + final pricing
 > language before going live. The technical details and config snippets
-> are sourced from `mcp-server/README.md` and `docs/mcp-launch-checklist.md`
-> and have been verified end-to-end against the live MCP server.
+> are sourced from `mcp-server/README.md` and have been verified
+> end-to-end against the live MCP server.
 
 The chat assistants people are running today — Claude Desktop, Cursor,
 Cline, Antigravity, anything built on the [Claude Agent

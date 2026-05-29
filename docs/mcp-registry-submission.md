@@ -128,8 +128,8 @@ gh pr create --repo modelcontextprotocol/servers \
 
 - Add a "Listed on the MCP server registry" line to
   `mcp-server/README.md`.
-- Link from `docs/mcp-launch-checklist.md` Item 9 to the merged PR.
-- Update this file's status header to ✅.
+- Record the merged registry PR link in this file's **Submission status**
+  header, and flip it to ✅.
 
 ---
 

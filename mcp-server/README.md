@@ -1,6 +1,6 @@
 # Alchm.kitchen MCP Server
 
-An [MCP server](https://modelcontextprotocol.io) exposing three alchemical tools — live sky transits, ingredient ESMS analysis, and cosmic recipe discovery — to any LLM client that speaks MCP (Claude Desktop, Cursor, Google Antigravity, Claude Agent SDK, etc.).
+An [MCP server](https://modelcontextprotocol.io) exposing five alchemical tools — live sky transits, ingredient ESMS analysis, cosmic recipe discovery, synastry overlays, and transit×natal overlays — to any LLM client that speaks MCP (Claude Desktop, Cursor, Google Antigravity, Claude Agent SDK, etc.).
 
 ## Tools
 
@@ -9,8 +9,10 @@ An [MCP server](https://modelcontextprotocol.io) exposing three alchemical tools
 | `get_live_sky_transits` | Free | Current planetary positions + elemental balance for any coordinate. |
 | `alchemize_ingredients` | Free | Spirit / Essence / Matter / Substance scores + thermodynamic indices for a list of ingredients. |
 | `generate_cosmic_recipe` | 7.5 of each ESMS (30 total) | Search the 579-recipe catalog by element, cuisine, dietary needs. |
+| `compute_synastry_overlay` | Free | Inter-aspect ledger between two natal charts — tension / harmony / intensification scores + a recommended stance. |
+| `get_transit_natal_overlay` | Free | Live sky × one agent's natal chart — which transiting planets activate which natal points, with continuous boost magnitude. |
 
-`generate_cosmic_recipe` debits tokens only when called with a valid `_meta.apiKey`. Anonymous callers receive a `QUOTA` error rather than a free recipe.
+`generate_cosmic_recipe` debits tokens only when called with a valid `_meta.apiKey`. Anonymous callers receive a `QUOTA` error rather than a free recipe. The other four tools are free.
 
 ## Mint an API key
 
