@@ -218,6 +218,11 @@ export const AlchmQuantitiesApiResponseSchema = z.object({
   energy: z.number(),
   kalchm: z.number(),
   monica: z.number(),
+  // Present only when the result is not fully live (silent astronomy fallbacks
+  // or a degenerate monica). Absent on healthy payloads — purely additive.
+  degraded: z.object({
+    reasons: z.array(z.string()),
+  }).optional(),
   kinetics: z.object({
     velocity: EsmsKineticsSchema,
     acceleration: EsmsKineticsSchema,

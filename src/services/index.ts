@@ -4,7 +4,6 @@ export { currentMomentManager } from "./CurrentMomentManager";
 export { ingredientService } from "./IngredientService";
 // DISABLED - Services have been deleted or renamed
 // export { recipeService } from "./RecipeService";
-// export { recommendationService } from "./RecommendationService";
 export {
   fetchPlanetaryPositions,
   getCurrentPlanetaryPositions,

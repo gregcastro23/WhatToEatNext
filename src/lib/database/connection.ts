@@ -1,21 +1,22 @@
-import pkg from 'pg';
 import { logger } from "../logger";
-// Intentional, benign cycle: slowQueryLog lazily `import()`s this module's raw
-// pool at call time to avoid runtime recursion (see its own disable at the
-// import site). This static edge is the hot-path recordSlowQuery, called on
-// every query, so it stays static for perf.
-// eslint-disable-next-line import/no-cycle
 import { recordSlowQuery } from "../observability/slowQueryLog";
-import { databaseConfig, assertRuntimeDatabaseConfig } from "./config";
-import type { Pool, PoolClient, QueryResult } from "pg";
+import { databaseConfig } from "./config";
+import { getDatabasePool, initializeDatabase, closeDatabase } from "./rawPool";
+import type { PoolClient, QueryResult } from "pg";
 
-// Robustly extract Pool and types from the pg package (handles various bundling scenarios)
-const PoolValue = (pkg as any).Pool || (pkg as any).default?.Pool || (pkg as unknown as any).Pool;
-const types = (pkg as any).types || (pkg as any).default?.types || (pkg as unknown as any).types;
-
-if (!PoolValue) {
-  console.error("FATAL: pg.Pool is undefined. Environment might be incompatible with the current pg import strategy.");
-}
+/**
+ * Database Connection Layer
+ *
+ * Query execution, transactions, retry logic, and health checks built on top of
+ * the raw pool singleton in ./rawPool. The pool primitives are re-exported here
+ * so existing consumers can keep importing them from this module.
+ *
+ * slowQueryLog imports the raw pool from ./rawPool (not this module), so the old
+ * connection ⇄ slowQueryLog import cycle is gone — recordSlowQuery can stay a
+ * static import on the hot query path.
+ */
+export { getDatabasePool, initializeDatabase, closeDatabase };
+export type { DatabaseConfig } from "./rawPool";
 
 // Throttle the per-query system_metrics persistence (in executeQuery below) so a
 // burst of slow queries — e.g. during pool contention — can't self-amplify by
@@ -26,192 +27,6 @@ if (!PoolValue) {
 let _lastSlowQueryMetricAt = 0;
 const SLOW_QUERY_METRIC_MIN_INTERVAL_MS = 2000;
 
-// Note: neonConfig is no longer used as we are using standard pg
-
-/**
- * Database Connection Layer - Phase 1 Infrastructure Migration
- * Created: September 26, 2025
- *
- * PostgreSQL connection utilities with connection pooling,
- * error handling, and environment configuration for alchm.kitchen
- */
-// Configure PostgreSQL type parsers for better type safety
-types.setTypeParser(types.builtins.NUMERIC, (value: string) =>
-  parseFloat(value),
-);
-types.setTypeParser(types.builtins.INT8, (value: string) =>
-  parseInt(value, 10),
-);
-// Database configuration interface
-export interface DatabaseConfig {
-  host: string;
-  port: number;
-  database: string;
-  user: string;
-  password: string;
-  ssl: boolean | object;
-  max: number;
-  idleTimeoutMillis: number;
-  connectionTimeoutMillis: number;
-  // Server-side per-statement cap (ms). Postgres cancels with code 57014 when
-  // a query runs longer than this. Floors pool-storm outliers at the cap
-  // instead of letting them block a function instance for many minutes.
-  // Omitted under transaction-mode PgBouncer (it can't be sent as a startup
-  // param there) — see getDatabaseConfig and docs/adr/007.
-  statement_timeout?: number;
-  // Client-side query timeout (ms). The primary request-level bound through a
-  // transaction-mode pooler (statement_timeout is unavailable there). Note this
-  // only aborts the client read — it does NOT cancel the backend query — so it
-  // is paired with a server-side cap (statement_timeout direct, or a PgBouncer
-  // connect_query when pooled).
-  query_timeout: number;
-}
-// Configuration import
-// Environment-based configuration
-function getDatabaseConfig(): DatabaseConfig {
-  const {
-    databaseUrl,
-    host,
-    port,
-    database,
-    user,
-    password,
-    ssl,
-    maxConnections,
-    idleTimeout,
-    connectionTimeout,
-    statementTimeoutMs,
-    poolerMode,
-  } = databaseConfig;
-
-  // Under transaction-mode PgBouncer, `statement_timeout` cannot ride the
-  // connection startup packet: PgBouncer rejects non-allow-listed startup
-  // params, and even when ignored it has no effect because server connections
-  // are shared across clients. Omit it there and deliver the server-side cap
-  // via a PgBouncer `connect_query` (+ `SET LOCAL` in withTransaction) instead.
-  // In direct/session mode the per-connection startup param is the right floor.
-  const serverStatementCap =
-    poolerMode === "transaction"
-      ? {}
-      : { statement_timeout: statementTimeoutMs };
-
-  // SSL: Railway fronts Postgres/PgBouncer with a self-signed cert, and the
-  // internal `*.railway.internal` traffic never leaves Railway's private
-  // network. We can't pin a CA we don't control (Railway rotates it), so we
-  // accept the cert for any remote host — the confidentiality guarantee is
-  // Railway's network + proxy TLS, not certificate pinning.
-  const remoteSsl = { rejectUnauthorized: false };
-
-  if (databaseUrl) {
-    // Parse connection URL for cloud deployments
-    const url = new URL(databaseUrl);
-    return {
-      host: url.hostname,
-      port: parseInt(url.port, 10) || 5432,
-      database: url.pathname.slice(1),
-      user: url.username,
-      password: url.password,
-      // Enable SSL for any remote connection (non-localhost)
-      ssl: url.hostname !== "localhost" && url.hostname !== "127.0.0.1"
-        ? remoteSsl
-        : false,
-      max: maxConnections,
-      idleTimeoutMillis: idleTimeout,
-      connectionTimeoutMillis: connectionTimeout,
-      ...serverStatementCap,
-      query_timeout: statementTimeoutMs,
-    };
-  }
-  // Local development configuration
-  return {
-    host,
-    port,
-    database,
-    user,
-    password,
-    ssl: ssl ? remoteSsl : false,
-    max: maxConnections,
-    idleTimeoutMillis: idleTimeout,
-    connectionTimeoutMillis: connectionTimeout,
-    ...serverStatementCap,
-    query_timeout: statementTimeoutMs,
-  };
-}
-// Connection pool instance
-let pool: Pool | null = null;
-// Initialize database connection pool
-export function initializeDatabase(): Pool {
-  if (pool) {
-    return pool;
-  }
-
-  // Fail fast in production if DATABASE_URL is unset (would silently fall back
-  // to the localhost default and "succeed" until the first query times out).
-  assertRuntimeDatabaseConfig();
-
-  const config = getDatabaseConfig();
-
-  pool = new PoolValue(config);
-  
-  if (!pool) {
-    throw new Error("Failed to initialize database pool");
-  }
-
-  // Connection event handlers
-  pool.on("connect", (_client: PoolClient) => {
-    void logger.info("New database connection established", {
-      database: config.database,
-      host: config.host,
-    });
-  });
-  pool.on("error", (err: Error, _client: PoolClient) => {
-    void logger.error("Unexpected database pool error", {
-      error: err.message,
-      stack: err.stack,
-      database: config.database,
-    });
-  });
-  
-  // Graceful shutdown handling
-  process.on("SIGINT", () => {
-    void (async () => {
-      void logger.info("Received SIGINT, closing database pool...");
-      await closeDatabase();
-      process.exit(0);
-    })();
-  });
-  process.on("SIGTERM", () => {
-    void (async () => {
-      void logger.info("Received SIGTERM, closing database pool...");
-      await closeDatabase();
-      process.exit(0);
-    })();
-  });
-
-  void logger.info("Database connection pool initialized", {
-    database: config.database,
-    host: config.host,
-    port: config.port,
-    maxConnections: config.max,
-  });
-  return pool;
-}
-// Get database pool instance (initialize if not exists)
-export function getDatabasePool(): Pool {
-  if (!pool) {
-    return initializeDatabase();
-  }
-  return pool;
-}
-// Close database connection pool
-export async function closeDatabase(): Promise<void> {
-  if (pool) {
-    void logger.info("Closing database connection pool...");
-    await pool.end();
-    pool = null;
-    void logger.info("Database connection pool closed");
-  }
-}
 // Health check function
 export async function checkDatabaseHealth(): Promise<{
   healthy: boolean;
@@ -296,7 +111,7 @@ export async function executeQuery<_T extends any = any>(
     // The admin observability endpoint reads this; production traffic should
     // surface gradual regressions here long before they trip the >1s warn.
     recordSlowQuery(executionTime, query, result.rowCount);
-    
+
     // Persist slow queries to system_metrics (sampled — see throttle note at top).
     const nowMs = Date.now();
     if (

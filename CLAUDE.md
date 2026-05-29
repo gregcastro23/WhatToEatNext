@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-_Version: 3.0.0 — "Modern Alchemist" | Last Updated: May 22, 2026_
+_Version: 3.1.0 — "Modern Alchemist" · MCP release | Last Updated: May 29, 2026_
 
 ## Project Overview
 
@@ -8,24 +8,30 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ## Current Project Status (May 2026)
 
-### 🎉 **3.0 "MODERN ALCHEMIST" — SHIPPED**
+### 🎉 **3.1 — "MODERN ALCHEMIST" · MCP RELEASE — SHIPPED**
 
-- **Version**: ✅ **3.0.0** (PRs #402–#406 merged; `git tag v3.0.0` still pending on master)
-- **Build**: ✅ **0 TS errors, 0 lint warnings** before every PR
+3.0 (PRs #402–#406, `git tag v3.0.0` cut) shipped the redesigned surface; **3.1 layers a published MCP server, production-readiness hardening, and a schema-drift cleanup on top.** A 3.1 tag is not yet cut.
+
+- **Version**: ✅ **3.1.0** (`git tag v3.0.0` is cut; 3.1 tag pending)
+- **Build**: ✅ **0 TS errors, 0 lint warnings** before every PR (husky pre-commit runs `typecheck && lint`)
 - **Toolchain**: ✅ **BUN v1.3.13** (Yarn fully retired)
 - **Stack**: Next.js 15 · React 19 · TypeScript 5.7
-- **Database**: ✅ **RAILWAY POSTGRES** (Internal: `postgres.railway.internal`)
-- **Read Model**: ✅ **DENORMALIZED** (Sub-100ms recipe loads via `read_model` JSONB column)
-- **Latency**: ✅ **SUB-1MS** DB response times via Railway internal networking
-- **Backend hardening**: ✅ `_aspects` schema fix deployed; `SafePositionsRecord` Zod transform live
+- **Database**: ✅ **RAILWAY POSTGRES** (`postgres.railway.internal`) + transaction-mode PgBouncer compat (ADR-007, #466)
+- **Read Model**: ✅ **DENORMALIZED** (sub-100ms recipe loads via `read_model` JSONB)
+- **Migrations**: ✅ **TRACKED + AUTO-APPLIED** — `_migrations` table + `scripts/migrate.ts` (TS) / `backend/scripts/run_init_migrations.py` run on Railway deploy before uvicorn (#448)
 
-### 🛠 Post-3.0 — in flight (May 19–22)
+### 🚀 Shipped in 3.1 (on top of 3.0)
 
-- **Admin operator console** — `/admin/*`: overview, High Alchemist dashboard, user management, advanced metrics
-- **Planetary Agents (PA) integration** — `alchm.kitchen ↔ PA ↔ WTEN` three-project loop wired
-- **Live agent telemetry** — `agentTelemetryService` replaces simulated fixtures with DB + ephemeris sources
+- **MCP server** — bun-powered MCP tool surface: end-user API keys, Stripe ESMS top-ups, synastry tool, telemetry + synthetic-probe + token-economy instrumentation, cross-server admin panel (#454, #455, #457, #459; migrations 44–47)
+- **Production-readiness hardening** — security, DB resilience, calc guards (#465); PgBouncer transaction-mode compat + connection hardening (#466); internal-URL centralization via `src/lib/serviceUrls.ts` (`getServiceUrl`/`getServiceUrlSafe`, fail-loud — #467)
+- **Schema-drift cleanup + migration runner** — restored lost column defaults, applied skipped migrations (incl. 31), tracking table + runner wired into the deploy (#448)
+- **Calc observability** — additive `degraded` flag (`src/types/degraded.ts`) threaded from the positions layer (`astronomy-engine-fallback` / `stale-positions`) and `alchemize` (`monica-degenerate`) through `/api/alchm-quantities` to a badge on `/quantities` _(committed on `feat/calc-degraded-flag`, PR pending)_
+- **DB module hygiene** — raw pool extracted to `src/lib/database/rawPool.ts`, breaking the `connection.ts ↔ slowQueryLog` import cycle _(committed, PR pending)_
+
+### 🛠 In flight
+
 - **WTEN migration** — porting the `planetary_agents-main` UI into `src/` (5 of 11 sessions done — see `WTEN_MIGRATION_PLAN.md`)
-- **Real recommendations** — real planetary alchemy replaces mock fallbacks in recommendation/cuisine services
+- **Real recommendations** — real planetary alchemy replacing mock fallbacks in recommendation/cuisine services
 
 ### Toolchain — always use `bun`, never `npm` or `yarn`
 
@@ -241,4 +247,4 @@ Porting the `planetary_agents-main` Next.js UI surface into this repo's `src/`. 
 
 ---
 
-_Updated May 24, 2026 — Operational admin dashboard: per-flow system status, live activity stream, onboarding funnel watch, today's highlights. Hourly health snapshots + transition-based alerting (Slack + email + DB sinks). 5 synthetic probes covering onboarding, cosmic-recipe gen, recommendations, Stripe webhook reachability, auth handshake. Observability rings (request log, slow-query log, alert log) persisted to DB so cold starts don't lose history. Bun 1.3.13._
+_Updated May 29, 2026 (v3.1) — MCP server: end-user API keys, Stripe ESMS top-ups, synastry tool, cross-server admin panel, telemetry/probe/economy instrumentation (#454/#455/#457/#459). Production-readiness hardening (#465) + PgBouncer transaction-mode compat (ADR-007, #466) + serviceUrls centralization (#467). Schema-drift cleanup + tracked, auto-applied migration runner — `_migrations` table, `scripts/migrate.ts`, Railway-deploy hook (#448). Calc observability: additive `degraded` flag from the positions layer and monica through `/api/alchm-quantities` to a `/quantities` badge. DB raw-pool extraction breaks the `connection ↔ slowQueryLog` cycle. Bun 1.3.13._

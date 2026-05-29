@@ -2,6 +2,7 @@
 // so Body, AstroTime, etc. resolve correctly regardless of bundler ESM/CJS resolution.
 import * as Astronomy from "astronomy-engine";
 import { _logger } from "@/lib/logger";
+import type { DegradedInfo } from "@/types/degraded";
 
 // Removed unused log import
 
@@ -80,6 +81,7 @@ const RETROGRADE_STATUS: Record<string, boolean> = {
  */
 interface PositionsCache {
   positions: { [key: string]: PlanetPositionData };
+  degraded: DegradedInfo | null;
   timestamp: number;
   date: Date;
 }
@@ -284,13 +286,22 @@ export function isCurrentSkyDiurnal(date: Date = new Date()): boolean {
 }
 
 /**
- * Get accurate planetary positions using astronomy-engine
+ * Get accurate planetary positions AND report whether any value was interpolated.
+ *
+ * When astronomy-engine succeeds the result is live (not degraded). When a
+ * planet (or the whole calculation) falls back to {@link getFallbackPlanetaryPositions}
+ * — which interpolates from a fixed reference date — the result is degraded with
+ * reason `stale-positions`.
+ *
+ * Callers that don't need the signal should use {@link getAccuratePlanetaryPositions}.
  * @param date Date to calculate positions for
- * @returns Record of planetary positions in degrees (0-360)
  */
-export function getAccuratePlanetaryPositions(date: Date): {
-  [key: string]: PlanetPositionData;
+export function getAccuratePlanetaryPositionsWithMeta(date: Date): {
+  positions: { [key: string]: PlanetPositionData };
+  degraded: DegradedInfo | null;
 } {
+  // True when any planet's value came from the interpolated fallback.
+  let usedFallback = false;
   try {
     // Check cache first
     if (
@@ -299,7 +310,10 @@ export function getAccuratePlanetaryPositions(date: Date): {
       Date.now() - positionsCache.timestamp < CACHE_EXPIRATION
     ) {
       debugLog("Using cached planetary positions");
-      return positionsCache.positions;
+      return {
+        positions: positionsCache.positions,
+        degraded: positionsCache.degraded,
+      };
     }
 
     const astroTime = new Astronomy.AstroTime(date);
@@ -364,6 +378,7 @@ export function getAccuratePlanetaryPositions(date: Date): {
             exactLongitude: fallback.exactLongitude || 0,
             isRetrograde: fallback.isRetrograde || false,
           };
+          usedFallback = true;
         }
       }
     }
@@ -386,13 +401,17 @@ export function getAccuratePlanetaryPositions(date: Date): {
     }
 
     // Update cache
+    const degraded: DegradedInfo | null = usedFallback
+      ? { reasons: ["stale-positions"] }
+      : null;
     positionsCache = {
       positions,
+      degraded,
       timestamp: Date.now(),
       date: new Date(date),
     };
 
-    return positions;
+    return { positions, degraded };
   } catch (error) {
     debugLog(
       "Error in getAccuratePlanetaryPositions: ",
@@ -413,8 +432,25 @@ export function getAccuratePlanetaryPositions(date: Date): {
       };
     }
 
-    return convertedPositions;
+    return {
+      positions: convertedPositions,
+      degraded: { reasons: ["stale-positions"] },
+    };
   }
+}
+
+/**
+ * Get accurate planetary positions using astronomy-engine.
+ *
+ * Thin wrapper over {@link getAccuratePlanetaryPositionsWithMeta} that drops the
+ * degraded signal, preserving the original signature for existing callers.
+ * @param date Date to calculate positions for
+ * @returns Record of planetary positions in degrees (0-360)
+ */
+export function getAccuratePlanetaryPositions(date: Date): {
+  [key: string]: PlanetPositionData;
+} {
+  return getAccuratePlanetaryPositionsWithMeta(date).positions;
 }
 
 /**
