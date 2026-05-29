@@ -16,9 +16,9 @@
  */
 
 import { NextResponse } from "next/server";
-import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { userDatabase } from "@/services/userDatabaseService";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";

@@ -17,9 +17,9 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
+import { getServiceUrl } from "@/lib/serviceUrls";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";

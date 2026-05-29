@@ -14,8 +14,8 @@
  */
 
 import NextAuth from "next-auth";
-import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { isAdminEmail, isPremiumEmail } from "@/lib/auth/adminEmails";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { logAuthEvent } from "@/services/authEventsService";
 import { createLogger } from "@/utils/logger";
 import { authConfig } from "./auth.config";

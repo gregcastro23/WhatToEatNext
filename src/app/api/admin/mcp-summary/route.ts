@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

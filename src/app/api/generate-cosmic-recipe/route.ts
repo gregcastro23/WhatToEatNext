@@ -21,13 +21,13 @@
  * now in place, WTEN simplifies to a proxy.
  */
 import { z } from "zod";
-import { getServiceUrl } from "@/lib/serviceUrls";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
 import { withObservability } from "@/lib/observability/withObservability";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { alchemize } from "@/services/RealAlchemizeService";

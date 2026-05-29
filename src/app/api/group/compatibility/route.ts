@@ -9,8 +9,8 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { subscriptionService } from "@/services/subscriptionService";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { subscriptionService } from "@/services/subscriptionService";
 
 const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || "";
 

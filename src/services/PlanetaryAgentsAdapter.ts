@@ -8,6 +8,7 @@
  */
 
 import { _logger } from "@/lib/logger";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import type {
   KineticsResponse,
   KineticsRequest as _KineticsRequest,
@@ -16,7 +17,6 @@ import type {
   GroupDynamicsResponse,
 } from "@/types/kinetics";
 import { computeGroupDynamics } from "@/utils/groupDynamics";
-import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 interface PlanetaryHourResponse {
   success: boolean;
