@@ -31,6 +31,13 @@ interface RecommendationData {
       recommendations: string[];
     };
   };
+  currentAlchemy?: {
+    kalchm: number;
+    monica: number;
+    esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+    dominantElement: string;
+    degraded?: boolean;
+  } | null;
   recommendations: {
     favorableElements: string[];
     challengingElements: string[];
@@ -192,6 +199,40 @@ export const PersonalizedRecommendations: React.FC<PersonalizedRecommendationsPr
               color="green"
             />
           </div>
+
+          {/* Today's real alchemical signature (ESMS-derived kalchm/monica) */}
+          {personalData.currentAlchemy && (
+            <div className="mb-6 rounded-lg border border-indigo-100 bg-indigo-50/50 p-4">
+              <p className="text-sm font-medium text-gray-700 mb-3">
+                Today&apos;s Alchemical Signature
+                {personalData.currentAlchemy.degraded && (
+                  <span className="ml-2 text-xs font-normal text-amber-600">
+                    (estimated — sky data degraded)
+                  </span>
+                )}
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-2xl font-bold text-indigo-600">
+                    {personalData.currentAlchemy.kalchm.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  </p>
+                  <p className="text-xs text-gray-500">Kalchm (Kₐ)</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-indigo-600">
+                    {personalData.currentAlchemy.monica.toFixed(3)}
+                  </p>
+                  <p className="text-xs text-gray-500">Monica constant</p>
+                </div>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                <span>Spirit {personalData.currentAlchemy.esms.Spirit.toFixed(2)}</span>
+                <span>Essence {personalData.currentAlchemy.esms.Essence.toFixed(2)}</span>
+                <span>Matter {personalData.currentAlchemy.esms.Matter.toFixed(2)}</span>
+                <span>Substance {personalData.currentAlchemy.esms.Substance.toFixed(2)}</span>
+              </div>
+            </div>
+          )}
 
           {/* Favorable elements */}
           {personalData.recommendations.favorableElements.length > 0 && (

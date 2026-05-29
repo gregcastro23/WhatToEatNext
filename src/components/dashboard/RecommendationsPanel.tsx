@@ -52,6 +52,13 @@ interface PersonalizedData {
     alchemicalAlignment: number;
     planetaryResonance: number;
   };
+  currentAlchemy?: {
+    kalchm: number;
+    monica: number;
+    esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+    dominantElement: string;
+    degraded?: boolean;
+  } | null;
   recommendations: {
     favorableElements: string[];
     challengingElements: string[];
@@ -352,8 +359,16 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               })}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
+          <div className="flex items-center gap-4 text-[10px] font-bold text-white/20 uppercase tracking-widest flex-wrap">
             <span>ESMS Alignment: S{alchemical.Spirit} E{alchemical.Essence} M{alchemical.Matter} Su{alchemical.Substance}</span>
+            {personalData?.currentAlchemy && (
+              <span className="text-white/40">
+                Today · Kalchm {personalData.currentAlchemy.kalchm.toLocaleString(undefined, { maximumFractionDigits: 1 })} · Monica {personalData.currentAlchemy.monica.toFixed(2)}
+                {personalData.currentAlchemy.degraded && (
+                  <span className="ml-1 normal-case italic text-amber-400/70">(est.)</span>
+                )}
+              </span>
+            )}
           </div>
         </div>
       </div>
