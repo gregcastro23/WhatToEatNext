@@ -1,10 +1,46 @@
 {
-  "name": "alchm-mcp-server",
-  "version": "1.1.0",
+  "name": "@alchm/mcp-server",
+  "version": "1.1.1",
+  "mcpName": "io.github.gregcastro23/alchm-kitchen",
+  "description": "Alchm.kitchen MCP server — live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry overlays, and transit×natal overlays.",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "bin": {
+    "alchm-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
-    "start": "bun run src/index.ts"
+    "build": "bun build src/index.ts --outfile dist/index.js --bundle --target node --external pg",
+    "start": "bun run src/index.ts",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "alchemy",
+    "astrology",
+    "food",
+    "recipes",
+    "planetary",
+    "esms"
+  ],
+  "author": "gregcastro23",
+  "license": "MIT",
+  "homepage": "https://alchm.kitchen/docs/mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gregcastro23/WhatToEatNext",
+    "directory": "mcp-server"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.1"

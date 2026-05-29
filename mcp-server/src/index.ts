@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Alchm MCP Server — stdio entry
  *

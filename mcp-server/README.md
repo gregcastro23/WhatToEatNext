@@ -1,6 +1,26 @@
 # Alchm.kitchen MCP Server
 
+[![Listed on MCP Registry](https://img.shields.io/badge/MCP_Registry-io.github.gregcastro23%2Falchm--kitchen-blueviolet)](https://registry.modelcontextprotocol.io/servers/io.github.gregcastro23/alchm-kitchen)
+[![npm](https://img.shields.io/npm/v/@alchm/mcp-server)](https://www.npmjs.com/package/@alchm/mcp-server)
+
 An [MCP server](https://modelcontextprotocol.io) exposing five alchemical tools — live sky transits, ingredient ESMS analysis, cosmic recipe discovery, synastry overlays, and transit×natal overlays — to any LLM client that speaks MCP (Claude Desktop, Cursor, Google Antigravity, Claude Agent SDK, etc.).
+
+## Install
+
+```bash
+# Bun (recommended)
+bunx @alchm/mcp-server
+
+# Node / npx
+npx -y @alchm/mcp-server
+```
+
+Or install globally:
+
+```bash
+bun add -g @alchm/mcp-server
+alchm-mcp-server
+```
 
 ## Tools
 
@@ -20,7 +40,7 @@ End users mint, list, and revoke their own keys at [`/profile/api-keys`](https:/
 
 Keys are stored as `sha256(plaintext)` in the `api_keys` table; the only place the plaintext ever appears is the `POST /api/account/api-keys` response body.
 
-## Run
+## Run from source
 
 ```bash
 bun run mcp-server/src/index.ts
