@@ -23,8 +23,17 @@ interface ChartComparisonData {
   };
 }
 
+interface CurrentAlchemyData {
+  kalchm: number;
+  monica: number;
+  esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  dominantElement: string;
+  degraded?: boolean;
+}
+
 interface PersonalizedData {
   chartComparison: ChartComparisonData;
+  currentAlchemy?: CurrentAlchemyData | null;
   recommendations: {
     favorableElements: string[];
     challengingElements: string[];
@@ -122,6 +131,26 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               color="#4ade80"
             />
           </div>
+          {personalData.currentAlchemy && (
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">Today&apos;s Alchemy</h4>
+                {personalData.currentAlchemy.degraded && (
+                  <span className="text-[9px] text-amber-400/70 font-medium italic">estimated · sky degraded</span>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-2xl font-bold text-white font-mono">{personalData.currentAlchemy.kalchm.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">Kalchm</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-white font-mono">{personalData.currentAlchemy.monica.toFixed(3)}</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider mt-1">Monica</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       ) : isLoading ? (
         <div className="alchm-card rounded-[2.5rem] shadow-2xl p-10 flex flex-col items-center justify-center border-white/5">

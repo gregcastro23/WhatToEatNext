@@ -1,4 +1,5 @@
 import alchemicalEngine from "@/calculations/core/alchemicalEngine";
+import { planetaryAlignmentAlchemy } from "@/services/RealAlchemizeService";
 import { recipeDataService } from "@/services/recipeData";
 import type {
     // Element, // unused - removed for performance
@@ -592,40 +593,93 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     }
   }
   /**
-   * Get recommendations based on planetary alignment
+   * Get recommendations based on planetary alignment.
+   *
+   * Maps the alignment onto the canonical alchemize engine
+   * (planetaryAlignmentAlchemy) for a real Spirit/Essence/Matter/Substance
+   * profile and the kalchm/monica derived from it, then drives the elemental
+   * recommendation path with the engine's sect-aware elemental profile. The real
+   * alchemical signature is attached to the result context, so callers get both
+   * the recommendations and the alchemy behind them. If the engine throws it
+   * degrades to a neutral elemental profile rather than fabricating alchemy.
    */
   async getRecommendationsForPlanetaryAlignment(
     planetaryPositions: Record<string, { sign: string; degree: number }>,
     type: "recipe" | "ingredient" | "cuisine" | "cookingMethod",
     limit?: number,
   ): Promise<RecommendationResult<unknown>> {
-    // Convert planetary positions to elemental properties
-    // This is a simplified implementation
-    const elementalProperties: ElementalProperties = {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
+    let signature: ReturnType<typeof planetaryAlignmentAlchemy> | undefined;
+    try {
+      signature = planetaryAlignmentAlchemy(planetaryPositions);
+    } catch (error) {
+      console.error(
+        "[UnifiedRecommendationService] planetary alchemy computation failed:",
+        error,
+      );
+    }
+
+    // Fresh literal: the engine's ElementalProperties (@/types/celestial) has no
+    // index signature, so bridge to the @/types/alchemy shape this service uses.
+    const elementalProperties: ElementalProperties = signature
+      ? {
+          Fire: signature.elementalProperties.Fire,
+          Water: signature.elementalProperties.Water,
+          Earth: signature.elementalProperties.Earth,
+          Air: signature.elementalProperties.Air,
+        }
+      : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+
+    const result = await this.getRecommendationsForElements(
+      elementalProperties,
+      type,
+      limit,
+    );
+
+    return {
+      ...result,
+      context: {
+        ...(result.context ?? {}),
+        elementalProperties,
+        ...(signature
+          ? {
+              alchemy: {
+                esms: signature.esms,
+                kalchm: signature.kalchm,
+                monica: signature.monica,
+                thermodynamics: signature.thermodynamics,
+                ...(signature.degraded ? { degraded: signature.degraded } : {}),
+              },
+            }
+          : {}),
+      },
     };
-    // In a real implementation, we would use the AlchemicalEngine to calculate
-    // elemental properties based on planetary positions
-    // Get recommendations based on elemental properties
-    return this.getRecommendationsForElements(elementalProperties, type, limit);
   }
   /**
-   * Calculate thermodynamic metrics based on elemental properties
+   * Calculate thermodynamic metrics from elemental properties.
+   *
+   * heat / entropy / reactivity / gregsEnergy ARE derivable from the elemental
+   * balance and are computed here. kalchm and monica are NOT — they require the
+   * Spirit/Essence/Matter/Substance axes, which an elemental-only input does not
+   * carry. We return NaN sentinels (not a fake 1.0 that masquerades as real) so
+   * callers can detect the not-computed case with Number.isFinite(); for real
+   * values, route through getRecommendationsForPlanetaryAlignment or the
+   * canonical RealAlchemizeService, which derive them from ESMS.
    */
   calculateThermodynamics(
-    _elementalProperties: ElementalProperties,
+    elementalProperties: ElementalProperties,
   ): ThermodynamicMetrics {
-    // Use the AlchemicalEngine to calculate thermodynamic metrics
+    const { Fire = 0, Water = 0, Air = 0 } = elementalProperties;
+    const heat = (Fire + Air) / 2;
+    const entropy = (Air + Fire) / 2;
+    const reactivity = Math.abs(Fire - Water) / 2;
+    const gregsEnergy = heat - entropy * reactivity;
     return {
-      heat: 0.5,
-      entropy: 0.5,
-      reactivity: 0.5,
-      gregsEnergy: 0.5,
-      kalchm: 1.0,
-      monica: 1.0,
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy,
+      kalchm: NaN,
+      monica: NaN,
     };
   }
   /**

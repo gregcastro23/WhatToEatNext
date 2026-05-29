@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
+import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
@@ -179,10 +180,36 @@ async function handlePost(request: NextRequest) {
       };
     }
 
+    // Today's real alchemical signature from the canonical engine: kalchm and
+    // monica are derived from the Spirit/Essence/Matter/Substance axes (the
+    // elemental-only path cannot produce them). Additive — the harmony meters
+    // above are unchanged. `degraded` is surfaced when the sky positions weren't
+    // fully live; null only if the engine itself throws.
+    let currentAlchemy: {
+      kalchm: number;
+      monica: number;
+      esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+      dominantElement: string;
+      degraded?: boolean;
+    } | null = null;
+    try {
+      const live = getCurrentAlchemicalState();
+      currentAlchemy = {
+        kalchm: live.kalchm,
+        monica: live.monica,
+        esms: live.esms,
+        dominantElement: live.metadata.dominantElement,
+        ...(live.degraded ? { degraded: true } : {}),
+      };
+    } catch (alchemyError) {
+      console.error("[personalized-recommendations] live alchemy unavailable:", alchemyError);
+    }
+
     return NextResponse.json({
       success: true,
       data: {
         chartComparison,
+        currentAlchemy,
         recommendations: {
           favorableElements,
           challengingElements,

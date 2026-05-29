@@ -50,7 +50,7 @@ authenticate instead.)
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
   "name": "io.github.gregcastro23/alchm-kitchen",
-  "description": "Live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry + transit×natal overlays.",
+  "description": "Live transits, ESMS ingredients, cosmic recipes, synastry & transit×natal overlays by alchm.kitchen",
   "version": "1.1.0",
   "packages": [
     {

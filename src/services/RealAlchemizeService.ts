@@ -839,6 +839,50 @@ export function calculateAlchemicalProperties(
 ): StandardizedAlchemicalResult {
   return alchemize(positions, historicalPositions);
 }
+
+/**
+ * Real alchemical signature for a planetary alignment, computed by the
+ * canonical {@link alchemize} engine.
+ *
+ * The recommendation layer historically carried positions as `{ sign, degree }`
+ * and could only map them to elemental properties — which cannot yield kalchm or
+ * monica, since those require the Spirit/Essence/Matter/Substance axes. This
+ * adapts those positions onto the canonical engine so callers get REAL ESMS,
+ * kalchm, monica, thermodynamics, and the engine's own sect-aware elemental
+ * profile from a single, internally-consistent computation.
+ *
+ * `degree`/`minute` are optional: they only feed inter-moment momentum, which is
+ * not computed here (no historical positions passed), so the sign alone drives
+ * the result. Inherits all of {@link alchemize}'s guards (epsilon-clamped kalchm,
+ * degenerate-monica detection, degraded flag).
+ */
+export interface PlanetaryAlignmentAlchemy {
+  elementalProperties: ElementalProperties;
+  esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  kalchm: number;
+  monica: number;
+  thermodynamics: ThermodynamicProperties;
+  degraded?: DegradedInfo;
+}
+
+export function planetaryAlignmentAlchemy(
+  positions: Record<string, { sign: string; degree?: number; minute?: number }>,
+  date: Date = new Date(),
+): PlanetaryAlignmentAlchemy {
+  const full: Record<string, PlanetaryPosition> = {};
+  for (const [planet, p] of Object.entries(positions)) {
+    full[planet] = { sign: p.sign, degree: p.degree ?? 0, minute: p.minute ?? 0 };
+  }
+  const result = alchemize(full, null, date);
+  return {
+    elementalProperties: result.elementalProperties,
+    esms: result.esms,
+    kalchm: result.kalchm,
+    monica: result.monica,
+    thermodynamics: result.thermodynamicProperties,
+    ...(result.degraded ? { degraded: result.degraded } : {}),
+  };
+}
 // Export the service as default
 export default {
   alchemize,
