@@ -1,9 +1,10 @@
 import fs from "fs";
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
+import { type DegradedInfo, mergeDegraded } from "@/types/degraded";
 import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
 import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
-import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import { getAccuratePlanetaryPositionsWithMeta, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
     getPlanetarySectElement, calculateEnhancedAlchemicalFromPlanets, PLANETARY_SECTARIAN_ESMS
 } from "@/utils/planetaryAlchemyMapping";
@@ -77,6 +78,12 @@ export interface StandardizedAlchemicalResult {
     chartRuler: string;
     isDiurnal: boolean;
   };
+  /**
+   * Present only when the result is not fully live — e.g. positions fell back to
+   * interpolated/static data, or monica stayed at its degenerate 1.0 default.
+   * Absent on healthy results so existing consumers are unaffected.
+   */
+  degraded?: DegradedInfo;
 }
 // Utility functions
 function normalizeSign(sign: string): any {
@@ -203,6 +210,7 @@ export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
   historicalPositions: Record<string, PlanetaryPosition> | null = null,
   date: Date = new Date(),
+  options: { incomingDegraded?: DegradedInfo | null } = {},
 ): StandardizedAlchemicalResult {
   // Initialize totals
   const totals = {
@@ -395,13 +403,24 @@ export function alchemize(
   const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
   // Monica constant: −GregsEnergy / (Reactivity × ln(Kalchm))
   // Guards: kalchm must be > 0; lnK must be non-zero; reactivity must be non-zero
-  let monica = 1.0; // Default value
+  let monica = 1.0; // Degenerate default until a real value can be computed
+  let monicaDegenerate = true;
   if (kalchm > 0 && isFinite(kalchm)) {
     const lnK = Math.log(kalchm);
     if (lnK !== 0 && reactivity !== 0) {
-      monica = -gregsEnergy / (reactivity * lnK);
+      const monicaValue = -gregsEnergy / (reactivity * lnK);
+      if (Number.isFinite(monicaValue)) {
+        monica = monicaValue;
+        monicaDegenerate = false;
+      }
     }
   }
+  // A degraded result is surfaced when the inbound positions were not live
+  // (passed via options.incomingDegraded) or monica never escaped its default.
+  const degraded = mergeDegraded(
+    options.incomingDegraded,
+    monicaDegenerate ? { reasons: ["monica-degenerate"] } : null,
+  );
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
   const dominantElement = Object.entries(elements).sort(
@@ -443,6 +462,7 @@ export function alchemize(
       chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
       isDiurnal: diurnal,
     },
+    ...(degraded ? { degraded } : {}),
   };
 }
 /**
@@ -482,6 +502,7 @@ export function alchemizeDetailed(
   planetaryPositions: Record<string, PlanetaryPosition>,
   historicalPositions: Record<string, PlanetaryPosition> | null = null,
   date: Date = new Date(),
+  options: { incomingDegraded?: DegradedInfo | null } = {},
 ): DetailedAlchemicalResult {
   const totals = {
     Spirit: 0,
@@ -658,13 +679,22 @@ export function alchemizeDetailed(
     (Math.pow(kSpirit, kSpirit) * Math.pow(kEssence, kEssence)) /
     (Math.pow(kMatter, kMatter) * Math.pow(kSubstance, kSubstance));
   const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
-  let monica = 1.0;
+  let monica = 1.0; // Degenerate default until a real value can be computed
+  let monicaDegenerate = true;
   if (kalchm > 0 && isFinite(kalchm)) {
     const lnK = Math.log(kalchm);
     if (lnK !== 0 && reactivity !== 0) {
-      monica = -gregsEnergy / (reactivity * lnK);
+      const monicaValue = -gregsEnergy / (reactivity * lnK);
+      if (Number.isFinite(monicaValue)) {
+        monica = monicaValue;
+        monicaDegenerate = false;
+      }
     }
   }
+  const degraded = mergeDegraded(
+    options.incomingDegraded,
+    monicaDegenerate ? { reasons: ["monica-degenerate"] } : null,
+  );
 
   const elements = { Fire, Water, Air, Earth };
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
@@ -698,18 +728,26 @@ export function alchemizeDetailed(
       isDiurnal: diurnal,
     },
     perPlanet,
+    ...(degraded ? { degraded } : {}),
   };
 }
 
 /**
- * Load planetary positions from the extracted data file
+ * Load planetary positions from the extracted data file, reporting whether the
+ * result is degraded (interpolated / static fallback rather than live data).
  */
-export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
+export function loadPlanetaryPositionsWithMeta(): {
+  positions: Record<string, PlanetaryPosition>;
+  degraded: DegradedInfo | null;
+} {
   try {
     // Check if we're in a browser environment
     if (typeof window !== "undefined") {
-      // In browser, use fallback data
-      return getFallbackPlanetaryPositions();
+      // In browser, use the frozen static snapshot — not live, so degraded.
+      return {
+        positions: getFallbackPlanetaryPositions(),
+        degraded: { reasons: ["stale-positions"] },
+      };
     }
     // In Node.js environment, try to read the file
     const rawData = fs.readFileSync(
@@ -728,14 +766,15 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
         isRetrograde: Boolean(data.isRetrograde) || false,
       };
     }
-    return convertedPositions;
+    return { positions: convertedPositions, degraded: null };
   } catch (error) {
     _logger.warn(
       "Error loading planetary positions from file, using dynamic Swiss/Astronomy-Engine positions: ",
       error,
     );
     try {
-      const accurate = getAccuratePlanetaryPositions(new Date());
+      const { positions: accurate, degraded } =
+        getAccuratePlanetaryPositionsWithMeta(new Date());
       const convertedPositions: Record<string, PlanetaryPosition> = {};
       for (const [planetName, planetData] of Object.entries(accurate)) {
         convertedPositions[planetName] = {
@@ -746,12 +785,25 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
           exactLongitude: planetData.exactLongitude,
         };
       }
-      return convertedPositions;
+      return { positions: convertedPositions, degraded };
     } catch (calcError) {
       _logger.error("Failed to dynamically compute fallback planetary positions, reverting to static backup:", calcError);
-      return getFallbackPlanetaryPositions();
+      return {
+        positions: getFallbackPlanetaryPositions(),
+        degraded: { reasons: ["stale-positions"] },
+      };
     }
   }
+}
+
+/**
+ * Load planetary positions from the extracted data file.
+ *
+ * Thin wrapper over {@link loadPlanetaryPositionsWithMeta} that drops the
+ * degraded signal, preserving the original signature.
+ */
+export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
+  return loadPlanetaryPositionsWithMeta().positions;
 }
 /**
  * Get fallback planetary positions for when file loading fails
@@ -775,8 +827,8 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
  * Get current alchemical state based on real planetary positions
  */
 export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
-  const planetaryPositions = loadPlanetaryPositions();
-  return alchemize(planetaryPositions);
+  const { positions, degraded } = loadPlanetaryPositionsWithMeta();
+  return alchemize(positions, null, new Date(), { incomingDegraded: degraded });
 }
 /**
  * Calculate alchemical properties for a specific set of planetary positions

@@ -11,11 +11,13 @@ import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
+import type { DegradedInfo } from "@/types/degraded";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
 import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
 import {
   calculatePlanetaryPositions,
+  calculatePlanetaryPositionsWithMeta,
   getFallbackPlanetaryPositions,
 } from "@/utils/serverPlanetaryCalculations";
 
@@ -108,8 +110,13 @@ export async function GET(request: Request) {
     let nowPositions: Record<string, any>;
     let prevPositions: Record<string, any>;
     let prev2Positions: Record<string, any>;
+    // Degradation of the *current* sky is what the response headlines. prev/prev2
+    // only feed velocity/acceleration deltas, so their fallbacks don't flag the payload.
+    let positionsDegraded: DegradedInfo | null = null;
     try {
-      nowPositions = await calculatePlanetaryPositions(now);
+      const nowMeta = await calculatePlanetaryPositionsWithMeta(now);
+      nowPositions = nowMeta.positions;
+      positionsDegraded = nowMeta.degraded;
       prevPositions = await calculatePlanetaryPositions(oneHourAgo);
       prev2Positions = await calculatePlanetaryPositions(twoHoursAgo);
     } catch (error) {
@@ -119,9 +126,15 @@ export async function GET(request: Request) {
       nowPositions = getFallbackPlanetaryPositions();
       prevPositions = getFallbackPlanetaryPositions();
       prev2Positions = getFallbackPlanetaryPositions();
+      positionsDegraded = { reasons: ["astronomy-engine-fallback"] };
     }
 
-    const nowAlch = alchemize(asPlanetaryPositions(nowPositions), asPlanetaryPositions(prevPositions), now);
+    const nowAlch = alchemize(
+      asPlanetaryPositions(nowPositions),
+      asPlanetaryPositions(prevPositions),
+      now,
+      { incomingDegraded: positionsDegraded },
+    );
     const prevAlch = alchemize(asPlanetaryPositions(prevPositions), asPlanetaryPositions(prev2Positions), oneHourAgo);
     const prev2Alch = alchemize(asPlanetaryPositions(prev2Positions), null, twoHoursAgo);
 
@@ -629,6 +642,8 @@ export async function GET(request: Request) {
       energy,
       kalchm,
       monica,
+      // Surfaced only when the sky data or monica is not fully live (see DegradedInfo).
+      degraded: nowAlch.degraded,
 
       // Detailed kinetics payload expected by alchm-kinetics
       kinetics: {

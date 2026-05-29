@@ -205,7 +205,20 @@ interface AlchemyData {
   kalchm: number;
   monica: number;
   timestamp: string;
+  /** Present only when the sky data or monica is not fully live. */
+  degraded?: { reasons: string[] };
   error?: string;
+}
+
+// Human-readable labels for the machine-readable degraded reasons (see DegradedInfo).
+const DEGRADED_REASON_LABELS: Record<string, string> = {
+  "astronomy-engine-fallback": "Live ephemeris unavailable — using static positions",
+  "stale-positions": "Positions interpolated from a fixed reference date",
+  "monica-degenerate": "Monica could not be computed (degenerate default)",
+};
+
+function degradedReasonLabel(reason: string): string {
+  return DEGRADED_REASON_LABELS[reason] ?? reason;
 }
 
 function TokenHeroCard({
@@ -586,6 +599,18 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
               )}
               <span className="text-[10px] font-bold text-white/50">
                 {alchData.isDiurnal ? "Day Sect" : "Night Sect"}
+              </span>
+            </div>
+          )}
+
+          {alchData?.degraded && alchData.degraded.reasons.length > 0 && (
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 rounded-full border border-amber-500/30"
+              title={alchData.degraded.reasons.map(degradedReasonLabel).join(" · ")}
+            >
+              <span className="text-amber-400 text-xs leading-none">⚠</span>
+              <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">
+                Degraded Data
               </span>
             </div>
           )}

@@ -6,6 +6,7 @@
 
 import * as AstronomyModule from "astronomy-engine";
 import type { ZodiacSignType } from "@/types/celestial";
+import type { DegradedInfo } from "@/types/degraded";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 
@@ -157,8 +158,11 @@ function longitudeToZodiacPosition(longitude: number): {
  */
 function calculatePositionsWithAstronomyEngine(
   date: Date,
-): Record<string, PlanetPosition> {
+): { positions: Record<string, PlanetPosition>; usedFallback: boolean } {
   const positions: Record<string, PlanetPosition> = {};
+  // True when any planet's value came from the static fallback rather than a
+  // live astronomy-engine computation — surfaced as `astronomy-engine-fallback`.
+  let usedFallback = false;
 
   const planets = [
     { name: "Sun", body: Astronomy.Body.Sun },
@@ -267,6 +271,7 @@ function calculatePositionsWithAstronomyEngine(
       const fallback = getFallbackPlanetaryPositions();
       if (fallback[planet.name]) {
         positions[planet.name] = fallback[planet.name];
+        usedFallback = true;
       }
     }
   }
@@ -277,6 +282,7 @@ function calculatePositionsWithAstronomyEngine(
     for (const planet of planets) {
       if (!positions[planet.name] && fallback[planet.name]) {
         positions[planet.name] = fallback[planet.name];
+        usedFallback = true;
       }
     }
   }
@@ -284,17 +290,27 @@ function calculatePositionsWithAstronomyEngine(
   logger.info(
     `Calculated ${Object.keys(positions).length} planetary positions using astronomy-engine`,
   );
-  return positions;
+  return { positions, usedFallback };
 }
 
 /**
- * Calculate planetary positions - tries backend first, falls back to astronomy-engine
- * This is the main function to use for server-side calculations
+ * Calculate planetary positions AND report whether the result is degraded.
+ *
+ * Resolution order (highest precision first):
+ *   1. Swiss-Ephemeris backend  → live, not degraded
+ *   2. astronomy-engine          → live, not degraded (unless a planet fell to
+ *                                   the static fallback → `astronomy-engine-fallback`)
+ *   3. static fallback positions → degraded `astronomy-engine-fallback`
+ *
+ * Callers that don't care about degradation should use {@link calculatePlanetaryPositions}.
  */
-export async function calculatePlanetaryPositions(
+export async function calculatePlanetaryPositionsWithMeta(
   date: Date = new Date(),
   zodiacSystem: "tropical" | "sidereal" = "tropical",
-): Promise<Record<string, PlanetPosition>> {
+): Promise<{
+  positions: Record<string, PlanetPosition>;
+  degraded: DegradedInfo | null;
+}> {
   logger.info(
     `calculatePlanetaryPositions called for date: ${date.toISOString()}`,
   );
@@ -311,7 +327,7 @@ export async function calculatePlanetaryPositions(
         logger.info(
           "Using backend Swiss Ephemeris for planetary calculations (high precision)",
         );
-        return backendPositions;
+        return { positions: backendPositions, degraded: null };
       }
     }
   } catch (backendError) {
@@ -323,9 +339,15 @@ export async function calculatePlanetaryPositions(
     logger.info(
       "Backend not available, using astronomy-engine fallback (moderate precision)",
     );
-    const astronomyPositions = calculatePositionsWithAstronomyEngine(date);
+    const { positions: astronomyPositions, usedFallback } =
+      calculatePositionsWithAstronomyEngine(date);
     if (astronomyPositions && Object.keys(astronomyPositions).length > 0) {
-      return astronomyPositions;
+      return {
+        positions: astronomyPositions,
+        degraded: usedFallback
+          ? { reasons: ["astronomy-engine-fallback"] }
+          : null,
+      };
     }
   } catch (astronomyError) {
     logger.error("astronomy-engine calculation failed:", astronomyError);
@@ -335,7 +357,25 @@ export async function calculatePlanetaryPositions(
   logger.warn(
     "All calculation methods failed, using static fallback positions",
   );
-  return getFallbackPlanetaryPositions();
+  return {
+    positions: getFallbackPlanetaryPositions(),
+    degraded: { reasons: ["astronomy-engine-fallback"] },
+  };
+}
+
+/**
+ * Calculate planetary positions - tries backend first, falls back to astronomy-engine
+ * This is the main function to use for server-side calculations.
+ *
+ * Thin wrapper over {@link calculatePlanetaryPositionsWithMeta} that drops the
+ * degraded signal, preserving the original signature for existing callers.
+ */
+export async function calculatePlanetaryPositions(
+  date: Date = new Date(),
+  zodiacSystem: "tropical" | "sidereal" = "tropical",
+): Promise<Record<string, PlanetPosition>> {
+  return (await calculatePlanetaryPositionsWithMeta(date, zodiacSystem))
+    .positions;
 }
 
 /**
