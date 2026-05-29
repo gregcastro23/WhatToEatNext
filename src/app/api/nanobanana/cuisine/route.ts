@@ -1,10 +1,10 @@
 import { createHash } from "crypto";
-import { getServiceUrl } from "@/lib/serviceUrls";
 import { NextResponse } from "next/server";
 import { getCuisineData, CUISINES_METADATA } from "@/data/cuisines/index";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import type { Cuisine } from "@/types/cuisine";
 import type { NextRequest } from "next/server";
 

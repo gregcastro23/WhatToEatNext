@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServiceUrl } from "@/lib/serviceUrls";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { getServiceUrl } from "@/lib/serviceUrls";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";

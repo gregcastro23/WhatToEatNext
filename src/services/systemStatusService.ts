@@ -20,12 +20,12 @@
 
 import { checkDatabaseHealth, executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
-import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import {
   summarizePath,
   type PathHealth,
 } from "@/lib/observability/requestLog";
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getMcpNetworkSummary } from "@/services/mcpNetworkService";

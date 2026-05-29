@@ -1,9 +1,9 @@
+import { getServiceUrlSafe } from '@/lib/serviceUrls'
 import {
   PlanetaryKineticsClient,
   type KineticsLocation,
   type KineticsOptions,
 } from '@/services/PlanetaryKineticsClient'
-import { getServiceUrlSafe } from '@/lib/serviceUrls'
 import { logger } from '@/utils/logger'
 
 export interface EnhancedKineticData {

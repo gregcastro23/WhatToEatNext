@@ -12,10 +12,10 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { getAgentNetworkTelemetry } from "@/services/agentTelemetryService";
 import {
   getAuditEvents,
