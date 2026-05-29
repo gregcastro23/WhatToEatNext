@@ -6,6 +6,22 @@ Each session prompt below is **self-contained**. Copy-paste a session into a fre
 
 ---
 
+## Progress reconciliation (2026-05-29, verified against git)
+
+The per-session `[x]` checkboxes below were only filled in for Session 1; later sessions shipped without updating them. Actual state on `master`:
+
+- **Session 1** ✅ — closure audit.
+- **Session 2** ✅ — shadcn UI + leaf utilities (merged).
+- **Session 3** ✅ — foundation libs (`#419`); also did opportunistic bonus ports of `kinetics-client` + `agents/kinetic-profiles` (commit `1a046c03`).
+- **Session 4** ✅ — astronomy + ephemeris (`#420`).
+- **Session 5** ✅ — monica + alchemy core (`#422`, commit `8e85096c`).
+- **Session 6** ✅ — agent layer ported in commit `d1449d23` (consciousness-memory, unified-agent-factory, degree-planetary-agent-mapping, planetary-agent-activation, degree-agent-matcher) + the 2 Session-3 bonus ports. The 8th module, `alchemical-kinetics-sampler.ts`, was deferred there and **completed on 2026-05-29** (branch `claude/wten-migration-session-6-sampler`) — see the Session 6 note below.
+- **Sessions 7–11** — pending. **7 of 11 effectively done.**
+
+> Plan line counts are stale where the source repo evolved after the 2026-05-20 audit (e.g. `alchemical-kinetics-sampler.ts` is 415L, not 33L). Re-measure against the source before trusting a session's size estimate.
+
+---
+
 ## Shared context (reference for every session)
 
 ### Repo layout
@@ -358,7 +374,9 @@ For each: copy verbatim except the documented adaptations, adapt aliases, run ty
 
 ---
 
-## Session 6 — Agents + matching
+## Session 6 — Agents + matching ✅ COMPLETE
+
+> **Done.** Modules 1–4, 6–8 ported in commit `d1449d23` (+ Session-3 bonus ports of `kinetics-client` and `agents/kinetic-profiles`). Module 5, `alchemical-kinetics-sampler.ts`, was deferred there because it imports the severed `planetary-hour` module; **completed 2026-05-29** with two adaptations (see item 5).
 
 **Pre-flight:**
 ```bash
@@ -375,7 +393,9 @@ bun install
 2. Port `lib/agents/kinetic-profiles.ts` → `src/lib/agents/kinetic-profiles.ts` (732L) — leaf. (Target's `src/lib/agents/` already has unrelated files; no name collision.)
 3. Port `lib/agents/consciousness-memory.ts` → `src/lib/agents/consciousness-memory.ts` (413L) — depends on `agent-types` (Session 3), `kinetics-client` (step 1), `agents/kinetic-profiles` (step 2)
 4. Port `lib/unified-agent-factory.ts` → `src/lib/unified-agent-factory.ts` (430L) — depends on `unified-agent-types` (Session 3), `agent-types` (Session 3), `astrological-data` (Session 4), `moon-phase-calculator` (Session 4)
-5. Port `lib/alchemical-kinetics-sampler.ts` → `src/lib/alchemical-kinetics-sampler.ts` (33L) — leaf
+5. Port `lib/alchemical-kinetics-sampler.ts` → `src/lib/alchemical-kinetics-sampler.ts` (**415L**, not 33L — the source grew after the audit) — **NOT a leaf.** Two adaptations done on 2026-05-29:
+   - It imports `./alchemical-kinetics` (700L), which the plan never assigned to any session. That zero-import leaf was ported alongside as `src/lib/alchemical-kinetics.ts`.
+   - It imports `PlanetaryHourCalculator` from `./planetary-hour` — part of the **deliberately severed** alchemical-trainer chain. The target already ships `src/lib/PlanetaryHourCalculator.ts` with the same constructor `(lat, long)` and `getPlanetaryHour(date) → { planet, isDaytime }` shape, so the import was redirected there rather than porting the severed module.
 6. Port `lib/degree-planetary-agent-mapping.ts` → `src/lib/degree-planetary-agent-mapping.ts` (406L) — leaf
 7. Port `lib/services/planetary-agent-activation.ts` → `src/lib/services/planetary-agent-activation.ts` (445L) — depends on `degree-planetary-agent-mapping` (step 6), `unified-agent-factory` (step 4), `unified-agent-types` (Session 3), `astrological-data` (Session 4), `moon-phase-calculator` (Session 4), `planetary-config-helper` (Session 4). Creates `src/lib/services/` dir.
 8. Port `lib/degree-agent-matcher.ts` → `src/lib/degree-agent-matcher.ts` (916L) — depends on `agent-types` (Session 3), `celestial-energy-calculator` (Session 5)
