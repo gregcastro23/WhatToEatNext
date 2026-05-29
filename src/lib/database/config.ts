@@ -37,6 +37,20 @@ export const databaseConfig = {
   // the floor that should always be on.
   statementTimeoutMs: parseInt(process.env.DB_STATEMENT_TIMEOUT_MS || "5000", 10),
 
+  // Pooler topology in front of Postgres. Governs how the per-statement cap is
+  // delivered (see getDatabaseConfig in connection.ts):
+  //   "direct"      — app talks straight to Postgres (or a session-mode pooler).
+  //                   `statement_timeout` is sent as a connection startup param.
+  //   "session"     — session-mode PgBouncer; same startup-param path as direct.
+  //   "transaction" — transaction-mode PgBouncer. Startup params other than the
+  //                   allow-listed few are REJECTED, and `SET`s don't persist
+  //                   across the shared server connections, so we must NOT send
+  //                   `statement_timeout` at startup. Server-side capping then
+  //                   comes from a PgBouncer `connect_query` (recommended) and
+  //                   `SET LOCAL` inside withTransaction; client-side bounding
+  //                   stays on `query_timeout`. See docs/adr/007.
+  poolerMode: (process.env.DB_POOLER_MODE || "direct").toLowerCase(),
+
   // Application settings
   environment: process.env.NODE_ENV || "development",
   logQueries: process.env.DB_LOG_QUERIES === "true",
@@ -95,6 +109,11 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   ) {
     errors.push(
       "DB_STATEMENT_TIMEOUT_MS must be between 100ms and 60000ms",
+    );
+  }
+  if (!["direct", "session", "transaction"].includes(databaseConfig.poolerMode)) {
+    errors.push(
+      'DB_POOLER_MODE must be one of "direct", "session", or "transaction"',
     );
   }
 

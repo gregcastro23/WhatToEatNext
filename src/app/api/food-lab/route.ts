@@ -64,12 +64,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
   }
 
+  // Bound the read. The default is a generous safety ceiling (not a small page)
+  // so clients expecting "all entries" aren't silently truncated; callers can
+  // request a smaller window via ?limit / ?offset.
+  const { searchParams } = new URL(request.url);
+  const limit = Math.min(
+    Math.max(parseInt(searchParams.get("limit") || "500", 10) || 500, 1),
+    1000,
+  );
+  const offset = Math.max(parseInt(searchParams.get("offset") || "0", 10) || 0, 0);
+
   const db = await getDbModule();
   if (db) {
     try {
       const result = await db.executeQuery(
-        `SELECT * FROM food_lab_entries WHERE user_id = $1 ORDER BY cooked_at DESC`,
-        [userId],
+        `SELECT * FROM food_lab_entries WHERE user_id = $1 ORDER BY cooked_at DESC LIMIT $2 OFFSET $3`,
+        [userId, limit, offset],
       );
       const entries = result.rows.map(rowToEntry);
       return NextResponse.json({ success: true, entries, count: entries.length });
@@ -84,7 +94,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const entries = getUserEntries(userId);
+  const entries = getUserEntries(userId).slice(offset, offset + limit);
   return NextResponse.json({ success: true, entries, count: entries.length });
 }
 
