@@ -147,6 +147,21 @@ async function handlePost(request: NextRequest) {
         });
 
         if (!purchase.success && purchase.reason !== "already_owned") {
+          // `purchase_failed` means the debit threw server-side (e.g. a DB error
+          // inside purchaseShopItem) — NOT that the user is out of tokens. Return
+          // 5xx so it surfaces as an incident on the synthetic probe / dashboards
+          // instead of masquerading as a billing 402. (Masking a server throw as
+          // "insufficient tokens" is exactly what hid the 42702 CTE bug fixed in
+          // #446.) Only genuine balance failures get the 402 + upsell copy.
+          if (purchase.reason === "purchase_failed") {
+            return new Response(JSON.stringify({
+              error: "generation_unavailable",
+              message: "Recipe generation is temporarily unavailable. Please try again shortly.",
+            }), {
+              status: 503,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
           return new Response(JSON.stringify({
             error: "Insufficient tokens",
             message: `You have generated your free recipe for today. Generating another requires ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence. Earn more via the daily Cosmic Yield, complete quests, or upgrade to Premium for unlimited generations!`,
