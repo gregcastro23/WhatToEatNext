@@ -1,4 +1,4 @@
-# Alchm.kitchen — v3.0.0
+# Alchm.kitchen — v3.1.0
 
 [![Bun](https://img.shields.io/badge/Bun-v1.3.13-black?logo=bun&logoColor=white)](https://bun.sh)
 [![Next.js](https://img.shields.io/badge/Next.js-v15-black?logo=next.js)](https://nextjs.org)
@@ -10,6 +10,18 @@
 **The world's first astrological meal-planning system.** Alchm.kitchen bridges ancient alchemical wisdom with modern AI to deliver personalized food recommendations based on natal charts, live planetary positions, elemental harmony, and thermodynamic resonance.
 
 Production: **[alchm.kitchen](https://alchm.kitchen)**
+
+---
+
+## What's new in 3.1 — MCP release
+
+- **MCP server**: a Bun-powered Model Context Protocol tool surface — connect Claude Desktop / Cursor / Cline, mint a per-user API key at `/profile/api-keys`, and buy ESMS top-ups via Stripe. Tier-aware per-key rate limiting + full telemetry.
+- **Operational admin console** at `/admin`: per-flow system status, live activity stream, onboarding funnel watch, today's highlights, and API-route health — all from existing signals, each panel degrading independently. Hourly health snapshots + Slack/email/DB alerting, plus 5 synthetic probes.
+- **Tracked, auto-applied migrations**: a `_migrations` table + `scripts/migrate.ts` run on every Railway deploy, closing the schema-drift gap that caused prior signup/dashboard outages.
+- **Production-readiness hardening**: PgBouncer transaction-mode compatibility ([ADR-007](docs/adr/007-database-connection-pooling.md)), internal-URL centralization (`src/lib/serviceUrls.ts`), and DB/calc/security guards.
+- **Calc observability**: a `degraded` flag surfaces silent astronomy fallbacks and degenerate calculations on `/quantities` instead of letting them masquerade as live data.
+
+See [CHANGELOG.md](CHANGELOG.md) for the full 3.1 detail.
 
 ---
 

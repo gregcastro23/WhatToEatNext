@@ -9,10 +9,52 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### In Progress
-- MenuPlannerContext refactor: 2182-line file split into focused hooks
-- All auth-gated pages migrated into `(alchm)` route group (dark chrome)
-- Onboarding skip flow with `?prompt=natal` soft-prompt banner
-- Vercel Analytics funnel events (CommandPalette, UpgradeGate, AuthHandshake)
+- WTEN migration sessions 7–11 — porting the remaining `planetary_agents-main` UI surface into `src/` (7 of 11 done; see `WTEN_MIGRATION_PLAN.md`)
+- Real planetary alchemy replacing mock fallbacks in the recommendation/cuisine services
+
+---
+
+## [3.1.0] — 2026-05-29 — Modern Alchemist · MCP release
+
+3.0 shipped the redesigned surface (`git tag v3.0.0`). 3.1 layers a published MCP server, an operational admin console, production-readiness hardening, and a tracked migration runner on top. (3.1 tag not yet cut.)
+
+### Added
+
+#### MCP server (PRs #454, #455, #457, #459, #464)
+- **Bun-powered MCP tool surface** exposing the alchemical/synastry tools to MCP clients (Claude Desktop, Cursor, Cline). Stdio transport.
+- **End-user API keys** — mint / list / revoke at `/profile/api-keys`, backed by `POST/GET /api/account/api-keys` and `DELETE /api/account/api-keys/[keyId]`. Plaintext is returned exactly once at mint time.
+- **Stripe ESMS top-ups** — `POST /api/account/billing/mcp-top-up` opens a Stripe checkout for a top-up SKU; the webhook credits all four token axes idempotently (keyed on the checkout session id).
+- **Tier-aware rate limiting** — `api_keys.rate_limit_tier` maps to a per-key RPM cap (`alchemist` 300, `apprentice`/`authenticated` 60) via `rpmForTier()`.
+- **Telemetry / probe / economy instrumentation** — `mcp_invocations` table, a 4th dashboard telemetry tile (`mcpInvocationRate`), a synthetic MCP heartbeat probe, and per-invocation token debiting. Precision latency via `performance.now()`.
+- **Cross-server admin panel** — `/admin/mcp` + `mcpNetworkService` aggregate WTEN's `mcp_invocations` with PA's `GET /api/admin/mcp-summary`; each source degrades independently to `live: false`.
+- Migrations 44–47 (`user-daily-limits`, `agent-forge`, `mcp-invocations`, `synastry-cache`).
+
+#### Operational admin console (PRs #445, #446)
+- **`/admin` operational dashboard** — `TodaysHighlightsPanel` (24h vs prior-24h deltas), `LiveActivityPanel` (6-source merged feed), `SystemStatusPanel` (8 flow probes + dependency strip), `OnboardingFunnelPanel`, `ApiRouteHealthPanel`. Visibility-aware hardened polling (`useHardenedPolling`).
+- **Operational health services** — `systemStatusService`, `onboardingHealthService`, `liveActivityService`, `todaysHighlightsService`, `userTimelineService`. All compute from existing signals; each degrades independently.
+- **Hourly health snapshots + transition-based alerting** — `healthSnapshotService` + `alertService` (DB + Slack + email sinks, each independent; per-component cooldown).
+- **5 synthetic probes** — onboarding-skip, cosmic-recipe gen, recommendations, Stripe-webhook reachability, auth-handshake. Cron-driven; results in `synthetic_probe_results`.
+- **Observability persistence** — request-log, slow-query-log, and alert-log rings mirrored to DB so cold starts don't lose history. Daily prune cron.
+
+#### Schema-drift cleanup + migration runner (PR #448)
+- **Tracked, auto-applied migrations** — `_migrations` table + `scripts/migrate.ts` (TS, local) and `backend/scripts/run_init_migrations.py` (runs in the Railway backend container before uvicorn). `railway.json` watches `database/init/**`.
+- Applied previously-skipped migrations (incl. 31 agent-profile columns) and restored lost column defaults (migrations 42–43) — same class of bug as the #447 signup outage.
+
+#### Calc observability (PR #470)
+- **`degraded` flag** (`src/types/degraded.ts`) — threaded from the positions layer (`astronomy-engine-fallback` / `stale-positions`) and `alchemize` (`monica-degenerate`) through `/api/alchm-quantities` to a badge on `/quantities`. Additive/optional — existing consumers unaffected.
+
+### Changed
+
+- **Database: PgBouncer transaction-mode compatibility** (PR #466, **ADR-007**) — `DB_POOLER_MODE`, `SET LOCAL statement_timeout` in transactions, connection-leak fix in `checkDatabaseHealth`, write-replay guard in `executeQueryWithRetry`.
+- **Internal-URL centralization** (PR #467) — `src/lib/serviceUrls.ts` (`getServiceUrl` / `getServiceUrlSafe`, fail-loud) replaces scattered env reads.
+- **DB module hygiene** (PR #470) — raw pool extracted to `src/lib/database/rawPool.ts`, breaking the `connection.ts ↔ slowQueryLog` import cycle.
+- **Toolchain** — Docker dev image bumped to `node:26-alpine` (#389); GitHub Actions group bumped (#390).
+
+### Fixed
+
+- **Production-readiness hardening** (PR #465) — security, DB resilience, calc guards (kalchm base-clamp + finite guard, Sun-absent guard in `alchemize`, cross-backend rectification limited to finite/>0 values, NY-pinned signup/insight dedupe).
+- **cosmic-recipe error contract** (PR #468) — `/api/generate-cosmic-recipe` returns `503` when the token debit throws server-side (`purchase_failed`) instead of masking it as a billing `402`; genuine balance failures keep the `402`.
+- **Signup outage** (PR #447) — restored `NOT NULL DEFAULT`s on `users.email_verified` / `users.login_count` that had been lost from the migration history.
 
 ---
 
