@@ -10,9 +10,9 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ### 🎉 **3.1 — "MODERN ALCHEMIST" · MCP RELEASE — SHIPPED**
 
-3.0 (PRs #402–#406, `git tag v3.0.0` cut) shipped the redesigned surface; **3.1 layers a published MCP server, production-readiness hardening, and a schema-drift cleanup on top.** A 3.1 tag is not yet cut.
+3.0 (PRs #402–#406, `git tag v3.0.0` cut) shipped the redesigned surface; **3.1 layers a published MCP server, production-readiness hardening, and a schema-drift cleanup on top.** The `v3.1.0` tag was cut 2026-05-29.
 
-- **Version**: ✅ **3.1.0** (`git tag v3.0.0` is cut; 3.1 tag pending)
+- **Version**: ✅ **3.1.0** (`git tag v3.1.0` cut 2026-05-29)
 - **Build**: ✅ **0 TS errors, 0 lint warnings** before every PR (husky pre-commit runs `typecheck && lint`)
 - **Toolchain**: ✅ **BUN v1.3.13** (Yarn fully retired)
 - **Stack**: Next.js 15 · React 19 · TypeScript 5.7
