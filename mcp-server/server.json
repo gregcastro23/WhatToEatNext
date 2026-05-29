@@ -1,0 +1,33 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.gregcastro23/alchm-kitchen",
+  "description": "Live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry + transit×natal overlays — alchemy-aware food & ritual recommendations powered by alchm.kitchen.",
+  "version": "1.1.0",
+  "repository": {
+    "url": "https://github.com/gregcastro23/WhatToEatNext",
+    "source": "github",
+    "subfolder": "mcp-server"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@alchm/mcp-server",
+      "version": "1.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "MCP_USER_API_KEY",
+          "description": "Your alchm.kitchen API key — mint one at https://alchm.kitchen/profile/api-keys. Optional; unlocks per-user quotas and invocation telemetry. The server runs anonymously without it.",
+          "isSecret": true,
+          "isRequired": false
+        },
+        {
+          "name": "DATABASE_URL",
+          "description": "PostgreSQL connection string. Optional; enables the token gate and invocation logging. Omit for anonymous mode (all tools still function).",
+          "isSecret": true,
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

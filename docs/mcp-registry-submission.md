@@ -1,137 +1,105 @@
 # MCP Server Registry submission — alchm.kitchen
 
-Submission prep for [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers).
-This file is the canonical local copy of what we plan to submit upstream
-— operator can lift content verbatim into the GitHub PR.
+How to list the alchm.kitchen MCP server in the official MCP registry.
 
-**Submission status:** ⏸ not yet submitted. File the PR once Item 6's
-load test passes and the blog post is live.
+**Submission status:** ⏸ npm package published — registry listing pending `mcp-publisher` step below.
 
----
-
-## Step 1 — Decide which list we're submitting to
-
-The MCP servers repo has three lists in `README.md`:
-
-| List | Criteria | Our fit |
-| --- | --- | --- |
-| 🔌 **Reference servers** | Anthropic-maintained examples. | ❌ Not us. |
-| 🌎 **Third-party servers** | Anyone, official or community. | ✅ This is the slot. |
-| 🚀 **Community servers** | Unofficial / experimental. | ⏸ Fallback if third-party reviewers push back. |
-
-We target the **third-party servers** list. The README sorts that list
-alphabetically by company/project name — we land under `A` (alchm).
+> ✅ **Approach corrected 2026-05-29.** The old plan here — open a PR adding an
+> entry to a "third-party servers" list in `modelcontextprotocol/servers/README.md`
+> — is **obsolete**. That repo is now *reference-servers only*. Servers are now
+> published to **registry.modelcontextprotocol.io** via `mcp-publisher` + `server.json`.
 
 ---
 
-## Step 2 — Entry to add
+## ✅ Done — npm package published
 
-Append to the third-party servers section of
-`README.md` (alphabetical insertion under `A`):
-
-```markdown
-- **[alchm.kitchen](https://alchm.kitchen)** — Live planetary transits,
-  ingredient ESMS analysis, cosmic recipe search, synastry overlays,
-  and transit×natal overlays. Powers alchemy-aware food + ritual
-  recommendations.
-  [Source](https://github.com/gregcastro23/WhatToEatNext/tree/master/mcp-server)
-  · [Docs](https://alchm.kitchen/docs/mcp)
-```
-
----
-
-## Step 3 — PR template
-
-```markdown
-## Add alchm.kitchen MCP server
-
-Adds the alchm.kitchen MCP server (5 tools) to the third-party servers
-list.
-
-### Tools exposed
-
-| Tool | Function |
-| --- | --- |
-| `get_live_sky_transits` | Current planetary positions + elemental balance for any coordinate. |
-| `alchemize_ingredients` | Spirit / Essence / Matter / Substance scores + thermodynamic indices for an ingredient list. |
-| `generate_cosmic_recipe` | Search the 579-recipe catalog by element, cuisine, or dietary need. |
-| `compute_synastry_overlay` | Inter-aspect ledger between two natal charts (tension / harmony / intensification). |
-| `get_transit_natal_overlay` | Live sky × one agent's natal chart, with continuous boost magnitude per planet. |
-
-### Where it lives
-
-- **Source:** https://github.com/gregcastro23/WhatToEatNext/tree/master/mcp-server
-- **Docs:** https://alchm.kitchen/docs/mcp
-- **Connector config examples (Claude Desktop, Cursor, Cline):** in the
-  source `README.md`.
-
-### Auth model
-
-Public users mint per-key API keys at `/profile/api-keys`. Keys are
-sha256-hashed at rest. Tool-call telemetry is attributed via
-`_meta.apiKey` on the JSON-RPC argument envelope. Anonymous calls are
-allowed but receive degraded responses for paid tools.
-
-### Operational health
-
-- Synthetic-probe heartbeat every 30 min (`mcp_invocations` table)
-- Per-tool latency + error rate visible on
-  `https://alchm.kitchen/admin` (operator-only)
-- Public status checks via the standard `tools/list` handshake.
-
-### Checklist
-
-- [x] Source link works and points at the actual server entrypoint.
-- [x] Docs link works and resolves to a public connector guide.
-- [x] Tools listed are the actual `tools/list` output (verified
-      `MCP_E2E=1 bun test mcp-server/src/__tests__/stdio.test.ts`).
-- [x] No credentials required to install — users mint their own.
-- [x] License: MIT (matches the repo).
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-```
-
----
-
-## Step 4 — Verification before filing
-
-1. `MCP_E2E=1 bun test mcp-server/src/__tests__/stdio.test.ts` — the
-   five tool names returned by `tools/list` must match the table above
-   exactly.
-2. `curl -I https://alchm.kitchen/docs/mcp` returns 200.
-3. `curl -I https://github.com/gregcastro23/WhatToEatNext/tree/master/mcp-server`
-   returns 200.
-4. Blog post `content/blog/announcing-alchm-mcp.md` has been published
-   to a public URL (or has a no-link variant ready — reviewers
-   sometimes ask for a hosted overview).
-
----
-
-## Step 5 — Filing the PR
+`@alchm/mcp-server@1.1.0` is on npm. Users install with:
 
 ```bash
-gh repo fork modelcontextprotocol/servers --clone --remote
-cd servers
-git checkout -b add-alchm-kitchen
-# edit README.md per Step 2 above
-git add README.md
-git commit -m "Add alchm.kitchen MCP server to third-party servers"
-git push -u origin add-alchm-kitchen
-gh pr create --repo modelcontextprotocol/servers \
-  --title "Add alchm.kitchen MCP server" \
-  --body-file <path-to-rendered-step-3>
+bunx @alchm/mcp-server      # Bun (recommended)
+npx -y @alchm/mcp-server    # Node / npx
 ```
 
----
-
-## Step 6 — After merge
-
-- Add a "Listed on the MCP server registry" line to
-  `mcp-server/README.md`.
-- Link from `docs/mcp-launch-checklist.md` Item 9 to the merged PR.
-- Update this file's status header to ✅.
+The package is a self-contained `bun build --bundle --target node` output with
+the shebang `#!/usr/bin/env node` so it runs under both runtimes. `pg` is kept
+external (users supply `DATABASE_URL` at runtime); all other monorepo sources
+are vendored into `dist/index.js`.
 
 ---
 
-_Drafted 2026-05-27. Re-verify all URLs the morning of submission — the
-registry reviewers will reject any PR with a broken link._
+## Step 1 — Namespace + auth
+
+The registry validates namespace ownership against a GitHub identity. Publish
+under **`io.github.gregcastro23/alchm-kitchen`** (the `io.github.<user>/<name>`
+namespace), authenticated as `gregcastro23`:
+
+```bash
+mcp-publisher login github          # opens browser; auth as gregcastro23
+```
+
+(For CI publishing, a GitHub Action running on a gregcastro23-owned repo can
+authenticate instead.)
+
+## Step 2 — Generate + fill `server.json`
+
+`server.json` is already created at `mcp-server/server.json`. Run
+`mcp-publisher init` to validate the schema, or publish directly:
+
+```jsonc
+// mcp-server/server.json — committed, schema-compliant draft
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.gregcastro23/alchm-kitchen",
+  "description": "Live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry + transit×natal overlays.",
+  "version": "1.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@alchm/mcp-server",
+      "version": "1.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        { "name": "MCP_USER_API_KEY", "isSecret": true, "isRequired": false },
+        { "name": "DATABASE_URL",     "isSecret": true, "isRequired": false }
+      ]
+    }
+  ]
+}
+```
+
+## Step 3 — Verify before publishing
+
+1. `MCP_E2E=1 bun test mcp-server/src/__tests__/stdio.test.ts` — `tools/list`
+   must return exactly these **5** tools:
+
+   | Tool | Function |
+   | --- | --- |
+   | `get_live_sky_transits` | Current planetary positions + elemental balance for any coordinate. |
+   | `alchemize_ingredients` | Spirit / Essence / Matter / Substance scores + thermodynamic indices for an ingredient list. |
+   | `generate_cosmic_recipe` | Search the 579-recipe catalog by element, cuisine, or dietary need. |
+   | `compute_synastry_overlay` | Inter-aspect ledger between two natal charts (tension / harmony / intensification). |
+   | `get_transit_natal_overlay` | Live sky × one agent's natal chart, with continuous boost magnitude per planet. |
+
+2. `bunx @alchm/mcp-server` starts and answers a `tools/list` handshake — i.e.
+   the published npm package, not just the local checkout.
+3. `curl -I https://alchm.kitchen/docs/mcp` → 200.
+4. The announcement blog (`content/blog/announcing-alchm-mcp.md`) is published.
+
+## Step 4 — Publish to the registry
+
+```bash
+cd mcp-server
+mcp-publisher publish        # validates server.json against the live schema + pushes
+```
+
+Then verify: https://registry.modelcontextprotocol.io/servers/io.github.gregcastro23/alchm-kitchen
+
+## Step 5 — After publish
+
+- Flip this file's **Submission status** to ✅ with the registry URL.
+- The `mcp-server/README.md` badges already link to the registry URL.
+
+---
+
+_Rewritten 2026-05-29 to target registry.modelcontextprotocol.io (the README-PR
+path is obsolete). Updated 2026-05-29 to reflect npm packaging complete._
