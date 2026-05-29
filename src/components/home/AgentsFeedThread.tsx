@@ -170,16 +170,16 @@ export function AgentsFeedThread() {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-6 right-6 w-80 sm:w-96 z-50 glass-card-premium rounded-2xl border border-purple-500/30 shadow-2xl shadow-purple-900/30 overflow-hidden bg-[#08080e]/90 backdrop-blur-xl"
+            initial={{ x: "100%", opacity: 0.8 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0.8 }}
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+            className="fixed top-0 right-0 h-screen w-80 sm:w-96 z-50 glass-card-premium border-l border-purple-500/20 shadow-2xl flex flex-col bg-[#06050b]/95 backdrop-blur-2xl"
           >
-            <div className="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-white/5">
+            <div className="flex justify-between items-center px-4 py-3 border-b border-white/10 bg-white/5 shrink-0">
               <div className="flex items-center gap-2">
-                <span className="text-purple-400">⚡</span>
-                <h3 className="text-sm font-bold text-white tracking-wide">
+                <span className="text-purple-400 animate-pulse">⚡</span>
+                <h3 className="text-sm font-bold text-white tracking-wide uppercase alchm-gradient-text">
                   Live Network Feed
                 </h3>
               </div>
@@ -191,7 +191,7 @@ export function AgentsFeedThread() {
                 ✕
               </button>
             </div>
-            <div className="p-4 space-y-4 max-h-64 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
               {isLoading ? (
                 LOADING_SKELETON_KEYS.map((key) => (
                   <div key={key} className="flex gap-3 items-start">
@@ -218,18 +218,7 @@ export function AgentsFeedThread() {
                       const isAgent =
                         item.actorIsAgent ?? item.isAgent === true;
                       const actorId = item.actorId || item.userId;
-                      // Actor link: agents go to their PA chat surface,
-                      // humans go to their alchm.kitchen profile.
-                      const actorHref =
-                        isAgent && item.actorSlug
-                          ? agentChatUrl(item.actorSlug)
-                          : actorId
-                            ? `/profile/${actorId}`
-                            : null;
-                      // Agents ALSO get a deep-link to their alchm.kitchen
-                      // profile so users can see their full activity history.
-                      const profileHref =
-                        isAgent && actorId ? `/profile/${actorId}` : null;
+                      const actorHref = actorId ? `/profile/${actorId}` : null;
                       const timeLabel = formatDistanceToNow(item.createdAt);
                       const signature = isAgent
                         ? getPlanetarySignature(item.metadataPayload)
@@ -314,13 +303,15 @@ export function AgentsFeedThread() {
                                   {timeLabel}
                                 </p>
                               )}
-                              {profileHref && (
-                                <Link
-                                  href={profileHref}
-                                  className="text-[10px] text-purple-300/70 hover:text-purple-200 uppercase tracking-wider"
+                              {isAgent && item.actorSlug && (
+                                <a
+                                  href={agentChatUrl(item.actorSlug)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[10px] text-purple-400 hover:text-purple-300 uppercase tracking-wider font-semibold"
                                 >
-                                  · view profile
-                                </Link>
+                                  · Chat ✦
+                                </a>
                               )}
                             </div>
                             {signature && (
@@ -380,15 +371,24 @@ export function AgentsFeedThread() {
 
       {!isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          whileHover={{ x: -4, scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => setIsVisible(true)}
-          className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-900/50 flex items-center justify-center z-50 border border-purple-400/50 text-xl"
+          className="fixed right-0 top-1/3 w-8 h-36 rounded-l-2xl bg-gradient-to-b from-purple-900/80 to-indigo-950/80 hover:from-purple-800 hover:to-indigo-900 shadow-xl shadow-purple-950/50 flex flex-col items-center justify-center gap-3 z-50 border-y border-l border-purple-500/30 text-white cursor-pointer select-none transition-all duration-300"
           aria-label="Show Network Feed"
         >
-          ⚡
+          <span className="text-sm animate-pulse text-purple-300 leading-none">⚡</span>
+          <span
+            className="text-[9px] font-black uppercase tracking-[0.25em] text-purple-200/90 whitespace-nowrap"
+            style={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+            }}
+          >
+            ASTRAL PULSE
+          </span>
         </motion.button>
       )}
     </>

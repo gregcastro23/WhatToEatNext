@@ -1,8 +1,9 @@
 "use client";
-
+ 
 import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
+import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import type {
   CraftedAgentProfile,
   Element,
@@ -78,6 +79,43 @@ export default function AgentProfile({
   const personality = agent.personality;
   const abilities = agent.abilities;
   const diet = agent.historicalDiet;
+ 
+  const slug = handle ? handle.split("@")[0] : null;
+ 
+  const [expandedRecipes, setExpandedRecipes] = React.useState<Record<string, boolean>>({});
+  const [recipeDetails, setRecipeDetails] = React.useState<Record<string, any>>({});
+  const [loadingRecipes, setLoadingRecipes] = React.useState<Record<string, boolean>>({});
+ 
+  const getRecipeIdFromPath = (path?: string) => {
+    if (!path) return null;
+    const parts = path.split("/");
+    return parts[parts.length - 1] || null;
+  };
+ 
+  const toggleRecipe = async (artifactId: string, path?: string) => {
+    const recipeId = getRecipeIdFromPath(path);
+    if (!recipeId) return;
+ 
+    const isCurrentlyExpanded = !!expandedRecipes[artifactId];
+    setExpandedRecipes((prev) => ({ ...prev, [artifactId]: !isCurrentlyExpanded }));
+ 
+    if (!isCurrentlyExpanded && !recipeDetails[recipeId] && !loadingRecipes[recipeId]) {
+      setLoadingRecipes((prev) => ({ ...prev, [recipeId]: true }));
+      try {
+        const res = await fetch(`/api/recipes/${recipeId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.recipe) {
+            setRecipeDetails((prev) => ({ ...prev, [recipeId]: data.recipe }));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch recipe details:", err);
+      } finally {
+        setLoadingRecipes((prev) => ({ ...prev, [recipeId]: false }));
+      }
+    }
+  };
 
   return (
     <>
@@ -132,6 +170,22 @@ export default function AgentProfile({
               <p className="text-[10px] uppercase tracking-widest text-white/30 font-mono mt-3">
                 {handle}
               </p>
+            )}
+            {slug && (
+              <div className="mt-4">
+                <a
+                  href={agentChatUrl(slug)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-white text-xs font-black uppercase tracking-[0.2em] transition-all shadow-lg border border-white/20 hover:border-white/40 active:scale-95"
+                  style={{
+                    background: `linear-gradient(180deg, ${accent}cc, ${accent}88)`,
+                    boxShadow: `0 10px 25px -5px ${accent}40`,
+                  }}
+                >
+                  Chat with {agent.name} ✦
+                </a>
+              </div>
             )}
           </div>
         </div>
@@ -487,33 +541,218 @@ export default function AgentProfile({
         <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
           <SectionLabel>Created by this Agent</SectionLabel>
           <div className="grid md:grid-cols-2 gap-4">
-            {artifacts.map((artifact) => (
-              <div
-                key={artifact.id}
-                className="p-4 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-colors flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest bg-amber-500/25 text-amber-300 border border-amber-500/30">
-                      {artifact.kind}
-                    </span>
-                    <span className="text-[10px] text-white/30 font-mono">
-                      {new Date(artifact.createdAt).toLocaleDateString()}
-                    </span>
+            {artifacts.map((artifact) => {
+              const isRecipe = artifact.kind === "recipe";
+              const isExpanded = !!expandedRecipes[artifact.id];
+              const recipeId = getRecipeIdFromPath(artifact.alchmKitchenPath);
+              const isLoading = recipeId ? !!loadingRecipes[recipeId] : false;
+              const recipe = recipeId ? recipeDetails[recipeId] : null;
+
+              return (
+                <div
+                  key={artifact.id}
+                  onClick={() => {
+                    if (isRecipe) {
+                      void toggleRecipe(artifact.id, artifact.alchmKitchenPath);
+                    }
+                  }}
+                  className={`p-5 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                    isExpanded ? "md:col-span-2 border-purple-500/25 bg-purple-950/10" : ""
+                  }`}
+                >
+                  <div className="w-full">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest bg-amber-500/25 text-amber-300 border border-amber-500/30">
+                          {artifact.kind}
+                        </span>
+                        <span className="text-[10px] text-white/30 font-mono">
+                          {new Date(artifact.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      {isRecipe && (
+                        <span className="text-[10px] font-bold text-purple-300/80 hover:text-purple-200 transition-colors uppercase tracking-wider flex items-center gap-1 font-mono">
+                          {isExpanded ? "Collapse ▴" : "Expand Recipe ▾"}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-sm font-bold text-white mb-1">{artifact.title}</h3>
+                    {!isExpanded && (
+                      <p className="text-xs text-white/60 leading-relaxed mb-4">{artifact.summary}</p>
+                    )}
                   </div>
-                  <h3 className="text-sm font-bold text-white mb-1">{artifact.title}</h3>
-                  <p className="text-xs text-white/60 leading-relaxed mb-4">{artifact.summary}</p>
+
+                  {/* Expanded Content Area */}
+                  {isExpanded && <div className="h-px bg-white/10 my-4" />}
+
+                  {isExpanded && isLoading && (
+                    <div className="flex flex-col items-center justify-center py-10 gap-2">
+                      <div className="w-8 h-8 rounded-full border-2 border-purple-500/20 border-t-purple-400 animate-spin" />
+                      <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">
+                        Drawing recipe from transits...
+                      </span>
+                    </div>
+                  )}
+
+                  {isExpanded && recipe && (
+                    <div className="space-y-6 text-left" onClick={(e) => e.stopPropagation()}>
+                      {/* Description */}
+                      {recipe.description && (
+                        <p className="text-xs text-white/70 leading-relaxed italic font-serif">
+                          &ldquo;{recipe.description}&rdquo;
+                        </p>
+                      )}
+
+                      {/* Metadata Strip */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[10px] uppercase tracking-widest font-mono text-white/50 bg-white/[0.02] p-3 rounded-xl border border-white/5">
+                        {recipe.cuisine && (
+                          <div>
+                            <span className="block text-white/30 text-[8px] font-bold">Cuisine</span>
+                            <span className="text-purple-300 font-bold">{recipe.cuisine}</span>
+                          </div>
+                        )}
+                        {recipe.mealType && recipe.mealType.length > 0 && (
+                          <div>
+                            <span className="block text-white/30 text-[8px] font-bold">Meal Type</span>
+                            <span className="text-purple-300 font-bold">{recipe.mealType.join(", ")}</span>
+                          </div>
+                        )}
+                        {recipe.prepTime && (
+                          <div>
+                            <span className="block text-white/30 text-[8px] font-bold">Prep Time</span>
+                            <span>{recipe.prepTime}m</span>
+                          </div>
+                        )}
+                        {recipe.cookTime && (
+                          <div>
+                            <span className="block text-white/30 text-[8px] font-bold">Cook Time</span>
+                            <span>{recipe.cookTime}m</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Main Columns */}
+                      <div className="grid md:grid-cols-5 gap-6">
+                        {/* Left: Ingredients & Elemental Properties */}
+                        <div className="md:col-span-2 space-y-4">
+                          <div>
+                            <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Ingredients</h4>
+                            {recipe.ingredients && recipe.ingredients.length > 0 ? (
+                              <ul className="space-y-1 text-xs text-white/80 list-disc pl-4 leading-relaxed">
+                                {recipe.ingredients.map((ing: any, i: number) => (
+                                  <li key={i}>
+                                    {ing.amount > 0 && `${ing.amount} `}
+                                    {ing.unit && `${ing.unit} `}
+                                    <span className="font-medium text-white">{ing.name}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="text-xs text-white/30">No ingredients listed.</p>
+                            )}
+                          </div>
+
+                          {/* Elemental Balance */}
+                          {recipe.elementalProperties && (
+                            <div className="pt-3 border-t border-white/5">
+                              <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Elemental Profile</h4>
+                              <div className="space-y-2">
+                                {Object.entries(recipe.elementalProperties).map(([el, val]: any) => {
+                                  const percent = Math.round(val * 100);
+                                  const elColors: Record<string, string> = {
+                                    Fire: "bg-gradient-to-r from-orange-500 to-red-500",
+                                    Water: "bg-gradient-to-r from-blue-500 to-cyan-500",
+                                    Air: "bg-gradient-to-r from-sky-400 to-purple-500",
+                                    Earth: "bg-gradient-to-r from-emerald-500 to-lime-500"
+                                  };
+                                  const bg = elColors[el] || "bg-purple-600";
+                                  return (
+                                    <div key={el} className="text-[10px]">
+                                      <div className="flex justify-between text-white/60 mb-0.5 font-mono">
+                                        <span>{el}</span>
+                                        <span>{percent}%</span>
+                                      </div>
+                                      <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+                                        <div className={`h-full rounded-full ${bg}`} style={{ width: `${percent}%` }} />
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Right: Steps */}
+                        <div className="md:col-span-3">
+                          <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">Instructions</h4>
+                          {recipe.instructions && recipe.instructions.length > 0 ? (
+                            <ol className="space-y-3">
+                              {recipe.instructions.map((step: string, idx: number) => (
+                                <li key={idx} className="flex gap-3 text-xs leading-relaxed text-white/80">
+                                  <span className="flex-none w-5 h-5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-[10px] font-bold flex items-center justify-center font-mono">
+                                    {idx + 1}
+                                  </span>
+                                  <p className="pt-0.5">{step}</p>
+                                </li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <p className="text-xs text-white/30">No instructions available.</p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Why this recipe? planetary reasons */}
+                      {recipe.monicaOptimization?.planetaryTimingRecommendations && recipe.monicaOptimization.planetaryTimingRecommendations.length > 0 && (
+                        <div className="mt-4 p-3 rounded-xl bg-purple-500/5 border border-purple-500/10 text-xs text-purple-200/90 leading-relaxed">
+                          <span className="font-bold text-[10px] uppercase tracking-widest text-purple-400 block mb-1">✨ Planetary Timing & Tuning</span>
+                          <ul className="list-disc pl-4 space-y-1">
+                            {recipe.monicaOptimization.planetaryTimingRecommendations.map((rec: string, i: number) => (
+                              <li key={i}>{rec}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Standalone View link */}
+                      {artifact.alchmKitchenPath && (
+                        <div className="pt-4 border-t border-white/5 flex justify-end">
+                          <Link
+                            href={artifact.alchmKitchenPath}
+                            className="px-4 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 text-xs font-bold uppercase tracking-wider border border-amber-400/20 transition-all font-mono"
+                          >
+                            Printable Standalone view →
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Graceful Fallback if recipe not found or loading failed */}
+                  {isExpanded && !recipe && !isLoading && (
+                    <div className="py-8 text-center text-xs text-white/40 leading-relaxed border border-white/5 bg-white/[0.01] rounded-xl px-4 w-full" onClick={(e) => e.stopPropagation()}>
+                      <p className="font-serif italic font-medium mb-2">&ldquo;{artifact.summary}&rdquo;</p>
+                      <p className="text-[10px] text-amber-300/80 font-mono">This cosmic dish is undergoing alchemical synchronization. Click the standalone view below to review its planetary coordinates.</p>
+                      {artifact.alchmKitchenPath && (
+                        <Link
+                          href={artifact.alchmKitchenPath}
+                          className="mt-4 inline-block text-xs font-bold text-amber-400 hover:text-amber-300 uppercase tracking-widest hover:underline font-mono"
+                        >
+                          Standalone recipe view →
+                        </Link>
+                      )}
+                    </div>
+                  )}
+
+                  {!isExpanded && artifact.alchmKitchenPath && (
+                    <span className="text-xs font-bold text-amber-400 hover:text-amber-300 uppercase tracking-widest inline-flex items-center gap-1 mt-auto hover:underline font-mono">
+                      View Recipe ✦
+                    </span>
+                  )}
                 </div>
-                {artifact.alchmKitchenPath && (
-                  <Link
-                    href={artifact.alchmKitchenPath}
-                    className="text-xs font-bold text-amber-400 hover:text-amber-300 uppercase tracking-widest inline-flex items-center gap-1 mt-auto hover:underline"
-                  >
-                    View Recipe ✦
-                  </Link>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}

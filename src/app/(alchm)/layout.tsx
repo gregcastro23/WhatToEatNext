@@ -1,3 +1,4 @@
+import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
 import type { ReactNode } from "react";
 
 /**
@@ -27,6 +28,7 @@ export default function AlchmLayout({ children }: { children: ReactNode }) {
   return (
     <div data-alchm-route="true" className="alchm-root lab">
       {children}
+      <AgentsFeedThread />
     </div>
   );
 }

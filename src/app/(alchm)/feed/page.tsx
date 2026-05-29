@@ -310,14 +310,7 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
           const natalPlacements =
             signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) || [];
           const narration = getEventNarration(event);
-          // Agents get two destinations: their PA chat (for live discourse)
-          // and their alchm.kitchen profile (for full activity history).
-          const actorHref = event.actorIsAgent && event.actorSlug
-            ? agentChatUrl(event.actorSlug)
-            : `/profile/${event.actorId}`;
-          const agentProfileHref = event.actorIsAgent
-            ? `/profile/${event.actorId}`
-            : null;
+          const actorHref = `/profile/${event.actorId}`;
           return (
             <motion.div
               key={event.id}
@@ -372,13 +365,15 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
                       Historical Agent
                     </span>
                   )}
-                  {agentProfileHref && (
-                    <Link
-                      href={agentProfileHref}
-                      className="text-[10px] text-amber-300/70 hover:text-amber-200 uppercase tracking-wider"
+                  {event.actorIsAgent && event.actorSlug && (
+                    <a
+                      href={agentChatUrl(event.actorSlug)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-amber-300/70 hover:text-amber-200 uppercase tracking-wider font-bold"
                     >
-                      View profile →
-                    </Link>
+                      Chat with Agent ✦
+                    </a>
                   )}
                 </div>
                 {signature && (
