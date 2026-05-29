@@ -112,14 +112,16 @@ describeIf("MCP stdio transport", () => {
     client?.close();
   });
 
-  it("lists the three expected tools", async () => {
+  it("lists the five expected tools", async () => {
     const res = await client.request("tools/list");
     const tools = (res.result as { tools: Array<{ name: string }> }).tools;
     const names = tools.map((t) => t.name).sort();
     expect(names).toEqual([
       "alchemize_ingredients",
+      "compute_synastry_overlay",
       "generate_cosmic_recipe",
       "get_live_sky_transits",
+      "get_transit_natal_overlay",
     ]);
   });
 
