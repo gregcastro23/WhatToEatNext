@@ -84,9 +84,10 @@ Generate a structured cosmic recipe aligned to the current planetary moment.
 ```
 
 **Errors**:
-- `402` — Insufficient tokens (free users)
+- `402` — Insufficient tokens: the user's balance can't cover the personalized live cost (free users, after the free daily generation)
 - `429` — Demo quota exceeded (anonymous users)
-- `500` — Shop item unavailable (ops alert)
+- `500` — Shop item unavailable / misconfigured (ops alert)
+- `503` — `generation_unavailable`: the token debit threw server-side (distinct from a balance failure — surfaces as an incident, not a billing response). Added in #468.
 
 ---
 
@@ -353,6 +354,20 @@ Personalized astrological recommendations for the authenticated user.
 
 ---
 
+### `GET` / `POST /api/alchm-quantities`
+
+Live ESMS (Spirit/Essence/Matter/Substance) quantities, thermodynamics, kinetics, and the reactive P=IV circuit computed from the current sky. Backs the `/quantities` surface. POST is an alias for GET.
+
+**Auth**: None (rate-limited, 30/min/IP).
+
+**Response** (validated by `AlchmQuantitiesApiResponseSchema`): `quantities`, `heat`, `entropy`, `reactivity`, `energy`, `kalchm`, `monica`, `kinetics`, `circuit`, `vectorCircuit`, `planetaryMomentum`, plus an **optional `degraded`** block:
+```json
+{ "degraded": { "reasons": ["astronomy-engine-fallback" | "stale-positions" | "monica-degenerate"] } }
+```
+`degraded` is present only when the result is not fully live (silent astronomy fallback or a degenerate monica); absent on healthy payloads. See `src/types/degraded.ts`.
+
+---
+
 ## Content Routes
 
 ### `GET /api/recipes`
@@ -464,6 +479,42 @@ Get the authenticated user's token wallet balance.
 Claim the daily token allotment.
 
 **Auth**: Auth required.
+
+---
+
+## MCP & API Keys
+
+End-user API keys authenticate MCP tool calls (the keys' `rate_limit_tier` drives the per-key RPM cap). UI lives at `/profile/api-keys`.
+
+### `GET /api/account/api-keys`
+
+List the caller's API keys (metadata only — never the plaintext).
+
+**Auth**: Session. **Response**: `{ success: true, keys: [...] }`.
+
+### `POST /api/account/api-keys`
+
+Mint a new API key. **The only response that ever carries the plaintext** — the client must surface it once and discard.
+
+**Auth**: Session. **Request**: `{ name: string, scopes?: string[], expiresAt?: string }`. **Response** (`201`): `{ success: true, key: {...}, plaintext: "sk_..." }`. `400` on empty `name`.
+
+### `DELETE /api/account/api-keys/[keyId]`
+
+Revoke a key. Subsequent MCP calls with it return `401`.
+
+**Auth**: Session.
+
+### `POST /api/account/billing/mcp-top-up`
+
+Open a Stripe checkout session for an ESMS token top-up. The webhook credits all four axes idempotently (keyed on the checkout session id).
+
+**Auth**: Session. **Request**: `{ sku: string }`. **Errors**: `400` unknown sku · `503` sku not configured for purchase.
+
+### `GET /api/admin/mcp-summary`
+
+Cross-server MCP telemetry (this server's `mcp_invocations` + PA's summary) for the `/admin/mcp` panel.
+
+**Auth**: `validateAdminRequest` (admin only).
 
 ---
 
