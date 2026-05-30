@@ -26,7 +26,7 @@ import { invokeTool, type ToolName } from "../../src/lib/mcp/tools.js";
 const server = new Server(
   {
     name: "alchm-mcp-server",
-    version: "1.1.0",
+    version: "1.1.2",
   },
   {
     capabilities: {
