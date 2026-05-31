@@ -20,12 +20,12 @@ jest.mock("next/server", () => ({
   },
 }));
 
-import { POST } from "../route";
-import { calculateNatalChart } from "@/services/natalChartService";
-import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
+import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
+import { calculateNatalChart } from "@/services/natalChartService";
 import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
 import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
+import { POST } from "../route";
 
 jest.mock("@/services/natalChartService", () => ({
   calculateNatalChart: jest.fn(),

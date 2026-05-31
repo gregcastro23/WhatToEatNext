@@ -52,6 +52,18 @@ Production health version: 2.1.0
 4. Warning cleanup: reduce `lint:quick` warnings to zero, starting with `GlobalPopup.js`.
 5. Bundle pass: inspect the heaviest routes and split large client components where practical.
 
+## Resolution — 2026-05-31 follow-up pass
+
+Worked the backlog above; all code-actionable items are done and verified (`bun run verify` + `bun run build` green, browser QA on `/ingredients`).
+
+1. **Health version mismatch — RESOLVED (code).** Root cause: `npm_package_version` is unset in Vercel's serverless runtime, so the health route fell back to a stale hardcoded `2.1.0`. Now `next.config.js` reads `package.json` and inlines `APP_VERSION` at build; the health route + structured logger consume it. `package.json` bumped `3.0.0 → 3.1.0`. Verified the compiled route reports `version:"3.1.0"`. *(Actual prod deploy remains an ops step.)*
+2. **Authenticated admin pass — NOT DONE (needs an admin browser session).** Out of scope for a code pass. The dashboard changes below were validated via typecheck/lint/build, not an authenticated screenshot.
+3. **Admin dashboard honesty — RESOLVED.** `PractitionerGeo` / `CostBurndown` / `EngineHealth` offline-eval were already honest placeholders. Went further: removed fabricated-but-`live` data from the service layer (`mrr || 1612`, `totalCalculations || 2743`, `Math.max(signup*10, 84210)`), zeroed the `FALLBACK_DATA` seed, and gave `CommercePanel` / `ElementalTraffic` / the `PractitionersCohort` retention heatmap honest live/"not wired" states.
+4. **Warning cleanup — RESOLVED.** `lint:quick` at 0 warnings: deleted dead `GlobalPopup.js`, autofixed test import-order, and relaxed `import/order` for tests in the fast config (mirrors the main config, which ignores `__tests__/`).
+5. **Bundle pass — DONE for the two highest-value routes.** `/ingredients` 558 → **180 kB** (−68%, server-shell + slim client island, SEO preserved); `/profile` 268 → **215 kB** (code-split non-default-tab panels). `/menu-planner` (570 kB) is already heavily `next/dynamic`-split; `/food-tracking` (261 kB) has no single splittable culprit — both left as-is.
+
+A `/code-review` pass over this work caught a regression that text-based QA missed: the `/ingredients` slim projection had dropped the cards' `image_url` field (photos fell back to placeholders) — fixed by adding `image_url` / `imageUrl` / `notes` to the projection and re-verifying 284 card photos render.
+
 ## Evidence
 
 - Screenshots are saved in this folder:

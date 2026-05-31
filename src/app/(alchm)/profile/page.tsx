@@ -1,21 +1,17 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import React, { useEffect, useState, useCallback } from 'react';
-import { UserDashboard } from '@/components/dashboard';
 import { BlurredLedgerPreview } from '@/components/economy/BlurredLedgerPreview';
 import { DailyAlignmentWidget } from '@/components/economy/DailyAlignmentWidget';
 import { LiveLedgerFeed } from '@/components/economy/LiveLedgerFeed';
-import { QuestPanel } from '@/components/economy/QuestPanel';
 import { SanctumTasks } from '@/components/economy/SanctumTasks';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
-import { YieldMultiplierCard } from '@/components/economy/YieldMultiplierCard';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
-import { AgentsPane } from '@/components/profile/AgentsPane';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
-import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { FoodPreferences } from '@/components/profile/FoodPreferences';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
@@ -23,6 +19,18 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { usePremium } from '@/contexts/PremiumContext';
 import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
 import type { BirthData, NatalChart } from '@/types/natalChart';
+
+// Heavy panels that only render on non-default profile tabs (cosmos / agents /
+// quests / economy) are code-split so they stay out of the initial bundle.
+const UserDashboard = dynamic(() => import('@/components/dashboard').then((m) => m.UserDashboard));
+const QuestPanel = dynamic(() => import('@/components/economy/QuestPanel').then((m) => m.QuestPanel));
+const YieldMultiplierCard = dynamic(() =>
+  import('@/components/economy/YieldMultiplierCard').then((m) => m.YieldMultiplierCard),
+);
+const AgentsPane = dynamic(() => import('@/components/profile/AgentsPane').then((m) => m.AgentsPane));
+const CosmicAlignmentCard = dynamic(() =>
+  import('@/components/profile/CosmicAlignmentCard').then((m) => m.CosmicAlignmentCard),
+);
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

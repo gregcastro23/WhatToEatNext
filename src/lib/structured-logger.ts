@@ -278,7 +278,7 @@ class StructuredLogger {
         metadata: {
           ...context.metadata,
           environment: process.env.NODE_ENV,
-          version: process.env.npm_package_version || 'unknown',
+          version: process.env.APP_VERSION || process.env.npm_package_version || 'unknown',
         },
       },
       error,

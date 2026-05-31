@@ -38,8 +38,8 @@ jest.mock("@/services/subscriptionService", () => ({
 
 // Re-import after the env vars are set in beforeEach — mcpTopUp reads
 // the price ids lazily so the SKUs become available on demand.
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { POST } from "@/app/api/account/billing/mcp-top-up/route";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import type { NextRequest } from "next/server";
 
 const mockedGetUserId = getUserIdFromRequest as jest.MockedFunction<

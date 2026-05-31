@@ -31,8 +31,8 @@ jest.mock("next/server", () => ({
 process.env.BACKEND_URL = "https://mock-backend.railway.app";
 process.env.INTERNAL_API_SECRET = "test-secret";
 
-import { GET, POST } from "../route";
 import * as positionsUtils from "@/utils/astrology/positions";
+import { GET, POST } from "../route";
 
 // Mock the astrology utilities - keep getSignFromLongitude real for normalization tests
 jest.mock("@/utils/astrology/positions", () => ({

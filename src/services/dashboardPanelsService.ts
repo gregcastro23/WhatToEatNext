@@ -541,23 +541,24 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
 
     const cookCount = Number(interactionsRes.rows[0]?.cook_count ?? 0);
     const viewCount = Number(interactionsRes.rows[0]?.view_count ?? 0);
-    const clickToCookRate = viewCount > 0 ? cookCount / viewCount : 0.047;
+    const clickToCookRate = viewCount > 0 ? cookCount / viewCount : 0;
 
     const totalCalculations = Number(calculationsRes.rows[0]?.count ?? 0);
     const averageLatencyMs = Math.round(Number(calculationsRes.rows[0]?.avg_latency ?? 0));
 
+    // Report real values — including zero — never a fabricated placeholder.
     return {
       clickToCookRate,
-      totalCalculations: totalCalculations || 2743,
-      averageLatencyMs: averageLatencyMs || 78,
+      totalCalculations,
+      averageLatencyMs,
       live: true,
     };
   } catch (error) {
     _logger.error("[getEnginePerformance] failed:", error);
     return {
-      clickToCookRate: 0.047,
-      totalCalculations: 2743,
-      averageLatencyMs: 78,
+      clickToCookRate: 0,
+      totalCalculations: 0,
+      averageLatencyMs: 0,
       live: false,
     };
   }
@@ -594,7 +595,9 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
     return {
       funnel: {
-        landing: Math.max(signup * 10, 84210),
+        // Landing-page traffic isn't instrumented yet, so the funnel starts
+        // at the first measured stage (signup) rather than a fabricated top.
+        landing: signup,
         signup,
         onboarded,
         active,
@@ -608,17 +611,14 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
     _logger.error("[getPractitionerCohorts] failed:", error);
     return {
       funnel: {
-        landing: 84210,
-        signup: 53,
-        onboarded: 42,
-        active: 12,
-        firstCook: 4,
-        paidPro: 2,
+        landing: 0,
+        signup: 0,
+        onboarded: 0,
+        active: 0,
+        firstCook: 0,
+        paidPro: 0,
       },
-      elementalBreakdown: [
-        { element: "Water", count: 1 },
-        { element: "Unknown", count: 52 },
-      ],
+      elementalBreakdown: [],
       live: false,
     };
   }
@@ -672,24 +672,18 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       status: String(r.status),
     }));
 
+    // Real MRR (active subs × price) and real cart/order intents — including
+    // empty — never a fabricated placeholder order.
     return {
-      mrr: mrr || 1612,
-      recentOrders: recentOrders.length > 0 ? recentOrders : [
-        { id: "ORD-9182", user: "@a.bertolucci", type: "Amazon Fresh", amount: 48.20, age: "2m", status: "fulfilled" },
-        { id: "ORD-9181", user: "@noor.eldin", type: "Stripe Connect", amount: 24.00, age: "4m", status: "charged" },
-        { id: "ORD-9180", user: "@kemi.adekunle", type: "Amazon Fresh", amount: 112.40, age: "7m", status: "fulfilled" },
-      ],
+      mrr,
+      recentOrders,
       live: true,
     };
   } catch (error) {
     _logger.error("[getCommerceTelemetry] failed:", error);
     return {
-      mrr: 1612,
-      recentOrders: [
-        { id: "ORD-9182", user: "@a.bertolucci", type: "Amazon Fresh", amount: 48.20, age: "2m", status: "fulfilled" },
-        { id: "ORD-9181", user: "@noor.eldin", type: "Stripe Connect", amount: 24.00, age: "4m", status: "charged" },
-        { id: "ORD-9180", user: "@kemi.adekunle", type: "Amazon Fresh", amount: 112.40, age: "7m", status: "fulfilled" },
-      ],
+      mrr: 0,
+      recentOrders: [],
       live: false,
     };
   }

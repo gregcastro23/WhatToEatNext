@@ -360,6 +360,11 @@ export default [
       "max-lines-per-function": "off",
       "max-nested-callbacks": "off",
       "no-console": "off",
+      // jest.mock() calls must sit between import groups (factories are
+      // hoisted, but `const` mocks they close over are not), which the
+      // import/order "newlines-between: never" rule can't accommodate.
+      // The main config ignores test files outright; mirror that here.
+      "import/order": "off",
     },
   },
 

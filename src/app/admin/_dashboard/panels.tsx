@@ -9,8 +9,7 @@ import type {
 } from "@/services/dashboardPanelsService";
 import type { ActivityEvent } from "@/services/liveActivityService";
 import type { SystemStatusPayload } from "@/services/systemStatusService";
-import { ElementalMeter, Glyph, Sparkline } from "./atoms";
-import { seeded } from "./data";
+import { ElementalMeter, Glyph } from "./atoms";
 import { Card, Legend, MiniStat } from "./hero";
 
 // ============================================================
@@ -463,16 +462,21 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
     else if (el === "air") airCount += count;
   }
 
-  const displayTotal = total || 12847;
-  const fPct = total > 0 ? (fireCount / total) : 0.312;
-  const ePct = total > 0 ? (earthCount / total) : 0.284;
-  const wPct = total > 0 ? (waterCount / total) : 0.227;
-  const aPct = total > 0 ? (airCount / total) : 0.177;
+  const hasData = total > 0;
+  // Only badge as live when the service actually fetched (every other panel
+  // gates on `live`). Prevents a future stale-but-nonzero payload from being
+  // mislabelled "● LIVE LEDGER".
+  const isLive = (cohorts?.live ?? false) && hasData;
+  const displayTotal = total;
+  const fPct = hasData ? fireCount / total : 0;
+  const ePct = hasData ? earthCount / total : 0;
+  const wPct = hasData ? waterCount / total : 0;
+  const aPct = hasData ? airCount / total : 0;
 
-  const fCountStr = total > 0 ? `${fireCount.toLocaleString()} charts` : "3,996 sessions";
-  const eCountStr = total > 0 ? `${earthCount.toLocaleString()} charts` : "3,638 sessions";
-  const wCountStr = total > 0 ? `${waterCount.toLocaleString()} charts` : "2,907 sessions";
-  const aCountStr = total > 0 ? `${airCount.toLocaleString()} charts` : "2,267 sessions";
+  const fCountStr = `${fireCount.toLocaleString()} charts`;
+  const eCountStr = `${earthCount.toLocaleString()} charts`;
+  const wCountStr = `${waterCount.toLocaleString()} charts`;
+  const aCountStr = `${airCount.toLocaleString()} charts`;
 
   const meterValues = {
     fire: fPct,
@@ -491,9 +495,14 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
   return (
     <Card
       title="Practitioner Elemental Affinity"
-      subtitle={`${displayTotal.toLocaleString()} birth charts registered`}
+      subtitle={hasData ? `${displayTotal.toLocaleString()} birth charts registered` : "no birth charts registered yet"}
       right={
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>LIVE POSTGRES LEDGER</span>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: isLive ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          {isLive ? "● LIVE LEDGER" : hasData ? "○ STALE" : "○ AWAITING CHARTS"}
+        </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 18, alignItems: "center" }}>
@@ -524,7 +533,7 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
           >
             <span className="t-tag">SYSTEM SOURCE</span>
             <span className="t-num" style={{ fontSize: 11 }}>
-              natal_charts <span style={{ color: "var(--el-earth)" }}>●</span>
+              natal_charts <span style={{ color: isLive ? "var(--el-earth)" : "var(--fg-mute)" }}>●</span>
             </span>
           </div>
         </div>
@@ -544,29 +553,13 @@ export function PractitionersCohort({
   const funnel =
     realFunnel ??
     [
-      { stage: "Landing", count: 84210, pct: 1.0 },
-      { stage: "Signup · Google", count: 6280, pct: 0.075 },
-      { stage: "Onboarding · Place", count: 5910, pct: 0.07 },
-      { stage: "First recipe view", count: 5640, pct: 0.067 },
-      { stage: "First cook log", count: 3402, pct: 0.04 },
-      { stage: "Paid · Pro", count: 1582, pct: 0.0188 },
+      { stage: "Signup · Google", count: 0, pct: 0 },
+      { stage: "Onboarding · complete", count: 0, pct: 0 },
+      { stage: "Active · 24h", count: 0, pct: 0 },
+      { stage: "First cook log", count: 0, pct: 0 },
+      { stage: "Paid · Pro", count: 0, pct: 0 },
     ];
-  const max = funnel[0].count;
-  const cohort = [
-    { week: "W-7", d1: 0.82, d7: 0.54, d14: 0.42, d30: 0.31 },
-    { week: "W-6", d1: 0.84, d7: 0.56, d14: 0.44, d30: 0.33 },
-    { week: "W-5", d1: 0.81, d7: 0.55, d14: 0.43, d30: 0.32 },
-    { week: "W-4", d1: 0.85, d7: 0.59, d14: 0.47, d30: 0.35 },
-    { week: "W-3", d1: 0.87, d7: 0.62, d14: 0.5, d30: null as number | null },
-    { week: "W-2", d1: 0.89, d7: 0.64, d14: null as number | null, d30: null as number | null },
-    { week: "W-1", d1: 0.91, d7: null as number | null, d14: null as number | null, d30: null as number | null },
-    { week: "THIS", d1: null as number | null, d7: null as number | null, d14: null as number | null, d30: null as number | null },
-  ];
-  const cellColor = (v: number | null) => {
-    if (v == null) return "rgba(255,255,255,0.02)";
-    const a = 0.15 + v * 0.55;
-    return `color-mix(in oklch, var(--accent), transparent ${(1 - a) * 100}%)`;
-  };
+  const max = funnel[0].count || 1;
   return (
     <Card
       title="Practitioner Funnel · 7-day cohorts"
@@ -614,42 +607,23 @@ export function PractitionersCohort({
         </div>
         <div>
           <div className="t-tag" style={{ marginBottom: 8 }}>RETENTION · D1 / D7 / D14 / D30</div>
-          <div style={{ display: "grid", gridTemplateColumns: "44px repeat(4, 1fr)", gap: 4 }}>
-            <span />
-            {["D1", "D7", "D14", "D30"].map((h) => (
-              <span key={h} className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", textAlign: "center" }}>
-                {h}
-              </span>
-            ))}
-            {cohort.map((row) => (
-              <React.Fragment key={row.week}>
-                <span
-                  className="t-mono"
-                  style={{ fontSize: 9.5, color: "var(--fg-dim)", display: "flex", alignItems: "center" }}
-                >
-                  {row.week}
-                </span>
-                {[row.d1, row.d7, row.d14, row.d30].map((v, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      height: 28,
-                      borderRadius: 4,
-                      background: cellColor(v),
-                      border: "1px solid var(--line)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontFamily: "var(--f-mono)",
-                      fontSize: 9.5,
-                      color: v != null ? (v > 0.5 ? "var(--fg)" : "var(--fg-dim)") : "var(--fg-faint)",
-                    }}
-                  >
-                    {v != null ? `${Math.round(v * 100)}%` : "—"}
-                  </div>
-                ))}
-              </React.Fragment>
-            ))}
+          <div
+            style={{
+              padding: "32px 12px",
+              textAlign: "center",
+              border: "1px dashed var(--line)",
+              borderRadius: 8,
+              minHeight: 140,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <div className="t-tag" style={{ marginBottom: 4 }}>COHORT RETENTION · NOT WIRED</div>
+            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+              D1 / D7 / D14 / D30 retention needs a per-cohort activity rollup —
+              not yet computed.
+            </div>
           </div>
         </div>
       </div>
@@ -850,14 +824,8 @@ export function CatalogState({
 // COMMERCE PANEL — MRR + orders
 // ============================================================
 export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
-  const summary = commerceSummary || { mrr: 1612, recentOrders: [] };
-  const mrrData = seeded(21, 30, 0.5, 0.92);
-  const stack = [
-    { label: "Pro", color: "var(--accent)", v: 64 },
-    { label: "Practitioner", color: "var(--accent-2)", v: 22 },
-    { label: "Free → Gift", color: "var(--el-water)", v: 8 },
-    { label: "Trial", color: "var(--el-fire)", v: 6 },
-  ];
+  const summary = commerceSummary || { mrr: 0, recentOrders: [], live: false };
+  const live = summary.live ?? false;
   const stateColor: Record<string, string> = {
     fulfilled: "var(--el-earth)",
     charged: "var(--accent)",
@@ -870,68 +838,51 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
   return (
     <Card
       title="Commerce & Conversion"
-      subtitle={`Total Pro subscriptions MRR: $${summary.mrr.toLocaleString()}`}
+      subtitle={
+        live
+          ? `active Pro subscriptions · $${summary.mrr.toLocaleString()} MRR`
+          : "billing telemetry offline"
+      }
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          OPEN BILLING
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          {live ? "● LIVE" : "○ STALE"}
+        </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
-            <span className="t-tag">MRR · 30D</span>
+            <span className="t-tag">MRR · ACTIVE SUBS</span>
             <span className="t-num" style={{ fontSize: 18 }}>
-              ${summary.mrr.toLocaleString()}{" "}
-              <span className="t-mono" style={{ fontSize: 9, color: "var(--el-earth)" }}>live</span>
+              {live ? `$${summary.mrr.toLocaleString()}` : "—"}{" "}
+              <span
+                className="t-mono"
+                style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)" }}
+              >
+                {live ? "live" : "offline"}
+              </span>
             </span>
           </div>
-          <Sparkline data={mrrData} width={280} height={56} color="var(--accent)" />
-          <div style={{ marginTop: 12 }}>
-            <div className="t-tag" style={{ marginBottom: 4 }}>SUBSCRIPTION MIX</div>
-            <div
-              style={{
-                display: "flex",
-                height: 12,
-                borderRadius: 6,
-                overflow: "hidden",
-                border: "1px solid var(--line)",
-              }}
-            >
-              {stack.map((s) => (
-                <div
-                  key={s.label}
-                  style={{ width: `${s.v}%`, background: s.color, boxShadow: `inset 0 0 8px ${s.color}` }}
-                />
-              ))}
+          <div
+            style={{
+              marginTop: 12,
+              padding: "10px 12px",
+              border: "1px dashed var(--line)",
+              borderRadius: 8,
+            }}
+          >
+            <div className="t-tag" style={{ marginBottom: 4 }}>BILLING ANALYTICS · NOT WIRED</div>
+            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+              subscription mix · churn · LTV · free→pro — wire Stripe billing
+              analytics to surface these here.
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 8 }}>
-              {stack.map((s) => (
-                <span
-                  key={s.label}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    fontSize: 10,
-                    color: "var(--fg-dim)",
-                  }}
-                >
-                  <span style={{ width: 8, height: 8, borderRadius: 2, background: s.color }} />
-                  {s.label} <span className="t-num" style={{ color: "var(--fg-mute)" }}>{s.v}%</span>
-                </span>
-              ))}
-            </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8, marginTop: 12 }}>
-            <MiniStat label="Churn 30d" value="2.1%" delta="−0.4pts" />
-            <MiniStat label="LTV" value="$184" delta="+$12" />
-            <MiniStat label="Free → Pro" value="4.7%" delta="+0.3pts" />
-            <MiniStat label="Refund queue" value="0" delta="nominal" />
           </div>
         </div>
         <div>
-          <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS & CART INTENTS · LIVE</div>
+          <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS & CART INTENTS{live ? " · LIVE" : ""}</div>
           <div style={{ border: "1px solid var(--line)", borderRadius: 8, overflow: "hidden" }}>
             <div
               style={{
@@ -949,7 +900,7 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
             {summary.recentOrders.length === 0 ? (
               <div style={{ padding: "10px", textAlign: "center" }}>
                 <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-                  no recent orders
+                  {live ? "no recent orders" : "order telemetry offline"}
                 </span>
               </div>
             ) : (

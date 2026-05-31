@@ -11,8 +11,8 @@ jest.mock("@/services/subscriptionService", () => ({
   },
 }));
 
-import { subscriptionService } from "@/services/subscriptionService";
 import { defaultRateLimitTier } from "@/lib/api-keys/queries";
+import { subscriptionService } from "@/services/subscriptionService";
 
 const mockedGetSub = subscriptionService.getUserSubscription as jest.MockedFunction<
   typeof subscriptionService.getUserSubscription

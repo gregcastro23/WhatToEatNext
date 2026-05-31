@@ -8,6 +8,15 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed (pre-tech-week audit pass — `audit-reports/site-audit-2026-05-31/`)
+- **Production version mismatch** — `/api/health` reported a stale hardcoded `2.1.0` because `npm_package_version` isn't populated in Vercel's serverless runtime. The version is now read from `package.json` and inlined at build time via `next.config.js` (`APP_VERSION`), consumed by the health route and structured logger. `package.json` bumped `3.0.0 → 3.1.0` to match the cut `v3.1.0` tag. (Audit backlog #1)
+- **Admin dashboard honesty** — removed fabricated-but-`live`-labelled data from `/admin/dashboard`. The service layer (`dashboardPanelsService`) no longer substitutes placeholder values (`mrr || 1612`, `totalCalculations || 2743`, the `Math.max(signup*10, 84210)` funnel floor) in its live path; `CommercePanel`, `ElementalTraffic`, and the `PractitionersCohort` retention heatmap now render honest live / "not wired" states; the `FALLBACK_DATA` loading seed was zeroed. (Audit backlog #3)
+- **`lint:quick` → 0 warnings** — deleted the dead `GlobalPopup.js` duplicate (superseded by `.tsx`, unreferenced) and relaxed `import/order` for test files in the fast ESLint config, mirroring the main config (which ignores `__tests__/`). (Audit backlog #4)
+
+### Performance (pre-tech-week audit pass)
+- **`/ingredients` First Load JS 558 kB → 180 kB (−68%)** — the route was a `"use client"` page importing the full ~2.6 MB ingredient catalog into the browser bundle. Split into a server component that projects the catalog down to the ~20 fields the UI reads (`src/lib/ingredients/slimIngredients.ts`, `server-only`) and a client island (`IngredientsExplorer.tsx`) fed via props. SSR/SEO preserved — all 1021 ingredients still prerendered. (Audit backlog #5)
+- **`/profile` First Load JS 268 kB → 215 kB (−53 kB)** — code-split the five panels that only render on non-default tabs (`UserDashboard`, `AgentsPane`, `QuestPanel`, `YieldMultiplierCard`, `CosmicAlignmentCard`) via `next/dynamic`.
+
 ### In Progress
 - WTEN migration sessions 7–11 — porting the remaining `planetary_agents-main` UI surface into `src/` (7 of 11 done; see `WTEN_MIGRATION_PLAN.md`)
 - Real planetary alchemy replacing mock fallbacks in the recommendation/cuisine services

@@ -239,22 +239,15 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   catalogTrending: { recipes: [], live: false },
   auditEvents: { events: [], live: false },
-  enginePerformance: { clickToCookRate: 0.047, totalCalculations: 2743, averageLatencyMs: 78, live: false },
+  enginePerformance: { clickToCookRate: 0, totalCalculations: 0, averageLatencyMs: 0, live: false },
   practitionerCohorts: {
-    funnel: { landing: 84210, signup: 53, onboarded: 42, active: 12, firstCook: 4, paidPro: 2 },
-    elementalBreakdown: [
-      { element: "Water", count: 1 },
-      { element: "Unknown", count: 52 },
-    ],
+    funnel: { landing: 0, signup: 0, onboarded: 0, active: 0, firstCook: 0, paidPro: 0 },
+    elementalBreakdown: [],
     live: false,
   },
   commerce: {
-    mrr: 1612,
-    recentOrders: [
-      { id: "ORD-9182", user: "@a.bertolucci", type: "Amazon Fresh", amount: 48.20, age: "2m", status: "fulfilled" },
-      { id: "ORD-9181", user: "@noor.eldin", type: "Stripe Connect", amount: 24.00, age: "4m", status: "charged" },
-      { id: "ORD-9180", user: "@kemi.adekunle", type: "Amazon Fresh", amount: 112.40, age: "7m", status: "fulfilled" },
-    ],
+    mrr: 0,
+    recentOrders: [],
     live: false,
   },
   pageTelemetry: { foodDiary: 0, customRecipes: 0, restaurants: 0, commensals: 0, mealPlans: 0, live: false },

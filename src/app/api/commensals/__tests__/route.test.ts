@@ -25,9 +25,9 @@ jest.mock("next/server", () => ({
   },
 }));
 
-import { GET } from "../route";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
+import { GET } from "../route";
 
 // Mock auth and database
 jest.mock("@/lib/auth/validateRequest", () => ({
