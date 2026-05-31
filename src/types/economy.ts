@@ -34,7 +34,15 @@ export type TransactionSourceType =
    * Stripe webhook on `checkout.session.completed` with the Stripe
    * session id as the idempotency key.
    */
-  | "mcp_top_up";
+  | "mcp_top_up"
+  /**
+   * Automatic "Sky Drop" airdrop — a degree-exact planetary transit activated
+   * the user's natal chart. Detected by the Planetary Agents reservoir engine
+   * (separate Neon DB) and credited into the canonical Railway wallet via
+   * POST /api/economy/sync-credit with per-axis amounts. Idempotency key shape:
+   * `attune:human:<userId>:<degreeAgentId>:<YYYY-MM-DD>` (one per transit/day).
+   */
+  | "transit_attunement";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
@@ -91,6 +99,8 @@ export interface YieldProfile {
 export interface DailyYieldResult {
   baseTokens: number;
   streakMultiplier: number;
+  /** Multiplier from current ESMS holdings (see getHoldingsMultiplier). */
+  holdingsMultiplier: number;
   totalTokens: number;
   distribution: {
     spirit: number;
@@ -220,6 +230,30 @@ export function getStreakMultiplier(streakCount: number): number {
 
 /** Bonus scale factor for transit ESMS deltas */
 export const TRANSIT_BONUS_SCALE = 2.0;
+
+// ─── Holdings-Scaled Yield ───────────────────────────────────────────────
+
+/** Coefficient on the log term of the holdings multiplier. */
+export const HOLDINGS_YIELD_COEFF = 0.25;
+/** Total ESMS that constitutes one "decade" of holdings for the log term. */
+export const HOLDINGS_YIELD_SCALE = 100;
+/** Hard cap on the holdings multiplier (guards against runaway compounding). */
+export const HOLDINGS_YIELD_MAX = 2.0;
+
+/**
+ * Daily-yield multiplier derived from the user's current total ESMS holdings:
+ * the more you hold, the more you draw each day. Uses log10 + a hard cap so the
+ * reward has steep diminishing returns — loyalty is rewarded without letting
+ * large balances compound away from everyone else.
+ *
+ *   0 → 1.00× · 100 → ~1.08× · 500 → ~1.19× · 1k → ~1.26× · 5k → ~1.43× · cap 2.00×
+ */
+export function getHoldingsMultiplier(totalHoldings: number): number {
+  const safe = Math.max(0, totalHoldings);
+  const multiplier =
+    1 + HOLDINGS_YIELD_COEFF * Math.log10(1 + safe / HOLDINGS_YIELD_SCALE);
+  return Math.min(multiplier, HOLDINGS_YIELD_MAX);
+}
 
 // ─── API Response Types ────────────────────────────────────────────────
 

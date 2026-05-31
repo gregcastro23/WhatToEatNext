@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { feedDatabase } from "@/services/feedDatabaseService";
+import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { TokenType, TransactionSourceType } from "@/types/economy";
 import type { NextRequest} from "next/server";
@@ -30,6 +32,17 @@ interface SyncCreditBody {
   };
   source?: TransactionSourceType;
   idempotencyKey: string;
+  /**
+   * Optional context for user-visible airdrops (Sky Drops). When
+   * source === 'transit_attunement' these populate the feed event + notification.
+   */
+  metadata?: {
+    planet?: string;
+    sign?: string;
+    degree?: number;
+    totalTokens?: number;
+    degreeAgentId?: string;
+  };
 }
 
 export async function POST(req: NextRequest) {
@@ -121,6 +134,43 @@ export async function POST(req: NextRequest) {
         { ok: false, reason: "already_applied" },
         { status: 409 }
       );
+    }
+
+    // 5b. Surface user-visible Sky Drops (automatic transit airdrops) in the
+    // community feed + the notification bell. Best-effort: never block or fail
+    // the credit on a surfacing error. PA routes only HUMAN transit_attunement
+    // credits through this endpoint (agent attunements stay on the PA/Neon side),
+    // so the feed actor is always a human and won't forward back to PA.
+    if (source === "transit_attunement") {
+      const total =
+        body.metadata?.totalTokens ?? credits.reduce((s, c) => s + c.amount, 0);
+      if (total > 0) {
+        const { planet, sign, degree, degreeAgentId } = body.metadata ?? {};
+        const where =
+          planet && sign && degree !== undefined
+            ? `${planet} at ${sign} ${Math.round(degree)}°`
+            : planet ?? "an active transit";
+
+        feedDatabase
+          .createEvent(userId, "transit_attunement", {
+            planet,
+            sign,
+            degree,
+            totalTokens: total,
+            degreeAgentId,
+          })
+          .catch((e) => console.error("[sync-credit] sky-drop feed event failed:", e));
+
+        notificationDatabase
+          .createNotification(
+            userId,
+            "transit_attunement",
+            "🌠 Sky Drop received",
+            `Your ${where} airdropped +${total.toFixed(1)} ESMS across Spirit, Essence, Matter & Substance.`,
+            { metadata: { tokenType: "all", tokenAmount: total, planet, sign, degree } },
+          )
+          .catch((e) => console.error("[sync-credit] sky-drop notification failed:", e));
+      }
     }
 
     // 6. Success Response

@@ -32,6 +32,7 @@ const SOURCE_LABELS: Record<string, string> = {
   transmutation: 'Transmutation',
   streak_bonus: 'Streak Bonus',
   admin: 'Admin Grant',
+  transit_attunement: 'Sky Drop',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────
