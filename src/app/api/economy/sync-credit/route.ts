@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     if (!syncSecret || authHeader !== syncSecret) {
       return NextResponse.json(
-        { ok: false, reason: "unauthorized" },
+        { ok: false, reason: "unauthorized", error: "Unauthorized" },
         { status: 401 }
       );
     }
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
       const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
       if (!userEmail.toLowerCase().endsWith(AGENTIC_EMAIL_DOMAIN)) {
         return NextResponse.json(
-          { ok: false, reason: "user_not_found" },
+          { ok: false, reason: "user_not_found", error: "user_not_found" },
           { status: 404 }
         );
       }
@@ -95,11 +95,21 @@ export async function POST(req: NextRequest) {
 
     const userId = userResult.rows[0].id;
 
-    // 3. Check for existing idempotency hit (TokenEconomyService handles this in creditMultipleTokens, 
-    // but the requirement says to check it explicitly)
+    // 3. Idempotency pre-check. creditMultipleTokens stores per-axis keys suffixed
+    // with the token type (`<key>:Spirit` …), so probing the raw key alone would
+    // miss a prior credit — the replay would then fall through to a 200 and (for
+    // transit_attunement) re-fire the Sky Drop feed/bell every hour the engine
+    // re-checks. Probe the raw key AND the four suffixed forms so a replay is
+    // reliably caught here → 409, no double credit, no duplicate surfacing.
+    const idempotencyVariants = [
+      idempotencyKey,
+      ...(["Spirit", "Essence", "Matter", "Substance"] as const).map(
+        (t) => `${idempotencyKey}:${t}`,
+      ),
+    ];
     const existingTxn = await executeQuery(
-      "SELECT id FROM token_transactions WHERE idempotency_key = $1 LIMIT 1",
-      [idempotencyKey]
+      "SELECT id FROM token_transactions WHERE idempotency_key = ANY($1::text[]) LIMIT 1",
+      [idempotencyVariants]
     );
 
     if (existingTxn.rows.length > 0) {
