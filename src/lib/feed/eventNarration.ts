@@ -127,6 +127,28 @@ export function narrateFeedEvent(
       };
     }
 
+    case "weekly_menu":
+    case "weekly_menu.completed":
+    case "menu_planner.weekly_menu_completed": {
+      const title =
+        getString(metadata, "menuTitle") ??
+        getString(metadata, "title") ??
+        "a weekly menu";
+      const weekLabel =
+        getString(metadata, "weekLabel") ??
+        formatDateLabel(getString(metadata, "weekStartDate"));
+      const mealCount = getNumber(metadata, "mealCount");
+      const summary =
+        getString(metadata, "summary") ?? getString(metadata, "description");
+      const mealPhrase = mealCount ? ` with ${mealCount} planned meals` : "";
+      const weekPhrase = weekLabel ? ` for the week of ${weekLabel}` : "";
+      return {
+        icon: "📅",
+        action: `completed ${title}${weekPhrase}${mealPhrase}.`,
+        label: summary ? `Weekly menu: ${summary}` : `Weekly menu: ${title}`,
+      };
+    }
+
     // --- PA-emitted agent events ---------------------------------------
 
     case "chat":
@@ -213,4 +235,16 @@ export function narrateFeedEvent(
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
   return `${text.slice(0, max - 1).trimEnd()}…`;
+}
+
+function formatDateLabel(iso: string | undefined): string | undefined {
+  if (!iso) return undefined;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 }
