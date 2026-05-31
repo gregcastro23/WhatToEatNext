@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { feedDatabase } from "@/services/feedDatabaseService";
+import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { TokenType, TransactionSourceType } from "@/types/economy";
 import type { NextRequest} from "next/server";
@@ -30,6 +32,17 @@ interface SyncCreditBody {
   };
   source?: TransactionSourceType;
   idempotencyKey: string;
+  /**
+   * Optional context for user-visible airdrops (Sky Drops). When
+   * source === 'transit_attunement' these populate the feed event + notification.
+   */
+  metadata?: {
+    planet?: string;
+    sign?: string;
+    degree?: number;
+    totalTokens?: number;
+    degreeAgentId?: string;
+  };
 }
 
 export async function POST(req: NextRequest) {
@@ -40,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     if (!syncSecret || authHeader !== syncSecret) {
       return NextResponse.json(
-        { ok: false, reason: "unauthorized" },
+        { ok: false, reason: "unauthorized", error: "Unauthorized" },
         { status: 401 }
       );
     }
@@ -65,7 +78,7 @@ export async function POST(req: NextRequest) {
       const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
       if (!userEmail.toLowerCase().endsWith(AGENTIC_EMAIL_DOMAIN)) {
         return NextResponse.json(
-          { ok: false, reason: "user_not_found" },
+          { ok: false, reason: "user_not_found", error: "user_not_found" },
           { status: 404 }
         );
       }
@@ -82,11 +95,21 @@ export async function POST(req: NextRequest) {
 
     const userId = userResult.rows[0].id;
 
-    // 3. Check for existing idempotency hit (TokenEconomyService handles this in creditMultipleTokens, 
-    // but the requirement says to check it explicitly)
+    // 3. Idempotency pre-check. creditMultipleTokens stores per-axis keys suffixed
+    // with the token type (`<key>:Spirit` …), so probing the raw key alone would
+    // miss a prior credit — the replay would then fall through to a 200 and (for
+    // transit_attunement) re-fire the Sky Drop feed/bell every hour the engine
+    // re-checks. Probe the raw key AND the four suffixed forms so a replay is
+    // reliably caught here → 409, no double credit, no duplicate surfacing.
+    const idempotencyVariants = [
+      idempotencyKey,
+      ...(["Spirit", "Essence", "Matter", "Substance"] as const).map(
+        (t) => `${idempotencyKey}:${t}`,
+      ),
+    ];
     const existingTxn = await executeQuery(
-      "SELECT id FROM token_transactions WHERE idempotency_key = $1 LIMIT 1",
-      [idempotencyKey]
+      "SELECT id FROM token_transactions WHERE idempotency_key = ANY($1::text[]) LIMIT 1",
+      [idempotencyVariants]
     );
 
     if (existingTxn.rows.length > 0) {
@@ -121,6 +144,43 @@ export async function POST(req: NextRequest) {
         { ok: false, reason: "already_applied" },
         { status: 409 }
       );
+    }
+
+    // 5b. Surface user-visible Sky Drops (automatic transit airdrops) in the
+    // community feed + the notification bell. Best-effort: never block or fail
+    // the credit on a surfacing error. PA routes only HUMAN transit_attunement
+    // credits through this endpoint (agent attunements stay on the PA/Neon side),
+    // so the feed actor is always a human and won't forward back to PA.
+    if (source === "transit_attunement") {
+      const total =
+        body.metadata?.totalTokens ?? credits.reduce((s, c) => s + c.amount, 0);
+      if (total > 0) {
+        const { planet, sign, degree, degreeAgentId } = body.metadata ?? {};
+        const where =
+          planet && sign && degree !== undefined
+            ? `${planet} at ${sign} ${Math.round(degree)}°`
+            : planet ?? "an active transit";
+
+        feedDatabase
+          .createEvent(userId, "transit_attunement", {
+            planet,
+            sign,
+            degree,
+            totalTokens: total,
+            degreeAgentId,
+          })
+          .catch((e) => console.error("[sync-credit] sky-drop feed event failed:", e));
+
+        notificationDatabase
+          .createNotification(
+            userId,
+            "transit_attunement",
+            "🌠 Sky Drop received",
+            `Your ${where} airdropped +${total.toFixed(1)} ESMS across Spirit, Essence, Matter & Substance.`,
+            { metadata: { tokenType: "all", tokenAmount: total, planet, sign, degree } },
+          )
+          .catch((e) => console.error("[sync-credit] sky-drop notification failed:", e));
+      }
     }
 
     // 6. Success Response

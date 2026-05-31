@@ -63,6 +63,21 @@ export function narrateFeedEvent(
         label: "Claimed daily yield",
       };
 
+    case "transit_attunement":
+    case "sky_drop": {
+      const planet = getString(metadata, "planet");
+      const total =
+        getNumber(metadata, "totalTokens") ?? getNumber(metadata, "total");
+      const totalStr = total !== undefined ? `+${total.toFixed(1)} ESMS` : "fresh ESMS";
+      return {
+        icon: "🌠",
+        action: planet
+          ? `caught a Sky Drop — ${planet} crossed their natal degree for ${totalStr}.`
+          : `caught a Sky Drop of ${totalStr} from an active transit.`,
+        label: planet ? `Sky Drop · ${planet}` : "Sky Drop",
+      };
+    }
+
     case "commensal_request": {
       const targetName = getString(metadata, "targetName");
       return {

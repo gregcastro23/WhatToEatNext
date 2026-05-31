@@ -20,6 +20,7 @@ import {
   BASE_DAILY_TOKENS,
   PREMIUM_YIELD_MULTIPLIER,
   TRANSIT_BONUS_SCALE,
+  getHoldingsMultiplier,
   getStreakMultiplier,
 } from "@/types/economy";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
@@ -283,9 +284,23 @@ class DailyYieldService {
     // 5. Calculate transit bonus
     const transitBonus = this.calculateTransitBonus(natalPositions, transitESMS);
 
-    // 6. Compute final distribution (premium users get 2× base)
+    // 6. Compute final distribution (premium users get 2× base; holdings scale yield)
     const premiumMult = isPremium ? PREMIUM_YIELD_MULTIPLIER : 1.0;
-    const totalBaseTokens = Math.round(BASE_DAILY_TOKENS * premiumMult * streakMultiplier);
+
+    // Balance-scaled yield: the more ESMS you hold, the more you draw each day —
+    // with steep diminishing returns + a hard cap (getHoldingsMultiplier) so
+    // holdings reward loyalty without runaway "whale" compounding.
+    const currentBalances = await tokenEconomy.getBalances(userId);
+    const totalHoldings =
+      currentBalances.spirit +
+      currentBalances.essence +
+      currentBalances.matter +
+      currentBalances.substance;
+    const holdingsMultiplier = getHoldingsMultiplier(totalHoldings);
+
+    const totalBaseTokens = Math.round(
+      BASE_DAILY_TOKENS * premiumMult * streakMultiplier * holdingsMultiplier,
+    );
 
     const distribution = {
       spirit: Math.round((totalBaseTokens * weights.spirit + transitBonus.spirit) * 100) / 100,
@@ -330,6 +345,7 @@ class DailyYieldService {
     return {
       baseTokens: BASE_DAILY_TOKENS,
       streakMultiplier,
+      holdingsMultiplier,
       totalTokens: credits.reduce((sum, c) => sum + c.amount, 0),
       distribution,
       transitBonus,
