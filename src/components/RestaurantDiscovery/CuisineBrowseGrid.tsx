@@ -8,6 +8,7 @@
  */
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
@@ -116,13 +117,26 @@ export function CuisineBrowseGrid() {
             <motion.li key={key} variants={cardVariants}>
               <Link
                 href={`/cuisines/${slug}`}
-                className={`group relative block overflow-hidden rounded-2xl border bg-black/40 p-4 backdrop-blur-sm transition-all hover:bg-black/60 ${decoration.ring}`}
+                className={`group relative block min-h-[152px] overflow-hidden rounded-2xl border bg-black/40 p-4 backdrop-blur-sm transition-all hover:bg-black/60 ${decoration.ring}`}
               >
+                {meta.imageUrl && (
+                  <Image
+                    src={meta.imageUrl}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                    className="object-cover opacity-45 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-60"
+                  />
+                )}
                 <div
-                  className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-60 transition-opacity group-hover:opacity-100 ${decoration.glow}`}
+                  className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-80 transition-opacity group-hover:opacity-100 ${decoration.glow}`}
                   aria-hidden
                 />
-                <div className="relative z-10">
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10"
+                  aria-hidden
+                />
+                <div className="relative z-10 flex min-h-[120px] flex-col justify-end">
                   <div className="text-2xl mb-2" aria-hidden>
                     {decoration.emoji}
                   </div>
