@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState, type JSX } from "react";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 import { activePrimaryFromPathname } from "@/config/navigation";
@@ -43,6 +44,7 @@ const QUICK_ACTIONS: readonly QuickAction[] = [
 export function MobileGlassTabBar(): JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
+  const { status } = useSession();
   const active = activePrimaryFromPathname(pathname);
   const [actionsOpen, setActionsOpen] = useState(false);
 
@@ -248,10 +250,13 @@ export function MobileGlassTabBar(): JSX.Element {
           {/* last two tabs */}
           {TABS.slice(2).map((t) => {
             const isActive = t.matchKey === active;
+            const href =
+              t.id === "profile" && status !== "authenticated" ? "/login" : t.href;
             return (
               <Link
                 key={t.id}
-                href={t.href}
+                href={href}
+                prefetch={t.id === "profile" ? false : undefined}
                 style={{
                   display: "flex",
                   flexDirection: "column",

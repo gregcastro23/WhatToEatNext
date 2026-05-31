@@ -12,6 +12,7 @@
 //   - preserve-caught-error: WARN - good practice but non-blocking
 
 import js from "@eslint/js";
+import nextPlugin from "@next/eslint-plugin-next";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
@@ -27,6 +28,14 @@ import globals from "globals";
 export default [
   // Start with recommended JS rules
   js.configs.recommended,
+  // Register @next/next so inline Next rule comments resolve in the fast path.
+  {
+    plugins: { "@next/next": nextPlugin },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
+  },
 
   // ============================================================================
   // Main TypeScript/React Configuration
@@ -43,7 +52,8 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
-        // Enable type-aware linting for enhanced TypeScript checks
+        // Keep the fast config syntax-only. Type-aware rules run through
+        // eslint.config.mjs via `bun run lint`.
         // project: "./tsconfig.json",
         tsconfigRootDir: import.meta.dirname,
       },
@@ -116,16 +126,16 @@ export default [
       "@typescript-eslint/no-inferrable-types": "off", // DISABLED: Style preference
 
       // Best Practices
-      "@typescript-eslint/no-unnecessary-type-assertion": "error",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
       "@typescript-eslint/no-unnecessary-condition": "off", // Too many false positives
       "@typescript-eslint/prefer-nullish-coalescing": "off", // Style preference
       "@typescript-eslint/prefer-optional-chain": "off", // 107 warnings - style preference
       "@typescript-eslint/prefer-as-const": "error",
       "@typescript-eslint/prefer-readonly": "off", // Style preference
-      "@typescript-eslint/no-floating-promises": "warn", // Pervasive in React async patterns (useEffect, onClick)
-      "@typescript-eslint/no-misused-promises": "warn", // Pervasive in React async event handlers
-      "@typescript-eslint/await-thenable": "warn", // Downgraded - some false positives with type inference
-      "@typescript-eslint/no-for-in-array": "error",
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/await-thenable": "off",
+      "@typescript-eslint/no-for-in-array": "off",
       "@typescript-eslint/require-await": "off", // 109 warnings - noisy, not critical
 
       // Array and Object Best Practices
@@ -176,7 +186,7 @@ export default [
       "react/jsx-no-undef": "error",
       "react/no-children-prop": "warn",
       "react/no-danger-with-children": "error",
-      "react/no-direct-mutation-state": "error",
+      "react/no-direct-mutation-state": "off", // Disabled due to ESLint v10 incompatibility (context.getFilename removed)
       "react/no-unescaped-entities": "warn",
       "react/no-unknown-property": "error",
       "react/self-closing-comp": "warn",

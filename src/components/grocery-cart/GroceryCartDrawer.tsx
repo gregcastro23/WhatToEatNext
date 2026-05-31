@@ -73,6 +73,7 @@ export function GroceryCartDrawer() {
         aria-modal="true"
         aria-label="Grocery cart"
         aria-hidden={!isOpen}
+        inert={!isOpen}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-purple-500/30 bg-gradient-to-r from-purple-900/30 to-transparent">
