@@ -17,8 +17,8 @@
  */
 
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
-import { resolve } from "node:path";
 import { randomUUID } from "node:crypto";
+import { resolve } from "node:path";
 
 const ENABLED = process.env.MCP_E2E === "1" && !!process.env.DATABASE_URL;
 
@@ -75,7 +75,7 @@ class StdioClient {
         resolveFn(msg);
       });
       this.proc.stdin.write(
-        JSON.stringify({ jsonrpc: "2.0", id, method, params }) + "\n",
+        `${JSON.stringify({ jsonrpc: "2.0", id, method, params })  }\n`,
       );
     });
   }

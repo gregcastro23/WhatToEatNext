@@ -23,14 +23,14 @@ jest.mock("@/lib/api-keys/queries", () => ({
   revokeApiKey: jest.fn(),
 }));
 
-import { auth } from "@/lib/auth/auth";
+import { DELETE } from "@/app/api/account/api-keys/[keyId]/route";
+import { GET, POST } from "@/app/api/account/api-keys/route";
 import {
   listUserApiKeys,
   mintApiKey,
   revokeApiKey,
 } from "@/lib/api-keys/queries";
-import { GET, POST } from "@/app/api/account/api-keys/route";
-import { DELETE } from "@/app/api/account/api-keys/[keyId]/route";
+import { auth } from "@/lib/auth/auth";
 
 const mockedAuth = auth as unknown as jest.MockedFunction<
   () => Promise<unknown>

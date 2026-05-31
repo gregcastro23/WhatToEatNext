@@ -63,13 +63,13 @@ export function Dashboard({ data }: DashboardProps) {
     {
       label: "Recipes",
       value: data.stats.totalRecipes.toLocaleString(),
-      delta: "+579 · live",
+      delta: "—",
       icon: "bookmark",
     },
     {
       label: "Ingredients",
       value: data.stats.totalIngredients.toLocaleString(),
-      delta: "+401 · live",
+      delta: "—",
       icon: "ring",
     },
     {
@@ -80,31 +80,17 @@ export function Dashboard({ data }: DashboardProps) {
     },
   ];
 
-  // Real funnel: Landing / Signup / Onboarded / First recipe / First cook / Paid
-  // Where the database doesn't yet expose later steps, we ratio from the prototype.
+  // Acquisition funnel from real cohort counts. Landing-page traffic isn't
+  // instrumented, so the funnel starts at the first measured stage (signup)
+  // rather than a fabricated top, and every later stage is a real DB count.
+  const cohortFunnel = data.practitionerCohorts.funnel;
+  const funnelTop = cohortFunnel.signup || 1;
   const realFunnel = [
-    {
-      stage: "Landing",
-      count: Math.max(data.stats.totalUsers * 10, 84210),
-      pct: 1.0,
-    },
-    {
-      stage: "Signup · Google",
-      count: data.stats.totalUsers,
-      pct: data.stats.totalUsers / Math.max(data.stats.totalUsers * 10, 84210),
-    },
-    {
-      stage: "Onboarding · complete",
-      count: data.stats.completedOnboarding,
-      pct: data.stats.completedOnboarding / Math.max(data.stats.totalUsers * 10, 84210),
-    },
-    {
-      stage: "Active · 24h",
-      count: data.stats.activeUsers,
-      pct: data.stats.activeUsers / Math.max(data.stats.totalUsers * 10, 84210),
-    },
-    { stage: "First cook log", count: Math.round(data.stats.activeUsers * 0.6), pct: 0.04 },
-    { stage: "Paid · Pro", count: Math.round(data.stats.activeUsers * 0.18), pct: 0.0188 },
+    { stage: "Signup · Google", count: cohortFunnel.signup, pct: cohortFunnel.signup / funnelTop },
+    { stage: "Onboarding · complete", count: cohortFunnel.onboarded, pct: cohortFunnel.onboarded / funnelTop },
+    { stage: "Active · 24h", count: cohortFunnel.active, pct: cohortFunnel.active / funnelTop },
+    { stage: "First cook log", count: cohortFunnel.firstCook, pct: cohortFunnel.firstCook / funnelTop },
+    { stage: "Paid · Pro", count: cohortFunnel.paidPro, pct: cohortFunnel.paidPro / funnelTop },
   ];
 
   return (

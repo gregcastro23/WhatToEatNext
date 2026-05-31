@@ -8,6 +8,12 @@ const __dirname = path.dirname(__filename);
 const require = createRequire(import.meta.url);
 const { GenerateSW } = require("workbox-webpack-plugin");
 
+// Single source of truth for the app version. Inlined at build time via the
+// `env` config below so it survives runtimes (e.g. Vercel serverless) where
+// `npm_package_version` is not set — which previously made /api/health report
+// a stale hardcoded version.
+const appVersion = require("./package.json").version;
+
 /** @type {import('next').NextConfig} */
 // Keep PWA support opt-in only. The next-pwa wrapper stalls this app during
 // Next.js 15 compile, so PWA generation uses Workbox directly instead.
@@ -111,6 +117,10 @@ const getSecurityHeaders = () => {
 const nextConfig = {
   reactStrictMode: false,
   outputFileTracingRoot: __dirname,
+  // Inline the package version so server + client code can report it reliably.
+  env: {
+    APP_VERSION: appVersion,
+  },
   // standalone output disabled - causes long builds and Vercel issues
   images: {
     domains: [], 

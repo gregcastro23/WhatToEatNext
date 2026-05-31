@@ -361,7 +361,6 @@ export function McpTopUpPanel(): JSX.Element {
       >
         One-time purchase, no recurring charges. Credits land in your
         balance within a few seconds of Stripe confirming the payment.
-        Monthly subscription bundles are coming soon.
       </p>
     </div>
   );

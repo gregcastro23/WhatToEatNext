@@ -402,9 +402,9 @@ export function calculateEnhancedAlchemicalFromPlanets(
 
   // NOTE: the Ascendant is intentionally NOT ignored — see grounding note above.
   const ignoredBodies = new Set([
-    "Midheaven", "True Node", "South Node",
+    "Midheaven", "True Node", "North Node", "South Node",
     "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node",
-    "NorthNode", "SouthNode", "MC",
+    "NorthNode", "SouthNode", "northNode", "southNode", "MC",
   ]);
 
   // LAYER 1 & 2: Base ESMS with sect and dignity modifications

@@ -23,7 +23,7 @@ export async function GET() {
       status: dbStatus === "healthy" ? "healthy" : "degraded",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      version: process.env.npm_package_version || "2.1.0",
+      version: process.env.APP_VERSION || process.env.npm_package_version || "unknown",
       environment: process.env.NODE_ENV || "development",
       services: {
         database: dbStatus,

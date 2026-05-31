@@ -1,6 +1,6 @@
 {
   "name": "@alchm/mcp-server",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "mcpName": "io.github.gregcastro23/alchm-kitchen",
   "description": "Alchm.kitchen MCP server — live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry overlays, and transit×natal overlays.",
   "type": "module",
@@ -43,6 +43,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.1"
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "pg": "^8.20.0"
   }
 }

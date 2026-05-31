@@ -28,6 +28,12 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 - **Calc observability** — additive `degraded` flag (`src/types/degraded.ts`) threaded from the positions layer (`astronomy-engine-fallback` / `stale-positions`) and `alchemize` (`monica-degenerate`) through `/api/alchm-quantities` to a badge on `/quantities` _(committed on `feat/calc-degraded-flag`, PR pending)_
 - **DB module hygiene** — raw pool extracted to `src/lib/database/rawPool.ts`, breaking the `connection.ts ↔ slowQueryLog` import cycle _(committed, PR pending)_
 
+### 🔧 Pre-tech-week hardening (2026-05-31, `audit-reports/site-audit-2026-05-31/`)
+
+- **Version source of truth** — `package.json` is now `3.1.0`; `next.config.js` inlines it as `APP_VERSION` (build-time), which `/api/health` + the structured logger read. Don't reintroduce `process.env.npm_package_version` as a primary source — it's unset in Vercel's runtime (that's what made prod report a stale `2.1.0`).
+- **Dashboard honesty** — `/admin/dashboard` no longer fabricates `live`-labelled data; `dashboardPanelsService` returns real zeros (no `mrr || 1612` / `|| 2743` / `84210` floors) and panels show honest "○ STALE / not wired" states. Don't re-add seeded placeholders to the live path.
+- **Heavy-route bundle pattern** — `/ingredients` (558 → 180 kB) was split into a **server component** (`page.tsx`) that projects the catalog via `src/lib/ingredients/slimIngredients.ts` (`server-only`) + a `"use client"` island (`IngredientsExplorer.tsx`) fed by props. Use this shape for any heavy-static-data page instead of importing the dataset into a `"use client"` module. The slim field allowlist must track the island's reads **including type-cast reads** (`(ingredient as {...}).image_url`, `getCulinaryDetails`'s `root.*`). `/profile` (268 → 215 kB) code-split its non-default-tab panels via `next/dynamic`.
+
 ### 🛠 In flight
 
 - **WTEN migration** — porting the `planetary_agents-main` UI into `src/` (5 of 11 sessions done — see `WTEN_MIGRATION_PLAN.md`)

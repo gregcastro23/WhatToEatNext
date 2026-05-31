@@ -1,5 +1,5 @@
 // Add integration tests
-import { Recipe } from '@/types/recipe';
+import type { Recipe } from '@/types/recipe';
 
 // Mock recipe for testing
 const mockRecipe: Partial<Recipe> = {

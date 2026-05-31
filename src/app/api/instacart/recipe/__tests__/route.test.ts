@@ -36,8 +36,8 @@ jest.mock("@/lib/instacart/idpClient", () => ({
   }),
 }));
 
-import { POST } from "../route";
 import { fetchInstacartIdp } from "@/lib/instacart/idpClient";
+import { POST } from "../route";
 
 describe("Instacart Recipe API (/api/instacart/recipe)", () => {
   beforeEach(() => {

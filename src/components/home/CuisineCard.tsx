@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
+import { getCuisineByDisplayName } from "@/utils/cuisineSlug";
 
 type OnDoubleClickCuisine = (cuisineName: string) => void;
 
@@ -127,6 +129,7 @@ export interface DynamicCuisineRecommendation {
   score: number;
   planet: string;
   reasoning: string;
+  imageUrl?: string;
   recipeCount: number;
   optimalTiming: string;
   topRecipes: Array<{ name: string; matchScore: number }>;
@@ -146,6 +149,7 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
   const cuisineSlug = encodeURIComponent(cuisine.cuisine.toLowerCase());
   const cookHref = `/recipes?cuisine=${cuisineSlug}`;
   const orderHref = `/restaurants?cuisine=${cuisineSlug}`;
+  const imageUrl = cuisine.imageUrl ?? getCuisineByDisplayName(cuisine.cuisine)?.meta.imageUrl;
 
   const icon = PLANET_ICONS[cuisine.planet] || "☉";
   const planetBadge = PLANET_BADGE[cuisine.planet] || PLANET_BADGE.Sun;
@@ -171,23 +175,36 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
         }}
       >
         <div className="rounded-xl border border-white/10 bg-[#0c0c14]/80 backdrop-blur-md hover:border-purple-400/40 hover:bg-[#10101a]/90 transition-all duration-200 p-4 cursor-pointer">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-lg text-purple-300/80 shrink-0">{icon}</span>
-              <h3 className="font-bold text-white truncate">{cuisine.cuisine}</h3>
-              {cuisine.isRetrograde && (
-                <span
-                  className="text-[10px] text-amber-300 font-bold shrink-0"
-                  title={`${cuisine.planet} retrograde`}
-                >
-                  Rx
-                </span>
-              )}
-            </div>
-            <div
-              className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-[10px] font-black border shadow-lg`}
-            >
-              {cuisine.score}%
+          <div className="flex items-start gap-3 mb-2">
+            {imageUrl && (
+              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5">
+                <Image
+                  src={imageUrl}
+                  alt=""
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-lg text-purple-300/80 shrink-0">{icon}</span>
+                <h3 className="font-bold text-white truncate">{cuisine.cuisine}</h3>
+                {cuisine.isRetrograde && (
+                  <span
+                    className="text-[10px] text-amber-300 font-bold shrink-0"
+                    title={`${cuisine.planet} retrograde`}
+                  >
+                    Rx
+                  </span>
+                )}
+              </div>
+              <div
+                className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-[10px] font-black border shadow-lg`}
+              >
+                {cuisine.score}%
+              </div>
             </div>
           </div>
           <p className="text-xs text-white/55 line-clamp-2 leading-relaxed">
@@ -254,10 +271,21 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
           <div
             className={`relative h-32 bg-gradient-to-br ${headerGradient} overflow-hidden border-b border-white/5`}
           >
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover opacity-65 transition-transform duration-700 group-hover:scale-105"
+                priority={rank <= 3}
+              />
+            )}
+            <div className={`absolute inset-0 bg-gradient-to-br ${headerGradient} opacity-65`} />
             <div className="absolute inset-0 flex items-center justify-center opacity-25">
               <span className="text-8xl text-white drop-shadow-lg">{icon}</span>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14]/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c14]/85 via-[#0c0c14]/30 to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
               <h3 className="text-2xl font-extrabold text-white drop-shadow-lg tracking-tight">
                 {cuisine.cuisine}
