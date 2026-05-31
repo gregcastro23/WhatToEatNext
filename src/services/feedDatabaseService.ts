@@ -140,6 +140,46 @@ class FeedDatabaseService {
       return [];
     }
   }
+
+  /**
+   * Fetch paginated feed events for a specific actor
+   */
+  async getEventsByActor(actorId: string, limit: number = 20, offset: number = 0): Promise<FeedEvent[]> {
+    try {
+      const result = await executeQuery(
+        `SELECT f.*, u.is_agent, u.email as actor_email, u.image as actor_image, up.name as actor_name
+         FROM feed_events f
+         JOIN users u ON f.actor_id = u.id
+         LEFT JOIN user_profiles up ON u.id = up.user_id
+         WHERE f.actor_id = $1
+         ORDER BY f.created_at DESC
+         LIMIT $2 OFFSET $3`,
+        [actorId, limit, offset]
+      );
+
+      return result.rows.map(row => {
+        const isAgent = row.is_agent === true;
+        const actorSlug =
+          isAgent && typeof row.actor_email === "string" && row.actor_email.includes("@")
+            ? row.actor_email.split("@")[0]
+            : undefined;
+        return {
+          id: row.id,
+          actorId: row.actor_id,
+          eventType: row.event_type,
+          metadataPayload: row.metadata_payload,
+          createdAt: new Date(row.created_at),
+          actorName: row.actor_name || 'Alchemist',
+          actorImage: row.actor_image,
+          actorIsAgent: isAgent,
+          actorSlug,
+        };
+      });
+    } catch (error) {
+      _logger.error("Failed to fetch actor feed events:", error);
+      return [];
+    }
+  }
 }
 
 export const feedDatabase = new FeedDatabaseService();
