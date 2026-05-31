@@ -108,26 +108,41 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
   const recipe = rawRecipe;
 
-  const proteins = (recipe.ingredients || [])
-    .filter((i) => i.category === "protein")
-    .map((i) => i.name);
-  const vegetables = (recipe.ingredients || [])
-    .filter((i) => i.category === "vegetable")
-    .map((i) => i.name);
-
   const cookingMethods = getCookingMethods(recipe);
 
-  const recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
-    protein: proteins[0],
-    vegetable: vegetables[0],
-    cookingMethod: cookingMethods[0],
-  });
+  // Non-essential enrichment. A recommender failure (e.g. a catalog recipe with
+  // missing fields) must never 500 the page — the recipe itself always renders.
+  let recommendedSauces: Awaited<
+    ReturnType<typeof sauceRecommender.recommendSauce>
+  > = [];
+  let recommendedRecipes: Awaited<
+    ReturnType<typeof _recipeRecommender.recommendSimilarRecipes>
+  > = [];
+  try {
+    const proteins = (recipe.ingredients || [])
+      .filter((i) => i.category === "protein")
+      .map((i) => i.name);
+    const vegetables = (recipe.ingredients || [])
+      .filter((i) => i.category === "vegetable")
+      .map((i) => i.name);
 
-  const allRecipes = await LocalRecipeService.getAllRecipes();
-  const recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
-    rawRecipe,
-    allRecipes,
-  );
+    recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
+      protein: proteins[0],
+      vegetable: vegetables[0],
+      cookingMethod: cookingMethods[0],
+    });
+
+    const allRecipes = await LocalRecipeService.getAllRecipes();
+    recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
+      rawRecipe,
+      allRecipes,
+    );
+  } catch (err) {
+    console.error(
+      `[recipes/${recipeId}] enrichment (sauces/similar recipes) failed; rendering recipe without recommendations:`,
+      err,
+    );
+  }
 
   const recipeRecord = recipe as Record<string, unknown>;
   // Build "3 cups all-purpose flour"-shaped strings for schema.org/Recipe.

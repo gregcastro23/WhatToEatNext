@@ -115,11 +115,25 @@ export class RecipeRecommender {
     ingredients1: Recipe["ingredients"],
     ingredients2: Recipe["ingredients"],
   ): number {
-    const names1 = new Set(ingredients1.map((i) => i.name));
-    const names2 = new Set(ingredients2.map((i) => i.name));
+    // Recipes in the catalog can be missing `ingredients` entirely (stocks,
+    // components, partial imports), so never assume an array.
+    const toNames = (ings: Recipe["ingredients"]): string[] =>
+      Array.isArray(ings)
+        ? ings
+            .map((i) =>
+              typeof i === "string"
+                ? i
+                : i && typeof i === "object" && "name" in i
+                  ? String((i as { name: unknown }).name)
+                  : "",
+            )
+            .filter(Boolean)
+        : [];
+    const names1 = new Set(toNames(ingredients1));
+    const names2 = new Set(toNames(ingredients2));
     const intersection = new Set([...names1].filter((x) => names2.has(x)));
     const union = new Set([...names1, ...names2]);
-    return intersection.size / union.size;
+    return union.size > 0 ? intersection.size / union.size : 0;
   }
 
   private calculateCookingMethodSimilarity(
@@ -353,14 +367,16 @@ export class RecipeRecommender {
     recipeElements: ElementalProperties,
     targetElements: ElementalProperties,
   ): number {
+    // Either recipe may have no elementalProperties — default to empty so we
+    // never call Object.keys/index on undefined.
+    const recipe = recipeElements ?? ({} as ElementalProperties);
+    const target = targetElements ?? ({} as ElementalProperties);
     let alignment = 0;
     let total = 0;
 
-    Object.keys(targetElements).forEach((element) => {
-      const key = element as any;
-      const diff = Math.abs(
-        (recipeElements[key] || 0) - (targetElements[key] || 0),
-      );
+    Object.keys(target).forEach((element) => {
+      const key = element as keyof ElementalProperties;
+      const diff = Math.abs((recipe[key] || 0) - (target[key] || 0));
       alignment += 1 - diff;
       total += 1;
     });
