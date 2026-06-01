@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useActiveTransits } from '@/hooks/useActiveTransits';
+import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
 import type { NatalChart, Planet, ZodiacSignType } from '@/types/natalChart';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
@@ -50,6 +52,13 @@ interface TransitData {
 export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart }) => {
   const { planetaryPositions: currentPositionsRaw } = useAlchemical();
   const [transitData, setTransitData] = useState<Record<string, TransitData>>({});
+  const { groupForPlanet } = useActiveTransits();
+  const { open } = useTransitGroupChat();
+
+  const openTransitPlanetCouncil = (pos: { planet: string; sign: string; degree: number }) => {
+    const g = groupForPlanet(pos.planet, { planet: pos.planet, sign: pos.sign, degree: pos.degree });
+    if (g) void open(g.participants, g.descriptor, 'natal-transit-chart');
+  };
 
   useEffect(() => {
     if (!currentPositionsRaw || Object.keys(currentPositionsRaw).length === 0) return;
@@ -217,12 +226,27 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
             );
           })}
 
-          {/* Transit planet markers (inner ring) */}
+          {/* Transit planet markers (inner ring) — click to convene that planet's council */}
           {spreadTransit.map((pos) => {
             const angle = toSvgAngle(pos.absAngle);
             const pt = polarToXY(angle, transitR);
             return (
-              <g key={`transit-${pos.planet}`}>
+              <g
+                key={`transit-${pos.planet}`}
+                role="button"
+                tabIndex={0}
+                aria-label={`Convene a planetary council chat for transiting ${pos.planet}`}
+                style={{ cursor: 'pointer' }}
+                className="transition-opacity hover:opacity-80"
+                onClick={() => openTransitPlanetCouncil({ planet: pos.planet, sign: pos.sign, degree: pos.degree })}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openTransitPlanetCouncil({ planet: pos.planet, sign: pos.sign, degree: pos.degree });
+                  }
+                }}
+              >
+                <title>{`Convene ${pos.planet}'s transit council`}</title>
                 <circle cx={pt.x} cy={pt.y} r="13" fill="rgba(249,115,22,0.08)" />
                 <circle cx={pt.x} cy={pt.y} r="11" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.5)" strokeWidth="1" />
                 <text
