@@ -14,6 +14,11 @@ export const databaseConfig = {
     process.env.DATABASE_URL ||
     "postgresql://user:pass@localhost:5432/alchm_kitchen",
   
+  fallbackDatabaseUrl:
+    process.env.FALLBACK_DATABASE_URL ||
+    process.env.NEON_DATABASE_URL ||
+    "",
+  
   // Individual connection parameters (fallback if DATABASE_URL not provided)
   host: process.env.DB_HOST || "localhost",
   port: parseInt(process.env.DB_PORT || "5432", 10),
