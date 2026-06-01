@@ -55,18 +55,8 @@ jobs:
       - name: Run ${{ matrix.name }}
         run: ${{ matrix.command }}
 
-  deploy:
-    name: Deploy to Vercel
-    needs: [checks]
-    runs-on: ubuntu-latest
-    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/backend-migration') && github.event_name == 'push'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v42
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: '--prod'
+  # NOTE: frontend prod deploys are handled by Vercel's native Git integration
+  # (auto-deploys on master merge — see CLAUDE.md + the "Vercel" status check).
+  # A second amondnet/vercel-action "Deploy to Vercel" job used to live here, but
+  # it duplicated that deploy and ran via npm (which tripped on the package.json
+  # tailwindcss override), so it was removed. Re-add only if native deploys stop.
