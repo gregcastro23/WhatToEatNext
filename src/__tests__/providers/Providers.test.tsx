@@ -42,12 +42,20 @@ describe("AlchemicalProvider", () => {
       </AlchemicalProvider>
     );
 
+    // currentSeason + dominant element are derived from the live date/sky (the
+    // provider overrides the static "spring"/"Fire" defaults on mount), so assert
+    // they're VALID values rather than hard-coding them — otherwise this test
+    // breaks every time the real-world season rolls over (it was red from June 1
+    // when spring → summer).
+    const SEASON = /^(spring|summer|autumn|fall|winter)$/i;
+    const ELEMENT = /^(Fire|Water|Earth|Air)$/;
+
     await waitFor(() => {
-      expect(screen.getByTestId("season")).toHaveTextContent("spring");
+      expect(screen.getByTestId("season")).toHaveTextContent(SEASON);
     });
 
-    expect(screen.getByTestId("season")).toHaveTextContent("spring");
-    expect(screen.getByTestId("dominant")).toHaveTextContent("Fire");
+    expect(screen.getByTestId("season")).toHaveTextContent(SEASON);
+    expect(screen.getByTestId("dominant")).toHaveTextContent(ELEMENT);
   });
 });
 
