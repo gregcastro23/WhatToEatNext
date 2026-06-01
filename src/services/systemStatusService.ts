@@ -994,13 +994,11 @@ async function probeDatabase(): Promise<FlowHealth> {
   let healthy = false;
   let latency: number | null = null;
   let dbError: string | null = null;
-  let usingFallback = false;
   try {
     const health = await checkDatabaseHealth();
     healthy = health.healthy;
     latency = health.latency ?? null;
     dbError = health.error ?? null;
-    usingFallback = !!health.usingFallback;
   } catch (err) {
     dbError = err instanceof Error ? err.message : "unknown";
   }
@@ -1009,7 +1007,6 @@ async function probeDatabase(): Promise<FlowHealth> {
 
   let status: FlowStatus;
   if (!healthy) status = "INCIDENT";
-  else if (usingFallback) status = "DEGRADED";
   else if ((latency ?? 0) > 200 || slowQueries.count >= 20) status = "DEGRADED";
   else if (slowQueries.count >= 5) status = "DEGRADED";
   else status = "OK";
@@ -1020,13 +1017,6 @@ async function probeDatabase(): Promise<FlowHealth> {
       at: checkedAt,
       message: `Database unreachable: ${dbError}`,
       severity: "error",
-    });
-  }
-  if (usingFallback) {
-    issues.push({
-      at: checkedAt,
-      message: "Database failover: Primary (Railway) failed; automatically switched to Hot-Standby Neon DB.",
-      severity: "warn",
     });
   }
   if (slowQueries.count >= 5) {
@@ -1047,9 +1037,7 @@ async function probeDatabase(): Promise<FlowHealth> {
       status === "OK"
         ? `Healthy · ${formatLatency(latency ?? 0)} ping · ${slowQueries.count} slow queries 5m`
         : status === "DEGRADED"
-          ? usingFallback
-            ? "Primary failed; using Hot-Standby Neon DB"
-            : `${slowQueries.count} slow queries in 5m`
+          ? `${slowQueries.count} slow queries in 5m`
           : "Database unreachable",
     metrics: [
       {

@@ -58,7 +58,7 @@ export interface DatabaseConfig {
 }
 
 // Environment-based configuration
-function getDatabaseConfig(customUrl?: string): DatabaseConfig {
+function getDatabaseConfig(): DatabaseConfig {
   const {
     databaseUrl,
     host,
@@ -73,8 +73,6 @@ function getDatabaseConfig(customUrl?: string): DatabaseConfig {
     statementTimeoutMs,
     poolerMode,
   } = databaseConfig;
-
-  const activeUrl = customUrl || databaseUrl;
 
   // Under transaction-mode PgBouncer, `statement_timeout` cannot ride the
   // connection startup packet: PgBouncer rejects non-allow-listed startup
@@ -94,9 +92,9 @@ function getDatabaseConfig(customUrl?: string): DatabaseConfig {
   // Railway's network + proxy TLS, not certificate pinning.
   const remoteSsl = { rejectUnauthorized: false };
 
-  if (activeUrl) {
+  if (databaseUrl) {
     // Parse connection URL for cloud deployments
-    const url = new URL(activeUrl);
+    const url = new URL(databaseUrl);
     return {
       host: url.hostname,
       port: parseInt(url.port, 10) || 5432,
@@ -130,64 +128,10 @@ function getDatabaseConfig(customUrl?: string): DatabaseConfig {
   };
 }
 
-// Connection pool instances
+// Connection pool instance
 let pool: Pool | null = null;
-let fallbackPool: Pool | null = null;
-let usingFallback = false;
 
-export function isUsingFallback(): boolean {
-  return usingFallback;
-}
-
-export function setUsingFallback(value: boolean): void {
-  usingFallback = value;
-  void logger.warn(`Database routing strategy updated: usingFallback = ${value}`);
-}
-
-// Initialize fallback database connection pool (Neon DB)
-export function initializeFallbackDatabase(): Pool | null {
-  if (fallbackPool) {
-    return fallbackPool;
-  }
-
-  const fallbackUrl = databaseConfig.fallbackDatabaseUrl;
-  if (!fallbackUrl) {
-    return null;
-  }
-
-  const config = getDatabaseConfig(fallbackUrl);
-  fallbackPool = new PoolValue(config);
-
-  if (!fallbackPool) {
-    throw new Error("Failed to initialize fallback database pool");
-  }
-
-  // Connection event handlers
-  fallbackPool.on("connect", (_client: PoolClient) => {
-    void logger.info("New fallback database connection established (Neon)", {
-      database: config.database,
-      host: config.host,
-    });
-  });
-  fallbackPool.on("error", (err: Error, _client: PoolClient) => {
-    void logger.error("Unexpected fallback database pool error", {
-      error: err.message,
-      stack: err.stack,
-      database: config.database,
-    });
-  });
-
-  void logger.info("Fallback database connection pool initialized (Neon)", {
-    database: config.database,
-    host: config.host,
-    port: config.port,
-    maxConnections: config.max,
-  });
-
-  return fallbackPool;
-}
-
-// Initialize database connection pool (Railway DB)
+// Initialize database connection pool
 export function initializeDatabase(): Pool {
   if (pool) {
     return pool;
@@ -223,14 +167,14 @@ export function initializeDatabase(): Pool {
   // Graceful shutdown handling
   process.on("SIGINT", () => {
     void (async () => {
-      void logger.info("Received SIGINT, closing database pools...");
+      void logger.info("Received SIGINT, closing database pool...");
       await closeDatabase();
       process.exit(0);
     })();
   });
   process.on("SIGTERM", () => {
     void (async () => {
-      void logger.info("Received SIGTERM, closing database pools...");
+      void logger.info("Received SIGTERM, closing database pool...");
       await closeDatabase();
       process.exit(0);
     })();
@@ -245,19 +189,15 @@ export function initializeDatabase(): Pool {
   return pool;
 }
 
-// Get database pool instance (initialize if not exists, switches dynamically to fallback if strategy set)
+// Get database pool instance (initialize if not exists)
 export function getDatabasePool(): Pool {
-  if (usingFallback) {
-    const fb = initializeFallbackDatabase();
-    if (fb) return fb;
-  }
   if (!pool) {
     return initializeDatabase();
   }
   return pool;
 }
 
-// Close database connection pools
+// Close database connection pool
 export async function closeDatabase(): Promise<void> {
   if (pool) {
     void logger.info("Closing database connection pool...");
@@ -265,11 +205,4 @@ export async function closeDatabase(): Promise<void> {
     pool = null;
     void logger.info("Database connection pool closed");
   }
-  if (fallbackPool) {
-    void logger.info("Closing fallback database connection pool...");
-    await fallbackPool.end();
-    fallbackPool = null;
-    void logger.info("Fallback database connection pool closed");
-  }
-  usingFallback = false;
 }

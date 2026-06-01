@@ -1,7 +1,7 @@
 import { logger } from "../logger";
 import { recordSlowQuery } from "../observability/slowQueryLog";
 import { databaseConfig } from "./config";
-import { getDatabasePool, initializeDatabase, closeDatabase, isUsingFallback, setUsingFallback } from "./rawPool";
+import { getDatabasePool, initializeDatabase, closeDatabase } from "./rawPool";
 import type { PoolClient, QueryResult } from "pg";
 
 /**
@@ -32,7 +32,6 @@ export async function checkDatabaseHealth(): Promise<{
   healthy: boolean;
   latency?: number;
   error?: string;
-  usingFallback?: boolean;
 }> {
   const startTime = Date.now();
   // Release in finally: if the health query throws, the client must still be
@@ -44,32 +43,13 @@ export async function checkDatabaseHealth(): Promise<{
     const result = await client.query("SELECT 1 as health_check");
     const latency = Date.now() - startTime;
     const healthy = result.rows.length > 0;
-    return { healthy, latency, usingFallback: isUsingFallback() };
+    return { healthy, latency };
   } catch (error) {
     const latency = Date.now() - startTime;
-    const err = error as Error & { code?: string };
-    const isConnError = !isUsingFallback() && !!databaseConfig.fallbackDatabaseUrl && (
-      err.code === "ECONNREFUSED" ||
-      err.code === "ENOTFOUND" ||
-      err.code === "ETIMEDOUT" ||
-      err.message.includes("connection timeout") ||
-      err.message.includes("pool is closed") ||
-      err.message.includes("could not connect")
-    );
-
-    if (isConnError) {
-      void logger.warn("Primary database connection failed in health check. Falling back to hot-standby Neon DB...", {
-        error: err.message,
-      });
-      setUsingFallback(true);
-      return checkDatabaseHealth();
-    }
-
     return {
       healthy: false,
       latency,
       error: error instanceof Error ? error.message : "Unknown database error",
-      usingFallback: isUsingFallback(),
     };
   } finally {
     if (client) {
@@ -81,52 +61,30 @@ export async function checkDatabaseHealth(): Promise<{
 export async function withTransaction<T>(
   operation: (client: PoolClient) => Promise<T>,
 ): Promise<T> {
+  const client = await getDatabasePool().connect();
   try {
-    const client = await getDatabasePool().connect();
-    try {
-      await client.query("BEGIN");
-      // Under transaction-mode PgBouncer the startup-level statement_timeout is
-      // absent (see getDatabaseConfig). SET LOCAL is scoped to this transaction —
-      // safe on shared pooled server connections — and restores a real
-      // server-side cap for the duration of the transaction. statementTimeoutMs
-      // is a parsed integer; Number() keeps the interpolation injection-proof.
-      if (databaseConfig.poolerMode === "transaction") {
-        await client.query(
-          `SET LOCAL statement_timeout = ${Number(databaseConfig.statementTimeoutMs)}`,
-        );
-      }
-      const result = await operation(client);
-      await client.query("COMMIT");
-      return result;
-    } catch (error) {
-      await client.query("ROLLBACK");
-      throw error;
-    } finally {
-      client.release();
+    await client.query("BEGIN");
+    // Under transaction-mode PgBouncer the startup-level statement_timeout is
+    // absent (see getDatabaseConfig). SET LOCAL is scoped to this transaction —
+    // safe on shared pooled server connections — and restores a real
+    // server-side cap for the duration of the transaction. statementTimeoutMs
+    // is a parsed integer; Number() keeps the interpolation injection-proof.
+    if (databaseConfig.poolerMode === "transaction") {
+      await client.query(
+        `SET LOCAL statement_timeout = ${Number(databaseConfig.statementTimeoutMs)}`,
+      );
     }
+    const result = await operation(client);
+    await client.query("COMMIT");
+    return result;
   } catch (error) {
-    const err = error as Error & { code?: string };
-    const isConnError = !isUsingFallback() && !!databaseConfig.fallbackDatabaseUrl && (
-      err.code === "ECONNREFUSED" ||
-      err.code === "ENOTFOUND" ||
-      err.code === "ETIMEDOUT" ||
-      err.message.includes("connection timeout") ||
-      err.message.includes("pool is closed") ||
-      err.message.includes("could not connect")
-    );
-
-    if (isConnError) {
-      void logger.warn("Primary database connection failed in transaction. Falling back to hot-standby Neon DB...", {
-        error: err.message,
-      });
-      setUsingFallback(true);
-      return withTransaction<T>(operation);
-    }
-
+    await client.query("ROLLBACK");
     void logger.error("Database transaction failed, rolled back", {
-      error: err.message,
+      error: error instanceof Error ? error.message : "Unknown error",
     });
     throw error;
+  } finally {
+    client.release();
   }
 }
 // Query execution with error handling and logging
@@ -188,24 +146,6 @@ export async function executeQuery<_T extends any = any>(
   } catch (error) {
     const executionTime = Date.now() - startTime;
     const err = error as Error & { code?: string };
-
-    const isConnError = !isUsingFallback() && !!databaseConfig.fallbackDatabaseUrl && (
-      err.code === "ECONNREFUSED" ||
-      err.code === "ENOTFOUND" ||
-      err.code === "ETIMEDOUT" ||
-      err.message.includes("connection timeout") ||
-      err.message.includes("pool is closed") ||
-      err.message.includes("could not connect")
-    );
-
-    if (isConnError) {
-      void logger.warn("Primary database connection failed in query. Falling back to hot-standby Neon DB...", {
-        error: err.message,
-      });
-      setUsingFallback(true);
-      return executeQuery<_T>(query, params, options);
-    }
-
     // Postgres surfaces statement_timeout cancels as code 57014. They look
     // identical to "real" errors in the log unless we distinguish them, and
     // they're the operational signal that the pool-storm cap is firing.
