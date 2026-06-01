@@ -40,6 +40,7 @@ DATABASE_URL=postgresql://postgres:<password>@postgres.railway.internal:5432/rai
 API_BASE_URL=https://whattoeatnext-production.up.railway.app
 NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
 INTERNAL_API_SECRET=<internal-api-secret>
+ALCHM_KITCHEN_SYNC_SECRET=<sync-secret-with-planetary-agents>
 GALILEO_API_KEY=<galileo-api-key>
 
 # Auth (NextAuth.js v5)
