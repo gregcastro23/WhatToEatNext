@@ -43,6 +43,109 @@ function listMigrationFiles(): string[] {
     .sort();
 }
 
+// ── No-transaction migrations ─────────────────────────────────────────────
+// Most migrations run inside a transaction (the file + its _migrations row commit
+// atomically). Some statements are illegal inside a transaction block — notably
+// CREATE/DROP INDEX CONCURRENTLY. A migration opts out by declaring
+// `-- migrate:no-transaction`, or is auto-detected when it contains CONCURRENTLY,
+// and then runs statement-by-statement in autocommit. Such migrations MUST be
+// idempotent (IF NOT EXISTS) — a mid-file failure is not rolled back.
+const NO_TXN_DIRECTIVE = "migrate:no-transaction";
+
+function stripSqlComments(sql: string): string {
+  return sql.replace(/\/\*[\s\S]*?\*\//g, "").replace(/--[^\n]*/g, "");
+}
+
+function needsNoTransaction(sql: string): boolean {
+  if (sql.toLowerCase().includes(NO_TXN_DIRECTIVE)) return true;
+  // Detect CONCURRENTLY only in executable SQL, not comments.
+  return /\bconcurrently\b/i.test(stripSqlComments(sql));
+}
+
+// Split SQL on top-level `;`, respecting '...' strings, $tag$...$tag$
+// dollar-quotes, and line/block comments.
+function splitSqlStatements(sql: string): string[] {
+  const statements: string[] = [];
+  let buf = "";
+  let i = 0;
+  const n = sql.length;
+  let inSquote = false;
+  let inLineComment = false;
+  let inBlockComment = false;
+  let dollarTag: string | null = null;
+  while (i < n) {
+    const ch = sql[i];
+    const pair = sql.slice(i, i + 2);
+    if (inLineComment) {
+      buf += ch;
+      if (ch === "\n") inLineComment = false;
+      i += 1;
+    } else if (inBlockComment) {
+      buf += ch;
+      if (pair === "*/") {
+        buf += "/";
+        inBlockComment = false;
+        i += 2;
+      } else {
+        i += 1;
+      }
+    } else if (dollarTag !== null) {
+      if (sql.startsWith(dollarTag, i)) {
+        buf += dollarTag;
+        i += dollarTag.length;
+        dollarTag = null;
+      } else {
+        buf += ch;
+        i += 1;
+      }
+    } else if (inSquote) {
+      buf += ch;
+      if (ch === "'") {
+        if (sql[i + 1] === "'") {
+          buf += "'";
+          i += 2;
+          continue;
+        }
+        inSquote = false;
+      }
+      i += 1;
+    } else if (pair === "--") {
+      inLineComment = true;
+      buf += pair;
+      i += 2;
+    } else if (pair === "/*") {
+      inBlockComment = true;
+      buf += pair;
+      i += 2;
+    } else if (ch === "'") {
+      inSquote = true;
+      buf += ch;
+      i += 1;
+    } else if (ch === "$") {
+      const m = /^\$[A-Za-z0-9_]*\$/.exec(sql.slice(i));
+      if (m) {
+        dollarTag = m[0];
+        buf += dollarTag;
+        i += dollarTag.length;
+      } else {
+        buf += ch;
+        i += 1;
+      }
+    } else if (ch === ";") {
+      const stmt = buf.trim();
+      if (stmt) statements.push(stmt);
+      buf = "";
+      i += 1;
+    } else {
+      buf += ch;
+      i += 1;
+    }
+  }
+  const tail = buf.trim();
+  if (tail) statements.push(tail);
+  return statements;
+}
+
 async function main() {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
@@ -90,22 +193,37 @@ async function main() {
 
     for (const f of pending) {
       const sql = readFileSync(join(INIT_DIR, f), "utf8");
+      const noTxn = needsNoTransaction(sql);
       if (dryRun) {
-        console.log(`[migrate] DRY-RUN would apply ${f} (${sql.length} bytes)`);
+        console.log(`[migrate] DRY-RUN would apply ${f} (${sql.length} bytes, ${noTxn ? "no-txn" : "txn"})`);
         continue;
       }
-      console.log(`[migrate] applying ${f}...`);
+      console.log(`[migrate] applying ${f}${noTxn ? " [no-txn]" : ""}...`);
       try {
-        await client.query("BEGIN");
-        await client.query(sql);
-        await client.query(
-          `INSERT INTO _migrations (filename) VALUES ($1) ON CONFLICT DO NOTHING`,
-          [f],
-        );
-        await client.query("COMMIT");
+        if (noTxn) {
+          // Outside a transaction: pg auto-commits each query when no BEGIN is
+          // open, so run statements one at a time (CREATE INDEX CONCURRENTLY etc.).
+          // Idempotent only — a mid-file failure is not rolled back.
+          for (const stmt of splitSqlStatements(sql)) {
+            if (!stripSqlComments(stmt).trim()) continue;
+            await client.query(stmt);
+          }
+          await client.query(
+            `INSERT INTO _migrations (filename) VALUES ($1) ON CONFLICT DO NOTHING`,
+            [f],
+          );
+        } else {
+          await client.query("BEGIN");
+          await client.query(sql);
+          await client.query(
+            `INSERT INTO _migrations (filename) VALUES ($1) ON CONFLICT DO NOTHING`,
+            [f],
+          );
+          await client.query("COMMIT");
+        }
         console.log(`[migrate]   ok ${f}`);
       } catch (err) {
-        await client.query("ROLLBACK");
+        await client.query("ROLLBACK").catch(() => {});
         console.error(`[migrate]   FAILED ${f}:`, err instanceof Error ? err.message : err);
         process.exit(1);
       }
@@ -116,7 +234,13 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+// Only run when invoked directly (the prod Dockerfile does `bun scripts/migrate.ts`);
+// guarded so the no-transaction helpers can be imported in tests without connecting.
+if (import.meta.main) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+export { splitSqlStatements, needsNoTransaction, stripSqlComments };
