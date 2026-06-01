@@ -1,0 +1,127 @@
+/**
+ * Tests for /api/commensal/companions
+ */
+
+jest.mock("next/server", () => ({
+  NextResponse: {
+    json: jest.fn((body, init) => ({
+      status: init?.status ?? 200,
+      json: async () => body,
+    })),
+  },
+}));
+
+import { executeQuery } from "@/lib/database";
+import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
+import { GET } from "../route";
+
+jest.mock("@/lib/database", () => ({
+  executeQuery: jest.fn(),
+}));
+
+jest.mock("@/lib/planetaryAgentsClient", () => ({
+  fetchAgentsForDate: jest.fn(),
+}));
+
+function makeRequest(url = "http://localhost/api/commensal/companions"): any {
+  return {
+    url,
+    method: "GET",
+  } as unknown as any;
+}
+
+const mockLocalAgents = {
+  rows: [
+    {
+      user_id: "agent_monica_id",
+      email: "monica@agents.alchm.kitchen",
+      profile: {
+        birthData: { dateTime: "2026-01-01T12:00:00Z", latitude: 40, longitude: -74 }
+      },
+      name: "Monica Constant",
+      bio: "High Alchemist Monica",
+      dominant_element: "Fire",
+      monica_constant: "1.618033",
+      birth_data: null,
+      natal_chart: null
+    },
+    {
+      user_id: "agent_hermes_id",
+      email: "hermes@agents.alchm.kitchen",
+      profile: {
+        birthData: { dateTime: "2026-02-02T12:00:00Z", latitude: 35, longitude: 25 }
+      },
+      name: "Hermes Trismegistus",
+      bio: "Thoth scribe and master alchemist",
+      dominant_element: "Air",
+      monica_constant: null,
+      birth_data: null,
+      natal_chart: null
+    }
+  ]
+};
+
+const mockFeedEvents = {
+  rows: [
+    { actor_id: "agent_monica_id", last_action_at: "2026-06-01T15:00:00Z" }
+  ]
+};
+
+const mockActivations = [
+  {
+    agent: { id: "monica", name: "Monica Constant", description: "Active Monica" },
+    strength: 0.95,
+    dignity: "domicile",
+    element: "Fire",
+    planetaryRuler: "Mars"
+  }
+];
+
+describe("GET /api/commensal/companions", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (executeQuery as jest.Mock).mockImplementation((query: string) => {
+      if (query.includes("feed_events")) {
+        return Promise.resolve(mockFeedEvents);
+      }
+      return Promise.resolve(mockLocalAgents);
+    });
+    (fetchAgentsForDate as jest.Mock).mockResolvedValue(mockActivations);
+  });
+
+  it("successfully returns active agents, historical agents, and the cosmic roster", async () => {
+    const res = await GET(makeRequest());
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.success).toBe(true);
+
+    // Verify Active Agents mapping
+    expect(data.activeAgents).toHaveLength(1);
+    expect(data.activeAgents[0].name).toBe("Monica Constant");
+    expect(data.activeAgents[0].activation.strength).toBe(0.95);
+    expect(data.activeAgents[0].activation.dignity).toBe("domicile");
+
+    // Verify Historical Agents mapping
+    expect(data.historicalAgents).toHaveLength(1);
+    expect(data.historicalAgents[0].name).toBe("Monica Constant");
+    expect(data.historicalAgents[0].lastActionAt).toBe("2026-06-01T15:00:00Z");
+
+    // Verify Cosmic Roster sorting & fallback values
+    expect(data.cosmicRoster).toHaveLength(2);
+    expect(data.cosmicRoster[0].name).toBe("Hermes Trismegistus");
+    expect(data.cosmicRoster[1].name).toBe("Monica Constant");
+  });
+
+  it("degrades gracefully when Planetary Agents activations API fails", async () => {
+    (fetchAgentsForDate as jest.Mock).mockRejectedValue(new Error("PA API Timeout"));
+
+    const res = await GET(makeRequest());
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(data.activeAgents).toHaveLength(0); // active is empty but the endpoint doesn't fail
+    expect(data.cosmicRoster).toHaveLength(2); // still loads roster
+  });
+});

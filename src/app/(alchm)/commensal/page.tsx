@@ -13,6 +13,7 @@ import {
   RecipeSkeleton,
   RestaurantSkeleton,
 } from '@/components/commensal/skeletons';
+import { CompanionSuggestions } from '@/components/commensal/CompanionSuggestions';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import {
   useGuestRecommendations,
@@ -127,6 +128,11 @@ export default function CommensalPage() {
     void run({ guests, location: searchLocation });
   };
 
+  const handleInviteCompanion = (name: string, birthData: BirthData) => {
+    if (guests.some((g) => g.name.toLowerCase() === name.toLowerCase())) return;
+    setGuests((prev) => [...prev, { name, birthData }]);
+  };
+
   const removeGuest = (idx: number) => {
     setGuests((prev) => prev.filter((_, i) => i !== idx));
   };
@@ -162,6 +168,11 @@ export default function CommensalPage() {
               onAdd={(name, data) =>
                 setGuests((prev) => [...prev, { name, birthData: data }])
               }
+            />
+
+            <CompanionSuggestions
+              onInvite={handleInviteCompanion}
+              activeGuests={guests}
             />
 
             <div className="glass-card-premium rounded-2xl p-5 border border-white/10">

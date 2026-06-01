@@ -49,6 +49,13 @@ out
 public/assets
 backend/data/json
 # Keep src, public, package.json, next.config.js, tailwind.config.js, etc.
+!public/**/*.gif
+!public/**/*.ico
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.png
+!public/**/*.svg
+!public/**/*.webp
 !postcss.config.mjs
 !scripts/
 !scripts/check-version.cjs

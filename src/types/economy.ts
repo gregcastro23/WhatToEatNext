@@ -47,7 +47,13 @@ export type TransactionSourceType =
    * Reward for participating in planetary agent group chats.
    * Credited from the Planetary Agents engine.
    */
-  | "group_chat_quest";
+  | "group_chat_quest"
+  /**
+   * Debit for AI recipe ingestion — a user added a recipe by pasting text or
+   * uploading a photo (GPT-4o extraction) via POST /api/recipes/extract.
+   * Live-priced per extraction like refine_oracle; refunded if extraction fails.
+   */
+  | "recipe_ingestion";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
