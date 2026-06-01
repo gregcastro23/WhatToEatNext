@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
+import { questService } from "@/services/QuestService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -133,9 +134,27 @@ export async function POST(request: NextRequest) {
         body.notes ?? null,
       ],
     );
+    // Best-effort: reward building the Lab Book. reportEvent increments every
+    // quest listening on "ingest_recipe" (the tiered "add N recipes"
+    // achievements + the weekly) and returns any that just completed.
+    let completedQuests: Array<{
+      questSlug: string;
+      tokensAwarded: number;
+      tokenType: string;
+    }> = [];
+    try {
+      completedQuests = await questService.reportEvent(userId, "ingest_recipe");
+    } catch (questErr) {
+      console.error(
+        "[POST /api/users/me/recipes/custom] quest report failed",
+        questErr,
+      );
+    }
+
     return NextResponse.json({
       authenticated: true,
       recipe: rowToDTO(result.rows[0]),
+      completedQuests,
     });
   } catch (error) {
     console.error("[POST /api/users/me/recipes/custom]", error);
