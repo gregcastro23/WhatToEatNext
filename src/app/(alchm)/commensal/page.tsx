@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { CompanionSuggestions } from '@/components/commensal/CompanionSuggestions';
 import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
 import { CookingMethodsList } from '@/components/commensal/CookingMethodsList';
 import { RecommendedRecipeCard } from '@/components/commensal/RecommendedRecipeCard';
@@ -13,7 +14,6 @@ import {
   RecipeSkeleton,
   RestaurantSkeleton,
 } from '@/components/commensal/skeletons';
-import { CompanionSuggestions } from '@/components/commensal/CompanionSuggestions';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import {
   useGuestRecommendations,

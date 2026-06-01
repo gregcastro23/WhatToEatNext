@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { Users, Sparkles, Flame, Droplets, Wind, Mountain, Compass, Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import type { BirthData } from "@/types/natalChart";
 
 interface Companion {

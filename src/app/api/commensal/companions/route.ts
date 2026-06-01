@@ -27,7 +27,7 @@ interface LocalAgentRow {
   natal_chart: any;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     // 1. Fetch active agents for the current date from Planetary Agents API
     let activations: any[] = [];
