@@ -25,9 +25,12 @@ import {
 
 const { Pool } = pkg;
 
-const DATABASE_URL =
-  process.env.DATABASE_URL ||
-  "postgresql://postgres:PsVTYtMbsWtMhykqZbzgzJUpMmrzKKoD@tramway.proxy.rlwy.net:35670/railway";
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL is required — set it in the environment before running this backfill script.",
+  );
+}
 
 const onlyMissing = process.argv.includes("--only-missing");
 
