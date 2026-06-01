@@ -174,8 +174,28 @@ export default function LabBookIngest() {
           setError("Failed to save recipe.");
           return;
         }
+        const data = (await res.json().catch(() => ({}))) as {
+          completedQuests?: Array<{
+            questSlug: string;
+            tokensAwarded: number;
+            tokenType: string;
+          }>;
+        };
         setPreviews((prev) => prev.filter((_, i) => i !== idx));
-        setNotice(`Saved "${recipe.name}" to your Lab Book.`);
+        const completed = data.completedQuests ?? [];
+        if (completed.length > 0) {
+          const totals = completed
+            .map(
+              (q) =>
+                `${q.tokensAwarded} ${q.tokenType === "all" ? "ESMS" : q.tokenType}`,
+            )
+            .join(" + ");
+          setNotice(
+            `Saved "${recipe.name}". 🏆 Milestone reached — claim ${totals} in Quests!`,
+          );
+        } else {
+          setNotice(`Saved "${recipe.name}" to your Lab Book.`);
+        }
         await loadSaved();
       } catch {
         setError("Failed to save recipe.");
@@ -256,6 +276,10 @@ export default function LabBookIngest() {
           {loading ? "Extracting…" : "Extract recipe"}
         </button>
         <span className="ml-3 text-xs text-white/40">Costs Essence (🜔)</span>
+        <p className="mt-3 text-xs text-white/40">
+          Building your Lab Book earns ESMS — milestones at 1, 5, 25 &amp; 100
+          recipes (track them in Quests).
+        </p>
 
         {error && <p className="mt-3 text-sm text-rose-300">{error}</p>}
         {notice && <p className="mt-3 text-sm text-emerald-300">{notice}</p>}
