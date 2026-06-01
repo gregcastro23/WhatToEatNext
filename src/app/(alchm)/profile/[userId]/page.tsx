@@ -7,9 +7,9 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
+import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
-import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import AgentProfile from "./AgentProfile";
 
 interface NatalPosition {
@@ -61,15 +61,6 @@ const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
   matter: { symbol: "🝙", color: "text-emerald-400" },
   substance: { symbol: "🝉", color: "text-purple-400" },
 };
-
-function formatRelativeTime(iso: string): string {
-  const then = new Date(iso).getTime();
-  const diffSec = Math.max(0, Math.floor((Date.now() - then) / 1000));
-  if (diffSec < 60) return "just now";
-  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
-  if (diffSec < 86_400) return `${Math.floor(diffSec / 3600)}h ago`;
-  return `${Math.floor(diffSec / 86_400)}d ago`;
-}
 
 function formatPlacement(placement: NatalPosition): string | null {
   if (!placement.planet) return null;
@@ -298,45 +289,12 @@ export default function PublicProfilePage() {
         {!loading && !error && profile && (
           <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8">
             <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">
-              Recent Activity
+              Live Feed
             </h2>
-            {profile.recentActivity.length === 0 ? (
-              <p className="text-sm text-white/40">No recorded actions yet.</p>
-            ) : (
-              <ul className="space-y-3">
-                {profile.recentActivity.map((event) => {
-                  const narration = narrateFeedEvent(
-                    event.eventType,
-                    event.metadataPayload,
-                  );
-                  return (
-                    <li
-                      key={event.id}
-                      className="flex items-start gap-3 p-3 rounded-2xl border border-white/5 bg-white/[0.02]"
-                    >
-                      <span className="text-lg">{narration.icon}</span>
-                      <div className="flex-1">
-                        {narration.href ? (
-                          <Link
-                            href={narration.href}
-                            className="text-sm text-white/85 hover:text-white underline decoration-purple-500/30 underline-offset-2"
-                          >
-                            {narration.label}
-                          </Link>
-                        ) : (
-                          <p className="text-sm text-white/85">
-                            {narration.label}
-                          </p>
-                        )}
-                        <p className="text-[10px] uppercase tracking-widest text-white/30 mt-1">
-                          {formatRelativeTime(event.createdAt)}
-                        </p>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+            <LiveAgentFeed 
+              userId={profile.userId} 
+              initialEvents={profile.recentActivity} 
+            />
           </section>
         )}
       </div>
