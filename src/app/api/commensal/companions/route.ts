@@ -8,6 +8,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
 import { safeJsonParse } from "@/utils/typeGuards";
@@ -131,11 +132,45 @@ export async function GET(_req: NextRequest) {
     // Category 3: Cosmic Agent Roster (All synchronized charts)
     const cosmicRoster = [...hydratedAgents].sort((a, b) => a.name.localeCompare(b.name));
 
+    // Category 4: Custom Manual Companions (for authenticated users)
+    let savedCompanions: any[] = [];
+    const user = await getDatabaseUserFromRequest(_req);
+    if (user) {
+      const savedResult = await executeQuery<{
+        id: string;
+        name: string;
+        relationship: string;
+        birth_data: any;
+        natal_chart: any;
+      }>(
+        `SELECT id, name, relationship, birth_data, natal_chart
+           FROM manual_companion_charts
+          WHERE owner_id = $1
+          ORDER BY name ASC`,
+        [user.id]
+      );
+      savedCompanions = (savedResult.rows || []).map(row => {
+        const birthData = typeof row.birth_data === "string" ? safeJsonParse(row.birth_data) : row.birth_data;
+        const natalChart = typeof row.natal_chart === "string" ? safeJsonParse(row.natal_chart) : row.natal_chart;
+        return {
+          userId: row.id,
+          email: "",
+          name: row.name,
+          bio: `Custom companion chart (${row.relationship})`,
+          dominantElement: row.natal_chart?.dominantElement || natalChart?.dominantElement || "Fire",
+          monicaConstant: null,
+          birthData,
+          natalChart,
+        };
+      });
+    }
+
     return NextResponse.json({
       success: true,
       activeAgents,
       historicalAgents,
       cosmicRoster,
+      savedCompanions,
     });
   } catch (error) {
     console.error("[GET /api/commensal/companions] Failed to resolve dining companions:", error);

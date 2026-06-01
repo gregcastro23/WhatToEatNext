@@ -26,6 +26,7 @@ interface Companion {
 interface CompanionSuggestionsProps {
   onInvite: (name: string, birthData: BirthData) => void;
   activeGuests: Array<{ name: string }>;
+  refreshTrigger?: number;
 }
 
 const ELEMENT_ICON: Record<string, React.ReactNode> = {
@@ -49,13 +50,14 @@ const ELEMENT_GLOW: Record<string, string> = {
   Earth: "shadow-[0_0_15px_-3px_rgba(34,197,94,0.15)]",
 };
 
-export function CompanionSuggestions({ onInvite, activeGuests }: CompanionSuggestionsProps) {
+export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 0 }: CompanionSuggestionsProps) {
   const [activeAgents, setActiveAgents] = useState<Companion[]>([]);
   const [historicalAgents, setHistoricalAgents] = useState<Companion[]>([]);
   const [cosmicRoster, setCosmicRoster] = useState<Companion[]>([]);
+  const [savedCompanions, setSavedCompanions] = useState<Companion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"moment" | "feed" | "roster">("moment");
+  const [activeTab, setActiveTab] = useState<"moment" | "feed" | "roster" | "saved">("moment");
 
   useEffect(() => {
     async function loadCompanions() {
@@ -70,6 +72,11 @@ export function CompanionSuggestions({ onInvite, activeGuests }: CompanionSugges
           setActiveAgents(data.activeAgents || []);
           setHistoricalAgents(data.historicalAgents || []);
           setCosmicRoster(data.cosmicRoster || []);
+          setSavedCompanions(data.savedCompanions || []);
+          
+          if (data.savedCompanions && data.savedCompanions.length > 0) {
+            setActiveTab("saved");
+          }
         } else {
           throw new Error(data.message || "Failed to load dining companions");
         }
@@ -82,11 +89,12 @@ export function CompanionSuggestions({ onInvite, activeGuests }: CompanionSugges
     }
 
     void loadCompanions();
-  }, []);
+  }, [refreshTrigger]);
 
   const getActiveList = () => {
     if (activeTab === "moment") return activeAgents;
     if (activeTab === "feed") return historicalAgents;
+    if (activeTab === "saved") return savedCompanions;
     return cosmicRoster;
   };
 
@@ -105,36 +113,48 @@ export function CompanionSuggestions({ onInvite, activeGuests }: CompanionSugges
       </div>
 
       {/* Tabs */}
-      <div className="flex bg-black/40 rounded-lg p-1 border border-white/5">
+      <div className="flex bg-black/40 rounded-lg p-1 border border-white/5 flex-wrap gap-1">
+        {savedCompanions.length > 0 && (
+          <button
+            onClick={() => setActiveTab("saved")}
+            className={`flex-1 min-w-[70px] py-1.5 text-[11px] font-semibold rounded-md transition-all ${
+              activeTab === "saved"
+                ? "bg-purple-500/20 text-purple-100 border border-purple-500/30"
+                : "text-purple-300/60 hover:text-purple-200"
+            }`}
+          >
+            My Saved
+          </button>
+        )}
         <button
           onClick={() => setActiveTab("moment")}
-          className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
+          className={`flex-1 min-w-[70px] py-1.5 text-[11px] font-semibold rounded-md transition-all ${
             activeTab === "moment"
               ? "bg-purple-500/20 text-purple-100 border border-purple-500/30"
               : "text-purple-300/60 hover:text-purple-200"
           }`}
         >
-          Planetary Alignment
+          Planetary
         </button>
         <button
           onClick={() => setActiveTab("feed")}
-          className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
+          className={`flex-1 min-w-[70px] py-1.5 text-[11px] font-semibold rounded-md transition-all ${
             activeTab === "feed"
               ? "bg-purple-500/20 text-purple-100 border border-purple-500/30"
               : "text-purple-300/60 hover:text-purple-200"
           }`}
         >
-          From the Feed
+          From Feed
         </button>
         <button
           onClick={() => setActiveTab("roster")}
-          className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-all ${
+          className={`flex-1 min-w-[70px] py-1.5 text-[11px] font-semibold rounded-md transition-all ${
             activeTab === "roster"
               ? "bg-purple-500/20 text-purple-100 border border-purple-500/30"
               : "text-purple-300/60 hover:text-purple-200"
           }`}
         >
-          Cosmic Roster
+          Cosmic
         </button>
       </div>
 
@@ -153,11 +173,13 @@ export function CompanionSuggestions({ onInvite, activeGuests }: CompanionSugges
           <div className="flex flex-col items-center justify-center text-center py-16 px-4">
             <Compass className="w-10 h-10 text-purple-500/20 mb-3" />
             <h4 className="text-sm font-semibold text-purple-200">No Companions Aligned</h4>
-            <p className="text-xs text-purple-300/50 mt-1 max-w-xs">
+            <p className="text-xs text-purple-300/50 mt-1 max-w-xs leading-relaxed">
               {activeTab === "moment"
                 ? "No planetary agents are strongly activated at this exact degree under today's sky."
                 : activeTab === "feed"
                 ? "No recent feed broadcasts found. Sync agentic updates from Planetary Agents."
+                : activeTab === "saved"
+                ? "You haven't saved any custom companion charts yet. Add charts using the form to persist them here and earn ESMS tokens!"
                 : "The cosmic roster is currently empty."}
             </p>
           </div>

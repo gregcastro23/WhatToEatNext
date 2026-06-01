@@ -39,6 +39,7 @@ const QUEST_ACTIONS: Record<string, { label: string; href?: string }> = {
   'matter-add-pantry-items': { label: 'My Pantry', href: '/pantry' },
   'matter-use-posso': { label: 'Ask Posso', href: '/posso' },
   'matter-send-commensal': { label: 'Social', href: '/commensal' },
+  'achieve-commensal-circle': { label: 'Social', href: '/commensal' },
   'matter-refer-user': { label: 'Refer a Friend', href: '/profile?tab=referrals' },
 };
 

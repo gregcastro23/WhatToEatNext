@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { CompanionSuggestions } from '@/components/commensal/CompanionSuggestions';
 import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
@@ -28,14 +29,19 @@ interface GuestEntry {
 
 interface GuestFormProps {
   onAdd: (name: string, data: BirthData) => void;
+  onCompanionSaved?: () => void;
 }
 
-function GuestForm({ onAdd }: GuestFormProps) {
+function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
+  const { status: authStatus } = useSession();
   const [name, setName] = useState('');
   const [dateTime, setDateTime] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [timezone, setTimezone] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,33 +52,103 @@ function GuestForm({ onAdd }: GuestFormProps) {
         longitude: parseFloat(longitude),
         timezone: timezone || undefined,
       };
-      onAdd(name, data);
-      setName('');
-      setDateTime('');
-      setLatitude('');
-      setLongitude('');
-      setTimezone('');
+
+      setErrorMsg(null);
+      setSuccessMsg(null);
+
+      if (authStatus === 'authenticated') {
+        setLoading(true);
+        void (async () => {
+          try {
+            const res = await fetch('/api/user/commensals', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name,
+                relationship: 'friend',
+                birthData: data,
+              }),
+            });
+            const result = await res.json();
+            if (!res.ok || !result.success) {
+              throw new Error(result.message || 'Failed to save companion chart');
+            }
+
+            // Companion saved successfully!
+            setSuccessMsg(`✓ Saved ${name}! Quest complete: Earned 20 Matter tokens.`);
+            
+            // Trigger global token widget update
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new Event('tokenEconomy:updated'));
+            }
+
+            // Call parent to add guest to the local recommendation list
+            onAdd(name, data);
+            
+            // Trigger companion suggestions tab reload
+            if (onCompanionSaved) onCompanionSaved();
+
+            // Reset fields
+            setName('');
+            setDateTime('');
+            setLatitude('');
+            setLongitude('');
+            setTimezone('');
+          } catch (err: any) {
+            console.error(err);
+            setErrorMsg(err.message || 'Saved companion locally instead due to a temporary error.');
+            // Fallback to local-only guest addition so user can still compute recommendations
+            onAdd(name, data);
+            setName('');
+            setDateTime('');
+            setLatitude('');
+            setLongitude('');
+            setTimezone('');
+          } finally {
+            setLoading(false);
+          }
+        })();
+      } else {
+        // Fallback for anonymous users: add locally
+        onAdd(name, data);
+        setSuccessMsg(`Added locally. Sign in to save permanently & earn 20 Matter tokens!`);
+        setName('');
+        setDateTime('');
+        setLatitude('');
+        setLongitude('');
+        setTimezone('');
+      }
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="glass-card-premium rounded-2xl p-5 border border-white/10"
+      className="glass-card-premium rounded-2xl p-5 border border-white/10 space-y-4"
     >
-      <h3 className="text-lg font-semibold mb-4 text-alchm-copper/90">Add Commensal</h3>
-      <div className="mb-3">
-        <label htmlFor="commensal-name" className="block text-xs text-white/50 mb-1">Name</label>
-        <input
-          id="commensal-name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full p-2 border border-alchm-violet/30 bg-black/40 rounded-md text-sm text-white focus:outline-none focus:ring-2 focus:ring-alchm-violet/40"
-          required
-        />
+      <div>
+        <h3 className="text-lg font-bold text-purple-100 flex items-center gap-2">
+          Add Commensal
+        </h3>
+        <p className="text-[11px] text-purple-300/60 leading-relaxed">
+          Input your dining guest or any moment of alignment to compute alchemical compatibility.
+        </p>
       </div>
-      <div className="space-y-3 mb-4">
+
+      <div className="space-y-3">
+        <div>
+          <label htmlFor="commensal-name" className="block text-xs text-white/50 mb-1">Name / Moment Identifier</label>
+          <input
+            id="commensal-name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. My Partner, Birthday Moment"
+            className="w-full px-3 py-2 border border-alchm-violet/30 bg-black/40 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-alchm-violet/40"
+            required
+            disabled={loading}
+          />
+        </div>
         <div>
           <label htmlFor="commensal-datetime" className="block text-xs text-white/50 mb-1">Birth date &amp; time *</label>
           <input
@@ -82,6 +158,7 @@ function GuestForm({ onAdd }: GuestFormProps) {
             onChange={(e) => setDateTime(e.target.value)}
             className="w-full border border-alchm-violet/30 bg-black/40 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-alchm-violet/40"
             required
+            disabled={loading}
           />
         </div>
         <div>
@@ -97,13 +174,26 @@ function GuestForm({ onAdd }: GuestFormProps) {
           />
         </div>
       </div>
+
       <button
         type="submit"
-        disabled={!name || !dateTime || !latitude || !longitude}
-        className="w-full py-2 bg-alchm-violet text-white text-sm rounded-md hover:bg-alchm-violet/80 disabled:opacity-50 transition-colors"
+        disabled={loading || !name || !dateTime || !latitude || !longitude}
+        className="w-full py-2.5 bg-gradient-to-r from-alchm-copper to-alchm-violet text-white text-sm font-bold rounded-lg hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
       >
-        Add guest
+        {loading ? 'Calculating heavens & saving...' : 'Add guest & Save Chart'}
       </button>
+
+      {successMsg && (
+        <div className="px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-400/20 text-xs text-emerald-200">
+          {successMsg}
+        </div>
+      )}
+
+      {errorMsg && (
+        <div className="px-3 py-2 rounded-lg bg-red-500/10 border border-red-400/20 text-xs text-red-200">
+          {errorMsg}
+        </div>
+      )}
     </form>
   );
 }
@@ -111,6 +201,7 @@ function GuestForm({ onAdd }: GuestFormProps) {
 export default function CommensalPage() {
   const [guests, setGuests] = useState<GuestEntry[]>([]);
   const [searchLocation, setSearchLocation] = useState<SearchLocation | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const {
     phase,
@@ -168,11 +259,13 @@ export default function CommensalPage() {
               onAdd={(name, data) =>
                 setGuests((prev) => [...prev, { name, birthData: data }])
               }
+              onCompanionSaved={() => setRefreshTrigger((prev) => prev + 1)}
             />
 
             <CompanionSuggestions
               onInvite={handleInviteCompanion}
               activeGuests={guests}
+              refreshTrigger={refreshTrigger}
             />
 
             <div className="glass-card-premium rounded-2xl p-5 border border-white/10">

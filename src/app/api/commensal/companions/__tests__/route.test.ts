@@ -11,10 +11,6 @@ jest.mock("next/server", () => ({
   },
 }));
 
-import { executeQuery } from "@/lib/database";
-import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
-import { GET } from "../route";
-
 jest.mock("@/lib/database", () => ({
   executeQuery: jest.fn(),
 }));
@@ -22,6 +18,15 @@ jest.mock("@/lib/database", () => ({
 jest.mock("@/lib/planetaryAgentsClient", () => ({
   fetchAgentsForDate: jest.fn(),
 }));
+
+jest.mock("@/lib/auth/validateRequest", () => ({
+  getDatabaseUserFromRequest: jest.fn(() => Promise.resolve(null)),
+}));
+
+import { executeQuery } from "@/lib/database";
+import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
+import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { GET } from "../route";
 
 function makeRequest(url = "http://localhost/api/commensal/companions"): any {
   return {
@@ -123,5 +128,38 @@ describe("GET /api/commensal/companions", () => {
     expect(data.success).toBe(true);
     expect(data.activeAgents).toHaveLength(0); // active is empty but the endpoint doesn't fail
     expect(data.cosmicRoster).toHaveLength(2); // still loads roster
+  });
+
+  it("returns savedCompanions when user is authenticated", async () => {
+    (getDatabaseUserFromRequest as jest.Mock).mockResolvedValue({ id: "user-123" });
+
+    (executeQuery as jest.Mock).mockImplementation((query: string) => {
+      if (query.includes("manual_companion_charts")) {
+        return Promise.resolve({
+          rows: [
+            {
+              id: "manual-001",
+              name: "Saved Friend",
+              relationship: "friend",
+              birth_data: { dateTime: "2026-03-03T12:00:00Z", latitude: 12, longitude: 34 },
+              natal_chart: { dominantElement: "Water" }
+            }
+          ]
+        });
+      }
+      if (query.includes("feed_events")) {
+        return Promise.resolve(mockFeedEvents);
+      }
+      return Promise.resolve(mockLocalAgents);
+    });
+
+    const res = await GET(makeRequest());
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(data.savedCompanions).toHaveLength(1);
+    expect(data.savedCompanions[0].name).toBe("Saved Friend");
+    expect(data.savedCompanions[0].dominantElement).toBe("Water");
   });
 });
