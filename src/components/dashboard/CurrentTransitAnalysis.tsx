@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useActiveTransits } from '@/hooks/useActiveTransits';
+import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
 import type { NatalChart } from '@/types/natalChart';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
@@ -126,6 +128,13 @@ function generateTransitMessage(planet: string, natalSign: string, transitSign: 
 export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ natalChart }) => {
   const { planetaryPositions: currentPositionsRaw, state } = useAlchemical();
   const [transitPositions, setTransitPositions] = useState<Record<string, TransitPosition>>({});
+  const { groupForPlanet } = useActiveTransits();
+  const { open, pending } = useTransitGroupChat();
+
+  const openPlanetCouncil = (planet: string, pos: TransitPosition) => {
+    const g = groupForPlanet(planet, { planet, sign: pos.sign, degree: pos.degree });
+    if (g) void open(g.participants, g.descriptor, 'current-transit-analysis');
+  };
 
   useEffect(() => {
     if (!currentPositionsRaw || Object.keys(currentPositionsRaw).length === 0) return;
@@ -309,6 +318,7 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
           </div>
 
           {/* Planet positions grid */}
+          <p className="text-[10px] text-indigo-300/60 mb-1.5">Tap a planet to convene its current transit as a council</p>
           <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
             {PLANETS.map((planet) => {
               const pos = transitPositions[planet];
@@ -316,18 +326,22 @@ export const CurrentTransitAnalysis: React.FC<CurrentTransitAnalysisProps> = ({ 
               const el = SIGN_ELEMENTS[pos.sign] || 'Fire';
               const color = ELEMENT_COLORS[el] || '#a78bfa';
               return (
-                <div
+                <button
+                  type="button"
                   key={planet}
-                  className="bg-white/[0.03] rounded-xl p-2 border border-white/5 text-center"
+                  onClick={() => openPlanetCouncil(planet, pos)}
+                  disabled={pending}
+                  aria-label={`Convene a planetary council chat for transiting ${planet}`}
+                  className="group bg-white/[0.03] rounded-xl p-2 border border-white/5 text-center cursor-pointer transition-all hover:border-indigo-400/40 hover:bg-indigo-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/50 disabled:opacity-60 disabled:cursor-wait"
                 >
                   <div className="text-sm" style={{ color }} title={planet}>{PLANET_SYMBOLS[planet]}</div>
                   <div className="text-[9px] text-white/30 font-medium uppercase mt-0.5">{planet.slice(0, 3)}</div>
                   <div className="text-[10px] text-white/60 font-semibold capitalize mt-0.5 whitespace-nowrap">
-                    <span className="mr-0.5" style={{ color }}>{SIGN_SYMBOLS[pos.sign]}</span> 
+                    <span className="mr-0.5" style={{ color }}>{SIGN_SYMBOLS[pos.sign]}</span>
                     {pos.degree}&deg;{pos.minute ? `${pos.minute}'` : ''}
                   </div>
                   {pos.isRetrograde && <div className="text-[8px] text-red-400 font-bold mt-0.5">Rx</div>}
-                </div>
+                </button>
               );
             })}
           </div>

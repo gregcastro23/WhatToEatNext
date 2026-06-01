@@ -54,6 +54,16 @@ export interface AspectEntry {
   state: "applying" | "separating" | "stationary";
   /** Source of velocity data, for downstream confidence weighting. */
   velocitySource: "ephemeris" | "average-fallback";
+  // Per-planet placement — lets clients build the canonical planetary-degree
+  // agent ids (`planetary-{planet}-{sign}-{degree}`) for the transit group chat.
+  /** Lowercase sign of planet1 (e.g. "aries"). */
+  sign1: string;
+  /** Integer degree of planet1 within its sign (0–29). */
+  degree1: number;
+  /** Lowercase sign of planet2. */
+  sign2: string;
+  /** Integer degree of planet2 within its sign (0–29). */
+  degree2: number;
 }
 
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-aspects" };
@@ -188,12 +198,19 @@ export async function GET(request: Request) {
         influence = "neutral";
       }
 
+      const pos1 = positions[aspect.planet1] as { sign?: string; degree?: number } | undefined;
+      const pos2 = positions[aspect.planet2] as { sign?: string; degree?: number } | undefined;
+
       result.push({
         planet1: aspect.planet1,
         planet2: aspect.planet2,
         type: aspect.type,
         aspectAngle,
         orbDegrees: parseFloat(currentOrb.toFixed(3)),
+        sign1: String(pos1?.sign ?? "").toLowerCase(),
+        degree1: Math.floor(pos1?.degree ?? 0),
+        sign2: String(pos2?.sign ?? "").toLowerCase(),
+        degree2: Math.floor(pos2?.degree ?? 0),
         strength: parseFloat(strength.toFixed(4)),
         applying,
         daysToExact: parseFloat(daysToExact.toFixed(2)),

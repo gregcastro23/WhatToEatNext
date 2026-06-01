@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { FaArrowRight, FaArrowLeft, FaSyncAlt } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft, FaSyncAlt, FaComments } from "react-icons/fa";
+import { useTransitGroupChat } from "@/hooks/useTransitGroupChat";
+import { groupForAspect } from "@/lib/agents/transitAgents";
 import { reportQuestEvent } from "@/lib/questReporter";
 
 interface AspectEntry {
@@ -14,6 +16,11 @@ interface AspectEntry {
   applying: boolean;
   daysToExact: number;
   influence: "harmonious" | "challenging" | "neutral";
+  // Per-planet placement (from the aspects API) for building degree-agent ids.
+  sign1?: string;
+  degree1?: number;
+  sign2?: string;
+  degree2?: number;
 }
 
 interface AspectsData {
@@ -83,7 +90,15 @@ function StrengthBar({ strength, applying, type }: { strength: number; applying:
 
 // ── Single aspect card ────────────────────────────────────────────────────────
 
-function AspectCard({ aspect }: { aspect: AspectEntry }) {
+function AspectCard({
+  aspect,
+  onOpen,
+  pending,
+}: {
+  aspect: AspectEntry;
+  onOpen: (a: AspectEntry) => void;
+  pending: boolean;
+}) {
   const style = aspectStyle(aspect.type);
   const glyph1 = PLANET_GLYPHS[aspect.planet1] ?? "🪐";
   const glyph2 = PLANET_GLYPHS[aspect.planet2] ?? "🪐";
@@ -91,7 +106,13 @@ function AspectCard({ aspect }: { aspect: AspectEntry }) {
   const name = ASPECT_NAMES[aspect.type] ?? aspect.type;
 
   return (
-    <div className={`p-3 rounded-lg border ${style.border} ${style.bg}`}>
+    <button
+      type="button"
+      onClick={() => onOpen(aspect)}
+      disabled={pending}
+      aria-label={`Convene a planetary council chat for ${aspect.planet1} ${name} ${aspect.planet2}`}
+      className={`group block w-full text-left p-3 rounded-lg border ${style.border} ${style.bg} cursor-pointer transition-all hover:border-indigo-400/60 hover:ring-1 hover:ring-indigo-400/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 disabled:opacity-60 disabled:cursor-wait`}
+    >
       {/* Header: planets + aspect */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 text-sm font-semibold text-indigo-200 min-w-0">
@@ -138,7 +159,13 @@ function AspectCard({ aspect }: { aspect: AspectEntry }) {
           )}
         </div>
       </div>
-    </div>
+
+      {/* Council affordance */}
+      <div className="mt-2 flex items-center justify-center gap-1.5 border-t border-white/5 pt-1.5 text-[10px] font-semibold uppercase tracking-wide text-indigo-300/70 group-hover:text-indigo-200">
+        <FaComments className="h-3 w-3" />
+        <span>{pending ? "Opening council…" : "Convene council"}</span>
+      </div>
+    </button>
   );
 }
 
@@ -150,6 +177,16 @@ export default function PlanetaryAspectsDisplay() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "applying" | "separating">("all");
   const questFired = useRef(false);
+  const { open, pending } = useTransitGroupChat();
+
+  const openCouncil = (a: AspectEntry) => {
+    const g = groupForAspect(
+      { planet: a.planet1, sign: a.sign1 ?? "", degree: a.degree1 ?? 0 },
+      { planet: a.planet2, sign: a.sign2 ?? "", degree: a.degree2 ?? 0 },
+      a.type,
+    );
+    if (g) void open(g.participants, g.descriptor, "aspects-display");
+  };
 
   const fetchData = async () => {
     try {
@@ -247,9 +284,18 @@ export default function PlanetaryAspectsDisplay() {
       {/* Aspect cards */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
         {visible.map((a, i) => (
-          <AspectCard key={`${a.planet1}-${a.planet2}-${i}`} aspect={a} />
+          <AspectCard
+            key={`${a.planet1}-${a.planet2}-${i}`}
+            aspect={a}
+            onOpen={openCouncil}
+            pending={pending}
+          />
         ))}
       </div>
+
+      <p className="text-xs text-indigo-300/70 flex items-center gap-1.5">
+        <FaComments className="h-3 w-3 shrink-0" /> Tap any aspect to convene a council chat between its two planetary-degree agents.
+      </p>
 
       <p className="text-xs text-gray-500">
         Updated: {new Date(data.timestamp).toLocaleTimeString()} ·

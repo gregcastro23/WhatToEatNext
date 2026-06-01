@@ -13,6 +13,8 @@ import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useActiveTransits } from '@/hooks/useActiveTransits';
+import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
@@ -71,6 +73,8 @@ interface UserDashboardProps {
 
 function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
   const { planetaryPositions: currentPositionsRaw } = useAlchemical();
+  const { groupForPlanet } = useActiveTransits();
+  const { open, pending } = useTransitGroupChat();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -86,6 +90,12 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
 
   const sunDeg = sunData?.degree != null ? `${Math.floor(sunData.degree % 30)}\u00B0` : '';
   const moonDeg = moonData?.degree != null ? `${Math.floor(moonData.degree % 30)}\u00B0` : '';
+
+  const openLuminaryCouncil = (planet: 'Sun' | 'Moon', sign: string, degree: number) => {
+    if (!sign) return;
+    const g = groupForPlanet(planet, { planet, sign, degree });
+    if (g) void open(g.participants, g.descriptor, 'live-transit-bar');
+  };
 
   return (
     <div className="glass-card-premium rounded-full px-8 py-4 border-white/10 shadow-3xl relative overflow-hidden group">
@@ -105,7 +115,13 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
         </div>
         <div className="flex items-center gap-8 text-[11px] font-bold uppercase">
           {transitSunSign && (
-            <div className="flex items-center gap-2 group/sun">
+            <button
+              type="button"
+              onClick={() => openLuminaryCouncil('Sun', transitSunSign, sunData?.degree ?? 0)}
+              disabled={pending}
+              aria-label={`Convene a planetary council chat for the Sun in ${transitSunSign}`}
+              className="flex items-center gap-2 group/sun text-left cursor-pointer rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 disabled:cursor-wait"
+            >
               <span className="text-amber-400 text-xl group-hover/sun:scale-125 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]">
                 {SIGN_SYMBOLS[transitSunSign.toLowerCase()] || '\u2609'}
               </span>
@@ -113,11 +129,17 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
                 <span className="text-white/70 group-hover/sun:text-white transition-colors tracking-[0.15em]">{transitSunSign}</span>
                 {sunDeg && <span className="text-white/20 font-mono text-[9px] tracking-tighter">{sunDeg} Solar Transit</span>}
               </div>
-            </div>
+            </button>
           )}
           <div className="w-px h-6 bg-white/5" />
           {transitMoonSign && (
-            <div className="flex items-center gap-2 group/moon">
+            <button
+              type="button"
+              onClick={() => openLuminaryCouncil('Moon', transitMoonSign, moonData?.degree ?? 0)}
+              disabled={pending}
+              aria-label={`Convene a planetary council chat for the Moon in ${transitMoonSign}`}
+              className="flex items-center gap-2 group/moon text-left cursor-pointer rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 disabled:cursor-wait"
+            >
               <span className="text-blue-300 text-xl group-hover/moon:scale-125 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(147,197,253,0.5)]">
                 {SIGN_SYMBOLS[transitMoonSign.toLowerCase()] || '\u263D'}
               </span>
@@ -125,7 +147,7 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
                 <span className="text-white/70 group-hover/moon:text-white transition-colors tracking-[0.15em]">{transitMoonSign}</span>
                 {moonDeg && <span className="text-white/20 font-mono text-[9px] tracking-tighter">{moonDeg} Lunar Flow</span>}
               </div>
-            </div>
+            </button>
           )}
         </div>
       </div>
