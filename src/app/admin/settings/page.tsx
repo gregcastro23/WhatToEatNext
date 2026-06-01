@@ -32,9 +32,9 @@ export default function AdminSettingsPage() {
     {
       section: "Data Storage",
       items: [
-        { label: "User Storage", value: "In-Memory (development)" },
-        { label: "Food Diary", value: "In-Memory (development)" },
-        { label: "Production DB", value: "PostgreSQL (pending)" },
+        { label: "User Storage", value: "PostgreSQL (Railway) with In-Memory fallback" },
+        { label: "Food Diary", value: "PostgreSQL (Railway) with In-Memory fallback" },
+        { label: "Production DB", value: "PostgreSQL (Railway)" },
       ],
     },
     {
@@ -77,8 +77,8 @@ export default function AdminSettingsPage() {
               <dl className="divide-y divide-gray-100">
                 {section.items.map((item) => (
                   <div
-                    key={item.label}
-                    className="py-3 flex justify-between items-center"
+                      key={item.label}
+                      className="py-3 flex justify-between items-center"
                   >
                     <dt className="text-sm text-gray-600">{item.label}</dt>
                     <dd className="text-sm font-medium text-gray-800">
@@ -95,15 +95,14 @@ export default function AdminSettingsPage() {
       {/* Notes */}
       <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
         <h3 className="font-semibold text-yellow-800 mb-2">
-          Development Notes
+          System Integration Notes
         </h3>
         <ul className="text-sm text-yellow-700 space-y-1 list-disc list-inside">
           <li>
-            User data is stored in-memory and will be lost on server restart
+            User data is persisted in PostgreSQL with transparent in-memory fallbacks when connections fail.
           </li>
           <li>
-            For production, configure PostgreSQL connection in environment
-            variables
+            PostgreSQL connection parameters are defined via environment variables.
           </li>
           <li>Email service requires SMTP configuration for notifications</li>
         </ul>

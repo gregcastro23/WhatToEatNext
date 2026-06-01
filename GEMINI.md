@@ -61,6 +61,7 @@ API_BASE_URL=https://whattoeatnext-production.up.railway.app
 NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
 CORS_ALLOWED_ORIGINS=http://v0-alchm-kitchen.vercel.app,https://alchm.kitchen,http://localhost:3000
 INTERNAL_API_SECRET=<internal-api-secret>
+ALCHM_KITCHEN_SYNC_SECRET=<sync-secret-with-planetary-agents>
 GALILEO_API_KEY=<galileo-api-key>
 
 # Database (Internal Railway Network)

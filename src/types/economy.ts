@@ -42,7 +42,12 @@ export type TransactionSourceType =
    * POST /api/economy/sync-credit with per-axis amounts. Idempotency key shape:
    * `attune:human:<userId>:<degreeAgentId>:<YYYY-MM-DD>` (one per transit/day).
    */
-  | "transit_attunement";
+  | "transit_attunement"
+  /**
+   * Reward for participating in planetary agent group chats.
+   * Credited from the Planetary Agents engine.
+   */
+  | "group_chat_quest";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
