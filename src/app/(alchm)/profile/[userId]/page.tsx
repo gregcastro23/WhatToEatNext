@@ -7,11 +7,10 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
+import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
-import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import AgentProfile from "./AgentProfile";
-import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 
 interface NatalPosition {
   planet?: string;
@@ -62,15 +61,6 @@ const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
   matter: { symbol: "🝙", color: "text-emerald-400" },
   substance: { symbol: "🝉", color: "text-purple-400" },
 };
-
-function formatRelativeTime(iso: string): string {
-  const then = new Date(iso).getTime();
-  const diffSec = Math.max(0, Math.floor((Date.now() - then) / 1000));
-  if (diffSec < 60) return "just now";
-  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
-  if (diffSec < 86_400) return `${Math.floor(diffSec / 3600)}h ago`;
-  return `${Math.floor(diffSec / 86_400)}d ago`;
-}
 
 function formatPlacement(placement: NatalPosition): string | null {
   if (!placement.planet) return null;

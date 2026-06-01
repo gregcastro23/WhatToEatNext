@@ -3,9 +3,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
-import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import { ELEMENT_COLORS } from "@/lib/elementColors";
+import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 
 function formatRelativeTime(iso: string): string {
   const then = new Date(iso).getTime();
@@ -121,7 +121,7 @@ export function LiveAgentFeed({
   return (
     <div className="space-y-4">
       <AnimatePresence>
-        {events.map((event, index) => {
+        {events.map((event) => {
           const signature = event.actorIsAgent ? getPlanetarySignature(event.metadataPayload) : null;
           const natalPlacements =
             signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) || [];
@@ -212,7 +212,7 @@ export function LiveAgentFeed({
       {hasMore && (
         <div className="pt-4 flex justify-center">
           <button
-            onClick={loadMore}
+            onClick={() => void loadMore()}
             disabled={loadingMore}
             className="px-6 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 text-xs font-bold uppercase tracking-widest transition-colors disabled:opacity-50"
           >
