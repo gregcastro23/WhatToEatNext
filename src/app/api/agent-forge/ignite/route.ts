@@ -27,6 +27,15 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Bound each recipe-generation fetch so a hung upstream can't consume the whole
+ * 60s function budget (vercel.json) and 504 the onboarding. Recipe generation is
+ * the last, non-critical step — the alchemical constitution is persisted and
+ * onboarding is marked complete *before* this runs — so on timeout/failure we
+ * degrade to `cosmicRecipe: null` rather than failing the whole request.
+ */
+const RECIPE_GEN_TIMEOUT_MS = 20_000;
+
 export async function POST(req: Request) {
   try {
     // 1. Authenticate user from active NextAuth session
@@ -159,6 +168,7 @@ export async function POST(req: Request) {
           },
           prompt: "A nourishing, restorative onboarding meal aligned with your alchemical constitution.",
         }),
+        signal: AbortSignal.timeout(RECIPE_GEN_TIMEOUT_MS),
       });
 
       if (generateRes.ok) {
@@ -175,66 +185,81 @@ export async function POST(req: Request) {
       fallbackUsed = true;
     }
 
-    // Direct Fallback if server-side fetch failed
+    // Direct Fallback if server-side fetch failed. The complimentary recipe is
+    // best-effort: the constitution is already persisted and onboarding is
+    // marked complete above, so a failure here must NOT 500 the onboarding (the
+    // client would bounce the user back to the form despite a successful
+    // ignition). On timeout/error we log and leave cosmicRecipe = null; the
+    // onboarding reveal renders a graceful "couldn't compile your recipe" state.
     if (fallbackUsed || !cosmicRecipe) {
-      console.log(`[ignite] Initiating direct fallback fetch to planetary agents API...`);
-      const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
-
-      const raw = getAccuratePlanetaryPositions(new Date());
-      const dominantElement = getDominantElementFromPositions(raw);
-
-      const esms = calculateAlchemicalFromPlanets(
-        Object.entries(raw).reduce((acc, [planet, pos]) => {
-          acc[planet] = String((pos as any).sign ?? "");
-          return acc;
-        }, {} as Record<string, string>)
-      );
-
-      const alchemizedResult = alchemize(
-        Object.entries(raw).reduce((acc, [planet, pos]) => {
-          acc[planet] = {
-            sign: String((pos as any).sign ?? "").toLowerCase(),
-            degree: Number((pos as any).degree) || 0,
-            minute: Number((pos as any).minute) || 0,
-            isRetrograde: Boolean((pos as any).isRetrograde),
-          };
-          return acc;
-        }, {} as any)
-      );
-
-      const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: "A nourishing, restorative onboarding meal aligned with your alchemical constitution.",
-          dominantElement,
-          birthData,
-          dietPreference: "omnivore",
-          alchemicalState: esms,
-          thermodynamicProperties: alchemizedResult?.thermodynamicProperties,
-          userId,
-          tier: "free", // Strictly free-tier Groq/Gemini
-        }),
-      });
-
-      if (!agentResponse.ok) {
-        throw new Error(`Planetary agents direct fallback failed with status ${agentResponse.status}`);
-      }
-
-      const payload = await agentResponse.json();
-      cosmicRecipe = payload.recipe || payload;
-      
-      // Since we bypassed the endpoint proxy, record the limit directly in PostgreSQL for consistency
       try {
-        await executeQuery(`
-          INSERT INTO user_daily_limits (user_id, date, recipes_generated)
-          VALUES ($1, CURRENT_DATE, 1)
-          ON CONFLICT (user_id, date) 
-          DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
-        `, [userId]);
-        console.log(`[ignite] Manually incremented user_daily_limits counter.`);
+        console.log(`[ignite] Initiating direct fallback fetch to planetary agents API...`);
+        const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
+
+        const raw = getAccuratePlanetaryPositions(new Date());
+        const dominantElement = getDominantElementFromPositions(raw);
+
+        const esms = calculateAlchemicalFromPlanets(
+          Object.entries(raw).reduce((acc, [planet, pos]) => {
+            acc[planet] = String((pos as any).sign ?? "");
+            return acc;
+          }, {} as Record<string, string>)
+        );
+
+        const alchemizedResult = alchemize(
+          Object.entries(raw).reduce((acc, [planet, pos]) => {
+            acc[planet] = {
+              sign: String((pos as any).sign ?? "").toLowerCase(),
+              degree: Number((pos as any).degree) || 0,
+              minute: Number((pos as any).minute) || 0,
+              isRetrograde: Boolean((pos as any).isRetrograde),
+            };
+            return acc;
+          }, {} as any)
+        );
+
+        const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt: "A nourishing, restorative onboarding meal aligned with your alchemical constitution.",
+            dominantElement,
+            birthData,
+            dietPreference: "omnivore",
+            alchemicalState: esms,
+            thermodynamicProperties: alchemizedResult?.thermodynamicProperties,
+            userId,
+            tier: "free", // Strictly free-tier Groq/Gemini
+          }),
+          signal: AbortSignal.timeout(RECIPE_GEN_TIMEOUT_MS),
+        });
+
+        if (!agentResponse.ok) {
+          throw new Error(`Planetary agents direct fallback failed with status ${agentResponse.status}`);
+        }
+
+        const payload = await agentResponse.json();
+        cosmicRecipe = payload.recipe || payload;
+
+        // Since we bypassed the endpoint proxy, record the limit directly in PostgreSQL for consistency
+        try {
+          await executeQuery(`
+            INSERT INTO user_daily_limits (user_id, date, recipes_generated)
+            VALUES ($1, CURRENT_DATE, 1)
+            ON CONFLICT (user_id, date)
+            DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
+          `, [userId]);
+          console.log(`[ignite] Manually incremented user_daily_limits counter.`);
+        } catch (err) {
+          console.warn("[ignite] Failed to update user_daily_limits:", err);
+        }
       } catch (err) {
-        console.warn("[ignite] Failed to update user_daily_limits:", err);
+        // Non-fatal: onboarding already succeeded — return without a recipe.
+        console.warn(
+          "[ignite] Complimentary recipe generation failed; completing onboarding without it:",
+          err
+        );
+        cosmicRecipe = null;
       }
     }
 
