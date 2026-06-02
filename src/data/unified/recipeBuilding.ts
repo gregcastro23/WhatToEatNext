@@ -3044,7 +3044,8 @@ export class UnifiedRecipeBuildingSystem {
     );
   }
 
-  // Planetary recipe methods - TODO: Implement astrological recipe recommendations
+  // Scores the recipe's elemental profile against the active planetary hour,
+  // lunar phase, and zodiac sign (previously hardcoded 0.8/0.9/0.85 constants).
   private calculatePlanetaryAlignment(
     recipe: MonicaOptimizedRecipe,
     hour?: PlanetName,
@@ -3057,11 +3058,44 @@ export class UnifiedRecipeBuildingSystem {
     zodiacHarmony: number;
     astrologicalScore: number;
   } {
-    // Calculate planetary alignment with complete interface
     const currentPlanetaryHour = hour || "Sun";
-    const planetaryCompatibility = 0.8; // Default high compatibility
-    const lunarPhaseAlignment = phase ? 0.9 : 0.5; // Higher alignment if phase provided
-    const zodiacHarmony = sign ? 0.85 : 0.7; // Higher harmony if sign provided
+
+    // Recipe's normalized elemental profile.
+    const el =
+      (recipe as { elementalProperties?: Record<string, number> })
+        ?.elementalProperties || {};
+    const total =
+      (el.Fire || 0) + (el.Water || 0) + (el.Earth || 0) + (el.Air || 0) || 1;
+    const strengthIn = (element: string) => (el[element] || 0) / total;
+    // Map a 0..1 element strength to a 0.3..1.0 alignment score.
+    const score = (s: number) => Math.min(1, Math.max(0, 0.3 + s * 1.4));
+
+    const PLANET_ELEMENT: Record<string, string> = {
+      Sun: "Fire", Moon: "Water", Mercury: "Air", Venus: "Water",
+      Mars: "Fire", Jupiter: "Air", Saturn: "Earth",
+      Uranus: "Air", Neptune: "Water", Pluto: "Water",
+    };
+    const SIGN_ELEMENT: Record<string, string> = {
+      aries: "Fire", leo: "Fire", sagittarius: "Fire",
+      taurus: "Earth", virgo: "Earth", capricorn: "Earth",
+      gemini: "Air", libra: "Air", aquarius: "Air",
+      cancer: "Water", scorpio: "Water", pisces: "Water",
+    };
+    const PHASE_ELEMENT: Record<string, string> = {
+      "new moon": "Fire", "waxing crescent": "Earth", "first quarter": "Fire",
+      "waxing gibbous": "Air", "full moon": "Water", "waning gibbous": "Water",
+      "last quarter": "Earth", "waning crescent": "Air",
+    };
+
+    const planetaryCompatibility = score(
+      strengthIn(PLANET_ELEMENT[String(currentPlanetaryHour)] || "Fire"),
+    );
+    const lunarPhaseAlignment = phase
+      ? score(strengthIn(PHASE_ELEMENT[String(phase).toLowerCase()] || "Water"))
+      : 0.5;
+    const zodiacHarmony = sign
+      ? score(strengthIn(SIGN_ELEMENT[String(sign).toLowerCase()] || "Fire"))
+      : 0.6;
     const astrologicalScore =
       (planetaryCompatibility + lunarPhaseAlignment + zodiacHarmony) / 3;
 
@@ -3084,10 +3118,18 @@ export class UnifiedRecipeBuildingSystem {
     planetaryWindow: string;
     lunarConsiderations: string;
   } {
-    // Calculate optimal cooking time with complete interface
     const currentHour = hour || "Sun";
-    const startTime = "18:00"; // Default evening cooking time
-    const duration = "45 minutes"; // Default cooking duration
+    // Suggested start time derived from the active planetary hour.
+    const PLANET_TIME: Record<string, string> = {
+      Sun: "12:00", Moon: "20:00", Mercury: "09:00", Venus: "17:00",
+      Mars: "14:00", Jupiter: "11:00", Saturn: "22:00",
+      Uranus: "06:00", Neptune: "21:00", Pluto: "23:00",
+    };
+    const startTime = PLANET_TIME[String(currentHour)] || "18:00";
+    // Duration scales with the recipe's ingredient count (more components → longer).
+    const ingredientCount =
+      (recipe as { ingredients?: unknown[] })?.ingredients?.length ?? 8;
+    const duration = `${Math.min(180, 20 + ingredientCount * 5)} minutes`;
     const planetaryWindow = `Optimal during ${currentHour} hours for enhanced energy`;
     const lunarConsiderations = phase
       ? `${phase} phase supports culinary manifestation`

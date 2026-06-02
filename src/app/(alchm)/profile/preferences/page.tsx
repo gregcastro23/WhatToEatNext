@@ -39,10 +39,19 @@ export default function PreferencesPage() {
         <FoodPreferences
           preferences={preferences}
           onSave={(newPrefs) => {
-            // In a real app we'd save to the backend here
             if (typeof window !== 'undefined') {
               localStorage.setItem('userFoodPreferences', JSON.stringify(newPrefs));
             }
+            // Persist server-side so preferences sync across devices and feed
+            // server-side recommendation filtering (mirrors the /profile save path).
+            void fetch('/api/user/profile', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({ preferences: newPrefs }),
+            }).catch(() => {
+              /* non-blocking — localStorage already holds the change */
+            });
           }}
         />
       </div>
