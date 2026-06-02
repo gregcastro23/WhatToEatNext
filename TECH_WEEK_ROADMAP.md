@@ -7,15 +7,15 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 ## Status at a glance
 - **Prod:** v**3.1.0**, `/api/health` healthy, DB `OK`. Latest `master` deploy `READY`.
 - **Shipped this session:** Neon-failover revert · leaked-credential removal · HSCA corpus cleanup · **Lab Book** recipe ingestion · **ESMS milestone quests**.
-- **⛔ Blockers (P0):** rotate the leaked DB password · confirm Vercel `DATABASE_URL` → Railway.
-- **✅ Landed:** [#487](https://github.com/gregcastro23/WhatToEatNext/pull/487) (Lab Book quests) + [#488](https://github.com/gregcastro23/WhatToEatNext/pull/488) (this checklist) merged to `master`. ⚠️ Confirm **migration 50** applied on the Railway backend (quests appear once it has).
+- **⛔ Blockers (P0):** rotate the leaked DB password (**only remaining P0** — Vercel `DATABASE_URL` → Railway ✅ confirmed, Stripe ✅ done).
+- **✅ Landed:** [#487](https://github.com/gregcastro23/WhatToEatNext/pull/487) (Lab Book quests) + [#488](https://github.com/gregcastro23/WhatToEatNext/pull/488) (this checklist) merged to `master`. ✅ **Migration 50 applied** on the Railway backend (deploy `88e4002c` / commit `9b5c669b`, 2026-06-01 23:02 UTC — `[migrate] ok 50-lab-book-quests.sql`); quests seeded.
 
 ---
 
 ## 🔴 P0 — clear before tech-week
 - [ ] 👤 **Rotate the Railway Postgres password.** ⏱5 min. Leaked to `master` history (#443) + chat — rotation is the only real fix. Then set the new `DATABASE_URL` in **Vercel** *and* local `.env*` (backfill scripts now require it). Triggers a redeploy.
-- [ ] 👤 **Confirm Vercel `DATABASE_URL` → Railway (not Neon).** ⏱2 min. Vercel → Settings → Environment Variables; check the host. *(🤖 I can surface just the host via a temp `vercel env pull` — never the password — if you want.)*
-- [x] **Merged [PR #487](https://github.com/gregcastro23/WhatToEatNext/pull/487)** (quests) → `master`. ⚠️ **Confirm migration 50 ran on the Railway backend deploy** — it applies there, *not* in the Vercel build, so the quests show in `/admin`/Quests only once that deploy has run.
+- [x] **Confirm Vercel `DATABASE_URL` → Railway (not Neon).** ✅ Verified via `vercel env pull`: `DATABASE_PUBLIC_URL` → `tramway.proxy.rlwy.net`, `POSTGRESQL_HOST` → `postgres.railway.internal` — no Neon host present. (`DATABASE_URL` itself is a Vercel *Sensitive* var so it reads back empty, but every DB var is Railway and prod DB is healthy.) ⚠️ Local `.env.production` still holds a **Neon** URL — do NOT sync that file to Vercel.
+- [x] **Merged [PR #487](https://github.com/gregcastro23/WhatToEatNext/pull/487)** (quests) → `master`. ✅ **Migration 50 confirmed applied on the Railway backend deploy** (`88e4002c` / `9b5c669b`, 2026-06-01 23:02 UTC) — deploy log shows `[migrate] ok 50-lab-book-quests.sql`. It applies there, *not* in the Vercel build; subsequent `master` pushes (frontend/docs/CI only) correctly SKIPPED the backend redeploy.
 
 ## 🟡 P1 — confirm
 - [x] **`ALCHM_KITCHEN_SYNC_SECRET` set in Vercel prod** (verified ~19d ago) — PA↔WTEN credit sync auth.
@@ -61,12 +61,12 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 
 ### Day −1 · Prep & freeze
 - [ ] 🔴 Rotate Railway password → set new `DATABASE_URL` (Vercel + local `.env*`) — also settles the "is it Railway?" check
-- [ ] Confirm **migration 50** applied → quests show in the Quests panel
+- [x] Confirm **migration 50** applied → quests show in the Quests panel (Railway deploy `88e4002c` / `9b5c669b`, 2026-06-01 23:02 UTC)
 - [ ] Fund the demo account with ESMS (or use Premium); finish onboarding / natal chart
 - [ ] Confirm OpenAI quota (GPT-4o powers Lab Book + cosmic recipe)
-- [ ] 🔴 Confirm the Stripe **premium price object = $5/mo** (the app shows $5 — make Stripe match)
-- [ ] 🔴 Create 3 **MCP top-up** Stripe prices ($5/$20/$50) + set `STRIPE_MCP_TOP_UP_{5,20,50}_PRICE_ID` in Vercel → the `/account/billing/mcp` top-up panel works (else users can't self-serve refill ESMS)
-- [ ] Merge **PR #490** (premium-journey fixes: $5 display · starter grant → 60 · swap 402)
+- [x] 🔴 Confirm the Stripe **premium price object = $5/mo** — ✅ `NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID` = `price_1TBVHB567feWgZJOXV4MGIL7` = live **$5.00/month** recurring ("Alchm.kitchen premium membership"). App's $5 display matches the charge.
+- [x] 🔴 3 **MCP top-up** Stripe prices ($5/$20/$50) already existed in **live** Stripe (Starter `price_1Tbj7K…` · Builder `price_1Tbj7L…` · Adept `price_1Tbj7M…`); set `STRIPE_MCP_TOP_UP_{5,20,50}_PRICE_ID` in Vercel + **redeployed prod** (`9uqg066h6` → alchm.kitchen). ⚠️ **Verify live:** signed-in `/account/billing/mcp` → **Top up** → Stripe Checkout opens (not a 503 "not configured" banner). Env vars are Sensitive (write-only), so this signed-in click is the only possible check.
+- [x] Merge **PR #490** (premium-journey fixes: $5 display · starter grant → 60 · swap 402) — merged (`38a94421`)
 - [ ] Full smoke test (Kitchen recs · Discover · Lab Book · Quests · Cosmic Recipe · Commensal)
 - [ ] Record the current-good prod deploy SHA + confirm the Vercel **Instant Rollback** path
 - [ ] **Soft-freeze `master`** — docs / hotfixes only from here
