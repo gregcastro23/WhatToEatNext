@@ -200,25 +200,45 @@ function PremiumDashboard({
                 <SanctumTasks onOpenSettings={() => setActiveTab('settings')} />
 
                 {/* Quick links */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   {[
                     { label: 'Birth Chart', href: '/birth-chart', icon: '🌌', desc: 'Natal positions' },
                     { label: 'Current Chart', href: '/current-chart', icon: '⚡', desc: 'Live transits' },
                     { label: 'Token Economy', href: '/quantities', icon: '⚗️', desc: 'ESMS ledger' },
                     { label: 'Menu Planner', href: '/menu-planner', icon: '🍽️', desc: 'Cosmic meals' },
-                  ].map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className="glass-card-premium rounded-2xl p-4 border-white/8 hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(139,92,246,0.1)] transition-all group"
-                    >
-                      <div className="text-2xl mb-2">{item.icon}</div>
-                      <div className="text-[11px] font-black text-white/60 uppercase tracking-[0.2em] group-hover:text-white transition-colors">
-                        {item.label}
-                      </div>
-                      <div className="text-[9px] text-white/20 mt-0.5">{item.desc}</div>
-                    </Link>
-                  ))}
+                    { label: 'Your Agents', href: 'https://agents.alchm.kitchen/me', icon: '🤖', desc: 'Planetary agents' },
+                  ].map((item) => {
+                    const isExternal = item.href.startsWith('http');
+                    const className = "glass-card-premium rounded-2xl p-4 border-white/8 hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(139,92,246,0.1)] transition-all group";
+                    const content = (
+                      <>
+                        <div className="text-2xl mb-2">{item.icon}</div>
+                        <div className="text-[11px] font-black text-white/60 uppercase tracking-[0.2em] group-hover:text-white transition-colors">
+                          {item.label}
+                        </div>
+                        <div className="text-[9px] text-white/20 mt-0.5">{item.desc}</div>
+                      </>
+                    );
+                    return isExternal ? (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={className}
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className={className}
+                      >
+                        {content}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -541,7 +561,7 @@ function FreeDashboard({
                 <BlurredLedgerPreview />
 
                 {/* Free nav tiles */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   <Link
                     href="/birth-chart"
                     className="glass-card-premium rounded-2xl p-5 border-white/8 hover:border-purple-500/25 transition-all group"
@@ -562,6 +582,18 @@ function FreeDashboard({
                     </div>
                     <div className="text-[9px] text-white/20 mt-0.5">Live sky now</div>
                   </Link>
+                  <a
+                    href="https://agents.alchm.kitchen/me"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glass-card-premium rounded-2xl p-5 border-white/8 hover:border-purple-500/25 transition-all group"
+                  >
+                    <div className="text-2xl mb-2">🤖</div>
+                    <div className="text-[11px] font-black text-white/50 uppercase tracking-[0.2em] group-hover:text-white transition-colors">
+                      Your Agents
+                    </div>
+                    <div className="text-[9px] text-white/20 mt-0.5">agents.alchm.kitchen/me</div>
+                  </a>
                 </div>
 
                 {/* ── Premium Upgrade Section (single, elegant, no hard gates) ── */}
