@@ -41,6 +41,7 @@ export interface User {
   passwordHash: string;
   roles: UserRole[];
   isActive: boolean;
+  privyDid?: string;
   createdAt: Date;
   lastLoginAt?: Date;
 }

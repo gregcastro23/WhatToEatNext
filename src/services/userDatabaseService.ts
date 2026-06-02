@@ -740,6 +740,71 @@ class UserDatabaseService {
   }
 
   /**
+   * Get user by Privy DID
+   */
+  async getUserByPrivyDid(privyDid: string): Promise<UserWithProfile | null> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `SELECT u.*, up.name as profile_name, up.birth_data, up.natal_chart,
+                  up.dietary_preferences, up.group_members, up.dining_groups, up.onboarding_completed
+           FROM users u
+           LEFT JOIN user_profiles up ON u.id = up.user_id
+           WHERE u.privy_did = $1`,
+          [privyDid],
+        );
+
+        if (result.rows.length > 0) {
+          return this.rowToUserWithProfile(result.rows[0]);
+        }
+        return null;
+      } catch (error) {
+        _logger.error("PostgreSQL query failed in getUserByPrivyDid:", error);
+        throw new Error("Database lookup by Privy DID failed", { cause: error });
+      }
+    }
+
+    // Fallback to in-memory
+    return Array.from(this.users.values()).find((u) => u.privyDid === privyDid) || null;
+  }
+
+  /**
+   * Link a user with a Privy DID
+   */
+  async linkUserPrivyDid(userId: string, privyDid: string): Promise<void> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    // Check for existing linkage to a different user
+    const existingUser = await this.getUserByPrivyDid(privyDid);
+    if (existingUser && existingUser.id !== userId) {
+      throw new Error("Conflict: Privy DID is already linked to a different account");
+    }
+
+    if (db) {
+      try {
+        await db.executeQuery(
+          `UPDATE users SET privy_did = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $1::uuid`,
+          [userId, privyDid],
+        );
+        _logger.info("Privy DID linked in PostgreSQL:", { userId, privyDid });
+      } catch (error) {
+        _logger.error("PostgreSQL linking failed in linkUserPrivyDid:", error);
+        throw new Error("Failed to link Privy DID in database", { cause: error });
+      }
+    }
+
+    // Always update in-memory fallback
+    const user = this.users.get(userId);
+    if (user) {
+      user.privyDid = privyDid;
+    }
+  }
+
+  /**
    * Convert database row to UserWithProfile object
    */
   private rowToUserWithProfile(row: any): UserWithProfile {
@@ -790,6 +855,7 @@ class UserDatabaseService {
       roles: roles as UserRole[],
       isActive: row.is_active,
       isAgent: row.is_agent === true,
+      privyDid: row.privy_did || undefined,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
       profile: {
