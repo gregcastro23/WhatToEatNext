@@ -83,6 +83,7 @@ export interface User {
   email_verified: boolean;
   profile: Record<string, any>; // JSONB
   preferences: Record<string, any>; // JSONB
+  privy_did?: string;
   created_at: Date;
   updated_at: Date;
   last_login_at?: Date;
