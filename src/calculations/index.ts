@@ -468,7 +468,6 @@ export * from "./culinary/cuisineRecommendations";
 export * from "./culinary/recipeMatching";
 export * from "./culinaryAstrology";
 export * from "./enhancedAlchemicalMatching";
-export * from "./enhancedCuisineRecommender";
 // Export thermodynamics and kinetics
 export { calculateGregsEnergy } from "./gregsEnergy";
 export { calculateKinetics } from "./kinetics";

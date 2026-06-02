@@ -153,13 +153,13 @@ _From a 2026-06-02 `src/`-wide sweep (3 parallel audits). Not tech-week-blocking
 
 ### Tier 3 — dead code → delete (overlaps PR #474) 🤖
 _Zero non-test importers; several carry hardcoded `1.0`/`0.8` stubs that read like real logic but run nowhere. The live alchemy path is `calculateEnhancedAlchemicalFromPlanets` + `RealAlchemizeService`._
-- [ ] Delete the orphaned service tier: `DirectRecipeService.ts`, `UnifiedPlanetaryRecommendationService.ts`, `PlanetaryRecipeScorer.ts`, `unifiedSauceRecommender.ts` (dup of live `sauceRecommender`), `unifiedNutritionalService.ts`, `AlertingSystem.ts` (live alerting is `alertService.ts`), the `ServicesManager`/`useServices`/`AstrologyService` (lowercase singleton) mock chain, and the secondary `src/lib/alchemicalEngine.ts`. ⏱S–M
-- [ ] Delete dead components `src/components/RecipeList.tsx` + `src/components/IngredientRecommendations.tsx` (unreferenced; their `_`-vars are red herrings).
+- [x] Delete the orphaned service tier: `DirectRecipeService.ts`, `UnifiedPlanetaryRecommendationService.ts`, `PlanetaryRecipeScorer.ts`, `unifiedSauceRecommender.ts` (dup of live `sauceRecommender`), `unifiedNutritionalService.ts`, `AlertingSystem.ts` (live alerting is `alertService.ts`), the `ServicesManager`/`useServices`/`AstrologyService` (lowercase singleton) mock chain, and the secondary `src/lib/alchemicalEngine.ts`. ⏱S–M
+- [x] Delete dead components `src/components/RecipeList.tsx` + `src/components/IngredientRecommendations.tsx` (unreferenced; their `_`-vars are red herrings).
 - [ ] (Low-pri) Retire the ~13 `@deprecated` shims once callers move to the new APIs (e.g. `utils/astronomiaCalculator.ts`, `data/unified/flavorCompatibilityLayer.ts`, `utils/monicaKalchmCalculations.ts`). ⏱M
 
 ### Decide — wire or delete 🤖
-- [ ] `src/components/CuisineSpecificRecommendations.tsx` + `src/calculations/enhancedCuisineRecommender.ts:144` (`getRecipesForCuisine` returns `[]`) — orphaned recommender; mount with real data or remove both. ⏱M
-- [ ] `src/components/EnhancedRecommendationEngine.tsx:114` ("Filters … Simplified for now") — only in the lazy barrel, unmounted; finish + mount, or drop from `lazy/index.tsx` and delete. ⏱M
+- [x] `src/components/CuisineSpecificRecommendations.tsx` + `src/calculations/enhancedCuisineRecommender.ts:144` (`getRecipesForCuisine` returns `[]`) — orphaned recommender; mount with real data or remove both. ⏱M
+- [x] `src/components/EnhancedRecommendationEngine.tsx:114` ("Filters … Simplified for now") — only in the lazy barrel, unmounted; finish + mount, or drop from `lazy/index.tsx` and delete. ⏱M
 
 ---
 

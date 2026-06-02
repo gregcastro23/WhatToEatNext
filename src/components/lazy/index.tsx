@@ -18,14 +18,6 @@ export const LazyPlanetaryHourDisplay = dynamic(
   { ssr: false },
 );
 
-export const LazyEnhancedRecommendationEngine = dynamic(
-  () =>
-    import("../EnhancedRecommendationEngine").then(
-      (module) => module.EnhancedRecommendationEngine,
-    ),
-  { ssr: false },
-);
-
 export const LazyEnergyVisualization = dynamic(
   () =>
     import("../EnergyVisualization").then(
