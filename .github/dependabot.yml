@@ -22,8 +22,14 @@ updates:
       all-npm-dependencies:
         patterns:
           - "*"
+        # Group only safe minor/patch bumps; any non-ignored major arrives as
+        # its own PR for individual review.
+        update-types:
+          - "minor"
+          - "patch"
     ignore:
-      # Ignore major version updates for critical packages
+      # Major bumps for these are handled manually as dedicated migrations
+      # (see TECH_WEEK_ROADMAP backlog) — never auto-PR'd.
       - dependency-name: "next"
         update-types: ["version-update:semver-major"]
       - dependency-name: "react"
@@ -33,6 +39,20 @@ updates:
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
       - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "tailwindcss"        # v4 = engine/config rewrite; app pinned to v3 (overrides)
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"             # linter majors handled with the plugin chain
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "storybook"          # dev-only tooling; not in the prod/build path
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@storybook/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-devtools"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "date-fns"           # v4 coupled to the WTEN port (staging uses v2 API)
         update-types: ["version-update:semver-major"]
 
   # Enable version updates for GitHub Actions
