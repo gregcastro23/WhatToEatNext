@@ -42,6 +42,7 @@ export interface User {
   roles: UserRole[];
   isActive: boolean;
   privyDid?: string;
+  walletAddress?: string;
   createdAt: Date;
   lastLoginAt?: Date;
 }

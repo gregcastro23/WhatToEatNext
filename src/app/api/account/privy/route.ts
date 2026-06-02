@@ -1,16 +1,21 @@
 /**
- * GET  /api/account/privy — Retrieve current user's Privy link status
- * POST /api/account/privy — Link user's account with Privy DID (verifying Privy JWT)
+ * GET    /api/account/privy — Retrieve current user's Privy link status
+ * POST   /api/account/privy — Link user's account with Privy DID (verifying Privy JWT)
+ * DELETE /api/account/privy — Unlink the current user's Privy identity
  *
  * Designed to degrade gracefully if PRIVY_APP_SECRET is unset (returning 500 on write,
  * but keeping client modal operable). Combats race conflicts via transactional constraints
  * and unique column indexes.
  *
+ * On link, the embedded EVM (Base) wallet address is resolved SERVER-SIDE from the
+ * verified DID — never trusting a client-sent address — and stored alongside the DID.
+ * Same Privy app ⇒ the same wallet address on alchm.kitchen and agents.alchm.kitchen.
+ *
  * @file src/app/api/account/privy/route.ts
  */
 
-import { NextResponse } from "next/server";
 import { PrivyClient } from "@privy-io/server-auth";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { userDatabase } from "@/services/userDatabaseService";
 
@@ -35,6 +40,32 @@ function maskDid(did: string): string {
     return `${did.slice(0, 16)}…${did.slice(-4)}`;
   }
   return did;
+}
+
+/**
+ * Resolve the user's embedded EVM (Privy) wallet address from their verified DID —
+ * server authoritative (don't trust a client-sent address). Returns null if none /
+ * on error. Mirrors PA's getPrivyWallet() so both sites resolve the same address.
+ */
+async function resolvePrivyWallet(client: PrivyClient, did: string): Promise<string | null> {
+  try {
+    const user = await client.getUser(did);
+    const accounts = ((user as { linkedAccounts?: unknown[] }).linkedAccounts || []) as Array<
+      Record<string, unknown>
+    >;
+    const embedded = accounts.find(
+      (a) =>
+        a?.type === "wallet" &&
+        a?.walletClientType === "privy" &&
+        a?.chainType === "ethereum",
+    );
+    const anyWallet = accounts.find((a) => a?.type === "wallet");
+    const address = (embedded?.address ?? anyWallet?.address ?? null) as string | null;
+    return address;
+  } catch (err) {
+    console.warn("[account/privy] wallet resolution failed:", err);
+    return null;
+  }
 }
 
 export async function GET() {
@@ -62,6 +93,7 @@ export async function GET() {
       success: true,
       connected,
       privyDid: user.privyDid ? maskDid(user.privyDid) : null,
+      walletAddress: user.walletAddress ?? null,
     });
   } catch (err) {
     return NextResponse.json(
@@ -129,16 +161,21 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Perform linking via userDatabase service (handles unique checks and transactional commits)
-    await userDatabase.linkUserPrivyDid(userId, privyDid);
+    // 2. Resolve the embedded wallet server-side from the verified DID (authoritative).
+    //    Non-fatal: a missing wallet still links the DID.
+    const walletAddress = await resolvePrivyWallet(client, privyDid);
+
+    // 3. Perform linking via userDatabase service (handles unique checks and transactional commits)
+    await userDatabase.linkUserPrivyDid(userId, privyDid, walletAddress ?? undefined);
 
     return NextResponse.json({
       success: true,
       privyDid: maskDid(privyDid),
+      walletAddress: walletAddress ?? null,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "unknown";
-    
+
     // Detect 409 conflict
     if (message.includes("Conflict") || message.includes("already linked")) {
       return NextResponse.json(
@@ -152,6 +189,32 @@ export async function POST(request: Request) {
         success: false,
         error: "Failed to link Privy identity",
         detail: process.env.NODE_ENV === "development" ? message : undefined,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+
+  try {
+    await userDatabase.unlinkUserPrivyDid(userId);
+    return NextResponse.json({ success: true, connected: false });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Failed to unlink Privy identity",
+        detail: process.env.NODE_ENV === "development" ? String(err) : undefined,
       },
       { status: 500 }
     );

@@ -2,13 +2,55 @@
  
 import { motion } from "framer-motion";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import type {
   CraftedAgentProfile,
   Element,
 } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
+import { ConsciousnessSigil } from "@/components/ui/alchm/ConsciousnessSigil";
+
+const ASPECT_GLYPH: Record<string, string> = { conjunction: "☌", sextile: "⚹", square: "□", trine: "△", opposition: "☍" };
+const PLANET_GLYPH: Record<string, string> = { Sun: "☉", Moon: "☽", Mercury: "☿", Venus: "♀", Mars: "♂", Jupiter: "♃", Saturn: "♄" };
+const EL_COLOR: Record<string, string> = {
+  fire: "var(--el-fire)",
+  water: "var(--el-water)",
+  earth: "var(--el-earth)",
+  air: "var(--el-air)",
+  Fire: "var(--el-fire)",
+  Water: "var(--el-water)",
+  Earth: "var(--el-earth)",
+  Air: "var(--el-air)",
+};
+
+const STANCE_META = {
+  mirror: {
+    label: "MIRROR",
+    color: "var(--accent)",
+    aura: "rgba(180,140,255,0.55)",
+    cone: ["var(--accent)", "var(--el-water)", "var(--el-air)", "var(--accent)"],
+    desc: (name: string) => `${name} is in Mirror mode. Your signatures rhyme — match their elemental output to double your alchemical yield.`,
+    verb: "Amplify",
+  },
+  absorb: {
+    label: "ABSORB",
+    color: "var(--el-water)",
+    aura: "rgba(96,165,250,0.5)",
+    cone: ["var(--el-water)", "var(--accent)", "var(--el-air)", "var(--el-water)"],
+    desc: (name: string) => `${name} is in Absorb mode. You fill each other's gaps — let them temper your excesses and cook from the balanced midpoint.`,
+    verb: "Balance",
+  },
+  clash: {
+    label: "CLASH",
+    color: "var(--el-fire)",
+    aura: "rgba(239,68,68,0.5)",
+    cone: ["var(--el-fire)", "var(--accent-2)", "var(--el-earth)", "var(--el-fire)"],
+    desc: (name: string) => `${name} is in Clash mode. Opposing constitutions generate heat — use it deliberately for bold, high-contrast plates, not comfort food.`,
+    verb: "Contrast",
+  },
+};
 
 interface Balances {
   spirit: number;
@@ -85,6 +127,67 @@ export default function AgentProfile({
   const [expandedRecipes, setExpandedRecipes] = React.useState<Record<string, boolean>>({});
   const [recipeDetails, setRecipeDetails] = React.useState<Record<string, any>>({});
   const [loadingRecipes, setLoadingRecipes] = React.useState<Record<string, boolean>>({});
+
+  const { data: session } = useSession();
+  
+  const [transitOverlay, setTransitOverlay] = useState<any>(null);
+  const [loadingTransit, setLoadingTransit] = useState(false);
+  
+  const [viewerProfile, setViewerProfile] = useState<any>(null);
+  const [synastryData, setSynastryData] = useState<any>(null);
+  const [loadingSynastry, setLoadingSynastry] = useState(false);
+
+  // Load Transit Overlay on Agent mount
+  useEffect(() => {
+    if (!agent.name) return;
+    const lookupId = slug || agent.name.toLowerCase().replace(/\s+/g, "-");
+    setLoadingTransit(true);
+    fetch(`/api/users/${lookupId}/transit-overlay`, { cache: "no-store" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (j.success) setTransitOverlay(j.data);
+      })
+      .catch((e) => console.error("Failed to fetch transit overlay:", e))
+      .finally(() => setLoadingTransit(false));
+  }, [agent.name, slug]);
+
+  // Load Viewer Profile & Synastry if user is logged in
+  useEffect(() => {
+    if (!session?.user?.id || !agent.name) return;
+    const lookupId = slug || agent.name.toLowerCase().replace(/\s+/g, "-");
+    
+    async function getSynastry() {
+      setLoadingSynastry(true);
+      try {
+        const viewerRes = await fetch(`/api/users/${session?.user?.id}`);
+        const viewerData = await viewerRes.json();
+        if (viewerData.success && viewerData.profile) {
+          setViewerProfile(viewerData.profile);
+          
+          const synRes = await fetch(`/api/users/${lookupId}/synastry`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              viewer: {
+                id: session?.user?.id,
+                natalChart: viewerData.profile.natalChart,
+              },
+            }),
+          });
+          const synData = await synRes.json();
+          if (synData.success) {
+            setSynastryData(synData.data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to run synastry calculations:", err);
+      } finally {
+        setLoadingSynastry(false);
+      }
+    }
+
+    void getSynastry();
+  }, [session?.user?.id, agent.name, slug]);
  
   const getRecipeIdFromPath = (path?: string) => {
     if (!path) return null;
@@ -424,66 +527,284 @@ export default function AgentProfile({
       {/* 10. Consciousness Signature */}
       <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
         <SectionLabel>Consciousness Signature</SectionLabel>
-        <div className="grid md:grid-cols-2 gap-5 mb-6">
-          {agent.consciousness?.strength && (
-            <div>
-              <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
-                Strength
-              </p>
-              <p className="text-sm text-white/85">{agent.consciousness.strength}</p>
-            </div>
-          )}
-          {agent.consciousness?.emotion && (
-            <div>
-              <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
-                Emotional Tone
-              </p>
-              <p className="text-sm text-white/85">{agent.consciousness.emotion}</p>
-            </div>
-          )}
-          <div>
-            <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
-              Signature
-            </p>
-            <p className="font-mono text-[11px] text-white/70 break-all">
-              {agent.consciousness?.signature}
-            </p>
+        
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          {/* Left: The interactive Sigil */}
+          <div className="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5 relative overflow-hidden">
+            <ConsciousnessSigil agent={agent} size={360} style="triangles" motion={true} />
           </div>
-          <div>
-            <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
-              Element · Modality
-            </p>
-            <p className="text-sm text-white/85">
-              {agent.consciousness?.dominantElement} · {agent.consciousness?.dominantModality}
-            </p>
+
+          {/* Right: Signature details & elements */}
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-2 gap-4">
+              {agent.consciousness?.strength && (
+                <div>
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
+                    Strength
+                  </p>
+                  <p className="text-sm text-white/85">{agent.consciousness.strength}</p>
+                </div>
+              )}
+              {agent.consciousness?.emotion && (
+                <div>
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
+                    Emotional Tone
+                  </p>
+                  <p className="text-sm text-white/85">{agent.consciousness.emotion}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
+                  Signature
+                </p>
+                <p className="font-mono text-[11px] text-white/70 break-all">
+                  {agent.consciousness?.signature}
+                </p>
+              </div>
+              <div>
+                <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-1">
+                  Element · Modality
+                </p>
+                <p className="text-sm text-white/85">
+                  {agent.consciousness?.dominantElement} · {agent.consciousness?.dominantModality}
+                </p>
+              </div>
+            </div>
+
+            {ae && (
+              <div className="space-y-3 pt-4 border-t border-white/10">
+                <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">
+                  Alchemical Elements
+                </p>
+                {(["spirit", "essence", "matter", "substance"] as const).map((k) => {
+                  const pct = Math.round((ae[k] ?? 0) * 100);
+                  return (
+                    <div key={k}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="capitalize text-white/70">{k}</span>
+                        <span className="text-white/45 tabular-nums">{pct}%</span>
+                      </div>
+                      <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${pct}%` }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
+                          className="h-full rounded-full"
+                          style={{ background: accent }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
+      </section>
 
-        {ae && (
-          <div className="space-y-3 pt-2">
-            <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">
-              Alchemical Elements
-            </p>
-            {(["spirit", "essence", "matter", "substance"] as const).map((k) => {
-              const pct = Math.round((ae[k] ?? 0) * 100);
-              return (
-                <div key={k}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="capitalize text-white/70">{k}</span>
-                    <span className="text-white/45 tabular-nums">{pct}%</span>
+      {/* 10.1 Live Transit Boost Dashboard */}
+      {transitOverlay && (
+        <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
+          <SectionLabel>Live Transit Overlay</SectionLabel>
+          <div className="flex flex-col gap-6">
+            {/* Elemental Boost Meter */}
+            <div className="p-5 rounded-2xl border bg-white/[0.01] flex flex-col gap-4"
+                 style={{
+                   background: transitOverlay.boostElement 
+                     ? `linear-gradient(100deg, color-mix(in oklch, ${EL_COLOR[transitOverlay.boostElement]}, transparent 92%), rgba(255,255,255,0.01))` 
+                     : "rgba(255,255,255,0.01)",
+                   borderColor: transitOverlay.boostElement 
+                     ? `color-mix(in oklch, ${EL_COLOR[transitOverlay.boostElement]}, transparent 60%)` 
+                     : "rgba(255,255,255,0.08)"
+                 }}>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <span className={`w-2.5 h-2.5 rounded-full ${transitOverlay.boostElement ? "" : "bg-red-500 animate-pulse"}`}
+                        style={{ backgroundColor: transitOverlay.boostElement ? EL_COLOR[transitOverlay.boostElement] : undefined }} />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-white/80">
+                    {transitOverlay.boostElement ? `${transitOverlay.boostElement} boost` : "Tension · no boost"}
+                  </span>
+                </div>
+                <span className="text-xl font-black tabular-nums" style={{ color: transitOverlay.boostElement ? EL_COLOR[transitOverlay.boostElement] : "var(--el-fire)" }}>
+                  {transitOverlay.boostElement ? `+${Math.round(transitOverlay.boostMagnitude * 100)}%` : "STRESS"}
+                </span>
+              </div>
+              
+              <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${transitOverlay.boostElement ? Math.min(100, transitOverlay.boostMagnitude * 200) : 30}%` }}
+                  transition={{ duration: 0.8 }}
+                  className="h-full rounded-full"
+                  style={{
+                    background: transitOverlay.boostElement ? EL_COLOR[transitOverlay.boostElement] : "var(--el-fire)",
+                    boxShadow: transitOverlay.boostElement ? `0 0 10px ${EL_COLOR[transitOverlay.boostElement]}` : "none"
+                  }}
+                />
+              </div>
+              <p className="text-xs text-white/60 leading-relaxed font-mono">{transitOverlay.summary}</p>
+            </div>
+
+            {/* Planetary Triggers Grid */}
+            <div>
+              <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-3">Planetary Triggers</p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {transitOverlay.activations.map((act: any, i: number) => (
+                  <div key={i} className="grid grid-cols-3 gap-2 items-center p-3 border border-white/5 bg-white/[0.01] rounded-xl">
+                    <div className="flex items-center gap-1.5 font-mono text-sm text-white/80">
+                      <span>{PLANET_GLYPH[act.transitPlanet] || act.transitPlanet[0]}</span>
+                      <span className="text-purple-400 text-xs">{ASPECT_GLYPH[act.type]}</span>
+                      <span style={{ color: EL_COLOR[act.natalElement] }}>{PLANET_GLYPH[act.natalPoint] || act.natalPoint[0]}</span>
+                    </div>
+                    <div className="text-left leading-tight">
+                      <div className="text-xs font-bold text-white capitalize">{act.transitPlanet} {act.type} {act.natalPoint}</div>
+                      <div className="text-[9px] font-mono text-white/40 uppercase tracking-widest mt-0.5">orb {act.orb}°</div>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-xs font-mono font-black text-white">{(act.exactness * 100).toFixed(0)}%</span>
+                      <div className="w-10 h-1 bg-white/10 rounded-full overflow-hidden mt-1 ml-auto">
+                        <div className="h-full rounded-full" style={{ width: `${act.exactness * 100}%`, backgroundColor: EL_COLOR[act.natalElement] }} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${pct}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="h-full rounded-full"
-                      style={{ background: accent }}
-                    />
+                ))}
+              </div>
+            </div>
+
+            {/* Stress Notes */}
+            {transitOverlay.stressNotes.length > 0 && (
+              <div className="p-3.5 rounded-xl border border-red-500/20 bg-red-500/5">
+                <span className="text-[9px] uppercase tracking-widest text-red-400 font-bold block mb-2">Stress Notes</span>
+                <ul className="list-disc pl-4 space-y-1.5 text-xs text-white/70">
+                  {transitOverlay.stressNotes.map((note: string, i: number) => (
+                    <li key={i}>{note}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* 10.2 User ↔ Agent Synastry Panel */}
+      <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8 relative overflow-hidden">
+        <SectionLabel>Planetary Alignment & Resonance</SectionLabel>
+        
+        {!session?.user ? (
+          <div className="text-center py-8">
+            <p className="text-sm text-white/60 mb-4">
+              Sign in to synchronize your alchemical signature and calculate resonance alignment with {agent.name}.
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-black uppercase tracking-[0.2em] transition-all"
+            >
+              Sign In ✦
+            </Link>
+          </div>
+        ) : loadingSynastry ? (
+          <div className="flex flex-col items-center justify-center py-10 gap-2">
+            <div className="w-8 h-8 rounded-full border-2 border-purple-500/20 border-t-purple-400 animate-spin" />
+            <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">
+              Aligning planetary houses...
+            </span>
+          </div>
+        ) : !synastryData ? (
+          <div className="text-center py-8">
+            <p className="text-sm text-white/60 mb-4">
+              Add your birth date and location to calculate alignment compatibility aspects and resonance with {agent.name}.
+            </p>
+            <Link
+              href="/profile/birthchart"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-black uppercase tracking-[0.2em] transition-all"
+            >
+              Configure Natal Chart ✦
+            </Link>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-5 gap-8 items-center">
+            {/* Center Stance indicator */}
+            <div className="md:col-span-2 flex flex-col items-center justify-center gap-4 relative py-6">
+              {/* Conic glowing aura */}
+              <div className="absolute w-48 h-48 rounded-full blur-[10px] opacity-70 animate-slow-spin pointer-events-none"
+                   style={{
+                     background: `conic-gradient(from 0deg at 50% 50%, ${STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.cone.join(", ")})`,
+                     maskImage: "radial-gradient(circle, #000 18%, transparent 70%)",
+                     WebkitMaskImage: "radial-gradient(circle, #000 18%, transparent 70%)",
+                   }} />
+              <div className="absolute w-36 h-36 rounded-full blur-[2px] opacity-90 pointer-events-none"
+                   style={{
+                     background: `radial-gradient(circle, ${STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.aura}, transparent 70%)`
+                   }} />
+              
+              <div className="relative text-center z-10">
+                <h3 className="text-3xl font-black tracking-widest" style={{ color: STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.color }}>
+                  {STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.label}
+                </h3>
+                <span className="text-[8px] uppercase tracking-[0.2em] font-mono text-white/40 block mt-1">Resonance Stance</span>
+              </div>
+            </div>
+
+            {/* Aspect matching meters & aspects ledger */}
+            <div className="md:col-span-3 flex flex-col gap-6">
+              {/* Score sliders */}
+              <div className="space-y-4">
+                {[
+                  { label: "HARMONY", v: synastryData.scores.harmony, color: "var(--el-water)", active: synastryData.dominantStance === "absorb" },
+                  { label: "TENSION", v: synastryData.scores.tension, color: "var(--el-fire)", active: synastryData.dominantStance === "clash" },
+                  { label: "INTENSIFICATION", v: synastryData.scores.intensification, color: "var(--accent)", active: synastryData.dominantStance === "mirror" }
+                ].map((item) => (
+                  <div key={item.label}>
+                    <div className="flex justify-between items-baseline mb-1">
+                      <span className="text-[9px] uppercase tracking-widest font-mono text-white/50">{item.label}</span>
+                      <span className="text-xs font-mono font-black" style={{ color: item.active ? item.color : "#fff" }}>
+                        {Math.round(item.v * 100)}%
+                      </span>
+                    </div>
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                      <div className="h-full rounded-full" 
+                           style={{ 
+                             width: `${item.v * 100}%`, 
+                             backgroundColor: item.color,
+                             boxShadow: item.active ? `0 0 10px ${item.color}` : "none" 
+                           }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Advisory note */}
+              <div className="p-4 rounded-xl border"
+                   style={{
+                     backgroundColor: `color-mix(in oklch, ${STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.color}, transparent 92%)`,
+                     borderColor: `color-mix(in oklch, ${STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.color}, transparent 60%)`
+                   }}>
+                <p className="text-xs text-white/80 leading-relaxed">
+                  {STANCE_META[synastryData.dominantStance as keyof typeof STANCE_META]?.desc(agent.name)}
+                </p>
+              </div>
+
+              {/* Inter-aspect highlights */}
+              {synastryData.interchartAspects && synastryData.interchartAspects.length > 0 && (
+                <div>
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold mb-2">Inter-Chart Aspect Highlights</p>
+                  <div className="flex flex-wrap gap-2">
+                    {synastryData.interchartAspects.slice(0, 5).map((asp: any, i: number) => {
+                      const isFriction = asp.harmonic === "friction";
+                      const color = isFriction ? "border-red-500/20 text-red-300 bg-red-500/5" : "border-purple-500/20 text-purple-300 bg-purple-500/5";
+                      return (
+                        <span key={i} className={`px-2.5 py-1 rounded-full text-[10px] font-mono border ${color} flex items-center gap-1`}>
+                          <span>{PLANET_GLYPH[asp.planetA]}</span>
+                          <span className="text-[9px] opacity-75">{ASPECT_GLYPH[asp.type]}</span>
+                          <span>{PLANET_GLYPH[asp.planetB]}</span>
+                          <span className="text-[8px] opacity-40 ml-1">({asp.orb}°)</span>
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
-              );
-            })}
+              )}
+            </div>
           </div>
         )}
       </section>

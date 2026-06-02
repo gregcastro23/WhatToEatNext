@@ -84,6 +84,7 @@ export interface User {
   profile: Record<string, any>; // JSONB
   preferences: Record<string, any>; // JSONB
   privy_did?: string;
+  wallet_address?: string;
   created_at: Date;
   updated_at: Date;
   last_login_at?: Date;

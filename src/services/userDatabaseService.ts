@@ -772,9 +772,15 @@ class UserDatabaseService {
   }
 
   /**
-   * Link a user with a Privy DID
+   * Link a user with a Privy DID (and, when resolved server-side, the embedded
+   * EVM wallet address). The wallet is written with COALESCE so a null address
+   * (resolution failed this time) never wipes a previously-stored one.
    */
-  async linkUserPrivyDid(userId: string, privyDid: string): Promise<void> {
+  async linkUserPrivyDid(
+    userId: string,
+    privyDid: string,
+    walletAddress?: string,
+  ): Promise<void> {
     await this.ensureInitialized();
     const db = await getDbModule();
 
@@ -787,10 +793,14 @@ class UserDatabaseService {
     if (db) {
       try {
         await db.executeQuery(
-          `UPDATE users SET privy_did = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $1::uuid`,
-          [userId, privyDid],
+          `UPDATE users
+             SET privy_did = $2,
+                 wallet_address = COALESCE($3, wallet_address),
+                 updated_at = CURRENT_TIMESTAMP
+           WHERE id = $1::uuid`,
+          [userId, privyDid, walletAddress ?? null],
         );
-        _logger.info("Privy DID linked in PostgreSQL:", { userId, privyDid });
+        _logger.info("Privy DID linked in PostgreSQL:", { userId, privyDid, hasWallet: !!walletAddress });
       } catch (error) {
         _logger.error("PostgreSQL linking failed in linkUserPrivyDid:", error);
         throw new Error("Failed to link Privy DID in database", { cause: error });
@@ -801,6 +811,42 @@ class UserDatabaseService {
     const user = this.users.get(userId);
     if (user) {
       user.privyDid = privyDid;
+      if (walletAddress) {
+        user.walletAddress = walletAddress;
+      }
+    }
+  }
+
+  /**
+   * Unlink a user's Privy identity — clears both the DID and the embedded
+   * wallet address. Idempotent (a no-op when nothing is linked).
+   */
+  async unlinkUserPrivyDid(userId: string): Promise<void> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        await db.executeQuery(
+          `UPDATE users
+             SET privy_did = NULL,
+                 wallet_address = NULL,
+                 updated_at = CURRENT_TIMESTAMP
+           WHERE id = $1::uuid`,
+          [userId],
+        );
+        _logger.info("Privy DID unlinked in PostgreSQL:", { userId });
+      } catch (error) {
+        _logger.error("PostgreSQL unlinking failed in unlinkUserPrivyDid:", error);
+        throw new Error("Failed to unlink Privy DID in database", { cause: error });
+      }
+    }
+
+    // Always update in-memory fallback
+    const user = this.users.get(userId);
+    if (user) {
+      user.privyDid = undefined;
+      user.walletAddress = undefined;
     }
   }
 
@@ -856,6 +902,7 @@ class UserDatabaseService {
       isActive: row.is_active,
       isAgent: row.is_agent === true,
       privyDid: row.privy_did || undefined,
+      walletAddress: row.wallet_address || undefined,
       createdAt: new Date(row.created_at),
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
       profile: {

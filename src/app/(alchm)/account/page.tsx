@@ -11,10 +11,11 @@
  * @file src/app/(alchm)/account/page.tsx
  */
 
-import { usePrivy } from "@privy-io/react-auth";
-import { ArrowLeft, CheckCircle2, ShieldAlert, Sparkles, Wallet } from "lucide-react";
+import { PrivyProvider, usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth";
+import { ArrowLeft, Check, CheckCircle2, Copy, ShieldAlert, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState, type JSX } from "react";
+import { base } from "viem/chains";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,24 +28,40 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
+
 interface DBConnectionStatus {
   connected: boolean;
   privyDid: string | null;
+  walletAddress: string | null;
 }
 
-export default function AccountPage(): JSX.Element {
-  const { login, ready, authenticated, getAccessToken, user: privyUser } = usePrivy();
-  
+function truncateAddress(address: string): string {
+  return address.length > 12 ? `${address.slice(0, 6)}…${address.slice(-4)}` : address;
+}
+
+function AccountInner(): JSX.Element {
+  const { login, ready, authenticated, getAccessToken } = usePrivy();
+  const { wallets } = useWallets();
+  const { fundWallet } = useFundWallet();
+
   // Local state for DB connection status
   const [dbStatus, setDbStatus] = useState<DBConnectionStatus>({
     connected: false,
     privyDid: null,
+    walletAddress: null,
   });
   const [loading, setLoading] = useState(true);
   const [linking, setLinking] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [conflictOpen, setConflictOpen] = useState(false);
   const [conflictMessage, setConflictMessage] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  // Prefer the live embedded wallet from this Privy session; fall back to the
+  // address stored server-side (resolved from the verified DID on link).
+  const embeddedWallet = wallets.find((w) => w.walletClientType === "privy");
+  const walletAddress = embeddedWallet?.address ?? dbStatus.walletAddress ?? null;
 
   // 1. Fetch connection status from alchm.kitchen database
   const fetchStatus = useCallback(async (): Promise<void> => {
@@ -67,10 +84,12 @@ export default function AccountPage(): JSX.Element {
         success: boolean;
         connected: boolean;
         privyDid: string | null;
+        walletAddress: string | null;
       };
       setDbStatus({
         connected: json.connected,
         privyDid: json.privyDid,
+        walletAddress: json.walletAddress ?? null,
       });
     } catch (err) {
       setAuthError(err instanceof Error ? err.message : "Failed to load account details.");
@@ -96,6 +115,7 @@ export default function AccountPage(): JSX.Element {
       const json = (await res.json()) as {
         success: boolean;
         privyDid?: string;
+        walletAddress?: string | null;
         error?: string;
       };
 
@@ -114,6 +134,7 @@ export default function AccountPage(): JSX.Element {
       setDbStatus({
         connected: true,
         privyDid: json.privyDid || null,
+        walletAddress: json.walletAddress ?? null,
       });
     } catch (err) {
       setConflictMessage(err instanceof Error ? err.message : "Failed to connect identity.");
@@ -144,6 +165,28 @@ export default function AccountPage(): JSX.Element {
     if (!ready) return;
     login();
   }, [ready, login]);
+
+  // Open Privy's fiat on-ramp to fund the embedded Base wallet. If the user
+  // isn't authenticated with Privy this session, prompt login first.
+  const handleFund = useCallback(async (): Promise<void> => {
+    if (!walletAddress) return;
+    if (!authenticated) {
+      login();
+      return;
+    }
+    try {
+      await fundWallet({ address: walletAddress, options: { chain: base } });
+    } catch {
+      /* user exited the on-ramp or it's unsupported in their region */
+    }
+  }, [walletAddress, authenticated, login, fundWallet]);
+
+  const copyAddress = useCallback((): void => {
+    if (!walletAddress) return;
+    void navigator.clipboard?.writeText(walletAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  }, [walletAddress]);
 
   return (
     <div className="account-container">
@@ -336,7 +379,39 @@ export default function AccountPage(): JSX.Element {
                     </div>
                   </div>
                 </div>
-                
+
+                {walletAddress && (
+                  <div style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.03)", borderRadius: 6, padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                    <div>
+                      <div style={{ fontSize: 9, fontFamily: "var(--font-mono, monospace)", color: "var(--fg-mute, #718096)", marginBottom: 4 }}>
+                        EMBEDDED WALLET · BASE
+                      </div>
+                      <button
+                        type="button"
+                        onClick={copyAddress}
+                        title="Copy address"
+                        style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, color: "#a78bfa", fontFamily: "var(--font-mono, monospace)" }}
+                      >
+                        {truncateAddress(walletAddress)}
+                        {copied ? (
+                          <Check style={{ width: 13, height: 13, color: "#34d399" }} />
+                        ) : (
+                          <Copy style={{ width: 13, height: 13, opacity: 0.5 }} />
+                        )}
+                      </button>
+                    </div>
+                    <Button
+                      onClick={() => { void handleFund(); }}
+                      disabled={!ready}
+                      className="glowing-btn"
+                      style={{ padding: "10px 18px" }}
+                    >
+                      <Wallet style={{ width: 14, height: 14, marginRight: 6 }} />
+                      Fund Wallet
+                    </Button>
+                  </div>
+                )}
+
                 <p style={{ fontSize: 12, color: "var(--fg-mute, #718096)", lineHeight: 1.5, margin: 0 }}>
                   This alchm.kitchen profile is bound to your Decentralized Identifier. When logging into sibling realms using the
                   same email/wallet, your profile data, tokens, and alchemical preferences will sync automatically.
@@ -395,5 +470,35 @@ export default function AccountPage(): JSX.Element {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+/**
+ * PrivyProvider is scoped HERE (not in the app-wide providers tree) so the heavy
+ * web3 SDK is only bundled on /account. Mirrors PA's components/account/PrivyConnect.tsx:
+ * shared Privy app ⇒ same DID + same embedded Base wallet on alchm.kitchen and
+ * agents.alchm.kitchen.
+ */
+export default function AccountPage(): JSX.Element {
+  return (
+    <PrivyProvider
+      appId={PRIVY_APP_ID}
+      config={{
+        loginMethods: ["email", "google", "wallet"],
+        embeddedWallets: {
+          ethereum: { createOnLogin: "users-without-wallets" },
+          solana: { createOnLogin: "off" },
+        },
+        defaultChain: base,
+        supportedChains: [base],
+        appearance: {
+          theme: "dark",
+          accentColor: "#805ad5", // Alchm purple accent
+          logo: "/alchm-icon-192.png",
+        },
+      }}
+    >
+      <AccountInner />
+    </PrivyProvider>
   );
 }
