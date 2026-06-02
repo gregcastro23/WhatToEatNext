@@ -2,15 +2,15 @@
  
 import { motion } from "framer-motion";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { ConsciousnessSigil } from "@/components/ui/alchm/ConsciousnessSigil";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import type {
   CraftedAgentProfile,
   Element,
 } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
-import { ConsciousnessSigil } from "@/components/ui/alchm/ConsciousnessSigil";
 
 const ASPECT_GLYPH: Record<string, string> = { conjunction: "☌", sextile: "⚹", square: "□", trine: "△", opposition: "☍" };
 const PLANET_GLYPH: Record<string, string> = { Sun: "☉", Moon: "☽", Mercury: "☿", Venus: "♀", Mars: "♂", Jupiter: "♃", Saturn: "♄" };
@@ -531,7 +531,7 @@ export default function AgentProfile({
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left: The interactive Sigil */}
           <div className="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5 relative overflow-hidden">
-            <ConsciousnessSigil agent={agent} size={360} style="triangles" motion={true} />
+            <ConsciousnessSigil agent={agent} size={360} style="triangles" motion />
           </div>
 
           {/* Right: Signature details & elements */}
@@ -603,9 +603,17 @@ export default function AgentProfile({
       </section>
 
       {/* 10.1 Live Transit Boost Dashboard */}
-      {transitOverlay && (
+      {(loadingTransit || transitOverlay) && (
         <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
           <SectionLabel>Live Transit Overlay</SectionLabel>
+          {loadingTransit && !transitOverlay ? (
+            <div className="flex flex-col items-center justify-center py-10 gap-2">
+              <div className="w-8 h-8 rounded-full border-2 border-purple-500/20 border-t-purple-400 animate-spin" />
+              <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">
+                Reading the live sky…
+              </span>
+            </div>
+          ) : transitOverlay ? (
           <div className="flex flex-col gap-6">
             {/* Elemental Boost Meter */}
             <div className="p-5 rounded-2xl border bg-white/[0.01] flex flex-col gap-4"
@@ -683,6 +691,7 @@ export default function AgentProfile({
               </div>
             )}
           </div>
+          ) : null}
         </section>
       )}
 
@@ -743,6 +752,20 @@ export default function AgentProfile({
                 </h3>
                 <span className="text-[8px] uppercase tracking-[0.2em] font-mono text-white/40 block mt-1">Resonance Stance</span>
               </div>
+
+              {viewerProfile?.dominantElement && (
+                <div className="relative z-10 flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest">
+                  <span className="flex items-center gap-1" style={{ color: EL_COLOR[viewerProfile.dominantElement] || "#fff" }}>
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: EL_COLOR[viewerProfile.dominantElement] }} />
+                    You
+                  </span>
+                  <span className="text-white/30">↔</span>
+                  <span className="flex items-center gap-1" style={{ color: dominantElement ? EL_COLOR[dominantElement] : "#fff" }}>
+                    {agent.name.split(" ")[0]}
+                    {dominantElement && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: EL_COLOR[dominantElement] }} />}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Aspect matching meters & aspects ledger */}

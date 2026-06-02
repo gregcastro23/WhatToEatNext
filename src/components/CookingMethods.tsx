@@ -380,10 +380,10 @@ export default function CookingMethods() {
 
   const [loading, setLoading] = useState(true);
   const [recommendedMethods, setRecommendedMethods] = useState<ExtendedAlchemicalItem[]>([]);
-  const [_planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
+  const [planetaryCookingMethods, setPlanetaryCookingMethods] = useState<Record<string, string[]>>({});
   const [selectedCulture, setSelectedCulture] = useState<string>(''); // For culture filtering
   const [showAllMethods, setShowAllMethods] = useState(false);
-  const [_expandedMolecular, setExpandedMolecular] = useState<Record<string, boolean>>({});
+  const [expandedMolecular, setExpandedMolecular] = useState<Record<string, boolean>>({});
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   // Add a new state to store the initial scores
   const [methodScores, setMethodScores] = useState<Record<string, number>>({});
@@ -441,7 +441,7 @@ export default function CookingMethods() {
   };
 
   // Toggle molecular details expansion
-  const _toggleMolecular = useCallback((methodId: string) => {
+  const toggleMolecular = useCallback((methodId: string) => {
     setExpandedMolecular(prev => ({
       ...prev,
       [methodId]: !prev[methodId]
@@ -610,7 +610,7 @@ export default function CookingMethods() {
     return 0.5; // Default medium value
   };
 
-  const _getMolecularDetails = (method: ExtendedAlchemicalItem): MolecularGastronomyDetails | null => {
+  const getMolecularDetails = (method: ExtendedAlchemicalItem): MolecularGastronomyDetails | null => {
     const methodName = method.name.toLowerCase();
     
     // Only return molecular details for molecular gastronomy methods
@@ -1693,6 +1693,7 @@ export default function CookingMethods() {
               (showAllMethods ? recommendedMethods : recommendedMethods.slice(0, 10)).map((method, index) => {
                 const methodId = `method-${index}`;
                 const isExpanded = expandedMethods[methodId] || false;
+                const molecular = getMolecularDetails(method);
                 
                 // Get dominant element to display
                 const dominantElement = Object.entries(method.elementalProperties || {})
@@ -1841,9 +1842,44 @@ export default function CookingMethods() {
                             </div>
                           </div>
                         )}
+
+                        {molecular && (
+                          <div className={styles.methodDetailSection}>
+                            <h4
+                              onClick={() => toggleMolecular(methodId)}
+                              style={{ cursor: 'pointer' }}
+                            >
+                              Molecular Gastronomy {expandedMolecular[methodId] ? '▾' : '▸'}
+                            </h4>
+                            {expandedMolecular[methodId] && (
+                              <div>
+                                <p><strong>Process:</strong> {molecular.chemicalProcess}</p>
+                                <p><strong>Precision:</strong> {molecular.precisionRequirements}</p>
+                                <strong>Common Errors</strong>
+                                <ul className={styles.detailList}>
+                                  {molecular.commonErrors.map((e, i) => (
+                                    <li key={i} className={styles.detailItem}>{e}</li>
+                                  ))}
+                                </ul>
+                                <strong>Advanced Equipment</strong>
+                                <ul className={styles.detailList}>
+                                  {molecular.advancedEquipment.map((e, i) => (
+                                    <li key={i} className={styles.detailItem}>{e}</li>
+                                  ))}
+                                </ul>
+                                <strong>Textural Outcomes</strong>
+                                <ul className={styles.detailList}>
+                                  {molecular.texturalOutcomes.map((t, i) => (
+                                    <li key={i} className={styles.detailItem}>{t}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
-                    
+
                     {ingredientCompatibility[method.id || method.name] !== undefined && (
                       <div className={styles.ingredientCompatibility}>
                         <span>Ingredient Compatibility: </span>
@@ -1884,6 +1920,24 @@ export default function CookingMethods() {
         </div>
       )}
       
+      {Object.keys(planetaryCookingMethods).length > 0 && (
+        <div className={styles.methodDetailSection} style={{ marginTop: '16px' }}>
+          <h3>Methods by Planetary Ruler</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
+            {Object.entries(planetaryCookingMethods).map(([planet, planetMethods]) => (
+              <div key={planet}>
+                <h4 style={{ margin: '0 0 4px' }}>⦿ {planet}</h4>
+                <ul className={styles.detailList}>
+                  {planetMethods.slice(0, 6).map((m, i) => (
+                    <li key={i} className={styles.detailItem}>{m}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Debug Panel */}
       <div style={{ fontSize: '12px', padding: '10px', margin: '10px 0', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
         <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>

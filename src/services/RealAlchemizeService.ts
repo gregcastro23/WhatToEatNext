@@ -9,6 +9,32 @@ import {
     getPlanetarySectElement, calculateEnhancedAlchemicalFromPlanets, PLANETARY_SECTARIAN_ESMS
 } from "@/utils/planetaryAlchemyMapping";
 
+// Zodiac modality lookup + dominant-modality tally, computed from the live
+// planetary positions instead of a hardcoded "Cardinal".
+const SIGN_MODALITY: Record<string, "Cardinal" | "Fixed" | "Mutable"> = {
+  aries: "Cardinal", cancer: "Cardinal", libra: "Cardinal", capricorn: "Cardinal",
+  taurus: "Fixed", leo: "Fixed", scorpio: "Fixed", aquarius: "Fixed",
+  gemini: "Mutable", virgo: "Mutable", sagittarius: "Mutable", pisces: "Mutable",
+};
+
+function computeDominantModality(
+  positions: Record<string, { sign?: string }>,
+): "Cardinal" | "Fixed" | "Mutable" {
+  const tally: Record<"Cardinal" | "Fixed" | "Mutable", number> = {
+    Cardinal: 0,
+    Fixed: 0,
+    Mutable: 0,
+  };
+  for (const pos of Object.values(positions || {})) {
+    const modality = SIGN_MODALITY[(pos?.sign || "").toLowerCase()];
+    if (modality) tally[modality] += 1;
+  }
+  const [top] = (
+    Object.entries(tally) as Array<["Cardinal" | "Fixed" | "Mutable", number]>
+  ).sort((a, b) => b[1] - a[1]);
+  return top && top[1] > 0 ? top[0] : "Cardinal";
+}
+
 const PLANET_ALCHM_PERIODS: Record<string, number> = {
   Pluto: 247.94,
   Neptune: 164.79,
@@ -457,7 +483,7 @@ export function alchemize(
     metadata: {
       source: "alchemize",
       dominantElement,
-      dominantModality: "Cardinal", // Simplified for now,
+      dominantModality: computeDominantModality(planetaryPositions),
       sunSign: planetaryPositions["Sun"]?.sign || "",
       chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
       isDiurnal: diurnal,
@@ -722,7 +748,7 @@ export function alchemizeDetailed(
     metadata: {
       source: "alchemizeDetailed",
       dominantElement,
-      dominantModality: "Cardinal",
+      dominantModality: computeDominantModality(planetaryPositions),
       sunSign: planetaryPositions["Sun"]?.sign || "",
       chartRuler: getZodiacElement(planetaryPositions["Sun"]?.sign || "aries"),
       isDiurnal: diurnal,

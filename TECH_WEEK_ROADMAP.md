@@ -120,12 +120,48 @@ _Rev 3 · 2026-06-02 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [x] Closed stale dependabot **#494** (Storybook major — now in the ignore list).
 
 ## 📌 Backlog (not tech-week-blocking)
+- [ ] 👤 **Fix the Render Astrologizer/Imaginizer backend (`alchm-backend.onrender.com`) hibernation wake.** Cold starts return `502` / `503 x-render-routing: hibernate-wake-error`: the Express app only binds Render's `$PORT` *inside* its MongoDB-connect callback and `process.exit(1)`s on Mongo failure, so a slow/failed cold-start Mongo connect kills the wake. **Quick fix (no code) — point it at a healthy Mongo:** set `MONGODB_URI` on the Render service **+** open Atlas **Network Access → `0.0.0.0/0`** (Render egress IPs are dynamic; this is the likely culprit). Atlas login `alchm.nft@gmail.com`; cluster `cluster0.1wkw1cb`, user `AlchmAI`. String: `mongodb+srv://AlchmAI:<pw>@cluster0.1wkw1cb.mongodb.net/<dbName>?retryWrites=true&w=majority&appName=Cluster0` — **URL-encode the password**, add the real `<dbName>` (else it uses `test`), skip the "npm install mongodb" step (backend already uses mongoose). ⚠️ Never commit the password; least-privilege the `AlchmAI` user (readWrite on one DB).
+  - **Proper fix (backend code, `~/Desktop/Alchm_render_backend/alchm_backend-master`):** bind `$PORT` unconditionally at boot (don't gate on Mongo / don't `process.exit`); wrap the image handlers in try/catch + add `process.on('unhandledRejection')` — a `/generate-image` call currently **crashes the whole process** (empty Livepeer bearer; `index.js:411` + `:171`); set `new Livepeer({ httpBearer: process.env.LIVEPEER_API_KEY })`. Full diagnosis + a drafted message to the backend admin (Evan) live in the PA session.
+  - **PA side already mitigated (agents app, PR #36):** avatars moved to **free Cloudflare** (no longer call the crash-prone image endpoints); added `wakeRenderBackend()` retry on the supplemental `/alchmize-public` call. Optional next: a keep-warm cron pinging `GET /` so it never cold-starts.
 - [ ] 🤖 Scope Lab Book quests to `source === "scan"` so generator/riff saves don't count — if desired.
 - [ ] Persist ingested photos (Vercel Blob vs base64); PDF / multi-page batch import.
 - [ ] Harmonize `agent-recipes` (`Bearer`) vs `sync-credit` (`X-Sync-Secret`) auth header formats.
 - [ ] Refactor `scripts/backfillRecipeAlchemicalQuantities.ts` to share `alchemizeExtractedRecipe`.
 - [ ] 👤 Git-history scrub of the leaked password — **now unblocked** (password rotated 2026-06-02, so the old creds in `master` history are dead). Lower urgency now, but still worth scrubbing; it rewrites `master` + invalidates clones, so coordinate before running.
 - [ ] Sweep ~37 stale `.claude/worktrees/*` (carefully — may hold uncommitted work). ⚠️ At least one is an **active agent worktree** (`agent-af13cd716dc9a72f0`, Privy/profile work) as of 2026-06-02 — don't sweep live ones.
+
+## 🧩 Partial / deprioritized implementations (code-completeness backlog)
+
+_From a 2026-06-02 `src/`-wide sweep (3 parallel audits). Not tech-week-blocking — post-freeze completion/cleanup. Triaged live-and-user-affecting first, then deletion. **Excluded by design** (do not "fix"): intentional error/graceful fallbacks, `@deprecated` back-compat shims, recipe hard-caps (tokens are the throttle), input `placeholder=` attrs, no-op props that satisfy a required interface, and `FoodRecommender`'s `_currentTime` (a deliberate 60s re-render tick)._
+
+### Tier 1 — live, user-visible gaps (real values are currently faked) 🤖
+- [x] **Real lunar phase in the live chart** ✅ 2026-06-02 — `AstrologicalService.ts` now computes the phase from the cached Sun→Moon elongation (`lunarPhaseFromPositions`, `degree` = absolute longitude); `"new moon"` remains only as the no-positions fallback.
+- [x] **Real dominant modality** ✅ 2026-06-02 — `RealAlchemizeService` tallies Cardinal/Fixed/Mutable across the live planetary signs (`computeDominantModality`) at both return sites instead of the literal `"Cardinal"`.
+- [x] **Per-recipe planetary alignment score** ✅ 2026-06-02 — `calculatePlanetaryAlignment` now scores the recipe's elemental profile against the active planetary hour / lunar phase / zodiac sign (`55acd172`).
+- [x] **Real optimal cooking time** ✅ 2026-06-02 — `calculateOptimalCookingTime` derives `startTime` from the planetary hour + `duration` from the recipe's ingredient count (`55acd172`).
+- [x] **Tarot→recipe filtering** ✅ 2026-06-02 — `getRecipesForTarotCard` now loads the real catalog (`getAllRecipes()`) and ranks recipes by strength in the drawn card's element (top 6), falling back to the defaults only on error.
+- [x] **Food preferences persist server-side** ✅ 2026-06-02 — `/profile/preferences` `onSave` now PUTs to `/api/user/profile` (schema + `updateUserProfile` already accept `preferences`); prefs sync across devices (`55acd172`).
+- [x] **Molecular-gastronomy panel** ✅ 2026-06-02 — `CookingMethods.tsx` now renders the expandable molecular-gastronomy details per method (`getMolecularDetails`/`toggleMolecular`/`expandedMolecular`) + a "Methods by Planetary Ruler" section (`planetaryCookingMethods`).
+- [x] **Agent-view filters** ✅ 2026-06-02 — activations now carry a derived `modality` (parsed from the `planetary-{planet}-{sign}-{degree}` id); all filter dimensions (search, element, dignity, modality, consciousness, strength 0–100, planetary ruler) apply to the list with real `agentCount`/`filteredCount`; added the `lastUpdated` label + a no-matches state; removed the dead `_handleAgentChat`.
+- [x] **Sauce-detail expansion** ✅ 2026-06-02 — misdiagnosis: expansion already works via `expandedSauceCards` (read at `CuisineRecommender.tsx:1012,1184`). Deleted the abandoned duplicate `_expandedSauces`/`_toggleSauceExpansion` instead.
+
+### Tier 2 — lower value / verify-first 🤖
+- [ ] **Real tarot scoring signal** — `src/services/UnifiedScoringService.ts:226` (+ `planetaryScoring.ts`) `calculateTarotEffect` returns a constant table feeding live recipe scoring; map the active draw to elemental/alchemical affinities. ⏱M (low impact)
+- [ ] **Personalization persistence** — `src/lib/personalization/user-learning.ts:812` ("would load from persistent storage", live via `usePersonalization`). Verify whether learned prefs persist across sessions; if not, back the store with the `user_interactions`/profile DB. ⏱M
+- [ ] **`FoodRecommender` chakra/food wiring** — `src/components/FoodRecommender.tsx:93,110`: `_foodRecommendations` + `_chakraRecommendations` are computed by hooks then dropped. Render or remove. ⏱S
+- [ ] **`IngredientService.analyzeRecipeIngredients` stub** — `src/services/IngredientService.ts:519` (`overallHarmony = 0.8`); the method is unused (live callers use `UnifiedIngredientService`). Delegate to the real impl or delete the dead method. ⏱S
+
+### Tier 3 — dead code → delete (overlaps PR #474) 🤖
+_Zero non-test importers; several carry hardcoded `1.0`/`0.8` stubs that read like real logic but run nowhere. The live alchemy path is `calculateEnhancedAlchemicalFromPlanets` + `RealAlchemizeService`._
+- [ ] Delete the orphaned service tier: `DirectRecipeService.ts`, `UnifiedPlanetaryRecommendationService.ts`, `PlanetaryRecipeScorer.ts`, `unifiedSauceRecommender.ts` (dup of live `sauceRecommender`), `unifiedNutritionalService.ts`, `AlertingSystem.ts` (live alerting is `alertService.ts`), the `ServicesManager`/`useServices`/`AstrologyService` (lowercase singleton) mock chain, and the secondary `src/lib/alchemicalEngine.ts`. ⏱S–M
+- [ ] Delete dead components `src/components/RecipeList.tsx` + `src/components/IngredientRecommendations.tsx` (unreferenced; their `_`-vars are red herrings).
+- [ ] (Low-pri) Retire the ~13 `@deprecated` shims once callers move to the new APIs (e.g. `utils/astronomiaCalculator.ts`, `data/unified/flavorCompatibilityLayer.ts`, `utils/monicaKalchmCalculations.ts`). ⏱M
+
+### Decide — wire or delete 🤖
+- [ ] `src/components/CuisineSpecificRecommendations.tsx` + `src/calculations/enhancedCuisineRecommender.ts:144` (`getRecipesForCuisine` returns `[]`) — orphaned recommender; mount with real data or remove both. ⏱M
+- [ ] `src/components/EnhancedRecommendationEngine.tsx:114` ("Filters … Simplified for now") — only in the lazy barrel, unmounted; finish + mount, or drop from `lazy/index.tsx` and delete. ⏱M
+
+---
 
 ## 📎 Appendix — audit reconciliation (`audit-reports/wten-architecture-audit-2026-06-01.md`)
 - **Already resolved (audit was stale):** `group_chat_quest` is in the `TransactionSourceType` whitelist (`src/types/economy.ts`); `ALCHM_KITCHEN_SYNC_SECRET` is documented in `AGENTS.md` + `GEMINI.md`.
