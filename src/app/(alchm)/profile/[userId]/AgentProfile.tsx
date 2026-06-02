@@ -2,15 +2,15 @@
  
 import { motion } from "framer-motion";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { ConsciousnessSigil } from "@/components/ui/alchm/ConsciousnessSigil";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import type {
   CraftedAgentProfile,
   Element,
 } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
-import { ConsciousnessSigil } from "@/components/ui/alchm/ConsciousnessSigil";
 
 const ASPECT_GLYPH: Record<string, string> = { conjunction: "☌", sextile: "⚹", square: "□", trine: "△", opposition: "☍" };
 const PLANET_GLYPH: Record<string, string> = { Sun: "☉", Moon: "☽", Mercury: "☿", Venus: "♀", Mars: "♂", Jupiter: "♃", Saturn: "♄" };
@@ -131,9 +131,9 @@ export default function AgentProfile({
   const { data: session } = useSession();
   
   const [transitOverlay, setTransitOverlay] = useState<any>(null);
-  const [loadingTransit, setLoadingTransit] = useState(false);
+  const [_loadingTransit, setLoadingTransit] = useState(false);
   
-  const [viewerProfile, setViewerProfile] = useState<any>(null);
+  const [_viewerProfile, setViewerProfile] = useState<any>(null);
   const [synastryData, setSynastryData] = useState<any>(null);
   const [loadingSynastry, setLoadingSynastry] = useState(false);
 
@@ -531,7 +531,7 @@ export default function AgentProfile({
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left: The interactive Sigil */}
           <div className="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5 relative overflow-hidden">
-            <ConsciousnessSigil agent={agent} size={360} style="triangles" motion={true} />
+            <ConsciousnessSigil agent={agent} size={360} style="triangles" motion />
           </div>
 
           {/* Right: Signature details & elements */}

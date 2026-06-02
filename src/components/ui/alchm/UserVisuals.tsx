@@ -47,7 +47,7 @@ interface NatalWheelProps {
   dominantEl?: string;
 }
 
-export function NatalWheel({ planets, size = 380, motion = true, dominantEl = "air" }: NatalWheelProps) {
+export function NatalWheel({ planets, size = 380, motion: _motion = true, dominantEl = "air" }: NatalWheelProps) {
   const c = size / 2;
   const rOuter = c * 0.92;
   const rSign = c * 0.81;

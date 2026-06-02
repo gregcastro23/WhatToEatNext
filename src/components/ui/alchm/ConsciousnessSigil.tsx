@@ -18,7 +18,7 @@ function triPath(cx: number, cy: number, r: number, up: boolean, rot = 0) {
     const a = (((up ? -90 : 90) + i * 120 + rot) * Math.PI) / 180;
     return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
   });
-  return "M" + pts.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" L") + " Z";
+  return `M${  pts.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" L")  } Z`;
 }
 
 // Horizontal bar across a triangle at vertical fraction f (0=top, 1=bottom)
@@ -314,7 +314,7 @@ export function ConsciousnessSigil({
               onMouseMove={(e) =>
                 show(
                   e,
-                  m.label + " MODALITY",
+                  `${m.label  } MODALITY`,
                   [
                     `${isActiveMod ? "DOMINANT — " : ""}orbital shell ${i + 1}/3`,
                     m.id === "cardinal"
