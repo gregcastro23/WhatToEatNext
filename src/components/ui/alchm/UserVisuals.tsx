@@ -47,7 +47,7 @@ interface NatalWheelProps {
   dominantEl?: string;
 }
 
-export function NatalWheel({ planets, size = 380, motion: _motion = true, dominantEl = "air" }: NatalWheelProps) {
+export function NatalWheel({ planets, size = 380, motion = true, dominantEl = "air" }: NatalWheelProps) {
   const c = size / 2;
   const rOuter = c * 0.92;
   const rSign = c * 0.81;
@@ -88,6 +88,11 @@ export function NatalWheel({ planets, size = 380, motion: _motion = true, domina
             <stop offset="0%" stopColor={activeColor} stopOpacity="0.28" />
             <stop offset="70%" stopColor="transparent" />
           </radialGradient>
+          <style>{`
+            @keyframes nw-rotor-spin { to { transform: rotate(360deg); } }
+            .nw-rotor { transform-box: fill-box; transform-origin: center; animation: nw-rotor-spin 140s linear infinite; }
+            @media (prefers-reduced-motion: reduce) { .nw-rotor { animation: none; } }
+          `}</style>
         </defs>
         <circle cx={c} cy={c} r={rPlanet} fill="url(#nw-glow)" />
         <circle cx={c} cy={c} r={rOuter} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="0.8" />
@@ -124,7 +129,8 @@ export function NatalWheel({ planets, size = 380, motion: _motion = true, domina
           );
         })}
 
-        {/* degree ticks */}
+        {/* degree ticks — slow rotor when motion is enabled */}
+        <g className={motion ? "nw-rotor" : undefined}>
         {Array.from({ length: 72 }, (_, i) => {
           const a = (i / 72) * 2 * Math.PI - Math.PI / 2;
           const big = i % 6 === 0;
@@ -140,6 +146,7 @@ export function NatalWheel({ planets, size = 380, motion: _motion = true, domina
             />
           );
         })}
+        </g>
 
         {/* aspect lines between planets */}
         <g stroke="var(--accent)" strokeWidth="0.5" opacity="0.32">
