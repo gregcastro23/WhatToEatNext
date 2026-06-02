@@ -64,6 +64,9 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [ ] Confirm **migration 50** applied → quests show in the Quests panel
 - [ ] Fund the demo account with ESMS (or use Premium); finish onboarding / natal chart
 - [ ] Confirm OpenAI quota (GPT-4o powers Lab Book + cosmic recipe)
+- [ ] 🔴 Confirm the Stripe **premium price object = $5/mo** (the app shows $5 — make Stripe match)
+- [ ] 🔴 Create 3 **MCP top-up** Stripe prices ($5/$20/$50) + set `STRIPE_MCP_TOP_UP_{5,20,50}_PRICE_ID` in Vercel → the `/account/billing/mcp` top-up panel works (else users can't self-serve refill ESMS)
+- [ ] Merge **PR #490** (premium-journey fixes: $5 display · starter grant → 60 · swap 402)
 - [ ] Full smoke test (Kitchen recs · Discover · Lab Book · Quests · Cosmic Recipe · Commensal)
 - [ ] Record the current-good prod deploy SHA + confirm the Vercel **Instant Rollback** path
 - [ ] **Soft-freeze `master`** — docs / hotfixes only from here
