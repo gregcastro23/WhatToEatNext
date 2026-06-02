@@ -325,6 +325,26 @@ export type MoonPhase =
   | "waning crescent";
 // AstrologicalState for service interface - we'll map this to the centralized one internally
 
+// Real lunar phase from the Sun→Moon elongation. Cached `degree` fields are
+// absolute ecliptic longitude, so (Moon − Sun) mod 360 is the phase angle.
+// Falls back to "new moon" only when positions are missing.
+function lunarPhaseFromPositions(
+  positions: Record<string, { degree?: number }> | undefined,
+): StandardLunarPhase {
+  const sun = positions?.["Sun"]?.degree;
+  const moon = positions?.["Moon"]?.degree;
+  if (typeof sun !== "number" || typeof moon !== "number") return "new moon";
+  const elongation = (((moon - sun) % 360) + 360) % 360;
+  if (elongation < 22.5 || elongation >= 337.5) return "new moon";
+  if (elongation < 67.5) return "waxing crescent";
+  if (elongation < 112.5) return "first quarter";
+  if (elongation < 157.5) return "waxing gibbous";
+  if (elongation < 202.5) return "full moon";
+  if (elongation < 247.5) return "waning gibbous";
+  if (elongation < 292.5) return "last quarter";
+  return "waning crescent";
+}
+
 // Canonical async function to get the latest astrological state - Updated with standardized response
 export async function getLatestAstrologicalState(): Promise<AstrologicalCalculationResponse> {
   try {
@@ -352,7 +372,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
       return _createSuccessResponse({
         planetaryPositions: cached.planetaryPositions,
         zodiacSign: sunSign ?? "aries",
-        lunarPhase: "new moon",
+        lunarPhase: lunarPhaseFromPositions(cached.planetaryPositions),
         elementalInfluence,
         accuracy,
         calculationTimestamp: new Date(cached.timestamp).toISOString(),

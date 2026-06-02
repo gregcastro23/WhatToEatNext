@@ -85,7 +85,6 @@ export default function CuisineRecommender() {
   const [showAllRecipes, setShowAllRecipes] = useState<boolean>(false);
   const [showAllSauces, setShowAllSauces] = useState<boolean>(false);
   const [expandedRecipes, setExpandedRecipes] = useState<{[key: number]: boolean}>({});
-  const [_expandedSauces, setExpandedSauces] = useState<{[key: number]: boolean}>({});
   const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
@@ -580,13 +579,6 @@ export default function CuisineRecommender() {
   const toggleRecipeExpansion = (index: number, event: React.MouseEvent) => {
     event.stopPropagation();
     setExpandedRecipes(prev => ({
-      ...prev,
-      [index]: !prev[index]
-    }));
-  };
-
-  const _toggleSauceExpansion = (index: number) => {
-    setExpandedSauces(prev => ({
       ...prev,
       [index]: !prev[index]
     }));
