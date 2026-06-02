@@ -149,7 +149,7 @@ describe("GET /api/account/privy", () => {
     const body = await res.json();
     expect(body.success).toBe(true);
     expect(body.connected).toBe(true);
-    expect(body.privyDid).toBe("did:privy:mock-d…1234");
+    expect(body.privyDid).toBe("did:privy:••••d-1234");
     expect(body.walletAddress).toBe(WALLET);
   });
 });
@@ -191,6 +191,18 @@ describe("POST /api/account/privy", () => {
     expect(res.status).toBe(400);
   });
 
+  it("401s on an invalid Privy token", async () => {
+    mockedAuth.mockResolvedValueOnce({ user: { id: USER_ID } });
+    const res = await POST(
+      makeRequest("http://x/api/account/privy", {
+        method: "POST",
+        json: { privyToken: "invalid-token" },
+      })
+    );
+    expect(res.status).toBe(401);
+    expect(mockedLinkUserPrivyDid).not.toHaveBeenCalled();
+  });
+
   it("409s when Privy DID is already linked to another user account", async () => {
     mockedAuth.mockResolvedValueOnce({ user: { id: USER_ID } });
     // linkUserPrivyDid will check conflict and throw Conflict error
@@ -223,7 +235,7 @@ describe("POST /api/account/privy", () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.success).toBe(true);
-    expect(body.privyDid).toBe("did:privy:mock-d…1234");
+    expect(body.privyDid).toBe("did:privy:••••d-1234");
     expect(body.walletAddress).toBe(WALLET);
     // Wallet is resolved server-side from the verified DID, never client-sent.
     expect(mockedLinkUserPrivyDid).toHaveBeenCalledWith(USER_ID, "did:privy:mock-did-1234", WALLET);
