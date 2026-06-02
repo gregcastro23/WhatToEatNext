@@ -7,13 +7,13 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 ## Status at a glance
 - **Prod:** v**3.1.0**, `/api/health` healthy, DB `OK`. Latest `master` deploy `READY`.
 - **Shipped this session:** Neon-failover revert · leaked-credential removal · HSCA corpus cleanup · **Lab Book** recipe ingestion · **ESMS milestone quests**.
-- **⛔ Blockers (P0):** rotate the leaked DB password (**only remaining P0** — Vercel `DATABASE_URL` → Railway ✅ confirmed, Stripe ✅ done).
+- **✅ Blockers (P0): ALL CLEAR** — DB password **rotated 2026-06-02** (old creds rejected, prod verified healthy), Vercel `DATABASE_URL` → Railway confirmed, Stripe price/top-ups done.
 - **✅ Landed:** [#487](https://github.com/gregcastro23/WhatToEatNext/pull/487) (Lab Book quests) + [#488](https://github.com/gregcastro23/WhatToEatNext/pull/488) (this checklist) merged to `master`. ✅ **Migration 50 applied** on the Railway backend (deploy `88e4002c` / commit `9b5c669b`, 2026-06-01 23:02 UTC — `[migrate] ok 50-lab-book-quests.sql`); quests seeded.
 
 ---
 
 ## 🔴 P0 — clear before tech-week
-- [ ] 👤 **Rotate the Railway Postgres password.** ⏱5 min. Leaked to `master` history (#443) + chat — rotation is the only real fix. Then set the new `DATABASE_URL` in **Vercel** *and* local `.env*` (backfill scripts now require it). Triggers a redeploy.
+- [x] **Rotate the Railway Postgres password.** ✅ **DONE 2026-06-02.** `ALTER USER` on live Postgres, then propagated the new secret to all 7 locations — Postgres `POSTGRES_PASSWORD`; PgBouncer `POSTGRESQL_PASSWORD` + `DATABASE_URL` + `DATABASE_PUBLIC_URL`; WhatToEatNext + device-sessions-cleanup `DATABASE_URL`; Vercel `DATABASE_URL`; local `.env.production.local` — and redeployed each consumer. Verified end-to-end: frontend (`/api/health` db=healthy), backend (`/health` 200), and the PgBouncer path all connect on the new creds; **old password REJECTED**. Notes: the Postgres service itself was *not* redeployed (avoids a DB restart — `ALTER USER` already changed the live password); two inert `_ROT_TEST_*` vars remain on it from a stdin-format test (delete at next Postgres maintenance — deleting triggers a Postgres redeploy).
 - [x] **Confirm Vercel `DATABASE_URL` → Railway (not Neon).** ✅ Verified via `vercel env pull`: `DATABASE_PUBLIC_URL` → `tramway.proxy.rlwy.net`, `POSTGRESQL_HOST` → `postgres.railway.internal` — no Neon host present. (`DATABASE_URL` itself is a Vercel *Sensitive* var so it reads back empty, but every DB var is Railway and prod DB is healthy.) ⚠️ Local `.env.production` still holds a **Neon** URL — do NOT sync that file to Vercel.
 - [x] **Merged [PR #487](https://github.com/gregcastro23/WhatToEatNext/pull/487)** (quests) → `master`. ✅ **Migration 50 confirmed applied on the Railway backend deploy** (`88e4002c` / `9b5c669b`, 2026-06-01 23:02 UTC) — deploy log shows `[migrate] ok 50-lab-book-quests.sql`. It applies there, *not* in the Vercel build; subsequent `master` pushes (frontend/docs/CI only) correctly SKIPPED the backend redeploy.
 
@@ -117,7 +117,7 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [ ] Persist ingested photos (Vercel Blob vs base64); PDF / multi-page batch import.
 - [ ] Harmonize `agent-recipes` (`Bearer`) vs `sync-credit` (`X-Sync-Secret`) auth header formats.
 - [ ] Refactor `scripts/backfillRecipeAlchemicalQuantities.ts` to share `alchemizeExtractedRecipe`.
-- [ ] 👤 Git-history scrub of the leaked password — **only after rotation** (rewrites `master`, invalidates clones).
+- [ ] 👤 Git-history scrub of the leaked password — **now unblocked** (password rotated 2026-06-02, so the old creds in `master` history are dead). Lower urgency now, but still worth scrubbing; it rewrites `master` + invalidates clones, so coordinate before running.
 - [ ] Sweep ~37 stale `.claude/worktrees/*` (carefully — may hold uncommitted work).
 
 ## 📎 Appendix — audit reconciliation (`audit-reports/wten-architecture-audit-2026-06-01.md`)
