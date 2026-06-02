@@ -15,7 +15,7 @@ import {
   AlertCircle,
   Loader2,
 } from 'lucide-react'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -26,6 +26,19 @@ import { DegreeAgentSelector } from './degree-agent-selector'
 import { MultiAgentConversation } from './multi-agent-conversation'
 import { PlanetaryAgentChat } from './planetary-agent-chat'
 import { ZodiacWheelInteractive } from './zodiac-wheel-interactive'
+
+// Zodiac modality lookup + derivation from a degree-agent id
+// (planetary-{planet}-{sign}-{degree}).
+const SIGN_MODALITY: Record<string, 'Cardinal' | 'Fixed' | 'Mutable'> = {
+  aries: 'Cardinal', cancer: 'Cardinal', libra: 'Cardinal', capricorn: 'Cardinal',
+  taurus: 'Fixed', leo: 'Fixed', scorpio: 'Fixed', aquarius: 'Fixed',
+  gemini: 'Mutable', virgo: 'Mutable', sagittarius: 'Mutable', pisces: 'Mutable',
+}
+
+function modalityFromAgentId(id: string | undefined): string | undefined {
+  const sign = String(id || '').split('-')[2]?.toLowerCase()
+  return sign ? SIGN_MODALITY[sign] : undefined
+}
 
 interface PlanetaryAgentsViewProps {
   selectedDate: Date
@@ -141,6 +154,7 @@ interface PlanetaryAgentActivation {
     powerLevel: number
   }
   planetaryRuler: string
+  modality?: string
 }
 
 interface AgentCardProps {
@@ -217,14 +231,14 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
   const [activations, setActivations] = useState<PlanetaryAgentActivation[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [_lastUpdated, setLastUpdated] = useState<Date>(new Date())
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
 
   // Interactive features state
   const [selectedDegree, setSelectedDegree] = useState<number | undefined>(undefined)
   const [viewMode, setViewMode] = useState<'overview' | 'interactive' | 'chat'>('interactive')
   const [chatMode, setChatMode] = useState<'single' | 'council'>('single')
   const [selectedChatAgent, setSelectedChatAgent] = useState<PlanetaryAgentActivation | null>(null)
-  const [_filters, setFilters] = useState<AgentFilters>({
+  const [filters, setFilters] = useState<AgentFilters>({
     searchTerm: '',
     elements: [],
     dignities: [],
@@ -235,13 +249,60 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
     planetaryRulers: [],
   })
 
+  // Apply the active filters to the visible activation list.
+  const filteredActivations = useMemo(() => {
+    const f = filters
+    const hasAny =
+      !!f.searchTerm ||
+      f.elements.length > 0 ||
+      f.dignities.length > 0 ||
+      f.modalities.length > 0 ||
+      f.consciousnessLevels.length > 0 ||
+      f.planetaryRulers.length > 0 ||
+      f.minStrength > 0 ||
+      f.maxStrength < 100
+    if (!hasAny) return activations
+    return activations.filter((a) => {
+      if (
+        f.searchTerm &&
+        !`${a.agent?.name ?? ''} ${a.agent?.id ?? ''}`
+          .toLowerCase()
+          .includes(f.searchTerm.toLowerCase())
+      )
+        return false
+      if (f.elements.length > 0 && !f.elements.includes(a.element)) return false
+      if (f.dignities.length > 0 && !f.dignities.includes(a.dignity)) return false
+      if (f.modalities.length > 0) {
+        const m = a.modality || modalityFromAgentId(a.agent?.id)
+        if (!m || !f.modalities.includes(m)) return false
+      }
+      if (
+        f.consciousnessLevels.length > 0 &&
+        !f.consciousnessLevels.includes(a.consciousness?.level)
+      )
+        return false
+      const pct = (a.strength || 0) * 100
+      if (pct < f.minStrength || pct > f.maxStrength) return false
+      if (
+        f.planetaryRulers.length > 0 &&
+        !f.planetaryRulers.includes(a.planetaryRuler)
+      )
+        return false
+      return true
+    })
+  }, [activations, filters])
+
   const loadAgentActivations = useCallback(async () => {
     setIsLoading(true)
     setError(null)
 
     try {
       const fetchedActivations = await fetchAgentsForDate(selectedDate);
-      setActivations(fetchedActivations);
+      const withModality = (fetchedActivations as PlanetaryAgentActivation[]).map((a) => ({
+        ...a,
+        modality: a.modality || modalityFromAgentId(a.agent?.id),
+      }));
+      setActivations(withModality);
       setLastUpdated(new Date());
     } catch (err) {
       console.error('Error loading planetary agents:', err)
@@ -254,21 +315,6 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
   useEffect(() => {
     void loadAgentActivations()
   }, [loadAgentActivations])
-
-  const _handleAgentChat = useCallback(
-    (activation: PlanetaryAgentActivation) => {
-      if (onAgentChat) {
-        onAgentChat(activation.agent.id, activation.agent.name, {
-          date: selectedDate,
-          strength: activation.strength,
-          dignity: activation.dignity,
-          element: activation.element,
-          planetaryRuler: activation.planetaryRuler,
-        })
-      }
-    },
-    [onAgentChat, selectedDate]
-  )
 
   const handleDegreeClick = useCallback((degree: number, _sign: string) => {
     setSelectedDegree(degree)
@@ -356,10 +402,15 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
       <Card className="cosmic-glass">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-gold flex items-center gap-2">
-              <Sparkles className="w-6 h-6" />
-              Planetary Agents - {selectedDate.toLocaleDateString()}
-            </CardTitle>
+            <div>
+              <CardTitle className="text-gold flex items-center gap-2">
+                <Sparkles className="w-6 h-6" />
+                Planetary Agents - {selectedDate.toLocaleDateString()}
+              </CardTitle>
+              <p className="text-xs text-purple-400 mt-1">
+                Updated {lastUpdated.toLocaleTimeString()}
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               <Button
                 size="sm"
@@ -465,9 +516,21 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
                 </p>
               </CardContent>
             </Card>
+          ) : filteredActivations.length === 0 ? (
+            <Card className="cosmic-glass">
+              <CardContent className="text-center py-12">
+                <Star className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-purple-200 mb-2">
+                  No Agents Match Your Filters
+                </h3>
+                <p className="text-purple-400">
+                  Adjust or clear the filters below to see activated agents.
+                </p>
+              </CardContent>
+            </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {activations.map((activation, index) => (
+              {filteredActivations.map((activation, index) => (
                 <AgentCard
                   key={`${activation.agent.id}-${index}`}
                   activation={activation}
@@ -551,8 +614,8 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
       {/* Filter Panel - Always visible */}
       <AgentFilterPanel
         onFiltersChange={handleFiltersChange}
-        agentCount={360} // Total degrees in zodiac
-        filteredCount={360} // Will be updated with actual filtering logic
+        agentCount={activations.length}
+        filteredCount={filteredActivations.length}
       />
 
       {/* Information Panel */}

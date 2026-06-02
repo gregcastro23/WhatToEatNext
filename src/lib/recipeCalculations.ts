@@ -1,4 +1,5 @@
 import { _logger } from "@/lib/logger";
+import type { Recipe } from "@/types/recipe";
 import { SUIT_TO_ELEMENT } from "@/utils/tarotMappings";
 
 // Local interface for a tarot card used in recipes
@@ -38,6 +39,31 @@ export interface TarotRecipe {
   ingredients: string[];
   preparation: string;
   astrologicalInfluences: string[];
+}
+
+/** Map a full catalog Recipe down to the minimal TarotRecipe shape. */
+function toTarotRecipe(r: Recipe): TarotRecipe {
+  const rawIngredients = (r as { ingredients?: unknown }).ingredients;
+  const ingredients = Array.isArray(rawIngredients)
+    ? rawIngredients
+        .map((ing) =>
+          typeof ing === "string" ? ing : (ing as { name?: string })?.name,
+        )
+        .filter((n): n is string => Boolean(n))
+    : [];
+  const instructions = (r as { instructions?: unknown }).instructions;
+  const preparation =
+    (r as { description?: string }).description ||
+    (Array.isArray(instructions) ? instructions.join(" ") : "") ||
+    "Prepare with intention, aligned to the card's element.";
+  const astro = (r as { astrologicalInfluences?: unknown }).astrologicalInfluences;
+  return {
+    id: (r as { id?: string }).id || r.name,
+    name: r.name,
+    ingredients,
+    preparation,
+    astrologicalInfluences: Array.isArray(astro) ? (astro as string[]) : [],
+  };
 }
 
 /**
@@ -88,17 +114,27 @@ export async function getRecipesForTarotCard(
   }
 
   try {
-    // Get the element associated with the minor card
-    const _element =
+    // Element associated with the minor card (Wands→Fire, Cups→Water, …).
+    const element =
       cards.minorCard.element ||
       SUIT_TO_ELEMENT[cards.minorCard.suit as keyof typeof SUIT_TO_ELEMENT] ||
       "Fire";
 
-    // Get the recipes that match the element
-    // This is a placeholder - in a real implementation, you would filter based on the element
-    const matchingRecipes = defaultRecipes;
+    // Rank the full recipe catalog by strength in the card's element and
+    // return the top matches (was a placeholder that ignored the card).
+    const { getAllRecipes } = await import("@/data/recipes");
+    const recipes = await getAllRecipes();
+    const matchingRecipes = recipes
+      .filter((r) => r.elementalProperties)
+      .map((r) => ({
+        r,
+        score: (r.elementalProperties as Record<string, number>)[element] ?? 0,
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6)
+      .map(({ r }) => toTarotRecipe(r));
 
-    return matchingRecipes;
+    return matchingRecipes.length > 0 ? matchingRecipes : defaultRecipes;
   } catch (error) {
     _logger.error("Error getting recipes for tarot card: ", error);
     return defaultRecipes;
