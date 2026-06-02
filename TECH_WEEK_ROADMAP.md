@@ -1,12 +1,12 @@
 # Alchm.kitchen — Tech-Week Checklist
 
-_Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
+_Rev 3 · 2026-06-02 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 
 **Legend:** `[ ]` todo · `[x]` done · 👤 you (operator-only) · 🤖 Claude (I can do/automate) · ⏱ rough effort
 
 ## Status at a glance
 - **Prod:** v**3.1.0**, `/api/health` healthy, DB `OK`. Latest `master` deploy `READY`.
-- **Shipped this session:** Neon-failover revert · leaked-credential removal · HSCA corpus cleanup · **Lab Book** recipe ingestion · **ESMS milestone quests**.
+- **Shipped (latest → 2026-06-02):** **DB password rotated** · **Stripe MCP top-ups live** (ESMS refill — checkout verified) · onboarding hardening ([#495](https://github.com/gregcastro23/WhatToEatNext/pull/495)) + verification docs ([#496](https://github.com/gregcastro23/WhatToEatNext/pull/496)). _Earlier (06-01):_ Lab Book ingestion · ESMS quests · Neon-failover revert · leaked-credential removal · HSCA cleanup.
 - **✅ Blockers (P0): ALL CLEAR** — DB password **rotated 2026-06-02** (old creds rejected, prod verified healthy), Vercel `DATABASE_URL` → Railway confirmed, Stripe price/top-ups done.
 - **✅ Landed:** [#487](https://github.com/gregcastro23/WhatToEatNext/pull/487) (Lab Book quests) + [#488](https://github.com/gregcastro23/WhatToEatNext/pull/488) (this checklist) merged to `master`. ✅ **Migration 50 applied** on the Railway backend (deploy `88e4002c` / commit `9b5c669b`, 2026-06-01 23:02 UTC — `[migrate] ok 50-lab-book-quests.sql`); quests seeded.
 
@@ -60,12 +60,12 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [ ] Top up demo-account ESMS if it ran low
 
 ### Day −1 · Prep & freeze
-- [ ] 🔴 Rotate Railway password → set new `DATABASE_URL` (Vercel + local `.env*`) — also settles the "is it Railway?" check
+- [x] 🔴 Rotate Railway password → set new `DATABASE_URL` (Vercel + local `.env*`) — ✅ **DONE 2026-06-02** (see P0; old creds rejected, prod healthy). Settled the "is it Railway?" check too.
 - [x] Confirm **migration 50** applied → quests show in the Quests panel (Railway deploy `88e4002c` / `9b5c669b`, 2026-06-01 23:02 UTC)
 - [ ] Fund the demo account with ESMS (or use Premium); finish onboarding / natal chart
 - [ ] Confirm OpenAI quota (GPT-4o powers Lab Book + cosmic recipe)
 - [x] 🔴 Confirm the Stripe **premium price object = $5/mo** — ✅ `NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID` = `price_1TBVHB567feWgZJOXV4MGIL7` = live **$5.00/month** recurring ("Alchm.kitchen premium membership"). App's $5 display matches the charge.
-- [x] 🔴 3 **MCP top-up** Stripe prices ($5/$20/$50) already existed in **live** Stripe (Starter `price_1Tbj7K…` · Builder `price_1Tbj7L…` · Adept `price_1Tbj7M…`); set `STRIPE_MCP_TOP_UP_{5,20,50}_PRICE_ID` in Vercel + **redeployed prod** (`9uqg066h6` → alchm.kitchen). ⚠️ **Verify live:** signed-in `/account/billing/mcp` → **Top up** → Stripe Checkout opens (not a 503 "not configured" banner). Env vars are Sensitive (write-only), so this signed-in click is the only possible check.
+- [x] 🔴 3 **MCP top-up** Stripe prices ($5/$20/$50) already existed in **live** Stripe (Starter `price_1Tbj7K…` · Builder `price_1Tbj7L…` · Adept `price_1Tbj7M…`); set `STRIPE_MCP_TOP_UP_{5,20,50}_PRICE_ID` in Vercel + **redeployed prod** (`9uqg066h6` → alchm.kitchen). ✅ **Verified live 2026-06-02** — signed-in `/account/billing/mcp` → **Top up** → redirect to Stripe Checkout works. (Env vars are Sensitive/write-only, so this signed-in click was the only possible check.)
 - [x] Merge **PR #490** (premium-journey fixes: $5 display · starter grant → 60 · swap 402) — merged (`38a94421`)
 - [ ] Full smoke test (Kitchen recs · Discover · Lab Book · Quests · Cosmic Recipe · Commensal)
 - [ ] Record the current-good prod deploy SHA + confirm the Vercel **Instant Rollback** path
@@ -109,8 +109,15 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [x] Removed hardcoded DB password from backfill scripts (`17f04acd`).
 - [x] Removed ingested HSCA raw corpus `HSCArecipes/` (`f13f4f98`) — in DB read_model + `.vercelignore`'d.
 - [x] Shipped **Lab Book** ingestion (text/photo → GPT-4o → alchemize → cookbook), token-gated — on `master`.
-- [x] **ESMS milestone quests** (migration 50) — staged in **PR #487** (not yet on `master`).
+- [x] **ESMS milestone quests** (migration 50) — merged (**#487**) + applied on the Railway backend.
 - [x] Workspace cleanup — 744 redundant untracked dupes + 3 eslint caches removed (0 tracked changes).
+
+### 2026-06-02
+- [x] **DB password rotation** — leaked Railway Postgres password rotated end-to-end across 7 locations (Postgres · PgBouncer ×3 · backend · device-cleanup · Vercel · local `.env`) + redeployed; verified frontend + backend + PgBouncer on new creds, **old password rejected**. Last P0 cleared.
+- [x] **Stripe** — confirmed premium = $5/mo (`price_1TBVHB…`); wired the 3 MCP top-up price IDs (`price_1Tbj7K/L/M`) in Vercel + redeployed; **top-up checkout verified live** (redirect functional).
+- [x] **Onboarding hardening** ([#495](https://github.com/gregcastro23/WhatToEatNext/pull/495)) — `agent-forge/ignite` recipe fetches timeout-guarded + non-fatal; auth-handshake grant/trial copy corrected.
+- [x] **Verification docs** ([#496](https://github.com/gregcastro23/WhatToEatNext/pull/496)) — migration 50 + DATABASE_URL→Railway + Stripe confirmations.
+- [x] Closed stale dependabot **#494** (Storybook major — now in the ignore list).
 
 ## 📌 Backlog (not tech-week-blocking)
 - [ ] 🤖 Scope Lab Book quests to `source === "scan"` so generator/riff saves don't count — if desired.
@@ -118,9 +125,10 @@ _Rev 2 · 2026-06-01 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [ ] Harmonize `agent-recipes` (`Bearer`) vs `sync-credit` (`X-Sync-Secret`) auth header formats.
 - [ ] Refactor `scripts/backfillRecipeAlchemicalQuantities.ts` to share `alchemizeExtractedRecipe`.
 - [ ] 👤 Git-history scrub of the leaked password — **now unblocked** (password rotated 2026-06-02, so the old creds in `master` history are dead). Lower urgency now, but still worth scrubbing; it rewrites `master` + invalidates clones, so coordinate before running.
-- [ ] Sweep ~37 stale `.claude/worktrees/*` (carefully — may hold uncommitted work).
+- [ ] Sweep ~37 stale `.claude/worktrees/*` (carefully — may hold uncommitted work). ⚠️ At least one is an **active agent worktree** (`agent-af13cd716dc9a72f0`, Privy/profile work) as of 2026-06-02 — don't sweep live ones.
 
 ## 📎 Appendix — audit reconciliation (`audit-reports/wten-architecture-audit-2026-06-01.md`)
 - **Already resolved (audit was stale):** `group_chat_quest` is in the `TransactionSourceType` whitelist (`src/types/economy.ts`); `ALCHM_KITCHEN_SYNC_SECRET` is documented in `AGENTS.md` + `GEMINI.md`.
 - **Accurate (FYI, no action):** MCP server `@alchm/mcp-server` v1.1.2; `/api/cron/synthetic-mcp` exists.
 - The earlier chat roadmap that reprinted a live DB password is **superseded by this file**.
+- **Ops gotcha (env):** this Vercel project has **Sensitive Environment Variables** ON — every var is write-only and reads back **empty** via `vercel env pull`. Verify env changes by behavior (redeploy + test), never by pulling the value back. (Bit the Stripe top-up + `DATABASE_URL` work this session.)
