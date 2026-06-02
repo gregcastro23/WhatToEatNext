@@ -10,6 +10,7 @@
  * - Tarot effects and other mystical influences
  */
 
+import { getTarotCardsForDate } from "@/lib/tarotCalculations";
 import { log } from "@/services/LoggingService";
 import {
   calculateThermodynamicCompatibility,
@@ -222,26 +223,61 @@ export function calculateDignityEffect(
   return Math.max(-0.3, Math.min(0.3, score)); // Clamp between -0.3 and 0.3
 }
 
+// Cache the moment's tarot card elements per calendar day so scoring a batch of
+// items computes them once (getTarotCardsForDate recomputes + logs per call).
+let _momentTarot: { key: string; elements: string[] } | null = null;
+function momentTarotElements(date: Date): string[] {
+  const key = date.toISOString().slice(0, 10);
+  if (_momentTarot?.key !== key) {
+    try {
+      const cards = getTarotCardsForDate(date);
+      _momentTarot = {
+        key,
+        elements: [
+          (cards.minorCard as { element?: string })?.element,
+          (cards.majorCard as { element?: string })?.element,
+        ].filter((e): e is string => Boolean(e)),
+      };
+    } catch {
+      _momentTarot = { key, elements: [] };
+    }
+  }
+  return _momentTarot.elements;
+}
+
+function dominantElementOf(props?: Record<string, number>): string | null {
+  if (!props) return null;
+  const entries = Object.entries(props);
+  if (!entries.length) return null;
+  const top = entries.sort((a, b) => b[1] - a[1])[0];
+  return top && top[1] > 0 ? top[0] : null;
+}
+
 /**
- * Calculate tarot effects (placeholder for future tarot integration)
+ * Tarot effect: resonance between the item's dominant element and the elements
+ * of the day's decan (minor) + planetary (major) tarot cards of the moment.
  */
 export function calculateTarotEffect(
   _astroData: AstrologicalData,
-  _context: ScoringContext,
+  context: ScoringContext,
 ): number {
-  // Future integration with tarot system
-  // For now, return neutral effect
-  const itemType = _context.item.type;
-
-  // Different item types have different tarot affinities
-  const tarotAffinities = {
-    ingredient: 0.05,
-    recipe: 0.1,
-    cuisine: 0.15,
-    cooking_method: 0.08,
-  };
-
-  return tarotAffinities[itemType] || 0;
+  const itemEl = dominantElementOf(context.item.elementalProperties);
+  if (!itemEl) {
+    // No elemental data — small per-type baseline (prior behavior).
+    const baseline: Record<string, number> = {
+      ingredient: 0.05,
+      recipe: 0.1,
+      cuisine: 0.15,
+      cooking_method: 0.08,
+    };
+    return baseline[context.item.type] || 0;
+  }
+  const cardElements = momentTarotElements(context.dateTime);
+  let score = 0;
+  for (const el of cardElements) {
+    if (el === itemEl) score += 0.15; // resonance with a card of the moment
+  }
+  return Math.max(-0.3, Math.min(0.3, score));
 }
 
 /**

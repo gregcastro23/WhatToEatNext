@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import TarotCardDisplay from '@/components/TarotCardDisplay';
 import { auth } from '@/lib/auth/auth';
 import { withTimeout } from '@/lib/performance/withTimeout';
 import { userDatabase } from '@/services/userDatabaseService';
@@ -64,6 +65,19 @@ export default async function CurrentChartPage() {
         </div>
 
         <CurrentChartClient natalChart={natalChart} />
+
+        {/* Tarot of the Moment — the decan (minor) + planetary (major) cards ruling now */}
+        <section className="space-y-5">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-300">
+              Tarot of the Moment
+            </h2>
+            <p className="text-white/40 font-mono text-xs uppercase tracking-widest">
+              The decan &amp; planetary cards ruling now
+            </p>
+          </div>
+          <TarotCardDisplay />
+        </section>
       </main>
     </div>
   );

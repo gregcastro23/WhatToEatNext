@@ -79,6 +79,9 @@ export default function TarotCardDisplay() {
                 <div className={styles.card}>
                     <h3>Decan Card</h3>
                     <h4>{tarotCards.minorCard.name}</h4>
+                    {tarotCards.minorCard.element && (
+                        <div className={styles.element}>{tarotCards.minorCard.element} · {tarotCards.minorCard.suit}</div>
+                    )}
                     <div className={styles.tokenComposition}>
                         {Object.entries(tokenValues).map(([token, value]) => (
                             <div key={token}>
@@ -94,6 +97,9 @@ export default function TarotCardDisplay() {
                     <h3>Ruling Planet</h3>
                     <h4>{tarotCards.majorCard.planet}</h4>
                     <div className={styles.arcanaName}>{tarotCards.majorCard.name}</div>
+                    {tarotCards.majorCard.element && (
+                        <div className={styles.element}>{tarotCards.majorCard.element}</div>
+                    )}
                     <div className={styles.keywords}>
                         Planetary Influence: {tarotCards.majorCard.keywords.join(', ')}
                     </div>
