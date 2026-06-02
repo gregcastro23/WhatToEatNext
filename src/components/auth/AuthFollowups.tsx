@@ -55,7 +55,7 @@ const HANDSHAKE_STEPS: readonly HandshakeStep[] = [
   { code: "IDENT",  label: "Identity verified",              hint: "iss · aud · exp · nonce" },
   { code: "RECORD", label: "User record",                    hint: "8000ms timeout · userCache 30s" },
   { code: "NATAL",  label: "Computing natal chart",          hint: "VSOP87 · DE440 · house cusps" },
-  { code: "GRANT",  label: "Granting starter Cosmic Yield",  hint: "250 tokens · 14-day trial" },
+  { code: "GRANT",  label: "Granting starter Cosmic Yield",  hint: "60 ESMS · 15 each" },
   { code: "MESH",   label: "Propagating session",            hint: "cookie · .alchm.kitchen · cross-subdomain" },
 ];
 
@@ -864,7 +864,7 @@ export function UpgradeGate({
 
         <section style={{ padding: 32, overflow: "auto" }}>
           <div className="t-tag" style={{ marginBottom: 10, color: "var(--accent)" }}>
-            UPGRADE · 14 DAYS FREE · CANCEL ANY TIME
+            UPGRADE · 7 DAYS FREE · CANCEL ANY TIME
           </div>
           <h2
             className="t-display"
@@ -1055,7 +1055,7 @@ export function UpgradeGate({
                         : "var(--line-hi)",
                     }}
                   >
-                    START 14-DAY TRIAL
+                    START 7-DAY TRIAL
                   </button>
                 )}
               </div>
