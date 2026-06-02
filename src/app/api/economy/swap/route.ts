@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
           message: `Insufficient ${fromToken}. Need ${costAmount}.`,
           rate: rateEntry,
         },
-        { status: 400 },
+        { status: 402 },
       );
     }
 

@@ -687,8 +687,8 @@ const TIERS: readonly UpgradeTier[] = [
   {
     id: "alchemist",
     label: "Alchemist",
-    price: "$14",
-    period: "per month · $140/yr",
+    price: "$5",
+    period: "per month",
     features: [
       "Everything in Apprentice",
       "Unlimited saves & natal-chart compute",

@@ -456,10 +456,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               await tokenEconomy.creditMultipleTokens(
                 dbUser.id,
                 [
-                  { tokenType: "Spirit", amount: 5 },
-                  { tokenType: "Essence", amount: 5 },
-                  { tokenType: "Matter", amount: 5 },
-                  { tokenType: "Substance", amount: 5 },
+                  { tokenType: "Spirit", amount: 15 },
+                  { tokenType: "Essence", amount: 15 },
+                  { tokenType: "Matter", amount: 15 },
+                  { tokenType: "Substance", amount: 15 },
                 ],
                 "signup_grant",
                 {
