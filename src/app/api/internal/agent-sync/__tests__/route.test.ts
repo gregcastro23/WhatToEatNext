@@ -11,7 +11,7 @@ jest.mock("next/server", () => ({
   },
 }));
 
-import { withTransaction, executeQuery } from "@/lib/database";
+import { withTransaction } from "@/lib/database";
 import { POST } from "../route";
 
 jest.mock("@/lib/database", () => ({

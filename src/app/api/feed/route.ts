@@ -152,6 +152,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Skip chat event types entirely to maintain anonymity
+    if (["agent_chat", "chat", "agent.chat"].includes(incomingEventType)) {
+      rememberFeedEmit(incomingEventType, incomingAgentEmail, 200);
+      return NextResponse.json({
+        success: true,
+        message: "Chat events are excluded from the feed for anonymity.",
+      });
+    }
+
     // Field-size hardening — reject oversized input before it can overflow a
     // VARCHAR column or bloat the JSONB payload at insert time.
     if (incomingEventType.length > MAX_EVENT_TYPE_LENGTH) {

@@ -8,6 +8,10 @@
 // import nodemailer from "nodemailer";
 // import type { Transporter } from "nodemailer";
 
+// Pure (string-only) template modules — safe to import anywhere.
+import { renderBulletinEmail } from "@/lib/email/templates/bulletin";
+import type { NatalChart } from "@/types/natalChart";
+
 interface EmailOptions {
   to: string;
   subject: string;
@@ -191,6 +195,26 @@ class EmailService {
     const html = this.getWelcomeEmailTemplate(name, dominantElement);
     const text = this.getWelcomeEmailText(name, dominantElement);
 
+    return this.sendEmail({ to, subject, html, text });
+  }
+
+  /**
+   * Send a personalized re-engagement bulletin ("come use the site") to a user.
+   * Tuned to their natal chart when one is passed (element, balance, Sun/Moon/
+   * Asc, tailored culinary guidance); falls back to a "finish your chart" path
+   * otherwise. Pass `opts.unsubscribeUrl` for broadcast sends (recommended).
+   */
+  async sendBulletinEmail(
+    to: string,
+    name: string,
+    natalChart?: Partial<NatalChart> | null,
+    opts?: { unsubscribeUrl?: string },
+  ): Promise<boolean> {
+    const { subject, html, text } = renderBulletinEmail({
+      name,
+      natalChart,
+      unsubscribeUrl: opts?.unsubscribeUrl,
+    });
     return this.sendEmail({ to, subject, html, text });
   }
 

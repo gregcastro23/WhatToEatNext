@@ -103,6 +103,22 @@ export default async function RecipePage({ params }: RecipePageProps) {
   const rawRecipe = await LocalRecipeService.getRecipeById(recipeId);
 
   if (!rawRecipe) {
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(recipeId);
+    if (isUuid) {
+      try {
+        const { executeQuery } = await import("@/lib/database/connection");
+        const customCheck = await executeQuery(
+          "SELECT 1 FROM user_custom_recipes WHERE id = $1",
+          [recipeId]
+        );
+        if (customCheck.rows.length > 0) {
+          const { redirect } = await import("next/navigation");
+          redirect(`/generated-recipe/${recipeId}`);
+        }
+      } catch (err) {
+        console.error("Error checking custom recipe in catalog fallback:", err);
+      }
+    }
     notFound();
   }
 

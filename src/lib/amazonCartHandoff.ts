@@ -7,10 +7,12 @@ import type {
 export async function preflightAndSubmitAmazonCart({
   items,
   source,
+  cartType,
   metadata,
 }: {
   items: CheckoutPreflightItem[];
   source: CheckoutPreflightSource;
+  cartType?: "fresh" | "standard";
   metadata?: Record<string, unknown>;
 }): Promise<CheckoutPreflightResponse> {
   const reservedTarget = reserveCheckoutTarget();
@@ -20,7 +22,7 @@ export async function preflightAndSubmitAmazonCart({
     response = await fetch("/api/checkout/preflight", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items, source, metadata }),
+      body: JSON.stringify({ items, source, cartType, metadata }),
     });
   } catch (error) {
     reservedTarget?.close();

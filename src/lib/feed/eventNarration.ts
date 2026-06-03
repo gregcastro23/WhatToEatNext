@@ -63,6 +63,14 @@ export function narrateFeedEvent(
         label: "Claimed daily yield",
       };
 
+    case "preferences_share":
+    case "share_preferences_feed":
+      return {
+        icon: "🧬",
+        action: "shared their alchemical food preferences with the community.",
+        label: "Shared food preferences",
+      };
+
     case "transit_attunement":
     case "sky_drop": {
       const planet = getString(metadata, "planet");
@@ -95,7 +103,7 @@ export function narrateFeedEvent(
       const recipeName = getString(metadata, "recipeName");
       const recipeId =
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
-      const href = recipeId ? `/recipes/${recipeId}` : undefined;
+      const href = recipeId ? `/generated-recipe/${recipeId}` : undefined;
       return {
         icon: "🍽️",
         action: recipeName

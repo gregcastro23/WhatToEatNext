@@ -147,8 +147,24 @@ export default function GeneratedRecipePage() {
     const found = getRecipeFromStore(id);
     if (found) {
       setRecipe(found);
+      setHasCheckedStore(true);
+    } else {
+      fetch(`/api/recipes/custom?id=${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Not found");
+          return res.json();
+        })
+        .then((data) => {
+          if (data && data.success && data.recipe) {
+            setRecipe(data.recipe);
+          }
+          setHasCheckedStore(true);
+        })
+        .catch((err) => {
+          console.warn("[GeneratedRecipePage] DB fallback fetch failed:", err);
+          setHasCheckedStore(true);
+        });
     }
-    setHasCheckedStore(true);
   }, [id]);
 
   const handlePrint = useCallback(() => {

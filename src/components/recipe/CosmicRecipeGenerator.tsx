@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useToast } from '@/components/common/Toast';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
@@ -119,6 +120,49 @@ export default function CosmicRecipeGenerator() {
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+
+  const { showSuccess, showError } = useToast();
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareNameOptIn, setShareNameOptIn] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+  const [hasShared, setHasShared] = useState(false);
+
+  const handleShareToFeed = async () => {
+    if (!object || !savedRecipeId) return;
+    setIsSharing(true);
+    try {
+      const res = await fetch("/api/feed/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          shareType: "recipe",
+          shareName: shareNameOptIn,
+          payload: {
+            recipeName: object.title,
+            recipeId: savedRecipeId,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        let questMessage = "";
+        if (data.completedQuests && data.completedQuests.length > 0) {
+          const rewardQuest = data.completedQuests[0];
+          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+        }
+        showSuccess(`Successfully shared to community feed!${questMessage}`);
+        setHasShared(true);
+        setShowShareModal(false);
+      } else {
+        showError(data.message || "Failed to share to feed");
+      }
+    } catch (err) {
+      showError("Error sharing recipe to feed");
+      console.error(err);
+    } finally {
+      setIsSharing(false);
+    }
+  };
 
   const cuisineOptions = useMemo(() => {
     const names = getAllCuisineNames();
@@ -475,6 +519,20 @@ export default function CosmicRecipeGenerator() {
                 >
                   Back to Recipe Builder
                 </Link>
+                <button
+                  onClick={() => {
+                    setShareNameOptIn(false);
+                    setShowShareModal(true);
+                  }}
+                  disabled={hasShared}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
+                    hasShared
+                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-200 dark:border-slate-750"
+                      : "bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
+                  }`}
+                >
+                  {hasShared ? "✓ Shared to Feed" : "📢 Share to Feed"}
+                </button>
               </div>
             )}
             
@@ -636,6 +694,53 @@ export default function CosmicRecipeGenerator() {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Share to Feed Modal */}
+      {showShareModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-md w-full border border-slate-100 dark:border-slate-700">
+            <div className="p-6 border-b border-slate-200 dark:border-slate-700">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                Share Recipe to Feed
+              </h2>
+            </div>
+
+            <div className="p-6 space-y-4 text-slate-800 dark:text-slate-200">
+              <p className="text-sm">
+                Share your newly generated recipe, <span className="font-semibold text-purple-600 dark:text-purple-400">{object?.title}</span>, with the alchm.kitchen community!
+              </p>
+
+              <label className="flex items-center space-x-3 cursor-pointer p-3 bg-purple-50 dark:bg-purple-950/20 rounded-lg border border-purple-100 dark:border-purple-900/50">
+                <input
+                  type="checkbox"
+                  checked={shareNameOptIn}
+                  onChange={(e) => setShareNameOptIn(e.target.checked)}
+                  className="form-checkbox h-5 w-5 text-purple-600 rounded"
+                />
+                <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
+                  Opt-in to share my name (defaults to Anonymous Alchemist)
+                </span>
+              </label>
+            </div>
+
+            <div className="p-6 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 flex gap-3">
+              <button
+                onClick={() => setShowShareModal(false)}
+                disabled={isSharing}
+                className="flex-1 px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors font-semibold text-slate-700 dark:text-slate-300"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleShareToFeed}
+                disabled={isSharing}
+                className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-all font-semibold"
+              >
+                {isSharing ? "Sharing..." : "Share to Feed"}
+              </button>
             </div>
           </div>
         </div>

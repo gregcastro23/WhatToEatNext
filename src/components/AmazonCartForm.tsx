@@ -33,72 +33,122 @@ export function AmazonCartForm({
   }
 
   return (
-    <form
-      method="POST"
-      action={AMAZON_CART_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      onSubmit={() => setSubmitted(true)}
-    >
-      <input type="hidden" name="AssociateTag" value={associateTag} />
-      <input type="hidden" name="cart-type" value="fresh" />
-      <input type="hidden" name="add" value="add" />
-      <input type="hidden" name="submit.add" value="1" />
+    <div className="space-y-4">
+      {validItems.length > 0 && (
+        <p className="text-xs text-gray-400">
+          {validItems.length} ingredient{validItems.length !== 1 ? "s" : ""}{" "}
+          available to send to Amazon
+        </p>
+      )}
 
-      {validItems.map((item, idx) => {
-        const position = idx + 1;
-        return (
-          <div key={item.asin}>
-            <input type="hidden" name={`ASIN.${position}`} value={item.asin} />
-            <input
-              type="hidden"
-              name={`Quantity.${position}`}
-              value={item.quantity}
-            />
-          </div>
-        );
-      })}
-
-      <div className="space-y-3">
-        {validItems.length > 0 && (
-          <p className="text-xs text-gray-400">
-            {validItems.length} ingredient{validItems.length !== 1 ? "s" : ""}{" "}
-            will be added to your Amazon cart
-          </p>
-        )}
-
-        <button
-          type="submit"
-          disabled={submitted}
-          className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-amber-600 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+      <div className="flex flex-wrap gap-3">
+        {/* Form 1: Amazon Fresh */}
+        <form
+          method="POST"
+          action={AMAZON_CART_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onSubmit={() => setSubmitted(true)}
+          className="inline-block"
         >
-          {submitted ? (
-            <>
-              <CheckIcon />
-              Sent to Amazon
-            </>
-          ) : (
-            <>
-              <CartIcon />
-              Add to Amazon Cart
-            </>
-          )}
-        </button>
+          <input type="hidden" name="AssociateTag" value={associateTag} />
+          <input type="hidden" name="cart-type" value="fresh" />
+          <input type="hidden" name="add" value="add" />
+          <input type="hidden" name="submit.add" value="1" />
 
-        {submitted && (
-          <p className="text-xs text-green-600">
-            A new tab opened with your Amazon cart. Didn&apos;t work?{" "}
-            <button
-              type="button"
-              onClick={() => setSubmitted(false)}
-              className="underline hover:text-green-800"
-            >
-              Try again
-            </button>
-          </p>
-        )}
+          {validItems.map((item, idx) => {
+            const position = idx + 1;
+            return (
+              <div key={item.asin}>
+                <input type="hidden" name={`ASIN.${position}`} value={item.asin} />
+                <input
+                  type="hidden"
+                  name={`Quantity.${position}`}
+                  value={item.quantity}
+                />
+              </div>
+            );
+          })}
+
+          <button
+            type="submit"
+            disabled={submitted}
+            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-700 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {submitted ? (
+              <>
+                <CheckIcon />
+                Sent to Amazon Fresh
+              </>
+            ) : (
+              <>
+                <CartIcon />
+                Add to Amazon Fresh
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Form 2: Standard Amazon Cart */}
+        <form
+          method="POST"
+          action={AMAZON_CART_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onSubmit={() => setSubmitted(true)}
+          className="inline-block"
+        >
+          <input type="hidden" name="AssociateTag" value={associateTag} />
+          <input type="hidden" name="add" value="add" />
+          <input type="hidden" name="submit.add" value="1" />
+
+          {validItems.map((item, idx) => {
+            const position = idx + 1;
+            return (
+              <div key={item.asin}>
+                <input type="hidden" name={`ASIN.${position}`} value={item.asin} />
+                <input
+                  type="hidden"
+                  name={`Quantity.${position}`}
+                  value={item.quantity}
+                />
+              </div>
+            );
+          })}
+
+          <button
+            type="submit"
+            disabled={submitted}
+            className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-amber-600 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {submitted ? (
+              <>
+                <CheckIcon />
+                Sent to Amazon Cart
+              </>
+            ) : (
+              <>
+                <CartIcon />
+                Add to Amazon Cart
+              </>
+            )}
+          </button>
+        </form>
       </div>
-    </form>
+
+      {submitted && (
+        <p className="text-xs text-green-600">
+          A new tab opened with your Amazon cart. Didn&apos;t work?{" "}
+          <button
+            type="button"
+            onClick={() => setSubmitted(false)}
+            className="underline hover:text-green-800"
+          >
+            Try again
+          </button>
+        </p>
+      )}
+    </div>
   );
 }
 

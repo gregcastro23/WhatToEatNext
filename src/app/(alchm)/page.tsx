@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AmazonFreshPromotion } from "@/components/home/AmazonFreshPromotion";
+import { Promotion } from "@/components/home/Promotion";
 import type { JSX } from "react";
 
 const NATAL_DISMISSED_KEY = "alchm:natal:dismissed";
@@ -229,7 +229,7 @@ export default function AlchmKitchenHome(): JSX.Element {
         <NatalPromptBanner />
 
         {/* 1 · PROMO — Cosmic Token Economy */}
-        <AmazonFreshPromotion />
+        <Promotion />
 
         {/* 2 · CUISINE RECOMMENDER */}
         <HomeSection

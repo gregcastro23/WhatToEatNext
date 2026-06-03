@@ -79,7 +79,23 @@ function formatDistanceToNow(dateValue?: string): string {
 
 function getEventNarration(event: FeedEvent) {
   if (event.action?.trim()) {
-    return { icon: "✨", action: event.action, label: event.action, href: undefined };
+    const meta = event.metadataPayload;
+    const recipeId =
+      meta && typeof meta.recipeId === "string" && meta.recipeId.trim()
+        ? meta.recipeId.trim()
+        : meta && typeof meta.recipe_id === "string" && meta.recipe_id.trim()
+          ? meta.recipe_id.trim()
+          : undefined;
+
+    let href: string | undefined = undefined;
+    if (recipeId) {
+      if (event.eventType === "recipe_generation") {
+        href = `/generated-recipe/${recipeId}`;
+      } else {
+        href = `/recipes/${recipeId}`;
+      }
+    }
+    return { icon: "✨", action: event.action, label: event.action, href };
   }
   return narrateFeedEvent(event.eventType, event.metadataPayload);
 }

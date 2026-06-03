@@ -17,4 +17,17 @@ describe("narrateFeedEvent", () => {
       "Weekly menu: A steady earth-forward weekly menu",
     );
   });
+
+  it("narrates prepared (made_it) recipes with correct href linking", () => {
+    const narration = narrateFeedEvent("made_it", {
+      recipeName: "Lunar Mint Tea",
+      recipeId: "tea-12345",
+      rating: 5,
+    });
+
+    expect(narration.icon).toBe("✅");
+    expect(narration.action).toContain("prepared Lunar Mint Tea and gave it 5 stars.");
+    expect(narration.label).toBe("Made: Lunar Mint Tea");
+    expect(narration.href).toBe("/recipes/tea-12345");
+  });
 });

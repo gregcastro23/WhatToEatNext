@@ -30,6 +30,10 @@ class FeedDatabaseService {
    */
   async createEvent(actorId: string, eventType: string, metadataPayload: any = {}, skipWebhook = false): Promise<boolean> {
     try {
+      if (["agent_chat", "chat", "agent.chat"].includes(eventType)) {
+        _logger.info(`[feed] Blocked agent chat event type: ${eventType} for anonymity`);
+        return false;
+      }
       await executeQuery(
         `INSERT INTO feed_events (actor_id, event_type, metadata_payload)
          VALUES ($1, $2, $3)`,
@@ -123,14 +127,35 @@ class FeedDatabaseService {
           isAgent && typeof row.actor_email === "string" && row.actor_email.includes("@")
             ? row.actor_email.split("@")[0]
             : undefined;
+
+        let actorName = row.actor_name || 'Alchemist';
+        let actorImage = row.actor_image;
+
+        // Default all human activity feed items to display "Anonymous Alchemist"
+        // unless they explicitly opted in via metadataPayload.shareName === true
+        if (!isAgent) {
+          let metadata = row.metadata_payload;
+          if (typeof metadata === 'string') {
+            try {
+              metadata = JSON.parse(metadata);
+            } catch {
+              metadata = {};
+            }
+          }
+          if (!metadata || metadata.shareName !== true) {
+            actorName = "Anonymous Alchemist";
+            actorImage = undefined;
+          }
+        }
+
         return {
           id: row.id,
           actorId: row.actor_id,
           eventType: row.event_type,
           metadataPayload: row.metadata_payload,
           createdAt: new Date(row.created_at),
-          actorName: row.actor_name || 'Alchemist',
-          actorImage: row.actor_image,
+          actorName,
+          actorImage,
           actorIsAgent: isAgent,
           actorSlug,
         };
@@ -163,14 +188,35 @@ class FeedDatabaseService {
           isAgent && typeof row.actor_email === "string" && row.actor_email.includes("@")
             ? row.actor_email.split("@")[0]
             : undefined;
+
+        let actorName = row.actor_name || 'Alchemist';
+        let actorImage = row.actor_image;
+
+        // Default all human activity feed items to display "Anonymous Alchemist"
+        // unless they explicitly opted in via metadataPayload.shareName === true
+        if (!isAgent) {
+          let metadata = row.metadata_payload;
+          if (typeof metadata === 'string') {
+            try {
+              metadata = JSON.parse(metadata);
+            } catch {
+              metadata = {};
+            }
+          }
+          if (!metadata || metadata.shareName !== true) {
+            actorName = "Anonymous Alchemist";
+            actorImage = undefined;
+          }
+        }
+
         return {
           id: row.id,
           actorId: row.actor_id,
           eventType: row.event_type,
           metadataPayload: row.metadata_payload,
           createdAt: new Date(row.created_at),
-          actorName: row.actor_name || 'Alchemist',
-          actorImage: row.actor_image,
+          actorName,
+          actorImage,
           actorIsAgent: isAgent,
           actorSlug,
         };

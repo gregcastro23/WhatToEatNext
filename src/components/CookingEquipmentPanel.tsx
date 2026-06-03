@@ -125,32 +125,50 @@ export function CookingEquipmentPanel({ methodKey, methodName }: CookingEquipmen
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {items.map((item) => (
-                  // eslint-disable-next-line jsx-a11y/label-has-associated-control
-                  <label
+                  <div
                     key={item.asin}
-                    htmlFor={`equip-${item.asin}`}
-                    className={`flex items-start gap-2 rounded-lg border p-2.5 cursor-pointer transition-colors ${
+                    className={`flex flex-col rounded-lg border p-2.5 transition-colors ${
                       selectedItems.has(item.asin)
                         ? "border-orange-400/60 bg-orange-500/10"
                         : categoryColor[cat]
                     }`}
                   >
-                    <input
-                      id={`equip-${item.asin}`}
-                      type="checkbox"
-                      checked={selectedItems.has(item.asin)}
-                      onChange={() => toggleItem(item.asin)}
-                      className="mt-0.5 accent-orange-500"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs font-semibold text-white/90 truncate">
-                        {item.name}
-                      </p>
-                      <p className="text-[10px] text-gray-400 leading-snug">
-                        {item.description}
-                      </p>
+                    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                    <label
+                      htmlFor={`equip-${item.asin}`}
+                      className="flex items-start gap-2 cursor-pointer min-w-0 flex-1 select-none"
+                    >
+                      <input
+                        id={`equip-${item.asin}`}
+                        type="checkbox"
+                        checked={selectedItems.has(item.asin)}
+                        onChange={() => toggleItem(item.asin)}
+                        className="mt-0.5 accent-orange-500"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-semibold text-white/90 truncate">
+                          {item.name}
+                        </p>
+                        <p className="text-[10px] text-gray-400 leading-snug">
+                          {item.description}
+                        </p>
+                      </div>
+                    </label>
+                    <div className="flex justify-between items-center border-t border-white/5 pt-1.5 mt-2">
+                      <span className="text-[9px] text-gray-500 font-mono">ASIN: {item.asin}</span>
+                      <a
+                        href={`https://www.amazon.com/s?${new URLSearchParams({
+                          k: item.name,
+                          tag: AMAZON_ASSOCIATE_TAG,
+                        }).toString()}`}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        className="text-[10px] text-orange-400 hover:text-orange-300 font-medium flex items-center gap-0.5 transition-colors"
+                      >
+                        🔍 Search Amazon
+                      </a>
                     </div>
-                  </label>
+                  </div>
                 ))}
               </div>
             </div>

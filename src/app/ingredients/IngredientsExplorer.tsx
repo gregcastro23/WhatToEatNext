@@ -533,26 +533,30 @@ export function IngredientsExplorer({ ingredients }: { ingredients: Ingredient[]
   );
   const estimatedCartTotal = pricedCartItems.reduce((sum, price) => sum + price, 0);
 
-  const sendVisibleToFreshCart = useCallback(() => {
-    void preflightAndSubmitAmazonCart({
-      source: "ingredients_storefront",
-      items: cartReadyItems.map((item) => ({
-        asin: item.asin,
-        qty: 1,
-        name: item.name,
-        chakra: item.chakra,
-        category: item.category,
-        price: item.price,
-      })),
-      metadata: {
-        visibleCount,
-        filteredCount: filtered.length,
-        estimatedCartTotal,
-      },
-    }).catch((error) => {
-      console.error("[ingredients] Fresh cart preflight failed:", error);
-    });
-  }, [cartReadyItems, estimatedCartTotal, filtered.length, visibleCount]);
+  const sendVisibleToFreshCart = useCallback(
+    (cartType: "fresh" | "standard" = "fresh") => {
+      void preflightAndSubmitAmazonCart({
+        source: "ingredients_storefront",
+        cartType,
+        items: cartReadyItems.map((item) => ({
+          asin: item.asin,
+          qty: 1,
+          name: item.name,
+          chakra: item.chakra,
+          category: item.category,
+          price: item.price,
+        })),
+        metadata: {
+          visibleCount,
+          filteredCount: filtered.length,
+          estimatedCartTotal,
+        },
+      }).catch((error) => {
+        console.error("[ingredients] Fresh cart preflight failed:", error);
+      });
+    },
+    [cartReadyItems, estimatedCartTotal, filtered.length, visibleCount],
+  );
 
   return (
     <main className="min-h-screen bg-[#08080e] text-white">
@@ -963,7 +967,7 @@ function ChakraCartBar({
   pricedCount: number;
   estimatedTotal: number;
   loading: boolean;
-  onCheckout: () => void;
+  onCheckout: (cartType: "fresh" | "standard") => void;
 }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#07070c]/85 backdrop-blur-2xl">
@@ -989,7 +993,7 @@ function ChakraCartBar({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <div className="min-w-32 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-right">
             <div className="text-[10px] uppercase tracking-wider text-white/35">
               Estimated Total
@@ -998,15 +1002,26 @@ function ChakraCartBar({
               {pricedCount > 0 ? formatCurrency(estimatedTotal) : "Pending"}
             </div>
           </div>
-          <button
-            type="button"
-            disabled={itemCount === 0}
-            onClick={onCheckout}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-amber-500/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            Send {itemCount} item{itemCount === 1 ? "" : "s"} to Fresh Cart
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              disabled={itemCount === 0}
+              onClick={() => onCheckout("fresh")}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Send to Fresh
+            </button>
+            <button
+              type="button"
+              disabled={itemCount === 0}
+              onClick={() => onCheckout("standard")}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-3 text-sm font-bold text-black shadow-lg shadow-amber-500/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Send to Amazon
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1251,21 +1266,36 @@ function IngredientCard({
           </button>
         </div>
 
-        <a
-          href={getAmazonLink(cardAmazon.searchString, asin, {
-            searchIndex: "amazonfresh",
-          })}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className={`mt-3 flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all bg-gradient-to-r ${
-            asin
-              ? "from-amber-500 to-orange-500 text-black hover:brightness-110 shadow-md shadow-amber-500/20"
-              : "from-white/10 to-white/5 text-white/80 hover:text-white border border-white/10"
-          }`}
-        >
-          {asin ? <ShoppingCart className="h-4 w-4" /> : <ExternalLink className="h-4 w-4" />}
-          {getAmazonButtonText(asin)}
-        </a>
+        <div className="mt-3 flex gap-2">
+          <a
+            href={getAmazonLink(cardAmazon.searchString, asin, {
+              searchIndex: "amazonfresh",
+            })}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className={`flex-1 flex items-center justify-center gap-1.5 rounded-xl px-2 py-2.5 text-xs font-bold transition-all ${
+              asin
+                ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/10"
+                : "bg-white/5 text-white/80 border border-white/10 hover:bg-white/10"
+            }`}
+          >
+            {asin ? <ShoppingCart className="h-3.5 w-3.5" /> : <ExternalLink className="h-3.5 w-3.5" />}
+            Fresh {asin ? "Cart" : "Find"}
+          </a>
+          <a
+            href={getAmazonLink(cardAmazon.searchString, asin)}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className={`flex-1 flex items-center justify-center gap-1.5 rounded-xl px-2 py-2.5 text-xs font-bold transition-all ${
+              asin
+                ? "bg-amber-500 hover:bg-amber-600 text-black shadow-md shadow-amber-500/10"
+                : "bg-white/5 text-white/80 border border-white/10 hover:bg-white/10"
+            }`}
+          >
+            {asin ? <ShoppingCart className="h-3.5 w-3.5" /> : <ExternalLink className="h-3.5 w-3.5" />}
+            Amazon {asin ? "Cart" : "Find"}
+          </a>
+        </div>
       </div>
 
       <AnimatePresence initial={false}>

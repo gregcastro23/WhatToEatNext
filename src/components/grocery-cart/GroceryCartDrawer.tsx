@@ -34,14 +34,15 @@ export function GroceryCartDrawer() {
     return () => document.removeEventListener("keydown", onKey);
   }, [isOpen, close]);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (cartType: "fresh" | "standard") => {
     setCheckingOut(true);
     try {
-      const count = await checkoutToAmazon();
+      const count = await checkoutToAmazon(cartType);
       if (count === 0) {
         showToast("No items could be matched to Amazon products.", "error");
       } else {
-        showToast(`Opening Amazon with ${count} item${count !== 1 ? "s" : ""} in your cart...`, "success");
+        const dest = cartType === "fresh" ? "Amazon Fresh" : "Amazon";
+        showToast(`Opening ${dest} with ${count} item${count !== 1 ? "s" : ""} in your cart...`, "success");
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to send to Amazon.";
@@ -191,17 +192,27 @@ export function GroceryCartDrawer() {
                 </p>
                 <div className="flex flex-col gap-2">
                   {unmappedItems.map((item) => (
-                    <div key={item.id} className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={`https://www.amazon.com/s?k=${encodeURIComponent(`${item.name} grocery`)}&tag=${AMAZON_ASSOCIATE_TAG}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px] text-yellow-300 hover:bg-yellow-500/20 transition-colors"
-                        >
-                          {item.name}
-                          <span className="text-yellow-500/60">&#8599;</span>
-                        </a>
+                    <div key={item.id} className="flex flex-col gap-1.5 border-b border-purple-500/10 pb-2 last:border-0 last:pb-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-semibold text-white/90 truncate">{item.name}</span>
+                        <div className="flex gap-1.5 shrink-0">
+                          <a
+                            href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name)}&i=amazonfresh&tag=${AMAZON_ASSOCIATE_TAG}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/30 text-[10px] text-emerald-300 hover:bg-emerald-900 transition-colors font-semibold"
+                          >
+                            Search Fresh
+                          </a>
+                          <a
+                            href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name)}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/30 text-[10px] text-amber-300 hover:bg-amber-900 transition-colors font-semibold"
+                          >
+                            Search Amazon
+                          </a>
+                        </div>
                       </div>
                       <form 
                         className="flex items-center gap-1 pl-2"
@@ -248,26 +259,48 @@ export function GroceryCartDrawer() {
                 </div>
               </div>
             )}
-            <button
-              type="button"
-              onClick={() => {
-                void handleCheckout();
-              }}
-              disabled={checkingOut || mappedCount === 0}
-              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm hover:from-orange-400 hover:to-amber-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {checkingOut ? (
-                <>
-                  <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                  Sending to Amazon...
-                </>
-              ) : (
-                <>
-                  <AmazonIcon />
-                  Checkout with Amazon ({mappedCount} item{mappedCount !== 1 ? "s" : ""})
-                </>
-              )}
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  void handleCheckout("fresh");
+                }}
+                disabled={checkingOut || mappedCount === 0}
+                className="w-full px-4 py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {checkingOut ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    Sending to Fresh...
+                  </>
+                ) : (
+                  <>
+                    <AmazonIcon />
+                    Checkout with Amazon Fresh ({mappedCount})
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  void handleCheckout("standard");
+                }}
+                disabled={checkingOut || mappedCount === 0}
+                className="w-full px-4 py-3 rounded-xl bg-[#FF9900] text-black font-bold text-sm hover:bg-[#FFB347] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {checkingOut ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-black/40 border-t-black rounded-full animate-spin" />
+                    Sending to Amazon...
+                  </>
+                ) : (
+                  <>
+                    <AmazonIcon />
+                    Checkout with Amazon ({mappedCount})
+                  </>
+                )}
+              </button>
+            </div>
             <button
               type="button"
               onClick={clear}

@@ -11,10 +11,30 @@
 import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import emailService from "@/services/emailService";
+import type { NatalChart } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+/** Representative sample chart so bulletin previews render the personalized path. */
+function sampleChart(dominantElement: string): Partial<NatalChart> {
+  const byElement: Record<string, { sun: string; moon: string; asc: string; balance: Record<string, number> }> = {
+    Fire: { sun: "aries", moon: "leo", asc: "sagittarius", balance: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 } },
+    Water: { sun: "cancer", moon: "pisces", asc: "scorpio", balance: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 } },
+    Earth: { sun: "taurus", moon: "capricorn", asc: "virgo", balance: { Fire: 0.15, Water: 0.2, Earth: 0.5, Air: 0.15 } },
+    Air: { sun: "gemini", moon: "aquarius", asc: "libra", balance: { Fire: 0.2, Water: 0.15, Earth: 0.15, Air: 0.5 } },
+  };
+  const s = byElement[dominantElement] || byElement.Fire;
+  return {
+    dominantElement: dominantElement as NatalChart["dominantElement"],
+    dominantModality: "Cardinal",
+    elementalBalance: s.balance as unknown as NatalChart["elementalBalance"],
+    ascendant: s.asc as NatalChart["ascendant"],
+    planetaryPositions: { Sun: s.sun, Moon: s.moon, Ascendant: s.asc } as NatalChart["planetaryPositions"],
+    alchemicalProperties: { Spirit: 0.4, Essence: 0.25, Matter: 0.2, Substance: 0.15 },
+  };
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +55,7 @@ export async function POST(request: NextRequest) {
       to?: string;
       name?: string;
       dominantElement?: string;
-      type?: "welcome" | "admin" | "login";
+      type?: "welcome" | "admin" | "login" | "bulletin";
     };
 
     // Re-check env vars in case they weren't available at module load
@@ -62,6 +82,14 @@ export async function POST(request: NextRequest) {
       );
     } else if (type === "login") {
       success = await emailService.sendLoginNotificationEmail(to, name, true);
+    } else if (type === "bulletin") {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://alchm.kitchen";
+      success = await emailService.sendBulletinEmail(
+        to,
+        name,
+        dominantElement ? sampleChart(dominantElement) : undefined,
+        { unsubscribeUrl: `${appUrl}/profile` },
+      );
     } else {
       success = await emailService.sendWelcomeEmail(to, name, dominantElement);
     }
