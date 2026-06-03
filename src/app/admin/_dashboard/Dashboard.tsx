@@ -153,7 +153,7 @@ export function Dashboard({ data }: DashboardProps) {
           }}
         >
           <ElementalTraffic cohorts={data.practitionerCohorts} />
-          <PractitionersCohort realFunnel={realFunnel} />
+          <PractitionersCohort realFunnel={realFunnel} retention={data.cohortRetention} />
           <IncidentsPanel recentAlerts={data.recentAlerts} />
         </div>
 
@@ -183,7 +183,7 @@ export function Dashboard({ data }: DashboardProps) {
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>
           <CosmicYieldEconomy data={data.cosmicYield} />
-          <PractitionerGeo />
+          <PractitionerGeo data={data.practitionerGeo} />
         </div>
 
         <div
@@ -197,7 +197,7 @@ export function Dashboard({ data }: DashboardProps) {
         >
           <DatabaseStorage data={data.dbObservability} />
           <ErrorGroups errorGroups={data.errorGroups} />
-          <CostBurndown />
+          <CostBurndown data={data.costBurndown} />
         </div>
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
@@ -206,8 +206,8 @@ export function Dashboard({ data }: DashboardProps) {
         </div>
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
-          <DeploysPanel />
-          <FeatureFlagsPanel />
+          <DeploysPanel data={data.deploys} />
+          <FeatureFlagsPanel data={data.featureFlags} />
           <AuditLogPanel data={data.auditEvents} />
         </div>
 

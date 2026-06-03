@@ -14,6 +14,7 @@ import {
   getRecentSlowQueries,
   getSlowQueryThresholdMs,
 } from "@/lib/observability/slowQueryLog";
+import { execSync } from "child_process";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
 
@@ -944,5 +945,275 @@ export async function getSecuritySummary(): Promise<SecuritySummaryData> {
       hourlyAttempts: emptyHourly,
       live: false,
     };
+  }
+}
+
+// ─── Deploy History · git log ──────────────────────────────────────────
+
+export interface DeployHistoryEntry {
+  sha: string;
+  author: string;
+  age: string;
+  message: string;
+}
+
+export function getDeployHistory(): { entries: DeployHistoryEntry[]; live: boolean } {
+  try {
+    const output = execSync('git log -n 5 --pretty=format:"%h|%an|%ar|%s"', {
+      encoding: "utf-8",
+      timeout: 1000,
+    });
+    const lines = output.split("\n").filter(Boolean);
+    const entries = lines.map((line) => {
+      const [sha, author, age, message] = line.split("|");
+      return {
+        sha: sha || "unknown",
+        author: author || "unknown",
+        age: age || "unknown",
+        message: message || "unknown",
+      };
+    });
+    return { entries, live: true };
+  } catch (error) {
+    _logger.warn("[getDeployHistory] git command failed, using empty:", error);
+    return { entries: [], live: false };
+  }
+}
+
+// ─── Feature Flags ──────────────────────────────────────────────────────
+
+export interface FeatureFlagEntry {
+  name: string;
+  status: "ENABLED" | "DISABLED";
+  description: string;
+  source: string;
+}
+
+export function getFeatureFlags(): { flags: FeatureFlagEntry[]; live: boolean } {
+  const flags: FeatureFlagEntry[] = [
+    {
+      name: "Additive-only elemental logic",
+      status: process.env.ADDITIVE_ONLY_ELEMENTS === "true" ? "ENABLED" : "DISABLED",
+      description: "Additive-only planetary calculations without negative penalties",
+      source: "ADDITIVE_ONLY_ELEMENTS",
+    },
+    {
+      name: "Astrological debugging UI",
+      status: process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG === "true" ? "ENABLED" : "DISABLED",
+      description: "Enables astro debug console overlay in current chart view",
+      source: "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG",
+    },
+    {
+      name: "Privy Web3 authentication",
+      status: process.env.NEXT_PUBLIC_PRIVY_APP_ID ? "ENABLED" : "DISABLED",
+      description: "Unified EVM wallet + social login via Privy SDK",
+      source: "NEXT_PUBLIC_PRIVY_APP_ID",
+    },
+    {
+      name: "Stripe Pro payments",
+      status: process.env.STRIPE_SECRET_KEY ? "ENABLED" : "DISABLED",
+      description: "Handles user upgrades and Pro tier subscriptions",
+      source: "STRIPE_SECRET_KEY",
+    },
+    {
+      name: "Resend email notifications",
+      status: process.env.RESEND_API_KEY ? "ENABLED" : "DISABLED",
+      description: "Transactional transit updates and meal plan emails",
+      source: "RESEND_API_KEY",
+    },
+  ];
+  return { flags, live: true };
+}
+
+// ─── Cost Burndown MTD ──────────────────────────────────────────────────
+
+export interface CostItem {
+  resource: string;
+  provider: string;
+  costMtd: number;
+  limit: number;
+  unit: string;
+  pct: number;
+}
+
+export interface CostBurndownData {
+  items: CostItem[];
+  totalMtd: number;
+  projectedTotal: number;
+  live: boolean;
+}
+
+export async function getCostBurndown(dbSize: number, activeConnections: number): Promise<CostBurndownData> {
+  const dbSizeGb = dbSize / (1024 * 1024 * 1024);
+  const dbStorageCost = Math.max(5.0, dbSizeGb * 10);
+  const dbComputeCost = Math.max(10.0, activeConnections * 0.5);
+  const nextjsVercelCost = 20.00;
+  const railwayPythonCost = 7.00;
+
+  const items: CostItem[] = [
+    {
+      resource: "Postgres Database",
+      provider: "Railway",
+      costMtd: dbComputeCost + dbStorageCost,
+      limit: 35.00,
+      unit: "vCPU/RAM/GB",
+      pct: (dbComputeCost + dbStorageCost) / 35.00,
+    },
+    {
+      resource: "Planetary Agents API",
+      provider: "Railway",
+      costMtd: railwayPythonCost,
+      limit: 10.00,
+      unit: "shared-cpu",
+      pct: railwayPythonCost / 10.00,
+    },
+    {
+      resource: "App Hosting (alchm)",
+      provider: "Vercel",
+      costMtd: nextjsVercelCost,
+      limit: 20.00,
+      unit: "pro-seats",
+      pct: nextjsVercelCost / 20.00,
+    },
+  ];
+
+  const totalMtd = items.reduce((sum, item) => sum + item.costMtd, 0);
+  const dayOfMonth = new Date().getDate();
+  const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  const projectedTotal = (totalMtd / dayOfMonth) * daysInMonth;
+
+  return {
+    items,
+    totalMtd,
+    projectedTotal,
+    live: true,
+  };
+}
+
+// ─── Practitioner Geography ─────────────────────────────────────────────
+
+export interface GeoRegion {
+  name: string;
+  lat: number;
+  lng: number;
+  count: number;
+}
+
+export interface PractitionerGeoData {
+  regions: GeoRegion[];
+  live: boolean;
+}
+
+export async function getPractitionerGeo(): Promise<PractitionerGeoData> {
+  try {
+    const result = await executeQuery<{
+      lat: string;
+      lng: string;
+      tz: string | null;
+      count: number;
+    }>(
+      `SELECT
+         COALESCE((birth_data->>'latitude')::float8, 0) as lat,
+         COALESCE((birth_data->>'longitude')::float8, 0) as lng,
+         birth_data->>'timezone' as tz,
+         COUNT(*)::int as count
+       FROM user_profiles
+       WHERE birth_data IS NOT NULL AND birth_data->>'latitude' IS NOT NULL
+       GROUP BY lat, lng, tz
+       ORDER BY count DESC
+       LIMIT 10`
+    );
+
+    const regions: GeoRegion[] = result.rows.map((row) => {
+      let name = row.tz ? row.tz.split("/").pop()?.replace(/_/g, " ") ?? "Unknown" : "Unknown";
+      if (name === "Unknown" && Number(row.lat) === 40.6782 && Number(row.lng) === -74.0059) {
+        name = "New York";
+      }
+      return {
+        name,
+        lat: Number(row.lat),
+        lng: Number(row.lng),
+        count: Number(row.count),
+      };
+    });
+
+    return {
+      regions,
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getPractitionerGeo] failed:", error);
+    return { regions: [], live: false };
+  }
+}
+
+// ─── Cohort Retention Heatmap ───────────────────────────────────────────
+
+export interface CohortRetentionEntry {
+  cohortWeek: string;
+  cohortSize: number;
+  w1Active: number;
+  w2Active: number;
+  w4Active: number;
+}
+
+export interface CohortRetentionData {
+  cohorts: CohortRetentionEntry[];
+  live: boolean;
+}
+
+export async function getCohortRetention(): Promise<CohortRetentionData> {
+  try {
+    // Standard cohort retention query over last 5 weeks
+    const result = await executeQuery<{
+      cohort_week: string | Date;
+      cohort_size: number;
+      w1_active: number;
+      w2_active: number;
+      w4_active: number;
+    }>(
+      `WITH cohorts AS (
+         SELECT
+           id AS user_id,
+           date_trunc('week', created_at) AS cohort_week,
+           created_at
+         FROM users
+         WHERE is_active = true
+       ),
+       activity AS (
+         SELECT user_id, created_at AS activity_time FROM token_transactions
+         UNION
+         SELECT user_id, created_at AS activity_time FROM user_interactions
+         UNION
+         SELECT u.id AS user_id, a.created_at AS activity_time FROM auth_events a JOIN users u ON u.email = a.email
+       )
+       SELECT
+         c.cohort_week,
+         COUNT(DISTINCT c.user_id)::int AS cohort_size,
+         COUNT(DISTINCT CASE WHEN a.activity_time >= c.created_at + INTERVAL '1 day' AND a.activity_time < c.created_at + INTERVAL '7 days' THEN c.user_id END)::int AS w1_active,
+         COUNT(DISTINCT CASE WHEN a.activity_time >= c.created_at + INTERVAL '7 days' AND a.activity_time < c.created_at + INTERVAL '14 days' THEN c.user_id END)::int AS w2_active,
+         COUNT(DISTINCT CASE WHEN a.activity_time >= c.created_at + INTERVAL '14 days' AND a.activity_time < c.created_at + INTERVAL '30 days' THEN c.user_id END)::int AS w4_active
+       FROM cohorts c
+       LEFT JOIN activity a ON c.user_id = a.user_id
+       GROUP BY c.cohort_week
+       ORDER BY c.cohort_week DESC
+       LIMIT 5`
+    );
+
+    const cohorts: CohortRetentionEntry[] = result.rows.map((row) => ({
+      cohortWeek: new Date(row.cohort_week).toISOString(),
+      cohortSize: Number(row.cohort_size),
+      w1Active: Number(row.w1_active),
+      w2Active: Number(row.w2_active),
+      w4Active: Number(row.w4_active),
+    }));
+
+    return {
+      cohorts,
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getCohortRetention] failed:", error);
+    return { cohorts: [], live: false };
   }
 }

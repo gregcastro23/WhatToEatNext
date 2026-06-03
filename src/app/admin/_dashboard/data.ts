@@ -20,6 +20,11 @@ import type {
   PageTelemetryData,
   RecentAlertsData,
   SecuritySummaryData,
+  DeployHistoryEntry,
+  FeatureFlagEntry,
+  CostBurndownData,
+  PractitionerGeoData,
+  CohortRetentionData,
 } from "@/services/dashboardPanelsService";
 import type { ActivityEvent } from "@/services/liveActivityService";
 import type { SkyConditionsData } from "@/services/skyConditionsService";
@@ -146,6 +151,16 @@ export interface AdminDashboardData {
   errorGroups: ErrorGroupsData;
   /** auth_events rollup for SecurityPanel. */
   security: SecuritySummaryData;
+  /** Real-time git deploys telemetry. */
+  deploys: { entries: DeployHistoryEntry[]; live: boolean };
+  /** Real-time feature flags status. */
+  featureFlags: { flags: FeatureFlagEntry[]; live: boolean };
+  /** estimated hosting and compute resource usage. */
+  costBurndown: CostBurndownData;
+  /** User birth chart location aggregation. */
+  practitionerGeo: PractitionerGeoData;
+  /** User login and activity cohort retention. */
+  cohortRetention: CohortRetentionData;
   /**
    * Generation metadata. `mockedFields` lists any panels still served
    * from seeded fixtures rather than a live source — currently empty.
@@ -268,6 +283,11 @@ export const FALLBACK_DATA: AdminDashboardData = {
     hourlyAttempts: Array.from({ length: 24 }, () => 0),
     live: false,
   },
+  deploys: { entries: [], live: false },
+  featureFlags: { flags: [], live: false },
+  costBurndown: { items: [], totalMtd: 0, projectedTotal: 0, live: false },
+  practitionerGeo: { regions: [], live: false },
+  cohortRetention: { cohorts: [], live: false },
   meta: {
     generatedAt: new Date(0).toISOString(),
     mockedFields: [],

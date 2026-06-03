@@ -30,6 +30,11 @@ import {
   getPageTelemetry,
   getRecentAlerts,
   getSecuritySummary,
+  getDeployHistory,
+  getFeatureFlags,
+  getCostBurndown,
+  getPractitionerGeo,
+  getCohortRetention,
 } from "@/services/dashboardPanelsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getLiveActivity } from "@/services/liveActivityService";
@@ -177,6 +182,10 @@ export async function GET(request: NextRequest) {
     const recentAlertsPromise = getRecentAlerts();
     const errorGroupsPromise = getErrorGroupSummary();
     const securityPromise = getSecuritySummary();
+    const deploysPromise = Promise.resolve(getDeployHistory());
+    const featureFlagsPromise = Promise.resolve(getFeatureFlags());
+    const practitionerGeoPromise = getPractitionerGeo();
+    const cohortRetentionPromise = getCohortRetention();
 
     let paHealth = "offline";
     let paAgentCount = 0;
@@ -229,6 +238,11 @@ export async function GET(request: NextRequest) {
     const recentAlerts = await recentAlertsPromise;
     const errorGroups = await errorGroupsPromise;
     const security = await securityPromise;
+    const deploys = await deploysPromise;
+    const featureFlags = await featureFlagsPromise;
+    const practitionerGeo = await practitionerGeoPromise;
+    const cohortRetention = await cohortRetentionPromise;
+    const costBurndown = await getCostBurndown(dbObservability.dbSizeBytes, dbObservability.activeConnections);
 
     // Resolve the admin identity from the validated session rather than
     // hardcoding a single operator. Falls back to the session token payload
@@ -293,6 +307,11 @@ export async function GET(request: NextRequest) {
       recentAlerts,
       errorGroups,
       security,
+      deploys,
+      featureFlags,
+      costBurndown,
+      practitionerGeo,
+      cohortRetention,
       meta: {
         generatedAt: now.toISOString(),
         mockedFields: [],

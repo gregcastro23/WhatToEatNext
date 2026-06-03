@@ -6,6 +6,10 @@ import type {
   CatalogTrendingData,
   RecentAlertsData,
   SecuritySummaryData,
+  DeployHistoryEntry,
+  FeatureFlagEntry,
+  CohortRetentionData,
+  CohortRetentionEntry,
 } from "@/services/dashboardPanelsService";
 import type { ActivityEvent } from "@/services/liveActivityService";
 import type { SystemStatusPayload } from "@/services/systemStatusService";
@@ -547,8 +551,13 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
 // ============================================================
 export function PractitionersCohort({
   realFunnel,
+  retention,
 }: {
   realFunnel?: Array<{ stage: string; count: number; pct: number }>;
+  retention?: {
+    cohorts: CohortRetentionEntry[];
+    live: boolean;
+  };
 }) {
   const funnel =
     realFunnel ??
@@ -560,14 +569,20 @@ export function PractitionersCohort({
       { stage: "Paid · Pro", count: 0, pct: 0 },
     ];
   const max = funnel[0].count || 1;
+  const cohorts = retention?.cohorts ?? [];
+  const live = retention?.live ?? false;
+
   return (
     <Card
-      title="Practitioner Funnel · 7-day cohorts"
+      title="Practitioner Funnel · Cohort Analytics"
       subtitle={`${funnel[0].count.toLocaleString()} → ${funnel[funnel.length - 1].count.toLocaleString()} pro · this week`}
       right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          OPEN COHORTS
-        </button>
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
+        >
+          {live ? "● LIVE" : "○ STALE"}
+        </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 18 }}>
@@ -606,25 +621,112 @@ export function PractitionersCohort({
           </div>
         </div>
         <div>
-          <div className="t-tag" style={{ marginBottom: 8 }}>RETENTION · D1 / D7 / D14 / D30</div>
-          <div
-            style={{
-              padding: "32px 12px",
-              textAlign: "center",
-              border: "1px dashed var(--line)",
-              borderRadius: 8,
-              minHeight: 140,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <div className="t-tag" style={{ marginBottom: 4 }}>COHORT RETENTION · NOT WIRED</div>
-            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
-              D1 / D7 / D14 / D30 retention needs a per-cohort activity rollup —
-              not yet computed.
+          <div className="t-tag" style={{ marginBottom: 8 }}>RETENTION · W1 / W2 / W4</div>
+          {cohorts.length === 0 ? (
+            <div
+              style={{
+                padding: "32px 12px",
+                textAlign: "center",
+                border: "1px dashed var(--line)",
+                borderRadius: 8,
+                minHeight: 140,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <div className="t-tag" style={{ marginBottom: 4 }}>COHORT RETENTION · AWAITING DATA</div>
+              <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+                No active cohorts detected in database logs.
+              </div>
             </div>
-          </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1.2fr 0.8fr 1fr 1fr 1fr",
+                  gap: 4,
+                  padding: "4px 6px",
+                  borderBottom: "1px solid var(--line-hi)",
+                  background: "rgba(255,255,255,0.02)",
+                }}
+              >
+                {["Cohort", "Size", "W1", "W2", "W4"].map((h) => (
+                  <span key={h} className="t-tag" style={{ fontSize: 8 }}>{h}</span>
+                ))}
+              </div>
+              {cohorts.map((c) => {
+                const w1Pct = c.cohortSize > 0 ? c.w1Active / c.cohortSize : 0;
+                const w2Pct = c.cohortSize > 0 ? c.w2Active / c.cohortSize : 0;
+                const w4Pct = c.cohortSize > 0 ? c.w4Active / c.cohortSize : 0;
+
+                const getCellBg = (pct: number) => {
+                  if (pct === 0) return "rgba(255,255,255,0.02)";
+                  return `color-mix(in oklch, var(--accent), transparent ${(1 - pct) * 90}%)`;
+                };
+
+                return (
+                  <div
+                    key={c.cohortWeek}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1.2fr 0.8fr 1fr 1fr 1fr",
+                      gap: 4,
+                      fontSize: 10.5,
+                      fontFamily: "var(--f-mono)",
+                    }}
+                  >
+                    <span style={{ color: "var(--fg-dim)" }}>
+                      {new Date(c.cohortWeek).toISOString().slice(5, 10)}
+                    </span>
+                    <span className="t-num" style={{ color: "var(--fg-mute)" }}>
+                      {c.cohortSize}
+                    </span>
+                    <span
+                      className="t-num"
+                      style={{
+                        padding: "2px",
+                        textAlign: "center",
+                        background: getCellBg(w1Pct),
+                        borderRadius: 3,
+                        border: "1px solid var(--line)",
+                        color: w1Pct > 0.5 ? "var(--fg)" : "var(--fg-dim)",
+                      }}
+                    >
+                      {Math.round(w1Pct * 100)}%
+                    </span>
+                    <span
+                      className="t-num"
+                      style={{
+                        padding: "2px",
+                        textAlign: "center",
+                        background: getCellBg(w2Pct),
+                        borderRadius: 3,
+                        border: "1px solid var(--line)",
+                        color: w2Pct > 0.5 ? "var(--fg)" : "var(--fg-dim)",
+                      }}
+                    >
+                      {Math.round(w2Pct * 100)}%
+                    </span>
+                    <span
+                      className="t-num"
+                      style={{
+                        padding: "2px",
+                        textAlign: "center",
+                        background: getCellBg(w4Pct),
+                        borderRadius: 3,
+                        border: "1px solid var(--line)",
+                        color: w4Pct > 0.5 ? "var(--fg)" : "var(--fg-dim)",
+                      }}
+                    >
+                      {Math.round(w4Pct * 100)}%
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </Card>
@@ -1022,68 +1124,140 @@ function MetricTile({ label, v, sub }: { label: string; v: string; sub: string }
 // empty state with a hint about how to wire them up. We avoid fake
 // SHAs and fake flags that look real but aren't.
 // ============================================================
-export function DeploysPanel() {
+export function DeploysPanel({ data }: { data?: { entries: DeployHistoryEntry[]; live: boolean } }) {
+  const { entries = [], live = false } = data || {};
   return (
     <Card
       title="Deploys"
-      subtitle="Vercel deployments API not wired"
+      subtitle={live ? `last ${entries.length} git commits` : "git deploy log offline"}
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
         >
-          ○ NO SOURCE
+          {live ? "● LIVE" : "○ NO SOURCE"}
         </span>
       }
     >
-      <div
-        style={{
-          padding: "32px 12px",
-          textAlign: "center",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-          No deploy history wired
+      {entries.length === 0 ? (
+        <div
+          style={{
+            padding: "32px 12px",
+            textAlign: "center",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+            No deploy history wired
+          </div>
+          <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            git repository commit logs empty or inaccessible
+          </div>
         </div>
-        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-          attach Vercel API token + query <code>/v6/deployments</code>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {entries.map((d, i) => (
+            <div
+              key={d.sha}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "60px 80px 1fr",
+                gap: 8,
+                fontSize: 10.5,
+                paddingBottom: i === entries.length - 1 ? 0 : 8,
+                borderBottom: i === entries.length - 1 ? "none" : "1px solid var(--line)",
+              }}
+            >
+              <span className="t-mono" style={{ color: "var(--accent)" }}>
+                {d.sha}
+              </span>
+              <span className="t-mono" style={{ color: "var(--fg-mute)" }}>
+                {d.author}
+              </span>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ color: "var(--fg-dim)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {d.message}
+                </span>
+                <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-faint)", marginTop: 2 }}>
+                  {d.age}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
     </Card>
   );
 }
 
-export function FeatureFlagsPanel() {
+export function FeatureFlagsPanel({ data }: { data?: { flags: FeatureFlagEntry[]; live: boolean } }) {
+  const { flags = [], live = false } = data || {};
   return (
     <Card
       title="Feature Flags"
-      subtitle="no flag service configured"
+      subtitle={live ? `${flags.filter(f => f.status === "ENABLED").length} active parameters` : "no flags loaded"}
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
         >
-          ○ NO SOURCE
+          {live ? "● LIVE" : "○ NO SOURCE"}
         </span>
       }
     >
-      <div
-        style={{
-          padding: "32px 12px",
-          textAlign: "center",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-          No feature flag service
+      {flags.length === 0 ? (
+        <div
+          style={{
+            padding: "32px 12px",
+            textAlign: "center",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+            No feature flags found
+          </div>
         </div>
-        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-          flags are env-var-only today · add a <code>feature_flags</code> table to surface them here
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {flags.map((f) => (
+            <div
+              key={f.name}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "6px 8px",
+                border: "1px solid var(--line)",
+                borderRadius: 6,
+                background: f.status === "ENABLED" ? "rgba(74, 222, 128, 0.02)" : "rgba(255, 255, 255, 0.01)",
+              }}
+            >
+              <div style={{ minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                  <span style={{ fontSize: 11, fontWeight: "500", color: "var(--fg-dim)" }}>{f.name}</span>
+                  <span className="t-mono" style={{ fontSize: 8, color: "var(--fg-mute)" }}>{f.source}</span>
+                </div>
+                <div style={{ fontSize: 9, color: "var(--fg-faint)", marginTop: 2 }}>{f.description}</div>
+              </div>
+              <span
+                className="t-mono"
+                style={{
+                  fontSize: 8.5,
+                  padding: "2px 6px",
+                  borderRadius: 4,
+                  background: f.status === "ENABLED" ? "rgba(74, 222, 128, 0.1)" : "rgba(239, 68, 68, 0.1)",
+                  color: f.status === "ENABLED" ? "var(--el-earth)" : "var(--el-fire)",
+                  border: `1px solid ${f.status === "ENABLED" ? "rgba(74, 222, 128, 0.2)" : "rgba(239, 68, 68, 0.2)"}`,
+                }}
+              >
+                {f.status}
+              </span>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
     </Card>
   );
 }

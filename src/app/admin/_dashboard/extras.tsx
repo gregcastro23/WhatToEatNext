@@ -7,6 +7,10 @@ import type {
   ErrorGroupsData,
   PageTelemetryData,
   CatalogTrendingData,
+  GeoRegion,
+  CostItem,
+  CostBurndownData,
+  PractitionerGeoData,
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
 import { seeded } from "./data";
@@ -809,37 +813,69 @@ function Stat2({ k, v, d, accent }: { k: string; v: string; d: string; accent?: 
 // birth charts but don't aggregate by location). Wire this up when
 // there's enough sample to draw something honest.
 // ============================================================
-export function PractitionerGeo() {
+export function PractitionerGeo({ data }: { data?: PractitionerGeoData }) {
+  const { regions = [], live = false } = data || {};
   return (
     <Card
       title="Practitioner Geography"
-      subtitle="geo aggregation not configured"
+      subtitle={live ? `${regions.length} active regions` : "geo aggregation offline"}
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
         >
-          ○ NO SOURCE
+          {live ? "● LIVE" : "○ NO SOURCE"}
         </span>
       }
     >
-      <div
-        style={{
-          padding: "60px 12px",
-          textAlign: "center",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(140,100,255,0.04), transparent 70%)",
-        }}
-      >
-        <div style={{ fontSize: 12, color: "var(--fg-dim)", marginBottom: 4 }}>
-          No location aggregation yet
+      {regions.length === 0 ? (
+        <div
+          style={{
+            padding: "60px 12px",
+            textAlign: "center",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(140,100,255,0.04), transparent 70%)",
+          }}
+        >
+          <div style={{ fontSize: 12, color: "var(--fg-dim)", marginBottom: 4 }}>
+            No location aggregation yet
+          </div>
+          <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            birth charts store coordinates · roll up by city / region when we have a sample
+          </div>
         </div>
-        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-          birth charts store coordinates · roll up by city / region when we have a sample
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          {regions.map((r, i) => (
+            <div
+              key={`${r.name}-${i}`}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 80px 80px",
+                gap: 8,
+                alignItems: "center",
+                padding: "8px 10px",
+                border: "1px solid var(--line)",
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.01)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Glyph name="diamond" size={12} style={{ color: "var(--accent)" }} />
+                <span style={{ fontSize: 11.5, color: "var(--fg)", fontWeight: "500" }}>{r.name}</span>
+              </div>
+              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+                {r.lat.toFixed(2)}°{r.lat >= 0 ? "N" : "S"} · {r.lng.toFixed(2)}°{r.lng >= 0 ? "E" : "W"}
+              </span>
+              <span className="t-num" style={{ fontSize: 11.5, color: "var(--fg-dim)", textAlign: "right" }}>
+                {r.count} chart{r.count === 1 ? "" : "s"}
+              </span>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
     </Card>
   );
 }
@@ -990,35 +1026,82 @@ export function ErrorGroups({ errorGroups }: { errorGroups: ErrorGroupsData }) {
 // COST BURNDOWN
 // Empty placeholder until we wire billing data (Vercel, Railway, Stripe).
 // ============================================================
-export function CostBurndown() {
+export function CostBurndown({ data }: { data?: CostBurndownData }) {
+  const { items = [], totalMtd = 0, projectedTotal = 0, live = false } = data || {};
   return (
     <Card
       title="Cost Burndown · MTD"
-      subtitle="billing source not configured"
+      subtitle={live ? `$${totalMtd.toFixed(2)} MTD · projected $${projectedTotal.toFixed(2)}` : "billing source offline"}
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
         >
-          ○ NO SOURCE
+          {live ? "● LIVE" : "○ NO SOURCE"}
         </span>
       }
     >
-      <div
-        style={{
-          padding: "32px 12px",
-          textAlign: "center",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-          No billing aggregation wired
+      {items.length === 0 ? (
+        <div
+          style={{
+            padding: "32px 12px",
+            textAlign: "center",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
+            No billing aggregation wired
+          </div>
+          <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            connect Vercel + Railway billing APIs to populate
+          </div>
         </div>
-        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-          connect Vercel + Railway billing APIs to populate
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
+              <div className="t-tag" style={{ fontSize: 8 }}>MTD Spend</div>
+              <div className="t-num" style={{ fontSize: 16, marginTop: 4 }}>${totalMtd.toFixed(2)}</div>
+            </div>
+            <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
+              <div className="t-tag" style={{ fontSize: 8 }}>Projected Month Total</div>
+              <div className="t-num" style={{ fontSize: 16, marginTop: 4, color: "var(--accent-2)" }}>${projectedTotal.toFixed(2)}</div>
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {items.map((item) => (
+              <div key={item.resource} style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <span style={{ fontSize: 11, color: "var(--fg-dim)" }}>{item.resource} ({item.provider})</span>
+                  <span className="t-num" style={{ fontSize: 11 }}>${item.costMtd.toFixed(2)} / ${item.limit.toFixed(2)}</span>
+                </div>
+                <div
+                  style={{
+                    position: "relative",
+                    height: 6,
+                    background: "rgba(255,255,255,0.03)",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${Math.min(100, item.pct * 100)}%`,
+                      height: "100%",
+                      background: item.pct > 0.8 ? "var(--el-fire)" : "var(--accent)",
+                      boxShadow: `0 0 8px ${item.pct > 0.8 ? "var(--el-fire)" : "var(--accent)"}`,
+                    }}
+                  />
+                </div>
+                <span className="t-mono" style={{ fontSize: 8, color: "var(--fg-mute)", marginTop: 2, display: "block" }}>
+                  {item.unit}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Card>
   );
 }
