@@ -6,6 +6,7 @@
  * `live: false` fallback so the dashboard never hard-fails.
  */
 
+import { execSync } from "child_process";
 import { checkDatabaseHealth, executeQuery } from "@/lib/database";
 import { getDatabasePool } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
@@ -14,7 +15,6 @@ import {
   getRecentSlowQueries,
   getSlowQueryThresholdMs,
 } from "@/lib/observability/slowQueryLog";
-import { execSync } from "child_process";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
 

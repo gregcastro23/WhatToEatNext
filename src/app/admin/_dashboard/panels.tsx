@@ -8,7 +8,6 @@ import type {
   SecuritySummaryData,
   DeployHistoryEntry,
   FeatureFlagEntry,
-  CohortRetentionData,
   CohortRetentionEntry,
 } from "@/services/dashboardPanelsService";
 import type { ActivityEvent } from "@/services/liveActivityService";

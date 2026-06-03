@@ -7,8 +7,6 @@ import type {
   ErrorGroupsData,
   PageTelemetryData,
   CatalogTrendingData,
-  GeoRegion,
-  CostItem,
   CostBurndownData,
   PractitionerGeoData,
 } from "@/services/dashboardPanelsService";
