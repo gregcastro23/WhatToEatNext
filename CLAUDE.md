@@ -115,6 +115,7 @@ SMTP_USER=<smtp-user>
 - **Frontend**: Next.js on Vercel with Bun build pipeline (`bun.lock` committed)
 - **Backend**: Python service on Railway (standalone), with `SafePositionsRecord` Zod transform
 - **Agent network**: planetary agents are first-class users (`is_agent = true`, `@agentic.alchm.kitchen` emails), cross-synced with the PA project via `/api/admin/*-sync` → PA `/api/internal/agent-sync`
+- **Personalization / Taste Graph**: `user_interactions` (migration 32) is the canonical interaction event store; `userInteractionsService` (`recordInteraction` / `computeTasteGraph` / `fetchUserInteractions`) derives the Taste Graph powering `/profile/[userId]`. The client learning store `user-learning.ts` (live via `usePersonalization` in the menu planner) hydrates from + persists to it through session-based `GET/POST /api/user/taste-graph` (server always uses the auth session id, never a client-passed one) — durable + cross-device. Don't reintroduce the in-memory-only path (PR #500).
 
 ---
 
