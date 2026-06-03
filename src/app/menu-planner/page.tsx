@@ -105,6 +105,10 @@ function MenuPlannerContent() {
   );
 
   const [showGroceryList, setShowGroceryList] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareNameOptIn, setShareNameOptIn] = useState(false);
+  const [shareTitle, setShareTitle] = useState("");
+  const [isSharing, setIsSharing] = useState(false);
   const [showNutritionDashboard, setShowNutritionDashboard] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [templateName, setTemplateName] = useState("");
@@ -185,6 +189,44 @@ function MenuPlannerContent() {
     } catch (err) {
       showError("Failed to save template");
       console.error(err);
+    }
+  };
+
+  const handleShareToFeed = async () => {
+    if (!currentMenu) return;
+    setIsSharing(true);
+    try {
+      const mealCount = currentMenu.meals.filter((m) => m.recipe).length;
+      const res = await fetch("/api/feed/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          shareType: "menu",
+          shareName: shareNameOptIn,
+          payload: {
+            menuTitle: shareTitle.trim() || "a weekly menu",
+            weekStartDate: currentMenu.weekStartDate,
+            mealCount,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        let questMessage = "";
+        if (data.completedQuests && data.completedQuests.length > 0) {
+          const rewardQuest = data.completedQuests[0];
+          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+        }
+        showSuccess(`Successfully shared to community feed!${questMessage}`);
+        setShowShareModal(false);
+      } else {
+        showError(data.message || "Failed to share to feed");
+      }
+    } catch (err) {
+      showError("Error sharing menu to feed");
+      console.error(err);
+    } finally {
+      setIsSharing(false);
     }
   };
 
@@ -301,6 +343,17 @@ function MenuPlannerContent() {
                 className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg transition-all font-medium"
               >
                 💾 Save as Template
+              </button>
+
+              <button
+                onClick={() => {
+                  setShareTitle("");
+                  setShareNameOptIn(false);
+                  setShowShareModal(true);
+                }}
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-all font-medium"
+              >
+                📢 Share to Feed
               </button>
               <button
                 onClick={() => { void toggleSyncWithLunarCycle(); }}
@@ -646,6 +699,64 @@ function MenuPlannerContent() {
                   className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg transition-all"
                 >
                   Save Template
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Share to Feed Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Share Menu to Feed
+                </h2>
+              </div>
+
+              <div className="p-6 space-y-4">
+                <div>
+                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                    Menu Description/Title
+                  </label>
+                  <input
+                    type="text"
+                    value={shareTitle}
+                    onChange={(e) => setShareTitle(e.target.value)}
+                    placeholder="e.g., My Saturn-aligned Autumn Feast"
+                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-gray-900 bg-white"
+                  />
+                </div>
+
+                <label className="flex items-center space-x-3 cursor-pointer p-2 bg-purple-50 rounded-lg border border-purple-100">
+                  <input
+                    type="checkbox"
+                    checked={shareNameOptIn}
+                    onChange={(e) => setShareNameOptIn(e.target.checked)}
+                    className="form-checkbox h-5 w-5 text-purple-600 rounded"
+                  />
+                  <span className="text-sm font-semibold text-purple-900">
+                    Opt-in to share my name (defaults to Anonymous Alchemist)
+                  </span>
+                </label>
+              </div>
+
+              <div className="p-6 border-t border-gray-200 bg-gray-50 flex gap-3">
+                <button
+                  onClick={() => setShowShareModal(false)}
+                  disabled={isSharing}
+                  className="flex-1 px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors font-semibold text-gray-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => { void handleShareToFeed(); }}
+                  disabled={isSharing}
+                  className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-all font-semibold"
+                >
+                  {isSharing ? "Sharing..." : "Share to Feed"}
                 </button>
               </div>
             </div>

@@ -126,13 +126,19 @@ function normalizeSource(source: unknown): CheckoutPreflightSource {
     : "unknown";
 }
 
-function buildAmazonPayload(items: NormalizedCartItem[]): Record<string, string> {
+function buildAmazonPayload(
+  items: NormalizedCartItem[],
+  cartType: "fresh" | "standard" = "fresh",
+): Record<string, string> {
   const payload: Record<string, string> = {
     AssociateTag: AMAZON_ASSOCIATE_TAG,
-    "cart-type": "fresh",
     add: "add",
     "submit.add": "1",
   };
+
+  if (cartType === "fresh") {
+    payload["cart-type"] = "fresh";
+  }
 
   items.forEach((item, index) => {
     const position = index + 1;
@@ -224,7 +230,8 @@ export async function POST(request: Request) {
 
   const handoffId = `handoff_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
   const source = normalizeSource(body.source);
-  const payload = buildAmazonPayload(items);
+  const cartType = body.cartType === "standard" ? "standard" : "fresh";
+  const payload = buildAmazonPayload(items, cartType);
 
   await logCartHandoffIntent({
     handoffId,

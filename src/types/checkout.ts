@@ -19,6 +19,7 @@ export interface CheckoutPreflightItem {
 export interface CheckoutPreflightRequest {
   source?: CheckoutPreflightSource;
   items: CheckoutPreflightItem[];
+  cartType?: "fresh" | "standard";
   metadata?: Record<string, unknown>;
 }
 

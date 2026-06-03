@@ -392,20 +392,25 @@ export default function GroceryListModal({
     };
   };
 
-  const openAmazonSearchFallback = (unresolved: AmazonUnresolvedItem[]) => {
+  const openAmazonSearchFallback = (
+    unresolved: AmazonUnresolvedItem[],
+    cartType: "fresh" | "standard" = "fresh",
+  ) => {
     const [firstUnresolved] = unresolved;
     if (!firstUnresolved) {
       setAmazonError("No unresolved grocery item is available to search.");
       return;
     }
 
-    const fallbackUrl =
-      firstUnresolved.searchUrl ||
-      `https://www.amazon.com/s?${new URLSearchParams({
-        k: firstUnresolved.name,
-        i: "amazonfresh",
-        tag: AMAZON_ASSOCIATE_TAG,
-      }).toString()}`;
+    const params: Record<string, string> = {
+      k: firstUnresolved.name,
+      tag: AMAZON_ASSOCIATE_TAG,
+    };
+    if (cartType === "fresh") {
+      params.i = "amazonfresh";
+    }
+
+    const fallbackUrl = `https://www.amazon.com/s?${new URLSearchParams(params).toString()}`;
 
     const opened = window.open(fallbackUrl, "_blank");
     if (!opened) {
@@ -417,6 +422,7 @@ export default function GroceryListModal({
     logger.info("Opened Amazon search fallback", {
       item: firstUnresolved.name,
       unresolved: unresolved.length,
+      cartType,
     });
     setShowAmazonPreview(false);
   };
@@ -436,7 +442,7 @@ export default function GroceryListModal({
       .finally(() => setAmazonLoading(false));
   };
 
-  const confirmUpdateCart = async () => {
+  const confirmUpdateCart = async (cartType: "fresh" | "standard" = "fresh") => {
     setAmazonLoading(true);
     setAmazonError(null);
     try {
@@ -445,7 +451,7 @@ export default function GroceryListModal({
       const items = resolution.resolved;
 
       if (items.length === 0) {
-        openAmazonSearchFallback(resolution.unresolved);
+        openAmazonSearchFallback(resolution.unresolved, cartType);
         return;
       }
 
@@ -461,11 +467,13 @@ export default function GroceryListModal({
       tagInput.value = AMAZON_ASSOCIATE_TAG;
       form.appendChild(tagInput);
 
-      const cartTypeInput = document.createElement("input");
-      cartTypeInput.type = "hidden";
-      cartTypeInput.name = "cart-type";
-      cartTypeInput.value = "fresh";
-      form.appendChild(cartTypeInput);
+      if (cartType === "fresh") {
+        const cartTypeInput = document.createElement("input");
+        cartTypeInput.type = "hidden";
+        cartTypeInput.name = "cart-type";
+        cartTypeInput.value = "fresh";
+        form.appendChild(cartTypeInput);
+      }
 
       const addInput = document.createElement("input");
       addInput.type = "hidden";
@@ -502,6 +510,7 @@ export default function GroceryListModal({
       logger.info("Amazon cart handoff successful", {
         sent: items.length,
         unresolved: resolution.unresolved.length,
+        cartType,
       });
       setShowAmazonPreview(false);
     } catch (error) {
@@ -862,11 +871,28 @@ export default function GroceryListModal({
                         <summary className="cursor-pointer font-semibold text-slate-700">
                           View unresolved items
                         </summary>
-                        <ul className="mt-2 max-h-28 list-inside list-disc overflow-y-auto space-y-1">
+                        <ul className="mt-2 max-h-36 overflow-y-auto space-y-1.5 pr-1 list-none">
                           {amazonResolution.unresolved.slice(0, 20).map((item) => (
-                            <li key={item.name}>
-                              {item.name}
-                              {item.source ? ` (${item.source})` : ""}
+                            <li key={item.name} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-1 border-b border-slate-100 last:border-0 last:pb-0">
+                              <span className="font-medium text-slate-700 truncate max-w-[200px]">{item.name}</span>
+                              <div className="flex gap-1.5 text-[9px] shrink-0">
+                                <a
+                                  href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name)}&i=amazonfresh&tag=${AMAZON_ASSOCIATE_TAG}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer sponsored"
+                                  className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors font-semibold"
+                                >
+                                  Search Fresh
+                                </a>
+                                <a
+                                  href={`https://www.amazon.com/s?k=${encodeURIComponent(item.name)}&tag=${AMAZON_ASSOCIATE_TAG}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer sponsored"
+                                  className="px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors font-semibold"
+                                >
+                                  Search Amazon
+                                </a>
+                              </div>
                             </li>
                           ))}
                         </ul>
@@ -889,29 +915,55 @@ export default function GroceryListModal({
               )}
             </div>
 
-            <div className="p-4 bg-gray-50 border-t flex justify-end gap-3">
+            <div className="p-4 bg-gray-50 border-t flex flex-wrap justify-end gap-3">
               <button
                 onClick={() => setShowAmazonPreview(false)}
                 className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition-colors"
               >
                 Cancel
               </button>
-              <button
-                onClick={() => { void confirmUpdateCart(); }}
-                disabled={
-                  amazonLoading ||
-                  stats.remaining === 0
-                }
-                className="px-6 py-2 bg-[#FF9900] text-black font-bold rounded-lg hover:bg-[#FFB347] transition-all flex items-center gap-2 disabled:opacity-50"
-              >
-                {amazonLoading
-                  ? "Processing..."
-                  : amazonResolution && amazonResolution.resolved.length === 0
-                    ? `Find ${amazonResolution.unresolved.length} on Amazon`
-                    : amazonResolution?.unresolved.length
-                    ? `Send ${amazonResolution.resolved.length} Matched Items`
-                    : "Send to Amazon Cart"}
-              </button>
+              {amazonLoading ? (
+                <button
+                  disabled
+                  className="px-6 py-2 bg-gray-400 text-white font-bold rounded-lg transition-all flex items-center gap-2"
+                >
+                  Processing...
+                </button>
+              ) : amazonResolution && amazonResolution.resolved.length === 0 ? (
+                <>
+                  <button
+                    onClick={() => { void confirmUpdateCart("fresh"); }}
+                    disabled={stats.remaining === 0}
+                    className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
+                  >
+                    Search Fresh
+                  </button>
+                  <button
+                    onClick={() => { void confirmUpdateCart("standard"); }}
+                    disabled={stats.remaining === 0}
+                    className="px-5 py-2 bg-[#FF9900] hover:bg-[#FFB347] text-black font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
+                  >
+                    Search Amazon
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => { void confirmUpdateCart("fresh"); }}
+                    disabled={stats.remaining === 0}
+                    className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
+                  >
+                    Send to Fresh Cart ({amazonResolution?.resolved.length ?? 0})
+                  </button>
+                  <button
+                    onClick={() => { void confirmUpdateCart("standard"); }}
+                    disabled={stats.remaining === 0}
+                    className="px-5 py-2 bg-[#FF9900] hover:bg-[#FFB347] text-black font-bold rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
+                  >
+                    Send to Amazon Cart ({amazonResolution?.resolved.length ?? 0})
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

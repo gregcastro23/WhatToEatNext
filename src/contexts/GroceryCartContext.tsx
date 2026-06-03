@@ -70,7 +70,7 @@ interface GroceryCartContextValue {
    * Opens Amazon in a new tab with all resolved-ASIN items added to cart.
    * Returns the number of items sent.
    */
-  checkoutToAmazon: () => Promise<number>;
+  checkoutToAmazon: (cartType?: "fresh" | "standard") => Promise<number>;
   /** Items that could not be mapped to an ASIN */
   unmappedItems: GroceryCartItem[];
   updateAsin: (id: string, asin: string) => void;
@@ -286,30 +286,34 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     };
   }, [unmappedItems, updateAsin]);
 
-  const checkoutToAmazon = useCallback(async (): Promise<number> => {
-    const cartItems = items.filter(
-      (item): item is GroceryCartItem & { asin: string } => Boolean(item.asin),
-    );
-    if (cartItems.length === 0) return 0;
+  const checkoutToAmazon = useCallback(
+    async (cartType: "fresh" | "standard" = "fresh"): Promise<number> => {
+      const cartItems = items.filter(
+        (item): item is GroceryCartItem & { asin: string } => Boolean(item.asin),
+      );
+      if (cartItems.length === 0) return 0;
 
-    const result = await preflightAndSubmitAmazonCart({
-      source: "grocery_drawer",
-      items: cartItems.map((item) => ({
-        asin: item.asin,
-        qty: item.quantity,
-        name: item.name,
-        category: item.category,
-      })),
-      metadata: {
-        itemIds: cartItems.map((item) => item.id),
-        recipeIds: Array.from(
-          new Set(cartItems.flatMap((item) => item.recipeIds)),
-        ),
-      },
-    });
+      const result = await preflightAndSubmitAmazonCart({
+        source: "grocery_drawer",
+        cartType,
+        items: cartItems.map((item) => ({
+          asin: item.asin,
+          qty: item.quantity,
+          name: item.name,
+          category: item.category,
+        })),
+        metadata: {
+          itemIds: cartItems.map((item) => item.id),
+          recipeIds: Array.from(
+            new Set(cartItems.flatMap((item) => item.recipeIds)),
+          ),
+        },
+      });
 
-    return result.itemCount;
-  }, [items]);
+      return result.itemCount;
+    },
+    [items],
+  );
 
   const value = useMemo<GroceryCartContextValue>(
     () => ({

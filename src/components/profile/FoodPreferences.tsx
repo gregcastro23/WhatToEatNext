@@ -54,6 +54,111 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
 }) => {
   const [localPrefs, setLocalPrefs] = useState<UserPreferences>({ ...preferences });
   const [dislikedInput, setDislikedInput] = useState('');
+  const [isSharing, setIsSharing] = useState(false);
+  const [hasSharedFeed, setHasSharedFeed] = useState(false);
+  const [hasSharedSocial, setHasSharedSocial] = useState(false);
+
+  const handleShareToFeed = async () => {
+    setIsSharing(true);
+    try {
+      const res = await fetch("/api/feed/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          shareType: "preferences",
+          shareName: false,
+          payload: {
+            dietaryRestrictions: localPrefs.dietaryRestrictions,
+            preferredCuisines: localPrefs.preferredCuisines,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        let questMessage = "";
+        if (data.completedQuests && data.completedQuests.length > 0) {
+          const rewardQuest = data.completedQuests[0];
+          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+        }
+        alert(`Shared to feed successfully!${questMessage}`);
+        setHasSharedFeed(true);
+      } else {
+        alert(data.message || "Failed to share to feed");
+      }
+    } catch (err) {
+      alert("Error sharing to feed");
+      console.error(err);
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
+  const handleShareSocial = async () => {
+    const restrictionsText = localPrefs.dietaryRestrictions.join(', ') || 'None';
+    const cuisinesText = localPrefs.preferredCuisines.join(', ') || 'Any';
+    const dislikesText = localPrefs.dislikedIngredients.join(', ') || 'None';
+    
+    const svgText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+      <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#022c22" />
+          <stop offset="50%" stop-color="#0d9488" />
+          <stop offset="100%" stop-color="#0f172a" />
+        </linearGradient>
+      </defs>
+      <rect width="800" height="600" fill="url(#bg)" rx="32" />
+      <circle cx="700" cy="100" r="150" fill="white" fill-opacity="0.03" filter="blur(40px)" />
+      
+      <text x="50" y="80" font-family="system-ui, sans-serif" font-weight="900" font-size="32" fill="#34d399">Alchm.kitchen</text>
+      <text x="50" y="115" font-family="system-ui, sans-serif" font-size="16" fill="#94a3b8" letter-spacing="2">CULINARY CONSTITUTION</text>
+      
+      <rect x="50" y="160" width="700" height="380" fill="white" fill-opacity="0.05" rx="24" stroke="white" stroke-opacity="0.1" stroke-width="2" />
+      
+      <text x="90" y="220" font-family="system-ui, sans-serif" font-weight="800" font-size="20" fill="#e2e8f0">Dietary Profile</text>
+      <text x="90" y="250" font-family="system-ui, sans-serif" font-size="16" fill="#a7f3d0">${restrictionsText}</text>
+      
+      <text x="90" y="310" font-family="system-ui, sans-serif" font-weight="800" font-size="20" fill="#e2e8f0">Preferred Cuisines</text>
+      <text x="90" y="340" font-family="system-ui, sans-serif" font-size="16" fill="#a7f3d0">${cuisinesText}</text>
+      
+      <text x="90" y="400" font-family="system-ui, sans-serif" font-weight="800" font-size="20" fill="#e2e8f0">Ingredients Blocked</text>
+      <text x="90" y="430" font-family="system-ui, sans-serif" font-size="16" fill="#fca5a5">${dislikesText}</text>
+
+      <text x="90" y="490" font-family="system-ui, sans-serif" font-weight="800" font-size="20" fill="#e2e8f0">Attributes</text>
+      <text x="90" y="515" font-family="system-ui, sans-serif" font-size="14" fill="#94a3b8">Spice: <tspan fill="#34d399" font-weight="bold">${localPrefs.spicePreference.toUpperCase()}</tspan>   ·   Complexity: <tspan fill="#34d399" font-weight="bold">${localPrefs.complexity.toUpperCase()}</tspan></text>
+      
+      <circle cx="650" cy="460" r="50" fill="none" stroke="#34d399" stroke-width="2" stroke-dasharray="4 4" />
+      <text x="650" y="455" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#34d399" text-anchor="middle">ALCHEMICAL</text>
+      <text x="650" y="475" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#34d399" text-anchor="middle">HARMONY</text>
+    </svg>`;
+    
+    const blob = new Blob([svgText], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'alchm-kitchen-profile.svg';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    try {
+      const res = await fetch("/api/quests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: "share_preferences_social" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        let questMessage = "";
+        if (data.completedQuests && data.completedQuests.length > 0) {
+          const rewardQuest = data.completedQuests[0];
+          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+        }
+        alert(`Preferences Card downloaded successfully!${questMessage}`);
+        setHasSharedSocial(true);
+      }
+    } catch (err) {
+      console.error("Failed to complete social preferences quest", err);
+    }
+  };
 
   const toggleDietary = (item: string) => {
     setLocalPrefs((prev) => ({
@@ -233,6 +338,40 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
             )}
           </div>
         </section>
+      </div>
+
+      {/* Sharing Panel */}
+      <div className="bg-emerald-50/50 p-6 rounded-3xl border border-emerald-100 flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
+        <div>
+          <h4 className="font-bold text-slate-800 text-lg">Showcase Your Constitution</h4>
+          <p className="text-sm text-slate-500 font-medium">Share your culinary settings or download your alchemical profile card.</p>
+        </div>
+        <div className="flex gap-3 w-full md:w-auto">
+          <button
+            type="button"
+            onClick={handleShareToFeed}
+            disabled={hasSharedFeed || isSharing}
+            className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-bold shadow-sm transition-all ${
+              hasSharedFeed
+                ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200"
+                : "bg-teal-600 text-white hover:bg-teal-700 active:scale-95"
+            }`}
+          >
+            {hasSharedFeed ? "✓ Shared to Feed" : "📢 Share to Feed"}
+          </button>
+          <button
+            type="button"
+            onClick={handleShareSocial}
+            disabled={hasSharedSocial}
+            className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-bold shadow-sm transition-all ${
+              hasSharedSocial
+                ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200"
+                : "bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95"
+            }`}
+          >
+            {hasSharedSocial ? "✓ Profile Saved" : "📸 Save Profile Card"}
+          </button>
+        </div>
       </div>
 
       {/* Actions */}
