@@ -1,6 +1,6 @@
 # Alchm.kitchen — Tech-Week Checklist
 
-_Rev 3 · 2026-06-02 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
+_Rev 4 · 2026-06-02 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 
 **Legend:** `[ ]` todo · `[x]` done · 👤 you (operator-only) · 🤖 Claude (I can do/automate) · ⏱ rough effort
 
@@ -9,6 +9,7 @@ _Rev 3 · 2026-06-02 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - **Shipped (latest → 2026-06-02):** **DB password rotated** · **Stripe MCP top-ups live** (ESMS refill — checkout verified) · onboarding hardening ([#495](https://github.com/gregcastro23/WhatToEatNext/pull/495)) + verification docs ([#496](https://github.com/gregcastro23/WhatToEatNext/pull/496)). _Earlier (06-01):_ Lab Book ingestion · ESMS quests · Neon-failover revert · leaked-credential removal · HSCA cleanup.
 - **✅ Blockers (P0): ALL CLEAR** — DB password **rotated 2026-06-02** (old creds rejected, prod verified healthy), Vercel `DATABASE_URL` → Railway confirmed, Stripe price/top-ups done.
 - **✅ Landed:** [#487](https://github.com/gregcastro23/WhatToEatNext/pull/487) (Lab Book quests) + [#488](https://github.com/gregcastro23/WhatToEatNext/pull/488) (this checklist) merged to `master`. ✅ **Migration 50 applied** on the Railway backend (deploy `88e4002c` / commit `9b5c669b`, 2026-06-01 23:02 UTC — `[migrate] ok 50-lab-book-quests.sql`); quests seeded.
+- **✅ Just landed:** [#500](https://github.com/gregcastro23/WhatToEatNext/pull/500) — Tier 2 code-completeness: dead-recommender removal · personalization persistence (durable `user_interactions` via `/api/user/taste-graph`) · ingredient-harmony delegation. Squash-merged to `master` (`066b1bc8`). Post-freeze cleanup, **no demo-flow impact**.
 
 ---
 
@@ -118,6 +119,7 @@ _Rev 3 · 2026-06-02 · prod = `master` (Vercel auto-deploy) + Railway Postgres_
 - [x] **Onboarding hardening** ([#495](https://github.com/gregcastro23/WhatToEatNext/pull/495)) — `agent-forge/ignite` recipe fetches timeout-guarded + non-fatal; auth-handshake grant/trial copy corrected.
 - [x] **Verification docs** ([#496](https://github.com/gregcastro23/WhatToEatNext/pull/496)) — migration 50 + DATABASE_URL→Railway + Stripe confirmations.
 - [x] Closed stale dependabot **#494** (Storybook major — now in the ignore list).
+- [x] **Tier 2 code-completeness + dead-recommender cleanup** ([#500](https://github.com/gregcastro23/WhatToEatNext/pull/500), squash-merged `066b1bc8`) — removed the orphaned `FoodRecommender` / `ClientPage` / `IngredientRecommender` trio (0 importers; broken `@/context/AstrologicalContext` import that never existed); personalization learning store now persists across reload/device via the durable `user_interactions` log (new session-based `GET/POST /api/user/taste-graph`, reusing `userInteractionsService` — no new migration); `IngredientService.analyzeRecipeIngredients` delegates to the real impl (computed harmony, not constants). Also pruned stale branches `feat/cross-site-privy-unification` + `feat/tier2-code-completeness`, and eyeballed the merged #499 tarot scoring (PASS).
 
 ## 📌 Backlog (not tech-week-blocking)
 - [ ] 👤 **Fix the Render Astrologizer/Imaginizer backend (`alchm-backend.onrender.com`) hibernation wake.** Cold starts return `502` / `503 x-render-routing: hibernate-wake-error`: the Express app only binds Render's `$PORT` *inside* its MongoDB-connect callback and `process.exit(1)`s on Mongo failure, so a slow/failed cold-start Mongo connect kills the wake. **Quick fix (no code) — point it at a healthy Mongo:** set `MONGODB_URI` on the Render service **+** open Atlas **Network Access → `0.0.0.0/0`** (Render egress IPs are dynamic; this is the likely culprit). Atlas login `alchm.nft@gmail.com`; cluster `cluster0.1wkw1cb`, user `AlchmAI`. String: `mongodb+srv://AlchmAI:<pw>@cluster0.1wkw1cb.mongodb.net/<dbName>?retryWrites=true&w=majority&appName=Cluster0` — **URL-encode the password**, add the real `<dbName>` (else it uses `test`), skip the "npm install mongodb" step (backend already uses mongoose). ⚠️ Never commit the password; least-privilege the `AlchmAI` user (readWrite on one DB).
