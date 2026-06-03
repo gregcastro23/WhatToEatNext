@@ -11,6 +11,7 @@ import type {
 import type { Recipe } from "@/types/unified";
 import { calculateThermodynamicCompatibility } from "@/utils/enhancedCompatibilityScoring";
 import { logger } from "@/utils/logger";
+import { unifiedIngredientService } from "./UnifiedIngredientService";
 import type {
     ElementalFilter,
     IngredientFilter,
@@ -516,30 +517,17 @@ export class IngredientService implements IngredientServiceInterface {
     strongPairings: Array<{ ingredients: string[]; score: number }>;
     weakPairings: Array<{ ingredients: string[]; score: number }>;
   } {
-    // Simplified analysis - in a full implementation this would be more sophisticated
-    const ingredients = recipe.ingredients || [];
-    const _ingredientNames = ingredients
-      .map((ing: any) => ing.name || "")
-      .filter(Boolean);
-    // Calculate overall harmony (simplified)
-    const overallHarmony = 0.8; // Placeholder
-    // Flavor profile (simplified)
-    const flavorProfile: { [key: string]: number } = {
-      sweet: 0.2,
-      sour: 0.1,
-      salty: 0.3,
-      bitter: 0.1,
-      umami: 0.3,
-    };
-    // Pairings (simplified)
-    const strongPairings: Array<{ ingredients: string[]; score: number }> = [];
-    const weakPairings: Array<{ ingredients: string[]; score: number }> = [];
-    return {
-      overallHarmony,
-      flavorProfile,
-      strongPairings,
-      weakPairings,
-    };
+    // Delegate to UnifiedIngredientService's real analysis (computed flavor
+    // profile + pairwise compatibility + harmony) instead of returning
+    // placeholder constants. We reference just the one method via Pick: it
+    // carries the interface's Recipe param type (matching ours), and avoids
+    // requiring UnifiedIngredientService to structurally satisfy the entire
+    // IngredientServiceInterface.
+    const analyzer = unifiedIngredientService as unknown as Pick<
+      IngredientServiceInterface,
+      "analyzeRecipeIngredients"
+    >;
+    return analyzer.analyzeRecipeIngredients(recipe);
   }
   /**
    * Enhance ingredient with elemental properties

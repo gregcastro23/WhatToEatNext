@@ -31,6 +31,19 @@ export interface RecordInteractionInput {
   weight?: number;
 }
 
+/**
+ * A single persisted interaction in the shape the client-side learning store
+ * (src/lib/personalization/user-learning.ts) consumes when hydrating from the
+ * server. The `weight` column is folded into `data.weight` so the client's
+ * weight-aware aggregations score server-written rows correctly.
+ */
+export interface PersistedInteraction {
+  type: InteractionType;
+  data: Record<string, unknown>;
+  context: Record<string, unknown>;
+  timestamp: number;
+}
+
 interface InteractionRow {
   id: string;
   user_id: string;
@@ -109,6 +122,35 @@ async function fetchInteractions(
     [userId, limit],
   );
   return result.rows;
+}
+
+/**
+ * Public reader used to hydrate the client learning store from the durable
+ * event log. Returns oldest-first so the client rebuilds history in order, and
+ * folds the numeric `weight` column into `data.weight` when the payload doesn't
+ * already carry one.
+ */
+export async function fetchUserInteractions(
+  userId: string,
+  limit = 1000,
+): Promise<PersistedInteraction[]> {
+  const rows = await fetchInteractions(userId, limit);
+  return rows
+    .slice()
+    .reverse()
+    .map((row) => {
+      const data: Record<string, unknown> = { ...(row.payload ?? {}) };
+      if (data.weight === undefined) {
+        const numericWeight = parseFloat(row.weight);
+        if (Number.isFinite(numericWeight)) data.weight = numericWeight;
+      }
+      return {
+        type: row.interaction_type,
+        data,
+        context: row.context ?? {},
+        timestamp: new Date(row.created_at).getTime(),
+      };
+    });
 }
 
 async function fetchCorrections(userId: string): Promise<TasteCorrections> {

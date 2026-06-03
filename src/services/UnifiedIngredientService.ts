@@ -600,13 +600,16 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const strongPairings = (pairings || []).filter((p) => p.score >= 0.7);
     const weakPairings = (pairings || []).filter((p) => p.score < 0.4);
 
-    // Calculate overall harmony
-    const _overallHarmony =
-      pairings.reduce((sum, p) => sum + p.score, 0) /
-      ((pairings || []).length || 1);
+    // Calculate overall harmony as the mean pairwise compatibility. Falls back
+    // to a neutral 0.5 only when the recipe has fewer than two catalog-matched
+    // ingredients (no pairs to score).
+    const overallHarmony =
+      pairings.length > 0
+        ? pairings.reduce((sum, p) => sum + p.score, 0) / pairings.length
+        : 0.5;
 
     return {
-      overallHarmony: 0.5,
+      overallHarmony,
       flavorProfile,
       strongPairings: strongPairings.slice(0, 5),
       weakPairings: weakPairings.slice(0, 5),

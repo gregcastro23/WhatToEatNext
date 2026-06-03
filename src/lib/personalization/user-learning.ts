@@ -69,11 +69,130 @@ interface RecommendationScore {
   confidence: number;
 }
 
+/**
+ * Shape returned by GET /api/user/taste-graph. Declared locally so this
+ * client module never imports the pg-backed userInteractionsService (which
+ * would pull the database driver into the browser bundle).
+ */
+interface PersistedInteraction {
+  type: string;
+  data: Record<string, unknown>;
+  context?: UserInteraction["context"];
+  timestamp: number;
+}
+
+const TASTE_GRAPH_ENDPOINT = "/api/user/taste-graph";
+
 class UserLearningSystem {
   private readonly interactions: Map<string, UserInteraction[]> = new Map();
+  // De-duplicates concurrent hydration and ensures we fetch a user's durable
+  // history from the server at most once per session (the resolved promise is
+  // retained, so later reads await an instant no-op rather than re-fetching).
+  private readonly hydrating: Map<string, Promise<void>> = new Map();
 
   constructor() {
-    this.loadFromCache();
+    // Per-user history is hydrated lazily from the server on first read (see
+    // hydrateUser) — there is no userId available at construction time.
+    void logger.debug("User learning system initialized");
+  }
+
+  /**
+   * Hydrate a user's interaction history from the durable server-side event
+   * log so learned preferences survive a reload or a different device. Best
+   * effort: failures (offline, unauthenticated) leave the in-memory store
+   * intact and the system falls back to session-only learning.
+   */
+  private hydrateUser(userId: string): Promise<void> {
+    if (typeof window === "undefined") return Promise.resolve();
+    const inFlight = this.hydrating.get(userId);
+    if (inFlight) return inFlight;
+
+    const task = (async () => {
+      try {
+        const res = await fetch(TASTE_GRAPH_ENDPOINT, {
+          headers: { Accept: "application/json" },
+          credentials: "same-origin",
+        });
+        if (!res.ok) return;
+        const body = (await res.json()) as {
+          interactions?: PersistedInteraction[];
+        };
+        const persisted = body.interactions ?? [];
+        if (persisted.length === 0) return;
+
+        const mapped: UserInteraction[] = persisted.map((p) => ({
+          // The store models every recipe touch as "recipe_view"; the
+          // view/save/cook strength lives in data.weight, so collapse the
+          // server's distinct recipe types back to that single type.
+          type:
+            p.type === "recipe_save" || p.type === "recipe_cook"
+              ? "recipe_view"
+              : (p.type as UserInteraction["type"]),
+          data: p.data ?? {},
+          timestamp: p.timestamp ?? Date.now(),
+          context: p.context,
+        }));
+
+        // Server history first, then anything tracked locally this session.
+        const sessionInteractions = this.interactions.get(userId) ?? [];
+        const merged = [...mapped, ...sessionInteractions].slice(-1000);
+        this.interactions.set(userId, merged);
+        this.updateUserPreferences(userId);
+        void logger.debug("User learning hydrated from server", {
+          userId,
+          count: mapped.length,
+        });
+      } catch (error) {
+        void logger.debug("User learning hydration skipped", { userId, error });
+      }
+    })();
+
+    this.hydrating.set(userId, task);
+    return task;
+  }
+
+  /**
+   * Persist an interaction to the durable server-side event log. Fire-and-
+   * forget: a failed write never blocks the in-memory learning path.
+   */
+  private persistInteraction(userId: string, interaction: UserInteraction): void {
+    if (typeof window === "undefined") return;
+    // Skip low-signal page-visit pings — they'd bloat the event log without
+    // contributing any cuisine/ingredient/rating signal.
+    if ((interaction.data as { type?: string })?.type === "page_visit") return;
+
+    const data = (interaction.data ?? {}) as Record<string, unknown>;
+    const weight = typeof data.weight === "number" ? data.weight : undefined;
+
+    void fetch(TASTE_GRAPH_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        type: this.toServerInteractionType(interaction),
+        payload: data,
+        context: interaction.context ?? {},
+        weight,
+      }),
+    }).catch((error) => {
+      void logger.debug("User learning persist skipped", { userId, error });
+    });
+  }
+
+  /**
+   * Map the store's interaction onto the server's interaction taxonomy. The
+   * store always tags recipe touches as "recipe_view"; recover the precise
+   * save/cook type from data.interactionType so the event log stays faithful.
+   */
+  private toServerInteractionType(interaction: UserInteraction): string {
+    if (interaction.type === "recipe_view") {
+      const kind = (interaction.data as { interactionType?: string })
+        ?.interactionType;
+      if (kind === "cook") return "recipe_cook";
+      if (kind === "save") return "recipe_save";
+      return "recipe_view";
+    }
+    return interaction.type;
   }
 
   /**
@@ -90,6 +209,8 @@ class UserLearningSystem {
 
     this.interactions.set(userId, userInteractions);
     this.updateUserPreferences(userId);
+    // Persist durably so the signal survives reload / a different device.
+    this.persistInteraction(userId, interaction);
 
     void logger.debug("User interaction tracked", {
       userId,
@@ -101,6 +222,10 @@ class UserLearningSystem {
    * Get user preferences with learning
    */
   async getUserPreferences(userId: string): Promise<UserPreferences> {
+    // Ensure durable history is loaded before computing (no-op after the
+    // first call for this user).
+    await this.hydrateUser(userId);
+
     const cached = userCache.get<UserPreferences>(`preferences_${userId}`);
     if (cached) {
       return cached;
@@ -313,6 +438,8 @@ class UserLearningSystem {
     mealPatterns: Record<string, string[]>;
     averageRatings: Record<string, number>;
   }> {
+    await this.hydrateUser(userId);
+
     const interactions = this.interactions.get(userId) || [];
     const foodRatings = interactions.filter((i) => i.type === "food_rating");
     const foodEntries = interactions.filter(
@@ -806,11 +933,6 @@ class UserLearningSystem {
   private updateUserPreferences(userId: string): void {
     // Invalidate cached preferences to force recomputation
     userCache.delete(`preferences_${userId}`);
-  }
-
-  private loadFromCache(): void {
-    // In a real implementation, this would load from persistent storage
-    void logger.debug("User learning system initialized");
   }
 }
 
