@@ -152,16 +152,20 @@ _From a 2026-06-02 `src/`-wide sweep (3 parallel audits). Not tech-week-blocking
 - [x] **Personalization persistence** ✅ 2026-06-02 — confirmed not persisting (in-memory only). The client learning store (`user-learning.ts`) now hydrates from + persists to the durable `user_interactions` log via session-based `GET/POST /api/user/taste-graph` (reusing `userInteractionsService`); learned prefs now survive reload / a different device. Removed the `loadFromCache` no-op.
 - [x] **`FoodRecommender` chakra/food wiring** ✅ 2026-06-02 — resolved by removal: `FoodRecommender` and its only parent `ClientPage` were orphaned (the live `/` route uses `EnhancedIngredientRecommender`), so both were deleted along with the likewise-orphaned `IngredientRecommender.tsx` (and the broken `@/context/AstrologicalContext` import they all carried).
 - [x] **`IngredientService.analyzeRecipeIngredients` stub** ✅ 2026-06-02 — now delegates to `UnifiedIngredientService`'s real flavor-profile + pairwise-compatibility analysis; also fixed that impl to return the computed mean harmony (was a hardcoded `0.5`).
+- [ ] **`UnifiedIngredientService` interface parity** — it's missing `suggestAlternativeIngredients`, which `IngredientServiceInterface` requires (`IngredientService` + `ingredientMappingService` implement it). No live caller hits it *on the unified service* today (latent), but it's why #500's delegation needs a `Pick<…>` cast. Add the method for parity, or relax the interface. ⏱S (verify-first)
+- [ ] **Personalization double-count check** — since #500 the client learning store persists via `POST /api/user/taste-graph`, while server routes (`food-diary`, `food-diary/[id]/rate`, `recipes/[recipeId]`, `astrologize`) already call `recordInteraction` directly. Verify overlapping events (e.g. a recipe touch logged on both paths) aren't double-weighted in the Taste Graph; add idempotency/dedup if material. ⏱S (verify-first)
 
 ### Tier 3 — dead code → delete (overlaps PR #474) 🤖
 _Zero non-test importers; several carry hardcoded `1.0`/`0.8` stubs that read like real logic but run nowhere. The live alchemy path is `calculateEnhancedAlchemicalFromPlanets` + `RealAlchemizeService`._
 - [x] Delete the orphaned service tier: `DirectRecipeService.ts`, `UnifiedPlanetaryRecommendationService.ts`, `PlanetaryRecipeScorer.ts`, `unifiedSauceRecommender.ts` (dup of live `sauceRecommender`), `unifiedNutritionalService.ts`, `AlertingSystem.ts` (live alerting is `alertService.ts`), the `ServicesManager`/`useServices`/`AstrologyService` (lowercase singleton) mock chain, and the secondary `src/lib/alchemicalEngine.ts`. ⏱S–M
 - [x] Delete dead components `src/components/RecipeList.tsx` + `src/components/IngredientRecommendations.tsx` (unreferenced; their `_`-vars are red herrings).
 - [ ] (Low-pri) Retire the ~13 `@deprecated` shims once callers move to the new APIs (e.g. `utils/astronomiaCalculator.ts`, `data/unified/flavorCompatibilityLayer.ts`, `utils/monicaKalchmCalculations.ts`). ⏱M
+- [ ] (Low-pri) **Phantom-import sweep** — audit remaining orphaned components for imports of modules that don't exist (like the `@/context/AstrologicalContext` the #500-deleted trio carried). These don't fail `next build` only because nothing bundles them; delete the dead files or fix the import before anything mounts them. ⏱S
 
 ### Decide — wire or delete 🤖
 - [x] `src/components/CuisineSpecificRecommendations.tsx` + `src/calculations/enhancedCuisineRecommender.ts:144` (`getRecipesForCuisine` returns `[]`) — orphaned recommender; mount with real data or remove both. ⏱M
 - [x] `src/components/EnhancedRecommendationEngine.tsx:114` ("Filters … Simplified for now") — only in the lazy barrel, unmounted; finish + mount, or drop from `lazy/index.tsx` and delete. ⏱M
+- [ ] `src/components/AlchemicalRecommendations.tsx` + `src/hooks/useAlchemicalRecommendations.ts` — recipe recs with dietary restrictions; **confirmed unmounted** (verified during #500; the deleted `EnhancedRecommendationEngine` was the weaker dup, this is the surviving real one). Mount on `/recipes` (or the home recs area) if wanted, else retire both. ⏱S–M
 
 ---
 
