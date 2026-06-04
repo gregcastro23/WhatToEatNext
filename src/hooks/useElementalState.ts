@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { ElementalProperties } from "@/types/alchemy";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { useAlchemical } from "./useAlchemical";
 
 export interface ElementalState {
@@ -64,27 +65,20 @@ export function useElementalState() {
       Air: total > 0 ? elementCounts.Air / total : 0.25,
     };
 
-    // Find dominant element
-    const dominant = Object.entries(normalized).reduce((a, b) =>
-      normalized[a[0] as keyof ElementalState] >
-      normalized[b[0] as keyof ElementalState]
-        ? a
-        : b,
-    )[0] as keyof ElementalState;
-
-    // Calculate balance (how evenly distributed the elements are)
-    const values = Object.values(normalized);
-    const avg =
-      values.reduce((sum, val) => sum + val, 0) / (values || []).length;
-    const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) /
-      (values || []).length;
-    const balance = Math.max(0, 1 - variance * 4); // Scale to 0-1
+    // Route dominance + balance through the canonical signature so every
+    // surface agrees on ties (this previously used an Air-first reduce that
+    // disagreed with the Fire-first scan in ingredientUtils).
+    const sig = elementalSignature({
+      Fire: normalized.Fire,
+      Water: normalized.Water,
+      Earth: normalized.Earth,
+      Air: normalized.Air,
+    });
 
     return {
       ...normalized,
-      dominant,
-      balance,
+      dominant: sig.dominant,
+      balance: sig.balance,
     } as unknown as ElementalProperties;
   }, [planetaryPositions]);
 

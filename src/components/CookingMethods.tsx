@@ -15,6 +15,7 @@ import type { ElementalProperties, ZodiacSign, BasicThermodynamicProperties } fr
 import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
 import { getCulturalCookingMethods } from '@/utils/culturalMethodsAggregator';
+import { elementalSignature } from '@/utils/elemental/signature';
 import { _getLunarMultiplier as getLunarMultiplier } from '@/utils/lunarMultiplier';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 import styles from './CookingMethods.module.css';
@@ -1695,9 +1696,11 @@ export default function CookingMethods() {
                 const isExpanded = expandedMethods[methodId] || false;
                 const molecular = getMolecularDetails(method);
                 
-                // Get dominant element to display
-                const dominantElement = Object.entries(method.elementalProperties || {})
-                  .sort(([_a, a], [_b, b]) => b - a)[0]?.[0]?.toLowerCase() || 'fire';
+                // Canonical dominant for the method tag — consistent tie-break.
+                // Lowercased to match the CSS-module element classes.
+                const dominantElement = elementalSignature(
+                  method.elementalProperties ?? null,
+                ).dominant.toLowerCase();
                 
                 // Use the score from our state with a more reliable key (method.id or name)
                 // This ensures the score is consistent and doesn't change when clicked

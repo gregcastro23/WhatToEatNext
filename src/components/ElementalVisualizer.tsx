@@ -1,6 +1,7 @@
 'use client';
 import React, { useMemo, useState, useCallback, useRef } from 'react';
 import type { ElementalProperties } from '@/types/alchemy';
+import { elementalSignature } from '@/utils/elemental/signature';
 import { calculateElementalCompatibility } from '@/utils/elementalCompatibility';
 
 interface ElementalVisualizerProps {
@@ -112,7 +113,6 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   // Derived state calculations, memoized for performance
   const {
     normalizedValues,
-    dominantElement,
     compatibility,
     sortedElements,
     recommendations
@@ -575,7 +575,8 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
           {showDetails && (
             <div className="details-content" style={{ marginTop: '8px' }}>
               <p style={{ fontSize: sizeConfig.fontSize - 2, margin: '4px 0' }}>
-                Dominant Element: <strong>{dominantElement}</strong>
+                Elemental Signature:{" "}
+                <strong>{elementalSignature(elementalProperties).shortLabel}</strong>
               </p>
               
               {sortedElements.map((element) => (
@@ -611,9 +612,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     );
   }, [
     className, 
-    compatibility, 
-    dominantElement, 
-    handleToggleDetails, 
+    compatibility,
+    elementalProperties,
+    handleToggleDetails,
     normalizedValues, 
     recommendations, 
     renderBarChart, 

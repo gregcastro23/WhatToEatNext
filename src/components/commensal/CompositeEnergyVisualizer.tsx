@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import React from "react";
 import type { CompositeNatalChart } from "@/types/natalChart";
+import { elementalSignature } from "@/utils/elemental/signature";
 
 const ElementalVisualizer = dynamic(
   () => import("@/components/ElementalVisualizer"),
@@ -66,6 +67,14 @@ export function CompositeEnergyVisualizer({
   theme = "dark",
 }: Props) {
   const t = THEME[theme];
+  // Canonical signature from the composite's elemental balance — co-dominant
+  // aware, with a tie-break consistent with every other surface.
+  const sig = elementalSignature({
+    Fire: composite.elementalBalance.Fire,
+    Water: composite.elementalBalance.Water,
+    Earth: composite.elementalBalance.Earth,
+    Air: composite.elementalBalance.Air,
+  });
   const elements: Array<keyof typeof composite.elementalBalance> = [
     "Fire",
     "Water",
@@ -85,16 +94,16 @@ export function CompositeEnergyVisualizer({
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div className="flex items-center gap-3">
           <span className="text-3xl" aria-hidden>
-            {ELEMENT_ICON[composite.dominantElement] ?? "✨"}
+            {ELEMENT_ICON[sig.dominant] ?? "✨"}
           </span>
           <div>
             <h2 className={`text-xl md:text-2xl font-bold leading-tight ${t.title}`}>
               Composite Energy
             </h2>
             <p className={`text-sm ${t.subtitle}`}>
-              Dominant element:{" "}
+              Elemental signature:{" "}
               <span className={`font-semibold ${t.titleHighlight}`}>
-                {composite.dominantElement}
+                {sig.shortLabel}
               </span>{" "}
               · Modality:{" "}
               <span className={`font-semibold ${t.titleHighlight}`}>

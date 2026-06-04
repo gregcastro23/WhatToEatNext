@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useMemo, type JSX } from "react";
+import { ElementalSignature } from "@/components/ui/alchm/ElementalSignature";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 import { NAV_IA, type NavRoute } from "@/config/navigation";
 import { useElementalState } from "@/hooks/useElementalState";
+import { elementalSignature } from "@/utils/elemental/signature";
 
 /**
  * Discover — "Browse the cosmic pantry".
@@ -85,22 +87,20 @@ const ELEMENT_ROWS: readonly ElementRow[] = [
 function ElementalBrief(): JSX.Element {
   const el = useElementalState();
 
-  // Fire/Water/Earth/Air are genuine numeric fields; derive the dominant
-  // locally rather than trusting the hook's cast-on `dominant` field.
-  const { values, dominant } = useMemo(() => {
-    const v: Record<ElementRow["key"], number> = {
-      Fire: typeof el.Fire === "number" ? el.Fire : 0.25,
-      Water: typeof el.Water === "number" ? el.Water : 0.25,
-      Earth: typeof el.Earth === "number" ? el.Earth : 0.25,
-      Air: typeof el.Air === "number" ? el.Air : 0.25,
-    };
-    const dom = (Object.entries(v) as Array<[ElementRow["key"], number]>).reduce(
-      (a, b) => (b[1] > a[1] ? b : a),
-    )[0];
-    return { values: v, dominant: dom };
-  }, [el.Fire, el.Water, el.Earth, el.Air]);
-
-  const domRow = ELEMENT_ROWS.find((r) => r.key === dominant) ?? ELEMENT_ROWS[0];
+  // Fire/Water/Earth/Air are genuine numeric fields; route them through the
+  // canonical signature so the lean — and its tie-breaks — reads identically
+  // here and on every other surface (a tied sky now reads "leans water & earth"
+  // instead of silently picking one element).
+  const sig = useMemo(
+    () =>
+      elementalSignature({
+        Fire: typeof el.Fire === "number" ? el.Fire : 0.25,
+        Water: typeof el.Water === "number" ? el.Water : 0.25,
+        Earth: typeof el.Earth === "number" ? el.Earth : 0.25,
+        Air: typeof el.Air === "number" ? el.Air : 0.25,
+      }),
+    [el.Fire, el.Water, el.Earth, el.Air],
+  );
 
   return (
     <section
@@ -124,42 +124,22 @@ function ElementalBrief(): JSX.Element {
           TONIGHT&apos;S ELEMENTAL BRIEF · LIVE SKY
         </div>
 
-        <div className="discover-brief-head">
-          <div>
-            <div
-              className="t-display"
-              style={{ fontSize: 26, color: "var(--fg)", lineHeight: 1.15 }}
-            >
-              The sky leans{" "}
-              <span style={{ color: domRow.color }}>{domRow.label.toLowerCase()}</span>
-            </div>
-            <p
-              style={{
-                margin: "6px 0 0",
-                fontSize: 13,
-                color: "var(--fg-dim)",
-                lineHeight: 1.55,
-                maxWidth: 460,
-              }}
-            >
+        <ElementalSignature
+          variant="full"
+          signature={sig}
+          style={{ marginBottom: 22 }}
+          description={
+            <>
               Live elemental match across 2,901 ingredients and 184 cuisines. Everything
               below is filtered and ranked to this moment.
-            </p>
-          </div>
-          <div
-            className="discover-brief-dom"
-            style={{
-              background: `radial-gradient(circle at 32% 28%, ${domRow.color}, color-mix(in oklch, ${domRow.color}, black 55%))`,
-            }}
-            aria-hidden="true"
-          >
-            <Glyph name={domRow.glyph} size={26} stroke={1.3} style={{ color: "rgba(0,0,0,0.72)" }} />
-          </div>
-        </div>
+            </>
+          }
+        />
 
         <div className="discover-bars">
           {ELEMENT_ROWS.map((row) => {
-            const pct = Math.round((values[row.key] ?? 0) * 100);
+            const pct = Math.round((sig.values[row.key] ?? 0) * 100);
+            const named = sig.coDominant.includes(row.key);
             return (
               <div key={row.key} className="discover-bar">
                 <div className="discover-bar-top">
@@ -174,7 +154,7 @@ function ElementalBrief(): JSX.Element {
                   </span>
                   <span
                     className="t-num"
-                    style={{ fontSize: 12, color: row.key === dominant ? "var(--fg)" : "var(--fg-mute)" }}
+                    style={{ fontSize: 12, color: named ? "var(--fg)" : "var(--fg-mute)" }}
                   >
                     {pct}%
                   </span>
@@ -264,16 +244,6 @@ export default function DiscoverPage(): JSX.Element {
           position: relative;
           overflow: hidden;
         }
-        .discover-brief-head {
-          display: flex; align-items: flex-start; justify-content: space-between;
-          gap: 20px; margin-bottom: 22px;
-        }
-        .discover-brief-dom {
-          flex-shrink: 0;
-          width: 56px; height: 56px; border-radius: 14px;
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
-        }
         .discover-bars {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -281,7 +251,6 @@ export default function DiscoverPage(): JSX.Element {
         }
         @media (max-width: 560px) {
           .discover-bars { grid-template-columns: repeat(2, 1fr); gap: 16px 18px; }
-          .discover-brief-dom { width: 48px; height: 48px; }
         }
         .discover-bar-top {
           display: flex; align-items: center; justify-content: space-between;

@@ -53,6 +53,7 @@ import type {
   AmazonSearchResult,
 } from "@/types/amazon";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -169,10 +170,13 @@ const SIGN_ELEMENT: Record<string, ElementKey> = {
 };
 
 function dominantElement(props: Ingredient["elementalProperties"]): ElementKey {
-  const entries = (Object.entries(props || {}) as Array<[ElementKey, number]>)
-    .filter(([k]) => k in ELEMENT_META)
-    .sort((a, b) => (Number(b[1]) || 0) - (Number(a[1]) || 0));
-  return (entries[0]?.[0]) || "Earth";
+  // Canonical dominant — consistent tie-break with every other surface.
+  return elementalSignature({
+    Fire: Number(props?.Fire) || 0,
+    Water: Number(props?.Water) || 0,
+    Earth: Number(props?.Earth) || 0,
+    Air: Number(props?.Air) || 0,
+  }).dominant;
 }
 
 function seasonsOf(ing: Ingredient): string[] {

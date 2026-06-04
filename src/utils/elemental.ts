@@ -1,5 +1,16 @@
 import type { ElementalProperties } from "@/types/alchemy";
 
+// Canonical shared elemental signature model. Re-exported here because bare
+// `@/utils/elemental` resolves to this file (not the ./elemental/ directory
+// barrel), so this keeps the natural import path working alongside the direct
+// `@/utils/elemental/signature` path.
+export { elementalSignature } from "./elemental/signature";
+export type {
+  ElementalSignature,
+  ElementalTier,
+  RankedElement,
+} from "./elemental/signature";
+
 export interface ElementalColor {
   primary: string;
   secondary: string;
