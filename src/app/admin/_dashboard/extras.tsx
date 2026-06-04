@@ -11,8 +11,8 @@ import type {
   PractitionerGeoData,
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
-import { seeded, type ApiRoutesData } from "./data";
 import { Card } from "./hero";
+import type { ApiRoutesData } from "./data";
 
 // ============================================================
 // SUBDOMAIN MATRIX
@@ -316,8 +316,6 @@ export function RecipeQualityInspector({ trending }: RecipeQualityInspectorProps
         const rating = r.rating || 5.0;
         const state = rating >= 4.7 ? "GREEN" : rating >= 4.0 ? "REVIEW" : "FLAG";
         
-        // Generate beautiful deterministic SEMS elements
-        const semsBase = seeded(i * 12 + 5, 4, 0.4, 0.95);
         
         // Generate issue tags if low popularity or low reviews
         const issues: string[] = [];
@@ -336,82 +334,12 @@ export function RecipeQualityInspector({ trending }: RecipeQualityInspectorProps
           name: r.name,
           author: `Cuisine: ${r.cuisine}`,
           state,
-          sems: { 
-            s: semsBase[0] ?? 0.6, 
-            e: semsBase[1] ?? 0.7, 
-            m: semsBase[2] ?? 0.5, 
-            sub: semsBase[3] ?? 0.5 
-          },
           issues,
           score: r.popularity * 100, // Show popularity as a scale
           eta: r.rating >= 4.7 ? "high harmony" : "rising",
         };
       })
-    : [
-        {
-          id: "RC-c8f1ad",
-          name: "Braised cheek · pomegranate · sumac",
-          author: "engine-v17",
-          state: "GREEN",
-          sems: { s: 0.62, e: 0.71, m: 0.48, sub: 0.55 },
-          issues: [] as string[],
-          score: 94,
-          eta: "approved",
-        },
-        {
-          id: "RC-84a210",
-          name: "Molecular caviar · tangerine pearl",
-          author: "engine-v17",
-          state: "REVIEW",
-          sems: { s: 0.84, e: 0.42, m: 0.18, sub: 0.22 },
-          issues: ["Substance too low · 22%", "Matter outside band", "no allergen tag"],
-          score: 62,
-          eta: "needs you",
-        },
-        {
-          id: "RC-192bb7",
-          name: "Burnt cabbage · brown butter · capers",
-          author: "engine-v17",
-          state: "GREEN",
-          sems: { s: 0.41, e: 0.68, m: 0.62, sub: 0.51 },
-          issues: [] as string[],
-          score: 91,
-          eta: "approved",
-        },
-        {
-          id: "RC-7c3091",
-          name: "Kheer · saffron · cardamom",
-          author: "@isobel.r → enhanced",
-          state: "GREEN",
-          sems: { s: 0.58, e: 0.55, m: 0.49, sub: 0.42 },
-          issues: [] as string[],
-          score: 88,
-          eta: "approved",
-        },
-        {
-          id: "RC-412de8",
-          name: "Squid ink risotto · sea urchin",
-          author: "engine-v17",
-          state: "FLAG",
-          sems: { s: 0.72, e: 0.81, m: 0.61, sub: 0.74 },
-          issues: [
-            "High allergen · shellfish + cephalopod",
-            "Sourcing limited to coastal regions",
-          ],
-          score: 74,
-          eta: "tag · gate",
-        },
-        {
-          id: "RC-ee920f",
-          name: "Pho gà · star anise · rice paper",
-          author: "engine-v17",
-          state: "GREEN",
-          sems: { s: 0.52, e: 0.74, m: 0.51, sub: 0.41 },
-          issues: [] as string[],
-          score: 92,
-          eta: "approved",
-        },
-      ];
+    : [];
 
   const stateColor: Record<string, string> = {
     GREEN: "var(--el-earth)",
@@ -429,12 +357,20 @@ export function RecipeQualityInspector({ trending }: RecipeQualityInspectorProps
       }
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {items.length === 0 && (
+          <div
+            className="t-mono"
+            style={{ fontSize: 10, color: "var(--fg-mute)", fontStyle: "italic", textAlign: "center", padding: "16px 6px" }}
+          >
+            No public recipes ranked yet — this fills in as recipes gain ratings.
+          </div>
+        )}
         {items.map((r) => (
           <div
             key={r.id}
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 110px 100px 100px",
+              gridTemplateColumns: "1fr 100px 100px",
               gap: 10,
               alignItems: "center",
               padding: "8px 10px",
@@ -469,48 +405,6 @@ export function RecipeQualityInspector({ trending }: RecipeQualityInspectorProps
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: 2 }}>
-              {[
-                { v: r.sems.s, c: "S", col: "var(--el-fire)" },
-                { v: r.sems.e, c: "E", col: "var(--accent)" },
-                { v: r.sems.m, c: "M", col: "var(--el-earth)" },
-                { v: r.sems.sub, c: "Sb", col: "var(--el-water)" },
-              ].map((b) => (
-                <div
-                  key={b.c}
-                  style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}
-                >
-                  <div
-                    style={{
-                      width: "100%",
-                      height: 26,
-                      background: "rgba(255,255,255,0.04)",
-                      borderRadius: 3,
-                      position: "relative",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "absolute",
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        height: `${b.v * 100}%`,
-                        background: b.col,
-                        opacity: 0.85,
-                      }}
-                    />
-                  </div>
-                  <span
-                    className="t-mono"
-                    style={{ fontSize: 7.5, color: "var(--fg-mute)", marginTop: 1, letterSpacing: "0.1em" }}
-                  >
-                    {b.c}
-                  </span>
-                </div>
-              ))}
-            </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <span
                 style={{
@@ -557,9 +451,8 @@ export function RecipeQualityInspector({ trending }: RecipeQualityInspectorProps
 // COSMIC YIELD ECONOMY
 // ============================================================
 export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
-  const burndata = seeded(51, 30, 0.4, 0.85);
-  const mintdata = seeded(53, 30, 0.45, 0.9);
   const maxSink = Math.max(1, ...data.sinks24h.map((s) => s.amount));
+  const maxFlow = Math.max(1, data.minted30d, data.burned30d);
   const sinks = data.sinks24h.map((s) => ({
     k: s.source.replace(/_/g, " "),
     v: Math.round(s.amount),
@@ -602,39 +495,33 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
           </div>
           <div
             style={{
-              position: "relative",
-              height: 76,
               border: "1px solid var(--line)",
               borderRadius: 8,
-              padding: 6,
+              padding: "8px 10px",
               background: "rgba(0,0,0,0.2)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
             }}
           >
-            <div className="t-tag" style={{ fontSize: 8, position: "absolute", top: 4, left: 8 }}>
-              MINT vs BURN · 30D
-            </div>
-            <svg viewBox="0 0 280 60" width="100%" height="60" style={{ marginTop: 12 }}>
-              <path
-                d={mintdata
-                  .map((v, i) => `${i === 0 ? "M" : "L"}${(i / 29) * 280} ${60 - v * 50}`)
-                  .join(" ")}
-                fill="none"
-                stroke="var(--el-earth)"
-                strokeWidth="1.2"
-              />
-              <path
-                d={burndata
-                  .map((v, i) => `${i === 0 ? "M" : "L"}${(i / 29) * 280} ${60 - v * 50}`)
-                  .join(" ")}
-                fill="none"
-                stroke="var(--el-fire)"
-                strokeWidth="1.2"
-              />
-            </svg>
-            <div style={{ position: "absolute", bottom: 4, right: 8, display: "flex", gap: 8 }}>
-              <span className="t-mono" style={{ fontSize: 8.5, color: "var(--el-earth)" }}>━ mint</span>
-              <span className="t-mono" style={{ fontSize: 8.5, color: "var(--el-fire)" }}>━ burn</span>
-            </div>
+            <div className="t-tag" style={{ fontSize: 8 }}>MINT vs BURN · 30D</div>
+            {[
+              { label: "mint", val: data.minted30d, col: "var(--el-earth)" },
+              { label: "burn", val: data.burned30d, col: "var(--el-fire)" },
+            ].map((b) => (
+              <div
+                key={b.label}
+                style={{ display: "grid", gridTemplateColumns: "40px 1fr 70px", gap: 8, alignItems: "center" }}
+              >
+                <span className="t-mono" style={{ fontSize: 8.5, color: b.col }}>{b.label}</span>
+                <div style={{ height: 8, background: "rgba(255,255,255,0.04)", borderRadius: 999, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${Math.max(2, (b.val / maxFlow) * 100)}%`, background: b.col }} />
+                </div>
+                <span className="t-num" style={{ fontSize: 10, color: "var(--fg)", textAlign: "right" }}>
+                  {Math.round(b.val).toLocaleString()}
+                </span>
+              </div>
+            ))}
           </div>
           <div className="t-tag" style={{ marginTop: 10, marginBottom: 4 }}>SINKS · LAST 24H</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
