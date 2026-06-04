@@ -11,7 +11,7 @@ import type {
   PractitionerGeoData,
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
-import { seeded } from "./data";
+import { seeded, type ApiRoutesData } from "./data";
 import { Card } from "./hero";
 
 // ============================================================
@@ -148,121 +148,96 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
 // ============================================================
 interface APIHeatmapProps {
   db?: DatabaseObservabilityData;
+  apiRoutes?: ApiRoutesData;
 }
 
-export function APIHeatmap({ db }: APIHeatmapProps) {
-  const endpoints = [
-    "GET  /api/recommendations",
-    "POST /api/recipe/compose",
-    "GET  /api/ingredients/:id",
-    "GET  /api/transit",
-    "GET  /api/natal",
-    "POST /api/cart/bundle",
-    "GET  /api/recipes/:id",
-    "POST /api/feedback",
-    "GET  /api/pantry",
-    "POST /api/dossier/export",
-    "GET  /api/cuisines",
-    "POST /api/commensal/dispatch",
-  ];
-  const rows = endpoints.map((_, ri) => seeded(ri * 13 + 7, 24, 0.05, 1.0));
-  const max = 1.0;
+export function APIHeatmap({ db, apiRoutes }: APIHeatmapProps) {
+  const routes = apiRoutes?.routes ?? [];
+  const windowMin = apiRoutes?.windowMinutes ?? 60;
+  const live = apiRoutes?.live ?? false;
+  const totalRequests = routes.reduce((sum, r) => sum + r.count, 0);
+  const maxCount = routes.reduce((m, r) => Math.max(m, r.count), 0) || 1;
   return (
     <Card
-      title="API Endpoint Heatmap"
-      subtitle="last 24h · request volume × hour"
+      title="API Endpoint Traffic"
+      subtitle={`last ${windowMin}m · live request log`}
       right={
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>12 endpoints · 1.3M requests</span>
+        <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+          {live
+            ? `${routes.length} routes · ${totalRequests.toLocaleString()} req`
+            : "○ no traffic"}
+        </span>
       }
     >
-      <div style={{ display: "grid", gridTemplateColumns: "220px 1fr 80px", gap: 8 }}>
-        <div />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)" }}>
-          {Array.from({ length: 24 }, (_, h) => (
-            <span
-              key={h}
-              className="t-mono"
-              style={{ fontSize: 8, color: "var(--fg-mute)", textAlign: "center", padding: "0 1px" }}
-            >
-              {h % 4 === 0 ? String(h).padStart(2, "0") : ""}
-            </span>
-          ))}
+      {routes.length === 0 ? (
+        <div
+          className="t-mono"
+          style={{
+            fontSize: 10,
+            color: "var(--fg-mute)",
+            fontStyle: "italic",
+            textAlign: "center",
+            padding: "18px 6px",
+            lineHeight: 1.5,
+          }}
+        >
+          No API traffic recorded in the last {windowMin} minutes.
+          <br />
+          The request log is in-memory and hydrates from the DB on first read —
+          sparse right after a serverless cold start.
         </div>
-        <span className="t-tag" style={{ fontSize: 8.5, textAlign: "right" }}>RPS · P95</span>
+      ) : (
+        <div style={{ display: "grid", gridTemplateColumns: "210px 1fr 132px", gap: 8, alignItems: "center" }}>
+          <span className="t-tag" style={{ fontSize: 8.5 }}>ROUTE</span>
+          <span className="t-tag" style={{ fontSize: 8.5 }}>VOLUME</span>
+          <span className="t-tag" style={{ fontSize: 8.5, textAlign: "right" }}>REQ · ERR · P95</span>
 
-        {endpoints.map((e, ri) => {
-          const peak = Math.max(...rows[ri]);
-          const peakIdx = rows[ri].indexOf(peak);
-          const rps = Math.round(peak * 1240);
-          const p95 = 60 + (ri * 17) % 240;
-          return (
-            <React.Fragment key={e}>
-              <span
-                className="t-mono"
-                style={{
-                  fontSize: 10,
-                  color: "var(--fg-dim)",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {e}
-              </span>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)", gap: 1.5 }}>
-                {rows[ri].map((v, hi) => (
+          {routes.map((r) => {
+            const pct = r.count / maxCount;
+            const errPct = Math.round(r.errorRate * 100);
+            const p95 = Math.round(r.p95LatencyMs);
+            return (
+              <React.Fragment key={r.path}>
+                <span
+                  className="t-mono"
+                  style={{
+                    fontSize: 10,
+                    color: "var(--fg-dim)",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  title={r.path}
+                >
+                  {r.path}
+                </span>
+                <div
+                  style={{
+                    height: 12,
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid var(--line)",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                  }}
+                >
                   <div
-                    key={hi}
                     style={{
-                      height: 16,
-                      background: `color-mix(in oklch, var(--accent), transparent ${(1 - v / max) * 92}%)`,
-                      border: "1px solid var(--line)",
-                      borderRadius: 2,
-                      position: "relative",
+                      height: "100%",
+                      width: `${Math.max(2, pct * 100)}%`,
+                      background: errPct > 0 ? "var(--el-fire)" : "var(--accent)",
                     }}
-                  >
-                    {hi === peakIdx && v > 0.6 && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: -1,
-                          border: "1px solid var(--accent-2)",
-                          borderRadius: 2,
-                        }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-              <span className="t-mono" style={{ fontSize: 10, color: "var(--fg)", textAlign: "right" }}>
-                {rps} ·{" "}
-                <span style={{ color: p95 > 200 ? "var(--el-fire)" : "var(--fg-mute)" }}>{p95}ms</span>
-              </span>
-            </React.Fragment>
-          );
-        })}
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
-        <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)" }}>
-          PEAK · 21:30 UTC · /api/recommendations · 1,182 rps
-        </span>
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)" }}>low</span>
-          {[0.1, 0.3, 0.5, 0.7, 0.9].map((v) => (
-            <div
-              key={v}
-              style={{
-                width: 14,
-                height: 10,
-                background: `color-mix(in oklch, var(--accent), transparent ${(1 - v) * 92}%)`,
-                border: "1px solid var(--line)",
-                borderRadius: 2,
-              }}
-            />
-          ))}
-          <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)" }}>high</span>
+                  />
+                </div>
+                <span className="t-mono" style={{ fontSize: 10, color: "var(--fg)", textAlign: "right" }}>
+                  {r.count.toLocaleString()} ·{" "}
+                  <span style={{ color: errPct > 0 ? "var(--el-fire)" : "var(--fg-mute)" }}>{errPct}%</span> ·{" "}
+                  <span style={{ color: p95 > 200 ? "var(--el-fire)" : "var(--fg-mute)" }}>{p95}ms</span>
+                </span>
+              </React.Fragment>
+            );
+          })}
         </div>
-      </div>
+      )}
 
       {/* Slow query hotspots telemetry */}
       <div
