@@ -11,10 +11,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { ingredientSummaries } from "@/data/ingredients/ingredientSummaries";
 import type { Ingredient, RecipeIngredient } from "@/types";
-import {
-  isRecipeIngredient,
-  getDominantElement,
-} from "@/utils/ingredientUtils";
+import { elementalSignature } from "@/utils/elemental/signature";
+import { isRecipeIngredient } from "@/utils/ingredientUtils";
 import { getAssetUrl } from "@/utils/urlUtils";
 import { AddToDiaryModal } from "./food-diary/AddToDiaryModal";
 
@@ -32,15 +30,11 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgFailed, setImgFailed] = useState(false);
 
-  // Determine the dominant element to style the card
-  const dominantElement = getDominantElement(
-    ingredient.elementalProperties || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    },
-  );
+  // Route the card's lean through the canonical signature so its label is
+  // co-dominant-aware and ties read identically here and everywhere else. The
+  // single-hue card art keys off the dominant element.
+  const sig = elementalSignature(ingredient.elementalProperties ?? null);
+  const dominantElement = sig.dominant;
 
   const elementColors: Record<string, string> = {
     Fire: "from-orange-500/20 to-red-600/20 border-orange-500/30",
@@ -119,7 +113,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
               <span
                 className={`text-xs font-semibold uppercase tracking-wider ${textColorClass}`}
               >
-                {dominantElement} Dominant
+                {sig.tier === "single"
+                  ? `${sig.dominant} Dominant`
+                  : sig.shortLabel}
               </span>
             </div>
             <button

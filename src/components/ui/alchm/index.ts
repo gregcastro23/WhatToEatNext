@@ -1,6 +1,12 @@
 export { Glyph, type GlyphName, type GlyphProps } from "./Glyph";
 export { PlanetaryClock, type PlanetaryClockProps, type PlanetaryClockStyle, type PlanetaryPosition } from "./PlanetaryClock";
 export { ElementalMeter, type ElementalMeterProps, type ElementalValues } from "./ElementalMeter";
+export {
+  ElementalSignature,
+  ELEMENT_META,
+  type ElementalSignatureProps,
+  type ElementalSignatureVariant,
+} from "./ElementalSignature";
 export { CompatibilityRing, type CompatibilityRingProps } from "./CompatibilityRing";
 export { Sparkline, type SparklineProps } from "./Sparkline";
 export { LiveTimecode, type LiveTimecodeProps } from "./LiveTimecode";

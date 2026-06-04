@@ -18,6 +18,7 @@ import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { elementalSignature } from "@/utils/elemental/signature";
 
 const CUISINES_LIMIT = { window: 60_000, max: 60, bucket: "cuisines-recommend" };
 
@@ -105,9 +106,17 @@ function computeLocalRecommendations() {
     if (el) elementCounts[el]++;
   }
 
-  const sorted = Object.entries(elementCounts).sort(([, a], [, b]) => b - a);
-  const dominant  = sorted[0][0];
-  const secondary = sorted[1][0];
+  // Canonical signature — one tie-break shared with every display surface, plus
+  // adaptive co-dominant framing for the UI. The 3+2 primary/secondary cuisine
+  // blend is preserved so the public marketing preview keeps its count.
+  const sig = elementalSignature({
+    Fire: elementCounts.Fire,
+    Water: elementCounts.Water,
+    Earth: elementCounts.Earth,
+    Air: elementCounts.Air,
+  });
+  const dominant = sig.dominant;
+  const secondary = sig.ranked[1].element;
 
   const primData = CUISINE_MAP[dominant];
   const secData  = CUISINE_MAP[secondary];
@@ -115,6 +124,12 @@ function computeLocalRecommendations() {
   return {
     dominantElement: dominant,
     secondaryElement: secondary,
+    signature: {
+      tier: sig.tier,
+      coDominant: sig.coDominant,
+      label: sig.label,
+      shortLabel: sig.shortLabel,
+    },
     recommendations: {
       cuisines:      [...primData.cuisines.slice(0, 3),      ...secData.cuisines.slice(0, 2)],
       cookingMethods:[...primData.cookingMethods.slice(0, 2), ...secData.cookingMethods.slice(0, 2)],

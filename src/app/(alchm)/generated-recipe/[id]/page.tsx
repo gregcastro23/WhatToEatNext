@@ -17,6 +17,7 @@ import Link from "next/link";
 import { notFound, useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, useCallback } from "react";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
 
 // ─── Element helpers ─────────────────────────────────────────────────────────
@@ -73,12 +74,16 @@ interface IngredientRowProps {
 
 function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRowProps) {
   const [showProps, setShowProps] = useState(false);
-  const dominantElement =
-    elementalProperties
-      ? Object.entries(elementalProperties)
-          .filter(([k]) => ["Fire", "Water", "Earth", "Air"].includes(k))
-          .sort(([, a], [, b]) => b - a)[0]?.[0]
-      : undefined;
+  // Canonical dominant for the row icon — consistent tie-break with the rest
+  // of the app (this is a single-glyph affordance, so it stays single-element).
+  const dominantElement = elementalProperties
+    ? elementalSignature({
+        Fire: elementalProperties.Fire,
+        Water: elementalProperties.Water,
+        Earth: elementalProperties.Earth,
+        Air: elementalProperties.Air,
+      }).dominant
+    : undefined;
 
   return (
     <li className="flex items-center justify-between gap-2 py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group">

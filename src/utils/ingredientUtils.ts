@@ -24,6 +24,7 @@ import type {
   RecipeIngredient,
   IngredientMappingType,
  ElementalProperties } from "@/types/alchemy";
+import { elementalSignature } from "@/utils/elemental/signature";
 
 /**
  * Determines the modality of an ingredient based on its qualities and elemental properties
@@ -309,19 +310,16 @@ export function mergeElementalProperties(
 }
 
 /**
- * Gets the dominant element from an ElementalProperties object
+ * Gets the dominant element from an ElementalProperties object.
+ *
+ * Delegates to the canonical {@link elementalSignature} model so the tie-break
+ * is identical across every surface (previously this used a Fire-first scan that
+ * disagreed with other "dominant element" implementations on ties).
  */
 export function getDominantElement(
   elementalProperties: ElementalProperties,
 ): string {
-  const { Fire, Water, Earth, Air } = elementalProperties;
-  const max = Math.max(Fire, Water, Earth, Air);
-
-  if (max === Fire) return "Fire";
-  if (max === Water) return "Water";
-  if (max === Earth) return "Earth";
-  if (max === Air) return "Air";
-  return "Balanced";
+  return elementalSignature(elementalProperties).dominant;
 }
 
 /**

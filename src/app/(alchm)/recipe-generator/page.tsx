@@ -31,6 +31,7 @@ import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type { MealType, DayOfWeek } from "@/types/menuPlanner";
+import { elementalSignature } from "@/utils/elemental/signature";
 import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
 import {
@@ -162,9 +163,12 @@ function CosmicMomentBanner({
   isPersonalized,
   planetaryHour,
 }: CosmicMomentProps) {
-  const dominantElement = Object.entries(domElements).sort(
-    ([, a], [, b]) => b - a,
-  )[0];
+  const sig = elementalSignature({
+    Fire: domElements.Fire,
+    Water: domElements.Water,
+    Earth: domElements.Earth,
+    Air: domElements.Air,
+  });
 
   return (
     <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-violet-900 rounded-2xl p-5 text-white shadow-xl">
@@ -210,15 +214,17 @@ function CosmicMomentBanner({
           )}
         </div>
 
-        {/* Dominant Element */}
+        {/* Elemental Lean */}
         <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-70 mb-1">Dominant Element</div>
+          <div className="text-xs opacity-70 mb-1">Elemental Lean</div>
           <div className="flex items-center gap-1.5">
-            <span className="text-lg">{ELEMENT_ICONS[dominantElement?.[0]] || "⚡"}</span>
+            <span className="text-lg">{ELEMENT_ICONS[sig.dominant] || "⚡"}</span>
             <div>
-              <div className="font-bold text-sm">{dominantElement?.[0] || "Balanced"}</div>
+              <div className="font-bold text-sm">{sig.shortLabel}</div>
               <div className="text-xs opacity-70">
-                {dominantElement ? `${Math.round(dominantElement[1] * 100)}%` : ""}
+                {sig.tier === "balanced"
+                  ? "even"
+                  : `${Math.round(sig.values[sig.dominant] * 100)}%`}
               </div>
             </div>
           </div>

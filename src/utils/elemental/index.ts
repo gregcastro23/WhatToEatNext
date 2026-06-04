@@ -19,6 +19,14 @@ export * from "./normalization";
 // Backwards compatibility utilities
 export * from "./compatibility";
 
+// Canonical shared elemental signature model (ranked + adaptive co-dominant)
+export { elementalSignature } from "./signature";
+export type {
+  ElementalSignature,
+  ElementalTier,
+  RankedElement,
+} from "./signature";
+
 // Re-export commonly used functions for backward compatibility
 export {
   ELEMENTAL_COLORS,
