@@ -1,17 +1,19 @@
 /**
  * GET /api/feed/historical-agents
  *
- * Server-side seam between the Live Network Feed and the Planetary Agents (PA)
- * producer of historical-agent `recipe_post` / `yield_claim` items.
+ * REAL data path for the Live Network Feed's historical-agent items.
  *
- * Until PA's producer endpoint is confirmed, this returns an empty set so the
- * feed degrades to a graceful empty state (and the retired planetary-agent
- * posts simply stop appearing — no fabricated data on the live path). To go
- * live, set PA_HISTORICAL_FEED_URL to the confirmed PA endpoint — no code
- * change required.
+ * Source resolution:
+ *   1. PA_HISTORICAL_FEED_URL set → fetch the Planetary Agents producer
+ *      (the canonical cross-network source) and pass its items through.
+ *   2. otherwise → serve real `recipe_post` items from WTEN's own database
+ *      (agents that have a birthchart + their recipe events) via
+ *      historicalAgentFeedService.
  *
- * NOTE: client-side mock rendering is handled by NEXT_PUBLIC_FEED_MOCK in
- * src/lib/feed/historicalAgentFeedSource.ts; this route is the REAL path only.
+ * Either way the sourcing rule (historical + hasBirthchart; drop planetary) is
+ * re-applied here. No fabricated data on this path — an empty DB yields an
+ * empty feed. Client-side fixture rendering is a separate dev affordance
+ * (NEXT_PUBLIC_FEED_MOCK in src/lib/feed/historicalAgentFeedSource.ts).
  */
 
 import { NextResponse } from "next/server";
@@ -19,6 +21,7 @@ import {
   coerceFeedItems,
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
+import { getHistoricalAgentRecipePosts } from "@/services/historicalAgentFeedService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -29,9 +32,18 @@ export async function GET(request: Request) {
 
   const producerUrl = process.env.PA_HISTORICAL_FEED_URL;
 
-  // Not yet wired to PA → honest empty set.
+  // No PA producer wired → serve real historical-agent recipe posts from
+  // WTEN's own database.
   if (!producerUrl) {
-    return NextResponse.json({ success: true, items: [], source: "unwired" });
+    try {
+      const items = filterHistoricalAgentFeed(
+        await getHistoricalAgentRecipePosts(limit),
+      ).slice(0, limit);
+      return NextResponse.json({ success: true, items, source: "internal" });
+    } catch (error) {
+      console.error("[GET /api/feed/historical-agents] internal source error:", error);
+      return NextResponse.json({ success: true, items: [], source: "internal_error" });
+    }
   }
 
   try {
