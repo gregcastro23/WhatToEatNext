@@ -94,6 +94,23 @@ describe("filterHistoricalAgentFeed", () => {
     ];
     expect(filterHistoricalAgentFeed(items)).toHaveLength(0);
   });
+
+  it("keeps planetary_resonance items (intentional planetary content)", () => {
+    const items: HistoricalAgentFeedItem[] = [
+      {
+        id: "r1",
+        type: "planetary_resonance",
+        planet: "Moon",
+        element: "Water",
+        domain: "soups & restorative broths",
+        action: "steeps a restorative soup at 14° Aquarius.",
+        icon: "☽",
+        agentName: "Moon Agent",
+        createdAt: "2026-01-01T00:00:00Z",
+      },
+    ];
+    expect(filterHistoricalAgentFeed(items)).toHaveLength(1);
+  });
 });
 
 describe("isHistoricalAgentFeedItem / coerceFeedItems", () => {
@@ -129,7 +146,18 @@ describe("isHistoricalAgentFeedItem / coerceFeedItems", () => {
         icon: "👁️",
         createdAt: "2026-01-01T00:00:00Z",
       },
+      {
+        id: "4",
+        type: "planetary_resonance",
+        planet: "Sun",
+        element: "Fire",
+        domain: "fire-kissed, grilled fare",
+        action: "ignites a flame-grilled dish.",
+        icon: "☉",
+        agentName: "Sun Agent",
+        createdAt: "2026-01-01T00:00:00Z",
+      },
     ];
-    expect(coerceFeedItems(ok)).toHaveLength(3);
+    expect(coerceFeedItems(ok)).toHaveLength(4);
   });
 });

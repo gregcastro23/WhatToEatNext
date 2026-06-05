@@ -110,10 +110,33 @@ export interface AgentEventFeedItem {
   createdAt: string;
 }
 
+/**
+ * Live planetary-resonance post: a planet at its CURRENT degree resonating with
+ * a culinary domain (Sun→fire-grilled, Moon→soups, Mercury→salads, Venus→elixirs,
+ * Mars→spiced, Jupiter→feasts, Saturn→ferments). Derived from the live sky — not
+ * stored. Planetary (not historical) content, intentionally surfaced.
+ */
+export interface PlanetaryResonanceFeedItem {
+  id: string;
+  type: "planetary_resonance";
+  planet: string;
+  sign?: string;
+  degree?: number;
+  element: FeedElement;
+  domain: string;
+  ingredient?: string;
+  action: string;
+  icon: string;
+  agentName: string;
+  agentSlug?: string;
+  createdAt: string;
+}
+
 export type HistoricalAgentFeedItem =
   | RecipePostFeedItem
   | YieldClaimFeedItem
-  | AgentEventFeedItem;
+  | AgentEventFeedItem
+  | PlanetaryResonanceFeedItem;
 
 /**
  * The feed-sourcing rule:
@@ -131,7 +154,7 @@ export function filterHistoricalAgentFeed(
     if (item.type === "recipe_post" || item.type === "agent_event") {
       return item.agent.kind === "historical" && item.agent.hasBirthchart === true;
     }
-    if (item.type === "yield_claim") {
+    if (item.type === "yield_claim" || item.type === "planetary_resonance") {
       return true;
     }
     return false;
@@ -182,6 +205,16 @@ export function isHistoricalAgentFeedItem(value: unknown): value is HistoricalAg
       typeof agent.hasBirthchart === "boolean" &&
       typeof value.action === "string" &&
       typeof value.icon === "string"
+    );
+  }
+
+  if (value.type === "planetary_resonance") {
+    return (
+      typeof value.planet === "string" &&
+      typeof value.action === "string" &&
+      typeof value.icon === "string" &&
+      typeof value.element === "string" &&
+      typeof value.agentName === "string"
     );
   }
 

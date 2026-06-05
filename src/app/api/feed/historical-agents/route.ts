@@ -21,6 +21,7 @@ import {
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
 import { getHistoricalAgentEvents } from "@/services/historicalAgentFeedService";
+import { getPlanetaryResonanceFeed } from "@/services/planetaryResonanceService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -31,13 +32,15 @@ export async function GET(request: Request) {
 
   const producerUrl = process.env.PA_HISTORICAL_FEED_URL;
 
-  // No PA producer wired → serve real historical-agent recipe posts from
-  // WTEN's own database.
+  // No PA producer wired → serve real WTEN-internal content: live planetary
+  // resonance (degree agents, current sky) + historical agents' activity.
   if (!producerUrl) {
     try {
-      const items = filterHistoricalAgentFeed(
-        await getHistoricalAgentEvents(limit),
-      ).slice(0, limit);
+      const events = await getHistoricalAgentEvents(limit);
+      const resonance = getPlanetaryResonanceFeed();
+      const items = filterHistoricalAgentFeed([...resonance, ...events])
+        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        .slice(0, limit);
       return NextResponse.json({ success: true, items, source: "internal" });
     } catch (error) {
       console.error("[GET /api/feed/historical-agents] internal source error:", error);
