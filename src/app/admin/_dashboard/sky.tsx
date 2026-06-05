@@ -368,25 +368,22 @@ function SkyEvent({ t, e, impact, warn }: { t: string; e: string; impact: string
 // don't read it as a live signal until the rollup is wired.
 // ============================================================
 export function SEMSDistribution() {
-  const sems = [
-    { id: "spirit", label: "Spirit", sym: "🜀", v: 0.62, target: 0.55, sub: "volatile · aroma · top-notes" },
-    { id: "essence", label: "Essence", sym: "🜁", v: 0.71, target: 0.65, sub: "umami · core flavor compounds" },
-    { id: "matter", label: "Matter", sym: "🜃", v: 0.48, target: 0.5, sub: "texture · structure · weight" },
-    {
-      id: "substance",
-      label: "Substance",
-      sym: "🜄",
-      v: 0.34,
-      target: 0.45,
-      sub: "minerals · base · bottom",
-      low: true,
-    },
-  ];
-  const monica = 0.847;
+  // SEMS rollup is not wired yet — there is no per-recipe thermodynamic score
+  // source. This render is data-driven and stays empty until that source
+  // exists, so we never show illustrative values as if they were live.
+  const sems: Array<{
+    id: string;
+    label: string;
+    sym: string;
+    v: number;
+    target: number;
+    sub: string;
+    low?: boolean;
+  }> = [];
   return (
     <Card
       title="Alchm · SEMS Thermodynamic Balance"
-      subtitle="Spirit · Essence · Matter · Substance — sample rollup, not wired"
+      subtitle="Spirit · Essence · Matter · Substance — not wired (no live source)"
       right={
         <span
           className="t-mono"
@@ -400,12 +397,22 @@ export function SEMSDistribution() {
             letterSpacing: "0.14em",
           }}
         >
-          ◌ SAMPLE
+          ○ NOT WIRED
         </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {sems.length === 0 && (
+            <div
+              className="t-mono"
+              style={{ fontSize: 10, color: "var(--fg-mute)", fontStyle: "italic", lineHeight: 1.5 }}
+            >
+              No live SEMS distribution. The per-recipe thermodynamic score that
+              would populate Spirit · Essence · Matter · Substance isn&apos;t
+              captured yet, so this panel shows no illustrative values.
+            </div>
+          )}
           {sems.map((s) => (
             <div key={s.id}>
               <div
@@ -513,14 +520,14 @@ export function SEMSDistribution() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "10px 12px" }}>
-            <div className="t-tag" style={{ marginBottom: 6 }}>ALCHM CONSTANTS</div>
+            <div className="t-tag" style={{ marginBottom: 6 }}>ALCHM CONSTANTS · NOT WIRED</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-              <KV2 k="Monica" v={monica.toFixed(3)} />
-              <KV2 k="Kalchm" v="K = 1.214" accent />
-              <KV2 k="P = IV" v="P = 1.62V" />
-              <KV2 k="Δ entropy" v="0.014" />
-              <KV2 k="ΔG free" v="−2.41 kJ" />
-              <KV2 k="τ relax" v="1.6 hr" />
+              <KV2 k="Monica" v="—" />
+              <KV2 k="Kalchm" v="—" />
+              <KV2 k="P = IV" v="—" />
+              <KV2 k="Δ entropy" v="—" />
+              <KV2 k="ΔG free" v="—" />
+              <KV2 k="τ relax" v="—" />
             </div>
           </div>
 

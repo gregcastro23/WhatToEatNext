@@ -8,6 +8,7 @@
  * prototype used, so the visual output matches one-for-one.
  */
 
+import type { PathSummary } from "@/lib/observability/requestLog";
 import type {
   AuditEventsData,
   CatalogTrendingData,
@@ -80,6 +81,18 @@ export type FocusModule =
   | "security";
 
 // ============================================================
+// API ROUTES — live per-route request-log summary (real)
+// ============================================================
+export interface ApiRoutesData {
+  /** Top routes by request volume in the window. */
+  routes: PathSummary[];
+  /** Observation window in minutes. */
+  windowMinutes: number;
+  /** True when at least one request was observed in the window. */
+  live: boolean;
+}
+
+// ============================================================
 // DASHBOARD DATA SHAPE — what the page receives
 // ============================================================
 export interface AdminDashboardData {
@@ -149,6 +162,8 @@ export interface AdminDashboardData {
   recentAlerts: RecentAlertsData;
   /** request_log_entries aggregated 5xx/4xx by path for ErrorGroups. */
   errorGroups: ErrorGroupsData;
+  /** Live per-route request-log summary (count/error/p95) for APIHeatmap. */
+  apiRoutes: ApiRoutesData;
   /** auth_events rollup for SecurityPanel. */
   security: SecuritySummaryData;
   /** Real-time git deploys telemetry. */
@@ -275,6 +290,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
   liveActivity: { entries: [], live: false },
   recentAlerts: { entries: [], live: false },
   errorGroups: { groups: [], windowMinutes: 60, live: false },
+  apiRoutes: { routes: [], windowMinutes: 60, live: false },
   security: {
     signinSuccess24h: 0,
     signinFailure24h: 0,

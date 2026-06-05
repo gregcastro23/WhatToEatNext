@@ -15,6 +15,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { summarizeAllPaths } from "@/lib/observability/requestLog";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { getAgentNetworkTelemetry } from "@/services/agentTelemetryService";
 import {
@@ -274,6 +275,11 @@ export async function GET(request: NextRequest) {
         ? `${lat.toFixed(2)}°${lat >= 0 ? "N" : "S"} · ${lon.toFixed(2)}°${lon >= 0 ? "E" : "W"}`
         : "—";
 
+    // Real per-route traffic from the in-memory request log (the same source
+    // the operational /admin ApiRouteHealthPanel reads) — replaces the
+    // APIHeatmap's former seeded fixture. 60-minute window.
+    const apiRoutePaths = summarizeAllPaths(60 * 60 * 1000);
+
     const data: AdminDashboardData = {
       user: {
         handle: adminHandle,
@@ -306,6 +312,11 @@ export async function GET(request: NextRequest) {
       },
       recentAlerts,
       errorGroups,
+      apiRoutes: {
+        routes: apiRoutePaths.slice(0, 12),
+        windowMinutes: 60,
+        live: apiRoutePaths.length > 0,
+      },
       security,
       deploys,
       featureFlags,

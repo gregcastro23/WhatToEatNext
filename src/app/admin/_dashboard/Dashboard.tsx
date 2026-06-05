@@ -73,9 +73,11 @@ export function Dashboard({ data }: DashboardProps) {
       icon: "ring",
     },
     {
+      // Cuisines are a static catalog, not a DB count. Show a dash rather than
+      // a fabricated total until a real catalog count is wired into stats.
       label: "Cuisines",
-      value: "184",
-      delta: "—",
+      value: "—",
+      delta: "static catalog",
       icon: "triangle-up-bar",
     },
   ];
@@ -159,7 +161,7 @@ export function Dashboard({ data }: DashboardProps) {
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 12, marginBottom: 12 }}>
           <SubdomainMatrix pageTelemetry={data.pageTelemetry} />
-          <APIHeatmap db={data.dbObservability} />
+          <APIHeatmap db={data.dbObservability} apiRoutes={data.apiRoutes} />
         </div>
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
