@@ -13,7 +13,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "bun build src/index.ts --outfile dist/index.js --bundle --target node --external pg",
+    "build": "bun build src/index.ts --outfile dist/index.js --bundle --target node --external pg --define 'process.env.ALCHM_MCP_BUNDLED=\"1\"'",
+    "build:binary": "bun build src/index.ts --compile --outfile bin/alchm-mcp --define 'process.env.ALCHM_MCP_BUNDLED=\"1\"'",
     "start": "bun run src/index.ts",
     "prepublishOnly": "bun run build"
   },

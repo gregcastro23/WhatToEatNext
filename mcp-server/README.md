@@ -49,11 +49,31 @@ bun run mcp-server/src/index.ts
 Optional env:
 
 ```bash
+ALCHM_MCP_BACKEND_URL=https://alchm.kitchen  # alchm.kitchen host the chart/transit tools fetch /api/astrologize from
 DATABASE_URL=postgres://...           # enables token gate + invocation telemetry
 MCP_USER_API_KEY=sk_alchm_...         # single-user setups (Claude Desktop)
 INTERNAL_API_SECRET=...               # synthetic-probe exempt path (set by Vercel cron)
 SYNTHETIC_PROBE_USER_ID=<uuid>        # attribute synthetic-probe invocations to this user
 ```
+
+### `ALCHM_MCP_BACKEND_URL` — where chart/transit tools fetch from
+
+`get_live_sky_transits` and `get_transit_natal_overlay` build a natal chart by
+POSTing to `<base>/api/astrologize`, a route served by the alchm.kitchen
+Next.js app. This server runs standalone (no co-located backend), so `<base>`
+is resolved as:
+
+1. **`ALCHM_MCP_BACKEND_URL`** (or `SITE_URL` / Vercel envs) — explicit, always wins.
+2. **Bundled artifacts** — the npm `dist/index.js` and the `bun build --compile`
+   binary (`bin/alchm-mcp`) default to **`https://alchm.kitchen`**, since an
+   end-user machine has no local backend.
+3. **From-source dev** (`bun run mcp-server/src/index.ts`) defaults to
+   **`http://localhost:3000`** — run `bun run dev` alongside, or set
+   `ALCHM_MCP_BACKEND_URL`, to point it elsewhere.
+
+When the backend is unreachable the tools fail loud with the attempted URL and
+this env var name, rather than a bare "fetch failed". Build the desktop sidecar
+binary with `bun run --cwd mcp-server build:binary` → `mcp-server/bin/alchm-mcp`.
 
 When `DATABASE_URL` is absent the server still runs — all calls become anonymous, the token gate skips, and invocations are not logged.
 

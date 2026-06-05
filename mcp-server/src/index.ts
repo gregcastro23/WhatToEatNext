@@ -23,6 +23,53 @@ import {
 
 import { invokeTool, type ToolName } from "../../src/lib/mcp/tools.js";
 
+// ─── Backend URL for chart/transit self-fetches ───────────────────────
+//
+// The chart-dependent tools (get_live_sky_transits, get_transit_natal_overlay)
+// build a natal chart by POSTing to `${base}/api/astrologize`, a route served
+// by the alchm.kitchen Next.js app. Inside that app `base` resolves to the
+// Vercel alias — but this server runs STANDALONE (Claude Desktop, the npm
+// package, or the Bun-compiled desktop sidecar) with no co-located Next
+// backend, so the inherited `http://localhost:3000` default is unreachable on
+// an end-user machine → "fetch failed".
+//
+// Mirror the PA sidecar fix (planetary_agents `_resolve_url`): an explicit env
+// always wins; a bundled/compiled artifact (no local backend) falls back to
+// PROD; a from-source dev run falls back to localhost. The chart fetch reads
+// `ALCHM_MCP_BACKEND_URL` first (see natalChartService.getAstrologizeApiUrl()).
+const PROD_BACKEND_URL = "https://alchm.kitchen";
+const DEV_BACKEND_URL = "http://localhost:3000";
+
+/**
+ * True when this process is a distributable artifact — the npm `dist/index.js`
+ * bundle or the `bun build --compile` binary — rather than a raw
+ * `bun run src/index.ts`. The build scripts bake `ALCHM_MCP_BUNDLED=1` via
+ * `--define`; the `$bunfs` check is a runtime fallback for a compiled binary
+ * built without that flag (Bun executables resolve their entry inside the
+ * embedded "$bunfs" virtual filesystem; a from-source run resolves a real path).
+ */
+function isBundledSidecar(): boolean {
+  if (process.env.ALCHM_MCP_BUNDLED === "1") return true;
+  const bunMain = (globalThis as { Bun?: { main?: string } }).Bun?.main ?? "";
+  return bunMain.includes("/$bunfs/");
+}
+
+// Explicit backend env (any of these) wins and is left untouched. Only when
+// none is set do we choose a default: prod for bundled artifacts, localhost for
+// from-source dev runs.
+const hasExplicitBackend = Boolean(
+  process.env.ALCHM_MCP_BACKEND_URL?.trim() ||
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    process.env.SITE_URL?.trim() ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+    process.env.VERCEL_URL?.trim(),
+);
+if (!hasExplicitBackend) {
+  process.env.ALCHM_MCP_BACKEND_URL = isBundledSidecar()
+    ? PROD_BACKEND_URL
+    : DEV_BACKEND_URL;
+}
+
 const server = new Server(
   {
     name: "alchm-mcp-server",
@@ -224,6 +271,9 @@ async function main() {
   );
   console.error(
     `DB:   ${process.env.DATABASE_URL ? "live" : "local-fallback (no telemetry, no token gate)"}`,
+  );
+  console.error(
+    `Backend (chart/transit /api/astrologize): ${process.env.ALCHM_MCP_BACKEND_URL ?? "app self-URL (SITE_URL / VERCEL_URL)"}${isBundledSidecar() ? " [bundled]" : ""}`,
   );
   console.error("==================================================================\n");
 }

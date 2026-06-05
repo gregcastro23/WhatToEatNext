@@ -89,7 +89,13 @@ describeIf("MCP stdio transport", () => {
     const serverPath = resolve(__dirname, "..", "index.ts");
     const proc = spawn("bun", ["run", serverPath], {
       stdio: ["pipe", "pipe", "pipe"],
-      env: { ...process.env },
+      // A from-source run defaults the chart/transit backend to localhost:3000,
+      // which isn't up in CI — point it at prod so get_live_sky_transits does a
+      // real round-trip. An externally-set ALCHM_MCP_BACKEND_URL still wins.
+      env: {
+        ALCHM_MCP_BACKEND_URL: "https://alchm.kitchen",
+        ...process.env,
+      },
     });
     // Surface server stderr so failures are debuggable.
     proc.stderr.setEncoding("utf8");
