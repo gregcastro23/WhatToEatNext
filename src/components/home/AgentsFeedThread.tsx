@@ -2,28 +2,13 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { agentChatUrl } from "@/lib/agents/agentChatUrl";
-import { ELEMENT_COLORS } from "@/lib/elementColors";
+import { useEffect, useMemo, useState } from "react";
+import { RecipePostCard, YieldClaimCard } from "@/components/feed/HistoricalAgentFeedItems";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
+import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
+import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
 
 type FeedMetadata = Record<string, unknown>;
-
-interface SignaturePlacement {
-  planet?: string;
-  sign?: string;
-  degree?: number;
-}
-
-interface PlanetarySignature {
-  planetaryHour?: string;
-  planetaryDay?: string;
-  dominantPlanet?: string;
-  dominantSign?: string;
-  dominantElement?: string;
-  sacredStat?: string;
-  natalPositions?: SignaturePlacement[];
-}
 
 interface FeedEvent {
   id: string;
@@ -100,22 +85,14 @@ function getEventNarration(event: FeedEvent) {
   return narrateFeedEvent(event.eventType, event.metadataPayload);
 }
 
-function getPlanetarySignature(metadata?: FeedMetadata): PlanetarySignature | null {
-  const signature = metadata?.planetarySignature;
-  if (!signature || typeof signature !== "object") return null;
-  return signature;
-}
-
-function formatPlacement(placement: SignaturePlacement): string | null {
-  if (!placement.planet) return null;
-  const degree = typeof placement.degree === "number" ? `${placement.degree.toFixed(1)}°` : "";
-  const sign = placement.sign ? ` ${placement.sign}` : "";
-  return `${placement.planet} ${degree}${sign}`.trim();
-}
+type WidgetFeedRow =
+  | { kind: "human"; id: string; ts: number; event: FeedEvent }
+  | { kind: "agent"; id: string; ts: number; item: HistoricalAgentFeedItem };
 
 export function AgentsFeedThread() {
   const [isVisible, setIsVisible] = useState(true);
   const [feedItems, setFeedItems] = useState<FeedEvent[]>([]);
+  const [historicalItems, setHistoricalItems] = useState<HistoricalAgentFeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -137,9 +114,15 @@ export function AgentsFeedThread() {
         }
         setErrorMessage(null);
 
+        const historicalPromise = fetchHistoricalAgentFeed(8);
         const response = await fetch("/api/feed?limit=8", {
           signal: controller.signal,
         });
+
+        const historical = await historicalPromise;
+        if (!controller.signal.aborted) {
+          setHistoricalItems(historical);
+        }
 
         if (!response.ok) {
           throw new Error("Feed request failed.");
@@ -179,7 +162,26 @@ export function AgentsFeedThread() {
     };
   }, []);
 
-  const hasFeedItems = feedItems.length > 0;
+  // Retain human activity; drop the planetary-agent posts and merge in the
+  // historical-agent feed (recipe posts + yield claims), newest first.
+  const rows = useMemo<WidgetFeedRow[]>(() => {
+    const humanRows: WidgetFeedRow[] = feedItems
+      .filter((item) => !(item.actorIsAgent ?? item.isAgent === true))
+      .map((event) => ({
+        kind: "human",
+        id: event.id,
+        ts: Date.parse(event.createdAt ?? "") || 0,
+        event,
+      }));
+    const agentRows: WidgetFeedRow[] = historicalItems.map((item) => ({
+      kind: "agent",
+      id: item.id,
+      ts: Date.parse(item.createdAt) || 0,
+      item,
+    }));
+    return [...humanRows, ...agentRows].sort((a, b) => b.ts - a.ts).slice(0, 8);
+  }, [feedItems, historicalItems]);
+  const hasFeedItems = rows.length > 0;
 
   return (
     <>
@@ -229,134 +231,27 @@ export function AgentsFeedThread() {
               ) : (
                 <motion.div layout className="space-y-4">
                   <AnimatePresence initial={false}>
-                    {feedItems.map((item) => {
-                      const actorName = item.actorName || item.user;
-                      const isAgent =
-                        item.actorIsAgent ?? item.isAgent === true;
-                      const actorId = item.actorId || item.userId;
-                      const actorHref = actorId ? `/profile/${actorId}` : null;
-                      const timeLabel = formatDistanceToNow(item.createdAt);
-                      const signature = isAgent
-                        ? getPlanetarySignature(item.metadataPayload)
-                        : null;
-                      const narration = getEventNarration(item);
-                      const natalPlacements =
-                        signature?.natalPositions
-                          ?.map(formatPlacement)
-                          .filter(Boolean)
-                          .slice(0, 3) || [];
-
-                      return (
-                        <motion.div
-                          key={item.id}
-                          layout
-                          initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                          transition={{
-                            opacity: { duration: 0.2 },
-                            layout: { duration: 0.25 },
-                          }}
-                          className="flex gap-3 items-start group"
-                        >
-                          <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border text-sm shadow-inner transition-colors overflow-hidden ${
-                              isAgent
-                                ? "bg-purple-900/50 border-purple-500/20 shadow-purple-500/10"
-                                : "bg-emerald-900/40 border-emerald-500/20 shadow-emerald-500/10"
-                            }`}
-                          >
-                            {item.actorImage ? (
-                              /* eslint-disable-next-line @next/next/no-img-element */
-                              <img
-                                src={item.actorImage}
-                                alt={actorName || "Avatar"}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              narration.icon
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <p className="text-xs text-white/90 font-medium leading-relaxed">
-                              {actorName && (
-                                <>
-                                  {actorHref ? (
-                                    <Link
-                                      href={actorHref}
-                                      className={`${isAgent ? "text-purple-300 hover:text-purple-200" : "text-emerald-300 hover:text-emerald-200"} font-bold underline-offset-2 hover:underline transition-colors`}
-                                    >
-                                      {actorName}
-                                    </Link>
-                                  ) : (
-                                    <span
-                                      className={`${isAgent ? "text-purple-300" : "text-emerald-300"} font-bold`}
-                                    >
-                                      {actorName}
-                                    </span>
-                                  )}{" "}
-                                </>
-                              )}
-                              {isAgent && (
-                                <span className="inline-block px-1 py-0.5 ml-1 mr-1 rounded text-[8px] uppercase tracking-wider bg-purple-500/20 text-purple-200">
-                                  Agent
-                                </span>
-                              )}{" "}
-                              {narration.href ? (
-                                <Link
-                                  href={narration.href}
-                                  className="text-white/85 hover:text-white underline decoration-purple-500/30 underline-offset-2"
-                                >
-                                  {narration.action}
-                                </Link>
-                              ) : (
-                                narration.action
-                              )}
-                            </p>
-                            <div className="flex items-center gap-2 mt-1">
-                              {timeLabel && (
-                                <p className="text-[10px] text-white/40">
-                                  {timeLabel}
-                                </p>
-                              )}
-                              {isAgent && item.actorSlug && (
-                                <a
-                                  href={agentChatUrl(item.actorSlug)}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[10px] text-purple-400 hover:text-purple-300 uppercase tracking-wider font-semibold"
-                                >
-                                  · Chat ✦
-                                </a>
-                              )}
-                            </div>
-                            {signature && (
-                              <div
-                                className={`mt-2 rounded-lg border px-2 py-1.5 ${
-                                  ELEMENT_COLORS[signature.dominantElement ?? ""] ??
-                                  "border-purple-400/15 bg-purple-500/10 text-purple-100/70"
-                                }`}
-                              >
-                                <div className="flex flex-wrap gap-x-2 gap-y-1 text-[9px] uppercase tracking-wider font-bold">
-                                  {(signature.planetaryHour || signature.dominantPlanet) && (
-                                    <span>
-                                      Hour {signature.planetaryHour || signature.dominantPlanet}
-                                    </span>
-                                  )}
-                                  {signature.sacredStat && <span>{signature.sacredStat}</span>}
-                                  {signature.dominantElement && <span>{signature.dominantElement}</span>}
-                                </div>
-                                {natalPlacements.length > 0 && (
-                                  <p className="mt-1 text-[10px] leading-snug opacity-80">
-                                    Natal {natalPlacements.join(" · ")}
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </motion.div>
-                      );
-                    })}
+                    {rows.map((row) => (
+                      <motion.div
+                        key={row.id}
+                        layout
+                        initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                        transition={{
+                          opacity: { duration: 0.2 },
+                          layout: { duration: 0.25 },
+                        }}
+                      >
+                        {row.kind === "human" ? (
+                          <WidgetHumanRow event={row.event} />
+                        ) : row.item.type === "recipe_post" ? (
+                          <RecipePostCard item={row.item} compact />
+                        ) : (
+                          <YieldClaimCard item={row.item} compact />
+                        )}
+                      </motion.div>
+                    ))}
                   </AnimatePresence>
                 </motion.div>
               )}
@@ -408,5 +303,61 @@ export function AgentsFeedThread() {
         </motion.button>
       )}
     </>
+  );
+}
+
+function WidgetHumanRow({ event }: { event: FeedEvent }) {
+  const actorName = event.actorName || event.user;
+  const actorId = event.actorId || event.userId;
+  const actorHref = actorId ? `/profile/${actorId}` : null;
+  const timeLabel = formatDistanceToNow(event.createdAt);
+  const narration = getEventNarration(event);
+
+  return (
+    <div className="flex gap-3 items-start group">
+      <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border text-sm shadow-inner overflow-hidden bg-emerald-900/40 border-emerald-500/20 shadow-emerald-500/10">
+        {event.actorImage ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={event.actorImage}
+            alt={actorName || "Avatar"}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          narration.icon
+        )}
+      </div>
+      <div className="flex-1">
+        <p className="text-xs text-white/90 font-medium leading-relaxed">
+          {actorName && (
+            <>
+              {actorHref ? (
+                <Link
+                  href={actorHref}
+                  className="text-emerald-300 hover:text-emerald-200 font-bold underline-offset-2 hover:underline transition-colors"
+                >
+                  {actorName}
+                </Link>
+              ) : (
+                <span className="text-emerald-300 font-bold">{actorName}</span>
+              )}{" "}
+            </>
+          )}
+          {narration.href ? (
+            <Link
+              href={narration.href}
+              className="text-white/85 hover:text-white underline decoration-purple-500/30 underline-offset-2"
+            >
+              {narration.action}
+            </Link>
+          ) : (
+            narration.action
+          )}
+        </p>
+        <div className="flex items-center gap-2 mt-1">
+          {timeLabel && <p className="text-[10px] text-white/40">{timeLabel}</p>}
+        </div>
+      </div>
+    </div>
   );
 }
