@@ -86,11 +86,20 @@ interface AstrologizeResponse {
 
 // Resolve an absolute astrologize URL when running on the server (where
 // `fetch` rejects relative paths) and stay relative in the browser.
+//
+// Server-side base resolution: an explicit `ALCHM_MCP_BACKEND_URL` wins — the
+// stdio MCP server / desktop sidecar injects it so this self-fetch reaches a
+// real alchm.kitchen instead of a non-existent localhost backend. Otherwise we
+// fall back to the app's own self base URL (Vercel alias in prod, localhost in
+// dev), which is correct when this runs inside the Next.js app itself. See
+// `mcp-server/src/index.ts` for how the sidecar defaults this env var.
 function getAstrologizeApiUrl(): string {
-  if (typeof window === "undefined") {
-    return `${getSelfBaseUrl()}/api/astrologize`;
+  if (typeof window !== "undefined") {
+    return "/api/astrologize";
   }
-  return "/api/astrologize";
+  const explicit = process.env.ALCHM_MCP_BACKEND_URL?.trim();
+  const base = explicit ? explicit.replace(/\/+$/, "") : getSelfBaseUrl();
+  return `${base}/api/astrologize`;
 }
 
 /**
@@ -197,11 +206,25 @@ async function fetchPlanetaryPositions(
       zodiacSystem: "tropical" as const,
     };
 
-    const response = await fetch(getAstrologizeApiUrl(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const astrologizeUrl = getAstrologizeApiUrl();
+    let response: Response;
+    try {
+      response = await fetch(astrologizeUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch (cause) {
+      // Fail loud with the unreachable URL + the knob to fix it, instead of a
+      // bare "fetch failed". This is the path hit when the standalone MCP
+      // sidecar self-fetches a backend that isn't there (e.g. localhost with no
+      // local app running).
+      throw new Error(
+        `Could not reach the astrologize backend at ${astrologizeUrl}. ` +
+          "Set ALCHM_MCP_BACKEND_URL to a reachable alchm.kitchen host.",
+        { cause },
+      );
+    }
 
     if (!response.ok) {
       throw new Error(`Astrologize API error: ${response.statusText}`);
