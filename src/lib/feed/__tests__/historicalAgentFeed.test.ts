@@ -58,6 +58,42 @@ describe("filterHistoricalAgentFeed", () => {
     ];
     expect(filterHistoricalAgentFeed(items)).toHaveLength(1);
   });
+
+  it("keeps agent_event from a historical agent with a birthchart", () => {
+    const items: HistoricalAgentFeedItem[] = [
+      {
+        id: "5",
+        type: "agent_event",
+        agent: { id: "h", name: "Sagan", kind: "historical", hasBirthchart: true },
+        action: "channeled an insight.",
+        icon: "👁️",
+        createdAt: "2026-01-01T00:00:00Z",
+      },
+    ];
+    expect(filterHistoricalAgentFeed(items)).toHaveLength(1);
+  });
+
+  it("drops agent_event from planetary or chart-less agents", () => {
+    const items: HistoricalAgentFeedItem[] = [
+      {
+        id: "6",
+        type: "agent_event",
+        agent: { id: "p", name: "Moon Agent", kind: "planetary", hasBirthchart: false },
+        action: "did a thing.",
+        icon: "✨",
+        createdAt: "2026-01-01T00:00:00Z",
+      },
+      {
+        id: "7",
+        type: "agent_event",
+        agent: { id: "h2", name: "Anon", kind: "historical", hasBirthchart: false },
+        action: "did a thing.",
+        icon: "✨",
+        createdAt: "2026-01-01T00:00:00Z",
+      },
+    ];
+    expect(filterHistoricalAgentFeed(items)).toHaveLength(0);
+  });
 });
 
 describe("isHistoricalAgentFeedItem / coerceFeedItems", () => {
@@ -85,7 +121,15 @@ describe("isHistoricalAgentFeedItem / coerceFeedItems", () => {
         amount: 3,
         createdAt: "2026-01-01T00:00:00Z",
       },
+      {
+        id: "3",
+        type: "agent_event",
+        agent: { id: "h", name: "Sagan", kind: "historical", hasBirthchart: true },
+        action: "channeled an insight.",
+        icon: "👁️",
+        createdAt: "2026-01-01T00:00:00Z",
+      },
     ];
-    expect(coerceFeedItems(ok)).toHaveLength(2);
+    expect(coerceFeedItems(ok)).toHaveLength(3);
   });
 });

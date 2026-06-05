@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { RecipePostCard, YieldClaimCard } from "@/components/feed/HistoricalAgentFeedItems";
+import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
@@ -245,10 +245,8 @@ export function AgentsFeedThread() {
                       >
                         {row.kind === "human" ? (
                           <WidgetHumanRow event={row.event} />
-                        ) : row.item.type === "recipe_post" ? (
-                          <RecipePostCard item={row.item} compact />
                         ) : (
-                          <YieldClaimCard item={row.item} compact />
+                          <HistoricalAgentFeedCard item={row.item} compact />
                         )}
                       </motion.div>
                     ))}

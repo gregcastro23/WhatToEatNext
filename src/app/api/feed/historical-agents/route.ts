@@ -6,9 +6,9 @@
  * Source resolution:
  *   1. PA_HISTORICAL_FEED_URL set → fetch the Planetary Agents producer
  *      (the canonical cross-network source) and pass its items through.
- *   2. otherwise → serve real `recipe_post` items from WTEN's own database
- *      (agents that have a birthchart + their recipe events) via
- *      historicalAgentFeedService.
+ *   2. otherwise → serve real `agent_event` items from WTEN's own database
+ *      (chart-bearing historical agents' real activity — insights, lab
+ *      experiments, recipes — narrated) via historicalAgentFeedService.
  *
  * Either way the sourcing rule (historical + hasBirthchart; drop planetary) is
  * re-applied here. No fabricated data on this path — an empty DB yields an
@@ -20,7 +20,7 @@ import {
   coerceFeedItems,
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
-import { getHistoricalAgentRecipePosts } from "@/services/historicalAgentFeedService";
+import { getHistoricalAgentEvents } from "@/services/historicalAgentFeedService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -36,7 +36,7 @@ export async function GET(request: Request) {
   if (!producerUrl) {
     try {
       const items = filterHistoricalAgentFeed(
-        await getHistoricalAgentRecipePosts(limit),
+        await getHistoricalAgentEvents(limit),
       ).slice(0, limit);
       return NextResponse.json({ success: true, items, source: "internal" });
     } catch (error) {

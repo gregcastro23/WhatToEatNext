@@ -86,7 +86,34 @@ export interface YieldClaimFeedItem {
   planetaryAgentName?: string;
 }
 
-export type HistoricalAgentFeedItem = RecipePostFeedItem | YieldClaimFeedItem;
+/**
+ * WTEN-internal item: a historical agent's real feed activity (insight, lab
+ * experiment, recipe, …) rendered via the shared narration + its planetary
+ * signature. Distinct from the PA `recipe_post` contract because historical
+ * agents predominantly post insights/experiments, not literal recipes.
+ */
+export interface AgentEventFeedItem {
+  id: string;
+  type: "agent_event";
+  agent: FeedAgentRef;
+  /** Past-tense narrated phrase, e.g. `channeled an alchemical insight: "…"`. */
+  action: string;
+  /** Optional narrated link (e.g. a recipe permalink). */
+  href?: string;
+  /** Leading glyph from the narration. */
+  icon: string;
+  element?: FeedElement;
+  esmsTag?: EsmsTag;
+  planetaryHour?: string;
+  /** Formatted natal placements, e.g. ["Sun Aquarius", "Moon Sagittarius"]. */
+  natalSignature?: string[];
+  createdAt: string;
+}
+
+export type HistoricalAgentFeedItem =
+  | RecipePostFeedItem
+  | YieldClaimFeedItem
+  | AgentEventFeedItem;
 
 /**
  * The feed-sourcing rule:
@@ -101,7 +128,7 @@ export function filterHistoricalAgentFeed(
   items: HistoricalAgentFeedItem[],
 ): HistoricalAgentFeedItem[] {
   return items.filter((item) => {
-    if (item.type === "recipe_post") {
+    if (item.type === "recipe_post" || item.type === "agent_event") {
       return item.agent.kind === "historical" && item.agent.hasBirthchart === true;
     }
     if (item.type === "yield_claim") {
@@ -142,6 +169,19 @@ export function isHistoricalAgentFeedItem(value: unknown): value is HistoricalAg
       typeof value.historicalAgentId === "string" &&
       typeof value.planetaryAgentId === "string" &&
       typeof value.amount === "number"
+    );
+  }
+
+  if (value.type === "agent_event") {
+    const agent = value.agent;
+    return (
+      isRecord(agent) &&
+      typeof agent.id === "string" &&
+      typeof agent.name === "string" &&
+      typeof agent.kind === "string" &&
+      typeof agent.hasBirthchart === "boolean" &&
+      typeof value.action === "string" &&
+      typeof value.icon === "string"
     );
   }
 

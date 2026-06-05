@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { RecipePostCard, YieldClaimCard } from "@/components/feed/HistoricalAgentFeedItems";
+import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import Header from "@/components/Header";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
@@ -328,10 +328,8 @@ function FeedTab({
           >
             {row.kind === "human" ? (
               <HumanFeedRow event={row.event} />
-            ) : row.item.type === "recipe_post" ? (
-              <RecipePostCard item={row.item} />
             ) : (
-              <YieldClaimCard item={row.item} />
+              <HistoricalAgentFeedCard item={row.item} />
             )}
           </motion.div>
         ))}

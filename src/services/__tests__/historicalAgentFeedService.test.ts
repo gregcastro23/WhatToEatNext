@@ -1,124 +1,113 @@
 import {
-  birthchartFromNatalChart,
-  mapAgentRecipeEventToPost,
-  type AgentRecipeEventRow,
+  formatNatalPlacements,
+  mapAgentEventRow,
+  type AgentEventRow,
 } from "../historicalAgentFeedService";
 
-const BASE_ROW: AgentRecipeEventRow = {
+const BASE_ROW: AgentEventRow = {
   id: "evt-1",
   actor_id: "agent-uuid-1",
+  event_type: "insight",
   metadata_payload: {
-    recipeName: "Patina of Pears",
-    recipeId: "recipe-123",
+    insightTitle: "On the Alchemy of Bread",
     planetarySignature: {
-      planetaryHour: "Venus",
-      dominantElement: "Water",
-      sacredStat: "Essence",
+      planetaryHour: "Mars",
+      dominantElement: "Earth",
+      sacredStat: "Matter",
+      natalPositions: [
+        { planet: "Sun", sign: "Aquarius", degree: 7 },
+        { planet: "Moon", sign: "Sagittarius", degree: 27 },
+      ],
     },
   },
   created_at: "2026-06-01T12:00:00.000Z",
-  email: "apicius@agentic.alchm.kitchen",
-  name: "Marcus Apicius",
-  dominant_element: "Fire",
-  natal_chart: {
-    planets: [
-      { name: "Sun", sign: "Taurus" },
-      { name: "Moon", sign: "Cancer" },
-    ],
-    ascendant: "Libra",
-  },
+  email: "mozart@agentic.alchm.kitchen",
+  name: "Wolfgang Amadeus Mozart",
+  dominant_element: "Air",
+  natal_positions: null,
 };
 
-describe("birthchartFromNatalChart", () => {
-  it("extracts sun/moon/ascendant from the planets-array format", () => {
+describe("formatNatalPlacements", () => {
+  it("formats planet/sign placements", () => {
     expect(
-      birthchartFromNatalChart({
-        planets: [
-          { name: "Sun", sign: "Taurus" },
-          { name: "Moon", sign: "Cancer" },
-        ],
-        ascendant: "Libra",
-      }),
-    ).toEqual({ sun: "Taurus", moon: "Cancer", ascendant: "Libra" });
+      formatNatalPlacements([
+        { planet: "Sun", sign: "Aquarius" },
+        { planet: "Moon", sign: "Sagittarius" },
+      ]),
+    ).toEqual(["Sun Aquarius", "Moon Sagittarius"]);
   });
 
-  it("extracts from the planetaryPositions-object format", () => {
+  it("parses a JSON string and ignores malformed entries", () => {
     expect(
-      birthchartFromNatalChart({ planetaryPositions: { Sun: "Leo", Moon: "Aries" } }),
-    ).toEqual({ sun: "Leo", moon: "Aries" });
+      formatNatalPlacements('[{"planet":"Mars","sign":"Scorpio"},{"x":1}]'),
+    ).toEqual(["Mars Scorpio"]);
   });
 
-  it("returns undefined for an empty/missing chart", () => {
-    expect(birthchartFromNatalChart({})).toBeUndefined();
-    expect(birthchartFromNatalChart(null)).toBeUndefined();
-    expect(birthchartFromNatalChart("{}")).toBeUndefined();
+  it("returns [] for non-arrays", () => {
+    expect(formatNatalPlacements(null)).toEqual([]);
+    expect(formatNatalPlacements({})).toEqual([]);
   });
 });
 
-describe("mapAgentRecipeEventToPost", () => {
-  it("maps a full real row into a recipe_post", () => {
-    const post = mapAgentRecipeEventToPost(BASE_ROW);
-    expect(post).toMatchObject({
+describe("mapAgentEventRow", () => {
+  it("maps a real insight row into a narrated agent_event", () => {
+    const item = mapAgentEventRow(BASE_ROW);
+    expect(item).toMatchObject({
       id: "evt-1",
-      type: "recipe_post",
+      type: "agent_event",
       agent: {
         id: "agent-uuid-1",
-        name: "Marcus Apicius",
+        name: "Wolfgang Amadeus Mozart",
         kind: "historical",
         hasBirthchart: true,
-        birthchart: { sun: "Taurus", moon: "Cancer", ascendant: "Libra" },
-        slug: "apicius",
+        slug: "mozart",
       },
-      recipe: { name: "Patina of Pears", id: "recipe-123" },
-      planetaryHour: "Venus",
-      esmsTag: "Essence",
-      element: "Water",
+      element: "Earth",
+      esmsTag: "Matter",
+      planetaryHour: "Mars",
+      natalSignature: ["Sun Aquarius", "Moon Sagittarius"],
     });
-    expect(post.createdAt).toBe("2026-06-01T12:00:00.000Z");
+    expect(item.action.toLowerCase()).toContain("insight"); // narrated
+    expect(item.icon).toBeTruthy();
+    expect(item.createdAt).toBe("2026-06-01T12:00:00.000Z");
   });
 
-  it("parses a stringified metadata_payload", () => {
-    const post = mapAgentRecipeEventToPost({
+  it("narrates recipe_generation with a permalink href", () => {
+    const item = mapAgentEventRow({
       ...BASE_ROW,
-      metadata_payload: JSON.stringify(BASE_ROW.metadata_payload),
+      event_type: "recipe_generation",
+      metadata_payload: { recipeName: "Spelt Loaf", recipeId: "r-9" },
     });
-    expect(post.recipe.name).toBe("Patina of Pears");
-    expect(post.element).toBe("Water");
+    expect(item.action.toLowerCase()).toContain("spelt loaf");
+    expect(item.href).toBe("/generated-recipe/r-9");
   });
 
-  it("falls back to a generic recipe name and drops unknown tags", () => {
-    const post = mapAgentRecipeEventToPost({
+  it("falls back to email local-part for name + slug; element from profile", () => {
+    const item = mapAgentEventRow({
       ...BASE_ROW,
-      metadata_payload: { planetarySignature: { sacredStat: "not-an-esms" } },
-      dominant_element: null,
+      name: null,
+      metadata_payload: { insightTitle: "X" }, // no signature
     });
-    expect(post.recipe.name).toBe("a new recipe");
-    expect(post.recipe.id).toBeUndefined();
-    expect(post.esmsTag).toBeUndefined();
-    expect(post.element).toBeUndefined();
-    expect(post.planetaryHour).toBeUndefined();
+    expect(item.agent.name).toBe("mozart");
+    expect(item.agent.slug).toBe("mozart");
+    expect(item.element).toBe("Air"); // dominant_element fallback
+    expect(item.natalSignature).toBeUndefined();
   });
 
-  it("derives the element from the profile dominant_element when the signature lacks one", () => {
-    const post = mapAgentRecipeEventToPost({
+  it("uses profile natal_positions when the event signature has none", () => {
+    const item = mapAgentEventRow({
       ...BASE_ROW,
-      metadata_payload: { recipeName: "Stew" },
-      dominant_element: "Earth",
+      metadata_payload: { insightTitle: "X" },
+      natal_positions: [{ planet: "Venus", sign: "Capricorn" }],
     });
-    expect(post.element).toBe("Earth");
-  });
-
-  it("uses the email local-part for name fallback and slug", () => {
-    const post = mapAgentRecipeEventToPost({ ...BASE_ROW, name: null });
-    expect(post.agent.name).toBe("apicius");
-    expect(post.agent.slug).toBe("apicius");
+    expect(item.natalSignature).toEqual(["Venus Capricorn"]);
   });
 
   it("normalizes a Date created_at to ISO", () => {
-    const post = mapAgentRecipeEventToPost({
+    const item = mapAgentEventRow({
       ...BASE_ROW,
       created_at: new Date("2026-06-02T08:30:00.000Z"),
     });
-    expect(post.createdAt).toBe("2026-06-02T08:30:00.000Z");
+    expect(item.createdAt).toBe("2026-06-02T08:30:00.000Z");
   });
 });
