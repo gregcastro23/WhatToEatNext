@@ -4,7 +4,6 @@ import {
   isHistoricalAgentFeedItem,
   type HistoricalAgentFeedItem,
 } from "../historicalAgentFeed";
-import { getMockHistoricalAgentFeed } from "../historicalAgentFeedMock";
 
 describe("filterHistoricalAgentFeed", () => {
   it("keeps historical recipe_posts that have a birthchart", () => {
@@ -58,19 +57,6 @@ describe("filterHistoricalAgentFeed", () => {
       },
     ];
     expect(filterHistoricalAgentFeed(items)).toHaveLength(1);
-  });
-
-  it("applied to the mock fixture, yields only renderable items (planetary + no-birthchart excluded)", () => {
-    const filtered = filterHistoricalAgentFeed(getMockHistoricalAgentFeed());
-    // 3 historical+birthchart recipe_posts + 1 yield_claim = 4; 2 excluded.
-    expect(filtered).toHaveLength(4);
-    expect(
-      filtered.every(
-        (item) =>
-          item.type === "yield_claim" ||
-          (item.agent.kind === "historical" && item.agent.hasBirthchart),
-      ),
-    ).toBe(true);
   });
 });
 

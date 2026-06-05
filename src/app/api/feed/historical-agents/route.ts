@@ -12,8 +12,7 @@
  *
  * Either way the sourcing rule (historical + hasBirthchart; drop planetary) is
  * re-applied here. No fabricated data on this path — an empty DB yields an
- * empty feed. Client-side fixture rendering is a separate dev affordance
- * (NEXT_PUBLIC_FEED_MOCK in src/lib/feed/historicalAgentFeedSource.ts).
+ * empty feed.
  */
 
 import { NextResponse } from "next/server";
