@@ -10,11 +10,11 @@
  * index; no alchemical/ESMS/formula logic is modified.
  */
 
+import { pickMainIngredient } from "@/lib/feed/feedIngredients";
 import { type PlanetaryResonanceFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { CLASSICAL_PLANETS, PLANET_CULINARY } from "@/lib/feed/planetaryCulinary";
 import { _logger } from "@/lib/logger";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
-import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 
 function capitalize(value: string): string {
   return value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : value;
@@ -42,12 +42,12 @@ export function getPlanetaryResonanceFeed(now: Date = new Date()): PlanetaryReso
     const sign = typeof raw.sign === "string" ? capitalize(raw.sign) : undefined;
     const degree = typeof raw.degree === "number" ? Math.round(raw.degree) : undefined;
 
+    // Venus pours elixirs (beverages/fruit); Mercury tosses herb-forward salads.
+    const extra =
+      planet === "Venus" ? ["beverage", "fruit"] : planet === "Mercury" ? ["culinary_herb"] : [];
     let ingredient: string | undefined;
     try {
-      const tops = findTopIngredientsForElement(domain.element, 12);
-      if (tops.length > 0) {
-        ingredient = tops[((degree ?? 0) + index) % tops.length]?.name;
-      }
+      ingredient = pickMainIngredient(domain.element, (degree ?? 0) + index, extra);
     } catch {
       ingredient = undefined;
     }

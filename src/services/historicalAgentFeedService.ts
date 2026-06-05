@@ -20,6 +20,7 @@
 
 import { executeQuery } from "@/lib/database";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
+import { pickAccent, pickMainIngredient } from "@/lib/feed/feedIngredients";
 import {
   type AgentEventFeedItem,
   type EsmsTag,
@@ -28,7 +29,6 @@ import {
   type RecipePostFeedItem,
 } from "@/lib/feed/historicalAgentFeed";
 import { _logger } from "@/lib/logger";
-import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 
 /** Content event types that represent a historical agent's culinary activity. */
 const CONTENT_EVENT_TYPES = ["insight", "lab_entry", "recipe_generation", "made_it"];
@@ -193,10 +193,10 @@ export async function getHistoricalAgentEvents(
 // writes. Full PA-LLM prose recipes are a cron-prewarmed follow-up.
 
 const DISH_TEMPLATES: Record<FeedElement, string[]> = {
-  Fire: ["Flame-Seared {x}", "Charred {x} with Chili", "{x} al Fuego"],
-  Water: ["{x} Velouté", "Poached {x} in Broth", "Steamed {x} Parcels"],
-  Air: ["Shaved {x} Salad", "Herbed {x} Carpaccio", "Whipped {x} Cloud"],
-  Earth: ["Slow-Roasted {x}", "{x} Confit", "Braised {x} with Roots"],
+  Fire: ["Flame-Seared {x}", "Charred {x}", "{x} al Fuego", "Blistered {x}"],
+  Water: ["{x} Velouté", "Poached {x}", "Steamed {x}", "{x} in Broth"],
+  Air: ["Shaved {x} Salad", "{x} Carpaccio", "Whipped {x}", "Crisp {x} Toss"],
+  Earth: ["Slow-Roasted {x}", "{x} Confit", "Braised {x}", "Earthen {x} Bake"],
 };
 
 const ELEMENT_DISTRIBUTION: Record<FeedElement, Partial<Record<FeedElement, number>>> = {
@@ -205,10 +205,6 @@ const ELEMENT_DISTRIBUTION: Record<FeedElement, Partial<Record<FeedElement, numb
   Air: { Air: 0.5, Fire: 0.2, Water: 0.2, Earth: 0.1 },
   Earth: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
 };
-
-function titleCaseWords(name: string): string {
-  return name.replace(/\b\w/g, (c) => c.toUpperCase());
-}
 
 function birthchartFromPositions(value: unknown): FeedAgentBirthchart | undefined {
   const birthchart: FeedAgentBirthchart = {};
@@ -249,12 +245,13 @@ export function mapAgentToRecipePost(
 
   let recipeName = "a cosmic dish";
   try {
-    const tops = findTopIngredientsForElement(element, 12);
-    if (tops.length > 0) {
-      const ingredient = titleCaseWords(tops[(hourBucket + index) % tops.length]?.name ?? "");
+    const main = pickMainIngredient(element, hourBucket + index);
+    if (main) {
       const templates = DISH_TEMPLATES[element];
       const template = templates[(hourBucket + index) % templates.length];
-      if (ingredient) recipeName = template.replace("{x}", ingredient);
+      const accent = pickAccent(element, hourBucket + index + 1);
+      recipeName =
+        template.replace("{x}", main) + (accent && accent !== main ? ` with ${accent}` : "");
     }
   } catch {
     /* keep fallback name */
