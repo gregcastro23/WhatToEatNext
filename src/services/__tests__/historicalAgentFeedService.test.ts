@@ -1,7 +1,9 @@
 import {
   formatNatalPlacements,
   mapAgentEventRow,
+  mapAgentToRecipePost,
   type AgentEventRow,
+  type HistoricalAgentRow,
 } from "../historicalAgentFeedService";
 
 const BASE_ROW: AgentEventRow = {
@@ -109,5 +111,41 @@ describe("mapAgentEventRow", () => {
       created_at: new Date("2026-06-02T08:30:00.000Z"),
     });
     expect(item.createdAt).toBe("2026-06-02T08:30:00.000Z");
+  });
+});
+
+describe("mapAgentToRecipePost", () => {
+  const AT = new Date("2026-06-05T12:00:00.000Z");
+  const ROW: HistoricalAgentRow = {
+    actor_id: "agent-cleo",
+    email: "cleopatra@agentic.alchm.kitchen",
+    name: "Cleopatra VII",
+    dominant_element: "Water",
+    natal_positions: [
+      { planet: "Sun", sign: "Capricorn" },
+      { planet: "Moon", sign: "Scorpio" },
+    ],
+  };
+
+  it("composes a Water recipe grounded in the agent's chart", () => {
+    const item = mapAgentToRecipePost(ROW, 0, AT);
+    expect(item.type).toBe("recipe_post");
+    expect(item.agent).toMatchObject({
+      id: "agent-cleo",
+      name: "Cleopatra VII",
+      kind: "historical",
+      hasBirthchart: true,
+      slug: "cleopatra",
+      birthchart: { sun: "Capricorn", moon: "Scorpio" },
+    });
+    expect(item.element).toBe("Water");
+    expect(item.recipe.name).not.toBe("a cosmic dish"); // real ingredient composed in
+    expect(item.recipe.elements?.Water).toBeGreaterThan(0);
+  });
+
+  it("falls back to email local-part + a rotating element with no dominant element", () => {
+    const item = mapAgentToRecipePost({ ...ROW, name: null, dominant_element: null }, 1, AT);
+    expect(item.agent.name).toBe("cleopatra");
+    expect(["Fire", "Water", "Earth", "Air"]).toContain(item.element);
   });
 });

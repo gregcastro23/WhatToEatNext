@@ -23,9 +23,12 @@ import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import {
   type AgentEventFeedItem,
   type EsmsTag,
+  type FeedAgentBirthchart,
   type FeedElement,
+  type RecipePostFeedItem,
 } from "@/lib/feed/historicalAgentFeed";
 import { _logger } from "@/lib/logger";
+import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 
 /** Content event types that represent a historical agent's culinary activity. */
 const CONTENT_EVENT_TYPES = ["insight", "lab_entry", "recipe_generation", "made_it"];
@@ -177,6 +180,142 @@ export async function getHistoricalAgentEvents(
     return result.rows.map(mapAgentEventRow);
   } catch (error) {
     _logger.error("[historicalAgentFeed] internal DB query failed:", error);
+    return [];
+  }
+}
+
+// ─── Historical-agent recipes (alchemically-grounded, live) ──────────────────
+//
+// Historical agents (chart-bearing) post a recipe resonant with their natal
+// dominant element + the current moment. Grounded in the real ingredient index
+// (findTopIngredientsForElement) and composed via element-keyed dish templates —
+// no PA LLM call (which can't run per-agent on a live feed load) and no DB
+// writes. Full PA-LLM prose recipes are a cron-prewarmed follow-up.
+
+const DISH_TEMPLATES: Record<FeedElement, string[]> = {
+  Fire: ["Flame-Seared {x}", "Charred {x} with Chili", "{x} al Fuego"],
+  Water: ["{x} Velouté", "Poached {x} in Broth", "Steamed {x} Parcels"],
+  Air: ["Shaved {x} Salad", "Herbed {x} Carpaccio", "Whipped {x} Cloud"],
+  Earth: ["Slow-Roasted {x}", "{x} Confit", "Braised {x} with Roots"],
+};
+
+const ELEMENT_DISTRIBUTION: Record<FeedElement, Partial<Record<FeedElement, number>>> = {
+  Fire: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+  Water: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
+  Air: { Air: 0.5, Fire: 0.2, Water: 0.2, Earth: 0.1 },
+  Earth: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+};
+
+function titleCaseWords(name: string): string {
+  return name.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function birthchartFromPositions(value: unknown): FeedAgentBirthchart | undefined {
+  const birthchart: FeedAgentBirthchart = {};
+  for (const entry of asArray(value)) {
+    if (!isRecord(entry)) continue;
+    const planet = str(entry.planet)?.toLowerCase();
+    const sign = str(entry.sign);
+    if (!sign) continue;
+    if (planet === "sun" && !birthchart.sun) birthchart.sun = sign;
+    else if (planet === "moon" && !birthchart.moon) birthchart.moon = sign;
+    else if ((planet === "ascendant" || planet === "rising") && !birthchart.ascendant) {
+      birthchart.ascendant = sign;
+    }
+  }
+  return Object.keys(birthchart).length > 0 ? birthchart : undefined;
+}
+
+export interface HistoricalAgentRow {
+  actor_id: string;
+  email: string | null;
+  name: string | null;
+  dominant_element: string | null;
+  natal_positions: unknown;
+}
+
+/** Pure mapper: a chart-bearing agent → a recipe_post resonant with their chart. */
+export function mapAgentToRecipePost(
+  row: HistoricalAgentRow,
+  index: number,
+  now: Date,
+): RecipePostFeedItem {
+  const emailLocal =
+    typeof row.email === "string" && row.email.includes("@")
+      ? row.email.split("@")[0]
+      : undefined;
+  const element = pickElement(row.dominant_element) ?? ELEMENTS[index % ELEMENTS.length];
+  const hourBucket = Math.floor(now.getTime() / 3_600_000);
+
+  let recipeName = "a cosmic dish";
+  try {
+    const tops = findTopIngredientsForElement(element, 12);
+    if (tops.length > 0) {
+      const ingredient = titleCaseWords(tops[(hourBucket + index) % tops.length]?.name ?? "");
+      const templates = DISH_TEMPLATES[element];
+      const template = templates[(hourBucket + index) % templates.length];
+      if (ingredient) recipeName = template.replace("{x}", ingredient);
+    }
+  } catch {
+    /* keep fallback name */
+  }
+
+  const birthchart = birthchartFromPositions(row.natal_positions);
+
+  return {
+    id: `recipe-${row.actor_id}-${hourBucket}`,
+    type: "recipe_post",
+    agent: {
+      id: row.actor_id,
+      name: str(row.name) ?? emailLocal ?? "Historical Agent",
+      kind: "historical",
+      hasBirthchart: true,
+      ...(birthchart ? { birthchart } : {}),
+      ...(emailLocal ? { slug: emailLocal } : {}),
+    },
+    recipe: {
+      name: recipeName,
+      elements: ELEMENT_DISTRIBUTION[element],
+    },
+    element,
+    // Staggered so agent recipes interleave below the live planetary cluster.
+    createdAt: new Date(now.getTime() - (index + 1) * 150_000).toISOString(),
+  };
+}
+
+/**
+ * Fetch real chart-bearing historical agents (most recently active first) and
+ * compose a resonant recipe for each. Degrades to [] on failure.
+ */
+export async function getHistoricalAgentRecipes(
+  limit = 24,
+  now: Date = new Date(),
+): Promise<RecipePostFeedItem[]> {
+  try {
+    const result = await executeQuery<HistoricalAgentRow>(
+      `SELECT u.id AS actor_id,
+              u.email,
+              up.name,
+              up.dominant_element,
+              up.natal_positions
+         FROM users u
+         JOIN user_profiles up ON up.user_id = u.id
+         LEFT JOIN feed_events f ON f.actor_id = u.id
+        WHERE COALESCE(u.is_agent, false) = true
+          AND COALESCE(u.is_active, true) = true
+          AND (
+                (up.natal_positions IS NOT NULL AND up.natal_positions::text NOT IN ('[]', 'null', '{}'))
+             OR (up.natal_chart     IS NOT NULL AND up.natal_chart::text     NOT IN ('{}', 'null'))
+             OR (up.birth_data      IS NOT NULL AND up.birth_data::text      NOT IN ('{}', 'null'))
+              )
+        GROUP BY u.id, u.email, up.name, up.dominant_element, up.natal_positions
+        ORDER BY MAX(f.created_at) DESC NULLS LAST
+        LIMIT $1`,
+      [limit],
+    );
+    return result.rows.map((row, index) => mapAgentToRecipePost(row, index, now));
+  } catch (error) {
+    _logger.error("[historicalAgentFeed] recipe query failed:", error);
     return [];
   }
 }

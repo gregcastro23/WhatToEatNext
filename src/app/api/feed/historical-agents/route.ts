@@ -20,7 +20,7 @@ import {
   coerceFeedItems,
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
-import { getHistoricalAgentEvents } from "@/services/historicalAgentFeedService";
+import { getHistoricalAgentRecipes } from "@/services/historicalAgentFeedService";
 import { getPlanetaryResonanceFeed } from "@/services/planetaryResonanceService";
 
 export const dynamic = "force-dynamic";
@@ -36,9 +36,9 @@ export async function GET(request: Request) {
   // resonance (degree agents, current sky) + historical agents' activity.
   if (!producerUrl) {
     try {
-      const events = await getHistoricalAgentEvents(limit);
+      const recipes = await getHistoricalAgentRecipes(limit);
       const resonance = getPlanetaryResonanceFeed();
-      const items = filterHistoricalAgentFeed([...resonance, ...events])
+      const items = filterHistoricalAgentFeed([...resonance, ...recipes])
         .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
         .slice(0, limit);
       return NextResponse.json({ success: true, items, source: "internal" });
