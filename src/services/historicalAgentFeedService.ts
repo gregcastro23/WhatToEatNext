@@ -29,6 +29,7 @@ import {
   type RecipePostFeedItem,
 } from "@/lib/feed/historicalAgentFeed";
 import { _logger } from "@/lib/logger";
+import { getCachedAgentRecipes, type CachedAgentRecipe } from "@/services/agentRecipePrewarm";
 
 /** Content event types that represent a historical agent's culinary activity. */
 const CONTENT_EVENT_TYPES = ["insight", "lab_entry", "recipe_generation", "made_it"];
@@ -235,32 +236,40 @@ export function mapAgentToRecipePost(
   row: HistoricalAgentRow,
   index: number,
   now: Date,
+  cached?: CachedAgentRecipe | null,
 ): RecipePostFeedItem {
   const emailLocal =
     typeof row.email === "string" && row.email.includes("@")
       ? row.email.split("@")[0]
       : undefined;
-  const element = pickElement(row.dominant_element) ?? ELEMENTS[index % ELEMENTS.length];
+  let element = pickElement(row.dominant_element) ?? ELEMENTS[index % ELEMENTS.length];
   const hourBucket = Math.floor(now.getTime() / 3_600_000);
 
-  let recipeName = "a cosmic dish";
-  try {
-    const main = pickMainIngredient(element, hourBucket + index);
-    if (main) {
-      const templates = DISH_TEMPLATES[element];
-      const template = templates[(hourBucket + index) % templates.length];
-      const accent = pickAccent(element, hourBucket + index + 1);
-      recipeName =
-        template.replace("{x}", main) + (accent && accent !== main ? ` with ${accent}` : "");
+  let recipeName: string;
+  if (cached?.title) {
+    // Real PA-LLM recipe (prewarmed by the cron) takes precedence.
+    recipeName = cached.title;
+    element = cached.element ?? element;
+  } else {
+    recipeName = "a cosmic dish";
+    try {
+      const main = pickMainIngredient(element, hourBucket + index);
+      if (main) {
+        const templates = DISH_TEMPLATES[element];
+        const template = templates[(hourBucket + index) % templates.length];
+        const accent = pickAccent(element, hourBucket + index + 1);
+        recipeName =
+          template.replace("{x}", main) + (accent && accent !== main ? ` with ${accent}` : "");
+      }
+    } catch {
+      /* keep fallback name */
     }
-  } catch {
-    /* keep fallback name */
   }
 
   const birthchart = birthchartFromPositions(row.natal_positions);
 
   return {
-    id: `recipe-${row.actor_id}-${hourBucket}`,
+    id: `recipe-${row.actor_id}-${cached ? "pa-" : ""}${hourBucket}`,
     type: "recipe_post",
     agent: {
       id: row.actor_id,
@@ -310,7 +319,10 @@ export async function getHistoricalAgentRecipes(
         LIMIT $1`,
       [limit],
     );
-    return result.rows.map((row, index) => mapAgentToRecipePost(row, index, now));
+    const cacheMap = await getCachedAgentRecipes(result.rows.map((r) => r.actor_id));
+    return result.rows.map((row, index) =>
+      mapAgentToRecipePost(row, index, now, cacheMap.get(row.actor_id) ?? null),
+    );
   } catch (error) {
     _logger.error("[historicalAgentFeed] recipe query failed:", error);
     return [];

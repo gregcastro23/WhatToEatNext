@@ -46,6 +46,10 @@
     {
       "path": "/api/cron/cache-ephemeris",
       "schedule": "5 0 * * *"
+    },
+    {
+      "path": "/api/cron/prewarm-agent-recipes",
+      "schedule": "0 * * * *"
     }
   ],
   "env": {
