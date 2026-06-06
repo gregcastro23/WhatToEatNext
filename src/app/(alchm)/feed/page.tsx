@@ -3,30 +3,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import Header from "@/components/Header";
-import { agentChatUrl } from "@/lib/agents/agentChatUrl";
-import { ELEMENT_COLORS } from "@/lib/elementColors";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
+import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
+import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
 import { TOKEN_TYPES } from "@/types/economy";
 import type { TokenType } from "@/types/economy";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-
-interface SignaturePlacement {
-  planet?: string;
-  sign?: string;
-  degree?: number;
-}
-
-interface PlanetarySignature {
-  planetaryHour?: string;
-  planetaryDay?: string;
-  dominantPlanet?: string;
-  dominantSign?: string;
-  dominantElement?: string;
-  sacredStat?: string;
-  natalPositions?: SignaturePlacement[];
-}
 
 interface FeedEvent {
   id: string;
@@ -124,18 +109,6 @@ function formatRelativeTime(iso: string): string {
   return `${Math.floor(diffSec / 86_400)}d ago`;
 }
 
-function getPlanetarySignature(metadata: any): PlanetarySignature | null {
-  const signature = metadata?.planetarySignature;
-  return signature && typeof signature === "object" ? signature : null;
-}
-
-function formatPlacement(placement: SignaturePlacement): string | null {
-  if (!placement.planet) return null;
-  const degree = typeof placement.degree === "number" ? `${placement.degree.toFixed(1)}°` : "";
-  const sign = placement.sign ? ` ${placement.sign}` : "";
-  return `${placement.planet} ${degree}${sign}`.trim();
-}
-
 function getEventNarration(event: FeedEvent) {
   return narrateFeedEvent(event.eventType, event.metadataPayload);
 }
@@ -145,22 +118,27 @@ function getEventNarration(event: FeedEvent) {
 export default function FeedPage() {
   const [activeTab, setActiveTab] = useState<TabId>("feed");
   const [events, setEvents] = useState<FeedEvent[]>([]);
+  const [historicalItems, setHistoricalItems] = useState<HistoricalAgentFeedItem[]>([]);
   const [agents, setAgents] = useState<AgentSummary[]>([]);
   const [transactions, setTransactions] = useState<NetworkTransaction[]>([]);
   const [swapContext, setSwapContext] = useState<SwapRateContext | null>(null);
   const [loading, setLoading] = useState({ feed: true, agents: true, transactions: true, swap: true });
 
   const refreshAll = useCallback(async () => {
-    const [feedRes, agentsRes, txnRes, ratesRes] = await Promise.allSettled([
+    const [feedRes, agentsRes, txnRes, ratesRes, historicalRes] = await Promise.allSettled([
       fetch("/api/feed?limit=40"),
       fetch("/api/community/agents?limit=80"),
       fetch("/api/economy/transactions/recent?limit=40"),
       fetch("/api/economy/swap-rates"),
+      fetchHistoricalAgentFeed(40),
     ]);
 
     if (feedRes.status === "fulfilled" && feedRes.value.ok) {
       const data = await feedRes.value.json();
       if (data.success) setEvents(data.events || []);
+    }
+    if (historicalRes.status === "fulfilled") {
+      setHistoricalItems(historicalRes.value);
     }
     setLoading((prev) => ({ ...prev, feed: false }));
 
@@ -260,7 +238,7 @@ export default function FeedPage() {
         <AnimatePresence mode="wait">
           {activeTab === "feed" && (
             <motion.div key="feed" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-              <FeedTab events={events} loading={loading.feed} />
+              <FeedTab events={events} historicalItems={historicalItems} loading={loading.feed} />
             </motion.div>
           )}
           {activeTab === "agents" && (
@@ -286,7 +264,40 @@ export default function FeedPage() {
 
 // ─── Feed Tab ─────────────────────────────────────────────────────────────────
 
-function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean }) {
+type FeedRow =
+  | { kind: "human"; id: string; ts: number; event: FeedEvent }
+  | { kind: "agent"; id: string; ts: number; item: HistoricalAgentFeedItem };
+
+function FeedTab({
+  events,
+  historicalItems,
+  loading,
+}: {
+  events: FeedEvent[];
+  historicalItems: HistoricalAgentFeedItem[];
+  loading: boolean;
+}) {
+  // Retain human-alchemist activity; retire the planetary-agent posts (all
+  // current `feed_events` agents) by filtering them out, and merge in the
+  // historical-agent recipe posts + yield claims, sorted chronologically.
+  const rows = useMemo<FeedRow[]>(() => {
+    const humanRows: FeedRow[] = events
+      .filter((event) => !event.actorIsAgent)
+      .map((event) => ({
+        kind: "human",
+        id: event.id,
+        ts: Date.parse(event.createdAt) || 0,
+        event,
+      }));
+    const agentRows: FeedRow[] = historicalItems.map((item) => ({
+      kind: "agent",
+      id: item.id,
+      ts: Date.parse(item.createdAt) || 0,
+      item,
+    }));
+    return [...humanRows, ...agentRows].sort((a, b) => b.ts - a.ts);
+  }, [events, historicalItems]);
+
   if (loading) {
     return (
       <div className="flex justify-center py-20">
@@ -294,10 +305,13 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
       </div>
     );
   }
-  if (events.length === 0) {
+  if (rows.length === 0) {
     return (
       <div className="glass-card-premium rounded-3xl p-10 text-center border-white/8">
         <p className="text-white/40">The astral network is quiet today.</p>
+        <p className="mt-2 text-xs text-white/25">
+          Historical agents will appear here as they transmute new recipes.
+        </p>
       </div>
     );
   }
@@ -305,104 +319,67 @@ function FeedTab({ events, loading }: { events: FeedEvent[]; loading: boolean })
   return (
     <div className="space-y-4">
       <AnimatePresence>
-        {events.map((event, index) => {
-          const signature = event.actorIsAgent ? getPlanetarySignature(event.metadataPayload) : null;
-          const natalPlacements =
-            signature?.natalPositions?.map(formatPlacement).filter(Boolean).slice(0, 4) || [];
-          const narration = getEventNarration(event);
-          const actorHref = `/profile/${event.actorId}`;
-          return (
-            <motion.div
-              key={event.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.04 }}
-              className={`glass-card-premium rounded-2xl p-5 transition-all flex items-start gap-4 ${
-                event.actorIsAgent
-                  ? "border-amber-500/20 hover:border-amber-400/35"
-                  : "border-white/8 hover:border-purple-500/20"
-              }`}
-            >
-              <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5 overflow-hidden">
-                {event.actorImage ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={event.actorImage}
-                    alt={event.actorName || "Avatar"}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  narration.icon
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-white/80">
-                  <Link
-                    href={actorHref}
-                    className={`font-bold mr-1 underline-offset-2 hover:underline transition-colors ${
-                      event.actorIsAgent ? "text-amber-400 hover:text-amber-300" : "text-white hover:text-purple-200"
-                    }`}
-                  >
-                    {event.actorName}
-                  </Link>{" "}
-                  {narration.href ? (
-                    <Link
-                      href={narration.href}
-                      className="text-white/80 hover:text-white underline decoration-purple-400/30 underline-offset-2"
-                    >
-                      {narration.action}
-                    </Link>
-                  ) : (
-                    <span className="text-white/60">{narration.action}</span>
-                  )}
-                </p>
-                <div className="flex items-center gap-3 mt-2">
-                  <span className="text-[10px] text-white/30 font-mono">
-                    {formatRelativeTime(event.createdAt)}
-                  </span>
-                  {event.actorIsAgent && (
-                    <span className="text-[8px] font-black uppercase tracking-widest bg-amber-500/10 text-amber-400/80 px-2 py-0.5 rounded-full border border-amber-500/20">
-                      Historical Agent
-                    </span>
-                  )}
-                  {event.actorIsAgent && event.actorSlug && (
-                    <a
-                      href={agentChatUrl(event.actorSlug)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[10px] text-amber-300/70 hover:text-amber-200 uppercase tracking-wider font-bold"
-                    >
-                      Chat with Agent ✦
-                    </a>
-                  )}
-                </div>
-                {signature && (
-                  <div
-                    className={`mt-3 rounded-xl border px-3 py-2 ${
-                      ELEMENT_COLORS[signature.dominantElement ?? ""] ??
-                      "border-amber-400/15 bg-amber-500/10 text-amber-100/75"
-                    }`}
-                  >
-                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-[10px] font-bold uppercase tracking-wider">
-                      {(signature.planetaryHour || signature.dominantPlanet) && (
-                        <span>Hour {signature.planetaryHour || signature.dominantPlanet}</span>
-                      )}
-                      {signature.planetaryDay && <span>Day {signature.planetaryDay}</span>}
-                      {signature.sacredStat && <span>{signature.sacredStat}</span>}
-                      {signature.dominantElement && <span>{signature.dominantElement}</span>}
-                    </div>
-                    {natalPlacements.length > 0 && (
-                      <p className="mt-1.5 text-xs leading-relaxed opacity-80">
-                        Natal signature: {natalPlacements.join(" · ")}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          );
-        })}
+        {rows.map((row, index) => (
+          <motion.div
+            key={row.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.04 }}
+          >
+            {row.kind === "human" ? (
+              <HumanFeedRow event={row.event} />
+            ) : (
+              <HistoricalAgentFeedCard item={row.item} />
+            )}
+          </motion.div>
+        ))}
       </AnimatePresence>
+    </div>
+  );
+}
+
+function HumanFeedRow({ event }: { event: FeedEvent }) {
+  const narration = getEventNarration(event);
+  const actorHref = `/profile/${event.actorId}`;
+  return (
+    <div className="glass-card-premium rounded-2xl p-5 transition-all flex items-start gap-4 border-white/8 hover:border-purple-500/20">
+      <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5 overflow-hidden">
+        {event.actorImage ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={event.actorImage}
+            alt={event.actorName || "Avatar"}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          narration.icon
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm text-white/80">
+          <Link
+            href={actorHref}
+            className="font-bold mr-1 underline-offset-2 hover:underline transition-colors text-white hover:text-purple-200"
+          >
+            {event.actorName}
+          </Link>{" "}
+          {narration.href ? (
+            <Link
+              href={narration.href}
+              className="text-white/80 hover:text-white underline decoration-purple-400/30 underline-offset-2"
+            >
+              {narration.action}
+            </Link>
+          ) : (
+            <span className="text-white/60">{narration.action}</span>
+          )}
+        </p>
+        <div className="flex items-center gap-3 mt-2">
+          <span className="text-[10px] text-white/30 font-mono">
+            {formatRelativeTime(event.createdAt)}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
