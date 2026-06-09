@@ -11,6 +11,7 @@
  * @created 2026-01-29
  */
 
+import Link from "next/link";
 import React, { useMemo, useState, useCallback } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type {
@@ -425,7 +426,15 @@ function RecommendationCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <h4 className="text-sm font-bold text-gray-800 truncate">
-            {recipe.name}
+            <Link
+              href={`/recipes/${recipe.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="hover:text-purple-600 hover:underline"
+            >
+              {recipe.name}
+            </Link>
           </h4>
           <p className="text-xs text-gray-500 mt-0.5">
             {recipe.cuisine}{" "}

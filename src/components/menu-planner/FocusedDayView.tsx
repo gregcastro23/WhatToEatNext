@@ -507,7 +507,15 @@ function FocusedMealSlot({
         <div className="bg-white rounded-lg p-4 border border-gray-200">
           <div className="flex items-start justify-between mb-2">
             <h4 className="font-semibold text-gray-800">
-              {mealSlot.recipe!.name}
+              <Link
+                href={`/recipes/${mealSlot.recipe!.id || encodeURIComponent(mealSlot.recipe!.name)}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="hover:text-purple-600 hover:underline"
+              >
+                {mealSlot.recipe!.name}
+              </Link>
             </h4>
             <span className="text-sm text-gray-500">
               Servings: {mealSlot.servings}

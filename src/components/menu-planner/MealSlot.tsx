@@ -205,7 +205,15 @@ function RecipeDisplay({
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1 min-w-0">
           <h4 className={`font-semibold text-sm truncate ${colors.text}`}>
-            {recipe.name}
+            <Link
+              href={`/recipes/${recipe.id || encodeURIComponent(recipe.name)}`}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="hover:underline"
+            >
+              {recipe.name}
+            </Link>
           </h4>
           {recipe.cuisine && (
             <p className="text-xs text-gray-500 truncate">{recipe.cuisine}</p>

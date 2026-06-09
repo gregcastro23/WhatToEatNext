@@ -8,6 +8,7 @@
  * @created 2026-01-28 (Session 7)
  */
 
+import Link from "next/link";
 import React, {
   useState,
   useEffect,
@@ -521,11 +522,16 @@ function BrowserRecipeCard({
     >
       {/* Top row: name + favorite */}
       <div className="flex items-start justify-between gap-2">
-        <h3
-          className="font-semibold text-gray-800 text-sm line-clamp-1 flex-1"
-          onClick={onViewDetail || onSelect}
-        >
-          {recipe.name}
+        <h3 className="font-semibold text-gray-800 text-sm line-clamp-1 flex-1">
+          <Link
+            href={`/recipes/${recipe.id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="hover:text-amber-600 hover:underline"
+          >
+            {recipe.name}
+          </Link>
         </h3>
         <button
           onClick={(e) => {
@@ -604,17 +610,16 @@ function BrowserRecipeCard({
             In Queue
           </span>
         )}
-        {onViewDetail && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              void onViewDetail();
-            }}
-            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium hover:bg-gray-200"
-          >
-            Details
-          </button>
-        )}
+        <Link
+          href={`/recipes/${recipe.id}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onViewDetail) onViewDetail();
+          }}
+          className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium hover:bg-gray-200 flex items-center justify-center"
+        >
+          Details
+        </Link>
       </div>
     </div>
   );
