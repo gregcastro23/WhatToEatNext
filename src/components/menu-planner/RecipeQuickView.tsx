@@ -11,6 +11,7 @@
  * @created 2026-01-29
  */
 
+import Link from "next/link";
 import React, { useState, useCallback } from "react";
 import type { Recipe } from "@/types/recipe";
 
@@ -207,14 +208,6 @@ export default function RecipeQuickView({
     onSelect?.(recipe);
   }, [onSelect, recipe]);
 
-  const handleViewDetails = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      onViewDetails?.(recipe);
-    },
-    [onViewDetails, recipe],
-  );
-
   const elementalProperties = recipe.elementalProperties || {
     Fire: 0.25,
     Water: 0.25,
@@ -253,7 +246,15 @@ export default function RecipeQuickView({
         <div className="flex items-center justify-between gap-2">
           <div className="flex-1 min-w-0">
             <h4 className="text-sm font-medium text-gray-800 truncate">
-              {recipe.name}
+              <Link
+                href={`/recipes/${recipe.id}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="hover:text-purple-600 hover:underline"
+              >
+                {recipe.name}
+              </Link>
             </h4>
             <div className="flex items-center gap-1 mt-0.5">
               {recipe.cuisine && (
@@ -291,7 +292,15 @@ export default function RecipeQuickView({
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-bold text-gray-800 truncate">
-              {recipe.name}
+              <Link
+                href={`/recipes/${recipe.id}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="hover:text-purple-600 hover:underline"
+              >
+                {recipe.name}
+              </Link>
             </h3>
             {recipe.description && (
               <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">
@@ -300,9 +309,13 @@ export default function RecipeQuickView({
             )}
           </div>
           {onViewDetails && (
-            <button
-              onClick={handleViewDetails}
-              className="shrink-0 p-1 hover:bg-gray-100 rounded transition-colors"
+            <Link
+              href={`/recipes/${recipe.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onViewDetails(recipe);
+              }}
+              className="shrink-0 p-1 hover:bg-gray-100 rounded transition-colors flex items-center justify-center"
               title="View details"
             >
               <svg
@@ -324,7 +337,7 @@ export default function RecipeQuickView({
                   d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                 />
               </svg>
-            </button>
+            </Link>
           )}
         </div>
 
@@ -507,7 +520,15 @@ export function MiniRecipeCard({
       {/* Recipe info */}
       <div className="flex-1 min-w-0">
         <p className="text-xs font-medium text-gray-800 truncate">
-          {recipe.name}
+          <Link
+            href={`/recipes/${recipe.id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="hover:text-purple-600 hover:underline"
+          >
+            {recipe.name}
+          </Link>
         </p>
         <p className="text-xs text-gray-500">
           {recipe.nutrition?.calories || 0} kcal

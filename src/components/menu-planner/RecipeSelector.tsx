@@ -8,6 +8,7 @@
  * @created 2026-01-10 (Phase 2)
  */
 
+import Link from "next/link";
 import React, { useState, useEffect, useMemo } from "react";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
@@ -79,7 +80,16 @@ function RecipeCard({
     >
       {/* Recipe Name */}
       <h3 className="font-semibold text-gray-800 mb-1 line-clamp-2">
-        {recipe.name}
+        <Link
+          href={`/recipes/${recipe.id}`}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className="hover:text-purple-600 hover:underline"
+          target="_blank"
+        >
+          {recipe.name}
+        </Link>
       </h3>
 
       {/* Cuisine Badge */}

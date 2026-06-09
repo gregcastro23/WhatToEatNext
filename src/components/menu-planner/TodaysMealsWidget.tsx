@@ -8,6 +8,7 @@
  * @file src/components/menu-planner/TodaysMealsWidget.tsx
  */
 
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { logServerMealFromPlan } from "@/actions/foodDiary";
 import { useToast } from "@/components/common/Toast";
@@ -625,14 +626,18 @@ export default function TodaysMealsWidget({
 
                   {/* Recipe name or CTA */}
                   <div className="flex-1 min-w-0">
-                    {recipeName ? (
-                      <p
-                        className={`text-xs font-semibold truncate ${isActive ? meal.activeColor : "text-gray-600"
+                    {recipeName && plannedSlot?.recipe ? (
+                      <Link
+                        href={`/recipes/${plannedSlot.recipe.id || encodeURIComponent(plannedSlot.recipe.name)}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        className={`text-xs font-semibold truncate hover:underline block ${isActive ? meal.activeColor : "text-gray-600"
                           }`}
                         title={recipeName}
                       >
                         {recipeName}
-                      </p>
+                      </Link>
                     ) : (
                       <span
                         className={`text-xs font-medium transition-colors ${isActive
