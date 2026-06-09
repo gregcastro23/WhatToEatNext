@@ -24,6 +24,7 @@ import {
     useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
 import type { SavedChart } from "@/types/natalChart";
 import type { Recipe } from "@/types/recipe";
 
@@ -300,6 +301,10 @@ function MenuPlannerContent() {
 
   const [activeElementFilter, setActiveElementFilter] = useState<"fire" | "water" | "earth" | "air" | null>(null);
 
+  // Mirrors the plan into SpacetimeDB when the live-planner flag is on;
+  // inert (and invisible) otherwise.
+  const plannerSync = useSpacetimePlannerSync(currentMenu);
+
   return (
     <div className="lab min-h-screen text-on-surface select-none pb-24">
       <div className="w-full px-4 xl:px-8 py-8">
@@ -312,6 +317,14 @@ function MenuPlannerContent() {
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
               Align your macro-nutritional intake with orbital cycles. Map out the week&apos;s alchemical transmutations for optimal systemic resonance.
             </p>
+            {plannerSync.live && (
+              <span
+                className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-gold-accent/30 bg-gold-accent/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-gold-accent"
+                title="Weekly plan is mirrored to SpacetimeDB in real time"
+              >
+                ⚡ plan sync live · {plannerSync.liveSlotCount} slots
+              </span>
+            )}
           </div>
           <div className="flex gap-4">
             <Link

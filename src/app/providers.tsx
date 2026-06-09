@@ -28,12 +28,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 <AlchemicalDataProvider>
                   <AlchemicalProvider>
                     <RecipeBuilderProvider>
-                      <GroceryCartProvider>
-                        <SpacetimeProvider>
+                      {/* SpacetimeProvider sits above the cart so the cart
+                          context can consume the live connection. */}
+                      <SpacetimeProvider>
+                        <GroceryCartProvider>
                           <MasterQuestBroadcastListener />
                           {children}
-                        </SpacetimeProvider>
-                      </GroceryCartProvider>
+                        </GroceryCartProvider>
+                      </SpacetimeProvider>
                     </RecipeBuilderProvider>
                   </AlchemicalProvider>
                 </AlchemicalDataProvider>

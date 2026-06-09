@@ -192,6 +192,19 @@ RESEND_API_KEY=re_...
 
 ---
 
+### SpacetimeDB live layer (v4.0, optional)
+
+The `spacetime-module/` Rust module owns the live culinary catalog plus
+per-user real-time state (meal plans, grocery carts, feed events, commensal
+sessions). The frontend connects through `SpacetimeProvider`
+(`src/contexts/SpacetimeContext.tsx`) only when `NEXT_PUBLIC_SPACETIME_URI`
+is set; five `NEXT_PUBLIC_SPACETIME_LIVE_*` flags gate each consumer surface
+(see `.env.example`). Every surface falls back silently to its legacy
+localStorage/REST path when the flag is off or the connection drops. Seed the
+culinary catalog with `bun scripts/spacetime/seedCulinary.ts`; regenerate TS
+bindings after module changes with
+`spacetime generate --lang typescript --module-path spacetime-module --out-dir src/lib/spacetime/generated`.
+
 ## Key architecture decisions
 
 See [docs/adr/](docs/adr/) for full Architecture Decision Records.
@@ -203,6 +216,7 @@ See [docs/adr/](docs/adr/) for full Architecture Decision Records.
 | [ADR-003](docs/adr/003-token-economy-throttle.md) | Token economy as the primary AI throttle |
 | [ADR-004](docs/adr/004-device-sessions.md) | Device sessions via DB + JWT `jti` |
 | [ADR-005](docs/adr/005-denormalized-read-model.md) | Denormalized `read_model` JSONB for sub-100ms recipe loads |
+| [ADR-008](docs/adr/008-spacetimedb-live-state.md) | SpacetimeDB live-state layer (flag-gated, silent legacy fallback) |
 
 ---
 

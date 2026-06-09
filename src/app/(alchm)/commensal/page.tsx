@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { CompanionSuggestions } from '@/components/commensal/CompanionSuggestions';
 import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
 import { CookingMethodsList } from '@/components/commensal/CookingMethodsList';
+import LiveCommensalLobby from '@/components/commensal/LiveCommensalLobby';
 import { RecommendedRecipeCard } from '@/components/commensal/RecommendedRecipeCard';
 import { RestaurantList } from '@/components/commensal/RestaurantList';
 import { SaveGroupButton } from '@/components/commensal/SaveGroupButton';
@@ -252,6 +253,10 @@ export default function CommensalPage() {
             (via Foursquare) tailored for your group&apos;s composite energy.
           </p>
         </div>
+
+        {/* Real-time multiplayer lobby (renders only when the SpacetimeDB
+            live-commensal flag is on and the connection is up). */}
+        <LiveCommensalLobby />
 
         <div className="grid md:grid-cols-3 gap-8">
           <aside className="md:col-span-1 space-y-5">

@@ -34,5 +34,25 @@ export function isLiveCulinaryEnabled(): boolean {
   return process.env.NEXT_PUBLIC_SPACETIME_LIVE_CULINARY === "1";
 }
 
+/** Planner write-mirror + cross-device persistence via `meal_plan_slot`. */
+export function isLivePlannerEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_PLANNER === "1";
+}
+
+/** Two-way grocery cart sync via `grocery_cart_item`. */
+export function isLiveCartEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_CART === "1";
+}
+
+/** Live feed push via `feed_event` (supplements the 30s HTTP poll). */
+export function isLiveFeedEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_FEED === "1";
+}
+
+/** Live commensal dinner-party lobby via `commensal_session`/`_member`. */
+export function isLiveCommensalEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_COMMENSAL === "1";
+}
+
 /** localStorage key for the SpacetimeDB identity token. */
 export const SPACETIME_TOKEN_STORAGE_KEY = "alchm:spacetime:token";

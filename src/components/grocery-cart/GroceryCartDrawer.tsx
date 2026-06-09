@@ -17,6 +17,7 @@ export function GroceryCartDrawer() {
     checkoutToAmazon,
     unmappedItems,
     updateAsin,
+    isLiveSynced,
   } = useGroceryCart();
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
@@ -81,6 +82,14 @@ export function GroceryCartDrawer() {
           <div>
             <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-orange-300">
               Grocery Cart
+              {isLiveSynced && (
+                <span
+                  className="ml-2 inline-flex items-center gap-1 rounded-full border border-amber-300/30 bg-amber-400/10 px-2 py-0.5 align-middle font-mono text-[9px] uppercase tracking-wider text-amber-300"
+                  title="Cart is synced across your devices in real time"
+                >
+                  ⚡ live
+                </span>
+              )}
             </h2>
             <p className="text-xs text-gray-400">
               {items.length === 0

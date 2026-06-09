@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import Header from "@/components/Header";
+import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
@@ -169,6 +170,9 @@ export default function FeedPage() {
     setLoading((prev) => ({ ...prev, swap: false }));
   }, []);
 
+  // The 30s HTTP poll stays in place: it covers agents/transactions/swap
+  // rates (which have no live table yet) and is the degraded fallback for
+  // the feed itself when the SpacetimeDB subscription below isn't live.
   useEffect(() => {
     void refreshAll();
     const id = window.setInterval(() => {
@@ -176,6 +180,16 @@ export default function FeedPage() {
     }, 30_000);
     return () => window.clearInterval(id);
   }, [refreshAll]);
+
+  // Real-time feed events pushed over the SpacetimeDB WebSocket (the
+  // sanctioned exception to the polling rule — see useLiveFeedEvents).
+  // Live events come from a separate store than the Postgres-backed
+  // /api/feed rows, so a plain prepend cannot duplicate entries.
+  const liveEvents = useLiveFeedEvents();
+  const mergedEvents = useMemo(
+    () => (liveEvents === null ? events : [...liveEvents, ...events]),
+    [liveEvents, events],
+  );
 
   return (
     <main className="min-h-screen bg-[#08080e] pb-24">
@@ -238,7 +252,17 @@ export default function FeedPage() {
         <AnimatePresence mode="wait">
           {activeTab === "feed" && (
             <motion.div key="feed" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-              <FeedTab events={events} historicalItems={historicalItems} loading={loading.feed} />
+              <FeedTab events={mergedEvents} historicalItems={historicalItems} loading={loading.feed} />
+              {liveEvents !== null && (
+                <div className="mt-3 text-center">
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/30 bg-amber-400/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-amber-300"
+                    title="New events arrive instantly over the SpacetimeDB connection"
+                  >
+                    ⚡ {liveEvents.length} live
+                  </span>
+                </div>
+              )}
             </motion.div>
           )}
           {activeTab === "agents" && (

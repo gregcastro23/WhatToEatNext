@@ -12,6 +12,7 @@
  *   (name, normalizedUnit) → checkoutToAmazon() → checkout preflight → POST form submit
  */
 
+import { track } from "@vercel/analytics";
 import {
   createContext,
   useCallback,
@@ -22,8 +23,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { resolveAsin } from "@/data/amazon";
 import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
+import { isLiveCartEnabled } from "@/lib/spacetime/config";
+import type { GroceryCartItem as StdbCartRow } from "@/lib/spacetime/generated/types";
 
 const STORAGE_KEY = "alchm:grocery-cart:v2";
 
@@ -74,6 +78,8 @@ interface GroceryCartContextValue {
   /** Items that could not be mapped to an ASIN */
   unmappedItems: GroceryCartItem[];
   updateAsin: (id: string, asin: string) => void;
+  /** True when the cart is live-synced to SpacetimeDB across devices. */
+  isLiveSynced: boolean;
 }
 
 const GroceryCartContext = createContext<GroceryCartContextValue | null>(null);
@@ -286,6 +292,183 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     };
   }, [unmappedItems, updateAsin]);
 
+  // -------------------------------------------------------------------------
+  // SpacetimeDB live sync (NEXT_PUBLIC_SPACETIME_LIVE_CART) — two-way:
+  // local mutations push through the owner-scoped cart reducers, and rows
+  // written from other devices are adopted into local state. When the flag is
+  // off or the connection drops, the cart silently runs on localStorage alone.
+  // -------------------------------------------------------------------------
+  const { connection, status: stdbStatus, identityHex } = useSpacetime();
+  const liveCartEnabled = isLiveCartEnabled();
+  const [stdbApplied, setStdbApplied] = useState(false);
+  const isLiveSynced =
+    liveCartEnabled && stdbApplied && stdbStatus === "connected";
+  /** Signature of the last value this session pushed, per item key. */
+  const lastPushedRef = useRef<Map<string, string>>(new Map());
+  const cartSyncTrackedRef = useRef(false);
+
+  const itemSignature = (item: {
+    name: string;
+    quantity: number;
+    unit: string;
+    category?: string;
+    notes?: string;
+    asin?: string | null;
+    recipeIds: string[];
+  }): string =>
+    JSON.stringify([
+      item.name,
+      item.quantity,
+      item.unit,
+      item.category ?? "",
+      item.notes ?? "",
+      item.asin ?? "",
+      [...item.recipeIds].sort().join(","),
+    ]);
+
+  const rowSignature = (row: StdbCartRow): string =>
+    JSON.stringify([
+      row.name,
+      row.quantity,
+      row.unit,
+      row.category,
+      row.notes,
+      row.asin,
+      [...row.recipeRefs].sort().join(","),
+    ]);
+
+  // Pull: subscribe to the table and adopt remote state.
+  useEffect(() => {
+    if (
+      !liveCartEnabled ||
+      stdbStatus !== "connected" ||
+      !connection ||
+      !identityHex
+    ) {
+      setStdbApplied(false);
+      return;
+    }
+
+    const applyRemote = () => {
+      let rows: StdbCartRow[];
+      try {
+        rows = [...connection.db.grocery_cart_item.iter()].filter(
+          (row) => row.owner.toHexString() === identityHex,
+        );
+      } catch {
+        return;
+      }
+      const remoteKeys = new Set(rows.map((row) => row.itemKey));
+
+      setItems((prev) => {
+        const byKey = new Map(prev.map((item) => [item.id, item]));
+        let changed = false;
+        let next = [...prev];
+
+        for (const row of rows) {
+          const sig = rowSignature(row);
+          const local = byKey.get(row.itemKey);
+          const adopted: GroceryCartItem = {
+            id: row.itemKey,
+            name: row.name,
+            quantity: row.quantity,
+            unit: row.unit,
+            category: row.category || undefined,
+            recipeIds: [...row.recipeRefs],
+            notes: row.notes || undefined,
+            addedAt: local?.addedAt ?? Date.now(),
+            asin: row.asin || null,
+          };
+          if (!local) {
+            next.push(adopted);
+            lastPushedRef.current.set(row.itemKey, sig);
+            changed = true;
+          } else if (
+            itemSignature(local) !== sig &&
+            lastPushedRef.current.get(row.itemKey) !== itemSignature(local)
+          ) {
+            // Remote changed and local isn't ahead of it — adopt remote.
+            next = next.map((item) => (item.id === row.itemKey ? adopted : item));
+            lastPushedRef.current.set(row.itemKey, sig);
+            changed = true;
+          }
+        }
+
+        // Remote deletions of keys this session had pushed.
+        for (const key of [...lastPushedRef.current.keys()]) {
+          if (!remoteKeys.has(key) && byKey.has(key)) {
+            next = next.filter((item) => item.id !== key);
+            lastPushedRef.current.delete(key);
+            changed = true;
+          }
+        }
+
+        return changed ? next : prev;
+      });
+    };
+
+    const subscription = connection
+      .subscriptionBuilder()
+      .onApplied(() => {
+        setStdbApplied(true);
+        applyRemote();
+        if (!cartSyncTrackedRef.current) {
+          cartSyncTrackedRef.current = true;
+          track("spacetime_cart_sync_attached");
+        }
+      })
+      .subscribe(["SELECT * FROM grocery_cart_item"]);
+
+    connection.db.grocery_cart_item.onInsert(applyRemote);
+    connection.db.grocery_cart_item.onUpdate(applyRemote);
+    connection.db.grocery_cart_item.onDelete(applyRemote);
+
+    return () => {
+      setStdbApplied(false);
+      try {
+        connection.db.grocery_cart_item.removeOnInsert(applyRemote);
+        connection.db.grocery_cart_item.removeOnUpdate(applyRemote);
+        connection.db.grocery_cart_item.removeOnDelete(applyRemote);
+        subscription.unsubscribe();
+      } catch {
+        // Connection already torn down.
+      }
+    };
+  }, [liveCartEnabled, stdbStatus, connection, identityHex]);
+
+  // Push: debounce local item changes into the reducers. Deletes are scoped
+  // to keys this session pushed, so an empty cart on a fresh device never
+  // wipes rows written elsewhere.
+  useEffect(() => {
+    if (!isLiveSynced || !connection) return;
+    const timer = setTimeout(() => {
+      const current = new Map(items.map((item) => [item.id, item]));
+      for (const [key, item] of current) {
+        const sig = itemSignature(item);
+        if (lastPushedRef.current.get(key) === sig) continue;
+        if (!(item.quantity > 0)) continue;
+        void connection.reducers.cartUpsertItem({
+          itemKey: key,
+          name: item.name,
+          quantity: item.quantity,
+          unit: item.unit,
+          category: item.category ?? "",
+          notes: item.notes ?? "",
+          asin: item.asin ?? "",
+          recipeRefs: item.recipeIds,
+        });
+        lastPushedRef.current.set(key, sig);
+      }
+      for (const key of [...lastPushedRef.current.keys()]) {
+        if (!current.has(key)) {
+          void connection.reducers.cartRemoveItem({ itemKey: key });
+          lastPushedRef.current.delete(key);
+        }
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [items, isLiveSynced, connection]);
+
   const checkoutToAmazon = useCallback(
     async (cartType: "fresh" | "standard" = "fresh"): Promise<number> => {
       const cartItems = items.filter(
@@ -330,6 +513,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       checkoutToAmazon,
       unmappedItems,
       updateAsin,
+      isLiveSynced,
     }),
     [
       items,
@@ -344,6 +528,7 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
       checkoutToAmazon,
       unmappedItems,
       updateAsin,
+      isLiveSynced,
     ],
   );
 
