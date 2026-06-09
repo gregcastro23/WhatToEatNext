@@ -421,6 +421,9 @@ export default [
       ".turbo/",
       ".swc/",
 
+      // SpacetimeDB generated bindings (regenerate via `spacetime generate`)
+      "src/lib/spacetime/generated/",
+
       // Yarn
       ".yarn/",
       ".pnp.*",

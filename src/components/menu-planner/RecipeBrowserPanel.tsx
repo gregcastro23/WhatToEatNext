@@ -19,6 +19,7 @@ import React, {
 import { getServerRecipes } from "@/actions/recipes";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
+import { useSpacetimeLiveRecipes } from "@/hooks/useSpacetimeLiveRecipes";
 import { PLANETARY_DAY_RULERS, type DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
@@ -163,14 +164,27 @@ export default function RecipeBrowserPanel({
     void load();
   }, []);
 
+  // Live in-module recipes (SpacetimeDB read-path swap; empty unless the
+  // NEXT_PUBLIC_SPACETIME_LIVE_CULINARY flag is on and the connection is up).
+  // Static catalog stays authoritative — live rows merge in by unseen name.
+  const liveRecipes = useSpacetimeLiveRecipes();
+  const combinedRecipes = useMemo(() => {
+    if (liveRecipes.length === 0) return allRecipes;
+    const knownNames = new Set(allRecipes.map((r) => r.name.toLowerCase()));
+    const additions = liveRecipes.filter(
+      (r) => !knownNames.has(r.name.toLowerCase()),
+    );
+    return additions.length === 0 ? allRecipes : [...allRecipes, ...additions];
+  }, [allRecipes, liveRecipes]);
+
   // Available cuisines from data
   const availableCuisines = useMemo(() => {
     const set = new Set<string>();
-    allRecipes.forEach((r) => {
+    combinedRecipes.forEach((r) => {
       if (r.cuisine) set.add(r.cuisine);
     });
     return Array.from(set).sort();
-  }, [allRecipes]);
+  }, [combinedRecipes]);
 
   // Active filter count
   const activeFilterCount = useMemo(() => {
@@ -196,7 +210,7 @@ export default function RecipeBrowserPanel({
       limit: 500,
     };
 
-    let results: ScoredRecipe[] = searchRecipes(allRecipes, searchOptions);
+    let results: ScoredRecipe[] = searchRecipes(combinedRecipes, searchOptions);
 
     if (activeElementFilter) {
       results = results.filter((recipe) => {
@@ -248,7 +262,7 @@ export default function RecipeBrowserPanel({
     }
 
     return results;
-  }, [allRecipes, searchQuery, filters, sortBy, activeElementFilter]);
+  }, [combinedRecipes, searchQuery, filters, sortBy, activeElementFilter]);
 
   const visibleRecipes = processedRecipes.slice(0, displayCount);
   const hasMore = displayCount < processedRecipes.length;
@@ -321,7 +335,12 @@ export default function RecipeBrowserPanel({
         <div className="flex items-center justify-between mt-2">
           <p className="text-xs text-on-surface-variant font-mono uppercase tracking-wider">
             {visibleRecipes.length} / {processedRecipes.length} recipes
-            {processedRecipes.length !== allRecipes.length && (
+            {liveRecipes.length > 0 && (
+              <span className="ml-2 text-gold-accent" title="Live recipes from the SpacetimeDB culinary engine are merged in">
+                ⚡ {liveRecipes.length} live
+              </span>
+            )}
+            {processedRecipes.length !== combinedRecipes.length && (
               <button
                 onClick={clearAllFilters}
                 className="ml-2 text-active-violet hover:text-white font-medium cursor-pointer"

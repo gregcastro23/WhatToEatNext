@@ -10,6 +10,7 @@ import { AlchemicalDataProvider } from "@/contexts/AlchemicalDataContext";
 import { GroceryCartProvider } from "@/contexts/GroceryCartContext";
 import { PremiumProvider } from "@/contexts/PremiumContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
+import { SpacetimeProvider } from "@/contexts/SpacetimeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { UserProvider } from "@/contexts/UserContext";
 
@@ -28,8 +29,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                   <AlchemicalProvider>
                     <RecipeBuilderProvider>
                       <GroceryCartProvider>
-                        <MasterQuestBroadcastListener />
-                        {children}
+                        <SpacetimeProvider>
+                          <MasterQuestBroadcastListener />
+                          {children}
+                        </SpacetimeProvider>
                       </GroceryCartProvider>
                     </RecipeBuilderProvider>
                   </AlchemicalProvider>
