@@ -8,6 +8,7 @@
  * @file src/components/menu-planner/TodaysMealsWidget.tsx
  */
 
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { logServerMealFromPlan } from "@/actions/foodDiary";
 import { useToast } from "@/components/common/Toast";
@@ -284,12 +285,12 @@ export default function TodaysMealsWidget({
   });
 
   const planetEmoji: Record<string, string> = {
-    Sun: "☀️",
-    Moon: "🌙",
-    Mars: "🔴",
-    Mercury: "🝉",
+    Sun: "☉",
+    Moon: "☽",
+    Mars: "♂",
+    Mercury: "☿",
     Jupiter: "♃",
-    Venus: "💜",
+    Venus: "♀",
     Saturn: "♄",
   };
 
@@ -479,43 +480,44 @@ export default function TodaysMealsWidget({
   return (
     <>
       <div
-        className="relative rounded-2xl shadow-md border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-purple-50 transition-all duration-300"
+        className="alchm-panel alchm-panel-glow regmarks relative rounded-xl border border-muted transition-all duration-300 mb-6"
         role="region"
         aria-label="Today's Meals"
       >
         {/* Header */}
         <div
-          className="flex items-center justify-between px-4 py-3 cursor-pointer select-none"
+          className="flex items-center justify-between px-4 py-3 cursor-pointer select-none border-b border-muted bg-surface-container-low/50"
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
           <div className="flex items-center gap-3">
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-indigo-500 uppercase tracking-wider">
-                Today&apos;s Meals
+              <span className="text-[10px] font-mono font-semibold text-active-violet uppercase tracking-wider">
+                Today&apos;s Vector
               </span>
-              <span className="text-sm font-bold text-gray-800 leading-tight">
+              <span className="text-sm font-bold text-primary leading-tight font-headline-md">
                 {dayLabel}, {dateLabel}
               </span>
             </div>
             {/* Planetary ruler badge */}
-            <span className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-medium">
-              {planetEmoji[planetaryRuler] ?? "⭐"} {planetaryRuler} Day
+            <span className="hidden sm:flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gold-accent/10 border border-gold-accent/20 text-gold-accent text-xs font-mono">
+              {planetEmoji[planetaryRuler] ?? "☉"} {planetaryRuler} Day
             </span>
           </div>
 
           <div className="flex items-center gap-3">
             {/* Progress pill */}
             <span
-              className={`px-2 py-0.5 rounded-full text-xs font-bold ${plannedCount === 4
-                  ? "bg-green-100 text-green-700"
+              className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold ${
+                plannedCount === 4
+                  ? "bg-active-violet/10 text-active-violet border border-active-violet/20"
                   : plannedCount >= 2
-                    ? "bg-yellow-100 text-yellow-700"
-                    : "bg-red-100 text-red-700"
-                }`}
+                    ? "bg-gold-accent/10 text-gold-accent border border-gold-accent/20"
+                    : "bg-error/10 text-error border border-error/20"
+              }`}
             >
               {plannedCount}/4 planned
             </span>
-            <span className="text-gray-400 text-xs">
+            <span className="text-on-surface-variant text-xs select-none">
               {isCollapsed ? "▼" : "▲"}
             </span>
           </div>
@@ -523,7 +525,7 @@ export default function TodaysMealsWidget({
 
         {/* Meal rows */}
         {!isCollapsed && (
-          <div className="px-4 pb-4 space-y-2">
+          <div className="px-4 py-4 space-y-2 bg-surface-container-lowest/30">
             {/* Prominent Generate Next Meal CTA */}
             <button
               type="button"
@@ -533,15 +535,12 @@ export default function TodaysMealsWidget({
               }}
               disabled={isWeekFullyPlanned || isGeneratingNext || !liveMenu}
               className={`
-                w-full mb-3 px-4 py-3 rounded-xl font-bold text-white shadow-md transition-all
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400
+                w-full mb-3 px-4 py-3 rounded-xl font-bold font-mono uppercase tracking-wider text-xs transition-all border
                 ${isWeekFullyPlanned
-                  ? "bg-gradient-to-r from-emerald-500 to-teal-500 cursor-default"
+                  ? "bg-active-violet/10 border-active-violet/20 text-active-violet cursor-default"
                   : isGeneratingNext
-                    ? "bg-gradient-to-r from-indigo-400 to-purple-400 cursor-wait"
-                    : currentUser?.natalChart
-                      ? "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-700 hover:via-purple-700 hover:to-indigo-700 hover:shadow-lg active:scale-[0.99]"
-                      : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 hover:shadow-lg active:scale-[0.99]"
+                    ? "bg-surface-container-high border-muted text-on-surface-variant cursor-wait"
+                    : "bg-active-violet hover:bg-white hover:border-white text-background cursor-pointer active:scale-[0.99]"
                 }
               `}
               aria-label={ctaLabel}
@@ -554,19 +553,19 @@ export default function TodaysMealsWidget({
               <div className="flex items-center justify-center gap-2">
                 {isGeneratingNext && (
                   <span
-                    className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                    className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"
                     aria-hidden
                   />
                 )}
-                <span className="text-sm sm:text-base">
+                <span className="text-sm">
                   {isGeneratingNext ? "Generating…" : ctaLabel}
                 </span>
               </div>
               {!isWeekFullyPlanned && !isGeneratingNext && nextMealTarget && (
-                <p className="text-[10px] font-medium text-white/80 mt-1">
+                <p className={`text-[9px] font-mono font-medium mt-1 ${isWeekFullyPlanned ? "text-active-violet/70" : "text-background/80 hover:text-on-surface-variant/85"}`}>
                   {currentUser?.natalChart
-                    ? "Personalized · planetary-aligned · honors preferences"
-                    : "Planetary-aligned · honors preferences"}
+                    ? "Personalized • planetary-aligned • honors preferences"
+                    : "Planetary-aligned • honors preferences"}
                 </p>
               )}
             </button>
@@ -590,16 +589,16 @@ export default function TodaysMealsWidget({
                     handleMealClick(meal.type);
                   }}
                   className={`
-                    flex items-center gap-3 p-2.5 rounded-xl border transition-all duration-200 cursor-pointer
+                    flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 cursor-pointer
                     ${isActive
-                      ? `${meal.activeBg} ${meal.activeBorder} border-2 shadow-sm`
+                      ? "bg-active-violet/10 border-active-violet shadow-[0_0_12px_rgba(184,90,240,0.15)]"
                       : isNext
-                        ? "bg-gray-50 border-dashed border-gray-300 border"
+                        ? "bg-surface-container-low border-dashed border-muted"
                         : isPast
-                          ? "bg-gray-50 border-gray-100 border opacity-60"
-                          : "bg-white border-gray-100 border"
+                          ? "bg-surface/20 border-muted/30 opacity-50"
+                          : "bg-surface/50 border-muted"
                     }
-                    ${isEmpty ? "hover:border-indigo-300 hover:shadow-sm" : "hover:shadow-sm"}
+                    ${isEmpty ? "hover:border-active-violet/50" : "hover:border-active-violet/30"}
                   `}
                 >
                   {/* Icon + label */}
@@ -612,12 +611,12 @@ export default function TodaysMealsWidget({
                     </span>
                     <div>
                       <p
-                        className={`text-xs font-bold leading-tight ${isActive ? meal.activeColor : "text-gray-700"
+                        className={`text-xs font-bold leading-tight font-headline-md ${isActive ? "text-active-violet" : "text-primary"
                           }`}
                       >
                         {meal.label}
                       </p>
-                      <p className="text-[10px] text-gray-400 leading-none">
+                      <p className="text-[10px] text-on-surface-variant leading-none font-mono">
                         {meal.timeRange}
                       </p>
                     </div>
@@ -625,19 +624,23 @@ export default function TodaysMealsWidget({
 
                   {/* Recipe name or CTA */}
                   <div className="flex-1 min-w-0">
-                    {recipeName ? (
-                      <p
-                        className={`text-xs font-semibold truncate ${isActive ? meal.activeColor : "text-gray-600"
+                    {recipeName && plannedSlot?.recipe ? (
+                      <Link
+                        href={`/recipes/${plannedSlot.recipe.id || encodeURIComponent(plannedSlot.recipe.name)}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        className={`text-xs font-semibold font-body-md truncate hover:underline hover:text-active-violet block ${isActive ? "text-active-violet" : "text-primary"
                           }`}
                         title={recipeName}
                       >
                         {recipeName}
-                      </p>
+                      </Link>
                     ) : (
                       <span
-                        className={`text-xs font-medium transition-colors ${isActive
-                            ? `${meal.activeColor} underline underline-offset-2`
-                            : "text-gray-400 hover:text-indigo-500"
+                        className={`text-xs font-medium font-body-md transition-colors ${isActive
+                            ? "text-active-violet underline underline-offset-2"
+                            : "text-on-surface-variant hover:text-active-violet"
                           }`}
                       >
                         {isActive ? "Plan now →" : "Not planned"}
@@ -652,10 +655,10 @@ export default function TodaysMealsWidget({
                         e.stopPropagation();
                         onRecommendMeal(todayDow, meal.type);
                       }}
-                      className="flex-shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors"
+                      className="flex-shrink-0 px-2.5 py-0.5 text-[10px] font-semibold font-mono uppercase rounded-full bg-gold-accent/10 border border-gold-accent/20 text-gold-accent hover:bg-gold-accent/20 transition-colors cursor-pointer"
                       title={`Auto-recommend ${meal.label}`}
                     >
-                      ✨ Recommend
+                      Recommend
                     </button>
                   )}
 
@@ -667,12 +670,12 @@ export default function TodaysMealsWidget({
                         void handleLogMeal(meal.type);
                       }}
                       disabled={isLogged || isLoggingThis}
-                      className={`flex-shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full transition-colors ${
+                      className={`flex-shrink-0 px-2.5 py-0.5 text-[10px] font-semibold font-mono uppercase rounded-full border transition-colors cursor-pointer ${
                         isLogged
-                          ? "bg-emerald-100 text-emerald-700 cursor-default"
+                          ? "bg-active-violet/20 border-active-violet/30 text-active-violet cursor-default"
                           : isLoggingThis
-                            ? "bg-emerald-50 text-emerald-500 cursor-wait"
-                            : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
+                            ? "bg-active-violet/10 border-muted text-on-surface-variant cursor-wait"
+                            : "bg-active-violet/10 border-active-violet/20 text-active-violet hover:bg-active-violet/20"
                       }`}
                       title={
                         isLogged
@@ -689,22 +692,20 @@ export default function TodaysMealsWidget({
                   )}
 
                   {/* Status indicator */}
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 font-mono text-xs">
                     {isActive && (
-                      <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white border border-current text-[10px] font-bold animate-pulse">
-                        <span
-                          className={`w-1.5 h-1.5 rounded-full ${meal.activeBorder.replace("border-", "bg-")}`}
-                        />
-                        <span className={meal.activeColor}>Now</span>
+                      <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-active-violet/10 border border-active-violet text-[9px] font-bold animate-pulse text-active-violet">
+                        <span className="w-1.5 h-1.5 rounded-full bg-active-violet" />
+                        <span>Now</span>
                       </span>
                     )}
                     {isNext && (
-                      <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-semibold">
+                      <span className="px-2 py-0.5 rounded-full bg-surface-container-high border border-muted text-on-surface-variant text-[9px] font-semibold">
                         Up next
                       </span>
                     )}
                     {recipeName && !isActive && !isNext && (
-                      <span className="text-green-500 text-sm">✓</span>
+                      <span className="text-active-violet text-sm">✓</span>
                     )}
                   </div>
                 </div>

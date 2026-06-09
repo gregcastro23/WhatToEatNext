@@ -8,6 +8,7 @@
  * @created 2026-01-10 (Phase 2)
  */
 
+import Link from "next/link";
 import React, { useState } from "react";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import type { QueuedRecipe } from "@/contexts/RecipeQueueContext";
@@ -84,7 +85,15 @@ function QueueItemCard({
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1 min-w-0">
           <h4 className="font-semibold text-sm truncate text-gray-800">
-            {recipe.name}
+            <Link
+              href={`/recipes/${recipe.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="hover:text-purple-600 hover:underline"
+            >
+              {recipe.name}
+            </Link>
           </h4>
           {recipe.cuisine && (
             <p className="text-xs text-gray-500">{recipe.cuisine}</p>
@@ -213,8 +222,17 @@ function QueueItemCard({
               </ul>
             </div>
           )}
-          <div className="mt-2 text-xs text-gray-400">
-            Added {daysSinceAdded === 0 ? "today" : `${daysSinceAdded}d ago`}
+          <div className="mt-3 flex items-center justify-between">
+            <div className="text-[10px] text-gray-400">
+              Added {daysSinceAdded === 0 ? "today" : `${daysSinceAdded}d ago`}
+            </div>
+            <Link
+              href={`/recipes/${recipe.id}`}
+              onClick={(e) => e.stopPropagation()}
+              className="text-xs text-purple-600 hover:text-purple-800 font-medium"
+            >
+              View Full Recipe ↗
+            </Link>
           </div>
         </div>
       )}

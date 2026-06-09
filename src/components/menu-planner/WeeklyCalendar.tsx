@@ -43,8 +43,8 @@ function DayNutritionStrip({
 }) {
   if (!daily || daily.meals.length === 0) {
     return (
-      <div className="px-3 py-2 border-t border-white/10 text-[10px] text-purple-300/40 italic">
-        No meals — nutrition unlogged
+      <div className="px-3 py-2 border-t border-muted text-[10px] text-on-surface-variant/50 italic font-mono">
+        No meals — unlogged
       </div>
     );
   }
@@ -55,35 +55,36 @@ function DayNutritionStrip({
     : 0;
   const barColor =
     calPct < 60
-      ? "bg-amber-400"
+      ? "bg-earth-matter"
       : calPct > 120
-        ? "bg-red-400"
-        : "bg-emerald-400";
+        ? "bg-fire-spirit"
+        : "bg-active-violet";
 
   return (
-    <div className="px-3 py-2 border-t border-white/10 bg-white/[0.04] text-[11px]">
+    <div className="px-3 py-2 border-t border-muted bg-surface-container-lowest/80 text-[11px] font-mono">
       <div className="flex items-center justify-between mb-1">
-        <span className="font-semibold text-purple-100">
-          {Math.round(totals.calories ?? 0)} / {Math.round(goals.calories)} kcal
+        <span className="font-semibold text-primary">
+          {Math.round(totals.calories ?? 0)}/{Math.round(goals.calories)} kcal
         </span>
         <span
-          className={`font-medium ${compliance.overall >= 0.75
-              ? "text-emerald-300"
+          className={`font-medium ${
+            compliance.overall >= 0.75
+              ? "text-active-violet"
               : compliance.overall >= 0.5
-                ? "text-amber-300"
-                : "text-red-300"
-            }`}
+                ? "text-gold-accent"
+                : "text-error"
+          }`}
         >
           {Math.round(compliance.overall * 100)}%
         </span>
       </div>
-      <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+      <div className="h-1 rounded-full bg-surface-container-high overflow-hidden">
         <div
           className={`h-full ${barColor} transition-all`}
           style={{ width: `${Math.min(100, calPct)}%` }}
         />
       </div>
-      <div className="flex gap-2 mt-1 text-purple-200/60">
+      <div className="flex gap-2 mt-1 text-on-surface-variant">
         <span>P {Math.round(totals.protein ?? 0)}g</span>
         <span>C {Math.round(totals.carbs ?? 0)}g</span>
         <span>F {Math.round(totals.fat ?? 0)}g</span>
@@ -151,9 +152,11 @@ function DayColumn({
   return (
     <div
       className={`
-        flex flex-col rounded-2xl border bg-white/[0.04] backdrop-blur-xl overflow-hidden transition-shadow
-        ${highlight ? "border-amber-300/50 shadow-[0_0_28px_rgba(168,85,247,0.18)]" : "border-white/10"}
-        ${isExpanded ? "ring-1 ring-emerald-300/50" : ""}
+        flex flex-col rounded-xl overflow-hidden transition-all duration-300
+        ${highlight 
+          ? "border-2 border-active-violet bg-surface-container-high/90 shadow-[0_0_15px_rgba(184,90,240,0.15)]" 
+          : "border border-muted bg-surface/40 hover:bg-surface/60"}
+        ${isExpanded ? "ring-1 ring-active-violet" : ""}
       `}
     >
       {/* Day Header - clickable to expand */}
@@ -161,48 +164,48 @@ function DayColumn({
         type="button"
         onClick={onToggleExpand}
         className={`
-          text-left p-3 border-b border-white/10 w-full hover:bg-white/[0.06] transition-all
-          ${highlight ? "bg-gradient-to-r from-purple-500/15 to-amber-400/10" : "bg-white/[0.03]"}
+          text-left p-3 border-b border-muted w-full transition-all duration-200
+          ${highlight ? "bg-active-violet/10 hover:bg-active-violet/15" : "bg-surface-container-low/30 hover:bg-surface-container-low/50"}
         `}
         aria-expanded={isExpanded}
         aria-label={`${isExpanded ? "Collapse" : "Expand"} ${getDayName(dayOfWeek)}`}
       >
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-amber-300/40 bg-amber-400/10 text-lg text-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.12)]">
+            <span className={`text-2xl ${highlight ? "text-gold-accent" : "text-active-violet/70"}`}>
               {PLANET_GLYPHS[characteristics.planet]}
             </span>
             <div className="min-w-0">
-              <h3 className="font-bold text-lg text-purple-50 truncate">
+              <h3 className="font-headline-md text-headline-md font-bold text-primary truncate">
                 {getDayName(dayOfWeek)}
               </h3>
-              <p className="text-xs text-purple-200/50 truncate">
+              <p className="font-mono text-[9px] text-on-surface-variant uppercase tracking-wider truncate">
                 {formatDateForDisplay(date)}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
             {isToday && (
-              <span className="px-2 py-1 text-xs font-semibold bg-amber-400/90 text-[#1a1033] rounded">
+              <span className="px-2 py-0.5 text-[9px] font-bold font-mono bg-active-violet text-background rounded uppercase">
                 Today
               </span>
             )}
-            <span className="text-purple-300/50 text-xs select-none" aria-hidden>
-              {isExpanded ? "▾" : "▸"}
+            <span className="text-on-surface-variant text-xs select-none" aria-hidden>
+              {isExpanded ? "▼" : "▶"}
             </span>
           </div>
         </div>
-        <p className="text-[11px] text-purple-200/50 italic line-clamp-2">
+        <p className="text-[11px] text-on-surface-variant font-body-sm italic line-clamp-2 mt-1">
           {characteristics.mealGuidance}
         </p>
 
         {/* Planetary Hour Indicator (only for today) */}
         {isToday && currentPlanetaryHour && (
-          <div className="mt-2 flex items-center gap-2 rounded-lg border border-purple-300/20 bg-purple-400/15 px-3 py-1.5">
-            <span className="text-purple-200 font-semibold text-[10px]">
-              ⏰ Hour:
+          <div className="mt-2 flex items-center gap-2 bg-active-violet/10 border border-active-violet/20 rounded-lg px-2 py-1">
+            <span className="text-active-violet font-semibold text-[10px] font-mono uppercase">
+              Hour:
             </span>
-            <span className="text-amber-200 font-bold text-xs truncate">
+            <span className="text-primary font-bold text-xs truncate font-mono">
               {currentPlanetaryHour}
             </span>
           </div>
@@ -210,44 +213,44 @@ function DayColumn({
       </button>
 
       {/* Quick Actions - separate row, non-clickable header area */}
-      <div className="flex gap-1 px-2 py-1.5 bg-white/[0.02] border-b border-white/5">
+      <div className="flex gap-1 px-2 py-1.5 bg-surface-container-lowest/50 border-b border-muted">
         <button
           onClick={(e) => { e.stopPropagation(); onFocusDay?.(); }}
-          className="text-xs px-2 py-1 rounded bg-sky-400/10 text-sky-300 hover:bg-sky-400/20 transition-colors font-medium flex-1"
+          className="text-[10px] font-mono uppercase px-2 py-1 rounded bg-water-essence/10 text-water-essence hover:bg-water-essence/20 border border-water-essence/20 transition-all flex-1"
           title={`Focus on ${getDayName(dayOfWeek)} with suggestions`}
         >
-          🔍 Focus
+          Focus
         </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
             void generateMealsForDay(dayOfWeek);
           }}
-          className="text-xs px-2 py-1 rounded bg-purple-400/10 text-purple-300 hover:bg-purple-400/20 transition-colors font-medium flex-1"
+          className="text-[10px] font-mono uppercase px-2 py-1 rounded bg-gold-accent/10 text-gold-accent hover:bg-gold-accent/20 border border-gold-accent/20 transition-all flex-1"
           title={`Recommend meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
         >
-          ✨ Rec
+          Rec
         </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
             void clearDay(dayOfWeek);
           }}
-          className="text-xs px-2 py-1 rounded bg-red-400/10 text-red-300 hover:bg-red-400/20 transition-colors"
+          className="text-[10px] px-2 py-1 rounded bg-error/10 text-error hover:bg-error/20 border border-error/20 transition-colors"
           title="Clear all meals for this day"
         >
-          🗑
+          Clear
         </button>
       </div>
 
       {/* Meal Slots — stitched together by a dashed gold connector */}
-      <div className="flex-1 p-2 overflow-y-auto">
+      <div className="flex-1 p-2 overflow-y-auto bg-surface-container-lowest/20">
         {sortedMeals.map((mealSlot, slotIdx) => (
           <React.Fragment key={mealSlot.id}>
             {slotIdx > 0 && (
               <div
                 aria-hidden
-                className="mx-auto h-3 w-0 border-l-2 border-dashed border-amber-300/30"
+                className="mx-auto h-3 w-0 border-l-2 border-dashed border-gold-accent/30"
               />
             )}
             <MealSlot
@@ -333,87 +336,86 @@ function TodayHeroCard({
   const plannedCount = meals.filter((m) => m.recipe).length;
 
   return (
-    <div className="rounded-3xl border border-amber-300/40 bg-gradient-to-br from-[#1a1033]/90 via-[#0d0918]/95 to-emerald-950/30 backdrop-blur-xl shadow-[0_0_40px_rgba(168,85,247,0.15)] overflow-hidden">
+    <div className="alchm-panel alchm-panel-glow regmarks rounded-2xl overflow-hidden mb-6">
       {/* Hero Header */}
-      <div className="p-5 bg-gradient-to-r from-purple-700/70 via-fuchsia-700/50 to-amber-600/30 border-b border-white/10 text-white">
+      <div className="p-5 bg-gradient-to-r from-active-violet/20 via-surface-container-high/40 to-gold-accent/10 border-b border-muted">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-amber-300/50 bg-amber-400/10 text-3xl text-amber-200 shadow-[0_0_18px_rgba(251,191,36,0.25)]">
-              {PLANET_GLYPHS[characteristics.planet]}
-            </span>
+            <span className="text-4xl text-gold-accent">{PLANET_GLYPHS[characteristics.planet]}</span>
             <div>
-              <div className="text-[11px] uppercase tracking-widest opacity-90">
+              <div className="text-[10px] font-mono uppercase tracking-widest text-active-violet">
                 Today · {characteristics.planet} day
               </div>
-              <h2 className="text-2xl font-bold">{getDayName(dayOfWeek)}</h2>
-              <p className="text-sm opacity-90">{formatDateForDisplay(date)}</p>
+              <h2 className="text-2xl font-headline-lg font-bold text-primary">{getDayName(dayOfWeek)}</h2>
+              <p className="text-sm font-mono text-on-surface-variant">{formatDateForDisplay(date)}</p>
             </div>
           </div>
           <div className="flex flex-col items-end gap-1 text-right">
             {currentPlanetaryHour && (
-              <div className="text-xs bg-white/20 rounded-full px-3 py-1">
+              <div className="text-xs bg-active-violet/20 border border-active-violet/30 text-active-violet rounded-full px-3 py-1 font-mono">
                 ⏰ {currentPlanetaryHour} hour
               </div>
             )}
-            <div className="text-xs opacity-90">
-              {plannedCount}/4 meals planned
+            <div className="text-xs font-mono text-on-surface-variant uppercase tracking-wider mt-1">
+              {plannedCount}/4 planned
             </div>
           </div>
         </div>
-        <p className="text-sm mt-3 italic opacity-95">
+        <p className="text-sm mt-3 italic text-on-surface font-body-md">
           {characteristics.mealGuidance}
         </p>
       </div>
 
       {/* Nutrition row */}
       {dailyNutrition && dailyNutrition.meals.length > 0 && (
-        <div className="px-5 py-3 bg-white/[0.03] border-b border-white/10 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
+        <div className="px-5 py-3 bg-surface-container-low/50 border-b border-muted grid grid-cols-2 md:grid-cols-5 gap-3 text-sm font-mono">
           <div>
-            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
+            <div className="text-[10px] uppercase text-on-surface-variant tracking-wide">
               Calories
             </div>
-            <div className="font-bold text-purple-50">
+            <div className="font-bold text-primary">
               {Math.round(dailyNutrition.totals.calories ?? 0)}
-              <span className="text-xs font-normal text-purple-300/50">
+              <span className="text-xs font-normal text-on-surface-variant">
                 {" "}/ {Math.round(dailyNutrition.goals.calories)}
               </span>
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
+            <div className="text-[10px] uppercase text-on-surface-variant tracking-wide">
               Protein
             </div>
-            <div className="font-bold text-purple-50">
+            <div className="font-bold text-fire-spirit">
               {Math.round(dailyNutrition.totals.protein ?? 0)}g
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
+            <div className="text-[10px] uppercase text-on-surface-variant tracking-wide">
               Carbs
             </div>
-            <div className="font-bold text-purple-50">
+            <div className="font-bold text-air-substance">
               {Math.round(dailyNutrition.totals.carbs ?? 0)}g
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
+            <div className="text-[10px] uppercase text-on-surface-variant tracking-wide">
               Fat
             </div>
-            <div className="font-bold text-purple-50">
+            <div className="font-bold text-earth-matter">
               {Math.round(dailyNutrition.totals.fat ?? 0)}g
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
+            <div className="text-[10px] uppercase text-on-surface-variant tracking-wide">
               Compliance
             </div>
             <div
-              className={`font-bold ${dailyNutrition.compliance.overall >= 0.75
-                  ? "text-emerald-300"
+              className={`font-bold ${
+                dailyNutrition.compliance.overall >= 0.75
+                  ? "text-active-violet"
                   : dailyNutrition.compliance.overall >= 0.5
-                    ? "text-amber-300"
-                    : "text-red-300"
-                }`}
+                    ? "text-gold-accent"
+                    : "text-error"
+              }`}
             >
               {Math.round(dailyNutrition.compliance.overall * 100)}%
             </div>
@@ -422,29 +424,29 @@ function TodayHeroCard({
       )}
 
       {/* Quick actions */}
-      <div className="flex gap-2 px-5 py-3 bg-white/[0.02] border-b border-white/10 flex-wrap">
+      <div className="flex gap-2 px-5 py-3 bg-surface-container-lowest/80 border-b border-muted flex-wrap">
         <button
           onClick={onFocusDay}
-          className="text-sm px-3 py-1.5 rounded-lg bg-sky-400/10 text-sky-300 hover:bg-sky-400/20 transition-colors font-medium"
+          className="text-xs px-3 py-1.5 rounded-lg bg-water-essence/10 text-water-essence hover:bg-water-essence/20 border border-water-essence/20 transition-all font-mono uppercase font-bold"
         >
           🔍 Focus mode
         </button>
         <button
           onClick={() => { void generateMealsForDay(dayOfWeek); }}
-          className="text-sm px-3 py-1.5 rounded-lg bg-purple-600 text-white hover:bg-purple-500 transition-colors font-medium"
+          className="text-xs px-3 py-1.5 rounded-lg bg-active-violet text-background hover:bg-white transition-all font-mono uppercase font-bold"
         >
           ✨ Auto-fill day
         </button>
         <button
           onClick={() => { void clearDay(dayOfWeek); }}
-          className="text-sm px-3 py-1.5 rounded-lg bg-red-400/10 text-red-300 hover:bg-red-400/20 transition-colors"
+          className="text-xs px-3 py-1.5 rounded-lg bg-error/10 text-error hover:bg-error/20 border border-error/20 transition-colors font-mono uppercase font-bold"
         >
-          🗑 Clear
+          Clear
         </button>
       </div>
 
       {/* Meal slots — horizontal on desktop, stacked on mobile */}
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 bg-surface-container-lowest/30">
         {sortedMeals.map((mealSlot) => (
           <MealSlot
             key={mealSlot.id}
@@ -597,7 +599,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <div className="animate-spin text-4xl mb-2">⏳</div>
-          <p className="text-purple-200/60">Loading menu...</p>
+          <p className="text-on-surface-variant">Loading menu...</p>
         </div>
       </div>
     );
@@ -607,7 +609,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
-          <p className="text-purple-200/60">No menu available</p>
+          <p className="text-on-surface-variant">No menu available</p>
         </div>
       </div>
     );
@@ -628,22 +630,21 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
   return (
     <div className="space-y-4">
       {/* Week Navigation */}
-      <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4">
+      <div className="flex items-center justify-between alchm-panel rounded-xl p-4 border border-muted">
         <button
           onClick={navigation.goToPreviousWeek}
-          className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10 transition-colors font-medium"
+          className="px-4 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface hover:text-primary transition-all border border-muted text-xs font-mono uppercase cursor-pointer"
         >
-          ← Previous Week
+          ← Prev Week
         </button>
 
         <div className="text-center">
-          <h2 className="text-xl font-bold text-purple-50">
-            {formatDateForDisplay(weekDates[0])} -{" "}
-            {formatDateForDisplay(weekDates[6])}
+          <h2 className="text-lg font-headline-md font-bold text-primary">
+            {formatDateForDisplay(weekDates[0])} - {formatDateForDisplay(weekDates[6])}
           </h2>
           <button
             onClick={navigation.goToCurrentWeek}
-            className="text-sm text-amber-300 hover:text-amber-200 underline mt-1"
+            className="text-xs text-active-violet hover:text-white underline mt-1 font-mono uppercase cursor-pointer"
           >
             Go to Current Week
           </button>
@@ -651,7 +652,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
 
         <button
           onClick={navigation.goToNextWeek}
-          className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10 transition-colors font-medium"
+          className="px-4 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface hover:text-primary transition-all border border-muted text-xs font-mono uppercase cursor-pointer"
         >
           Next Week →
         </button>
@@ -668,25 +669,25 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
 
       {/* Progressive Empty State Banner */}
       {totalMeals === 0 && (
-        <div className="rounded-2xl border border-purple-300/20 bg-white/[0.04] backdrop-blur-xl p-6">
+        <div className="alchm-panel alchm-panel-glow regmarks p-6 rounded-xl border border-muted bg-gradient-to-r from-active-violet/10 via-surface-container-low/20 to-gold-accent/5">
           <div className="text-center">
-            <div className="text-4xl mb-3">🍽️</div>
-            <h3 className="text-xl font-bold text-purple-100 mb-2">
+            <div className="text-4xl mb-3 text-gold-accent">🜔</div>
+            <h3 className="text-xl font-headline-md font-bold text-primary mb-2">
               Your Weekly Menu Awaits
             </h3>
-            <p className="text-purple-200/60 mb-4">
+            <p className="text-on-surface-variant font-body-md text-sm mb-4">
               Plan your week with alchemical precision
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center text-sm text-purple-200/70">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center text-xs text-on-surface-variant font-mono">
               <div className="flex items-center gap-2">
-                <span className="text-amber-300">✨</span>
+                <span className="text-gold-accent">☉</span>
                 <span>
                   Click &quot;Generate&quot; on any day for planetary-aligned suggestions
                 </span>
               </div>
-              <div className="hidden sm:block text-purple-300/40">•</div>
+              <div className="hidden sm:block text-on-surface-variant/40">•</div>
               <div className="flex items-center gap-2">
-                <span className="text-sky-300">🔍</span>
+                <span className="text-active-violet">🜂</span>
                 <span>Search recipes below and drag to calendar</span>
               </div>
             </div>
@@ -695,31 +696,32 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       )}
 
       {totalMeals > 0 && totalMeals < 6 && (
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4">
-          <div className="flex items-center justify-between">
+        <div className="alchm-panel p-4 rounded-xl border border-muted bg-surface-container-low/50">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
-              <div className="text-2xl">📅</div>
+              <div className="text-2xl text-gold-accent">☉</div>
               <div>
-                <h3 className="font-bold text-purple-100">
+                <h3 className="font-bold text-primary">
                   Great start! {totalMeals} meal{totalMeals === 1 ? "" : "s"}{" "}
                   planned
                 </h3>
-                <p className="text-sm text-purple-200/60">
+                <p className="text-xs text-on-surface-variant">
                   Keep adding meals to build your ideal week
                 </p>
               </div>
             </div>
-            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/10">
+            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-lg border border-muted font-mono">
               <div className="flex gap-1">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`w-2 h-8 rounded ${i < totalMeals ? "bg-amber-400" : "bg-white/10"
-                      }`}
+                    className={`w-2 h-8 rounded ${
+                      i < totalMeals ? "bg-active-violet shadow-[0_0_8px_rgba(184,90,240,0.6)]" : "bg-surface-container-high"
+                    }`}
                   />
                 ))}
               </div>
-              <span className="text-xs font-medium text-purple-200/60">
+              <span className="text-xs font-semibold text-on-surface-variant">
                 {totalMeals}/6
               </span>
             </div>
@@ -850,10 +852,10 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       </div>
 
       {/* Helper Text */}
-      <div className="text-center text-sm text-purple-300/50 mt-6">
+      <div className="text-center text-xs text-on-surface-variant font-mono uppercase tracking-wider mt-6">
         <p>
-          Click a day header to expand it inline. Click &quot;+ Add Recipe&quot;
-          to add meals. Click 📋 to copy/move to multiple slots.
+          Click a day header to expand it inline • Click &quot;+ Add Recipe&quot;
+          to add meals • Click 📋 to copy/move to multiple slots.
         </p>
       </div>
 

@@ -7,6 +7,9 @@
  * viewed week. Today's medallion glows; selecting a medallion expands that
  * day inline on the calendar below.
  *
+ * Styled with the menu-planner console tokens (design.md): gold-accent,
+ * active-violet, surface-container ramp, on-surface text.
+ *
  * @file src/components/menu-planner/StitchTransitRibbon.tsx
  * @created 2026-06-09 (v4.0 "Stitch" redesign)
  */
@@ -18,12 +21,12 @@ import {
   getShortDayName,
 } from "@/types/menuPlanner";
 
-/** Alchemical glyphs for the seven planetary day rulers. */
+/** Astronomical glyphs for the seven planetary day rulers. */
 export const PLANET_GLYPHS: Record<string, string> = {
-  Sun: "🝇",
-  Moon: "🝑",
+  Sun: "☉",
+  Moon: "☽",
   Mars: "♂",
-  Mercury: "🝉",
+  Mercury: "☿",
   Jupiter: "♃",
   Venus: "♀",
   Saturn: "♄",
@@ -49,12 +52,12 @@ export default function StitchTransitRibbon({
   currentPlanetaryHour,
 }: StitchTransitRibbonProps) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 pt-4 pb-3 backdrop-blur-xl sm:px-6">
+    <div className="alchm-panel rounded-xl border border-muted px-3 pt-4 pb-3 sm:px-6">
       <div className="relative">
         {/* The golden thread stitching the week together */}
         <div
           aria-hidden
-          className="absolute left-1 right-1 top-[1.375rem] border-t-2 border-dashed border-amber-300/35"
+          className="absolute left-1 right-1 top-[1.375rem] border-t-2 border-dashed border-gold-accent/35"
         />
         <div className="relative grid grid-cols-7 gap-1">
           {weekDates.map((date, idx) => {
@@ -75,16 +78,16 @@ export default function StitchTransitRibbon({
                 <span
                   className={`relative flex h-9 w-9 items-center justify-center rounded-full border text-base transition-all sm:h-11 sm:w-11 sm:text-lg ${
                     isToday
-                      ? "border-amber-300/80 bg-amber-400/15 text-amber-200 shadow-[0_0_18px_rgba(251,191,36,0.35)]"
+                      ? "border-gold-accent/80 bg-gold-accent/15 text-gold-accent shadow-[0_0_18px_rgba(222,165,75,0.35)]"
                       : isSelected
-                        ? "border-emerald-300/70 bg-emerald-400/10 text-emerald-200 shadow-[0_0_14px_rgba(52,211,153,0.25)]"
-                        : "border-purple-300/30 bg-[#120b22] text-purple-200 group-hover:border-amber-300/50 group-hover:text-amber-200"
+                        ? "border-active-violet/70 bg-active-violet/10 text-active-violet shadow-[0_0_14px_rgba(184,90,240,0.25)]"
+                        : "border-active-violet/30 bg-surface-container-low text-on-surface-variant group-hover:border-gold-accent/60 group-hover:text-gold-accent"
                   }`}
                 >
                   {isToday && (
                     <span
                       aria-hidden
-                      className="absolute -inset-1 animate-pulse rounded-full bg-amber-400/10"
+                      className="absolute -inset-1 animate-pulse rounded-full bg-gold-accent/10"
                     />
                   )}
                   <span className="relative">
@@ -92,17 +95,17 @@ export default function StitchTransitRibbon({
                   </span>
                 </span>
                 <span
-                  className={`text-[10px] font-semibold uppercase tracking-wider sm:text-[11px] ${
+                  className={`font-mono text-[10px] font-semibold uppercase tracking-wider sm:text-[11px] ${
                     isToday
-                      ? "text-amber-200"
-                      : "text-purple-200/60 group-hover:text-purple-100"
+                      ? "text-gold-accent"
+                      : "text-on-surface-variant group-hover:text-on-surface"
                   }`}
                 >
                   {getShortDayName(day)}
                 </span>
                 <span
-                  className={`-mt-1 text-[10px] ${
-                    isToday ? "text-amber-200/80" : "text-purple-300/40"
+                  className={`-mt-1 font-mono text-[10px] ${
+                    isToday ? "text-gold-accent/80" : "text-on-surface-variant/50"
                   }`}
                 >
                   {date.toLocaleDateString("en-US", {
@@ -117,12 +120,12 @@ export default function StitchTransitRibbon({
       </div>
       {todayIndex !== null && currentPlanetaryHour && (
         <div className="mt-3 flex justify-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-purple-300/25 bg-purple-400/10 px-3 py-1 text-xs text-purple-200">
-            <span className="text-amber-300">⏰</span>
-            <span className="font-semibold text-amber-200">
+          <span className="inline-flex items-center gap-2 rounded-full border border-active-violet/25 bg-active-violet/10 px-3 py-1 font-mono text-xs text-on-surface">
+            <span className="text-gold-accent">⏰</span>
+            <span className="font-semibold text-gold-accent">
               {currentPlanetaryHour}
             </span>
-            <span className="text-purple-200/70">hour is weaving now</span>
+            <span className="text-on-surface-variant">hour is weaving now</span>
           </span>
         </div>
       )}
