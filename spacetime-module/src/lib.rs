@@ -6,8 +6,10 @@
 //! computed transactionally at write time, so reads are a plain table
 //! subscription with no N+1 fan-out.
 //!
-//! * [`tables`] — the relational schema (all `public`).
-//! * [`reducers`] — the transactional mutations.
+//! * [`tables`] — the culinary relational schema (all `public`).
+//! * [`reducers`] — the culinary transactional mutations.
+//! * [`live_tables`] — per-user live state (meal plans, carts, feed, commensal).
+//! * [`live_reducers`] — owner-scoped mutations for the live state.
 //! * [`words`] — pure, host-testable aggregation/validation math.
 //!
 //! ## Build & test targets
@@ -29,3 +31,9 @@ pub mod tables;
 
 #[cfg(target_arch = "wasm32")]
 pub mod reducers;
+
+#[cfg(target_arch = "wasm32")]
+pub mod live_tables;
+
+#[cfg(target_arch = "wasm32")]
+pub mod live_reducers;

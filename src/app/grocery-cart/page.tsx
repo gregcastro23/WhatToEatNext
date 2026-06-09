@@ -250,7 +250,7 @@ export default function GroceryCartPage() {
                 {unmappedItems.length > 0 && (
                   <div className="pt-6 border-t border-purple-500/20">
                     <h4 className="text-sm font-medium text-yellow-400 mb-3 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
+                      <span className="w-2 h-2 rounded-full bg-yellow-400" />
                       Needs Manual Mapping ({unmappedItems.length})
                     </h4>
                     <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">

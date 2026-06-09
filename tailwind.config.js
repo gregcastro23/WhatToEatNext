@@ -40,6 +40,28 @@ export default {
         "el-water": "oklch(0.74 0.13 230)",
         "el-earth": "oklch(0.74 0.11 130)",
         "el-air": "oklch(0.85 0.07 90)",
+        // Menu-planner console tokens (design.md). Hex so Tailwind 3.4 alpha
+        // modifiers (e.g. bg-active-violet/10) work — raw oklch() strings
+        // don't support <alpha-value> injection.
+        "active-violet": "#B85AF0",
+        "gold-accent": "#DEA54B",
+        "fire-spirit": "#EF7A5A",
+        "water-essence": "#58A6E8",
+        "earth-matter": "#76B266",
+        "air-substance": "#D9CD9F",
+        surface: {
+          DEFAULT: "#0E0C16",
+          "container-lowest": "#07060B",
+          "container-low": "#0E0C16",
+          container: "#15121F",
+          "container-high": "#1C1829",
+          "container-highest": "#241F33",
+        },
+        "on-surface": {
+          DEFAULT: "#F2EDFF",
+          variant: "#B5ADCC",
+        },
+        error: "#F87171",
         // shadcn semantic tokens (back the standard bg-primary, text-muted-foreground,
         // border-input, etc. classes used by the ported shadcn components). Variables
         // live under .alchm-root / .lab scope in globals.css.

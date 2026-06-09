@@ -360,6 +360,38 @@ a {
 }
 .t-num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-weight: 500; }
 
+/* Menu-planner console type scale (design.md). Both font-* and text-*
+   spellings are in use across the planner surface; they resolve to the
+   same styles. */
+.font-display-lg, .text-display-lg {
+  font-family: var(--f-display); font-size: 2.25rem; line-height: 1.1; font-weight: 500; letter-spacing: -0.01em;
+}
+.font-headline-lg, .text-headline-lg {
+  font-family: var(--f-display); font-size: 1.5rem; line-height: 1.2; font-weight: 500;
+}
+.font-headline-md, .text-headline-md {
+  font-family: var(--f-display); font-size: 1.25rem; line-height: 1.25; font-weight: 500;
+}
+.font-body-lg, .text-body-lg { font-family: var(--f-body); font-size: 1rem; line-height: 1.5; }
+.font-body-md { font-family: var(--f-body); font-size: 0.875rem; line-height: 1.45; }
+.font-body-sm { font-family: var(--f-body); font-size: 0.8125rem; line-height: 1.4; }
+.font-label-caps, .text-label-caps {
+  font-family: var(--f-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.font-telemetry-lg, .text-telemetry-lg {
+  font-family: var(--f-mono); font-size: 1.125rem; font-variant-numeric: tabular-nums; font-weight: 600;
+}
+.font-telemetry-md, .text-telemetry-md {
+  font-family: var(--f-mono); font-size: 0.75rem; font-variant-numeric: tabular-nums; letter-spacing: 0.04em;
+}
+
+/* Crosshair backdrop for the alchemical-qualities gauge (hot/cold × dry/moist). */
+.gauge-crosshair {
+  background-image:
+    linear-gradient(to right, transparent calc(50% - 0.5px), rgba(255, 255, 255, 0.12) calc(50% - 0.5px), rgba(255, 255, 255, 0.12) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(255, 255, 255, 0.12) calc(50% - 0.5px), rgba(255, 255, 255, 0.12) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
 /* Panels */
 .alchm-panel {
   position: relative;

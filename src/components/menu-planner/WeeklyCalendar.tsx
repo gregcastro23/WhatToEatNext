@@ -30,6 +30,7 @@ import type { DailyNutritionResult } from "@/types/nutrition";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
+import StitchTransitRibbon, { PLANET_GLYPHS } from "./StitchTransitRibbon";
 
 /**
  * Per-day nutrition mini-bar
@@ -146,17 +147,6 @@ function DayColumn({
     (type) => meals.find((m) => m.mealType === type)!,
   );
 
-  // Planetary symbol
-  const planetSymbols: Record<string, string> = {
-    Sun: "☉",
-    Moon: "☽",
-    Mars: "♂",
-    Mercury: "☿",
-    Jupiter: "♃",
-    Venus: "♀",
-    Saturn: "♄",
-  };
-
   const highlight = isToday || isSelectedForHero;
 
   return (
@@ -183,7 +173,7 @@ function DayColumn({
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2 min-w-0">
             <span className={`text-2xl ${highlight ? "text-gold-accent" : "text-active-violet/70"}`}>
-              {planetSymbols[characteristics.planet]}
+              {PLANET_GLYPHS[characteristics.planet]}
             </span>
             <div className="min-w-0">
               <h3 className="font-headline-md text-headline-md font-bold text-primary truncate">
@@ -253,41 +243,48 @@ function DayColumn({
         </button>
       </div>
 
-      {/* Meal Slots */}
-      <div className="flex-1 p-2 space-y-2 overflow-y-auto bg-surface-container-lowest/20">
-        {sortedMeals.map((mealSlot) => (
-          <MealSlot
-            key={mealSlot.id}
-            mealSlot={mealSlot}
-            onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
-              void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
-            }}
-            onRemoveRecipe={() => {
-              void removeMealFromSlot(mealSlot.id);
-            }}
-            onUpdateServings={(servings: number) => {
-              void updateMealServings(mealSlot.id, servings);
-            }}
-            onMoveMeal={(sourceSlotId: string) => {
-              void moveMeal(sourceSlotId, mealSlot.id);
-            }}
-            onSwapMeals={(sourceSlotId: string) => {
-              void swapMeals(sourceSlotId, mealSlot.id);
-            }}
-            onCopyMeal={() => onCopyMealClick?.(mealSlot)}
-            onGenerateMeal={() => {
-              void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
-            }}
-            onAddSauce={(sauceId: string, servings?: number) => {
-              void addSauceToMeal(mealSlot.id, sauceId, servings);
-            }}
-            onRemoveSauce={() => {
-              void removeSauceFromMeal(mealSlot.id);
-            }}
-            onUpdateSauceServings={(servings: number) => {
-              void updateSauceServings(mealSlot.id, servings);
-            }}
-          />
+      {/* Meal Slots — stitched together by a dashed gold connector */}
+      <div className="flex-1 p-2 overflow-y-auto bg-surface-container-lowest/20">
+        {sortedMeals.map((mealSlot, slotIdx) => (
+          <React.Fragment key={mealSlot.id}>
+            {slotIdx > 0 && (
+              <div
+                aria-hidden
+                className="mx-auto h-3 w-0 border-l-2 border-dashed border-gold-accent/30"
+              />
+            )}
+            <MealSlot
+              mealSlot={mealSlot}
+              onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
+                void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
+              }}
+              onRemoveRecipe={() => {
+                void removeMealFromSlot(mealSlot.id);
+              }}
+              onUpdateServings={(servings: number) => {
+                void updateMealServings(mealSlot.id, servings);
+              }}
+              onMoveMeal={(sourceSlotId: string) => {
+                void moveMeal(sourceSlotId, mealSlot.id);
+              }}
+              onSwapMeals={(sourceSlotId: string) => {
+                void swapMeals(sourceSlotId, mealSlot.id);
+              }}
+              onCopyMeal={() => onCopyMealClick?.(mealSlot)}
+              onGenerateMeal={() => {
+                void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
+              }}
+              onAddSauce={(sauceId: string, servings?: number) => {
+                void addSauceToMeal(mealSlot.id, sauceId, servings);
+              }}
+              onRemoveSauce={() => {
+                void removeSauceFromMeal(mealSlot.id);
+              }}
+              onUpdateSauceServings={(servings: number) => {
+                void updateSauceServings(mealSlot.id, servings);
+              }}
+            />
+          </React.Fragment>
         ))}
       </div>
 
@@ -338,23 +335,13 @@ function TodayHeroCard({
   );
   const plannedCount = meals.filter((m) => m.recipe).length;
 
-  const planetSymbols: Record<string, string> = {
-    Sun: "☉",
-    Moon: "☽",
-    Mars: "♂",
-    Mercury: "☿",
-    Jupiter: "♃",
-    Venus: "♀",
-    Saturn: "♄",
-  };
-
   return (
     <div className="alchm-panel alchm-panel-glow regmarks rounded-2xl overflow-hidden mb-6">
       {/* Hero Header */}
       <div className="p-5 bg-gradient-to-r from-active-violet/20 via-surface-container-high/40 to-gold-accent/10 border-b border-muted">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <span className="text-4xl text-gold-accent">{planetSymbols[characteristics.planet]}</span>
+            <span className="text-4xl text-gold-accent">{PLANET_GLYPHS[characteristics.planet]}</span>
             <div>
               <div className="text-[10px] font-mono uppercase tracking-widest text-active-violet">
                 Today · {characteristics.planet} day
@@ -612,7 +599,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <div className="animate-spin text-4xl mb-2">⏳</div>
-          <p className="text-gray-600">Loading menu...</p>
+          <p className="text-on-surface-variant">Loading menu...</p>
         </div>
       </div>
     );
@@ -622,7 +609,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
-          <p className="text-gray-600">No menu available</p>
+          <p className="text-on-surface-variant">No menu available</p>
         </div>
       </div>
     );
@@ -671,6 +658,15 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
         </button>
       </div>
 
+      {/* Stitch Transit Ribbon — the golden thread tying days, transits, and meals together */}
+      <StitchTransitRibbon
+        weekDates={weekDates}
+        todayIndex={todayDayOfWeek}
+        selectedDay={expandedDay}
+        onSelectDay={toggleExpandDay}
+        currentPlanetaryHour={currentPlanetaryHour}
+      />
+
       {/* Progressive Empty State Banner */}
       {totalMeals === 0 && (
         <div className="alchm-panel alchm-panel-glow regmarks p-6 rounded-xl border border-muted bg-gradient-to-r from-active-violet/10 via-surface-container-low/20 to-gold-accent/5">
@@ -689,7 +685,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
                   Click &quot;Generate&quot; on any day for planetary-aligned suggestions
                 </span>
               </div>
-              <div className="hidden sm:block text-muted-border">•</div>
+              <div className="hidden sm:block text-on-surface-variant/40">•</div>
               <div className="flex items-center gap-2">
                 <span className="text-active-violet">🜂</span>
                 <span>Search recipes below and drag to calendar</span>

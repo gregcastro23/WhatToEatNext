@@ -24,6 +24,7 @@ import {
     useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
 import type { SavedChart } from "@/types/natalChart";
 import type { Recipe } from "@/types/recipe";
 
@@ -46,14 +47,8 @@ const RecipeDetailModal = dynamic(
 const TodaysMealsWidget = dynamic(
   () => import("@/components/menu-planner/TodaysMealsWidget"),
 );
-const WeekProgress = dynamic(
-  () => import("@/components/menu-builder/WeekProgress"),
-);
 const RecipeQueue = dynamic(
   () => import("@/components/menu-planner/RecipeQueue"),
-);
-const WeeklyNutritionDashboard = dynamic(
-  () => import("@/components/nutrition").then((mod) => mod.WeeklyNutritionDashboard),
 );
 const SmartSuggestionsSidebarLazy = dynamic(
   () => import("@/components/menu-builder/SmartSuggestionsSidebar"),
@@ -249,12 +244,16 @@ function MenuPlannerContent() {
     if (mealsWithRecipe.length === 0) return { fire: 25, water: 25, earth: 25, air: 25 };
     
     mealsWithRecipe.forEach((m) => {
-      const props = m.recipe?.elementalProperties;
+      // ElementalProperties uses capitalized keys (Fire/Water/Earth/Air);
+      // accept lowercase too for recipes hydrated from older snapshots.
+      const props = m.recipe?.elementalProperties as
+        | Record<string, number>
+        | undefined;
       if (props) {
-        totals.fire += props.fire || 0;
-        totals.water += props.water || 0;
-        totals.earth += props.earth || 0;
-        totals.air += props.air || 0;
+        totals.fire += props.Fire ?? props.fire ?? 0;
+        totals.water += props.Water ?? props.water ?? 0;
+        totals.earth += props.Earth ?? props.earth ?? 0;
+        totals.air += props.Air ?? props.air ?? 0;
       }
     });
     
@@ -302,6 +301,10 @@ function MenuPlannerContent() {
 
   const [activeElementFilter, setActiveElementFilter] = useState<"fire" | "water" | "earth" | "air" | null>(null);
 
+  // Mirrors the plan into SpacetimeDB when the live-planner flag is on;
+  // inert (and invisible) otherwise.
+  const plannerSync = useSpacetimePlannerSync(currentMenu);
+
   return (
     <div className="lab min-h-screen text-on-surface select-none pb-24">
       <div className="w-full px-4 xl:px-8 py-8">
@@ -312,8 +315,16 @@ function MenuPlannerContent() {
               Weekly Menu Planner
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-              Align your macro-nutritional intake with orbital cycles. Map out the week's alchemical transmutations for optimal systemic resonance.
+              Align your macro-nutritional intake with orbital cycles. Map out the week&apos;s alchemical transmutations for optimal systemic resonance.
             </p>
+            {plannerSync.live && (
+              <span
+                className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-gold-accent/30 bg-gold-accent/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-gold-accent"
+                title="Weekly plan is mirrored to SpacetimeDB in real time"
+              >
+                ⚡ plan sync live · {plannerSync.liveSlotCount} slots
+              </span>
+            )}
           </div>
           <div className="flex gap-4">
             <Link
@@ -329,7 +340,7 @@ function MenuPlannerContent() {
         {selectedChartIds.size > 0 && (
           <div className="alchm-panel alchm-panel-glow regmarks p-4 mb-8 flex justify-between items-center rounded-xl">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-gold-accent">stars</span>
+              <span className="text-gold-accent">✦</span>
               <span className="font-telemetry-lg text-telemetry-lg text-primary">
                 Collective Meal Active with [{selectedChartIds.size}] guest(s)!
               </span>
@@ -367,7 +378,7 @@ function MenuPlannerContent() {
                   : "border-muted text-on-surface-variant hover:text-white hover:border-white"
               }`}
             >
-              <span className="material-symbols-outlined text-[18px]">list_alt</span>
+              <span className="text-[18px]">📋</span>
               Queue {queueSize > 0 && `(${queueSize})`}
             </button>
 
@@ -379,7 +390,7 @@ function MenuPlannerContent() {
                   : "border-muted text-on-surface-variant hover:text-white hover:border-white"
               }`}
             >
-              <span className="material-symbols-outlined text-[18px]">search</span>
+              <span className="text-[18px]">🔍</span>
               Browse Recipes
             </button>
 
@@ -391,7 +402,7 @@ function MenuPlannerContent() {
                   : "border-muted text-on-surface-variant hover:text-white hover:border-white"
               }`}
             >
-              <span className="material-symbols-outlined text-[18px]">soup_kitchen</span>
+              <span className="text-[18px]">🍲</span>
               Pantry Meals (Posso)
             </button>
 
@@ -404,7 +415,7 @@ function MenuPlannerContent() {
               }}
               className="flex items-center gap-2 px-4 py-2 border border-muted text-on-surface-variant hover:text-white hover:border-white transition-colors font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
             >
-              <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
+              <span className="text-[18px]">🛒</span>
               Grocery List
             </button>
 
@@ -419,7 +430,7 @@ function MenuPlannerContent() {
                   : "border-muted text-on-surface-variant hover:text-white hover:border-white"
               }`}
             >
-              <span className="material-symbols-outlined text-[18px]">monitoring</span>
+              <span className="text-[18px]">📊</span>
               Nutrition Dashboard
             </button>
 
@@ -427,7 +438,7 @@ function MenuPlannerContent() {
               onClick={() => setShowSaveTemplate(true)}
               className="flex items-center gap-2 px-4 py-2 border border-muted text-on-surface-variant hover:text-white hover:border-white transition-colors font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
             >
-              <span className="material-symbols-outlined text-[18px]">save</span>
+              <span className="text-[18px]">💾</span>
               Save as Template
             </button>
 
@@ -439,7 +450,7 @@ function MenuPlannerContent() {
               }}
               className="flex items-center gap-2 px-4 py-2 border border-muted text-on-surface-variant hover:text-white hover:border-white transition-colors font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
             >
-              <span className="material-symbols-outlined text-[18px]">share</span>
+              <span className="text-[18px]">📢</span>
               Share to Feed
             </button>
 
@@ -451,7 +462,7 @@ function MenuPlannerContent() {
                   : "border-muted text-on-surface-variant hover:text-white hover:border-white"
               }`}
             >
-              <span className="material-symbols-outlined text-[18px]">dark_mode</span>
+              <span className="text-[18px]">☽</span>
               Sync Lunar
             </button>
 
@@ -513,7 +524,7 @@ function MenuPlannerContent() {
                   : "border-muted text-on-surface-variant hover:text-white hover:border-white"
               }`}
             >
-              <span className="material-symbols-outlined text-[18px]">group</span>
+              <span className="text-[18px]">👥</span>
               Add Participant
             </button>
           </div>
@@ -522,20 +533,20 @@ function MenuPlannerContent() {
         {/* Sticky Nutrition Dashboard */}
         <div className="sticky top-20 z-40 alchm-panel border-b border-muted bg-surface/90 backdrop-blur-md p-4 mb-8 flex flex-wrap gap-6 items-center rounded-xl">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-active-violet">bolt</span>
+            <span className="text-active-violet">⚡</span>
             <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">TGT: 2400 KCAL</span>
           </div>
-          <div className="w-px h-6 bg-border-muted hidden md:block"></div>
+          <div className="w-px h-6 bg-on-surface-variant/20 hidden md:block" />
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-fire-spirit">fitness_center</span>
+            <span className="text-fire-spirit">💪</span>
             <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">PRO: 180G</span>
           </div>
-          <div className="w-px h-6 bg-border-muted hidden md:block"></div>
+          <div className="w-px h-6 bg-on-surface-variant/20 hidden md:block" />
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-earth-matter">eco</span>
+            <span className="text-earth-matter">🌿</span>
             <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">FIB: 35G</span>
           </div>
-          <div className="w-px h-6 bg-border-muted hidden md:block"></div>
+          <div className="w-px h-6 bg-on-surface-variant/20 hidden md:block" />
           <div className="flex items-center gap-2">
             <span className="font-telemetry-md text-telemetry-md text-gold-accent">☉ 92%</span>
             <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">ORBITAL SYNC</span>
@@ -565,7 +576,7 @@ function MenuPlannerContent() {
                   <span className="text-active-violet">{energyPct}%</span>
                 </div>
                 <div className="h-1 bg-surface-container-high rounded-full overflow-hidden">
-                  <div className="h-full bg-active-violet" style={{ width: `${Math.min(100, energyPct)}%` }}></div>
+                  <div className="h-full bg-active-violet" style={{ width: `${Math.min(100, energyPct)}%` }} />
                 </div>
               </div>
               <div>
@@ -574,7 +585,7 @@ function MenuPlannerContent() {
                   <span className="text-fire-spirit">{proteinPct}%</span>
                 </div>
                 <div className="h-1 bg-surface-container-high rounded-full overflow-hidden">
-                  <div className="h-full bg-fire-spirit" style={{ width: `${Math.min(100, proteinPct)}%` }}></div>
+                  <div className="h-full bg-fire-spirit" style={{ width: `${Math.min(100, proteinPct)}%` }} />
                 </div>
               </div>
             </div>
@@ -588,10 +599,10 @@ function MenuPlannerContent() {
                 <span className="absolute left-1 text-[10px] text-on-surface-variant">DRY</span>
                 <span className="absolute right-1 text-[10px] text-on-surface-variant">MOIST</span>
                 {/* Indicator Dot */}
-                <div 
-                  className="w-3 h-3 rounded-full bg-gold-accent absolute shadow-[0_0_8px_rgba(201,162,39,0.8)] transition-all duration-500 ease-out" 
+                <div
+                  className="w-3 h-3 rounded-full bg-gold-accent absolute shadow-[0_0_8px_rgba(201,162,39,0.8)] transition-all duration-500 ease-out"
                   style={{ top: `${qualities.y}%`, left: `${qualities.x}%`, transform: "translate(-50%, -50%)" }}
-                ></div>
+                />
               </div>
             </div>
 
@@ -905,6 +916,7 @@ function MenuPlannerContent() {
               </div>
 
               <div className="p-6">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="block mb-2 text-xs font-label-caps text-on-surface-variant">
                   Template Name
                 </label>
@@ -947,6 +959,7 @@ function MenuPlannerContent() {
 
               <div className="p-6 space-y-4">
                 <div>
+                  {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label className="block mb-2 text-xs font-label-caps text-on-surface-variant">
                     Menu Description/Title
                   </label>
