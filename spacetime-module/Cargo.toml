@@ -1,0 +1,14 @@
+[package]
+name = "alchm_culinary"
+version = "0.1.0"
+edition = "2024"
+description = "Alchm.kitchen culinary data engine — transactional ingredient/recipe/cuisine module for SpacetimeDB"
+
+[lib]
+# cdylib  -> the wasm module that SpacetimeDB publishes.
+# rlib    -> lets `cargo test` build a host test binary for the pure logic in `words.rs`.
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+spacetimedb = { version = "2.4.1" }
+log = "0.4"
