@@ -8,6 +8,7 @@
  * @created 2026-01-28 (Session 7)
  */
 
+import Link from "next/link";
 import React, {
   useState,
   useEffect,
@@ -19,6 +20,7 @@ import { getServerRecipes } from "@/actions/recipes";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import type { Recipe } from "@/types/recipe";
+import { PLANETARY_DAY_RULERS, type DayOfWeek } from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 import {
   searchRecipes,
@@ -102,11 +104,35 @@ function getCurrentSeason(): string {
 interface RecipeBrowserPanelProps {
   onSelectRecipe: (recipe: Recipe) => void;
   onViewRecipeDetail?: (recipe: Recipe) => void;
+  activeElementFilter?: "fire" | "water" | "earth" | "air" | null;
+}
+
+export function getPlanetaryResonance(recipe: Recipe, planet: string): number {
+  const props = recipe.elementalProperties || {};
+  // Handle casing variations
+  const fire = props.Fire ?? props.fire ?? 0.25;
+  const water = props.Water ?? props.water ?? 0.25;
+  const earth = props.Earth ?? props.earth ?? 0.25;
+  const air = props.Air ?? props.air ?? 0.25;
+
+  let baseScore = 70;
+  const planetLower = planet.toLowerCase();
+  if (planetLower === "sun" || planetLower === "mars") {
+    baseScore += (fire - 0.25) * 80;
+  } else if (planetLower === "moon" || planetLower === "venus") {
+    baseScore += (water - 0.25) * 80;
+  } else if (planetLower === "mercury" || planetLower === "jupiter") {
+    baseScore += (air - 0.25) * 80;
+  } else if (planetLower === "saturn") {
+    baseScore += (earth - 0.25) * 80;
+  }
+  return Math.max(60, Math.min(99, Math.round(baseScore)));
 }
 
 export default function RecipeBrowserPanel({
   onSelectRecipe,
   onViewRecipeDetail,
+  activeElementFilter = null,
 }: RecipeBrowserPanelProps) {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -172,6 +198,15 @@ export default function RecipeBrowserPanel({
 
     let results: ScoredRecipe[] = searchRecipes(allRecipes, searchOptions);
 
+    if (activeElementFilter) {
+      results = results.filter((recipe) => {
+        const props = recipe.elementalProperties || {};
+        const key = activeElementFilter.charAt(0).toUpperCase() + activeElementFilter.slice(1);
+        const val = props[key] ?? props[activeElementFilter] ?? 0;
+        return val > 0.2; // significant presence (>20%)
+      });
+    }
+
     // Additional filters not covered by searchRecipes
     if (filters.seasonal) {
       const season = getCurrentSeason();
@@ -213,7 +248,7 @@ export default function RecipeBrowserPanel({
     }
 
     return results;
-  }, [allRecipes, searchQuery, filters, sortBy]);
+  }, [allRecipes, searchQuery, filters, sortBy, activeElementFilter]);
 
   const visibleRecipes = processedRecipes.slice(0, displayCount);
   const hasMore = displayCount < processedRecipes.length;
@@ -258,24 +293,24 @@ export default function RecipeBrowserPanel({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="alchm-panel border border-muted flex flex-col h-full rounded-xl overflow-hidden">
       {/* Search Bar */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-muted bg-surface-container-low/30">
         <div className="relative">
           <input
             type="text"
             placeholder="Search recipes, ingredients, cuisines..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-2.5 border-2 border-gray-300 rounded-lg focus:border-amber-500 focus:outline-none text-sm"
+            className="w-full pl-10 pr-10 py-2.5 border border-muted bg-surface-container-lowest text-primary rounded-lg focus:border-active-violet focus:outline-none text-sm placeholder:text-on-surface-variant/40"
           />
-          <span className="absolute left-3 top-3 text-gray-400 text-sm">
+          <span className="absolute left-3 top-3 text-on-surface-variant text-sm">
             &#128269;
           </span>
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 text-sm"
+              className="absolute right-3 top-3 text-on-surface-variant hover:text-white text-sm cursor-pointer"
             >
               &#10005;
             </button>
@@ -284,14 +319,14 @@ export default function RecipeBrowserPanel({
 
         {/* Results count */}
         <div className="flex items-center justify-between mt-2">
-          <p className="text-xs text-gray-500">
-            {visibleRecipes.length} of {processedRecipes.length} recipes
+          <p className="text-xs text-on-surface-variant font-mono uppercase tracking-wider">
+            {visibleRecipes.length} / {processedRecipes.length} recipes
             {processedRecipes.length !== allRecipes.length && (
               <button
                 onClick={clearAllFilters}
-                className="ml-2 text-amber-600 hover:text-amber-700 font-medium"
+                className="ml-2 text-active-violet hover:text-white font-medium cursor-pointer"
               >
-                Clear filters
+                [Clear filters]
               </button>
             )}
           </p>
@@ -299,18 +334,18 @@ export default function RecipeBrowserPanel({
       </div>
 
       {/* Filters & Sort Bar */}
-      <div className="px-4 py-2 border-b border-gray-200 flex items-center gap-3 flex-wrap">
+      <div className="px-4 py-2 border-b border-muted bg-surface-container-lowest/80 flex items-center gap-3 flex-wrap">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors font-mono uppercase cursor-pointer ${
             showFilters || activeFilterCount > 0
-              ? "bg-amber-100 text-amber-700"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              ? "bg-active-violet/20 text-active-violet border border-active-violet/30 shadow-[0_0_8px_rgba(184,90,240,0.15)]"
+              : "bg-surface-container-low border border-muted text-on-surface-variant hover:text-primary"
           }`}
         >
           Filters
           {activeFilterCount > 0 && (
-            <span className="px-1.5 py-0.5 bg-amber-500 text-white text-xs rounded-full">
+            <span className="px-1.5 py-0.5 bg-active-violet text-background text-xs rounded-full font-bold">
               {activeFilterCount}
             </span>
           )}
@@ -319,7 +354,7 @@ export default function RecipeBrowserPanel({
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortOption)}
-          className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none"
+          className="px-3 py-1.5 border border-muted bg-surface-container-low text-primary rounded-lg text-sm focus:border-active-violet focus:outline-none font-mono cursor-pointer"
         >
           <option value="match-score">Best Match</option>
           <option value="cook-time">Quickest First</option>
@@ -331,11 +366,10 @@ export default function RecipeBrowserPanel({
 
       {/* Expanded Filter Panel */}
       {showFilters && (
-        <div className="p-4 border-b border-gray-200 bg-gray-50 space-y-4">
+        <div className="p-4 border-b border-muted bg-surface-container-low/40 space-y-4">
           {/* Cuisine chips */}
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-xs font-semibold text-gray-600 mb-1.5">
+            <label className="block text-xs font-semibold font-mono uppercase text-on-surface-variant mb-1.5">
               Cuisine
             </label>
             <div className="flex flex-wrap gap-1.5">
@@ -343,10 +377,10 @@ export default function RecipeBrowserPanel({
                 <button
                   key={cuisine}
                   onClick={() => toggleCuisine(cuisine)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium font-mono transition-colors cursor-pointer ${
                     filters.cuisines.includes(cuisine)
-                      ? "bg-blue-500 text-white"
-                      : "bg-white border border-gray-300 text-gray-600 hover:border-blue-300"
+                      ? "bg-active-violet text-background font-bold"
+                      : "bg-surface-container-lowest border border-muted text-on-surface-variant hover:border-active-violet"
                   }`}
                 >
                   {cuisine}
@@ -357,8 +391,7 @@ export default function RecipeBrowserPanel({
 
           {/* Dietary chips */}
           <div>
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="block text-xs font-semibold text-gray-600 mb-1.5">
+            <label className="block text-xs font-semibold font-mono uppercase text-on-surface-variant mb-1.5">
               Dietary
             </label>
             <div className="flex flex-wrap gap-1.5">
@@ -366,10 +399,10 @@ export default function RecipeBrowserPanel({
                 <button
                   key={opt.key}
                   onClick={() => toggleDietary(opt.key)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium font-mono transition-colors cursor-pointer ${
                     filters.dietary.includes(opt.key)
-                      ? "bg-green-500 text-white"
-                      : "bg-white border border-gray-300 text-gray-600 hover:border-green-300"
+                      ? "bg-active-violet text-background font-bold"
+                      : "bg-surface-container-lowest border border-muted text-on-surface-variant hover:border-active-violet"
                   }`}
                 >
                   {opt.label}
@@ -380,8 +413,7 @@ export default function RecipeBrowserPanel({
 
           {/* Max Cook Time */}
           <div className="flex items-center gap-3">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="text-xs font-semibold text-gray-600">
+            <label className="text-xs font-semibold font-mono uppercase text-on-surface-variant">
               Max Time:
             </label>
             <div className="flex gap-1.5">
@@ -395,10 +427,10 @@ export default function RecipeBrowserPanel({
                         prev.maxCookTime === opt.value ? undefined : opt.value,
                     }))
                   }
-                  className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded text-xs font-medium font-mono transition-colors cursor-pointer ${
                     filters.maxCookTime === opt.value
-                      ? "bg-purple-500 text-white"
-                      : "bg-white border border-gray-300 text-gray-600 hover:border-purple-300"
+                      ? "bg-active-violet text-background font-bold"
+                      : "bg-surface-container-lowest border border-muted text-on-surface-variant hover:border-active-violet"
                   }`}
                 >
                   {opt.label}
@@ -408,7 +440,7 @@ export default function RecipeBrowserPanel({
           </div>
 
           {/* Seasonal toggle */}
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex items-center gap-2 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={filters.seasonal}
@@ -418,9 +450,9 @@ export default function RecipeBrowserPanel({
                   seasonal: e.target.checked,
                 }))
               }
-              className="rounded"
+              className="rounded text-active-violet bg-surface-container-lowest border-muted focus:ring-active-violet focus:ring-offset-0"
             />
-            <span className="text-xs font-medium text-gray-600">
+            <span className="text-xs font-medium font-mono text-on-surface-variant">
               Show seasonal recipes only ({getCurrentSeason()})
             </span>
           </label>
@@ -430,27 +462,27 @@ export default function RecipeBrowserPanel({
       {/* Recipe Grid */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto p-4"
+        className="flex-1 overflow-y-auto p-4 bg-surface-container-lowest/20"
         onScroll={handleScroll}
       >
         {isLoading ? (
           <div className="flex items-center justify-center h-48">
-            <div className="text-center">
-              <div className="animate-spin text-4xl mb-2">&#9203;</div>
-              <p className="text-gray-600">Loading recipes...</p>
+            <div className="text-center font-mono">
+              <div className="animate-spin text-4xl mb-2">⏳</div>
+              <p className="text-on-surface-variant">Loading recipes...</p>
             </div>
           </div>
         ) : processedRecipes.length === 0 ? (
           <div className="flex items-center justify-center h-48">
             <div className="text-center">
-              <p className="text-4xl mb-2">&#128269;</p>
-              <p className="text-gray-600 text-lg mb-2">No recipes found</p>
-              <p className="text-gray-500 text-sm mb-4">
+              <p className="text-4xl mb-2">🔎</p>
+              <p className="text-primary text-lg mb-2 font-headline-md">No recipes found</p>
+              <p className="text-on-surface-variant text-sm mb-4 font-body-sm">
                 Try adjusting your search or filters
               </p>
               <button
                 onClick={clearAllFilters}
-                className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm"
+                className="px-4 py-2 border border-active-violet text-active-violet rounded-lg hover:bg-active-violet/10 text-xs font-mono uppercase cursor-pointer"
               >
                 Clear all filters
               </button>
@@ -513,78 +545,108 @@ function BrowserRecipeCard({
 }) {
   const [showPreview, setShowPreview] = useState(false);
 
+  const todayDow = new Date().getDay() as DayOfWeek;
+  const todayPlanet = PLANETARY_DAY_RULERS[todayDow];
+  const planetSymbols: Record<string, string> = {
+    Sun: "☉",
+    Moon: "☽",
+    Mars: "♂",
+    Mercury: "☿",
+    Jupiter: "♃",
+    Venus: "♀",
+    Saturn: "♄",
+  };
+  const planetSymbol = planetSymbols[todayPlanet];
+  const resonanceScore = getPlanetaryResonance(recipe, todayPlanet);
+
   return (
     <div
-      className="relative p-3 rounded-lg border border-gray-200 bg-white hover:border-amber-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
+      className="relative p-4 rounded-lg border border-muted bg-surface/50 hover:border-active-violet hover:shadow-[0_0_12px_rgba(184,90,240,0.15)] transition-all duration-200 cursor-pointer group"
       onMouseEnter={() => setShowPreview(true)}
       onMouseLeave={() => setShowPreview(false)}
     >
       {/* Top row: name + favorite */}
       <div className="flex items-start justify-between gap-2">
-        <h3
-          className="font-semibold text-gray-800 text-sm line-clamp-1 flex-1"
-          onClick={onViewDetail || onSelect}
-        >
-          {recipe.name}
-        </h3>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            void onToggleFavorite();
-          }}
-          className={`text-sm flex-shrink-0 ${isFavorite ? "text-amber-400" : "text-gray-300 hover:text-amber-400"}`}
-        >
-          {isFavorite ? "\u2605" : "\u2606"}
-        </button>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold font-headline-md text-primary text-sm line-clamp-1">
+            <Link
+              href={`/recipes/${recipe.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="hover:text-active-violet hover:underline"
+            >
+              {recipe.name}
+            </Link>
+          </h3>
+        </div>
+        <div className="flex items-center gap-2">
+          {/* Planetary Match Score (Resonance) */}
+          <span 
+            className="px-2 py-0.5 rounded bg-gold-accent/10 border border-gold-accent/20 text-gold-accent text-[10px] font-mono font-bold"
+            title={`${todayPlanet}-aligned planetary resonance score`}
+          >
+            {planetSymbol} {resonanceScore}%
+          </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              void onToggleFavorite();
+            }}
+            className={`text-sm flex-shrink-0 cursor-pointer ${isFavorite ? "text-gold-accent" : "text-on-surface-variant/40 hover:text-gold-accent"}`}
+          >
+            {isFavorite ? "★" : "☆"}
+          </button>
+        </div>
       </div>
 
       {/* Meta */}
-      <div className="flex flex-wrap gap-1.5 mt-1 text-xs text-gray-500">
+      <div className="flex flex-wrap gap-1.5 mt-2 text-[10px] font-mono text-on-surface-variant">
         {recipe.cuisine && (
-          <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded">
+          <span className="px-1.5 py-0.5 bg-active-violet/10 text-active-violet border border-active-violet/20 rounded">
             {recipe.cuisine}
           </span>
         )}
-        {recipe.prepTime && <span>&#9201; {recipe.prepTime}</span>}
+        {recipe.prepTime && <span>⏱️ {recipe.prepTime}</span>}
         {recipe.nutrition?.calories && (
-          <span>{recipe.nutrition.calories} cal</span>
+          <span>🔥 {recipe.nutrition.calories} cal</span>
         )}
       </div>
 
       {/* Dietary badges */}
-      <div className="flex flex-wrap gap-1 mt-1.5">
+      <div className="flex flex-wrap gap-1 mt-1.5 font-mono text-[9px]">
         {recipe.isVegetarian && (
-          <span className="px-1 py-0.5 text-[10px] bg-green-100 text-green-700 rounded">
-            V
+          <span className="px-1 py-0.5 bg-earth-matter/10 text-earth-matter border border-earth-matter/20 rounded">
+            VEGETARIAN
           </span>
         )}
         {recipe.isVegan && (
-          <span className="px-1 py-0.5 text-[10px] bg-green-100 text-green-700 rounded">
-            Vg
+          <span className="px-1 py-0.5 bg-earth-matter/15 text-earth-matter border border-earth-matter/30 rounded">
+            VEGAN
           </span>
         )}
         {recipe.isGlutenFree && (
-          <span className="px-1 py-0.5 text-[10px] bg-amber-100 text-amber-700 rounded">
-            GF
+          <span className="px-1 py-0.5 bg-air-substance/10 text-air-substance border border-air-substance/20 rounded">
+            GLUTEN FREE
           </span>
         )}
       </div>
 
       {/* Quick Preview on Hover */}
       {showPreview && recipe.description && (
-        <div className="mt-2 text-xs text-gray-600 line-clamp-2 border-t border-gray-100 pt-2">
+        <div className="mt-2 text-xs text-on-surface-variant line-clamp-2 border-t border-muted pt-2 font-body-sm">
           {recipe.description}
         </div>
       )}
 
       {/* Actions (visible on hover) */}
-      <div className="mt-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="mt-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={(e) => {
             e.stopPropagation();
             void onSelect();
           }}
-          className="flex-1 px-2 py-1 bg-amber-600 text-white rounded text-xs font-medium hover:bg-amber-700"
+          className="flex-1 px-2 py-1 bg-active-violet text-background rounded text-xs font-mono uppercase font-bold hover:bg-white transition-all cursor-pointer"
         >
           Add to Meal
         </button>
@@ -594,27 +656,26 @@ function BrowserRecipeCard({
               e.stopPropagation();
               void onAddToQueue();
             }}
-            className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium hover:bg-purple-200"
+            className="px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs font-mono uppercase hover:border-active-violet transition-colors cursor-pointer"
           >
             + Queue
           </button>
         )}
         {isInQueue && (
-          <span className="px-2 py-1 bg-purple-50 text-purple-500 rounded text-xs">
+          <span className="px-2 py-1 bg-active-violet/10 text-active-violet border border-active-violet/20 rounded text-xs font-mono uppercase">
             In Queue
           </span>
         )}
-        {onViewDetail && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              void onViewDetail();
-            }}
-            className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium hover:bg-gray-200"
-          >
-            Details
-          </button>
-        )}
+        <Link
+          href={`/recipes/${recipe.id}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onViewDetail) onViewDetail();
+          }}
+          className="px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs font-mono uppercase hover:border-active-violet transition-colors flex items-center justify-center cursor-pointer"
+        >
+          Details
+        </Link>
       </div>
     </div>
   );
