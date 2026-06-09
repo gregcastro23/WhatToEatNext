@@ -9,6 +9,7 @@
  */
 
 import { useState, useMemo } from "react";
+import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import {
   AMAZON_ASSOCIATE_TAG,
@@ -250,8 +251,10 @@ export default function GroceryListModal({
 }: GroceryListModalProps) {
   const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu, inventory, setInventory } =
     useMenuPlanner();
+  const groceryCart = useGroceryCart();
 
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
+  const [cartSentCount, setCartSentCount] = useState<number | null>(null);
   const [amazonLoading, setAmazonLoading] = useState(false);
   const [amazonError, setAmazonError] = useState<string | null>(null);
   const [amazonResolution, setAmazonResolution] =
@@ -321,6 +324,36 @@ export default function GroceryListModal({
     } catch (_error) {
       logger.warn("Failed to export grocery list");
     }
+  };
+
+  // Push the week's active shopping items into the app-wide grocery cart
+  // (shared with recipe pages; persists, auto-resolves ASINs, unified checkout).
+  const handleAddToGroceryCart = () => {
+    if (activeShoppingItems.length === 0) return;
+    const weekKey = currentMenu?.weekStartDate
+      ? new Date(currentMenu.weekStartDate).toISOString().slice(0, 10)
+      : "current-week";
+    const touched = groceryCart.addRecipe(
+      {
+        id: `menu-planner:${weekKey}`,
+        name: `Weekly menu (${weekKey})`,
+        baseServings: 1,
+        ingredients: activeShoppingItems.map((item) => ({
+          name: item.ingredient,
+          amount: item.quantity,
+          unit: item.unit,
+          category: item.category,
+          notes: item.notes,
+        })),
+      },
+      1,
+    );
+    setCartSentCount(touched);
+    logger.info("Sent grocery list to app cart", {
+      weekKey,
+      itemCount: touched,
+    });
+    groceryCart.open();
   };
 
   const resolveAmazonCartItems = async (): Promise<AmazonResolutionState> => {
@@ -636,6 +669,21 @@ export default function GroceryListModal({
                 Shop on Amazon
               </>
             )}
+          </button>
+          <button
+            onClick={handleAddToGroceryCart}
+            disabled={stats.remaining === 0}
+            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm font-bold shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            title={
+              stats.remaining === 0
+                ? "No items to add"
+                : "Add this week's items to your app-wide grocery cart"
+            }
+          >
+            <span>🧺</span>
+            {cartSentCount !== null
+              ? `In Cart ✓ (${cartSentCount})`
+              : "Add to Grocery Cart"}
           </button>
 
           <select

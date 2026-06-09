@@ -30,6 +30,7 @@ import type { DailyNutritionResult } from "@/types/nutrition";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
+import StitchTransitRibbon, { PLANET_GLYPHS } from "./StitchTransitRibbon";
 
 /**
  * Per-day nutrition mini-bar
@@ -42,7 +43,7 @@ function DayNutritionStrip({
 }) {
   if (!daily || daily.meals.length === 0) {
     return (
-      <div className="px-3 py-2 border-t border-gray-100 text-[10px] text-gray-400 italic">
+      <div className="px-3 py-2 border-t border-white/10 text-[10px] text-purple-300/40 italic">
         No meals — nutrition unlogged
       </div>
     );
@@ -60,29 +61,29 @@ function DayNutritionStrip({
         : "bg-emerald-400";
 
   return (
-    <div className="px-3 py-2 border-t border-gray-100 bg-gray-50 text-[11px]">
+    <div className="px-3 py-2 border-t border-white/10 bg-white/[0.04] text-[11px]">
       <div className="flex items-center justify-between mb-1">
-        <span className="font-semibold text-gray-700">
+        <span className="font-semibold text-purple-100">
           {Math.round(totals.calories ?? 0)} / {Math.round(goals.calories)} kcal
         </span>
         <span
           className={`font-medium ${compliance.overall >= 0.75
-              ? "text-emerald-700"
+              ? "text-emerald-300"
               : compliance.overall >= 0.5
-                ? "text-amber-700"
-                : "text-red-700"
+                ? "text-amber-300"
+                : "text-red-300"
             }`}
         >
           {Math.round(compliance.overall * 100)}%
         </span>
       </div>
-      <div className="h-1.5 rounded-full bg-gray-200 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
         <div
           className={`h-full ${barColor} transition-all`}
           style={{ width: `${Math.min(100, calPct)}%` }}
         />
       </div>
-      <div className="flex gap-2 mt-1 text-gray-600">
+      <div className="flex gap-2 mt-1 text-purple-200/60">
         <span>P {Math.round(totals.protein ?? 0)}g</span>
         <span>C {Math.round(totals.carbs ?? 0)}g</span>
         <span>F {Math.round(totals.fat ?? 0)}g</span>
@@ -145,25 +146,14 @@ function DayColumn({
     (type) => meals.find((m) => m.mealType === type)!,
   );
 
-  // Planetary symbol
-  const planetSymbols: Record<string, string> = {
-    Sun: "🝇",
-    Moon: "🝑",
-    Mars: "♂",
-    Mercury: "🝉",
-    Jupiter: "♃",
-    Venus: "♀",
-    Saturn: "♄",
-  };
-
   const highlight = isToday || isSelectedForHero;
 
   return (
     <div
       className={`
-        flex flex-col border-2 rounded-xl bg-white overflow-hidden transition-shadow
-        ${highlight ? "border-purple-400 shadow-lg" : "border-gray-200"}
-        ${isExpanded ? "ring-2 ring-purple-300" : ""}
+        flex flex-col rounded-2xl border bg-white/[0.04] backdrop-blur-xl overflow-hidden transition-shadow
+        ${highlight ? "border-amber-300/50 shadow-[0_0_28px_rgba(168,85,247,0.18)]" : "border-white/10"}
+        ${isExpanded ? "ring-1 ring-emerald-300/50" : ""}
       `}
     >
       {/* Day Header - clickable to expand */}
@@ -171,48 +161,48 @@ function DayColumn({
         type="button"
         onClick={onToggleExpand}
         className={`
-          text-left p-3 border-b-2 border-gray-200 w-full hover:brightness-[0.98] transition-all
-          ${highlight ? "bg-gradient-to-r from-purple-100 to-pink-100" : "bg-gray-50"}
+          text-left p-3 border-b border-white/10 w-full hover:bg-white/[0.06] transition-all
+          ${highlight ? "bg-gradient-to-r from-purple-500/15 to-amber-400/10" : "bg-white/[0.03]"}
         `}
         aria-expanded={isExpanded}
         aria-label={`${isExpanded ? "Collapse" : "Expand"} ${getDayName(dayOfWeek)}`}
       >
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-2xl">
-              {planetSymbols[characteristics.planet]}
+            <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-amber-300/40 bg-amber-400/10 text-lg text-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.12)]">
+              {PLANET_GLYPHS[characteristics.planet]}
             </span>
             <div className="min-w-0">
-              <h3 className="font-bold text-lg text-gray-800 truncate">
+              <h3 className="font-bold text-lg text-purple-50 truncate">
                 {getDayName(dayOfWeek)}
               </h3>
-              <p className="text-xs text-gray-600 truncate">
+              <p className="text-xs text-purple-200/50 truncate">
                 {formatDateForDisplay(date)}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
             {isToday && (
-              <span className="px-2 py-1 text-xs font-semibold bg-purple-600 text-white rounded">
+              <span className="px-2 py-1 text-xs font-semibold bg-amber-400/90 text-[#1a1033] rounded">
                 Today
               </span>
             )}
-            <span className="text-gray-500 text-xs select-none" aria-hidden>
+            <span className="text-purple-300/50 text-xs select-none" aria-hidden>
               {isExpanded ? "▾" : "▸"}
             </span>
           </div>
         </div>
-        <p className="text-[11px] text-gray-600 italic line-clamp-2">
+        <p className="text-[11px] text-purple-200/50 italic line-clamp-2">
           {characteristics.mealGuidance}
         </p>
 
         {/* Planetary Hour Indicator (only for today) */}
         {isToday && currentPlanetaryHour && (
-          <div className="mt-2 flex items-center gap-2 bg-purple-100 rounded-lg px-3 py-1.5">
-            <span className="text-purple-700 font-semibold text-[10px]">
+          <div className="mt-2 flex items-center gap-2 rounded-lg border border-purple-300/20 bg-purple-400/15 px-3 py-1.5">
+            <span className="text-purple-200 font-semibold text-[10px]">
               ⏰ Hour:
             </span>
-            <span className="text-purple-900 font-bold text-xs truncate">
+            <span className="text-amber-200 font-bold text-xs truncate">
               {currentPlanetaryHour}
             </span>
           </div>
@@ -220,10 +210,10 @@ function DayColumn({
       </button>
 
       {/* Quick Actions - separate row, non-clickable header area */}
-      <div className="flex gap-1 px-2 py-1.5 bg-gray-50/50 border-b border-gray-100">
+      <div className="flex gap-1 px-2 py-1.5 bg-white/[0.02] border-b border-white/5">
         <button
           onClick={(e) => { e.stopPropagation(); onFocusDay?.(); }}
-          className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors font-medium flex-1"
+          className="text-xs px-2 py-1 rounded bg-sky-400/10 text-sky-300 hover:bg-sky-400/20 transition-colors font-medium flex-1"
           title={`Focus on ${getDayName(dayOfWeek)} with suggestions`}
         >
           🔍 Focus
@@ -233,7 +223,7 @@ function DayColumn({
             e.stopPropagation();
             void generateMealsForDay(dayOfWeek);
           }}
-          className="text-xs px-2 py-1 rounded bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors font-medium flex-1"
+          className="text-xs px-2 py-1 rounded bg-purple-400/10 text-purple-300 hover:bg-purple-400/20 transition-colors font-medium flex-1"
           title={`Recommend meals for ${getDayName(dayOfWeek)} using ${characteristics.planet} energy`}
         >
           ✨ Rec
@@ -243,48 +233,55 @@ function DayColumn({
             e.stopPropagation();
             void clearDay(dayOfWeek);
           }}
-          className="text-xs px-2 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+          className="text-xs px-2 py-1 rounded bg-red-400/10 text-red-300 hover:bg-red-400/20 transition-colors"
           title="Clear all meals for this day"
         >
           🗑
         </button>
       </div>
 
-      {/* Meal Slots */}
-      <div className="flex-1 p-2 space-y-2 overflow-y-auto">
-        {sortedMeals.map((mealSlot) => (
-          <MealSlot
-            key={mealSlot.id}
-            mealSlot={mealSlot}
-            onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
-              void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
-            }}
-            onRemoveRecipe={() => {
-              void removeMealFromSlot(mealSlot.id);
-            }}
-            onUpdateServings={(servings: number) => {
-              void updateMealServings(mealSlot.id, servings);
-            }}
-            onMoveMeal={(sourceSlotId: string) => {
-              void moveMeal(sourceSlotId, mealSlot.id);
-            }}
-            onSwapMeals={(sourceSlotId: string) => {
-              void swapMeals(sourceSlotId, mealSlot.id);
-            }}
-            onCopyMeal={() => onCopyMealClick?.(mealSlot)}
-            onGenerateMeal={() => {
-              void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
-            }}
-            onAddSauce={(sauceId: string, servings?: number) => {
-              void addSauceToMeal(mealSlot.id, sauceId, servings);
-            }}
-            onRemoveSauce={() => {
-              void removeSauceFromMeal(mealSlot.id);
-            }}
-            onUpdateSauceServings={(servings: number) => {
-              void updateSauceServings(mealSlot.id, servings);
-            }}
-          />
+      {/* Meal Slots — stitched together by a dashed gold connector */}
+      <div className="flex-1 p-2 overflow-y-auto">
+        {sortedMeals.map((mealSlot, slotIdx) => (
+          <React.Fragment key={mealSlot.id}>
+            {slotIdx > 0 && (
+              <div
+                aria-hidden
+                className="mx-auto h-3 w-0 border-l-2 border-dashed border-amber-300/30"
+              />
+            )}
+            <MealSlot
+              mealSlot={mealSlot}
+              onAddRecipe={(recipe: MonicaOptimizedRecipe) => {
+                void addMealToSlot(dayOfWeek, mealSlot.mealType, recipe);
+              }}
+              onRemoveRecipe={() => {
+                void removeMealFromSlot(mealSlot.id);
+              }}
+              onUpdateServings={(servings: number) => {
+                void updateMealServings(mealSlot.id, servings);
+              }}
+              onMoveMeal={(sourceSlotId: string) => {
+                void moveMeal(sourceSlotId, mealSlot.id);
+              }}
+              onSwapMeals={(sourceSlotId: string) => {
+                void swapMeals(sourceSlotId, mealSlot.id);
+              }}
+              onCopyMeal={() => onCopyMealClick?.(mealSlot)}
+              onGenerateMeal={() => {
+                void generateMealsForDay(dayOfWeek, { mealTypes: [mealSlot.mealType] });
+              }}
+              onAddSauce={(sauceId: string, servings?: number) => {
+                void addSauceToMeal(mealSlot.id, sauceId, servings);
+              }}
+              onRemoveSauce={() => {
+                void removeSauceFromMeal(mealSlot.id);
+              }}
+              onUpdateSauceServings={(servings: number) => {
+                void updateSauceServings(mealSlot.id, servings);
+              }}
+            />
+          </React.Fragment>
         ))}
       </div>
 
@@ -335,23 +332,15 @@ function TodayHeroCard({
   );
   const plannedCount = meals.filter((m) => m.recipe).length;
 
-  const planetSymbols: Record<string, string> = {
-    Sun: "🝇",
-    Moon: "🝑",
-    Mars: "♂",
-    Mercury: "🝉",
-    Jupiter: "♃",
-    Venus: "♀",
-    Saturn: "♄",
-  };
-
   return (
-    <div className="rounded-2xl border-2 border-purple-400 bg-gradient-to-br from-purple-50 via-white to-pink-50 shadow-xl overflow-hidden">
+    <div className="rounded-3xl border border-amber-300/40 bg-gradient-to-br from-[#1a1033]/90 via-[#0d0918]/95 to-emerald-950/30 backdrop-blur-xl shadow-[0_0_40px_rgba(168,85,247,0.15)] overflow-hidden">
       {/* Hero Header */}
-      <div className="p-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+      <div className="p-5 bg-gradient-to-r from-purple-700/70 via-fuchsia-700/50 to-amber-600/30 border-b border-white/10 text-white">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <span className="text-4xl">{planetSymbols[characteristics.planet]}</span>
+            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-amber-300/50 bg-amber-400/10 text-3xl text-amber-200 shadow-[0_0_18px_rgba(251,191,36,0.25)]">
+              {PLANET_GLYPHS[characteristics.planet]}
+            </span>
             <div>
               <div className="text-[11px] uppercase tracking-widest opacity-90">
                 Today · {characteristics.planet} day
@@ -378,52 +367,52 @@ function TodayHeroCard({
 
       {/* Nutrition row */}
       {dailyNutrition && dailyNutrition.meals.length > 0 && (
-        <div className="px-5 py-3 bg-white border-b border-purple-100 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
+        <div className="px-5 py-3 bg-white/[0.03] border-b border-white/10 grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
           <div>
-            <div className="text-[10px] uppercase text-gray-500 tracking-wide">
+            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
               Calories
             </div>
-            <div className="font-bold text-gray-900">
+            <div className="font-bold text-purple-50">
               {Math.round(dailyNutrition.totals.calories ?? 0)}
-              <span className="text-xs font-normal text-gray-500">
+              <span className="text-xs font-normal text-purple-300/50">
                 {" "}/ {Math.round(dailyNutrition.goals.calories)}
               </span>
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-gray-500 tracking-wide">
+            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
               Protein
             </div>
-            <div className="font-bold text-gray-900">
+            <div className="font-bold text-purple-50">
               {Math.round(dailyNutrition.totals.protein ?? 0)}g
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-gray-500 tracking-wide">
+            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
               Carbs
             </div>
-            <div className="font-bold text-gray-900">
+            <div className="font-bold text-purple-50">
               {Math.round(dailyNutrition.totals.carbs ?? 0)}g
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-gray-500 tracking-wide">
+            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
               Fat
             </div>
-            <div className="font-bold text-gray-900">
+            <div className="font-bold text-purple-50">
               {Math.round(dailyNutrition.totals.fat ?? 0)}g
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-gray-500 tracking-wide">
+            <div className="text-[10px] uppercase text-purple-300/50 tracking-wide">
               Compliance
             </div>
             <div
               className={`font-bold ${dailyNutrition.compliance.overall >= 0.75
-                  ? "text-emerald-700"
+                  ? "text-emerald-300"
                   : dailyNutrition.compliance.overall >= 0.5
-                    ? "text-amber-700"
-                    : "text-red-700"
+                    ? "text-amber-300"
+                    : "text-red-300"
                 }`}
             >
               {Math.round(dailyNutrition.compliance.overall * 100)}%
@@ -433,22 +422,22 @@ function TodayHeroCard({
       )}
 
       {/* Quick actions */}
-      <div className="flex gap-2 px-5 py-3 bg-white border-b border-purple-100 flex-wrap">
+      <div className="flex gap-2 px-5 py-3 bg-white/[0.02] border-b border-white/10 flex-wrap">
         <button
           onClick={onFocusDay}
-          className="text-sm px-3 py-1.5 rounded-lg bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors font-medium"
+          className="text-sm px-3 py-1.5 rounded-lg bg-sky-400/10 text-sky-300 hover:bg-sky-400/20 transition-colors font-medium"
         >
           🔍 Focus mode
         </button>
         <button
           onClick={() => { void generateMealsForDay(dayOfWeek); }}
-          className="text-sm px-3 py-1.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium"
+          className="text-sm px-3 py-1.5 rounded-lg bg-purple-600 text-white hover:bg-purple-500 transition-colors font-medium"
         >
           ✨ Auto-fill day
         </button>
         <button
           onClick={() => { void clearDay(dayOfWeek); }}
-          className="text-sm px-3 py-1.5 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+          className="text-sm px-3 py-1.5 rounded-lg bg-red-400/10 text-red-300 hover:bg-red-400/20 transition-colors"
         >
           🗑 Clear
         </button>
@@ -608,7 +597,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <div className="animate-spin text-4xl mb-2">⏳</div>
-          <p className="text-gray-600">Loading menu...</p>
+          <p className="text-purple-200/60">Loading menu...</p>
         </div>
       </div>
     );
@@ -618,7 +607,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
-          <p className="text-gray-600">No menu available</p>
+          <p className="text-purple-200/60">No menu available</p>
         </div>
       </div>
     );
@@ -639,22 +628,22 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
   return (
     <div className="space-y-4">
       {/* Week Navigation */}
-      <div className="flex items-center justify-between bg-white rounded-xl shadow-md p-4">
+      <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4">
         <button
           onClick={navigation.goToPreviousWeek}
-          className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium"
+          className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10 transition-colors font-medium"
         >
           ← Previous Week
         </button>
 
         <div className="text-center">
-          <h2 className="text-xl font-bold text-gray-800">
+          <h2 className="text-xl font-bold text-purple-50">
             {formatDateForDisplay(weekDates[0])} -{" "}
             {formatDateForDisplay(weekDates[6])}
           </h2>
           <button
             onClick={navigation.goToCurrentWeek}
-            className="text-sm text-purple-600 hover:text-purple-700 underline mt-1"
+            className="text-sm text-amber-300 hover:text-amber-200 underline mt-1"
           >
             Go to Current Week
           </button>
@@ -662,33 +651,42 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
 
         <button
           onClick={navigation.goToNextWeek}
-          className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium"
+          className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10 transition-colors font-medium"
         >
           Next Week →
         </button>
       </div>
 
+      {/* Stitch Transit Ribbon — the golden thread tying days, transits, and meals together */}
+      <StitchTransitRibbon
+        weekDates={weekDates}
+        todayIndex={todayDayOfWeek}
+        selectedDay={expandedDay}
+        onSelectDay={toggleExpandDay}
+        currentPlanetaryHour={currentPlanetaryHour}
+      />
+
       {/* Progressive Empty State Banner */}
       {totalMeals === 0 && (
-        <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-blue-50 rounded-xl shadow-md p-6 border-2 border-purple-200">
+        <div className="rounded-2xl border border-purple-300/20 bg-white/[0.04] backdrop-blur-xl p-6">
           <div className="text-center">
             <div className="text-4xl mb-3">🍽️</div>
-            <h3 className="text-xl font-bold text-purple-900 mb-2">
+            <h3 className="text-xl font-bold text-purple-100 mb-2">
               Your Weekly Menu Awaits
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-purple-200/60 mb-4">
               Plan your week with alchemical precision
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center text-sm text-gray-700">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center text-sm text-purple-200/70">
               <div className="flex items-center gap-2">
-                <span className="text-purple-600">✨</span>
+                <span className="text-amber-300">✨</span>
                 <span>
                   Click &quot;Generate&quot; on any day for planetary-aligned suggestions
                 </span>
               </div>
-              <div className="hidden sm:block text-gray-400">•</div>
+              <div className="hidden sm:block text-purple-300/40">•</div>
               <div className="flex items-center gap-2">
-                <span className="text-blue-600">🔍</span>
+                <span className="text-sky-300">🔍</span>
                 <span>Search recipes below and drag to calendar</span>
               </div>
             </div>
@@ -697,31 +695,31 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       )}
 
       {totalMeals > 0 && totalMeals < 6 && (
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl shadow-md p-4 border-2 border-blue-200">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="text-2xl">📅</div>
               <div>
-                <h3 className="font-bold text-gray-800">
+                <h3 className="font-bold text-purple-100">
                   Great start! {totalMeals} meal{totalMeals === 1 ? "" : "s"}{" "}
                   planned
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-purple-200/60">
                   Keep adding meals to build your ideal week
                 </p>
               </div>
             </div>
-            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200">
+            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/10">
               <div className="flex gap-1">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`w-2 h-8 rounded ${i < totalMeals ? "bg-purple-500" : "bg-gray-200"
+                    className={`w-2 h-8 rounded ${i < totalMeals ? "bg-amber-400" : "bg-white/10"
                       }`}
                   />
                 ))}
               </div>
-              <span className="text-xs font-medium text-gray-600">
+              <span className="text-xs font-medium text-purple-200/60">
                 {totalMeals}/6
               </span>
             </div>
@@ -852,7 +850,7 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
       </div>
 
       {/* Helper Text */}
-      <div className="text-center text-sm text-gray-500 mt-6">
+      <div className="text-center text-sm text-purple-300/50 mt-6">
         <p>
           Click a day header to expand it inline. Click &quot;+ Add Recipe&quot;
           to add meals. Click 📋 to copy/move to multiple slots.

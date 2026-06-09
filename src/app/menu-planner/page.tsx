@@ -231,22 +231,28 @@ function MenuPlannerContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-purple-50 via-pink-50 to-blue-50">
-      <div className="w-full px-4 xl:px-8 py-8">
+    <div className="relative min-h-screen overflow-x-clip bg-[#08080e] text-purple-50">
+      {/* Alchemical glow field */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 left-1/4 h-[480px] w-[480px] rounded-full bg-purple-700/20 blur-[140px]" />
+        <div className="absolute top-1/3 -right-40 h-[420px] w-[420px] rounded-full bg-amber-500/10 blur-[140px]" />
+        <div className="absolute bottom-0 -left-40 h-[420px] w-[420px] rounded-full bg-emerald-600/10 blur-[140px]" />
+      </div>
+      <div className="relative w-full px-4 xl:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-300 via-purple-300 to-emerald-300 bg-clip-text text-transparent">
                 Weekly Menu Planner
               </h1>
-              <p className="text-lg text-gray-600 mt-2">
+              <p className="text-lg text-purple-200/60 mt-2">
                 Plan your meals aligned with the cosmos
               </p>
             </div>
             <Link
               href="/"
-              className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10 transition-colors"
             >
               ← Back to Home
             </Link>
@@ -254,7 +260,7 @@ function MenuPlannerContent() {
 
           {/* New: Collective Meal Active Indicator */}
           {selectedChartIds.size > 0 && (
-            <div className="mb-4 p-3 bg-purple-100 border border-purple-300 text-purple-800 rounded-lg flex items-center justify-between">
+            <div className="mb-4 p-3 bg-purple-400/10 border border-purple-300/30 text-purple-100 rounded-lg flex items-center justify-between">
               <span className="font-medium">
                 ✨ Collective Meal Active with {selectedChartIds.size} guest(s)!
               </span>
@@ -264,7 +270,7 @@ function MenuPlannerContent() {
                     .filter((p) => p.id.startsWith("chart-"))
                     .forEach((p) => removeParticipant(p.id));
                 }}
-                className="text-purple-600 hover:text-purple-900 text-sm font-semibold"
+                className="text-amber-300 hover:text-amber-200 text-sm font-semibold"
               >
                 Clear Guests
               </button>
@@ -281,14 +287,14 @@ function MenuPlannerContent() {
           />
 
           {/* Tools Bar */}
-          <div className="bg-white rounded-xl shadow-md p-4 mt-3">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-4 mt-3">
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => setShowRecipeQueue(!showRecipeQueue)}
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${
                   showRecipeQueue
                     ? "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10"
                 }`}
               >
                 📋 Recipe Queue {queueSize > 0 && `(${queueSize})`}
@@ -299,7 +305,7 @@ function MenuPlannerContent() {
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${
                   showRecipeBrowser
                     ? "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10"
                 }`}
               >
                 🔍 Browse Recipes
@@ -310,7 +316,7 @@ function MenuPlannerContent() {
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${
                   showPosso
                     ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:shadow-lg"
-                    : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+                    : "bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20 border border-emerald-300/30"
                 }`}
               >
                 🛒 Pantry Meals (Posso)
@@ -360,7 +366,7 @@ function MenuPlannerContent() {
                 className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
                   syncWithLunarCycle
                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10"
                 }`}
               >
                 <span>{syncWithLunarCycle ? "🌕" : "🌑"}</span>
@@ -374,7 +380,7 @@ function MenuPlannerContent() {
                 className={`px-4 py-2 rounded-lg transition-all font-medium flex items-center gap-2 ${
                   showParticipantSelection
                     ? "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "border border-white/10 bg-white/5 text-purple-100 hover:bg-white/10"
                 }`}
               >
                 <span>👥</span>
@@ -467,18 +473,18 @@ function MenuPlannerContent() {
           </div>
         </div>
         {/* Mobile: Suggestions Bottom Sheet */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-amber-200 shadow-xl z-40">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0d0918]/95 backdrop-blur-xl border-t border-amber-300/30 shadow-xl z-40">
           <button
             onClick={() => setShowMobileSuggestions(!showMobileSuggestions)}
-            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none bg-gradient-to-r from-amber-50 to-orange-50"
+            className="w-full flex items-center justify-between px-4 py-3 focus:outline-none bg-white/[0.03]"
           >
             <div className="flex items-center gap-2">
               <span className="text-base">✨</span>
-              <span className="font-bold text-gray-800 text-sm">
+              <span className="font-bold text-purple-100 text-sm">
                 Smart Suggestions
               </span>
             </div>
-            <span className="text-amber-600 font-bold">
+            <span className="text-amber-300 font-bold">
               {showMobileSuggestions ? "▼" : "▲"}
             </span>
           </button>
@@ -518,21 +524,21 @@ function MenuPlannerContent() {
         />
         {/* New: Participant Selection Modal */}
         {showParticipantSelection && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
-              <div className="p-6 border-b border-gray-200">
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#120b22] border border-white/10 rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+              <div className="p-6 border-b border-white/10">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-2xl font-bold text-purple-50">
                     Add Guest Alchemists
                   </h2>
                   <button
                     onClick={() => setShowParticipantSelection(false)}
-                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                    className="text-purple-300/60 hover:text-purple-100 text-2xl"
                   >
                     ×
                   </button>
                 </div>
-                <p className="text-gray-600 mt-1">
+                <p className="text-purple-200/60 mt-1">
                   Select saved charts to include in collective planning.
                 </p>
               </div>
@@ -540,7 +546,7 @@ function MenuPlannerContent() {
               <div className="p-6 overflow-y-auto max-h-[60vh]">
                 {loadingSavedCharts && <p>Loading saved charts...</p>}
                 {errorSavedCharts && (
-                  <p className="text-red-500">Error: {errorSavedCharts}</p>
+                  <p className="text-red-400">Error: {errorSavedCharts}</p>
                 )}
                 {!loadingSavedCharts &&
                   !errorSavedCharts &&
@@ -549,7 +555,7 @@ function MenuPlannerContent() {
                       {savedCharts.map((chart) => (
                         <label
                           key={chart.id}
-                          className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"
+                          className="flex items-center p-3 border border-white/10 rounded-lg cursor-pointer hover:bg-white/5"
                         >
                           <input
                             type="checkbox"
@@ -570,30 +576,30 @@ function MenuPlannerContent() {
                             }}
                             className="form-checkbox h-5 w-5 text-purple-600"
                           />
-                          <span className="ml-3 text-gray-800 font-medium">
+                          <span className="ml-3 text-purple-100 font-medium">
                             {chart.label} (Born:{" "}
                             {new Date(
                               chart.birthData.dateTime,
                             ).toLocaleDateString()}
                             )
                           </span>
-                          <span className="ml-auto text-sm text-gray-500">
+                          <span className="ml-auto text-sm text-purple-300/50">
                             {chart.isPrimary ? "Primary" : ""}
                           </span>
                         </label>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-gray-600">
+                    <p className="text-purple-200/60">
                       No saved charts found. Add charts from your profile.
                     </p>
                   ))}
               </div>
 
-              <div className="p-6 border-t border-gray-200 bg-gray-50 flex justify-end gap-3">
+              <div className="p-6 border-t border-white/10 bg-white/[0.03] flex justify-end gap-3">
                 <button
                   onClick={() => setShowParticipantSelection(false)}
-                  className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors"
+                  className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-purple-100 transition-colors"
                 >
                   Done
                 </button>
@@ -603,16 +609,16 @@ function MenuPlannerContent() {
         )}
         {/* Statistics Modal */}
         {showStats && weeklyStats && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
-              <div className="p-6 border-b border-gray-200">
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#120b22] border border-white/10 rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+              <div className="p-6 border-b border-white/10">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-2xl font-bold text-purple-50">
                     Weekly Statistics
                   </h2>
                   <button
                     onClick={() => setShowStats(false)}
-                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                    className="text-purple-300/60 hover:text-purple-100 text-2xl"
                   >
                     ×
                   </button>
@@ -621,30 +627,30 @@ function MenuPlannerContent() {
 
               <div className="p-6 overflow-y-auto max-h-[60vh]">
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="p-4 rounded-lg bg-blue-50 border-2 border-blue-200">
-                    <p className="text-sm text-blue-600 font-medium">
+                  <div className="p-4 rounded-lg bg-sky-400/10 border border-sky-300/30">
+                    <p className="text-sm text-sky-300 font-medium">
                       Total Meals
                     </p>
-                    <p className="text-3xl font-bold text-blue-700">
+                    <p className="text-3xl font-bold text-sky-200">
                       {weeklyStats.totalMeals}
                     </p>
                   </div>
-                  <div className="p-4 rounded-lg bg-purple-50 border-2 border-purple-200">
-                    <p className="text-sm text-purple-600 font-medium">
+                  <div className="p-4 rounded-lg bg-purple-400/10 border border-purple-300/30">
+                    <p className="text-sm text-purple-300 font-medium">
                       Unique Recipes
                     </p>
-                    <p className="text-3xl font-bold text-purple-700">
+                    <p className="text-3xl font-bold text-purple-200">
                       {weeklyStats.totalRecipes}
                     </p>
                   </div>
                 </div>
 
                 {weeklyStats.missingMeals.length > 0 && (
-                  <div className="mb-6 p-4 rounded-lg bg-yellow-50 border-2 border-yellow-200">
-                    <p className="font-medium text-yellow-800 mb-2">
+                  <div className="mb-6 p-4 rounded-lg bg-amber-400/10 border border-amber-300/30">
+                    <p className="font-medium text-amber-200 mb-2">
                       Missing Meals ({weeklyStats.missingMeals.length})
                     </p>
-                    <ul className="text-sm text-yellow-700 space-y-1">
+                    <ul className="text-sm text-amber-300/80 space-y-1">
                       {weeklyStats.missingMeals.map((missing, idx) => (
                         <li key={idx}>
                           Day {missing.dayOfWeek} - {missing.mealType}
@@ -654,7 +660,7 @@ function MenuPlannerContent() {
                   </div>
                 )}
 
-                <div className="text-center text-gray-400 mt-6">
+                <div className="text-center text-purple-300/40 mt-6">
                   <p className="text-sm">
                     Fill in more meals to unlock richer elemental insights.
                   </p>
@@ -665,17 +671,17 @@ function MenuPlannerContent() {
         )}
         {/* Save Template Modal */}
         {showSaveTemplate && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#120b22] border border-white/10 rounded-xl shadow-2xl max-w-md w-full">
+              <div className="p-6 border-b border-white/10">
+                <h2 className="text-2xl font-bold text-purple-50">
                   Save as Template
                 </h2>
               </div>
 
               <div className="p-6">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="block mb-2 text-sm font-medium text-gray-700">
+                <label className="block mb-2 text-sm font-medium text-purple-200">
                   Template Name
                 </label>
                 <input
@@ -683,14 +689,14 @@ function MenuPlannerContent() {
                   value={templateName}
                   onChange={(e) => setTemplateName(e.target.value)}
                   placeholder="e.g., My Balanced Week"
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none"
+                  className="w-full px-4 py-2 border border-white/15 bg-white/5 text-purple-50 placeholder:text-purple-300/40 rounded-lg focus:border-amber-300/60 focus:outline-none"
                 />
               </div>
 
-              <div className="p-6 border-t border-gray-200 bg-gray-50 flex gap-3">
+              <div className="p-6 border-t border-white/10 bg-white/[0.03] flex gap-3">
                 <button
                   onClick={() => setShowSaveTemplate(false)}
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors"
+                  className="flex-1 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-purple-100 transition-colors"
                 >
                   Cancel
                 </button>
@@ -707,10 +713,10 @@ function MenuPlannerContent() {
 
         {/* Share to Feed Modal */}
         {showShareModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">
+          <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+            <div className="bg-[#120b22] border border-white/10 rounded-xl shadow-2xl max-w-md w-full">
+              <div className="p-6 border-b border-white/10">
+                <h2 className="text-2xl font-bold text-purple-50">
                   Share Menu to Feed
                 </h2>
               </div>
@@ -718,7 +724,7 @@ function MenuPlannerContent() {
               <div className="p-6 space-y-4">
                 <div>
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                  <label className="block mb-2 text-sm font-medium text-purple-200">
                     Menu Description/Title
                   </label>
                   <input
@@ -726,28 +732,28 @@ function MenuPlannerContent() {
                     value={shareTitle}
                     onChange={(e) => setShareTitle(e.target.value)}
                     placeholder="e.g., My Saturn-aligned Autumn Feast"
-                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-gray-900 bg-white"
+                    className="w-full px-4 py-2 border border-white/15 bg-white/5 text-purple-50 placeholder:text-purple-300/40 rounded-lg focus:border-amber-300/60 focus:outline-none"
                   />
                 </div>
 
-                <label className="flex items-center space-x-3 cursor-pointer p-2 bg-purple-50 rounded-lg border border-purple-100">
+                <label className="flex items-center space-x-3 cursor-pointer p-2 bg-purple-400/10 rounded-lg border border-purple-300/20">
                   <input
                     type="checkbox"
                     checked={shareNameOptIn}
                     onChange={(e) => setShareNameOptIn(e.target.checked)}
                     className="form-checkbox h-5 w-5 text-purple-600 rounded"
                   />
-                  <span className="text-sm font-semibold text-purple-900">
+                  <span className="text-sm font-semibold text-purple-100">
                     Opt-in to share my name (defaults to Anonymous Alchemist)
                   </span>
                 </label>
               </div>
 
-              <div className="p-6 border-t border-gray-200 bg-gray-50 flex gap-3">
+              <div className="p-6 border-t border-white/10 bg-white/[0.03] flex gap-3">
                 <button
                   onClick={() => setShowShareModal(false)}
                   disabled={isSharing}
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors font-semibold text-gray-700"
+                  className="flex-1 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors font-semibold text-purple-100"
                 >
                   Cancel
                 </button>
@@ -763,7 +769,7 @@ function MenuPlannerContent() {
           </div>
         )}
         {/* Footer Info */}
-        <div className="mt-12 mb-16 lg:mb-0 text-center text-sm text-gray-500">
+        <div className="mt-12 mb-16 lg:mb-0 text-center text-sm text-purple-300/40">
           <p className="mb-2">
             Powered by alchemical harmony and real-time planetary calculations
           </p>

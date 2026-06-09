@@ -67,24 +67,24 @@ function getMealTypeColors(mealType: MealType): {
   const colors: Record<MealType, { bg: string; border: string; text: string }> =
     {
       breakfast: {
-        bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
-        border: "border-orange-300",
-        text: "text-orange-700",
+        bg: "bg-gradient-to-br from-amber-400/15 to-yellow-500/5",
+        border: "border-amber-300/30",
+        text: "text-amber-200",
       },
       lunch: {
-        bg: "bg-gradient-to-br from-blue-50 to-cyan-50",
-        border: "border-blue-300",
-        text: "text-blue-700",
+        bg: "bg-gradient-to-br from-emerald-400/15 to-teal-500/5",
+        border: "border-emerald-300/30",
+        text: "text-emerald-200",
       },
       dinner: {
-        bg: "bg-gradient-to-br from-purple-50 to-indigo-50",
-        border: "border-purple-300",
-        text: "text-purple-700",
+        bg: "bg-gradient-to-br from-purple-400/20 to-indigo-500/10",
+        border: "border-purple-300/40",
+        text: "text-purple-200",
       },
       snack: {
-        bg: "bg-gradient-to-br from-green-50 to-emerald-50",
-        border: "border-green-300",
-        text: "text-green-700",
+        bg: "bg-gradient-to-br from-cyan-400/15 to-sky-500/5",
+        border: "border-cyan-300/30",
+        text: "text-cyan-200",
       },
     };
   return colors[mealType];
@@ -113,17 +113,17 @@ function EmptyMealSlot({
       <p className={`text-sm font-medium mb-1 ${colors.text}`}>
         Add {mealType}
       </p>
-      <p className="text-xs text-gray-500 mb-2">{characteristics.guidance}</p>
+      <p className="text-xs text-purple-200/50 mb-2">{characteristics.guidance}</p>
       <div className="flex gap-2">
         <button
-          className={`px-3 py-1 text-xs rounded-lg border-2 ${colors.border} ${colors.bg} hover:shadow-md transition-all duration-200`}
+          className={`px-3 py-1 text-xs rounded-lg border ${colors.border} ${colors.bg} ${colors.text} hover:shadow-[0_0_16px_rgba(251,191,36,0.15)] transition-all duration-200`}
           onClick={onClick}
         >
           + Add Recipe
         </button>
         {onGenerate && (
           <button
-            className="px-3 py-1 text-xs rounded-lg border-2 border-amber-300 bg-gradient-to-r from-amber-50 to-yellow-50 text-amber-700 hover:shadow-md hover:border-amber-400 transition-all duration-200"
+            className="px-3 py-1 text-xs rounded-lg border border-amber-300/40 bg-amber-400/10 text-amber-200 hover:bg-amber-400/20 hover:border-amber-300/60 transition-all duration-200"
             onClick={onGenerate}
             title={`Auto-generate ${mealType} suggestion`}
           >
@@ -208,20 +208,20 @@ function RecipeDisplay({
             {recipe.name}
           </h4>
           {recipe.cuisine && (
-            <p className="text-xs text-gray-500 truncate">{recipe.cuisine}</p>
+            <p className="text-xs text-purple-200/50 truncate">{recipe.cuisine}</p>
           )}
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={onCopyMeal}
-            className="text-gray-400 hover:text-purple-600 transition-colors text-sm"
+            className="text-purple-200/50 hover:text-amber-300 transition-colors text-sm"
             title="Copy/Move to other slots"
           >
             📋
           </button>
           <button
             onClick={onRemove}
-            className="text-gray-400 hover:text-red-600 transition-colors"
+            className="text-purple-200/50 hover:text-red-400 transition-colors"
             title="Remove recipe"
           >
             ×
@@ -230,28 +230,28 @@ function RecipeDisplay({
       </div>
       {/* Servings Control */}
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-xs text-gray-600">Servings:</span>
+        <span className="text-xs text-purple-200/60">Servings:</span>
         <div className="flex items-center gap-1">
           <button
             onClick={() => onUpdateServings?.(Math.max(1, servings - 1))}
-            className="w-5 h-5 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xs"
+            className="w-5 h-5 rounded bg-white/10 hover:bg-white/20 text-purple-100 flex items-center justify-center text-xs"
             disabled={servings <= 1}
           >
             −
           </button>
-          <span className="w-6 text-center text-sm font-medium">
+          <span className="w-6 text-center text-sm font-medium text-purple-100">
             {servings}
           </span>
           <button
             onClick={() => onUpdateServings?.(servings + 1)}
-            className="w-5 h-5 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-xs"
+            className="w-5 h-5 rounded bg-white/10 hover:bg-white/20 text-purple-100 flex items-center justify-center text-xs"
           >
             +
           </button>
         </div>
       </div>
       {/* Quick Info */}
-      <div className="text-xs text-gray-600 space-y-1 mb-2">
+      <div className="text-xs text-purple-200/60 space-y-1 mb-2">
         {recipe.prepTime && recipe.prepTime !== "0" && (
           <div className="flex items-center gap-1">
             <span>⏱️</span>
@@ -262,7 +262,7 @@ function RecipeDisplay({
       {/* Environmental Match Indicator */}
       {recipe.isEnvironmentalMatch && (
         <div
-          className="flex items-center gap-1 text-xs text-green-700 mb-2 cursor-pointer"
+          className="flex items-center gap-1 text-xs text-emerald-300 mb-2 cursor-pointer"
           title={
             recipe.environmentalMatchDetails ||
             "This recipe aligns with current environmental energies!"
@@ -276,7 +276,7 @@ function RecipeDisplay({
       {/* Lunar Oracle Badge */}
       {recipe.optimal_cooking_window && (
         <div
-          className="flex items-center gap-1 text-xs text-blue-700 mb-2"
+          className="flex items-center gap-1 text-xs text-sky-300 mb-2"
           title={`Best cooked between ${recipe.optimal_cooking_window.start_time} - ${parseInt(recipe.optimal_cooking_window.start_time, 10) + 3}:00 for maximum Lunar affinity.`}
         >
           <span>🌕</span>
@@ -350,13 +350,13 @@ function RecipeDisplay({
       {/* Expand/Collapse Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="text-xs text-gray-500 hover:text-gray-700 mt-auto"
+        className="text-xs text-purple-300/60 hover:text-purple-200 mt-auto"
       >
         {isExpanded ? "Show less ↑" : "Show more ↓"}
       </button>
       {/* Expanded Details */}
       {isExpanded && (
-        <div className="mt-2 pt-2 border-t border-gray-200 text-xs text-gray-600">
+        <div className="mt-2 pt-2 border-t border-white/10 text-xs text-purple-200/70">
           {recipe.description && (
             <p className="mb-2 line-clamp-3">{recipe.description}</p>
           )}
@@ -364,13 +364,13 @@ function RecipeDisplay({
           {/* Ingredients */}
           {recipe.ingredients && recipe.ingredients.length > 0 && (
             <div className="mb-3">
-              <p className="font-medium mb-1 text-gray-700">
+              <p className="font-medium mb-1 text-purple-100">
                 Ingredients ({recipe.ingredients.length}):
               </p>
-              <ul className="list-none space-y-0.5 max-h-32 overflow-y-auto bg-gray-50 rounded p-2">
+              <ul className="list-none space-y-0.5 max-h-32 overflow-y-auto bg-white/5 rounded p-2">
                 {recipe.ingredients.slice(0, 6).map((ing, idx) => (
                   <li key={idx} className="flex items-center gap-1">
-                    <span className="text-purple-500">•</span>
+                    <span className="text-amber-300/80">•</span>
                     <span className="truncate">
                       {ing.amount
                         ? `${Number(ing.amount) * servings} ${ing.unit || ""} `
@@ -380,7 +380,7 @@ function RecipeDisplay({
                   </li>
                 ))}
                 {recipe.ingredients.length > 6 && (
-                  <li className="text-purple-600 font-medium">
+                  <li className="text-purple-300 font-medium">
                     +{recipe.ingredients.length - 6} more ingredients...
                   </li>
                 )}
@@ -391,17 +391,17 @@ function RecipeDisplay({
           {/* Instructions Preview */}
           {recipe.instructions && recipe.instructions.length > 0 && (
             <div className="mb-3">
-              <p className="font-medium mb-1 text-gray-700">
+              <p className="font-medium mb-1 text-purple-100">
                 Steps ({recipe.instructions.length}):
               </p>
-              <ol className="list-decimal list-inside space-y-0.5 bg-gray-50 rounded p-2">
+              <ol className="list-decimal list-inside space-y-0.5 bg-white/5 rounded p-2">
                 {recipe.instructions.slice(0, 2).map((step, idx) => (
-                  <li key={idx} className="truncate text-gray-600">
+                  <li key={idx} className="truncate text-purple-200/70">
                     {step}
                   </li>
                 ))}
                 {recipe.instructions.length > 2 && (
-                  <li className="text-purple-600 font-medium list-none">
+                  <li className="text-purple-300 font-medium list-none">
                     +{recipe.instructions.length - 2} more steps...
                   </li>
                 )}
@@ -412,7 +412,7 @@ function RecipeDisplay({
           {/* View Full Recipe Link */}
           <Link
             href={`/recipes/${recipe.id || encodeURIComponent(recipe.name)}`}
-            className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-lg font-medium hover:bg-purple-200 transition-all"
+            className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-400/15 text-purple-200 rounded-lg font-medium hover:bg-purple-400/25 transition-all"
           >
             <span>📖</span>
             View Full Recipe
@@ -547,12 +547,12 @@ export default function MealSlot({
   return (
     <div
       className={`
-        relative rounded-lg border-2 p-3
+        relative rounded-xl border-2 p-3 backdrop-blur-md
         ${colors.bg} ${colors.border}
-        ${hasRecipe ? "hover:shadow-lg" : "hover:shadow-md"}
+        ${hasRecipe ? "hover:shadow-[0_0_24px_rgba(251,191,36,0.12)]" : "hover:shadow-[0_0_18px_rgba(168,85,247,0.12)]"}
         transition-all duration-200
         ${isDragging ? "opacity-50 scale-95" : ""}
-        ${isDragOver || isDropTarget ? (isDropValid ? "border-green-500 scale-[1.02] shadow-lg bg-green-50/30" : "border-red-400 bg-red-50/30") : ""}
+        ${isDragOver || isDropTarget ? (isDropValid ? "border-emerald-400 scale-[1.02] shadow-[0_0_20px_rgba(52,211,153,0.25)] bg-emerald-400/10" : "border-red-400 bg-red-400/10") : ""}
         min-h-[200px] h-full
       `}
       draggable={hasRecipe}
@@ -563,7 +563,7 @@ export default function MealSlot({
       onDragEnd={handleDragEnd}
     >
       {/* Meal Type Header */}
-      <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-gray-200">
+      <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-white/10">
         <div className="flex items-center gap-2">
           <span className="text-xl">{getMealTypeIcon(mealSlot.mealType)}</span>
           <span className={`text-sm font-semibold capitalize ${colors.text}`}>
@@ -593,15 +593,15 @@ export default function MealSlot({
 
       {/* Sauce Section */}
       {hasRecipe && (
-        <div className="mt-2 pt-2 border-t border-gray-200">
+        <div className="mt-2 pt-2 border-t border-white/10">
           {hasSauce ? (
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                <span className="text-xs text-amber-600 font-medium truncate">
+                <span className="text-xs text-amber-300 font-medium truncate">
                   + {mealSlot.sauce!.name}
                 </span>
                 {mealSlot.sauce!.nutritionalProfile?.calories && (
-                  <span className="text-[10px] text-gray-400">
+                  <span className="text-[10px] text-purple-300/50">
                     +{Math.round((mealSlot.sauce!.nutritionalProfile.calories || 0) * (mealSlot.sauce!.servings || 1))} cal
                   </span>
                 )}
@@ -609,22 +609,22 @@ export default function MealSlot({
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => onUpdateSauceServings?.(Math.max(0.5, (mealSlot.sauce!.servings || 1) - 0.5))}
-                  className="w-4 h-4 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-[10px]"
+                  className="w-4 h-4 rounded bg-white/10 hover:bg-white/20 text-purple-100 flex items-center justify-center text-[10px]"
                 >
                   -
                 </button>
-                <span className="w-6 text-center text-[10px] font-medium">
+                <span className="w-6 text-center text-[10px] font-medium text-purple-100">
                   {mealSlot.sauce!.servings || 1}x
                 </span>
                 <button
                   onClick={() => onUpdateSauceServings?.((mealSlot.sauce!.servings || 1) + 0.5)}
-                  className="w-4 h-4 rounded bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-[10px]"
+                  className="w-4 h-4 rounded bg-white/10 hover:bg-white/20 text-purple-100 flex items-center justify-center text-[10px]"
                 >
                   +
                 </button>
                 <button
                   onClick={onRemoveSauce}
-                  className="text-gray-400 hover:text-red-500 ml-1 text-xs"
+                  className="text-purple-300/50 hover:text-red-400 ml-1 text-xs"
                   title="Remove sauce"
                 >
                   x
@@ -634,7 +634,7 @@ export default function MealSlot({
           ) : (
             <button
               onClick={() => setShowSauceSelector(true)}
-              className="w-full text-xs text-amber-600 hover:text-amber-700 hover:bg-amber-50 py-1 rounded transition-colors"
+              className="w-full text-xs text-amber-300 hover:text-amber-200 hover:bg-amber-400/10 py-1 rounded transition-colors"
             >
               + Add Sauce
             </button>
@@ -644,7 +644,7 @@ export default function MealSlot({
 
       {/* Planetary Indicator (subtle) */}
       <div
-        className="absolute top-2 right-2 text-xs text-gray-400"
+        className="absolute top-2 right-2 text-xs text-amber-300/60"
         title={`Ruled by ${mealSlot.planetarySnapshot.dominantPlanet}`}
       >
         {mealSlot.planetarySnapshot.dominantPlanet === "Sun" && "🝇"}
