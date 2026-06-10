@@ -28,6 +28,12 @@ import { resolveAsin } from "@/data/amazon";
 import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
 import { isLiveCartEnabled } from "@/lib/spacetime/config";
 import type { GroceryCartItem as StdbCartRow } from "@/lib/spacetime/generated/types";
+import {
+  eligibleForDeletion,
+  loadPushedEntries,
+  savePushedEntries,
+  type PushedEntry,
+} from "@/lib/spacetime/pushedState";
 
 const STORAGE_KEY = "alchm:grocery-cart:v2";
 
@@ -303,9 +309,27 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
   const [stdbApplied, setStdbApplied] = useState(false);
   const isLiveSynced =
     liveCartEnabled && stdbApplied && stdbStatus === "connected";
-  /** Signature of the last value this session pushed, per item key. */
-  const lastPushedRef = useRef<Map<string, string>>(new Map());
+  /**
+   * What this device last pushed, per item key — persisted per SpacetimeDB
+   * identity so deletions made elsewhere while this device was offline are
+   * recognized on the next session instead of being resurrected.
+   */
+  const lastPushedRef = useRef<Map<string, PushedEntry>>(new Map());
+  const pushedStorageKeyRef = useRef<string | null>(null);
   const cartSyncTrackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!liveCartEnabled || !identityHex) return;
+    const storageKey = `alchm:grocery-cart:stdb-pushed:v1:${identityHex}`;
+    pushedStorageKeyRef.current = storageKey;
+    lastPushedRef.current = loadPushedEntries(storageKey);
+  }, [liveCartEnabled, identityHex]);
+
+  const persistPushed = () => {
+    if (pushedStorageKeyRef.current) {
+      savePushedEntries(pushedStorageKeyRef.current, lastPushedRef.current);
+    }
+  };
 
   const itemSignature = (item: {
     name: string;
@@ -381,28 +405,32 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
           };
           if (!local) {
             next.push(adopted);
-            lastPushedRef.current.set(row.itemKey, sig);
+            lastPushedRef.current.set(row.itemKey, { s: sig, t: Date.now() });
             changed = true;
           } else if (
             itemSignature(local) !== sig &&
-            lastPushedRef.current.get(row.itemKey) !== itemSignature(local)
+            lastPushedRef.current.get(row.itemKey)?.s !== itemSignature(local)
           ) {
             // Remote changed and local isn't ahead of it — adopt remote.
             next = next.map((item) => (item.id === row.itemKey ? adopted : item));
-            lastPushedRef.current.set(row.itemKey, sig);
+            lastPushedRef.current.set(row.itemKey, { s: sig, t: Date.now() });
             changed = true;
           }
         }
 
-        // Remote deletions of keys this session had pushed.
-        for (const key of [...lastPushedRef.current.keys()]) {
+        // Remote deletions of keys this device had pushed (including in
+        // earlier sessions, via the persisted map). The grace window keeps
+        // an in-flight or rejected push from reading as a deletion.
+        for (const [key, entry] of [...lastPushedRef.current.entries()]) {
           if (!remoteKeys.has(key) && byKey.has(key)) {
+            if (!eligibleForDeletion(entry)) continue;
             next = next.filter((item) => item.id !== key);
             lastPushedRef.current.delete(key);
             changed = true;
           }
         }
 
+        if (changed) persistPushed();
         return changed ? next : prev;
       });
     };
@@ -443,9 +471,10 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
     if (!isLiveSynced || !connection) return;
     const timer = setTimeout(() => {
       const current = new Map(items.map((item) => [item.id, item]));
+      let dirty = false;
       for (const [key, item] of current) {
         const sig = itemSignature(item);
-        if (lastPushedRef.current.get(key) === sig) continue;
+        if (lastPushedRef.current.get(key)?.s === sig) continue;
         if (!(item.quantity > 0)) continue;
         void connection.reducers.cartUpsertItem({
           itemKey: key,
@@ -457,14 +486,17 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
           asin: item.asin ?? "",
           recipeRefs: item.recipeIds,
         });
-        lastPushedRef.current.set(key, sig);
+        lastPushedRef.current.set(key, { s: sig, t: Date.now() });
+        dirty = true;
       }
       for (const key of [...lastPushedRef.current.keys()]) {
         if (!current.has(key)) {
           void connection.reducers.cartRemoveItem({ itemKey: key });
           lastPushedRef.current.delete(key);
+          dirty = true;
         }
       }
+      if (dirty) persistPushed();
     }, 500);
     return () => clearTimeout(timer);
   }, [items, isLiveSynced, connection]);

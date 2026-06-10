@@ -8,8 +8,11 @@
 //!
 //! Ownership: every row carries an `Identity` column that reducers always set
 //! from `ctx.sender`, never from client arguments, so a client can only write
-//! rows it owns. Tables are `public` (reads are open; the app's data here is
-//! not sensitive) — row-level visibility filters are a follow-up.
+//! rows it owns. Tables are `public` for reads: SpacetimeDB 2.4.1's
+//! `client_visibility_filter` is explicitly unimplemented/unenforced upstream
+//! (feature-gated `unstable` with a TODO), so owner-private reads remain a
+//! tracked follow-up rather than a decorative filter. Clients filter by
+//! identity; nothing sensitive lives in these rows.
 
 use spacetimedb::{Identity, Timestamp};
 
