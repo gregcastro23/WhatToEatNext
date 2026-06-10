@@ -15,14 +15,17 @@ import type {
   BirthData,
   CompositeNatalChart,
   GroupMember,
+  NatalChart,
 } from "@/types/natalChart";
 import type { FoursquarePlace } from "@/types/restaurant";
 
 // ─── Shared request/response types ──────────────────────────
 
 export interface GuestInput {
+  id?: string;
   name: string;
   birthData: BirthData;
+  natalChart?: NatalChart | null;
 }
 
 export interface GuestRecommendationResponse {
@@ -153,7 +156,10 @@ export async function searchNearbyRestaurants(
   try {
     const res = await fetch(`/api/restaurants/search?${qs.toString()}`);
     if (!res.ok) return [];
-    const data = (await res.json()) as { success?: boolean; results?: FoursquarePlace[] };
+    const data = (await res.json()) as {
+      success?: boolean;
+      results?: FoursquarePlace[];
+    };
     if (data?.success !== true) return [];
     return data.results ?? [];
   } catch {

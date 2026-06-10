@@ -82,7 +82,12 @@ const stubComposite = {
 const stubRecipeResult = {
   recommendations: [
     {
-      recipe: { id: "r1", name: "Spicy Test Dish", ingredients: [], instructions: [] },
+      recipe: {
+        id: "r1",
+        name: "Spicy Test Dish",
+        ingredients: [],
+        instructions: [],
+      },
       score: 0.85,
       scoreBreakdown: {
         nutritionalGap: 0.5,
@@ -141,11 +146,7 @@ beforeEach(() => {
 
 describe("POST /api/commensal/guest-recommendations", () => {
   it("returns composite, recipes, methods, and cuisine recs for a 3-guest group", async () => {
-    const guests = [
-      makeGuest("Alice"),
-      makeGuest("Bob"),
-      makeGuest("Carol"),
-    ];
+    const guests = [makeGuest("Alice"), makeGuest("Bob"), makeGuest("Carol")];
     const res = await POST(makeRequest({ guests }));
     const data = await res.json();
 
@@ -185,6 +186,51 @@ describe("POST /api/commensal/guest-recommendations", () => {
     );
   });
 
+  it("uses a supplied companion chart in the composite without recalculating it", async () => {
+    const savedChart = {
+      ...stubNatalChart,
+      dominantElement: "Water",
+      elementalBalance: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+    };
+    const guest = {
+      ...makeGuest("Saved Friend"),
+      id: "manual-001",
+      natalChart: savedChart,
+    };
+
+    const res = await POST(makeRequest({ guests: [guest] }));
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(calculateNatalChart).not.toHaveBeenCalled();
+    expect(calculateCompositeNatalChart).toHaveBeenCalledWith(
+      [
+        expect.objectContaining({
+          id: "manual-001",
+          name: "Saved Friend",
+          natalChart: expect.objectContaining({
+            dominantElement: "Water",
+            elementalBalance: expect.objectContaining({ Water: 0.6 }),
+          }),
+        }),
+      ],
+      "guest-session",
+    );
+  });
+
+  it("recalculates when a supplied chart is incomplete", async () => {
+    const guest = {
+      ...makeGuest("Legacy Friend"),
+      natalChart: { dominantElement: "Earth" },
+    };
+
+    const res = await POST(makeRequest({ guests: [guest] }));
+
+    expect(res.status).toBe(200);
+    expect(calculateNatalChart).toHaveBeenCalledTimes(1);
+  });
+
   it("returns 400 when birthData is missing latitude", async () => {
     const guest = {
       name: "Alice",
@@ -219,9 +265,7 @@ describe("POST /api/commensal/guest-recommendations", () => {
     expect(data.success).toBe(true);
     expect(data.compositeChart.memberCount).toBe(1);
     expect(calculateCompositeNatalChart).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        expect.objectContaining({ name: "Solo" }),
-      ]),
+      expect.arrayContaining([expect.objectContaining({ name: "Solo" })]),
       "guest-session",
     );
   });

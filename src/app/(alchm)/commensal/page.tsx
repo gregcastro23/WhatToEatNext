@@ -1,31 +1,33 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import React, { useState } from 'react';
-import { CompanionSuggestions } from '@/components/commensal/CompanionSuggestions';
-import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
-import { CookingMethodsList } from '@/components/commensal/CookingMethodsList';
-import LiveCommensalLobby from '@/components/commensal/LiveCommensalLobby';
-import { RecommendedRecipeCard } from '@/components/commensal/RecommendedRecipeCard';
-import { RestaurantList } from '@/components/commensal/RestaurantList';
-import { SaveGroupButton } from '@/components/commensal/SaveGroupButton';
-import { SignInPrompt } from '@/components/commensal/SignInPrompt';
+import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { CompanionSuggestions } from "@/components/commensal/CompanionSuggestions";
+import { CompositeEnergyVisualizer } from "@/components/commensal/CompositeEnergyVisualizer";
+import { CookingMethodsList } from "@/components/commensal/CookingMethodsList";
+import LiveCommensalLobby from "@/components/commensal/LiveCommensalLobby";
+import { RecommendedRecipeCard } from "@/components/commensal/RecommendedRecipeCard";
+import { RestaurantList } from "@/components/commensal/RestaurantList";
+import { SaveGroupButton } from "@/components/commensal/SaveGroupButton";
+import { SignInPrompt } from "@/components/commensal/SignInPrompt";
 import {
   CompositeEnergySkeleton,
   MethodsSkeleton,
   RecipeSkeleton,
   RestaurantSkeleton,
-} from '@/components/commensal/skeletons';
-import { LocationSearch } from '@/components/onboarding/LocationSearch';
+} from "@/components/commensal/skeletons";
+import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import {
   useGuestRecommendations,
   type SearchLocation,
-} from '@/hooks/useCommensalRecommendations';
-import type { BirthData } from '@/types/natalChart';
+} from "@/hooks/useCommensalRecommendations";
+import type { BirthData, NatalChart } from "@/types/natalChart";
 
 interface GuestEntry {
+  id?: string;
   name: string;
   birthData: BirthData;
+  natalChart?: NatalChart | null;
 }
 
 interface GuestFormProps {
@@ -35,11 +37,11 @@ interface GuestFormProps {
 
 function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
   const { status: authStatus } = useSession();
-  const [name, setName] = useState('');
-  const [dateTime, setDateTime] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [timezone, setTimezone] = useState('');
+  const [name, setName] = useState("");
+  const [dateTime, setDateTime] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [timezone, setTimezone] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -57,54 +59,61 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
       setErrorMsg(null);
       setSuccessMsg(null);
 
-      if (authStatus === 'authenticated') {
+      if (authStatus === "authenticated") {
         setLoading(true);
         void (async () => {
           try {
-            const res = await fetch('/api/user/commensals', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+            const res = await fetch("/api/user/commensals", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 name,
-                relationship: 'friend',
+                relationship: "friend",
                 birthData: data,
               }),
             });
             const result = await res.json();
             if (!res.ok || !result.success) {
-              throw new Error(result.message || 'Failed to save companion chart');
+              throw new Error(
+                result.message || "Failed to save companion chart",
+              );
             }
 
             // Companion saved successfully!
-            setSuccessMsg(`✓ Saved ${name}! Quest complete: Earned 20 Matter tokens.`);
-            
+            setSuccessMsg(
+              `✓ Saved ${name}! Quest complete: Earned 20 Matter tokens.`,
+            );
+
             // Trigger global token widget update
-            if (typeof window !== 'undefined') {
-              window.dispatchEvent(new Event('tokenEconomy:updated'));
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new Event("tokenEconomy:updated"));
             }
 
             // Call parent to add guest to the local recommendation list
             onAdd(name, data);
-            
+
             // Trigger companion suggestions tab reload
             if (onCompanionSaved) onCompanionSaved();
 
             // Reset fields
-            setName('');
-            setDateTime('');
-            setLatitude('');
-            setLongitude('');
-            setTimezone('');
+            setName("");
+            setDateTime("");
+            setLatitude("");
+            setLongitude("");
+            setTimezone("");
           } catch (err: any) {
             console.error(err);
-            setErrorMsg(err.message || 'Saved companion locally instead due to a temporary error.');
+            setErrorMsg(
+              err.message ||
+                "Saved companion locally instead due to a temporary error.",
+            );
             // Fallback to local-only guest addition so user can still compute recommendations
             onAdd(name, data);
-            setName('');
-            setDateTime('');
-            setLatitude('');
-            setLongitude('');
-            setTimezone('');
+            setName("");
+            setDateTime("");
+            setLatitude("");
+            setLongitude("");
+            setTimezone("");
           } finally {
             setLoading(false);
           }
@@ -112,12 +121,14 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
       } else {
         // Fallback for anonymous users: add locally
         onAdd(name, data);
-        setSuccessMsg(`Added locally. Sign in to save permanently & earn 20 Matter tokens!`);
-        setName('');
-        setDateTime('');
-        setLatitude('');
-        setLongitude('');
-        setTimezone('');
+        setSuccessMsg(
+          `Added locally. Sign in to save permanently & earn 20 Matter tokens!`,
+        );
+        setName("");
+        setDateTime("");
+        setLatitude("");
+        setLongitude("");
+        setTimezone("");
       }
     }
   };
@@ -132,13 +143,19 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
           Add Commensal
         </h3>
         <p className="text-[11px] text-purple-300/60 leading-relaxed">
-          Input your dining guest or any moment of alignment to compute alchemical compatibility.
+          Input your dining guest or any moment of alignment to compute
+          alchemical compatibility.
         </p>
       </div>
 
       <div className="space-y-3">
         <div>
-          <label htmlFor="commensal-name" className="block text-xs text-white/50 mb-1">Name / Moment Identifier</label>
+          <label
+            htmlFor="commensal-name"
+            className="block text-xs text-white/50 mb-1"
+          >
+            Name / Moment Identifier
+          </label>
           <input
             id="commensal-name"
             type="text"
@@ -151,7 +168,12 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
           />
         </div>
         <div>
-          <label htmlFor="commensal-datetime" className="block text-xs text-white/50 mb-1">Birth date &amp; time *</label>
+          <label
+            htmlFor="commensal-datetime"
+            className="block text-xs text-white/50 mb-1"
+          >
+            Birth date &amp; time *
+          </label>
           <input
             id="commensal-datetime"
             type="datetime-local"
@@ -163,7 +185,9 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
           />
         </div>
         <div>
-          <div className="block text-xs text-white/50 mb-1">Birth location *</div>
+          <div className="block text-xs text-white/50 mb-1">
+            Birth location *
+          </div>
           <LocationSearch
             onLocationSelect={(loc) => {
               setLatitude(loc.latitude.toString());
@@ -181,7 +205,7 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
         disabled={loading || !name || !dateTime || !latitude || !longitude}
         className="w-full py-2.5 bg-gradient-to-r from-alchm-copper to-alchm-violet text-white text-sm font-bold rounded-lg hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
       >
-        {loading ? 'Calculating heavens & saving...' : 'Add guest & Save Chart'}
+        {loading ? "Calculating heavens & saving..." : "Add guest & Save Chart"}
       </button>
 
       {successMsg && (
@@ -201,7 +225,9 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
 
 export default function CommensalPage() {
   const [guests, setGuests] = useState<GuestEntry[]>([]);
-  const [searchLocation, setSearchLocation] = useState<SearchLocation | null>(null);
+  const [searchLocation, setSearchLocation] = useState<SearchLocation | null>(
+    null,
+  );
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const {
@@ -213,6 +239,7 @@ export default function CommensalPage() {
     savableGuests,
     error: errorMessage,
     run,
+    reset,
   } = useGuestRecommendations();
 
   const generateRecommendations = () => {
@@ -220,25 +247,52 @@ export default function CommensalPage() {
     void run({ guests, location: searchLocation });
   };
 
-  const handleInviteCompanion = (name: string, birthData: BirthData) => {
-    if (guests.some((g) => g.name.toLowerCase() === name.toLowerCase())) return;
-    setGuests((prev) => [...prev, { name, birthData }]);
+  const handleInviteCompanion = (
+    id: string,
+    name: string,
+    birthData: BirthData,
+    natalChart: NatalChart | null,
+  ) => {
+    if (
+      guests.some(
+        (guest) =>
+          guest.id === id || guest.name.toLowerCase() === name.toLowerCase(),
+      )
+    ) {
+      return;
+    }
+    setGuests((prev) => [...prev, { id, name, birthData, natalChart }]);
   };
 
   const removeGuest = (idx: number) => {
     setGuests((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const showSkeletons = phase === 'composing' || phase === 'scoring';
-  const showRestaurantSkeleton = phase === 'searching';
+  // Keep the composite and recommendations synchronized with the actual
+  // dinner party. The hook ignores stale responses when members change again.
+  useEffect(() => {
+    if (guests.length === 0) {
+      reset();
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      void run({ guests, location: searchLocation });
+    }, 250);
+
+    return () => window.clearTimeout(timeout);
+  }, [guests, reset, run, searchLocation]);
+
+  const showSkeletons = phase === "composing" || phase === "scoring";
+  const showRestaurantSkeleton = phase === "searching";
   const buttonLabel =
-    phase === 'composing'
-      ? 'Synthesizing cosmos…'
-      : phase === 'scoring'
-        ? 'Scoring recipes…'
-        : phase === 'searching'
-          ? 'Finding restaurants…'
-          : 'Generate real-time recommendations';
+    phase === "composing"
+      ? "Synthesizing cosmos…"
+      : phase === "scoring"
+        ? "Scoring recipes…"
+        : phase === "searching"
+          ? "Finding restaurants…"
+          : "Generate real-time recommendations";
 
   return (
     <div className="min-h-screen bg-transparent text-white p-4 md:p-8">
@@ -283,7 +337,7 @@ export default function CommensalPage() {
                 <ul className="space-y-2">
                   {guests.map((g, idx) => (
                     <li
-                      key={`${g.name}-${idx}`}
+                      key={g.id || `${g.name}-${idx}`}
                       className="flex justify-between items-center bg-white/5 border border-white/5 px-3 py-2 rounded-lg"
                     >
                       <span className="font-medium text-sm text-white/90">
@@ -325,7 +379,12 @@ export default function CommensalPage() {
 
             <button
               onClick={() => void generateRecommendations()}
-              disabled={guests.length === 0 || phase === 'composing' || phase === 'scoring' || phase === 'searching'}
+              disabled={
+                guests.length === 0 ||
+                phase === "composing" ||
+                phase === "scoring" ||
+                phase === "searching"
+              }
               className="w-full py-4 bg-gradient-to-r from-alchm-copper to-alchm-violet text-white font-bold rounded-lg hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-alchm-violet/20"
             >
               {buttonLabel}
@@ -337,14 +396,14 @@ export default function CommensalPage() {
               </div>
             )}
 
-            {phase === 'done' && composite && savableGuests.length > 0 && (
+            {phase === "done" && composite && savableGuests.length > 0 && (
               <>
                 <SaveGroupButton
                   guests={savableGuests.map((g) => ({
                     name: g.name,
                     birthData: g.birthData,
                     natalChart: g.natalChart,
-                    relationship: 'friend',
+                    relationship: "friend",
                   }))}
                   defaultGroupName={`${composite.dominantElement} group · ${new Date().toLocaleDateString()}`}
                 />
@@ -362,22 +421,24 @@ export default function CommensalPage() {
               </>
             )}
 
-            {composite && phase !== 'composing' && phase !== 'scoring' && (
+            {composite && phase !== "composing" && phase !== "scoring" && (
               <CompositeEnergyVisualizer composite={composite} />
             )}
 
-            {composite && cookingMethods.length > 0 && phase !== 'composing' && (
-              <CookingMethodsList methods={cookingMethods} />
-            )}
+            {composite &&
+              cookingMethods.length > 0 &&
+              phase !== "composing" && (
+                <CookingMethodsList methods={cookingMethods} />
+              )}
 
-            {recipes.length > 0 && phase !== 'composing' && (
+            {recipes.length > 0 && phase !== "composing" && (
               <div className="space-y-4">
                 <RecommendedRecipeCard scored={recipes[0]} />
                 {recipes.length > 1 && (
                   <details className="glass-card-premium rounded-2xl p-5 border border-white/10">
                     <summary className="cursor-pointer text-sm font-semibold text-white/90">
                       {recipes.length - 1} more recipe match
-                      {recipes.length - 1 === 1 ? '' : 'es'}
+                      {recipes.length - 1 === 1 ? "" : "es"}
                     </summary>
                     <div className="mt-4 space-y-3">
                       {recipes.slice(1).map((r) => (
@@ -395,14 +456,14 @@ export default function CommensalPage() {
 
             {showRestaurantSkeleton && <RestaurantSkeleton />}
 
-            {phase === 'done' && restaurants.length > 0 && searchLocation && (
+            {phase === "done" && restaurants.length > 0 && searchLocation && (
               <RestaurantList
                 restaurants={restaurants}
                 locationLabel={searchLocation.displayName}
               />
             )}
 
-            {phase === 'idle' && !composite && (
+            {phase === "idle" && !composite && (
               <div className="glass-card-premium rounded-3xl p-8 border border-white/10 text-center">
                 <p className="text-white/70">
                   Add at least one guest, then generate recommendations to see
