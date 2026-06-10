@@ -1,16 +1,26 @@
 "use client";
 
 /**
- * useSpacetimePlannerSync — mirrors the weekly meal plan into the
+ * useSpacetimePlannerSync — syncs the weekly meal plan with the
  * `meal_plan_slot` table (gated by NEXT_PUBLIC_SPACETIME_LIVE_PLANNER).
  *
- * Direction: one-way write-mirror with scoped deletes. Every local change to
- * the planner (set / move / swap / clear / servings / locks — all visible as
- * `currentMenu.meals` diffs) converges the user's remote rows via the
- * owner-scoped reducers. Deletes are only issued for slots *this session*
- * previously pushed, so a second device with an empty local plan can never
- * wipe rows written elsewhere. Remote→local application (true multi-master)
- * is a documented follow-up — see docs/adr/008-spacetimedb-live-state.md.
+ * Write path: every local change to the planner (set / move / swap / clear /
+ * servings / locks — all visible as `currentMenu.meals` diffs) converges the
+ * user's remote rows via the owner-scoped reducers.
+ *
+ * Read path (remote→local): the safe subset of remote changes is applied to
+ * local state — slot *removals*, *servings* changes, and *lock* changes for
+ * slots whose recipe matches. Remote *additions/replacements* can't be
+ * applied without rehydrating a full recipe object from `recipe_ref`, so
+ * they're surfaced as `unappliedRemoteSlots` instead of guessed at.
+ *
+ * Safety rails:
+ *  - The "what this device pushed" map persists per SpacetimeDB identity
+ *    (localStorage), so deletions made elsewhere while this device was
+ *    offline are recognized — and an empty plan on a brand-new device still
+ *    can never wipe rows it didn't write.
+ *  - A missing remote row only counts as a remote deletion after a grace
+ *    window, so an in-flight or rejected push is never misread as one.
  *
  * Falls back silently: when the flag is off or the connection is anything
  * but "connected", the hook is inert and the planner behaves exactly as the
@@ -25,6 +35,12 @@ import {
   MEAL_TYPE_INDEX,
   weekEpochDay,
 } from "@/lib/spacetime/mealPlanMapping";
+import {
+  eligibleForDeletion,
+  loadPushedEntries,
+  savePushedEntries,
+  type PushedEntry,
+} from "@/lib/spacetime/pushedState";
 import type { WeeklyMenu } from "@/types/menuPlanner";
 
 interface DesiredSlot {
@@ -37,16 +53,43 @@ interface DesiredSlot {
   locked: boolean;
 }
 
+interface LocalSlotRef extends DesiredSlot {
+  /** The planner context's slot id, for applying remote changes locally. */
+  localSlotId: string;
+}
+
+/** The planner-context actions the remote→local path needs. */
+export interface PlannerSyncActions {
+  removeMealFromSlot: (mealSlotId: string) => Promise<void>;
+  updateMealServings: (mealSlotId: string, servings: number) => Promise<void>;
+  lockMeal: (mealSlotId: string) => void;
+  unlockMeal: (mealSlotId: string) => void;
+}
+
 export interface PlannerSyncState {
   /** True when the flag is on, the connection is up, and rows are flowing. */
   live: boolean;
   /** The user's slot rows currently held in the module. */
   liveSlotCount: number;
+  /**
+   * Remote slots (other devices) that exist but can't be materialized
+   * locally yet — additions/replacements pending catalog rehydration.
+   */
+  unappliedRemoteSlots: number;
 }
 
-function desiredFromMenu(menu: WeeklyMenu | null): Map<string, DesiredSlot> {
-  const desired = new Map<string, DesiredSlot>();
-  if (!menu) return desired;
+function slotSignature(slot: DesiredSlot): string {
+  return JSON.stringify([
+    slot.recipeRef,
+    slot.recipeName,
+    slot.servings,
+    slot.locked,
+  ]);
+}
+
+function localSlotsFromMenu(menu: WeeklyMenu | null): Map<string, LocalSlotRef> {
+  const local = new Map<string, LocalSlotRef>();
+  if (!menu) return local;
   const week = weekEpochDay(menu.weekStartDate);
   for (const slot of menu.meals) {
     if (!slot.recipe) continue;
@@ -56,7 +99,7 @@ function desiredFromMenu(menu: WeeklyMenu | null): Map<string, DesiredSlot> {
     const recipeName = (recipe.name ?? "").toString().trim();
     if (!recipeName) continue;
     const key = `${week}|${slot.dayOfWeek}|${meal}`;
-    desired.set(key, {
+    local.set(key, {
       week,
       day: slot.dayOfWeek,
       meal,
@@ -64,36 +107,60 @@ function desiredFromMenu(menu: WeeklyMenu | null): Map<string, DesiredSlot> {
       recipeName: recipeName.slice(0, 250),
       servings: slot.servings > 0 ? slot.servings : 1,
       locked: Boolean(slot.isLocked),
+      localSlotId: slot.id,
     });
   }
-  return desired;
+  return local;
 }
 
 export function useSpacetimePlannerSync(
   currentMenu: WeeklyMenu | null,
+  actions: PlannerSyncActions,
 ): PlannerSyncState {
   const enabled = isLivePlannerEnabled();
   const { connection, status, identityHex } = useSpacetime();
   const [applied, setApplied] = useState(false);
   const [liveSlotCount, setLiveSlotCount] = useState(0);
-  const lastPushedRef = useRef<Map<string, DesiredSlot>>(new Map());
+  const [unappliedRemoteSlots, setUnappliedRemoteSlots] = useState(0);
+  /** Bumped on every remote row event so the apply effect re-runs. */
+  const [remoteVersion, setRemoteVersion] = useState(0);
+  const pushedRef = useRef<Map<string, PushedEntry>>(new Map());
+  const storageKeyRef = useRef<string | null>(null);
   const trackedRef = useRef(false);
+  const actionsRef = useRef(actions);
+  actionsRef.current = actions;
+
+  // Hydrate the durable pushed-map for this identity.
+  useEffect(() => {
+    if (!enabled || !identityHex) return;
+    const storageKey = `alchm:planner:stdb-pushed:v1:${identityHex}`;
+    storageKeyRef.current = storageKey;
+    pushedRef.current = loadPushedEntries(storageKey);
+  }, [enabled, identityHex]);
+
+  const persistPushed = () => {
+    if (storageKeyRef.current) {
+      savePushedEntries(storageKeyRef.current, pushedRef.current);
+    }
+  };
 
   // Subscription: the user's slot rows (filtered client-side by identity).
   useEffect(() => {
     if (!enabled || status !== "connected" || !connection || !identityHex) {
       setApplied(false);
       setLiveSlotCount(0);
+      setUnappliedRemoteSlots(0);
       return;
     }
 
-    const refreshCount = () => {
+    const refresh = () => {
       try {
         let count = 0;
         for (const row of connection.db.meal_plan_slot.iter()) {
           if (row.owner.toHexString() === identityHex) count += 1;
         }
         setLiveSlotCount(count);
+        setRemoteVersion((v) => v + 1);
       } catch {
         // Raced a disconnect; status change resets state.
       }
@@ -103,7 +170,7 @@ export function useSpacetimePlannerSync(
       .subscriptionBuilder()
       .onApplied(() => {
         setApplied(true);
-        refreshCount();
+        refresh();
         if (!trackedRef.current) {
           trackedRef.current = true;
           track("spacetime_planner_sync_attached");
@@ -111,16 +178,16 @@ export function useSpacetimePlannerSync(
       })
       .subscribe(["SELECT * FROM meal_plan_slot"]);
 
-    connection.db.meal_plan_slot.onInsert(refreshCount);
-    connection.db.meal_plan_slot.onUpdate(refreshCount);
-    connection.db.meal_plan_slot.onDelete(refreshCount);
+    connection.db.meal_plan_slot.onInsert(refresh);
+    connection.db.meal_plan_slot.onUpdate(refresh);
+    connection.db.meal_plan_slot.onDelete(refresh);
 
     return () => {
       setApplied(false);
       try {
-        connection.db.meal_plan_slot.removeOnInsert(refreshCount);
-        connection.db.meal_plan_slot.removeOnUpdate(refreshCount);
-        connection.db.meal_plan_slot.removeOnDelete(refreshCount);
+        connection.db.meal_plan_slot.removeOnInsert(refresh);
+        connection.db.meal_plan_slot.removeOnUpdate(refresh);
+        connection.db.meal_plan_slot.removeOnDelete(refresh);
         subscription.unsubscribe();
       } catch {
         // Connection already torn down.
@@ -134,7 +201,7 @@ export function useSpacetimePlannerSync(
     if (!identityHex) return;
 
     const timer = setTimeout(() => {
-      const desired = desiredFromMenu(currentMenu);
+      const desired = localSlotsFromMenu(currentMenu);
 
       const remote = new Map<
         string,
@@ -154,6 +221,7 @@ export function useSpacetimePlannerSync(
         return;
       }
 
+      let dirty = false;
       for (const [key, slot] of desired) {
         const existing = remote.get(key);
         const changed =
@@ -180,24 +248,114 @@ export function useSpacetimePlannerSync(
             locked: slot.locked,
           });
         }
-      }
-
-      // Scoped deletes: only retract slots this session previously pushed.
-      for (const [key, slot] of lastPushedRef.current) {
-        if (!desired.has(key) && remote.has(key)) {
-          void connection.reducers.clearMealPlanSlot({
-            weekEpochDay: slot.week,
-            dayOfWeek: slot.day,
-            mealType: slot.meal,
-          });
+        const sig = slotSignature(slot);
+        if (pushedRef.current.get(key)?.s !== sig) {
+          pushedRef.current.set(key, { s: sig, t: Date.now() });
+          dirty = true;
         }
       }
 
-      lastPushedRef.current = desired;
+      // Scoped deletes: only retract slots this device previously pushed.
+      for (const [key] of pushedRef.current) {
+        if (!desired.has(key) && remote.has(key)) {
+          const [week, day, meal] = key.split("|").map(Number);
+          void connection.reducers.clearMealPlanSlot({
+            weekEpochDay: week,
+            dayOfWeek: day,
+            mealType: meal,
+          });
+          pushedRef.current.delete(key);
+          dirty = true;
+        } else if (!desired.has(key) && !remote.has(key)) {
+          pushedRef.current.delete(key);
+          dirty = true;
+        }
+      }
+
+      if (dirty) persistPushed();
     }, 600);
 
     return () => clearTimeout(timer);
   }, [enabled, applied, status, connection, identityHex, currentMenu]);
 
-  return { live: enabled && applied && status === "connected", liveSlotCount };
+  // Remote→local application: removals + servings/locks for matching slots.
+  useEffect(() => {
+    if (!enabled || !applied || status !== "connected" || !connection) return;
+    if (!identityHex) return;
+
+    const local = localSlotsFromMenu(currentMenu);
+    const remote = new Map<
+      string,
+      { recipeRef: string; servings: number; locked: boolean }
+    >();
+    try {
+      for (const row of connection.db.meal_plan_slot.iter()) {
+        if (row.owner.toHexString() !== identityHex) continue;
+        remote.set(`${row.weekEpochDay}|${row.dayOfWeek}|${row.mealType}`, {
+          recipeRef: row.recipeRef,
+          servings: row.servings,
+          locked: row.locked,
+        });
+      }
+    } catch {
+      return;
+    }
+
+    let unapplied = 0;
+    let dirty = false;
+
+    for (const [key, slot] of local) {
+      const remoteSlot = remote.get(key);
+      const pushed = pushedRef.current.get(key);
+      if (!remoteSlot) {
+        // Cleared on another device — apply locally, but only when this
+        // device's push is old enough that "missing" can't be an in-flight
+        // or rejected write of our own.
+        if (eligibleForDeletion(pushed)) {
+          void actionsRef.current.removeMealFromSlot(slot.localSlotId);
+          pushedRef.current.delete(key);
+          dirty = true;
+        }
+        continue;
+      }
+      if (remoteSlot.recipeRef !== slot.recipeRef) {
+        // Replaced with a different dish elsewhere — needs catalog
+        // rehydration to materialize; surface instead of guessing.
+        unapplied += 1;
+        continue;
+      }
+      if (Math.abs(remoteSlot.servings - slot.servings) > 1e-6) {
+        void actionsRef.current.updateMealServings(
+          slot.localSlotId,
+          remoteSlot.servings,
+        );
+      }
+      if (remoteSlot.locked !== slot.locked) {
+        if (remoteSlot.locked) actionsRef.current.lockMeal(slot.localSlotId);
+        else actionsRef.current.unlockMeal(slot.localSlotId);
+      }
+    }
+
+    // Remote rows with no local counterpart: additions from other devices.
+    for (const key of remote.keys()) {
+      if (!local.has(key)) unapplied += 1;
+    }
+
+    setUnappliedRemoteSlots(unapplied);
+    if (dirty) persistPushed();
+  }, [
+    enabled,
+    applied,
+    status,
+    connection,
+    identityHex,
+    currentMenu,
+    remoteVersion,
+  ]);
+
+  return {
+    live: enabled && applied && status === "connected",
+    liveSlotCount,
+    unappliedRemoteSlots,
+  };
 }

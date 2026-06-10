@@ -90,3 +90,35 @@ and no user data is lost when it is absent.
   regenerating `src/lib/spacetime/generated/` (`spacetime generate
   --lang typescript --module-path spacetime-module --out-dir
   src/lib/spacetime/generated`) in the same PR.
+
+## Update (2026-06-10) — v1.1 sync upgrades
+
+Three of the v1 limits above are now closed; one is blocked upstream:
+
+- **Planner remote→local application (partial) — shipped.** Slot *removals*,
+  *servings* changes, and *lock* changes made on other devices now apply to
+  local state (for slots whose `recipe_ref` matches). Remote *additions and
+  dish replacements* still require rehydrating a full recipe object from
+  `recipe_ref`; they are surfaced honestly as an "N elsewhere" count on the
+  sync badge rather than guessed at. Full materialization via catalog lookup
+  remains the follow-up.
+- **Durable push-state (tombstone-equivalent) — shipped.** The planner and
+  cart "what this device pushed" maps now persist to localStorage per
+  SpacetimeDB identity (`src/lib/spacetime/pushedState.ts`), so deletions
+  made elsewhere while a device was offline are recognized on its next
+  session instead of being resurrected. A grace window (10s) prevents an
+  in-flight or rejected push from being misread as a remote deletion.
+- **Feed dual-write — shipped, client-side.** User shares now publish to the
+  live `feed_event` table in addition to the Postgres write
+  (`src/lib/spacetime/liveFeedPublish.ts`, wired into the planner's
+  share-to-feed flow). Client-side is deliberate: the module stamps
+  `actor = ctx.sender`, so events must travel over the user's own connection
+  for attribution to be correct. Agent/server-originated events remain
+  poll-only until a server-identity strategy exists.
+- **Row-level visibility filters — blocked upstream, deliberately not
+  shipped.** SpacetimeDB 2.4.1's `client_visibility_filter` is feature-gated
+  `unstable` and documented by the SDK itself as "currently unimplemented,
+  and not enforced". Shipping it would compile but protect nothing.
+  Owner-private reads stay a tracked follow-up for a SpacetimeDB upgrade;
+  clients filter by identity in the meantime and no sensitive data lives in
+  these rows.

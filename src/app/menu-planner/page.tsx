@@ -10,6 +10,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
@@ -23,8 +24,11 @@ import {
     RecipeQueueProvider,
     useRecipeQueue,
 } from "@/contexts/RecipeQueueContext";
+import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
+import { isLiveFeedEnabled } from "@/lib/spacetime/config";
+import { publishLiveFeedEvent } from "@/lib/spacetime/liveFeedPublish";
 import type { SavedChart } from "@/types/natalChart";
 import type { Recipe } from "@/types/recipe";
 
@@ -212,6 +216,19 @@ function MenuPlannerContent() {
           const rewardQuest = data.completedQuests[0];
           questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
         }
+        // Dual-write to the live feed so connected clients see the share
+        // instantly (Postgres via /api/feed/share stays the source of truth).
+        if (isLiveFeedEnabled() && stdbConnection && stdbStatus === "connected") {
+          publishLiveFeedEvent(stdbConnection, {
+            actorName: shareNameOptIn ? (authSession?.user?.name ?? "") : "",
+            eventType: "shared_menu",
+            payload: {
+              menuTitle: shareTitle.trim() || "a weekly menu",
+              weekStartDate: currentMenu.weekStartDate,
+              mealCount,
+            },
+          });
+        }
         showSuccess(`Successfully shared to community feed!${questMessage}`);
         setShowShareModal(false);
       } else {
@@ -301,9 +318,11 @@ function MenuPlannerContent() {
 
   const [activeElementFilter, setActiveElementFilter] = useState<"fire" | "water" | "earth" | "air" | null>(null);
 
-  // Mirrors the plan into SpacetimeDB when the live-planner flag is on;
-  // inert (and invisible) otherwise.
-  const plannerSync = useSpacetimePlannerSync(currentMenu);
+  // Syncs the plan with SpacetimeDB when the live-planner flag is on
+  // (write-mirror + safe remote→local application); inert otherwise.
+  const plannerSync = useSpacetimePlannerSync(currentMenu, menuPlannerActions);
+  const { connection: stdbConnection, status: stdbStatus } = useSpacetime();
+  const { data: authSession } = useSession();
 
   return (
     <div className="lab min-h-screen text-on-surface select-none pb-24">
@@ -320,9 +339,15 @@ function MenuPlannerContent() {
             {plannerSync.live && (
               <span
                 className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-gold-accent/30 bg-gold-accent/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-gold-accent"
-                title="Weekly plan is mirrored to SpacetimeDB in real time"
+                title={
+                  plannerSync.unappliedRemoteSlots > 0
+                    ? `Weekly plan syncs in real time. ${plannerSync.unappliedRemoteSlots} slot(s) planned on other devices can't be shown yet — recipes pending catalog rehydration.`
+                    : "Weekly plan syncs with SpacetimeDB in real time — removals, servings, and locks apply across devices"
+                }
               >
                 ⚡ plan sync live · {plannerSync.liveSlotCount} slots
+                {plannerSync.unappliedRemoteSlots > 0 &&
+                  ` · ${plannerSync.unappliedRemoteSlots} elsewhere`}
               </span>
             )}
           </div>
