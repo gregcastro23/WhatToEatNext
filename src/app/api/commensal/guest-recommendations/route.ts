@@ -23,8 +23,10 @@ const birthDataSchema = z
   .passthrough();
 
 const guestSchema = z.object({
+  id: z.string().trim().min(1).max(200).optional(),
   name: z.string().trim().min(1, "name is required").max(120),
   birthData: birthDataSchema,
+  natalChart: z.unknown().optional(),
 });
 
 const bodySchema = z.object({
@@ -38,7 +40,9 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       const first = parsed.error.issues[0];
       const path = first?.path.join(".") || "request";
-      const message = first ? `${path}: ${first.message}` : "Invalid request payload";
+      const message = first
+        ? `${path}: ${first.message}`
+        : "Invalid request payload";
       return NextResponse.json(
         {
           success: false,
@@ -60,11 +64,20 @@ export async function POST(req: Request) {
     // the guest chart computations so we don't pay for them in serial.
     const [selfMember, natalCharts] = await Promise.all([
       loadAuthenticatedSelfMember(),
-      Promise.all(guests.map((g) => calculateNatalChart(g.birthData))),
+      Promise.all(
+        guests.map((guest) =>
+          isUsableNatalChart(guest.natalChart)
+            ? Promise.resolve({
+                ...guest.natalChart,
+                birthData: guest.birthData,
+              })
+            : calculateNatalChart(guest.birthData),
+        ),
+      ),
     ]);
 
     const commensalMembers: GroupMember[] = guests.map((guest, i) => ({
-      id: `commensal_${i}`,
+      id: guest.id || `commensal_${i}`,
       name: guest.name,
       relationship: "friend",
       birthData: guest.birthData,
@@ -145,10 +158,21 @@ function isCompleteBirthData(value: unknown): value is BirthData {
 function isUsableNatalChart(value: unknown): value is NatalChart {
   if (!value || typeof value !== "object") return false;
   const c = value as Partial<NatalChart>;
+  const elements = ["Fire", "Water", "Earth", "Air"] as const;
+  const alchemical = ["Spirit", "Essence", "Matter", "Substance"] as const;
   return (
     !!c.planetaryPositions &&
+    typeof c.planetaryPositions === "object" &&
+    Array.isArray(c.planets) &&
+    typeof c.ascendant === "string" &&
+    typeof c.dominantElement === "string" &&
+    elements.includes(c.dominantElement) &&
+    typeof c.dominantModality === "string" &&
+    ["Cardinal", "Fixed", "Mutable"].includes(c.dominantModality) &&
     !!c.elementalBalance &&
-    !!c.alchemicalProperties
+    elements.every((key) => Number.isFinite(c.elementalBalance?.[key])) &&
+    !!c.alchemicalProperties &&
+    alchemical.every((key) => Number.isFinite(c.alchemicalProperties?.[key]))
   );
 }
 

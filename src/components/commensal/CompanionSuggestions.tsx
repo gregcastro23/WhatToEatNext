@@ -1,8 +1,17 @@
 "use client";
 
-import { Users, Sparkles, Flame, Droplets, Wind, Mountain, Compass, Loader2 } from "lucide-react";
+import {
+  Users,
+  Sparkles,
+  Flame,
+  Droplets,
+  Wind,
+  Mountain,
+  Compass,
+  Loader2,
+} from "lucide-react";
 import React, { useState, useEffect } from "react";
-import type { BirthData } from "@/types/natalChart";
+import type { BirthData, NatalChart } from "@/types/natalChart";
 
 interface Companion {
   userId: string;
@@ -12,7 +21,7 @@ interface Companion {
   dominantElement: "Fire" | "Water" | "Air" | "Earth" | string;
   monicaConstant: number | null;
   birthData: BirthData;
-  natalChart: any;
+  natalChart: NatalChart | null;
   activation?: {
     strength: number;
     dignity: string;
@@ -24,8 +33,13 @@ interface Companion {
 }
 
 interface CompanionSuggestionsProps {
-  onInvite: (name: string, birthData: BirthData) => void;
-  activeGuests: Array<{ name: string }>;
+  onInvite: (
+    id: string,
+    name: string,
+    birthData: BirthData,
+    natalChart: NatalChart | null,
+  ) => void;
+  activeGuests: Array<{ id?: string; name: string }>;
   refreshTrigger?: number;
 }
 
@@ -40,7 +54,8 @@ const ELEMENT_BORDER: Record<string, string> = {
   Fire: "border-orange-500/20 hover:border-orange-500/40 focus:ring-orange-500/30",
   Water: "border-blue-500/20 hover:border-blue-500/40 focus:ring-blue-500/30",
   Air: "border-purple-500/20 hover:border-purple-500/40 focus:ring-purple-500/30",
-  Earth: "border-green-500/20 hover:border-green-500/40 focus:ring-green-500/30",
+  Earth:
+    "border-green-500/20 hover:border-green-500/40 focus:ring-green-500/30",
 };
 
 const ELEMENT_GLOW: Record<string, string> = {
@@ -50,30 +65,45 @@ const ELEMENT_GLOW: Record<string, string> = {
   Earth: "shadow-[0_0_15px_-3px_rgba(34,197,94,0.15)]",
 };
 
-export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 0 }: CompanionSuggestionsProps) {
+export function CompanionSuggestions({
+  onInvite,
+  activeGuests,
+  refreshTrigger = 0,
+}: CompanionSuggestionsProps) {
   const [activeAgents, setActiveAgents] = useState<Companion[]>([]);
   const [historicalAgents, setHistoricalAgents] = useState<Companion[]>([]);
   const [cosmicRoster, setCosmicRoster] = useState<Companion[]>([]);
   const [savedCompanions, setSavedCompanions] = useState<Companion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"moment" | "feed" | "roster" | "saved">("moment");
+  const [degraded, setDegraded] = useState(false);
+  const [activeTab, setActiveTab] = useState<
+    "moment" | "feed" | "roster" | "saved"
+  >("moment");
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function loadCompanions() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch("/api/commensal/companions");
-        if (!res.ok) throw new Error("Failed to load dining companions");
-        const data = await res.json();
-        
+        setDegraded(false);
+        const res = await fetch("/api/commensal/companions", {
+          signal: controller.signal,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to load dining companions");
+        }
+
         if (data.success) {
           setActiveAgents(data.activeAgents || []);
           setHistoricalAgents(data.historicalAgents || []);
           setCosmicRoster(data.cosmicRoster || []);
           setSavedCompanions(data.savedCompanions || []);
-          
+          setDegraded(data.degraded === true);
+
           if (data.savedCompanions && data.savedCompanions.length > 0) {
             setActiveTab("saved");
           }
@@ -81,14 +111,18 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
           throw new Error(data.message || "Failed to load dining companions");
         }
       } catch (err) {
+        if (controller.signal.aborted) return;
         console.error("Error loading companions:", err);
-        setError("Unable to retrieve planetary companions. Check back shortly.");
+        setError(
+          "Unable to retrieve planetary companions. Check back shortly.",
+        );
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     }
 
     void loadCompanions();
+    return () => controller.abort();
   }, [refreshTrigger]);
 
   const getActiveList = () => {
@@ -108,9 +142,17 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
           Cosmic Dining Companions
         </h3>
         <p className="text-xs text-purple-300/70 mt-1">
-          Bridge the cosmos by inviting historical sages or active planetary agents to your dining table.
+          Bridge the cosmos by inviting historical sages or active planetary
+          agents to your dining table.
         </p>
       </div>
+
+      {degraded && !error && (
+        <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-400/20 text-[11px] text-amber-100">
+          Some companion sources are temporarily unavailable. You can still add
+          saved or manual charts and build the dinner party.
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex bg-black/40 rounded-lg p-1 border border-white/5 flex-wrap gap-1">
@@ -163,7 +205,9 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16 space-y-2">
             <Loader2 className="w-8 h-8 text-alchm-copper animate-spin" />
-            <span className="text-xs text-purple-300/60">Interrogating the heavens...</span>
+            <span className="text-xs text-purple-300/60">
+              Interrogating the heavens...
+            </span>
           </div>
         ) : error ? (
           <div className="text-center py-12 px-3 border border-red-500/10 rounded-xl bg-red-500/5">
@@ -172,23 +216,29 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
         ) : currentList.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center py-16 px-4">
             <Compass className="w-10 h-10 text-purple-500/20 mb-3" />
-            <h4 className="text-sm font-semibold text-purple-200">No Companions Aligned</h4>
+            <h4 className="text-sm font-semibold text-purple-200">
+              No Companions Aligned
+            </h4>
             <p className="text-xs text-purple-300/50 mt-1 max-w-xs leading-relaxed">
               {activeTab === "moment"
                 ? "No planetary agents are strongly activated at this exact degree under today's sky."
                 : activeTab === "feed"
-                ? "No recent feed broadcasts found. Sync agentic updates from Planetary Agents."
-                : activeTab === "saved"
-                ? "You haven't saved any custom companion charts yet. Add charts using the form to persist them here and earn ESMS tokens!"
-                : "The cosmic roster is currently empty."}
+                  ? "No recent feed broadcasts found. Sync agentic updates from Planetary Agents."
+                  : activeTab === "saved"
+                    ? "You haven't saved any custom companion charts yet. Add charts using the form to persist them here and earn ESMS tokens!"
+                    : "The cosmic roster is currently empty."}
             </p>
           </div>
         ) : (
           currentList.map((agent) => {
             const isAlreadyInvited = activeGuests.some(
-              (g) => g.name.toLowerCase() === agent.name.toLowerCase()
+              (g) =>
+                g.id === agent.userId ||
+                g.name.toLowerCase() === agent.name.toLowerCase(),
             );
-            const borderClass = ELEMENT_BORDER[agent.dominantElement] || "border-white/10 hover:border-white/20";
+            const borderClass =
+              ELEMENT_BORDER[agent.dominantElement] ||
+              "border-white/10 hover:border-white/20";
             const glowClass = ELEMENT_GLOW[agent.dominantElement] || "";
 
             return (
@@ -199,7 +249,9 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
                 <div>
                   <div className="flex items-start justify-between">
                     <div>
-                      <h4 className="text-sm font-bold text-purple-100">{agent.name}</h4>
+                      <h4 className="text-sm font-bold text-purple-100">
+                        {agent.name}
+                      </h4>
                       {agent.activation?.planetaryRuler && (
                         <span className="text-[10px] uppercase font-mono tracking-wider text-purple-400">
                           Ruler: {agent.activation.planetaryRuler}
@@ -207,8 +259,12 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
                       )}
                     </div>
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
-                      {ELEMENT_ICON[agent.dominantElement] || <Sparkles className="w-3 h-3 text-purple-300" />}
-                      <span className="text-[10px] font-semibold text-purple-200">{agent.dominantElement}</span>
+                      {ELEMENT_ICON[agent.dominantElement] || (
+                        <Sparkles className="w-3 h-3 text-purple-300" />
+                      )}
+                      <span className="text-[10px] font-semibold text-purple-200">
+                        {agent.dominantElement}
+                      </span>
                     </div>
                   </div>
                   <p className="text-xs text-purple-300/70 mt-1.5 leading-relaxed line-clamp-2">
@@ -220,12 +276,16 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
                     <div className="mt-2.5 space-y-1">
                       <div className="flex items-center justify-between text-[10px] text-purple-400 font-mono">
                         <span>Alignment: {agent.activation.dignity}</span>
-                        <span>{Math.round(agent.activation.strength * 100)}%</span>
+                        <span>
+                          {Math.round(agent.activation.strength * 100)}%
+                        </span>
                       </div>
                       <div className="w-full bg-white/5 rounded-full h-1 overflow-hidden">
                         <div
                           className="h-full bg-gradient-to-r from-alchm-copper to-alchm-violet rounded-full"
-                          style={{ width: `${agent.activation.strength * 100}%` }}
+                          style={{
+                            width: `${agent.activation.strength * 100}%`,
+                          }}
                         />
                       </div>
                     </div>
@@ -234,13 +294,21 @@ export function CompanionSuggestions({ onInvite, activeGuests, refreshTrigger = 
                   {/* Feed Action Indicator */}
                   {agent.lastActionAt && !agent.activation && (
                     <div className="mt-2 text-[10px] text-purple-400 font-mono">
-                      Last Active: {new Date(agent.lastActionAt).toLocaleDateString()}
+                      Last Active:{" "}
+                      {new Date(agent.lastActionAt).toLocaleDateString()}
                     </div>
                   )}
                 </div>
 
                 <button
-                  onClick={() => onInvite(agent.name, agent.birthData)}
+                  onClick={() =>
+                    onInvite(
+                      agent.userId,
+                      agent.name,
+                      agent.birthData,
+                      agent.natalChart,
+                    )
+                  }
                   disabled={isAlreadyInvited}
                   className={`w-full py-1.5 rounded-lg text-xs font-bold transition-all ${
                     isAlreadyInvited
