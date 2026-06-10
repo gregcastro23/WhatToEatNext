@@ -497,6 +497,11 @@ a {
 
 /* Registration marks (NASA panel corners) */
 .regmarks { position: absolute; inset: 0; pointer-events: none; }
+/* Applied directly to a content panel (alchm-panel regmarks), the marks come
+   from the pseudo-elements alone — the panel must stay in normal flow and
+   interactive, or every real-pointer click inside it falls through to
+   whatever is stacked beneath (planner strip, calendar, modals). */
+.alchm-panel.regmarks { position: relative; inset: auto; pointer-events: auto; }
 .regmarks::before, .regmarks::after,
 .regmarks > i::before, .regmarks > i::after {
   content: "";
