@@ -125,6 +125,16 @@ export function useSpacetimePlannerSync(
   /** Bumped on every remote row event so the apply effect re-runs. */
   const [remoteVersion, setRemoteVersion] = useState(0);
   const pushedRef = useRef<Map<string, PushedEntry>>(new Map());
+  /**
+   * Keys whose slot existed in the local plan at some point THIS session.
+   * Remote deletes are scoped to this set, not the durable map: the local
+   * plan does not persist across reloads (in-memory for guests), so a fresh
+   * page load starts with an empty plan while the durable map still lists
+   * past pushes — issuing deletes from the durable map would wipe the user's
+   * remote plan on every reload. The durable map only serves remote-deletion
+   * recognition and the local-echo guard.
+   */
+  const sessionKeysRef = useRef<Set<string>>(new Set());
   const storageKeyRef = useRef<string | null>(null);
   const trackedRef = useRef(false);
   const actionsRef = useRef(actions);
@@ -249,14 +259,18 @@ export function useSpacetimePlannerSync(
           });
         }
         const sig = slotSignature(slot);
+        sessionKeysRef.current.add(key);
         if (pushedRef.current.get(key)?.s !== sig) {
           pushedRef.current.set(key, { s: sig, t: Date.now() });
           dirty = true;
         }
       }
 
-      // Scoped deletes: only retract slots this device previously pushed.
+      // Scoped deletes: only retract slots that were present in the local
+      // plan during THIS session — a reload's empty plan must never wipe
+      // remote rows recorded in the durable map.
       for (const [key] of pushedRef.current) {
+        if (!sessionKeysRef.current.has(key)) continue;
         if (!desired.has(key) && remote.has(key)) {
           const [week, day, meal] = key.split("|").map(Number);
           void connection.reducers.clearMealPlanSlot({
@@ -265,9 +279,11 @@ export function useSpacetimePlannerSync(
             mealType: meal,
           });
           pushedRef.current.delete(key);
+          sessionKeysRef.current.delete(key);
           dirty = true;
         } else if (!desired.has(key) && !remote.has(key)) {
           pushedRef.current.delete(key);
+          sessionKeysRef.current.delete(key);
           dirty = true;
         }
       }
@@ -322,6 +338,13 @@ export function useSpacetimePlannerSync(
         // Replaced with a different dish elsewhere — needs catalog
         // rehydration to materialize; surface instead of guessing.
         unapplied += 1;
+        continue;
+      }
+      if (pushed !== undefined && pushed.s !== slotSignature(slot)) {
+        // The local slot is ahead of what this device last pushed — a local
+        // edit is still waiting on the debounced write-mirror. Applying the
+        // (stale) remote values now would revert the edit before it ever
+        // reaches the module. Skip; the push will converge remote to local.
         continue;
       }
       if (Math.abs(remoteSlot.servings - slot.servings) > 1e-6) {

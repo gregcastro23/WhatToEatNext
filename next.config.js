@@ -76,6 +76,20 @@ const getSecurityHeaders = () => {
     "https:",
   ];
 
+  // Local SpacetimeDB (ws://) needs both the WebSocket origin and its http://
+  // counterpart in connect-src: the SDK exchanges a stored identity token via
+  // an HTTP POST to /v1/identity/websocket-token before every reconnect.
+  // Production (wss:// + https://) is already covered by the https: source.
+  const spacetimeUri = process.env.NEXT_PUBLIC_SPACETIME_URI;
+  if (spacetimeUri && spacetimeUri.startsWith("ws://")) {
+    try {
+      const origin = new URL(spacetimeUri).origin.replace(/^http:/, "ws:");
+      connectSrcParts.push(origin, origin.replace(/^ws:/, "http:"));
+    } catch {
+      // Malformed URI — the client will surface the connection error.
+    }
+  }
+
   const cspHeader = [
     "default-src 'self'",
     `script-src ${scriptSrcParts.join(" ")}`,
