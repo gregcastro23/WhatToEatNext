@@ -55,6 +55,7 @@ export interface UseMealSlotsReturn {
     mealType: MealType,
     recipe: MonicaOptimizedRecipe,
     servings?: number,
+    locked?: boolean,
   ) => Promise<void>;
   removeMealFromSlot: (mealSlotId: string) => Promise<void>;
   updateMealServings: (mealSlotId: string, servings: number) => Promise<void>;
@@ -112,6 +113,7 @@ export function useMealSlots({
       mealType: MealType,
       recipe: MonicaOptimizedRecipe,
       servings: number = 1,
+      locked?: boolean,
     ) => {
       if (!currentMenu) return;
       try {
@@ -119,7 +121,16 @@ export function useMealSlots({
           if (!prevMenu) return prevMenu;
           const updatedMeals = prevMenu.meals.map((meal) => {
             if (meal.dayOfWeek === dayOfWeek && meal.mealType === mealType) {
-              return { ...meal, recipe, servings, updatedAt: new Date() };
+              return {
+                ...meal,
+                recipe,
+                servings,
+                // `locked` set in the same update as the recipe (remote-slot
+                // materialization) — a follow-up lockMeal() would clobber the
+                // add, since lockMeal rebuilds from the pre-add menu.
+                ...(locked === undefined ? {} : { isLocked: locked }),
+                updatedAt: new Date(),
+              };
             }
             return meal;
           });

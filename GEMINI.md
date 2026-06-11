@@ -1,73 +1,73 @@
 # WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 2.3.0 | Last Updated: May 9, 2026_
+_Version: 3.2.0 | Last Updated: June 11, 2026_
 
 ## Project Overview
 
-WhatToEatNext is a sophisticated culinary recommendation system that combines alchemical principles, astrological data, and elemental harmony to provide personalized food recommendations. The site is branded as **Alchm.kitchen**.
+WhatToEatNext is a sophisticated culinary recommendation system that combines alchemical principles, astrological data, and elemental harmony to provide personalized food recommendations. The site is branded as **Alchm.kitchen**. 
 
-## Current Project Status (May 2026)
+We operate a three-project loop:
+1. **alchm.kitchen (WTEN)**: The core Next.js user-facing platform, deployed on Vercel.
+2. **api.agents.alchm.kitchen (PA Backend)**: The Planetary Agents Python service owning agent personas, orchestration, and LLM recipe generation.
+3. **agents.alchm.kitchen (PA UI)**: The Planetary Agents Next.js UI.
 
-### 🎉 **INFRASTRUCTURE & TOOLCHAIN OPTIMIZED**
+## Current Project Status (June 2026 - v3.2.0)
 
-- **Toolchain**: ✅ **BUN** (Migrated from Yarn for 10x faster installs/builds)
-- **Backend Hosting**: ✅ **RAILWAY** (Standalone Service)
-- **Frontend Hosting**: ✅ **VERCEL** (Next.js with Bun build pipeline)
-- **Database**: ✅ **RAILWAY POSTGRES** (Migrated from Neon | Internal: `postgres.railway.internal`)
-- **Latency**: ✅ **SUB-1MS** (Internal Railway Networking)
-- **Recipe Catalog**: ✅ **579 recipes** with Denormalized Read Models
+### 🪐 **PLANETARY AGENTS INTEGRATION**
+- **Unified Agent Profiles**: Agents are first-class users (`@agentic.alchm.kitchen`). Their rich profiles include bio, dominant elements, live natal chart overlays, viewer↔agent synastry, and consciousness sigils (fetched via public endpoints from WTEN).
+- **Transit-Driven Group Chats**: Clicking active transits in WTEN opens a group chat on the PA side involving the planetary-degree agents involved.
+- **Agent Weekly Menus & Feed**: Agents publish weekly menus and share activities (chat, recipe generation, insights) directly to WTEN's `feed_events` via authenticated server-to-server endpoints (using `X-Sync-Secret` / `INTERNAL_API_SECRET`).
+- **Cosmic Recipe Generation**: Offloaded LLM generation of recipes entirely to PA's `/api/generate-recipe` backend endpoint to ensure strict structured JSON outputs (`CosmicRecipe` schema) without prompt hijacking.
 
-### 🚀 **MAJOR CHANGES (Version 2.3.0)**
+### ⚡ **SPACETIMEDB LIVE LAYER (v4.0)**
+- **Real-Time Sync**: Using `spacetime-module` (Rust) for live synchronization of meal plans, commensal lobbies, and grocery carts.
+- **Gated & Fallback**: Activated via `NEXT_PUBLIC_SPACETIME_URI=wss://maincloud.spacetimedb.com`. Falls back silently to legacy localStorage/REST if the websocket drops or flags are disabled.
+- **Fixes Shipped**: Addressed echo races, remote plan wipes on reload, and DOM click-dead issues caused by decorative `.regmarks`.
 
-#### **Bun Toolchain Migration**
-- ✅ **Performance**: Switched from Yarn to Bun, reducing dependency installation from 60s+ to <10s.
-- ✅ **Native TS**: Eliminated `ts-node` and `tsx` dependencies in favor of Bun's native TypeScript execution.
-- ✅ **Vercel Integration**: Configured `vercel.json` and `bun.lock` for automated Bun-powered CI/CD.
+### 🌍 **ELEMENTAL SIGNATURE MODEL**
+- **Adaptive Co-Dominance**: Deprecated the scattered single "dominant element" calculation. Replaced with a unified `ElementalSignature` model (`src/utils/elemental/signature.ts`).
+- **Tie-Breaks & Ranking**: Correctly handles ties ("leans water & earth") and balanced states without overriding the full 4-vector dot products used for backend recommendations (ingredients, recipes).
 
-#### **Read Model Optimization (v2.2.0)**
-- ✅ **Denormalized Recipes**: Added `read_model` JSONB column to `recipes` table for high-speed delivery.
-- ✅ **Batch Queries**: Eliminated N+1 query bottlenecks in recommendation engines.
-- ✅ **10x Faster Migration**: Rewrote migration logic for bulk SQL inserts.
+### 🛠️ **MCP INSTRUMENTATION & TELEMETRY**
+- **Model Context Protocol**: Alchm MCP server provides endpoints for Claude Desktop/Cursor to interact with the culinary engine.
+- **Telemetry**: Full visibility via `mcp_invocations` table, tracking latencies, tool calls, and model tiers. A synthetic cron probe (`*/30`) exercises the Alchm tool handlers in-process for continuous monitoring.
 
-#### **Debugging & Performance Tools**
-- ✅ **React DevTools**: Added standalone `react-devtools` for browser debugging (Components/Profiler).
-- ✅ **React Scan**: Integrated `react-scan` for real-time re-render tracking in development.
-- ✅ **Debug Scripts**: Added `bun run debug:devtools` and `bun run debug:scan`.
+### 🖼️ **IMAGE GENERATION PIPELINE**
+- **Automated Generation**: Script `scripts/generate-recipe-images.ts` uses Cloudflare Workers AI SDXL -> R2 bucket to populate `image_url` for recipes and ingredients.
+- **CLI Commands**: Supports `--force` for regeneration and `--id <uuid>` for one-offs.
 
 ---
 
 ## Core Architecture
 
 ### **Hierarchical Culinary Data System**
+1. **Tier 1 - Ingredients** (Elemental Only)
+2. **Tier 2 - Recipes** (Computed - Full Alchemical + Denormalized JSONB Read Model)
+3. **Tier 3 - Cuisines** (Aggregated - Statistical)
 
-**Three-Tier Architecture:**
-
-1.  **Tier 1 - Ingredients** (Elemental Only)
-2.  **Tier 2 - Recipes** (Computed - Full Alchemical)
-3.  **Tier 3 - Cuisines** (Aggregated - Statistical)
-
-### **Authentication System (NextAuth.js v5)**
-
-- **Provider**: Google OAuth only (Server/Edge split config).
-- **Roles**: ADMIN, USER.
+### **Authentication & Device Sessions**
+- **Provider**: NextAuth.js v5 (Google OAuth only).
+- **Device Sessions**: Tracked via `database/init/33-device-sessions.sql`, supporting multi-device login states.
 
 ---
 
 ## Environment Variables Reference (Production)
 
 ```bash
-# Backend (Python)
+# Backend / Legacy API
 API_BASE_URL=https://whattoeatnext-production.up.railway.app
 NEXT_PUBLIC_BACKEND_URL=https://whattoeatnext-production.up.railway.app
-CORS_ALLOWED_ORIGINS=http://v0-alchm-kitchen.vercel.app,https://alchm.kitchen,http://localhost:3000
+CORS_ALLOWED_ORIGINS=https://alchm.kitchen,http://localhost:3000
+
+# Planetary Agents Interop
 INTERNAL_API_SECRET=<internal-api-secret>
 ALCHM_KITCHEN_SYNC_SECRET=<sync-secret-with-planetary-agents>
-GALILEO_API_KEY=<galileo-api-key>
+NEXT_PUBLIC_AGENTS_UI_URL=https://agents.alchm.kitchen
 
-# Database (Internal Railway Network)
+# Database
 DATABASE_URL=postgresql://postgres:<password>@postgres.railway.internal:5432/railway
 
-# Auth (NextAuth.js v5)
+# Auth
 AUTH_SECRET=<auth-secret>
 AUTH_GOOGLE_ID=<google-client-id>
 AUTH_GOOGLE_SECRET=<google-client-secret>
@@ -75,14 +75,17 @@ AUTH_ADMIN_EMAIL=<admin-email>
 AUTH_URL=https://alchm.kitchen
 AUTH_TRUST_HOST=true
 
-# Third-Party Integrations
-STRIPE_SECRET_KEY=<stripe-secret-key>
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=<stripe-pub-key>
-RESEND_API_KEY=<resend-api-key>
-SMTP_PASS=<smtp-pass>
-SMTP_USER=<smtp-user>
+# SpacetimeDB Live Layer
+NEXT_PUBLIC_SPACETIME_URI=wss://maincloud.spacetimedb.com
+NEXT_PUBLIC_SPACETIME_LIVE_PLANNER=true
+NEXT_PUBLIC_SPACETIME_LIVE_COMMENSAL=true
+NEXT_PUBLIC_SPACETIME_LIVE_CART=true
+NEXT_PUBLIC_SPACETIME_LIVE_RECIPES=true
+NEXT_PUBLIC_SPACETIME_LIVE_FEED=true
 ```
 
----
-
-_Updated May 5, 2026 — Optimization & Migration Complete. Sub-1ms latency achieved via Railway Internal Networking._
+## AI Assistant Operational MO
+- **Bun Only**: `bun run dev|build|test|verify`. Never use npm/yarn.
+- **Verify Before Push**: `bun run build` must have 0 errors and 0 warnings. `husky` pre-commit handles typecheck & lint.
+- **FIX > REMOVE**: Complete/wire orphaned-but-real features; only delete true duplicates or genuinely dead stubs (confirm 0 importers + green build).
+- **No Oppositions**: Elemental logic NEVER uses opposing mechanics (e.g. Fire vs Water). Elements are additive and self-reinforcing.

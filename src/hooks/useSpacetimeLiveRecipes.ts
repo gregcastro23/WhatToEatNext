@@ -42,13 +42,18 @@ function mapStdbRecipe(row: StdbRecipeRow): Recipe {
   };
 }
 
-export function useSpacetimeLiveRecipes(): Recipe[] {
+/**
+ * @param active Optional gate so callers that only *sometimes* need the live
+ * rows (e.g. recipe_ref rehydration) don't hold the full-table subscription
+ * open the entire time they're mounted.
+ */
+export function useSpacetimeLiveRecipes(active: boolean = true): Recipe[] {
   const { connection, status } = useSpacetime();
   const enabled = isLiveCulinaryEnabled();
   const [rows, setRows] = useState<StdbRecipeRow[]>([]);
 
   useEffect(() => {
-    if (!enabled || status !== "connected" || !connection) {
+    if (!enabled || !active || status !== "connected" || !connection) {
       setRows([]);
       return;
     }
@@ -80,7 +85,7 @@ export function useSpacetimeLiveRecipes(): Recipe[] {
         // Already torn down with the connection.
       }
     };
-  }, [connection, status, enabled]);
+  }, [connection, status, enabled, active]);
 
   return useMemo(() => rows.map(mapStdbRecipe), [rows]);
 }

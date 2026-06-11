@@ -26,6 +26,7 @@ import {
 } from "@/contexts/RecipeQueueContext";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
+import { useRecipeRefResolver } from "@/hooks/useRecipeRefResolver";
 import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
 import { isLiveFeedEnabled } from "@/lib/spacetime/config";
 import { publishLiveFeedEvent } from "@/lib/spacetime/liveFeedPublish";
@@ -318,9 +319,24 @@ function MenuPlannerContent() {
 
   const [activeElementFilter, setActiveElementFilter] = useState<"fire" | "water" | "earth" | "air" | null>(null);
 
+  // Rehydration sources for remote-slot materialization, latched on the
+  // first time the sync layer reports remote slots needing recipes — planner
+  // visits with nothing to rehydrate never pay the static-catalog fetch or
+  // the live recipe-table subscription.
+  const [rehydrationActive, setRehydrationActive] = useState(false);
+  const resolveRecipeRef = useRecipeRefResolver(rehydrationActive);
+
   // Syncs the plan with SpacetimeDB when the live-planner flag is on
-  // (write-mirror + safe remote→local application); inert otherwise.
-  const plannerSync = useSpacetimePlannerSync(currentMenu, menuPlannerActions);
+  // (write-mirror + remote→local application + remote-slot
+  // materialization); inert otherwise.
+  const plannerSync = useSpacetimePlannerSync(
+    currentMenu,
+    menuPlannerActions,
+    resolveRecipeRef,
+  );
+  useEffect(() => {
+    if (plannerSync.unappliedRemoteSlots > 0) setRehydrationActive(true);
+  }, [plannerSync.unappliedRemoteSlots]);
   const { connection: stdbConnection, status: stdbStatus } = useSpacetime();
   const { data: authSession } = useSession();
 
@@ -341,8 +357,8 @@ function MenuPlannerContent() {
                 className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-gold-accent/30 bg-gold-accent/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-gold-accent"
                 title={
                   plannerSync.unappliedRemoteSlots > 0
-                    ? `Weekly plan syncs in real time. ${plannerSync.unappliedRemoteSlots} slot(s) planned on other devices can't be shown yet — recipes pending catalog rehydration.`
-                    : "Weekly plan syncs with SpacetimeDB in real time — removals, servings, and locks apply across devices"
+                    ? `Weekly plan syncs in real time. ${plannerSync.unappliedRemoteSlots} slot(s) planned elsewhere are still rehydrating — they'll appear once their recipes resolve.`
+                    : "Weekly plan syncs with SpacetimeDB in real time — meals planned on other devices appear here as they sync"
                 }
               >
                 ⚡ plan sync live · {plannerSync.liveSlotCount} slots

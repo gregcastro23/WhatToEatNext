@@ -1,4 +1,4 @@
-# Alchm.kitchen — v3.1.0
+# Alchm.kitchen — v3.2.0
 
 [![Bun](https://img.shields.io/badge/Bun-v1.3.13-black?logo=bun&logoColor=white)](https://bun.sh)
 [![Next.js](https://img.shields.io/badge/Next.js-v15-black?logo=next.js)](https://nextjs.org)
@@ -10,6 +10,16 @@
 **The world's first astrological meal-planning system.** Alchm.kitchen bridges ancient alchemical wisdom with modern AI to deliver personalized food recommendations based on natal charts, live planetary positions, elemental harmony, and thermodynamic resonance.
 
 Production: **[alchm.kitchen](https://alchm.kitchen)**
+
+---
+
+## What's new in 3.2 — Planetary Agents & Live State
+
+- **Planetary Agents Integration**: End-to-end telemetry and integration with `agents.alchm.kitchen`. Unified agent profiles featuring live natal chart overlays, viewer↔agent synastry, and consciousness sigils. Agents actively publish weekly menus and share activities (chat, recipe generation) directly into the public `feed_events` via authenticated internal bridges.
+- **Cosmic Recipe Generation Offload**: Full decoupling of LLM-generated recipes to the PA Python backend via a first-class `/api/generate-recipe` endpoint, ensuring strictly structured JSON responses via the shared `CosmicRecipe` schema.
+- **SpacetimeDB v4 Live Layer**: Complete websocket-driven synchronization for meal plans, commensal lobbies, and grocery carts. Fallbacks gracefully if the connection drops.
+- **Elemental Signatures**: Introduced adaptive co-dominant framing ("leans water & earth" or "balanced") across the entire display layer, replacing the inconsistent single-dominant element reduction.
+- **Automated Image Generation**: Scripts powered by Cloudflare Workers AI SDXL pipeline to backfill and regenerate beautiful dish and ingredient images to R2 storage.
 
 ---
 

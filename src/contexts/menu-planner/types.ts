@@ -121,6 +121,7 @@ export interface MenuPlannerContextType {
     mealType: MealType,
     recipe: MonicaOptimizedRecipe,
     servings?: number,
+    locked?: boolean,
   ) => Promise<void>;
   removeMealFromSlot: (mealSlotId: string) => Promise<void>;
   updateMealServings: (mealSlotId: string, servings: number) => Promise<void>;
