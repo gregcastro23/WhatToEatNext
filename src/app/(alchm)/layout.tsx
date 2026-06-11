@@ -1,4 +1,5 @@
 import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
+import CosmicVoidBackground from "@/components/ui/alchm/CosmicVoidBackground";
 import type { ReactNode } from "react";
 
 /**
@@ -27,6 +28,7 @@ export const maxDuration = 30;
 export default function AlchmLayout({ children }: { children: ReactNode }) {
   return (
     <div data-alchm-route="true" className="alchm-root lab">
+      <CosmicVoidBackground intensity="low" />
       {children}
       <AgentsFeedThread />
     </div>

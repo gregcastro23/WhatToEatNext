@@ -8,11 +8,13 @@
  * servings / locks — all visible as `currentMenu.meals` diffs) converges the
  * user's remote rows via the owner-scoped reducers.
  *
- * Read path (remote→local): the safe subset of remote changes is applied to
- * local state — slot *removals*, *servings* changes, and *lock* changes for
- * slots whose recipe matches. Remote *additions/replacements* can't be
- * applied without rehydrating a full recipe object from `recipe_ref`, so
- * they're surfaced as `unappliedRemoteSlots` instead of guessed at.
+ * Read path (remote→local): slot *removals*, *servings* changes, and *lock*
+ * changes apply directly to slots whose recipe matches. Remote *additions*
+ * and *replacements* are materialized into real local meals when the
+ * caller-supplied `resolveRecipeRef` can rehydrate their `recipe_ref` into a
+ * full recipe (static catalog id, exact name, or live "stdb-{id}" row);
+ * whatever doesn't resolve stays surfaced as `unappliedRemoteSlots` instead
+ * of guessed at.
  *
  * Safety rails:
  *  - The "what this device pushed" map persists per SpacetimeDB identity
@@ -21,6 +23,9 @@
  *    can never wipe rows it didn't write.
  *  - A missing remote row only counts as a remote deletion after a grace
  *    window, so an in-flight or rejected push is never misread as one.
+ *  - Session keys (the delete scope) are cleared whenever the local menu
+ *    changes weeks: week navigation swaps the whole plan object, and the
+ *    vacated week's keys must not read as user deletions.
  *
  * Falls back silently: when the flag is off or the connection is anything
  * but "connected", the hook is inert and the planner behaves exactly as the
@@ -30,8 +35,11 @@
 import { track } from "@vercel/analytics";
 import { useEffect, useRef, useState } from "react";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
+import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import type { RecipeRefResolver } from "@/hooks/useRecipeRefResolver";
 import { isLivePlannerEnabled } from "@/lib/spacetime/config";
 import {
+  MEAL_TYPE_BY_INDEX,
   MEAL_TYPE_INDEX,
   weekEpochDay,
 } from "@/lib/spacetime/mealPlanMapping";
@@ -41,7 +49,7 @@ import {
   savePushedEntries,
   type PushedEntry,
 } from "@/lib/spacetime/pushedState";
-import type { WeeklyMenu } from "@/types/menuPlanner";
+import type { DayOfWeek, MealType, WeeklyMenu } from "@/types/menuPlanner";
 
 interface DesiredSlot {
   week: number;
@@ -58,12 +66,27 @@ interface LocalSlotRef extends DesiredSlot {
   localSlotId: string;
 }
 
+/** The user's `meal_plan_slot` row values, keyed by `week|day|meal`. */
+interface RemoteSlot {
+  recipeRef: string;
+  recipeName: string;
+  servings: number;
+  locked: boolean;
+}
+
 /** The planner-context actions the remote→local path needs. */
 export interface PlannerSyncActions {
   removeMealFromSlot: (mealSlotId: string) => Promise<void>;
   updateMealServings: (mealSlotId: string, servings: number) => Promise<void>;
   lockMeal: (mealSlotId: string) => void;
   unlockMeal: (mealSlotId: string) => void;
+  addMealToSlot: (
+    dayOfWeek: DayOfWeek,
+    mealType: MealType,
+    recipe: MonicaOptimizedRecipe,
+    servings?: number,
+    locked?: boolean,
+  ) => Promise<void>;
 }
 
 export interface PlannerSyncState {
@@ -72,8 +95,11 @@ export interface PlannerSyncState {
   /** The user's slot rows currently held in the module. */
   liveSlotCount: number;
   /**
-   * Remote slots (other devices) that exist but can't be materialized
-   * locally yet — additions/replacements pending catalog rehydration.
+   * Current-week remote slots that exist in the module but couldn't be
+   * applied locally yet — their `recipe_ref` didn't resolve, or a local
+   * edit of the same slot is still in flight. Rows for other weeks aren't
+   * counted: they're out of view, and materialize when the planner
+   * navigates to their week.
    */
   unappliedRemoteSlots: number;
 }
@@ -116,6 +142,7 @@ function localSlotsFromMenu(menu: WeeklyMenu | null): Map<string, LocalSlotRef> 
 export function useSpacetimePlannerSync(
   currentMenu: WeeklyMenu | null,
   actions: PlannerSyncActions,
+  resolveRecipeRef?: RecipeRefResolver,
 ): PlannerSyncState {
   const enabled = isLivePlannerEnabled();
   const { connection, status, identityHex } = useSpacetime();
@@ -135,10 +162,35 @@ export function useSpacetimePlannerSync(
    * recognition and the local-echo guard.
    */
   const sessionKeysRef = useRef<Set<string>>(new Set());
+  /**
+   * Keys with an addMealToSlot dispatched whose menu state hasn't landed
+   * yet — guards against double-materializing while React state is in
+   * flight. Entries clear once the local slot matches the remote ref (or
+   * the remote row disappears, or the menu changes weeks).
+   */
+  const materializingRef = useRef<Set<string>>(new Set());
+  /** The week sessionKeysRef's entries belong to. */
+  const sessionWeekRef = useRef<number | null>(null);
   const storageKeyRef = useRef<string | null>(null);
   const trackedRef = useRef(false);
   const actionsRef = useRef(actions);
   actionsRef.current = actions;
+
+  /**
+   * Week navigation swaps the entire menu object — the vacated week's keys
+   * say nothing about user intent there, so carrying them across the swap
+   * would make the write-mirror read "key in session, absent from plan" as
+   * a deletion and wipe the week the user just navigated away from.
+   */
+  const syncSessionWeek = (menu: WeeklyMenu | null): number | null => {
+    const week = menu ? weekEpochDay(menu.weekStartDate) : null;
+    if (week !== sessionWeekRef.current) {
+      sessionWeekRef.current = week;
+      sessionKeysRef.current.clear();
+      materializingRef.current.clear();
+    }
+    return week;
+  };
 
   // Hydrate the durable pushed-map for this identity.
   useEffect(() => {
@@ -210,13 +262,12 @@ export function useSpacetimePlannerSync(
     if (!enabled || !applied || status !== "connected" || !connection) return;
     if (!identityHex) return;
 
+    syncSessionWeek(currentMenu);
+
     const timer = setTimeout(() => {
       const desired = localSlotsFromMenu(currentMenu);
 
-      const remote = new Map<
-        string,
-        { recipeRef: string; recipeName: string; servings: number; locked: boolean }
-      >();
+      const remote = new Map<string, RemoteSlot>();
       try {
         for (const row of connection.db.meal_plan_slot.iter()) {
           if (row.owner.toHexString() !== identityHex) continue;
@@ -294,21 +345,22 @@ export function useSpacetimePlannerSync(
     return () => clearTimeout(timer);
   }, [enabled, applied, status, connection, identityHex, currentMenu]);
 
-  // Remote→local application: removals + servings/locks for matching slots.
+  // Remote→local application: removals + servings/locks for matching slots,
+  // and materialization of remote additions/replacements whose recipe_ref
+  // the resolver can rehydrate.
   useEffect(() => {
     if (!enabled || !applied || status !== "connected" || !connection) return;
     if (!identityHex) return;
 
+    const currentWeek = syncSessionWeek(currentMenu);
     const local = localSlotsFromMenu(currentMenu);
-    const remote = new Map<
-      string,
-      { recipeRef: string; servings: number; locked: boolean }
-    >();
+    const remote = new Map<string, RemoteSlot>();
     try {
       for (const row of connection.db.meal_plan_slot.iter()) {
         if (row.owner.toHexString() !== identityHex) continue;
         remote.set(`${row.weekEpochDay}|${row.dayOfWeek}|${row.mealType}`, {
           recipeRef: row.recipeRef,
+          recipeName: row.recipeName,
           servings: row.servings,
           locked: row.locked,
         });
@@ -317,8 +369,65 @@ export function useSpacetimePlannerSync(
       return;
     }
 
+    // In-flight materialization markers whose remote row vanished will never
+    // land a matching local slot — drop them so the key isn't blocked.
+    for (const key of materializingRef.current) {
+      if (!remote.has(key)) materializingRef.current.delete(key);
+    }
+
     let unapplied = 0;
     let dirty = false;
+
+    /**
+     * Rehydrate a remote slot into the local plan. Returns true when the
+     * insert was dispatched (or is already in flight); false when the key
+     * can't be materialized — caller surfaces it as unapplied.
+     */
+    const materialize = (key: string, remoteSlot: RemoteSlot): boolean => {
+      if (materializingRef.current.has(key)) return true;
+      if (!currentMenu || currentWeek === null) return false;
+      const [week, day, meal] = key.split("|").map(Number);
+      if (week !== currentWeek) return false;
+      const mealType = MEAL_TYPE_BY_INDEX[meal];
+      if (!mealType) return false;
+      // A silent no-op insert (no such grid slot) would re-dispatch forever.
+      const hasSlot = currentMenu.meals.some(
+        (m) => m.dayOfWeek === day && m.mealType === mealType,
+      );
+      if (!hasSlot) return false;
+      const recipe = resolveRecipeRef?.(remoteSlot.recipeRef);
+      if (!recipe) return false;
+      const recipeName = (recipe.name ?? "").toString().trim();
+      if (!recipeName) return false;
+      // Seed the pushed entry with the exact signature the local slot will
+      // have once the insert lands: the echo guard then reads the slot as
+      // in-sync, and the write-mirror sees nothing to push (or, when the
+      // resolver matched by name and the canonical ref differs, converges
+      // the remote ref in a single upsert with no ping-pong).
+      const expected: DesiredSlot = {
+        week,
+        day,
+        meal,
+        recipeRef: (recipe.id ?? recipeName).toString().slice(0, 250),
+        recipeName: recipeName.slice(0, 250),
+        servings: remoteSlot.servings > 0 ? remoteSlot.servings : 1,
+        locked: remoteSlot.locked,
+      };
+      materializingRef.current.add(key);
+      pushedRef.current.set(key, {
+        s: slotSignature(expected),
+        t: Date.now(),
+      });
+      dirty = true;
+      void actionsRef.current.addMealToSlot(
+        day as DayOfWeek,
+        mealType,
+        recipe as MonicaOptimizedRecipe,
+        expected.servings,
+        expected.locked,
+      );
+      return true;
+    };
 
     for (const [key, slot] of local) {
       const remoteSlot = remote.get(key);
@@ -335,11 +444,22 @@ export function useSpacetimePlannerSync(
         continue;
       }
       if (remoteSlot.recipeRef !== slot.recipeRef) {
-        // Replaced with a different dish elsewhere — needs catalog
-        // rehydration to materialize; surface instead of guessing.
+        // Replaced with a different dish elsewhere. Materialize it only when
+        // the local slot has no pending edit of its own (its state matches
+        // what this device last pushed); otherwise local is ahead and the
+        // write-mirror will converge remote to local instead. An in-flight
+        // materialization (pushed already re-seeded) just waits for state
+        // to land.
+        if (
+          materializingRef.current.has(key) ||
+          (pushed?.s === slotSignature(slot) && materialize(key, remoteSlot))
+        ) {
+          continue;
+        }
         unapplied += 1;
         continue;
       }
+      materializingRef.current.delete(key);
       if (pushed !== undefined && pushed.s !== slotSignature(slot)) {
         // The local slot is ahead of what this device last pushed — a local
         // edit is still waiting on the debounced write-mirror. Applying the
@@ -359,9 +479,18 @@ export function useSpacetimePlannerSync(
       }
     }
 
-    // Remote rows with no local counterpart: additions from other devices.
-    for (const key of remote.keys()) {
-      if (!local.has(key)) unapplied += 1;
+    // Remote rows with no local counterpart: additions from other devices,
+    // or this device's own rows surviving a reload. Materialize what
+    // resolves; keep the honest "elsewhere" count for what doesn't.
+    for (const [key, remoteSlot] of remote) {
+      if (local.has(key)) continue;
+      // A key that was local earlier this session is a local deletion
+      // awaiting the debounced clear push — don't resurrect it (and don't
+      // count the sub-second transient as unapplied).
+      if (sessionKeysRef.current.has(key)) continue;
+      const week = Number(key.split("|")[0]);
+      if (week !== currentWeek) continue; // out of view, not pending
+      if (!materialize(key, remoteSlot)) unapplied += 1;
     }
 
     setUnappliedRemoteSlots(unapplied);
@@ -374,6 +503,7 @@ export function useSpacetimePlannerSync(
     identityHex,
     currentMenu,
     remoteVersion,
+    resolveRecipeRef,
   ]);
 
   return {

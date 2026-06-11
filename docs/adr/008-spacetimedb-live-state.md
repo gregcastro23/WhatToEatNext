@@ -122,3 +122,54 @@ Three of the v1 limits above are now closed; one is blocked upstream:
   Owner-private reads stay a tracked follow-up for a SpacetimeDB upgrade;
   clients filter by identity in the meantime and no sensitive data lives in
   these rows.
+
+## Update (2026-06-11) — planner sync guards (#517) + remote-slot materialization
+
+Verification against an isolated local instance (#517) surfaced three races
+in the planner mirror, and the headline v1.1 follow-up — materializing
+remote additions — has now shipped. The planner's sync semantics as they
+stand:
+
+- **Echo guard (#517).** Remote→local application of servings/locks is
+  skipped while the local slot is *ahead of what this device last pushed*
+  (its value-signature differs from the durable pushed entry). Without
+  this, the debounced write-mirror lost local edits to their own stale
+  remote echo: a `+1 servings` click was reverted by the not-yet-updated
+  remote row before the push ever fired.
+- **Session-scoped remote deletes vs durable tombstone recognition (#517).**
+  The durable pushed map and the delete scope are now distinct concepts.
+  `clearMealPlanSlot` is only issued for keys that existed in the local plan
+  *this session* — the durable map alone must not drive deletes, because the
+  local plan does not survive a reload (guests are in-memory) while the
+  durable map does; a reload's empty plan was wiping every remote row the
+  device had ever pushed. The durable map still serves remote-deletion
+  recognition (tombstone-equivalent) and the echo guard.
+- **Week-scoped session keys (this update).** Session keys are cleared
+  whenever the local menu changes weeks. Week navigation swaps the entire
+  plan object, so without this the vacated week's keys read as "present in
+  session, missing from plan" — i.e. deletions — and navigating away from a
+  planned week wiped its remote rows.
+- **Remote-slot materialization — shipped.** The "N elsewhere" count is now
+  a transient state, not a terminal one. Remote *additions* and *dish
+  replacements* are rehydrated into real local meals by resolving
+  `recipe_ref` against the static catalog (by id, then exact name) and the
+  live `recipe` table (`stdb-{id}` refs) via `useRecipeRefResolver`. Both
+  sources load lazily — first time a planner session actually has remote
+  slots to rehydrate — so ordinary visits pay neither the catalog fetch nor
+  the live-table subscription. Materialization seeds the durable pushed
+  entry with the exact signature the local slot will have once the insert
+  lands, so the echo guard reads it as in-sync and the write-mirror has
+  nothing to push back (no ping-pong). Replacements only materialize when
+  the local slot has no pending edit of its own; otherwise local wins and
+  the write-mirror converges remote to local, preserving last-writer-wins.
+  Guest reloads now fully restore the plan from the module instead of
+  parking it in the "elsewhere" count. Unresolvable refs stay surfaced
+  honestly as `unappliedRemoteSlots`, which is now scoped to the *current
+  week* — rows for other weeks are out of view, not pending, and
+  materialize when the planner navigates to their week.
+
+Verified end-to-end against a local SpacetimeDB 2.4.1 instance (real Chrome
+over CDP, shared identity with a driver client): static-ref and stdb-ref
+additions, a live replacement, a remote deletion, and a week-navigation
+round-trip — remote rows byte-stable throughout (no unintended writes), and
+locks/servings preserved across materialization.
