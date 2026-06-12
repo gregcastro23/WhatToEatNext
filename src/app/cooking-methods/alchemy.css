@@ -1,0 +1,158 @@
+/*
+ * Molecular Alchemy theme — cooking-methods surfaces only.
+ * Glassmorphic cyber-occultism: obsidian void, plasma glow, etched grid.
+ * Scoped under .ma-root; tokens mirror tailwind.config.js "ma-*" colors.
+ */
+
+.ma-root {
+  --ma-bg: #0a0a0c;
+  --ma-surface: #11131e;
+  --ma-fg: #e2e1f1;
+  --ma-outline: #849495;
+  --ma-line: #3a494b;
+  --ma-cyan: #00f2ff;
+  --ma-cyan-rgb: 0, 242, 255;
+
+  /* default accent (plasma) — overridden by .ma-accent-* below */
+  --ma-accent: #00f2ff;
+  --ma-accent-soft: #74f5ff;
+  --ma-accent-rgb: 0, 242, 255;
+
+  background-color: var(--ma-bg);
+  color: var(--ma-fg);
+  background-image:
+    linear-gradient(rgba(132, 148, 149, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132, 148, 149, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center center;
+}
+
+/* Per-method accent palettes */
+.ma-accent-plasma {
+  --ma-accent: #00f2ff;
+  --ma-accent-soft: #74f5ff;
+  --ma-accent-rgb: 0, 242, 255;
+}
+.ma-accent-ember {
+  --ma-accent: #ff571a;
+  --ma-accent-soft: #ffb59e;
+  --ma-accent-rgb: 255, 87, 26;
+}
+.ma-accent-emerald {
+  --ma-accent: #00fb86;
+  --ma-accent-soft: #60ff99;
+  --ma-accent-rgb: 0, 251, 134;
+}
+.ma-accent-aqueous {
+  --ma-accent: #00dbe7;
+  --ma-accent-soft: #74f5ff;
+  --ma-accent-rgb: 0, 219, 231;
+}
+.ma-accent-solar {
+  --ma-accent: #ffb59e;
+  --ma-accent-soft: #ffdbd0;
+  --ma-accent-rgb: 255, 181, 158;
+}
+.ma-accent-violet {
+  --ma-accent: #b85af0;
+  --ma-accent-soft: #d9a8ff;
+  --ma-accent-rgb: 184, 90, 240;
+}
+
+/* Frosted obsidian panel */
+.ma-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(132, 148, 149, 0.2);
+  box-shadow: inset 0 0 20px rgba(var(--ma-cyan-rgb), 0.04);
+}
+
+/* Gradient "lit" border — accent fading to transparent */
+.ma-glow-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--ma-surface), var(--ma-surface)) padding-box,
+    linear-gradient(135deg, rgba(var(--ma-accent-rgb), 0.45), rgba(var(--ma-accent-rgb), 0.05) 60%, transparent)
+      border-box;
+}
+
+.ma-panel-hover {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.ma-panel-hover:hover {
+  border-color: rgba(var(--ma-accent-rgb), 0.5);
+  box-shadow: 0 0 18px rgba(var(--ma-accent-rgb), 0.15);
+}
+
+.ma-text-glow {
+  text-shadow: 0 0 12px rgba(var(--ma-accent-rgb), 0.35);
+}
+
+/* Uppercase monospaced microcopy ("label-caps") */
+.ma-label {
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Monospaced data readout */
+.ma-data {
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* Radial sigil backdrop for image-less heroes */
+.ma-sigil-bg {
+  background-image: radial-gradient(
+    circle at center,
+    rgba(var(--ma-accent-rgb), 0.08) 0%,
+    transparent 70%
+  );
+}
+
+/* Ticked underline for section headers */
+.ma-rule {
+  border-bottom: 1px solid rgba(132, 148, 149, 0.2);
+}
+
+@keyframes ma-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ma-spin-slow {
+  animation: ma-spin-slow 24s linear infinite;
+}
+.ma-spin-slower {
+  animation: ma-spin-slow 60s linear infinite;
+}
+
+@keyframes ma-pulse-dot {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.ma-pulse-dot {
+  animation: ma-pulse-dot 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-spin-slow,
+  .ma-spin-slower,
+  .ma-pulse-dot {
+    animation: none;
+  }
+}

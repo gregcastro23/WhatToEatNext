@@ -98,6 +98,25 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
+        // Molecular Alchemy — cooking-methods "Lead to Gold" surface palette
+        // (hex on purpose so /alpha modifiers work, same as menu-planner tokens)
+        "ma-bg": "#0a0a0c",
+        "ma-surface": "#11131e",
+        "ma-surface-low": "#191b26",
+        "ma-surface-high": "#282935",
+        "ma-fg": "#e2e1f1",
+        "ma-fg-dim": "#b9cacb",
+        "ma-outline": "#849495",
+        "ma-line": "#3a494b",
+        "ma-ice": "#e1fdff",
+        "ma-cyan": "#00f2ff",
+        "ma-cyan-bright": "#74f5ff",
+        "ma-cyan-dim": "#00dbe7",
+        "ma-ember": "#ff571a",
+        "ma-ember-soft": "#ffb59e",
+        "ma-emerald": "#00fb86",
+        "ma-emerald-soft": "#60ff99",
+        "ma-error": "#ffb4ab",
       },
       fontFamily: {
         display: [
@@ -118,6 +137,8 @@ export default {
           "ui-monospace",
           "monospace",
         ],
+        // Molecular Alchemy headline serif ("The Grimoire")
+        grimoire: ["var(--font-grimoire)", '"Bodoni Moda"', "Didot", "serif"],
       },
       borderRadius: {
         "alchm-sm": "8px",

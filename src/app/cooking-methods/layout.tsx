@@ -1,9 +1,20 @@
+import { Bodoni_Moda } from "next/font/google";
 import type { Metadata } from "next";
 
+import "./alchemy.css";
+
+const bodoniModa = Bodoni_Moda({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "600", "700"],
+  variable: "--font-grimoire",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Cooking Methods",
+  title: "Cooking Methods — Alchemical Culinary Kinetics",
   description:
-    "Compare cooking techniques and discover which best amplify the elemental properties of your ingredients.",
+    "The Transmutation Hub: compare cooking techniques through elemental signatures, P=IV kinetics, molecular interactions, and live planetary alignment.",
 };
 
 export default function CookingMethodsLayout({
@@ -11,5 +22,9 @@ export default function CookingMethodsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <div className={`ma-root ${bodoniModa.variable} min-h-screen`}>
+      {children}
+    </div>
+  );
 }

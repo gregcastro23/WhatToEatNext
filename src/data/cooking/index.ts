@@ -11,6 +11,7 @@ import {
     molecularCookingMethods,
     rawCookingMethods,
     traditionalCookingMethods,
+    transformationMethods,
     wetCookingMethods
 } from "./methods";
 
@@ -165,6 +166,8 @@ export function getCookingMethodsByCategory(
       return traditionalCookingMethods;
     case "raw":
       return rawCookingMethods;
+    case "transformation":
+      return transformationMethods;
     default:
       return {};
   }
