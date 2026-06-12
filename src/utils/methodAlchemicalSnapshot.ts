@@ -29,11 +29,17 @@ import {
   type UserIntent,
 } from "@/utils/resonanceGapScoring";
 
-export interface AlchemicalQuantities {
+/** Minimal ESMS input shape (no index signature, so any named ESMS type assigns). */
+export interface AlchemicalQuantitiesInput {
   Spirit: number;
   Essence: number;
   Matter: number;
   Substance: number;
+}
+
+/** ESMS output shape — index signature keeps it assignable to @/types/celestial AlchemicalProperties. */
+export interface AlchemicalQuantities extends AlchemicalQuantitiesInput {
+  [key: string]: number;
 }
 
 export interface MethodMomentInput {
@@ -44,7 +50,7 @@ export interface MethodMomentInput {
    */
   planetaryPositions?: Record<string, unknown> | null;
   /** Live ESMS override (e.g. from /api/alchm-quantities). */
-  baseESMS?: AlchemicalQuantities | null;
+  baseESMS?: AlchemicalQuantitiesInput | null;
   focusMode?: FocusMode;
   userIntent?: UserIntent;
   highStress?: boolean;
@@ -104,6 +110,23 @@ export function toSignPositions(
     );
   }
   return normalized;
+}
+
+/** Duration for harmony scoring — legacy data files may use time_range. */
+function resolveDuration(
+  method: CookingMethodData,
+): { min: number; max: number } | undefined {
+  if (method.duration) return method.duration;
+  const timeRange = (method as unknown as Record<string, unknown>).time_range;
+  if (
+    timeRange &&
+    typeof timeRange === "object" &&
+    typeof (timeRange as { min?: unknown }).min === "number" &&
+    typeof (timeRange as { max?: unknown }).max === "number"
+  ) {
+    return timeRange as { min: number; max: number };
+  }
+  return undefined;
 }
 
 /** Run the full per-method pipeline for the given sky moment. */
@@ -191,7 +214,7 @@ export function computeMethodSnapshot(
       gregsEnergy,
       kalchm,
       monica,
-      duration: method.duration ?? undefined,
+      duration: resolveDuration(method),
       kineticPower: kinetics?.power,
     },
     moment.userIntent ?? null,

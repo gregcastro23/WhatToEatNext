@@ -15,14 +15,11 @@
  */
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
-import type { KineticMetrics } from "@/calculations/kinetics";
 import { CookingEquipmentPanel } from "@/components/CookingEquipmentPanel";
 import {
   ALCHEMICAL_PILLARS,
   calculateOptimalCookingConditions,
   calculatePillarMonicaModifiers,
-  getCookingMethodThermodynamics,
 } from "@/constants/alchemicalPillars";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
@@ -38,20 +35,17 @@ import type {
   AlchemicalProperties,
   ElementalProperties,
 } from "@/types/celestial";
-import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
-import { calculateMethodSpecificKinetics, getKineticProfile } from "@/utils/cookingMethodKinetics";
+import type { CookingMethodData } from "@/types/cookingMethod";
 import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import {
-  calculateKAlchm,
-  calculateMonicaConstant,
-  calculateMonicaOptimizationScore,
-} from "@/utils/monicaKalchmCalculations";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+  computeMethodSnapshot,
+  DEFAULT_PLANETARY_POSITIONS,
+  toSignPositions,
+} from "@/utils/methodAlchemicalSnapshot";
+import { calculateMonicaOptimizationScore } from "@/utils/monicaKalchmCalculations";
 import {
-  calculateHarmonyIndex,
   type FocusMode,
   type UserIntent,
-  type HarmonyResult as _HarmonyResult,
 } from "@/utils/resonanceGapScoring";
 
 
@@ -151,13 +145,6 @@ const categories: CategoryConfig[] = [
 // Constants & Helpers
 // ============================================================================
 
-const DEFAULT_PLANETARY_POSITIONS = {
-  Sun: "Leo" as const, Moon: "Cancer" as const, Mercury: "Gemini" as const,
-  Venus: "Taurus" as const, Mars: "Aries" as const, Jupiter: "Sagittarius" as const,
-  Saturn: "Capricorn" as const, Uranus: "Aquarius" as const,
-  Neptune: "Pisces" as const, Pluto: "Scorpio" as const,
-};
-
 const FOCUS_OPTIONS: Array<{ key: FocusMode; label: string; desc: string }> = [
   { key: "harmony", label: "Alchemical Harmony", desc: "Overall resonance" },
   { key: "quickest", label: "Quickest Transformation", desc: "Speed-first" },
@@ -175,29 +162,6 @@ const INTENT_OPTIONS: Array<{ key: UserIntent; label: string; icon: string }> = 
 
 function toCelsius(fahrenheit: number): number {
   return (fahrenheit - 32) * (5 / 9);
-}
-
-function extractZodiacSignType(position: unknown): string {
-  if (!position) return "Aries";
-  if (typeof position === "string") return position;
-  if (typeof position === "object" && position !== null) {
-    const posObj = position as Record<string, unknown>;
-    if (typeof posObj.sign === "string") {
-      return posObj.sign.charAt(0).toUpperCase() + posObj.sign.slice(1).toLowerCase();
-    }
-  }
-  return "Aries";
-}
-
-function normalizePlanetaryPositions(contextPositions: Record<string, unknown> | undefined): Record<string, string> {
-  if (!contextPositions || Object.keys(contextPositions).length === 0) return DEFAULT_PLANETARY_POSITIONS;
-  const normalized: Record<string, string> = {};
-  const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
-  for (const planet of planets) {
-    const position = contextPositions[planet] || contextPositions[planet.toLowerCase()];
-    normalized[planet] = extractZodiacSignType(position);
-  }
-  return normalized;
 }
 
 function classifyMonica(monica: number | null): { label: string; color: string; bgColor: string; badgeColor: string } {
@@ -427,7 +391,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
   useEffect(() => {
     if (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) {
-      const normalized = normalizePlanetaryPositions(contextPlanetaryPositions);
+      const normalized = toSignPositions(contextPlanetaryPositions);
       setPlanetaryPositions(normalized);
       setPositionsSource("real");
     }
@@ -441,7 +405,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     refreshPlanetaryPositions()
       .then((positions) => {
         if (positions && Object.keys(positions).length > 0) {
-          setPlanetaryPositions(normalizePlanetaryPositions(positions));
+          setPlanetaryPositions(toSignPositions(positions));
           setPositionsSource("real");
         }
       })
@@ -480,73 +444,56 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   }, []);
 
   // ── Compute all methods with full metrics + Harmony Index ──
+  // The shared pipeline (ESMS → pillar transform → Greg's Energy →
+  // Kalchm/Monica → P=IV kinetics → harmony) lives in
+  // computeMethodSnapshot so this surface and the cooking-methods pages
+  // can't drift; only recommender-specific scoring stays inline below.
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);
     if (!category) return [];
 
-    const planetaryDerivedESMS = calculateAlchemicalFromPlanets(planetaryPositions);
-    const baseAlchemicalProperties = currentMoment?.quantities
-      ? {
-        Spirit: currentMoment.quantities.Spirit,
-        Essence: currentMoment.quantities.Essence,
-        Matter: currentMoment.quantities.Matter,
-        Substance: currentMoment.quantities.Substance,
-      }
-      : planetaryDerivedESMS;
+    const momentPositions =
+      contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0
+        ? contextPlanetaryPositions
+        : planetaryPositions;
+    const highStress =
+      currentMoment?.circuit.forceClassification === "accelerating" &&
+      currentMoment.circuit.forceMagnitude > 0.25;
 
     const methods = Object.entries(category.methods).map(([id, method]) => {
-      const pillar = getCookingMethodPillar(id);
-      const baseESMS = {
-        Spirit: baseAlchemicalProperties?.Spirit ?? 4,
-        Essence: baseAlchemicalProperties?.Essence ?? 4,
-        Matter: baseAlchemicalProperties?.Matter ?? 4,
-        Substance: baseAlchemicalProperties?.Substance ?? 2,
-      };
-      const transformedESMS = pillar
-        ? {
-          Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
-          Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
-          Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
-          Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
-        }
-        : baseESMS;
+      const snapshot = computeMethodSnapshot(
+        id,
+        method as unknown as CookingMethodData,
+        {
+          planetaryPositions: momentPositions,
+          baseESMS: currentMoment?.quantities ?? null,
+          focusMode,
+          userIntent,
+          highStress,
+        },
+      );
+      const {
+        pillar,
+        baseESMS,
+        transformedESMS,
+        thermo: methodThermo,
+        gregsEnergy,
+        kalchm,
+        monica,
+        kinetics,
+        kProfile,
+        harmony,
+      } = snapshot;
 
-      const methodThermo = method.thermodynamicProperties || getCookingMethodThermodynamics(id) || { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
-
-      const gregsEnergy = calculateGregsEnergy({
-        Spirit: transformedESMS.Spirit, Essence: transformedESMS.Essence,
-        Matter: transformedESMS.Matter, Substance: transformedESMS.Substance,
-        Fire: method.elementalEffect.Fire, Water: method.elementalEffect.Water,
-        Air: method.elementalEffect.Air, Earth: method.elementalEffect.Earth,
-      }).gregsEnergy;
-
-      const kalchm = calculateKAlchm(transformedESMS.Spirit, transformedESMS.Essence, transformedESMS.Matter, transformedESMS.Substance);
-      const reactivity = methodThermo.reactivity;
-      const monica = gregsEnergy !== null && kalchm ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm) : null;
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;
 
-      let kinetics: KineticMetrics | null = null;
-      try {
-        kinetics = calculateMethodSpecificKinetics({
-          methodId: id,
-          elementalEffect: method.elementalEffect as unknown as Record<string, number>,
-          transformedESMS,
-          thermodynamics: methodThermo,
-          gregsEnergy,
-          monica,
-          kineticProfile: (method as any).kineticProfile,
-          planetaryPositions: (contextPlanetaryPositions && Object.keys(contextPlanetaryPositions).length > 0) ? contextPlanetaryPositions : planetaryPositions,
-        });
-      } catch { /* skip */ }
-
       const monicaScoreResult = calculateMonicaOptimizationScore(
         [id],
-        baseAlchemicalProperties ?? { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 },
+        baseESMS,
         method.elementalEffect as any,
       );
 
-      const kProfile = getKineticProfile(id, (method as any).kineticProfile);
       const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
 
       const projHeat = currentMoment ? projectZScoreTarget(currentMoment.heat ?? 0.5, currentMoment.historicalContext?.metrics?.heat) : null;
@@ -571,28 +518,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         : null;
       const kineticAlignmentScore =
         currentPowerProxy === null ? null : Math.max(0, 100 - Math.abs(methodPowerProxy - currentPowerProxy) * 100);
-
-      // Calculate Harmony Index via Resonance Gap model
-      const duration = method.duration || method.time_range;
-      const harmony = calculateHarmonyIndex(
-        {
-          transformedESMS,
-          elementalEffect: method.elementalEffect,
-          thermodynamics: methodThermo,
-          gregsEnergy,
-          kalchm,
-          monica,
-          duration: duration || undefined,
-          kineticPower: kinetics?.power,
-        },
-        userIntent,
-        {
-          highStress:
-            currentMoment?.circuit.forceClassification === "accelerating" &&
-            currentMoment.circuit.forceMagnitude > 0.25,
-        },
-        focusMode,
-      );
 
       return {
         id, ...method,
