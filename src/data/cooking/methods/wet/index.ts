@@ -6,6 +6,7 @@ import { pressureCooking } from "./pressure-cooking";
 import { simmering } from "./simmering";
 import { sousVide } from "./sous-vide";
 import { steaming } from "./steaming";
+import { stewing } from "./stewing";
 
 /**
  * Collection of wet cooking methods
@@ -22,9 +23,10 @@ export const _wetCookingMethods = {
   poaching,
   simmering,
   pressure_cooking: pressureCooking,
+  stewing,
 };
 
 export const wetCookingMethods = _wetCookingMethods;
 
 // Export individual methods
-export { sousVide, boiling, steaming, braising, poaching, simmering };
+export { sousVide, boiling, steaming, braising, poaching, simmering, stewing, pressureCooking };
