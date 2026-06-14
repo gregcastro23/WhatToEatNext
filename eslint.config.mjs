@@ -567,6 +567,7 @@ export default [
       "src/utils/astrology/*.test.ts",
       "src/tests/**",
       "src/**/*.test.ts",
+      "src/**/*.test.tsx",
       "src/components/GlobalPopup.js",
 
       // Untracked development files

@@ -1,7 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { DeliverectMenu } from "@/lib/integrations/deliverect";
+import {
+  canAffordEsmsBasket,
+  esmsRestaurantPaymentsEnabled,
+  quoteEsmsBasket,
+} from "@/lib/payments/restaurantEsms";
+import type { EsmsBalanceLike } from "@/lib/payments/restaurantEsms";
+import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
+import type { RestaurantPaymentPreference } from "@/lib/payments/restaurantPayments";
 
 interface RestaurantMenuClientProps {
   restaurant: {
@@ -22,8 +30,11 @@ interface CartItem {
 }
 
 interface CheckoutResponse {
+  mode?: "stripe_checkout" | "external" | "esms";
   url?: string;
   error?: string;
+  code?: string;
+  orderId?: string;
 }
 
 function money(cents: number): string {
@@ -42,11 +53,58 @@ export default function MenuOrderClient({
   const [customerEmail, setCustomerEmail] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentMethod, setPaymentMethod] =
+    useState<RestaurantPaymentPreference>("card");
+  const [esmsBalances, setEsmsBalances] = useState<EsmsBalanceLike | null>(null);
+  const [esmsBalanceStatus, setEsmsBalanceStatus] = useState<
+    "idle" | "loading" | "ready" | "signed_out" | "error"
+  >("idle");
+  const checkoutIdempotencyKey = useRef<string | null>(null);
+
+  const cryptoEnabled = restaurantCryptoPaymentsEnabled();
+  const esmsEnabled = esmsRestaurantPaymentsEnabled();
 
   const subtotalCents = useMemo(
     () => cart.reduce((sum, item) => sum + item.unitPriceCents * item.quantity, 0),
     [cart],
   );
+  const esmsCost = useMemo(
+    () => quoteEsmsBasket(subtotalCents),
+    [subtotalCents],
+  );
+  const canAffordEsms = Boolean(
+    esmsBalances && esmsCost && canAffordEsmsBasket(esmsBalances, esmsCost),
+  );
+
+  useEffect(() => {
+    if (!esmsEnabled || paymentMethod !== "esms") return;
+
+    let active = true;
+    setEsmsBalanceStatus("loading");
+    void fetch("/api/economy/balance")
+      .then(async (response) => {
+        if (response.status === 401) {
+          if (active) setEsmsBalanceStatus("signed_out");
+          return;
+        }
+        if (!response.ok) throw new Error("Could not load ESMS balance");
+        const data = (await response.json()) as {
+          balances?: EsmsBalanceLike;
+        };
+        if (!data.balances) throw new Error("ESMS balance was unavailable");
+        if (active) {
+          setEsmsBalances(data.balances);
+          setEsmsBalanceStatus("ready");
+        }
+      })
+      .catch(() => {
+        if (active) setEsmsBalanceStatus("error");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [esmsEnabled, paymentMethod]);
 
   function addItem(item: DeliverectMenu["categories"][number]["items"][number]) {
     setCart((current) => {
@@ -88,9 +146,13 @@ export default function MenuOrderClient({
     setError(null);
 
     try {
+      checkoutIdempotencyKey.current ??= crypto.randomUUID();
       const response = await fetch("/api/stripe/restaurant-order", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": checkoutIdempotencyKey.current,
+        },
         body: JSON.stringify({
           cuisineType: "Restaurant",
           provider: "deliverect",
@@ -104,6 +166,7 @@ export default function MenuOrderClient({
             amountCents: subtotalCents,
             currency: "usd",
             orderType: "pickup",
+            paymentMethod,
             customer: {
               name: customerName || "Guest",
               email: customerEmail || undefined,
@@ -120,10 +183,29 @@ export default function MenuOrderClient({
       });
 
       const data = (await response.json().catch(() => ({}))) as CheckoutResponse;
-      if (!response.ok || !data.url) {
+      if (data.code === "settlement_pending" && data.orderId) {
+        throw new Error(
+          `Order ${data.orderId} is awaiting restaurant settlement. Do not submit it again.`,
+        );
+      }
+
+      if (!response.ok) {
         throw new Error(data.error || "Could not start checkout.");
       }
 
+      if (data.mode === "esms" && data.orderId) {
+        checkoutIdempotencyKey.current = null;
+        const successUrl = new URL("/restaurants", window.location.origin);
+        successUrl.searchParams.set("order", "success");
+        successUrl.searchParams.set("restaurant", restaurant.name);
+        successUrl.searchParams.set("order_id", data.orderId);
+        successUrl.searchParams.set("payment", "esms");
+        window.location.assign(successUrl.toString());
+        return;
+      }
+
+      if (!data.url) throw new Error("Checkout URL was unavailable.");
+      checkoutIdempotencyKey.current = null;
       window.location.assign(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not start checkout.");
@@ -225,14 +307,96 @@ export default function MenuOrderClient({
             <span>Subtotal</span>
             <span>{money(subtotalCents)}</span>
           </div>
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1">
+            <button
+              type="button"
+              onClick={() => setPaymentMethod("card")}
+              aria-pressed={paymentMethod === "card"}
+              className={`rounded-md border px-3 py-2 text-left text-xs transition-colors ${
+                paymentMethod === "card"
+                  ? "border-emerald-300/60 bg-emerald-500/15 text-emerald-100"
+                  : "border-white/10 bg-black/20 text-white/60 hover:border-white/25"
+              }`}
+            >
+              <span className="block font-bold">Card</span>
+              <span className="mt-0.5 block text-[10px] opacity-65">USD checkout</span>
+            </button>
+            {cryptoEnabled && (
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("crypto")}
+                aria-pressed={paymentMethod === "crypto"}
+                className={`rounded-md border px-3 py-2 text-left text-xs transition-colors ${
+                  paymentMethod === "crypto"
+                    ? "border-blue-300/60 bg-blue-500/15 text-blue-100"
+                    : "border-white/10 bg-black/20 text-white/60 hover:border-white/25"
+                }`}
+              >
+                <span className="block font-bold">USDC</span>
+                <span className="mt-0.5 block text-[10px] opacity-65">Pay from a wallet</span>
+              </button>
+            )}
+            {esmsEnabled && (
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("esms")}
+                aria-pressed={paymentMethod === "esms"}
+                className={`rounded-md border px-3 py-2 text-left text-xs transition-colors ${
+                  paymentMethod === "esms"
+                    ? "border-violet-300/60 bg-violet-500/15 text-violet-100"
+                    : "border-white/10 bg-black/20 text-white/60 hover:border-white/25"
+                }`}
+              >
+                <span className="block font-bold">ESMS</span>
+                <span className="mt-0.5 block text-[10px] opacity-65">Four-axis balance</span>
+              </button>
+            )}
+          </div>
+          {paymentMethod === "crypto" && (
+            <p className="mt-3 rounded-md border border-blue-300/20 bg-blue-500/10 p-2 text-[10px] leading-relaxed text-blue-100/75">
+              Stripe presents the USD total and accepts supported stablecoins,
+              including USDC on Base. The restaurant still settles in USD.
+            </p>
+          )}
+          {paymentMethod === "esms" && esmsCost && (
+            <div className="mt-3 rounded-md border border-violet-300/20 bg-violet-500/10 p-2 text-[10px] leading-relaxed text-violet-100/75">
+              <p className="font-bold text-violet-100">ESMS basket</p>
+              <p className="mt-1">
+                {esmsCost.spirit} Spirit / {esmsCost.essence} Essence /{" "}
+                {esmsCost.matter} Matter / {esmsCost.substance} Substance
+              </p>
+              {esmsBalanceStatus === "loading" && <p className="mt-1">Checking balance...</p>}
+              {esmsBalanceStatus === "signed_out" && (
+                <p className="mt-1 text-amber-200">Sign in to use ESMS.</p>
+              )}
+              {esmsBalanceStatus === "error" && (
+                <p className="mt-1 text-rose-200">Could not load your ESMS balance.</p>
+              )}
+              {esmsBalanceStatus === "ready" && !canAffordEsms && (
+                <p className="mt-1 text-amber-200">One or more axes are below the required balance.</p>
+              )}
+            </div>
+          )}
           {error && <p className="mt-3 text-xs text-rose-300">{error}</p>}
           <button
             type="button"
             onClick={() => void checkout()}
-            disabled={cart.length === 0 || isCheckingOut}
+            disabled={
+              cart.length === 0 ||
+              isCheckingOut ||
+              (paymentMethod === "esms" && !canAffordEsms)
+            }
             className="mt-4 w-full rounded-md bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2.5 text-sm font-bold text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isCheckingOut ? "Starting Checkout..." : "Order with Stripe"}
+            {isCheckingOut
+              ? paymentMethod === "esms"
+                ? "Settling ESMS..."
+                : "Starting Checkout..."
+              : paymentMethod === "crypto"
+                ? "Pay with USDC"
+                : paymentMethod === "esms"
+                  ? "Pay with ESMS"
+                  : "Pay with Card"}
           </button>
         </div>
       </aside>
