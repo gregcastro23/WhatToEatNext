@@ -8,8 +8,10 @@
  * response modes.
  */
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useToast } from "@/components/ToastProvider";
+import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
+import type { RestaurantPaymentPreference } from "@/lib/payments/restaurantPayments";
 import type { AlchmScoredRestaurant, RestaurantDiscoverySource } from "@/types/yelp";
 
 interface ReservationModalProps {
@@ -35,7 +37,11 @@ export function ReservationModal({
   const { business } = entry;
   const [amount, setAmount] = useState<string>("50");
   const [state, setState] = useState<SubmitState>({ kind: "idle" });
+  const [paymentMethod, setPaymentMethod] =
+    useState<RestaurantPaymentPreference>("card");
+  const checkoutIdempotencyKey = useRef<string | null>(null);
   const { showToast } = useToast();
+  const cryptoEnabled = restaurantCryptoPaymentsEnabled();
 
   const handleSubmit = async () => {
     const parsed = Number(amount);
@@ -50,9 +56,13 @@ export function ReservationModal({
 
     setState({ kind: "submitting" });
     try {
+      checkoutIdempotencyKey.current ??= crypto.randomUUID();
       const res = await fetch("/api/stripe/restaurant-order", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": checkoutIdempotencyKey.current,
+        },
         body: JSON.stringify({
           cuisineType: cuisineType || "Restaurant",
           provider: source,
@@ -67,6 +77,7 @@ export function ReservationModal({
             currency: "usd",
             description: `Alchm Kitchen pre-paid tab at ${business.name}`,
             orderType: "pickup",
+            paymentMethod,
           },
         }),
       });
@@ -85,6 +96,7 @@ export function ReservationModal({
         | { mode: "external"; url: string; reason: string; orderId: string };
 
       if (data.mode === "stripe_checkout") {
+        checkoutIdempotencyKey.current = null;
         window.location.href = data.url;
         return;
       }
@@ -127,6 +139,42 @@ export function ReservationModal({
         <div className="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-purple-300/80">
           Alchm Pre-Pay
         </div>
+
+        {cryptoEnabled && (
+          <div className="mt-5 grid grid-cols-2 gap-2" aria-label="Payment method">
+            <button
+              type="button"
+              onClick={() => setPaymentMethod("card")}
+              aria-pressed={paymentMethod === "card"}
+              className={`rounded-xl border px-3 py-2 text-xs font-bold transition-colors ${
+                paymentMethod === "card"
+                  ? "border-purple-300/60 bg-purple-500/20 text-purple-100"
+                  : "border-white/10 bg-white/5 text-white/55"
+              }`}
+            >
+              Card
+            </button>
+            <button
+              type="button"
+              onClick={() => setPaymentMethod("crypto")}
+              aria-pressed={paymentMethod === "crypto"}
+              className={`rounded-xl border px-3 py-2 text-xs font-bold transition-colors ${
+                paymentMethod === "crypto"
+                  ? "border-blue-300/60 bg-blue-500/20 text-blue-100"
+                  : "border-white/10 bg-white/5 text-white/55"
+              }`}
+            >
+              USDC
+            </button>
+          </div>
+        )}
+
+        {paymentMethod === "crypto" && (
+          <p className="mt-3 rounded-lg border border-blue-300/20 bg-blue-500/10 p-3 text-[10px] leading-relaxed text-blue-100/75">
+            Pay the USD-denominated tab from a supported stablecoin wallet. Stripe
+            converts settlement to USD for the restaurant flow.
+          </p>
+        )}
         <h3 className="text-xl font-extrabold text-white">{business.name}</h3>
         <p className="mt-2 text-sm text-white/60 leading-relaxed">
           Pre-pay your tab through Alchm Kitchen. We&apos;ll send you a receipt and
@@ -186,7 +234,11 @@ export function ReservationModal({
           disabled={state.kind === "submitting"}
           className="mt-6 w-full rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-purple-900/40 transition-all hover:brightness-110 disabled:opacity-50"
         >
-          {state.kind === "submitting" ? "Opening Stripe…" : "Continue to Checkout"}
+          {state.kind === "submitting"
+            ? "Opening Stripe…"
+            : paymentMethod === "crypto"
+              ? "Pay with USDC"
+              : "Pay with Card"}
         </button>
 
         <p className="mt-3 text-center text-[10px] font-medium text-white/30">

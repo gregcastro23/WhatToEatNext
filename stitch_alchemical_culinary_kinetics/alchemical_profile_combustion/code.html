@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Combustion: The Pyrolytic Transmutation - ALCHM.KITCHEN</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#ffb59e",
+                      "on-error-container": "#ffdad6",
+                      "primary-container": "#00f2ff",
+                      "secondary-fixed": "#ffdbd0",
+                      "primary-fixed": "#74f5ff",
+                      "on-tertiary-fixed-variant": "#005228",
+                      "surface-variant": "#333440",
+                      "error": "#ffb4ab",
+                      "tertiary-container": "#00fb86",
+                      "background": "#11131e",
+                      "secondary-fixed-dim": "#ffb59e",
+                      "on-primary-fixed-variant": "#004f54",
+                      "secondary-container": "#ff571a",
+                      "inverse-on-surface": "#2e303c",
+                      "surface-tint": "#00dbe7",
+                      "surface-container": "#1d1f2a",
+                      "tertiary": "#e2ffe4",
+                      "surface-container-low": "#191b26",
+                      "surface-container-high": "#282935",
+                      "primary-fixed-dim": "#00dbe7",
+                      "tertiary-fixed": "#60ff99",
+                      "inverse-primary": "#00696f",
+                      "surface-dim": "#11131e",
+                      "on-tertiary-fixed": "#00210c",
+                      "on-tertiary-container": "#006f37",
+                      "on-secondary-container": "#521300",
+                      "outline": "#849495",
+                      "on-background": "#e2e1f1",
+                      "outline-variant": "#3a494b",
+                      "on-secondary": "#5e1700",
+                      "on-primary-container": "#006a71",
+                      "surface-bright": "#373845",
+                      "surface": "#11131e",
+                      "surface-container-lowest": "#0c0d18",
+                      "on-primary": "#00363a",
+                      "on-secondary-fixed-variant": "#852400",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#00e479",
+                      "on-surface-variant": "#b9cacb",
+                      "on-surface": "#e2e1f1",
+                      "inverse-surface": "#e2e1f1",
+                      "on-error": "#690005",
+                      "on-tertiary": "#003919",
+                      "on-primary-fixed": "#002022",
+                      "primary": "#e1fdff",
+                      "on-secondary-fixed": "#3a0b00",
+                      "surface-container-highest": "#333440"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "margin-desktop": "64px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "subheading": [
+                              "Bodoni Moda"
+                      ],
+                      "body-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg-mobile": [
+                              "Bodoni Moda"
+                      ],
+                      "data-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-xl": [
+                              "Bodoni Moda"
+                      ],
+                      "headline-lg": [
+                              "Bodoni Moda"
+                      ]
+              },
+              "fontSize": {
+                      "subheading": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "64px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0a;
+            color: #e2e1f1;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 219, 231, 0.03) 0%, transparent 60%),
+                              linear-gradient(rgba(29, 31, 42, 0.5) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(29, 31, 42, 0.5) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(17, 19, 30, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.3), transparent);
+        }
+        
+        .active-glass-panel {
+            border: 1px solid transparent;
+            background-image: linear-gradient(rgba(17, 19, 30, 0.8), rgba(17, 19, 30, 0.8)), linear-gradient(135deg, rgba(0, 242, 255, 0.8), transparent);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .sigil-card {
+            background: rgba(25, 27, 38, 0.8);
+            border: 1px solid rgba(58, 73, 75, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sigil-card-header {
+            border-bottom: 1px solid rgba(58, 73, 75, 0.5);
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sigil-card-body {
+            padding: 16px;
+        }
+
+        .element-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border: 1px solid;
+            border-radius: 2px;
+        }
+
+        .element-fire {
+            border-color: #ff571a;
+            color: #ffb59e;
+            background: rgba(255, 87, 26, 0.1);
+        }
+
+        .element-air {
+            border-color: #e2ffe4;
+            color: #60ff99;
+            background: rgba(226, 255, 228, 0.1);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(0, 242, 255, 0.5);
+            color: #00f2ff;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+            border-color: #00f2ff;
+        }
+
+        /* Abstract geometrical elements */
+        .hex-bg {
+            position: absolute;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='100' viewBox='0 0 60 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l25.98 15v30L30 60 4.02 45V15z' stroke='%2300f2ff' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Material symbols setup */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .material-symbols-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0d18;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a494b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #849495;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-primary/5 docked left-0 h-full w-64 transition-all duration-200 ease-in-out">
+<div class="p-6 border-b border-outline-variant/20">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full border border-primary/30 bg-surface-variant flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-primary text-subheading">person</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary text-[20px] leading-tight">LEAD_TO_GOLD</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant text-[10px]">PHASE_SHIFT_V.04</p>
+</div>
+</div>
+<button class="w-full btn-ghost py-2 font-label-caps text-label-caps rounded flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+                INITIATE_REACTION
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-4 px-6 py-3 bg-primary-container/20 text-primary border-r-2 border-primary hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">local_fire_department</span>
+<span>Combustion</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">cloud</span>
+<span>Sublimation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">science</span>
+<span>Fermentation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+<span>Distillation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined">grain</span>
+<span>Coagulation</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto border-t border-outline-variant/20 py-4">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-4 px-6 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span>System_Logs</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-4 px-6 py-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span>Safety_Sigils</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 relative min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20 flat no shadows docked full-width top-0 scale-95 active:opacity-80">
+<div class="flex items-center gap-4">
+<span class="md:hidden material-symbols-outlined text-primary cursor-pointer">menu</span>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tighter text-[24px]">ALCHM.KITCHEN</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-label-caps text-label-caps">
+<a class="text-primary border-b-2 border-primary pb-1 hover:bg-primary/10 transition-all duration-300 px-2" href="#">TRANSMUTATIONS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 duration-300 px-2 py-1" href="#">ELEMENTS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 duration-300 px-2 py-1" href="#">THE_SANCTUM</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 duration-300 px-2 py-1" href="#">ARCHIVES</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center border-b border-outline-variant px-2 py-1">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] mr-2">search</span>
+<input class="bg-transparent border-none outline-none font-label-caps text-label-caps text-on-surface placeholder:text-outline-variant w-32 focus:w-48 transition-all duration-300" placeholder="QUERY_ARCHIVE..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 mt-16 p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full relative">
+<div class="hex-bg"></div>
+<!-- Hero Header -->
+<div class="mb-12 relative">
+<div class="absolute -left-8 top-4 bottom-4 w-px bg-gradient-to-b from-secondary-container via-secondary-container/50 to-transparent hidden md:block"></div>
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-surface mb-2 tracking-tight">Combustion</h1>
+<h2 class="font-subheading text-subheading text-secondary mb-6">The Pyrolytic Transmutation</h2>
+<div class="flex gap-4">
+<span class="element-tag element-fire font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px] mr-1">local_fire_department</span>
+                        FIRE (85%)
+                    </span>
+<span class="element-tag element-air font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px] mr-1">air</span>
+                        AIR (15%)
+                    </span>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-unit md:gap-gutter auto-rows-min">
+<!-- Hero Image Card (Spans full width on mobile, 8 cols on desktop) -->
+<div class="col-span-1 md:col-span-8 glass-panel rounded-lg overflow-hidden relative group" style="min-height: 400px;">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen transition-transform duration-700 group-hover:scale-105" data-alt="A high-fidelity scientific diagram of Combustion (Grilling/Smoking). Showing intense thermal energy transfer from charcoal/wood to food. Molecular level inset showing carbonization, smoke particle infusion, and complex phenolic compounds forming as glowing volcanic orange and deep charcoal alchemical symbols. Dark mode, obsidian background, ember red and smoke grey accents. Kinetic energy vectors, 'Voltage' and 'Current' markers. Monospace data overlays. Sacred geometry patterns." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUAJNVScOWqYlk5zB4gh_gdXqb7cPmI1ZRslaMlxwfNotVHrWaJPjusKNOydjpmBYaVu-wnj4M8AldylYOHehcmGsPCqrqzZAEhdkHMBFxpC5vL-7reaILfIInBhNMx8CpMz7SJnEuMFp4KI8AlCmF61bxl7_TBES9lmit7v7AC6IBOFG1FKhRR3ARl6fElKh-uWbCees9XLpSqKsPLX_YeW3Zzts23buCR-90r7dWMnqEd5QwrkCMUXCL2Ylx_Ao9n1qmVq5Z3PU');">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-secondary tracking-widest">LIVE_OBSERVATION</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Thermal imaging indicates optimal carbonization phase. Phenolic binding is stabilizing at surface layer.</p>
+</div>
+<div class="absolute top-4 right-4 bg-surface-container/80 backdrop-blur-md border border-outline-variant/30 px-3 py-1 rounded">
+<span class="font-data-lg text-data-lg text-primary">STATUS: ACTIVE</span>
+</div>
+</div>
+<!-- Astrological Rulership (Spans 4 cols on desktop) -->
+<div class="col-span-1 md:col-span-4 active-glass-panel rounded-lg p-6 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined" style="font-size: 120px;">all_inclusive</span>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-6 border-b border-outline-variant/30 pb-3">
+<span class="material-symbols-outlined text-tertiary-container">public</span>
+<h3 class="font-label-caps text-label-caps text-tertiary-container">ASTROLOGICAL_RULERSHIP</h3>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-secondary flex items-center justify-center">
+<span class="font-subheading text-[20px] text-secondary">♂</span>
+</div>
+<span class="font-data-lg text-data-lg text-on-surface">MARS</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">PRIMARY</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary flex items-center justify-center">
+<span class="font-subheading text-[20px] text-primary">♃</span>
+</div>
+<span class="font-data-lg text-data-lg text-on-surface">JUPITER</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">SECONDARY</span>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-4 border-t border-outline-variant/30">
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Orbital alignment dictates aggressive thermal application tempered by expansive smoke exposure.</p>
+</div>
+</div>
+<!-- Kinetic Profile (Spans 6 cols) -->
+<div class="col-span-1 md:col-span-6 sigil-card rounded-lg">
+<div class="sigil-card-header">
+<h3 class="font-label-caps text-label-caps text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary-container">bolt</span>
+                            KINETIC_PROFILE
+                        </h3>
+<span class="font-data-lg text-data-lg text-outline-variant">01</span>
+</div>
+<div class="sigil-card-body flex-1">
+<p class="font-body-lg text-body-lg text-on-surface mb-6">High-voltage thermal energy (V) interacting with a high-density smoke particle current (I).</p>
+<div class="bg-surface-container p-4 rounded border border-outline-variant/50 relative overflow-hidden mb-6">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+<span class="font-label-caps text-label-caps text-outline block mb-2">GOVERNING_EQUATION</span>
+<div class="font-data-lg text-data-lg text-primary tracking-widest text-center py-2">
+                                Q = mcΔT + <span class="text-secondary">Smoke_Infusion_Rate</span>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between mb-1 font-label-caps text-label-caps text-[10px]">
+<span class="text-outline">THERMAL_VOLTAGE (V)</span>
+<span class="text-secondary-container">850°F</span>
+</div>
+<div class="h-1 bg-surface-bright w-full rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[85%] relative">
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBsNDAtNDBIMHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjEiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+')]"></div>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1 font-label-caps text-label-caps text-[10px]">
+<span class="text-outline">PARTICLE_CURRENT (I)</span>
+<span class="text-outline-variant">45 CFM</span>
+</div>
+<div class="h-1 bg-surface-bright w-full rounded-full overflow-hidden">
+<div class="h-full bg-outline-variant w-[45%] relative"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Molecular Interaction (Spans 6 cols) -->
+<div class="col-span-1 md:col-span-6 sigil-card rounded-lg">
+<div class="sigil-card-header border-b-primary/30">
+<h3 class="font-label-caps text-label-caps text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">science</span>
+                            MOLECULAR_INTERACTION
+                        </h3>
+<span class="font-data-lg text-data-lg text-outline-variant">02</span>
+</div>
+<div class="sigil-card-body flex-1 flex flex-col">
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Primary focus established on surface carbonization parameters and the subsequent formulation of complex phenolic compounds through pyrolysis.</p>
+<div class="grid grid-cols-2 gap-4 mt-auto">
+<div class="border border-outline-variant/30 p-4 rounded bg-surface/50">
+<span class="material-symbols-outlined text-outline mb-2">grain</span>
+<h4 class="font-label-caps text-label-caps text-on-surface mb-1">CARBONIZATION</h4>
+<p class="font-body-md text-body-md text-outline text-[12px]">Maillard reaction acceleration yielding melanoidin structures.</p>
+</div>
+<div class="border border-primary/20 p-4 rounded bg-primary/5">
+<span class="material-symbols-outlined text-primary mb-2">bubble_chart</span>
+<h4 class="font-label-caps text-label-caps text-primary mb-1">PHENOLIC_BINDING</h4>
+<p class="font-body-md text-body-md text-outline text-[12px]">Guaiacol and syringol deposition altering flavor profile matrices.</p>
+</div>
+</div>
+<!-- Decorative molecular chain -->
+<div class="mt-6 flex items-center justify-center gap-2 text-outline-variant opacity-50 font-data-lg">
+<span>C<sub class="text-[10px]">6</sub>H<sub class="text-[10px]">5</sub>OH</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<span>C<sub class="text-[10px]">7</sub>H<sub class="text-[10px]">8</sub>O<sub class="text-[10px]">2</sub></span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col items-center gap-gutter bg-surface-container-lowest border-t border-outline-variant/20 flat no shadows full-width bottom mt-12">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4 text-[24px]">ALCHM.KITCHEN</h2>
+<div class="flex flex-wrap justify-center gap-6 md:gap-12 mb-8">
+<a class="font-label-caps text-label-caps text-outline hover:text-primary opacity-80 hover:opacity-100 transition-colors" href="#">THERMODYNAMIC_LAWS</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary opacity-80 hover:opacity-100 transition-colors" href="#">ESOTERIC_SAFETY</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary opacity-80 hover:opacity-100 transition-colors" href="#">MOLECULAR_DISCLAIMER</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary opacity-80 hover:opacity-100 transition-colors" href="#">GLOBAL_EQUATIONS</a>
+</div>
+<p class="font-label-caps text-label-caps text-outline text-[10px] tracking-widest text-center">
+                © 2024 ALCHM.KITCHEN // THE LAW OF EQUIVALENT EXCHANGE APPLIES
+            </p>
+</footer>
+</div>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-outline-variant/20 flex justify-around items-center h-16 pb-safe">
+<a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-symbols-outlined material-symbols-fill">local_fire_department</span>
+<span class="font-label-caps text-[8px] tracking-widest">COMBUSTION</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">cloud</span>
+<span class="font-label-caps text-[8px] tracking-widest">SUBLIMATION</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">science</span>
+<span class="font-label-caps text-[8px] tracking-widest">FERMENTATION</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+<span class="font-label-caps text-[8px] tracking-widest">DISTILLATION</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for data overlays
+        document.querySelectorAll('.sigil-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const number = card.querySelector('.text-outline-variant');
+                if(number) {
+                    number.classList.remove('text-outline-variant');
+                    number.classList.add('text-primary');
+                    number.style.textShadow = '0 0 10px rgba(0, 242, 255, 0.5)';
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                const number = card.querySelector('.text-primary');
+                if(number && !card.classList.contains('active-glass-panel')) {
+                    number.classList.add('text-outline-variant');
+                    number.classList.remove('text-primary');
+                    number.style.textShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>

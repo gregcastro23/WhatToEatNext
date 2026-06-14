@@ -9,8 +9,19 @@
  * @file src/app/api/stripe/restaurant-order/route.ts
  */
 
+import { createHash, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import {
+  esmsRestaurantCentsPerToken,
+  esmsRestaurantPaymentsEnabled,
+  quoteEsmsBasket,
+} from "@/lib/payments/restaurantEsms";
+import {
+  normalizeRestaurantPaymentPreference,
+  restaurantCryptoPaymentsEnabled,
+  stripePaymentMethodTypes,
+} from "@/lib/payments/restaurantPayments";
 import type { RestaurantDiscoverySource } from "@/types/yelp";
 
 type SplitMode =
@@ -38,6 +49,7 @@ interface RestaurantOrderBody {
     deliveryAddress?: unknown;
     specialInstructions?: unknown;
     preparationTime?: unknown;
+    paymentMethod?: unknown;
   };
 }
 
@@ -82,6 +94,20 @@ function record(value: unknown): Record<string, unknown> | null {
 
 function metadataValue(value: string | number): string {
   return String(value).slice(0, MAX_METADATA_VALUE_LENGTH);
+}
+
+function orderIdFromRequest(
+  request: Request,
+  userId: string | null,
+): string {
+  const key = text(request.headers.get("idempotency-key"));
+  if (userId && /^[A-Za-z0-9:_-]{8,120}$/.test(key)) {
+    return createHash("sha256")
+      .update(`${userId}:${key}`)
+      .digest("hex")
+      .slice(0, 32);
+  }
+  return randomUUID();
 }
 
 function cents(value: unknown): number | null {
@@ -232,7 +258,7 @@ async function recordOrderIntent(input: {
   partnerStatus?: string | null;
   metadata?: Record<string, unknown>;
   userAgent?: string | null;
-}) {
+}): Promise<boolean> {
   try {
     const { executeQuery } = await import("@/lib/database/connection");
     await executeQuery(
@@ -289,12 +315,46 @@ async function recordOrderIntent(input: {
         input.userAgent ?? null,
       ],
     );
+    return true;
   } catch (error) {
     console.warn(
       "[api/stripe/restaurant-order] Order intent was not persisted:",
       error instanceof Error ? error.message : error,
     );
+    return false;
   }
+}
+
+async function updateEsmsOrderSettlement(input: {
+  orderId: string;
+  status: string;
+  transferId?: string | null;
+  transferStatus: string;
+  paymentStatus: string;
+  completed?: boolean;
+  metadata?: Record<string, unknown>;
+}) {
+  const { executeQuery } = await import("@/lib/database/connection");
+  await executeQuery(
+    `UPDATE restaurant_order_intents
+     SET status = $2,
+         stripe_transfer_id = COALESCE($3, stripe_transfer_id),
+         transfer_status = $4,
+         payment_status = $5,
+         metadata = metadata || $6::jsonb,
+         completed_at = CASE WHEN $7 THEN NOW() ELSE completed_at END,
+         updated_at = NOW()
+     WHERE id = $1`,
+    [
+      input.orderId,
+      input.status,
+      input.transferId ?? null,
+      input.transferStatus,
+      input.paymentStatus,
+      JSON.stringify(input.metadata ?? {}),
+      input.completed === true,
+    ],
+  );
 }
 
 async function findPartnerRouting(input: {
@@ -363,6 +423,9 @@ export async function POST(request: Request) {
   const cuisineType = text(body.cuisineType) || "Restaurant";
   const provider = text(body.provider) as RestaurantDiscoverySource | "";
   const orderCurrency = currency(body.order?.currency);
+  const paymentPreference = normalizeRestaurantPaymentPreference(
+    body.order?.paymentMethod,
+  );
   const orderDescription = text(body.order?.description);
   const lineItems = parseLineItems(body.order?.items);
   const itemSubtotalCents = lineItems.reduce(
@@ -376,8 +439,9 @@ export async function POST(request: Request) {
     10000,
   );
   const platformFeeCents = Math.floor((subtotalCents * platformFeeBps) / 10000);
-  const orderId = crypto.randomUUID();
   const userAgent = request.headers.get("user-agent");
+  const session = await auth().catch(() => null);
+  const orderId = orderIdFromRequest(request, session?.user?.id ?? null);
 
   if (!restaurantId || !restaurantName || !restaurantUrl) {
     return NextResponse.json(
@@ -390,6 +454,35 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: "Configured restaurant platform fee must be less than the order total" },
       { status: 400 },
+    );
+  }
+
+  if (paymentPreference === "crypto") {
+    if (!restaurantCryptoPaymentsEnabled()) {
+      return NextResponse.json(
+        {
+          error: "USDC checkout is not enabled for this deployment.",
+          code: "crypto_payments_unavailable",
+        },
+        { status: 503 },
+      );
+    }
+
+    if (orderCurrency !== "usd") {
+      return NextResponse.json(
+        { error: "Stripe stablecoin checkout requires USD-priced line items." },
+        { status: 400 },
+      );
+    }
+  }
+
+  if (paymentPreference === "esms" && !esmsRestaurantPaymentsEnabled()) {
+    return NextResponse.json(
+      {
+        error: "ESMS restaurant payments are not enabled for this deployment.",
+        code: "esms_payments_unavailable",
+      },
+      { status: 503 },
     );
   }
 
@@ -412,9 +505,16 @@ export async function POST(request: Request) {
   const internalRestaurantId = partnerRouting?.id || restaurantId;
   const partnerSystem = provider || "direct";
   const transferAmountCents = Math.max(subtotalCents - platformFeeCents, 0);
-  const splitMode = resolveSplitMode(body.order?.splitMode, connectedAccountId ?? "");
+  const resolvedSplitMode = resolveSplitMode(
+    body.order?.splitMode,
+    connectedAccountId ?? "",
+  );
+  const splitMode =
+    connectedAccountId &&
+    (paymentPreference === "crypto" || paymentPreference === "esms")
+      ? "separate_charges_and_transfers"
+      : resolvedSplitMode;
 
-  const session = await auth().catch(() => null);
   const orderType = normalizeOrderType(body.order?.orderType);
   const customerInfo = normalizeCustomerInfo(body.order?.customer, {
     name: session?.user?.name,
@@ -455,6 +555,177 @@ export async function POST(request: Request) {
   const orderPriceId = process.env.STRIPE_RESTAURANT_ORDER_PRICE_ID;
   const hasStripeSecret = Boolean(process.env.STRIPE_SECRET_KEY);
 
+  if (paymentPreference === "esms") {
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: "Sign in before paying with ESMS." },
+        { status: 401 },
+      );
+    }
+
+    if (!connectedAccountId) {
+      return NextResponse.json(
+        {
+          error: "ESMS payments require a Stripe-connected restaurant partner.",
+        },
+        { status: 409 },
+      );
+    }
+
+    if (!subtotalCents || !hasStripeSecret || !process.env.DATABASE_URL) {
+      return NextResponse.json(
+        {
+          error:
+            "ESMS settlement requires a priced order, Stripe, and the persistent ledger.",
+        },
+        { status: 503 },
+      );
+    }
+
+    const centsPerToken = esmsRestaurantCentsPerToken();
+    const esmsCost = quoteEsmsBasket(subtotalCents, centsPerToken);
+    if (!esmsCost) {
+      return NextResponse.json(
+        { error: "The ESMS restaurant redemption rate is not configured." },
+        { status: 503 },
+      );
+    }
+
+    const intentRecorded = await recordOrderIntent({
+      ...baseIntent,
+      status: "esms_reserving",
+      metadata: {
+        paymentPreference,
+        esmsCost,
+        centsPerToken,
+        settlementSource: "platform_stripe_balance",
+        specialInstructions: text(body.order?.specialInstructions) || undefined,
+        preparationTime: numberFrom(body.order?.preparationTime),
+      },
+    });
+    if (!intentRecorded) {
+      return NextResponse.json(
+        { error: "Could not persist the ESMS order before settlement." },
+        { status: 503 },
+      );
+    }
+
+    const { reserveEsmsForRestaurantOrder } = await import(
+      "@/lib/payments/esmsRestaurantLedger"
+    );
+    const reservation = await reserveEsmsForRestaurantOrder({
+      orderId,
+      userId: session.user.id,
+      restaurantName,
+      cost: esmsCost,
+    });
+
+    if (!reservation.reserved) {
+      await updateEsmsOrderSettlement({
+        orderId,
+        status: "payment_failed",
+        transferStatus: "not_started",
+        paymentStatus: "insufficient_esms",
+        metadata: { esmsCost },
+      });
+      return NextResponse.json(
+        {
+          error: "Insufficient ESMS balance for this order.",
+          code: "insufficient_esms",
+          orderId,
+          esmsCost,
+        },
+        { status: 402 },
+      );
+    }
+
+    const transferGroup = `restaurant_order_${orderId}`;
+    try {
+      const { getStripe } = await import("@/lib/stripe/stripe");
+      const stripe = getStripe();
+      const transfer = await stripe.transfers.create(
+        {
+          amount: transferAmountCents,
+          currency: orderCurrency,
+          destination: connectedAccountId,
+          transfer_group: transferGroup,
+          metadata: {
+            purpose: "restaurant_order_esms_settlement",
+            orderId,
+            userId: session.user.id,
+            restaurantName: metadataValue(restaurantName),
+          },
+        },
+        { idempotencyKey: `restaurant_order_esms_transfer_${orderId}` },
+      );
+
+      await updateEsmsOrderSettlement({
+        orderId,
+        status: "paid",
+        transferId: transfer.id,
+        transferStatus: "created",
+        paymentStatus: "paid_with_esms",
+        completed: true,
+        metadata: {
+          paymentPreference,
+          esmsCost,
+          centsPerToken,
+          transferGroup,
+          remainingBalances: reservation.balances,
+        },
+      });
+
+      const { triggerOrderFulfillment } = await import("@/lib/orders/fulfillment");
+      try {
+        await triggerOrderFulfillment(orderId);
+      } catch (error) {
+        console.error(
+          `[api/stripe/restaurant-order] ESMS order fulfillment failed: ${orderId}`,
+          error,
+        );
+      }
+
+      return NextResponse.json({
+        mode: "esms",
+        orderId,
+        status: "paid",
+        esmsCost,
+        remainingBalances: reservation.balances,
+        settlement: {
+          currency: orderCurrency,
+          transferAmountCents,
+          transferId: transfer.id,
+        },
+      });
+    } catch (error) {
+      console.error(
+        `[api/stripe/restaurant-order] ESMS settlement pending: ${orderId}`,
+        error,
+      );
+      await updateEsmsOrderSettlement({
+        orderId,
+        status: "settlement_pending",
+        transferStatus: "retry_required",
+        paymentStatus: "esms_reserved",
+        metadata: {
+          paymentPreference,
+          esmsCost,
+          settlementError:
+            error instanceof Error ? error.message : "Unknown settlement error",
+        },
+      });
+      return NextResponse.json(
+        {
+          error:
+            "ESMS was reserved, but restaurant settlement is pending. Do not submit the order again.",
+          code: "settlement_pending",
+          orderId,
+        },
+        { status: 202 },
+      );
+    }
+  }
+
   if ((!subtotalCents && !orderPriceId) || !hasStripeSecret) {
     await recordOrderIntent({
       ...baseIntent,
@@ -466,6 +737,7 @@ export async function POST(request: Request) {
           : "STRIPE_SECRET_KEY is not configured.",
         specialInstructions: text(body.order?.specialInstructions) || undefined,
         preparationTime: numberFrom(body.order?.preparationTime),
+        paymentPreference,
       },
     });
 
@@ -496,6 +768,28 @@ export async function POST(request: Request) {
     const transferGroup = `restaurant_order_${orderId}`;
     const { getStripe } = await import("@/lib/stripe/stripe");
     const stripe = getStripe();
+    if (paymentPreference === "crypto" && connectedAccountId) {
+      const connectedAccount = await stripe.accounts.retrieve(connectedAccountId);
+      if (connectedAccount.capabilities?.crypto_payments !== "active") {
+        await recordOrderIntent({
+          ...baseIntent,
+          status: "checkout_failed",
+          metadata: {
+            paymentPreference,
+            reason: "Connected account crypto_payments capability is not active.",
+          },
+        });
+        return NextResponse.json(
+          {
+            error:
+              "This restaurant is still completing Stripe crypto payment activation.",
+            code: "restaurant_crypto_not_active",
+            orderId,
+          },
+          { status: 409 },
+        );
+      }
+    }
     const commonMetadata = {
       purpose: "restaurant_order",
       source: "cuisine_restaurant_discovery",
@@ -513,56 +807,65 @@ export async function POST(request: Request) {
       platformFeeCents: metadataValue(platformFeeCents),
       transferAmountCents: metadataValue(transferAmountCents),
       orderType,
+      paymentPreference,
     };
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items: subtotalCents
-        ? (lineItems.length > 0
-            ? lineItems.map((item) => ({
-                price_data: {
-                  currency: orderCurrency,
-                  unit_amount: item.unitPriceCents,
-                  product_data: {
-                    name: item.name,
-                    metadata: { restaurantOrderItemId: metadataValue(item.id) },
-                  },
-                },
-                quantity: item.quantity,
-              }))
-            : [
-                {
+    const paymentMethodTypes = stripePaymentMethodTypes(paymentPreference);
+
+    const checkoutSession = await stripe.checkout.sessions.create(
+      {
+        mode: "payment",
+        ...(paymentMethodTypes
+          ? { payment_method_types: paymentMethodTypes }
+          : {}),
+        line_items: subtotalCents
+          ? (lineItems.length > 0
+              ? lineItems.map((item) => ({
                   price_data: {
                     currency: orderCurrency,
-                    unit_amount: subtotalCents,
+                    unit_amount: item.unitPriceCents,
                     product_data: {
-                      name: `${restaurantName} order`,
-                      description:
-                        orderDescription ||
-                        `${cuisineType} restaurant order through Alchm Kitchen`,
+                      name: item.name,
+                      metadata: { restaurantOrderItemId: metadataValue(item.id) },
                     },
                   },
-                  quantity: 1,
-                },
-              ])
-        : [{ price: orderPriceId, quantity: 1 }],
-      success_url: successUrl.toString(),
-      cancel_url: cancelUrl.toString(),
-      customer_email: session?.user?.email ?? undefined,
-      client_reference_id: orderId,
-      metadata: commonMetadata,
-      payment_intent_data: {
+                  quantity: item.quantity,
+                }))
+              : [
+                  {
+                    price_data: {
+                      currency: orderCurrency,
+                      unit_amount: subtotalCents,
+                      product_data: {
+                        name: `${restaurantName} order`,
+                        description:
+                          orderDescription ||
+                          `${cuisineType} restaurant order through Alchm Kitchen`,
+                      },
+                    },
+                    quantity: 1,
+                  },
+                ])
+          : [{ price: orderPriceId, quantity: 1 }],
+        success_url: successUrl.toString(),
+        cancel_url: cancelUrl.toString(),
+        customer_email: session?.user?.email ?? undefined,
+        client_reference_id: orderId,
         metadata: commonMetadata,
-        ...(splitMode === "destination_charge" && connectedAccountId
-          ? {
-              transfer_data: { destination: connectedAccountId },
-              ...(platformFeeCents
-                ? { application_fee_amount: platformFeeCents }
-                : {}),
-            }
-          : { transfer_group: transferGroup }),
+        payment_intent_data: {
+          metadata: commonMetadata,
+          ...(splitMode === "destination_charge" && connectedAccountId
+            ? {
+                transfer_data: { destination: connectedAccountId },
+                ...(platformFeeCents
+                  ? { application_fee_amount: platformFeeCents }
+                  : {}),
+              }
+            : { transfer_group: transferGroup }),
+        },
       },
-    });
+      { idempotencyKey: `restaurant_checkout_${orderId}` },
+    );
 
     await recordOrderIntent({
       ...baseIntent,
@@ -579,6 +882,7 @@ export async function POST(request: Request) {
         transferGroup,
         specialInstructions: text(body.order?.specialInstructions) || undefined,
         preparationTime: numberFrom(body.order?.preparationTime),
+        paymentPreference,
       },
     });
 
@@ -597,6 +901,7 @@ export async function POST(request: Request) {
       sessionId: checkoutSession.id,
       orderId,
       splitMode,
+      paymentPreference,
       totals: {
         currency: orderCurrency,
         subtotalCents,

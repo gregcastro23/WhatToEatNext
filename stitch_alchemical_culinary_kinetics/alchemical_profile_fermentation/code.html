@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fermentation: The Temporal Synthesis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#ffb59e",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#00f2ff",
+                        "secondary-fixed": "#ffdbd0",
+                        "primary-fixed": "#74f5ff",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "surface-variant": "#333440",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#00fb86",
+                        "background": "#11131e",
+                        "secondary-fixed-dim": "#ffb59e",
+                        "on-primary-fixed-variant": "#004f54",
+                        "secondary-container": "#ff571a",
+                        "inverse-on-surface": "#2e303c",
+                        "surface-tint": "#00dbe7",
+                        "surface-container": "#1d1f2a",
+                        "tertiary": "#e2ffe4",
+                        "surface-container-low": "#191b26",
+                        "surface-container-high": "#282935",
+                        "primary-fixed-dim": "#00dbe7",
+                        "tertiary-fixed": "#60ff99",
+                        "inverse-primary": "#00696f",
+                        "surface-dim": "#11131e",
+                        "on-tertiary-fixed": "#00210c",
+                        "on-tertiary-container": "#006f37",
+                        "on-secondary-container": "#521300",
+                        "outline": "#849495",
+                        "on-background": "#e2e1f1",
+                        "outline-variant": "#3a494b",
+                        "on-secondary": "#5e1700",
+                        "on-primary-container": "#006a71",
+                        "surface-bright": "#373845",
+                        "surface": "#11131e",
+                        "surface-container-lowest": "#0c0d18",
+                        "on-primary": "#00363a",
+                        "on-secondary-fixed-variant": "#852400",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#00e479",
+                        "on-surface-variant": "#b9cacb",
+                        "on-surface": "#e2e1f1",
+                        "inverse-surface": "#e2e1f1",
+                        "on-error": "#690005",
+                        "on-tertiary": "#003919",
+                        "on-primary-fixed": "#002022",
+                        "primary": "#e1fdff",
+                        "on-secondary-fixed": "#3a0b00",
+                        "surface-container-highest": "#333440"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "subheading": ["Bodoni Moda"],
+                        "body-lg": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Bodoni Moda"],
+                        "data-lg": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"],
+                        "headline-xl": ["Bodoni Moda"],
+                        "headline-lg": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "subheading": ["24px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "data-lg": ["18px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0a0a0a; color: #e2e1f1; overflow-x: hidden; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+            box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05);
+        }
+        .glow-border {
+            border: 1px solid transparent;
+            background: linear-gradient(#0a0a0a, #0a0a0a) padding-box, linear-gradient(135deg, rgba(0, 242, 255, 0.4), transparent) border-box;
+        }
+        .text-glow { text-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
+        .grid-bg {
+            background-image: linear-gradient(rgba(132, 148, 149, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(132, 148, 149, 0.1) 1px, transparent 1px);
+            background-size: 32px 32px;
+            background-position: center center;
+        }
+    </style>
+</head>
+<body class="grid-bg font-body-md text-body-md min-h-screen flex">
+<!-- Side Navigation -->
+<nav class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] z-40 w-64 bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-primary/5 transition-all duration-200 ease-in-out">
+<div class="px-6 py-8">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tighter">LEAD_TO_GOLD</h1>
+<p class="font-label-caps text-label-caps text-outline mt-2">PHASE_SHIFT_V.04</p>
+</div>
+<ul class="flex-1 px-4 space-y-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">local_fire_department</span>
+<span class="font-label-caps text-label-caps">Combustion</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">cloud</span>
+<span class="font-label-caps text-label-caps">Sublimation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-r-2 border-primary transition-all rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">science</span>
+<span class="font-label-caps text-label-caps">Fermentation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">water_drop</span>
+<span class="font-label-caps text-label-caps">Distillation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">grain</span>
+<span class="font-label-caps text-label-caps">Coagulation</span>
+</a>
+</li>
+</ul>
+<div class="px-4 py-6 border-t border-outline-variant/20">
+<button class="w-full py-3 px-4 bg-transparent border border-primary text-primary font-label-caps text-label-caps hover:bg-primary/10 transition-all rounded glow-border text-center">INITIATE_REACTION</button>
+<div class="mt-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-all rounded" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="font-label-caps text-label-caps">System_Logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-error transition-all rounded" href="#">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span class="font-label-caps text-label-caps">Safety_Sigils</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20">
+<div class="font-headline-lg text-headline-lg text-primary tracking-tighter hidden md:block">ALCHM.KITCHEN</div>
+<nav class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1 rounded" href="#">TRANSMUTATIONS</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1 px-2 py-1" href="#">ELEMENTS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1 rounded" href="#">THE_SANCTUM</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-2 py-1 rounded" href="#">ARCHIVES</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 md:ml-64 mt-16 px-margin-mobile md:px-margin-desktop py-12">
+<div class="max-w-container-max mx-auto space-y-12">
+<!-- Hero Section -->
+<section class="relative h-[60vh] rounded-xl overflow-hidden glow-border group">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
+<img alt="A high-fidelity scientific diagram of Fermentation (Biological Transmutation). Showing microbial activity and enzymatic breakdown over time. Molecular level inset showing lactic acid production and protein pre-digestion as glowing bioluminescent teal and gold alchemical symbols. Dark mode, obsidian background, deep sea teal and amber accents. Growth curves, 'Biological Current' and 'Enzymatic Voltage' markers. Monospace data overlays." class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9smOL204y5D6aQeAuIEvrWdAhGsvCQHXu-vTQRxH_WPfjCkZUC3FXv59GLqlHNwcaI5PiQwjrkPooFadHRe2eu7CnwVqPohIp6SwQosTvBt6RNVlDsRZ-gbdZs-bVEceS5L32pIwUxuuDoIYfC_eHr9L2ly0tQGEiQ00FurlzMKK3L2CgHZgxgbP1aRd3yXIEd8EONnfQ9N3Uavp3JyiL29unbl2lLDrdGs8StLtJYj9Msw-mAByjH5H9xJo8m9E0xqImHIzz2O8"/>
+<div class="absolute bottom-0 left-0 p-8 z-20 w-full">
+<div class="flex items-end justify-between">
+<div>
+<span class="font-label-caps text-label-caps text-primary mb-2 block tracking-widest uppercase">Biological Transmutation</span>
+<h2 class="font-headline-xl text-headline-xl text-primary-container text-glow mb-4">Fermentation</h2>
+<p class="font-subheading text-subheading text-on-surface">The Temporal Synthesis.</p>
+</div>
+<div class="hidden md:flex gap-4">
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center border-t border-primary/50">
+<span class="font-label-caps text-label-caps text-outline mb-1">State</span>
+<span class="font-data-lg text-data-lg text-tertiary-fixed">Active</span>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col items-center border-t border-secondary/50">
+<span class="font-label-caps text-label-caps text-outline mb-1">Phase</span>
+<span class="font-data-lg text-data-lg text-secondary-fixed">Anaerobic</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Kinetic Profile -->
+<section class="md:col-span-8 glass-panel rounded-xl p-8 glow-border">
+<header class="flex items-center gap-3 border-b border-outline-variant/30 pb-4 mb-6">
+<span class="material-symbols-outlined text-primary">timeline</span>
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Kinetic Profile</h3>
+</header>
+<div class="space-y-6">
+<p class="text-on-surface-variant">Low-voltage biological decay and enzymatic current (I) over extended time. The transmutation occurs gradually, relying on microbial agents rather than thermal combustion.</p>
+<div class="bg-surface-container p-6 rounded-lg border border-outline-variant/20 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-fixed shadow-[0_0_10px_rgba(116,245,255,0.8)]"></div>
+<span class="font-label-caps text-label-caps text-outline block mb-2">Fundamental Equation</span>
+<code class="font-data-lg text-data-lg text-primary tracking-widest block">Reaction_Rate = k[Enzyme][Substrate]</code>
+</div>
+</div>
+</section>
+<!-- Elemental Signature & Astrological -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<section class="glass-panel rounded-xl p-6 glow-border flex-1">
+<header class="border-b border-outline-variant/30 pb-3 mb-4">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface text-lg">Elemental Signature</h3>
+</header>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between mb-1">
+<span class="font-label-caps text-label-caps text-tertiary-fixed">Water (Solvent)</span>
+<span class="font-data-lg text-data-lg text-tertiary-fixed">60%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed shadow-[0_0_5px_rgba(96,255,153,0.5)] w-[60%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span class="font-label-caps text-label-caps text-secondary-fixed">Earth (Substrate)</span>
+<span class="font-data-lg text-data-lg text-secondary-fixed">40%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed shadow-[0_0_5px_rgba(255,219,208,0.5)] w-[40%]"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="glass-panel rounded-xl p-6 glow-border">
+<header class="border-b border-outline-variant/30 pb-3 mb-4">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface text-lg">Astrological Rulership</h3>
+</header>
+<div class="flex gap-4">
+<div class="flex-1 flex flex-col items-center justify-center p-4 bg-surface-container rounded border border-outline-variant/20 hover:border-primary/50 transition-colors cursor-crosshair">
+<span class="material-symbols-outlined text-3xl text-primary mb-2">female</span>
+<span class="font-label-caps text-label-caps text-outline">VENUS</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center p-4 bg-surface-container rounded border border-outline-variant/20 hover:border-primary/50 transition-colors cursor-crosshair">
+<span class="material-symbols-outlined text-3xl text-outline mb-2">all_inclusive</span>
+<span class="font-label-caps text-label-caps text-outline">SATURN</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Molecular Interaction -->
+<section class="md:col-span-12 glass-panel rounded-xl p-8 glow-border mt-6">
+<header class="flex items-center gap-3 border-b border-outline-variant/30 pb-4 mb-6">
+<span class="material-symbols-outlined text-tertiary-fixed">biotech</span>
+<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Molecular Interaction</h3>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-4 border-l-2 border-primary pl-4">
+<h4 class="font-subheading text-subheading text-primary-container">Lactic Acid Production</h4>
+<p class="text-on-surface-variant">The conversion of simple sugars into lactic acid via Lactobacillus activity. This creates an acidic environment hostile to putrefaction, preserving the substrate while transforming its flavor profile.</p>
+<code class="font-data-lg text-data-lg text-outline block mt-2 text-sm">C6H12O6 → 2 CH3CHOHCOOH</code>
+</div>
+<div class="space-y-4 border-l-2 border-secondary pl-4">
+<h4 class="font-subheading text-subheading text-secondary-fixed">Protein Pre-digestion</h4>
+<p class="text-on-surface-variant">Enzymatic cleavage of complex peptide bonds into free amino acids. This biological breakdown increases bioavailability and generates profound umami signatures.</p>
+<div class="flex gap-2 mt-4">
+<span class="px-2 py-1 border border-outline/50 rounded font-label-caps text-[10px] text-outline">Protease Activity</span>
+<span class="px-2 py-1 border border-outline/50 rounded font-label-caps text-[10px] text-outline">Peptide Cleavage</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-gutter bg-surface-container-lowest border-t border-outline-variant/20 md:ml-64 mt-12 relative z-10">
+<div class="font-headline-lg text-headline-lg text-primary tracking-widest mb-4">ALCHM.KITCHEN</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">THERMODYNAMIC_LAWS</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">ESOTERIC_SAFETY</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">MOLECULAR_DISCLAIMER</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">GLOBAL_EQUATIONS</a>
+</div>
+<p class="font-label-caps text-label-caps text-outline mt-8 opacity-50 text-center">© 2024 ALCHM.KITCHEN // THE LAW OF EQUIVALENT EXCHANGE APPLIES</p>
+</footer>
+</body></html>

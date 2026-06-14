@@ -21,6 +21,7 @@ Dive into the technical stack and contribution workflows:
 - **[Backend Integration](technical/api-integration.md)** - Python FastAPI and Swiss Ephemeris.
 - **[Database Schema](data/database-schema.md)** - Neon PostgreSQL structure.
 - **[Testing Guidelines](development/testing-strategy.md)** - Ensuring alchemical rigor.
+- **[Crypto Food Payments](payments/CRYPTO_FOOD_PAYMENTS.md)** - USDC, ESMS reserve settlement, provider research, and rollout controls.
 
 ---
 

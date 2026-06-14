@@ -58,7 +58,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history.
 | **Backend** | Python FastAPI + `pyswisseph` (Swiss Ephemeris) on Railway |
 | **Database** | PostgreSQL on Railway (internal: `postgres.railway.internal`) |
 | **Auth** | NextAuth.js v5 (Auth.js) — Google OAuth, JWT, device sessions |
-| **Payments** | Stripe (checkout + webhook) |
+| **Payments** | Stripe Checkout + Connect (card, stablecoins, ESMS reserve settlement) |
 | **Email** | Resend |
 | **Analytics** | Vercel Analytics + OpenTelemetry |
 | **Frontend hosting** | Vercel (`alchm-kitchen-pro` project) |

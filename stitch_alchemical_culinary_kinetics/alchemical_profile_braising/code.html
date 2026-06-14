@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BRAISING: The Aqueous Transmutation | ALCHM.KITCHEN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#00210c",
+                        "surface-container": "#1d1f2a",
+                        "outline": "#849495",
+                        "surface-container-lowest": "#0c0d18",
+                        "on-primary-fixed-variant": "#004f54",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb59e",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#002022",
+                        "surface-variant": "#333440",
+                        "primary": "#e1fdff",
+                        "on-secondary-fixed": "#3a0b00",
+                        "surface-container-highest": "#333440",
+                        "secondary-container": "#ff571a",
+                        "on-tertiary": "#003919",
+                        "on-primary": "#00363a",
+                        "tertiary": "#e2ffe4",
+                        "surface-container-high": "#282935",
+                        "secondary": "#ffb59e",
+                        "inverse-primary": "#00696f",
+                        "on-tertiary-fixed-variant": "#005228",
+                        "surface-dim": "#11131e",
+                        "on-secondary-container": "#521300",
+                        "on-background": "#e2e1f1",
+                        "primary-fixed-dim": "#00dbe7",
+                        "surface-tint": "#00dbe7",
+                        "on-primary-container": "#006a71",
+                        "on-tertiary-container": "#006f37",
+                        "primary-fixed": "#74f5ff",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#60ff99",
+                        "on-surface-variant": "#b9cacb",
+                        "tertiary-fixed-dim": "#00e479",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#00fb86",
+                        "surface": "#11131e",
+                        "inverse-on-surface": "#2e303c",
+                        "surface-bright": "#373845",
+                        "on-secondary-fixed-variant": "#852400",
+                        "secondary-fixed": "#ffdbd0",
+                        "surface-container-low": "#191b26",
+                        "inverse-surface": "#e2e1f1",
+                        "primary-container": "#00f2ff",
+                        "outline-variant": "#3a494b",
+                        "on-secondary": "#5e1700",
+                        "on-surface": "#e2e1f1",
+                        "background": "#11131e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "container-max": "1440px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "data-lg": ["JetBrains Mono"],
+                        "headline-lg": ["Bodoni Moda"],
+                        "headline-xl": ["Bodoni Moda"],
+                        "subheading": ["Bodoni Moda"],
+                        "body-md": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Bodoni Moda"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "data-lg": ["18px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "subheading": ["24px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom UI Elements */
+        .glass-panel {
+            background: rgba(17, 19, 30, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+        }
+        
+        .glow-border {
+            position: relative;
+        }
+        
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            background: linear-gradient(180deg, theme('colors.primary-container') 0%, transparent 100%) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .sacred-geometry-bg {
+            background-image: 
+                linear-gradient(rgba(0, 219, 231, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 219, 231, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+            background-position: center center;
+        }
+
+        .hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='103.92304845413263' viewBox='0 0 60 103.92304845413263' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 103.92304845413263L0 86.60254037844386L0 51.96152422706631L30 34.64101615137754L60 51.96152422706631L60 86.60254037844386Z' fill='none' stroke='rgba(0, 219, 231, 0.05)' stroke-width='1'/%3E%3Cpath d='M30 51.96152422706631L0 34.64101615137754L0 0L30 -17.32050807568877L60 0L60 34.64101615137754Z' fill='none' stroke='rgba(0, 219, 231, 0.05)' stroke-width='1'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen sacred-geometry-bg antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Container (Web) -->
+<header class="hidden md:flex fixed top-0 left-0 w-full z-50 justify-between items-center px-margin-desktop h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20 scale-95 active:opacity-80 transition-all duration-200">
+<div class="font-headline-lg text-headline-lg text-primary tracking-tighter">ALCHM.KITCHEN</div>
+<nav class="flex gap-8">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1 hover:bg-primary/10 transition-all duration-300" href="#">TRANSMUTATIONS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 transition-all duration-300" href="#">ELEMENTS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 transition-all duration-300" href="#">THE_SANCTUM</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 transition-all duration-300" href="#">ARCHIVES</a>
+</nav>
+<div class="flex gap-4">
+<button class="text-primary hover:bg-primary/10 p-2 rounded transition-all duration-300">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="text-primary hover:bg-primary/10 p-2 rounded transition-all duration-300">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Side Navigation (Web) -->
+<aside class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex-col w-64 bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-primary/5 transition-all duration-200 ease-in-out">
+<div class="p-6 border-b border-outline-variant/20">
+<div class="w-12 h-12 rounded-full bg-surface-variant mb-4 overflow-hidden border border-outline-variant/50">
+<img alt="Alchemist Profile" class="w-full h-full object-cover" data-alt="A macro shot of a mysterious culinary alchemist in a dimly lit laboratory, wearing a dark apron, illuminated by cool cyan light from experimental equipment. High contrast, cinematic lighting, glassmorphic styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1NdV6nmQmf6WL8WKs7YSLqzHuc45LV5njazZ5LCTss-0EF39J7BpRnkSeph8R0z5wGD3jNwVTqtNCza5T8OgWhWUm0B3mVD5I2tBRLxmQkFbYSuVcTW9-1xxqbAzH4JZGihmRnxcwdLSGxXzhmw2-7K6YbIZ50U0vmwNNnTf30wYfsDaEbrQWeFFBYZ2cfTmsbVm9-OYguISbRUZFckpgkMchWO7sdLK7W15rAJ5yT3awxli2fHLqmnPTlymuTZ2T6v65ItD9q9Y"/>
+</div>
+<h2 class="font-data-lg text-data-lg text-primary">LEAD_TO_GOLD</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">PHASE_SHIFT_V.04</p>
+</div>
+<nav class="flex-1 py-6 flex flex-col gap-2 px-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined">local_fire_department</span>
+                Combustion
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined">cloud</span>
+                Sublimation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined">science</span>
+                Fermentation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded bg-primary-container/20 text-primary border-r-2 border-primary font-body-md text-body-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined filled">water_drop</span>
+                Distillation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 font-body-md text-body-md transition-all duration-200" href="#">
+<span class="material-symbols-outlined">grain</span>
+                Coagulation
+            </a>
+</nav>
+<div class="p-4 border-t border-outline-variant/20">
+<button class="w-full py-3 border border-primary text-primary font-label-caps text-label-caps hover:bg-primary/10 transition-all duration-300 relative glow-border uppercase">
+                INITIATE_REACTION
+            </button>
+</div>
+<div class="flex border-t border-outline-variant/20 p-2">
+<a class="flex-1 flex justify-center py-2 text-on-surface-variant hover:text-primary transition-colors" href="#" title="System_Logs">
+<span class="material-symbols-outlined">terminal</span>
+</a>
+<a class="flex-1 flex justify-center py-2 text-on-surface-variant hover:text-primary transition-colors" href="#" title="Safety_Sigils">
+<span class="material-symbols-outlined">warning</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 pt-16 md:pt-[64px] min-h-screen relative overflow-hidden pb-32">
+<!-- Ambient Glow -->
+<div class="fixed top-1/4 right-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+<div class="fixed bottom-1/4 left-1/4 w-[500px] h-[500px] bg-secondary-container/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
+<div class="max-w-[container-max] mx-auto px-margin-mobile md:px-margin-desktop py-12 relative z-10">
+<!-- Header Section -->
+<header class="mb-16 border-b border-outline-variant/30 pb-8">
+<div class="flex items-center gap-4 mb-4">
+<span class="px-3 py-1 border border-primary-fixed/30 text-primary-fixed font-label-caps text-label-caps rounded-sm uppercase tracking-widest bg-primary/5">
+                        AQUEOUS TRANSMUTATION
+                    </span>
+<span class="h-px bg-outline-variant/50 w-16"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">PROCEDURE .04</span>
+</div>
+<h1 class="font-headline-lg-mobile md:font-headline-xl text-headline-lg-mobile md:text-headline-xl text-surface-tint tracking-tight mb-4 drop-shadow-[0_0_15px_rgba(0,219,231,0.3)]">
+                    BRAISING
+                </h1>
+<p class="font-subheading text-subheading text-on-surface-variant max-w-2xl">
+                    The methodical synthesis of moisture and sustained thermal energy, inducing deep structural breakdown of dense organic matrices.
+                </p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Hero Image Card (Spans 8 cols) -->
+<div class="md:col-span-8 glass-panel rounded-xl overflow-hidden glow-border relative min-h-[400px]">
+<img alt="Braising Diagram" class="w-full h-full object-cover opacity-80 mix-blend-screen absolute inset-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8qaxiFzJ7NI5Vog9aSjNOuD62jFHaU-HD4DdCKdvTQuuBDSFIldtSHYfLz6kN5nt5I-rb5SepL_dkKbyGCsTNubvmRnKaCjRvnMPIypYzvU6OzVd6wPc1JcOVcbtTDGXP29mUiPReLRlsFJInxVQae_-ZdiidgY_Dw99ZLIKCRrlkiz1APOMSLxOs9oBCNJPCMnZgp5h57J4ITKFIKFUW2DmP5jUFtgbwLYiw-a6BIxzFwSAZJEcD28ePU7AeOy2xPKbrU4vvhJA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent pointer-events-none"></div>
+<!-- Overlay Data -->
+<div class="absolute bottom-0 left-0 w-full p-6 flex justify-between items-end">
+<div>
+<div class="font-label-caps text-label-caps text-primary/70 mb-2">VISUAL TELEMETRY</div>
+<div class="font-data-lg text-data-lg text-primary">CONVECTIVE_FLUID_DYNAMICS</div>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-primary text-3xl">water_drop</span>
+</div>
+</div>
+</div>
+<!-- Kinetic Equations (Spans 4 cols) -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<div class="glass-panel rounded-xl p-6 glow-border flex-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl">functions</span>
+</div>
+<h3 class="font-label-caps text-label-caps text-outline mb-6 border-b border-outline-variant/20 pb-2">KINETIC_EQUATIONS</h3>
+<div class="space-y-6">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">VOLTAGE (V)</div>
+<div class="font-data-lg text-data-lg text-primary-fixed flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-fixed shadow-[0_0_8px_theme('colors.primary-fixed')]"></span>
+                                    LOW / CONSTANT
+                                </div>
+<div class="h-1 w-full bg-surface-variant mt-2 rounded-full overflow-hidden">
+<div class="h-full w-1/3 bg-primary-fixed"></div>
+</div>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1">CURRENT (I)</div>
+<div class="font-data-lg text-data-lg text-tertiary-fixed flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed shadow-[0_0_8px_theme('colors.tertiary-fixed')]"></span>
+                                    FLUID (CONVECTION)
+                                </div>
+<div class="h-1 w-full bg-surface-variant mt-2 rounded-full overflow-hidden">
+<div class="h-full w-4/5 bg-tertiary-fixed"></div>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<div class="font-body-md text-body-md text-on-surface-variant font-mono text-sm">
+                                    ΔT = Q / (m * c)<br/>
+                                    Rate = k[H2O][Organic]
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Molecular Interaction Panel (Spans 6 cols) -->
+<div class="md:col-span-6 glass-panel rounded-xl p-6 glow-border relative">
+<h3 class="font-label-caps text-label-caps text-outline mb-6 border-b border-outline-variant/20 pb-2">MOLECULAR_INTERACTION</h3>
+<div class="flex items-start gap-6">
+<div class="w-24 h-24 rounded-full border border-primary/30 flex items-center justify-center relative flex-shrink-0 hex-grid">
+<span class="material-symbols-outlined text-primary text-4xl">science</span>
+<!-- Rotating ring -->
+<div class="absolute inset-0 border border-primary-fixed/20 rounded-full border-t-primary-fixed animate-[spin_10s_linear_infinite]"></div>
+</div>
+<div>
+<h4 class="font-data-lg text-data-lg text-surface-tint mb-2">Collagen Breakdown &amp; Hydration</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">
+                                Prolonged thermal exposure in an aqueous medium initiates the hydrolysis of dense connective tissues. Triple-helix collagen structures denature, unraveling into hydrophilic gelatin chains, profoundly altering textural integrity.
+                            </p>
+<div class="flex gap-4">
+<span class="px-2 py-1 bg-primary/10 border border-primary/20 text-primary font-label-caps text-label-caps text-[10px]">HYDROLYSIS</span>
+<span class="px-2 py-1 bg-tertiary/10 border border-tertiary/20 text-tertiary font-label-caps text-label-caps text-[10px]">DENATURATION</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Elemental Breakdown & Astrology (Spans 6 cols) -->
+<div class="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Elemental -->
+<div class="glass-panel rounded-xl p-6 glow-border flex flex-col justify-between">
+<h3 class="font-label-caps text-label-caps text-outline mb-4">ELEMENTAL_SIGNATURE</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed">water_drop</span>
+<span class="font-body-md text-body-md text-on-surface">Water (Dominance)</span>
+</div>
+<span class="font-data-lg text-data-lg text-primary-fixed">78%</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed">landscape</span>
+<span class="font-body-md text-body-md text-on-surface">Earth (Softening)</span>
+</div>
+<span class="font-data-lg text-data-lg text-tertiary-fixed">22%</span>
+</div>
+</div>
+</div>
+<!-- Astrological -->
+<div class="glass-panel rounded-xl p-6 glow-border flex flex-col items-center justify-center relative overflow-hidden text-center">
+<div class="absolute inset-0 opacity-10 hex-grid"></div>
+<h3 class="font-label-caps text-label-caps text-outline mb-4 relative z-10 w-full text-left">ASTROLOGICAL_RULERSHIP</h3>
+<div class="flex items-center gap-8 relative z-10 my-auto">
+<div class="flex flex-col items-center gap-2">
+<div class="w-12 h-12 rounded-full border border-primary flex items-center justify-center bg-primary/5">
+<span class="material-symbols-outlined text-primary">dark_mode</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary">MOON</span>
+</div>
+<div class="h-px w-8 bg-outline-variant"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-12 h-12 rounded-full border border-secondary flex items-center justify-center bg-secondary/5">
+<span class="material-symbols-outlined text-secondary">hdr_strong</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">SATURN</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Container -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col items-center gap-gutter bg-surface-container-lowest border-t border-outline-variant/20 relative z-20 md:ml-64">
+<div class="font-headline-lg text-headline-lg text-primary opacity-80 hover:opacity-100 transition-opacity">ALCHM.KITCHEN</div>
+<nav class="flex flex-wrap justify-center gap-6 mt-4">
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">THERMODYNAMIC_LAWS</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">ESOTERIC_SAFETY</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">MOLECULAR_DISCLAIMER</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors" href="#">GLOBAL_EQUATIONS</a>
+</nav>
+<div class="font-label-caps text-label-caps text-outline mt-8 opacity-50">
+            © 2024 ALCHM.KITCHEN // THE LAW OF EQUIVALENT EXCHANGE APPLIES
+        </div>
+</footer>
+</body></html>

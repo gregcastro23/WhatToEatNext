@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
+import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
 import type { NextRequest } from "next/server";
 // Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
 // `stripe` default export as the actual class with merged namespace —
@@ -199,6 +200,15 @@ export async function POST(request: NextRequest) {
     let account: Stripe.Account;
     if (existing?.stripe_connect_account_id) {
       account = await stripe.accounts.retrieve(existing.stripe_connect_account_id);
+      if (
+        restaurantCryptoPaymentsEnabled() &&
+        account.capabilities?.crypto_payments !== "active" &&
+        account.capabilities?.crypto_payments !== "pending"
+      ) {
+        account = await stripe.accounts.update(account.id, {
+          capabilities: { crypto_payments: { requested: true } },
+        });
+      }
     } else {
       const controller: Stripe.AccountCreateParams.Controller = {
         losses: { payments: "application" },
@@ -215,6 +225,9 @@ export async function POST(request: NextRequest) {
           capabilities: {
             card_payments: { requested: true },
             transfers: { requested: true },
+            ...(restaurantCryptoPaymentsEnabled()
+              ? { crypto_payments: { requested: true } }
+              : {}),
           },
           controller,
           metadata: {

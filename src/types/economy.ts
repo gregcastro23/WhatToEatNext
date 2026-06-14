@@ -53,7 +53,8 @@ export type TransactionSourceType =
    * uploading a photo (GPT-4o extraction) via POST /api/recipes/extract.
    * Live-priced per extraction like refine_oracle; refunded if extraction fails.
    */
-  | "recipe_ingestion";
+  | "recipe_ingestion"
+  | "restaurant_order";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 

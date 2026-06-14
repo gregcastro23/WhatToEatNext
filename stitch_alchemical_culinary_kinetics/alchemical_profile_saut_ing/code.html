@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SAUTÉING: The Kinetic Impulse - ALCHM.KITCHEN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#00210c",
+                    "surface-container": "#1d1f2a",
+                    "outline": "#849495",
+                    "surface-container-lowest": "#0c0d18",
+                    "on-primary-fixed-variant": "#004f54",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#ffb59e",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-fixed": "#002022",
+                    "surface-variant": "#333440",
+                    "primary": "#e1fdff",
+                    "on-secondary-fixed": "#3a0b00",
+                    "surface-container-highest": "#333440",
+                    "secondary-container": "#ff571a",
+                    "on-tertiary": "#003919",
+                    "on-primary": "#00363a",
+                    "tertiary": "#e2ffe4",
+                    "surface-container-high": "#282935",
+                    "secondary": "#ffb59e",
+                    "inverse-primary": "#00696f",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "surface-dim": "#11131e",
+                    "on-secondary-container": "#521300",
+                    "on-background": "#e2e1f1",
+                    "primary-fixed-dim": "#00dbe7",
+                    "surface-tint": "#00dbe7",
+                    "on-primary-container": "#006a71",
+                    "on-tertiary-container": "#006f37",
+                    "primary-fixed": "#74f5ff",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#60ff99",
+                    "on-surface-variant": "#b9cacb",
+                    "tertiary-fixed-dim": "#00e479",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#00fb86",
+                    "surface": "#11131e",
+                    "inverse-on-surface": "#2e303c",
+                    "surface-bright": "#373845",
+                    "on-secondary-fixed-variant": "#852400",
+                    "secondary-fixed": "#ffdbd0",
+                    "surface-container-low": "#191b26",
+                    "inverse-surface": "#e2e1f1",
+                    "primary-container": "#00f2ff",
+                    "outline-variant": "#3a494b",
+                    "on-secondary": "#5e1700",
+                    "on-surface": "#e2e1f1",
+                    "background": "#11131e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "unit": "4px",
+                    "container-max": "1440px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "data-lg": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-lg": [
+                            "Bodoni Moda"
+                    ],
+                    "headline-xl": [
+                            "Bodoni Moda"
+                    ],
+                    "subheading": [
+                            "Bodoni Moda"
+                    ],
+                    "body-md": [
+                            "JetBrains Mono"
+                    ],
+                    "body-lg": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-lg-mobile": [
+                            "Bodoni Moda"
+                    ]
+            },
+            "fontSize": {
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "data-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "40px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-xl": [
+                            "64px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "subheading": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0a;
+            color: #e2e1f1;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.05);
+        }
+
+        .glow-border-active {
+            border: 1px solid transparent;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%) padding-box,
+                        linear-gradient(180deg, #00f2ff 0%, transparent 100%) border-box;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .data-line {
+            position: relative;
+            padding-left: 1rem;
+        }
+        .data-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background-color: #00f2ff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00f2ff;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), transparent);
+            height: 1px;
+            width: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* Hexagonal Grid Overlay for Background */
+        .bg-hex-grid {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='103.92' viewBox='0 0 60 103.92' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 103.923L0 86.602V51.961L30 34.641l30 17.32v34.641L30 103.923zM30 34.641L0 17.32V-17.32l30-17.321 30 17.321V17.32L30 34.641z' fill='none' stroke='rgba(0, 242, 255, 0.03)' stroke-width='1'/%3E%3C/svg%3E");
+            background-size: 60px 103.92px;
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+        
+        .kinetic-gradient {
+            background: linear-gradient(135deg, rgba(0, 251, 134, 0.1) 0%, rgba(0, 242, 255, 0.05) 100%);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col bg-background text-on-surface bg-hex-grid relative">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20">
+<div class="font-headline-lg text-headline-lg text-primary tracking-tighter">
+            ALCHM.KITCHEN
+        </div>
+<div class="hidden md:flex gap-8 items-center font-label-caps text-label-caps">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">TRANSMUTATIONS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 transition-all duration-300 px-2 py-1 rounded" href="#">ELEMENTS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 transition-all duration-300 px-2 py-1 rounded" href="#">THE_SANCTUM</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 transition-all duration-300 px-2 py-1 rounded" href="#">ARCHIVES</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex-col bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-primary/5 w-64 p-6 justify-between">
+<div>
+<div class="mb-12">
+<h2 class="font-headline-lg text-[24px] leading-tight text-primary mb-1">LEAD_TO_GOLD</h2>
+<p class="font-label-caps text-label-caps text-outline">PHASE_SHIFT_V.04</p>
+</div>
+<ul class="space-y-2 font-body-md text-body-md">
+<li>
+<a class="flex items-center gap-3 p-3 rounded bg-primary-container/20 text-primary border-r-2 border-primary transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                        Combustion
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">cloud</span>
+                        Sublimation
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">science</span>
+                        Fermentation
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+                        Distillation
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 p-3 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">grain</span>
+                        Coagulation
+                    </a>
+</li>
+</ul>
+</div>
+<div>
+<button class="w-full mb-6 py-3 border border-primary/30 text-primary font-label-caps text-label-caps uppercase tracking-widest hover:bg-primary/10 hover:shadow-[0_0_15px_rgba(0,242,255,0.2)] transition-all duration-300">
+                INITIATE_REACTION
+            </button>
+<ul class="space-y-2 font-label-caps text-[10px] text-outline">
+<li>
+<a class="flex items-center gap-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[14px]">terminal</span>
+                        System_Logs
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                        Safety_Sigils
+                    </a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-16 px-margin-mobile md:px-margin-desktop md:ml-64 relative z-10 max-w-container-max mx-auto w-full flex flex-col gap-12">
+<!-- Header -->
+<header class="border-b border-outline-variant/30 pb-6 mb-4 relative">
+<div class="circuit-line top-full left-0 w-1/3"></div>
+<h1 class="font-headline-xl text-headline-lg-mobile md:text-headline-xl text-primary text-glow uppercase tracking-tight">SAUTÉING</h1>
+<p class="font-subheading text-subheading text-tertiary-container mt-2 opacity-80">The Kinetic Impulse</p>
+</header>
+<!-- Hero Section & Equations Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Hero Image Panel -->
+<div class="lg:col-span-8 glass-panel rounded-xl overflow-hidden relative group">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
+<img alt="" class="w-full h-full object-cover min-h-[400px] opacity-80 group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwUyCvt6ynav20mYt-iNOndZFErfHOpnMp8SzZzuxs5AJrCGqLyG1c4JgD4SlcszDH29C-QAPie57ZPkAyQ1w1McIqxqU3KZbU-o3efWRwbw2D1A9bPutzwxgUO_BVJyu-_yfRC9E1lvHHopzj0TvT4bMQonqJu549s33jt3--_GruCmaEWfPgAUG4KoPZIhl5bniSaG0N8LbTBLwJrLiVpU6pkY1H9vFSpjW7APVjXi_tjOzXNP3eq78k1HX9GdKA5ht9RgopmxQ"/>
+<!-- Data Overlays on Image -->
+<div class="absolute top-6 left-6 z-20 font-label-caps text-label-caps text-tertiary-fixed bg-surface/50 backdrop-blur-md px-3 py-1 rounded border border-tertiary-fixed/30">
+<span class="material-symbols-outlined text-[12px] align-middle mr-1">speed</span> HIGH_VELOCITY
+                </div>
+<div class="absolute bottom-6 right-6 z-20 font-data-lg text-data-lg text-primary text-right">
+                    T &gt; 160°C<br/>
+<span class="text-[12px] font-label-caps text-outline">MAILLARD_THRESHOLD</span>
+</div>
+</div>
+<!-- Kinetic Equations Side Panel -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<div class="glass-panel glow-border-active rounded-xl p-6 h-full flex flex-col kinetic-gradient">
+<h3 class="font-label-caps text-label-caps text-outline border-b border-outline-variant/30 pb-2 mb-6">KINETIC_EQUATIONS</h3>
+<div class="space-y-6 flex-grow font-data-lg text-body-lg">
+<div class="data-line">
+<span class="text-outline text-sm block mb-1">VOLTAGE</span>
+<span class="text-tertiary-container tracking-wider">INTENSE (CONTACT)</span>
+</div>
+<div class="data-line">
+<span class="text-outline text-sm block mb-1">CURRENT</span>
+<span class="text-primary-container tracking-wider">RAPID (LIPID FLUX)</span>
+</div>
+<div class="data-line">
+<span class="text-outline text-sm block mb-1">CATALYST</span>
+<span class="text-secondary-container tracking-wider">THERMAL_SHOCK</span>
+</div>
+</div>
+<!-- Astrological Rulership -->
+<div class="mt-8 pt-6 border-t border-outline-variant/30 flex items-center justify-between">
+<div>
+<p class="font-label-caps text-[10px] text-outline mb-1">ASTROLOGICAL_RULERSHIP</p>
+<p class="font-body-lg text-primary">MERCURY</p>
+</div>
+<div class="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center bg-primary/5 shadow-[0_0_10px_rgba(0,242,255,0.1)]">
+<span class="material-symbols-outlined text-primary">air</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Molecular & Elemental Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Molecular Interaction -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary-container/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+<h3 class="font-label-caps text-label-caps text-tertiary-container border-b border-tertiary-container/20 pb-2 mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">bubble_chart</span>
+                    MOLECULAR_INTERACTION
+                </h3>
+<div class="space-y-4 font-body-md text-on-surface-variant">
+<p class="leading-relaxed">
+                        The application of intense localized heat induces <span class="text-primary font-data-lg text-[14px]">Rapid Lipid Interaction</span>. Fats denature and form complex volatile aromatic compounds instantly upon surface contact.
+                    </p>
+<div class="p-4 bg-surface-container-low border border-outline-variant/30 rounded flex justify-between items-center">
+<span class="text-secondary-fixed">Caramelization</span>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+<span class="text-tertiary-fixed font-data-lg text-[14px]">C12H22O11 → C12H20O10 + H2O</span>
+</div>
+</div>
+</div>
+<!-- Elemental Breakdown -->
+<div class="glass-panel rounded-xl p-6 relative">
+<h3 class="font-label-caps text-label-caps text-secondary-container border-b border-secondary-container/20 pb-2 mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">hexagon</span>
+                    ELEMENTAL_BREAKDOWN
+                </h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Phase Shift -->
+<div class="border border-outline-variant/30 rounded p-4 text-center hover:bg-surface-variant/30 transition-colors">
+<div class="flex justify-center items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">landscape</span>
+<span class="material-symbols-outlined text-outline text-[12px]">arrow_forward</span>
+<span class="material-symbols-outlined text-secondary-container">local_fire_department</span>
+</div>
+<p class="font-label-caps text-[10px] text-outline mt-2">SHIFT</p>
+<p class="font-data-lg text-body-md text-primary">EARTH TO FIRE</p>
+</div>
+<!-- Evaporation -->
+<div class="border border-outline-variant/30 rounded p-4 text-center hover:bg-surface-variant/30 transition-colors">
+<div class="flex justify-center items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary-fixed-dim">water_drop</span>
+<span class="material-symbols-outlined text-outline text-[12px]">arrow_upward</span>
+</div>
+<p class="font-label-caps text-[10px] text-outline mt-2">REACTION</p>
+<p class="font-data-lg text-body-md text-tertiary-container">H2O EVAPORATION</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col items-center gap-gutter bg-surface-container-lowest border-t border-outline-variant/20 relative z-10">
+<div class="font-headline-lg text-[24px] text-primary opacity-50 mb-4">
+            ALCHM.KITCHEN
+        </div>
+<div class="flex flex-wrap justify-center gap-6 font-label-caps text-label-caps text-outline">
+<a class="hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">THERMODYNAMIC_LAWS</a>
+<a class="hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">ESOTERIC_SAFETY</a>
+<a class="hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">MOLECULAR_DISCLAIMER</a>
+<a class="hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">GLOBAL_EQUATIONS</a>
+</div>
+<p class="font-label-caps text-[10px] text-outline-variant mt-8 tracking-widest text-center">
+            © 2024 ALCHM.KITCHEN // THE LAW OF EQUIVALENT EXCHANGE APPLIES
+        </p>
+</footer>
+</body></html>

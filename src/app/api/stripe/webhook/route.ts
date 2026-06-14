@@ -173,6 +173,30 @@ function latestChargeId(paymentIntent: Stripe.PaymentIntent): string | null {
   return typeof charge === "string" ? charge : charge.id;
 }
 
+function latestCharge(paymentIntent: Stripe.PaymentIntent): Stripe.Charge | null {
+  const charge = paymentIntent.latest_charge;
+  return charge && typeof charge !== "string" ? charge : null;
+}
+
+function paymentMethodMetadata(paymentIntent: Stripe.PaymentIntent | null) {
+  if (!paymentIntent) return {};
+
+  const details = latestCharge(paymentIntent)?.payment_method_details;
+  const crypto = details?.crypto;
+
+  return {
+    paymentMethodType: details?.type,
+    cryptoPayment: crypto
+      ? {
+          buyerAddress: crypto.buyer_address,
+          network: crypto.network,
+          tokenCurrency: crypto.token_currency,
+          transactionHash: crypto.transaction_hash,
+        }
+      : undefined,
+  };
+}
+
 async function handleRestaurantOrderCheckout(
   stripe: Stripe,
   session: Stripe.Checkout.Session,
@@ -214,16 +238,28 @@ async function handleRestaurantOrderCheckout(
   const transferGroup = metadata.transferGroup || `restaurant_order_${orderId}`;
   let transferId: string | null = null;
   let transferStatus: string | null = null;
+  let paymentIntent: Stripe.PaymentIntent | null = null;
+
+  if (paymentIntentId) {
+    try {
+      paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
+        expand: ["latest_charge"],
+      });
+    } catch (error) {
+      if (splitMode === "separate_charges_and_transfers") throw error;
+      console.warn(
+        `[webhook] Could not retrieve payment details for restaurant order ${orderId}:`,
+        error,
+      );
+    }
+  }
 
   if (
     splitMode === "separate_charges_and_transfers" &&
     connectedAccountId &&
     transferAmountCents > 0 &&
-    paymentIntentId
+    paymentIntent
   ) {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId, {
-      expand: ["latest_charge"],
-    });
     const chargeId = latestChargeId(paymentIntent);
 
     if (chargeId) {
@@ -266,6 +302,7 @@ async function handleRestaurantOrderCheckout(
       paymentStatus: session.payment_status,
       splitMode,
       transferGroup,
+      ...paymentMethodMetadata(paymentIntent),
     },
   });
 

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sublimation: The Ethereal Phase Shift - ALCHM.KITCHEN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=JetBrains+Mono:wght@100..800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#ffb59e",
+                    "on-error-container": "#ffdad6",
+                    "primary-container": "#00f2ff",
+                    "secondary-fixed": "#ffdbd0",
+                    "primary-fixed": "#74f5ff",
+                    "on-tertiary-fixed-variant": "#005228",
+                    "surface-variant": "#333440",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#00fb86",
+                    "background": "#11131e",
+                    "secondary-fixed-dim": "#ffb59e",
+                    "on-primary-fixed-variant": "#004f54",
+                    "secondary-container": "#ff571a",
+                    "inverse-on-surface": "#2e303c",
+                    "surface-tint": "#00dbe7",
+                    "surface-container": "#1d1f2a",
+                    "tertiary": "#e2ffe4",
+                    "surface-container-low": "#191b26",
+                    "surface-container-high": "#282935",
+                    "primary-fixed-dim": "#00dbe7",
+                    "tertiary-fixed": "#60ff99",
+                    "inverse-primary": "#00696f",
+                    "surface-dim": "#11131e",
+                    "on-tertiary-fixed": "#00210c",
+                    "on-tertiary-container": "#006f37",
+                    "on-secondary-container": "#521300",
+                    "outline": "#849495",
+                    "on-background": "#e2e1f1",
+                    "outline-variant": "#3a494b",
+                    "on-secondary": "#5e1700",
+                    "on-primary-container": "#006a71",
+                    "surface-bright": "#373845",
+                    "surface": "#11131e",
+                    "surface-container-lowest": "#0c0d18",
+                    "on-primary": "#00363a",
+                    "on-secondary-fixed-variant": "#852400",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#00e479",
+                    "on-surface-variant": "#b9cacb",
+                    "on-surface": "#e2e1f1",
+                    "inverse-surface": "#e2e1f1",
+                    "on-error": "#690005",
+                    "on-tertiary": "#003919",
+                    "on-primary-fixed": "#002022",
+                    "primary": "#e1fdff",
+                    "on-secondary-fixed": "#3a0b00",
+                    "surface-container-highest": "#333440"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "subheading": ["Bodoni Moda"],
+                    "body-lg": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Bodoni Moda"],
+                    "data-lg": ["JetBrains Mono"],
+                    "body-md": ["JetBrains Mono"],
+                    "headline-xl": ["Bodoni Moda"],
+                    "headline-lg": ["Bodoni Moda"]
+            },
+            "fontSize": {
+                    "subheading": ["24px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                    "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                    "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                    "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                    "data-lg": ["18px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                    "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                    "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "600" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(132, 148, 149, 0.2);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
+        }
+        .sigil-border {
+            border: 1px solid rgba(0, 219, 231, 0.3);
+            background: linear-gradient(180deg, rgba(0, 219, 231, 0.05) 0%, transparent 100%);
+        }
+        
+        /* Grid overlay for esoteric feel */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(132, 148, 149, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(132, 148, 149, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container bg-grid">
+<!-- TopNavBar (Hidden on Mobile, Visible on md+) -->
+<header class="hidden md:flex fixed top-0 left-0 w-full z-50 justify-between items-center px-margin-desktop h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/20 transition-all duration-300">
+<div class="font-headline-lg text-headline-lg text-primary tracking-tighter">ALCHM.KITCHEN</div>
+<nav class="flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-3 py-2 rounded-DEFAULT duration-300" href="#">TRANSMUTATIONS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-3 py-2 rounded-DEFAULT duration-300" href="#">ELEMENTS</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1 px-3 py-2 rounded-DEFAULT hover:bg-primary/10 duration-300" href="#">THE_SANCTUM</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-3 py-2 rounded-DEFAULT duration-300" href="#">ARCHIVES</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80 p-2 rounded-full hover:bg-primary/10">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80 p-2 rounded-full hover:bg-primary/10">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- SideNavBar (Visible on md+) -->
+<aside class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex-col w-64 bg-surface-container-lowest/80 backdrop-blur-2xl border-r border-outline-variant/20 shadow-2xl shadow-primary/5 transition-all duration-200 ease-in-out">
+<div class="p-6 border-b border-outline-variant/20">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center border border-outline-variant/50 overflow-hidden">
+<span class="material-symbols-outlined text-outline">account_circle</span>
+</div>
+<div>
+<div class="font-label-caps text-label-caps text-primary tracking-widest">LEAD_TO_GOLD</div>
+<div class="font-label-caps text-[10px] text-outline mt-1">PHASE_SHIFT_V.04</div>
+</div>
+</div>
+<button class="w-full py-2 px-4 border border-primary/50 text-primary font-label-caps text-label-caps hover:bg-primary/10 hover:shadow-[0_0_10px_rgba(0,219,231,0.2)] transition-all duration-300 rounded-DEFAULT">
+                INITIATE_REACTION
+            </button>
+</div>
+<nav class="flex-1 py-6 flex flex-col gap-2 px-4">
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-outline">local_fire_department</span>
+                Combustion
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT font-body-md text-body-md bg-primary-container/20 text-primary border-r-2 border-primary transition-all duration-200 glow-effect" href="#">
+<span class="material-symbols-outlined text-primary">cloud</span>
+                Sublimation
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-outline">science</span>
+                Fermentation
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-outline">water_drop</span>
+                Distillation
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-DEFAULT font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-outline">grain</span>
+                Coagulation
+            </a>
+</nav>
+<div class="p-4 border-t border-outline-variant/20">
+<a class="flex items-center gap-4 px-4 py-2 rounded-DEFAULT font-label-caps text-label-caps text-outline hover:text-primary hover:bg-surface-variant/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                System_Logs
+            </a>
+<a class="flex items-center gap-4 px-4 py-2 rounded-DEFAULT font-label-caps text-label-caps text-outline hover:text-error hover:bg-surface-variant/30 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-sm">warning</span>
+                Safety_Sigils
+            </a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-64 pt-16 md:pt-16 min-h-screen flex flex-col relative z-10">
+<!-- Hero Section -->
+<section class="relative w-full h-[60vh] min-h-[500px] border-b border-outline-variant/30 flex items-center overflow-hidden">
+<!-- Hero Background -->
+<div class="absolute inset-0 z-0">
+<img alt="A high-fidelity scientific diagram of Sublimation (Steam/Vaporization)." class="w-full h-full object-cover opacity-60 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsgYTCiJ1dmefi4pnH-_npscSOpfrJ4dgo9eJx4YuM67FC-lI7oPjOApVjcQGpjHUUr9BaIbMJ6DIy-cHxGfPC44prsePWY55Ecb2nXT7avTGw8x1i-x7AOD7Qi5aDPrKRbcgClwNhXtBU5pF5AFA7_iUUa7_V9CzklKwRaVaLoXsGXbq16L5ZsJw0xK0OvgA9XQVKAiF_ueeE21Yqmv6hjjHh2nccP9HX-F66iJvyJIJKkkukUgOewKPx0zv9a4jAZZDXZ4471w0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+</div>
+<div class="relative z-10 px-margin-mobile md:px-margin-desktop w-full max-w-container-max mx-auto">
+<div class="max-w-3xl">
+<div class="font-label-caps text-label-caps text-primary tracking-widest mb-6 flex items-center gap-4">
+<span class="w-12 h-[1px] bg-primary"></span>
+                        PHASE_SHIFT_02
+                    </div>
+<h1 class="font-headline-lg-mobile md:font-headline-xl text-headline-lg-mobile md:text-headline-xl text-on-surface mb-6 text-glow">
+                        Sublimation: The Ethereal Phase Shift
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        A high-velocity transmutation from solid matrix to ethereal vapor. This process circumvents the liquid phase, allowing for delicate preservation of molecular structures and gentle tissue expansion through aqueous atmosphere.
+                    </p>
+</div>
+</div>
+<!-- Floating Data Badges -->
+<div class="absolute bottom-8 right-margin-desktop hidden lg:flex gap-4 z-20">
+<div class="glass-panel px-6 py-4 rounded-lg flex flex-col gap-1 border-l-2 border-l-primary">
+<span class="font-label-caps text-[10px] text-outline">STATE_VELOCITY</span>
+<span class="font-data-lg text-data-lg text-primary">HIGH_V</span>
+</div>
+<div class="glass-panel px-6 py-4 rounded-lg flex flex-col gap-1 border-l-2 border-l-tertiary-container">
+<span class="font-label-caps text-[10px] text-outline">TEMP_DELTA</span>
+<span class="font-data-lg text-data-lg text-tertiary-container">ΔT > 100°C</span>
+</div>
+</div>
+</section>
+<!-- Content Grid -->
+<section class="flex-1 px-margin-mobile md:px-margin-desktop py-12 max-w-container-max mx-auto w-full">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-12">
+<!-- Section 1: Kinetic Profile -->
+<article class="glass-panel rounded-xl p-8 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full blur-2xl group-hover:bg-primary/10 transition-colors duration-500"></div>
+<header class="flex items-center gap-4 mb-8 border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-primary text-3xl">speed</span>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Kinetic Profile</h2>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+<div>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+                                    Sublimation is characterized by a high-velocity phase shift voltage (V) paired with a gentle, consistent vapor current (I). The resulting kinetic energy transfer ensures rapid yet non-destructive penetration of the primary matrix.
+                                </p>
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-lg p-6">
+<div class="font-label-caps text-label-caps text-outline mb-2">THERMODYNAMIC_EQUATION</div>
+<div class="font-data-lg text-data-lg text-primary tracking-widest font-bold">
+                                        Phase_Shift_Energy = L * m
+                                    </div>
+<div class="font-label-caps text-[10px] text-on-surface-variant mt-2 opacity-70">
+                                        Where L = Latent Heat of Sublimation, m = Mass
+                                    </div>
+</div>
+</div>
+<!-- Kinetic Graph Placeholder (Stylized CSS) -->
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-lg p-6 flex flex-col relative overflow-hidden h-48 md:h-auto">
+<div class="font-label-caps text-[10px] text-outline mb-4 relative z-10">VAPOR_CURRENT_TRAJECTORY</div>
+<div class="absolute inset-0 top-12 left-6 right-6 bottom-6 border-l border-b border-outline-variant/50 flex items-end">
+<!-- Decorative Graph SVG -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,90 Q30,90 50,50 T100,10" fill="none" stroke="#00f2ff" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0,90 Q30,90 50,50 T100,10 L100,100 L0,100 Z" fill="url(#cyan-gradient)" opacity="0.1"></path>
+<defs>
+<lineargradient id="cyan-gradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#00f2ff"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</div>
+</article>
+<!-- Section 2: Molecular Interaction -->
+<article class="glass-panel rounded-xl p-8">
+<header class="flex items-center gap-4 mb-8 border-b border-outline-variant/20 pb-4">
+<span class="material-symbols-outlined text-tertiary-container text-3xl">hub</span>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Molecular Interaction</h2>
+</header>
+<div class="flex flex-col md:flex-row gap-8 items-start">
+<div class="w-full md:w-1/3 flex justify-center">
+<!-- Sacred Geometry Element -->
+<div class="w-48 h-48 rounded-full border border-outline-variant/50 relative flex items-center justify-center animate-[spin_60s_linear_infinite]">
+<div class="absolute inset-4 rounded-full border border-tertiary-container/30 border-dashed"></div>
+<div class="absolute inset-8 rounded-full border border-primary/20"></div>
+<span class="material-symbols-outlined text-tertiary-container text-5xl">water_drop</span>
+</div>
+</div>
+<div class="w-full md:w-2/3">
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+                                    The ethereal nature of this phase shift facilitates supreme nutrient preservation. As the aqueous vapor permeates the solid matrix, it induces a gentle tissue expansion. This swelling opens molecular pathways without rupturing cellular walls, unlike aggressive thermal agitation (boiling) or direct radiant heat (roasting).
+                                </p>
+<ul class="flex flex-col gap-4">
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Cellular integrity maintained >94%</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Hydrophilic compound retention optimized</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface">Minimal thermal degradation of volatile aromatics</span>
+</li>
+</ul>
+</div>
+</div>
+</article>
+</div>
+<!-- Right Column (4 cols) - Sticky Sidebar Elements -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Section 3: Elemental Signature -->
+<div class="glass-panel rounded-xl p-6 sigil-border">
+<div class="font-label-caps text-label-caps text-outline mb-6 border-b border-outline-variant/30 pb-2">ELEMENTAL_SIGNATURE</div>
+<div class="flex flex-col gap-6">
+<!-- Air Component -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center font-label-caps text-label-caps">
+<span class="text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">air</span>
+                                        AIR
+                                    </span>
+<span class="text-primary font-bold">70%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 70%"></div>
+</div>
+</div>
+<!-- Water Component -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center font-label-caps text-label-caps">
+<span class="text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-tertiary-container">water_drop</span>
+                                        WATER
+                                    </span>
+<span class="text-tertiary-container font-bold">30%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container" style="width: 30%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex flex-wrap gap-2">
+<span class="px-3 py-1 border border-outline-variant rounded text-xs font-body-md text-on-surface-variant bg-surface-container-low">Vaporous</span>
+<span class="px-3 py-1 border border-outline-variant rounded text-xs font-body-md text-on-surface-variant bg-surface-container-low">Expanding</span>
+<span class="px-3 py-1 border border-outline-variant rounded text-xs font-body-md text-on-surface-variant bg-surface-container-low">Ascending</span>
+</div>
+</div>
+<!-- Section 4: Astrological Rulership -->
+<div class="glass-panel rounded-xl p-6 relative overflow-hidden">
+<div class="absolute -right-8 -top-8 text-surface-container-high opacity-50 pointer-events-none">
+<span class="material-symbols-outlined" style="font-size: 150px;">dark_mode</span>
+</div>
+<div class="font-label-caps text-label-caps text-outline mb-6 border-b border-outline-variant/30 pb-2 relative z-10">ASTROLOGICAL_RULERSHIP</div>
+<div class="flex flex-col gap-4 relative z-10">
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-low/50 border border-outline-variant/20 hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-secondary text-2xl">dark_mode</span>
+</div>
+<div>
+<div class="font-subheading text-subheading text-on-surface mb-1">Moon</div>
+<div class="font-label-caps text-[10px] text-outline">GOVERNS: FLUID DYNAMICS, RECEPTIVITY</div>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-low/50 border border-outline-variant/20 hover:border-tertiary-container/50 transition-colors">
+<div class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-tertiary-container text-2xl">speed</span>
+</div>
+<div>
+<div class="font-subheading text-subheading text-on-surface mb-1">Mercury</div>
+<div class="font-label-caps text-[10px] text-outline">GOVERNS: VOLATILITY, COMMUNICATION, TRANSFER</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-desktop flex flex-col items-center gap-gutter bg-surface-container-lowest border-t border-outline-variant/20 mt-auto">
+<div class="font-headline-lg text-headline-lg text-primary text-glow tracking-tighter">ALCHM.KITCHEN</div>
+<nav class="flex flex-wrap justify-center gap-6">
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">THERMODYNAMIC_LAWS</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">ESOTERIC_SAFETY</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">MOLECULAR_DISCLAIMER</a>
+<a class="font-label-caps text-label-caps text-outline hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">GLOBAL_EQUATIONS</a>
+</nav>
+<div class="font-label-caps text-[10px] text-outline mt-8 opacity-50 tracking-widest text-center">
+                © 2024 ALCHM.KITCHEN // THE LAW OF EQUIVALENT EXCHANGE APPLIES
+            </div>
+</footer>
+</main>
+<!-- BottomNavBar (Visible on Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-outline-variant/20 flex justify-around items-center py-3 pb-safe">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">science</span>
+<span class="text-[10px] font-label-caps">TRANSMUT</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined glow-effect bg-primary/10 rounded-full p-1">cloud</span>
+<span class="text-[10px] font-label-caps font-bold">SANCTUM</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-label-caps">ARCHIVES</span>
+</a>
+</nav>
+<script>
+        // Subtle vanilla JS interactions for atmosphere
+        document.addEventListener('DOMContentLoaded', () => {
+            const glassPanels = document.querySelectorAll('.glass-panel');
+            
+            // Mouse tracking glow effect on panels
+            document.addEventListener('mousemove', (e) => {
+                glassPanels.forEach(panel => {
+                    const rect = panel.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    if (x > -50 && x < rect.width + 50 && y > -50 && y < rect.height + 50) {
+                        panel.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0, 242, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.01) 100%)`;
+                        panel.style.borderColor = `rgba(0, 219, 231, ${0.2 + (0.1 * (1 - (Math.abs(x - rect.width/2)/rect.width)))})`;
+                    } else {
+                        panel.style.background = 'rgba(255, 255, 255, 0.02)';
+                        panel.style.borderColor = 'rgba(132, 148, 149, 0.2)';
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>
