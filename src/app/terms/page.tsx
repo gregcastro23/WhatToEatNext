@@ -54,6 +54,22 @@ export default function TermsPage() {
             </section>
 
             <section>
+              <h2 className="text-xl font-bold text-white">Rewards and ESMS tokens</h2>
+              <p className="mt-2">
+                ESMS (Spirit, Essence, Matter, Substance) are closed-loop loyalty
+                rewards. They are not cash, not withdrawable, and have no cash
+                value. You may redeem ESMS toward food orders with participating
+                partners at the published rate, subject to daily and overall
+                limits. The current redemption rate and our change policy are on
+                the{" "}
+                <Link href="/rewards" className="text-amber-300 hover:underline">
+                  ESMS Rewards &amp; Redemption
+                </Link>{" "}
+                page.
+              </p>
+            </section>
+
+            <section>
               <h2 className="text-xl font-bold text-white">Third-party services</h2>
               <p className="mt-2">
                 The site may link to services such as Amazon, payment processors,

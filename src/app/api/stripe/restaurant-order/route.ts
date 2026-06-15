@@ -621,6 +621,32 @@ export async function POST(request: Request) {
     });
 
     if (!reservation.reserved) {
+      if (reservation.capExceeded) {
+        const cap = reservation.capExceeded;
+        await updateEsmsOrderSettlement({
+          orderId,
+          status: "payment_failed",
+          transferStatus: "not_started",
+          paymentStatus: "redemption_cap_exceeded",
+          metadata: { esmsCost, redemptionCap: cap },
+        });
+        const remaining = Math.max(cap.limit - cap.used, 0);
+        return NextResponse.json(
+          {
+            error:
+              cap.scope === "per_user"
+                ? "You've reached today's ESMS food-redemption limit. Try again tomorrow or pay with card or USDC."
+                : "ESMS food redemption is temporarily at its daily limit. Please pay with card or USDC, or try again tomorrow.",
+            code: "redemption_cap_exceeded",
+            scope: cap.scope,
+            orderId,
+            esmsCost,
+            cap: { limit: cap.limit, remaining, requested: cap.requested },
+          },
+          { status: 429 },
+        );
+      }
+
       await updateEsmsOrderSettlement({
         orderId,
         status: "payment_failed",

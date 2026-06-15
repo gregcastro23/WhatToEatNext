@@ -25,6 +25,50 @@ export function esmsRestaurantCentsPerToken(): number {
   return Number.isInteger(value) && value > 0 ? value : 0;
 }
 
+// ─── Redemption caps (server-enforced pre-launch guardrails) ───────────
+//
+// Per CRYPTO_FOOD_PAYMENTS.md the pilot must "Cap per-user and aggregate
+// daily redemption" before enabling ESMS food payments in production.
+// These read NON-public env vars and are only ever evaluated server-side
+// (in the reservation transaction) — never call them from a client bundle.
+// A value of 0 (or unset/invalid) means "no cap" — an explicit opt-out.
+// The window is a UTC calendar day (date_trunc('day', now())), matching
+// the rest of the daily-yield accounting.
+
+const DEFAULT_PER_USER_DAILY_CAP = 5000; // tokens/day ($50 at 1¢/token)
+const DEFAULT_AGGREGATE_DAILY_CAP = 200_000; // tokens/day ($2,000 at 1¢/token)
+
+function capFromEnv(name: string, fallback: number): number {
+  const raw = process.env[name];
+  if (raw === undefined || raw === "") return fallback;
+  const value = Number(raw);
+  // Explicit 0 disables the cap; negative/NaN falls back to the default so a
+  // typo can never silently remove the guardrail.
+  if (!Number.isFinite(value) || value < 0) return fallback;
+  return Math.floor(value);
+}
+
+/** Max ESMS tokens a single user may redeem for food per UTC day (0 = unlimited). */
+export function esmsRestaurantPerUserDailyCap(): number {
+  return capFromEnv(
+    "ESMS_RESTAURANT_PER_USER_DAILY_CAP",
+    DEFAULT_PER_USER_DAILY_CAP,
+  );
+}
+
+/** Max ESMS tokens redeemed for food platform-wide per UTC day (0 = unlimited). */
+export function esmsRestaurantAggregateDailyCap(): number {
+  return capFromEnv(
+    "ESMS_RESTAURANT_AGGREGATE_DAILY_CAP",
+    DEFAULT_AGGREGATE_DAILY_CAP,
+  );
+}
+
+/** Total tokens across all four axes for a basket. */
+export function esmsBasketTotal(cost: EsmsBasketCost): number {
+  return cost.spirit + cost.essence + cost.matter + cost.substance;
+}
+
 export function quoteEsmsBasket(
   totalCents: number,
   centsPerToken = esmsRestaurantCentsPerToken(),
