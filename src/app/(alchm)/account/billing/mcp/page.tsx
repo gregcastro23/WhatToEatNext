@@ -18,7 +18,7 @@ import { McpTopUpPanel } from "@/components/account/McpTopUpPanel";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "MCP top-up — alchm.kitchen",
+  title: "MCP top-up",
   description:
     "Buy ESMS bundles to use against the alchm.kitchen MCP tools.",
 };

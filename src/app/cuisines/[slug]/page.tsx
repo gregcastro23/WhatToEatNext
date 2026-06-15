@@ -38,11 +38,11 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const key = slugToCuisineKey(slug);
-  if (!key) return { title: "Cuisine — Alchm Kitchen" };
+  if (!key) return { title: "Cuisine" };
   const meta = CUISINES_METADATA[key];
   const name = meta?.name ?? key;
   return {
-    title: `${name} cuisine — Alchm Kitchen`,
+    title: `${name} cuisine`,
     description: meta?.description ?? `${name} culinary tradition.`,
   };
 }

@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import RestaurantsPageClient from "./RestaurantsPageClient";
 
 export const metadata = {
-  title: "Explore Local Restaurants — Alchm Kitchen",
+  title: "Explore Local Restaurants",
   description:
     "Discover restaurants near you, ranked by cosmic alignment with the current planetary moment.",
 };
