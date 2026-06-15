@@ -19,7 +19,7 @@ import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { NatalChart, PlanetInfo } from "@/types/natalChart";
 import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
-import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -221,7 +221,9 @@ export async function POST(request: NextRequest) {
       dominantElement: calcDominantElement(positions),
       dominantModality: calcDominantModality(positions),
       elementalBalance: calcElementalBalance(positions),
-      alchemicalProperties: calculateAlchemicalFromPlanets(positions, isSectDiurnal(birthDate)),
+      // Enhanced mapping injects the Ascendant so Matter/Substance don't collapse
+      // to 0 for day-born (diurnal) charts. Matches /api/user/charts.
+      alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(positions, isSectDiurnal(birthDate)),
       calculatedAt: new Date().toISOString(),
     };
 

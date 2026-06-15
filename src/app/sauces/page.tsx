@@ -1,7 +1,7 @@
 import SaucesClient from "./SaucesClient";
 
 export const metadata = {
-  title: "Cosmic Sauce Recommender - Alchm Kitchen",
+  title: "Cosmic Sauce Recommender",
   description: "Discover alchemically balanced sauce pairings with nutritional data, batch scaling, and meal planner integration.",
 };
 

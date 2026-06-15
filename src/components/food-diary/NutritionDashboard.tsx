@@ -100,7 +100,7 @@ export default function NutritionDashboard({
       {/* Today Tab */}
       {activeTab === "today" && (
         <div className="p-4">
-          {!dailySummary || dailySummary.entries.length === 0 ? (
+          {!dailySummary || (dailySummary.entries?.length ?? 0) === 0 ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -315,7 +315,7 @@ export default function NutritionDashboard({
                 <div className="space-y-2">
                   {(["breakfast", "lunch", "dinner", "snack"] as const).map(
                     (meal) => {
-                      const mealEntries = dailySummary.mealBreakdown[meal];
+                      const mealEntries = dailySummary.mealBreakdown?.[meal] ?? [];
                       const mealCalories = mealEntries.reduce(
                         (sum, e) => sum + (e.nutrition.calories || 0),
                         0,

@@ -138,7 +138,7 @@ export default function RootLayout({
             .alchm-main { min-height: calc(100vh - 80px); }
             @media (max-width: 899px) {
               .alchm-main {
-                padding-bottom: max(96px, env(safe-area-inset-bottom));
+                padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
               }
             }
           `}</style>

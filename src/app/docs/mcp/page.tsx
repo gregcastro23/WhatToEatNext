@@ -12,7 +12,7 @@ import Link from "next/link";
 import type { JSX } from "react";
 
 export const metadata = {
-  title: "MCP Server — alchm.kitchen",
+  title: "MCP Server",
   description:
     "Connect Claude Desktop, Cursor, or any MCP client to alchm.kitchen's three alchemical tools.",
 };

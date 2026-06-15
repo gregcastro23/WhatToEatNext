@@ -54,6 +54,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
 }) => {
   const [localPrefs, setLocalPrefs] = useState<UserPreferences>({ ...preferences });
   const [dislikedInput, setDislikedInput] = useState('');
+  const [saved, setSaved] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [hasSharedFeed, setHasSharedFeed] = useState(false);
   const [hasSharedSocial, setHasSharedSocial] = useState(false);
@@ -387,10 +388,18 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         ) : <div />}
         <button
           type="button"
-          onClick={() => onSave(localPrefs)}
-          className="flex-none px-8 py-4 bg-emerald-500 text-white rounded-xl font-black hover:bg-emerald-600 transition-all duration-300 shadow-md shadow-emerald-500/20 active:scale-95 hover:shadow-lg hover:shadow-emerald-500/30"
+          onClick={() => {
+            onSave(localPrefs);
+            setSaved(true);
+            setTimeout(() => setSaved(false), 2000);
+          }}
+          className={`flex-none px-8 py-4 rounded-xl font-black transition-all duration-300 shadow-md active:scale-95 ${
+            saved
+              ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+              : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30'
+          }`}
         >
-          Save &amp; Optimize Algorithm
+          {saved ? '✓ Saved Successfully!' : 'Save & Optimize Algorithm'}
         </button>
       </div>
     </div>

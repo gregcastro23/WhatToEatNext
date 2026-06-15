@@ -14,7 +14,7 @@ import { ApiKeysPanel } from "@/components/account/ApiKeysPanel";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "API Keys — alchm.kitchen",
+  title: "API Keys",
   description:
     "Mint and manage API keys for Claude Desktop, Cursor, and other MCP clients.",
 };
