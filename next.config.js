@@ -74,12 +74,18 @@ const getSecurityHeaders = () => {
     "https://*.vercel.live",
     "https://accounts.google.com",
     "https:",
+    // SpacetimeDB Maincloud WebSocket. The bare `https:` source above does NOT
+    // cover `wss:` (a distinct CSP scheme), so the prod WS origin must be listed
+    // explicitly — and statically, so the allowance never silently depends on
+    // whether NEXT_PUBLIC_SPACETIME_URI was present at *build* time. The token
+    // POST to https://maincloud.spacetimedb.com is already covered by `https:`.
+    "wss://maincloud.spacetimedb.com",
   ];
 
-  // Local SpacetimeDB (ws://) needs both the WebSocket origin and its http://
-  // counterpart in connect-src: the SDK exchanges a stored identity token via
-  // an HTTP POST to /v1/identity/websocket-token before every reconnect.
-  // Production (wss:// + https://) is already covered by the https: source.
+  // Local self-hosted SpacetimeDB (ws://) needs both the WebSocket origin and
+  // its http:// counterpart in connect-src: the SDK exchanges a stored identity
+  // token via an HTTP POST to /v1/identity/websocket-token before reconnect.
+  // (Prod wss://maincloud.spacetimedb.com is allowed statically above.)
   const spacetimeUri = process.env.NEXT_PUBLIC_SPACETIME_URI;
   if (spacetimeUri && (spacetimeUri.startsWith("ws://") || spacetimeUri.startsWith("wss://"))) {
     try {
