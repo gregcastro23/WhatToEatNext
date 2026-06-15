@@ -54,6 +54,7 @@ const SpacetimeContext = createContext<SpacetimeContextValue>({
 const DEGRADED_AFTER_FAILURES = 3;
 const BACKOFF_BASE_MS = 1_000;
 const BACKOFF_CAP_MS = 30_000;
+const MAX_RECONNECT_ATTEMPTS = 8;
 
 function readStoredToken(): string | undefined {
   if (typeof window === "undefined") return undefined;
@@ -95,6 +96,12 @@ export function SpacetimeProvider({ children }: { children: ReactNode }) {
       failuresRef.current += 1;
       if (failuresRef.current >= DEGRADED_AFTER_FAILURES) {
         setStatus("degraded");
+      }
+      // Give up after enough failures so a permanently-unreachable WS doesn't
+      // reconnect forever (the SDK logs a "Connecting…" line on every attempt).
+      // The 30s HTTP poll remains the fallback once we stop.
+      if (failuresRef.current >= MAX_RECONNECT_ATTEMPTS) {
+        return;
       }
       const delay = Math.min(
         BACKOFF_CAP_MS,
@@ -143,11 +150,31 @@ export function SpacetimeProvider({ children }: { children: ReactNode }) {
       }
     };
 
+    const handleRecovery = () => {
+      if (disposedRef.current) return;
+      // Only reconnect if we don't have a live connection
+      if (activeConnRef.current === null) {
+        console.info("[spacetime] triggering recovery reconnect (network/focus restored)");
+        failuresRef.current = 0;
+        if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
+        connect();
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("online", handleRecovery);
+      window.addEventListener("focus", handleRecovery);
+    }
+
     connect();
 
     return () => {
       disposedRef.current = true;
       if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("online", handleRecovery);
+        window.removeEventListener("focus", handleRecovery);
+      }
       try {
         activeConnRef.current?.disconnect();
       } catch {

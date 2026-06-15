@@ -733,6 +733,14 @@ export function UpgradeGate({
   );
 
   const handleClick = (t: UpgradeTier) => {
+    // The free card is only clickable for a premium viewer (for their own tier it
+    // renders a disabled "current plan" pill) — so a click here is a downgrade.
+    // Route to the subscription manager rather than a nonsensical free "trial".
+    if (t.id === "free") {
+      track("upgrade_gate_downgrade", { from: currentTier });
+      window.location.href = "/premium";
+      return;
+    }
     if (t.id === "alchemist") {
       track("upgrade_gate_converted", { plan: "alchemist" });
     }
@@ -1055,7 +1063,7 @@ export function UpgradeGate({
                         : "var(--line-hi)",
                     }}
                   >
-                    START 7-DAY TRIAL
+                    {tier.id === "free" ? "DOWNGRADE TO FREE" : "START 7-DAY TRIAL"}
                   </button>
                 )}
               </div>

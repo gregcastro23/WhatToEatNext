@@ -81,10 +81,13 @@ const getSecurityHeaders = () => {
   // an HTTP POST to /v1/identity/websocket-token before every reconnect.
   // Production (wss:// + https://) is already covered by the https: source.
   const spacetimeUri = process.env.NEXT_PUBLIC_SPACETIME_URI;
-  if (spacetimeUri && spacetimeUri.startsWith("ws://")) {
+  if (spacetimeUri && (spacetimeUri.startsWith("ws://") || spacetimeUri.startsWith("wss://"))) {
     try {
-      const origin = new URL(spacetimeUri).origin.replace(/^http:/, "ws:");
-      connectSrcParts.push(origin, origin.replace(/^ws:/, "http:"));
+      const httpUri = spacetimeUri.replace(/^ws/, "http");
+      const url = new URL(httpUri);
+      const httpOrigin = url.origin;
+      const wsOrigin = httpOrigin.replace(/^http/, "ws");
+      connectSrcParts.push(wsOrigin, httpOrigin);
     } catch {
       // Malformed URI — the client will surface the connection error.
     }

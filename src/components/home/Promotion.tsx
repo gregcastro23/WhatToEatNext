@@ -73,7 +73,7 @@ export function Promotion() {
               <p className="mt-2 text-xs md:text-sm text-white/50 leading-relaxed max-w-xl">
                 Alchm Kitchen balances four primary alchemical elements to match recipes with your birth chart and the live sky. During Tech Week, get a boosted welcome grant of{" "}
                 <strong className="text-white/80">60 ESMS tokens</strong> (15 of each: Spirit, Essence, Matter, Substance) to immediately begin your cosmic culinary journey. Your ESMS now lives{" "}
-                <strong className="text-white/80">on-chain</strong> — claim it to your Base wallet and check out real food with <strong className="text-white/80">USDC or ESMS</strong>.
+                <strong className="text-white/80">on-chain</strong> — claim it to your Base wallet and check out real food with <strong className="text-white/80">USDC</strong>.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export function Promotion() {
                 <div className="space-y-0.5">
                   <h4 className="text-xs font-bold text-white/90">Pay for Food with Crypto</h4>
                   <p className="text-[10px] text-white/40 leading-relaxed">
-                    Check out real restaurant orders with USDC or your soulbound ESMS — settled on-chain, with card always available as a fallback.
+                    Check out real restaurant orders with USDC — settled on-chain, with card always available as a fallback.
                   </p>
                 </div>
               </div>
@@ -179,7 +179,7 @@ export function Promotion() {
             className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-500/40 text-cyan-300 font-semibold text-sm transition-all duration-200 group"
           >
             <span>🪙</span>
-            Order Food — Pay with USDC or ESMS
+            Order Food — Pay with USDC
             <span className="group-hover:translate-x-1 transition-transform duration-200">&rarr;</span>
           </Link>
 

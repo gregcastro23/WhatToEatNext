@@ -42,25 +42,25 @@ export default function PantryPage() {
   }, [filtered]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-emerald-50">
+    <div className="min-h-screen bg-[#08080e]">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="mb-6 flex items-start justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-white">
               🥫 Your Pantry
             </h1>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-white/60 mt-1">
               Ingredients you have on hand. Add from the{" "}
               <Link
                 href="/#ingredients"
-                className="text-emerald-700 underline hover:text-emerald-900"
+                className="text-emerald-400 underline hover:text-emerald-300"
               >
                 Ingredient Recommender
               </Link>{" "}
               on the home page, or jump over to the{" "}
               <Link
                 href="/menu-planner"
-                className="text-purple-700 underline hover:text-purple-900"
+                className="text-purple-400 underline hover:text-purple-300"
               >
                 Menu Planner
               </Link>{" "}
@@ -70,7 +70,7 @@ export default function PantryPage() {
           <div className="flex gap-2">
             <Link
               href="/#ingredients"
-              className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700"
+              className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500"
             >
               + Browse ingredients
             </Link>
@@ -82,7 +82,7 @@ export default function PantryPage() {
                     clear();
                   }
                 }}
-                className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200"
+                className="px-4 py-2 rounded-lg bg-white/10 text-white/80 text-sm font-medium hover:bg-white/15"
               >
                 Clear pantry
               </button>
@@ -92,35 +92,35 @@ export default function PantryPage() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
-            <div className="text-xs uppercase tracking-wide text-gray-500">
+          <div className="bg-white/[0.03] border border-white/10 rounded-xl p-4">
+            <div className="text-xs uppercase tracking-wide text-white/40">
               Total items
             </div>
-            <div className="text-2xl font-bold text-gray-900 mt-1">
+            <div className="text-2xl font-bold text-white mt-1">
               {stats.totalItems}
             </div>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
-            <div className="text-xs uppercase tracking-wide text-gray-500">
+          <div className="bg-white/[0.03] border border-white/10 rounded-xl p-4">
+            <div className="text-xs uppercase tracking-wide text-white/40">
               Categories
             </div>
-            <div className="text-2xl font-bold text-gray-900 mt-1">
+            <div className="text-2xl font-bold text-white mt-1">
               {Object.keys(stats.categoryCounts).length}
             </div>
           </div>
-          <div className="bg-white border border-amber-200 rounded-xl p-4">
-            <div className="text-xs uppercase tracking-wide text-amber-700">
+          <div className="bg-white/[0.03] border border-amber-500/30 rounded-xl p-4">
+            <div className="text-xs uppercase tracking-wide text-amber-400">
               Expiring ≤ 7 days
             </div>
-            <div className="text-2xl font-bold text-amber-900 mt-1">
+            <div className="text-2xl font-bold text-amber-300 mt-1">
               {stats.expiringIn7Days}
             </div>
           </div>
-          <div className="bg-white border border-red-200 rounded-xl p-4">
-            <div className="text-xs uppercase tracking-wide text-red-700">
+          <div className="bg-white/[0.03] border border-red-500/30 rounded-xl p-4">
+            <div className="text-xs uppercase tracking-wide text-red-400">
               Expired
             </div>
-            <div className="text-2xl font-bold text-red-900 mt-1">
+            <div className="text-2xl font-bold text-red-300 mt-1">
               {stats.expired}
             </div>
           </div>
@@ -134,12 +134,12 @@ export default function PantryPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search pantry..."
-              className="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="flex-1 min-w-[200px] px-4 py-2 border border-white/10 bg-white/[0.04] text-white placeholder:text-white/40 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
             />
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="px-4 py-2 border border-white/10 rounded-lg text-sm bg-white/[0.04] text-white focus:outline-none focus:ring-2 focus:ring-emerald-400/40"
             >
               <option value="all">All categories ({items.length})</option>
               {categories.map((c) => (
@@ -153,16 +153,16 @@ export default function PantryPage() {
 
         {/* Items */}
         {!isLoaded ? (
-          <div className="text-center py-12 text-gray-500">Loading pantry...</div>
+          <div className="text-center py-12 text-white/40">Loading pantry...</div>
         ) : items.length === 0 ? (
-          <div className="bg-white border-2 border-dashed border-gray-300 rounded-xl p-12 text-center">
+          <div className="bg-white/[0.03] border-2 border-dashed border-white/15 rounded-xl p-12 text-center">
             <div className="text-5xl mb-3">🧺</div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl font-semibold text-white mb-2">
               Your pantry is empty
             </h2>
-            <p className="text-gray-600 mb-6 max-w-md mx-auto">
+            <p className="text-white/60 mb-6 max-w-md mx-auto">
               Tap the{" "}
-              <span className="inline-block bg-amber-100 text-amber-800 text-xs font-medium px-2 py-0.5 rounded">
+              <span className="inline-block bg-amber-500/15 text-amber-300 text-xs font-medium px-2 py-0.5 rounded">
                 + Pantry
               </span>{" "}
               button on any ingredient card on the home page to start tracking
@@ -170,22 +170,22 @@ export default function PantryPage() {
             </p>
             <Link
               href="/#ingredients"
-              className="inline-block px-6 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700"
+              className="inline-block px-6 py-3 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-500"
             >
               Browse ingredients
             </Link>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
-            <p className="text-gray-600">No pantry items match those filters.</p>
+          <div className="bg-white/[0.03] border border-white/10 rounded-xl p-8 text-center">
+            <p className="text-white/60">No pantry items match those filters.</p>
           </div>
         ) : (
           <div className="space-y-6">
             {grouped.map(([category, catItems]) => (
               <section key={category}>
-                <h2 className="text-lg font-semibold text-gray-800 mb-3 capitalize">
+                <h2 className="text-lg font-semibold text-white mb-3 capitalize">
                   {formatName(category)}{" "}
-                  <span className="text-sm font-normal text-gray-500">
+                  <span className="text-sm font-normal text-white/40">
                     ({catItems.length})
                   </span>
                 </h2>
@@ -196,15 +196,15 @@ export default function PantryPage() {
                     return (
                       <div
                         key={item.id}
-                        className={`bg-white border rounded-xl p-4 flex items-start justify-between gap-3 ${
-                          isExpired ? "border-red-200 bg-red-50" : "border-gray-200"
+                        className={`bg-white/[0.03] border rounded-xl p-4 flex items-start justify-between gap-3 ${
+                          isExpired ? "border-red-500/30 bg-red-500/10" : "border-white/10"
                         }`}
                       >
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-gray-900 truncate">
+                          <div className="font-medium text-white truncate">
                             {formatName(item.name)}
                           </div>
-                          <div className="text-xs text-gray-500 mt-0.5">
+                          <div className="text-xs text-white/40 mt-0.5">
                             Added{" "}
                             {new Date(item.addedDate).toLocaleDateString()}
                             {item.expirationDate &&
@@ -217,12 +217,12 @@ export default function PantryPage() {
                                   quantity: Math.max(0, item.quantity - 1),
                                 })
                               }
-                              className="w-6 h-6 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm flex items-center justify-center"
+                              className="w-6 h-6 rounded bg-white/10 hover:bg-white/15 text-white/80 text-sm flex items-center justify-center"
                               aria-label="Decrease quantity"
                             >
                               −
                             </button>
-                            <span className="text-sm font-medium text-gray-800 min-w-[60px] text-center">
+                            <span className="text-sm font-medium text-white/90 min-w-[60px] text-center">
                               {item.quantity} {item.unit}
                             </span>
                             <button
@@ -231,7 +231,7 @@ export default function PantryPage() {
                                   quantity: item.quantity + 1,
                                 })
                               }
-                              className="w-6 h-6 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm flex items-center justify-center"
+                              className="w-6 h-6 rounded bg-white/10 hover:bg-white/15 text-white/80 text-sm flex items-center justify-center"
                               aria-label="Increase quantity"
                             >
                               +
@@ -240,7 +240,7 @@ export default function PantryPage() {
                         </div>
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-gray-400 hover:text-red-600 text-sm"
+                          className="text-white/40 hover:text-red-400 text-sm"
                           title="Remove from pantry"
                         >
                           ✕
