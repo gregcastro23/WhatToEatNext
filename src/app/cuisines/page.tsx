@@ -63,9 +63,6 @@ export default function CuisinesPage() {
         variants={staggerContainer}
       >
         <motion.header variants={fadeInItem} className="mb-12 pt-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-200 text-sm font-semibold mb-6 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-            <span className="text-xl">✨</span> Premium Alchemical Feature
-          </div>
           <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-rose-300 leading-tight pb-2">
             Cosmic Cuisines
           </h1>

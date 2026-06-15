@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useEffect, useState, type JSX } from "react";
 import {
   AstrologicalClockPanel,
@@ -586,16 +587,13 @@ export default function LaboratoryDashboardPage(): JSX.Element {
                 margin: "0 0 18px",
               }}
             >
-              Real-time positions are sourced from{" "}
-              <code style={{ fontSize: 12 }}>/api/astrologize</code>. The composed
-              recommendation copy and ranked ingredients are wired against the
-              backend contracts in{" "}
-              <code style={{ fontSize: 12 }}>src/lib/schemas/dashboard.ts</code>;
+              Real-time positions are sourced from live planetary data. Composed
+              recommendations and ranked ingredients are drawn from the backend;
               sections without live data are flagged below.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <button
-                type="button"
+              <Link
+                href="/menu-planner"
                 className="alchm-btn"
                 style={{
                   background:
@@ -604,10 +602,10 @@ export default function LaboratoryDashboardPage(): JSX.Element {
                 }}
               >
                 Compose Tonight&apos;s Menu <Glyph name="arrow" size={14} />
-              </button>
-              <button type="button" className="alchm-btn alchm-btn-ghost">
+              </Link>
+              <Link href="/cosmic-recipe" className="alchm-btn alchm-btn-ghost">
                 Open Lab
-              </button>
+              </Link>
             </div>
           </div>
         </div>

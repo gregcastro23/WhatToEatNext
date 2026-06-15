@@ -121,7 +121,11 @@ export function SpacetimeProvider({ children }: { children: ReactNode }) {
           })
           .onConnectError((_ctx, error) => {
             if (disposedRef.current) return;
-            console.warn("[spacetime] connect error:", error.message);
+            // Log only the first error of a disconnect episode; the reconnect
+            // loop retries on a backoff and would otherwise spam the console.
+            if (failuresRef.current === 0) {
+              console.warn("[spacetime] connect error:", error.message);
+            }
             setConnection(null);
             scheduleReconnect(connect);
           })

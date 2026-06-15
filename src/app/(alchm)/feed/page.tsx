@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import Header from "@/components/Header";
@@ -551,6 +552,7 @@ function SwapTab({
   const [amount, setAmount] = useState<string>("1");
   const [submitting, setSubmitting] = useState(false);
   const [resultMessage, setResultMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const { status: authStatus } = useSession();
 
   // Auto-fix invalid same-token selections
   useEffect(() => {
@@ -656,13 +658,22 @@ function SwapTab({
           </div>
         )}
 
-        <button
-          onClick={() => { void handleSwap(); }}
-          disabled={submitting || numericAmount <= 0}
-          className="mt-6 w-full px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 disabled:bg-white/10 disabled:text-white/40 text-white font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-purple-900/40 transition-all"
-        >
-          {submitting ? "Performing rite..." : "Execute Swap"}
-        </button>
+        {authStatus === "authenticated" ? (
+          <button
+            onClick={() => { void handleSwap(); }}
+            disabled={submitting || numericAmount <= 0}
+            className="mt-6 w-full px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 disabled:bg-white/10 disabled:text-white/40 text-white font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-purple-900/40 transition-all"
+          >
+            {submitting ? "Performing rite..." : "Execute Swap"}
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="mt-6 block text-center w-full px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-purple-900/40 transition-all"
+          >
+            Sign in to swap
+          </Link>
+        )}
 
         {resultMessage && (
           <div

@@ -201,7 +201,29 @@ const nextConfig = {
             cleanupOutdatedCaches: true,
             mode: process.env.NODE_ENV === "production" ? "production" : "development",
             exclude: [/\.map$/, /^build-manifest\.json$/, /^app-build-manifest\.json$/, /^react-loadable-manifest\.json$/],
-            runtimeCaching: [],
+            // Safe, additive runtime caching only. HTML navigations and /api/* are
+            // deliberately NOT cached, so every deploy serves fresh markup and
+            // auth/economy responses always hit the network. No navigateFallback —
+            // this is an SSR app, not an SPA, so serving a cached shell for every
+            // navigation would break it.
+            runtimeCaching: [
+              {
+                // Content-hashed build assets are immutable — serve from cache and
+                // revalidate in the background.
+                urlPattern: ({ url }) => url.pathname.startsWith("/_next/static/"),
+                handler: "StaleWhileRevalidate",
+                options: { cacheName: "alchm-static" },
+              },
+              {
+                // Images: cache-first with a bounded, expiring cache.
+                urlPattern: ({ request }) => request.destination === "image",
+                handler: "CacheFirst",
+                options: {
+                  cacheName: "alchm-images",
+                  expiration: { maxEntries: 96, maxAgeSeconds: 7 * 24 * 60 * 60 },
+                },
+              },
+            ],
           }),
           new CopyPwaAssetsPlugin(path.join(__dirname, "public")),
         );

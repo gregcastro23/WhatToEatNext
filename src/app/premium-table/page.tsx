@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
@@ -17,6 +18,7 @@ function AdeptTableContent() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [composite, setComposite] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Friend's inputs
   const [friendFire, setFriendFire] = useState(25);
@@ -38,11 +40,16 @@ function AdeptTableContent() {
 
   const handleJoin = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const hostFire = Number(searchParams?.get("host_fire")) || 25;
-      const hostWater = Number(searchParams?.get("host_water")) || 25;
-      const hostEarth = Number(searchParams?.get("host_earth")) || 25;
-      const hostAir = Number(searchParams?.get("host_air")) || 25;
+      // Host values arrive via URL query (invite link) — clamp to 0–100 so a
+      // crafted link can't skew the midpoint with out-of-range numbers.
+      const clampPct = (v: string | null | undefined) =>
+        Math.max(0, Math.min(100, Number(v) || 25));
+      const hostFire = clampPct(searchParams?.get("host_fire"));
+      const hostWater = clampPct(searchParams?.get("host_water"));
+      const hostEarth = clampPct(searchParams?.get("host_earth"));
+      const hostAir = clampPct(searchParams?.get("host_air"));
 
       const hostData = {
         elementalBalance: { Fire: hostFire, Water: hostWater, Earth: hostEarth, Air: hostAir },
@@ -64,12 +71,15 @@ function AdeptTableContent() {
         body: JSON.stringify({ hostData, friendData })
       });
       const data = await res.json();
-      if (data.success) {
+      if (res.ok && data.success) {
         setComposite(data.compositeChart);
         setRecipes(data.recipes);
+      } else {
+        setError(data.message || "Couldn't calculate the midpoint. Please try again.");
       }
     } catch (err) {
       console.error(err);
+      setError("Something went wrong reaching the Table. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -81,9 +91,12 @@ function AdeptTableContent() {
         <div className="glass-card-premium rounded-3xl p-8 max-w-md text-center border-amber-500/30">
           <h1 className="text-2xl font-black text-amber-400 mb-4">Premium Status Required</h1>
           <p className="text-white/60 mb-6">Group Rituals and the Alchemical Midpoint table are exclusive to Premium users.</p>
-          <button className="px-6 py-2 rounded-full bg-amber-500 text-black font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors">
+          <Link
+            href="/upgrade?from=/premium-table"
+            className="inline-block px-6 py-2 rounded-full bg-amber-500 text-black font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors"
+          >
             Upgrade Now
-          </button>
+          </Link>
         </div>
       </main>
     );
@@ -143,6 +156,9 @@ function AdeptTableContent() {
                 >
                   {loading ? "Calculating Midpoint..." : "Calculate Harmony"}
                 </button>
+                {error && (
+                  <p className="mt-4 text-center text-sm text-red-400">{error}</p>
+                )}
               </motion.div>
             ) : (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-8">
