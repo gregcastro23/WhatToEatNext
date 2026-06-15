@@ -571,28 +571,9 @@ function MenuPlannerContent() {
           </div>
         </div>
 
-        {/* Sticky Nutrition Dashboard */}
-        <div className="sticky top-20 z-40 alchm-panel border-b border-muted bg-surface/90 backdrop-blur-md p-4 mb-8 flex flex-wrap gap-6 items-center rounded-xl">
-          <div className="flex items-center gap-2">
-            <span className="text-active-violet">⚡</span>
-            <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">TGT: 2400 KCAL</span>
-          </div>
-          <div className="w-px h-6 bg-on-surface-variant/20 hidden md:block" />
-          <div className="flex items-center gap-2">
-            <span className="text-fire-spirit">💪</span>
-            <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">PRO: 180G</span>
-          </div>
-          <div className="w-px h-6 bg-on-surface-variant/20 hidden md:block" />
-          <div className="flex items-center gap-2">
-            <span className="text-earth-matter">🌿</span>
-            <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">FIB: 35G</span>
-          </div>
-          <div className="w-px h-6 bg-on-surface-variant/20 hidden md:block" />
-          <div className="flex items-center gap-2">
-            <span className="font-telemetry-md text-telemetry-md text-gold-accent">☉ 92%</span>
-            <span className="font-telemetry-md text-telemetry-md text-on-surface-variant">ORBITAL SYNC</span>
-          </div>
-        </div>
+        {/* Sticky nutrition bar removed — TGT/PRO/FIB and "ORBITAL SYNC" were
+            hardcoded placeholders, not computed from the planned meals. The real
+            nutrition totals live in the Nutrition Dashboard panel below. */}
         
         {/* Posso Widget Panel (collapsible) */}
         {showPosso && (
@@ -674,10 +655,8 @@ function MenuPlannerContent() {
                 &gt; NATAL RESONANCE: {natalResonance}%<br/>
                 &gt; OPTIMIZING MACROS...
               </div>
-              <div className="font-telemetry-md text-[10px] bg-surface-container-lowest p-2 border border-error/30 text-error h-12 overflow-y-auto leading-relaxed font-mono">
-                &gt; WARN: MERCURY RETROGRADE<br/>
-                &gt; ADJUSTING COGNITIVE LOAD...
-              </div>
+              {/* Fake "MERCURY RETROGRADE" warning terminal removed — it was a
+                  hardcoded decorative error, not a real transit alert. */}
             </div>
           </div>
 

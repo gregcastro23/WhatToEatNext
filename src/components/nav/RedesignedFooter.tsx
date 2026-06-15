@@ -53,38 +53,7 @@ export function RedesignedFooter(): JSX.Element {
           >
             What you eat next, calibrated to your standing chart and the live sky.
           </p>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <span
-              className="alchm-chip"
-              style={{ padding: "3px 8px", fontSize: 9, display: "inline-flex", alignItems: "center", gap: 6 }}
-            >
-              <span
-                className="el-dot"
-                style={{
-                  width: 6,
-                  height: 6,
-                  background: "oklch(0.74 0.11 130)",
-                  boxShadow: "0 0 6px oklch(0.74 0.11 130)",
-                }}
-              />
-              POSTGRES · OK
-            </span>
-            <span
-              className="alchm-chip"
-              style={{ padding: "3px 8px", fontSize: 9, display: "inline-flex", alignItems: "center", gap: 6 }}
-            >
-              <span
-                className="el-dot"
-                style={{
-                  width: 6,
-                  height: 6,
-                  background: "oklch(0.74 0.11 130)",
-                  boxShadow: "0 0 6px oklch(0.74 0.11 130)",
-                }}
-              />
-              EDGE · OK
-            </span>
-          </div>
+          {/* Live-status chips removed — they were hardcoded "OK" text, not real health probes. */}
         </div>
 
         {PRIMARY_KEYS.map((k) => {

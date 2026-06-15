@@ -4,8 +4,8 @@
   "description": "Culinary astrology and elemental recipe recommendations",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#6366f1",
+  "background_color": "#07060B",
+  "theme_color": "#07060B",
   "icons": [
     {
       "src": "/alchm-icon-64.png",

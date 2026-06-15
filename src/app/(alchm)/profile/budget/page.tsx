@@ -73,7 +73,7 @@ export default function BudgetPage() {
                   : 'bg-[#08080e] border border-white/10 text-white hover:bg-white/5 shadow-black/20 shadow-xl'
               }`}
             >
-              {saved ? '&#x2713; Saved Successfully!' : 'Save Budget Preference'}
+              {saved ? '✓ Saved Successfully!' : 'Save Budget Preference'}
             </button>
           </div>
         </div>

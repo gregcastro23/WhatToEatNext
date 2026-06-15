@@ -64,11 +64,14 @@ export function ProcurementKit({
     }
   };
 
+  const pricedItems = list.filter((it) => it.px);
   const computedTotal =
     total ??
-    list
-      .reduce((sum, it) => sum + parseFloat(it.px || "0") * it.qty, 0)
-      .toFixed(2);
+    (pricedItems.length
+      ? pricedItems
+          .reduce((sum, it) => sum + parseFloat(it.px || "0") * it.qty, 0)
+          .toFixed(2)
+      : null);
 
   const itemCount = list.length.toString().padStart(2, "0");
 
@@ -179,7 +182,7 @@ export function ProcurementKit({
                     letterSpacing: "0.08em",
                   }}
                 >
-                  SUPPLIER · {it.src}
+                  SUPPLIER · {it.src || "—"}
                 </div>
               </div>
               <div
@@ -243,7 +246,7 @@ export function ProcurementKit({
                   textAlign: "right",
                 }}
               >
-                ${it.px}
+                {it.px ? `$${it.px}` : "—"}
               </span>
               <Glyph name="check" size={12} stroke={1.6} style={{ color: "var(--accent-2)" }} />
             </div>
@@ -267,7 +270,7 @@ export function ProcurementKit({
           </div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 2 }}>
             <span className="t-num" style={{ fontSize: 24, color: "var(--fg)" }}>
-              ${computedTotal}
+              {computedTotal != null ? `$${computedTotal}` : "—"}
             </span>
             <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
               {currency}

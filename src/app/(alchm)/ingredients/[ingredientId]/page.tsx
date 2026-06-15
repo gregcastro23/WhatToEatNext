@@ -338,8 +338,8 @@ export default function IngredientHeroPage({
       {
         sym,
         n: `${ingredient.name}, market unit`,
-        src: "Whole Earth Mkt.",
-        px: "12.50",
+        src: "",
+        px: "",
         qty: 1,
         ingredientId: id,
       },

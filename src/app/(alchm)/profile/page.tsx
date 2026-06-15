@@ -111,14 +111,14 @@ function PremiumDashboard({
             <div className="flex items-center gap-3 mb-2">
               <span className="w-10 h-px bg-amber-500/40" />
               <span className="text-[9px] font-black text-amber-400/60 uppercase tracking-[0.5em]">
-                Premium — Premium Sanctum
+                Premium Sanctum
               </span>
             </div>
             <h1 className="text-4xl font-black text-white tracking-tighter alchm-gradient-text uppercase">
               {userName}
             </h1>
             <p className="text-white/20 text-xs mt-1 font-mono">
-              {email} · Alchemical Premium · Premium
+              {email} · Alchemical Premium
             </p>
           </div>
 
@@ -127,7 +127,7 @@ function PremiumDashboard({
             <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 rounded-full border border-amber-500/30">
               <span className="text-amber-400 text-xs">✦</span>
               <span className="text-[10px] font-black text-amber-400 uppercase tracking-[0.3em]">
-                Premium Premium
+                Premium
               </span>
             </div>
             <button
@@ -352,7 +352,7 @@ function PremiumSettingsPanel({
   const rows = [
     { label: 'Name', value: session?.user?.name || '—' },
     { label: 'Email', value: session?.user?.email || '—' },
-    { label: 'Plan', value: 'Premium Premium' },
+    { label: 'Plan', value: 'Premium' },
     { label: 'Dominant Element', value: natalChart.dominantElement || '—' },
     { label: 'Dominant Modality', value: natalChart.dominantModality || '—' },
   ];
