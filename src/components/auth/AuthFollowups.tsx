@@ -1136,6 +1136,7 @@ export function AccountSessions({
 }: AccountSessionsProps = {}): JSX.Element {
   const { data: session } = useSession();
   const [sessions, setSessions] = useState<SessionRow[]>(sessionsProp ?? FALLBACK_SESSIONS);
+  const [memberSince, setMemberSince] = useState<string | null>(null);
   const [agentSync, setAgentSync] = useState<{ active: boolean; lastSync: string | null }>({
     active: false,
     lastSync: null,
@@ -1149,9 +1150,13 @@ export function AccountSessions({
       try {
         const res = await fetch("/api/auth/sessions", { credentials: "include" });
         if (!res.ok) return;
-        const json = (await res.json()) as { sessions?: SessionRow[] };
-        if (cancelled || !json.sessions) return;
-        setSessions(json.sessions);
+        const json = (await res.json()) as {
+          sessions?: SessionRow[];
+          memberSince?: string;
+        };
+        if (cancelled) return;
+        if (json.sessions) setSessions(json.sessions);
+        if (json.memberSince) setMemberSince(json.memberSince);
       } catch {
         /* leave fallback */
       }
@@ -1281,9 +1286,11 @@ export function AccountSessions({
             <IdRow
               k="MEMBER SINCE"
               v={
+                memberSince?.slice(0, 10) ??
                 (user as { createdAt?: string } | undefined)?.createdAt
                   ?.toString()
-                  .slice(0, 10) ?? "—"
+                  .slice(0, 10) ??
+                "—"
               }
             />
             <IdRow

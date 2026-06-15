@@ -98,6 +98,20 @@ export async function GET(request: Request) {
     /* ignore — fall back to JWT introspection below */
   }
 
+  // Best-effort signup date for the /profile/security "MEMBER SINCE" row.
+  let memberSince: string | null = null;
+  try {
+    const { executeQuery } = await import("@/lib/database");
+    const r = await executeQuery(
+      `SELECT created_at FROM users WHERE id = $1 LIMIT 1`,
+      [user.id],
+    );
+    const created = r.rows?.[0]?.created_at as string | Date | undefined;
+    if (created) memberSince = new Date(created).toISOString();
+  } catch {
+    /* best-effort — leave null */
+  }
+
   try {
     const { executeQuery } = await import("@/lib/database");
     const result = await executeQuery(
@@ -127,15 +141,17 @@ export async function GET(request: Request) {
       return NextResponse.json({
         sessions: jwtFallback(request, user.id, currentJti),
         source: "jwt-fallback",
+        memberSince,
       });
     }
 
-    return NextResponse.json({ sessions: rows, source: "db" });
+    return NextResponse.json({ sessions: rows, source: "db", memberSince });
   } catch (err) {
     // DB unavailable or table missing — degrade to JWT introspection.
     return NextResponse.json({
       sessions: jwtFallback(request, user.id, currentJti),
       source: "jwt-fallback",
+      memberSince,
       error: process.env.NODE_ENV === "development" ? String(err) : undefined,
     });
   }
