@@ -208,7 +208,7 @@
     "next-auth": "beta",
     "nodemailer": "^8.0.7",
     "openai": "^6.40.0",
-    "pg": "^8.16.3",
+    "pg": "^8.21.0",
     "postcss": "^8.5.14",
     "react": "19.2.7",
     "react-dom": "19.2.7",
