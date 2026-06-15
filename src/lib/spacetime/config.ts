@@ -23,9 +23,15 @@ export interface SpacetimeConfig {
 export function getSpacetimeConfig(): SpacetimeConfig | null {
   const uri = process.env.NEXT_PUBLIC_SPACETIME_URI;
   if (!uri) return null;
+  
+  let moduleName = process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "alchm-culinary";
+  if (moduleName.startsWith("@")) {
+    moduleName = moduleName.slice(1);
+  }
+
   return {
     uri,
-    moduleName: process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "alchm-culinary",
+    moduleName,
   };
 }
 

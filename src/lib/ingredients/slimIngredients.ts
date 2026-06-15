@@ -1,6 +1,7 @@
 import "server-only";
 
 import { allIngredients } from "@/data/ingredients";
+import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
 import type { Ingredient } from "@/types";
 
 /**
@@ -64,7 +65,12 @@ let cachedSlim: Ingredient[] | null = null;
  */
 export function getSlimIngredients(): Ingredient[] {
   if (cachedSlim) return cachedSlim;
-  cachedSlim = Object.values(allIngredients).map((ing) => {
+  cachedSlim = Object.values(allIngredients)
+    // Auto-generated recipe-coverage entries (boilerplate copy + placeholder
+    // nutrition) stay in the catalog for recipe mapping but are kept off the
+    // browse page; surfacing them next to curated entries reads as low quality.
+    .filter((ing) => !isBoilerplateCoverageIngredient(ing))
+    .map((ing) => {
     const src = ing as unknown as Record<string, unknown>;
     const slim: Record<string, unknown> = {};
     for (const field of SLIM_FIELDS) {

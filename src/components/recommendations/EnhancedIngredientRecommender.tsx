@@ -17,6 +17,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { usePantry } from "@/hooks/usePantry";
+import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
 import { IngredientService } from "@/services/IngredientService";
 import type { ElementalProperties } from "@/types/alchemy";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
@@ -719,7 +720,11 @@ export const EnhancedIngredientRecommender: React.FC<
   useEffect(() => {
     setLoading(true);
     try {
-      const allIngredients = ingredientService.getAllIngredientsFlat();
+      // Auto-generated recipe-coverage entries (boilerplate copy + placeholder
+      // nutrition) exist for recipe mapping only — keep them off this browse grid.
+      const allIngredients = ingredientService
+        .getAllIngredientsFlat()
+        .filter((ing) => !isBoilerplateCoverageIngredient(ing));
       setIngredients(allIngredients);
     } catch (error) {
       console.error("Error loading ingredients:", error);
