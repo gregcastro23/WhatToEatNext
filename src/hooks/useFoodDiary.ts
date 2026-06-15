@@ -149,7 +149,13 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       if (res.ok) {
         const data = await res.json();
         const entries = data.entries ?? [];
-        const summary = data.summary ?? null;
+        // The /api/food-diary GET returns a partial summary (totals only, no
+        // `entries`/`mealBreakdown`). Merge the entries the API did return so
+        // NutritionDashboard's `dailySummary.entries.length` check doesn't crash
+        // and users with logged food see their data rather than the empty state.
+        const summary = data.summary
+          ? { ...data.summary, entries: data.summary.entries ?? entries }
+          : null;
         const [stats, favorites] = await Promise.all([
           getServerStats(userId),
           getServerFavorites(userId),
