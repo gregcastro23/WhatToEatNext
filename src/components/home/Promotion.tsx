@@ -2,6 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import {
+  cryptoFoodCheckoutEnabled,
+  onchainEsmsEnabled,
+} from "@/lib/payments/cryptoPromo";
 
 const TOKENS = [
   {
@@ -35,6 +39,13 @@ const TOKENS = [
 ] as const;
 
 export function Promotion() {
+  // Only advertise crypto/on-chain rails that are actually live in this
+  // deployment. Off by default → the promo can never promise a flow that
+  // doesn't work. The off-chain ESMS welcome grant + token economy below are
+  // live regardless and are always shown.
+  const cryptoCheckout = cryptoFoodCheckoutEnabled();
+  const onchainEsms = onchainEsmsEnabled();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -63,17 +74,38 @@ export function Promotion() {
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[9px] font-extrabold text-amber-400 uppercase tracking-wide">
                   +60 ESMS Welcome Grant
                 </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-extrabold text-cyan-400 uppercase tracking-wide">
-                  New · On-Chain ESMS
-                </span>
+                {onchainEsms && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-extrabold text-cyan-400 uppercase tracking-wide">
+                    New · On-Chain ESMS
+                  </span>
+                )}
               </div>
               <h2 className="text-xl md:text-3xl font-black text-white/95 leading-tight tracking-tight">
                 Unleash Your Cosmic Culinary Yield
               </h2>
               <p className="mt-2 text-xs md:text-sm text-white/50 leading-relaxed max-w-xl">
                 Alchm Kitchen balances four primary alchemical elements to match recipes with your birth chart and the live sky. During Tech Week, get a boosted welcome grant of{" "}
-                <strong className="text-white/80">60 ESMS tokens</strong> (15 of each: Spirit, Essence, Matter, Substance) to immediately begin your cosmic culinary journey. Your ESMS now lives{" "}
-                <strong className="text-white/80">on-chain</strong> — claim it to your Base wallet and check out real food with <strong className="text-white/80">USDC</strong>.
+                <strong className="text-white/80">60 ESMS tokens</strong> (15 of each: Spirit, Essence, Matter, Substance) to immediately begin your cosmic culinary journey.
+                {onchainEsms && (
+                  <>
+                    {" "}Your ESMS now lives{" "}
+                    <strong className="text-white/80">on-chain</strong> — claim it to
+                    your Base wallet
+                    {cryptoCheckout && (
+                      <>
+                        {" "}and check out real food with{" "}
+                        <strong className="text-white/80">USDC</strong>
+                      </>
+                    )}
+                    .
+                  </>
+                )}
+                {!onchainEsms && cryptoCheckout && (
+                  <>
+                    {" "}Check out real restaurant food with{" "}
+                    <strong className="text-white/80">USDC</strong>, settled on-chain.
+                  </>
+                )}
               </p>
             </div>
 
@@ -104,15 +136,17 @@ export function Promotion() {
               </h3>
 
               {/* Feature: Web3 crypto food checkout */}
-              <div className="p-3.5 rounded-2xl bg-cyan-500/[0.04] border border-cyan-500/20 hover:border-cyan-500/35 transition-all duration-200 flex items-start gap-3">
-                <span className="text-xl p-1 bg-cyan-500/10 rounded-lg text-cyan-400">🪙</span>
-                <div className="space-y-0.5">
-                  <h4 className="text-xs font-bold text-white/90">Pay for Food with Crypto</h4>
-                  <p className="text-[10px] text-white/40 leading-relaxed">
-                    Check out real restaurant orders with USDC — settled on-chain, with card always available as a fallback.
-                  </p>
+              {cryptoCheckout && (
+                <div className="p-3.5 rounded-2xl bg-cyan-500/[0.04] border border-cyan-500/20 hover:border-cyan-500/35 transition-all duration-200 flex items-start gap-3">
+                  <span className="text-xl p-1 bg-cyan-500/10 rounded-lg text-cyan-400">🪙</span>
+                  <div className="space-y-0.5">
+                    <h4 className="text-xs font-bold text-white/90">Pay for Food with Crypto</h4>
+                    <p className="text-[10px] text-white/40 leading-relaxed">
+                      Check out real restaurant orders with USDC — settled on-chain, with card always available as a fallback.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Feature 1 */}
               <div className="p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/10 transition-all duration-200 flex items-start gap-3">
@@ -174,14 +208,16 @@ export function Promotion() {
           </Link>
 
           {/* Web3 crypto food checkout */}
-          <Link
-            href="/restaurants"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-500/40 text-cyan-300 font-semibold text-sm transition-all duration-200 group"
-          >
-            <span>🪙</span>
-            Order Food — Pay with USDC
-            <span className="group-hover:translate-x-1 transition-transform duration-200">&rarr;</span>
-          </Link>
+          {cryptoCheckout && (
+            <Link
+              href="/restaurants"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-500/40 text-cyan-300 font-semibold text-sm transition-all duration-200 group"
+            >
+              <span>🪙</span>
+              Order Food — Pay with USDC
+              <span className="group-hover:translate-x-1 transition-transform duration-200">&rarr;</span>
+            </Link>
+          )}
 
           {/* Amazon shopping — primary revenue source, exact original promotional link */}
           <Link

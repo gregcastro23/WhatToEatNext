@@ -177,7 +177,18 @@ merchant payout adapter. Stripe already supplies these controls for the pilot.
 NEXT_PUBLIC_STRIPE_RESTAURANT_CRYPTO_ENABLED=true
 NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED=true
 NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN=1
+# Only after the EsmsToken contract is deployed + verified on-chain:
+NEXT_PUBLIC_ESMS_ONCHAIN_ENABLED=true
 ```
+
+The homepage promo (`src/components/home/Promotion.tsx`) advertises each crypto
+rail **only** when its flag is on, via `src/lib/payments/cryptoPromo.ts`:
+`NEXT_PUBLIC_STRIPE_RESTAURANT_CRYPTO_ENABLED` gates the "Pay for Food with
+USDC" card + CTA, and `NEXT_PUBLIC_ESMS_ONCHAIN_ENABLED` gates the "On-Chain
+ESMS / claim to your Base wallet" copy. With every flag off (the default) the
+homepage shows only the off-chain ESMS welcome grant + token economy, which are
+live regardless. Never flip `NEXT_PUBLIC_ESMS_ONCHAIN_ENABLED` on until the
+contract address resolves to real bytecode on the target chain.
 
 ## Follow-up controls
 
