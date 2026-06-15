@@ -9,6 +9,7 @@
 import { jwtVerify, errors as JOSEerrors } from "jose";
 import { NextResponse } from "next/server";
 import { isAdminEmail } from "@/lib/auth/adminEmails";
+import { resolveAgentsBridgeUser } from "@/lib/auth/agentsBridge";
 import { UserRole } from "@/lib/auth/roles";
 import { applyRequestAuthOrigin } from "@/lib/auth/runtimeOrigin";
 import type { UserWithProfile } from "@/services/userDatabaseService";
@@ -332,6 +333,30 @@ export async function getUserIdFromRequest(
     if (result.valid && result.user) {
       return result.user.userId;
     }
+  }
+
+  // Reverse cross-site bridge: a user signed in only on the agents app
+  // (agents.alchm.kitchen) carries no WTEN session/JWT. Validate the agents
+  // session and resolve the matching WTEN user by email. Fail-open to the
+  // next fallback so this never regresses normal auth.
+  try {
+    const bridged = await resolveAgentsBridgeUser(
+      request.headers.get("cookie"),
+    );
+    if (bridged?.email) {
+      const userDb = await getUserDatabase();
+      if (userDb) {
+        const wtenUser = await userDb.getUserByEmail(bridged.email);
+        if (wtenUser) {
+          return wtenUser.id;
+        }
+      }
+    }
+  } catch (err) {
+    console.error(
+      `[getUserIdFromRequest] agents bridge failed for ${request.nextUrl.pathname}:`,
+      err,
+    );
   }
 
   // Fallback to query param (for development/testing)

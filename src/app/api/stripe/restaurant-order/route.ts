@@ -11,6 +11,7 @@
 
 import { createHash, randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { resolveAgentsBridgeUser } from "@/lib/auth/agentsBridge";
 import { auth } from "@/lib/auth/auth";
 import {
   esmsRestaurantCentsPerToken,
@@ -441,7 +442,46 @@ export async function POST(request: Request) {
   const platformFeeCents = Math.floor((subtotalCents * platformFeeBps) / 10000);
   const userAgent = request.headers.get("user-agent");
   const session = await auth().catch(() => null);
-  const orderId = orderIdFromRequest(request, session?.user?.id ?? null);
+
+  // Resolve the paying user. Prefer WTEN's own session; otherwise fall back to
+  // the reverse cross-site bridge so a user signed in only on the agents app
+  // (who arrived via the Bazaar "Food" tab) can pay without re-logging in.
+  let effectiveUser:
+    | { id: string; email: string | null; name: string | null }
+    | null = session?.user?.id
+    ? {
+        id: session.user.id,
+        email: session.user.email ?? null,
+        name: session.user.name ?? null,
+      }
+    : null;
+  if (!effectiveUser) {
+    const bridged = await resolveAgentsBridgeUser(
+      request.headers.get("cookie"),
+    ).catch(() => null);
+    if (bridged?.email) {
+      try {
+        const { userDatabase } = await import(
+          "@/services/userDatabaseService"
+        );
+        const wtenUser = await userDatabase.getUserByEmail(bridged.email);
+        if (wtenUser) {
+          effectiveUser = {
+            id: wtenUser.id,
+            email: wtenUser.email ?? bridged.email,
+            name: bridged.name,
+          };
+        }
+      } catch (err) {
+        console.error(
+          "[api/stripe/restaurant-order] agents bridge lookup failed:",
+          err,
+        );
+      }
+    }
+  }
+
+  const orderId = orderIdFromRequest(request, effectiveUser?.id ?? null);
 
   if (!restaurantId || !restaurantName || !restaurantUrl) {
     return NextResponse.json(
@@ -517,8 +557,8 @@ export async function POST(request: Request) {
 
   const orderType = normalizeOrderType(body.order?.orderType);
   const customerInfo = normalizeCustomerInfo(body.order?.customer, {
-    name: session?.user?.name,
-    email: session?.user?.email,
+    name: effectiveUser?.name,
+    email: effectiveUser?.email,
   });
   const deliveryAddress = normalizeAddress(body.order?.deliveryAddress);
 
@@ -531,7 +571,7 @@ export async function POST(request: Request) {
 
   const baseIntent = {
     id: orderId,
-    userId: session?.user?.id ?? null,
+    userId: effectiveUser?.id ?? null,
     cuisineType,
     provider: provider || "unknown",
     restaurantId: internalRestaurantId,
@@ -556,7 +596,7 @@ export async function POST(request: Request) {
   const hasStripeSecret = Boolean(process.env.STRIPE_SECRET_KEY);
 
   if (paymentPreference === "esms") {
-    if (!session?.user?.id) {
+    if (!effectiveUser?.id) {
       return NextResponse.json(
         { error: "Sign in before paying with ESMS." },
         { status: 401 },
@@ -615,7 +655,7 @@ export async function POST(request: Request) {
     );
     const reservation = await reserveEsmsForRestaurantOrder({
       orderId,
-      userId: session.user.id,
+      userId: effectiveUser.id,
       restaurantName,
       cost: esmsCost,
     });
@@ -678,7 +718,7 @@ export async function POST(request: Request) {
           metadata: {
             purpose: "restaurant_order_esms_settlement",
             orderId,
-            userId: session.user.id,
+            userId: effectiveUser.id,
             restaurantName: metadataValue(restaurantName),
           },
         },
@@ -820,7 +860,7 @@ export async function POST(request: Request) {
       purpose: "restaurant_order",
       source: "cuisine_restaurant_discovery",
       orderId: metadataValue(orderId),
-      userId: session?.user?.id ?? "",
+      userId: effectiveUser?.id ?? "",
       cuisineType: metadataValue(cuisineType),
       provider: metadataValue(provider || "unknown"),
       restaurantId: metadataValue(restaurantId),
@@ -875,7 +915,7 @@ export async function POST(request: Request) {
           : [{ price: orderPriceId, quantity: 1 }],
         success_url: successUrl.toString(),
         cancel_url: cancelUrl.toString(),
-        customer_email: session?.user?.email ?? undefined,
+        customer_email: effectiveUser?.email ?? undefined,
         client_reference_id: orderId,
         metadata: commonMetadata,
         payment_intent_data: {
