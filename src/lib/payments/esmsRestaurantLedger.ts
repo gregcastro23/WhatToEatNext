@@ -2,14 +2,39 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 import { withTransaction } from "@/lib/database";
-import type { EsmsBasketCost } from "@/lib/payments/restaurantEsms";
+import {
+  esmsBasketTotal,
+  esmsRestaurantAggregateDailyCap,
+  esmsRestaurantPerUserDailyCap,
+  type EsmsBasketCost,
+} from "@/lib/payments/restaurantEsms";
 import type { TokenBalances, TokenType } from "@/types/economy";
+
+export type RedemptionCapScope = "per_user" | "aggregate";
+
+export interface RedemptionCapInfo {
+  scope: RedemptionCapScope;
+  /** Cap ceiling in tokens for the UTC day. */
+  limit: number;
+  /** Tokens already redeemed for food in the window before this order. */
+  used: number;
+  /** Tokens this order would redeem. */
+  requested: number;
+}
 
 interface ReservationResult {
   reserved: boolean;
   alreadyReserved: boolean;
   balances: TokenBalances | null;
+  /** Set when the reservation was refused because a daily cap would be exceeded. */
+  capExceeded: RedemptionCapInfo | null;
 }
+
+// Stable 64-bit key so every restaurant-redemption reservation that needs a
+// cap check serializes on the same advisory lock — without it, two concurrent
+// orders could each read the pre-debit total and both slip past an aggregate
+// (or same-user) ceiling. Held only for the transaction; pilot volume is low.
+const CAP_LOCK_KEY = "esms_restaurant_redemption_cap";
 
 function rowToBalances(row: Record<string, unknown>): TokenBalances {
   return {
@@ -59,7 +84,73 @@ export async function reserveEsmsForRestaurantOrder(input: {
         reserved: true,
         alreadyReserved: true,
         balances: current.rows[0] ? rowToBalances(current.rows[0]) : null,
+        capExceeded: null,
       };
+    }
+
+    // Enforce per-user and aggregate daily redemption caps before any debit.
+    // Counts gross restaurant_order debits in the current UTC day; refunds use
+    // a different source_type so a refunded order still counts toward the day's
+    // cap (conservative — resets at the next UTC day).
+    const perUserCap = esmsRestaurantPerUserDailyCap();
+    const aggregateCap = esmsRestaurantAggregateDailyCap();
+    const requested = esmsBasketTotal(input.cost);
+
+    if ((perUserCap > 0 || aggregateCap > 0) && requested > 0) {
+      // Serialize concurrent cap checks so two orders can't both pass.
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [
+        CAP_LOCK_KEY,
+      ]);
+
+      if (perUserCap > 0) {
+        const perUser = await client.query<{ used: string }>(
+          `SELECT COALESCE(SUM(-amount), 0) AS used
+           FROM token_transactions
+           WHERE source_type = 'restaurant_order'
+             AND amount < 0
+             AND user_id = $1
+             AND created_at >= date_trunc('day', now())`,
+          [input.userId],
+        );
+        const used = Number(perUser.rows[0]?.used) || 0;
+        if (used + requested > perUserCap) {
+          return {
+            reserved: false,
+            alreadyReserved: false,
+            balances: null,
+            capExceeded: {
+              scope: "per_user",
+              limit: perUserCap,
+              used,
+              requested,
+            },
+          };
+        }
+      }
+
+      if (aggregateCap > 0) {
+        const aggregate = await client.query<{ used: string }>(
+          `SELECT COALESCE(SUM(-amount), 0) AS used
+           FROM token_transactions
+           WHERE source_type = 'restaurant_order'
+             AND amount < 0
+             AND created_at >= date_trunc('day', now())`,
+        );
+        const used = Number(aggregate.rows[0]?.used) || 0;
+        if (used + requested > aggregateCap) {
+          return {
+            reserved: false,
+            alreadyReserved: false,
+            balances: null,
+            capExceeded: {
+              scope: "aggregate",
+              limit: aggregateCap,
+              used,
+              requested,
+            },
+          };
+        }
+      }
     }
 
     await client.query(
@@ -92,7 +183,12 @@ export async function reserveEsmsForRestaurantOrder(input: {
     );
 
     if (updated.rows.length === 0) {
-      return { reserved: false, alreadyReserved: false, balances: null };
+      return {
+        reserved: false,
+        alreadyReserved: false,
+        balances: null,
+        capExceeded: null,
+      };
     }
 
     const transactionGroupId = randomUUID();
@@ -126,6 +222,7 @@ export async function reserveEsmsForRestaurantOrder(input: {
       reserved: true,
       alreadyReserved: false,
       balances: rowToBalances(updated.rows[0]),
+      capExceeded: null,
     };
   });
 }

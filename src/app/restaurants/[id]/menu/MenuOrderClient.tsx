@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { DeliverectMenu } from "@/lib/integrations/deliverect";
 import {
   canAffordEsmsBasket,
+  esmsRestaurantCentsPerToken,
   esmsRestaurantPaymentsEnabled,
   quoteEsmsBasket,
 } from "@/lib/payments/restaurantEsms";
@@ -375,6 +376,14 @@ export default function MenuOrderClient({
               {esmsBalanceStatus === "ready" && !canAffordEsms && (
                 <p className="mt-1 text-amber-200">One or more axes are below the required balance.</p>
               )}
+              <p className="mt-2 border-t border-violet-300/15 pt-2 text-violet-100/55">
+                {esmsRestaurantCentsPerToken() > 0
+                  ? `1 ESMS = ${esmsRestaurantCentsPerToken()}¢ of food value (closed-loop, not withdrawable cash). `
+                  : "ESMS is closed-loop food value, not withdrawable cash. "}
+                <a href="/rewards" className="text-violet-200 underline hover:text-violet-100">
+                  How ESMS redemption works
+                </a>
+              </p>
             </div>
           )}
           {error && <p className="mt-3 text-xs text-rose-300">{error}</p>}

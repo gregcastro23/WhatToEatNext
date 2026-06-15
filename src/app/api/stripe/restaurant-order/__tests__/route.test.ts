@@ -152,3 +152,39 @@ it("debits an ESMS basket and settles the connected restaurant", async () => {
   expect(triggerOrderFulfillment).toHaveBeenCalledTimes(1);
 });
 
+it("returns 429 when a daily redemption cap is exceeded", async () => {
+  process.env.NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED = "true";
+  process.env.NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN = "1";
+  process.env.DATABASE_URL = "postgresql://test";
+  executeQuery.mockImplementation(async (sql: string) => {
+    if (sql.includes("SELECT id, stripe_connect_account_id")) {
+      return {
+        rows: [
+          { id: "rest_123", stripe_connect_account_id: "acct_restaurant" },
+        ],
+      };
+    }
+    return { rows: [] };
+  });
+  reserveEsmsForRestaurantOrder.mockResolvedValue({
+    reserved: false,
+    alreadyReserved: false,
+    balances: null,
+    capExceeded: {
+      scope: "per_user",
+      limit: 5000,
+      used: 4800,
+      requested: 2000,
+    },
+  });
+
+  const response = await POST(request("esms"));
+  expect(response.status).toBe(429);
+  const body = await response.json();
+  expect(body.code).toBe("redemption_cap_exceeded");
+  expect(body.scope).toBe("per_user");
+  expect(body.cap).toEqual({ limit: 5000, remaining: 200, requested: 2000 });
+  expect(createTransfer).not.toHaveBeenCalled();
+  expect(triggerOrderFulfillment).not.toHaveBeenCalled();
+});
+

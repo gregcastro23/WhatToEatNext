@@ -50,6 +50,10 @@
     {
       "path": "/api/cron/prewarm-agent-recipes",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/esms-reconciliation",
+      "schedule": "15 * * * *"
     }
   ],
   "env": {

@@ -54,7 +54,14 @@ export type TransactionSourceType =
    * Live-priced per extraction like refine_oracle; refunded if extraction fails.
    */
   | "recipe_ingestion"
-  | "restaurant_order";
+  | "restaurant_order"
+  /**
+   * Re-credit of a restaurant_order debit when the restaurant settlement
+   * (Stripe transfer) could not be confirmed and an operator refunds the
+   * exact ESMS basket. Idempotency key shape: `restaurant_refund:<orderId>`.
+   * See src/app/api/admin/restaurants/settlement/route.ts.
+   */
+  | "restaurant_refund";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
