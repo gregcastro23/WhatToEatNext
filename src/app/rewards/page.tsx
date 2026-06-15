@@ -3,7 +3,7 @@ import { esmsRestaurantCentsPerToken } from "@/lib/payments/restaurantEsms";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ESMS Rewards & Redemption | Alchm Kitchen",
+  title: "ESMS Rewards & Redemption",
   description:
     "How ESMS tokens work, the food redemption rate, and our redemption-rate change policy.",
 };

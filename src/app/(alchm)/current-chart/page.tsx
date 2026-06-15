@@ -30,9 +30,11 @@ export default async function CurrentChartPage() {
 
   const nowStr = new Date().toLocaleString('en-US', {
     weekday: 'long',
-    month: 'long', 
+    month: 'long',
     day: 'numeric',
     year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
     timeZoneName: 'short'
   });
 

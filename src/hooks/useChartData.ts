@@ -1,27 +1,45 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { calculateKinetics } from "@/calculations/kinetics";
 import { useUser } from "@/contexts/UserContext";
+import { AspectsService } from "@/services/AspectsService";
+import {
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+} from "@/services/astrologizeApi";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
+import {
+  aggregateZodiacElementals,
+  calculateEnhancedAlchemicalFromPlanets,
+  isSectDiurnal,
+} from "@/utils/planetaryAlchemyMapping";
 
 /**
  * useChartData Hook
  *
- * Fetches and manages planetary chart data from the astrologize and alchemize APIs.
- * Calculates planetary aspects and provides alchemical properties.
+ * Fetches planetary positions from the astrologize API and computes aspects,
+ * alchemical (ESMS / elemental / thermodynamic) properties, and planetary
+ * kinetics (P=IV) client-side from the fetched positions. Mirrors the
+ * calculation pipeline used by /api/alchemize and usePlanetaryKinetics so the
+ * math stays consistent across the app.
  */
- // Import the useUser hook
 type PlanetPosition = PlanetaryPosition;
+
+// Default location (New York City) so the hook never hangs waiting on a
+// location the caller forgot to supply.
+const DEFAULT_LOCATION = { latitude: 40.7128, longitude: -74.006 };
+
 // Define the expected structure of AlchemicalResult
 export interface AlchemicalResult {
   // Properties expected by AlchemicalDisplay.tsx
-  elementalProperties: Record<string, number>; // Assuming a Record for elements
+  elementalProperties: Record<string, number>;
   thermodynamicProperties: {
     heat: number;
     entropy: number;
     reactivity: number;
-    gregsEnergy?: number; // Optional, as not directly destructured but could be part of it
+    gregsEnergy?: number;
   };
-  esms: Record<string, number>; // ESMS values
+  esms: Record<string, number>;
   kalchm: number;
   monica: number;
   score: number;
@@ -58,14 +76,42 @@ export interface ChartDataOptions {
   autoRefresh?: boolean;
   refreshInterval?: number; // milliseconds
 }
-// ... (interfaces remain the same)
+
+const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
+
+/** Capitalize a lowercase sign ("aries" -> "Aries") for ZODIAC_ELEMENTS lookups. */
+function capitalizeSign(sign: unknown): string {
+  const s = String(sign ?? "").toLowerCase();
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+}
+
+/**
+ * Build planet -> sign maps from fetched positions.
+ * - lower:   lowercase signs (kinetics engine + alchemize ESMS expect these)
+ * - capital: Capitalized signs (aggregateZodiacElementals / ZODIAC_ELEMENTS expect these)
+ */
+function buildSignMaps(positions: Record<string, PlanetPosition>): {
+  lower: Record<string, string>;
+  capital: Record<string, string>;
+} {
+  const lower: Record<string, string> = {};
+  const capital: Record<string, string> = {};
+  for (const [planet, pos] of Object.entries(positions)) {
+    if (!pos || pos.sign == null) continue;
+    const lowerSign = String(pos.sign).toLowerCase();
+    lower[planet] = lowerSign;
+    capital[planet] = capitalizeSign(lowerSign);
+  }
+  return { lower, capital };
+}
+
 export function useChartData(options: ChartDataOptions = {}): ChartData {
   const {
-    dateTime: _dateTime,
-    location: optionLocation, // Rename to avoid conflict
+    dateTime,
+    location: optionLocation,
     zodiacSystem = "tropical",
-    autoRefresh: _autoRefresh = false,
-    refreshInterval: _refreshInterval = 60000, // 1 minute default
+    autoRefresh = false,
+    refreshInterval = 60000, // 1 minute default
   } = options;
   const { currentUser } = useUser();
   const userLocation = currentUser?.birthData
@@ -74,35 +120,168 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         longitude: currentUser.birthData.longitude,
       }
     : undefined;
-  // Determine the location to use: option > user > null
-  const location = optionLocation || userLocation;
-  const [positions, _setPositions] = useState<Record<
+  // Determine the location to use: option > user > NYC default (never null,
+  // so the page can't hang on a missing location).
+  const location = optionLocation || userLocation || DEFAULT_LOCATION;
+
+  const [positions, setPositions] = useState<Record<
     string,
     PlanetPosition
   > | null>(null);
-  const [aspects, _setAspects] = useState<PlanetaryAspect[]>([]);
-  const [alchemical, _setAlchemical] = useState<AlchemicalResult | null>(null);
-  const [kinetics, _setKinetics] = useState<KineticMetrics | null>(null);
-  const [timestamp, _setTimestamp] = useState<string | null>(null);
+  const [aspects, setAspects] = useState<PlanetaryAspect[]>([]);
+  const [alchemical, setAlchemical] = useState<AlchemicalResult | null>(null);
+  const [kinetics, setKinetics] = useState<KineticMetrics | null>(null);
+  const [timestamp, setTimestamp] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Stabilize fetch dependencies so the effect doesn't re-run on every render
+  // (the location object identity changes when the page passes a literal).
+  const latitude = location.latitude;
+  const longitude = location.longitude;
+  const dateTimeMs = dateTime ? dateTime.getTime() : null;
+
   const fetchChartData = useCallback(async () => {
-    // If no location is available, do not fetch data
-    if (!location) {
+    const loc = { latitude, longitude };
+    if (
+      !loc ||
+      typeof loc.latitude !== "number" ||
+      typeof loc.longitude !== "number" ||
+      Number.isNaN(loc.latitude) ||
+      Number.isNaN(loc.longitude)
+    ) {
       setError("Location data is required to fetch chart data.");
       setIsLoading(false);
       return;
     }
+
     setIsLoading(true);
     setError(null);
+
     try {
-      // Build query parameters
-      const _params = new URLSearchParams({
-        latitude: location.latitude.toString(),
-        longitude: location.longitude.toString(),
-        zodiacSystem,
+      const requestedDate =
+        dateTimeMs != null ? new Date(dateTimeMs) : new Date();
+
+      // 1. Fetch planetary positions (astrologize API, with built-in
+      //    circuit-breaker + astronomy-engine fallback so it never hangs).
+      const fetchedPositions =
+        dateTimeMs != null
+          ? await getPlanetaryPositionsForDateTime(
+              requestedDate,
+              loc,
+              zodiacSystem,
+            )
+          : await getCurrentPlanetaryPositions(loc, zodiacSystem);
+
+      if (!fetchedPositions || Object.keys(fetchedPositions).length === 0) {
+        throw new Error("No planetary positions returned");
+      }
+
+      // 2. Derive aspects from positions (reuses calculateAspects).
+      const { aspects: derivedAspects } =
+        AspectsService.calculateFromPositions(fetchedPositions);
+
+      // 3. Build planet -> sign maps (casing matters; see buildSignMaps).
+      const { lower, capital } = buildSignMaps(fetchedPositions);
+
+      // 4. Alchemical properties.
+      //    ESMS via the same path /api/alchemize uses (lowercase signs).
+      const diurnal = isSectDiurnal(requestedDate);
+      const esms = calculateEnhancedAlchemicalFromPlanets(lower, diurnal);
+      //    Elemental properties need Capitalized signs (ZODIAC_ELEMENTS).
+      const elementalProperties = aggregateZodiacElementals(capital);
+
+      // 5. Kinetics (P=IV). The engine expects lowercase signs. A single
+      //    snapshot (timeInterval=1, no previous frame) resolves velocities /
+      //    momenta to 0 and derives charge/V/I/P from current state — the same
+      //    first-frame behavior as usePlanetaryKinetics.
+      const kineticMetrics: KineticMetrics = calculateKinetics({
+        currentPlanetaryPositions: lower,
+        timeInterval: 1,
+        currentPlanet: "Sun",
       });
-      // ... (rest of the fetch logic remains the same)
+
+      // 6. Display-facing thermodynamics + kalchm/monica derived from the ESMS
+      //    totals (the engine's exact values are module-private). Same proxy
+      //    mapping /api/alchemize uses; all guarded against NaN/Infinity.
+      const spirit = esms.Spirit;
+      const essence = esms.Essence;
+      const matter = esms.Matter;
+      const substance = esms.Substance;
+      const total = spirit + essence + matter + substance || 1;
+
+      const safe = (n: number) => (Number.isFinite(n) ? n : 0);
+
+      const dominantElementalValue = Math.max(
+        ...ELEMENTS.map((e) => elementalProperties[e] ?? 0),
+      );
+      const heat = safe((spirit / total) * 10);
+      const entropy = safe(1 - dominantElementalValue);
+      const reactivity = safe(spirit / total);
+      const gregsEnergy = safe(heat - entropy * reactivity);
+
+      const kalchm = safe(
+        (Math.max(spirit, 0.0001) ** spirit *
+          Math.max(essence, 0.0001) ** essence) /
+          (Math.max(matter, 0.0001) ** matter *
+            Math.max(substance, 0.0001) ** substance),
+      );
+      const monica =
+        kalchm > 0 && reactivity !== 0 && Math.log(kalchm) !== 0
+          ? safe(-gregsEnergy / (reactivity * Math.log(kalchm)))
+          : 0;
+
+      const dominantElement =
+        ELEMENTS.slice().sort(
+          (a, b) =>
+            (elementalProperties[b] ?? 0) - (elementalProperties[a] ?? 0),
+        )[0] ?? "Earth";
+      const sunSign = lower.Sun;
+
+      const alchemicalResult: AlchemicalResult = {
+        elementalProperties: {
+          Fire: safe(elementalProperties.Fire),
+          Water: safe(elementalProperties.Water),
+          Earth: safe(elementalProperties.Earth),
+          Air: safe(elementalProperties.Air),
+        },
+        thermodynamicProperties: {
+          heat,
+          entropy,
+          reactivity,
+          gregsEnergy,
+        },
+        esms: {
+          Spirit: safe(spirit),
+          Essence: safe(essence),
+          Matter: safe(matter),
+          Substance: safe(substance),
+        },
+        kalchm,
+        monica,
+        score: safe(gregsEnergy),
+        metadata: {
+          dominantElement,
+          sunSign,
+          source: "astrologize + planetaryAlchemyMapping",
+        },
+        spirit: safe(spirit),
+        essence: safe(essence),
+        matter: safe(matter),
+        substance: safe(substance),
+      };
+
+      // 7. Commit all state.
+      setPositions(fetchedPositions);
+      // calculateAspects (via AspectsService) emits its own structurally-
+      // compatible PlanetaryAspect type; bridge it to the celestial type the
+      // page + PlanetaryChart consume. Runtime fields (planet1/planet2/type/orb)
+      // are identical.
+      setAspects(derivedAspects as unknown as PlanetaryAspect[]);
+      setAlchemical(alchemicalResult);
+      setKinetics(kineticMetrics);
+      setTimestamp(requestedDate.toISOString());
+      setError(null);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Unknown error occurred";
@@ -111,12 +290,29 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
     } finally {
       setIsLoading(false);
     }
-  }, [location, zodiacSystem]);
+  }, [latitude, longitude, dateTimeMs, zodiacSystem]);
 
   const refetch = useCallback(() => {
     void fetchChartData();
   }, [fetchChartData]);
-  // ... (useEffect hooks remain the same)
+
+  // Fetch on mount and whenever location / dateTime / zodiacSystem change.
+  useEffect(() => {
+    void fetchChartData();
+  }, [fetchChartData]);
+
+  // Auto-refresh interval (only when enabled). Cleaned up on unmount / change.
+  const fetchRef = useRef(fetchChartData);
+  fetchRef.current = fetchChartData;
+  useEffect(() => {
+    if (!autoRefresh) return;
+    const interval = Math.max(5000, refreshInterval || 60000);
+    const id = setInterval(() => {
+      void fetchRef.current();
+    }, interval);
+    return () => clearInterval(id);
+  }, [autoRefresh, refreshInterval]);
+
   return {
     positions,
     aspects,
