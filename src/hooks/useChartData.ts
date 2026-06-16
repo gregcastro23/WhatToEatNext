@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { alchemize } from "@/calculations/core/alchemicalEngine";
 import { calculateKinetics } from "@/calculations/kinetics";
 import { useUser } from "@/contexts/UserContext";
 import { AspectsService } from "@/services/AspectsService";
@@ -201,35 +202,28 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         currentPlanet: "Sun",
       });
 
-      // 6. Display-facing thermodynamics + kalchm/monica derived from the ESMS
-      //    totals (the engine's exact values are module-private). Same proxy
-      //    mapping /api/alchemize uses; all guarded against NaN/Infinity.
+      // 6. Display-facing thermodynamics + kalchm/monica come straight from the
+      //    canonical alchemical engine (alchemize) for EXACT values — heat,
+      //    entropy, reactivity, gregsEnergy, kalchm and monica via its precise
+      //    thermodynamic formulas, replacing the prior proxy approximation. The
+      //    engine maps each planet through its own planetInfo/signInfo model
+      //    (it has no Ascendant entry, so it skips it). The ESMS shown below
+      //    stay on the richer enhanced (sect/dignity) mapping. All values are
+      //    guarded against NaN/Infinity via safe().
       const spirit = esms.Spirit;
       const essence = esms.Essence;
       const matter = esms.Matter;
       const substance = esms.Substance;
-      const total = spirit + essence + matter + substance || 1;
 
       const safe = (n: number) => (Number.isFinite(n) ? n : 0);
 
-      const dominantElementalValue = Math.max(
-        ...ELEMENTS.map((e) => elementalProperties[e] ?? 0),
-      );
-      const heat = safe((spirit / total) * 10);
-      const entropy = safe(1 - dominantElementalValue);
-      const reactivity = safe(spirit / total);
-      const gregsEnergy = safe(heat - entropy * reactivity);
-
-      const kalchm = safe(
-        (Math.max(spirit, 0.0001) ** spirit *
-          Math.max(essence, 0.0001) ** essence) /
-          (Math.max(matter, 0.0001) ** matter *
-            Math.max(substance, 0.0001) ** substance),
-      );
-      const monica =
-        kalchm > 0 && reactivity !== 0 && Math.log(kalchm) !== 0
-          ? safe(-gregsEnergy / (reactivity * Math.log(kalchm)))
-          : 0;
+      const engineMetrics = alchemize(lower);
+      const heat = safe(engineMetrics.heat);
+      const entropy = safe(engineMetrics.entropy);
+      const reactivity = safe(engineMetrics.reactivity);
+      const gregsEnergy = safe(engineMetrics.gregsEnergy);
+      const kalchm = safe(engineMetrics.kalchm);
+      const monica = safe(engineMetrics.monica);
 
       const dominantElement =
         ELEMENTS.slice().sort(
@@ -263,7 +257,7 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
         metadata: {
           dominantElement,
           sunSign,
-          source: "astrologize + planetaryAlchemyMapping",
+          source: "astrologize + planetaryAlchemyMapping + alchemicalEngine",
         },
         spirit: safe(spirit),
         essence: safe(essence),
