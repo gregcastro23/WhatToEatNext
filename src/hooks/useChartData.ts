@@ -206,10 +206,11 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       //    canonical alchemical engine (alchemize) for EXACT values — heat,
       //    entropy, reactivity, gregsEnergy, kalchm and monica via its precise
       //    thermodynamic formulas, replacing the prior proxy approximation. The
-      //    engine maps each planet through its own planetInfo/signInfo model
-      //    (it has no Ascendant entry, so it skips it). The ESMS shown below
-      //    stay on the richer enhanced (sect/dignity) mapping. All values are
-      //    guarded against NaN/Infinity via safe().
+      //    engine maps each planet through its own planetInfo/signInfo model,
+      //    including the Ascendant (it carries a planetInfo entry), so it grounds
+      //    day charts the same way the enhanced mapping does. The ESMS shown
+      //    below stay on the richer enhanced (sect/dignity) mapping. All values
+      //    are guarded against NaN/Infinity via safe().
       const spirit = esms.Spirit;
       const essence = esms.Essence;
       const matter = esms.Matter;

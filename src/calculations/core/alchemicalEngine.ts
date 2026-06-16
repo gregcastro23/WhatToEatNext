@@ -212,8 +212,10 @@ function alchemize(planetaryPositions: {
       totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop];
     }
 
-    // Sum elemental properties (use signInfo for sign's element)
-    const signElement = signInfo[sign].Element;
+    // Sum elemental properties (use signInfo for sign's element).
+    // Guard against an unrecognized sign string so a single bad position can't
+    // throw and take down the whole calculation.
+    const signElement = signInfo[sign]?.Element;
     if (signElement && totals[signElement] !== undefined) {
       totals[signElement] += 1;
     }
