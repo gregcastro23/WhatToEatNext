@@ -177,7 +177,7 @@ interface AlchemyTotals {
   Earth: number;
 }
 
-interface ThermodynamicMetrics {
+export interface ThermodynamicMetrics {
   heat: number;
   entropy: number;
   reactivity: number;
