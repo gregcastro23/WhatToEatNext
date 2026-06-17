@@ -58,7 +58,7 @@ function main(): void {
     let block = txt.slice(start, end);
 
     const cur = coverageDescriptionCuration[slug];
-    if (cur && block.includes(MARKER)) {
+    if (cur) {
       // Replace the (possibly multi-line) description string value.
       block = block.replace(
         /description:\s*"(?:[^"\\]|\\.)*",/,
@@ -66,9 +66,19 @@ function main(): void {
       );
       // Tighten the category.
       block = block.replace(/category:\s*"[^"]*",/, `category: "${cur.category}",`);
-      // Drop the fabricated placeholder nutrition (no invented calorie/macro values).
-      block = block.replace(/\n[ \t]*calories:\s*\d+(?:\.\d+)?,/, "");
-      block = block.replace(/\n[ \t]*macros:\s*\{[^}]*\},/, "");
+      
+      // Patch the nutritional profile.
+      if (cur.nutritionalProfile) {
+        const nutStr = `nutritionalProfile: {
+      serving_size: "${cur.nutritionalProfile.serving_size}",
+      source: "Recipe-derived coverage entry",
+      calories: ${cur.nutritionalProfile.calories},
+      macros: { protein: ${cur.nutritionalProfile.macros.protein}, carbs: ${cur.nutritionalProfile.macros.carbs}, fat: ${cur.nutritionalProfile.macros.fat}, fiber: ${cur.nutritionalProfile.macros.fiber ?? 0} },
+      vitamins: {},
+      minerals: {},
+    },`;
+        block = block.replace(/nutritionalProfile:\s*\{[\s\S]*?\n\s{4}\},/, nutStr);
+      }
       patched++;
     }
 
@@ -78,7 +88,7 @@ function main(): void {
 
   fs.writeFileSync(COV, result);
   console.log(
-    `Patched ${patched} coverage entries with curated descriptions; ` +
+    `Patched ${patched} coverage entries with curated descriptions and nutritional profiles; ` +
       `${hiddenAfter} entries remain hidden (dish names / fragments / corrupted).`,
   );
 }

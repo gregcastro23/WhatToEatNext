@@ -1,6 +1,6 @@
 # WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 3.2.0 | Last Updated: June 11, 2026_
+_Version: 3.2.1 | Last Updated: June 15, 2026_
 
 ## Project Overview
 
@@ -11,7 +11,7 @@ We operate a three-project loop:
 2. **api.agents.alchm.kitchen (PA Backend)**: The Planetary Agents Python service owning agent personas, orchestration, and LLM recipe generation.
 3. **agents.alchm.kitchen (PA UI)**: The Planetary Agents Next.js UI.
 
-## Current Project Status (June 2026 - v3.2.0)
+## Current Project Status (June 2026 - v3.2.1)
 
 ### 🪐 **PLANETARY AGENTS INTEGRATION**
 - **Unified Agent Profiles**: Agents are first-class users (`@agentic.alchm.kitchen`). Their rich profiles include bio, dominant elements, live natal chart overlays, viewer↔agent synastry, and consciousness sigils (fetched via public endpoints from WTEN).
@@ -22,6 +22,10 @@ We operate a three-project loop:
 ### ⚡ **SPACETIMEDB LIVE LAYER (v4.0)**
 - **Real-Time Sync**: Using `spacetime-module` (Rust) for live synchronization of meal plans, commensal lobbies, and grocery carts.
 - **Gated & Fallback**: Activated via `NEXT_PUBLIC_SPACETIME_URI=wss://maincloud.spacetimedb.com`. Falls back silently to legacy localStorage/REST if the websocket drops or flags are disabled.
+- **Connection Optimizations**:
+  - **CSP Compatibility**: Upgraded `next.config.js` to whitelist `wss://` origins in the Content Security Policy, preventing browser blocking in production.
+  - **Auto-Reconnection**: The connection provider now listens to browser `online` and window `focus` events to immediately re-establish connections after transient drops (e.g. lid close or network changes) rather than permanently giving up after 8 retries.
+  - **Defensive Normalization**: Automatically strips leading `@` prefixes from `NEXT_PUBLIC_SPACETIME_MODULE` to prevent connection errors when copy-pasting the console namespace.
 - **Fixes Shipped**: Addressed echo races, remote plan wipes on reload, and DOM click-dead issues caused by decorative `.regmarks`.
 
 ### 🌍 **ELEMENTAL SIGNATURE MODEL**
@@ -48,6 +52,7 @@ We operate a three-project loop:
 ### **Authentication & Device Sessions**
 - **Provider**: NextAuth.js v5 (Google OAuth only).
 - **Device Sessions**: Tracked via `database/init/33-device-sessions.sql`, supporting multi-device login states.
+- **Primary Database**: Core WTEN is fully migrated to **Railway PostgreSQL** (with schema tables fully up-to-date through Migration 54). Neon DB is deprecated on the WTEN frontend side and remains active only as a separate datastore inside the Planetary Agents (PA) Python backend.
 
 ---
 
@@ -64,7 +69,7 @@ INTERNAL_API_SECRET=<internal-api-secret>
 ALCHM_KITCHEN_SYNC_SECRET=<sync-secret-with-planetary-agents>
 NEXT_PUBLIC_AGENTS_UI_URL=https://agents.alchm.kitchen
 
-# Database
+# Database (Railway Postgres)
 DATABASE_URL=postgresql://postgres:<password>@postgres.railway.internal:5432/railway
 
 # Auth
@@ -75,13 +80,14 @@ AUTH_ADMIN_EMAIL=<admin-email>
 AUTH_URL=https://alchm.kitchen
 AUTH_TRUST_HOST=true
 
-# SpacetimeDB Live Layer
+# SpacetimeDB Live Layer (Note: Live flags must be "1", not "true", to resolve correctly in code)
 NEXT_PUBLIC_SPACETIME_URI=wss://maincloud.spacetimedb.com
-NEXT_PUBLIC_SPACETIME_LIVE_PLANNER=true
-NEXT_PUBLIC_SPACETIME_LIVE_COMMENSAL=true
-NEXT_PUBLIC_SPACETIME_LIVE_CART=true
-NEXT_PUBLIC_SPACETIME_LIVE_RECIPES=true
-NEXT_PUBLIC_SPACETIME_LIVE_FEED=true
+NEXT_PUBLIC_SPACETIME_MODULE=cookingwithcastrollc/alchm-culinary
+NEXT_PUBLIC_SPACETIME_LIVE_CULINARY=1
+NEXT_PUBLIC_SPACETIME_LIVE_PLANNER=1
+NEXT_PUBLIC_SPACETIME_LIVE_COMMENSAL=1
+NEXT_PUBLIC_SPACETIME_LIVE_CART=1
+NEXT_PUBLIC_SPACETIME_LIVE_FEED=1
 ```
 
 ## AI Assistant Operational MO
