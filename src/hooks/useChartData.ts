@@ -211,11 +211,6 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
       //    day charts the same way the enhanced mapping does. The ESMS shown
       //    below stay on the richer enhanced (sect/dignity) mapping. All values
       //    are guarded against NaN/Infinity via safe().
-      const spirit = esms.Spirit;
-      const essence = esms.Essence;
-      const matter = esms.Matter;
-      const substance = esms.Substance;
-
       const safe = (n: number) => (Number.isFinite(n) ? n : 0);
 
       const engineMetrics = alchemize(lower);
@@ -247,10 +242,10 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
           gregsEnergy,
         },
         esms: {
-          Spirit: safe(spirit),
-          Essence: safe(essence),
-          Matter: safe(matter),
-          Substance: safe(substance),
+          Spirit: safe(esms.Spirit),
+          Essence: safe(esms.Essence),
+          Matter: safe(esms.Matter),
+          Substance: safe(esms.Substance),
         },
         kalchm,
         monica,
@@ -260,10 +255,10 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
           sunSign,
           source: "astrologize + planetaryAlchemyMapping + alchemicalEngine",
         },
-        spirit: safe(spirit),
-        essence: safe(essence),
-        matter: safe(matter),
-        substance: safe(substance),
+        spirit: safe(esms.Spirit),
+        essence: safe(esms.Essence),
+        matter: safe(esms.Matter),
+        substance: safe(esms.Substance),
       };
 
       // 7. Commit all state.
