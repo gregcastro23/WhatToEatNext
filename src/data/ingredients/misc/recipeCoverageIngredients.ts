@@ -1234,9 +1234,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Capers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pickled flower buds of the caper bush, brined or salted, lending a sharp briny tang to Mediterranean sauces, fish dishes, and tapenade.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -1247,8 +1246,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1783,8 +1780,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Black Peppercorns is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried whole pepper berries ground for sharp, pungent heat, the universal table and cooking seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -1796,8 +1792,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1966,8 +1960,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Southeast Asia", "India"],
     season: ["summer", "fall"],
     provenance: "generated",
-    description:
-      "Limes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small green citrus fruits with sharp, acidic juice; essential in Mexican cooking for salsas, marinades, drinks, and finishing tacos and soups.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -1979,8 +1972,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2027,9 +2018,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Achiote Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Brick-red Yucatecan seasoning paste of ground annatto, spices, and vinegar; rubbed onto meats for cochinita pibil and other adobo dishes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -2040,8 +2030,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2088,8 +2076,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ancho Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried ripe poblano peppers that are mild and sweet with raisiny, chocolate notes; rehydrated and blended for moles, adobos, and red chili sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -2101,8 +2088,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2210,9 +2195,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Red Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Thai paste of red chilies, lemongrass, galangal, and shrimp paste, simmered with coconut milk for classic red curry.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -2223,8 +2207,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2271,9 +2253,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["North Africa (Tunisia)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Harissa Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "A North African chili paste of roasted red peppers, garlic, and spices like caraway and coriander, used as a condiment and cooking base.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -2284,8 +2265,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2454,9 +2433,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Hot Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Liquid condiment of chilies, vinegar, and salt, splashed onto dishes at the table for added heat and tang.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -2467,8 +2445,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2515,8 +2491,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Heavy Whipping Cream is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "High-fat cream that whips to stiff peaks and enriches sauces, soups, and desserts without curdling when reduced.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -2528,8 +2503,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2637,8 +2610,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["East and Southeast Asia"],
     season: ["spring"],
     provenance: "generated",
-    description:
-      "Bamboo Shoots is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Crunchy young shoots of bamboo, blanched to remove bitterness and used in stir-fries, curries, and braises.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -2650,8 +2622,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2820,9 +2790,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Iran, Afghanistan)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Asafoetida Hing is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "A pungent dried gum resin used in tiny pinches, bloomed in hot oil to add a savory onion-garlic note to Indian dals and vegetable dishes.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -2833,8 +2802,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2881,9 +2848,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kasuri Methi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried fenugreek leaves with a slightly bitter, maple-like aroma, crushed and sprinkled into Indian curries, dals, and breads as a finishing herb.",
+    category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -2894,8 +2860,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3003,9 +2967,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Marsala Wine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fortified Sicilian wine ranging from dry to sweet, used to deglaze pans and build sauces in dishes like chicken or veal Marsala.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -3016,8 +2979,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3064,8 +3025,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Golden Raisins is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried green grapes treated to retain a pale golden color, sweeter and softer than dark raisins; used in picadillo, moles, and stuffings.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -3077,8 +3037,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3125,9 +3083,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nori Seaweed is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried, paper-thin sheets of pressed laver seaweed used to wrap sushi and rice balls or cut into garnish strips.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -3138,8 +3095,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3186,8 +3141,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fresh Ramen Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Fresh alkaline wheat noodles with a chewy, springy bite, boiled briefly and served in ramen broths.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -3199,8 +3153,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3247,8 +3199,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Soba Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried buckwheat noodles with a nutty flavor, served chilled with dipping sauce or hot in broth.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -3260,8 +3211,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3430,9 +3379,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Korea"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Doenjang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Korean fermented soybean paste, deep and savory, used as the base for stews like doenjang-jjigae, dipping sauces (ssamjang), and marinades.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -3443,8 +3391,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3552,8 +3498,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ancho Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried ripe poblano peppers, mild and fruity with raisin and cocoa notes; a foundational chili for moles, adobos, and enchilada sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -3565,8 +3510,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3613,8 +3556,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pasilla Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried chilaca peppers, dark and wrinkled with mild heat and rich berry-cocoa flavor; used in moles and table sauces, often alongside ancho and guajillo.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -3626,8 +3568,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3674,9 +3614,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico (Puebla)"],
     season: ["summer", "fall"],
     provenance: "generated",
-    description:
-      "Poblano Peppers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Large, mild dark-green chili peppers with an earthy flavor; roasted and peeled for chiles rellenos, rajas, and sauces, and dried they become anchos.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -3687,8 +3626,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3735,8 +3672,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Guajillo Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried mirasol peppers with a smooth, tangy, moderately spicy flavor; one of the most common Mexican chilies for adobos, salsas, and marinades.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -3748,8 +3684,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3919,9 +3853,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Green Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Vibrant Thai paste of green chilies and aromatics, blended into coconut milk for fragrant, fresh-tasting green curry.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -3932,8 +3865,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3980,9 +3911,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Niter Kibbeh is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Ethiopian spiced clarified butter infused with garlic, ginger, and spices, used as the cooking fat in wots and stews.",
+    category: "oil",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -3993,8 +3923,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4041,8 +3969,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Caribbean"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Scotch Bonnet Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Very hot, fruity Caribbean chili used in jerk seasoning, pepper sauces, and West African stews.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -4054,8 +3981,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4102,8 +4027,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mesoamerica"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Red Pepper Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried crushed chili flakes with seeds, sprinkled over pizza, pasta, and stir-fries for moderate heat.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -4115,8 +4039,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4163,9 +4085,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Peri Peri Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Spicy African bird's-eye chili sauce with garlic, lemon, and herbs, used to marinate and baste grilled chicken.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -4176,8 +4097,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4285,8 +4204,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Yucatán Peninsula"],
     season: ["summer", "fall"],
     provenance: "generated",
-    description:
-      "Habanero Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Intensely hot chili with bright citrusy notes, used in salsas, hot sauces, and Mexican and Caribbean cooking.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -4298,8 +4216,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4346,9 +4262,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cream Of Tartar is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "dairy",
+    description: "Powdered acid (potassium bitartrate) used to stabilize whipped egg whites and prevent sugar crystallization in candy.",
+    category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -4359,8 +4274,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4407,8 +4320,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "American Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Mild, smooth processed cheese that melts evenly, used on burgers, grilled cheese, and other sandwiches.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -4420,8 +4332,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4468,9 +4378,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Creole Seasoning is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Louisiana-style spice blend of paprika, cayenne, garlic, onion, herbs, and pepper; used to season gumbo, jambalaya, and blackened meats.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -4481,8 +4390,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4590,8 +4497,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Fertile Crescent"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Wheat Starch is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Gluten-free starch from wheat used to make translucent dim sum wrappers such as har gow and crystal dumplings.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -4603,8 +4509,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4651,8 +4555,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["China", "Japan"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Silken Tofu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Soft, custard-like tofu with high moisture, used in miso soup, sundubu stews, and chilled dishes like hiyayakko.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -4664,8 +4567,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4834,8 +4735,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Toulouse Sausage is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Coarse, garlicky fresh French pork sausage, a classic component of cassoulet and grilled dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -4847,8 +4747,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4895,9 +4793,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kalamata Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dark purple Greek olives with a meaty texture and rich, fruity-tart flavor, used in Greek salads, tapenades, and braised dishes.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -4908,8 +4805,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5018,8 +4913,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Biryani Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A ground spice blend of warming aromatics like cardamom, cinnamon, cloves, mace, and bay used to season layered rice-and-meat biryani dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -5031,8 +4925,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5079,9 +4971,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["South America (Brazil)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cashew Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "A smooth paste of ground soaked cashews used to thicken and enrich Indian gravies and kormas, lending creaminess without dairy.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5092,8 +4983,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5323,9 +5212,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Savoiardi Ladyfingers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Light, crisp sponge-finger biscuits that soak up liquid, layered into tiramisu and charlottes.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5336,8 +5224,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5384,8 +5270,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Unsweetened Cocoa Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Ground defatted cacao with deep bitter chocolate flavor, used in cakes, brownies, and hot chocolate.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -5397,8 +5282,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5445,8 +5328,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Yakisoba Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Springy wheat noodles for the stir-fried Japanese dish yakisoba, tossed with vegetables, meat, and a tangy-sweet sauce.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -5458,8 +5340,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5567,9 +5447,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ajitsuke Tamago is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Soft-boiled eggs marinated in a soy-mirin mixture, halved and used as a classic ramen topping.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5580,8 +5459,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5628,9 +5505,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tentsuyu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Light dashi-based dipping sauce with soy and mirin, served warm alongside tempura.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5641,8 +5517,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5689,8 +5563,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tenkasu Tempura Scraps is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Crunchy bits of fried tempura batter used to add texture and richness to udon, takoyaki, okonomiyaki, and rice bowls.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -5702,8 +5575,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5750,9 +5621,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Okonomiyaki Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Sweet, tangy, Worcestershire-based brown sauce brushed over okonomiyaki and other savory Japanese pancakes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5763,8 +5633,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5811,9 +5679,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Katsuobushi Bonito Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin shavings of dried bonito used to make dashi and as an umami topping for tofu, okonomiyaki, and rice.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5824,8 +5691,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5872,8 +5737,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Shirataki Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Translucent, gelatinous noodles made from konjac yam, low in calories and used in sukiyaki, hot pots, and stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -5885,8 +5749,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5933,9 +5795,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kamaboko is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Japanese steamed fish cake made from surimi, sliced and added to ramen, udon, and bento, often with a pink-edged exterior.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -5946,8 +5807,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5994,8 +5853,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Somyeon Thin Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Thin Korean wheat noodles that cook quickly, served in cold broths, with bibim sauces, or in light soups like janchi-guksu.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -6007,8 +5865,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6116,9 +5972,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Gim Roasted Seaweed is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Korean roasted laver seaweed, usually seasoned with salt and sesame oil, eaten as a side dish or wrapped around rice.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6129,8 +5984,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6177,9 +6030,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dangmyeon is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Korean sweet potato starch glass noodles, chewy and translucent, the key ingredient in stir-fried japchae.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6190,8 +6042,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6238,8 +6088,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Eomuk Fish Cakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Korean fish cakes made from ground fish and starch, simmered in skewered soup (odeng) or stir-fried as banchan.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -6251,8 +6100,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6299,9 +6146,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tomatillos is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Small green fruits encased in a papery husk with a tart, citrusy flavor; the base for salsa verde and many Mexican green sauces, used raw or roasted.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6312,8 +6158,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6360,9 +6204,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Crema Mexicana is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin, slightly tangy Mexican cultured cream, richer and less sour than sour cream; drizzled over tacos, tostadas, and enchiladas as a cooling garnish.",
+    category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6373,8 +6216,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6482,8 +6323,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Guajillo Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried mirasol peppers with bright, tangy, mild-to-medium heat; rehydrated and blended for red sauces, marinades, and birria.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -6495,8 +6335,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6543,8 +6381,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mulato Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried brown poblano variety, sweeter and smokier than ancho with chocolate and licorice notes; one of the three chilies traditional to mole poblano.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -6556,8 +6393,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6604,9 +6439,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico", "Central America"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Fresh Epazote is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pungent Mexican herb with a strong, gasoline-citrus aroma; added to black beans, quesadillas, and soups for flavor and to reduce beans' gassiness.",
+    category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6617,8 +6451,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6665,9 +6497,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mexican Crema is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin, slightly tangy Mexican cultured cream drizzled over tacos, soups, and antojitos to add richness and a cooling contrast to spicy dishes.",
+    category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6678,8 +6509,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6788,8 +6617,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Shawarma Spice Blend is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A Middle Eastern ground blend of cumin, coriander, paprika, cinnamon, and allspice used to season roasted, spit-grilled shawarma meats.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -6801,8 +6629,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6849,9 +6675,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pickle Brine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Tangy salty-sour liquid from pickling, used to brine meats, dress salads, or add acidity to dressings and cocktails.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6862,8 +6687,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6910,8 +6733,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tvorog Farmers Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Fresh, soft, mild curd cheese popular in Eastern Europe, used in blintzes, syrniki, and sweet or savory fillings.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -6923,8 +6745,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6971,9 +6791,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nam Prik Pao is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thai roasted chili jam of dried chilies, shallots, garlic, and tamarind; stirred into tom yum, stir-fries, and dips.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -6984,8 +6803,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7032,8 +6849,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Bird S Eye Chili is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, very hot Thai chili used fresh or dried to bring intense heat to curries, stir-fries, and dipping sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -7045,8 +6861,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7093,9 +6907,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Massaman Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Mild, aromatic Thai-Muslim curry paste with warm spices like cinnamon and cardamom, simmered with coconut milk and potatoes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -7106,8 +6919,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7154,8 +6965,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Long Red Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Mild-to-medium fresh red chilies sliced for color and gentle heat in Thai and Vietnamese stir-fries and garnishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -7167,8 +6977,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7521,9 +7329,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Caribbean"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Scotch Bonnet is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fiery, fruity-sweet Caribbean chili pepper central to jerk marinades, hot sauces, and Caribbean stews.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -7534,8 +7341,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7765,9 +7570,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Vegetable Stock is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Clear broth simmered from vegetables and aromatics, used as a neutral base for soups, risottos, and sauces.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -7778,8 +7582,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8009,9 +7811,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Brick Pastry Sheets is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin North African pastry sheets (feuilles de brick) that crisp when fried or baked, used for briouats and bastilla.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8022,8 +7823,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8070,9 +7869,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ogbono Seeds is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried wild mango seeds, ground to thicken and flavor Nigerian ogbono soup with a mucilaginous body.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8083,8 +7881,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8314,8 +8110,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Durban Curry Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A fiery South African Indian curry blend, heavy on chili and coriander, used in Durban-style curries like bunny chow.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -8327,8 +8122,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8375,9 +8168,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mitmita is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fiery Ethiopian spice blend of bird's-eye chili, cardamom, and cloves, used to season kitfo and as a table condiment.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8388,8 +8180,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8436,9 +8226,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kuli Kuli Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Ground West African peanut snack used as a crunchy seasoning sprinkled over salads or stirred into spice mixes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8449,8 +8238,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8497,8 +8284,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Bitterleaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "West African bitter greens, washed to temper bitterness and cooked into stews such as Nigerian bitterleaf soup.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
     qualities: ["recipe-linked", "standardized"],
@@ -8510,8 +8296,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8558,8 +8342,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Vinegar White is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Clear, sharp distilled vinegar used for pickling, brightening sauces, and as an acidic all-purpose kitchen staple.",
     category: "vinegar",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -8571,8 +8354,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8619,8 +8400,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sourdough Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Tangy naturally leavened bread with a chewy crumb and crisp crust, sliced for toast, sandwiches, and croutons.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -8632,8 +8412,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8680,9 +8458,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mediterranean"],
     season: ["fall", "winter", "spring"],
     provenance: "generated",
-    description:
-      "Leeks is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Mild onion-family vegetable with a tender white-and-green stalk, sweated as an aromatic base for soups, tarts, and braises.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8693,8 +8470,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8741,9 +8516,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fresh Berries is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Assorted ripe berries such as strawberries, blueberries, and raspberries, eaten raw or used to top desserts and breakfasts.",
+    category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8754,8 +8528,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8802,9 +8574,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sweet Pickle Relish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Finely chopped sweet pickled cucumber condiment, stirred into tartar sauce and spread on hot dogs and burgers.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -8815,8 +8586,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9046,8 +8815,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Navy Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, mild white beans that turn creamy when cooked, classic for baked beans and hearty soups.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -9059,8 +8827,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9107,9 +8873,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cube Steak is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin beef cut mechanically tenderized into a pitted surface, quick to pan-fry for dishes like chicken-fried steak.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9120,8 +8885,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9168,8 +8931,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Andouille Sausage is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Smoked, coarse-ground pork sausage with assertive spice, central to Cajun gumbo, jambalaya, and red beans and rice.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -9181,8 +8943,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9229,8 +8989,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Italian Sausage is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Fresh pork sausage seasoned with fennel and garlic in sweet or hot styles, used in pasta sauces, pizzas, and sandwiches.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -9242,8 +9001,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9351,8 +9108,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Provolone Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Semi-hard Italian cow's-milk cheese ranging from mild to sharp, melted on sandwiches, pizzas, and baked pasta.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -9364,8 +9120,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9412,9 +9166,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pie Dough is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Unbaked shortcrust dough rolled out to line tins and form crusts for sweet and savory pies and tarts.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9425,8 +9178,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9534,9 +9285,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Youtiao Fried Dough is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Long golden sticks of deep-fried savory dough, eaten with congee or soy milk for breakfast across China.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9547,8 +9297,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9595,9 +9343,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tianmianjiang Sweet Bean Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Sweet fermented wheat paste used as a glaze and dipping sauce, lending mild sweetness and umami to northern Chinese dishes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9608,8 +9355,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9656,9 +9401,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Baocui Crispy Fried Cracker is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Crisp deep-fried cracker (baocui) used for crunchy texture and as a garnish or wrapper in some regional dishes.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9669,8 +9413,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9717,8 +9459,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fresh Chinese Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Soft fresh wheat noodles for stir-fries and noodle soups, with a springy, chewy texture when boiled briefly.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -9730,8 +9471,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9778,9 +9517,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sui Mi Ya Cai is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Preserved, finely chopped Sichuan mustard greens with a salty, savory tang; a key topping for dan dan noodles and dry-fried beans.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9791,8 +9529,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9839,9 +9575,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chinese Sesame Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Toasted sesame paste darker and nuttier than tahini, thinned with oil or water for noodle sauces and hot pot dipping bowls.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9852,8 +9587,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9900,9 +9633,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pixian Doubanjiang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Aged chili-broad-bean paste from Pixian, prized as the highest-quality doubanjiang for authentic Sichuan mapo tofu and twice-cooked pork.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9913,8 +9645,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9961,9 +9691,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Square Wonton Wrappers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Square wheat-dough wrappers folded around pork or shrimp fillings for wontons in soup or fried as crispy parcels.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -9974,8 +9703,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10022,9 +9749,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Supreme Broth Gao Tang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Refined Chinese stock (gao tang) slow-simmered from chicken, pork, and ham for a deeply savory base in fine soups and sauces.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10035,8 +9761,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10083,9 +9807,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chili Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Thick paste of ground chilies, often with garlic and oil, stirred into stir-fries, marinades, and dipping sauces for heat.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10096,8 +9819,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10144,9 +9865,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Doubanjiang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fermented Sichuan paste of broad beans and chilies; the savory, spicy backbone of mapo tofu and many braised dishes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10157,8 +9877,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10205,9 +9923,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["China", "India"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Black Tea Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "culinary_herb",
+    description: "Fully oxidized tea leaves brewed into a robust, dark infusion served hot or iced.",
+    category: "misc",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10218,8 +9935,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10266,8 +9981,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Maltose Syrup is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Thick, mildly sweet malt sugar syrup brushed on roast duck and char siu for glossy color, and used in Chinese pastries.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -10279,8 +9993,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10327,9 +10039,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sweet Bean Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Smooth, dark fermented wheat-flour paste with a sweet-savory flavor; used in Peking duck, zhajiangmian, and as a dipping condiment.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10340,8 +10051,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10388,9 +10097,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Doubanjiang Spicy Broad Bean Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Spicy fermented broad bean and chili paste used to build deep umami and heat in Sichuan braises and stir-fries.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10401,8 +10109,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10449,9 +10155,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["China"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Red Fermented Tofu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Cubes of tofu fermented in red brine with rice wine, intensely savory and used as a condiment or seasoning in braises and stir-fries.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10462,8 +10167,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10510,9 +10213,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Africa"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sesame Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Rich paste of ground toasted sesame seeds used in dan dan noodles, hot pot dips, and cold sesame sauces.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10523,8 +10225,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10571,8 +10271,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sichuan Peppercorn Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Ground Sichuan peppercorns delivering a citrusy aroma and tingling, numbing sensation essential to mala Sichuan seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -10584,8 +10283,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10632,9 +10329,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Flank Steak is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Lean, fibrous beef cut from the cow's belly, best sliced thinly against the grain for stir-fries and grilling.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10645,8 +10341,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10693,8 +10387,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Fertile Crescent"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Wheat Starch Tang Mian Fen is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Wheat starch (tang mian fen) that turns glassy and translucent when steamed, forming the skins of crystal shrimp dumplings.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -10706,8 +10399,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10754,9 +10445,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Doubanjiang Spicy Bean Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Spicy fermented bean and chili paste central to Sichuan cooking, fried in oil to release color and aroma before adding other ingredients.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10767,8 +10457,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10815,9 +10503,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sweet Bean Sauce Tianmianjiang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Thick sweet fermented flour paste (tianmianjiang) brushed on Peking duck wraps and stirred into noodle and stir-fry sauces.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10828,8 +10515,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10876,8 +10561,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Thick Fresh Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Chubby, chewy fresh wheat noodles that hold up to hearty sauces and braises like dan dan or lo mein.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -10889,8 +10573,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10937,9 +10619,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Wonton Wrappers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin square sheets of wheat dough used to wrap seasoned fillings for wontons, then boiled, steamed, or fried.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -10950,8 +10631,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11181,9 +10860,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Croutons is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Cubes of bread toasted or fried until crisp, scattered over salads and soups for crunch.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -11194,8 +10872,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11364,9 +11040,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Escargots is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Edible land snails, classically baked in their shells with garlic-parsley butter as a French appetizer.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -11377,8 +11052,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11486,9 +11159,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Atlantic Ocean"],
     season: ["spring", "summer"],
     provenance: "generated",
-    description:
-      "Dover Sole is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Prized flatfish with firm, delicate white flesh, traditionally pan-fried meunière or filleted for elegant fish dishes.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -11499,8 +11171,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11547,8 +11217,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sausages is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Seasoned ground-meat links in casings, grilled, fried, or simmered and served in countless regional preparations.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -11560,8 +11229,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11608,9 +11275,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Northern Europe", "North America"],
     season: ["fall"],
     provenance: "generated",
-    description:
-      "Juniper Berries is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Aromatic blue-black berries with a piney, resinous flavor, used to season game, sauerkraut, and brines, and to flavor gin.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -11621,8 +11287,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11669,9 +11333,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Marrow Bone is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Cut beef or veal bones containing rich marrow, roasted to spread on toast or simmered to enrich stocks and broths.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -11682,8 +11345,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11852,9 +11513,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fish Stock is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Light savory broth simmered from fish bones and aromatics, used as the base for seafood soups, chowders, and risottos.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -11865,8 +11525,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11913,8 +11571,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "White Haricot Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, creamy white beans that hold their shape when cooked, used in cassoulet, soups, and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -11926,8 +11583,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11974,8 +11629,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried White Tarbais Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Prized large, thin-skinned white beans from southwest France, the traditional bean for authentic cassoulet.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -11987,8 +11641,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12035,9 +11687,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Red Burgundy Wine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dry French Pinot Noir red wine used for braising and deglazing in classic dishes such as boeuf bourguignon and coq au vin.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -12048,8 +11699,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12279,9 +11928,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Creme Patissiere is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thick vanilla pastry cream thickened with eggs and starch, used to fill tarts, éclairs, and choux pastries.",
+    category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -12292,8 +11940,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12401,8 +12047,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Greek Pita Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Soft, fluffy flatbread without a pocket, brushed with oil and used to wrap souvlaki and gyros or scoop dips.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -12414,8 +12059,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12462,8 +12105,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kefalotyri Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Hard, salty Greek sheep's- or goat's-milk cheese, grated over pasta or fried as saganaki.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -12475,8 +12117,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12584,8 +12224,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kefalograviera Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Hard, nutty Greek cheese blending kefalotyri and graviera styles, ideal for grating or pan-frying as saganaki.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -12597,8 +12236,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12645,9 +12282,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Orzo Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Small rice-shaped pasta cooked in soups, pilafs, and salads or simmered risotto-style.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -12658,8 +12294,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12828,9 +12462,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Currants is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Small dried Zante grapes with intense tart-sweet flavor, scattered into scones, breads, rice dishes, and chutneys.",
+    category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -12841,8 +12474,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12889,8 +12520,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Caribbean", "Central America"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Allspice Berries is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried berries tasting of cinnamon, clove, and nutmeg combined, used whole in pickling brines, marinades, and Caribbean jerk seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -12902,8 +12532,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13011,9 +12639,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kefalotyri is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Firm, salty Greek sheep's- or goat's-milk grating cheese used in saganaki and as a finishing cheese over baked dishes.",
+    category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13024,8 +12651,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13072,8 +12697,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Gigantes Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Large, meaty white runner beans, baked in tomato sauce for the Greek dish gigantes plaki.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -13085,8 +12709,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13194,9 +12816,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Phyllo Pastry is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Paper-thin sheets of unleavened dough, layered with butter and baked into crisp pastries like baklava and spanakopita.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13207,8 +12828,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13316,9 +12935,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Europe"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Currants is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Tiny tart dried grapes (Zante currants) used in baking, pilafs, and stuffings to add concentrated sweetness.",
+    category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13329,8 +12947,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13377,9 +12993,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fenugreek Seeds is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Small, hard amber seeds with a bitter, maple-like flavor, toasted or tempered to season curries, pickles, and spice blends.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13390,8 +13005,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13499,8 +13112,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sev is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Crisp, thin fried noodles made from seasoned chickpea-flour batter, used as a crunchy topping for chaats and Indian snack mixes.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -13512,8 +13124,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13560,9 +13170,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mutton is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Meat from mature sheep or goat with a deep, robust flavor, slow-cooked in South Asian curries, biryanis, and stews.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13573,8 +13182,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13682,9 +13289,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Whole Green Gram Moong Dal is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Whole green mung beans, a small legume cooked into dals, sprouted, or stewed; earthy and quick-cooking compared with other pulses.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13695,8 +13301,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13804,9 +13408,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Green Chili Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "A pungent paste of ground fresh green chilies, often blended with garlic or ginger, used to add heat to curries, marinades, and stir-fries.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13817,8 +13420,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13865,8 +13466,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nihari Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A robust spice blend for nihari, a slow-cooked South Asian meat stew, combining warming spices like fennel, black cardamom, and dried ginger.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -13878,8 +13478,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13926,9 +13524,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["South America"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cashews is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Mild, buttery kidney-shaped nuts used whole or ground in Indian curries, fried as a garnish, or ground into rich gravies.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -13939,8 +13536,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13987,8 +13582,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chana Masala Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A tangy, earthy spice blend for chana masala, typically including cumin, coriander, amchur, and dried pomegranate seeds to flavor chickpea curry.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -14000,8 +13594,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14109,9 +13701,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["South Asia"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Amchur is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried green-mango powder used as a souring agent in Indian cooking, adding tart, fruity acidity to chaats, curries, and spice rubs.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -14122,8 +13713,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14292,8 +13881,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pav Bhaji Masala is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A tangy-spicy ground blend used to season pav bhaji, the Mumbai mashed-vegetable curry, with notes of cumin, coriander, amchur, and chili.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -14305,8 +13893,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14414,9 +14000,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tiger Prawns is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Large, meaty saltwater prawns with firm flesh, grilled, curried, or pan-fried; prized for their size and sweet flavor.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -14427,8 +14012,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14475,8 +14058,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Bydagi Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Mild, deep-red wrinkled dried chilies from Karnataka prized for vivid color over heat, used to give curries and masalas a rich red hue.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -14488,8 +14070,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14536,9 +14116,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["South Asia", "Western Asia"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ajwain Carom Seeds is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Small seeds with a sharp thyme-like, oregano flavor, used in Indian breads, fried snacks, and lentil dishes and known for aiding digestion.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -14549,8 +14128,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14658,8 +14235,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tikka Masala Spice Blend is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "A ground blend of cumin, coriander, paprika, garam masala, and chili used to marinate and sauce tikka masala dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -14671,8 +14247,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14780,9 +14354,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Khoya is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Milk solids made by simmering down whole milk until thick and dense, used as a base for Indian sweets like barfi and gulab jamun.",
+    category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -14793,8 +14366,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14841,8 +14412,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Espresso is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Concentrated coffee brewed under pressure, used to flavor tiramisu, mocha desserts, and sauces, or served as a drink.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -14854,8 +14424,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14963,9 +14531,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cantuccini Biscotti is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Twice-baked Tuscan almond biscuits, hard and crunchy, traditionally dipped in Vin Santo dessert wine.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -14976,8 +14543,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15085,8 +14650,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Italy"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cannellini Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Large, creamy white Italian kidney beans used in minestrone, pasta e fagioli, and pureed for dips.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -15098,8 +14662,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15207,9 +14769,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Borlotti is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Cream-and-red speckled Italian beans with a nutty, creamy texture, used in soups, stews, and pasta e fagioli.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15220,8 +14781,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15268,9 +14827,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ditalini is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Short, tube-shaped pasta used in soups such as pasta e fagioli and minestrone, or in cold pasta salads.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15281,8 +14839,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15451,9 +15007,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pici Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thick, hand-rolled Tuscan spaghetti with a chewy bite, served with hearty ragùs and garlicky aglione sauce.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15464,8 +15019,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15512,9 +15065,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Green Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Unripe brined olives with a firm texture and sharp, slightly bitter taste, served as snacks or chopped into tapenades and stuffings.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15525,8 +15077,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15695,9 +15245,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Puntarelle is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Crisp, slightly bitter Italian chicory shoots, soaked and shaved for a Roman salad dressed with anchovy and garlic.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15708,8 +15257,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15756,9 +15303,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Taleggio Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Soft, washed-rind Italian cheese with a pungent aroma and buttery, tangy flavor, melted into risotto or served on a cheese board.",
+    category: "dairy",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15769,8 +15315,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15878,9 +15422,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Gremolata is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Italian condiment of chopped parsley, garlic, and lemon zest, sprinkled over osso buco and braised dishes for fresh lift.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15891,8 +15434,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15939,9 +15480,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Italy (Parma, San Daniele)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Prosciutto Di Parma is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dry-cured Italian ham aged for months, sliced paper-thin and served raw with melon, on antipasto, or draped over pizza.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -15952,8 +15492,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16061,9 +15599,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mediterranean", "Atlantic"],
     season: ["fall", "winter"],
     provenance: "generated",
-    description:
-      "Sea Bass is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Mild, flaky white-fleshed fish suited to roasting, grilling, or steaming, often served whole or as fillets.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16074,8 +15611,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16122,9 +15657,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tonnarelli is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Square-cut fresh Roman pasta similar to thick spaghetti, classic for cacio e pepe and other Roman sauces.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16135,8 +15669,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16183,9 +15715,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Instant Yeast is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "grain",
+    description: "Fine-grained dried yeast added directly to flour to leaven bread and pizza doughs without prior proofing.",
+    category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16196,8 +15727,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16244,9 +15773,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Savoiardi Ladyfinger Biscuits is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dry, sweet sponge biscuits used as the soaking layer in tiramisu and trifle-style desserts.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16257,8 +15785,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16305,8 +15831,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dextrose is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Simple glucose sugar used in baking, curing, and fermentation for browning and feeding yeast without strong sweetness.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -16318,8 +15843,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16366,9 +15889,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Locust Bean Gum is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "protein",
+    description: "Plant-derived thickener and stabilizer from carob seeds, used to bind and smooth ice creams, sauces, and dairy products.",
+    category: "misc",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16379,8 +15901,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16610,9 +16130,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Europe", "East Asia"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Cured or cooked pork from the hind leg, sliced for sandwiches, diced into omelets and soups, or served as a roast.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16623,8 +16142,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16671,8 +16188,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["East Asia"],
     season: ["summer", "fall"],
     provenance: "generated",
-    description:
-      "Edamame Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Young green soybeans served in the pod, boiled and salted as a snack or shelled into salads and rice dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -16684,8 +16200,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16732,9 +16246,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Katsuobushi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried, fermented, and shaved skipjack tuna (bonito), the smoky-savory base of dashi stock and a topping for many dishes.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16745,8 +16258,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16793,9 +16304,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tsuyu Noodle Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "grain",
+    description: "Dashi-and-soy-based seasoning sauce used as a dip for cold soba and udon or as a noodle broth base.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16806,8 +16316,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16854,9 +16362,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Toasted Nori is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Nori seaweed sheets toasted for a crisp texture and nuttier flavor, used for sushi rolls, hand rolls, and as a garnish.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16867,8 +16374,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16915,9 +16420,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Wasabi Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pungent green paste from Japanese horseradish, served with sushi and sashimi or stirred into dipping sauces for a sharp, sinus-clearing heat.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -16928,8 +16432,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17037,9 +16539,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Japan"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "White Miso Paste Shiro Miso is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pale, sweet-leaning fermented soybean paste short-aged with rice koji, used for delicate miso soups, dressings, and marinades.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17050,8 +16551,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17098,9 +16597,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Wakame Seaweed is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried wakame seaweed that rehydrates into tender green fronds, used in miso soup, seaweed salad, and Korean miyeok-guk.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17111,8 +16609,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17159,9 +16655,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Aonori Dried Green Seaweed Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried green seaweed flakes with a briny aroma, sprinkled over okonomiyaki, takoyaki, yakisoba, and fried foods.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17172,8 +16667,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17220,9 +16713,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cooked Octopus Tako is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pre-cooked octopus, tender and mild, sliced for sushi, sunomono salads, and takoyaki.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17233,8 +16725,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17281,9 +16771,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Takoyaki Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Glossy sweet-savory sauce brushed over takoyaki octopus balls, similar to okonomiyaki sauce.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17294,8 +16783,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17342,9 +16829,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mentsuyu Dipping Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Concentrated Japanese sauce of dashi, soy sauce, mirin, and sugar, diluted for dipping noodles or seasoning broths.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17355,8 +16841,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17403,8 +16887,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Hot Green Tea Sencha is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Steamed Japanese green tea leaves brewed into a grassy, slightly astringent hot tea, also served alongside meals.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -17416,8 +16899,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17464,9 +16945,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nori Strips is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Nori seaweed cut into thin strips, scattered over rice bowls, noodles, and salads as a savory garnish.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17477,8 +16957,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17525,9 +17003,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Shungiku Chrysanthemum Greens is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Edible chrysanthemum greens with a herbaceous, slightly bitter taste, used in hot pots, soups, and blanched as a side.",
+    category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17538,8 +17015,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17586,8 +17061,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Alkaline Wheat Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Wheat noodles made with alkaline kansui for a springy, yellow-tinged chew, the basis of ramen and yakisoba.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -17599,8 +17073,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17708,8 +17180,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tenkasu is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Crisp fried tempura batter scraps sprinkled into noodle soups and savory pancakes for crunch and flavor.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -17721,8 +17192,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17891,9 +17360,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tonkatsu Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thick, sweet-savory Japanese brown sauce served over breaded pork cutlets (tonkatsu) and other fried foods.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17904,8 +17372,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17952,9 +17418,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mitsuba is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Japanese wild parsley with a fresh, slightly celery-like flavor, used as a garnish in soups, custards, and rice dishes.",
+    category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -17965,8 +17430,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18013,9 +17476,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Japan"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "White Miso Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Mild, slightly sweet fermented soybean paste (shiro miso) used in soups, dressings, marinades, and glazes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -18026,8 +17488,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18135,8 +17595,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Naengmyeon Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Thin, chewy Korean noodles of buckwheat and starch, served in icy broth (mul-naengmyeon) or with spicy sauce (bibim-naengmyeon).",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -18148,8 +17607,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18196,9 +17653,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dongchimi Brine is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Tangy, lightly fizzy brine from Korean radish water kimchi, used as a cold soup base for noodles like dongchimi-guksu.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -18209,8 +17665,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18257,8 +17711,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Korean Pancake Mix is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Seasoned wheat-and-starch flour blend for making crisp Korean savory pancakes (jeon) like pajeon and kimchijeon.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -18270,8 +17723,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18318,8 +17769,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Red Chili Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Ripe red chili offering fruity heat, used fresh for garnish or dried and ground into flakes and powders.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -18331,8 +17781,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18379,9 +17827,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Garaetteok is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Cylindrical Korean rice cakes, chewy and dense, sliced for tteokbokki or kept whole for soups like tteokguk.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -18392,8 +17839,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18440,8 +17885,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fish Cakes Eomuk is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Korean processed fish cakes, often sheet- or tube-shaped, used in soups, stir-fries, and tteokbokki.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -18453,8 +17897,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18501,8 +17943,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Jajangmyeon Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Thick, chewy wheat noodles served under black-bean sauce in the Korean-Chinese dish jajangmyeon.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -18514,8 +17955,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18562,9 +18001,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chunjang is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Korean black soybean paste, fried with aromatics and meat to make the dark sauce for jajangmyeon.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -18575,8 +18013,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18806,8 +18242,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pancake Mix is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Pre-blended flour, leavening, and seasoning used to make batter for pancakes.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -18819,8 +18254,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18867,8 +18300,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["China", "Southeast Asia"],
     season: ["spring", "fall"],
     provenance: "generated",
-    description:
-      "Danmuji Yellow Pickled Radish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Bright-yellow sweet-and-tangy pickled daikon radish, served alongside jajangmyeon and rolled into gimbap.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -18880,8 +18312,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18928,9 +18358,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Round Mandu Wrappers is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Thin round wheat dough wrappers used to fold and seal Korean dumplings (mandu).",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -18941,8 +18370,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18989,8 +18416,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chili Pepper is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Fresh or dried pepper of the capsicum family providing varying heat, used whole, sliced, or ground across cuisines.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -19002,8 +18428,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19050,8 +18474,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Europe"],
     season: ["fall"],
     provenance: "generated",
-    description:
-      "Chestnuts is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Starchy, mildly sweet tree nuts that are roasted, boiled, or simmered into rice, stuffings, and braises.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -19063,8 +18486,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19111,9 +18532,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Middle East"],
     season: ["fall", "winter"],
     provenance: "generated",
-    description:
-      "Jujubes Dried Dates is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried red jujubes with a sweet, date-like flavor, used in Korean teas, rice dishes, and tonics and as a garnish.",
+    category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -19124,8 +18544,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19233,9 +18651,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Spam is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Canned cooked pork luncheon meat, sliced and pan-fried for budae-jjigae, kimchi fried rice, and Spam musubi.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -19246,8 +18663,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19294,8 +18709,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Instant Ramen Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Pre-cooked, dried wheat noodles packaged with seasoning, boiled quickly for instant noodle soups or repurposed in stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -19307,8 +18721,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19355,9 +18767,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Hot Dogs is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pre-cooked emulsified sausages, sliced into Korean army stew (budae-jjigae), stir-fries, and rice dishes.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -19368,8 +18779,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19416,8 +18825,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Baked Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Navy or haricot beans cooked in a sweet, savory tomato-based sauce, served as a side or breakfast staple.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -19429,8 +18837,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19477,8 +18883,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fresh Ginseng is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Fresh aromatic ginseng root with an earthy, slightly bitter flavor, simmered into Korean tonics and dishes like samgyetang.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -19490,8 +18895,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19538,9 +18941,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Jujubes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Dried red dates, chewy and sweet, simmered into teas, broths, and porridges or used as garnish in Korean cooking.",
+    category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -19551,8 +18953,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19599,8 +18999,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Astragalus Root is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried sliced astragalus root with a mild, sweet earthiness, simmered into Korean medicinal broths and chicken soups.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -19612,8 +19011,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19660,9 +19057,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mochi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Chewy Japanese rice cake pounded from glutinous rice, grilled, added to soups, or filled and shaped into sweets.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -19673,8 +19069,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20026,9 +19420,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico", "Central America"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Epazote is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Pungent native Mexican herb with a sharp, medicinal-citrus flavor; cooked into black beans, soups, and quesadillas, used fresh or dried.",
+    category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20039,8 +19432,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20087,9 +19478,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Bolillo Rolls is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Crusty oval white-bread rolls with a soft crumb; the standard bread for Mexican tortas and used to make molletes and pambazos.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20100,8 +19490,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20148,8 +19536,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Refried Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Cooked pinto or black beans mashed and fried in fat until creamy; a staple side and filling for tacos, burritos, and tostadas.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -20161,8 +19548,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20209,9 +19594,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pico De Gallo is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fresh uncooked salsa of diced tomato, onion, serrano or jalapeño, cilantro, and lime; a crunchy topping for tacos, grilled meats, and chips.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20222,8 +19606,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20270,9 +19652,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chiltomate Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Yucatecan cooked sauce of roasted tomatoes and habanero with onion; used as a base sauce and condiment in southern Mexican cooking.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20283,8 +19664,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20331,9 +19710,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Europe", "East Asia"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cooked Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fully cooked cured pork, sliced cold for sandwiches and charcuterie or diced into quiches, gratins, and pasta.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20344,8 +19722,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20392,8 +19768,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Serrano Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, bright-green chilies hotter than jalapeños with a crisp, grassy flavor; used fresh and raw in salsas, guacamole, and pico de gallo.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -20405,8 +19780,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20453,9 +19826,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tlayudas is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Large, thin, crisp Oaxacan corn tortillas used as the base for the namesake dish, topped with beans, cheese, and meats.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20466,8 +19838,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20514,8 +19884,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Oaxaca Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Mild, stringy semisoft Mexican cheese similar to mozzarella that melts smoothly; the classic choice for quesadillas, queso fundido, and tlayudas.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -20527,8 +19896,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20636,9 +20003,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Roma is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Egg-shaped plum tomatoes with dense, meaty flesh and few seeds; favored for sauces, salsas, and roasting due to their low moisture.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20649,8 +20015,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20697,9 +20061,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Hass is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "The most common avocado variety, with pebbly dark skin and rich, buttery green flesh; the standard avocado for guacamole and tacos.",
+    category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20710,8 +20073,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20758,9 +20119,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Salsa Roja is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Red Mexican table sauce of tomatoes and dried or fresh red chilies, often with onion and garlic; spooned over tacos, eggs, and antojitos.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20771,8 +20131,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20819,9 +20177,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nopales is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Cleaned, de-spined pads of the prickly-pear cactus with a tart, green-bean-like flavor; grilled or simmered for salads, tacos, and eggs.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -20832,8 +20189,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20880,8 +20235,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia (Fertile Crescent)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cotija Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Firm, salty aged Mexican cow's-milk cheese that crumbles easily; sprinkled over elote, beans, tacos, and salads as a finishing cheese.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -20893,8 +20247,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20941,8 +20293,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chile Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Ground dried chili peppers, sometimes blended with cumin, oregano, and garlic; used to season meats, stews, beans, and sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -20954,8 +20305,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21063,9 +20412,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Fideo Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Short, thin wheat noodles toasted in oil and simmered in tomato broth to make sopa de fideo, a classic Mexican noodle soup.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -21076,8 +20424,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21124,8 +20470,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Mulato Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried brown poblano variety with sweet, smoky chocolate notes; used with ancho and pasilla as a core chili in mole poblano.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -21137,8 +20482,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21185,8 +20528,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Pasilla Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Dried chilaca peppers with mild heat and deep raisiny, herbal flavor; a classic component of mole and red chili sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -21198,8 +20540,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21308,9 +20648,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico (Veracruz)"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Jalapenos is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Medium-hot green chili peppers with a bright, grassy flavor; used fresh in salsas and pico de gallo, pickled, or stuffed and roasted.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -21321,8 +20660,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21369,8 +20706,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico"],
     season: ["summer"],
     provenance: "generated",
-    description:
-      "Serrano Chiles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, slender green chilies with sharp heat and a bright, grassy taste; minced raw into salsas, guacamole, and fresh sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -21382,8 +20718,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21430,8 +20764,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cascabel Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, round dried chilies that rattle when shaken, with a nutty, smoky, moderate heat; toasted and ground for table salsas and stews.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -21443,8 +20776,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21491,9 +20822,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Salsa Verde is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Green sauce of tomatillos, green chilies, onion, and cilantro; served raw or cooked over tacos, enchiladas, and grilled meats.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -21504,8 +20834,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21552,9 +20880,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Dried Corn Husks is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "vegetable",
+    description: "Dried outer leaves of the corn ear, soaked until pliable and used to wrap and steam tamales; imparts a subtle corn aroma.",
+    category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -21565,8 +20892,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21613,8 +20938,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Yucatecan Limes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small, aromatic Yucatán limes with a floral, slightly sweet tartness; squeezed into sopa de lima and over regional dishes.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -21626,8 +20950,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21674,8 +20996,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chilhuacle Negro Chilies is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Rare Oaxacan dried chili, dark and fruity with mild heat; prized as the defining chili for traditional black mole (mole negro).",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -21687,8 +21008,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21735,9 +21054,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tajin is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Mexican seasoning blend of mild chili powder, dehydrated lime, and salt; sprinkled over fruit, vegetables, snacks, and the rims of drinks.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -21748,8 +21066,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21796,9 +21112,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Chamoy Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Sweet-sour-spicy Mexican condiment of pickled fruit, chili, and lime; drizzled over fresh fruit, snacks, and candies or used as a drink rim.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -21809,8 +21124,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21857,8 +21170,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Mexico (Michoacán)"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cotija Cheese Crumbled is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Crumbled firm, salty aged Mexican cheese sprinkled over elote, refried beans, tostadas, and salads as a savory finishing garnish.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -21870,8 +21182,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21979,8 +21289,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Syria", "Turkey"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Aleppo Pepper Flakes is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Coarsely ground dried Aleppo chili with moderate heat and a fruity, raisin-like flavor, used across Middle Eastern and Turkish cooking.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
@@ -21992,8 +21301,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22040,8 +21347,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Laurel Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Aromatic bay leaves added whole to simmered soups, stocks, and braises to impart a subtle herbal, slightly floral fragrance, then removed before serving.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
     qualities: ["recipe-linked", "standardized"],
@@ -22053,8 +21359,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22101,9 +21405,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Western Asia", "Mediterranean"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sumac is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "A tart, deep-red ground spice from dried sumac berries, sprinkled over Middle Eastern salads, meats, and dips for lemony acidity.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -22114,8 +21417,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22223,8 +21524,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Molokhia Leaves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Jute mallow greens that turn silky when cooked, simmered into the thick Middle Eastern and Egyptian soup molokhia.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
     qualities: ["recipe-linked", "standardized"],
@@ -22236,8 +21536,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22406,9 +21704,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Hawaij is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "A Yemeni spice blend; the savory version mixes cumin, coriander, turmeric, and black pepper for soups and meats, with a sweet version for coffee.",
+    category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -22419,8 +21716,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22467,9 +21762,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Kataifi Pastry is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Fine shredded phyllo-style pastry strands used in Middle Eastern sweets like knafeh and baklava, baked crisp and soaked in syrup.",
+    category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -22480,8 +21774,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22528,9 +21820,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nabulsi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "A semi-hard white brined cheese from Nablus, often flavored with nigella and mahlab, eaten fresh or fried and used in the dessert knafeh.",
+    category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -22541,8 +21832,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22589,8 +21878,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Neutral Frying Oil is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Flavorless high-smoke-point oil such as canola or sunflower, used for deep-frying and sautéing without altering taste.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -22602,8 +21890,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22650,9 +21936,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Levant"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tahini Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "A creamy sauce of ground sesame seed paste thinned with lemon juice, garlic, and water, served as a dressing or dip in Middle Eastern cuisine.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -22663,8 +21948,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22833,8 +22116,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Berry Preserves is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Sweet cooked-down berry spread with fruit pieces, used on toast, as a pastry filling, or glazing desserts.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -22846,8 +22128,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23199,9 +22479,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Black Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Ripe cured olives with a mild, mellow flavor, sliced or whole into pizzas, salads, pasta, and antipasto.",
+    category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -23212,8 +22491,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23626,9 +22903,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Panang Curry Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Rich, slightly sweet Thai curry paste with peanuts and dried chilies, used for thick, creamy panang curries.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -23639,8 +22915,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23809,9 +23083,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nam Prik Pao Thai Chili Jam is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Sweet-smoky roasted Thai chili jam used to deepen soups and stir-fries or spread as a savory condiment.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -23822,8 +23095,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23870,9 +23141,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Preserved Radish Chai Poh is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "vegetable",
+    description: "Salty, sweet preserved daikon radish (chai poh) chopped into omelets, fried rice, and pad thai for crunch and umami.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -23883,8 +23153,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23931,8 +23199,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["East and Southeast Asia"],
     season: ["spring"],
     provenance: "generated",
-    description:
-      "Canned Bamboo Shoots is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Tender, pre-cooked bamboo shoots packed in brine, rinsed and added to stir-fries, curries, and soups for crisp texture.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -23944,8 +23211,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24419,9 +23684,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nuoc Cham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Vietnamese dipping sauce of fish sauce, lime, sugar, garlic, and chili, served with spring rolls, grilled meats, and rice plates.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -24432,8 +23696,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24785,8 +24047,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Annatto Oil is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Cooking oil infused with annatto seeds for a vivid red-orange color, used in Vietnamese dishes and roast meats.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
@@ -24798,8 +24059,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24846,8 +24105,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Tapioca Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Chewy, translucent noodles made from tapioca starch, used in Southeast Asian soups, desserts, and stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -24859,8 +24117,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24907,8 +24163,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide freshwater"],
     season: ["spring", "summer"],
     provenance: "generated",
-    description:
-      "Catfish Steaks is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Thick cross-cut steaks of catfish with firm, mild flesh, well suited to Vietnamese caramelized clay-pot braises and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -24920,8 +24175,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25029,8 +24282,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Snakehead Fish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Firm, mild freshwater fish popular in Vietnamese and Thai cooking for soups, grilling, and sour fish stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -25042,8 +24294,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25151,9 +24401,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Nuoc Cham Dipping Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Bright, tangy Vietnamese fish-sauce dip balancing sweet, sour, salty, and spicy, used for rolls, vermicelli bowls, and grilled dishes.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -25164,8 +24413,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25212,9 +24459,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Sa Te Chili Paste is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "spice",
+    description: "Vietnamese-style satay chili paste of dried chilies, lemongrass, and oil, spooned into pho and noodle soups for heat and aroma.",
+    category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -25225,8 +24471,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25273,8 +24517,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Cao Lau Noodles is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Thick, chewy yellow wheat noodles specific to Hoi An's cao lau dish, with a distinctive firm, slightly smoky bite.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
     qualities: ["recipe-linked", "standardized"],
@@ -25286,8 +24529,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25334,8 +24575,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Red Adzuki Beans is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Small reddish beans cooked until soft and sweetened into pastes and fillings for Asian desserts, or simmered in soups.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
     qualities: ["recipe-linked", "standardized"],
@@ -25347,8 +24587,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25456,8 +24694,7 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Ndole Leaves Bitterleaf is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+    description: "Bitterleaf greens used in the Cameroonian dish ndolé, cooked with peanuts and meat or fish after leaching their bitterness.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
     qualities: ["recipe-linked", "standardized"],
@@ -25469,8 +24706,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25944,9 +25179,8 @@ export const recipeCoverageIngredients: Record<
     origin: ["Worldwide"],
     season: ["all"],
     provenance: "generated",
-    description:
-      "Liver Pate is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
-    category: "misc",
+    description: "Smooth spread of cooked, seasoned liver and fat, spread on banh mi and crusty bread for a rich, savory layer.",
+    category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     qualities: ["recipe-linked", "standardized"],
     astrologicalProfile: {
@@ -25957,8 +25191,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
