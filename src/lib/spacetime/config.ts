@@ -24,10 +24,18 @@ export function getSpacetimeConfig(): SpacetimeConfig | null {
   const uri = process.env.NEXT_PUBLIC_SPACETIME_URI;
   if (!uri) return null;
   
-  let moduleName = process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "alchm-culinary";
-  if (moduleName.startsWith("@")) {
-    moduleName = moduleName.slice(1);
-  }
+  // Normalize to the bare database name the SpacetimeDB HTTP/WS API expects.
+  // The CLI and dashboard display modules as "owner/name" (sometimes prefixed
+  // with "@"), but the connection URL is /v1/database/<name>/subscribe — a slash
+  // there is an invalid database name, so EVERY WS handshake 400s ("invalid
+  // characters in database name") and the client is trapped in a reconnect loop
+  // (the live badge never lights). Strip a leading "@" and any "owner/" prefix so
+  // whichever form the env var carries resolves to the publishable name.
+  const rawModule = (
+    process.env.NEXT_PUBLIC_SPACETIME_MODULE ?? "alchm-culinary"
+  ).trim();
+  const moduleName =
+    rawModule.replace(/^@/, "").split("/").pop()?.trim() || "alchm-culinary";
 
   return {
     uri,
