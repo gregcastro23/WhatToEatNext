@@ -54,6 +54,10 @@ export const METHOD_PHYSICAL_REFERENCE: Record<string, MethodPhysicalReference> 
         temperatureF: { low: 350, high: 450, ideal: 400, note: "High pan-wall temperatures with rapid tossing and short dwell time." },
         pressure: { mode: "ambient", gaugePsi: "0", absoluteKPa: "~101", note: "Open wok/pan operation." },
     },
+    tilt_skillet: {
+        temperatureF: { low: 300, high: 450, ideal: 425, note: "Broad steel floor seared at the high end, then dropped to ~300°F for the covered braise phase." },
+        pressure: { mode: "variable", gaugePsi: "0", absoluteKPa: "~101", note: "Open (ambient) while searing/reducing; lightly trapped vapor under the lid during the braise." },
+    },
     grilling: {
         temperatureF: { low: 400, high: 650, ideal: 500, note: "Direct radiant heat from flame/coals for fast char and crust formation." },
         pressure: { mode: "ambient", gaugePsi: "0", absoluteKPa: "~101", note: "Open-air atmospheric grilling." },

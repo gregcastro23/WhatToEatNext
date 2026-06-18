@@ -58,6 +58,14 @@ export const COOKING_METHOD_KINETIC_PROFILES: Record<string, CookingMethodKineti
     momentumRetention: 0.25,  // Small pieces + high surface area = extremely rapid cooling
     forceImpact: 0.72,        // Significant charring but brief — preserves interior tenderness
   },
+  tilt_skillet: {
+    voltage: 0.78,            // Hot broad steel floor (sear ~425°F), below a wok but sustained
+    current: 0.82,            // Full flat-floor metal-to-food contact across the batch
+    resistance: 0.18,         // Low while searing; the lid adds some barrier during the braise
+    velocityFactor: 0.60,     // Blended — fast sear phase, slow covered braise phase
+    momentumRetention: 0.60,  // Large thermal mass + batch volume = strong carry-over
+    forceImpact: 0.70,        // Substantial structural change across sear + braise
+  },
   grilling: {
     voltage: 0.88,            // High radiant heat from coals/gas
     current: 0.65,            // Radiant + some conductive (grill marks)
