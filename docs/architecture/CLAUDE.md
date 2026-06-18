@@ -1,32 +1,37 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-_Version: 3.1.0 — "Modern Alchemist" · MCP release | Last Updated: May 29, 2026_
+_Version: 3.2.1 | Last Updated: June 17, 2026_
+
+> Sibling guide: **`GEMINI.md`** (repo root) is the concise, actively-maintained status summary. This file is the deeper engineering reference (admin console, observability, cron, surface map). Keep both in sync when project status changes.
 
 ## Project Overview
 
 WhatToEatNext is a sophisticated culinary recommendation system that combines alchemical principles, astrological data, and elemental harmony to provide personalized food recommendations. The site is branded as **Alchm.kitchen**.
 
-## Current Project Status (May 2026)
+We operate a three-project loop:
+1. **alchm.kitchen (WTEN)** — the core Next.js user-facing platform, deployed on Vercel (this repo).
+2. **api.agents.alchm.kitchen (PA Backend)** — the Planetary Agents Python service owning agent personas, orchestration, and LLM recipe generation.
+3. **agents.alchm.kitchen (PA UI)** — the Planetary Agents Next.js UI.
 
-### 🎉 **3.1 — "MODERN ALCHEMIST" · MCP RELEASE — SHIPPED**
+## Current Project Status (June 2026 — v3.2.1)
 
-3.0 (PRs #402–#406, `git tag v3.0.0` cut) shipped the redesigned surface; **3.1 layers a published MCP server, production-readiness hardening, and a schema-drift cleanup on top.** The `v3.1.0` tag was cut 2026-05-29.
-
-- **Version**: ✅ **3.1.0** (`git tag v3.1.0` cut 2026-05-29)
+- **Doc version**: **3.2.1** (guide convention; `package.json` is still pinned at `3.1.0` — `git tag v3.1.0` cut 2026-05-29)
 - **Build**: ✅ **0 TS errors, 0 lint warnings** before every PR (husky pre-commit runs `typecheck && lint`)
 - **Toolchain**: ✅ **BUN v1.3.13** (Yarn fully retired)
 - **Stack**: Next.js 15 · React 19 · TypeScript 5.7
-- **Database**: ✅ **RAILWAY POSTGRES** (`postgres.railway.internal`) + transaction-mode PgBouncer compat (ADR-007, #466)
+- **Database**: ✅ **RAILWAY POSTGRES** (`postgres.railway.internal`) + transaction-mode PgBouncer compat (ADR-007, #466); schema current through **migration 54**. Neon is deprecated on the WTEN side (still used only inside the PA Python backend).
 - **Read Model**: ✅ **DENORMALIZED** (sub-100ms recipe loads via `read_model` JSONB)
 - **Migrations**: ✅ **TRACKED + AUTO-APPLIED** — `_migrations` table + `scripts/migrate.ts` (TS) / `backend/scripts/run_init_migrations.py` run on Railway deploy before uvicorn (#448)
 
-### 🚀 Shipped in 3.1 (on top of 3.0)
+### 🚀 Shipped since 3.1 (the 3.2.x line)
 
-- **MCP server** — bun-powered MCP tool surface: end-user API keys, Stripe ESMS top-ups, synastry tool, telemetry + synthetic-probe + token-economy instrumentation, cross-server admin panel (#454, #455, #457, #459; migrations 44–47)
-- **Production-readiness hardening** — security, DB resilience, calc guards (#465); PgBouncer transaction-mode compat + connection hardening (#466); internal-URL centralization via `src/lib/serviceUrls.ts` (`getServiceUrl`/`getServiceUrlSafe`, fail-loud — #467)
-- **Schema-drift cleanup + migration runner** — restored lost column defaults, applied skipped migrations (incl. 31), tracking table + runner wired into the deploy (#448)
-- **Calc observability** — additive `degraded` flag (`src/types/degraded.ts`) threaded from the positions layer (`astronomy-engine-fallback` / `stale-positions`) and `alchemize` (`monica-degenerate`) through `/api/alchm-quantities` to a badge on `/quantities` _(committed on `feat/calc-degraded-flag`, PR pending)_
-- **DB module hygiene** — raw pool extracted to `src/lib/database/rawPool.ts`, breaking the `connection.ts ↔ slowQueryLog` import cycle _(committed, PR pending)_
+- **Planetary Agents integration** — agents are first-class users (`is_agent = true`, `@agentic.alchm.kitchen`) with rich profiles (bio, dominant elements, live natal overlays, viewer↔agent synastry, consciousness sigils). Transit clicks open PA group chats; agents publish weekly menus + activity to WTEN `feed_events` via server-to-server endpoints (`X-Sync-Secret` / `INTERNAL_API_SECRET`). Cosmic recipe generation is offloaded entirely to PA's `/api/generate-recipe` (strict `CosmicRecipe` JSON).
+- **SpacetimeDB live layer (v4.0)** — Rust `spacetime-module` for live sync of meal plans, commensal lobbies, and grocery carts. Gated via `NEXT_PUBLIC_SPACETIME_URI`; silently falls back to localStorage/REST when the websocket drops or flags are off. Connection hardening: CSP whitelists `wss://` origins, the provider re-establishes on browser `online`/`focus`, and `config.ts` strips `@` and `owner/` prefixes from `NEXT_PUBLIC_SPACETIME_MODULE` (the slash-form module name was itself the prod reconnect-loop bug — fixed to bare `alchm-culinary` in #534). Admin-only `GET /api/admin/diagnostics/spacetime` (#536) surfaces the build-time URI/module/flags for verification.
+- **Elemental Signature model** — unified `ElementalSignature` (`src/utils/elemental/signature.ts`) replaces the scattered single-"dominant element" calc. Handles ties ("leans water & earth") without overriding the full 4-vector dot products used for backend recommendations (#505).
+- **MCP server + telemetry** — bun-powered MCP tool surface (end-user API keys, Stripe ESMS top-ups, synastry tool). Full visibility via `mcp_invocations` (latencies, tool calls, model tiers); a `*/30` synthetic cron probe exercises the tool handlers in-process (#454, #455, #457, #459; migrations 44–47).
+- **Image generation pipeline** — `scripts/generate-recipe-images.ts` uses Cloudflare Workers AI SDXL → R2 bucket to populate `image_url` for recipes/ingredients (`--force` regen, `--id <uuid>` one-offs).
+- **Production-readiness hardening** — security, DB resilience, calc guards (#465); PgBouncer transaction-mode compat (#466); internal-URL centralization via `src/lib/serviceUrls.ts` (`getServiceUrl`/`getServiceUrlSafe`, fail-loud — #467).
+- **Live-site audit ("emergence from the rubble")** — multi-session production QA cleanup (#526–#536): planetary-chart rebuilt off the engine, natal-chart alchemy backfill (`scripts/backfillNatalChartAlchemy.ts`), coverage-ingredient description + nutrition curation (#535, #536), de-doubled `<title>`s, CSP `wss://` fix, dashboard-honesty pass.
 
 ### 🔧 Pre-tech-week hardening (2026-05-31, `audit-reports/site-audit-2026-05-31/`)
 
@@ -36,8 +41,10 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ### 🛠 In flight
 
-- **WTEN migration** — porting the `planetary_agents-main` UI into `src/` (5 of 11 sessions done — see `WTEN_MIGRATION_PLAN.md`)
-- **Real recommendations** — real planetary alchemy replacing mock fallbacks in recommendation/cuisine services
+- **Web3 go-live** — on-chain ESMS (Base) + StarVault (Arc) + Bazaar spend side; both chains undeployed, pre-launch controls pending (see `NEXT_SESSION_PROMPT_WEB3_GOLIVE.md`).
+- **PA-side counterparts** — transit→group-chat (`/api/internal/group-chat`) and a few sync endpoints still pending on the Planetary Agents backend; WTEN falls back gracefully until they ship.
+
+_Done since 3.1:_ the WTEN UI migration from `planetary_agents-main` (all 11 sessions complete — plan file retired) and real planetary-alchemy recommendations (mock fallbacks replaced in the live recommendation/cuisine path).
 
 ### Toolchain — always use `bun`, never `npm` or `yarn`
 
@@ -78,6 +85,17 @@ GALILEO_API_KEY=<galileo-api-key>
 PLANETARY_AGENTS_API_URL=https://api.agents.alchm.kitchen        # PA Python/FastAPI backend
 NEXT_PUBLIC_PLANETARY_AGENTS_URL=https://api.agents.alchm.kitchen
 NEXT_PUBLIC_AGENTS_UI_URL=https://agents.alchm.kitchen           # PA Next.js UI (agent chat)
+ALCHM_KITCHEN_SYNC_SECRET=<sync-secret-with-planetary-agents>    # X-Sync-Secret for agent→feed_events writes
+
+# SpacetimeDB live layer — NEXT_PUBLIC_* are build-time inlined (changing them needs a redeploy)
+# Live flags must be "1", NOT "true", to resolve in code. Module must be the BARE name (no owner/ or @ prefix).
+NEXT_PUBLIC_SPACETIME_URI=wss://maincloud.spacetimedb.com
+NEXT_PUBLIC_SPACETIME_MODULE=alchm-culinary
+NEXT_PUBLIC_SPACETIME_LIVE_CULINARY=1
+NEXT_PUBLIC_SPACETIME_LIVE_PLANNER=1
+NEXT_PUBLIC_SPACETIME_LIVE_COMMENSAL=1
+NEXT_PUBLIC_SPACETIME_LIVE_CART=1
+NEXT_PUBLIC_SPACETIME_LIVE_FEED=1
 
 # Cron / synthetic monitoring
 CRON_SECRET=<random-32-char-secret>                              # Vercel cron header (all /api/cron/* routes)
@@ -189,6 +207,7 @@ All compute from existing signals — no new instrumentation required. Each serv
 | `/api/cron/synthetic-stripe-webhook` | `*/15 * * * *` | stripe-webhook reachability probe |
 | `/api/cron/synthetic-auth-handshake` | `*/15 * * * *` | auth-handshake probe |
 | `/api/cron/synthetic-cosmic-recipe` | `0 * * * *` | cosmic-recipe gen probe (hourly — spends tokens) |
+| `/api/cron/synthetic-mcp` | `*/30 * * * *` | in-process Alchm MCP tool-handler probe |
 | `/api/cron/system-health-snapshot` | `0 * * * *` | hourly status snapshot + transition-based alert dispatch |
 | `/api/cron/observability-prune` | `0 3 * * *` | daily prune of `request_log_entries` + `slow_query_log_entries` older than 7 days (override via `?retain=N`) |
 
@@ -234,23 +253,19 @@ Public API unchanged — no consumers touched.
 
 ### Reference docs
 
-- `CHANGELOG.md` — keep-a-changelog from v1.0.0 → 3.0.0
-- `README.md` — rewritten for v3.0
+- `GEMINI.md` (repo root) — concise, actively-maintained status summary (sibling to this guide)
+- `CHANGELOG.md` — keep-a-changelog from v1.0.0
+- `README.md` — project overview
 - `docs/API_REFERENCE.md` — all `/api/*` routes
-- `docs/adr/001–006` — Architecture Decision Records (006 = operational admin dashboard)
-- `WTEN_MIGRATION_PLAN.md` — multi-session plan for the `planetary_agents-main` UI port
-- `NEXT_SESSION_PROMPT.md` — post-3.0 backlog and known technical debt
+- `docs/adr/001–007` — Architecture Decision Records (006 = operational admin dashboard, 007 = PgBouncer transaction mode)
+- `NEXT_SESSION_PROMPT_WEB3_GOLIVE.md` — web3 go-live handoff (separate from the WTEN UI work)
 
 ---
 
-## WTEN Migration (in progress)
+## WTEN Migration (complete)
 
-Porting the `planetary_agents-main` Next.js UI surface into this repo's `src/`. Tracked in **`WTEN_MIGRATION_PLAN.md`** — ~54 files / ~22k LOC across 11 sessions; **5 done** (foundation libs, leaf modules, astronomy/ephemeris, planetary-config-helper, monica + alchemy core).
-
-- **Source repo** — `/Users/cookingwithcastro/Desktop/planetary_agents-main` (sibling on disk; read-only — all ports copy FROM it)
-- **Staging dir** — `wten-migration-ui-components/` at repo root: untracked, excluded from `tsconfig.json` so it doesn't poison typecheck/lint. The final session removes the exclusion.
-- New deps added en route: `date-fns@2` + 6 shadcn components (`dialog`, `separator`, `switch`, `alert`, `textarea`, `alert-dialog`).
+The `planetary_agents-main` Next.js UI surface (~54 files / ~22k LOC across 11 sessions) has been **fully ported** into this repo's `src/` — `WTEN_MIGRATION_PLAN.md` and the `wten-migration-ui-components/` staging dir have been retired. The PA source repo (`/Users/cookingwithcastro/Desktop/planetary_agents-main`) remains read-only on disk for reference. Deps that landed en route: `date-fns@2` + shadcn (`dialog`, `separator`, `switch`, `alert`, `textarea`, `alert-dialog`).
 
 ---
 
-_Updated May 29, 2026 (v3.1) — MCP server: end-user API keys, Stripe ESMS top-ups, synastry tool, cross-server admin panel, telemetry/probe/economy instrumentation (#454/#455/#457/#459). Production-readiness hardening (#465) + PgBouncer transaction-mode compat (ADR-007, #466) + serviceUrls centralization (#467). Schema-drift cleanup + tracked, auto-applied migration runner — `_migrations` table, `scripts/migrate.ts`, Railway-deploy hook (#448). Calc observability: additive `degraded` flag from the positions layer and monica through `/api/alchm-quantities` to a `/quantities` badge. DB raw-pool extraction breaks the `connection ↔ slowQueryLog` cycle. Bun 1.3.13._
+_Updated June 17, 2026 (v3.2.1) — synced from the 3.1 baseline: Planetary Agents are first-class users (profiles, synastry, transit group chats, agent feed + cosmic recipe offload); SpacetimeDB v4.0 live layer (meal plans / commensal / carts) with CSP `wss://` + reconnect + bare-module-name hardening (#534) and admin diagnostics (#536); unified Elemental Signature model (#505); MCP telemetry (`mcp_invocations`) + `*/30` probe; Cloudflare SDXL→R2 image pipeline. WTEN UI migration complete; real planetary-alchemy recommendations live. Live-site "emergence" audit cleanup (#526–#536) incl. natal-chart + coverage-ingredient backfills. Schema through migration 54, Railway-primary DB. Bun 1.3.13._

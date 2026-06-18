@@ -168,6 +168,72 @@ export const dryMethodProfiles: Record<string, AlchemicalMethodProfile> = {
     accent: "emerald",
   },
 
+  tilt_skillet: {
+    displayName: "Tilt Skillet",
+    epithet: "The Foundry Plate",
+    classification: "BROAD_CONDUCTION_FOUNDRY",
+    tagline:
+      "A wide steel floor delivers a sustained conductive sear across an entire batch, then the lid drops and the plate pivots into a covered braise — one vessel cycling from dry foundry heat to moist convective transmutation.",
+    stateChips: [
+      { label: "MODE", value: "SEAR ⇄ BRAISE" },
+      { label: "SCALE", value: "BATCH / HIGH-VOLUME" },
+    ],
+    kinetics: {
+      voltage: "HIGH (BROAD CONTACT)",
+      current: "DISTRIBUTED (FLAT FLOOR)",
+      catalyst: "PHASE_TILT",
+      prose:
+        "A high contact voltage (V) is spread as a distributed current (I) across the full floor — broad rather than wok-extreme, but sustained by a large thermal mass. On the tilt, the lid converts dry conduction into moist convection: Fire recedes, Water rises, and collagen yields to gelatin.",
+      equations: [
+        {
+          expression: "q = −k∇T  (sear)  →  q = h·A·(T_liq − T_s)  (braise)",
+          label: "DUAL_PHASE_TRANSFER",
+          note: "Fourier conduction during the sear gives way to Newtonian convective transfer once liquid and lid are introduced.",
+        },
+        {
+          expression: "C_th = m·c  (large)",
+          label: "THERMAL_MASS",
+          note: "The heavy steel floor stores enough energy to hold temperature when a full batch is loaded.",
+        },
+      ],
+    },
+    elementalRoles: {
+      Fire: "Sear Driver",
+      Water: "Braise Medium",
+      Earth: "Thermal Mass",
+    },
+    descriptorTags: ["Broad", "Dual-Phase", "Industrial"],
+    planetaryRulers: [
+      { planet: "Mars", rank: "primary", governs: "SEARING DRIVE, FOND IGNITION" },
+      { planet: "Saturn", rank: "secondary", governs: "SLOW BRAISE, STRUCTURE, TIME" },
+    ],
+    rulershipNote:
+      "Martian sear opened, then handed to Saturnine patience — aggression set down into the long, structured braise.",
+    molecularInteractions: [
+      {
+        title: "Fond Development",
+        prose:
+          "Maillard browning on the broad contact floor lays down a fond of caramelized proteins and sugars that later dissolves into the braising liquid as the flavor backbone of the batch.",
+        tags: ["Maillard", "Caramelization"],
+        temperatureRange: "150°C – 200°C",
+      },
+      {
+        title: "Collagen → Gelatin",
+        prose:
+          "Under the lid's moist convective heat, tough collagen hydrolyzes into gelatin over time, transmuting structure into silky body across the whole batch.",
+        formula: "collagen + H2O → gelatin",
+        temperatureRange: "70°C – 95°C",
+      },
+      {
+        title: "Reduction & Concentration",
+        prose:
+          "Tilting opens the plate to evaporation; the braising liquid concentrates as water leaves, intensifying the dissolved fond into a glaze.",
+        dataPoint: { label: "PHASE_SHIFT", value: "−FIRE / +WATER → −WATER" },
+      },
+    ],
+    accent: "ember",
+  },
+
   frying: {
     epithet: "The Lipid Crucible",
     classification: "LIPID_IMMERSION",

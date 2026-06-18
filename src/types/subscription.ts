@@ -57,6 +57,7 @@ export const TIER_LIMITS: Record<
     foodLabBook: boolean;
     diningCompanions: boolean;
     sauceRecommender: boolean;
+    tiltSkilletPlanner: boolean;
     price: number;
     stripePriceId: string | null;
   }
@@ -69,6 +70,7 @@ export const TIER_LIMITS: Record<
     foodLabBook: true,
     diningCompanions: false,
     sauceRecommender: false,
+    tiltSkilletPlanner: false,
     price: 0,
     stripePriceId: null,
   },
@@ -80,6 +82,7 @@ export const TIER_LIMITS: Record<
     foodLabBook: true,
     diningCompanions: true,
     sauceRecommender: true,
+    tiltSkilletPlanner: true,
     price: 5.00,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID || null,
   },
@@ -120,6 +123,12 @@ export const FEATURE_LIST = [
   {
     key: "diningCompanions",
     label: "Dining Companions",
+    free: false,
+    premium: true,
+  },
+  {
+    key: "tiltSkilletPlanner",
+    label: "Tilt Skillet Batch Planner",
     free: false,
     premium: true,
   },
