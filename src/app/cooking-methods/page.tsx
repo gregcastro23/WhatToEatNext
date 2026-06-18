@@ -7,7 +7,7 @@
  * live client islands: hero telemetry, live transits, and the existing
  * recommender engine in the Reaction Chamber below the fold.
  */
-import { Eye, FlaskConical } from "lucide-react";
+import { Eye, Flame, FlaskConical, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -214,6 +214,36 @@ export default function CookingMethodsPage() {
           real time.
         </p>
         <HubTelemetry />
+      </section>
+
+      {/* ── Featured tool: Tilt Skillet Batch Planner ── */}
+      <section
+        className={`${accentClass("ember")} ma-panel ma-glow-border mb-12 overflow-hidden rounded-lg`}
+      >
+        <div className="flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <div className="max-w-2xl">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <Flame className="h-5 w-5 text-[var(--ma-accent)]" aria-hidden />
+              <span className="ma-label text-[var(--ma-accent-soft)]">FEATURED_TOOL</span>
+              <MaChip tone="accent">PREMIUM</MaChip>
+            </div>
+            <h2 className="font-grimoire text-2xl text-ma-fg md:text-3xl">
+              Tilt Skillet — Batch Circuit Planner
+            </h2>
+            <p className="mt-2 font-mono text-sm leading-relaxed text-ma-fg-dim">
+              Plan large-batch cooking as a series circuit. Stage ingredients by volume and watch
+              charge, voltage, current, resistance and power resolve in real time — then generate a
+              full staged tilt-skillet plan grounded in the live circuit.
+            </p>
+          </div>
+          <Link
+            href="/cooking-methods/tilt-skillet"
+            className="ma-label inline-flex shrink-0 items-center gap-2 rounded border border-[var(--ma-accent)]/50 px-5 py-3 text-[var(--ma-accent-soft)] transition-colors hover:bg-[rgba(var(--ma-accent-rgb),0.1)]"
+          >
+            <Zap className="h-4 w-4" aria-hidden />
+            OPEN_PLANNER
+          </Link>
+        </div>
       </section>
 
       {/* ── Main grid ── */}
