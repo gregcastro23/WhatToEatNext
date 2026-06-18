@@ -11,7 +11,6 @@
  *   - Defensive Zod re-check of PA's response against tiltSkilletBatchSchema so schema drift
  *     surfaces at the WTEN edge.
  */
-import { z } from "zod";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
@@ -22,6 +21,7 @@ import {
 } from "@/types/tiltSkilletSchema";
 import { computeBatchCircuit, type BatchStageInput } from "@/utils/tiltSkilletCircuit";
 import type { NextRequest } from "next/server";
+import type { z } from "zod";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -78,7 +78,7 @@ async function handlePost(request: NextRequest) {
   const { prompt, batchServings, cuisine, diet, disallowed_ingredients, stages } = parsed.data;
 
   // Deterministic recipe-as-a-circuit grounding — computed here so the model honors the physics.
-  const circuit = computeBatchCircuit(stages as BatchStageInput[]);
+  const circuit = computeBatchCircuit(stages);
 
   const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
   let plan: z.infer<typeof tiltSkilletBatchSchema>;

@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import { PremiumGate } from "@/components/PremiumGate";
 import TiltSkilletPlanner from "@/components/cooking-methods/tilt-skillet/TiltSkilletPlanner";
+import { PremiumGate } from "@/components/PremiumGate";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 

@@ -13,12 +13,12 @@
 // Each cooking STAGE is a circuit element; the stages are wired in series (the cook's current
 // flows stage → stage), so the batch is a series circuit with total V, shared current, and I²R losses.
 
+import { ingredientsMap } from "@/data/ingredients";
 import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
 import type { KineticMetrics } from "@/types/kinetics";
-import { calculateQuantityFactor, deriveESMSFromElemental } from "./quantityScaling";
-import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import { calculateMethodSpecificKinetics, getKineticProfile } from "./cookingMethodKinetics";
-import { ingredientsMap } from "@/data/ingredients";
+import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
+import { calculateQuantityFactor, deriveESMSFromElemental } from "./quantityScaling";
 
 const EPS = 1e-9;
 const NEUTRAL_ELEMENTAL: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

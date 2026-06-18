@@ -7,8 +7,8 @@
  * existing WTEN engine (computeBatchCircuit → quantityScaling + kalchm/monica + cookingMethodKinetics),
  * and generates a full LLM batch plan through the PA backend proxy.
  */
-import { useMemo, useState } from "react";
 import { Activity, Flame, FlaskConical, Loader2, Plus, Sparkles, Trash2, Zap } from "lucide-react";
+import { useMemo, useState } from "react";
 import {
   accentClass,
   ElementBar,
@@ -19,8 +19,8 @@ import {
   MaSectionHeader,
   type ElementName,
 } from "@/components/cooking-methods/primitives";
-import { computeBatchCircuit, type BatchStageInput, type StageCircuit } from "@/utils/tiltSkilletCircuit";
 import type { TiltSkilletBatchPlan, TiltSkilletBody } from "@/types/tiltSkilletSchema";
+import { computeBatchCircuit, type BatchStageInput, type StageCircuit } from "@/utils/tiltSkilletCircuit";
 
 const UNITS = ["cup", "l", "ml", "tbsp", "tsp", "g", "kg", "piece"] as const;
 type Unit = (typeof UNITS)[number];
@@ -404,7 +404,7 @@ function CircuitSchematic({ stages }: { stages: StageCircuit[] }) {
               <line x1={-18} y1={0} x2={18} y2={0} stroke="var(--ma-accent)" strokeWidth={2.5} />
               <rect x={-62} y={-46} width={124} height={40} rx={6} fill="rgba(var(--ma-accent-rgb),0.08)" stroke="var(--ma-accent)" strokeWidth={1.5} />
               <text x={0} y={-30} textAnchor="middle" fontSize={11} fontWeight={600} fill="var(--ma-fg)" style={{ fontFamily: "var(--font-grimoire), serif" }}>
-                {s.name.length > 16 ? s.name.slice(0, 15) + "…" : s.name}
+                {s.name.length > 16 ? `${s.name.slice(0, 15)  }…` : s.name}
               </text>
               <text x={0} y={-15} textAnchor="middle" fontSize={9} fill="var(--ma-accent-soft)" style={{ fontFamily: "ui-monospace, monospace" }}>
                 V {fmt(s.potentialDifference)} · I {fmt(s.currentFlow)}
