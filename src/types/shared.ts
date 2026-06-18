@@ -250,6 +250,7 @@ export type CookingMethod =
   | "simmering"
   // Specialized frying
   | "stir-frying"
+  | "tilt-skillet"
   // Traditional preservation/fermentation
   | "fermentation"
   | "pickling"

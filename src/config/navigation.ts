@@ -64,6 +64,7 @@ export const NAV_IA: NavIA = {
       { label: "Cuisines", path: "/cuisines", glyph: "ring", hint: "184 traditions · ranked by sky" },
       { label: "Ingredients", path: "/ingredients", glyph: "diamond", hint: "2,901 entries · live elemental match" },
       { label: "Cooking Methods", path: "/cooking-methods", glyph: "triangle-up-bar", hint: "Dry · wet · molecular · traditional" },
+      { label: "Tilt Skillet Planner", path: "/cooking-methods/tilt-skillet", glyph: "crosshair", hint: "Large-batch planning · recipe-as-a-circuit · premium", premium: true },
       { label: "Sauces", path: "/sauces", glyph: "wave", hint: "Mother sauces and lineages" },
       { label: "Recipes", path: "/recipes", glyph: "bookmark", hint: "12,438 · filtered to your hour" },
       { label: "Recipe Builder", path: "/recipe-builder", glyph: "plus", hint: "Compose from raw materials" },
