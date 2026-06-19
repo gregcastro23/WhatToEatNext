@@ -231,6 +231,9 @@ export const dryMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         dataPoint: { label: "PHASE_SHIFT", value: "−FIRE / +WATER → −WATER" },
       },
     ],
+    image: "/images/methods/tilt_skillet.webp",
+    imageAlt:
+      "Scientific diagram of the Tilt Skillet as the Foundry Plate: a broad steel floor cycling from distributed conductive sear to covered convective braise, with Maillard fond development and collagen-to-gelatin hydrolysis rendered as glowing volcanic orange and deep charcoal alchemical symbols on an obsidian field.",
     accent: "ember",
   },
 
@@ -292,6 +295,9 @@ export const dryMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         tags: ["Triacylglycerol Cleavage", "Volatile Aldehydes"],
       },
     ],
+    image: "/images/methods/frying.webp",
+    imageAlt:
+      "Scientific diagram of frying as the Lipid Crucible: a dense matrix totally submerged in superheated oil with isotropic convective heat vectors and a violent steam-efflux barrier, the molecular inset annotating steam-barrier crust vitrification and Maillard-acrylamide browning kinetics in glowing volcanic orange and deep charcoal alchemical symbols on an obsidian field.",
     accent: "ember",
   },
 
@@ -351,6 +357,9 @@ export const dryMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         temperatureRange: "50°C – 73°C",
       },
     ],
+    image: "/images/methods/broiling.webp",
+    imageAlt:
+      "Scientific diagram of broiling, the inverted sun: an incandescent overhead element raining unidirectional infrared flux down onto an exposed zenith plane, with the surface Maillard cascade and radiant fat rendering rendered as glowing solar orange and gold alchemical symbols on an obsidian field.",
     accent: "solar",
   },
 };

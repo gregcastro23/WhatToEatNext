@@ -169,6 +169,9 @@ export const wetMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         tags: ["Leaching", "Thermal Diffusion"],
       },
     ],
+    image: "/images/methods/boiling.webp",
+    imageAlt:
+      "Scientific diagram of boiling, the turbulent dissolution: nucleate vapor columns and rolling convective turbulence hammering a submerged substrate, with starch gelatinization swelling granules into amorphous gels and indiscriminate solute extraction leaching into the broth, annotated in glowing aqueous blue and teal alchemical symbols on an obsidian field.",
     accent: "aqueous",
   },
 
@@ -218,6 +221,9 @@ export const wetMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         tags: ["Diffusion", "Infusion"],
       },
     ],
+    image: "/images/methods/poaching.webp",
+    imageAlt:
+      "Scientific diagram of poaching as tender suspension: an organic matrix cradled in a sub-boil bath with laminar whisper convection coaxing structure into place, gentle protein coagulation and diffusion-pace court-bouillon infusion rendered as glowing aqueous blue and teal alchemical symbols on an obsidian field.",
     accent: "aqueous",
   },
 
@@ -266,6 +272,9 @@ export const wetMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         tags: ["Gelatin Conversion", "Reduction"],
       },
     ],
+    image: "/images/methods/simmering.webp",
+    imageAlt:
+      "Scientific diagram of simmering, the patient convection: a medium held at the sub-boil threshold with single bubbles rising in slow convection loops, extraction proceeding without destruction, protein rafting toward clarity and slow collagen-to-gelatin conversion rendered as glowing aqueous blue and teal alchemical symbols on an obsidian field.",
     accent: "aqueous",
   },
 
@@ -317,6 +326,9 @@ export const wetMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         tags: ["Volatile Retention", "Reflux"],
       },
     ],
+    image: "/images/methods/pressure_cooking.webp",
+    imageAlt:
+      "Scientific diagram of pressure cooking as sealed acceleration: a hermetic vessel abolishing the boiling ceiling with superheated saturated steam, showing accelerated collagen hydrolysis and closed-loop volatile reflux rendered as glowing electric magenta and cyan plasma alchemical symbols on an obsidian field.",
     accent: "plasma",
   },
 
@@ -371,6 +383,9 @@ export const wetMethodProfiles: Record<string, AlchemicalMethodProfile> = {
       "Moisture loss <5% versus ~25% conventional",
       "Oxidative degradation nullified by vacuum",
     ],
+    image: "/images/methods/sous_vide.webp",
+    imageAlt:
+      "Scientific diagram of sous vide as hermetic equilibrium: a vacuum-sealed organic matrix held at an exact isothermal setpoint with its thermal gradient abolished, threshold-exact protein denaturation and anaerobic volatile conservation rendered as glowing electric magenta and cyan plasma alchemical symbols on an obsidian field.",
     accent: "plasma",
   },
 
@@ -419,6 +434,9 @@ export const wetMethodProfiles: Record<string, AlchemicalMethodProfile> = {
         tags: ["Colloid Formation", "Viscosity"],
       },
     ],
+    image: "/images/methods/stewing.webp",
+    imageAlt:
+      "Scientific diagram of stewing as the Unified Dissolution: fully submerged matter and its enveloping medium converging into a single body through total immersion, with mutual saturation equilibrium and a starch-bound colloidal emulsion rendered as glowing aqueous blue and teal alchemical symbols on an obsidian field.",
     accent: "aqueous",
   },
 };

@@ -115,6 +115,9 @@ export const transformationMethodProfiles: Record<string, AlchemicalMethodProfil
         tags: ["Nitrite Chemistry", "Pigment Fixation"],
       },
     ],
+    image: "/images/methods/curing.webp",
+    imageAlt:
+      "Scientific diagram of curing as saline mummification: a hypertonic salt field driving osmotic dehydration outward across cellular membranes while nitrosomyoglobin fixation locks pigment into preserved flesh, rendered as glowing emerald green and silver alchemical symbols on an obsidian field.",
     accent: "emerald",
   },
 
@@ -164,6 +167,9 @@ export const transformationMethodProfiles: Record<string, AlchemicalMethodProfil
         dataPoint: { label: "CONCENTRATION_FACTOR", value: "4–6×" },
       },
     ],
+    image: "/images/methods/dehydrating.webp",
+    imageAlt:
+      "Scientific diagram of dehydrating, the Solar Reduction: a sustained warm air current escorting water vapor off a dense matrix while capillary moisture migration wicks interior water outward and flavor concentration densifies sugars and glutamates at quadruple strength, rendered in glowing solar orange and gold alchemical symbols on an obsidian field.",
     accent: "solar",
   },
 
@@ -212,6 +218,9 @@ export const transformationMethodProfiles: Record<string, AlchemicalMethodProfil
         tags: ["Saturation", "Diminishing Returns"],
       },
     ],
+    image: "/images/methods/infusing.webp",
+    imageAlt:
+      "Scientific diagram of infusing as the essence transfer: volatile aromatic essences partitioning out of ruptured cellular matter and migrating down their gradients into a carrier medium, with terpene partition migration and the decaying carrier saturation curve rendered as glowing deep violet and indigo alchemical symbols on an obsidian field.",
     accent: "violet",
   },
 
@@ -263,6 +272,9 @@ export const transformationMethodProfiles: Record<string, AlchemicalMethodProfil
         tags: ["Esters", "Aroma Carriage"],
       },
     ],
+    image: "/images/methods/distilling.webp",
+    imageAlt:
+      "Scientific diagram of distilling as spirit extraction: matter boiled until its volatile spirit rises through a refluxing vapor column and condenses apart from its body, with fractional volatility separation and congener concentration of esters rendered as glowing deep violet and indigo alchemical symbols on an obsidian field.",
     accent: "violet",
   },
 
@@ -311,6 +323,9 @@ export const transformationMethodProfiles: Record<string, AlchemicalMethodProfil
         tags: ["Bromelain", "Papain", "Peptide Cleavage"],
       },
     ],
+    image: "/images/methods/marinating.webp",
+    imageAlt:
+      "Scientific diagram of marinating as acid-enzyme baptism: a cold chemical current of hydrogen ions and proteolytic enzymes besieging the outer millimeters of an organic matrix, with acid surface denaturation and bromelain peptide cleavage rendered as glowing aqueous blue and teal alchemical symbols on an obsidian field.",
     accent: "aqueous",
   },
 };

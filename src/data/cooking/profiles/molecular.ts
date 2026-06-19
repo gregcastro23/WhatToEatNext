@@ -109,6 +109,9 @@ export const molecularMethodProfiles: Record<string, AlchemicalMethodProfile> = 
         dataPoint: { label: "pH_FLOOR", value: "3.8" },
       },
     ],
+    image: "/images/methods/spherification.webp",
+    imageAlt:
+      "Scientific diagram of spherification as ionic encapsulation: a forever-liquid core sealed within a self-assembling gel reliquary, with divalent calcium cross-linking alginate into the egg-box configuration and a semi-permeable membrane thickening from the boundary inward, rendered as glowing electric magenta and cyan plasma alchemical symbols on an obsidian field.",
     accent: "plasma",
   },
 
@@ -164,6 +167,9 @@ export const molecularMethodProfiles: Record<string, AlchemicalMethodProfile> = 
         tags: ["Network Contraction", "Water Expulsion"],
       },
     ],
+    image: "/images/methods/gelification.webp",
+    imageAlt:
+      "Scientific diagram of gelification as crystalline architecture: dissolved polymer chains cooling into a three-dimensional scaffold that holds an ocean of water motionless, with junction-zone double helices and hydrogen-bonded captive water rendered as glowing emerald green and silver alchemical symbols on an obsidian field.",
     accent: "emerald",
   },
 
@@ -230,6 +236,9 @@ export const molecularMethodProfiles: Record<string, AlchemicalMethodProfile> = 
       "Volatile aromatics locked at full potency",
       "All nitrogen fully vaporized before service",
     ],
+    image: "/images/methods/cryo_cooking.webp",
+    imageAlt:
+      "Scientific diagram of cryogenic vitrification (The Vitreous Arrest): an inverted heat-extraction circuit driving liquid nitrogen to flash-freeze a substrate, with ice-crystal suppression and a Leidenfrost vapor sheath rendered as glowing electric magenta and cyan plasma alchemical symbols on an obsidian field.",
     accent: "plasma",
   },
 };
