@@ -102,6 +102,9 @@ export const traditionalMethodProfiles: Record<string, AlchemicalMethodProfile> 
         tags: ["Osmosis", "Ion Migration", "Turgor Exchange"],
       },
     ],
+    image: "/images/methods/pickling.webp",
+    imageAlt:
+      "Scientific diagram of pickling as acidic stasis: an organic substrate sealed in a sub-pH-4.6 brine field, with acidification collapsing cellular enzymes and osmotic ion migration drawing water outward, rendered as glowing aqueous blue and teal alchemical symbols on an obsidian field.",
     accent: "aqueous",
   },
 };

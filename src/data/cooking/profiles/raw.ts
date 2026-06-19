@@ -67,6 +67,9 @@ export const rawMethodProfiles: Record<string, AlchemicalMethodProfile> = {
       "Living probiotic and enzyme cultures preserved",
       "Native color pigments and volatile aromatics unaltered",
     ],
+    image: "/images/methods/raw.webp",
+    imageAlt:
+      "Scientific diagram of raw as the unfired prima materia: an ambient null transmutation below the enzyme-safe threshold, with acid-driven cold protein denaturation and osmotic moisture migration across intact cell walls rendered as glowing emerald green and silver alchemical symbols on an obsidian field.",
     accent: "emerald",
   },
 };
