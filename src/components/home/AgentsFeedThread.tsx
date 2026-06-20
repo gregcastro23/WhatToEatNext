@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
@@ -90,13 +90,33 @@ type WidgetFeedRow =
   | { kind: "agent"; id: string; ts: number; item: HistoricalAgentFeedItem };
 
 export function AgentsFeedThread() {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [feedItems, setFeedItems] = useState<FeedEvent[]>([]);
   const [historicalItems, setHistoricalItems] = useState<HistoricalAgentFeedItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeFeed = useCallback(() => {
+    setIsVisible(false);
+    window.requestAnimationFrame(() => triggerButtonRef.current?.focus());
+  }, []);
 
   useEffect(() => {
+    if (!isVisible) return;
+
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeFeed();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [closeFeed, isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const controller = new AbortController();
     let isInitialFetch = true;
     let isRequestInFlight = false;
@@ -160,7 +180,7 @@ export function AgentsFeedThread() {
       window.clearInterval(intervalId);
       controller.abort();
     };
-  }, []);
+  }, [isVisible]);
 
   // Retain human activity; drop the planetary-agent posts and merge in the
   // historical-agent feed (recipe posts + yield claims), newest first.
@@ -188,6 +208,8 @@ export function AgentsFeedThread() {
       <AnimatePresence>
         {isVisible && (
           <motion.div
+            role="complementary"
+            aria-label="Live network feed"
             initial={{ x: "100%", opacity: 0.8 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "100%", opacity: 0.8 }}
@@ -202,7 +224,8 @@ export function AgentsFeedThread() {
                 </h3>
               </div>
               <button
-                onClick={() => setIsVisible(false)}
+                ref={closeButtonRef}
+                onClick={closeFeed}
                 className="text-white/50 hover:text-white/90 transition-colors focus:outline-none w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10"
                 aria-label="Hide feed"
               >
@@ -280,6 +303,7 @@ export function AgentsFeedThread() {
 
       {!isVisible && (
         <motion.button
+          ref={triggerButtonRef}
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           whileHover={{ x: -4, scale: 1.02 }}

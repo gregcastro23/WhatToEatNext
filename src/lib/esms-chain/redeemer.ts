@@ -24,6 +24,7 @@ import {
   type Hex,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
+import { getPrivyClient } from '@/lib/privy/server'
 import {
   ESMS_ABI,
   ESMS_IDS,
@@ -33,10 +34,9 @@ import {
   esmsPublicClient,
   esmsRpcUrl,
 } from './contract'
-import { getPrivyClient } from '@/lib/privy/server'
 
 /** ESMS amounts as decimal strings (from the off-chain Decimal(12,4) ledger). */
-export type EsmsAmounts = { spirit: string; essence: string; matter: string; substance: string }
+export interface EsmsAmounts { spirit: string; essence: string; matter: string; substance: string }
 
 /** Scale ledger decimals → 18-dp on-chain bigints, ordered [spirit, essence, matter, substance]. */
 export function toOnchainAmounts(a: EsmsAmounts): bigint[] {

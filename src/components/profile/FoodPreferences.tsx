@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useToast } from '@/components/common/Toast';
 
 interface UserPreferences {
   dietaryRestrictions: string[];
@@ -52,6 +53,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
   onSave,
   onBack,
 }) => {
+  const { toast, showSuccess, showError } = useToast();
   const [localPrefs, setLocalPrefs] = useState<UserPreferences>({ ...preferences });
   const [dislikedInput, setDislikedInput] = useState('');
   const [saved, setSaved] = useState(false);
@@ -81,13 +83,13 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           const rewardQuest = data.completedQuests[0];
           questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
         }
-        alert(`Shared to feed successfully!${questMessage}`);
+        showSuccess(`Shared to feed successfully!${questMessage}`);
         setHasSharedFeed(true);
       } else {
-        alert(data.message || "Failed to share to feed");
+        showError(data.message || "Failed to share to feed");
       }
     } catch (err) {
-      alert("Error sharing to feed");
+      showError("Error sharing to feed");
       console.error(err);
     } finally {
       setIsSharing(false);
@@ -153,7 +155,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           const rewardQuest = data.completedQuests[0];
           questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
         }
-        alert(`Preferences Card downloaded successfully!${questMessage}`);
+        showSuccess(`Preferences Card downloaded successfully!${questMessage}`);
         setHasSharedSocial(true);
       }
     } catch (err) {
@@ -350,7 +352,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         <div className="flex gap-3 w-full md:w-auto">
           <button
             type="button"
-            onClick={handleShareToFeed}
+            onClick={() => { void handleShareToFeed(); }}
             disabled={hasSharedFeed || isSharing}
             className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-bold shadow-sm transition-all ${
               hasSharedFeed
@@ -362,7 +364,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           </button>
           <button
             type="button"
-            onClick={handleShareSocial}
+            onClick={() => { void handleShareSocial(); }}
             disabled={hasSharedSocial}
             className={`flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-bold shadow-sm transition-all ${
               hasSharedSocial
@@ -402,6 +404,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
           {saved ? '✓ Saved Successfully!' : 'Save & Optimize Algorithm'}
         </button>
       </div>
+      {toast}
     </div>
   );
 };

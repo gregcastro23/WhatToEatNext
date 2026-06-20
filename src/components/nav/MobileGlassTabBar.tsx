@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
 import { activePrimaryFromPathname } from "@/config/navigation";
 
@@ -31,7 +31,6 @@ interface QuickAction {
 
 const QUICK_ACTIONS: readonly QuickAction[] = [
   { label: "Compose tonight's menu", glyph: "flask", hint: "RECIPE BUILDER", href: "/recipe-builder" },
-  { label: "Open recipe builder", glyph: "plus", hint: "+ COMPOSE", href: "/recipe-builder" },
   { label: "Add to pantry", glyph: "mortar", hint: "PANTRY", href: "/pantry" },
   { label: "Invite to commensal", glyph: "ring", hint: "DINNER PARTY", href: "/commensal" },
   { label: "Search the kitchen", glyph: "search", hint: "⌘K", href: "" },
@@ -47,6 +46,34 @@ export function MobileGlassTabBar(): JSX.Element {
   const { status } = useSession();
   const active = activePrimaryFromPathname(pathname);
   const [actionsOpen, setActionsOpen] = useState(false);
+  const actionsDialogRef = useRef<HTMLDivElement>(null);
+  const actionsTriggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    setActionsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!actionsOpen) return;
+
+    const firstAction = actionsDialogRef.current?.querySelector("button");
+    firstAction?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActionsOpen(false);
+        window.requestAnimationFrame(() => actionsTriggerRef.current?.focus());
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [actionsOpen]);
+
+  const closeActions = () => {
+    setActionsOpen(false);
+    window.requestAnimationFrame(() => actionsTriggerRef.current?.focus());
+  };
 
   const onAction = (a: QuickAction) => {
     setActionsOpen(false);
@@ -68,7 +95,7 @@ export function MobileGlassTabBar(): JSX.Element {
 
       {actionsOpen && (
         <div
-          onClick={() => setActionsOpen(false)}
+          onClick={closeActions}
           style={{
             position: "fixed",
             inset: 0,
@@ -82,8 +109,11 @@ export function MobileGlassTabBar(): JSX.Element {
 
       {actionsOpen && (
         <div
+          id="alchm-quick-actions"
+          ref={actionsDialogRef}
           role="dialog"
-          aria-label="Quick actions"
+          aria-modal="true"
+          aria-labelledby="alchm-quick-actions-title"
           className="alchm-mobile-tabbar"
           style={{
             position: "fixed",
@@ -102,7 +132,11 @@ export function MobileGlassTabBar(): JSX.Element {
             color: "var(--fg)",
           }}
         >
-          <div className="t-tag" style={{ padding: "10px 14px 8px", fontSize: 9 }}>
+          <div
+            id="alchm-quick-actions-title"
+            className="t-tag"
+            style={{ padding: "10px 14px 8px", fontSize: 9 }}
+          >
             QUICK ACTIONS
           </div>
           {QUICK_ACTIONS.map((a) => (
@@ -199,9 +233,11 @@ export function MobileGlassTabBar(): JSX.Element {
                   alignItems: "center",
                   gap: 4,
                   padding: "6px 0",
+                  minHeight: 50,
                   color: isActive ? "var(--fg)" : "var(--fg-mute)",
                   textDecoration: "none",
                 }}
+                aria-current={isActive ? "page" : undefined}
               >
                 <Glyph name={t.icon} size={18} stroke={isActive ? 1.6 : 1.2} />
                 <span
@@ -221,9 +257,11 @@ export function MobileGlassTabBar(): JSX.Element {
           {/* center action */}
           <div style={{ display: "flex", justifyContent: "center" }}>
             <button
+              ref={actionsTriggerRef}
               type="button"
               aria-label="Quick actions"
               aria-expanded={actionsOpen}
+              aria-controls="alchm-quick-actions"
               onClick={() => setActionsOpen((v) => !v)}
               style={{
                 width: 52,
@@ -263,9 +301,11 @@ export function MobileGlassTabBar(): JSX.Element {
                   alignItems: "center",
                   gap: 4,
                   padding: "6px 0",
+                  minHeight: 50,
                   color: isActive ? "var(--fg)" : "var(--fg-mute)",
                   textDecoration: "none",
                 }}
+                aria-current={isActive ? "page" : undefined}
               >
                 <Glyph name={t.icon} size={18} stroke={isActive ? 1.6 : 1.2} />
                 <span

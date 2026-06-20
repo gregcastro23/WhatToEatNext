@@ -112,7 +112,7 @@ export function esmsPublicClient() {
   return createPublicClient({ chain: esmsChain(), transport: http(esmsRpcUrl()) })
 }
 
-export type OnchainEsms = { spirit: bigint; essence: bigint; matter: bigint; substance: bigint }
+export interface OnchainEsms { spirit: bigint; essence: bigint; matter: bigint; substance: bigint }
 
 /** Read on-chain ESMS balances [spirit, essence, matter, substance] for an address. */
 export async function readEsmsBalances(address: Address): Promise<OnchainEsms> {
