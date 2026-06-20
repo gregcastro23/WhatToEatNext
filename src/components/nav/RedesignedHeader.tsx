@@ -347,10 +347,13 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
                       router.push(section.path);
                       return;
                     }
-                    setOpenMenu((curr) => (curr === k ? "none" : k));
+                    // Pointer clicks focus the button before firing click. Because
+                    // onFocus already opens the menu, toggling here immediately
+                    // closed it again on a user's first click.
+                    setOpenMenu(k);
                   }}
                   aria-expanded={hasMenu ? isOpen : undefined}
-                  aria-haspopup={hasMenu ? "menu" : undefined}
+                  aria-controls={hasMenu ? `alchm-mega-menu-${k}` : undefined}
                 >
                   <Glyph name={section.glyph} size={13} stroke={1.4} />
                   {section.label}
@@ -377,6 +380,7 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
                   href={section.path}
                   className="alchm-pill-btn"
                   data-active={isActive}
+                  aria-current={isActive ? "page" : undefined}
                   onMouseEnter={() => {
                     cancelClose();
                     setOpenMenu("none");
@@ -635,8 +639,8 @@ function MegaMenu({
 
   return (
     <div
-      role="menu"
-      tabIndex={-1}
+      id={`alchm-mega-menu-${menuKey}`}
+      role="region"
       aria-label={`${m.label} navigation`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

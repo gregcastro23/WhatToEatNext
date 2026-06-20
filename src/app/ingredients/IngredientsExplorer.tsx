@@ -46,7 +46,7 @@ import { resolveAsin } from "@/data/amazon/ingredientAsins";
 import { useAlchemical } from "@/hooks/useAlchemical";
 import { usePantry } from "@/hooks/usePantry";
 import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
-import { getAmazonLink, getAmazonButtonText } from "@/lib/amazonUrl";
+import { getAmazonLink } from "@/lib/amazonUrl";
 import type { Ingredient } from "@/types";
 import type {
   AmazonMatchConfidence,

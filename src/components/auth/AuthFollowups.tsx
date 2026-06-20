@@ -717,6 +717,8 @@ export function UpgradeGate({
 }: UpgradeGateProps = {}): JSX.Element {
   const key = from.replace(/^\//, "").split("/")[0]?.toLowerCase() || "lab";
   const f = UPGRADE_FROM_MAP[key] ?? UPGRADE_FROM_MAP.lab;
+  const { status } = useSession();
+  const isLoggedOut = status === "unauthenticated";
 
   useEffect(() => {
     track("upgrade_gate_shown", { tier: currentTier, from });
@@ -726,13 +728,17 @@ export function UpgradeGate({
     () =>
       TIERS.map((t) => ({
         ...t,
-        current: t.id === currentTier,
+        current: !isLoggedOut && t.id === currentTier,
         highlighted: t.id === "alchemist" && currentTier !== "alchemist",
       })),
-    [currentTier],
+    [currentTier, isLoggedOut],
   );
 
   const handleClick = (t: UpgradeTier) => {
+    if (isLoggedOut) {
+      window.dispatchEvent(new Event("open-signin-modal"));
+      return;
+    }
     // The free card is only clickable for a premium viewer (for their own tier it
     // renders a disabled "current plan" pill) — so a click here is a downgrade.
     // Route to the subscription manager rather than a nonsensical free "trial".
@@ -1063,7 +1069,7 @@ export function UpgradeGate({
                         : "var(--line-hi)",
                     }}
                   >
-                    {tier.id === "free" ? "DOWNGRADE TO FREE" : "START 7-DAY TRIAL"}
+                    {tier.id === "free" ? (isLoggedOut ? "START FREE" : "DOWNGRADE TO FREE") : "START 7-DAY TRIAL"}
                   </button>
                 )}
               </div>

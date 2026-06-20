@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
 import { keccak256, toHex } from 'viem'
-import type { Address, Hex } from 'viem'
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
-import { tokenEconomy } from "@/services/TokenEconomyService";
 import {
   buildRedeemAuthChallenge,
   esmsOnchainConfigured,
@@ -15,6 +13,8 @@ import {
   toOnchainAmounts,
   verifyRedeem,
 } from '@/lib/esms-chain/redeemer'
+import { tokenEconomy } from "@/services/TokenEconomyService";
+import type { Address, Hex } from 'viem'
 
 export const dynamic = 'force-dynamic'
 

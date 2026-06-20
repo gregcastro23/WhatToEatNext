@@ -332,7 +332,7 @@ export default function TiltSkilletPlanner() {
           <MaPanel glow className="p-6">
             <MaSectionHeader number="04" icon={<Sparkles className="h-5 w-5" />} title="GENERATE_BATCH_PLAN" />
             <button
-              onClick={handleGenerate}
+              onClick={() => { void handleGenerate(); }}
               disabled={loading}
               className="ma-label flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--ma-accent)]/50 bg-[rgba(var(--ma-accent-rgb),0.12)] py-3 text-[var(--ma-accent-soft)] hover:bg-[rgba(var(--ma-accent-rgb),0.2)] disabled:opacity-50"
             >

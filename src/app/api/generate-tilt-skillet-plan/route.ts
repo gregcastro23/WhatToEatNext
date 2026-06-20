@@ -19,7 +19,7 @@ import {
   tiltSkilletBatchSchema,
   tiltSkilletBodySchema,
 } from "@/types/tiltSkilletSchema";
-import { computeBatchCircuit, type BatchStageInput } from "@/utils/tiltSkilletCircuit";
+import { computeBatchCircuit } from "@/utils/tiltSkilletCircuit";
 import type { NextRequest } from "next/server";
 import type { z } from "zod";
 
@@ -75,7 +75,7 @@ async function handlePost(request: NextRequest) {
       400,
     );
   }
-  const { prompt, batchServings, cuisine, diet, disallowed_ingredients, stages } = parsed.data;
+  const { prompt, batchServings, cuisine, diet, disallowed_ingredients: disallowedIngredients, stages } = parsed.data;
 
   // Deterministic recipe-as-a-circuit grounding — computed here so the model honors the physics.
   const circuit = computeBatchCircuit(stages);
@@ -91,7 +91,7 @@ async function handlePost(request: NextRequest) {
         batchServings,
         cuisine,
         dietPreference: diet || "omnivore",
-        disallowedIngredients: disallowed_ingredients ?? undefined,
+        disallowedIngredients: disallowedIngredients ?? undefined,
         stages: stages.map((s) => ({ name: s.name, ingredients: s.ingredients })),
         circuitContext: circuit,
         userId,

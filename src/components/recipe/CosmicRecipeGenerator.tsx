@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useToast } from '@/components/common/Toast';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { useToast } from '@/components/common/Toast';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
@@ -735,7 +735,7 @@ export default function CosmicRecipeGenerator() {
                 Cancel
               </button>
               <button
-                onClick={handleShareToFeed}
+                onClick={() => { void handleShareToFeed(); }}
                 disabled={isSharing}
                 className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-all font-semibold"
               >
