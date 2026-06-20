@@ -66,10 +66,10 @@ export function Promotion() {
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-1.5">
                 <span className="text-[10px] font-bold tracking-widest text-purple-400/80 uppercase">
-                  Cosmic Token Economy
+                  New member welcome
                 </span>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-[9px] font-extrabold text-purple-400 uppercase tracking-wide animate-pulse">
-                  Tech Week Live
+                  Available now
                 </span>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-[9px] font-extrabold text-amber-400 uppercase tracking-wide">
                   +60 ESMS Welcome Grant
@@ -81,10 +81,10 @@ export function Promotion() {
                 )}
               </div>
               <h2 className="text-xl md:text-3xl font-black text-white/95 leading-tight tracking-tight">
-                Unleash Your Cosmic Culinary Yield
+                Start with 60 ESMS tokens
               </h2>
               <p className="mt-2 text-xs md:text-sm text-white/50 leading-relaxed max-w-xl">
-                Alchm Kitchen balances four primary alchemical elements to match recipes with your birth chart and the live sky. During Tech Week, get a boosted welcome grant of{" "}
+                Alchm Kitchen balances four primary alchemical elements to match recipes with your birth chart and the live sky. Create an account to receive a welcome grant of{" "}
                 <strong className="text-white/80">60 ESMS tokens</strong> (15 of each: Spirit, Essence, Matter, Substance) to immediately begin your cosmic culinary journey.
                 {onchainEsms && (
                   <>
@@ -132,7 +132,7 @@ export function Promotion() {
           <div className="lg:col-span-2 flex flex-col justify-between space-y-4">
             <div className="space-y-3">
               <h3 className="text-xs font-bold text-white/50 tracking-widest uppercase mb-1">
-                New Experiences & Enhancements
+                What you can do
               </h3>
 
               {/* Feature: Web3 crypto food checkout */}
@@ -152,7 +152,7 @@ export function Promotion() {
               <div className="p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/10 transition-all duration-200 flex items-start gap-3">
                 <span className="text-xl p-1 bg-purple-500/10 rounded-lg text-purple-400">⚗️</span>
                 <div className="space-y-0.5">
-                  <h4 className="text-xs font-bold text-white/90">GPT-4o Lab Book Ingestion</h4>
+                  <h4 className="text-xs font-bold text-white/90">Smart Lab Book Ingestion</h4>
                   <p className="text-[10px] text-white/40 leading-relaxed">
                     Paste text or snap a recipe photo to extract its alchemical signature, save it to your cookbook, and earn ESMS milestone rewards.
                   </p>

@@ -58,9 +58,11 @@ function getCurrentSeason(): string {
 }
 
 interface EnhancedIngredientRecommenderProps {
+  compact?: boolean;
   initialCategory?: string | null;
   initialSelectedIngredient?: string | null;
   isFullPageVersion?: boolean;
+  maxItems?: number;
   onCategoryChange?: (category: string) => void;
   onIngredientSelect?: (ingredient: string) => void;
   onDoubleClickIngredient?: (
@@ -645,7 +647,7 @@ const ELEMENT_CARD_TONES: Record<
 function getIngredientImageUrl(ingredient: UnifiedIngredient): string | null {
   const root = ingredient as unknown as Record<string, unknown>;
   const rawValue = root.image_url || root.imageUrl || root.image;
-  
+
   if (typeof rawValue === "string" && rawValue.trim().length > 0) {
     return getAssetUrl(rawValue.trim()) ?? null;
   }
@@ -663,9 +665,11 @@ function cleanDescription(description: string): string {
 export const EnhancedIngredientRecommender: React.FC<
   EnhancedIngredientRecommenderProps
 > = ({
+  compact = false,
   initialCategory,
   initialSelectedIngredient,
   isFullPageVersion: _isFullPageVersion = false,
+  maxItems,
   onCategoryChange,
   onIngredientSelect,
   onDoubleClickIngredient,
@@ -764,7 +768,10 @@ export const EnhancedIngredientRecommender: React.FC<
     // paste", and "tomato-paste" all hit the same items.
     if (searchQuery) {
       const matches = (value: unknown): boolean =>
-        looseIncludes(typeof value === "string" ? value : String(value), searchQuery);
+        looseIncludes(
+          typeof value === "string" ? value : String(value),
+          searchQuery,
+        );
       const anyMatches = (values: unknown): boolean =>
         Array.isArray(values) && values.some(matches);
 
@@ -793,13 +800,20 @@ export const EnhancedIngredientRecommender: React.FC<
         if (anyMatches(pr)) return true;
         if (pr && typeof pr === "object" && !Array.isArray(pr)) {
           const prObj = pr as Record<string, unknown>;
-          for (const key of ["complementary", "contrasting", "toAvoid"] as const) {
+          for (const key of [
+            "complementary",
+            "contrasting",
+            "toAvoid",
+          ] as const) {
             if (anyMatches(prObj[key])) return true;
           }
         }
 
         if (anyMatches(root.affinities)) return true;
-        if (typeof root.flavorProfile === "string" && matches(root.flavorProfile))
+        if (
+          typeof root.flavorProfile === "string" &&
+          matches(root.flavorProfile)
+        )
           return true;
 
         return false;
@@ -909,6 +923,8 @@ export const EnhancedIngredientRecommender: React.FC<
     ? expandedCategories.has(selectedCategory)
     : expandedCategories.has(ALL_INGREDIENTS_KEY);
 
+  const pageSize = maxItems ?? ITEMS_PER_PAGE;
+
   // Get paginated ingredients for display
   const displayedIngredients = useMemo(() => {
     // When searching, show all matches
@@ -922,13 +938,13 @@ export const EnhancedIngredientRecommender: React.FC<
     }
 
     // Default: limit to ITEMS_PER_PAGE (top 21 highest-scoring)
-    return scoredIngredients.slice(0, ITEMS_PER_PAGE);
-  }, [scoredIngredients, currentCategoryExpanded, searchQuery]);
+    return scoredIngredients.slice(0, pageSize);
+  }, [scoredIngredients, currentCategoryExpanded, pageSize, searchQuery]);
 
   // Count of remaining items not shown (works for both category and "all" views)
   const remainingCount =
     !currentCategoryExpanded && !searchQuery
-      ? Math.max(0, scoredIngredients.length - ITEMS_PER_PAGE)
+      ? Math.max(0, scoredIngredients.length - pageSize)
       : 0;
 
   // Render category grid
@@ -1165,7 +1181,9 @@ export const EnhancedIngredientRecommender: React.FC<
                   {formatIngredientName(ingredient.category)}
                 </span>
                 {(() => {
-                  const categoryLabel = formatIngredientName(ingredient.category);
+                  const categoryLabel = formatIngredientName(
+                    ingredient.category,
+                  );
                   const subLabel = ingredient.subcategory
                     ? formatIngredientName(ingredient.subcategory)
                     : "";
@@ -1253,7 +1271,8 @@ export const EnhancedIngredientRecommender: React.FC<
           {/* Composite elements — what an aromatic base / blend is built from */}
           {(() => {
             const composite = (ingredient as any).compositeElements;
-            if (!Array.isArray(composite) || composite.length === 0) return null;
+            if (!Array.isArray(composite) || composite.length === 0)
+              return null;
             return (
               <div className="mb-3">
                 <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
@@ -2345,6 +2364,104 @@ export const EnhancedIngredientRecommender: React.FC<
     );
   };
 
+  const renderCompactIngredientCard = (
+    ingredient: (typeof scoredIngredients)[0],
+  ) => {
+    if (!ingredient) return null;
+    const displayName = formatIngredientName(ingredient.name);
+    const imageUrl = getIngredientImageUrl(ingredient);
+    const description =
+      typeof ingredient.description === "string"
+        ? cleanDescription(ingredient.description)
+        : "";
+    const tone =
+      ELEMENT_CARD_TONES[ingredient.dominantElement] ||
+      ELEMENT_CARD_TONES.Unknown;
+
+    return (
+      <motion.article
+        key={ingredient.name}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ y: -3 }}
+        transition={{ type: "spring", stiffness: 260, damping: 24 }}
+        className="group overflow-hidden rounded-xl border border-white/10 bg-[#101018]/95 shadow-lg shadow-black/20 transition-colors hover:border-amber-300/35"
+      >
+        <div className="relative h-28 overflow-hidden bg-slate-950">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt=""
+              fill
+              loading="lazy"
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div
+              className={`flex h-full items-center justify-center bg-gradient-to-br ${tone.fallback}`}
+            >
+              <ImageIcon className="h-7 w-7 text-white/55" aria-hidden="true" />
+            </div>
+          )}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#101018] to-transparent" />
+          <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/55 px-2.5 py-1 text-xs font-bold text-white backdrop-blur-md">
+            {Math.round(ingredient.compatibilityScore * 100)}% match
+          </span>
+        </div>
+
+        <div className="p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="truncate text-base font-semibold text-white">
+                {displayName}
+              </h3>
+              <p className="mt-1 text-xs capitalize text-slate-400">
+                {formatIngredientName(ingredient.category)}
+                {ingredient.isInSeason ? " · In season" : ""}
+              </p>
+            </div>
+            <span
+              className={`shrink-0 rounded-full border px-2 py-1 text-[10px] ${tone.chip}`}
+            >
+              {ingredient.dominantElement}
+            </span>
+          </div>
+
+          {description && (
+            <p className="mt-3 line-clamp-2 text-xs leading-5 text-slate-300">
+              {description}
+            </p>
+          )}
+
+          <button
+            type="button"
+            onClick={(event) =>
+              handleAddToPantry(ingredient.name, ingredient.category, event)
+            }
+            className={`mt-4 inline-flex min-h-9 w-full items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
+              pantry.hasItem(ingredient.name)
+                ? "border-emerald-300/30 bg-emerald-500/15 text-emerald-100 hover:bg-emerald-500/25"
+                : "border-amber-300/30 bg-amber-500/15 text-amber-100 hover:bg-amber-500/25"
+            }`}
+          >
+            {pantry.hasItem(ingredient.name) ? (
+              <>
+                <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                In pantry
+              </>
+            ) : (
+              <>
+                <Plus className="h-3.5 w-3.5" aria-hidden="true" />
+                Add to pantry
+              </>
+            )}
+          </button>
+        </div>
+      </motion.article>
+    );
+  };
+
   // Loading state
   if (loading) {
     return (
@@ -2369,11 +2486,11 @@ export const EnhancedIngredientRecommender: React.FC<
           {pantryFeedback}
         </div>
       )}
-      {renderCategoryGrid()}
-      {renderSearchBar()}
+      {!compact && renderCategoryGrid()}
+      {!compact && renderSearchBar()}
 
       {/* Selected category indicator */}
-      {selectedCategory && (
+      {!compact && selectedCategory && (
         <div className="mb-4 flex items-center gap-2">
           <span className="text-sm text-slate-300">Showing:</span>
           <span className="rounded-full border border-amber-300/25 bg-amber-500/15 px-3 py-1 text-sm font-medium text-amber-100">
@@ -2393,18 +2510,26 @@ export const EnhancedIngredientRecommender: React.FC<
 
       {/* Results count */}
       <div className="mb-4 text-sm text-slate-300">
-        Showing {displayedIngredients.length}
-        {remainingCount > 0 ? ` of ${scoredIngredients.length}` : ""} ingredient
-        {scoredIngredients.length !== 1 ? "s" : ""} (sorted by compatibility)
+        {compact
+          ? "Best matches right now"
+          : `Showing ${displayedIngredients.length}`}
+        {!compact && remainingCount > 0
+          ? ` of ${scoredIngredients.length}`
+          : ""}
+        {!compact
+          ? ` ingredient${scoredIngredients.length !== 1 ? "s" : ""} (sorted by compatibility)`
+          : ""}
       </div>
 
       {/* Ingredients grid */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {displayedIngredients.map(renderIngredientCard)}
+        {displayedIngredients.map(
+          compact ? renderCompactIngredientCard : renderIngredientCard,
+        )}
       </div>
 
       {/* Expand/Collapse button - works for both category and "all" views */}
-      {scoredIngredients.length > ITEMS_PER_PAGE && !searchQuery && (
+      {!compact && scoredIngredients.length > pageSize && !searchQuery && (
         <div className="mt-6 flex justify-center">
           <button
             onClick={() =>

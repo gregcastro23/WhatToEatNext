@@ -120,7 +120,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {process.env.NODE_ENV === "development" && (
+        {process.env.NODE_ENV === "development" &&
+          process.env.NEXT_PUBLIC_ENABLE_REACT_SCAN === "true" && (
           <script
             src="https://unpkg.com/react-scan/dist/auto.global.js"
             async
@@ -128,10 +129,13 @@ export default function RootLayout({
         )}
       </head>
       <body className="font-body alchm-root">
+        <a className="alchm-skip-link" href="#alchm-main">
+          Skip to main content
+        </a>
         <PwaRegistration />
         <ClientProviders>
           <RedesignedHeader />
-          <main id="alchm-main" className="alchm-main">
+          <main id="alchm-main" className="alchm-main" tabIndex={-1}>
             {children}
           </main>
           <style>{`

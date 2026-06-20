@@ -59,6 +59,26 @@ body {
   box-sizing: border-box;
 }
 
+.alchm-skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 9999;
+  padding: 10px 14px;
+  border: 1px solid var(--accent, #b783ff);
+  border-radius: 8px;
+  background: #f2edff;
+  color: #07060b;
+  font: 600 13px/1 var(--font-body), system-ui, sans-serif;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+
+.alchm-skip-link:focus {
+  transform: translateY(0);
+}
+
 /* Alchemical theme enhancements */
 .alchm-card {
   background: rgba(15, 15, 22, 0.65);

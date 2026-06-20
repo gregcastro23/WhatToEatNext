@@ -37,13 +37,24 @@ function NatalPromptBanner(): JSX.Element | null {
   return (
     <div
       className="border border-alchm-copper/30 bg-alchm-copper/5 text-alchm-copper/80 rounded px-4 py-2"
-      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+      }}
     >
       <Link
         href="/onboarding"
-        style={{ flex: 1, fontSize: 13, textDecoration: "none", color: "inherit" }}
+        style={{
+          flex: 1,
+          fontSize: 13,
+          textDecoration: "none",
+          color: "inherit",
+        }}
       >
-        Complete your natal chart to unlock personalized cosmic recommendations →
+        Complete your natal chart to unlock personalized cosmic recommendations
+        →
       </Link>
       <button
         type="button"
@@ -83,8 +94,7 @@ const EnhancedIngredientRecommender = dynamic(
 );
 
 const EnhancedCookingMethodRecommender = dynamic(
-  () =>
-    import("@/components/recommendations/EnhancedCookingMethodRecommender"),
+  () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
   { loading: () => <SectionLoader label="Loading cooking methods…" /> },
 );
 
@@ -105,6 +115,54 @@ function SectionLoader({ label }: { label: string }): JSX.Element {
     >
       {label}
     </div>
+  );
+}
+
+function HomeHero(): JSX.Element {
+  const benefits = [
+    ["Personalized", "Your natal chart and the live sky"],
+    ["Practical", "Recipes, ingredients, and methods"],
+    ["Pantry-aware", "Plan around what you already have"],
+  ] as const;
+
+  return (
+    <section className="alchm-home-hero" aria-labelledby="alchm-home-title">
+      <div className="alchm-home-hero-copy">
+        <p className="t-tag alchm-home-eyebrow">YOUR KITCHEN · THE LIVE SKY</p>
+        <h1 id="alchm-home-title" className="t-display alchm-home-title">
+          Know what to eat next.
+        </h1>
+        <p className="alchm-home-intro">
+          Turn your birth chart, pantry, and the current sky into clear culinary
+          recommendations you can actually cook tonight.
+        </p>
+        <div className="alchm-home-actions">
+          <Link href="/recipe-builder" className="alchm-home-primary-action">
+            Build tonight&apos;s recipe <span aria-hidden="true">→</span>
+          </Link>
+          <Link href="/onboarding" className="alchm-home-secondary-action">
+            Set up my chart
+          </Link>
+        </div>
+      </div>
+
+      <dl className="alchm-home-benefits" aria-label="How recommendations work">
+        {benefits.map(([term, detail], index) => (
+          <div key={term} className="alchm-home-benefit">
+            <span
+              className="t-mono alchm-home-benefit-index"
+              aria-hidden="true"
+            >
+              0{index + 1}
+            </span>
+            <div>
+              <dt>{term}</dt>
+              <dd>{detail}</dd>
+            </div>
+          </div>
+        ))}
+      </dl>
+    </section>
   );
 }
 
@@ -164,7 +222,8 @@ function HomeSection({
               textTransform: "uppercase",
               color: "var(--accent)",
               textDecoration: "none",
-              border: "1px solid color-mix(in oklch, var(--accent), transparent 60%)",
+              border:
+                "1px solid color-mix(in oklch, var(--accent), transparent 60%)",
               borderRadius: 6,
               padding: "6px 12px",
             }}
@@ -183,13 +242,9 @@ function HomeSection({
 export default function AlchmKitchenHome(): JSX.Element {
   return (
     <>
-      {/*
-        The root layout (src/app/layout.tsx) already provides the <main>
-        landmark, so this wrapper is a <div>. We expose a single visually-hidden
-        <h1> so screen readers and crawlers get a clear page title even though
-        the visual design uses display-style section headers.
-      */}
+      {/* The root layout already provides the main landmark. */}
       <div
+        className="alchm-home-shell"
         style={{
           maxWidth: 1100,
           margin: "0 auto",
@@ -200,58 +255,143 @@ export default function AlchmKitchenHome(): JSX.Element {
         }}
       >
         <style>{`
-          .alchm-home-cookmethods :is(h1, h2, h3, h4) { color: var(--fg); }
-          .alchm-ingredient-scroll {
-            max-height: 70vh;
-            overflow-y: auto;
-            margin: 0 -22px -20px;
-            padding: 0 22px 20px;
-            scrollbar-width: thin;
-            scrollbar-color: color-mix(in oklch, var(--accent), transparent 70%) transparent;
-          }
-          .alchm-sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
+          .alchm-home-hero {
+            position: relative;
+            isolation: isolate;
             overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
+            display: grid;
+            gap: 32px;
+            padding: clamp(28px, 6vw, 64px);
+            border: 1px solid var(--line-hi);
+            border-radius: calc(var(--radius) + 6px);
+            background:
+              radial-gradient(circle at 85% 10%, color-mix(in oklch, var(--accent), transparent 75%), transparent 32%),
+              radial-gradient(circle at 10% 100%, color-mix(in oklch, var(--accent-2), transparent 86%), transparent 36%),
+              linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018));
+            box-shadow: 0 30px 80px rgba(0,0,0,0.28);
           }
+          .alchm-home-hero::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            width: 340px;
+            height: 340px;
+            right: -150px;
+            top: -190px;
+            border: 1px solid color-mix(in oklch, var(--accent), transparent 55%);
+            border-radius: 50%;
+            box-shadow: 0 0 0 46px rgba(255,255,255,0.018), 0 0 0 92px rgba(255,255,255,0.012);
+          }
+          .alchm-home-hero-copy { max-width: 660px; }
+          .alchm-home-eyebrow { margin: 0 0 14px; color: var(--accent-2); }
+          .alchm-home-title {
+            max-width: 720px;
+            margin: 0;
+            color: var(--fg);
+            font-size: clamp(42px, 8vw, 76px);
+            font-weight: 500;
+            line-height: 0.96;
+            letter-spacing: -0.035em;
+          }
+          .alchm-home-intro {
+            max-width: 610px;
+            margin: 20px 0 0;
+            color: var(--fg-dim);
+            font-size: clamp(15px, 2vw, 18px);
+            line-height: 1.65;
+          }
+          .alchm-home-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 28px;
+          }
+          .alchm-home-primary-action,
+          .alchm-home-secondary-action {
+            display: inline-flex;
+            min-height: 46px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 650;
+            text-decoration: none;
+          }
+          .alchm-home-primary-action {
+            border: 1px solid color-mix(in oklch, var(--accent), white 12%);
+            background: var(--accent);
+            color: #110d18;
+            box-shadow: 0 10px 28px color-mix(in oklch, var(--accent), transparent 78%);
+          }
+          .alchm-home-primary-action:hover { filter: brightness(1.08); transform: translateY(-1px); }
+          .alchm-home-secondary-action {
+            border: 1px solid var(--line-hi);
+            background: rgba(255,255,255,0.035);
+            color: var(--fg-dim);
+          }
+          .alchm-home-secondary-action:hover { background: rgba(255,255,255,0.065); color: var(--fg); }
+          .alchm-home-benefits {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1px;
+            margin: 0;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--line);
+          }
+          .alchm-home-benefit {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            min-width: 0;
+            padding: 16px;
+            background: color-mix(in oklch, var(--bg-elev), transparent 6%);
+          }
+          .alchm-home-benefit-index { color: var(--accent); font-size: 9px; letter-spacing: 0.1em; }
+          .alchm-home-benefit dt { color: var(--fg); font-size: 12px; font-weight: 650; }
+          .alchm-home-benefit dd { margin: 4px 0 0; color: var(--fg-mute); font-size: 10px; line-height: 1.45; }
+          @media (max-width: 640px) {
+            .alchm-home-shell { padding-inline: 12px !important; }
+            .alchm-home-hero { padding: 28px 22px 22px; }
+            .alchm-home-actions { align-items: stretch; flex-direction: column; }
+            .alchm-home-benefits { grid-template-columns: 1fr; }
+            .alchm-home-benefit { padding: 13px 14px; }
+          }
+          .alchm-home-cookmethods :is(h1, h2, h3, h4) { color: var(--fg); }
         `}</style>
-        <h1 className="alchm-sr-only">
-          Alchm Kitchen — personalized food recommendations powered by your natal chart and the live sky
-        </h1>
+
+        <HomeHero />
 
         {/* Natal chart soft-prompt banner (shown after skip) */}
         <NatalPromptBanner />
 
-        {/* 1 · PROMO — Cosmic Token Economy */}
-        <Promotion />
-
-        {/* 2 · CUISINE RECOMMENDER */}
+        {/* 1 · CUISINE RECOMMENDER */}
         <HomeSection
-          tag="TIER III · CUISINE"
+          tag="CUISINE · LIVE RECOMMENDATION"
           title="Tonight's cuisine, tuned to the sky"
           cta={{ label: "All cuisines", href: "/cuisines" }}
         >
           <DynamicCuisineRecommender />
         </HomeSection>
 
-        {/* 3 · SAUCE RECOMMENDER */}
+        {/* 2 · SAUCE RECOMMENDER */}
         <HomeSection
-          tag="TIER III · SAUCE"
+          tag="SAUCE · CURRENT HOUR"
           title="Sauces in phase with the current hour"
           cta={{ label: "Sauce library", href: "/sauces" }}
         >
           <EnhancedSauceRecommender />
         </HomeSection>
 
-        {/* 4 · INGREDIENT RECOMMENDER (lite — full component, 70vh scroll) */}
+        {/* Welcome offer follows the core value, rather than interrupting it. */}
+        <Promotion />
+
+        {/* 3 · INGREDIENT RECOMMENDER */}
         <HomeSection
-          tag="TIER I · INGREDIENTS"
+          tag="INGREDIENTS · LIVE SKY"
           title="Ingredients aligned with the live sky"
           cta={{ label: "Open my pantry", href: "/pantry" }}
         >
@@ -272,14 +412,12 @@ export default function AlchmKitchenHome(): JSX.Element {
             </span>{" "}
             on any card to track it in your kitchen.
           </p>
-          <div className="alchm-ingredient-scroll">
-            <EnhancedIngredientRecommender />
-          </div>
+          <EnhancedIngredientRecommender compact maxItems={6} />
         </HomeSection>
 
-        {/* 5 · COOKING METHODS RECOMMENDER */}
+        {/* 4 · COOKING METHODS RECOMMENDER */}
         <HomeSection
-          tag="TIER II · COOKING METHODS"
+          tag="METHODS · CURRENT TRANSIT"
           title="Methods aligned with the current transit"
           cta={{ label: "Methods library", href: "/cooking-methods" }}
         >
@@ -306,7 +444,8 @@ export default function AlchmKitchenHome(): JSX.Element {
               color: "var(--fg-mute)",
               textDecoration: "none",
               padding: "8px 16px",
-              border: "1px dashed color-mix(in oklch, var(--accent), transparent 60%)",
+              border:
+                "1px dashed color-mix(in oklch, var(--accent), transparent 60%)",
               borderRadius: 999,
             }}
           >
