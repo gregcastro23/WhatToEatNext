@@ -365,6 +365,9 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         <HomeHero />
 
+        {/* Featured Recipe of the Month + NFT mint mechanic — leads the page. */}
+        <Promotion />
+
         {/* Natal chart soft-prompt banner (shown after skip) */}
         <NatalPromptBanner />
 
@@ -385,9 +388,6 @@ export default function AlchmKitchenHome(): JSX.Element {
         >
           <EnhancedSauceRecommender />
         </HomeSection>
-
-        {/* Welcome offer follows the core value, rather than interrupting it. */}
-        <Promotion />
 
         {/* 3 · INGREDIENT RECOMMENDER */}
         <HomeSection
