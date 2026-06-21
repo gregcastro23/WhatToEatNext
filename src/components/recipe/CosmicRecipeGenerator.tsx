@@ -8,6 +8,7 @@ import { useToast } from '@/components/common/Toast';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import { mintRecipe as submitRecipeMint, mintResultMessage } from '@/lib/recipe-nft/mintClient';
 import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
@@ -126,6 +127,25 @@ export default function CosmicRecipeGenerator() {
   const [shareNameOptIn, setShareNameOptIn] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [hasShared, setHasShared] = useState(false);
+  const [isMinting, setIsMinting] = useState(false);
+  const [hasMinted, setHasMinted] = useState(false);
+
+  const handleMintNft = async () => {
+    if (!object) return;
+    setIsMinting(true);
+    try {
+      const result = await submitRecipeMint(object);
+      const message = mintResultMessage(result);
+      if (result.ok) {
+        showSuccess(message);
+        setHasMinted(true);
+      } else {
+        showError(message);
+      }
+    } finally {
+      setIsMinting(false);
+    }
+  };
 
   const handleShareToFeed = async () => {
     if (!object || !savedRecipeId) return;
@@ -532,6 +552,18 @@ export default function CosmicRecipeGenerator() {
                   }`}
                 >
                   {hasShared ? "✓ Shared to Feed" : "📢 Share to Feed"}
+                </button>
+                <button
+                  onClick={() => { void handleMintNft(); }}
+                  disabled={isMinting || hasMinted}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
+                    hasMinted
+                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-200 dark:border-slate-750"
+                      : "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white disabled:opacity-60"
+                  }`}
+                  title="Spend ESMS equal to this recipe's alchemical fingerprint to mint it as an on-chain NFT"
+                >
+                  {hasMinted ? "✓ Minted" : isMinting ? "Minting…" : "⛓ Mint as NFT"}
                 </button>
               </div>
             )}

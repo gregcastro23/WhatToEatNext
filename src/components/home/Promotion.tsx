@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { FeaturedRecipe } from "@/components/home/FeaturedRecipe";
 import {
   cryptoFoodCheckoutEnabled,
   onchainEsmsEnabled,
@@ -229,6 +230,9 @@ export function Promotion() {
             <span className="group-hover:translate-x-1 transition-transform duration-200">&rarr;</span>
           </Link>
         </div>
+
+        {/* Featured Recipe of the Month */}
+        <FeaturedRecipe />
       </div>
     </motion.div>
   );

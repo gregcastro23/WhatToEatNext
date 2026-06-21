@@ -108,6 +108,27 @@ interface IngredientEntry {
    * as numbers; otherwise undefined so the elemental aggregator can skip
    * it (vs. polluting the recipe with defaults). */
   elemental?: ElementalProperties;
+  /** Catalog potency/intensity (typically 1-10), when declared. */
+  potency?: number;
+  /** Grams in one canonical serving (parsed from nutritionalProfile.serving_size). */
+  servingGrams?: number;
+  /** Ingredient category (e.g., culinary_herb, oil, grain, vegetable). */
+  category?: string;
+}
+
+/** Parse grams from a serving_size string: "1 cup (125g)" → 125; "3 oz" → 85. */
+function parseServingGrams(servingSize?: string): number | undefined {
+  if (!servingSize) return undefined;
+  const paren = servingSize.match(/\(([\d.]+)\s*g\)/i);
+  if (paren) return Number(paren[1]);
+  const amt = servingSize.match(/([\d.]+)\s*(oz|ounce|lb|pound|g|gram|ml|tbsp|tablespoon|tsp|teaspoon|cup)\b/i);
+  if (amt) {
+    const n = Number(amt[1]);
+    const u = amt[2].toLowerCase();
+    const g: Record<string, number> = { oz: 28.35, ounce: 28.35, lb: 453.6, pound: 453.6, g: 1, gram: 1, ml: 1, tbsp: 15, tablespoon: 15, tsp: 5, teaspoon: 5, cup: 240 };
+    if (Number.isFinite(n) && g[u]) return n * g[u];
+  }
+  return undefined;
 }
 
 /**
@@ -195,15 +216,22 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
       };
     }
 
+    const potency = typeof ing.potency === "number" ? (ing.potency) : undefined;
+    const nutri = ing.nutritionalProfile as { serving_size?: string } | undefined;
+    const servingGrams = parseServingGrams(nutri?.serving_size);
+    const category = typeof ing.category === "string" ? ing.category : undefined;
+
+    const entry: IngredientEntry = { key, alchemical, elemental, potency, servingGrams, category };
+
     // Index by normalized key
     const normalizedKey = normalizeIngredientName(key);
-    map.set(normalizedKey, { key, alchemical, elemental });
+    map.set(normalizedKey, entry);
 
     // Also index by the display name if different
     const displayName = (ing.name as string | undefined) ?? key;
     const normalizedDisplayName = normalizeIngredientName(displayName);
     if (normalizedDisplayName !== normalizedKey) {
-      map.set(normalizedDisplayName, { key, alchemical, elemental });
+      map.set(normalizedDisplayName, entry);
     }
   }
 
@@ -276,6 +304,32 @@ export function lookupIngredientAlchemical(
 ): { key: string; alchemical: IngredientAlchemicalProperties } | null {
   const entry = lookupIngredient(ingredientName);
   return entry ? { key: entry.key, alchemical: entry.alchemical } : null;
+}
+
+/**
+ * Richer lookup that also returns the ingredient's elemental profile and
+ * potency when the catalog declares them — used by the recipe-NFT fingerprint
+ * for potency-weighted, ingredient-derived aggregation.
+ */
+export function lookupIngredientFull(ingredientName: string): {
+  key: string;
+  alchemical: IngredientAlchemicalProperties;
+  elemental?: ElementalProperties;
+  potency?: number;
+  servingGrams?: number;
+  category?: string;
+} | null {
+  const entry = lookupIngredient(ingredientName);
+  return entry
+    ? {
+        key: entry.key,
+        alchemical: entry.alchemical,
+        elemental: entry.elemental,
+        potency: entry.potency,
+        servingGrams: entry.servingGrams,
+        category: entry.category,
+      }
+    : null;
 }
 
 /**
