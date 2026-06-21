@@ -41,7 +41,7 @@ We operate a three-project loop:
 
 ### 🛠 In flight
 
-- **Web3 go-live** — on-chain ESMS (Base) + StarVault (Arc) + Bazaar spend side; both chains undeployed, pre-launch controls pending (see `NEXT_SESSION_PROMPT_WEB3_GOLIVE.md`).
+- **Web3 go-live** — on-chain ESMS (Base) + StarVault (Arc) + Bazaar spend side; both chains undeployed, pre-launch controls pending.
 - **PA-side counterparts** — transit→group-chat (`/api/internal/group-chat`) and a few sync endpoints still pending on the Planetary Agents backend; WTEN falls back gracefully until they ship.
 
 _Done since 3.1:_ the WTEN UI migration from `planetary_agents-main` (all 11 sessions complete — plan file retired) and real planetary-alchemy recommendations (mock fallbacks replaced in the live recommendation/cuisine path).
@@ -258,7 +258,6 @@ Public API unchanged — no consumers touched.
 - `README.md` — project overview
 - `docs/API_REFERENCE.md` — all `/api/*` routes
 - `docs/adr/001–007` — Architecture Decision Records (006 = operational admin dashboard, 007 = PgBouncer transaction mode)
-- `NEXT_SESSION_PROMPT_WEB3_GOLIVE.md` — web3 go-live handoff (separate from the WTEN UI work)
 
 ---
 
