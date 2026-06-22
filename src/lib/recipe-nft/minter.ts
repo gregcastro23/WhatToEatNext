@@ -11,7 +11,7 @@
  * a backfill can mint pending rows once addresses are configured.
  */
 
-import { createWalletClient, http, type Address, type Hex } from "viem";
+import { createWalletClient, decodeEventLog, http, type Address, type Hex, type Log } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import {
   RECIPE_RELATION,
@@ -112,9 +112,11 @@ export async function mintRecipeOnChain(input: MintOnChainInput): Promise<MintOn
     if (receipt.status !== "success") {
       return { status: "failed", chain: chain.name, txHash, reason: "tx-reverted" };
     }
-    // tokenId is emitted in the RecipeMinted event; the backfill/decoder fills it
-    // from logs. We record the tx now and resolve the id asynchronously.
-    return { status: "minted", chain: chain.name, txHash };
+    // tokenId is only observable from the RecipeMinted event log (writeContract
+    // returns just a hash). Decode it now; the backfill script recovers it for
+    // any rows where this synchronous decode came up empty.
+    const tokenId = decodeMintedTokenId(receipt.logs, registry);
+    return { status: "minted", chain: chain.name, txHash, tokenId };
   } catch (err) {
     return {
       status: "failed",
@@ -127,4 +129,29 @@ export async function mintRecipeOnChain(input: MintOnChainInput): Promise<MintOn
 /** The wallet that receives the minted token (the configured rights holder). */
 export function defaultRecipient(): Address {
   return RIGHTS_HOLDER;
+}
+
+/**
+ * Extract the assigned tokenId from a mint tx's receipt logs by decoding the
+ * RecipeMinted event emitted by the registry. Returns undefined if no matching
+ * event is found. Shared by the live mint path and the backfill script.
+ */
+export function decodeMintedTokenId(logs: readonly Log[], registry: Address): string | undefined {
+  const target = registry.toLowerCase();
+  for (const log of logs) {
+    if (log.address.toLowerCase() !== target) continue;
+    try {
+      const ev = decodeEventLog({
+        abi: recipeRegistryAbi,
+        data: log.data,
+        topics: log.topics,
+      });
+      if (ev.eventName !== "RecipeMinted") continue;
+      const args = ev.args as unknown as { tokenId: bigint };
+      return args.tokenId.toString();
+    } catch {
+      // not the RecipeMinted event — keep scanning
+    }
+  }
+  return undefined;
 }

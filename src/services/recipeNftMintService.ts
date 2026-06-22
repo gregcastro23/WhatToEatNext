@@ -72,6 +72,26 @@ export const recipeNftMintService = {
     }
   },
 
+  /**
+   * Backfill the on-chain token id once it has been decoded from the
+   * RecipeMinted event (the mint tx records only the hash). Returns true when a
+   * row was updated. Used by scripts/backfill-recipe-token-ids.ts.
+   */
+  async updateTokenId(contentHash: string, tokenId: string): Promise<boolean> {
+    try {
+      const res = await executeQuery(
+        `UPDATE recipe_nft_mints
+            SET token_id = $2
+          WHERE content_hash = $1 AND token_id IS NULL`,
+        [contentHash, tokenId],
+      );
+      return (res.rowCount ?? 0) > 0;
+    } catch (err) {
+      console.error("updateTokenId failed", err);
+      return false;
+    }
+  },
+
   /** Has this exact recipe content already been minted? */
   async findByContentHash(contentHash: string): Promise<{ id: string; status: string } | null> {
     try {

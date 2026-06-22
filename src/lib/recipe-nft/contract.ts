@@ -75,6 +75,29 @@ export const recipeRegistryAbi = [
     inputs: [{ name: "tokenId", type: "uint256" }],
     outputs: [{ name: "", type: "string" }],
   },
+  {
+    // Emitted by mintRecipe — the only place the assigned tokenId is observable
+    // from a tx receipt (writeContract returns just a hash, not the return
+    // value). Decoded from the receipt logs to backfill recipe_nft_mints.token_id.
+    type: "event",
+    name: "RecipeMinted",
+    anonymous: false,
+    inputs: [
+      { name: "tokenId", type: "uint256", indexed: true },
+      { name: "rightsId", type: "bytes32", indexed: true },
+      { name: "contentHash", type: "bytes32", indexed: true },
+      { name: "creator", type: "address", indexed: false },
+      { name: "recipient", type: "address", indexed: false },
+      { name: "parentTokenId", type: "uint256", indexed: false },
+      { name: "relation", type: "uint8", indexed: false },
+      { name: "engineVersion", type: "uint64", indexed: false },
+      { name: "computationHash", type: "bytes32", indexed: false },
+      { name: "ingredientCatalogRoot", type: "bytes32", indexed: false },
+      { name: "licenseHash", type: "bytes32", indexed: false },
+      { name: "contentURI", type: "string", indexed: false },
+      { name: "metadataURI", type: "string", indexed: false },
+    ],
+  },
 ] as const;
 
 export const rightsRegistryAbi = [
