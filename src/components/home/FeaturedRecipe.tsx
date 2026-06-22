@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { RecipeNftMintPanel } from "@/components/home/RecipeNftMintPanel";
+import { RecipeNftMintPanel, type QuoteResponse } from "@/components/home/RecipeNftMintPanel";
 import { FEATURED_RECIPE_META, featuredRecipe } from "@/data/featuredRecipe";
 import { elementalSignature } from "@/utils/elemental";
 
@@ -12,6 +12,35 @@ const ELEMENT_ROWS = [
   { key: "air", name: "Air", icon: "💨", bar: "bg-amber-400", text: "text-amber-300" },
   { key: "water", name: "Water", icon: "💧", bar: "bg-blue-500", text: "text-blue-400" },
 ] as const;
+
+const MIN_SERVINGS = 1;
+const MAX_SERVINGS = 24;
+
+/** Parse a recipe quantity ("2", "0.5", "1/2", "1 1/2") to a number, or null. */
+function parseQty(raw: string): number | null {
+  const s = raw.trim();
+  const mixed = s.match(/^(\d+)\s+(\d+)\/(\d+)$/);
+  if (mixed) return Number(mixed[1]) + Number(mixed[2]) / Number(mixed[3]);
+  const frac = s.match(/^(\d+)\/(\d+)$/);
+  if (frac) return Number(frac[1]) / Number(frac[2]);
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Tidy a scaled amount: integers stay integers, else up to 2 decimals, no trailing zeros. */
+function formatQty(n: number): string {
+  const rounded = Math.round(n * 100) / 100;
+  if (Number.isInteger(rounded)) return String(rounded);
+  return rounded.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+}
+
+/** Scale a displayed ingredient amount by the serving factor (unparseable amounts pass through). */
+function scaleAmount(quantity: string, factor: number): string {
+  if (factor === 1) return quantity;
+  const n = parseQty(quantity);
+  if (n === null) return quantity;
+  return formatQty(n * factor);
+}
 
 /**
  * Featured Recipe of the Month — a self-contained block rendered inside the
@@ -24,19 +53,12 @@ export function FeaturedRecipe() {
 
   const recipe = featuredRecipe;
 
-  // Reconcile the displayed signature with what the NFT actually commits: the
-  // mint-quote returns the ingredient-derived (potency-weighted) elemental
-  // shares, so the badge + bars match the on-chain fingerprint rather than the
-  // authored elementalBalance seed. Falls back to the authored values until the
-  // quote resolves.
-  const [derived, setDerived] = useState<
-    { Fire: number; Water: number; Earth: number; Air: number } | null
-  >(null);
-  // Smart default servings (yield-limiting), computed server-side from the
-  // ingredient amounts vs catalog serving sizes.
-  const [smartServes, setSmartServes] = useState<number | null>(null);
-  const [servesLimitedBy, setServesLimitedBy] = useState<string | null>(null);
-  // Hero image — generated via the live nanobanana pipeline (Redis-cached).
+  // One shared mint-quote fetch for the whole featured block: it drives the
+  // ingredient-derived signature (badge + bars), the smart-default servings, and
+  // is handed straight to the mint panel below (which no longer self-fetches).
+  const [quote, setQuote] = useState<QuoteResponse | null>(null);
+  const [quoteError, setQuoteError] = useState(false);
+  // Hero image — generated via the live image pipeline (Redis-cached).
   const [heroImage, setHeroImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -59,17 +81,21 @@ export function FeaturedRecipe() {
     fetch("/api/recipes/featured/mint-quote")
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((j) => {
-        if (!active) return;
-        const el = j?.fingerprint?.elemental;
-        if (el) setDerived({ Fire: el.Fire, Water: el.Water, Earth: el.Earth, Air: el.Air });
-        if (typeof j?.fingerprint?.smartServings === "number") setSmartServes(j.fingerprint.smartServings);
-        if (typeof j?.fingerprint?.servingsLimitedBy === "string") setServesLimitedBy(j.fingerprint.servingsLimitedBy);
+        if (active) setQuote(j as QuoteResponse);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (active) setQuoteError(true);
+      });
     return () => {
       active = false;
     };
   }, []);
+
+  // Ingredient-derived signature + smart servings come from the shared quote;
+  // fall back to the authored values until (or unless) it resolves.
+  const derived = quote?.fingerprint?.elemental ?? null;
+  const smartServes = quote?.fingerprint?.smartServings ?? null;
+  const servesLimitedBy = quote?.fingerprint?.servingsLimitedBy ?? null;
 
   const shares = useMemo(
     () =>
@@ -85,6 +111,24 @@ export function FeaturedRecipe() {
   const signature = useMemo(() => elementalSignature(shares), [shares]);
 
   const coDominantSet = new Set(signature.coDominant.map((e) => e.toLowerCase()));
+
+  // Servings adjuster (cooking convenience): scales the DISPLAYED ingredient
+  // amounts only. The mint cost stays the recipe's intrinsic per-serving
+  // fingerprint — it is computed server-side and never reads a client serving
+  // count, so the selector can't change what a mint charges.
+  const baseServings = smartServes ?? recipe.yields;
+  const [servingsOverride, setServingsOverride] = useState<number | null>(null);
+  const servings = servingsOverride ?? baseServings;
+  const scaleFactor = baseServings > 0 ? servings / baseServings : 1;
+  // Only let the stepper run once the quote has settled, so baseServings can't
+  // jump (recipe.yields → smartServings) under an in-progress override and
+  // silently re-scale the displayed amounts. On quote error it stays at yields.
+  const servingsReady = quote !== null || quoteError;
+  // Functional updater so rapid +/- clicks accumulate off the latest value.
+  const stepServings = (delta: number) =>
+    setServingsOverride((prev) =>
+      Math.max(MIN_SERVINGS, Math.min(MAX_SERVINGS, (prev ?? baseServings) + delta)),
+    );
 
   const steps = [...recipe.steps].sort(
     (a, b) => a.step_number - b.step_number,
@@ -105,6 +149,7 @@ export function FeaturedRecipe() {
                 src={heroImage}
                 alt={recipe.title}
                 loading="lazy"
+                onError={() => setHeroImage(null)}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0a]/70 via-transparent to-transparent pointer-events-none" />
@@ -139,15 +184,45 @@ export function FeaturedRecipe() {
               <span className="text-white/80 font-semibold">{recipe.total_time} min</span>
             </div>
             <div
-              className="flex items-baseline gap-1.5"
+              className="flex items-center gap-1.5"
               title={
-                servesLimitedBy
-                  ? `Smart default — yield-limited by ${servesLimitedBy}; adjustable when viewing the recipe`
-                  : "Smart default servings; adjustable when viewing the recipe"
+                `${servesLimitedBy
+                  ? `Smart default — yield-limited by ${servesLimitedBy}. `
+                  : "Smart default servings. " 
+                }Adjust to scale the ingredient list; the mint cost is the recipe's fixed per-serving fingerprint.`
               }
             >
               <span className="text-white/35 uppercase tracking-wider text-[10px] font-bold">Serves</span>
-              <span className="text-white/80 font-semibold">{smartServes ?? recipe.yields}</span>
+              <div className="inline-flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => stepServings(-1)}
+                  disabled={!servingsReady || servings <= MIN_SERVINGS}
+                  aria-label="Fewer servings"
+                  className="w-5 h-5 flex items-center justify-center rounded-md bg-white/[0.04] border border-white/10 text-white/60 hover:text-white hover:border-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-colors leading-none"
+                >
+                  −
+                </button>
+                <span className="text-white/80 font-semibold tabular-nums w-5 text-center">{servings}</span>
+                <button
+                  type="button"
+                  onClick={() => stepServings(1)}
+                  disabled={!servingsReady || servings >= MAX_SERVINGS}
+                  aria-label="More servings"
+                  className="w-5 h-5 flex items-center justify-center rounded-md bg-white/[0.04] border border-white/10 text-white/60 hover:text-white hover:border-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-colors leading-none"
+                >
+                  +
+                </button>
+                {servingsOverride !== null && servingsOverride !== baseServings && (
+                  <button
+                    type="button"
+                    onClick={() => setServingsOverride(null)}
+                    className="ml-1 text-[9px] uppercase tracking-wider text-amber-300/70 hover:text-amber-200 transition-colors"
+                  >
+                    reset
+                  </button>
+                )}
+              </div>
             </div>
             <div className="flex items-baseline gap-1.5">
               <span className="text-white/35 uppercase tracking-wider text-[10px] font-bold">Level</span>
@@ -231,8 +306,9 @@ export function FeaturedRecipe() {
             </div>
           </div>
 
-          {/* Mint this recipe as an NFT — the featured mechanic */}
-          <RecipeNftMintPanel />
+          {/* Mint this recipe as an NFT — the featured mechanic. Fed the shared
+              quote so it doesn't re-fetch; falls back to its own fetch standalone. */}
+          <RecipeNftMintPanel quote={quote} quoteError={quoteError} />
 
           {/* Expand / collapse */}
           <button
@@ -253,6 +329,11 @@ export function FeaturedRecipe() {
               <div className="lg:col-span-2">
                 <h4 className="text-[11px] font-bold text-white/45 uppercase tracking-widest mb-3">
                   Ingredients · {recipe.ingredients.length}
+                  {scaleFactor !== 1 && (
+                    <span className="ml-2 text-amber-300/60 normal-case tracking-normal font-medium">
+                      scaled to {servings} serving{servings === 1 ? "" : "s"}
+                    </span>
+                  )}
                 </h4>
                 <ul className="space-y-2">
                   {recipe.ingredients.map((ing) => (
@@ -267,7 +348,7 @@ export function FeaturedRecipe() {
                         )}
                       </span>
                       <span className="text-amber-300/90 font-medium whitespace-nowrap">
-                        {ing.quantity} {ing.unit}
+                        {scaleAmount(ing.quantity, scaleFactor)} {ing.unit}
                       </span>
                     </li>
                   ))}

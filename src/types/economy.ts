@@ -61,7 +61,15 @@ export type TransactionSourceType =
    * exact ESMS basket. Idempotency key shape: `restaurant_refund:<orderId>`.
    * See src/app/api/admin/restaurants/settlement/route.ts.
    */
-  | "restaurant_refund";
+  | "restaurant_refund"
+  /**
+   * Re-credit of a `recipe-nft-mint` debit when the off-chain mint could not be
+   * recorded — e.g. a concurrent mint of the same recipe content won the
+   * content_hash race, or the ledger write failed after the ESMS was debited.
+   * Makes the off-chain spend exactly-once per content hash. Idempotency key
+   * shape: `mint_refund:<contentHash>`. See src/app/api/recipes/mint/route.ts.
+   */
+  | "mint_refund";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
