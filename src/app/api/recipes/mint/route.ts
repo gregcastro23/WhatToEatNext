@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { applyPersonalizedPricing, getPersonalizedPricingContext } from "@/lib/economy/livePricing";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { getPrivyWallet } from "@/lib/privy/server";
 import { buildMetadata, computeCommitments } from "@/lib/recipe-nft/content";
+import { recipeNftEnabled } from "@/lib/recipe-nft/contract";
 import { baseMintCost, elementToCoin, redistributeTowardDominant } from "@/lib/recipe-nft/cost";
 import { computeRecipeFingerprint } from "@/lib/recipe-nft/fingerprint";
 import { generateRecipeImage } from "@/lib/recipe-nft/image";
@@ -15,9 +17,13 @@ import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
 import { getSelfBaseUrl } from "@/utils/urlUtils";
 import type { NextRequest } from "next/server";
+import type { Address } from "viem";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+/** A 20-byte EVM address (case-insensitive). */
+const EVM_ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
 /**
  * Mint a recipe as an NFT — backend-sponsored. The user spends ESMS (all four
@@ -91,6 +97,14 @@ export async function POST(request: NextRequest) {
         { status: 402 },
       );
     }
+    if (purchase.reason === "item_not_found") {
+      // The recipe-nft-mint shop row is absent — migration 55 hasn't been
+      // applied to this environment. Surface a clear, diagnosable reason.
+      return NextResponse.json(
+        { error: "mint_unavailable", detail: "Recipe minting isn't configured on this server yet." },
+        { status: 503 },
+      );
+    }
     return NextResponse.json({ error: purchase.reason }, { status: 503 });
   }
 
@@ -109,9 +123,23 @@ export async function POST(request: NextRequest) {
   const metadataURI = `${base}/api/recipes/nft/metadata/${commitments.contentHash}`;
   const metadata = buildMetadata(recipe, fingerprint, { imageUrl, externalUrl: `${base}/recipe-builder` });
 
+  // Recipient = the user's own linked Base wallet when known, else the rights
+  // holder (custody, matching the gas-free claim-mint model). Resolved purely
+  // server-side from the authenticated user — a client-sent address is never
+  // trusted. The live Privy lookup only runs once on-chain minting is enabled,
+  // since the recipient is otherwise unused (pending_chain).
+  let recipient: Address = defaultRecipient();
+  const storedWallet = dbUser?.walletAddress;
+  if (storedWallet && EVM_ADDRESS.test(storedWallet)) {
+    recipient = storedWallet as Address;
+  } else if (dbUser?.privyDid && recipeNftEnabled()) {
+    const liveWallet = await getPrivyWallet(dbUser.privyDid);
+    if (liveWallet && EVM_ADDRESS.test(liveWallet)) recipient = liveWallet as Address;
+  }
+
   // Backend-sponsored on-chain mint (gated → pending_chain until deployed).
   const chainResult = await mintRecipeOnChain({
-    recipient: defaultRecipient(),
+    recipient,
     commitments,
     engineVersion: fingerprint.engineVersion,
     contentURI,
@@ -140,9 +168,39 @@ export async function POST(request: NextRequest) {
     imageUrl,
   });
 
+  // No ledger row written despite a successful debit → either a concurrent mint
+  // of this exact content won the content_hash race, or the write failed. The
+  // user got no token, so refund the ESMS (idempotent) to keep the off-chain
+  // spend exactly-once per content hash.
+  if (!record) {
+    await tokenEconomy.creditMultipleTokens(
+      userId,
+      [
+        { tokenType: "Spirit", amount: cost.spirit },
+        { tokenType: "Essence", amount: cost.essence },
+        { tokenType: "Matter", amount: cost.matter },
+        { tokenType: "Substance", amount: cost.substance },
+      ],
+      "mint_refund",
+      {
+        sourceId: purchase.transactionGroupId,
+        description: `Refund — mint not recorded: ${recipe.title}`,
+        idempotencyKey: `mint_refund:${commitments.contentHash}`,
+      },
+    );
+    const dupe = await recipeNftMintService.findByContentHash(commitments.contentHash);
+    if (dupe) {
+      return NextResponse.json(
+        { error: "already_minted", mintId: dupe.id, status: dupe.status, refunded: true },
+        { status: 409 },
+      );
+    }
+    return NextResponse.json({ error: "mint_record_failed", refunded: true }, { status: 500 });
+  }
+
   return NextResponse.json({
     success: true,
-    mintId: record?.id ?? null,
+    mintId: record.id,
     status: chainResult.status,
     pending: chainResult.status === "pending_chain",
     reason: chainResult.reason,
