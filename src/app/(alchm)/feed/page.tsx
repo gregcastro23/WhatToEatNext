@@ -1,11 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
-import Header from "@/components/Header";
 import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
@@ -76,11 +81,34 @@ const TAB_NAV = [
 
 type TabId = (typeof TAB_NAV)[number]["id"];
 
-const TOKEN_VISUAL: Record<string, { symbol: string; color: string; bg: string; border: string }> = {
-  Spirit:    { symbol: "🝇", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-400/25" },
-  Essence:   { symbol: "🝑", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-400/25" },
-  Matter:    { symbol: "🝙", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-400/25" },
-  Substance: { symbol: "🝉", color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-400/25" },
+const TOKEN_VISUAL: Record<
+  string,
+  { symbol: string; color: string; bg: string; border: string }
+> = {
+  Spirit: {
+    symbol: "🝇",
+    color: "text-amber-400",
+    bg: "bg-amber-500/10",
+    border: "border-amber-400/25",
+  },
+  Essence: {
+    symbol: "🝑",
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+    border: "border-blue-400/25",
+  },
+  Matter: {
+    symbol: "🝙",
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-400/25",
+  },
+  Substance: {
+    symbol: "🝉",
+    color: "text-purple-400",
+    bg: "bg-purple-500/10",
+    border: "border-purple-400/25",
+  },
 };
 
 const ELEMENT_TINT: Record<string, string> = {
@@ -120,55 +148,106 @@ function getEventNarration(event: FeedEvent) {
 export default function FeedPage() {
   const [activeTab, setActiveTab] = useState<TabId>("feed");
   const [events, setEvents] = useState<FeedEvent[]>([]);
-  const [historicalItems, setHistoricalItems] = useState<HistoricalAgentFeedItem[]>([]);
+  const [historicalItems, setHistoricalItems] = useState<
+    HistoricalAgentFeedItem[]
+  >([]);
   const [agents, setAgents] = useState<AgentSummary[]>([]);
   const [transactions, setTransactions] = useState<NetworkTransaction[]>([]);
   const [swapContext, setSwapContext] = useState<SwapRateContext | null>(null);
-  const [loading, setLoading] = useState({ feed: true, agents: true, transactions: true, swap: true });
+  const [loading, setLoading] = useState({
+    feed: true,
+    agents: true,
+    transactions: true,
+    swap: true,
+  });
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [loadWarning, setLoadWarning] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const requestInFlight = useRef(false);
 
-  const refreshAll = useCallback(async () => {
-    const [feedRes, agentsRes, txnRes, ratesRes, historicalRes] = await Promise.allSettled([
-      fetch("/api/feed?limit=40"),
-      fetch("/api/community/agents?limit=80"),
-      fetch("/api/economy/transactions/recent?limit=40"),
-      fetch("/api/economy/swap-rates"),
-      fetchHistoricalAgentFeed(40),
-    ]);
+  const refreshAll = useCallback(async (manual = false) => {
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
+    if (manual) setIsRefreshing(true);
 
-    if (feedRes.status === "fulfilled" && feedRes.value.ok) {
-      const data = await feedRes.value.json();
-      if (data.success) setEvents(data.events || []);
-    }
-    if (historicalRes.status === "fulfilled") {
-      setHistoricalItems(historicalRes.value);
-    }
-    setLoading((prev) => ({ ...prev, feed: false }));
+    try {
+      const [feedRes, agentsRes, txnRes, ratesRes, historicalRes] =
+        await Promise.allSettled([
+          fetch("/api/feed?limit=40"),
+          fetch("/api/community/agents?limit=80"),
+          fetch("/api/economy/transactions/recent?limit=40"),
+          fetch("/api/economy/swap-rates"),
+          fetchHistoricalAgentFeed(40),
+        ]);
+      let failedSources = 0;
 
-    if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-      const data = await agentsRes.value.json();
-      if (data.success) setAgents(data.agents || []);
-    }
-    setLoading((prev) => ({ ...prev, agents: false }));
-
-    if (txnRes.status === "fulfilled" && txnRes.value.ok) {
-      const data = await txnRes.value.json();
-      if (data.success) setTransactions(data.transactions || []);
-    }
-    setLoading((prev) => ({ ...prev, transactions: false }));
-
-    if (ratesRes.status === "fulfilled" && ratesRes.value.ok) {
-      const data = await ratesRes.value.json();
-      if (data.success) {
-        setSwapContext({
-          rulingHourPlanet: data.rulingHourPlanet,
-          rulingDayPlanet: data.rulingDayPlanet,
-          rates: data.rates,
-          generatedAt: data.generatedAt,
-          validUntil: data.validUntil,
-        });
+      if (feedRes.status === "fulfilled" && feedRes.value.ok) {
+        const data = await feedRes.value.json();
+        if (data.success) setEvents(data.events || []);
+      } else {
+        failedSources += 1;
       }
+      if (historicalRes.status === "fulfilled") {
+        setHistoricalItems(historicalRes.value);
+      } else {
+        failedSources += 1;
+      }
+      setLoading((prev) => ({ ...prev, feed: false }));
+
+      if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
+        const data = await agentsRes.value.json();
+        if (data.success) setAgents(data.agents || []);
+      } else {
+        failedSources += 1;
+      }
+      setLoading((prev) => ({ ...prev, agents: false }));
+
+      if (txnRes.status === "fulfilled" && txnRes.value.ok) {
+        const data = await txnRes.value.json();
+        if (data.success) setTransactions(data.transactions || []);
+      } else {
+        failedSources += 1;
+      }
+      setLoading((prev) => ({ ...prev, transactions: false }));
+
+      if (ratesRes.status === "fulfilled" && ratesRes.value.ok) {
+        const data = await ratesRes.value.json();
+        if (data.success) {
+          setSwapContext({
+            rulingHourPlanet: data.rulingHourPlanet,
+            rulingDayPlanet: data.rulingDayPlanet,
+            rates: data.rates,
+            generatedAt: data.generatedAt,
+            validUntil: data.validUntil,
+          });
+        }
+      } else {
+        failedSources += 1;
+      }
+      setLoading((prev) => ({ ...prev, swap: false }));
+
+      if (failedSources > 0) {
+        setLoadWarning(
+          `${failedSources} network source${failedSources === 1 ? " is" : "s are"} temporarily unavailable. Showing the latest data we have.`,
+        );
+      } else {
+        setLoadWarning(null);
+      }
+      setLastUpdated(new Date());
+    } catch {
+      setLoadWarning(
+        "The network returned an unexpected response. Showing the latest data we have.",
+      );
+      setLoading({
+        feed: false,
+        agents: false,
+        transactions: false,
+        swap: false,
+      });
+    } finally {
+      requestInFlight.current = false;
+      setIsRefreshing(false);
     }
-    setLoading((prev) => ({ ...prev, swap: false }));
   }, []);
 
   // The 30s HTTP poll stays in place: it covers agents/transactions/swap
@@ -177,7 +256,7 @@ export default function FeedPage() {
   useEffect(() => {
     void refreshAll();
     const id = window.setInterval(() => {
-      void refreshAll();
+      if (document.visibilityState === "visible") void refreshAll();
     }, 30_000);
     return () => window.clearInterval(id);
   }, [refreshAll]);
@@ -192,68 +271,159 @@ export default function FeedPage() {
     [liveEvents, events],
   );
 
-  return (
-    <main className="min-h-screen bg-[#08080e] pb-24">
-      <Header onServingsChange={() => {}} />
+  const visibleActivityCount = useMemo(
+    () =>
+      mergedEvents.filter((event) => !event.actorIsAgent).length +
+      historicalItems.length,
+    [historicalItems.length, mergedEvents],
+  );
 
+  const tabCounts: Partial<Record<TabId, number>> = {
+    feed: visibleActivityCount,
+    agents: agents.length,
+    transactions: transactions.length,
+  };
+
+  return (
+    <div className="min-h-screen bg-[#08080e] pb-28">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-950/20 via-[#08080e] to-amber-950/10" />
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px]" />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-32">
-        <header className="mb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-base border border-white/8 mb-4">
-            <span className="text-purple-400 text-lg">🌐</span>
-            <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 md:pt-28">
+        <header className="mb-7 grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
+          <div>
+            <div className="inline-flex items-center gap-2 mb-4 text-[10px] font-black text-purple-300/70 uppercase tracking-[0.32em]">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
               The Astral Network
-            </span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black text-white tracking-[-0.055em] leading-[0.94] mb-4">
+              The kitchen is
+              <br className="hidden sm:block" /> alive.
+            </h1>
+            <p className="text-white/48 text-sm md:text-base leading-relaxed max-w-2xl">
+              Follow what alchemists are making, meet the agents shaping the
+              network, and read the ESMS ledger in real time.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-3 alchm-gradient-text uppercase">
-            Live Network Feed
-          </h1>
-          <p className="text-white/40 text-sm max-w-xl mx-auto">
-            Live updates from human alchemists and historical planetary agents — plus
-            the cross-network ledger and a planetary-influenced ESMS swap floor.
-          </p>
 
-          {swapContext && (
-            <div className="mt-5 inline-flex items-center gap-3 px-4 py-2 rounded-full glass-base border border-purple-400/15">
-              <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">
-                Now Ruling
+          <aside
+            className="rounded-2xl border border-white/10 bg-white/[0.035] p-4 backdrop-blur-xl"
+            aria-label="Network pulse"
+          >
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <span className="text-[9px] font-black text-white/35 uppercase tracking-[0.28em]">
+                Network pulse
               </span>
-              <span className="text-white/85 text-sm">
-                {PLANET_GLYPH[swapContext.rulingHourPlanet] || "✨"} {swapContext.rulingHourPlanet} hour
-              </span>
-              <span className="text-white/30">·</span>
-              <span className="text-white/60 text-xs">
-                {PLANET_GLYPH[swapContext.rulingDayPlanet] || "✨"} {swapContext.rulingDayPlanet} day
+              <span
+                className={`inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest ${liveEvents !== null ? "text-emerald-300" : "text-amber-300"}`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${liveEvents !== null ? "bg-emerald-400" : "bg-amber-400"}`}
+                />
+                {liveEvents !== null ? "Realtime" : "30s refresh"}
               </span>
             </div>
-          )}
+            <div className="grid grid-cols-3 gap-3">
+              <PulseMetric value={visibleActivityCount} label="Signals" />
+              <PulseMetric value={agents.length} label="Agents" />
+              <PulseMetric value={transactions.length} label="Ledger" />
+            </div>
+            {swapContext && (
+              <div className="mt-4 pt-3 border-t border-white/8 flex items-center justify-between gap-3 text-xs">
+                <span className="text-white/35 uppercase tracking-widest text-[9px]">
+                  Ruling hour
+                </span>
+                <span className="text-white/75">
+                  {PLANET_GLYPH[swapContext.rulingHourPlanet] || "✨"}{" "}
+                  {swapContext.rulingHourPlanet}
+                </span>
+              </div>
+            )}
+          </aside>
         </header>
 
-        <nav className="flex flex-wrap justify-center gap-2 mb-8">
-          {TAB_NAV.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all border ${
-                activeTab === tab.id
-                  ? "bg-purple-600 text-white border-purple-400 shadow-lg shadow-purple-900/40"
-                  : "bg-white/[0.02] text-white/50 border-white/10 hover:text-white/80 hover:border-white/20"
-              }`}
+        <div className="mb-7 flex flex-col gap-3 border-y border-white/8 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <nav
+            aria-label="Network sections"
+            className="flex gap-1 overflow-x-auto pb-1 sm:pb-0"
+          >
+            {TAB_NAV.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                aria-pressed={activeTab === tab.id}
+                aria-label={`${tab.label}${tabCounts[tab.id] !== undefined ? ` (${tabCounts[tab.id]})` : ""}`}
+                className={`shrink-0 min-h-11 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${
+                  activeTab === tab.id
+                    ? "bg-white text-[#0b0911] border-white shadow-lg shadow-white/10"
+                    : "bg-white/[0.02] text-white/50 border-white/10 hover:text-white/80 hover:border-white/20"
+                }`}
+              >
+                <span className="mr-2">{tab.icon}</span>
+                {tab.label}
+                {tabCounts[tab.id] !== undefined && (
+                  <span
+                    className={`ml-2 font-mono ${activeTab === tab.id ? "text-black/45" : "text-white/25"}`}
+                  >
+                    {tabCounts[tab.id]}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+          <div className="flex items-center justify-between gap-3 sm:justify-end">
+            <span
+              className="text-[9px] uppercase tracking-widest text-white/25"
+              aria-live="polite"
             >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
+              {lastUpdated
+                ? `Updated ${lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+                : "Connecting…"}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                void refreshAll(true);
+              }}
+              disabled={isRefreshing}
+              className="min-h-10 rounded-full border border-white/10 bg-white/[0.03] px-3 text-[9px] font-black uppercase tracking-widest text-white/55 transition hover:border-white/20 hover:text-white disabled:cursor-wait disabled:opacity-50"
+            >
+              <span
+                aria-hidden="true"
+                className={isRefreshing ? "inline-block animate-spin" : ""}
+              >
+                ↻
+              </span>{" "}
+              {isRefreshing ? "Refreshing" : "Refresh"}
             </button>
-          ))}
-        </nav>
+          </div>
+        </div>
+
+        {loadWarning && (
+          <div
+            className="mb-5 flex items-start gap-3 rounded-2xl border border-amber-400/20 bg-amber-400/[0.07] px-4 py-3 text-xs text-amber-100/75"
+            role="status"
+          >
+            <span aria-hidden="true">◌</span>
+            <p>{loadWarning}</p>
+          </div>
+        )}
 
         <AnimatePresence mode="wait">
           {activeTab === "feed" && (
-            <motion.div key="feed" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-              <FeedTab events={mergedEvents} historicalItems={historicalItems} loading={loading.feed} />
+            <motion.div
+              key="feed"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <FeedTab
+                events={mergedEvents}
+                historicalItems={historicalItems}
+                loading={loading.feed}
+              />
               {liveEvents !== null && (
                 <div className="mt-3 text-center">
                   <span
@@ -267,23 +437,58 @@ export default function FeedPage() {
             </motion.div>
           )}
           {activeTab === "agents" && (
-            <motion.div key="agents" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+            <motion.div
+              key="agents"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
               <AgentsTab agents={agents} loading={loading.agents} />
             </motion.div>
           )}
           {activeTab === "transactions" && (
-            <motion.div key="transactions" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-              <TransactionsTab transactions={transactions} loading={loading.transactions} />
+            <motion.div
+              key="transactions"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <TransactionsTab
+                transactions={transactions}
+                loading={loading.transactions}
+              />
             </motion.div>
           )}
           {activeTab === "swap" && (
-            <motion.div key="swap" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-              <SwapTab context={swapContext} loading={loading.swap} onSwapComplete={() => { void refreshAll(); }} />
+            <motion.div
+              key="swap"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <SwapTab
+                context={swapContext}
+                loading={loading.swap}
+                onSwapComplete={() => {
+                  void refreshAll();
+                }}
+              />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-    </main>
+    </div>
+  );
+}
+
+function PulseMetric({ value, label }: { value: number; label: string }) {
+  return (
+    <div>
+      <p className="font-mono text-xl tabular-nums text-white">{value}</p>
+      <p className="mt-0.5 text-[8px] font-bold uppercase tracking-widest text-white/30">
+        {label}
+      </p>
+    </div>
   );
 }
 
@@ -292,6 +497,15 @@ export default function FeedPage() {
 type FeedRow =
   | { kind: "human"; id: string; ts: number; event: FeedEvent }
   | { kind: "agent"; id: string; ts: number; item: HistoricalAgentFeedItem };
+
+const FEED_FILTERS = [
+  { id: "all", label: "Everything" },
+  { id: "people", label: "People" },
+  { id: "agents", label: "Agents" },
+  { id: "cosmic", label: "Cosmic" },
+] as const;
+
+type FeedFilter = (typeof FEED_FILTERS)[number]["id"];
 
 function FeedTab({
   events,
@@ -302,6 +516,9 @@ function FeedTab({
   historicalItems: HistoricalAgentFeedItem[];
   loading: boolean;
 }) {
+  const [filter, setFilter] = useState<FeedFilter>("all");
+  const reduceMotion = useReducedMotion();
+
   // Retain human-alchemist activity; retire the planetary-agent posts (all
   // current `feed_events` agents) by filtering them out, and merge in the
   // historical-agent recipe posts + yield claims, sorted chronologically.
@@ -323,10 +540,45 @@ function FeedTab({
     return [...humanRows, ...agentRows].sort((a, b) => b.ts - a.ts);
   }, [events, historicalItems]);
 
+  const filteredRows = useMemo(() => {
+    if (filter === "all") return rows;
+    return rows.filter((row) => {
+      if (filter === "people") return row.kind === "human";
+      if (row.kind !== "agent") return false;
+      if (filter === "cosmic") return row.item.type === "planetary_resonance";
+      return row.item.type !== "planetary_resonance";
+    });
+  }, [filter, rows]);
+
+  const filterCounts = useMemo<Record<FeedFilter, number>>(
+    () => ({
+      all: rows.length,
+      people: rows.filter((row) => row.kind === "human").length,
+      agents: rows.filter(
+        (row) =>
+          row.kind === "agent" && row.item.type !== "planetary_resonance",
+      ).length,
+      cosmic: rows.filter(
+        (row) =>
+          row.kind === "agent" && row.item.type === "planetary_resonance",
+      ).length,
+    }),
+    [rows],
+  );
+
   if (loading) {
     return (
-      <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500" />
+      <div
+        className="space-y-3"
+        role="status"
+        aria-label="Loading network activity"
+      >
+        {[0, 1, 2].map((item) => (
+          <div
+            key={item}
+            className="h-28 animate-pulse rounded-2xl border border-white/8 bg-white/[0.035]"
+          />
+        ))}
       </div>
     );
   }
@@ -342,24 +594,82 @@ function FeedTab({
   }
 
   return (
-    <div className="space-y-4">
-      <AnimatePresence>
-        {rows.map((row, index) => (
-          <motion.div
-            key={row.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.04 }}
+    <section aria-labelledby="activity-heading">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-[0.28em] text-purple-300/55">
+            Activity stream
+          </p>
+          <h2
+            id="activity-heading"
+            className="mt-1 text-xl font-bold tracking-tight text-white"
           >
-            {row.kind === "human" ? (
-              <HumanFeedRow event={row.event} />
-            ) : (
-              <HistoricalAgentFeedCard item={row.item} />
-            )}
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
+            What’s happening now
+          </h2>
+        </div>
+        <div
+          className="flex gap-1 overflow-x-auto"
+          aria-label="Filter network activity"
+        >
+          {FEED_FILTERS.map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              onClick={() => setFilter(option.id)}
+              aria-pressed={filter === option.id}
+              aria-label={`${option.label} (${filterCounts[option.id]})`}
+              className={`min-h-10 shrink-0 rounded-full border px-3 text-[9px] font-black uppercase tracking-widest transition ${
+                filter === option.id
+                  ? "border-purple-300/35 bg-purple-400/15 text-purple-100"
+                  : "border-white/8 bg-white/[0.025] text-white/35 hover:border-white/15 hover:text-white/70"
+              }`}
+            >
+              {option.label}{" "}
+              <span className="ml-1 font-mono opacity-55">
+                {filterCounts[option.id]}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {filteredRows.length === 0 ? (
+        <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-10 text-center">
+          <p className="text-sm text-white/45">
+            No signals match this view yet.
+          </p>
+          <button
+            type="button"
+            onClick={() => setFilter("all")}
+            className="mt-3 text-[10px] font-bold uppercase tracking-widest text-purple-300 hover:text-purple-200"
+          >
+            Show everything
+          </button>
+        </div>
+      ) : (
+        <ol className="space-y-3" aria-live="polite">
+          <AnimatePresence initial={false}>
+            {filteredRows.map((row, index) => (
+              <motion.li
+                key={row.id}
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+                transition={{
+                  delay: reduceMotion ? 0 : Math.min(index, 6) * 0.025,
+                }}
+              >
+                {row.kind === "human" ? (
+                  <HumanFeedRow event={row.event} />
+                ) : (
+                  <HistoricalAgentFeedCard item={row.item} />
+                )}
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ol>
+      )}
+    </section>
   );
 }
 
@@ -411,7 +721,33 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
 
 // ─── Agents Tab ───────────────────────────────────────────────────────────────
 
-function AgentsTab({ agents, loading }: { agents: AgentSummary[]; loading: boolean }) {
+function AgentsTab({
+  agents,
+  loading,
+}: {
+  agents: AgentSummary[];
+  loading: boolean;
+}) {
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<"active" | "name">("active");
+  const visibleAgents = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return agents
+      .filter(
+        (agent) =>
+          !normalizedQuery ||
+          agent.name.toLowerCase().includes(normalizedQuery) ||
+          agent.handle.toLowerCase().includes(normalizedQuery) ||
+          agent.dominantElement?.toLowerCase().includes(normalizedQuery),
+      )
+      .sort((a, b) =>
+        sort === "name"
+          ? a.name.localeCompare(b.name)
+          : (Date.parse(b.lastActionAt || "") || 0) -
+            (Date.parse(a.lastActionAt || "") || 0),
+      );
+  }, [agents, query, sort]);
+
   if (loading) {
     return (
       <div className="flex justify-center py-20">
@@ -427,50 +763,105 @@ function AgentsTab({ agents, loading }: { agents: AgentSummary[]; loading: boole
     );
   }
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {agents.map((agent) => (
-        <Link
-          key={agent.userId}
-          href={`/profile/${agent.userId}`}
-          className="glass-card-premium rounded-2xl p-5 border-white/8 hover:border-purple-500/35 transition-all flex flex-col gap-3 group"
-        >
-          <div className="flex items-start justify-between">
-            <div className="w-12 h-12 rounded-2xl bg-purple-900/40 border border-purple-400/20 flex items-center justify-center text-xl">
-              🤖
-            </div>
-            {agent.dominantElement && (
-              <span
-                className={`text-[8px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full border border-white/10 bg-white/5 ${
-                  ELEMENT_TINT[agent.dominantElement] || "text-white/60"
-                }`}
-              >
-                {agent.dominantElement}
-              </span>
-            )}
-          </div>
-          <div>
-            <h3 className="font-bold text-white text-base group-hover:text-purple-200 transition-colors">
-              {agent.name}
-            </h3>
-            <p className="text-[10px] uppercase tracking-widest text-white/30 font-mono mt-0.5">
-              {agent.actionCount} action{agent.actionCount === 1 ? "" : "s"}
-              {agent.lastActionAt ? ` · ${formatRelativeTime(agent.lastActionAt)}` : ""}
-            </p>
-          </div>
-          {agent.bio && (
-            <p className="text-xs text-white/55 leading-relaxed line-clamp-3">
-              {agent.bio}
-            </p>
-          )}
-        </Link>
-      ))}
-    </div>
+    <section aria-labelledby="agents-heading">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-[0.28em] text-purple-300/55">
+            Network directory
+          </p>
+          <h2
+            id="agents-heading"
+            className="mt-1 text-xl font-bold tracking-tight text-white"
+          >
+            Meet the agents
+          </h2>
+        </div>
+        <div className="flex gap-2">
+          <label className="min-w-0 flex-1 sm:w-64">
+            <span className="sr-only">Search agents</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search agents"
+              className="min-h-11 w-full rounded-full border border-white/10 bg-white/[0.035] px-4 text-sm text-white outline-none placeholder:text-white/25 focus:border-purple-300/35"
+            />
+          </label>
+          <label>
+            <span className="sr-only">Sort agents</span>
+            <select
+              value={sort}
+              onChange={(event) =>
+                setSort(event.target.value as "active" | "name")
+              }
+              className="min-h-11 rounded-full border border-white/10 bg-[#13101b] px-3 text-xs text-white/65 outline-none focus:border-purple-300/35"
+            >
+              <option value="active">Recent</option>
+              <option value="name">A–Z</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      {visibleAgents.length === 0 ? (
+        <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.02] p-10 text-center text-sm text-white/40">
+          No agents match “{query}”.
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {visibleAgents.map((agent) => (
+            <Link
+              key={agent.userId}
+              href={`/profile/${agent.userId}`}
+              className="glass-card-premium rounded-2xl p-5 border-white/8 hover:border-purple-500/35 transition-all flex flex-col gap-3 group"
+            >
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-purple-900/40 border border-purple-400/20 flex items-center justify-center text-xl">
+                  🤖
+                </div>
+                {agent.dominantElement && (
+                  <span
+                    className={`text-[8px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full border border-white/10 bg-white/5 ${
+                      ELEMENT_TINT[agent.dominantElement] || "text-white/60"
+                    }`}
+                  >
+                    {agent.dominantElement}
+                  </span>
+                )}
+              </div>
+              <div>
+                <h3 className="font-bold text-white text-base group-hover:text-purple-200 transition-colors">
+                  {agent.name}
+                </h3>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 font-mono mt-0.5">
+                  {agent.actionCount} action{agent.actionCount === 1 ? "" : "s"}
+                  {agent.lastActionAt
+                    ? ` · ${formatRelativeTime(agent.lastActionAt)}`
+                    : ""}
+                </p>
+              </div>
+              {agent.bio && (
+                <p className="text-xs text-white/55 leading-relaxed line-clamp-3">
+                  {agent.bio}
+                </p>
+              )}
+            </Link>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
 
 // ─── Transactions Tab ─────────────────────────────────────────────────────────
 
-function TransactionsTab({ transactions, loading }: { transactions: NetworkTransaction[]; loading: boolean }) {
+function TransactionsTab({
+  transactions,
+  loading,
+}: {
+  transactions: NetworkTransaction[];
+  loading: boolean;
+}) {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
@@ -485,54 +876,108 @@ function TransactionsTab({ transactions, loading }: { transactions: NetworkTrans
       </div>
     );
   }
+  const totalVolume = transactions.reduce(
+    (sum, transaction) => sum + Math.abs(transaction.amount),
+    0,
+  );
+  const credits = transactions.filter(
+    (transaction) => transaction.amount >= 0,
+  ).length;
+
   return (
-    <div className="glass-card-premium rounded-3xl border-white/8 overflow-hidden">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="text-[10px] uppercase tracking-widest text-white/30 border-b border-white/5">
-            <th className="text-left px-4 py-3 font-bold">Actor</th>
-            <th className="text-left px-4 py-3 font-bold">Token</th>
-            <th className="text-right px-4 py-3 font-bold">Amount</th>
-            <th className="text-left px-4 py-3 font-bold hidden sm:table-cell">Source</th>
-            <th className="text-right px-4 py-3 font-bold">When</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((txn) => {
-            const visual = TOKEN_VISUAL[txn.tokenType] || TOKEN_VISUAL.Spirit;
-            const isCredit = txn.amount >= 0;
-            return (
-              <tr key={txn.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
-                <td className="px-4 py-3">
-                  <Link
-                    href={`/profile/${txn.userId}`}
-                    className={`text-xs font-bold underline-offset-2 hover:underline ${
-                      txn.actorIsAgent ? "text-amber-300" : "text-white/85"
-                    }`}
+    <section aria-labelledby="ledger-heading">
+      <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-[0.28em] text-purple-300/55">
+            ESMS economy
+          </p>
+          <h2
+            id="ledger-heading"
+            className="mt-1 text-xl font-bold tracking-tight text-white"
+          >
+            Recent ledger movement
+          </h2>
+        </div>
+        <div className="flex gap-5 text-right">
+          <div>
+            <p className="font-mono text-sm tabular-nums text-white">
+              {totalVolume.toFixed(1)}
+            </p>
+            <p className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+              Volume
+            </p>
+          </div>
+          <div>
+            <p className="font-mono text-sm tabular-nums text-white">
+              {credits}
+            </p>
+            <p className="text-[8px] font-bold uppercase tracking-widest text-white/30">
+              Credits
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="glass-card-premium rounded-3xl border-white/8 overflow-x-auto">
+        <table className="w-full min-w-[680px] text-sm">
+          <caption className="sr-only">
+            The 40 most recent ESMS network transactions
+          </caption>
+          <thead>
+            <tr className="text-[10px] uppercase tracking-widest text-white/30 border-b border-white/5">
+              <th className="text-left px-4 py-3 font-bold">Actor</th>
+              <th className="text-left px-4 py-3 font-bold">Token</th>
+              <th className="text-right px-4 py-3 font-bold">Amount</th>
+              <th className="text-left px-4 py-3 font-bold hidden sm:table-cell">
+                Source
+              </th>
+              <th className="text-right px-4 py-3 font-bold">When</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((txn) => {
+              const visual = TOKEN_VISUAL[txn.tokenType] || TOKEN_VISUAL.Spirit;
+              const isCredit = txn.amount >= 0;
+              return (
+                <tr
+                  key={txn.id}
+                  className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors"
+                >
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/profile/${txn.userId}`}
+                      className={`text-xs font-bold underline-offset-2 hover:underline ${
+                        txn.actorIsAgent ? "text-amber-300" : "text-white/85"
+                      }`}
+                    >
+                      {txn.actorName}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${visual.bg} ${visual.border} ${visual.color}`}
+                    >
+                      {visual.symbol} {txn.tokenType}
+                    </span>
+                  </td>
+                  <td
+                    className={`px-4 py-3 text-right font-mono tabular-nums text-sm ${isCredit ? "text-green-400" : "text-red-400"}`}
                   >
-                    {txn.actorName}
-                  </Link>
-                </td>
-                <td className="px-4 py-3">
-                  <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${visual.bg} ${visual.border} ${visual.color}`}>
-                    {visual.symbol} {txn.tokenType}
-                  </span>
-                </td>
-                <td className={`px-4 py-3 text-right font-mono tabular-nums text-sm ${isCredit ? "text-green-400" : "text-red-400"}`}>
-                  {isCredit ? "+" : ""}{txn.amount.toFixed(2)}
-                </td>
-                <td className="px-4 py-3 text-[10px] uppercase tracking-widest text-white/40 hidden sm:table-cell">
-                  {txn.sourceType.replace(/_/g, " ")}
-                </td>
-                <td className="px-4 py-3 text-right text-[10px] uppercase tracking-widest text-white/30 font-mono">
-                  {formatRelativeTime(txn.createdAt)}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+                    {isCredit ? "+" : ""}
+                    {txn.amount.toFixed(2)}
+                  </td>
+                  <td className="px-4 py-3 text-[10px] uppercase tracking-widest text-white/40 hidden sm:table-cell">
+                    {txn.sourceType.replace(/_/g, " ")}
+                  </td>
+                  <td className="px-4 py-3 text-right text-[10px] uppercase tracking-widest text-white/30 font-mono">
+                    {formatRelativeTime(txn.createdAt)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }
 
@@ -551,7 +996,10 @@ function SwapTab({
   const [toToken, setToToken] = useState<TokenType>("Essence");
   const [amount, setAmount] = useState<string>("1");
   const [submitting, setSubmitting] = useState(false);
-  const [resultMessage, setResultMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [resultMessage, setResultMessage] = useState<{
+    kind: "ok" | "error";
+    text: string;
+  } | null>(null);
   const { status: authStatus } = useSession();
 
   // Auto-fix invalid same-token selections
@@ -564,7 +1012,11 @@ function SwapTab({
 
   const activeRate = useMemo(() => {
     if (!context) return null;
-    return context.rates.find((r) => r.fromToken === fromToken && r.toToken === toToken) || null;
+    return (
+      context.rates.find(
+        (r) => r.fromToken === fromToken && r.toToken === toToken,
+      ) || null
+    );
   }, [context, fromToken, toToken]);
 
   const numericAmount = parseFloat(amount) || 0;
@@ -586,9 +1038,15 @@ function SwapTab({
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setResultMessage({ kind: "error", text: data.message || "Swap failed." });
+        setResultMessage({
+          kind: "error",
+          text: data.message || "Swap failed.",
+        });
       } else {
-        setResultMessage({ kind: "ok", text: data.message || "Swap complete." });
+        setResultMessage({
+          kind: "ok",
+          text: data.message || "Swap complete.",
+        });
         onSwapComplete();
       }
     } catch {
@@ -613,8 +1071,18 @@ function SwapTab({
           ESMS Coin Swap
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <TokenSelect label="From" value={fromToken} onChange={setFromToken} disabled={toToken} />
-          <TokenSelect label="To" value={toToken} onChange={setToToken} disabled={fromToken} />
+          <TokenSelect
+            label="From"
+            value={fromToken}
+            onChange={setFromToken}
+            disabled={toToken}
+          />
+          <TokenSelect
+            label="To"
+            value={toToken}
+            onChange={setToToken}
+            disabled={fromToken}
+          />
         </div>
 
         <label className="block mt-6">
@@ -643,7 +1111,11 @@ function SwapTab({
               <span className="text-white/60">Cosmic modifier</span>
               <span
                 className={`font-mono tabular-nums ${
-                  activeRate.modifier < 1 ? "text-green-400" : activeRate.modifier > 1 ? "text-amber-400" : "text-white/70"
+                  activeRate.modifier < 1
+                    ? "text-green-400"
+                    : activeRate.modifier > 1
+                      ? "text-amber-400"
+                      : "text-white/70"
                 }`}
               >
                 ×{activeRate.modifier.toFixed(3)}
@@ -660,7 +1132,9 @@ function SwapTab({
 
         {authStatus === "authenticated" ? (
           <button
-            onClick={() => { void handleSwap(); }}
+            onClick={() => {
+              void handleSwap();
+            }}
             disabled={submitting || numericAmount <= 0}
             className="mt-6 w-full px-6 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 disabled:bg-white/10 disabled:text-white/40 text-white font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-purple-900/40 transition-all"
           >
@@ -689,7 +1163,10 @@ function SwapTab({
 
         <p className="text-[10px] uppercase tracking-widest text-white/30 mt-6">
           Rates re-roll at the top of the next planetary hour
-          {context.validUntil ? ` (≈ ${new Date(context.validUntil).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })})` : ""}.
+          {context.validUntil
+            ? ` (≈ ${new Date(context.validUntil).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })})`
+            : ""}
+          .
         </p>
       </section>
 
@@ -724,7 +1201,11 @@ function SwapTab({
                 </span>
                 <span
                   className={`font-mono tabular-nums ${
-                    favored ? "text-green-400" : rate.modifier > 1 ? "text-amber-400" : "text-white/70"
+                    favored
+                      ? "text-green-400"
+                      : rate.modifier > 1
+                        ? "text-amber-400"
+                        : "text-white/70"
                   }`}
                 >
                   {rate.rate.toFixed(3)}
@@ -751,7 +1232,9 @@ function TokenSelect({
 }) {
   return (
     <div>
-      <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">{label}</span>
+      <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+        {label}
+      </span>
       <div className="mt-2 grid grid-cols-2 gap-2">
         {TOKEN_TYPES.map((t) => {
           const visual = TOKEN_VISUAL[t];
@@ -766,8 +1249,8 @@ function TokenSelect({
                 isActive
                   ? `${visual.bg} ${visual.border} ${visual.color} font-bold`
                   : isDisabled
-                  ? "border-white/5 bg-white/[0.02] text-white/20 cursor-not-allowed"
-                  : "border-white/10 bg-white/[0.02] text-white/60 hover:text-white/85 hover:border-white/20"
+                    ? "border-white/5 bg-white/[0.02] text-white/20 cursor-not-allowed"
+                    : "border-white/10 bg-white/[0.02] text-white/60 hover:text-white/85 hover:border-white/20"
               }`}
             >
               <span>{visual.symbol}</span>
