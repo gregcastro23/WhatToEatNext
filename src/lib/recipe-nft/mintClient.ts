@@ -73,9 +73,14 @@ export function mintResultMessage(r: MintResult): string {
     return "Mint recorded.";
   }
   switch (r.httpStatus) {
+    case 0: return "Network hiccup — check your connection and try again.";
+    case 400:
+    case 422: return "That recipe can't be minted as-is — try regenerating it.";
     case 401: return "Sign in to mint a recipe NFT.";
     case 402: return r.cost ? `Not enough ESMS — minting costs ${coinSum(r.cost).toFixed(2)} across all four coins.` : "Not enough ESMS to mint.";
     case 409: return "This exact recipe has already been minted.";
-    default: return "Couldn't mint right now. Please try again shortly.";
+    case 503: return "Minting isn't available right now. Please try again shortly.";
+    // 500s here always refund the debit, so the user's ESMS are untouched.
+    default: return "Couldn't mint right now — your ESMS weren't spent. Please try again shortly.";
   }
 }

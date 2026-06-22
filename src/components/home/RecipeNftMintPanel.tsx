@@ -16,7 +16,7 @@ type CoinKey = (typeof COINS)[number]["key"];
 type Token = (typeof COINS)[number]["token"];
 type CoinAmounts = Record<CoinKey, number>;
 
-interface QuoteResponse {
+export interface QuoteResponse {
   recipeId: string;
   title: string;
   enabled: boolean;
@@ -25,6 +25,11 @@ interface QuoteResponse {
     totals: CoinAmounts;
     physics: { kalchm: number; monica: number; heat: number; entropy: number; reactivity: number; gregsEnergy: number };
     matchRate: number;
+    /** Ingredient-derived elemental shares (the FeaturedRecipe badge/bars read these). */
+    elemental: { Fire: number; Water: number; Earth: number; Air: number };
+    /** Yield-limited smart default + the staple that limits it. */
+    smartServings: number;
+    servingsLimitedBy: string | null;
   };
   quote: {
     baseCost: CoinAmounts;
@@ -54,9 +59,19 @@ const PHYSICS_CHIPS = [
  * chart's dominant coin (chart-weighted redistribution). The full alchemical
  * fingerprint (ESMS totals + physics) is what gets committed into the NFT.
  */
-export function RecipeNftMintPanel() {
-  const [data, setData] = useState<QuoteResponse | null>(null);
-  const [error, setError] = useState(false);
+export function RecipeNftMintPanel({
+  quote: quoteProp,
+  quoteError: quoteErrorProp,
+}: {
+  /** When provided, the panel uses the parent's shared quote instead of fetching its own. */
+  quote?: QuoteResponse | null;
+  quoteError?: boolean;
+} = {}) {
+  // Controlled (parent supplies the quote → one shared fetch for the featured
+  // card) vs standalone (panel fetches its own quote when rendered alone).
+  const controlled = quoteProp !== undefined;
+  const [selfData, setSelfData] = useState<QuoteResponse | null>(null);
+  const [selfError, setSelfError] = useState(false);
   const [dominant, setDominant] = useState<Token | null>(null);
   const [minting, setMinting] = useState(false);
   const [mintMsg, setMintMsg] = useState<string | null>(null);
@@ -70,15 +85,19 @@ export function RecipeNftMintPanel() {
   };
 
   useEffect(() => {
+    if (controlled) return;
     let active = true;
     fetch("/api/recipes/featured/mint-quote")
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => active && setData(j))
-      .catch(() => active && setError(true));
+      .then((j) => active && setSelfData(j))
+      .catch(() => active && setSelfError(true));
     return () => {
       active = false;
     };
-  }, []);
+  }, [controlled]);
+
+  const data = controlled ? quoteProp ?? null : selfData;
+  const error = controlled ? !!quoteErrorProp : selfError;
 
   const displayCost: CoinAmounts | null = useMemo(() => {
     if (!data) return null;
