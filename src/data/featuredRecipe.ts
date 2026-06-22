@@ -25,7 +25,7 @@ export const featuredRecipe: CosmicRecipe = {
   id: "modernized-pasta-primavera-alchm-edition",
   title: "Modernized Pasta Primavera (Alchm Edition)",
   short_description:
-    "A bright, spring-forward primavera where a slow-sweated allium trio, a chili-sparked tomato base, and ribbons of asparagus, peas, and carrot are bound in a glossy starch emulsion and finished with vibrant green tarragon oil. Composed under a Mercury-led sky for additive, never-opposed Fire–Earth co-dominance.",
+    "A bright, spring-forward primavera where a slow-sweated allium trio, a chili-sparked tomato base, and ribbons of asparagus, peas, and carrot are bound in a glossy starch emulsion and finished with vibrant green tarragon oil. Composed under a Mercury-led sky for additive, never-opposed Water–Earth co-dominance — a tomato-and-wine body grounded by pasta and sweet roots.",
   category: "Dinner",
   cuisine: "Italian-American",
   difficulty: "intermediate",
@@ -40,7 +40,7 @@ export const featuredRecipe: CosmicRecipe = {
   },
   alignment_notes: [
     "Vegetarian as written; contains dry white wine and Pecorino Romano (not vegan or alcohol-free) — see substitutions for vegan and zero-alcohol paths.",
-    "Elemental balance is tuned for Fire–Earth co-dominance: the chili/tomato spark is additive to the carrot/pea sweetness, never opposed (No Oppositions protocol).",
+    "Elemental balance reads as Water–Earth co-dominant: the tomato-and-wine body (Water) and the pasta-and-root structure (Earth) reinforce each other, with the chili spark additive and never opposed (No Oppositions protocol).",
     "Total time ~45 min — the tomato simmer and the pasta boil are run concurrently to keep active time tight.",
     "Mafaldine's ruffled edges are chosen for maximum surface area to grip the starchy emulsion; pappardelle or fettuccine substitute cleanly.",
     "Pecorino is assertively salty — season the sauce lightly and adjust only at the very end.",
@@ -58,8 +58,8 @@ export const featuredRecipe: CosmicRecipe = {
       "gently spicy",
     ],
     cooking_methods: ["sauté", "deglaze", "simmer", "boil", "emulsify"],
-    elements: ["fire", "earth", "air", "water"],
-    planets: ["Mercury", "Venus", "Mars"],
+    elements: ["water", "earth", "air", "fire"],
+    planets: ["Mercury", "Venus", "Moon"],
   },
   ingredients: [
     {
@@ -314,10 +314,10 @@ export const featuredRecipe: CosmicRecipe = {
     },
   ],
   elementalBalance: {
-    fire: 30,
-    earth: 30,
-    water: 16,
-    air: 24,
+    fire: 14,
+    earth: 34,
+    water: 35,
+    air: 17,
   },
   nutrition: {
     calories: 520,
@@ -343,12 +343,12 @@ export const featuredRecipe: CosmicRecipe = {
   },
   astro_explanation: {
     summary:
-      "Composed under a Mercury-led spring sky, this primavera channels Mercury's quick, volatile air through the allium trio, Venus's sweetness through the root vegetables, and a measured spark of Mars through the chili and tomato — an additive, self-reinforcing balance with no elemental opposition.",
+      "Composed under a Mercury-led spring sky, this primavera channels Mercury's quick, volatile air through the allium trio and Venus's grounded sweetness through the roots, while the Moon lends the tomato-and-wine base its Water body — an additive, self-reinforcing Water–Earth balance with no elemental opposition, a contained chili spark lifting it rather than opposing it.",
     correspondences: [
       "Mercury (@mercury.agentic.alchm.kitchen) governs the volatile Air matrix — onion, leek, and shallot sweated low and slow to release their aromatic, communicative top-notes.",
       "Venus rules the foundational Earth/Water sweetness of carrots and English peas, grounding the dish and amplifying its natural sugars.",
-      "Mars supplies a contained Fire spark via crushed chili and tomato acidity — heat that elevates the Earth components' sweetness rather than opposing them (the No Oppositions protocol).",
-      "Fire and Earth read as co-dominant: the spark and the structure reinforce each other, with Air carrying aroma and Water lending body.",
+      "The Moon carries the dish's Water body — crushed and cherry tomatoes, the white-wine reduction, and the glossy starch emulsion that binds every ribbon.",
+      "Water and Earth read as co-dominant: the tomato-and-wine body and the pasta-and-root structure reinforce each other, with Air carrying aroma and a measured chili spark lifting the sweetness rather than opposing it (the No Oppositions protocol).",
       "Tarragon's anise-bright finish is an aerial, Mercurial flourish that lifts the whole plate at the moment of serving.",
     ],
   },
