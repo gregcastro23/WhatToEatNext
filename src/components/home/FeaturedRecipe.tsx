@@ -120,6 +120,10 @@ export function FeaturedRecipe() {
   const [servingsOverride, setServingsOverride] = useState<number | null>(null);
   const servings = servingsOverride ?? baseServings;
   const scaleFactor = baseServings > 0 ? servings / baseServings : 1;
+  // Only let the stepper run once the quote has settled, so baseServings can't
+  // jump (recipe.yields → smartServings) under an in-progress override and
+  // silently re-scale the displayed amounts. On quote error it stays at yields.
+  const servingsReady = quote !== null || quoteError;
   // Functional updater so rapid +/- clicks accumulate off the latest value.
   const stepServings = (delta: number) =>
     setServingsOverride((prev) =>
@@ -193,7 +197,7 @@ export function FeaturedRecipe() {
                 <button
                   type="button"
                   onClick={() => stepServings(-1)}
-                  disabled={servings <= MIN_SERVINGS}
+                  disabled={!servingsReady || servings <= MIN_SERVINGS}
                   aria-label="Fewer servings"
                   className="w-5 h-5 flex items-center justify-center rounded-md bg-white/[0.04] border border-white/10 text-white/60 hover:text-white hover:border-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-colors leading-none"
                 >
@@ -203,7 +207,7 @@ export function FeaturedRecipe() {
                 <button
                   type="button"
                   onClick={() => stepServings(1)}
-                  disabled={servings >= MAX_SERVINGS}
+                  disabled={!servingsReady || servings >= MAX_SERVINGS}
                   aria-label="More servings"
                   className="w-5 h-5 flex items-center justify-center rounded-md bg-white/[0.04] border border-white/10 text-white/60 hover:text-white hover:border-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-colors leading-none"
                 >

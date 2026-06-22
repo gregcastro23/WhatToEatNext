@@ -146,13 +146,13 @@ export async function POST(request: NextRequest) {
     metadataURI,
   });
 
-  const record = await recipeNftMintService.recordMint({
+  const ledgerRow = {
     userId,
     recipeId: recipe.id,
     title: recipe.title,
     provenance: {
       creator: userId,
-      source: parsed.complete ? "generated" : "scan",
+      source: parsed.complete ? ("generated" as const) : ("scan" as const),
       parentRecipeId: null,
       createdAt: new Date().toISOString(),
     },
@@ -166,12 +166,47 @@ export async function POST(request: NextRequest) {
     metadataUri: metadataURI,
     recipeJson: recipe,
     imageUrl,
-  });
+  };
+  let record = await recipeNftMintService.recordMint(ledgerRow);
 
-  // No ledger row written despite a successful debit → either a concurrent mint
-  // of this exact content won the content_hash race, or the write failed. The
-  // user got no token, so refund the ESMS (idempotent) to keep the off-chain
-  // spend exactly-once per content hash.
+  // A real on-chain token was minted but the ledger write failed: the user HOLDS
+  // the asset, so we must never refund. Retry the write once to recover.
+  const mintedOnChain = chainResult.status === "minted" && !!chainResult.txHash;
+  if (!record && mintedOnChain) {
+    record = await recipeNftMintService.recordMint(ledgerRow);
+    if (!record) {
+      // Surface the tx loudly so it can be reconciled into the ledger — refunding
+      // here would hand the user both the NFT and their ESMS back.
+      console.error(
+        "recipe-nft mint: on-chain token minted but ledger write failed — needs reconciliation",
+        {
+          userId,
+          contentHash: commitments.contentHash,
+          txHash: chainResult.txHash,
+          tokenId: chainResult.tokenId ?? null,
+          transactionGroupId: purchase.transactionGroupId,
+        },
+      );
+      return NextResponse.json(
+        {
+          success: true,
+          reconcile: true,
+          status: chainResult.status,
+          contentHash: commitments.contentHash,
+          chain: chainResult.chain ?? null,
+          txHash: chainResult.txHash,
+          tokenId: chainResult.tokenId ?? null,
+          cost,
+        },
+        { status: 200 },
+      );
+    }
+  }
+
+  // No row written AND no on-chain token → the user got nothing: either a
+  // concurrent mint of this exact content won the content_hash race, or the
+  // write failed before any chain mint. Refund the debit (idempotent per debit)
+  // to keep the off-chain spend exactly-once.
   if (!record) {
     await tokenEconomy.creditMultipleTokens(
       userId,
@@ -185,7 +220,11 @@ export async function POST(request: NextRequest) {
       {
         sourceId: purchase.transactionGroupId,
         description: `Refund — mint not recorded: ${recipe.title}`,
-        idempotencyKey: `mint_refund:${commitments.contentHash}`,
+        // Key by the debit, NOT the content hash: token_transactions.idempotency_key
+        // is GLOBALLY unique, so multiple racers losing the same content_hash would
+        // share a content-keyed key and only the first would be refunded. The
+        // transaction group id is unique per debit, so every loser is refunded once.
+        idempotencyKey: `mint_refund:${purchase.transactionGroupId}`,
       },
     );
     const dupe = await recipeNftMintService.findByContentHash(commitments.contentHash);
