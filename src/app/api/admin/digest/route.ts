@@ -164,12 +164,45 @@ export async function POST(request: NextRequest) {
     const subject = `Alchm Kitchen — ${period === "weekly" ? "Weekly" : "Daily"} digest`;
     const html = renderHtml(payload);
     const text = JSON.stringify(payload, null, 2);
-    const sent = await emailService.sendEmail({ to: recipient, subject, html, text });
+
+    // Retry transient email-provider failures (a Resend/SMTP blip or a brief
+    // network error mid-deploy) before giving up. sendEmail() returns false on
+    // failure and never throws, so loop on the boolean. A single flake was
+    // enough to fail-send the digest; layered with the cron's own --retry this
+    // makes a one-off blip a non-event while a real outage still surfaces.
+    const MAX_ATTEMPTS = 3;
+    let sent = false;
+    let attempts = 0;
+    for (; attempts < MAX_ATTEMPTS; attempts++) {
+      if (attempts > 0) {
+        await new Promise((resolve) => setTimeout(resolve, 1000 * attempts));
+      }
+      sent = await emailService.sendEmail({ to: recipient, subject, html, text });
+      if (sent) break;
+    }
+
+    if (!sent) {
+      // Surface persistent failure (502) so the scheduled caller registers it
+      // instead of silently reporting success when no digest was delivered.
+      console.error(
+        `[admin/digest] email delivery failed after ${MAX_ATTEMPTS} attempts to ${recipient}`,
+      );
+      return NextResponse.json(
+        {
+          success: false,
+          delivered: false,
+          message: "Email delivery failed after retries",
+          recipient,
+        },
+        { status: 502 },
+      );
+    }
 
     return NextResponse.json({
-      success: sent !== false,
-      delivered: sent !== false,
+      success: true,
+      delivered: true,
       recipient,
+      attempts: attempts + 1,
       payload,
     });
   } catch (error) {
