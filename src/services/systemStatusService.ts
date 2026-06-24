@@ -922,8 +922,14 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const paStatus = await getMcpNetworkSummary().catch(() => null);
   const paVerdict = paStatus?.live ? paStatus.verdict : "UNKNOWN";
 
-  // Combine verdicts to represent the worst of both servers
-  const combinedVerdict = worst([wtenStatus, paVerdict]);
+  // Combine verdicts to represent the worst of both servers. PA telemetry
+  // being UNKNOWN (network summary unavailable) is an observability gap, not a
+  // tool-surface degradation — and worst() maps any UNKNOWN to DEGRADED, which
+  // was flapping this flow into a false DEGRADED (mislabelled "WTEN latency
+  // elevated") whenever PA telemetry was down. Only fold PA into the verdict
+  // when we actually have a live status for it.
+  const combinedVerdict =
+    paVerdict === "UNKNOWN" ? wtenStatus : worst([wtenStatus, paVerdict]);
 
   const issues: FlowIssue[] = [];
   if (synthetic.issue) issues.push(synthetic.issue);
@@ -955,9 +961,13 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
     status: combinedVerdict,
     summary:
       combinedVerdict === "OK"
-        ? calls1h > 0
-          ? `${calls1h} WTEN tool calls · WTEN & PA healthy`
-          : "Idle — WTEN & PA MCP healthy"
+        ? paVerdict === "UNKNOWN"
+          ? calls1h > 0
+            ? `${calls1h} WTEN tool calls · WTEN healthy · PA telemetry unavailable`
+            : "Idle — WTEN MCP healthy · PA telemetry unavailable"
+          : calls1h > 0
+            ? `${calls1h} WTEN tool calls · WTEN & PA healthy`
+            : "Idle — WTEN & PA MCP healthy"
         : combinedVerdict === "DEGRADED"
           ? paVerdict === "DEGRADED"
             ? `PA MCP degraded · p95 ${formatLatency(paStatus?.totals.p95LatencyMs ?? 0)}`
@@ -985,7 +995,10 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
     ],
     issues: issues.slice(0, 3),
     checkedAt,
-    live: live && (paStatus?.live ?? false),
+    // The verdict tracks WTEN's live signal; PA telemetry being unavailable is
+    // surfaced in the summary/metric, not by marking the whole flow non-live
+    // (which previously paired an OK verdict with a misleading "stale" hint).
+    live,
   };
 }
 

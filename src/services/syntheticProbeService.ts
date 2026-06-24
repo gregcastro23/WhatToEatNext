@@ -203,7 +203,16 @@ export async function runCosmicRecipeProbe(options: {
       hasData: body.data != null,
       demo: body.demo ?? null,
     }),
-    isSuccess: (status, body) => status === 200 && body.success === true,
+    // A 402 means the synthetic user has already spent its one free daily
+    // generation — the endpoint is alive and token-gating is enforcing
+    // correctly, which is itself a healthy signal. Without this, every hourly
+    // run after the day's first (which actually generates) returned 402 and
+    // flapped AI-generation into a false INCIDENT ~23h/day. The once-daily
+    // real 200 still verifies generation end-to-end; genuine breakage (5xx,
+    // timeout, empty body) still fails. Mirrors the stripe-webhook probe,
+    // which treats an expected 4xx as success.
+    isSuccess: (status, body) =>
+      (status === 200 && body.success === true) || status === 402,
   });
 }
 
