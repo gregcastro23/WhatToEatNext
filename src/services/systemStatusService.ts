@@ -262,11 +262,16 @@ async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
     latest,
     STALE_15MIN,
   );
+  // Real OAuth entry path + client-secret validity. This is what catches a
+  // genuinely broken sign-in: organic sign-in counts can read 0 simply
+  // because everyone's on long-lived JWT cookies, so without this probe the
+  // auth panel is vacuously "OK" and can't tell idle from broken.
+  const signin = evaluateSyntheticProbe("auth-signin", latest, STALE_15MIN);
 
   let status: FlowStatus;
   if (!session.observed && !authEventsLive) status = "UNKNOWN";
   else if (failureRate24h >= 0.5) status = "INCIDENT";
-  else if (handshake.freshFailure) status = "INCIDENT";
+  else if (handshake.freshFailure || signin.freshFailure) status = "INCIDENT";
   else if (
     failureRate24h >= 0.2 ||
     statusFromPathHealth(session, {
@@ -276,13 +281,15 @@ async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
     }) === "INCIDENT"
   ) {
     status = "DEGRADED";
-  } else if (handshake.stale) {
+  } else if (handshake.stale || signin.stale) {
     status = "DEGRADED";
   } else {
     status = "OK";
   }
 
   const issues: FlowIssue[] = [];
+  // Sign-in breakage is the most actionable auth issue — surface it first.
+  if (signin.issue) issues.push(signin.issue);
   if (handshake.issue) issues.push(handshake.issue);
   const sessionIssue = issueFromFailure(session, "auth");
   if (sessionIssue) issues.push(sessionIssue);
@@ -295,15 +302,19 @@ async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
     status,
     summary:
       status === "OK"
-        ? `${signins24h} successful sign-ins in 24h`
+        ? `${signins24h} sign-ins in 24h · sign-in path verified`
         : status === "DEGRADED"
-          ? handshake.stale
-            ? "Synthetic auth-handshake probe stale"
-            : `${failures24h} sign-in failures in 24h (${formatPct(failureRate24h)})`
+          ? signin.stale
+            ? "Synthetic auth-signin probe stale"
+            : handshake.stale
+              ? "Synthetic auth-handshake probe stale"
+              : `${failures24h} sign-in failures in 24h (${formatPct(failureRate24h)})`
           : status === "INCIDENT"
-            ? handshake.freshFailure
-              ? "Synthetic auth-handshake probe failing"
-              : `Sign-ins failing — ${formatPct(failureRate24h)} failure rate 24h`
+            ? signin.freshFailure
+              ? "Synthetic auth-signin probe failing — sign-in likely broken"
+              : handshake.freshFailure
+                ? "Synthetic auth-handshake probe failing"
+                : `Sign-ins failing — ${formatPct(failureRate24h)} failure rate 24h`
             : "No auth signal in window",
     metrics: [
       { label: "Sign-ins · 24h", value: `${signins24h}`, raw: signins24h },
@@ -318,9 +329,9 @@ async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
         raw: session.p95LatencyMs,
       },
       {
-        label: "Synthetic",
-        value: handshake.metricValue,
-        raw: handshake.metricRaw,
+        label: "Sign-in probe",
+        value: signin.metricValue,
+        raw: signin.metricRaw,
       },
     ],
     issues,
