@@ -10,6 +10,7 @@ jest.mock("@/lib/database/connection", () => ({
 }));
 
 import {
+  runAuthSigninProbe,
   runCosmicRecipeProbe,
   runOnboardingSkipProbe,
 } from "@/services/syntheticProbeService";
@@ -192,5 +193,119 @@ describe("runCosmicRecipeProbe", () => {
 
     expect(result.status).toBe("failure");
     expect(result.httpStatus).toBe(200);
+  });
+});
+
+describe("runAuthSigninProbe", () => {
+  const ORIGINAL_ENV = { ...process.env };
+
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    // Default: no Google creds in env → the secret-validity check is skipped,
+    // so these tests exercise the initiation path in isolation.
+    delete process.env.AUTH_GOOGLE_ID;
+    delete process.env.AUTH_GOOGLE_SECRET;
+  });
+
+  afterEach(() => {
+    process.env = { ...ORIGINAL_ENV };
+  });
+
+  // Route each fetch by URL so the multi-step flow (csrf → signin → token)
+  // can be stubbed independently.
+  function mockFlow(opts: { location: string; tokenError?: string }) {
+    return jest
+      .spyOn(globalThis, "fetch" as any)
+      .mockImplementation(async (input: any) => {
+        const url = String(input);
+        if (url.includes("/api/auth/csrf")) {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ csrfToken: "test-csrf" }),
+            headers: {
+              get: () => null,
+              getSetCookie: () => [
+                "authjs.csrf-token=test-csrf%7Cabc; Path=/; HttpOnly",
+              ],
+            },
+          } as unknown as Response;
+        }
+        if (url.includes("/api/auth/signin/google")) {
+          return {
+            status: 302,
+            json: async () => ({}),
+            headers: {
+              get: (k: string) =>
+                k.toLowerCase() === "location" ? opts.location : null,
+              getSetCookie: () => [],
+            },
+          } as unknown as Response;
+        }
+        if (url.includes("oauth2.googleapis.com/token")) {
+          return {
+            ok: false,
+            status: 400,
+            json: async () => ({ error: opts.tokenError ?? "invalid_grant" }),
+            headers: { get: () => null },
+          } as unknown as Response;
+        }
+        throw new Error(`unexpected fetch: ${url}`);
+      });
+  }
+
+  it("succeeds when sign-in initiation 302s to Google with a client_id", async () => {
+    mockFlow({
+      location:
+        "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=test.apps.googleusercontent.com&code_challenge=abc",
+    });
+
+    const result = await runAuthSigninProbe({ baseUrl: "https://app.test" });
+
+    expect(result.status).toBe("success");
+    expect(result.httpStatus).toBe(302);
+    expect(result.responsePayload).toMatchObject({ initiationOk: true });
+  });
+
+  it("fails when initiation redirects to the auth error page (broken config)", async () => {
+    mockFlow({
+      location: "https://app.test/auth/error?error=Configuration",
+    });
+
+    const result = await runAuthSigninProbe({ baseUrl: "https://app.test" });
+
+    expect(result.status).toBe("failure");
+    expect(result.errorMessage).toMatch(/did not redirect to Google/);
+  });
+
+  it("fails when Google rejects the client secret (invalid_client → rotated secret)", async () => {
+    process.env.AUTH_GOOGLE_ID = "test.apps.googleusercontent.com";
+    process.env.AUTH_GOOGLE_SECRET = "stale-secret";
+    mockFlow({
+      location:
+        "https://accounts.google.com/o/oauth2/v2/auth?client_id=test.apps.googleusercontent.com&code_challenge=abc",
+      tokenError: "invalid_client",
+    });
+
+    const result = await runAuthSigninProbe({ baseUrl: "https://app.test" });
+
+    expect(result.status).toBe("failure");
+    expect(result.errorMessage).toMatch(/invalid_client/);
+    expect(result.responsePayload).toMatchObject({ secretCheck: "invalid" });
+  });
+
+  it("succeeds when the secret check returns invalid_grant (credentials accepted, bogus code)", async () => {
+    process.env.AUTH_GOOGLE_ID = "test.apps.googleusercontent.com";
+    process.env.AUTH_GOOGLE_SECRET = "good-secret";
+    mockFlow({
+      location:
+        "https://accounts.google.com/o/oauth2/v2/auth?client_id=test.apps.googleusercontent.com&code_challenge=abc",
+      tokenError: "invalid_grant",
+    });
+
+    const result = await runAuthSigninProbe({ baseUrl: "https://app.test" });
+
+    expect(result.status).toBe("success");
+    expect(result.responsePayload).toMatchObject({ secretCheck: "valid" });
   });
 });
