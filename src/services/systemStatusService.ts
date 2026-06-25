@@ -107,6 +107,31 @@ export function worst(statuses: FlowStatus[]): FlowStatus {
 }
 
 /**
+ * Roll per-flow and per-dependency statuses up into the single banner status.
+ *
+ * Flows contribute directly: an unmeasurable flow (UNKNOWN) is a genuine blind
+ * spot worth surfacing as amber, so `worst()` maps it to DEGRADED.
+ *
+ * Dependencies are different — they're only PASSIVELY observed. Stripe and
+ * Google OAuth get no synthetic ping, so on a low-traffic day they sit at
+ * UNKNOWN as their NORMAL idle state. Letting that idle-UNKNOWN map to DEGRADED
+ * pinned the banner permanently amber even when every flow was green. So a
+ * dependency only escalates the banner when it reports a CONCRETE
+ * DEGRADED/INCIDENT (real webhook/callback 5xx); idle-UNKNOWN is treated as OK.
+ *
+ * Exported for unit tests.
+ */
+export function rollUpOverall(
+  flowStatuses: FlowStatus[],
+  dependencyStatuses: FlowStatus[],
+): FlowStatus {
+  return worst([
+    ...flowStatuses,
+    ...dependencyStatuses.map((s) => (s === "UNKNOWN" ? "OK" : s)),
+  ]);
+}
+
+/**
  * Derive a single FlowStatus from a PathHealth observation. Exported for
  * unit tests.
  */
@@ -1257,10 +1282,10 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     probeGoogleOAuthDependency(),
   ];
 
-  const overall = worst([
-    ...flows.map((f) => f.status),
-    ...dependencies.map((d) => d.status),
-  ]);
+  const overall = rollUpOverall(
+    flows.map((f) => f.status),
+    dependencies.map((d) => d.status),
+  );
 
   return {
     generatedAt: new Date().toISOString(),

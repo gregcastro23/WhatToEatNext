@@ -1,5 +1,6 @@
 import {
   worst,
+  rollUpOverall,
   statusFromPathHealth,
   type FlowStatus,
 } from "@/services/systemStatusService";
@@ -47,6 +48,40 @@ describe("systemStatusService.worst", () => {
 
   it("INCIDENT beats UNKNOWN", () => {
     expect(worst(["UNKNOWN", "INCIDENT"])).toBe<FlowStatus>("INCIDENT");
+  });
+});
+
+describe("systemStatusService.rollUpOverall", () => {
+  it("stays OK when all flows are OK and dependencies are idle-UNKNOWN", () => {
+    // The regression: Stripe + Google OAuth sit at UNKNOWN on a low-traffic day
+    // (no synthetic ping), which previously pinned the banner at DEGRADED even
+    // though every flow was green. Idle dependency-UNKNOWN must NOT escalate.
+    expect(
+      rollUpOverall(["OK", "OK", "OK"], ["UNKNOWN", "UNKNOWN"]),
+    ).toBe<FlowStatus>("OK");
+  });
+
+  it("still surfaces an unmeasurable FLOW as DEGRADED (real blind spot)", () => {
+    // Flows are softened by nothing — an UNKNOWN flow is a genuine blind spot.
+    expect(rollUpOverall(["OK", "UNKNOWN"], ["UNKNOWN"])).toBe<FlowStatus>(
+      "DEGRADED",
+    );
+  });
+
+  it("escalates when a dependency reports a CONCRETE DEGRADED", () => {
+    expect(rollUpOverall(["OK", "OK"], ["DEGRADED"])).toBe<FlowStatus>(
+      "DEGRADED",
+    );
+  });
+
+  it("escalates to INCIDENT when a dependency is in INCIDENT", () => {
+    expect(rollUpOverall(["OK"], ["UNKNOWN", "INCIDENT"])).toBe<FlowStatus>(
+      "INCIDENT",
+    );
+  });
+
+  it("is OK when flows are OK and there are no dependencies", () => {
+    expect(rollUpOverall(["OK", "OK"], [])).toBe<FlowStatus>("OK");
   });
 });
 
