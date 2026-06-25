@@ -317,6 +317,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (!dbUser) return;
             logger.info(`Starting background tasks for ${user.email}`);
             
+            // Welcome token grant — run FIRST. It's the cheapest, most
+            // user-critical background task, so completing it before the slower
+            // natal-chart calc and emails minimises the chance it's dropped if
+            // this fire-and-forget task is frozen after the sign-in response is
+            // sent. The helper is idempotent + retried internally, and re-runs
+            // on every sign-in, so a once-failed grant self-heals next time.
+            const { tokenEconomy } = await import("@/services/TokenEconomyService");
+            await tokenEconomy.grantSignupBonus(dbUser.id);
+
             // 0. Calculate and synchronize natal chart if birth data is present but not computed
             const profile = (dbUser)?.profile || {};
             if (profile.birthData && (!profile.natalChart || !profile.onboardingComplete)) {
@@ -444,31 +453,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 });
                 logger.info(`Auto-provisioned premium for ${user.email}`);
               }
-            }
-
-            // 1b. Welcome token grant — every new user starts with a small
-            // even balance so they can try a couple of actions before
-            // claiming their first daily Cosmic Yield (which itself requires
-            // a completed natal chart). Idempotent via the per-user key, so
-            // repeated sign-ins do not re-grant.
-            try {
-              const { tokenEconomy } = await import("@/services/TokenEconomyService");
-              await tokenEconomy.creditMultipleTokens(
-                dbUser.id,
-                [
-                  { tokenType: "Spirit", amount: 15 },
-                  { tokenType: "Essence", amount: 15 },
-                  { tokenType: "Matter", amount: 15 },
-                  { tokenType: "Substance", amount: 15 },
-                ],
-                "signup_grant",
-                {
-                  description: "Welcome to Alchm.kitchen — starter cosmic balance",
-                  idempotencyKey: `signup_grant:${dbUser.id}`,
-                },
-              );
-            } catch (grantError) {
-              logger.warn("Welcome token grant failed (non-blocking):", grantError);
             }
 
             // 2. Send emails
