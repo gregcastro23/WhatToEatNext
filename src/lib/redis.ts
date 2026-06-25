@@ -63,3 +63,26 @@ export async function redisDel(key: string): Promise<void> {
     console.error("[Redis] DEL failed:", err);
   }
 }
+
+/**
+ * Read-through cache. Returns the cached value for `key`; on a miss it runs
+ * `loader`, caches the result for `ttlSeconds`, and returns it.
+ *
+ * Fails OPEN: if Upstash is unconfigured or errors, redisGet/redisSet degrade
+ * to null/no-op, so the caller transparently falls back to `loader` (a direct
+ * read) rather than surfacing an error. Intended for short TTLs on hot,
+ * globally-shared read endpoints (e.g. the Live Network Feed pollers), where a
+ * few seconds of staleness is fine and the goal is to collapse a poll storm
+ * into at most one backing query per key per TTL.
+ */
+export async function redisCached<T>(
+  key: string,
+  ttlSeconds: number,
+  loader: () => Promise<T>,
+): Promise<T> {
+  const cached = await redisGet<T>(key);
+  if (cached !== null && cached !== undefined) return cached;
+  const fresh = await loader();
+  await redisSet(key, fresh, ttlSeconds);
+  return fresh;
+}

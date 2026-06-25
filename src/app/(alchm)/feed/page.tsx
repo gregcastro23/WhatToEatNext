@@ -255,10 +255,20 @@ export default function FeedPage() {
   // the feed itself when the SpacetimeDB subscription below isn't live.
   useEffect(() => {
     void refreshAll();
-    const id = window.setInterval(() => {
-      if (document.visibilityState === "visible") void refreshAll();
-    }, 30_000);
-    return () => window.clearInterval(id);
+    // Jittered ~30–40s poll (not a fixed setInterval): spreading each client's
+    // tick over a 10s window stops thousands of tabs from hitting /api/feed and
+    // its companion tickers in lockstep, which would spike DB connections at
+    // influx. Re-jitter every tick so clients don't re-converge over time.
+    let timer = 0;
+    const schedule = () => {
+      const delay = 30_000 + Math.floor(Math.random() * 10_000);
+      timer = window.setTimeout(() => {
+        if (document.visibilityState === "visible") void refreshAll();
+        schedule();
+      }, delay);
+    };
+    schedule();
+    return () => window.clearTimeout(timer);
   }, [refreshAll]);
 
   // Real-time feed events pushed over the SpacetimeDB WebSocket (the

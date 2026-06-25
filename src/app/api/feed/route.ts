@@ -19,6 +19,7 @@
 
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { redisCached } from "@/lib/redis";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
@@ -85,18 +86,39 @@ async function extractWebhookPreview(request: Request) {
   }
 }
 
+// The public GET feed is polled ~every 30s per client. Under a real-user
+// influx that fans out into one getRecentEvents() query per client per poll,
+// against a 100-connection Postgres. A brief shared cache collapses every
+// client's polls into at most one DB read per (limit,offset) per TTL; the
+// matching s-maxage lets the Vercel edge absorb repeat hits where it isn't
+// cookie-bypassed. Both layers fail open — a Redis miss/outage reads the DB
+// directly. ~12s of feed staleness is invisible (the real-time path is the
+// SpacetimeDB subscription; this HTTP poll is the degraded fallback).
+const FEED_CACHE_TTL_SECONDS = 12;
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const limit = Math.min(parseInt(searchParams.get("limit") ?? "20", 10), 100);
     const offset = parseInt(searchParams.get("offset") || "0", 10);
 
-    const events = await feedDatabase.getRecentEvents(limit, offset);
+    const events = await redisCached(
+      `feed:recent:${limit}:${offset}`,
+      FEED_CACHE_TTL_SECONDS,
+      () => feedDatabase.getRecentEvents(limit, offset),
+    );
 
-    return NextResponse.json({
-      success: true,
-      events,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        events,
+      },
+      {
+        headers: {
+          "Cache-Control": `public, s-maxage=${FEED_CACHE_TTL_SECONDS}, stale-while-revalidate=30`,
+        },
+      },
+    );
   } catch (error) {
     console.error("Feed fetch error:", error);
     return NextResponse.json(
