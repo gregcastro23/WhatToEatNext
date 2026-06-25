@@ -572,18 +572,26 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
 
 export async function getPractitionerCohorts(): Promise<PractitionerCohortsData> {
   try {
-    const [totalUsersRes, onboardedRes, activeRes, firstCookRes, paidProRes, elementalRes] = await Promise.all([
+    // Read onboarding + elemental signature from the canonical user_profiles
+    // columns, NOT the vestigial users.profile JSONB (which rowToUserWithProfile
+    // never reads back). The JSONB lagged reality badly — it showed ~61
+    // "onboarded" and a 99.6%-"Unknown" elemental split, while the normalized
+    // columns give the honest counts the rest of the dashboard already uses.
+    // paidPro comes from the same revenue breakdown that drives the Commerce
+    // MRR panel, so "Paid Pro" can never again contradict "MRR $0" by counting
+    // the ~950 comp/provisioned premium accounts as conversions.
+    const [totalUsersRes, onboardedRes, activeRes, firstCookRes, revenue, elementalRes] = await Promise.all([
       executeQuery("SELECT COUNT(*)::integer AS count FROM users"),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM users WHERE (profile->>'birthData') IS NOT NULL AND (profile->>'natalChart') IS NOT NULL"),
+      executeQuery("SELECT COUNT(*)::integer AS count FROM user_profiles WHERE onboarding_completed = true"),
       executeQuery("SELECT COUNT(*)::integer AS count FROM users WHERE is_active = true"),
       executeQuery("SELECT COUNT(DISTINCT user_id)::integer AS count FROM user_interactions WHERE interaction_type = 'recipe_cook'"),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM user_subscriptions WHERE status = 'active'").catch(() => ({ rows: [{ count: 0 }] })),
+      getSubscriptionRevenueBreakdown().catch(() => ({ paidSubs: 0, provisionedSubs: 0, mrr: 0 })),
       executeQuery(`
-        SELECT 
-          COALESCE(profile->'natalChart'->>'dominantElement', 'Unknown') AS element,
+        SELECT
+          COALESCE(dominant_element, 'Unknown') AS element,
           COUNT(*)::integer AS count
-        FROM users 
-        WHERE profile->'natalChart' IS NOT NULL 
+        FROM user_profiles
+        WHERE dominant_element IS NOT NULL
         GROUP BY element
       `),
     ]);
@@ -592,7 +600,7 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
     const onboarded = Number(onboardedRes.rows[0]?.count ?? 0);
     const active = Number(activeRes.rows[0]?.count ?? 0);
     const firstCook = Number(firstCookRes.rows[0]?.count ?? 0);
-    const paidPro = Number(paidProRes.rows[0]?.count ?? 0);
+    const paidPro = Number(revenue.paidSubs ?? 0);
 
     const elementalBreakdown = (elementalRes.rows as Array<{ element: string; count: number }>).map((r) => ({
       element: String(r.element),
