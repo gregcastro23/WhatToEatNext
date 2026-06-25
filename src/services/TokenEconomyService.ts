@@ -400,6 +400,65 @@ class TokenEconomyService {
   }
 
   // ═══════════════════════════════════════════════════════════════════
+  // SIGNUP GRANT
+  // ═══════════════════════════════════════════════════════════════════
+
+  /** Welcome grant: every new user starts with this even ESMS balance. */
+  static readonly SIGNUP_GRANT_PER_TOKEN = 15;
+
+  /**
+   * Grant (or heal) a new user's one-time welcome balance.
+   *
+   * Idempotent via the per-user key `signup_grant:<userId>` (per-token under
+   * the hood), so it is safe to call on every sign-in: an already-granted user
+   * is a cheap no-op, and a user whose grant failed once is healed the next
+   * time they sign in.
+   *
+   * Resilient by design. `creditMultipleTokens` swallows DB errors and returns
+   * `null` rather than throwing, so the previous caller's try/catch was dead
+   * code — a transient blip (likely during a cold-start sign-in storm at
+   * influx) dropped the grant silently and left the user token-broke with no
+   * signal. Here we treat a `null` result as failure, retry a few times with
+   * short backoff (the grant is all-or-nothing + idempotent, so a replay can
+   * never double-credit), and on final failure log a distinct, greppable error.
+   *
+   * @returns true if the grant is in place (freshly applied or already
+   *          present), false if every attempt failed.
+   */
+  async grantSignupBonus(userId: string): Promise<boolean> {
+    const amount = TokenEconomyService.SIGNUP_GRANT_PER_TOKEN;
+    const credits = (
+      ["Spirit", "Essence", "Matter", "Substance"] as TokenType[]
+    ).map((tokenType) => ({ tokenType, amount }));
+    const backoffsMs = [0, 250, 750];
+
+    for (let attempt = 0; attempt < backoffsMs.length; attempt++) {
+      if (backoffsMs[attempt] > 0) {
+        await new Promise((resolve) => setTimeout(resolve, backoffsMs[attempt]));
+      }
+      const result = await this.creditMultipleTokens(
+        userId,
+        credits,
+        "signup_grant",
+        {
+          description: "Welcome to Alchm.kitchen — starter cosmic balance",
+          idempotencyKey: `signup_grant:${userId}`,
+        },
+      );
+      if (result !== null) return true;
+      _logger.warn(
+        `[TokenEconomy] signup grant attempt ${attempt + 1}/${backoffsMs.length} failed for ${userId}`,
+      );
+    }
+
+    _logger.error(
+      `[TokenEconomy] signup_grant_failed — exhausted retries for user ${userId}; ` +
+        "starting balance stays zero until a later sign-in re-attempts the grant",
+    );
+    return false;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
   // DAILY CLAIM TRACKING
   // ═══════════════════════════════════════════════════════════════════
 
