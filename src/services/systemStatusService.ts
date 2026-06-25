@@ -29,6 +29,7 @@ import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getMcpNetworkSummary } from "@/services/mcpNetworkService";
+import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
 import {
   getLatestProbeResults,
   type LatestProbeRow,
@@ -733,14 +734,13 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const combined = [checkout, webhook, portal];
 
   let mrr = 0;
-  let activeSubs = 0;
+  let paidSubs = 0;
+  let provisionedSubs = 0;
   let live = true;
   try {
-    const result = await executeQuery<{ active: number }>(
-      `SELECT COUNT(*)::int AS active FROM user_subscriptions WHERE status = 'active' AND tier = 'premium'`,
-    );
-    activeSubs = result.rows[0]?.active ?? 0;
-    mrr = activeSubs * 24;
+    // Only Stripe-backed subs are revenue; provisioned/agent accounts are not.
+    ({ paidSubs, provisionedSubs, mrr } =
+      await getSubscriptionRevenueBreakdown());
   } catch (err) {
     _logger.warn("[systemStatus] subscriptions query failed:", err);
     live = false;
@@ -785,7 +785,7 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
     status,
     summary:
       status === "OK"
-        ? `${activeSubs} active subs · MRR $${mrr.toLocaleString()}`
+        ? `${paidSubs} paid · MRR $${mrr.toLocaleString()}${provisionedSubs > 0 ? ` · ${provisionedSubs} provisioned` : ""}`
         : status === "DEGRADED"
           ? synthetic.stale
             ? "Synthetic stripe-webhook probe stale"
@@ -796,8 +796,13 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
               : `Stripe endpoints failing (${formatPct(errorRate)})`
             : "No payment traffic in window",
     metrics: [
-      { label: "Active subs", value: `${activeSubs}`, raw: activeSubs },
+      { label: "Paid subs", value: `${paidSubs}`, raw: paidSubs },
       { label: "MRR", value: `$${mrr.toLocaleString()}`, raw: mrr },
+      {
+        label: "Provisioned",
+        value: `${provisionedSubs}`,
+        raw: provisionedSubs,
+      },
       {
         label: "Webhook 5xx · 1h",
         value: `${webhook.errors5xx}`,

@@ -925,7 +925,7 @@ export function CatalogState({
 // COMMERCE PANEL — MRR + orders
 // ============================================================
 export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
-  const summary = commerceSummary || { mrr: 0, recentOrders: [], live: false };
+  const summary = commerceSummary || { mrr: 0, paidSubs: 0, provisionedSubs: 0, recentOrders: [], live: false };
   const live = summary.live ?? false;
   const stateColor: Record<string, string> = {
     fulfilled: "var(--el-earth)",
@@ -941,7 +941,7 @@ export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
       title="Commerce & Conversion"
       subtitle={
         live
-          ? `active Pro subscriptions · $${summary.mrr.toLocaleString()} MRR`
+          ? `${summary.paidSubs ?? 0} paying · $${summary.mrr.toLocaleString()} MRR${(summary.provisionedSubs ?? 0) > 0 ? ` · ${summary.provisionedSubs} provisioned` : ""}`
           : "billing telemetry offline"
       }
       right={
