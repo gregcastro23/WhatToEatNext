@@ -22,7 +22,7 @@ import type {
   SecuritySummaryData,
   DeployHistoryEntry,
   FeatureFlagEntry,
-  CostBurndownData,
+  ResourceUsageData,
   PractitionerGeoData,
   CohortRetentionData,
 } from "@/services/dashboardPanelsService";
@@ -155,8 +155,8 @@ export interface AdminDashboardData {
   deploys: { entries: DeployHistoryEntry[]; live: boolean };
   /** Real-time feature flags status. */
   featureFlags: { flags: FeatureFlagEntry[]; live: boolean };
-  /** estimated hosting and compute resource usage. */
-  costBurndown: CostBurndownData;
+  /** Real Railway metered resource usage (MTD + projected), not dollars. */
+  resourceUsage: ResourceUsageData;
   /** User birth chart location aggregation. */
   practitionerGeo: PractitionerGeoData;
   /** User login and activity cohort retention. */
@@ -287,7 +287,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   deploys: { entries: [], live: false },
   featureFlags: { flags: [], live: false },
-  costBurndown: { items: [], totalMtd: 0, projectedTotal: 0, live: false },
+  resourceUsage: { items: [], provider: "Railway", periodLabel: "", live: false },
   practitionerGeo: { regions: [], live: false },
   cohortRetention: { cohorts: [], live: false },
   meta: {

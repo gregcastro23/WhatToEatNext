@@ -11,7 +11,7 @@ import {
   CosmicYieldEconomy,
   PractitionerGeo,
   ErrorGroups,
-  CostBurndown,
+  ResourceUsage,
   DatabaseStorage,
 } from "./extras";
 import { KPIStrip, MasterLineHero } from "./hero";
@@ -197,7 +197,7 @@ export function Dashboard({ data }: DashboardProps) {
         >
           <DatabaseStorage data={data.dbObservability} />
           <ErrorGroups errorGroups={data.errorGroups} />
-          <CostBurndown data={data.costBurndown} />
+          <ResourceUsage data={data.resourceUsage} />
         </div>
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
