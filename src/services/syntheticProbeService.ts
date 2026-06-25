@@ -20,6 +20,12 @@
  *   - `auth-handshake` — GET /api/auth/sessions as the synthetic user;
  *     expects 200 with the device-session list. Catches NextAuth /
  *     session-machinery regressions.
+ *   - `auth-signin` — drives the real Google OAuth entry path: CSRF +
+ *     POST /api/auth/signin/google expecting a 302 to accounts.google.com,
+ *     plus a client-secret validity check against Google's token endpoint.
+ *     Catches a broken sign-in (Configuration error) or a rotated
+ *     AUTH_GOOGLE_SECRET — which the bearer-token handshake probe can't,
+ *     and which leaves existing JWT sessions looking healthy.
  *
  * Each run inserts into `synthetic_probe_results`. The latest row per
  * `probe_name` feeds `systemStatusService` so a synthetic failure
@@ -371,6 +377,173 @@ export async function runAuthHandshakeProbe(options: {
     } else {
       status = "failure";
       errorMessage = `HTTP ${res.status}`;
+    }
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      status = "timeout";
+      errorMessage = `Probe timed out after ${PROBE_TIMEOUT_MS}ms`;
+    } else {
+      status = "failure";
+      errorMessage = err instanceof Error ? err.message : "Unknown error";
+    }
+  } finally {
+    clearTimeout(timer);
+  }
+
+  const result: ProbeResult = {
+    probeName,
+    startedAt,
+    completedAt: new Date().toISOString(),
+    status,
+    latencyMs: Date.now() - t0,
+    httpStatus,
+    errorMessage,
+    responsePayload,
+  };
+  await recordProbeResult(result);
+  return result;
+}
+
+/**
+ * Run the auth sign-in probe: exercise the REAL Google OAuth sign-in
+ * entry path end-to-end (minus the human consent step), which the
+ * `auth-handshake` probe deliberately skips by using a long-lived bearer.
+ *
+ * Two independent checks, both of which a broken sign-in would trip while
+ * existing JWT-cookie sessions keep the site looking alive:
+ *
+ *   1. Initiation: GET /api/auth/csrf, then POST /api/auth/signin/google
+ *      with the CSRF token+cookie. A healthy stack 302s to
+ *      accounts.google.com with a client_id + PKCE challenge. A broken
+ *      provider/secret/route 302s to /auth/error?error=Configuration.
+ *      Catches: missing/empty AUTH_GOOGLE_ID, NextAuth route/CSRF
+ *      breakage, provider misconfig.
+ *
+ *   2. Secret validity: POST the client_id+client_secret to Google's
+ *      token endpoint with a throwaway code. `invalid_grant` ("bad code")
+ *      means Google ACCEPTED the credentials → secret is valid;
+ *      `invalid_client` means the secret was rotated/revoked and every
+ *      real callback's token exchange will fail. This is the one check
+ *      that catches a silent secret rotation — initiation alone can't,
+ *      because it never needs the secret. Best-effort: a network/Google
+ *      hiccup is inconclusive, never a failure.
+ *
+ * No tokens spent, no rows written, no real account involved.
+ */
+export async function runAuthSigninProbe(options: {
+  baseUrl: string;
+}): Promise<ProbeResult> {
+  const probeName = "auth-signin";
+  const startedAt = new Date().toISOString();
+  const t0 = Date.now();
+
+  let httpStatus: number | null = null;
+  let errorMessage: string | null = null;
+  let status: ProbeStatus = "failure";
+  let responsePayload: Record<string, unknown> = {};
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
+
+  try {
+    // ── 1. Initiation: CSRF handshake → provider sign-in POST ──────────
+    const csrfRes = await fetch(`${options.baseUrl}/api/auth/csrf`, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    });
+    const csrfBody = (await csrfRes.json().catch(() => ({}))) as Record<
+      string,
+      unknown
+    >;
+    const csrfToken =
+      typeof csrfBody.csrfToken === "string" ? csrfBody.csrfToken : "";
+    // Auth.js sets the CSRF cookie via Set-Cookie; forward the name=value
+    // pairs back on the POST (double-submit cookie). getSetCookie() is the
+    // spec API for multiple cookies; fall back to the single-header form.
+    const setCookies =
+      typeof csrfRes.headers.getSetCookie === "function"
+        ? csrfRes.headers.getSetCookie()
+        : csrfRes.headers.get("set-cookie")
+          ? [csrfRes.headers.get("set-cookie") as string]
+          : [];
+    const cookieHeader = setCookies
+      .map((c) => c.split(";")[0])
+      .filter(Boolean)
+      .join("; ");
+
+    const signinRes = await fetch(
+      `${options.baseUrl}/api/auth/signin/google`,
+      {
+        method: "POST",
+        redirect: "manual",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          ...(cookieHeader ? { Cookie: cookieHeader } : {}),
+        },
+        body: new URLSearchParams({
+          csrfToken,
+          callbackUrl: options.baseUrl,
+        }).toString(),
+        signal: controller.signal,
+      },
+    );
+    httpStatus = signinRes.status;
+    const location = signinRes.headers.get("location") ?? "";
+    const initiationOk =
+      /^https:\/\/accounts\.google\.com\//.test(location) &&
+      location.includes("client_id=");
+
+    // Store a compact, secret-free view of where initiation landed.
+    let locationSummary = location;
+    try {
+      const u = new URL(location);
+      locationSummary = `${u.origin}${u.pathname}`;
+    } catch {
+      /* keep raw (e.g. relative /auth/error) */
+    }
+
+    // ── 2. Secret validity against Google's token endpoint ─────────────
+    const clientId = process.env.AUTH_GOOGLE_ID;
+    const clientSecret = process.env.AUTH_GOOGLE_SECRET;
+    let secretCheck: "valid" | "invalid" | "skipped" = "skipped";
+    if (clientId && clientSecret) {
+      try {
+        const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            client_id: clientId,
+            client_secret: clientSecret,
+            code: "synthetic-probe-invalid-code",
+            grant_type: "authorization_code",
+            redirect_uri: `${options.baseUrl}/api/auth/callback/google`,
+          }).toString(),
+          signal: controller.signal,
+        });
+        const tokenBody = (await tokenRes.json().catch(() => ({}))) as Record<
+          string,
+          unknown
+        >;
+        // Only an explicit invalid_client condemns the secret. invalid_grant
+        // (our bogus code) means the credentials were accepted.
+        secretCheck = tokenBody.error === "invalid_client" ? "invalid" : "valid";
+      } catch {
+        secretCheck = "skipped";
+      }
+    }
+
+    responsePayload = { initiationOk, location: locationSummary, secretCheck };
+
+    if (!initiationOk) {
+      status = "failure";
+      errorMessage = `Sign-in initiation did not redirect to Google (landed: ${locationSummary || "no Location header"})`;
+    } else if (secretCheck === "invalid") {
+      status = "failure";
+      errorMessage =
+        "Google rejected the OAuth client credentials (invalid_client) — AUTH_GOOGLE_SECRET likely rotated/revoked; real callbacks will fail token exchange";
+    } else {
+      status = "success";
     }
   } catch (err) {
     if (err instanceof Error && err.name === "AbortError") {
