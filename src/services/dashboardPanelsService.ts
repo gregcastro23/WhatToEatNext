@@ -15,6 +15,7 @@ import {
   getRecentSlowQueries,
   getSlowQueryThresholdMs,
 } from "@/lib/observability/slowQueryLog";
+import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
 
@@ -493,6 +494,10 @@ export interface PractitionerCohortsData {
 
 export interface CommerceSummaryData {
   mrr: number;
+  /** Stripe-backed subs — actual paying customers. */
+  paidSubs: number;
+  /** Premium subs with no Stripe link — provisioned/agent accounts, $0 revenue. */
+  provisionedSubs: number;
   recentOrders: Array<{
     id: string;
     user: string;
@@ -627,8 +632,12 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
 export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
   try {
-    const [subCountRes, ordersRes] = await Promise.all([
-      executeQuery("SELECT COUNT(*)::integer AS count FROM user_subscriptions WHERE status = 'active'").catch(() => ({ rows: [{ count: 0 }] })),
+    const [revenue, ordersRes] = await Promise.all([
+      getSubscriptionRevenueBreakdown().catch(() => ({
+        paidSubs: 0,
+        provisionedSubs: 0,
+        mrr: 0,
+      })),
       executeQuery(`
         SELECT 
           c.id, 
@@ -654,8 +663,7 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       `).catch(() => ({ rows: [] })),
     ]);
 
-    const activeSubs = Number(subCountRes.rows[0]?.count ?? 0);
-    const mrr = activeSubs * 24.00;
+    const { paidSubs, provisionedSubs, mrr } = revenue;
 
     const recentOrders = (ordersRes.rows as Array<{
       id: string;
@@ -673,10 +681,12 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       status: String(r.status),
     }));
 
-    // Real MRR (active subs × price) and real cart/order intents — including
-    // empty — never a fabricated placeholder order.
+    // Real MRR (Stripe-backed subs × price) and real cart/order intents —
+    // including empty — never a fabricated placeholder order.
     return {
       mrr,
+      paidSubs,
+      provisionedSubs,
       recentOrders,
       live: true,
     };
@@ -684,6 +694,8 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
     _logger.error("[getCommerceTelemetry] failed:", error);
     return {
       mrr: 0,
+      paidSubs: 0,
+      provisionedSubs: 0,
       recentOrders: [],
       live: false,
     };

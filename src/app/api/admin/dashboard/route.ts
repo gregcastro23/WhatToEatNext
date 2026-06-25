@@ -39,6 +39,7 @@ import {
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getLiveActivity } from "@/services/liveActivityService";
 import { getSkyConditions } from "@/services/skyConditionsService";
+import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
 import { getSystemStatus } from "@/services/systemStatusService";
 import { userDatabase } from "@/services/userDatabaseService";
 
@@ -120,10 +121,12 @@ export async function GET(request: NextRequest) {
         "ingredients",
         "SELECT COUNT(*)::integer AS count FROM ingredients",
       ),
-      safeCount(
-        "active subscriptions",
-        "SELECT COUNT(*)::integer AS count FROM user_subscriptions WHERE status = 'active'",
-      ),
+      // Only Stripe-backed subs are paying customers; provisioned/agent
+      // accounts (no stripe_subscription_id) are not revenue. Falls back to 0
+      // on failure, matching the safeCount() graceful-degradation pattern.
+      getSubscriptionRevenueBreakdown()
+        .then((b) => b.paidSubs)
+        .catch(() => 0),
       safeCount(
         "token transactions",
         "SELECT COUNT(*)::integer AS count FROM token_transactions",
