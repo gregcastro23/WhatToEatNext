@@ -245,7 +245,7 @@ export async function GET(request: NextRequest) {
     const featureFlags = await featureFlagsPromise;
     const practitionerGeo = await practitionerGeoPromise;
     const cohortRetention = await cohortRetentionPromise;
-    const costBurndown = await getCostBurndown(dbObservability.dbSizeBytes, dbObservability.activeConnections);
+    const costBurndown = await getCostBurndown();
 
     // Resolve the admin identity from the validated session rather than
     // hardcoding a single operator. Falls back to the session token payload

@@ -1063,50 +1063,21 @@ export interface CostBurndownData {
   live: boolean;
 }
 
-export async function getCostBurndown(dbSize: number, activeConnections: number): Promise<CostBurndownData> {
-  const dbSizeGb = dbSize / (1024 * 1024 * 1024);
-  const dbStorageCost = Math.max(5.0, dbSizeGb * 10);
-  const dbComputeCost = Math.max(10.0, activeConnections * 0.5);
-  const nextjsVercelCost = 20.00;
-  const railwayPythonCost = 7.00;
-
-  const items: CostItem[] = [
-    {
-      resource: "Postgres Database",
-      provider: "Railway",
-      costMtd: dbComputeCost + dbStorageCost,
-      limit: 35.00,
-      unit: "vCPU/RAM/GB",
-      pct: (dbComputeCost + dbStorageCost) / 35.00,
-    },
-    {
-      resource: "Planetary Agents API",
-      provider: "Railway",
-      costMtd: railwayPythonCost,
-      limit: 10.00,
-      unit: "shared-cpu",
-      pct: railwayPythonCost / 10.00,
-    },
-    {
-      resource: "App Hosting (alchm)",
-      provider: "Vercel",
-      costMtd: nextjsVercelCost,
-      limit: 20.00,
-      unit: "pro-seats",
-      pct: nextjsVercelCost / 20.00,
-    },
-  ];
-
-  const totalMtd = items.reduce((sum, item) => sum + item.costMtd, 0);
-  const dayOfMonth = new Date().getDate();
-  const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-  const projectedTotal = (totalMtd / dayOfMonth) * daysInMonth;
-
+export async function getCostBurndown(): Promise<CostBurndownData> {
+  // There is no billing integration: neither Vercel nor Railway spend is pulled
+  // from any provider API. This panel previously FABRICATED its figures —
+  // hardcoded $20 Vercel / $7 Railway, plus a "Postgres" cost derived from DB
+  // size × connections with arbitrary multipliers — and flagged itself "● LIVE",
+  // so an operator read invented numbers as real month-to-date spend (and made
+  // infra decisions on them). Return the honest "no source" state instead; the
+  // panel already renders a "connect Vercel + Railway billing APIs to populate"
+  // prompt with a "○ NO SOURCE" badge for exactly this case. Wiring real billing
+  // aggregation is a separate build, tracked on its own.
   return {
-    items,
-    totalMtd,
-    projectedTotal,
-    live: true,
+    items: [],
+    totalMtd: 0,
+    projectedTotal: 0,
+    live: false,
   };
 }
 
