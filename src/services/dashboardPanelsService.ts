@@ -15,6 +15,11 @@ import {
   getRecentSlowQueries,
   getSlowQueryThresholdMs,
 } from "@/lib/observability/slowQueryLog";
+import { redisCached } from "@/lib/redis";
+import {
+  fetchRailwayResourceUsage,
+  type ResourceUsageItem,
+} from "@/services/railwayUsageService";
 import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
@@ -1045,40 +1050,43 @@ export function getFeatureFlags(): { flags: FeatureFlagEntry[]; live: boolean } 
   return { flags, live: true };
 }
 
-// ─── Cost Burndown MTD ──────────────────────────────────────────────────
+// ─── Resource Usage MTD ─────────────────────────────────────────────────
 
-export interface CostItem {
-  resource: string;
+export interface ResourceUsageData {
+  items: ResourceUsageItem[];
   provider: string;
-  costMtd: number;
-  limit: number;
-  unit: string;
-  pct: number;
-}
-
-export interface CostBurndownData {
-  items: CostItem[];
-  totalMtd: number;
-  projectedTotal: number;
+  periodLabel: string;
   live: boolean;
 }
 
-export async function getCostBurndown(): Promise<CostBurndownData> {
-  // There is no billing integration: neither Vercel nor Railway spend is pulled
-  // from any provider API. This panel previously FABRICATED its figures —
-  // hardcoded $20 Vercel / $7 Railway, plus a "Postgres" cost derived from DB
-  // size × connections with arbitrary multipliers — and flagged itself "● LIVE",
-  // so an operator read invented numbers as real month-to-date spend (and made
-  // infra decisions on them). Return the honest "no source" state instead; the
-  // panel already renders a "connect Vercel + Railway billing APIs to populate"
-  // prompt with a "○ NO SOURCE" badge for exactly this case. Wiring real billing
-  // aggregation is a separate build, tracked on its own.
-  return {
-    items: [],
-    totalMtd: 0,
-    projectedTotal: 0,
-    live: false,
-  };
+const RESOURCE_USAGE_NO_SOURCE: ResourceUsageData = {
+  items: [],
+  provider: "Railway",
+  periodLabel: "",
+  live: false,
+};
+
+/**
+ * Real Railway resource usage (month-to-date actual + projected month-end), in
+ * metered quantities — NOT dollars. (Railway's API exposes usage but no
+ * authoritative cost, and Vercel exposes no spend on this plan, so a dollar
+ * panel can't be built without fabricating; this replaced the old fabricated
+ * "Cost Burndown" — see railwayUsageService.) Cached ~15 min because the
+ * Railway GraphQL call is slow/rate-limited and usage moves slowly. Falls back
+ * to the honest "not connected" state when RAILWAY_API_TOKEN is unset or the
+ * call fails, so the panel never invents numbers.
+ */
+export async function getResourceUsage(): Promise<ResourceUsageData> {
+  try {
+    const usage = await redisCached("dashboard:railway-usage", 900, () =>
+      fetchRailwayResourceUsage(),
+    );
+    if (!usage) return RESOURCE_USAGE_NO_SOURCE;
+    return { ...usage, live: true };
+  } catch (error) {
+    _logger.warn("[getResourceUsage] failed:", error);
+    return RESOURCE_USAGE_NO_SOURCE;
+  }
 }
 
 // ─── Practitioner Geography ─────────────────────────────────────────────

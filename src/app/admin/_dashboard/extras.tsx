@@ -7,7 +7,7 @@ import type {
   ErrorGroupsData,
   PageTelemetryData,
   CatalogTrendingData,
-  CostBurndownData,
+  ResourceUsageData,
   PractitionerGeoData,
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
@@ -1024,12 +1024,20 @@ export function ErrorGroups({ errorGroups }: { errorGroups: ErrorGroupsData }) {
 // COST BURNDOWN
 // Empty placeholder until we wire billing data (Vercel, Railway, Stripe).
 // ============================================================
-export function CostBurndown({ data }: { data?: CostBurndownData }) {
-  const { items = [], totalMtd = 0, projectedTotal = 0, live = false } = data || {};
+function fmtUsage(n: number): string {
+  if (!Number.isFinite(n)) return "0";
+  if (n >= 1000) return Math.round(n).toLocaleString("en-US");
+  if (n >= 10) return n.toFixed(0);
+  return n.toFixed(1);
+}
+
+export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
+  const { items = [], provider = "Railway", periodLabel = "", live = false } =
+    data || {};
   return (
     <Card
-      title="Cost Burndown · MTD"
-      subtitle={live ? `$${totalMtd.toFixed(2)} MTD · projected $${projectedTotal.toFixed(2)}` : "billing source offline"}
+      title="Resource Usage · MTD"
+      subtitle={live ? `${provider} · ${periodLabel}` : "Railway usage not connected"}
       right={
         <span
           className="t-mono"
@@ -1049,30 +1057,28 @@ export function CostBurndown({ data }: { data?: CostBurndownData }) {
           }}
         >
           <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-            No billing aggregation wired
+            Railway usage not connected
           </div>
           <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-            connect Vercel + Railway billing APIs to populate
+            set RAILWAY_API_TOKEN to populate
           </div>
         </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
-              <div className="t-tag" style={{ fontSize: 8 }}>MTD Spend</div>
-              <div className="t-num" style={{ fontSize: 16, marginTop: 4 }}>${totalMtd.toFixed(2)}</div>
-            </div>
-            <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
-              <div className="t-tag" style={{ fontSize: 8 }}>Projected Month Total</div>
-              <div className="t-num" style={{ fontSize: 16, marginTop: 4, color: "var(--accent-2)" }}>${projectedTotal.toFixed(2)}</div>
-            </div>
+          <div
+            className="t-mono"
+            style={{ fontSize: 8, color: "var(--fg-mute)", letterSpacing: "0.08em" }}
+          >
+            METERED USAGE · MTD / PROJECTED MONTH-END (not billed $)
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {items.map((item) => (
-              <div key={item.resource} style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
+              <div key={item.measurement} style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: "var(--fg-dim)" }}>{item.resource} ({item.provider})</span>
-                  <span className="t-num" style={{ fontSize: 11 }}>${item.costMtd.toFixed(2)} / ${item.limit.toFixed(2)}</span>
+                  <span style={{ fontSize: 11, color: "var(--fg-dim)" }}>{item.resource}</span>
+                  <span className="t-num" style={{ fontSize: 11 }}>
+                    {fmtUsage(item.mtdValue)} / {fmtUsage(item.projectedValue)} {item.unit}
+                  </span>
                 </div>
                 <div
                   style={{
@@ -1093,7 +1099,7 @@ export function CostBurndown({ data }: { data?: CostBurndownData }) {
                   />
                 </div>
                 <span className="t-mono" style={{ fontSize: 8, color: "var(--fg-mute)", marginTop: 2, display: "block" }}>
-                  {item.unit}
+                  {Math.round(item.pct * 100)}% of projected · {item.measurement}
                 </span>
               </div>
             ))}

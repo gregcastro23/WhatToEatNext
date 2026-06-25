@@ -32,7 +32,7 @@ import {
   getSecuritySummary,
   getDeployHistory,
   getFeatureFlags,
-  getCostBurndown,
+  getResourceUsage,
   getPractitionerGeo,
   getCohortRetention,
 } from "@/services/dashboardPanelsService";
@@ -245,7 +245,7 @@ export async function GET(request: NextRequest) {
     const featureFlags = await featureFlagsPromise;
     const practitionerGeo = await practitionerGeoPromise;
     const cohortRetention = await cohortRetentionPromise;
-    const costBurndown = await getCostBurndown();
+    const resourceUsage = await getResourceUsage();
 
     // Resolve the admin identity from the validated session rather than
     // hardcoding a single operator. Falls back to the session token payload
@@ -312,7 +312,7 @@ export async function GET(request: NextRequest) {
       security,
       deploys,
       featureFlags,
-      costBurndown,
+      resourceUsage,
       practitionerGeo,
       cohortRetention,
       meta: {
