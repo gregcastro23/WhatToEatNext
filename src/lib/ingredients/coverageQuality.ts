@@ -9,19 +9,25 @@
  * surfaces (the home Ingredient Recommender and `/ingredients`) where they appear
  * indistinguishable from curated entries.
  *
- * This predicate flags those boilerplate entries so the browse surfaces can hide
- * them while the catalog keeps them for mapping. Coverage entries that were given
- * a real description via `coverageCurationOverrides.ts` are NOT flagged.
+ * This predicate flags those non-real entries so the browse surfaces (and the
+ * dashboard ingredient-recommendations route) can hide them while the catalog
+ * keeps them for mapping. Coverage entries that were given a real description
+ * via `coverageCurationOverrides.ts` are NOT flagged.
  *
- * The marker phrase is the exact copy emitted by `generatedDescription()` in the
- * generator script; keep the two in sync if that copy ever changes.
+ * Two markers are recognised:
+ *  - the boilerplate copy emitted by `generatedDescription()` in the generator
+ *    script (keep the two in sync if that copy ever changes); and
+ *  - explicit "schema stand-in" placeholders (e.g. "alchemical binding agent"),
+ *    which name no real food and exist only as recipe-schema slots.
  */
 const BOILERPLATE_DESCRIPTION_MARKER =
   "recipe-linked ingredient captured from live cuisine data";
+const SCHEMA_STANDIN_MARKER = "Schema stand-in";
 
 /**
- * True when `ingredient` is an auto-generated coverage entry that still carries
- * the boilerplate description. Works on both the full `Ingredient` shape and the
+ * True when `ingredient` is an auto-generated coverage entry that is not a real
+ * food — either it still carries the boilerplate description or it is an
+ * explicit schema stand-in. Works on both the full `Ingredient` shape and the
  * `UnifiedIngredient` shape (both surface `description` at the top level).
  */
 export function isBoilerplateCoverageIngredient(
@@ -30,6 +36,7 @@ export function isBoilerplateCoverageIngredient(
   const description = ingredient?.description;
   return (
     typeof description === "string" &&
-    description.includes(BOILERPLATE_DESCRIPTION_MARKER)
+    (description.includes(BOILERPLATE_DESCRIPTION_MARKER) ||
+      description.includes(SCHEMA_STANDIN_MARKER))
   );
 }

@@ -15,6 +15,7 @@ import { NextResponse } from "next/server";
 import { calculatePlanetaryHoursInfluence } from "@/calculations/core/planetaryInfluences";
 import { unifiedIngredients } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
 import { rateLimit } from "@/lib/rateLimit";
 import {
   RecommendedIngredientsResponseSchema,
@@ -106,8 +107,15 @@ export async function GET(request: Request) {
     const skyWeights = calculateElementalInfluences(alignment);
     const { hourRuler } = calculatePlanetaryHoursInfluence(now);
 
-    // Score every unified ingredient against the live sky.
-    const scored = Object.values(unifiedIngredients).map((ing) => {
+    // Score every unified ingredient against the live sky. Auto-generated
+    // recipe-coverage entries that still carry the boilerplate description
+    // (dish names, recipe fragments, e.g. "thit kho tau") are excluded — they
+    // exist only for recipe→ingredient mapping and must not surface as
+    // recommended ingredients. This mirrors the browse surfaces, which already
+    // hide them via the same predicate.
+    const scored = Object.values(unifiedIngredients)
+      .filter((ing) => !isBoilerplateCoverageIngredient(ing))
+      .map((ing) => {
       const elemental: ElementalProperties = ing.elementalProperties ?? {
         Fire: 0.25,
         Water: 0.25,
