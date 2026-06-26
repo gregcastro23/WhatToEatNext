@@ -163,15 +163,33 @@ async function main() {
     max: 4,
   });
 
-  const where = onlyMissing
-    ? `AND NOT (read_model ? 'elemental_properties')`
-    : ``;
+  // Recompute elemental for every public recipe whose elemental is MISSING or
+  // the degenerate uniform 0.25/0.25/0.25/0.25 placeholder (recipes whose
+  // ingredients didn't resolve when first computed). `--only-missing` narrows
+  // to strictly-missing; `--all` recomputes every public recipe.
+  // (Replaces the original one-off `created_at = '2026-05-24'` batch filter so
+  // newly-resolvable recipes — e.g. after ingredient staples land — get fixed.)
+  const degenerateElemental = `(
+    NOT (read_model ? 'elemental_properties')
+    OR (
+      (read_model->'elemental_properties'->>'fire')::numeric = 0.25
+      AND (read_model->'elemental_properties'->>'water')::numeric = 0.25
+      AND (read_model->'elemental_properties'->>'earth')::numeric = 0.25
+      AND (read_model->'elemental_properties'->>'air')::numeric = 0.25
+    )
+  )`;
+  const where = process.argv.includes("--all")
+    ? ``
+    : onlyMissing
+      ? `AND NOT (read_model ? 'elemental_properties')`
+      : `AND ${degenerateElemental}`;
 
   const { rows } = await pool.query<Row>(
     `SELECT id, name,
             ARRAY(SELECT jsonb_array_elements(read_model->'ingredients')->>'name') AS ingredient_names
        FROM recipes
-      WHERE created_at::date = '2026-05-24'
+      WHERE is_public = true
+        AND jsonb_typeof(read_model) = 'object'
       ${where}`,
   );
 

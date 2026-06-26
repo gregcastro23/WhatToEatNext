@@ -41,6 +41,17 @@ if (!DATABASE_URL) {
 
 const dryRun = process.argv.includes("--dry-run");
 const onlyMissing = process.argv.includes("--only-missing");
+// --reconcile also CLEARS nutrition for recipes that can no longer produce a
+// plausible total — needed after the ingredient catalog's fake nutrition stubs
+// were nulled (PR #560), which had poisoned some recipes' aggregated nutrition.
+// Mutually exclusive with --only-missing (reconcile must see every recipe).
+const reconcile = process.argv.includes("--reconcile");
+
+if (reconcile && onlyMissing) {
+  throw new Error(
+    "--reconcile and --only-missing are mutually exclusive: reconcile must evaluate every recipe.",
+  );
+}
 
 interface IngredientRow {
   name?: unknown;
@@ -103,10 +114,25 @@ async function main() {
 
   let written = 0;
   let plausible = 0;
+  let cleared = 0; // stale nutrition wiped under --reconcile
   let skippedLowResolve = 0; // aggregator returned null (<50% ingredients resolved)
   let skippedImplausible = 0; // computed but failed the plausibility guard
   let skippedNoIngredients = 0;
   const samples: Array<{ name: string; nutrition: Record<string, unknown> }> = [];
+
+  // Clear a recipe's nutrition back to the honest-empty state ({}), which the
+  // recipe view omits (it requires calories > 0).
+  const clearNutrition = async (id: string) => {
+    if (dryRun) return;
+    await pool.query(
+      `UPDATE recipes
+          SET nutritional_profile = '{}'::jsonb,
+              read_model = jsonb_set(read_model, '{nutritional_profile}', '{}'::jsonb, true),
+              updated_at = NOW()
+        WHERE id = $1`,
+      [id],
+    );
+  };
 
   for (const row of rows) {
     const ingredients = Array.isArray(row.ingredients) ? row.ingredients : [];
@@ -125,12 +151,15 @@ async function main() {
     };
 
     const nutrition = computeRecipeNutritionFromIngredients(recipeLike as never);
-    if (!nutrition) {
-      skippedLowResolve++;
-      continue;
-    }
-    if (!isPlausibleNutrition(nutrition)) {
-      skippedImplausible++;
+    if (!nutrition || !isPlausibleNutrition(nutrition)) {
+      if (!nutrition) skippedLowResolve++;
+      else skippedImplausible++;
+      // De-poison: if this recipe currently shows nutrition we can no longer
+      // substantiate, wipe it back to honest-empty.
+      if (reconcile && row.has_nutrition) {
+        await clearNutrition(row.id);
+        cleared++;
+      }
       continue;
     }
     plausible++;
@@ -159,7 +188,7 @@ async function main() {
 
   console.log(
     `[nutrition-backfill] done: candidates=${rows.length}, plausible=${plausible}, written=${written}, ` +
-      `skipped_low_resolve=${skippedLowResolve}, skipped_implausible=${skippedImplausible}, ` +
+      `cleared=${cleared}, skipped_low_resolve=${skippedLowResolve}, skipped_implausible=${skippedImplausible}, ` +
       `skipped_no_ingredients=${skippedNoIngredients}`,
   );
   console.log(
