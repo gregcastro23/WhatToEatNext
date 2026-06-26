@@ -19,6 +19,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { Project, SyntaxKind, ObjectLiteralExpression, PropertyAssignment } from "ts-morph";
+import { detectNonRealFlags, REALITY_MARKERS } from "./lib/ingredientReality";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -150,6 +151,9 @@ interface IngredientReport {
   score: number;
   scorePct: number;
   missing: string[];
+  /** Keys of any placeholder/default markers found — empty == real. */
+  realFlags: string[];
+  isReal: boolean;
 }
 
 function categoryFromFile(file: string): string {
@@ -231,6 +235,8 @@ function audit(): IngredientReport[] {
           }
         }
 
+        const realFlags = detectNonRealFlags(obj.getText());
+
         rows.push({
           slug,
           name,
@@ -239,6 +245,8 @@ function audit(): IngredientReport[] {
           score,
           scorePct: Math.round((score / MAX_SCORE) * 100),
           missing,
+          realFlags,
+          isReal: realFlags.length === 0,
         });
       }
     }
@@ -274,13 +282,28 @@ function writeReports(rows: IngredientReport[]) {
   lines.push("");
   lines.push("## Category Summary");
   lines.push("");
-  lines.push("| Category | Count | Avg % | < 50% | ≥ 80% |");
-  lines.push("| --- | --- | --- | --- | --- |");
+  lines.push("| Category | Count | Avg % | < 50% | ≥ 80% | Non-real |");
+  lines.push("| --- | --- | --- | --- | --- | --- |");
   for (const [cat, list] of [...byCategory.entries()].sort()) {
     const avg = Math.round(list.reduce((s, r) => s + r.scorePct, 0) / list.length);
     const weak = list.filter((r) => r.scorePct < 50).length;
     const strong = list.filter((r) => r.scorePct >= 80).length;
-    lines.push(`| ${cat} | ${list.length} | ${avg} | ${weak} | ${strong} |`);
+    const nonReal = list.filter((r) => !r.isReal).length;
+    lines.push(`| ${cat} | ${list.length} | ${avg} | ${weak} | ${strong} | ${nonReal} |`);
+  }
+  lines.push("");
+
+  // Real-vs-default: presence ≠ real. Drive these to 0.
+  const nonRealRows = rows.filter((r) => !r.isReal);
+  lines.push("## Real vs. default (placeholder/default values — drive to 0)");
+  lines.push("");
+  lines.push(`**Non-real ingredients:** ${nonRealRows.length} / ${rows.length}`);
+  lines.push("");
+  lines.push("| Marker | Count |");
+  lines.push("| --- | --- |");
+  for (const m of REALITY_MARKERS) {
+    const n = rows.filter((r) => r.realFlags.includes(m.key)).length;
+    lines.push(`| ${m.label} | ${n} |`);
   }
   lines.push("");
 
@@ -319,5 +342,11 @@ const weak = rows.filter((r) => r.scorePct < 50).length;
 const strong = rows.filter((r) => r.scorePct >= 80).length;
 // eslint-disable-next-line no-console
 console.log(`Audited ${rows.length} ingredients — avg ${avg}%, ${weak} below 50%, ${strong} at or above 80%.`);
+const nonReal = rows.filter((r) => !r.isReal).length;
+const byFlag = REALITY_MARKERS.map(
+  (m) => `${m.key}=${rows.filter((r) => r.realFlags.includes(m.key)).length}`,
+).join(", ");
+// eslint-disable-next-line no-console
+console.log(`Real-data check: ${nonReal} of ${rows.length} carry placeholder/default values (non-real). By marker: ${byFlag}.`);
 // eslint-disable-next-line no-console
 console.log(`Reports: ${path.relative(process.cwd(), jsonPath)}, ${path.relative(process.cwd(), mdPath)}`);
