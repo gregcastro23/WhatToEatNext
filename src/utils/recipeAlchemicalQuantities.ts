@@ -57,6 +57,13 @@ import { squash } from "@/data/ingredients/vegetables/squash";
 import { starchy } from "@/data/ingredients/vegetables/starchy";
 import { _allVinegars } from "@/data/ingredients/vinegars/vinegars";
 import type { ElementalProperties } from "@/types/recipe";
+import {
+  MATCH_STOPWORDS,
+  normalize as normalizeForMatch,
+  normalizedVariants,
+  singularize,
+  stripQuotes,
+} from "@/utils/ingredientNormalization";
 
 export interface IngredientAlchemicalProperties {
   Spirit: number;
@@ -223,15 +230,17 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
 
     const entry: IngredientEntry = { key, alchemical, elemental, potency, servingGrams, category };
 
-    // Index by normalized key
-    const normalizedKey = normalizeIngredientName(key);
-    map.set(normalizedKey, entry);
-
-    // Also index by the display name if different
+    // Index under every reasonable variant of the catalog key + display name
+    // (mirrors the elemental backfill matcher so ESMS and elemental resolve the
+    // same ingredients). Earlier insertions win — equally-valid variants from a
+    // later ingredient don't clobber an existing mapping.
+    const indexUnder = (variantKey: string) => {
+      if (variantKey && !map.has(variantKey)) map.set(variantKey, entry);
+    };
+    for (const v of catalogVariants(key)) indexUnder(v);
     const displayName = (ing.name as string | undefined) ?? key;
-    const normalizedDisplayName = normalizeIngredientName(displayName);
-    if (normalizedDisplayName !== normalizedKey) {
-      map.set(normalizedDisplayName, entry);
+    if (displayName !== key) {
+      for (const v of catalogVariants(displayName)) indexUnder(v);
     }
   }
 
@@ -247,6 +256,47 @@ function normalizeIngredientName(name: string): string {
     .trim();
 }
 
+/** Tokenize for matching: normalized words of length > 1. */
+function tokenizeForMatch(s: string): string[] {
+  return normalizeForMatch(s)
+    .split(" ")
+    .filter((t) => t.length > 1);
+}
+
+/**
+ * Full-identity lookup keys for a CATALOG ingredient: the canonical
+ * `normalizedVariants` (handles "fresh"/"minced", "X or Y", diacritics, and the
+ * stub "foundation of …" repairs) plus a singularized whole-string form. These
+ * never reduce a specific ingredient to a bare head-noun — otherwise "garlic"
+ * would resolve to "garlic-infused olive oil".
+ */
+function catalogVariants(text: string): Set<string> {
+  const set = normalizedVariants(text);
+  const tokens = tokenizeForMatch(text).map((t) => singularize(t));
+  if (tokens.length) set.add(tokens.join(" "));
+  return set;
+}
+
+/**
+ * Lookup keys for a QUERY ingredient name. Same full-phrase variants as the
+ * catalog, plus head-noun reductions (last/first non-stopword token) so
+ * "agave nectar" finds "agave" and "fresh tomatoes" finds "tomato". Stopwords
+ * ("oil", "sauce", "pepper", …) are excluded from the bare-token fallbacks so a
+ * query never collapses to a generic modifier. Insertion order is
+ * specific→generic, and the map is probed in that order.
+ */
+function queryVariants(text: string): Set<string> {
+  const set = catalogVariants(text);
+  const tokens = tokenizeForMatch(text)
+    .map((t) => singularize(t))
+    .filter((t) => t.length > 2 && !MATCH_STOPWORDS.has(t));
+  if (tokens.length) {
+    set.add(tokens[tokens.length - 1]);
+    set.add(tokens[0]);
+  }
+  return set;
+}
+
 // Lazily initialized lookup map
 let _ingredientAlchemicalMap: Map<string, IngredientEntry> | null = null;
 
@@ -260,13 +310,18 @@ function getIngredientAlchemicalMap() {
 /** Internal: full ingredient entry lookup (alchemical + elemental). */
 function lookupIngredient(ingredientName: string): IngredientEntry | null {
   const map = getIngredientAlchemicalMap();
-  const normalized = normalizeIngredientName(ingredientName);
 
-  // 1. Exact match
-  const exact = map.get(normalized);
-  if (exact) return exact;
+  // 1. Variant match: try every normalized / singularized / token variant of
+  //    the query against the variant-indexed map (exact match is included as
+  //    one variant, so prior exact-match behavior is preserved).
+  const cleaned = stripQuotes(ingredientName);
+  for (const v of queryVariants(cleaned)) {
+    const hit = map.get(v);
+    if (hit) return hit;
+  }
 
   // 2. Token-based partial matching: find map entry that shares the most tokens
+  const normalized = normalizeIngredientName(ingredientName);
   const queryTokens = new Set(normalized.split(" ").filter((t) => t.length > 2));
   if (queryTokens.size === 0) return null;
 
