@@ -13,14 +13,15 @@ const rawAromaticHerbs = {
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
     qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
@@ -71,14 +72,15 @@ const rawAromaticHerbs = {
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Mars"],
@@ -142,14 +144,15 @@ const rawAromaticHerbs = {
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },
     qualities: ["aromatic", "fresh", "culinary"],
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
@@ -250,14 +253,15 @@ const rawAromaticHerbs = {
     name: "Lemon Verbena",
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
@@ -332,14 +336,15 @@ const rawAromaticHerbs = {
     name: "Savory",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Saturn"],
@@ -417,14 +422,15 @@ const rawAromaticHerbs = {
     name: "Curry Leaf",
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Jupiter"],
@@ -506,14 +512,15 @@ const rawAromaticHerbs = {
     name: "Chervil",
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Moon"],
@@ -586,14 +593,15 @@ const rawAromaticHerbs = {
       Water: 0.1,
     },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     qualities: ["cooling", "digestive", "balancing"],
     origin: ["Europe", "Asia"],
@@ -654,14 +662,15 @@ const rawAromaticHerbs = {
       Water: 0.1,
     },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     qualities: ["warming", "digestive", "aromatic"],
     origin: ["Mediterranean", "Asia Minor"],
@@ -719,14 +728,15 @@ const rawAromaticHerbs = {
       Water: 0.1,
     },
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tbsp (2 g)",
+        calories: 1,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.2, fat: 0.02, fiber: 0.1 }
     },
     qualities: ["warming", "digestive", "expectorant"],
     origin: ["Mediterranean", "Middle East"],

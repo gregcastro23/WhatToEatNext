@@ -47,7 +47,8 @@ const rawSquash = {
     affinities: ["sage", "brown butter", "maple", "cinnamon", "pecans"],
     cookingMethods: ["roasted", "soup", "steamed", "puréed"],
     nutritionalProfile: {
-      calories: 45,
+        serving_size: "100 g raw",
+        calories: 45,
       protein_g: 1,
       carbs_g: 12,
       fat_g: 0.1,
@@ -58,7 +59,7 @@ const rawSquash = {
       antioxidants: ["beta-carotene"],
       glycemic_index: 51,
       notes: "High in beta-carotene and vitamin A",
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 1, carbs: 11.7, fat: 0.1, fiber: 2 }
     },
     preparation: {
       peeling: "required",
@@ -108,13 +109,14 @@ const rawSquash = {
     category: "vegetable",
     subCategory: "squash",
     nutritionalProfile: {
-      carbs_g: 3.11,
+        serving_size: "100 g raw",
+        carbs_g: 3.11,
       calories: 17,
       fiber_g: 1,
       protein_g: 1.21,
       vitamins: ["a", "c", "k", "b6", "folate"],
       minerals: ["potassium", "manganese", "magnesium"],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 1.2, carbs: 3.1, fat: 0.3, fiber: 1 }
     },
     season: ["summer"],
     cookingMethods: ["saute", "roast", "grill", "raw", "steam", "bake"],
@@ -204,7 +206,8 @@ const rawSquash = {
     affinities: ["cinnamon", "nutmeg", "ginger", "cream", "sage"],
     cookingMethods: ["roasted", "steamed", "puréed", "soup"],
     nutritionalProfile: {
-      fiber: "high",
+        serving_size: "100 g raw",
+        fiber: "high",
       vitamins: ["a", "c", "e", "k"],
       minerals: ["potassium", "copper", "manganese"],
       calories: 26,
@@ -215,7 +218,7 @@ const rawSquash = {
       antioxidants: ["beta-carotene", "lutein", "zeaxanthin"],
       glycemic_index: 75,
       notes: "Excellent source of vitamin A and beta-carotene",
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 1, carbs: 6.5, fat: 0.1, fiber: 0.5 }
     },
     preparation: {
       cutting: "quarter, remove seeds",
@@ -289,7 +292,8 @@ const rawSquash = {
     affinities: ["butter", "maple", "thyme", "apple", "pecans"],
     cookingMethods: ["roasted", "stuffed", "steamed"],
     nutritionalProfile: {
-      fiber: "high",
+        serving_size: "100 g raw",
+        fiber: "high",
       vitamins: ["c", "b6", "a", "thiamin"],
       minerals: ["magnesium", "potassium", "manganese"],
       calories: 56,
@@ -300,7 +304,7 @@ const rawSquash = {
       sugar_g: 0,
       glycemic_index: 40,
       notes: "Good source of vitamin C and potassium",
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 1.1, carbs: 15, fat: 0.1, fiber: 2.1 }
     },
     preparation: {
       washing: true,

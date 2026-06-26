@@ -25,12 +25,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["infused", "cooked"],
     conversionRatio: "1:3", // 1 part dried = 3 parts fresh;
     nutritionalProfile: {
-      vitamins: ["k", "a"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "a"],
       minerals: ["calcium", "iron"],
       antioxidants: ["flavonoids", "anthocyanins"],
       volatileoils: ["eugenol", "linalool"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "just before use",
@@ -88,12 +89,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["k", "e"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "e"],
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "thymol"],
       volatileoils: ["carvacrol", "thymol"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "release oils before use",
@@ -145,12 +147,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "brined"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["c", "a"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["c", "a"],
       minerals: ["iron", "manganese"],
       antioxidants: ["thymol", "carvacrol"],
       volatileoils: ["thymol", "linalool"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       removing: "from stems if whole",
@@ -202,12 +205,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "roasted"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["calcium", "iron"],
       antioxidants: ["carnosic acid", "rosmarinic acid"],
       volatileoils: ["pinene", "camphor"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       grinding: "recommended - leaves are tough",
@@ -259,12 +263,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "rubbed"],
     conversionRatio: "1:4",
     nutritionalProfile: {
-      vitamins: ["k", "b6"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "b6"],
       minerals: ["iron", "calcium"],
       antioxidants: ["rosmarinic acid", "carnosic acid"],
       volatileoils: ["thujone", "camphor"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       rubbing: "crumble between fingers",
@@ -320,12 +325,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["simmered", "infused", "brined"],
     conversionRatio: "1:2",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["iron", "manganese"],
       antioxidants: ["linalool", "eugenol"],
       volatileoils: ["cineole", "eugenol"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       whole: "use whole and remove before serving",
@@ -377,12 +383,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["k", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "c"],
       minerals: ["iron", "calcium"],
       antioxidants: ["rosmarinic acid", "ursolic acid"],
       volatileoils: ["sabinene", "terpinene"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "gently before use",
@@ -433,12 +440,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "marinades"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "thymol"],
       volatileoils: ["carvacrol", "thymol"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "before use",
@@ -489,12 +497,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["finishing", "infused"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["c", "a"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["c", "a"],
       minerals: ["potassium", "calcium"],
       antioxidants: ["flavonoids", "carotenoids"],
       volatileoils: ["methyl chavicol", "limonene"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "very gently",
@@ -545,12 +554,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "sauces"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["calcium", "potassium"],
       antioxidants: ["quercetin", "rutin"],
       volatileoils: ["estragole", "ocimene"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "gently to release oils",
@@ -601,12 +611,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "pickling", "infused"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["manganese", "iron"],
       antioxidants: ["flavonoids", "monoterpenes"],
       volatileoils: ["carvone", "limonene"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "before use",
@@ -657,12 +668,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["tea", "cooked", "infused"],
     conversionRatio: "1:4",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "flavonoids"],
       volatileoils: ["menthol", "menthone"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "to release oils",
@@ -718,12 +730,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "tea"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["c", "b6"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["c", "b6"],
       minerals: ["calcium", "iron"],
       antioxidants: ["flavonoids", "anethole"],
       volatileoils: ["anethole", "fenchone"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       grinding: "just before use if whole",
@@ -779,12 +792,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "garnish", "infused"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["k", "c", "a"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "c", "a"],
       minerals: ["iron", "calcium"],
       antioxidants: ["flavonoids", "luteolin"],
       volatileoils: ["myristicin", "apiol"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "gently before use",
@@ -835,12 +849,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused"],
     conversionRatio: "1:4",
     nutritionalProfile: {
-      vitamins: ["k", "a"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "a"],
       minerals: ["potassium", "manganese"],
       antioxidants: ["quercetin", "kaempferol"],
       volatileoils: ["linalool", "decanal"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "before use",
@@ -891,12 +906,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["garnish", "rehydrated", "cooked"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["k", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "c"],
       minerals: ["calcium", "iron"],
       antioxidants: ["allicin", "quercetin"],
       volatileoils: ["allyl sulfides"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       rehydrating: "soak in warm water briefly",
@@ -947,12 +963,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["tea", "infused", "baking"],
     conversionRatio: "1:4",
     nutritionalProfile: {
-      vitamins: ["b", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["b", "c"],
       minerals: ["calcium", "potassium"],
       antioxidants: ["rosmarinic acid", "flavonoids"],
       volatileoils: ["citral", "citronellal"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "lightly before use",
@@ -1008,12 +1025,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["baking", "infused", "tea"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["a", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["a", "c"],
       minerals: ["calcium", "iron"],
       antioxidants: ["rosmarinic acid", "ursolic acid"],
       volatileoils: ["linalool", "linalyl acetate"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "gently before use",
@@ -1069,12 +1087,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "marinades"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["k", "b6"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["k", "b6"],
       minerals: ["iron", "manganese"],
       antioxidants: ["rosmarinic acid", "carvacrol"],
       volatileoils: ["thymol", "carvacrol"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "before use",
@@ -1125,12 +1144,13 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["cooked", "infused", "seasoning"],
     conversionRatio: "1:3",
     nutritionalProfile: {
-      vitamins: ["b6", "c"],
+        serving_size: "1 tsp (1 g)",
+        vitamins: ["b6", "c"],
       minerals: ["iron", "magnesium"],
       antioxidants: ["quercetin", "kaempferol"],
       volatileoils: ["phthalides", "terpenes"],
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 3,
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
     preparation: {
       crushing: "before use",
@@ -1182,14 +1202,15 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tsp (1 g)",
+        calories: 3,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
@@ -1217,14 +1238,15 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tsp (1 g)",
+        calories: 3,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },
@@ -1253,14 +1275,15 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     category: "culinary_herb",
     qualities: ["nourishing"],
     nutritionalProfile: {
-      calories: 0,
+        serving_size: "1 tsp (1 g)",
+        calories: 3,
       protein_g: 0,
       carbs_g: 0,
       fat_g: 0,
       fiber_g: 0,
       vitamins: [],
       minerals: [],
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        macros: { protein: 0.1, carbs: 0.6, fat: 0.06, fiber: 0.4 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.2, umami: 0.0, spicy: 0.0 }, aroma: { herbaceous: 0.9, grassy: 0.5, floral: 0.3 }, texture: { tender: 0.6, delicate: 0.5 } },
       culinaryProfile: { flavorProfile: { primary: ["herbaceous"], secondary: ["grassy", "bright"], notes: "Add fresh herbs at the end of cooking to preserve volatile oils; dried herbs go in early." }, cookingMethods: ["raw", "infuse", "finish", "chiffonade"], cuisineAffinity: ["Mediterranean", "French", "Middle-Eastern", "Asian"], preparationTips: ["Chop with a sharp knife to avoid bruising.", "Add fresh at service, dried during simmer."] },

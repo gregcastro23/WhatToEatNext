@@ -25,8 +25,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -86,8 +84,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -147,8 +143,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -208,8 +202,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -269,8 +261,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -330,8 +320,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -391,8 +379,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -452,8 +438,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -513,8 +497,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -574,8 +556,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -635,8 +615,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -696,8 +674,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -757,8 +733,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -818,8 +792,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -879,8 +851,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -940,8 +910,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1001,8 +969,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1063,8 +1029,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1125,8 +1089,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1186,8 +1148,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1307,8 +1267,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1368,8 +1326,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1429,8 +1385,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1490,8 +1444,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1551,8 +1503,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1612,8 +1562,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1673,8 +1621,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1734,8 +1680,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1855,8 +1799,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -1916,8 +1858,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2157,8 +2097,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2338,8 +2276,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2399,8 +2335,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2580,8 +2514,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2701,8 +2633,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2762,8 +2692,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -2943,8 +2871,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3304,8 +3230,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3365,8 +3289,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3486,8 +3408,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3787,8 +3707,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -3849,8 +3767,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4210,8 +4126,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4511,8 +4425,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4692,8 +4604,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4753,8 +4663,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -4935,8 +4843,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5116,8 +5022,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5177,8 +5081,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5238,8 +5140,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -5479,8 +5379,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6020,8 +5918,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6381,8 +6277,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -6683,8 +6577,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7165,8 +7057,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7226,8 +7116,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7287,8 +7175,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7348,8 +7234,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7409,8 +7293,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7530,8 +7412,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7591,8 +7471,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7652,8 +7530,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7773,8 +7649,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7834,8 +7708,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -7895,8 +7767,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8076,8 +7946,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8137,8 +8005,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8198,8 +8064,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8799,8 +8663,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8860,8 +8722,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -8921,8 +8781,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9222,8 +9080,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -9403,8 +9259,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10904,8 +10758,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -10965,8 +10817,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11026,8 +10876,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11147,8 +10995,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11208,8 +11054,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11329,8 +11173,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11630,8 +11472,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11691,8 +11531,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -11992,8 +11830,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12053,8 +11889,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12114,8 +11948,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12235,8 +12067,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12416,8 +12246,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12597,8 +12425,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12658,8 +12484,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -12839,8 +12663,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13020,8 +12842,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13141,8 +12961,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13322,8 +13140,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13503,8 +13319,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13624,8 +13438,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -13925,8 +13737,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14046,8 +13856,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14107,8 +13915,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14228,8 +14034,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14469,8 +14273,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14590,8 +14392,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14771,8 +14571,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -14892,8 +14690,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15013,8 +14809,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15194,8 +14988,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15255,8 +15047,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15436,8 +15226,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15497,8 +15285,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15678,8 +15464,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -15859,8 +15643,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16280,8 +16062,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16341,8 +16121,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16402,8 +16180,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -16823,8 +16599,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17484,8 +17258,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17605,8 +17377,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17666,8 +17436,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -17907,8 +17675,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18448,8 +18214,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18509,8 +18273,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18570,8 +18332,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -18991,8 +18751,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19532,8 +19290,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19593,8 +19349,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19654,8 +19408,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19715,8 +19467,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -19776,8 +19526,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20377,8 +20125,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -20798,8 +20544,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21040,8 +20784,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21701,8 +21443,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -21942,8 +21682,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22063,8 +21801,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22124,8 +21860,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22485,8 +22219,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22546,8 +22278,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22667,8 +22397,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22728,8 +22456,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22789,8 +22515,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22850,8 +22574,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -22911,8 +22633,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23032,8 +22752,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23093,8 +22811,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23154,8 +22870,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23215,8 +22929,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23276,8 +22988,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23337,8 +23047,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23458,8 +23166,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23519,8 +23225,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23760,8 +23464,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23821,8 +23523,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23882,8 +23582,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -23943,8 +23641,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24004,8 +23700,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24065,8 +23759,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24126,8 +23818,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24247,8 +23937,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24308,8 +23996,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24369,8 +24055,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24430,8 +24114,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24491,8 +24173,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24732,8 +24412,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -24853,8 +24531,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25154,8 +24830,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25275,8 +24949,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25336,8 +25008,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25397,8 +25067,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25458,8 +25126,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25519,8 +25185,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25580,8 +25244,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25641,8 +25303,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },
@@ -25762,8 +25422,6 @@ export const recipeCoverageIngredients: Record<
     nutritionalProfile: {
       serving_size: "1 serving",
       source: "Recipe-derived coverage entry",
-      calories: 100,
-      macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 },
       vitamins: {},
       minerals: {},
     },

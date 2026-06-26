@@ -464,14 +464,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "high protein content",
+        serving_size: "100 g dry",
+        protein: "high protein content",
       minerals: ["selenium", "zinc", "magnesium"],
       vitamins: ["e", "b-complex"],
       calories_per_100g: 337,
       protein_g: 14.7,
       fiber_g: 11.1,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 337,
+        macros: { protein: 14.7, carbs: 70.4, fat: 2.2, fiber: 11.1 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
@@ -518,14 +519,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "high quality",
+        serving_size: "100 g dry",
+        protein: "high quality",
       minerals: ["manganese", "phosphorus", "iron"],
       vitamins: ["b3", "b6", "thiamin"],
       calories_per_100g: 338,
       protein_g: 14.6,
       fiber_g: 10.7,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 338,
+        macros: { protein: 14.6, carbs: 70.2, fat: 2.4, fiber: 10.7 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
@@ -572,14 +574,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "high protein",
+        serving_size: "100 g dry",
+        protein: "high protein",
       minerals: ["zinc", "iron", "manganese"],
       vitamins: ["a", "b-complex"],
       calories_per_100g: 340,
       protein_g: 15.3,
       fiber_g: 8.7,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 340,
+        macros: { protein: 15.3, carbs: 68.6, fat: 2.5, fiber: 8.7 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
@@ -626,14 +629,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "moderate protein",
+        serving_size: "100 g dry",
+        protein: "moderate protein",
       minerals: ["manganese", "phosphorus", "magnesium"],
       vitamins: ["b1", "b3", "b6"],
       calories_per_100g: 338,
       protein_g: 10.3,
       fiber_g: 15.1,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 338,
+        macros: { protein: 10.3, carbs: 75.9, fat: 1.6, fiber: 15.1 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
@@ -679,14 +683,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "high protein",
+        serving_size: "100 g dry",
+        protein: "high protein",
       minerals: ["zinc", "phosphorus", "potassium"],
       vitamins: ["b6", "folate", "niacin"],
       calories_per_100g: 357,
       protein_g: 14.7,
       fiber_g: 6.2,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 357,
+        macros: { protein: 14.7, carbs: 74.9, fat: 1.1, fiber: 6.2 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
@@ -733,14 +738,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "high protein",
+        serving_size: "100 g dry",
+        protein: "high protein",
       minerals: ["manganese", "iron", "copper"],
       vitamins: ["b1", "b2", "folate"],
       calories_per_100g: 336,
       protein_g: 13.1,
       fiber_g: 9.8,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 336,
+        macros: { protein: 13.1, carbs: 72.1, fat: 2, fiber: 9.8 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
@@ -842,14 +848,15 @@ const rawWholeGrains = {
       },
     },
     nutritionalProfile: {
-      protein: "moderate protein",
+        serving_size: "100 g dry",
+        protein: "moderate protein",
       minerals: ["manganese", "phosphorus", "magnesium"],
       vitamins: ["b1", "b3", "b6"],
       calories_per_100g: 338,
       protein_g: 10.3,
       fiber_g: 15.1,
-        calories: 100,
-        macros: { protein: 1, carbs: 10, fat: 1, fiber: 1 }
+        calories: 338,
+        macros: { protein: 10.3, carbs: 73.5, fat: 2.3, fiber: 15.1 }
     },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.6, nutty: 0.5, roasted: 0.2 }, texture: { chewy: 0.5, firm: 0.3, soft: 0.2 } },
       culinaryProfile: { flavorProfile: { primary: ["neutral"], secondary: ["starchy", "nutty"], notes: "Absorbs surrounding flavors; gains complexity via toasting." }, cookingMethods: ["boil", "steam", "bake", "pilaf", "risotto"], cuisineAffinity: ["Asian", "Mediterranean", "Middle-Eastern", "Latin"], preparationTips: ["Rinse until water runs clear to remove excess starch.", "Toast briefly in fat before adding liquid to deepen flavor."] },
