@@ -1,0 +1,3418 @@
+[
+  {
+    "slug": "thit_kho_tau",
+    "name": "thit kho tau",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Vietnamese braised pork & egg dish"
+  },
+  {
+    "slug": "lau_thai",
+    "name": "lau thai",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai-style Vietnamese hotpot dish"
+  },
+  {
+    "slug": "thit_kho_t_u",
+    "name": "thit kho t u",
+    "classification": "corrupted_duplicate",
+    "canonical": "thit_kho_tau",
+    "confidence": "high",
+    "reason": "stray single-letter token corrupts thit_kho_tau"
+  },
+  {
+    "slug": "lau_th_i",
+    "name": "lau th i",
+    "classification": "corrupted_duplicate",
+    "canonical": "lau_thai",
+    "confidence": "high",
+    "reason": "stray single-letter token corrupts lau_thai"
+  },
+  {
+    "slug": "mirin",
+    "name": "mirin",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Japanese rice wine condiment"
+  },
+  {
+    "slug": "active_dry_yeast",
+    "name": "active dry yeast",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "leavening agent"
+  },
+  {
+    "slug": "cornstarch",
+    "name": "cornstarch",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "starch thickener"
+  },
+  {
+    "slug": "oyster_sauce",
+    "name": "oyster sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "shaoxing_wine",
+    "name": "shaoxing wine",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Chinese cooking wine"
+  },
+  {
+    "slug": "alchemical_binding_agent",
+    "name": "alchemical binding agent",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "app-internal pseudo-ingredient, not a real food; keep for review"
+  },
+  {
+    "slug": "neutral_oil",
+    "name": "neutral oil",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "cooking oil"
+  },
+  {
+    "slug": "white_vinegar",
+    "name": "white vinegar",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "corn_tortillas",
+    "name": "corn tortillas",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical corn tortillas"
+  },
+  {
+    "slug": "five_spice_powder",
+    "name": "five spice powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "firm_tofu",
+    "name": "firm tofu",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cayenne_pepper",
+    "name": "cayenne pepper",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "queso_fresco",
+    "name": "queso fresco",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fresh Mexican cheese"
+  },
+  {
+    "slug": "bird_eye_chilies",
+    "name": "bird eye chilies",
+    "classification": "variant_merge",
+    "canonical": "bird_s_eye_chilies",
+    "confidence": "high",
+    "reason": "missing possessive; merge to bird's eye chilies"
+  },
+  {
+    "slug": "bird_s_eye_chilies",
+    "name": "bird s eye chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "white_bread",
+    "name": "white bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "capers",
+    "name": "capers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sichuan_peppercorns",
+    "name": "sichuan peppercorns",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_red_chilies",
+    "name": "dried red chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "garni",
+    "name": "garni",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "likely fragment of 'bouquet garni'; ambiguous, keep for review"
+  },
+  {
+    "slug": "oil",
+    "name": "oil",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic; too vague but real"
+  },
+  {
+    "slug": "frying_oil",
+    "name": "frying oil",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "bamboo_skewers",
+    "name": "bamboo skewers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "equipment, not food; keep for review"
+  },
+  {
+    "slug": "chili_flakes",
+    "name": "chili flakes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "radishes",
+    "name": "radishes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "black_peppercorns",
+    "name": "black peppercorns",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "ice",
+    "name": "ice",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "water/ice; borderline ingredient"
+  },
+  {
+    "slug": "corn",
+    "name": "corn",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "limes",
+    "name": "limes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "achiote_paste",
+    "name": "achiote paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "seasoning paste"
+  },
+  {
+    "slug": "ancho_chilies",
+    "name": "ancho chilies",
+    "classification": "variant_merge",
+    "canonical": "ancho_chiles",
+    "confidence": "high",
+    "reason": "spelling variant of ancho chiles"
+  },
+  {
+    "slug": "allspice",
+    "name": "allspice",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "red_curry_paste",
+    "name": "red curry paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "harissa_paste",
+    "name": "harissa paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "raisins",
+    "name": "raisins",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "worcestershire_sauce",
+    "name": "worcestershire sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "hot_sauce",
+    "name": "hot sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "heavy_whipping_cream",
+    "name": "heavy whipping cream",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "hoisin_sauce",
+    "name": "hoisin sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "bamboo_shoots",
+    "name": "bamboo shoots",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sauerkraut",
+    "name": "sauerkraut",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cloves",
+    "name": "cloves",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice (distinct from olives)"
+  },
+  {
+    "slug": "asafoetida_hing",
+    "name": "asafoetida hing",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kasuri_methi",
+    "name": "kasuri methi",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "dried fenugreek leaves"
+  },
+  {
+    "slug": "pepper",
+    "name": "pepper",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic but real spice"
+  },
+  {
+    "slug": "marsala_wine",
+    "name": "marsala wine",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "golden_raisins",
+    "name": "golden raisins",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "nori_seaweed",
+    "name": "nori seaweed",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "fresh_ramen_noodles",
+    "name": "fresh ramen noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_soba_noodles",
+    "name": "dried soba noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "wasabi",
+    "name": "wasabi",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mixed_seafood",
+    "name": "mixed seafood",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic seafood mix, borderline composite"
+  },
+  {
+    "slug": "doenjang",
+    "name": "doenjang",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Korean soybean paste"
+  },
+  {
+    "slug": "aromatic_catalyst",
+    "name": "aromatic catalyst",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "app-internal pseudo-ingredient; keep for review"
+  },
+  {
+    "slug": "ancho_chiles",
+    "name": "ancho chiles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical ancho chiles"
+  },
+  {
+    "slug": "pasilla_chilies",
+    "name": "pasilla chilies",
+    "classification": "variant_merge",
+    "canonical": "pasilla_chiles",
+    "confidence": "high",
+    "reason": "spelling variant of pasilla chiles"
+  },
+  {
+    "slug": "poblano_peppers",
+    "name": "poblano peppers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "guajillo_chilies",
+    "name": "guajillo chilies",
+    "classification": "variant_merge",
+    "canonical": "guajillo_chiles",
+    "confidence": "high",
+    "reason": "spelling variant of guajillo chiles"
+  },
+  {
+    "slug": "tahini",
+    "name": "tahini",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "sesame paste (distinct from tajin)"
+  },
+  {
+    "slug": "raw_tahini",
+    "name": "raw tahini",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "green_curry_paste",
+    "name": "green curry paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "niter_kibbeh",
+    "name": "niter kibbeh",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Ethiopian spiced clarified butter"
+  },
+  {
+    "slug": "scotch_bonnet_pepper",
+    "name": "scotch bonnet pepper",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "red_pepper_flakes",
+    "name": "red pepper flakes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "peri_peri_sauce",
+    "name": "peri peri sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "unsliced_white_bread",
+    "name": "unsliced white bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "habanero_pepper",
+    "name": "habanero pepper",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cream_of_tartar",
+    "name": "cream of tartar",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "american_cheese",
+    "name": "american cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "creole_seasoning",
+    "name": "creole seasoning",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "cornmeal",
+    "name": "cornmeal",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "wheat_starch",
+    "name": "wheat starch",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "silken_tofu",
+    "name": "silken tofu",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "fresh_wheat_noodles",
+    "name": "fresh wheat noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "shellfish",
+    "name": "shellfish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "category of seafood (distinct from small fish)"
+  },
+  {
+    "slug": "toulouse_sausage",
+    "name": "toulouse sausage",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kalamata_olives",
+    "name": "kalamata olives",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pita_breads",
+    "name": "pita breads",
+    "classification": "variant_merge",
+    "canonical": "pita_bread",
+    "confidence": "high",
+    "reason": "plural variant; merge to pita bread"
+  },
+  {
+    "slug": "biryani_masala",
+    "name": "biryani masala",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "cashew_paste",
+    "name": "cashew paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "spaghetti",
+    "name": "spaghetti",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "guanciale",
+    "name": "guanciale",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "strong_espresso",
+    "name": "strong espresso",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "savoiardi_ladyfingers",
+    "name": "savoiardi ladyfingers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "ladyfinger biscuits"
+  },
+  {
+    "slug": "unsweetened_cocoa_powder",
+    "name": "unsweetened cocoa powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "yakisoba_noodles",
+    "name": "yakisoba noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "yakisoba_sauce",
+    "name": "yakisoba sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "ajitsuke_tamago",
+    "name": "ajitsuke tamago",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "marinated soft-boiled egg (ramen component, single prepared item)"
+  },
+  {
+    "slug": "tentsuyu",
+    "name": "tentsuyu",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "tempura dipping sauce"
+  },
+  {
+    "slug": "tenkasu_tempura_scraps",
+    "name": "tenkasu tempura scraps",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fried tempura batter bits"
+  },
+  {
+    "slug": "okonomiyaki_sauce",
+    "name": "okonomiyaki sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "katsuobushi_bonito_flakes",
+    "name": "katsuobushi bonito flakes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "shirataki_noodles",
+    "name": "shirataki noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kamaboko",
+    "name": "kamaboko",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fish cake"
+  },
+  {
+    "slug": "somyeon_thin_wheat_noodles",
+    "name": "somyeon thin wheat noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "medium_firm_tofu",
+    "name": "medium firm tofu",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "gim_roasted_seaweed",
+    "name": "gim roasted seaweed",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dangmyeon",
+    "name": "dangmyeon",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Korean sweet potato glass noodles"
+  },
+  {
+    "slug": "eomuk_fish_cakes",
+    "name": "eomuk fish cakes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tomatillos",
+    "name": "tomatillos",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "crema_mexicana",
+    "name": "crema mexicana",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "lard",
+    "name": "lard",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "guajillo_chiles",
+    "name": "guajillo chiles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical guajillo chiles"
+  },
+  {
+    "slug": "mulato_chilies",
+    "name": "mulato chilies",
+    "classification": "variant_merge",
+    "canonical": "mulato_chiles",
+    "confidence": "high",
+    "reason": "spelling variant of mulato chiles"
+  },
+  {
+    "slug": "fresh_epazote",
+    "name": "fresh epazote",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mexican_crema",
+    "name": "mexican crema",
+    "classification": "variant_merge",
+    "canonical": "crema_mexicana",
+    "confidence": "low",
+    "reason": "English name of crema mexicana; merge"
+  },
+  {
+    "slug": "pita_bread",
+    "name": "pita bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical pita bread"
+  },
+  {
+    "slug": "shawarma_spice_blend",
+    "name": "shawarma spice blend",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pickle_brine",
+    "name": "pickle brine",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tvorog_farmers_cheese",
+    "name": "tvorog farmers cheese",
+    "classification": "variant_merge",
+    "canonical": "tvorog_farmer_s_cheese",
+    "confidence": "high",
+    "reason": "missing possessive variant"
+  },
+  {
+    "slug": "nam_prik_pao",
+    "name": "nam prik pao",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai chili jam/paste condiment"
+  },
+  {
+    "slug": "bird_s_eye_chili",
+    "name": "bird s eye chili",
+    "classification": "variant_merge",
+    "canonical": "bird_s_eye_chilies",
+    "confidence": "high",
+    "reason": "singular variant; merge to plural"
+  },
+  {
+    "slug": "massaman_curry_paste",
+    "name": "massaman curry paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "long_red_chilies",
+    "name": "long red chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_chili_flakes",
+    "name": "dried chili flakes",
+    "classification": "variant_merge",
+    "canonical": "chili_flakes",
+    "confidence": "low",
+    "reason": "near-duplicate of chili flakes"
+  },
+  {
+    "slug": "toppings_matrix",
+    "name": "toppings matrix",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "not a food; app-internal grouping label"
+  },
+  {
+    "slug": "hale_s_blue_boy_syrup",
+    "name": "hale s blue boy syrup",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "branded syrup product; real ingredient"
+  },
+  {
+    "slug": "vietnamese_baguettes",
+    "name": "vietnamese baguettes",
+    "classification": "variant_merge",
+    "canonical": "vietnamese_baguettes_banh_mi",
+    "confidence": "low",
+    "reason": "same item as banh mi baguettes"
+  },
+  {
+    "slug": "leftover_dry_injera",
+    "name": "leftover dry injera",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "injera flatbread (Ethiopian)"
+  },
+  {
+    "slug": "scotch_bonnet",
+    "name": "scotch bonnet",
+    "classification": "variant_merge",
+    "canonical": "scotch_bonnet_pepper",
+    "confidence": "high",
+    "reason": "merge to scotch bonnet pepper"
+  },
+  {
+    "slug": "scotch_bonnet_peppers_ata_rodo",
+    "name": "scotch bonnet peppers ata rodo",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "scotch bonnet peppers (Nigerian name); distinct descriptor"
+  },
+  {
+    "slug": "habanero",
+    "name": "habanero",
+    "classification": "variant_merge",
+    "canonical": "habanero_pepper",
+    "confidence": "high",
+    "reason": "merge to habanero pepper"
+  },
+  {
+    "slug": "macaroni",
+    "name": "macaroni",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "vegetable_stock",
+    "name": "vegetable stock",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "vermicelli",
+    "name": "vermicelli",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "crushed_wheat_frik",
+    "name": "crushed wheat frik",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "freekeh/frik cracked wheat"
+  },
+  {
+    "slug": "harissa",
+    "name": "harissa",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "brick_pastry_sheets",
+    "name": "brick pastry sheets",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "brik/brick pastry sheets"
+  },
+  {
+    "slug": "ogbono_seeds",
+    "name": "ogbono seeds",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "wild mango seeds (Nigerian)"
+  },
+  {
+    "slug": "collard_greens",
+    "name": "collard greens",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "ndol_leaves_bitterleaf",
+    "name": "ndol leaves bitterleaf",
+    "classification": "variant_merge",
+    "canonical": "ndole_leaves_bitterleaf",
+    "confidence": "high",
+    "reason": "ndol vs ndole spelling variant"
+  },
+  {
+    "slug": "couscous",
+    "name": "couscous",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "durban_curry_masala",
+    "name": "durban curry masala",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "mitmita",
+    "name": "mitmita",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Ethiopian spice blend"
+  },
+  {
+    "slug": "kuli_kuli_powder",
+    "name": "kuli kuli powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "ground peanut snack/powder (West African)"
+  },
+  {
+    "slug": "bitterleaves",
+    "name": "bitterleaves",
+    "classification": "variant_merge",
+    "canonical": "ndole_leaves_bitterleaf",
+    "confidence": "low",
+    "reason": "bitterleaf; likely same as ndole/bitterleaf"
+  },
+  {
+    "slug": "vinegar_white",
+    "name": "vinegar white",
+    "classification": "variant_merge",
+    "canonical": "white_vinegar",
+    "confidence": "high",
+    "reason": "word-order variant of white vinegar"
+  },
+  {
+    "slug": "sourdough_bread",
+    "name": "sourdough bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "leeks",
+    "name": "leeks",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "fresh_berries",
+    "name": "fresh berries",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic; real"
+  },
+  {
+    "slug": "sweet_pickle_relish",
+    "name": "sweet pickle relish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "watercress",
+    "name": "watercress",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "top_split_hot_dog_buns",
+    "name": "top split hot dog buns",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "thick_cut_sourdough",
+    "name": "thick cut sourdough",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_navy_beans",
+    "name": "dried navy beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cube_steak",
+    "name": "cube steak",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "andouille_sausage",
+    "name": "andouille sausage",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "italian_sausage",
+    "name": "italian sausage",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "hoagie_rolls",
+    "name": "hoagie rolls",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "provolone_cheese",
+    "name": "provolone cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pie_dough",
+    "name": "pie dough",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cedar_grilling_plank",
+    "name": "cedar grilling plank",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "cooking equipment, not food; keep for review"
+  },
+  {
+    "slug": "youtiao_fried_dough",
+    "name": "youtiao fried dough",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Chinese fried dough stick"
+  },
+  {
+    "slug": "tianmianjiang_sweet_bean_sauce",
+    "name": "tianmianjiang sweet bean sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "baocui_crispy_fried_cracker",
+    "name": "baocui crispy fried cracker",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "crispy fried cracker component"
+  },
+  {
+    "slug": "fresh_chinese_wheat_noodles",
+    "name": "fresh chinese wheat noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sui_mi_ya_cai",
+    "name": "sui mi ya cai",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Sichuan preserved mustard greens"
+  },
+  {
+    "slug": "chinese_sesame_paste",
+    "name": "chinese sesame paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pixian_doubanjiang",
+    "name": "pixian doubanjiang",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Pixian fermented broad bean paste"
+  },
+  {
+    "slug": "square_wonton_wrappers",
+    "name": "square wonton wrappers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "supreme_broth_gao_tang",
+    "name": "supreme broth gao tang",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "superior broth/stock"
+  },
+  {
+    "slug": "chili_paste",
+    "name": "chili paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "doubanjiang",
+    "name": "doubanjiang",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fermented broad bean paste"
+  },
+  {
+    "slug": "black_tea_leaves",
+    "name": "black tea leaves",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "maltose_syrup",
+    "name": "maltose syrup",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sweet_bean_sauce",
+    "name": "sweet bean sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "doubanjiang_spicy_broad_bean_paste",
+    "name": "doubanjiang spicy broad bean paste",
+    "classification": "variant_merge",
+    "canonical": "doubanjiang",
+    "confidence": "low",
+    "reason": "descriptive variant of doubanjiang"
+  },
+  {
+    "slug": "red_fermented_tofu",
+    "name": "red fermented tofu",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sesame_paste",
+    "name": "sesame paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sichuan_peppercorn_powder",
+    "name": "sichuan peppercorn powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "flank_steak",
+    "name": "flank steak",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "wheat_starch_tang_mian_fen",
+    "name": "wheat starch tang mian fen",
+    "classification": "variant_merge",
+    "canonical": "wheat_starch",
+    "confidence": "low",
+    "reason": "wheat starch with Chinese name; merge"
+  },
+  {
+    "slug": "doubanjiang_spicy_bean_paste",
+    "name": "doubanjiang spicy bean paste",
+    "classification": "variant_merge",
+    "canonical": "doubanjiang",
+    "confidence": "low",
+    "reason": "descriptive variant of doubanjiang"
+  },
+  {
+    "slug": "sweet_bean_sauce_tianmianjiang",
+    "name": "sweet bean sauce tianmianjiang",
+    "classification": "variant_merge",
+    "canonical": "tianmianjiang_sweet_bean_sauce",
+    "confidence": "low",
+    "reason": "word-order variant"
+  },
+  {
+    "slug": "thick_fresh_wheat_noodles",
+    "name": "thick fresh wheat noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "wonton_wrappers",
+    "name": "wonton wrappers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "croissant_au_beurre",
+    "name": "croissant au beurre",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "butter croissant (single bakery item)"
+  },
+  {
+    "slug": "cafe_au_lait",
+    "name": "cafe au lait",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "prepared coffee drink; borderline"
+  },
+  {
+    "slug": "jambon_de_paris_high_quality_cooked_ham",
+    "name": "jambon de paris high quality cooked ham",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "cooked ham (Paris ham)"
+  },
+  {
+    "slug": "croutons",
+    "name": "croutons",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "jambon_blanc_cooked_ham",
+    "name": "jambon blanc cooked ham",
+    "classification": "variant_merge",
+    "canonical": "jambon_de_paris_high_quality_cooked_ham",
+    "confidence": "low",
+    "reason": "both cooked ham; merge"
+  },
+  {
+    "slug": "gruyere",
+    "name": "gruyere",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "escargots",
+    "name": "escargots",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "snails (ingredient)"
+  },
+  {
+    "slug": "ni_u00e7oise_olives",
+    "name": "ni u00e7oise olives",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "ni\u00e7oise olives, unicode-escape mangled name; no clean duplicate present so clean in place"
+  },
+  {
+    "slug": "dover_sole",
+    "name": "dover sole",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "sausages",
+    "name": "sausages",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "juniper_berries",
+    "name": "juniper berries",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "marrow_bone",
+    "name": "marrow bone",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "leek",
+    "name": "leek",
+    "classification": "variant_merge",
+    "canonical": "leeks",
+    "confidence": "high",
+    "reason": "singular variant of leeks"
+  },
+  {
+    "slug": "mixed_firm_and_flaky_fish",
+    "name": "mixed firm and flaky fish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic fish mix; borderline composite"
+  },
+  {
+    "slug": "fish_stock",
+    "name": "fish stock",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "white_haricot_beans",
+    "name": "white haricot beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_white_tarbais_beans",
+    "name": "dried white tarbais beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "red_burgundy_wine",
+    "name": "red burgundy wine",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "small_bony_fish_for_stock",
+    "name": "small bony fish for stock",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic fish for stock"
+  },
+  {
+    "slug": "rouille",
+    "name": "rouille",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Proven\u00e7al garlic-saffron sauce condiment"
+  },
+  {
+    "slug": "piperade",
+    "name": "piperade",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "Basque cooked pepper-tomato dish; borderline"
+  },
+  {
+    "slug": "creme_patissiere",
+    "name": "creme patissiere",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "pastry cream component"
+  },
+  {
+    "slug": "wooden_skewers",
+    "name": "wooden skewers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "equipment, not food; keep for review"
+  },
+  {
+    "slug": "greek_pita_bread",
+    "name": "greek pita bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kefalotyri_cheese",
+    "name": "kefalotyri cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "vegetable_broth",
+    "name": "vegetable broth",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kefalograviera_cheese",
+    "name": "kefalograviera cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "orzo_pasta",
+    "name": "orzo pasta",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "stale_bread",
+    "name": "stale bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pastitsio_pasta_misko_no_2",
+    "name": "pastitsio pasta misko no 2",
+    "classification": "variant_merge",
+    "canonical": "pastitsio_pasta",
+    "confidence": "low",
+    "reason": "branded variant of pastitsio pasta"
+  },
+  {
+    "slug": "dried_currants",
+    "name": "dried currants",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "allspice_berries",
+    "name": "allspice berries",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kritharaki_greek_orzo_pasta",
+    "name": "kritharaki greek orzo pasta",
+    "classification": "variant_merge",
+    "canonical": "orzo_pasta",
+    "confidence": "low",
+    "reason": "kritharaki is Greek orzo; merge"
+  },
+  {
+    "slug": "kefalotyri",
+    "name": "kefalotyri",
+    "classification": "variant_merge",
+    "canonical": "kefalotyri_cheese",
+    "confidence": "high",
+    "reason": "merge to kefalotyri cheese"
+  },
+  {
+    "slug": "dried_gigantes_beans",
+    "name": "dried gigantes beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "stale_white_bread",
+    "name": "stale white bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "phyllo_pastry",
+    "name": "phyllo pastry",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pastitsio_pasta",
+    "name": "pastitsio pasta",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical pastitsio pasta (tube pasta)"
+  },
+  {
+    "slug": "currants",
+    "name": "currants",
+    "classification": "variant_merge",
+    "canonical": "dried_currants",
+    "confidence": "low",
+    "reason": "currants; merge to dried currants"
+  },
+  {
+    "slug": "fenugreek_seeds",
+    "name": "fenugreek seeds",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kasuri_methi_dried_fenugreek_leaves",
+    "name": "kasuri methi dried fenugreek leaves",
+    "classification": "variant_merge",
+    "canonical": "kasuri_methi",
+    "confidence": "high",
+    "reason": "same item with English gloss"
+  },
+  {
+    "slug": "sev",
+    "name": "sev",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fried chickpea-flour noodles snack"
+  },
+  {
+    "slug": "mutton",
+    "name": "mutton",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "red_chilies",
+    "name": "red chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "whole_green_gram_moong_dal",
+    "name": "whole green gram moong dal",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cooking_oil",
+    "name": "cooking oil",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "green_chili_paste",
+    "name": "green chili paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "nihari_masala",
+    "name": "nihari masala",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "cashews",
+    "name": "cashews",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chana_masala_powder",
+    "name": "chana masala powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "carom_seeds_ajwain",
+    "name": "carom seeds ajwain",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "amchur",
+    "name": "amchur",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "dried mango powder"
+  },
+  {
+    "slug": "raisins_and_cashews",
+    "name": "raisins and cashews",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "two ingredients combined; composite"
+  },
+  {
+    "slug": "crispy_puris",
+    "name": "crispy puris",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fried puri shells (single component)"
+  },
+  {
+    "slug": "pav_bhaji_masala",
+    "name": "pav bhaji masala",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "spice blend"
+  },
+  {
+    "slug": "pav_rolls",
+    "name": "pav rolls",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tiger_prawns",
+    "name": "tiger prawns",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "bydagi_chilies",
+    "name": "bydagi chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Byadagi chilies"
+  },
+  {
+    "slug": "ajwain_carom_seeds",
+    "name": "ajwain carom seeds",
+    "classification": "variant_merge",
+    "canonical": "carom_seeds_ajwain",
+    "confidence": "high",
+    "reason": "word-order variant of carom seeds ajwain"
+  },
+  {
+    "slug": "khoya_mawa",
+    "name": "khoya mawa",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "reduced milk solids"
+  },
+  {
+    "slug": "tikka_masala_spice_blend",
+    "name": "tikka masala spice blend",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_fenugreek_leaves_kasuri_methi",
+    "name": "dried fenugreek leaves kasuri methi",
+    "classification": "variant_merge",
+    "canonical": "kasuri_methi",
+    "confidence": "high",
+    "reason": "same item, word-order/gloss variant"
+  },
+  {
+    "slug": "khoya",
+    "name": "khoya",
+    "classification": "variant_merge",
+    "canonical": "khoya_mawa",
+    "confidence": "high",
+    "reason": "merge to khoya mawa"
+  },
+  {
+    "slug": "espresso",
+    "name": "espresso",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "high_quality_cocoa_powder",
+    "name": "high quality cocoa powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cantuccini_biscotti",
+    "name": "cantuccini biscotti",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "biscotti"
+  },
+  {
+    "slug": "stale_crusty_bread_ideally_saltless_tuscan_bread",
+    "name": "stale crusty bread ideally saltless tuscan bread",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "Tuscan bread (long descriptor)"
+  },
+  {
+    "slug": "cannellini_beans",
+    "name": "cannellini beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "stale_tuscan_bread",
+    "name": "stale tuscan bread",
+    "classification": "variant_merge",
+    "canonical": "stale_crusty_bread_ideally_saltless_tuscan_bread",
+    "confidence": "low",
+    "reason": "stale Tuscan bread; merge"
+  },
+  {
+    "slug": "dried_borlotti",
+    "name": "dried borlotti",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "borlotti beans"
+  },
+  {
+    "slug": "ditalini",
+    "name": "ditalini",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "pasta"
+  },
+  {
+    "slug": "fresh_yeast",
+    "name": "fresh yeast",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "olives",
+    "name": "olives",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "distinct from cloves/limes"
+  },
+  {
+    "slug": "pici_pasta",
+    "name": "pici pasta",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "green_olives",
+    "name": "green olives",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "vinegar",
+    "name": "vinegar",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "oil_for_frying",
+    "name": "oil for frying",
+    "classification": "variant_merge",
+    "canonical": "frying_oil",
+    "confidence": "high",
+    "reason": "same as frying oil"
+  },
+  {
+    "slug": "puntarelle",
+    "name": "puntarelle",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "chicory variety"
+  },
+  {
+    "slug": "taleggio_cheese",
+    "name": "taleggio cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "bolognese_rag",
+    "name": "bolognese rag",
+    "classification": "corrupted_duplicate",
+    "canonical": "bolognese_ragu",
+    "confidence": "high",
+    "reason": "dropped 'u' corrupts bolognese ragu"
+  },
+  {
+    "slug": "gremolata",
+    "name": "gremolata",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "herb-garlic-lemon condiment"
+  },
+  {
+    "slug": "prosciutto_di_parma",
+    "name": "prosciutto di parma",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cocoa_powder",
+    "name": "cocoa powder",
+    "classification": "variant_merge",
+    "canonical": "unsweetened_cocoa_powder",
+    "confidence": "low",
+    "reason": "generic cocoa powder; merge"
+  },
+  {
+    "slug": "sea_bass",
+    "name": "sea bass",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tonnarelli",
+    "name": "tonnarelli",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "pasta"
+  },
+  {
+    "slug": "instant_yeast",
+    "name": "instant yeast",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "savoiardi_ladyfinger_biscuits",
+    "name": "savoiardi ladyfinger biscuits",
+    "classification": "variant_merge",
+    "canonical": "savoiardi_ladyfingers",
+    "confidence": "high",
+    "reason": "same ladyfinger biscuits"
+  },
+  {
+    "slug": "dextrose",
+    "name": "dextrose",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "locust_bean_gum",
+    "name": "locust bean gum",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "active_lieveto_madre_stiff_sourdough_starter",
+    "name": "active lieveto madre stiff sourdough starter",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "sourdough starter"
+  },
+  {
+    "slug": "miso_soup",
+    "name": "miso soup",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "prepared soup dish"
+  },
+  {
+    "slug": "kobachi_side_dish",
+    "name": "kobachi side dish",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic Japanese side dish; composite"
+  },
+  {
+    "slug": "ham",
+    "name": "ham",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "edamame_beans",
+    "name": "edamame beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "katsuobushi",
+    "name": "katsuobushi",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "bonito flakes"
+  },
+  {
+    "slug": "tsuyu_noodle_sauce",
+    "name": "tsuyu noodle sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "toasted_nori",
+    "name": "toasted nori",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "wasabi_paste",
+    "name": "wasabi paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "shoyu_tare",
+    "name": "shoyu tare",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "soy-based ramen seasoning"
+  },
+  {
+    "slug": "white_miso_paste_shiro_miso",
+    "name": "white miso paste shiro miso",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_wakame_seaweed",
+    "name": "dried wakame seaweed",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "aonori_dried_green_seaweed_flakes",
+    "name": "aonori dried green seaweed flakes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cooked_octopus_tako",
+    "name": "cooked octopus tako",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "cooked octopus"
+  },
+  {
+    "slug": "takoyaki_sauce",
+    "name": "takoyaki sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mentsuyu_dipping_sauce",
+    "name": "mentsuyu dipping sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "hot_green_tea_sencha",
+    "name": "hot green tea sencha",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "nori_strips",
+    "name": "nori strips",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "shungiku_chrysanthemum_greens",
+    "name": "shungiku chrysanthemum greens",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "alkaline_wheat_noodles",
+    "name": "alkaline wheat noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tare_sauce",
+    "name": "tare sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tenkasu",
+    "name": "tenkasu",
+    "classification": "variant_merge",
+    "canonical": "tenkasu_tempura_scraps",
+    "confidence": "high",
+    "reason": "merge to tenkasu tempura scraps"
+  },
+  {
+    "slug": "katsuobushi_and_aonori",
+    "name": "katsuobushi and aonori",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "two garnishes combined; composite"
+  },
+  {
+    "slug": "fresh",
+    "name": "fresh",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "orphan adjective fragment, not an ingredient; keep for review"
+  },
+  {
+    "slug": "tonkatsu_sauce",
+    "name": "tonkatsu sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mitsuba",
+    "name": "mitsuba",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Japanese herb"
+  },
+  {
+    "slug": "white_miso_paste",
+    "name": "white miso paste",
+    "classification": "variant_merge",
+    "canonical": "white_miso_paste_shiro_miso",
+    "confidence": "low",
+    "reason": "merge to white miso paste shiro miso"
+  },
+  {
+    "slug": "nori",
+    "name": "nori",
+    "classification": "variant_merge",
+    "canonical": "nori_seaweed",
+    "confidence": "low",
+    "reason": "merge to nori seaweed"
+  },
+  {
+    "slug": "naengmyeon_noodles",
+    "name": "naengmyeon noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dongchimi_brine",
+    "name": "dongchimi brine",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "korean_pancake_mix",
+    "name": "korean pancake mix",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "red_chili_pepper",
+    "name": "red chili pepper",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "garaetteok",
+    "name": "garaetteok",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Korean rice cakes"
+  },
+  {
+    "slug": "fish_cakes_eomuk",
+    "name": "fish cakes eomuk",
+    "classification": "variant_merge",
+    "canonical": "eomuk_fish_cakes",
+    "confidence": "high",
+    "reason": "word-order variant of eomuk fish cakes"
+  },
+  {
+    "slug": "jajangmyeon_noodles",
+    "name": "jajangmyeon noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chunjang",
+    "name": "chunjang",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Korean black bean paste"
+  },
+  {
+    "slug": "cornstarch_slurry",
+    "name": "cornstarch slurry",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "cornstarch+water mixture; borderline prep"
+  },
+  {
+    "slug": "core_element_of_haemul_pajeon",
+    "name": "core element of haemul pajeon",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "not an ingredient; descriptive label fragment"
+  },
+  {
+    "slug": "alchemical_spice",
+    "name": "alchemical spice",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "app-internal pseudo-ingredient; keep for review"
+  },
+  {
+    "slug": "pancake_mix",
+    "name": "pancake mix",
+    "classification": "variant_merge",
+    "canonical": "korean_pancake_mix",
+    "confidence": "low",
+    "reason": "likely same as korean pancake mix"
+  },
+  {
+    "slug": "danmuji_yellow_pickled_radish",
+    "name": "danmuji yellow pickled radish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "round_mandu_wrappers",
+    "name": "round mandu wrappers",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chili_pepper",
+    "name": "chili pepper",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chestnuts",
+    "name": "chestnuts",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "jujubes_dried_dates",
+    "name": "jujubes dried dates",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "dried jujubes"
+  },
+  {
+    "slug": "extra_firm_tofu",
+    "name": "extra firm tofu",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "spam",
+    "name": "spam",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canned meat product"
+  },
+  {
+    "slug": "instant_ramen_noodles",
+    "name": "instant ramen noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "hot_dogs",
+    "name": "hot dogs",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "baked_beans",
+    "name": "baked beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "fresh_ginseng",
+    "name": "fresh ginseng",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "dried_jujubes",
+    "name": "dried jujubes",
+    "classification": "variant_merge",
+    "canonical": "jujubes_dried_dates",
+    "confidence": "low",
+    "reason": "dried jujubes; merge"
+  },
+  {
+    "slug": "dried_astragalus_root",
+    "name": "dried astragalus root",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mochi",
+    "name": "mochi",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "primary_ingredient_for_hotteok",
+    "name": "primary ingredient for hotteok",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "descriptive label, not an ingredient"
+  },
+  {
+    "slug": "primary_ingredient_for_songpyeon",
+    "name": "primary ingredient for songpyeon",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "descriptive label, not an ingredient"
+  },
+  {
+    "slug": "primary_ingredient_for_japchae",
+    "name": "primary ingredient for japchae",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "descriptive label, not an ingredient"
+  },
+  {
+    "slug": "jalapeno",
+    "name": "jalapeno",
+    "classification": "variant_merge",
+    "canonical": "jalapenos",
+    "confidence": "high",
+    "reason": "singular variant of jalapenos"
+  },
+  {
+    "slug": "stale_corn_tortillas",
+    "name": "stale corn tortillas",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "epazote",
+    "name": "epazote",
+    "classification": "variant_merge",
+    "canonical": "fresh_epazote",
+    "confidence": "low",
+    "reason": "epazote; merge to fresh epazote"
+  },
+  {
+    "slug": "bolillo_rolls",
+    "name": "bolillo rolls",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "refried_beans",
+    "name": "refried beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "pico_de_gallo",
+    "name": "pico de gallo",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fresh salsa (multi-ingredient composite)"
+  },
+  {
+    "slug": "chiltomate_sauce",
+    "name": "chiltomate sauce",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "Yucatecan tomato sauce; composite condiment"
+  },
+  {
+    "slug": "cooked_ham",
+    "name": "cooked ham",
+    "classification": "variant_merge",
+    "canonical": "jambon_de_paris_high_quality_cooked_ham",
+    "confidence": "low",
+    "reason": "cooked ham; merge"
+  },
+  {
+    "slug": "serrano_chilies",
+    "name": "serrano chilies",
+    "classification": "variant_merge",
+    "canonical": "serrano_chiles",
+    "confidence": "high",
+    "reason": "spelling variant of serrano chiles"
+  },
+  {
+    "slug": "tlayudas",
+    "name": "tlayudas",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "large Oaxacan tortillas (ingredient base); could be dish"
+  },
+  {
+    "slug": "oaxaca_cheese",
+    "name": "oaxaca cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chorizo",
+    "name": "chorizo",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "roma",
+    "name": "roma",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "roma tomato (truncated name)"
+  },
+  {
+    "slug": "hass",
+    "name": "hass",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "hass avocado (truncated name)"
+  },
+  {
+    "slug": "salsa_roja",
+    "name": "salsa roja",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "red salsa (composite condiment)"
+  },
+  {
+    "slug": "nopales",
+    "name": "nopales",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "cactus pads"
+  },
+  {
+    "slug": "cotija_cheese",
+    "name": "cotija cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chile_powder",
+    "name": "chile powder",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "juice",
+    "name": "juice",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic; too vague but real"
+  },
+  {
+    "slug": "fideo_pasta",
+    "name": "fideo pasta",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mulato_chiles",
+    "name": "mulato chiles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical mulato chiles"
+  },
+  {
+    "slug": "pasilla_chiles",
+    "name": "pasilla chiles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical pasilla chiles"
+  },
+  {
+    "slug": "corn_tortilla",
+    "name": "corn tortilla",
+    "classification": "variant_merge",
+    "canonical": "corn_tortillas",
+    "confidence": "high",
+    "reason": "singular variant of corn tortillas"
+  },
+  {
+    "slug": "jalapenos",
+    "name": "jalapenos",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical jalapenos"
+  },
+  {
+    "slug": "serrano_chiles",
+    "name": "serrano chiles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical serrano chiles"
+  },
+  {
+    "slug": "cascabel_chilies",
+    "name": "cascabel chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "cascabel chilies; real (no canonical -chiles present)"
+  },
+  {
+    "slug": "salsa_verde",
+    "name": "salsa verde",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "green salsa (composite condiment)"
+  },
+  {
+    "slug": "dried_corn_husks",
+    "name": "dried corn husks",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "yucatecan_limes",
+    "name": "yucatecan limes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "chilhuacle_negro_chilies",
+    "name": "chilhuacle negro chilies",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tajin",
+    "name": "tajin",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "chili-lime seasoning (distinct from tahini)"
+  },
+  {
+    "slug": "chamoy_sauce",
+    "name": "chamoy sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cotija_cheese_crumbled",
+    "name": "cotija cheese crumbled",
+    "classification": "variant_merge",
+    "canonical": "cotija_cheese",
+    "confidence": "high",
+    "reason": "crumbled cotija; merge"
+  },
+  {
+    "slug": "ancho",
+    "name": "ancho",
+    "classification": "variant_merge",
+    "canonical": "ancho_chiles",
+    "confidence": "high",
+    "reason": "ancho; merge to ancho chiles"
+  },
+  {
+    "slug": "aleppo_pepper_flakes",
+    "name": "aleppo pepper flakes",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "laurel_leaves",
+    "name": "laurel leaves",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "bay leaves"
+  },
+  {
+    "slug": "sumac",
+    "name": "sumac",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "bulgur",
+    "name": "bulgur",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "molokhia_leaves",
+    "name": "molokhia leaves",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "b_u00e9chamel_sauce",
+    "name": "b u00e9chamel sauce",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "b\u00e9chamel sauce (composite); also unicode-corrupted name"
+  },
+  {
+    "slug": "shrak",
+    "name": "shrak",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "thin flatbread (Levantine)"
+  },
+  {
+    "slug": "hawaij",
+    "name": "hawaij",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Yemeni spice blend"
+  },
+  {
+    "slug": "kataifi_pastry",
+    "name": "kataifi pastry",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "nabulsi",
+    "name": "nabulsi",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Nabulsi cheese"
+  },
+  {
+    "slug": "neutral_frying_oil",
+    "name": "neutral frying oil",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tahini_sauce",
+    "name": "tahini sauce",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "tahini-based sauce; borderline composite"
+  },
+  {
+    "slug": "kitchen_towel",
+    "name": "kitchen towel",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "equipment, not food; keep for review"
+  },
+  {
+    "slug": "tvorog_farmer_s_cheese",
+    "name": "tvorog farmer s cheese",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical tvorog farmer's cheese"
+  },
+  {
+    "slug": "berry_preserves",
+    "name": "berry preserves",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "kefir",
+    "name": "kefir",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "small_fish",
+    "name": "small fish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "distinct from shellfish"
+  },
+  {
+    "slug": "prized_fish",
+    "name": "prized fish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic descriptor for fish; vague"
+  },
+  {
+    "slug": "vodka",
+    "name": "vodka",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "mixed_cured_meats",
+    "name": "mixed cured meats",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "assortment of cured meats; composite"
+  },
+  {
+    "slug": "black_olives",
+    "name": "black olives",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "cooked_meat",
+    "name": "cooked meat",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "generic; vague"
+  },
+  {
+    "slug": "filling",
+    "name": "filling",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "orphan label, not an ingredient; keep for review"
+  },
+  {
+    "slug": "for_glaze",
+    "name": "for glaze",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "orphan label fragment, not an ingredient; keep for review"
+  },
+  {
+    "slug": "cold_kvas",
+    "name": "cold kvas",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fermented bread drink (Russian)"
+  },
+  {
+    "slug": "sriracha",
+    "name": "sriracha",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "finely_sliced",
+    "name": "finely sliced",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "orphan adjective fragment, not an ingredient; keep for review"
+  },
+  {
+    "slug": "panang_curry_paste",
+    "name": "panang curry paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "torn",
+    "name": "torn",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "orphan adjective fragment, not an ingredient; keep for review"
+  },
+  {
+    "slug": "beaten",
+    "name": "beaten",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "orphan adjective fragment, not an ingredient; keep for review"
+  },
+  {
+    "slug": "nam_prik_pao_thai_chili_jam",
+    "name": "nam prik pao thai chili jam",
+    "classification": "variant_merge",
+    "canonical": "nam_prik_pao",
+    "confidence": "high",
+    "reason": "same item with English gloss"
+  },
+  {
+    "slug": "preserved_radish_chai_poh",
+    "name": "preserved radish chai poh",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "preserved radish"
+  },
+  {
+    "slug": "canned_bamboo_shoots",
+    "name": "canned bamboo shoots",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "gaeng_panang_neua",
+    "name": "gaeng panang neua",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai panang beef curry dish"
+  },
+  {
+    "slug": "khao_soi_gai",
+    "name": "khao soi gai",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai coconut curry noodle soup dish"
+  },
+  {
+    "slug": "tub_tim_grob",
+    "name": "tub tim grob",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai water-chestnut rubies dessert dish"
+  },
+  {
+    "slug": "bua_loi",
+    "name": "bua loi",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai rice-flour balls in coconut milk dessert"
+  },
+  {
+    "slug": "sangkaya_fak_thong",
+    "name": "sangkaya fak thong",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai pumpkin custard dessert dish"
+  },
+  {
+    "slug": "kluay_tod",
+    "name": "kluay tod",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Thai fried bananas dessert dish"
+  },
+  {
+    "slug": "youtiao_quay",
+    "name": "youtiao quay",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "fried dough stick"
+  },
+  {
+    "slug": "nuoc_cham",
+    "name": "nuoc cham",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Vietnamese dipping sauce condiment"
+  },
+  {
+    "slug": "ch_l_a",
+    "name": "ch l a",
+    "classification": "corrupted_duplicate",
+    "canonical": "cha_lua",
+    "confidence": "high",
+    "reason": "stray single-letter tokens corrupt cha_lua"
+  },
+  {
+    "slug": "banh_mi_p_la",
+    "name": "banh mi p la",
+    "classification": "corrupted_duplicate",
+    "canonical": "banh_mi_op_la",
+    "confidence": "high",
+    "reason": "dropped 'o' corrupts banh_mi_op_la"
+  },
+  {
+    "slug": "chao",
+    "name": "chao",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "fermented tofu (chao); real condiment"
+  },
+  {
+    "slug": "nuoc_mau",
+    "name": "nuoc mau",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Vietnamese caramel sauce"
+  },
+  {
+    "slug": "m_m_ru_c",
+    "name": "m m ru c",
+    "classification": "corrupted_duplicate",
+    "canonical": "mam_ruo_c",
+    "confidence": "high",
+    "reason": "stray single-letter tokens corrupt mam_ruo_c"
+  },
+  {
+    "slug": "annatto_oil",
+    "name": "annatto oil",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "tapioca_noodles",
+    "name": "tapioca noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "catfish_steaks",
+    "name": "catfish steaks",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "liver_p_t",
+    "name": "liver p t",
+    "classification": "corrupted_duplicate",
+    "canonical": "liver_pate",
+    "confidence": "high",
+    "reason": "stray single-letter token corrupts liver_pate"
+  },
+  {
+    "slug": "snakehead_fish",
+    "name": "snakehead fish",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "vietnamese_baguettes_banh_mi",
+    "name": "vietnamese baguettes banh mi",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical Vietnamese banh mi baguettes"
+  },
+  {
+    "slug": "nuoc_cham_dipping_sauce",
+    "name": "nuoc cham dipping sauce",
+    "classification": "variant_merge",
+    "canonical": "nuoc_cham",
+    "confidence": "high",
+    "reason": "same item with English gloss"
+  },
+  {
+    "slug": "sa_te_chili_paste",
+    "name": "sa te chili paste",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "sate/satay chili paste"
+  },
+  {
+    "slug": "cao_lau_noodles",
+    "name": "cao lau noodles",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "red_adzuki_beans",
+    "name": "red adzuki beans",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "single food ingredient"
+  },
+  {
+    "slug": "ch_ba_mau",
+    "name": "ch ba mau",
+    "classification": "corrupted_duplicate",
+    "canonical": "che_ba_mau",
+    "confidence": "high",
+    "reason": "dropped 'e' corrupts che_ba_mau"
+  },
+  {
+    "slug": "ndole_leaves_bitterleaf",
+    "name": "ndole leaves bitterleaf",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical ndole/bitterleaf (Cameroonian)"
+  },
+  {
+    "slug": "bolognese_ragu",
+    "name": "bolognese ragu",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "bolognese meat sauce dish/composite"
+  },
+  {
+    "slug": "nuoc_cha_m",
+    "name": "nuoc cha m",
+    "classification": "corrupted_duplicate",
+    "canonical": "nuoc_cham",
+    "confidence": "high",
+    "reason": "stray single-letter token corrupts nuoc_cham"
+  },
+  {
+    "slug": "cha_lua",
+    "name": "cha lua",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Vietnamese pork sausage/roll (single charcuterie item)"
+  },
+  {
+    "slug": "banh_mi_op_la",
+    "name": "banh mi op la",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Vietnamese fried-egg banh mi sandwich dish"
+  },
+  {
+    "slug": "cha_o",
+    "name": "cha o",
+    "classification": "corrupted_duplicate",
+    "canonical": "chao",
+    "confidence": "high",
+    "reason": "stray single-letter token corrupts chao"
+  },
+  {
+    "slug": "nuoc_ma_u",
+    "name": "nuoc ma u",
+    "classification": "corrupted_duplicate",
+    "canonical": "nuoc_mau",
+    "confidence": "high",
+    "reason": "stray single-letter token corrupts nuoc_mau"
+  },
+  {
+    "slug": "mam_ruo_c",
+    "name": "mam ruo c",
+    "classification": "real_ingredient",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "canonical fermented shrimp paste (Vietnamese)"
+  },
+  {
+    "slug": "liver_pate",
+    "name": "liver pate",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "low",
+    "reason": "liver p\u00e2t\u00e9; borderline composite (treated as dish per spec)"
+  },
+  {
+    "slug": "che_ba_mau",
+    "name": "che ba mau",
+    "classification": "dish_or_composite",
+    "canonical": null,
+    "confidence": "high",
+    "reason": "Vietnamese three-color dessert dish"
+  }
+]

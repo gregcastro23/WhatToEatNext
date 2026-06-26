@@ -25,6 +25,20 @@ const UNMATCHED_PATH = path.join(
   "generated",
   "ingredientRecipeUnmatched.summary.json",
 );
+// Slugs purged as non-ingredients/duplicates (scripts/purgeCoverageJunk.ts).
+// Never regenerate these — see project_ingredient_quality_campaign.
+const EXCLUSIONS_PATH = path.join(
+  REPO_ROOT,
+  "src",
+  "data",
+  "generated",
+  "coverageExclusions.json",
+);
+const EXCLUDED_SLUGS: Set<string> = new Set(
+  fs.existsSync(EXCLUSIONS_PATH)
+    ? ((JSON.parse(fs.readFileSync(EXCLUSIONS_PATH, "utf8")).slugs as string[]) ?? [])
+    : [],
+);
 const SUMMARIES_PATH = path.join(
   REPO_ROOT,
   "src",
@@ -165,6 +179,7 @@ function main(): void {
     const canonicalName = canonicalizeCoverageName(row.name);
     const slug = toSlug(canonicalName);
     if (!slug) continue;
+    if (EXCLUDED_SLUGS.has(slug)) continue; // purged non-ingredient/duplicate
     if (seenSlugs.has(slug)) continue;
     seenSlugs.add(slug);
 
