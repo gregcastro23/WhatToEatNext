@@ -1,6 +1,7 @@
 import { getCurrentSeason } from "@/data/integrations/seasonal";
 import {
   unifiedBeverages,
+  unifiedCookingStaples,
   unifiedDairy,
   unifiedFruits,
   unifiedGrains,
@@ -113,6 +114,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     this.ingredientCache.set("seasonings", Object.values(unifiedSeasonings));
     this.ingredientCache.set("beverages", Object.values(unifiedBeverages));
     this.ingredientCache.set("misc", Object.values(unifiedMisc));
+    this.ingredientCache.set("staples", Object.values(unifiedCookingStaples));
   }
 
   /**

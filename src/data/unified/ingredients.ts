@@ -13,6 +13,7 @@ import { fruits } from "../ingredients/fruits";
 import { grains } from "../ingredients/grains";
 import { herbs } from "../ingredients/herbs";
 import { getIngredientSummary } from "../ingredients/ingredientSummaries";
+import { cookingStaples } from "../ingredients/misc/cookingStaples";
 import { miscIngredients } from "../ingredients/misc/misc";
 import { oils } from "../ingredients/oils";
 import {
@@ -427,6 +428,13 @@ export const unifiedBeverages = createUnifiedCollection(
   beveragesIngredients as { [key: string]: IngredientMapping },
   "beverages",
 );
+// Curated cooking staples (stocks, broths, pantry liquids/binders). Each entry
+// carries its own `category`, which `enhanceIngredient` honors over the
+// collection default.
+export const unifiedCookingStaples = createUnifiedCollection(
+  cookingStaples as { [key: string]: IngredientMapping },
+  "seasonings",
+);
 // Combine all unified collections
 const _rawUnified: { [key: string]: UnifiedIngredient } = {
   ...unifiedDairy,
@@ -441,6 +449,7 @@ const _rawUnified: { [key: string]: UnifiedIngredient } = {
   ...unifiedProteins,
   ...unifiedMisc,
   ...unifiedBeverages,
+  ...unifiedCookingStaples,
 };
 
 // Collapse singular/plural collisions. The plural alias gets dropped from the

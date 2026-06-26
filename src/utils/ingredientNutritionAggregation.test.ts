@@ -43,8 +43,15 @@ describe("resolveIngredientByName", () => {
     expect(egg!.name.toLowerCase()).not.toContain("eggplant");
   });
 
+  it("resolves cooking staples added to the catalog", () => {
+    // `fish sauce` used to be an honest miss; it is now a curated staple.
+    expect(resolveIngredientByName("fish sauce")?.name).toBe("fish sauce");
+    expect(resolveIngredientByName("chicken stock")?.name).toBe(
+      "chicken stock",
+    );
+  });
+
   it("returns undefined for a genuinely absent ingredient (honest miss)", () => {
-    expect(resolveIngredientByName("fish sauce")).toBeUndefined();
     expect(
       resolveIngredientByName("xyzzy nonexistent ingredient"),
     ).toBeUndefined();
