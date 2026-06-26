@@ -23,6 +23,7 @@ import type {
   ThermodynamicProperties,
 } from "@/types/alchemy";
 import { alchemicalEngine } from "@/utils/alchemyInitializer";
+import { resolveIngredientByName } from "@/utils/ingredientResolution";
 import { calculateThermodynamicMetrics as calcThermo } from "@/utils/monicaKalchmCalculations";
 import type { Recipe } from "../types/recipe";
 
@@ -139,7 +140,15 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   }
 
   /**
-   * Get ingredient by name
+   * Get ingredient by name.
+   *
+   * Exact (case-insensitive) match wins first, preserving prior behavior. When
+   * no exact match exists, fall back to the shared conservative free-text
+   * resolver (strip quantities/units, drop prep adjectives, singularize,
+   * token-subset). Because exact still wins, this only ever turns a previous
+   * miss into a hit — directly lifting the ESMS `matchRate` in
+   * `hierarchicalRecipeCalculations.ts`, which calls this for each recipe
+   * ingredient.
    */
   getIngredientByName(name: string): UnifiedIngredient | undefined {
     const normalizedName = name.toLowerCase().trim();
@@ -153,7 +162,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
     }
 
-    return undefined;
+    return resolveIngredientByName(name);
   }
 
   /**
