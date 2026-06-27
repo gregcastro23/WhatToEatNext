@@ -363,7 +363,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 124, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -450,7 +450,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.29 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -487,7 +487,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 123, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.12 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -524,7 +524,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.03 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -561,7 +561,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.04 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -649,7 +649,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.04 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -686,7 +686,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.15 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -723,7 +723,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.04 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -760,7 +760,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.03 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -797,7 +797,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.04 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -834,7 +834,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.43 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -871,7 +871,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.19 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -908,7 +908,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 125, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.07 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -945,7 +945,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.03 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1085,7 +1085,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.31 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1122,7 +1122,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 119, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1209,7 +1209,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.2, A: 0.6 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1250,7 +1250,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.06 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1291,7 +1291,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 124, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.1 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1332,7 +1332,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: {  }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },
@@ -1369,7 +1369,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     },
       astrologicalProfile: { rulingPlanets: ["Sun", "Moon"], favorableZodiac: ["cancer", "taurus"] },
       sensoryProfile: { taste: { sweet: 0.1, salty: 0.4, sour: 0.1, bitter: 0.1, umami: 0.3, spicy: 0.1 }, aroma: { savory: 0.6, aromatic: 0.4 }, texture: { varied: 0.5 } },
-      nutritionalProfile: { serving_size: "1 tsp", calories: 10, macros: { protein: 0.5, carbs: 2, fat: 0.2, fiber: 0.2 }, vitamins: {}, minerals: { sodium: 0.5 }, source: "category default" },
+      nutritionalProfile: { serving_size: "1 tbsp (14g)", calories: 120, macros: { protein: 0, carbs: 0, fat: 14, fiber: 0 }, vitamins: { E: 0.05 }, minerals: {  }, source: "researched estimate" },
       culinaryProfile: { flavorProfile: { primary: ["savory"], secondary: ["umami", "aromatic"], notes: "Balance salt, acid, and umami progressively throughout cooking." }, cookingMethods: ["season", "finish", "marinate"], cuisineAffinity: ["global"], preparationTips: ["Season in layers rather than all at once.", "Taste between additions."] },
       pairingRecommendations: { complementary: ["oil", "acid", "alliums", "herbs"], contrasting: ["sweeteners", "dairy"], toAvoid: [] }
 },

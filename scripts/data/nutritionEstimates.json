@@ -1,0 +1,27 @@
+{
+  "_note": "Researched best-estimate nutritionalProfiles keyed by ingredient slug, applied by scripts/enrichNutrition.ts to replace placeholder/default nutrition. vitamins/minerals are fraction-of-Daily-Value (0-1). source='researched estimate' marks them as honest estimates (NOT measured/USDA-exact). Grows per category batch — see project_ingredient_quality_campaign.",
+  "_batches": ["oils (seasonings) 2026-06-27"],
+  "estimates": {
+    "apricot kernel oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.05 }, "minerals": {}, "source": "researched estimate" },
+    "argan oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.04 }, "minerals": {}, "source": "researched estimate" },
+    "babassu oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": {}, "minerals": {}, "source": "researched estimate" },
+    "black seed oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.03 }, "minerals": {}, "source": "researched estimate" },
+    "camellia oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.04 }, "minerals": {}, "source": "researched estimate" },
+    "chili oil": { "serving_size": "1 tbsp (14g)", "calories": 123, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.12 }, "minerals": {}, "source": "researched estimate" },
+    "hazelnut oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.43 }, "minerals": {}, "source": "researched estimate" },
+    "hemp seed oil": { "serving_size": "1 tbsp (14g)", "calories": 125, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.07 }, "minerals": {}, "source": "researched estimate" },
+    "macadamia oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.04 }, "minerals": {}, "source": "researched estimate" },
+    "mustard oil": { "serving_size": "1 tbsp (14g)", "calories": 124, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.10 }, "minerals": {}, "source": "researched estimate" },
+    "mustard seed oil": { "serving_size": "1 tbsp (14g)", "calories": 124, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.10 }, "minerals": {}, "source": "researched estimate" },
+    "palm oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.15 }, "minerals": {}, "source": "researched estimate" },
+    "perilla oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.03 }, "minerals": {}, "source": "researched estimate" },
+    "pistachio oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.19 }, "minerals": {}, "source": "researched estimate" },
+    "red palm oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.20, "A": 0.60 }, "minerals": {}, "source": "researched estimate" },
+    "rice bran oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.29 }, "minerals": {}, "source": "researched estimate" },
+    "roasted pumpkin seed oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.06 }, "minerals": {}, "source": "researched estimate" },
+    "safflower oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.31 }, "minerals": {}, "source": "researched estimate" },
+    "shiso oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.03 }, "minerals": {}, "source": "researched estimate" },
+    "tea seed oil": { "serving_size": "1 tbsp (14g)", "calories": 120, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.04 }, "minerals": {}, "source": "researched estimate" },
+    "white truffle oil": { "serving_size": "1 tbsp (14g)", "calories": 119, "macros": { "protein": 0, "carbs": 0, "fat": 14, "fiber": 0 }, "vitamins": { "E": 0.10 }, "minerals": {}, "source": "researched estimate" }
+  }
+}
