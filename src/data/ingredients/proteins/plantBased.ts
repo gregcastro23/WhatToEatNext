@@ -415,6 +415,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
 
   tofu_varieties: createIngredientMapping("tofu_varieties", {
     image_url: "ingredients/firm_tofu.png",
+    aliases: ["tofu", "firm tofu", "silken tofu"],
     culinaryProfile: {
       flavorProfile: {
         primary: ["mild", "neutral"],

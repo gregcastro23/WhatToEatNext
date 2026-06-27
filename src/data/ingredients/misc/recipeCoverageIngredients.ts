@@ -16,7 +16,7 @@ export const recipeCoverageIngredients: Record<
       "Sweet Japanese rice wine used to add gloss, mild sweetness, and aroma in sauces, braises, and tare.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -75,7 +75,7 @@ export const recipeCoverageIngredients: Record<
       "Granulated dehydrated yeast used for bread fermentation; typically bloomed in warm liquid before mixing.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -134,7 +134,7 @@ export const recipeCoverageIngredients: Record<
       "Refined corn starch used to thicken sauces, stabilize batters, and improve crispness in frying.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -193,7 +193,7 @@ export const recipeCoverageIngredients: Record<
       "Concentrated savory sauce made from oyster extract and seasonings, used for umami depth and glossy stir-fry finishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -252,7 +252,7 @@ export const recipeCoverageIngredients: Record<
       "Chinese rice wine used for aromatic depth, deglazing, and reducing perceived meat or seafood odors in cooking.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["alcoholic","aromatic","acidic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -311,7 +311,7 @@ export const recipeCoverageIngredients: Record<
       "Refined low-aroma oil (e.g., canola, grapeseed, sunflower) used for high-heat frying or when no flavor contribution from fat is desired.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -370,7 +370,7 @@ export const recipeCoverageIngredients: Record<
       "Neutral distilled vinegar with sharp acetic acidity used for pickling, cleaning flavor profiles, and brightening sauces.",
     category: "vinegar",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["acidic","bright","balancing"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -429,7 +429,7 @@ export const recipeCoverageIngredients: Record<
       "Nixtamalized corn flatbreads used in tacos, enchiladas, tostadas, and layered casseroles.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -488,7 +488,7 @@ export const recipeCoverageIngredients: Record<
       "Chinese spice blend balancing sweet, warm, and numbing notes; commonly includes star anise, fennel, clove, cinnamon, and pepper.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -547,7 +547,7 @@ export const recipeCoverageIngredients: Record<
       "Pressable tofu with moderate water content that holds shape in stir-fries, braises, and pan-searing.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -606,7 +606,7 @@ export const recipeCoverageIngredients: Record<
       "Hot red chili powder used for direct, fast-building capsaicin heat.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -665,7 +665,7 @@ export const recipeCoverageIngredients: Record<
       "Fresh crumbly Mexican cheese used as a salty, cooling finish for beans, tortillas, and chiles.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","foundational"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -724,7 +724,7 @@ export const recipeCoverageIngredients: Record<
       "Alternate spelling variant for bird's eye chilies; treated as the same high-heat chili ingredient.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     aliases: ["bird eye chilies", "bird_eye_chilies"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
@@ -784,7 +784,7 @@ export const recipeCoverageIngredients: Record<
       "Refined wheat bread used for crumbs, soaks, sandwiches, and structure in fillings or meat mixtures.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -842,7 +842,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pickled flower buds of the caper bush, brined or salted, lending a sharp briny tang to Mediterranean sauces, fish dishes, and tapenade.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -903,7 +903,7 @@ export const recipeCoverageIngredients: Record<
       "Citrusy, numbing spice from prickly ash husks used for ma la profile and aromatic lift.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -962,7 +962,7 @@ export const recipeCoverageIngredients: Record<
       "Air-dried red chiles used whole, crushed, or rehydrated for layered heat and color.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1021,7 +1021,7 @@ export const recipeCoverageIngredients: Record<
       "Generic recipe oil token used when a source recipe does not specify olive, canola, or another named fat. Treat as neutral cooking oil unless a regional context indicates otherwise.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1080,7 +1080,7 @@ export const recipeCoverageIngredients: Record<
       "Oil specified for deep or shallow frying where smoke point and oxidation stability are primary constraints.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1139,7 +1139,7 @@ export const recipeCoverageIngredients: Record<
       "Crushed dried chili fragments used as finishing heat or infused in oil.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1198,7 +1198,7 @@ export const recipeCoverageIngredients: Record<
       "Crisp pungent roots used raw for bite or pickled for acidity and crunch.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1256,7 +1256,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried whole pepper berries ground for sharp, pungent heat, the universal table and cooking seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1317,7 +1317,7 @@ export const recipeCoverageIngredients: Record<
       "Frozen water used for chilling, textural contrast, and dessert beverages rather than as a nutritional ingredient.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1376,7 +1376,7 @@ export const recipeCoverageIngredients: Record<
       "Whole corn kernels or cut corn used as a starchy-sweet base ingredient across soups, stews, tortillas, and salads.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1434,7 +1434,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small green citrus fruits with sharp, acidic juice; essential in Mexican cooking for salsas, marinades, drinks, and finishing tacos and soups.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1494,7 +1494,7 @@ export const recipeCoverageIngredients: Record<
     description: "Brick-red Yucatecan seasoning paste of ground annatto, spices, and vinegar; rubbed onto meats for cochinita pibil and other adobo dishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1555,7 +1555,7 @@ export const recipeCoverageIngredients: Record<
       "Warm spice from dried Pimenta berries with flavor notes of clove, cinnamon, and nutmeg.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1613,7 +1613,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thai paste of red chilies, lemongrass, galangal, and shrimp paste, simmered with coconut milk for classic red curry.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1673,7 +1673,7 @@ export const recipeCoverageIngredients: Record<
     description: "A North African chili paste of roasted red peppers, garlic, and spices like caraway and coriander, used as a condiment and cooking base.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1734,7 +1734,7 @@ export const recipeCoverageIngredients: Record<
       "Dried grapes used for concentrated sweetness and chew in savory rice dishes, breads, and desserts.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1793,7 +1793,7 @@ export const recipeCoverageIngredients: Record<
       "A highly complex, fermented liquid condiment created in England, featuring a base of vinegar flavored with molasses, sugar, salt, anchovies, tamarind, onion, and garlic. It provides an immediate hit of umami, tang, and sweetness, excelling as a marinade for beef or a seasoning for bloody marys.\n\n**Selection & Storage:** Highly stable due to its vinegar and salt content; store in a cool, dark pantry.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1851,7 +1851,7 @@ export const recipeCoverageIngredients: Record<
     description: "Liquid condiment of chilies, vinegar, and salt, splashed onto dishes at the table for added heat and tang.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1911,7 +1911,7 @@ export const recipeCoverageIngredients: Record<
     description: "High-fat cream that whips to stiff peaks and enriches sauces, soups, and desserts without curdling when reduced.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -1972,7 +1972,7 @@ export const recipeCoverageIngredients: Record<
       "A thick, fragrant sauce commonly used in Cantonese cuisine as a glaze for meat or a dipping sauce. It is sweet and salty, primarily made from fermented soybeans, garlic, five-spice powder, and sugar, offering a flavor profile similar to a Chinese BBQ sauce.\n\n**Selection & Storage:** Once opened, store tightly sealed in the refrigerator, where it will last for many months.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2030,7 +2030,7 @@ export const recipeCoverageIngredients: Record<
     description: "Crunchy young shoots of bamboo, blanched to remove bitterness and used in stir-fries, curries, and braises.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2091,7 +2091,7 @@ export const recipeCoverageIngredients: Record<
       "Finely shredded cabbage that has been fermented by various lactic acid bacteria, including *Leuconostoc*, *Lactobacillus*, and *Pediococcus*. This anaerobic fermentation converts the cabbage's natural sugars into lactic acid, providing a long shelf life and a distinctively sharp, sour tang.\n\n**Selection & Storage:** For the most health benefits, purchase unpasteurized sauerkraut found in the refrigerated section. Keep tightly sealed in the fridge, ensuring the cabbage remains submerged in its brine.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2150,7 +2150,7 @@ export const recipeCoverageIngredients: Record<
       "Highly aromatic dried flower buds used in tiny quantities for warm, sweet, and medicinal spice notes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2208,7 +2208,7 @@ export const recipeCoverageIngredients: Record<
     description: "A pungent dried gum resin used in tiny pinches, bloomed in hot oil to add a savory onion-garlic note to Indian dals and vegetable dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2268,7 +2268,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried fenugreek leaves with a slightly bitter, maple-like aroma, crushed and sprinkled into Indian curries, dals, and breads as a finishing herb.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2329,7 +2329,7 @@ export const recipeCoverageIngredients: Record<
       "Generic pepper token, most often meaning black pepper in savory recipes. Use as a baseline pungent spice unless the recipe specifies a pepper type.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2387,7 +2387,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fortified Sicilian wine ranging from dry to sweet, used to deglaze pans and build sauces in dishes like chicken or veal Marsala.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["alcoholic","aromatic","acidic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2447,7 +2447,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried green grapes treated to retain a pale golden color, sweeter and softer than dark raisins; used in picadillo, moles, and stuffings.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2507,7 +2507,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried, paper-thin sheets of pressed laver seaweed used to wrap sushi and rice balls or cut into garnish strips.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2567,7 +2567,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fresh alkaline wheat noodles with a chewy, springy bite, boiled briefly and served in ramen broths.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2627,7 +2627,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried buckwheat noodles with a nutty flavor, served chilled with dipping sauce or hot in broth.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2688,7 +2688,7 @@ export const recipeCoverageIngredients: Record<
       "The grated rhizome of a Japanese semi-aquatic plant (*Eutrema japonicum*). It produces volatile allyl isothiocyanate compounds when its cells are ruptured, delivering a fierce, vaporous heat that aggressively attacks the sinuses before dissipating completely within seconds.\n\n**Selection & Storage:** Real fresh wasabi is rare and must be grated immediately before serving, as its flavor vanishes in 15 minutes. Most commercial 'wasabi' is a stable mixture of horseradish, mustard, and green food coloring.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2744,10 +2744,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Mixed Seafood is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Mixed Seafood is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2805,7 +2805,7 @@ export const recipeCoverageIngredients: Record<
     description: "Korean fermented soybean paste, deep and savory, used as the base for stews like doenjang-jjigae, dipping sauces (ssamjang), and marinades.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2865,7 +2865,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried ripe poblano peppers, mild and fruity with raisin and cocoa notes; a foundational chili for moles, adobos, and enchilada sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2925,7 +2925,7 @@ export const recipeCoverageIngredients: Record<
     description: "Large, mild dark-green chili peppers with an earthy flavor; roasted and peeled for chiles rellenos, rajas, and sauces, and dried they become anchos.",
     category: "vegetable",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -2986,7 +2986,7 @@ export const recipeCoverageIngredients: Record<
       "Ground sesame seed paste used for emulsions, sauces, dips, and nutty richness.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3045,7 +3045,7 @@ export const recipeCoverageIngredients: Record<
       "Unroasted sesame paste with lighter bitterness and grassy sesame aroma compared with roasted tahini.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     aliases: ["tahini"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
@@ -3104,7 +3104,7 @@ export const recipeCoverageIngredients: Record<
     description: "Vibrant Thai paste of green chilies and aromatics, blended into coconut milk for fragrant, fresh-tasting green curry.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3164,7 +3164,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ethiopian spiced clarified butter infused with garlic, ginger, and spices, used as the cooking fat in wots and stews.",
     category: "oil",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3224,7 +3224,7 @@ export const recipeCoverageIngredients: Record<
     description: "Very hot, fruity Caribbean chili used in jerk seasoning, pepper sauces, and West African stews.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3284,7 +3284,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried crushed chili flakes with seeds, sprinkled over pizza, pasta, and stir-fries for moderate heat.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3344,7 +3344,7 @@ export const recipeCoverageIngredients: Record<
     description: "Spicy African bird's-eye chili sauce with garlic, lemon, and herbs, used to marinate and baste grilled chicken.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3402,10 +3402,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Unsliced White Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Unsliced White Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3463,7 +3463,7 @@ export const recipeCoverageIngredients: Record<
     description: "Intensely hot chili with bright citrusy notes, used in salsas, hot sauces, and Mexican and Caribbean cooking.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3523,7 +3523,7 @@ export const recipeCoverageIngredients: Record<
     description: "Powdered acid (potassium bitartrate) used to stabilize whipped egg whites and prevent sugar crystallization in candy.",
     category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3583,7 +3583,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild, smooth processed cheese that melts evenly, used on burgers, grilled cheese, and other sandwiches.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3643,7 +3643,7 @@ export const recipeCoverageIngredients: Record<
     description: "Louisiana-style spice blend of paprika, cayenne, garlic, onion, herbs, and pepper; used to season gumbo, jambalaya, and blackened meats.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3704,7 +3704,7 @@ export const recipeCoverageIngredients: Record<
       "A coarse flour ground from dried maize (corn). Depending on the grind (fine, medium, or coarse), it provides structural integrity, a crunchy texture, and a sweet, earthy flavor to baked goods like cornbread, or serves as a crispy breading for fried fish.\n\n**Selection & Storage:** Stone-ground cornmeal retains the germ and spoils faster than degerminated cornmeal. Keep stone-ground varieties in the refrigerator or freezer in an airtight container.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3762,7 +3762,7 @@ export const recipeCoverageIngredients: Record<
     description: "Gluten-free starch from wheat used to make translucent dim sum wrappers such as har gow and crystal dumplings.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3822,7 +3822,7 @@ export const recipeCoverageIngredients: Record<
     description: "Soft, custard-like tofu with high moisture, used in miso soup, sundubu stews, and chilled dishes like hiyayakko.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3883,7 +3883,7 @@ export const recipeCoverageIngredients: Record<
       "High-moisture wheat noodles used in stir-fry and soup formats where chew and elasticity are important.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -3939,10 +3939,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Shellfish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Shellfish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4000,7 +4000,7 @@ export const recipeCoverageIngredients: Record<
     description: "Coarse, garlicky fresh French pork sausage, a classic component of cassoulet and grilled dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4060,7 +4060,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dark purple Greek olives with a meaty texture and rich, fruity-tart flavor, used in Greek salads, tapenades, and braised dishes.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4120,7 +4120,7 @@ export const recipeCoverageIngredients: Record<
     description: "A ground spice blend of warming aromatics like cardamom, cinnamon, cloves, mace, and bay used to season layered rice-and-meat biryani dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4180,7 +4180,7 @@ export const recipeCoverageIngredients: Record<
     description: "A smooth paste of ground soaked cashews used to thicken and enrich Indian gravies and kormas, lending creaminess without dairy.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4241,7 +4241,7 @@ export const recipeCoverageIngredients: Record<
       "A long, thin, solid cylindrical pasta shape originating in Italy. Its high surface-area-to-volume ratio makes it exceptionally well-suited for clinging to loose, oil- or butter-based sauces (like Aglio e Olio) and smooth tomato sauces that can evenly coat the long strands.\n\n**Selection & Storage:** High-quality dried spaghetti will have a rough, matte texture (bronze-die extruded) rather than a smooth, shiny one, allowing sauces to adhere better. Store in a dry pantry.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4300,7 +4300,7 @@ export const recipeCoverageIngredients: Record<
       "An Italian cured meat prepared from pork jowl or cheeks. It is fundamentally similar to pancetta but boasts a significantly higher ratio of fat to meat, providing an incredibly rich, melt-in-the-mouth texture and a more robust, porky flavor essential for authentic Spaghetti alla Carbonara.\n\n**Selection & Storage:** Usually sold in blocks. Store tightly wrapped in the refrigerator, and dice it directly before rendering it in a cold pan.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4356,10 +4356,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Strong Espresso is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Strong Espresso is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4417,7 +4417,7 @@ export const recipeCoverageIngredients: Record<
     description: "Light, crisp sponge-finger biscuits that soak up liquid, layered into tiramisu and charlottes.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4477,7 +4477,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ground defatted cacao with deep bitter chocolate flavor, used in cakes, brownies, and hot chocolate.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","sticky","rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4537,7 +4537,7 @@ export const recipeCoverageIngredients: Record<
     description: "Springy wheat noodles for the stir-fried Japanese dish yakisoba, tossed with vegetables, meat, and a tangy-sweet sauce.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4595,10 +4595,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Yakisoba Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Yakisoba Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4656,7 +4656,7 @@ export const recipeCoverageIngredients: Record<
     description: "Soft-boiled eggs marinated in a soy-mirin mixture, halved and used as a classic ramen topping.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4716,7 +4716,7 @@ export const recipeCoverageIngredients: Record<
     description: "Light dashi-based dipping sauce with soy and mirin, served warm alongside tempura.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4776,7 +4776,7 @@ export const recipeCoverageIngredients: Record<
     description: "Crunchy bits of fried tempura batter used to add texture and richness to udon, takoyaki, okonomiyaki, and rice bowls.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4836,7 +4836,7 @@ export const recipeCoverageIngredients: Record<
     description: "Sweet, tangy, Worcestershire-based brown sauce brushed over okonomiyaki and other savory Japanese pancakes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4896,7 +4896,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin shavings of dried bonito used to make dashi and as an umami topping for tofu, okonomiyaki, and rice.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -4956,7 +4956,7 @@ export const recipeCoverageIngredients: Record<
     description: "Translucent, gelatinous noodles made from konjac yam, low in calories and used in sukiyaki, hot pots, and stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5016,7 +5016,7 @@ export const recipeCoverageIngredients: Record<
     description: "Japanese steamed fish cake made from surimi, sliced and added to ramen, udon, and bento, often with a pink-edged exterior.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5076,7 +5076,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin Korean wheat noodles that cook quickly, served in cold broths, with bibim sauces, or in light soups like janchi-guksu.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5137,7 +5137,7 @@ export const recipeCoverageIngredients: Record<
       "Tofu texture between soft and firm, suitable for soups, braises, and gentle stir-fries.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5195,7 +5195,7 @@ export const recipeCoverageIngredients: Record<
     description: "Korean roasted laver seaweed, usually seasoned with salt and sesame oil, eaten as a side dish or wrapped around rice.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5255,7 +5255,7 @@ export const recipeCoverageIngredients: Record<
     description: "Korean sweet potato starch glass noodles, chewy and translucent, the key ingredient in stir-fried japchae.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5315,7 +5315,7 @@ export const recipeCoverageIngredients: Record<
     description: "Korean fish cakes made from ground fish and starch, simmered in skewered soup (odeng) or stir-fried as banchan.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5375,7 +5375,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small green fruits encased in a papery husk with a tart, citrusy flavor; the base for salsa verde and many Mexican green sauces, used raw or roasted.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5435,7 +5435,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin, slightly tangy Mexican cultured cream, richer and less sour than sour cream; drizzled over tacos, tostadas, and enchiladas as a cooling garnish.",
     category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","foundational"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5496,7 +5496,7 @@ export const recipeCoverageIngredients: Record<
       "Rendered pork fat used for frying, pastry shortening, and savory depth in traditional regional cooking.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5554,7 +5554,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried mirasol peppers with bright, tangy, mild-to-medium heat; rehydrated and blended for red sauces, marinades, and birria.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5614,7 +5614,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pungent Mexican herb with a strong, gasoline-citrus aroma; added to black beans, quesadillas, and soups for flavor and to reduce beans' gassiness.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5675,7 +5675,7 @@ export const recipeCoverageIngredients: Record<
       "Leavened Middle Eastern flatbread used for stuffing, dipping, and as a starch base.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     aliases: ["pita breads"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
@@ -5734,7 +5734,7 @@ export const recipeCoverageIngredients: Record<
     description: "A Middle Eastern ground blend of cumin, coriander, paprika, cinnamon, and allspice used to season roasted, spit-grilled shawarma meats.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5794,7 +5794,7 @@ export const recipeCoverageIngredients: Record<
     description: "Tangy salty-sour liquid from pickling, used to brine meats, dress salads, or add acidity to dressings and cocktails.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5854,7 +5854,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thai roasted chili jam of dried chilies, shallots, garlic, and tamarind; stirred into tom yum, stir-fries, and dips.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5914,7 +5914,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild, aromatic Thai-Muslim curry paste with warm spices like cinnamon and cardamom, simmered with coconut milk and potatoes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -5974,7 +5974,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild-to-medium fresh red chilies sliced for color and gentle heat in Thai and Vietnamese stir-fries and garnishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6032,10 +6032,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Hale S Blue Boy Syrup is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Hale S Blue Boy Syrup is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","sticky","rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6091,10 +6091,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Leftover Dry Injera is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Leftover Dry Injera is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6150,10 +6150,10 @@ export const recipeCoverageIngredients: Record<
     season: ["summer"],
     provenance: "generated",
     description:
-      "Scotch Bonnet Peppers Ata Rodo is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Scotch Bonnet Peppers Ata Rodo is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6212,7 +6212,7 @@ export const recipeCoverageIngredients: Record<
       "A short, tubular pasta shape, often curved (elbow macaroni). The hollow center is specifically designed to trap loose, creamy, or chunky sauces, making it the globally accepted standard for dense, dairy-heavy baked dishes like macaroni and cheese.\n\n**Selection & Storage:** Choose pasta with a consistent color and no broken pieces. Store in an airtight container or its original packaging in a cool, dry place.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6270,7 +6270,7 @@ export const recipeCoverageIngredients: Record<
     description: "Clear broth simmered from vegetables and aromatics, used as a neutral base for soups, risottos, and sauces.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","base"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6331,7 +6331,7 @@ export const recipeCoverageIngredients: Record<
       "Thin noodles (wheat or rice depending on cuisine) used in soups, stir-fries, and cold dishes.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6387,10 +6387,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Crushed Wheat Frik is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Crushed Wheat Frik is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6449,7 +6449,7 @@ export const recipeCoverageIngredients: Record<
       "A vibrant, spicy, and aromatic chili paste originating from the Maghreb region of North Africa. It is traditionally composed of roasted red peppers, Baklouti chilies, garlic, caraway, coriander, and cumin, pounded into a paste with olive oil to create an intensely flavorful, earthy condiment.\n\n**Selection & Storage:** High-quality harissa comes in tubes or jars. Once opened, top the paste with a thin layer of olive oil to seal out air, and keep refrigerated.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6507,7 +6507,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin North African pastry sheets (feuilles de brick) that crisp when fried or baked, used for briouats and bastilla.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6567,7 +6567,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried wild mango seeds, ground to thicken and flavor Nigerian ogbono soup with a mucilaginous body.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["nutty","crunchy","fat-rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6628,7 +6628,7 @@ export const recipeCoverageIngredients: Record<
       "A robust, wide-leafed member of the cabbage family (*Brassica oleracea*). Because their leaves are incredibly tough and fibrous, they require long, slow braising (traditionally with smoked meats and acidic vinegar) to break down into a tender, deeply savory, and silky side dish.\n\n**Selection & Storage:** Choose bunches with dark green, broad leaves and firm stems. Store unwashed in the crisper drawer; they are quite hardy and will last up to a week.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6687,7 +6687,7 @@ export const recipeCoverageIngredients: Record<
       "Tiny granules of rolled durum wheat semolina, common in North African cuisine. Because the granules are pre-steamed and dried during the manufacturing process, it cooks incredibly fast—often just requiring a brief steep in boiling water to hydrate and fluff into a light, airy side dish.\n\n**Selection & Storage:** Look for uniform granules; Moroccan couscous is tiny, while Israeli (pearl) couscous is larger and requires simmering. Store in an airtight container in a dark pantry.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6745,7 +6745,7 @@ export const recipeCoverageIngredients: Record<
     description: "A fiery South African Indian curry blend, heavy on chili and coriander, used in Durban-style curries like bunny chow.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6805,7 +6805,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fiery Ethiopian spice blend of bird's-eye chili, cardamom, and cloves, used to season kitfo and as a table condiment.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6865,7 +6865,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ground West African peanut snack used as a crunchy seasoning sprinkled over salads or stirred into spice mixes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6925,7 +6925,7 @@ export const recipeCoverageIngredients: Record<
     description: "Tangy naturally leavened bread with a chewy crumb and crisp crust, sliced for toast, sandwiches, and croutons.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -6985,7 +6985,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild onion-family vegetable with a tender white-and-green stalk, sweated as an aromatic base for soups, tarts, and braises.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7045,7 +7045,7 @@ export const recipeCoverageIngredients: Record<
     description: "Assorted ripe berries such as strawberries, blueberries, and raspberries, eaten raw or used to top desserts and breakfasts.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7105,7 +7105,7 @@ export const recipeCoverageIngredients: Record<
     description: "Finely chopped sweet pickled cucumber condiment, stirred into tartar sauce and spread on hot dogs and burgers.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","sticky","rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7166,7 +7166,7 @@ export const recipeCoverageIngredients: Record<
       "A rapidly growing, aquatic leafy green (*Nasturtium officinale*) related to mustard and radish. It delivers a sharp, explosive, and peppery bite that acts as a brilliant, astringent palate cleanser when paired with rich steaks or creamy tea sandwiches.\n\n**Selection & Storage:** It is highly perishable. Look for perky, bright green leaves, and store the stems submerged in a glass of water in the refrigerator, loosely covered with a plastic bag.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7222,10 +7222,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Top Split Hot Dog Buns is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Top Split Hot Dog Buns is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7281,10 +7281,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Thick Cut Sourdough is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Thick Cut Sourdough is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7342,7 +7342,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small, mild white beans that turn creamy when cooked, classic for baked beans and hearty soups.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7402,7 +7402,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin beef cut mechanically tenderized into a pitted surface, quick to pan-fry for dishes like chicken-fried steak.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7462,7 +7462,7 @@ export const recipeCoverageIngredients: Record<
     description: "Smoked, coarse-ground pork sausage with assertive spice, central to Cajun gumbo, jambalaya, and red beans and rice.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7522,7 +7522,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fresh pork sausage seasoned with fennel and garlic in sweet or hot styles, used in pasta sauces, pizzas, and sandwiches.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7580,10 +7580,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Hoagie Rolls is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Hoagie Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7641,7 +7641,7 @@ export const recipeCoverageIngredients: Record<
     description: "Semi-hard Italian cow's-milk cheese ranging from mild to sharp, melted on sandwiches, pizzas, and baked pasta.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7701,7 +7701,7 @@ export const recipeCoverageIngredients: Record<
     description: "Unbaked shortcrust dough rolled out to line tins and form crusts for sweet and savory pies and tarts.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7761,7 +7761,7 @@ export const recipeCoverageIngredients: Record<
     description: "Long golden sticks of deep-fried savory dough, eaten with congee or soy milk for breakfast across China.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7821,7 +7821,7 @@ export const recipeCoverageIngredients: Record<
     description: "Sweet fermented wheat paste used as a glaze and dipping sauce, lending mild sweetness and umami to northern Chinese dishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7881,7 +7881,7 @@ export const recipeCoverageIngredients: Record<
     description: "Crisp deep-fried cracker (baocui) used for crunchy texture and as a garnish or wrapper in some regional dishes.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -7941,7 +7941,7 @@ export const recipeCoverageIngredients: Record<
     description: "Soft fresh wheat noodles for stir-fries and noodle soups, with a springy, chewy texture when boiled briefly.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8001,7 +8001,7 @@ export const recipeCoverageIngredients: Record<
     description: "Preserved, finely chopped Sichuan mustard greens with a salty, savory tang; a key topping for dan dan noodles and dry-fried beans.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8061,7 +8061,7 @@ export const recipeCoverageIngredients: Record<
     description: "Toasted sesame paste darker and nuttier than tahini, thinned with oil or water for noodle sauces and hot pot dipping bowls.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8121,7 +8121,7 @@ export const recipeCoverageIngredients: Record<
     description: "Aged chili-broad-bean paste from Pixian, prized as the highest-quality doubanjiang for authentic Sichuan mapo tofu and twice-cooked pork.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8181,7 +8181,7 @@ export const recipeCoverageIngredients: Record<
     description: "Square wheat-dough wrappers folded around pork or shrimp fillings for wontons in soup or fried as crispy parcels.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8241,7 +8241,7 @@ export const recipeCoverageIngredients: Record<
     description: "Refined Chinese stock (gao tang) slow-simmered from chicken, pork, and ham for a deeply savory base in fine soups and sauces.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","base"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8301,7 +8301,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick paste of ground chilies, often with garlic and oil, stirred into stir-fries, marinades, and dipping sauces for heat.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8361,7 +8361,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fermented Sichuan paste of broad beans and chilies; the savory, spicy backbone of mapo tofu and many braised dishes.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8421,7 +8421,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fully oxidized tea leaves brewed into a robust, dark infusion served hot or iced.",
     category: "misc",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8481,7 +8481,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick, mildly sweet malt sugar syrup brushed on roast duck and char siu for glossy color, and used in Chinese pastries.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","sticky","rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8541,7 +8541,7 @@ export const recipeCoverageIngredients: Record<
     description: "Smooth, dark fermented wheat-flour paste with a sweet-savory flavor; used in Peking duck, zhajiangmian, and as a dipping condiment.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8601,7 +8601,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cubes of tofu fermented in red brine with rice wine, intensely savory and used as a condiment or seasoning in braises and stir-fries.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8661,7 +8661,7 @@ export const recipeCoverageIngredients: Record<
     description: "Rich paste of ground toasted sesame seeds used in dan dan noodles, hot pot dips, and cold sesame sauces.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8721,7 +8721,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ground Sichuan peppercorns delivering a citrusy aroma and tingling, numbing sensation essential to mala Sichuan seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8781,7 +8781,7 @@ export const recipeCoverageIngredients: Record<
     description: "Lean, fibrous beef cut from the cow's belly, best sliced thinly against the grain for stir-fries and grilling.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8841,7 +8841,7 @@ export const recipeCoverageIngredients: Record<
     description: "Chubby, chewy fresh wheat noodles that hold up to hearty sauces and braises like dan dan or lo mein.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8901,7 +8901,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin square sheets of wheat dough used to wrap seasoned fillings for wontons, then boiled, steamed, or fried.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -8959,10 +8959,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Croissant Au Beurre is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Croissant Au Beurre is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9018,10 +9018,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Jambon De Paris High Quality Cooked Ham is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Jambon De Paris High Quality Cooked Ham is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9079,7 +9079,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cubes of bread toasted or fried until crisp, scattered over salads and soups for crunch.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9140,7 +9140,7 @@ export const recipeCoverageIngredients: Record<
       "A firm, raw cow's milk cheese from Switzerland, renowned as one of the finest melting cheeses in the world due to its high water-to-oil ratio. It possesses a complex flavor profile that is sweet but slightly salty, with profound notes of earth, mushrooms, and toasted nuts.\n\n**Selection & Storage:** Look for a dense, slightly granular paste; older varieties will have small cracks and a darker color. Store wrapped in parchment or wax paper in the warmest part of the refrigerator.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9198,7 +9198,7 @@ export const recipeCoverageIngredients: Record<
     description: "Edible land snails, classically baked in their shells with garlic-parsley butter as a French appetizer.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9256,10 +9256,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Ni U00e7oise Olives is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Ni U00e7oise Olives is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9317,7 +9317,7 @@ export const recipeCoverageIngredients: Record<
     description: "Prized flatfish with firm, delicate white flesh, traditionally pan-fried meunière or filleted for elegant fish dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9377,7 +9377,7 @@ export const recipeCoverageIngredients: Record<
     description: "Seasoned ground-meat links in casings, grilled, fried, or simmered and served in countless regional preparations.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9437,7 +9437,7 @@ export const recipeCoverageIngredients: Record<
     description: "Aromatic blue-black berries with a piney, resinous flavor, used to season game, sauerkraut, and brines, and to flavor gin.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9497,7 +9497,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cut beef or veal bones containing rich marrow, roasted to spread on toast or simmered to enrich stocks and broths.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9555,10 +9555,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Mixed Firm And Flaky Fish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Mixed Firm And Flaky Fish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9616,7 +9616,7 @@ export const recipeCoverageIngredients: Record<
     description: "Light savory broth simmered from fish bones and aromatics, used as the base for seafood soups, chowders, and risottos.",
     category: "seasoning",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","base"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9676,7 +9676,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small, creamy white beans that hold their shape when cooked, used in cassoulet, soups, and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9736,7 +9736,7 @@ export const recipeCoverageIngredients: Record<
     description: "Prized large, thin-skinned white beans from southwest France, the traditional bean for authentic cassoulet.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9796,7 +9796,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dry French Pinot Noir red wine used for braising and deglazing in classic dishes such as boeuf bourguignon and coq au vin.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["alcoholic","aromatic","acidic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9854,10 +9854,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Small Bony Fish For Stock is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Small Bony Fish For Stock is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","base"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9913,10 +9913,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Rouille is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Rouille is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -9972,10 +9972,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Piperade is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Piperade is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10033,7 +10033,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick vanilla pastry cream thickened with eggs and starch, used to fill tarts, éclairs, and choux pastries.",
     category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","foundational"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10093,7 +10093,7 @@ export const recipeCoverageIngredients: Record<
     description: "Soft, fluffy flatbread without a pocket, brushed with oil and used to wrap souvlaki and gyros or scoop dips.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10153,7 +10153,7 @@ export const recipeCoverageIngredients: Record<
     description: "Hard, salty Greek sheep's- or goat's-milk cheese, grated over pasta or fried as saganaki.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10214,7 +10214,7 @@ export const recipeCoverageIngredients: Record<
       "Savory vegetable stock used as a liquid flavor base in soups, braises, and grain cooking.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","base"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10272,7 +10272,7 @@ export const recipeCoverageIngredients: Record<
     description: "Hard, nutty Greek cheese blending kefalotyri and graviera styles, ideal for grating or pan-frying as saganaki.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10332,7 +10332,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small rice-shaped pasta cooked in soups, pilafs, and salads or simmered risotto-style.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10390,10 +10390,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Stale Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Stale Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10451,7 +10451,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small dried Zante grapes with intense tart-sweet flavor, scattered into scones, breads, rice dishes, and chutneys.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10511,7 +10511,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried berries tasting of cinnamon, clove, and nutmeg combined, used whole in pickling brines, marinades, and Caribbean jerk seasoning.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10571,7 +10571,7 @@ export const recipeCoverageIngredients: Record<
     description: "Large, meaty white runner beans, baked in tomato sauce for the Greek dish gigantes plaki.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10629,10 +10629,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Stale White Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Stale White Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10690,7 +10690,7 @@ export const recipeCoverageIngredients: Record<
     description: "Paper-thin sheets of unleavened dough, layered with butter and baked into crisp pastries like baklava and spanakopita.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10748,10 +10748,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Pastitsio Pasta is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Pastitsio Pasta is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10809,7 +10809,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small, hard amber seeds with a bitter, maple-like flavor, toasted or tempered to season curries, pickles, and spice blends.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["nutty","crunchy","fat-rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10869,7 +10869,7 @@ export const recipeCoverageIngredients: Record<
     description: "Crisp, thin fried noodles made from seasoned chickpea-flour batter, used as a crunchy topping for chaats and Indian snack mixes.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10929,7 +10929,7 @@ export const recipeCoverageIngredients: Record<
     description: "Meat from mature sheep or goat with a deep, robust flavor, slow-cooked in South Asian curries, biryanis, and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -10990,7 +10990,7 @@ export const recipeCoverageIngredients: Record<
       "Generic ripe red chili pepper entry used for fresh heat and bright pepper aroma.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11048,7 +11048,7 @@ export const recipeCoverageIngredients: Record<
     description: "Whole green mung beans, a small legume cooked into dals, sprouted, or stewed; earthy and quick-cooking compared with other pulses.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11106,10 +11106,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Cooking Oil is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Cooking Oil is a culinary fat used for heat transfer, texture, and flavor delivery. Its best use depends on smoke point and flavor intensity: neutral oils for high-heat cooking, expressive oils for finishing and emulsions. Limit exposure to heat, oxygen, and light to slow oxidation and preserve flavor integrity.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11167,7 +11167,7 @@ export const recipeCoverageIngredients: Record<
     description: "A pungent paste of ground fresh green chilies, often blended with garlic or ginger, used to add heat to curries, marinades, and stir-fries.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11227,7 +11227,7 @@ export const recipeCoverageIngredients: Record<
     description: "A robust spice blend for nihari, a slow-cooked South Asian meat stew, combining warming spices like fennel, black cardamom, and dried ginger.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11287,7 +11287,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild, buttery kidney-shaped nuts used whole or ground in Indian curries, fried as a garnish, or ground into rich gravies.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11347,7 +11347,7 @@ export const recipeCoverageIngredients: Record<
     description: "A tangy, earthy spice blend for chana masala, typically including cumin, coriander, amchur, and dried pomegranate seeds to flavor chickpea curry.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11405,10 +11405,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Carom Seeds Ajwain is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Carom Seeds Ajwain is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["nutty","crunchy","fat-rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11466,7 +11466,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried green-mango powder used as a souring agent in Indian cooking, adding tart, fruity acidity to chaats, curries, and spice rubs.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11524,10 +11524,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Crispy Puris is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Crispy Puris is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11585,7 +11585,7 @@ export const recipeCoverageIngredients: Record<
     description: "A tangy-spicy ground blend used to season pav bhaji, the Mumbai mashed-vegetable curry, with notes of cumin, coriander, amchur, and chili.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11643,10 +11643,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Pav Rolls is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Pav Rolls is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11704,7 +11704,7 @@ export const recipeCoverageIngredients: Record<
     description: "Large, meaty saltwater prawns with firm flesh, grilled, curried, or pan-fried; prized for their size and sweet flavor.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11764,7 +11764,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild, deep-red wrinkled dried chilies from Karnataka prized for vivid color over heat, used to give curries and masalas a rich red hue.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11822,10 +11822,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Khoya Mawa is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Khoya Mawa is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11883,7 +11883,7 @@ export const recipeCoverageIngredients: Record<
     description: "A ground blend of cumin, coriander, paprika, garam masala, and chili used to marinate and sauce tikka masala dishes.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -11943,7 +11943,7 @@ export const recipeCoverageIngredients: Record<
     description: "Concentrated coffee brewed under pressure, used to flavor tiramisu, mocha desserts, and sauces, or served as a drink.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12001,10 +12001,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "High Quality Cocoa Powder is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "High Quality Cocoa Powder is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12062,7 +12062,7 @@ export const recipeCoverageIngredients: Record<
     description: "Twice-baked Tuscan almond biscuits, hard and crunchy, traditionally dipped in Vin Santo dessert wine.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12120,10 +12120,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Stale Crusty Bread Ideally Saltless Tuscan Bread is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Stale Crusty Bread Ideally Saltless Tuscan Bread is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12181,7 +12181,7 @@ export const recipeCoverageIngredients: Record<
     description: "Large, creamy white Italian kidney beans used in minestrone, pasta e fagioli, and pureed for dips.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12241,7 +12241,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cream-and-red speckled Italian beans with a nutty, creamy texture, used in soups, stews, and pasta e fagioli.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12301,7 +12301,7 @@ export const recipeCoverageIngredients: Record<
     description: "Short, tube-shaped pasta used in soups such as pasta e fagioli and minestrone, or in cold pasta salads.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12362,7 +12362,7 @@ export const recipeCoverageIngredients: Record<
       "Compressed baker's yeast used for active fermentation in breads and enriched doughs, with high activity and shorter shelf life than dry yeast.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12421,7 +12421,7 @@ export const recipeCoverageIngredients: Record<
       "Brined or cured olive fruit used for saline bitterness and fat-like richness in Mediterranean and Middle Eastern dishes.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12479,7 +12479,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick, hand-rolled Tuscan spaghetti with a chewy bite, served with hearty ragùs and garlicky aglione sauce.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12539,7 +12539,7 @@ export const recipeCoverageIngredients: Record<
     description: "Unripe brined olives with a firm texture and sharp, slightly bitter taste, served as snacks or chopped into tapenades and stuffings.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12600,7 +12600,7 @@ export const recipeCoverageIngredients: Record<
       "Generic vinegar token used for acid balance, pickling, and deglazing when a specific vinegar type is not named.",
     category: "vinegar",
     elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.15, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["acidic","bright","balancing"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12658,7 +12658,7 @@ export const recipeCoverageIngredients: Record<
     description: "Crisp, slightly bitter Italian chicory shoots, soaked and shaved for a Roman salad dressed with anchovy and garlic.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12718,7 +12718,7 @@ export const recipeCoverageIngredients: Record<
     description: "Soft, washed-rind Italian cheese with a pungent aroma and buttery, tangy flavor, melted into risotto or served on a cheese board.",
     category: "dairy",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12778,7 +12778,7 @@ export const recipeCoverageIngredients: Record<
     description: "Italian condiment of chopped parsley, garlic, and lemon zest, sprinkled over osso buco and braised dishes for fresh lift.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12838,7 +12838,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dry-cured Italian ham aged for months, sliced paper-thin and served raw with melon, on antipasto, or draped over pizza.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12898,7 +12898,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild, flaky white-fleshed fish suited to roasting, grilling, or steaming, often served whole or as fillets.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -12958,7 +12958,7 @@ export const recipeCoverageIngredients: Record<
     description: "Square-cut fresh Roman pasta similar to thick spaghetti, classic for cacio e pepe and other Roman sauces.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13018,7 +13018,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fine-grained dried yeast added directly to flour to leaven bread and pizza doughs without prior proofing.",
     category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13078,7 +13078,7 @@ export const recipeCoverageIngredients: Record<
     description: "Simple glucose sugar used in baking, curing, and fermentation for browning and feeding yeast without strong sweetness.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13138,7 +13138,7 @@ export const recipeCoverageIngredients: Record<
     description: "Plant-derived thickener and stabilizer from carob seeds, used to bind and smooth ice creams, sauces, and dairy products.",
     category: "misc",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13196,10 +13196,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Active Lieveto Madre Stiff Sourdough Starter is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Active Lieveto Madre Stiff Sourdough Starter is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13257,7 +13257,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cured or cooked pork from the hind leg, sliced for sandwiches, diced into omelets and soups, or served as a roast.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13317,7 +13317,7 @@ export const recipeCoverageIngredients: Record<
     description: "Young green soybeans served in the pod, boiled and salted as a snack or shelled into salads and rice dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13377,7 +13377,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried, fermented, and shaved skipjack tuna (bonito), the smoky-savory base of dashi stock and a topping for many dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13437,7 +13437,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dashi-and-soy-based seasoning sauce used as a dip for cold soba and udon or as a noodle broth base.",
     category: "seasoning",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13497,7 +13497,7 @@ export const recipeCoverageIngredients: Record<
     description: "Nori seaweed sheets toasted for a crisp texture and nuttier flavor, used for sushi rolls, hand rolls, and as a garnish.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13557,7 +13557,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pungent green paste from Japanese horseradish, served with sushi and sashimi or stirred into dipping sauces for a sharp, sinus-clearing heat.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13615,10 +13615,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Shoyu Tare is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Shoyu Tare is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13676,7 +13676,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pale, sweet-leaning fermented soybean paste short-aged with rice koji, used for delicate miso soups, dressings, and marinades.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13736,7 +13736,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried wakame seaweed that rehydrates into tender green fronds, used in miso soup, seaweed salad, and Korean miyeok-guk.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13796,7 +13796,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried green seaweed flakes with a briny aroma, sprinkled over okonomiyaki, takoyaki, yakisoba, and fried foods.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13856,7 +13856,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pre-cooked octopus, tender and mild, sliced for sushi, sunomono salads, and takoyaki.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13916,7 +13916,7 @@ export const recipeCoverageIngredients: Record<
     description: "Glossy sweet-savory sauce brushed over takoyaki octopus balls, similar to okonomiyaki sauce.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -13976,7 +13976,7 @@ export const recipeCoverageIngredients: Record<
     description: "Concentrated Japanese sauce of dashi, soy sauce, mirin, and sugar, diluted for dipping noodles or seasoning broths.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14036,7 +14036,7 @@ export const recipeCoverageIngredients: Record<
     description: "Steamed Japanese green tea leaves brewed into a grassy, slightly astringent hot tea, also served alongside meals.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14096,7 +14096,7 @@ export const recipeCoverageIngredients: Record<
     description: "Nori seaweed cut into thin strips, scattered over rice bowls, noodles, and salads as a savory garnish.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14156,7 +14156,7 @@ export const recipeCoverageIngredients: Record<
     description: "Edible chrysanthemum greens with a herbaceous, slightly bitter taste, used in hot pots, soups, and blanched as a side.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14216,7 +14216,7 @@ export const recipeCoverageIngredients: Record<
     description: "Wheat noodles made with alkaline kansui for a springy, yellow-tinged chew, the basis of ramen and yakisoba.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14274,10 +14274,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Tare Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Tare Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14335,7 +14335,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick, sweet-savory Japanese brown sauce served over breaded pork cutlets (tonkatsu) and other fried foods.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14395,7 +14395,7 @@ export const recipeCoverageIngredients: Record<
     description: "Japanese wild parsley with a fresh, slightly celery-like flavor, used as a garnish in soups, custards, and rice dishes.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14455,7 +14455,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin, chewy Korean noodles of buckwheat and starch, served in icy broth (mul-naengmyeon) or with spicy sauce (bibim-naengmyeon).",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14515,7 +14515,7 @@ export const recipeCoverageIngredients: Record<
     description: "Tangy, lightly fizzy brine from Korean radish water kimchi, used as a cold soup base for noodles like dongchimi-guksu.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14575,7 +14575,7 @@ export const recipeCoverageIngredients: Record<
     description: "Seasoned wheat-and-starch flour blend for making crisp Korean savory pancakes (jeon) like pajeon and kimchijeon.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14635,7 +14635,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ripe red chili offering fruity heat, used fresh for garnish or dried and ground into flakes and powders.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14695,7 +14695,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cylindrical Korean rice cakes, chewy and dense, sliced for tteokbokki or kept whole for soups like tteokguk.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14755,7 +14755,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick, chewy wheat noodles served under black-bean sauce in the Korean-Chinese dish jajangmyeon.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14815,7 +14815,7 @@ export const recipeCoverageIngredients: Record<
     description: "Korean black soybean paste, fried with aromatics and meat to make the dark sauce for jajangmyeon.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14873,10 +14873,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Cornstarch Slurry is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Cornstarch Slurry is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14934,7 +14934,7 @@ export const recipeCoverageIngredients: Record<
     description: "Bright-yellow sweet-and-tangy pickled daikon radish, served alongside jajangmyeon and rolled into gimbap.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -14994,7 +14994,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thin round wheat dough wrappers used to fold and seal Korean dumplings (mandu).",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15054,7 +15054,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fresh or dried pepper of the capsicum family providing varying heat, used whole, sliced, or ground across cuisines.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15114,7 +15114,7 @@ export const recipeCoverageIngredients: Record<
     description: "Starchy, mildly sweet tree nuts that are roasted, boiled, or simmered into rice, stuffings, and braises.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["nutty","crunchy","fat-rich"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15174,7 +15174,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried red jujubes with a sweet, date-like flavor, used in Korean teas, rice dishes, and tonics and as a garnish.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15235,7 +15235,7 @@ export const recipeCoverageIngredients: Record<
       "Low-moisture tofu ideal for high-heat searing, grilling, and crisp textures after pressing.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15293,7 +15293,7 @@ export const recipeCoverageIngredients: Record<
     description: "Canned cooked pork luncheon meat, sliced and pan-fried for budae-jjigae, kimchi fried rice, and Spam musubi.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15353,7 +15353,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pre-cooked, dried wheat noodles packaged with seasoning, boiled quickly for instant noodle soups or repurposed in stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15413,7 +15413,7 @@ export const recipeCoverageIngredients: Record<
     description: "Pre-cooked emulsified sausages, sliced into Korean army stew (budae-jjigae), stir-fries, and rice dishes.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15473,7 +15473,7 @@ export const recipeCoverageIngredients: Record<
     description: "Navy or haricot beans cooked in a sweet, savory tomato-based sauce, served as a side or breakfast staple.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15533,7 +15533,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fresh aromatic ginseng root with an earthy, slightly bitter flavor, simmered into Korean tonics and dishes like samgyetang.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15593,7 +15593,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried sliced astragalus root with a mild, sweet earthiness, simmered into Korean medicinal broths and chicken soups.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15653,7 +15653,7 @@ export const recipeCoverageIngredients: Record<
     description: "Chewy Japanese rice cake pounded from glutinous rice, grilled, added to soups, or filled and shaped into sweets.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15711,10 +15711,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Stale Corn Tortillas is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Stale Corn Tortillas is a grain-based ingredient that contributes starch, structure, and sustained body to dishes. Hydration ratio, particle size, and cooking time strongly affect final texture, from creamy and tender to chewy and crisp. Store dry in an airtight container and rotate stock to avoid stale or rancid flavors.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15772,7 +15772,7 @@ export const recipeCoverageIngredients: Record<
     description: "Crusty oval white-bread rolls with a soft crumb; the standard bread for Mexican tortas and used to make molletes and pambazos.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["yeasty","baked","soft"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15832,7 +15832,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cooked pinto or black beans mashed and fried in fat until creamy; a staple side and filling for tacos, burritos, and tostadas.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15892,7 +15892,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fresh uncooked salsa of diced tomato, onion, serrano or jalapeño, cilantro, and lime; a crunchy topping for tacos, grilled meats, and chips.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -15952,7 +15952,7 @@ export const recipeCoverageIngredients: Record<
     description: "Yucatecan cooked sauce of roasted tomatoes and habanero with onion; used as a base sauce and condiment in southern Mexican cooking.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16012,7 +16012,7 @@ export const recipeCoverageIngredients: Record<
     description: "Large, thin, crisp Oaxacan corn tortillas used as the base for the namesake dish, topped with beans, cheese, and meats.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16072,7 +16072,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mild, stringy semisoft Mexican cheese similar to mozzarella that melts smoothly; the classic choice for quesadillas, queso fundido, and tlayudas.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16133,7 +16133,7 @@ export const recipeCoverageIngredients: Record<
       "A highly seasoned pork sausage available in two drastically different styles. Spanish chorizo is cured, hard, and deeply flavored with smoked paprika (pimentón), while Mexican chorizo is fresh, uncured, and aggressively seasoned with chili peppers and vinegar, requiring cooking before eating.\n\n**Selection & Storage:** Spanish (cured) chorizo can be stored at room temperature until sliced. Mexican (fresh) chorizo must be kept refrigerated and cooked thoroughly.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16191,7 +16191,7 @@ export const recipeCoverageIngredients: Record<
     description: "Egg-shaped plum tomatoes with dense, meaty flesh and few seeds; favored for sauces, salsas, and roasting due to their low moisture.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16251,7 +16251,7 @@ export const recipeCoverageIngredients: Record<
     description: "The most common avocado variety, with pebbly dark skin and rich, buttery green flesh; the standard avocado for guacamole and tacos.",
     category: "fruit",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16311,7 +16311,7 @@ export const recipeCoverageIngredients: Record<
     description: "Red Mexican table sauce of tomatoes and dried or fresh red chilies, often with onion and garlic; spooned over tacos, eggs, and antojitos.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16371,7 +16371,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cleaned, de-spined pads of the prickly-pear cactus with a tart, green-bean-like flavor; grilled or simmered for salads, tacos, and eggs.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16431,7 +16431,7 @@ export const recipeCoverageIngredients: Record<
     description: "Firm, salty aged Mexican cow's-milk cheese that crumbles easily; sprinkled over elote, beans, tacos, and salads as a finishing cheese.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16491,7 +16491,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ground dried chili peppers, sometimes blended with cumin, oregano, and garlic; used to season meats, stews, beans, and sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["starchy","powdery","dry"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16552,7 +16552,7 @@ export const recipeCoverageIngredients: Record<
       "Generic juice token typically used for citrus acidity, fruit sweetness, or marinade moisture. Resolve to citrus, vegetable, or fruit source from recipe context.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16610,7 +16610,7 @@ export const recipeCoverageIngredients: Record<
     description: "Short, thin wheat noodles toasted in oil and simmered in tomato broth to make sopa de fideo, a classic Mexican noodle soup.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16670,7 +16670,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried brown poblano variety with sweet, smoky chocolate notes; used with ancho and pasilla as a core chili in mole poblano.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16730,7 +16730,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried chilaca peppers with mild heat and deep raisiny, herbal flavor; a classic component of mole and red chili sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16790,7 +16790,7 @@ export const recipeCoverageIngredients: Record<
     description: "Medium-hot green chili peppers with a bright, grassy flavor; used fresh in salsas and pico de gallo, pickled, or stuffed and roasted.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16850,7 +16850,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small, slender green chilies with sharp heat and a bright, grassy taste; minced raw into salsas, guacamole, and fresh sauces.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16910,7 +16910,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small, round dried chilies that rattle when shaken, with a nutty, smoky, moderate heat; toasted and ground for table salsas and stews.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -16970,7 +16970,7 @@ export const recipeCoverageIngredients: Record<
     description: "Green sauce of tomatillos, green chilies, onion, and cilantro; served raw or cooked over tacos, enchiladas, and grilled meats.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17030,7 +17030,7 @@ export const recipeCoverageIngredients: Record<
     description: "Dried outer leaves of the corn ear, soaked until pliable and used to wrap and steam tamales; imparts a subtle corn aroma.",
     category: "misc",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17090,7 +17090,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small, aromatic Yucatán limes with a floral, slightly sweet tartness; squeezed into sopa de lima and over regional dishes.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17150,7 +17150,7 @@ export const recipeCoverageIngredients: Record<
     description: "Rare Oaxacan dried chili, dark and fruity with mild heat; prized as the defining chili for traditional black mole (mole negro).",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17210,7 +17210,7 @@ export const recipeCoverageIngredients: Record<
     description: "Mexican seasoning blend of mild chili powder, dehydrated lime, and salt; sprinkled over fruit, vegetables, snacks, and the rims of drinks.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17270,7 +17270,7 @@ export const recipeCoverageIngredients: Record<
     description: "Sweet-sour-spicy Mexican condiment of pickled fruit, chili, and lime; drizzled over fresh fruit, snacks, and candies or used as a drink rim.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17330,7 +17330,7 @@ export const recipeCoverageIngredients: Record<
     description: "Coarsely ground dried Aleppo chili with moderate heat and a fruity, raisin-like flavor, used across Middle Eastern and Turkish cooking.",
     category: "spice",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17390,7 +17390,7 @@ export const recipeCoverageIngredients: Record<
     description: "Aromatic bay leaves added whole to simmered soups, stocks, and braises to impart a subtle herbal, slightly floral fragrance, then removed before serving.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17450,7 +17450,7 @@ export const recipeCoverageIngredients: Record<
     description: "A tart, deep-red ground spice from dried sumac berries, sprinkled over Middle Eastern salads, meats, and dips for lemony acidity.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17511,7 +17511,7 @@ export const recipeCoverageIngredients: Record<
       "A whole grain made from cracked parboiled groats of several different wheat species, most often durum wheat. Because it has been parboiled, it cooks very quickly and offers a deeply nutty flavor and a satisfying, chewy texture, serving as the foundational ingredient in Middle Eastern tabbouleh.\n\n**Selection & Storage:** Available in different grinds (fine for salads, coarse for pilafs). Store in an airtight container in the pantry, or in the refrigerator to prolong its shelf life.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17569,7 +17569,7 @@ export const recipeCoverageIngredients: Record<
     description: "Jute mallow greens that turn silky when cooked, simmered into the thick Middle Eastern and Egyptian soup molokhia.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17627,10 +17627,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "B U00e9chamel Sauce is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "B U00e9chamel Sauce is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17686,10 +17686,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Shrak is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Shrak is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17747,7 +17747,7 @@ export const recipeCoverageIngredients: Record<
     description: "A Yemeni spice blend; the savory version mixes cumin, coriander, turmeric, and black pepper for soups and meats, with a sweet version for coffee.",
     category: "spice",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","warm","concentrated"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17807,7 +17807,7 @@ export const recipeCoverageIngredients: Record<
     description: "Fine shredded phyllo-style pastry strands used in Middle Eastern sweets like knafeh and baklava, baked crisp and soaked in syrup.",
     category: "grain",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17867,7 +17867,7 @@ export const recipeCoverageIngredients: Record<
     description: "A semi-hard white brined cheese from Nablus, often flavored with nigella and mahlab, eaten fresh or fried and used in the dessert knafeh.",
     category: "dairy",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","foundational"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17927,7 +17927,7 @@ export const recipeCoverageIngredients: Record<
     description: "Flavorless high-smoke-point oil such as canola or sunflower, used for deep-frying and sautéing without altering taste.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -17987,7 +17987,7 @@ export const recipeCoverageIngredients: Record<
     description: "A creamy sauce of ground sesame seed paste thinned with lemon juice, garlic, and water, served as a dressing or dip in Middle Eastern cuisine.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["savory","liquid","umami"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18045,10 +18045,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Tvorog Farmer S Cheese is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Tvorog Farmer S Cheese is a dairy ingredient that contributes richness, body, and protein structure to both savory and sweet preparations. Heat and acid can quickly shift texture from smooth to curdled, so gentle temperature control is important in sauces and custards. Keep refrigerated and handle with clean tools to maintain shelf life and flavor.",
     category: "dairy",
     elementalProperties: { Fire: 0.1, Water: 0.45, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["creamy","rich","dairy-based"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18106,7 +18106,7 @@ export const recipeCoverageIngredients: Record<
     description: "Sweet cooked-down berry spread with fruit pieces, used on toast, as a pastry filling, or glazing desserts.",
     category: "fruit",
     elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["sweet","juicy","aromatic"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18167,7 +18167,7 @@ export const recipeCoverageIngredients: Record<
       "A highly probiotic, fermented milk drink with a consistency similar to thin yogurt. It is cultured using 'kefir grains' (a symbiotic matrix of bacteria and yeast), resulting in a tart, slightly effervescent beverage that makes a superb tenderizing marinade for poultry.\n\n**Selection & Storage:** Choose plain, unsweetened kefir for cooking applications. It has a relatively long shelf life due to its acidity; store it tightly sealed in the refrigerator.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18226,7 +18226,7 @@ export const recipeCoverageIngredients: Record<
       "Small whole fish used for broths, sauces, frying, and fermented preparations. Flavor intensity and salinity vary by species and preservation method.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18282,10 +18282,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Prized Fish is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Prized Fish is a protein-forward ingredient valued for structure, satiety, and umami depth. Technique determines outcome: dry heat builds browning and intensity, while moist heat promotes tenderness and even hydration. Season in layers and cook to the right internal doneness target for both flavor and safety.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18344,7 +18344,7 @@ export const recipeCoverageIngredients: Record<
       "A clear, highly distilled liquor composed primarily of water and ethanol, designed to be flavorless. In cooking, it is used purely for its chemical properties: it halts the development of gluten in pie crusts (yielding a flakier dough) and binds water to oil in tomato cream sauces (Penne alla Vodka).\n\n**Selection & Storage:** Store upright at room temperature; it is highly stable and will not degrade.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18402,7 +18402,7 @@ export const recipeCoverageIngredients: Record<
     description: "Ripe cured olives with a mild, mellow flavor, sliced or whole into pizzas, salads, pasta, and antipasto.",
     category: "vegetable",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18463,7 +18463,7 @@ export const recipeCoverageIngredients: Record<
       "Prepared meat component carried into soups, rice dishes, or wraps as a pre-cooked protein ingredient.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18519,10 +18519,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Cold Kvas is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Cold Kvas is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18581,7 +18581,7 @@ export const recipeCoverageIngredients: Record<
       "A Thai-style hot sauce made from a paste of chili peppers, distilled vinegar, garlic, sugar, and salt. Unlike fermented hot sauces (like Tabasco), Sriracha relies on a balance of bright acidity, pronounced garlic, and moderate sweetness to deliver a highly versatile, viscous heat.\n\n**Selection & Storage:** Its high acid, salt, and sugar content make it highly stable. It can be stored at room temperature, though refrigeration will prevent its color from darkening over time.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18639,7 +18639,7 @@ export const recipeCoverageIngredients: Record<
     description: "Rich, slightly sweet Thai curry paste with peanuts and dried chilies, used for thick, creamy panang curries.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18699,7 +18699,7 @@ export const recipeCoverageIngredients: Record<
     description: "Salty, sweet preserved daikon radish (chai poh) chopped into omelets, fried rice, and pad thai for crunch and umami.",
     category: "seasoning",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18759,7 +18759,7 @@ export const recipeCoverageIngredients: Record<
     description: "Tender, pre-cooked bamboo shoots packed in brine, rinsed and added to stir-fries, curries, and soups for crisp texture.",
     category: "vegetable",
     elementalProperties: { Fire: 0.1, Water: 0.35, Earth: 0.4, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fresh","nutrient-dense","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18817,10 +18817,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Youtiao Quay is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Youtiao Quay is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18878,7 +18878,7 @@ export const recipeCoverageIngredients: Record<
     description: "Vietnamese dipping sauce of fish sauce, lime, sugar, garlic, and chili, served with spring rolls, grilled meats, and rice plates.",
     category: "seasoning",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["foundational","flavor-building","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18936,10 +18936,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Chao is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Chao is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -18995,10 +18995,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Nuoc Mau is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Nuoc Mau is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19056,7 +19056,7 @@ export const recipeCoverageIngredients: Record<
     description: "Cooking oil infused with annatto seeds for a vivid red-orange color, used in Vietnamese dishes and roast meats.",
     category: "oil",
     elementalProperties: { Fire: 0.3, Water: 0.15, Earth: 0.35, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["fatty","rich","flavor-carrier"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19116,7 +19116,7 @@ export const recipeCoverageIngredients: Record<
     description: "Chewy, translucent noodles made from tapioca starch, used in Southeast Asian soups, desserts, and stir-fries.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19176,7 +19176,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick cross-cut steaks of catfish with firm, mild flesh, well suited to Vietnamese caramelized clay-pot braises and stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19236,7 +19236,7 @@ export const recipeCoverageIngredients: Record<
     description: "Firm, mild freshwater fish popular in Vietnamese and Thai cooking for soups, grilling, and sour fish stews.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19294,10 +19294,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Vietnamese Baguettes Banh Mi is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Vietnamese Baguettes Banh Mi is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19355,7 +19355,7 @@ export const recipeCoverageIngredients: Record<
     description: "Vietnamese-style satay chili paste of dried chilies, lemongrass, and oil, spooned into pho and noodle soups for heat and aroma.",
     category: "seasoning",
     elementalProperties: { Fire: 0.45, Water: 0.1, Earth: 0.2, Air: 0.25 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["spicy","pungent","warm"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19415,7 +19415,7 @@ export const recipeCoverageIngredients: Record<
     description: "Thick, chewy yellow wheat noodles specific to Hoi An's cao lau dish, with a distinctive firm, slightly smoky bite.",
     category: "grain",
     elementalProperties: { Fire: 0.1, Water: 0.15, Earth: 0.6, Air: 0.15 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["carbohydrate-rich","sustaining","versatile"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19475,7 +19475,7 @@ export const recipeCoverageIngredients: Record<
     description: "Small reddish beans cooked until soft and sweetened into pastes and fillings for Asian desserts, or simmered in soups.",
     category: "protein",
     elementalProperties: { Fire: 0.35, Water: 0.2, Earth: 0.35, Air: 0.1 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19535,7 +19535,7 @@ export const recipeCoverageIngredients: Record<
     description: "Bitterleaf greens used in the Cameroonian dish ndolé, cooked with peanuts and meat or fish after leaching their bitterness.",
     category: "culinary_herb",
     elementalProperties: { Fire: 0.15, Water: 0.25, Earth: 0.25, Air: 0.35 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["aromatic","fresh","bright"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19593,10 +19593,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Cha Lua is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Cha Lua is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19652,10 +19652,10 @@ export const recipeCoverageIngredients: Record<
     season: ["all"],
     provenance: "generated",
     description:
-      "Mam Ruo C is a recipe-linked ingredient captured from live cuisine data to ensure full ingredient-to-recipe coverage in the database. Use it as written in recipe context, then refine handling based on preparation method, concentration, and dish role. This entry includes standardized baseline metadata for compatibility with recommendation, search, and mapping APIs.",
+      "Mam Ruo C is a culinary ingredient used to contribute flavor, texture, and functional balance within a dish. Its impact depends on when it is added and how it is prepared, so adjust timing and quantity to match the recipe's desired result. Store in stable, dry conditions and rotate inventory regularly for consistent quality.",
     category: "misc",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["functional","flavor-builder","pantry-staple"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],
@@ -19713,7 +19713,7 @@ export const recipeCoverageIngredients: Record<
     description: "Smooth spread of cooked, seasoned liver and fat, spread on banh mi and crusty bread for a rich, savory layer.",
     category: "protein",
     elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-    qualities: ["recipe-linked", "standardized"],
+    qualities: ["protein-rich","nourishing","savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mercury"],
       favorableZodiac: ["virgo", "gemini"],

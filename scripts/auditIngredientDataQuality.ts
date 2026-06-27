@@ -155,11 +155,52 @@ function collectCanonicalAndIngredientIssues(
         const pa = prop.asKind(SyntaxKind.PropertyAssignment);
         if (!pa) continue;
 
-        const ingObj = pa.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
-        if (!ingObj || !propByName(ingObj, "name")) continue;
+        let ingObj = pa.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+        let isCall = false;
+        let callName = "";
+        if (!ingObj) {
+          const call = pa.getInitializer()?.asKind(SyntaxKind.CallExpression);
+          if (call) {
+            ingObj = call.getArguments().find(arg => arg.asKind(SyntaxKind.ObjectLiteralExpression))?.asKind(SyntaxKind.ObjectLiteralExpression);
+            if (ingObj) {
+              isCall = true;
+              const firstArg = call.getArguments()[0];
+              if (firstArg) {
+                callName = stripQuotes(firstArg.getText());
+              }
+            }
+          }
+        }
+        if (!ingObj) continue;
 
         const slug = stripQuotes(pa.getName());
-        const name = stripQuotes(propByName(ingObj, "name")?.getInitializer()?.getText() ?? slug);
+        const name = callName || stripQuotes(propByName(ingObj, "name")?.getInitializer()?.getText() ?? slug);
+
+        if (isCall) {
+          if (!seen.has(slug)) {
+            seen.add(slug);
+            const terms = new Set<string>();
+            terms.add(normalize(slug));
+            for (const v of normalizedVariants(slug.replace(/_/g, " "))) terms.add(v);
+            for (const v of normalizedVariants(name)) terms.add(v);
+
+            const aliasesArr = propByName(ingObj, "aliases")
+              ?.getInitializer()
+              ?.asKind(SyntaxKind.ArrayLiteralExpression);
+            if (aliasesArr) {
+              for (const el of aliasesArr.getElements()) {
+                const alias = stripQuotes(el.getText());
+                if (!alias) continue;
+                for (const v of normalizedVariants(alias)) terms.add(v);
+              }
+            }
+
+            canonical.push({ slug, name, searchTerms: terms });
+          }
+          continue;
+        }
+
+        if (!propByName(ingObj, "name")) continue;
         const issues: string[] = [];
 
         const requiredProps = [
@@ -383,11 +424,24 @@ function main() {
   const { canonical, ingredientIssues } = collectCanonicalAndIngredientIssues(project);
   const recipeIngredientRefs = collectRecipeIngredientRefs(project);
 
+  const EXCLUSIONS_PATH = path.join(REPO_ROOT, "src", "data", "generated", "coverageExclusions.json");
+  const exclusions = fs.existsSync(EXCLUSIONS_PATH)
+    ? JSON.parse(fs.readFileSync(EXCLUSIONS_PATH, "utf8"))
+    : { slugs: [] };
+  const excludedSlugs = new Set<string>((exclusions.slugs || []).map((s: string) => s.toLowerCase()));
+
   const unmatchedMap = new Map<string, { count: number; sampleRecipes: Set<string> }>();
   for (const ref of recipeIngredientRefs) {
     if (!ref.name) continue;
     const match = findBestSlug(ref.name, canonical);
     if (match) continue;
+
+    const norm = normalize(ref.name);
+    const slug = norm.replace(/\s+/g, "_");
+    if (excludedSlugs.has(slug) || excludedSlugs.has(norm)) {
+      continue;
+    }
+
     const k = normalize(ref.name);
     const current = unmatchedMap.get(k) ?? { count: 0, sampleRecipes: new Set<string>() };
     current.count += 1;

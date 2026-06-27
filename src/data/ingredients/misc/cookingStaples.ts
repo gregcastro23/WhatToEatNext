@@ -35,6 +35,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 0.9, carbs: 0.7, fat: 0, fiber: 0, sugar: 0.7, sodium: 1400 },
       source: "USDA",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.8, sour: 0.0, bitter: 0.0, umami: 0.9, spicy: 0.0 },
+      aroma: { warm: 0.3, earthy: 0.4, pungent: 0.8, savory: 0.9, fishy: 0.7 },
+      texture: { liquid: 0.9 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["umami", "salty"],
+        secondary: ["savory"],
+        notes: "Provides instant savory depth. Bloom in fat or stir into sauces; smell dissipates when heated."
+      },
+      cookingMethods: ["stir-fry", "simmer", "finish"],
+      cuisineAffinity: ["Southeast Asian", "Vietnamese", "Thai"],
+      preparationTips: [
+        "Use sparingly; a small amount provides a massive umami boost.",
+        "Add at the end of stir-fries to retain bright salinity."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["lime", "chili", "sugar", "garlic", "cilantro", "ginger"],
+      contrasting: ["dairy"],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store in a cool, dark pantry. Keeps indefinitely due to high salt content.",
+      notes: "Salt crystals may form over time, which is normal."
+    }
   },
   chicken_stock: {
     name: "chicken stock",
@@ -58,6 +85,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 6, carbs: 8.5, fat: 2.9, fiber: 0, sodium: 343 },
       source: "USDA (home-prepared)",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.3, sour: 0.0, bitter: 0.0, umami: 0.6, spicy: 0.0 },
+      aroma: { warm: 0.4, savory: 0.7, meaty: 0.6 },
+      texture: { liquid: 0.8 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory"],
+        secondary: ["meaty"],
+        notes: "Forms a rich, supportive background body for soups and reductions."
+      },
+      cookingMethods: ["simmer", "reduction", "braise"],
+      cuisineAffinity: ["European", "American", "Asian"],
+      preparationTips: [
+        "Reduce to concentrate body and gelatin.",
+        "Skim fat if a clean appearance is needed."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["carrot", "celery", "onion", "thyme", "parsley", "garlic"],
+      contrasting: ["heavy acid"],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Unopened canned/cartoned stock stores in pantry 1-2 years.",
+      notes: "Once opened, refrigerate and use within 4-5 days, or freeze."
+    }
   },
   chicken_broth: {
     name: "chicken broth",
@@ -81,6 +135,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 5, carbs: 3, fat: 1.3, fiber: 0, sodium: 860 },
       source: "USDA (ready-to-serve)",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.4, sour: 0.0, bitter: 0.0, umami: 0.5, spicy: 0.0 },
+      aroma: { warm: 0.3, savory: 0.6, herbal: 0.3 },
+      texture: { liquid: 0.9 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory", "salty"],
+        secondary: ["light"],
+        notes: "Delivers flavor with less gelatin/body than stock."
+      },
+      cookingMethods: ["simmer", "boil"],
+      cuisineAffinity: ["European", "American"],
+      preparationTips: [
+        "Use as a direct base for quick soups.",
+        "Great for boiling grains to add extra flavor."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["ginger", "scallions", "rice", "noodles", "lemon"],
+      contrasting: [],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store unopened in pantry up to 1 year.",
+      notes: "Refrigerate opened broth and use within 7 days."
+    }
   },
   beef_stock: {
     name: "beef stock",
@@ -104,6 +185,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 4.7, carbs: 2.8, fat: 0.2, fiber: 0, sodium: 475 },
       source: "USDA (home-prepared)",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.3, sour: 0.0, bitter: 0.1, umami: 0.8, spicy: 0.0 },
+      aroma: { warm: 0.4, earthy: 0.3, roasted: 0.8, meaty: 0.8 },
+      texture: { liquid: 0.8 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory", "roasted"],
+        secondary: ["rich"],
+        notes: "A heavy, robust background body that stands up to red wine and strong herbs."
+      },
+      cookingMethods: ["simmer", "reduction", "braise"],
+      cuisineAffinity: ["French", "Western"],
+      preparationTips: [
+        "Roast bones deeply before simmering to build color and flavor.",
+        "Reduce heavily for demiglace."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["red wine", "thyme", "rosemary", "onion", "mushrooms", "beef"],
+      contrasting: ["citrus"],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store unopened in pantry up to 1-2 years.",
+      notes: "Refrigerate opened stock and use within 4-5 days."
+    }
   },
   beef_broth: {
     name: "beef broth",
@@ -127,6 +235,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 2.7, carbs: 0.1, fat: 0.5, fiber: 0, sodium: 893 },
       source: "USDA (ready-to-serve)",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.4, sour: 0.0, bitter: 0.0, umami: 0.6, spicy: 0.0 },
+      aroma: { warm: 0.3, meaty: 0.6 },
+      texture: { liquid: 0.9 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["savory"],
+        secondary: ["light-meaty"],
+        notes: "Provides beefy notes without heavy mouthfeel."
+      },
+      cookingMethods: ["simmer", "deglaze"],
+      cuisineAffinity: ["Western", "Asian"],
+      preparationTips: [
+        "Perfect for deglazing pans after searing beef.",
+        "Use to thin out heavy stews."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["soy sauce", "garlic", "shallot", "sherry", "black pepper"],
+      contrasting: [],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store unopened in pantry up to 1 year.",
+      notes: "Refrigerate opened broth and use within 5-7 days."
+    }
   },
   dashi_stock: {
     name: "dashi stock",
@@ -150,6 +285,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 1.3, carbs: 1.4, fat: 0, fiber: 0, sodium: 705 },
       source: "USDA approximate",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.3, sour: 0.0, bitter: 0.0, umami: 0.9, spicy: 0.0 },
+      aroma: { warm: 0.2, smoky: 0.6, "sea-like": 0.5 },
+      texture: { liquid: 0.9 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["umami", "sea-like"],
+        secondary: ["smoky"],
+        notes: "A highly delicate, savory base that highlights rather than masks ingredients."
+      },
+      cookingMethods: ["simmer", "steep"],
+      cuisineAffinity: ["Japanese"],
+      preparationTips: [
+        "Do not boil kombu, or it will become slimy.",
+        "Steep katsuobushi briefly and strain immediately."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["miso", "soy sauce", "mirin", "sake", "scallions", "tofu"],
+      contrasting: ["strong dairy"],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Dry ingredients (kombu/bonito) store in pantry indefinitely.",
+      notes: "Prepared dashi keeps in the refrigerator for up to 3 days, or freeze."
+    }
   },
   panko: {
     name: "panko",
@@ -173,6 +335,33 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 1.8, carbs: 11, fat: 0.4, fiber: 0.5, sodium: 100 },
       source: "USDA approximate",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.1, salty: 0.1, sour: 0.0, bitter: 0.0, umami: 0.0, spicy: 0.0 },
+      aroma: { bready: 0.4, neutral: 0.6 },
+      texture: { dry: 0.9, crunchy: 0.9 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["neutral"],
+        secondary: ["crispy"],
+        notes: "Provides texture and crunch without adding distinct flavor."
+      },
+      cookingMethods: ["fry", "bake", "toast"],
+      cuisineAffinity: ["Japanese", "Modern Western"],
+      preparationTips: [
+        "Press onto food firmly before frying to ensure adherence.",
+        "Mix with melted butter before baking for gratin toppings."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["oil", "butter", "cheese", "herbs", "chicken", "seafood"],
+      contrasting: ["wet sauce (soggies)"],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store in a cool, dry pantry in an airtight container.",
+      notes: "Keep dry; humidity ruins the crispy texture."
+    }
   },
   brown_rice_syrup: {
     name: "brown rice syrup",
@@ -196,9 +385,37 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 0.1, carbs: 14, fat: 0, fiber: 0, sugar: 11 },
       source: "USDA approximate",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.6, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.0, spicy: 0.0 },
+      aroma: { warm: 0.3, nutty: 0.4, sweet: 0.5 },
+      texture: { sticky: 0.9 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet"],
+        secondary: ["toasty"],
+        notes: "Provides a slow-burning sweetness with a high viscosity ideal for binding."
+      },
+      cookingMethods: ["mix", "bake", "glaze"],
+      cuisineAffinity: ["East Asian", "Macrobiotic", "Health Food"],
+      preparationTips: [
+        "Warm slightly to make pouring and mixing easier.",
+        "Use as a vegan alternative to honey or corn syrup."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["soy sauce", "ginger", "sesame", "nuts", "oats"],
+      contrasting: ["acid"],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store in a cool, dark pantry. Keeps for 1-2 years.",
+      notes: "Do not refrigerate, as it will crystallize and become impossible to pour."
+    }
   },
   agave_syrup: {
     name: "agave syrup",
+    aliases: ["agave"],
     category: "seasoning",
     provenance: "manual",
     origin: ["Mexico"],
@@ -219,5 +436,32 @@ export const cookingStaples: Record<string, Partial<IngredientMapping>> = {
       macros: { protein: 0, carbs: 16, fat: 0, fiber: 0, sugar: 14 },
       source: "USDA",
     },
+    sensoryProfile: {
+      taste: { sweet: 0.8, salty: 0.0, sour: 0.0, bitter: 0.0, umami: 0.0, spicy: 0.0 },
+      aroma: { neutral: 0.6, sweet: 0.4 },
+      texture: { liquid: 0.6 }
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ["sweet"],
+        secondary: ["neutral"],
+        notes: "A highly soluble sweetener with a low glycemic index and clean sweet profile."
+      },
+      cookingMethods: ["mix", "shake", "bake"],
+      cuisineAffinity: ["Mexican", "Modern Western"],
+      preparationTips: [
+        "Ideal for sweetening cold beverages and cocktails.",
+        "Reduce oven temperature by 25°F when baking with agave to prevent over-browning."
+      ]
+    },
+    pairingRecommendations: {
+      complementary: ["lime", "lemon", "tequila", "berries", "mint", "fruit"],
+      contrasting: [],
+      toAvoid: []
+    },
+    storage: {
+      pantry: "Store in a cool, dark pantry. Keeps for 2 years.",
+      notes: "Wipe the cap threads to prevent the lid from sticking."
+    }
   },
 };

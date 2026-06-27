@@ -10,6 +10,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "sea_vegetable",
     description: "Thick, dried deep-ocean kelp (*Saccharina japonica*) that acts as the cornerstone of Japanese dashi broth. Packed with natural glutamic acid (umami), it physically tenderizes beans and adds unparalleled mineral richness to cooking liquids. Dominant in Water and Earth alchemical properties.",
     elementalProperties: { Water: 0.55, Earth: 0.35, Air: 0.05, Fire: 0.05 },
+    qualities: ["umami-rich", "saline", "leathery", "flavor-enhancer"],
     astrologicalProfile: {
       rulingPlanets: ["Neptune", "Moon"],
       favorableZodiac: ["pisces", "cancer"],
@@ -54,6 +55,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "sea_vegetable",
     description: "A mild, sweet, dark-brown sea vegetable (*Eisenia bicyclis*) pre-shredded into delicate threads. Its gentle flavor and soft, yielding texture make it the ideal starter sea vegetable for salads, side dishes, and grain bowls. Highly supportive of Water and Earth.",
     elementalProperties: { Water: 0.45, Earth: 0.40, Air: 0.10, Fire: 0.05 },
+    qualities: ["sweet", "mild", "shredded", "saline"],
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
       favorableZodiac: ["taurus", "pisces"],
@@ -98,6 +100,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "sea_vegetable",
     description: "A highly traditional, thick, black twig-like sea vegetable (*Sargassum fusiforme*). When rehydrated and simmered, it develops a deep, earthy texture and rich mineral taste. It is commonly prepared with root vegetables and soy sauce. Grounding Earth-Water energy.",
     elementalProperties: { Earth: 0.45, Water: 0.40, Air: 0.10, Fire: 0.05 },
+    qualities: ["saline", "earthy", "textured", "nutrient-dense"],
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Moon"],
       favorableZodiac: ["capricorn", "scorpio"],
@@ -142,6 +145,7 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
     subcategory: "sea_vegetable",
     description: "A vibrant red, leafy sea vegetable (*Palmaria palmata*) with a distinctively savory, smoky flavor. Often referred to as 'sea bacon,' it can be fried until crisp or crumbled raw onto dishes to add saltiness and deep ocean umami. Harmonizes Water, Earth, and Fire.",
     elementalProperties: { Water: 0.35, Earth: 0.35, Fire: 0.20, Air: 0.10 },
+    qualities: ["smoky", "saline", "chewy", "savory"],
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Neptune"],
       favorableZodiac: ["scorpio", "pisces"],
