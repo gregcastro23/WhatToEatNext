@@ -156,7 +156,9 @@ for (const file of files) {
       if (!descProp || !nameProp) continue;
 
       const current = stripQuotes(descProp.getInitializer()?.getText() ?? "");
-      const isPlaceholder = PLACEHOLDER_SIGNATURES.some((sig) => current.startsWith(sig));
+      const isPlaceholder =
+        PLACEHOLDER_SIGNATURES.some((sig) => current.startsWith(sig)) ||
+        /recipe-linked ingredient captured|standardized baseline metadata|placeholder profile|refine with domain curation/i.test(current);
       if (!isPlaceholder) continue;
 
       const name = stripQuotes(nameProp.getInitializer()?.getText() ?? slug);

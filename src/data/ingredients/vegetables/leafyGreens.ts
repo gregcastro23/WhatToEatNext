@@ -30,6 +30,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     subCategory: "leafy_green",
     description: "A peppery, nutty, deeply lobed salad green (*Eruca vesicaria*) also known as rocket. Its high glucosinolate content gives it a distinctive spicy kick that balances rich cheeses, sweet fruits, and acidic dressings. Dominant in Fire and Air elements.",
     elementalProperties: { Fire: 0.40, Air: 0.30, Earth: 0.20, Water: 0.10 },
+    qualities: ["peppery", "bitter", "crisp", "spicy"],
     astrologicalProfile: {
       rulingPlanets: ["Mars"],
       favorableZodiac: ["aries", "scorpio"],
@@ -74,6 +75,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     subCategory: "leafy_green",
     description: "A stunning, compact Italian chicory (*Cichorium intybus*) with deep magenta leaves and white ribs. Features a sharp, sophisticated bitterness that transforms into a mellow, nutty sweetness when grilled, roasted, or sautéed. Earth-Air structured energy.",
     elementalProperties: { Earth: 0.45, Air: 0.30, Water: 0.15, Fire: 0.10 },
+    qualities: ["bitter", "crisp", "woody", "robust"],
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn"],
@@ -118,6 +120,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     subCategory: "leafy_green",
     description: "A wild and cultivated family of bitter greens characterized by their cooling, digestive properties. Deeply traditional in peasant cooking, chicory provides a bitter, mineral-rich tonic that cuts through sweet or oily ingredients. Classic Earth-Air dominant.",
     elementalProperties: { Earth: 0.50, Air: 0.25, Water: 0.15, Fire: 0.10 },
+    qualities: ["bitter", "woody", "crisp", "earthy"],
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "aquarius"],

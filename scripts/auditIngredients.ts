@@ -173,15 +173,25 @@ function propMap(obj: ObjectLiteralExpression): Map<string, PropertyAssignment> 
 
 function findRawIngredientObjects(obj: ObjectLiteralExpression): Array<{ slug: string; obj: ObjectLiteralExpression }> {
   // Each raw* record declares its ingredients as top-level PropertyAssignments
-  // whose initializer is another object literal (the ingredient card).
+  // whose initializer is another object literal (the ingredient card) or a CallExpression.
   const out: Array<{ slug: string; obj: ObjectLiteralExpression }> = [];
   for (const prop of obj.getProperties()) {
     const pa = prop.asKind(SyntaxKind.PropertyAssignment);
     if (!pa) continue;
-    const init = pa.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+    let init = pa.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+    let isCall = false;
+    if (!init) {
+      const call = pa.getInitializer()?.asKind(SyntaxKind.CallExpression);
+      if (call) {
+        init = call.getArguments().find(arg => arg.asKind(SyntaxKind.ObjectLiteralExpression))?.asKind(SyntaxKind.ObjectLiteralExpression);
+        if (init) {
+          isCall = true;
+        }
+      }
+    }
     if (!init) continue;
-    // Filter to entries that look like ingredient cards (have a `name` property)
-    if (init.getProperty("name")) {
+    // Filter to entries that look like ingredient cards
+    if (isCall || init.getProperty("name")) {
       out.push({ slug: pa.getName().replace(/^['"`]|['"`]$/g, ""), obj: init });
     }
   }

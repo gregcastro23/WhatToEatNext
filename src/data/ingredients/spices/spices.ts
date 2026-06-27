@@ -3,6 +3,22 @@ import { fixIngredientMappings } from "@/utils/elementalUtils";
 
 // Spices ingredients extracted from cuisine files
 const rawSpices: Record<string, Partial<IngredientMapping>> = {
+  vanilla: {
+    image_url: "ingredients/vanilla.png",
+    description: "A profoundly complex spice derived from the cured pods of orchids in the genus *Vanilla*. It contains hundreds of distinct flavor compounds (primarily vanillin) that provide a rich, sweet, and woody floral aroma, acting as a foundational flavor enhancer in nearly all sweet baking.",
+    name: "vanilla",
+    origin: ["Madagascar", "Mexico", "Tahiti"],
+    season: ["all"],
+    elementalProperties: { Fire: 0.15, Water: 0.45, Earth: 0.25, Air: 0.15 },
+    qualities: ["sweet", "aromatic", "floral", "woody"],
+    category: "spice",
+    astrologicalProfile: { rulingPlanets: ["Venus"], favorableZodiac: ["taurus", "libra"], seasonalAffinity: ["spring", "summer", "fall", "winter"] },
+    nutritionalProfile: { serving_size: "1 tsp (4.2g)", calories: 12, macros: { protein: 0, carbs: 0.5, fat: 0, fiber: 0, sugar: 0.5 }, source: "USDA" },
+    sensoryProfile: { taste: { sweet: 0.6, salty: 0, sour: 0, bitter: 0.1, umami: 0, spicy: 0 }, aroma: { sweet: 0.9, woody: 0.6, floral: 0.7 }, texture: { liquid: 0.8 } },
+    culinaryProfile: { flavorProfile: { primary: ["sweet", "aromatic"], secondary: ["woody", "floral"], notes: "Acts as a flavor enhancer, rounding out sharp notes and boosting sweetness." }, cookingMethods: ["mix", "infuse", "bake"], cuisineAffinity: ["global"], preparationTips: ["Use pure vanilla extract or scrape seeds from a whole bean for the best flavor.", "Add toward the end of cooking in warm sauces to preserve delicate aromatic compounds."] },
+    pairingRecommendations: { complementary: ["chocolate", "dairy", "berries", "stone fruits", "cinnamon", "coffee"], contrasting: ["citrus"], toAvoid: [] },
+    storage: { pantry: "Cool, dark pantry in a tightly sealed container.", notes: "Alcohol-based extract keeps indefinitely. Whole beans can dry out." }
+  },
   ginger: {
       image_url: "ingredients/ginger.png",
     description: "A knobby, fibrous rhizome (*Zingiber officinale*) prized for its warm, spicy, and slightly citrusy bite. The active compound gingerol provides its signature sharp heat, which mellows and deepens into a warming aromatic when cooked.",
@@ -658,6 +674,7 @@ const rawSpices: Record<string, Partial<IngredientMapping>> = {
       image_url: "ingredients/thai_chilies.png",
     description: "Thai Chilies is a concentrated aromatic spice used in small amounts to add heat, fragrance, and depth to sauces, marinades, and dry rubs. Blooming it briefly in hot fat or toasting it gently before grinding helps release volatile oils and prevents flat flavor. Store airtight away from light and humidity, and refresh frequently to maintain potency.",
     name: "Thai chilies",
+    aliases: ["bird's eye chili", "birds eye chili", "bird eye chilies", "bird eye chili", "thai chili"],
     origin: ["Tropical and subtropical regions"],
     season: ["all"],
     elementalProperties: { Fire: 0.6, Water: 0.05, Earth: 0.1, Air: 0.25 },

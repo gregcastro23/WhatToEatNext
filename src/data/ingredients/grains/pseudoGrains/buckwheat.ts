@@ -11,6 +11,7 @@ const rawBuckwheat = {
     category: "grain",
     subCategory: "pseudo_cereal",
     elementalProperties: { Earth: 0.55, Fire: 0.25, Air: 0.10, Water: 0.10 },
+    qualities: ["toasted", "nutty", "earthy", "robust"],
     astrologicalProfile: {
       rulingPlanets: ["Saturn"],
       favorableZodiac: ["capricorn", "taurus"],

@@ -56,6 +56,8 @@ export function normalize(text: string): string {
 }
 
 export function singularize(token: string): string {
+    if (token === "chilies" || token === "chiles") return "chili";
+    if (token === "leaves") return "leaf";
     if (token.endsWith("ies") && token.length > 4) return `${token.slice(0, -3)}y`;
     if (token.endsWith("oes") && token.length > 4) return token.slice(0, -2);
     if (token.endsWith("s") && token.length > 2 && !token.endsWith("ss")) return token.slice(0, -1);
