@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-_Version: 3.2.1 | Last Updated: June 17, 2026_
+_Version: 3.3.0 | Last Updated: June 29, 2026_
 
 > Sibling guide: **`GEMINI.md`** (repo root) is the concise, actively-maintained status summary. This file is the deeper engineering reference (admin console, observability, cron, surface map). Keep both in sync when project status changes.
 
@@ -13,15 +13,23 @@ We operate a three-project loop:
 2. **api.agents.alchm.kitchen (PA Backend)** — the Planetary Agents Python service owning agent personas, orchestration, and LLM recipe generation.
 3. **agents.alchm.kitchen (PA UI)** — the Planetary Agents Next.js UI.
 
-## Current Project Status (June 2026 — v3.2.1)
+## Current Project Status (June 2026 — v3.3.0)
 
-- **Doc version**: **3.2.1** (guide convention; `package.json` is still pinned at `3.1.0` — `git tag v3.1.0` cut 2026-05-29)
+- **Doc version**: **3.3.0** (guide convention; `package.json` is still pinned at `3.1.0` — `git tag v3.1.0` cut 2026-05-29)
 - **Build**: ✅ **0 TS errors, 0 lint warnings** before every PR (husky pre-commit runs `typecheck && lint`)
 - **Toolchain**: ✅ **BUN v1.3.13** (Yarn fully retired)
 - **Stack**: Next.js 15 · React 19 · TypeScript 5.7
 - **Database**: ✅ **RAILWAY POSTGRES** (`postgres.railway.internal`) + transaction-mode PgBouncer compat (ADR-007, #466); schema current through **migration 54**. Neon is deprecated on the WTEN side (still used only inside the PA Python backend).
 - **Read Model**: ✅ **DENORMALIZED** (sub-100ms recipe loads via `read_model` JSONB)
 - **Migrations**: ✅ **TRACKED + AUTO-APPLIED** — `_migrations` table + `scripts/migrate.ts` (TS) / `backend/scripts/run_init_migrations.py` run on Railway deploy before uvicorn (#448)
+
+### 🧪 Shipped in 3.3 — data authenticity + agent yield
+
+- **Data authenticity campaign (ingredients + recipes)** — a sustained push to drive catalog data to *real* values: no fabricated nutrition, no placeholder/default templates, no hollow recipes. `src/data` is authoritative for ingredient recommendations (static); recipes read from the denormalized DB JSONB read model.
+  - _Ingredients_ — shared free-text resolver lifted out and adopted by `UnifiedIngredientService` (#559); fabricated nutrition template removed from the static catalog (#560); placeholder coverage entries stopped leaking into recommendations (#562); non-ingredient junk purged from the coverage set (#561); missing cooking staples added — stocks, broths, fish sauce, etc. (#563); real nutrition for the 21 specialty oils, nutrition batch 1 (#566); real-vs-default scoring added to the ingredient audit (#565).
+  - _Recipes_ — real per-serving nutrition backfilled (was 100% empty, #555); ESMS ingredient matcher upgraded (matchRate 0.56 → 0.64, #556); junk parenthetical descriptions cleaned + real seasons recovered (#557); 14 fully-fabricated hollow recipes de-published (#558); nutrition reconciled + degenerate elemental signatures recomputed after staples landed (#564).
+  - _Dashboard honesty_ — Practitioner Cohorts read canonical sources instead of vestigial JSONB (#552); fabricated Cost Burndown replaced with a real Railway resource-usage panel (#553/#554).
+- **Agent Daily Cosmic Yield cron** — `/api/cron/agents-daily-yield` (`30 0 * * *`, CRON_SECRET-gated) mints each active, chart-bearing agent's personalized daily Cosmic Yield so the token ledger / Live Network economy surfaces stay alive for visitors. `src/services/agentDailyYield.ts` reuses the human-claim engine verbatim (`DailyYieldService.claimDailyYield` with `site="agents"` → `source_type "agents_yield"`), so economics + idempotency are identical (keyed per `(site, agent, day)`; re-runs are no-ops). Purely additive — no formula or human-claim path changed. Backstops the PA `sync-credit` `agents_yield` pipeline, silent since 2026-06-03.
 
 ### 🚀 Shipped since 3.1 (the 3.2.x line)
 
@@ -210,6 +218,7 @@ All compute from existing signals — no new instrumentation required. Each serv
 | `/api/cron/synthetic-mcp` | `*/30 * * * *` | in-process Alchm MCP tool-handler probe |
 | `/api/cron/system-health-snapshot` | `0 * * * *` | hourly status snapshot + transition-based alert dispatch |
 | `/api/cron/observability-prune` | `0 3 * * *` | daily prune of `request_log_entries` + `slow_query_log_entries` older than 7 days (override via `?retain=N`) |
+| `/api/cron/agents-daily-yield` | `30 0 * * *` | mint daily Cosmic Yield for active chart-bearing agents (`agents_yield`) — keeps the token economy feed live |
 
 ### Planetary Agents (PA) integration
 
@@ -267,4 +276,4 @@ The `planetary_agents-main` Next.js UI surface (~54 files / ~22k LOC across 11 s
 
 ---
 
-_Updated June 17, 2026 (v3.2.1) — synced from the 3.1 baseline: Planetary Agents are first-class users (profiles, synastry, transit group chats, agent feed + cosmic recipe offload); SpacetimeDB v4.0 live layer (meal plans / commensal / carts) with CSP `wss://` + reconnect + bare-module-name hardening (#534) and admin diagnostics (#536); unified Elemental Signature model (#505); MCP telemetry (`mcp_invocations`) + `*/30` probe; Cloudflare SDXL→R2 image pipeline. WTEN UI migration complete; real planetary-alchemy recommendations live. Live-site "emergence" audit cleanup (#526–#536) incl. natal-chart + coverage-ingredient backfills. Schema through migration 54, Railway-primary DB. Bun 1.3.13._
+_Updated June 29, 2026 (v3.3.0) — data authenticity campaign (ingredients #559–#566 + recipes #555–#558, #564; dashboard honesty #552–#554) drives the catalog to real values (no fabricated nutrition / placeholder templates / hollow recipes); Agent Daily Cosmic Yield cron (`/api/cron/agents-daily-yield`, `30 0 * * *`) keeps the token economy feed live via the shared yield engine. Earlier 3.2.x baseline: Planetary Agents are first-class users (profiles, synastry, transit group chats, agent feed + cosmic recipe offload); SpacetimeDB v4.0 live layer (meal plans / commensal / carts) with CSP `wss://` + reconnect + bare-module-name hardening (#534) and admin diagnostics (#536); unified Elemental Signature model (#505); MCP telemetry (`mcp_invocations`) + `*/30` probe; Cloudflare SDXL→R2 image pipeline. WTEN UI migration complete; real planetary-alchemy recommendations live. Live-site "emergence" audit cleanup (#526–#536) incl. natal-chart + coverage-ingredient backfills. Schema through migration 54, Railway-primary DB. Bun 1.3.13._

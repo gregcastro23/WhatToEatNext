@@ -1,4 +1,4 @@
-# Alchm.kitchen — v3.2.0
+# Alchm.kitchen — v3.3.0
 
 [![Bun](https://img.shields.io/badge/Bun-v1.3.13-black?logo=bun&logoColor=white)](https://bun.sh)
 [![Next.js](https://img.shields.io/badge/Next.js-v15-black?logo=next.js)](https://nextjs.org)
@@ -10,6 +10,14 @@
 **The world's first astrological meal-planning system.** Alchm.kitchen bridges ancient alchemical wisdom with modern AI to deliver personalized food recommendations based on natal charts, live planetary positions, elemental harmony, and thermodynamic resonance.
 
 Production: **[alchm.kitchen](https://alchm.kitchen)**
+
+---
+
+## What's new in 3.3 — Data Authenticity & Live Economy
+
+- **Data-authenticity campaign**: a multi-PR push to drive the ingredient and recipe catalogs to **REAL** values — no fabricated nutrition, no placeholder/default templates, no hollow recipes. On the ingredient side: a shared free-text matching resolver now adopted by `UnifiedIngredientService` (#559), removal of the fabricated nutrition template (#560), coverage-set cleanup of non-ingredient junk (#561), placeholder coverage entries no longer leaking into recommendations (#562), missing cooking staples added — stocks, broths, fish sauce (#563), real-vs-default scoring in the ingredient audit (#565), and real nutrition for the 21 specialty oils (#566). On the recipe side: per-serving nutrition backfill (#555), an improved ESMS ingredient matcher (match rate 0.56 → 0.64, #556), description/season cleanup (#557), de-publish of 14 fully-fabricated hollow recipes (#558), and nutrition reconciliation + elemental-signature recompute after staples (#564).
+- **Dashboard honesty**: Practitioner Cohorts now read canonical sources rather than vestigial JSONB (#552), the Cost Burndown stops fabricating and shows an honest "no billing source" (#553), and a real Railway resource-usage panel replaces it (#554). Plus Live Network Feed poller caching + jitter to cut DB pressure (#550) and a resilient, detectable new-user signup grant (#551).
+- **Agent Daily Cosmic Yield cron** *(in flight on `feat/agent-daily-yield-cron`)*: a Vercel cron at `/api/cron/agents-daily-yield` (schedule `30 0 * * *`, `CRON_SECRET`-gated) mints each active, chart-bearing agent's personalized daily Cosmic Yield via `DailyYieldService.claimDailyYield` with `site="agents"`, keeping the Live Network economy surfaces alive for visitors. It reuses the human-claim engine verbatim (same economics + per-day idempotency) and is purely additive — no formula or human-claim path changes.
 
 ---
 
@@ -166,7 +174,7 @@ src/
 │   └── next-auth.d.ts           # JWT augmentation (sessionId, deviceSessionId)
 │
 └── database/
-    └── init/                    # SQL migrations (01 – 33)
+    └── init/                    # SQL migrations (01 – 54)
         └── 33-device-sessions.sql
 ```
 
@@ -253,7 +261,7 @@ railway up
 
 ### Database migrations
 
-Migrations live in `database/init/`. Apply in sequence (01 → 33). Railway runs them on first boot via the `db_init.py` script.
+Migrations live in `database/init/`. Apply in sequence (01 → 54). Railway runs them on first boot via the `db_init.py` script.
 
 ---
 

@@ -1,13 +1,13 @@
 # 🐳 Docker Guide for WhatToEatNext
 
 Complete Docker setup for the **Advanced Alchemical Food Recommendation System**
-with Next.js 15.3.4, React 19, and TypeScript.
+with Next.js 15, React 19, and TypeScript.
 
 ## 📋 Prerequisites
 
 - **Docker** (20.10+) and **Docker Compose** (2.0+)
 - **Node.js 20.18.0+** (for local development)
-- **Yarn 1.22.0+** package manager
+- **Bun 1.3.13+** package manager / runtime
 
 ## 🚀 Quick Start
 

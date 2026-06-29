@@ -1,11 +1,18 @@
 # Scheduled Jobs (Railway Cron)
 
-This file is the source of truth for periodic jobs that run against the
-production Railway Postgres database.
+This file is the source of truth for periodic jobs that run as **Railway cron
+services** against the production Railway Postgres database.
 
 Crons are configured as separate Railway services on the same project, each
 pointed at this repository. Railway runs the service on its `Cron Schedule`,
 the container exits cleanly, and the next run is scheduled.
+
+> **Railway vs. Vercel crons.** This file covers only Railway cron *services*.
+> The app also runs **Vercel crons** (registered in `vercel.json`) — the
+> `synthetic-*` probes, `system-health-snapshot`, and the
+> `agents-daily-yield` daily Cosmic Yield mint
+> (`/api/cron/agents-daily-yield`, `30 0 * * *`, gated by `CRON_SECRET`).
+> Those are not Railway services; see `vercel.json` for the full list.
 
 ## Active jobs
 

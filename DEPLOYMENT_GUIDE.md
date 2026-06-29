@@ -1,7 +1,7 @@
 # WhatToEatNext Deployment Guide
 
 **Version**: 1.0
-**Last Updated**: November 17, 2025
+**Last Updated**: June 29, 2026
 **Supported Platforms**: Docker, Vercel, Standalone, Kubernetes
 
 ---
@@ -26,7 +26,7 @@
 ### Prerequisites
 
 - **Node.js**: 20.18.0 (required by package.json)
-- **Yarn**: 3.6.4
+- **Bun**: 1.3.13+ (sole package manager and runtime — never npm/yarn)
 - **Docker**: 20.10+ (for containerized deployment)
 - **Docker Compose**: 1.29+ (optional)
 
@@ -250,7 +250,7 @@ docker run -d \
 1. **Push to GitHub**:
 
    ```bash
-   git push origin main
+   git push origin master
    ```
 
 2. **Import to Vercel**:
@@ -519,32 +519,22 @@ docker logs whattoeatnext 2>&1 | grep "ERROR"
 
 ### Common Issues
 
-#### 1. Yarn 3.6.4 Download Failure (HTTP 403)
+#### 1. Yarn Download Failure (HTTP 403) — Historical
 
-**Symptoms**:
+> **Note**: This issue is historical. Yarn has been fully retired; Bun (1.3.13+) is now the sole package manager and runtime. Use `bun install` instead. This subsection is retained only for reference to older checkouts.
+
+**Symptoms** (legacy Yarn-based setups):
 
 ```
 Error: Server answered with HTTP 403 when performing the request to
-https://repo.bunpkg.com/3.6.4/packages/bunpkg-cli/bin/bun.js
+the Yarn package mirror
 ```
 
-**Solution A**: Use the workaround script
+**Resolution**: Migrate to Bun.
 
 ```bash
-chmod +x start-dev-server.sh
-./start-dev-server.sh
+bun install
 ```
-
-**Solution B**: Deploy with Docker (bypasses Yarn requirement)
-
-```bash
-docker-compose -f docker-compose.simple.yml up -d
-```
-
-**Solution C**: Use environment with proper Yarn access
-
-- Deploy to Vercel (handles Yarn automatically)
-- Use CI/CD with Yarn pre-installed
 
 #### 2. Build Hangs Indefinitely
 
@@ -774,11 +764,11 @@ docker-compose -f docker-compose.simple.yml up -d --scale app=3
 
 - [Backend Status Report](./BACKEND_STATUS_REPORT.md) - Complete backend analysis
 - [Service Deep Dive](./SERVICE_DEEP_DIVE.md) - Detailed service reviews
-- [CLAUDE.md](./CLAUDE.md) - Project architecture and development guide
+- [GEMINI.md](./GEMINI.md) / [docs/architecture/CLAUDE.md](./docs/architecture/CLAUDE.md) - Project architecture and development guide
 
 ### Scripts
 
-- `start-dev-server.sh` - Workaround for Yarn issues
+- `start-dev-server.sh` - Dev-server startup helper (legacy; predates the Bun migration)
 - `Makefile` - Build and development commands
 
 ### Configuration Files
@@ -800,6 +790,6 @@ For deployment issues or questions:
 
 ---
 
-**Last Updated**: November 17, 2025
+**Last Updated**: June 29, 2026
 **Maintainer**: gregcastro23
 **Status**: Production Ready ✅
