@@ -11,7 +11,7 @@ import { createPublicClient, http, type Address, type Hex } from "viem";
 import { base, baseSepolia } from "viem/chains";
 
 /** Genesis rights holder + first recipe recipient (chosen during design). */
-export const RIGHTS_HOLDER: Address = "0x553C2a3f193d5E7F41cF50cEB32069dbc6951931";
+export const RIGHTS_HOLDER: Address = "0x554F991D030aDF539CBD2ff3D896951C6f089804";
 
 /** ERC-2981 creator royalty: 5% (contract cap is 10% = 1000 bps). */
 export const RECIPE_ROYALTY_BPS = 500;
