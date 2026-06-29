@@ -130,6 +130,13 @@ export default function OnboardingPage() {
     setViewState("projecting");
     setLoadingStep(0);
 
+    // Bound the request so a slow/stalled function (cold start or 504 under
+    // load) can't trap a first-time user on the projection screen forever. The
+    // server caps recipe generation at 20s and persists the constitution before
+    // it, so a timeout here is safe to surface as a retry.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 45_000);
+
     try {
       const response = await fetch("/api/agent-forge/ignite", {
         method: "POST",
@@ -137,7 +144,8 @@ export default function OnboardingPage() {
         body: JSON.stringify({
           dob: birthDateTime,
           city: birthLocation.displayName
-        })
+        }),
+        signal: controller.signal
       });
 
       if (!response.ok) {
@@ -174,8 +182,15 @@ export default function OnboardingPage() {
       setViewState("transmuted");
     } catch (err: any) {
       console.error("Agent Forge Onboarding Error:", err);
-      setError(err?.message || "An unexpected eclipse interrupted your onboarding. Please try again.");
+      const isTimeout = err?.name === "AbortError";
+      setError(
+        isTimeout
+          ? "The celestial forge is taking longer than usual. Your alignment may already be saved — please try again."
+          : err?.message || "An unexpected eclipse interrupted your onboarding. Please try again."
+      );
       setViewState("input");
+    } finally {
+      clearTimeout(timeout);
     }
   };
 
