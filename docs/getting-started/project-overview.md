@@ -179,7 +179,7 @@ Recognition of the cosmic forces that bring food to our table
 
 - **Next.js 15.3.4**: App Router with server components
 - **React 19.1.0**: Latest React with concurrent features
-- **TypeScript 5.1.6**: Strict typing with domain modeling
+- **TypeScript 5.7**: Strict typing with domain modeling
 - **Tailwind CSS**: Utility-first styling with elemental theming
 
 ### Specialized Libraries

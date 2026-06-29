@@ -15,8 +15,8 @@
 
 ### **Prerequisites**
 
-- Node.js 18+ (LTS recommended)
-- Yarn package manager
+- Node.js 20.18.0+ (LTS recommended)
+- Bun 1.3.13 package manager (Yarn is fully retired — never npm/yarn)
 - Production server (Vercel, Netlify, or custom)
 - Domain name (optional)
 
@@ -136,8 +136,7 @@ netlify deploy --prod --dir=.next
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18"
-  YARN_VERSION = "1.22.19"
+  NODE_VERSION = "20.18.0"
 
 [[headers]]
   for = "/*"

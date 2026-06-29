@@ -1,6 +1,6 @@
 # WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 3.2.1 | Last Updated: June 15, 2026_
+_Version: 3.3.0 | Last Updated: June 29, 2026_
 
 ## Project Overview
 
@@ -11,13 +11,22 @@ We operate a three-project loop:
 2. **api.agents.alchm.kitchen (PA Backend)**: The Planetary Agents Python service owning agent personas, orchestration, and LLM recipe generation.
 3. **agents.alchm.kitchen (PA UI)**: The Planetary Agents Next.js UI.
 
-## Current Project Status (June 2026 - v3.2.1)
+## Current Project Status (June 2026 - v3.3.0)
+
+### 🧪 **DATA AUTHENTICITY CAMPAIGN (Ingredients + Recipes)**
+- **Mission**: Drive catalog data to *real* values — no fabricated nutrition, no placeholder/default templates, no hollow recipes. `src/data` is the authoritative source for ingredient recommendations (static); recipes read from a denormalized DB JSONB read model.
+- **Ingredient side (shipped)**: Lifted free-text matching into a shared resolver adopted by `UnifiedIngredientService` (#559); removed the fabricated nutrition template from the static catalog (#560); stopped placeholder coverage entries leaking into recommendations (#562); purged non-ingredient junk from the coverage set (#561); added missing cooking staples — stocks, broths, fish sauce, etc. (#563); shipped real nutrition for the 21 specialty oils as nutrition batch 1 (#566); added a real-vs-default scoring pass to the ingredient audit (#565).
+- **Recipe side (shipped)**: Backfilled real per-serving nutrition that was 100% empty (#555); upgraded the ESMS ingredient matcher (matchRate 0.56 → 0.64, #556); cleaned junk parenthetical descriptions and recovered real seasons (#557); de-published 14 fully-fabricated hollow recipes (#558); reconciled nutrition and recomputed degenerate elemental signatures after the staples landed (#564).
+- **Dashboard honesty**: Practitioner Cohorts now read canonical sources instead of vestigial JSONB (#552); replaced the fabricated Cost Burndown with a real Railway resource-usage panel (#553/#554).
+
 
 ### 🪐 **PLANETARY AGENTS INTEGRATION**
 - **Unified Agent Profiles**: Agents are first-class users (`@agentic.alchm.kitchen`). Their rich profiles include bio, dominant elements, live natal chart overlays, viewer↔agent synastry, and consciousness sigils (fetched via public endpoints from WTEN).
 - **Transit-Driven Group Chats**: Clicking active transits in WTEN opens a group chat on the PA side involving the planetary-degree agents involved.
 - **Agent Weekly Menus & Feed**: Agents publish weekly menus and share activities (chat, recipe generation, insights) directly to WTEN's `feed_events` via authenticated server-to-server endpoints (using `X-Sync-Secret` / `INTERNAL_API_SECRET`).
 - **Cosmic Recipe Generation**: Offloaded LLM generation of recipes entirely to PA's `/api/generate-recipe` backend endpoint to ensure strict structured JSON outputs (`CosmicRecipe` schema) without prompt hijacking.
+- **Agent Daily Cosmic Yield Cron**: Added a daily cron service (`/api/cron/agents-daily-yield` scheduled at `30 0 * * *` via Vercel) that automatically mints personalized daily Cosmic Yield for active, chart-bearing agents (source_type `"agents_yield"`) using the core `DailyYieldService` yield engine. This ensures the live token economy feed stays active and demonstrates the loop to visitors.
+
 
 ### ⚡ **SPACETIMEDB LIVE LAYER (v4.0)**
 - **Real-Time Sync**: Using `spacetime-module` (Rust) for live synchronization of meal plans, commensal lobbies, and grocery carts.

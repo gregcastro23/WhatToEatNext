@@ -19,7 +19,7 @@ Dive into the technical stack and contribution workflows:
 
 - **[Frontend Architecture](architecture/frontend-structure.md)** - Next.js 15, React 19, and Bun.
 - **[Backend Integration](technical/api-integration.md)** - Python FastAPI and Swiss Ephemeris.
-- **[Database Schema](data/database-schema.md)** - Neon PostgreSQL structure.
+- **[Database Schema](data/database-schema.md)** - Railway PostgreSQL structure (postgres.railway.internal).
 - **[Testing Guidelines](development/testing-strategy.md)** - Ensuring alchemical rigor.
 - **[Crypto Food Payments](payments/CRYPTO_FOOD_PAYMENTS.md)** - USDC, ESMS reserve settlement, provider research, and rollout controls.
 

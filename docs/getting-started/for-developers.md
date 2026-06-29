@@ -88,7 +88,7 @@ src/
 
 - **Next.js 15.3.4**: App Router with server components
 - **React 19.1.0**: Latest React with concurrent features
-- **TypeScript 5.1.6**: Strict typing with astrological domain modeling
+- **TypeScript 5.7**: Strict typing with astrological domain modeling
 - **Tailwind CSS**: Utility-first styling with elemental theming
 - **astronomy-engine**: High-precision astronomical calculations
 - **Jest**: Comprehensive testing framework

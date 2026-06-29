@@ -7,7 +7,7 @@ with Next.js 15.3.4, React 19, and TypeScript.
 
 - **Docker** (20.10+) and **Docker Compose** (2.0+)
 - **Node.js 20.18.0+** (for local development)
-- **Yarn 1.22.0+** package manager
+- **Bun 1.3.13** package manager (Yarn is fully retired — never npm/yarn)
 
 ## 🚀 Quick Start
 

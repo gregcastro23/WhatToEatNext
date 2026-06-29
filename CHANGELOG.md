@@ -23,6 +23,68 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [3.3.0] — 2026-06-29 — Data Authenticity & Live Economy
+
+The data-authenticity campaign: drive the catalog to **real** values — no fabricated nutrition, no placeholder/default templates, no hollow recipes. `src/data` stays authoritative for ingredient recommendations (static); recipes read from the denormalized DB JSONB read model. Plus the first piece of the Live Network economy kept alive by automation.
+
+### Added
+
+#### Ingredient data authenticity
+- **Shared free-text resolver** (#559) — lifted free-text ingredient matching into a shared resolver, adopted by `UnifiedIngredientService`.
+- **Missing cooking staples** (#563) — added stocks, broths, fish sauce, and other staples that were absent from the catalog.
+- **Real-vs-default audit scoring** (#565) — the ingredient audit now scores real-vs-default coverage.
+- **Real nutrition for the 21 specialty oils** (#566) — nutrition batch 1.
+
+#### Recipe data authenticity
+- **Real per-serving nutrition backfill** (#555) — recipe nutrition was 100% empty; now backfilled with real values.
+
+#### Agent Daily Cosmic Yield cron (in flight — `feat/agent-daily-yield-cron`)
+- **Vercel cron** at `/api/cron/agents-daily-yield`, scheduled `"30 0 * * *"` (daily 00:30 UTC) and gated by `CRON_SECRET`. Registered in `vercel.json` alongside the synthetic-* probes and the system-health snapshot — a **Vercel** cron, not a Railway cron service.
+- **Service** `src/services/agentDailyYield.ts` mints each active, chart-bearing agent's personalized daily Cosmic Yield so the token ledger / Live Network economy surfaces stay alive for visitors.
+- Reuses the human-claim engine verbatim: `DailyYieldService.claimDailyYield` with `site="agents"` → `source_type "agents_yield"`. Economics and idempotency are identical to human claims (keyed per `(site, agent, day)`; a re-run is a no-op). Purely additive — no formula or human-claim path changed. Backstops the PA sync-credit `agents_yield` pipeline, silent since 2026-06-03.
+
+### Changed
+
+#### Ingredient catalog cleanup
+- **Removed the fabricated nutrition template** (#560) from the static catalog.
+- **Purged non-ingredient junk** (#561) from the coverage set.
+- **Stopped placeholder coverage entries** (#562) from leaking into ingredient recommendations.
+
+#### Recipe catalog cleanup
+- **Upgraded the ESMS ingredient matcher** (#556) — matchRate `0.56 → 0.64`.
+- **Cleaned junk parenthetical descriptions** (#557) and recovered real seasons.
+- **De-published 14 fully-fabricated hollow recipes** (#558).
+- **Reconciled nutrition and recomputed degenerate elemental signatures** (#564) after the staples landed.
+
+#### Dashboard honesty
+- **Practitioner Cohorts** (#552) now read canonical sources, not vestigial JSONB.
+- **Cost Burndown** (#553) no longer fabricates billing data — shows an honest "no billing source" state.
+- **Real Railway resource-usage panel** (#554) replaces the fabricated Cost Burndown.
+
+#### Live Network & auth
+- **Feed polling pressure** (#550) — cache the Live Network Feed pollers and jitter the poll to cut DB pressure.
+- **Signup-grant resilience** (#551) — the new-user signup grant is now resilient and detectable.
+
+---
+
+## [3.2.x] — Planetary Agents & Live State
+
+The three-project loop comes online — `alchm.kitchen` (this repo) ↔ `api.agents.alchm.kitchen` (PA Python/FastAPI backend) ↔ `agents.alchm.kitchen` (PA Next.js UI) — and the live-state layer lands. (Never changelogged at the time; reconstructed here.)
+
+### Added
+
+- **Planetary Agents as first-class users** — `is_agent=true`, `@agentic.alchm.kitchen` identities with profiles, synastry, transit group-chats, and an agent feed.
+- **Cosmic-recipe generation offload** — recipe generation is offloaded to PA `/api/generate-recipe`, which returns `CosmicRecipe` JSON.
+- **SpacetimeDB v4.0 live layer** — meal plans, commensal, and carts, gated by `NEXT_PUBLIC_SPACETIME_URI` with a localStorage / REST fallback when unset.
+- **MCP server + telemetry** — `mcp_invocations` telemetry and a `*/30` synthetic probe.
+- **Cloudflare Workers AI image pipeline** — SDXL → R2.
+
+### Changed
+
+- **Unified `ElementalSignature` model** (#505) — a single canonical signature model across display and ranking.
+
+---
+
 ## [3.1.0] — 2026-05-29 — Modern Alchemist · MCP release
 
 3.0 shipped the redesigned surface (`git tag v3.0.0`). 3.1 layers a published MCP server, an operational admin console, production-readiness hardening, and a tracked migration runner on top. (3.1 tag not yet cut.)
@@ -183,7 +245,9 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Ingredient hierarchy: Ingredients → Recipes → Cuisines.
 - Basic recommendation engine.
 
-[Unreleased]: https://github.com/gregcastro23/WhatToEatNext/compare/v3.0.0...HEAD
+<!-- 3.2.x and 3.3.0 are documented above but not yet git-tagged; only v3.0.0 and v3.1.0 tags exist. -->
+[Unreleased]: https://github.com/gregcastro23/WhatToEatNext/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/gregcastro23/WhatToEatNext/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/gregcastro23/WhatToEatNext/compare/v2.3.0...v3.0.0
 [2.3.0]: https://github.com/gregcastro23/WhatToEatNext/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/gregcastro23/WhatToEatNext/compare/v2.1.0...v2.2.0

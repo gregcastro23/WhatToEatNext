@@ -1,6 +1,6 @@
 # Alchm.kitchen API Reference
 
-**Version**: 3.0.0 | Updated: 2026-05-21
+**Version**: 3.3.0 | Updated: 2026-06-29
 
 All API routes documented here are Next.js App Router handlers under `src/app/api/`. All times are UTC. Auth uses NextAuth.js v5 session cookies unless noted.
 
@@ -614,7 +614,9 @@ Health check.
 
 **Auth**: Public.
 
-**Response**: `{ "status": "ok", "version": "3.0.0", "timestamp": "..." }`
+**Response**: `{ "status": "ok", "version": "3.1.0", "timestamp": "..." }`
+
+> The `version` field reflects the **runtime** app version (`APP_VERSION`, inlined from `package.json`, currently `3.1.0`) — not this guide's doc-convention version in the header above.
 
 ---
 

@@ -89,7 +89,7 @@ bun run typecheck
 ### Technology Stack
 
 - **Frontend**: Next.js 15.3.4 with React 19.1.0
-- **Language**: TypeScript 5.1.6 with strict typing
+- **Language**: TypeScript 5.7 with strict typing
 - **Styling**: Tailwind CSS with elemental theming
 - **Calculations**: astronomy-engine, astronomia libraries
 - **Testing**: Jest with comprehensive test coverage

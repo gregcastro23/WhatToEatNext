@@ -3,12 +3,12 @@
 ## 🚀 Overview
 
 This document describes the comprehensive CI/CD pipeline setup for the
-WhatToEatNext project using Yarn, GitHub Actions, and Vercel deployment.
+WhatToEatNext project using Bun, GitHub Actions, and Vercel deployment.
 
 ## 📋 Prerequisites
 
 - Node.js 20.18.0 or higher
-- Yarn 1.22.0 or higher
+- Bun 1.3.13 (Yarn is fully retired — never npm/yarn)
 - GitHub repository with Actions enabled
 - Vercel account for deployment
 
@@ -22,7 +22,7 @@ WhatToEatNext project using Yarn, GitHub Actions, and Vercel deployment.
    - `dependency-review.yml` - Security scanning
 
 2. **Build Tools**
-   - Yarn for package management
+   - Bun for package management
    - Turborepo for build optimization
    - ESLint + Prettier for code quality
 
@@ -42,7 +42,7 @@ WhatToEatNext project using Yarn, GitHub Actions, and Vercel deployment.
 | `.github/workflows/dependency-review.yml` | Security scanning            |
 | `.github/dependabot.yml`                  | Automated dependency updates |
 | `turbo.json`                              | Turborepo configuration      |
-| `.bunrc.yml`                             | Yarn configuration           |
+| `.bunrc.yml`                             | Bun configuration            |
 | `.eslintrc.js`                            | ESLint configuration         |
 | `.prettierrc`                             | Prettier configuration       |
 
@@ -98,7 +98,7 @@ git push origin main
 **Jobs:**
 
 1. **Security** - Vulnerability scanning
-   - Yarn audit
+   - Bun audit
    - Trivy vulnerability scanner
    - GitHub Security tab integration
 
@@ -205,7 +205,7 @@ bun run deps:update      # Interactive dependency updates
 
 ### Vulnerability Scanning
 
-- **Yarn Audit**: Scans for known vulnerabilities
+- **Bun Audit**: Scans for known vulnerabilities
 - **Trivy**: Comprehensive vulnerability scanner
 - **Dependency Review**: GitHub's dependency scanning
 
@@ -230,7 +230,7 @@ security:
 ### Build Optimization
 
 - **Turborepo**: Incremental builds
-- **Yarn Caching**: Dependency caching
+- **Bun Caching**: Dependency caching
 - **GitHub Actions Caching**: Workflow optimization
 
 ## 🚨 Troubleshooting
@@ -271,8 +271,8 @@ security:
 # Check Node.js version
 node --version
 
-# Check Yarn version
-bun run --version
+# Check Bun version
+bun --version
 
 # Validate CI configuration
 ./scripts/setup-ci.sh
@@ -286,13 +286,13 @@ bun run ci:lint && bun run ci:type-check && bun run ci:test && bun run ci:build
 ### Build Performance
 
 - **Turborepo**: Incremental builds and caching
-- **Yarn**: Efficient dependency resolution
+- **Bun**: Efficient dependency resolution
 - **GitHub Actions**: Parallel job execution
 
 ### Caching Strategy
 
 ```yaml
-# Yarn cache
+# Bun cache
 - uses: actions/setup-node@v4
   with:
     cache: "bun"
