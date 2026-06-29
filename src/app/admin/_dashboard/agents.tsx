@@ -49,6 +49,29 @@ interface AgentLeaderboardEntry {
   dominantElement: string | null;
 }
 
+interface AgentRoleOpsAction {
+  action: string;
+  count: number;
+}
+
+interface AgentRoleOpsEntry {
+  id: string;
+  label: string;
+  mandate: string;
+  agentCount: number;
+  events24h: number;
+  events7d: number;
+  lastActivityAt: string | null;
+  actions: AgentRoleOpsAction[];
+}
+
+interface AgentReasoningEntry {
+  agentId: string;
+  agentHandle: string;
+  timestamp: string;
+  preview: string;
+}
+
 type CosmicModifierKind =
   | "amplify"
   | "harmonize"
@@ -87,6 +110,12 @@ interface AgentNetworkData {
   dispatch: { entries: AgentDispatchEntry[]; live: boolean };
   leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
   interactions: { entries: AgentInteractionEntry[]; live: boolean };
+  roleOps: { entries: AgentRoleOpsEntry[]; live: boolean };
+  reasoning: {
+    entries: AgentReasoningEntry[];
+    live: boolean;
+    instrumented: boolean;
+  };
   modifiers: {
     entries: CosmicModifierEntry[];
     netVelocity: number;
@@ -101,6 +130,8 @@ const EMPTY_NETWORK: AgentNetworkData = {
   dispatch: { entries: [], live: false },
   leaderboard: { entries: [], live: false },
   interactions: { entries: [], live: false },
+  roleOps: { entries: [], live: false },
+  reasoning: { entries: [], live: false, instrumented: false },
   modifiers: { entries: [], netVelocity: 0, live: false },
 };
 
@@ -204,7 +235,8 @@ export function AgentFeedControlRoom() {
     with: debouncedWith,
     topic: debouncedTopic,
   });
-  const { totals, roles, dispatch, leaderboard, interactions, modifiers } = data;
+  const { totals, roles, dispatch, leaderboard, interactions, roleOps, reasoning, modifiers } =
+    data;
   const activeDispatches = dispatch.entries.length;
   const isInteractionsFiltered =
     debouncedWith.length > 0 || debouncedTopic.length > 0;
@@ -292,6 +324,18 @@ export function AgentFeedControlRoom() {
           onTopicInputChange={setTopicInput}
           isFiltered={isInteractionsFiltered}
           onClearFilters={handleClearInteractionFilters}
+        />
+      </div>
+
+      <div style={{ marginTop: 12 }}>
+        <RoleOperations entries={roleOps.entries} live={roleOps.live} />
+      </div>
+
+      <div style={{ marginTop: 12 }}>
+        <ReasoningTracePanel
+          entries={reasoning.entries}
+          live={reasoning.live}
+          instrumented={reasoning.instrumented}
         />
       </div>
 
@@ -1328,6 +1372,362 @@ function AgentInteractionsPanel({
             </div>
           );
         })
+      )}
+    </Card>
+  );
+}
+
+// ============================================================
+// ROLE OPERATIONS
+// Per-role operational panels for the canonical agent roster, rebuilt over
+// real feed_events aggregates (see /api/admin/agents/network getRoleOps).
+// Each card degrades honestly: a role with no events shows IDLE / "no activity",
+// a failed source shows OFFLINE / "telemetry offline" — never fabricated work.
+// ============================================================
+function RoleOperations({
+  entries,
+  live,
+}: {
+  entries: AgentRoleOpsEntry[];
+  live: boolean;
+}) {
+  const activeRoles = entries.filter((r) => r.events7d > 0).length;
+  return (
+    <Card
+      title="Role Operations"
+      subtitle="per-role telemetry · canonical agent roster"
+      right={
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: live ? "var(--accent)" : "var(--fg-mute)",
+            letterSpacing: "0.14em",
+          }}
+          title={
+            live
+              ? `${activeRoles} of ${entries.length} roles active in 7d`
+              : "role telemetry source unavailable"
+          }
+        >
+          {live ? `● LIVE · ${activeRoles}/${entries.length} ACTIVE` : "○ STALE"}
+        </span>
+      }
+    >
+      {entries.length === 0 ? (
+        <div
+          className="t-mono"
+          style={{
+            padding: "20px 0",
+            textAlign: "center",
+            fontSize: 10,
+            color: "var(--fg-mute)",
+            letterSpacing: "0.1em",
+          }}
+        >
+          {live ? "no roles configured" : "role telemetry offline"}
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(248px, 1fr))",
+            gap: 10,
+          }}
+        >
+          {entries.map((role) => (
+            <RoleOpsCard key={role.id} role={role} live={live} />
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function RoleOpsCard({ role, live }: { role: AgentRoleOpsEntry; live: boolean }) {
+  const color = colorForRole(role.id);
+  const hasActivity = role.events7d > 0;
+  // Source-live but no events => honest IDLE; source down => OFFLINE.
+  const statusLabel = !live ? "○ OFFLINE" : hasActivity ? "● ACTIVE" : "○ IDLE";
+  const statusColor = live && hasActivity ? "var(--el-earth)" : "var(--fg-mute)";
+  const maxAction = role.actions.reduce((m, a) => Math.max(m, a.count), 0);
+  return (
+    <div
+      style={{
+        border: `1px solid color-mix(in oklch, ${color}, transparent 60%)`,
+        borderRadius: 10,
+        background: "rgba(0,0,0,0.18)",
+        padding: "10px 12px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 8,
+        }}
+      >
+        <span style={{ display: "flex", alignItems: "center", gap: 7, minWidth: 0 }}>
+          <span className="el-dot" style={{ background: color, boxShadow: `0 0 6px ${color}` }} />
+          <span
+            className="t-display"
+            style={{ fontSize: 14, color: "var(--fg)", letterSpacing: "0.02em" }}
+          >
+            {role.label}
+          </span>
+        </span>
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 8.5,
+            color: statusColor,
+            letterSpacing: "0.12em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {statusLabel}
+        </span>
+      </div>
+      <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", marginTop: -4 }}>
+        {role.mandate}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
+        <RoleStat label="Agents" value={role.agentCount} />
+        <RoleStat label="24h" value={role.events24h} />
+        <RoleStat label="7d" value={role.events7d} />
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <span className="t-tag" style={{ fontSize: 8 }}>
+          TOP ACTIONS · 7D
+        </span>
+        <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-faint)" }}>
+          {role.lastActivityAt ? relativeTime(role.lastActivityAt) : "—"}
+        </span>
+      </div>
+      {role.actions.length === 0 ? (
+        <div
+          className="t-mono"
+          style={{
+            padding: "8px 0",
+            textAlign: "center",
+            fontSize: 9.5,
+            color: "var(--fg-mute)",
+            letterSpacing: "0.06em",
+          }}
+        >
+          {live ? `no ${role.label.toLowerCase()} events in 7d` : "telemetry offline"}
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          {role.actions.map((a) => {
+            const ratio = maxAction > 0 ? a.count / maxAction : 0;
+            return (
+              <div key={a.action}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 9.5,
+                      color: "var(--fg-dim)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      paddingRight: 8,
+                    }}
+                    title={a.action}
+                  >
+                    {a.action}
+                  </span>
+                  <span className="t-num" style={{ fontSize: 10, color: "var(--fg)" }}>
+                    {a.count.toLocaleString()}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    height: 3,
+                    background: "rgba(255,255,255,0.04)",
+                    borderRadius: 999,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${Math.max(ratio * 100, 4)}%`,
+                      height: "100%",
+                      background: color,
+                      boxShadow: `0 0 6px ${color}`,
+                      opacity: 0.9,
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RoleStat({ label, value }: { label: string; value: number }) {
+  return (
+    <div
+      style={{
+        border: "1px solid var(--line)",
+        borderRadius: 7,
+        padding: "5px 7px",
+        background: "rgba(255,255,255,0.015)",
+      }}
+    >
+      <div className="t-tag" style={{ fontSize: 7.5 }}>
+        {label}
+      </div>
+      <div className="t-num" style={{ fontSize: 14, color: "var(--fg)", marginTop: 1 }}>
+        {value.toLocaleString()}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// REASONING TRACES
+// There is no step-level reasoning/trace store yet, so this panel is honest
+// about that: it surfaces each agent's latest agent_chat decision preview as
+// the closest available proxy (instrumented=false), never as a full trace.
+// ============================================================
+function ReasoningTracePanel({
+  entries,
+  live,
+  instrumented,
+}: {
+  entries: AgentReasoningEntry[];
+  live: boolean;
+  instrumented: boolean;
+}) {
+  const badge = instrumented
+    ? live
+      ? "● LIVE"
+      : "○ STALE"
+    : live
+      ? "◐ PROXY"
+      : "○ STALE";
+  const badgeColor = !live
+    ? "var(--fg-mute)"
+    : instrumented
+      ? "var(--el-earth)"
+      : "var(--accent-2)";
+  return (
+    <Card
+      title="Reasoning Traces · Decision Log"
+      subtitle="latest decision preview per agent"
+      right={
+        <span
+          className="t-mono"
+          style={{ fontSize: 9, color: badgeColor, letterSpacing: "0.14em" }}
+          title={
+            instrumented
+              ? "Live reasoning traces"
+              : "Proxy signal — agent_chat previews, not full reasoning traces"
+          }
+        >
+          {badge}
+        </span>
+      }
+    >
+      {!instrumented && (
+        <div
+          style={{
+            marginBottom: 10,
+            padding: "8px 10px",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div className="t-tag" style={{ marginBottom: 4 }}>
+            STEP-LEVEL TRACES · NOT WIRED
+          </div>
+          <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+            Agents don&rsquo;t emit chain-of-thought yet. Showing each
+            agent&rsquo;s latest <code>agent_chat</code> decision preview as the
+            closest signal — add a reasoning event type or trace table to surface
+            full traces here.
+          </div>
+        </div>
+      )}
+      {entries.length === 0 ? (
+        <div
+          className="t-mono"
+          style={{
+            padding: "20px 0",
+            textAlign: "center",
+            fontSize: 10,
+            color: "var(--fg-mute)",
+            letterSpacing: "0.1em",
+          }}
+        >
+          {live ? "no agent decisions recorded" : "decision log offline"}
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {entries.map((entry, i) => (
+            <div
+              key={`${entry.agentId}-${entry.timestamp}`}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "auto 1fr auto",
+                gap: 10,
+                alignItems: "baseline",
+                padding: "8px 0",
+                borderBottom: i === entries.length - 1 ? "none" : "1px solid var(--line)",
+              }}
+            >
+              <AgentProfileLink
+                userId={entry.agentId}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  color: "var(--fg)",
+                  fontFamily: "var(--f-mono)",
+                  fontSize: 10.5,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span
+                  className="el-dot"
+                  style={{
+                    background: colorForRole(entry.agentHandle),
+                    boxShadow: `0 0 6px ${colorForRole(entry.agentHandle)}`,
+                  }}
+                />
+                {entry.agentHandle}
+              </AgentProfileLink>
+              <span
+                style={{
+                  color: "var(--fg-dim)",
+                  fontSize: 10.5,
+                  fontStyle: "italic",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+                title={entry.preview}
+              >
+                &ldquo;{entry.preview}&rdquo;
+              </span>
+              <span
+                className="t-mono"
+                style={{ fontSize: 9, color: "var(--fg-mute)", whiteSpace: "nowrap" }}
+              >
+                {relativeTime(entry.timestamp)}
+              </span>
+            </div>
+          ))}
+        </div>
       )}
     </Card>
   );

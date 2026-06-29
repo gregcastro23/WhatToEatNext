@@ -80,6 +80,34 @@ export interface AgentInteractionEntry {
   preview: string;
 }
 
+export interface AgentRoleOpsAction {
+  /** event_type suffix, e.g. `expiry_swept` from `pantry.expiry_swept`. */
+  action: string;
+  /** occurrences of this action in the trailing 7d window. */
+  count: number;
+}
+
+export interface AgentRoleOpsEntry {
+  id: string;
+  label: string;
+  /** Honest one-line description of what this role exists to do. */
+  mandate: string;
+  /** distinct agents whose events carry this role prefix, last 7d. */
+  agentCount: number;
+  events24h: number;
+  events7d: number;
+  lastActivityAt: string | null;
+  /** top event-type suffixes for this role, busiest first. */
+  actions: AgentRoleOpsAction[];
+}
+
+export interface AgentReasoningEntry {
+  agentId: string;
+  agentHandle: string;
+  timestamp: string;
+  preview: string;
+}
+
 export interface AgentNetworkPayload {
   generatedAt: string;
   totals: {
@@ -94,6 +122,19 @@ export interface AgentNetworkPayload {
   dispatch: { entries: AgentDispatchEntry[]; live: boolean };
   leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
   interactions: { entries: AgentInteractionEntry[]; live: boolean };
+  /**
+   * Per-role operational telemetry for the canonical agent roles, rebuilt
+   * over real `feed_events` aggregates (no fixtures). Degrades independently
+   * to an empty `live: false` block when the source query fails.
+   */
+  roleOps: { entries: AgentRoleOpsEntry[]; live: boolean };
+  /**
+   * Closest-available reasoning signal: each agent's latest decision preview
+   * from `agent_chat` metadata. `instrumented: false` records the honest truth
+   * that step-level chain-of-thought traces are not captured yet — the panel
+   * surfaces these previews as a proxy, not as full reasoning traces.
+   */
+  reasoning: { entries: AgentReasoningEntry[]; live: boolean; instrumented: boolean };
   /**
    * Active astrological aspects, framed as signed influences on agent
    * interaction velocity. Derived from the live ephemeris via
@@ -437,6 +478,183 @@ async function getInteractions(
   }
 }
 
+/**
+ * Canonical agent roles surfaced as dedicated operational panels. Roles are
+ * inferred from the `<role>.<action>` event_type prefix (there is no role
+ * column yet), so a role with no matching events legitimately renders an
+ * honest empty state rather than fabricated activity. The `mandate` is a
+ * description of intent, not telemetry.
+ */
+const ROLE_OPS_DEFS: ReadonlyArray<{ id: string; label: string; mandate: string }> = [
+  { id: "sous-chef", label: "Sous-Chef", mandate: "prep & mise-en-place" },
+  { id: "galileo", label: "Galileo", mandate: "vision & image rendering" },
+  { id: "substitution", label: "Substitution", mandate: "ingredient swaps" },
+  { id: "pantry", label: "Pantry", mandate: "inventory & expiry sweeps" },
+  { id: "procurement", label: "Procurement", mandate: "sourcing & supply" },
+  { id: "lineage", label: "Lineage", mandate: "recipe provenance" },
+];
+
+const ROLE_OPS_ACTIONS_CAP = 6;
+const REASONING_LIMIT = 8;
+
+async function getRoleOps(): Promise<AgentNetworkPayload["roleOps"]> {
+  try {
+    const roleIds = ROLE_OPS_DEFS.map((r) => r.id);
+    // GROUPING SETS gives us, per role, one role-level rollup row (action IS
+    // NULL — correct DISTINCT agent count + 24h/7d totals + last activity) plus
+    // one row per action for the breakdown — all in a single 7d scan.
+    const result = await executeQuery<{
+      role: string;
+      action: string | null;
+      agent_count: number;
+      events_24h: number;
+      events_7d: number;
+      last_activity: Date | null;
+    }>(
+      `WITH agent_events AS (
+         SELECT f.actor_id,
+                f.created_at,
+                split_part(f.event_type, '.', 1) AS role,
+                COALESCE(NULLIF(split_part(f.event_type, '.', 2), ''), '(unlabeled)') AS action
+         FROM feed_events f
+         JOIN users u ON u.id = f.actor_id AND u.is_agent = true
+         WHERE f.created_at > NOW() - INTERVAL '7 days'
+           AND split_part(f.event_type, '.', 1) = ANY($1::text[])
+       )
+       SELECT
+         role,
+         action,
+         COUNT(DISTINCT actor_id)::int AS agent_count,
+         COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '24 hours')::int AS events_24h,
+         COUNT(*)::int AS events_7d,
+         MAX(created_at) AS last_activity
+       FROM agent_events
+       GROUP BY GROUPING SETS ((role), (role, action))
+       ORDER BY role`,
+      [roleIds],
+    );
+
+    interface Bucket {
+      agentCount: number;
+      events24h: number;
+      events7d: number;
+      lastActivityAt: string | null;
+      actions: AgentRoleOpsAction[];
+    }
+    const byRole = new Map<string, Bucket>();
+    for (const def of ROLE_OPS_DEFS) {
+      byRole.set(def.id, {
+        agentCount: 0,
+        events24h: 0,
+        events7d: 0,
+        lastActivityAt: null,
+        actions: [],
+      });
+    }
+    for (const row of result.rows) {
+      const bucket = byRole.get(row.role);
+      if (!bucket) continue;
+      if (row.action === null) {
+        bucket.agentCount = row.agent_count;
+        bucket.events24h = row.events_24h;
+        bucket.events7d = row.events_7d;
+        bucket.lastActivityAt = row.last_activity
+          ? new Date(row.last_activity).toISOString()
+          : null;
+      } else {
+        bucket.actions.push({ action: row.action, count: row.events_7d });
+      }
+    }
+
+    const entries: AgentRoleOpsEntry[] = ROLE_OPS_DEFS.map((def) => {
+      const b = byRole.get(def.id) as Bucket;
+      return {
+        id: def.id,
+        label: def.label,
+        mandate: def.mandate,
+        agentCount: b.agentCount,
+        events24h: b.events24h,
+        events7d: b.events7d,
+        lastActivityAt: b.lastActivityAt,
+        actions: b.actions
+          .sort((a, c) => c.count - a.count)
+          .slice(0, ROLE_OPS_ACTIONS_CAP),
+      };
+    });
+
+    return { entries, live: true };
+  } catch (error) {
+    console.error("[admin/agents/network] roleOps query failed:", error);
+    // Still hand back the canonical role shells so the panels render an honest
+    // "telemetry offline" state instead of disappearing.
+    const entries: AgentRoleOpsEntry[] = ROLE_OPS_DEFS.map((def) => ({
+      id: def.id,
+      label: def.label,
+      mandate: def.mandate,
+      agentCount: 0,
+      events24h: 0,
+      events7d: 0,
+      lastActivityAt: null,
+      actions: [],
+    }));
+    return { entries, live: false };
+  }
+}
+
+async function getReasoning(
+  limit = REASONING_LIMIT,
+): Promise<AgentNetworkPayload["reasoning"]> {
+  try {
+    // The latest decision preview per distinct agent. There is no reasoning /
+    // trace store yet, so this `agent_chat` preview is the closest real signal
+    // we can honestly surface; `instrumented` stays false to say so.
+    const result = await executeQuery<{
+      agent_id: string;
+      handle: string | null;
+      created_at: Date;
+      preview: string;
+    }>(
+      `SELECT t.agent_id, t.handle, t.created_at, t.preview
+         FROM (
+           SELECT DISTINCT ON (f.actor_id)
+             f.actor_id::text AS agent_id,
+             COALESCE(up.name, u.name, split_part(u.email, '@', 1)) AS handle,
+             f.created_at,
+             COALESCE(
+               f.metadata_payload->>'responsePreview',
+               f.metadata_payload->>'messagePreview',
+               f.metadata_payload->>'message'
+             ) AS preview
+           FROM feed_events f
+           JOIN users u ON u.id = f.actor_id AND u.is_agent = true
+           LEFT JOIN user_profiles up ON up.user_id = u.id
+           WHERE f.event_type = 'agent_chat'
+             AND COALESCE(
+               f.metadata_payload->>'responsePreview',
+               f.metadata_payload->>'messagePreview',
+               f.metadata_payload->>'message'
+             ) IS NOT NULL
+           ORDER BY f.actor_id, f.created_at DESC
+         ) t
+        ORDER BY t.created_at DESC
+        LIMIT $1`,
+      [limit],
+    );
+
+    const entries: AgentReasoningEntry[] = result.rows.map((row) => ({
+      agentId: row.agent_id,
+      agentHandle: row.handle || "agent",
+      timestamp: new Date(row.created_at).toISOString(),
+      preview: row.preview,
+    }));
+
+    return { entries, live: true, instrumented: false };
+  } catch (error) {
+    console.error("[admin/agents/network] reasoning query failed:", error);
+    return { entries: [], live: false, instrumented: false };
+  }
+}
+
 export async function GET(request: NextRequest) {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) {
@@ -494,6 +712,8 @@ export async function GET(request: NextRequest) {
         dispatch,
         leaderboard,
         interactions,
+        roleOps,
+        reasoning,
         modifiers,
       ] = await Promise.all([
         getTotals(),
@@ -501,6 +721,8 @@ export async function GET(request: NextRequest) {
         getDispatch(dispatchLimit),
         getLeaderboard(leaderboardLimit),
         getInteractions(15, { withAgent: withFilter, topic: topicFilter }),
+        getRoleOps(),
+        getReasoning(),
         modifierTask,
       ]);
       return {
@@ -510,6 +732,8 @@ export async function GET(request: NextRequest) {
         dispatch,
         leaderboard,
         interactions,
+        roleOps,
+        reasoning,
         modifiers,
       };
     },

@@ -146,6 +146,34 @@ export async function POST(request: NextRequest) {
     metadataURI,
   });
 
+  if (chainResult.status === "failed") {
+    // Refund the debited tokens immediately since the mint failed on-chain
+    await tokenEconomy.creditMultipleTokens(
+      userId,
+      [
+        { tokenType: "Spirit", amount: cost.spirit },
+        { tokenType: "Essence", amount: cost.essence },
+        { tokenType: "Matter", amount: cost.matter },
+        { tokenType: "Substance", amount: cost.substance },
+      ],
+      "mint_refund",
+      {
+        sourceId: purchase.transactionGroupId,
+        description: `Refund — mint failed on-chain: ${recipe.title}`,
+        idempotencyKey: `mint_refund:${purchase.transactionGroupId}`,
+      },
+    );
+
+    return NextResponse.json(
+      {
+        error: "mint_failed",
+        reason: chainResult.reason,
+        refunded: true,
+      },
+      { status: 500 },
+    );
+  }
+
   const ledgerRow = {
     userId,
     recipeId: recipe.id,
