@@ -78,6 +78,14 @@ function NatalPromptBanner(): JSX.Element | null {
   );
 }
 
+const DynamicBestMatchExplorer = dynamic(
+  () =>
+    import("@/components/RestaurantDiscovery/BestMatchExplorer").then(
+      (mod) => mod.BestMatchExplorer,
+    ),
+  { loading: () => <SectionLoader label="Loading nearby restaurants…" /> },
+);
+
 const DynamicCuisineRecommender = dynamic(
   () => import("@/components/home/DynamicCuisineRecommender"),
   { loading: () => <SectionLoader label="Loading cuisine recommender…" /> },
@@ -362,6 +370,15 @@ export default function AlchmKitchenHome(): JSX.Element {
           }
           .alchm-home-cookmethods :is(h1, h2, h3, h4) { color: var(--fg); }
         `}</style>
+
+        {/* 0 · BEST MATCH — nearby restaurants, cosmic-ranked. Leads the page. */}
+        <HomeSection
+          tag="DINE OUT · NEAR YOU"
+          title="Best Match restaurants near you"
+          cta={{ label: "Open finder", href: "/restaurants" }}
+        >
+          <DynamicBestMatchExplorer showHeader={false} />
+        </HomeSection>
 
         <HomeHero />
 

@@ -78,6 +78,12 @@ export interface AlchmScoredRestaurant {
   cuisineLabel?: string;
   /** Raw provider type identifier (e.g. Google Places primaryType). */
   primaryType?: string;
+  /**
+   * Provider-supplied rating badge image URL (Tripadvisor bubble image).
+   * When present, the UI MUST render this image instead of its own stars —
+   * Tripadvisor's terms require displaying their official rating graphic.
+   */
+  ratingImageUrl?: string;
 }
 
 export interface CosmicContext {
@@ -87,7 +93,13 @@ export interface CosmicContext {
 }
 
 /** Provider that produced the restaurant results in a discovery response. */
-export type RestaurantDiscoverySource = "olo" | "yelp" | "foursquare" | "google";
+export type RestaurantDiscoverySource =
+  | "olo"
+  | "yelp"
+  | "foursquare"
+  | "google"
+  | "osm"
+  | "tripadvisor";
 
 export interface RestaurantSearchResponse {
   restaurants: AlchmScoredRestaurant[];

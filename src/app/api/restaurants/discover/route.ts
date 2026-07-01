@@ -27,6 +27,9 @@ interface DiscoverBody {
 }
 
 function numberFrom(value: unknown): number | null {
+  // A missing search param is `null`, and `Number(null) === 0` — guard empty/null
+  // explicitly so an absent `limit`/`radius` doesn't collapse to 0 (→ clamped to 1).
+  if (value === null || value === undefined || value === "") return null;
   const parsed = typeof value === "number" ? value : Number(value);
   return Number.isFinite(parsed) ? parsed : null;
 }
