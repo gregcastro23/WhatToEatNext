@@ -36,7 +36,7 @@ export interface SavedRestaurant {
   menuItems: MenuItem[];
   rating?: number;
   addedAt: string;
-  source?: 'manual' | 'foursquare' | 'google' | 'yelp' | 'olo';
+  source?: 'manual' | 'foursquare' | 'google' | 'yelp' | 'olo' | 'osm' | 'tripadvisor';
   externalId?: string;
   address?: string;
   url?: string;
