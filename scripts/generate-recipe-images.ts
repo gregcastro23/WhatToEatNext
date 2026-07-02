@@ -132,7 +132,10 @@ function buildRecipePrompt(r: RecipeRow): string {
   const segments: string[] = [];
 
   let subject = `premium culinary photograph of ${r.name}`;
-  if (r.cuisine) subject += `, ${r.cuisine} cuisine`;
+  // "Hsca" is an internal archive code, not a real cuisine — keep it out of prompts.
+  if (r.cuisine && r.cuisine.toLowerCase() !== "hsca") {
+    subject += `, ${r.cuisine} cuisine`;
+  }
   segments.push(subject);
 
   if (r.description) {

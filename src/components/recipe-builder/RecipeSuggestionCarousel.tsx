@@ -10,8 +10,10 @@
  * @file src/components/recipe-builder/RecipeSuggestionCarousel.tsx
  */
 
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import React, { useRef, type TouchEvent as ReactTouchEvent } from "react";
+import React from "react";
 import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
 import type { RecommendedMeal } from "@/utils/menuPlanner/recommendationBridge";
@@ -64,6 +66,35 @@ interface RecipeSuggestionCarouselProps {
   onSaveToQueue?: (meal: RecommendedMeal) => void;
 }
 
+// Animation variants for card slide transition
+const cardVariants = {
+  enter: (dir: number) => ({
+    x: dir > 0 ? 150 : dir < 0 ? -150 : 0,
+    opacity: 0,
+    scale: 0.98,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    transition: {
+      x: { type: "spring" as const, stiffness: 350, damping: 30 },
+      opacity: { duration: 0.15 },
+      scale: { duration: 0.15 },
+    },
+  },
+  exit: (dir: number) => ({
+    x: dir < 0 ? 150 : dir > 0 ? -150 : 0,
+    opacity: 0,
+    scale: 0.98,
+    transition: {
+      x: { type: "spring" as const, stiffness: 350, damping: 30 },
+      opacity: { duration: 0.15 },
+      scale: { duration: 0.15 },
+    },
+  }),
+};
+
 export default function RecipeSuggestionCarousel({
   suggestions,
   currentIndex,
@@ -72,9 +103,9 @@ export default function RecipeSuggestionCarousel({
   isPersonalized = false,
   onSaveToQueue,
 }: RecipeSuggestionCarouselProps) {
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-  const MIN_SWIPE = 50;
+  const [direction, setDirection] = React.useState<number>(0);
+  const x = useMotionValue(0);
+  const rotate = useTransform(x, [-200, 200], [-3, 3]);
 
   // Expandable sections state
   const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({});
@@ -83,29 +114,36 @@ export default function RecipeSuggestionCarousel({
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Reset drag position on index change
+  React.useEffect(() => {
+    x.set(0);
+  }, [currentIndex, x]);
+
   // ---- Navigation ----
   const handlePrev = () => {
-    if (currentIndex > 0) onIndexChange(currentIndex - 1);
+    if (currentIndex > 0) {
+      setDirection(-1);
+      onIndexChange(currentIndex - 1);
+    }
   };
   const handleNext = () => {
-    if (currentIndex < suggestions.length - 1) onIndexChange(currentIndex + 1);
+    if (currentIndex < suggestions.length - 1) {
+      setDirection(1);
+      onIndexChange(currentIndex + 1);
+    }
   };
 
-  // ---- Touch swipe ----
-  const onTouchStart = (e: ReactTouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-    touchEndX.current = null;
-  };
-  const onTouchMove = (e: ReactTouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-  const onTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const dist = touchStartX.current - touchEndX.current;
-    if (dist > MIN_SWIPE) handleNext();
-    else if (dist < -MIN_SWIPE) handlePrev();
-    touchStartX.current = null;
-    touchEndX.current = null;
+  // ---- Drag swipe handler ----
+  const handleDragEnd = (event: any, info: any) => {
+    const swipeThreshold = 80;
+    const offset = info.offset.x;
+    const velocity = info.velocity.x;
+
+    if (offset < -swipeThreshold || velocity < -300) {
+      handleNext();
+    } else if (offset > swipeThreshold || velocity > 300) {
+      handlePrev();
+    }
   };
 
   // ---- Loading state ----
@@ -151,7 +189,7 @@ export default function RecipeSuggestionCarousel({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 relative px-0 md:px-4">
       {/* Header bar */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
@@ -169,34 +207,47 @@ export default function RecipeSuggestionCarousel({
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1">
-          <button
-            onClick={handlePrev}
-            disabled={currentIndex === 0}
-            className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center text-sm transition-all hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Previous recipe"
-          >
-            ←
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={currentIndex === suggestions.length - 1}
-            className="w-8 h-8 rounded-full bg-white shadow border border-gray-200 flex items-center justify-center text-sm transition-all hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Next recipe"
-          >
-            →
-          </button>
-        </div>
       </div>
 
-      {/* Main card with touch support */}
-      <div
-        className="relative"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-100 overflow-hidden transition-all">
+      {/* Main card container with floating nav buttons */}
+      <div className="relative group/carousel">
+        {/* Floating Side Buttons (Desktop only, hidden on mobile) */}
+        <button
+          onClick={handlePrev}
+          disabled={currentIndex === 0}
+          className="hidden md:flex absolute left-[-20px] lg:left-[-28px] top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-purple-100 dark:border-purple-950 items-center justify-center text-purple-700 dark:text-purple-300 hover:bg-purple-600 hover:text-white transition-all duration-300 disabled:opacity-20 disabled:pointer-events-none hover:scale-105 active:scale-95"
+          aria-label="Previous recipe"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        <button
+          onClick={handleNext}
+          disabled={currentIndex === suggestions.length - 1}
+          className="hidden md:flex absolute right-[-20px] lg:right-[-28px] top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-purple-100 dark:border-purple-950 items-center justify-center text-purple-700 dark:text-purple-300 hover:bg-purple-600 hover:text-white transition-all duration-300 disabled:opacity-20 disabled:pointer-events-none hover:scale-105 active:scale-95"
+          aria-label="Next recipe"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+
+        {/* Viewport container to crop sliding cards */}
+        <div className="overflow-hidden p-1 -m-1">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={cardVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.6}
+              onDragEnd={handleDragEnd}
+              style={{ x, rotate }}
+              className="w-full select-none cursor-grab active:cursor-grabbing"
+            >
+              <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-100 overflow-hidden transition-all">
           {/* Card header */}
           <div className="p-5 pb-3">
             <div className="flex items-start justify-between gap-3 mb-2">
@@ -431,7 +482,10 @@ export default function RecipeSuggestionCarousel({
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
+    </AnimatePresence>
+  </div>
+</div>
 
       {/* Pagination dots */}
       <div className="flex justify-center gap-1.5 py-1">
@@ -441,17 +495,17 @@ export default function RecipeSuggestionCarousel({
             onClick={() => onIndexChange(idx)}
             className={`rounded-full transition-all ${
               idx === currentIndex
-                ? "w-6 h-2 bg-purple-500"
-                : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+                ? "w-6 h-2 bg-purple-500 animate-pulse"
+                : "w-2 h-2 bg-gray-300 hover:bg-purple-300 hover:scale-110"
             }`}
             aria-label={`Go to recipe ${idx + 1}`}
           />
         ))}
       </div>
 
-      {/* Swipe hint for mobile */}
-      <p className="text-center text-xs text-gray-400">
-        Swipe or use arrows to explore {suggestions.length} suggestions
+      {/* Swipe hint */}
+      <p className="text-center text-xs text-gray-400 select-none">
+        Drag card or use side arrows to explore {suggestions.length} suggestions
       </p>
     </div>
   );

@@ -1,6 +1,6 @@
 # Ingredient Data Quality Audit
 
-Generated: 2026-06-27T13:38:47.915Z
+Generated: 2026-07-02T21:33:58.322Z
 Canonical ingredients: 1040
 Ingredient cards with issues: 0
 Placeholder descriptions: 0
