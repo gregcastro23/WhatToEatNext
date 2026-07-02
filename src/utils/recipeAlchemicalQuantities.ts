@@ -23,39 +23,7 @@
  *     Recipe Fire = (Σ Fire_i) / (Σ (Fire_i + Water_i + Earth_i + Air_i))
  */
 
-import { beveragesIngredients } from "@/data/ingredients/beverages/beverages";
-import { dairyIngredients } from "@/data/ingredients/dairy/dairy";
-import { berries } from "@/data/ingredients/fruits/berries";
-import { citrus } from "@/data/ingredients/fruits/citrus";
-import { exotic } from "@/data/ingredients/fruits/exotic";
-import { melons } from "@/data/ingredients/fruits/melons";
-import { pome } from "@/data/ingredients/fruits/pome";
-import { _stoneFruit } from "@/data/ingredients/fruits/stoneFruit";
-import { tropical } from "@/data/ingredients/fruits/tropical";
-import { wholeGrains } from "@/data/ingredients/grains/wholeGrains";
-import { driedHerbs } from "@/data/ingredients/herbs/driedHerbs";
-import { freshHerbs } from "@/data/ingredients/herbs/freshHerbs";
-import { medicinalHerbs } from "@/data/ingredients/herbs/medicinalHerbs";
-import { miscIngredients } from "@/data/ingredients/misc/misc";
-import { oilsIngredients } from "@/data/ingredients/oils/oils";
-import { legumes as proteinLegumes } from "@/data/ingredients/proteins/legumes";
-import { _meats } from "@/data/ingredients/proteins/meat";
-import { poultry } from "@/data/ingredients/proteins/poultry";
-import { seafood } from "@/data/ingredients/proteins/seafood";
-import { aromatics } from "@/data/ingredients/seasonings/aromatics";
-import { _peppers } from "@/data/ingredients/seasonings/peppers";
-import { salts } from "@/data/ingredients/seasonings/salts";
-import { spices } from "@/data/ingredients/spices";
-import { alliums } from "@/data/ingredients/vegetables/alliums";
-import { cruciferous } from "@/data/ingredients/vegetables/cruciferous";
-import { fungi } from "@/data/ingredients/vegetables/fungi";
-import { leafyGreens } from "@/data/ingredients/vegetables/leafyGreens";
-import { legumes as vegLegumes } from "@/data/ingredients/vegetables/legumes";
-import { nightshades } from "@/data/ingredients/vegetables/nightshades";
-import { _otherVegetables } from "@/data/ingredients/vegetables/otherVegetables";
-import { squash } from "@/data/ingredients/vegetables/squash";
-import { starchy } from "@/data/ingredients/vegetables/starchy";
-import { _allVinegars } from "@/data/ingredients/vinegars/vinegars";
+import { unifiedIngredients } from "@/data/unified/ingredients";
 import type { ElementalProperties } from "@/types/recipe";
 import {
   MATCH_STOPWORDS,
@@ -143,50 +111,22 @@ function parseServingGrams(servingSize?: string): number | undefined {
  * Keys are normalized ingredient names; each entry carries both the
  * Spirit/Essence/Matter/Substance alchemical quantities and, when the
  * source ingredient declares one, its Fire/Water/Earth/Air composition.
+ *
+ * Sources from `unifiedIngredients` — the complete merged catalog whose
+ * entries always carry alchemicalProperties (raw when authored, otherwise
+ * derived from the elemental profile). A hand-maintained collection list
+ * previously lived here; it silently omitted whole files (eggs, plant-based
+ * proteins, cooking staples, root vegetables, most grains) and skipped every
+ * entry without raw alchemicalProperties, leaving spices/misc/staples
+ * invisible to recipe ESMS sums.
  */
 function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
   const map = new Map<string, IngredientEntry>();
 
-  const allCollections: Record<string, Record<string, unknown>> = {
-    ...beveragesIngredients,
-    ...dairyIngredients,
-    ...berries,
-    ...citrus,
-    ...exotic,
-    ...melons,
-    ...pome,
-    ..._stoneFruit,
-    ...tropical,
-    ...wholeGrains,
-    ...driedHerbs,
-    ...freshHerbs,
-    ...medicinalHerbs,
-    ...miscIngredients,
-    ...oilsIngredients,
-    ...proteinLegumes,
-    ..._meats,
-    ...poultry,
-    ...seafood,
-    ...aromatics,
-    ..._peppers,
-    ...salts,
-    ...spices,
-    ...alliums,
-    ...cruciferous,
-    ...fungi,
-    ...leafyGreens,
-    ...vegLegumes,
-    ...nightshades,
-    ..._otherVegetables,
-    ...squash,
-    ...starchy,
-    ..._allVinegars,
-  };
-
-  for (const [key, ingredient] of Object.entries(allCollections)) {
+  for (const [key, ingredient] of Object.entries(unifiedIngredients)) {
     if (!ingredient || typeof ingredient !== "object") continue;
 
-    const ing = ingredient;
+    const ing = ingredient as unknown as Record<string, unknown>;
     const alchProps = ing.alchemicalProperties as Record<string, number> | undefined;
     if (!alchProps) continue;
 
@@ -203,7 +143,9 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
       aSharp: spirit + essence + matter + substance,
     };
 
-    // Extract elementalProperties if all four are numbers.
+    // Extract elementalProperties if all four are numbers. Uniform profiles
+    // (all four equal, i.e. the 0.25 backfill for entries that never declared
+    // elementals) are treated as unknown so they don't dilute recipe averages.
     const elemProps = ing.elementalProperties as
       | Record<string, number>
       | undefined;
@@ -213,7 +155,12 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
       typeof elemProps.Fire === "number" &&
       typeof elemProps.Water === "number" &&
       typeof elemProps.Earth === "number" &&
-      typeof elemProps.Air === "number"
+      typeof elemProps.Air === "number" &&
+      !(
+        elemProps.Fire === elemProps.Water &&
+        elemProps.Water === elemProps.Earth &&
+        elemProps.Earth === elemProps.Air
+      )
     ) {
       elemental = {
         Fire: elemProps.Fire,
@@ -241,6 +188,13 @@ function buildIngredientAlchemicalMap(): Map<string, IngredientEntry> {
     const displayName = (ing.name as string | undefined) ?? key;
     if (displayName !== key) {
       for (const v of catalogVariants(displayName)) indexUnder(v);
+    }
+    // Authored aliases ("shoyu" → soy_sauce, "firm tofu" → tofu_varieties)
+    // resolve exactly like the display name.
+    const aliases = Array.isArray(ing.aliases) ? (ing.aliases as unknown[]) : [];
+    for (const alias of aliases) {
+      if (typeof alias !== "string" || !alias) continue;
+      for (const v of catalogVariants(alias)) indexUnder(v);
     }
   }
 
@@ -287,6 +241,12 @@ function catalogVariants(text: string): Set<string> {
  */
 function queryVariants(text: string): Set<string> {
   const set = catalogVariants(text);
+  // Compound lines ("sea salt and pepper to taste") resolve as their first
+  // item — query-side only, so catalog names keep their full identity.
+  const firstSegment = text.split(/\s+and\s+/i)[0];
+  if (firstSegment && firstSegment.trim() && firstSegment !== text) {
+    for (const v of catalogVariants(firstSegment)) set.add(v);
+  }
   const tokens = tokenizeForMatch(text)
     .map((t) => singularize(t))
     .filter((t) => t.length > 2 && !MATCH_STOPWORDS.has(t));
@@ -334,11 +294,13 @@ function lookupIngredient(ingredientName: string): IngredientEntry | null {
     for (const token of keyTokens) {
       if (queryTokens.has(token)) sharedCount++;
     }
-    // Score: shared tokens / total unique tokens (Jaccard-like)
+    // Score: shared tokens / total unique tokens (Jaccard-like). The 0.5
+    // floor requires at least half the combined tokens to agree — at 0.3,
+    // "black pepper" matched black_seed_oil and silently poisoned ESMS sums.
     const unionSize = new Set([...keyTokens, ...queryTokens]).size;
     const score = unionSize > 0 ? sharedCount / unionSize : 0;
 
-    if (score > bestScore && score >= 0.3) {
+    if (score > bestScore && score >= 0.5) {
       bestScore = score;
       bestMatch = value;
     }

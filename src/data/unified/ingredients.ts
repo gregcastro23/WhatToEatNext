@@ -17,6 +17,7 @@ import { cookingStaples } from "../ingredients/misc/cookingStaples";
 import { miscIngredients } from "../ingredients/misc/misc";
 import { oils } from "../ingredients/oils";
 import {
+  dairy as proteinDairy,
   eggs,
   legumes,
   meats,
@@ -44,6 +45,10 @@ const proteins = {
   ...plantBased,
   ...eggs,
   ...legumes,
+  // Rich dairy-protein cards (yogurt, aged cheeses…). Spread last so they
+  // upgrade the leaner same-key cards from ingredients/dairy — previously this
+  // file was never consumed by the unified catalog at all.
+  ...proteinDairy,
 };
 
 function createFallbackDescription(name: string, category: string): string {

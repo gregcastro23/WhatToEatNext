@@ -4063,7 +4063,12 @@ function mergeIngredientRecords(
 ): Record<string, Partial<IngredientMapping>> {
   const merged: Record<string, Partial<IngredientMapping>> = { ...base };
   for (const [slug, patch] of Object.entries(overrides)) {
-    merged[slug] = { ...(merged[slug] ?? {}), ...patch };
+    // Curation patches refine EXISTING cards only. Slugs with no base entry
+    // (excluded from stub generation — parse artifacts like "fresh"/"garni")
+    // must not materialize as standalone description-only cards that ship
+    // fabricated uniform elementals and no nutrition.
+    if (!merged[slug]) continue;
+    merged[slug] = { ...merged[slug], ...patch };
   }
   return merged;
 }

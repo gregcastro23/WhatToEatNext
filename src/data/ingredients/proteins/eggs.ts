@@ -5,6 +5,7 @@ const rawEggs: Record<string, Partial<IngredientMapping>> = {
   chicken_egg: {
       image_url: "ingredients/chicken_egg.png",
     name: "Chicken Egg",
+    aliases: ["egg", "eggs"],
     description:
       "The reproductive ovum of the domestic chicken (*Gallus gallus domesticus*) and the world's most consumed egg. A nearly perfect food: complete protein, essential fats, emulsifiers (lecithin), and a full spectrum of B vitamins. Culinary uses are unmatched — binders, leaveners, thickeners, emulsifiers, glazes, and protein centerpiece. Fresh eggs from pasture-raised hens have deep orange yolks, firm upstanding whites, and far richer flavor than commodity-cage eggs. Select eggs with clean, uncracked shells; store pointy-end down.",
     category: "protein",

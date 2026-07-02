@@ -70,15 +70,12 @@ export const _addHeatLevels = (
     };
   }, {});
 
-// Combine all spice categories with heat levels
-// Enhanced spices take precedence (spread first, then legacy data can override if needed)
-export const spices = fixIngredientMappings({
-  ...(spicesIngredients as any), // Base spices extracted from cuisine files
-  ...warmSpices, // Warm spices (cardamom, star anise, etc.)
-  ...wholeSpices,
-  ...groundSpices,
-  ...(spiceBlends as any),
-  ...enhancedSpicesIngredients, // Add our enhanced spices with full data
+// Inline refinements for high-traffic spices (curated elementals, astro decan
+// modifiers, lunar phases). Deep-merged ON TOP of the combined catalog below —
+// as literal keys spread after enhancedSpicesIngredients they wholesale-replaced
+// the USDA-sourced cards, shipping cumin/cinnamon/cayenne/paprika/turmeric with
+// no description and no nutrition.
+const inlineSpiceOverrides: Record<string, any> = {
   cumin: {
     image_url: "ingredients/cumin.png",
     culinaryProfile: {
@@ -189,6 +186,17 @@ export const spices = fixIngredientMappings({
       ],
     },
     name: "cayenne",
+    description:
+      "A finely ground powder of dried *Capsicum annuum* chilies, typically 30,000–50,000 Scoville units — hot enough that a pinch transforms a dish. Unlike chili powder blends, cayenne is pure chili: clean, sharp, front-of-mouth heat with faint fruity undertones. A backbone of Cajun and Creole cooking, Indian masalas, and hot sauces. Its capsaicin is fat-soluble, so blooming it briefly in oil distributes heat evenly; adding it late keeps the bite sharper.",
+    origin: ["French Guiana (named for the city of Cayenne)", "cultivated worldwide"],
+    nutritionalProfile: {
+      serving_size: "1 tsp (1.8g)",
+      calories: 6,
+      macros: { protein: 0.2, carbs: 1, fat: 0.3, fiber: 0.5 },
+      vitamins: { A: 0.15, E: 0.03, C: 0.02, B6: 0.02 },
+      minerals: { manganese: 0.02, potassium: 0.01 },
+      source: "USDA FoodData Central",
+    },
     elementalProperties: { Fire: 0.72, Earth: 0.15, Air: 0.08, Water: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Pluto"],
@@ -368,7 +376,23 @@ export const spices = fixIngredientMappings({
       },
     },
   },
-});
+};
+
+// Combine all spice categories with heat levels
+// Enhanced spices take precedence (spread first, then legacy data can override if needed)
+const combinedSpices: Record<string, any> = {
+  ...(spicesIngredients as any), // Base spices extracted from cuisine files
+  ...warmSpices, // Warm spices (cardamom, star anise, etc.)
+  ...wholeSpices,
+  ...groundSpices,
+  ...(spiceBlends as any),
+  ...enhancedSpicesIngredients, // Add our enhanced spices with full data
+};
+for (const [key, patch] of Object.entries(inlineSpiceOverrides)) {
+  combinedSpices[key] = { ...(combinedSpices[key] ?? {}), ...patch };
+}
+
+export const spices = fixIngredientMappings(combinedSpices);
 
 // Validate spice heat levels
 Object.values(spices).forEach((spice) => {
