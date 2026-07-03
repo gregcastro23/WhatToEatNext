@@ -128,6 +128,9 @@ export function BestMatchExplorer({
   showHeader = true,
 }: BestMatchExplorerProps) {
   const [cuisine, setCuisine] = useState(initialCuisine);
+  useEffect(() => {
+    setCuisine(initialCuisine);
+  }, [initialCuisine]);
   const [otherOpen, setOtherOpen] = useState(false);
   const [otherDraft, setOtherDraft] = useState("");
   const [sort, setSort] = useState<SortKey>("match");

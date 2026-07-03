@@ -152,10 +152,16 @@ function getTimeAgo(date: Date): string {
 }
 
 interface DynamicCuisineRecommenderProps {
+  selectedCuisine?: string | null;
+  onSelectCuisine?: (cuisineName: string | null) => void;
   onDoubleClickCuisine?: (cuisineName: string) => void;
 }
 
-export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: DynamicCuisineRecommenderProps = {}) {
+export default function DynamicCuisineRecommender({
+  selectedCuisine,
+  onSelectCuisine,
+  onDoubleClickCuisine,
+}: DynamicCuisineRecommenderProps = {}) {
   const [recommendations, setRecommendations] = useState<
     DynamicCuisineRecommendation[]
   >([]);
@@ -404,6 +410,8 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
                 key={cuisine.cuisine}
                 cuisine={cuisine}
                 rank={index + 1}
+                selectedCuisine={selectedCuisine}
+                onSelectCuisine={onSelectCuisine}
                 onDoubleClickCuisine={onDoubleClickCuisine}
               />
             ))}
@@ -433,6 +441,8 @@ export default function DynamicCuisineRecommender({ onDoubleClickCuisine }: Dyna
                       cuisine={cuisine}
                       rank={index + 7}
                       compact
+                      selectedCuisine={selectedCuisine}
+                      onSelectCuisine={onSelectCuisine}
                       onDoubleClickCuisine={onDoubleClickCuisine}
                     />
                   ))}

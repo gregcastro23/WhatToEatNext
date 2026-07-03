@@ -248,6 +248,9 @@ function HomeSection({
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 
 export default function AlchmKitchenHome(): JSX.Element {
+  const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
+  const [prepTab, setPrepTab] = useState<"sauces" | "methods">("sauces");
+
   return (
     <>
       {/* The root layout already provides the main landmark. */}
@@ -260,6 +263,7 @@ export default function AlchmKitchenHome(): JSX.Element {
           display: "flex",
           flexDirection: "column",
           gap: 22,
+          position: "relative",
         }}
       >
         <style>{`
@@ -371,15 +375,6 @@ export default function AlchmKitchenHome(): JSX.Element {
           .alchm-home-cookmethods :is(h1, h2, h3, h4) { color: var(--fg); }
         `}</style>
 
-        {/* 0 · BEST MATCH — nearby restaurants, cosmic-ranked. Leads the page. */}
-        <HomeSection
-          tag="DINE OUT · NEAR YOU"
-          title="Best Match restaurants near you"
-          cta={{ label: "Open finder", href: "/restaurants" }}
-        >
-          <DynamicBestMatchExplorer showHeader={false} />
-        </HomeSection>
-
         <HomeHero />
 
         {/* Featured Recipe of the Month + NFT mint mechanic — leads the page. */}
@@ -394,19 +389,13 @@ export default function AlchmKitchenHome(): JSX.Element {
           title="Tonight's cuisine, tuned to the sky"
           cta={{ label: "All cuisines", href: "/cuisines" }}
         >
-          <DynamicCuisineRecommender />
+          <DynamicCuisineRecommender
+            selectedCuisine={selectedCuisine}
+            onSelectCuisine={(c) => setSelectedCuisine(c === selectedCuisine ? null : c)}
+          />
         </HomeSection>
 
-        {/* 2 · SAUCE RECOMMENDER */}
-        <HomeSection
-          tag="SAUCE · CURRENT HOUR"
-          title="Sauces in phase with the current hour"
-          cta={{ label: "Sauce library", href: "/sauces" }}
-        >
-          <EnhancedSauceRecommender />
-        </HomeSection>
-
-        {/* 3 · INGREDIENT RECOMMENDER */}
+        {/* 2 · INGREDIENT RECOMMENDER */}
         <HomeSection
           tag="INGREDIENTS · LIVE SKY"
           title="Ingredients aligned with the live sky"
@@ -432,15 +421,71 @@ export default function AlchmKitchenHome(): JSX.Element {
           <EnhancedIngredientRecommender compact maxItems={6} />
         </HomeSection>
 
-        {/* 4 · COOKING METHODS RECOMMENDER */}
+        {/* 3 · CELESTIAL PREP (COMBINED SAUCE + METHODS RECOMMENDER) */}
         <HomeSection
-          tag="METHODS · CURRENT TRANSIT"
-          title="Methods aligned with the current transit"
-          cta={{ label: "Methods library", href: "/cooking-methods" }}
+          tag="PREPARATION · CELESTIAL PREP"
+          title="Celestial Prep: Sauces & Methods"
         >
-          <div className="alchm-home-cookmethods">
-            <EnhancedCookingMethodRecommender />
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              borderBottom: "1px solid var(--line-hi)",
+              marginBottom: 16,
+              paddingBottom: 8,
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setPrepTab("sauces")}
+              className="t-mono"
+              style={{
+                fontSize: 10,
+                fontWeight: "bold",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                padding: "6px 12px",
+                borderRadius: 6,
+                border: "1px solid",
+                background: prepTab === "sauces" ? "rgba(255,255,255,0.06)" : "transparent",
+                borderColor: prepTab === "sauces" ? "var(--accent)" : "transparent",
+                color: prepTab === "sauces" ? "var(--accent)" : "var(--fg-mute)",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+            >
+              Sauces
+            </button>
+            <button
+              type="button"
+              onClick={() => setPrepTab("methods")}
+              className="t-mono"
+              style={{
+                fontSize: 10,
+                fontWeight: "bold",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                padding: "6px 12px",
+                borderRadius: 6,
+                border: "1px solid",
+                background: prepTab === "methods" ? "rgba(255,255,255,0.06)" : "transparent",
+                borderColor: prepTab === "methods" ? "var(--accent)" : "transparent",
+                color: prepTab === "methods" ? "var(--accent)" : "var(--fg-mute)",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+            >
+              Cooking Methods
+            </button>
           </div>
+
+          {prepTab === "sauces" ? (
+            <EnhancedSauceRecommender />
+          ) : (
+            <div className="alchm-home-cookmethods">
+              <EnhancedCookingMethodRecommender />
+            </div>
+          )}
         </HomeSection>
 
         {/* Footer hint to the Lab */}
@@ -469,6 +514,98 @@ export default function AlchmKitchenHome(): JSX.Element {
             Open the Laboratory →
           </Link>
         </div>
+
+        {/* Restaurant Discovery Slide-out Drawer */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            right: 0,
+            height: "100%",
+            width: "100%",
+            maxWidth: 460,
+            backgroundColor: "#0E0C16",
+            borderLeft: "1px solid rgba(255,255,255,0.08)",
+            zIndex: 100,
+            boxShadow: "-10px 0 30px rgba(0,0,0,0.5)",
+            transform: selectedCuisine ? "translateX(0)" : "translateX(100%)",
+            transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Drawer Header */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "20px 24px",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            <div>
+              <div
+                className="t-tag"
+                style={{ color: "var(--accent-2)", fontSize: 9, letterSpacing: "0.15em", marginBottom: 2 }}
+              >
+                CUISINE DISCOVERY
+              </div>
+              <h2
+                className="t-display"
+                style={{ fontSize: 20, margin: 0, color: "var(--fg)" }}
+              >
+                {selectedCuisine ? `${selectedCuisine} Matches` : "Discovery"}
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSelectedCuisine(null)}
+              aria-label="Close drawer"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: "50%",
+                width: 32,
+                height: 32,
+                cursor: "pointer",
+                color: "var(--fg-dim)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 14,
+                transition: "all 0.2s",
+              }}
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* Drawer Content */}
+          <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+            {selectedCuisine && (
+              <DynamicBestMatchExplorer
+                initialCuisine={selectedCuisine}
+                showHeader={false}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Drawer Backdrop Overlay */}
+        {selectedCuisine && (
+          <div
+            onClick={() => setSelectedCuisine(null)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0,0,0,0.6)",
+              backdropFilter: "blur(4px)",
+              zIndex: 99,
+              transition: "opacity 0.3s ease-out",
+            }}
+          />
+        )}
       </div>
     </>
   );

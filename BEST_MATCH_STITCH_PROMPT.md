@@ -1,97 +1,106 @@
-# Google Stitch Prompt — "Best Match" Restaurant Finder
+# Google Stitch Prompt — Alchm Kitchen Landing Page (Complete Layout Edition)
 
 > Paste the **PROMPT** block below into Google Stitch (stitch.withgoogle.com).
-> It's written as one self-contained brief. If Stitch asks for a style first,
-> use the **THEME** section; then send the **SCREEN** section. Generate both the
-> **desktop** and **mobile** layouts. Feed the resulting design/code back to me
-> and I'll wire it to the live `/api/restaurants` backend.
+> This prompt contains an explicit structural blueprint to ensure Stitch does not truncate or omit the components.
 
 ---
 
 ## PROMPT (paste this)
 
-Design a **dark, premium "Best Match" restaurant finder page** for a web app called **Alchm Kitchen** — an astrology-meets-food app. The page replaces the current Restaurants page. Given a **selected cuisine** and the **user's location**, it shows the best nearby restaurants, **ranked and sortable**. Lead with mainstream quality signals (cuisine, rating, distance, price); treat the app's signature "cosmic match" score as a tasteful **secondary accent**, never the headline.
+Design a **dark, premium landing page** for a web application called **Alchm Kitchen** (alchm.kitchen) — a culinary recommendation engine combining astrology, planetary transits, and elemental alchemy. 
+
+### CRITICAL INSTRUCTION
+**DO NOT TRUNCATE, OMIT, OR USE PLACEHOLDERS FOR ANY SECTION.** You must write the full, completed HTML code for the Hero section, the Welcome Promo, and **ALL THREE recommenders**, plus the **slide-out Restaurant Discovery Drawer**. Write all elements, text, Tailwind classes, and styling details in full.
 
 ### THEME — "Modern Alchemist" (dark only)
 A laboratory-instrument-panel-meets-cosmic-mysticism aesthetic. Obsidian glass surfaces, violet + copper accents, glowing elemental dots, fine engineering grid texture.
 
-- **Surfaces:** page background `#07060B` (near-black void); cards `#0E0C16`; elevated/popovers `#15121F`. Subtle white overlays at 3–6% opacity. Hairline borders `rgba(255,255,255,0.08)` default, `rgba(255,255,255,0.14)` on emphasis.
+- **Surfaces:** page background `#07060B` (near-black void); cards/containers `#0E0C16` (obsidian card); elevated panels/popovers `#15121F` (elevated glass). Subtle white overlays at 3–6% opacity. Hairline borders `rgba(255,255,255,0.08)` default.
 - **Text:** primary `#F2EDFF`, dimmed `#B5ADCC`, muted/labels `#6E6884`.
-- **Accent pair (signature):** violet `#B85AF0` and copper/gold `#DEA54B`. Use a violet→pink→gold gradient `linear-gradient(135deg,#C084FC,#F472B6,#FBBF24)` for the brand wordmark and the hero match ring. Error/closed `#F87171`.
-- **Elemental colors** (for the small "dominant element" chip on each card): Fire `#EF7A5A`, Water `#58A6E8`, Earth `#76B266`, Air `#D9CD9F`. Render each as a glowing 8px dot (`box-shadow: 0 0 12px <color>`) next to a tiny ALL-CAPS label.
-- **Typography:** Display/serif **Cormorant Garamond** for the page title and restaurant names (elegant, high-contrast). Body **Manrope**. **JetBrains Mono** ALL-CAPS for micro-labels, scores, badges, and sort controls — this mono "instrument" voice is the signature. Numbers tabular.
-- **Radius:** inputs/buttons 8–14px, cards 16px, large glass panels 24px, pills/dots fully rounded.
-- **Depth:** glassmorphism (`backdrop-filter: blur(22px) saturate(180%)`); ambient off-canvas radial glow blobs (violet top-right, rose bottom-left, `blur(100px)`, ~10% opacity); a faint 64px engineering grid + subtle noise overlay across the page; layered colored shadows (`0 8px 32px rgba(0,0,0,0.4)`, hover lift `0 20px 40px rgba(184,90,240,0.15)`).
-
-### SCREEN — Best Match page
-
-**1. Page header (top)**
-- Small ALL-CAPS mono eyebrow: "ALCHM KITCHEN · DISCOVER".
-- Large serif title: "Find your **Best Match**" (gradient-accent the words "Best Match").
-- One-line subhead in dimmed text: "The best [cuisine] near you, ranked for this moment."
-- Right side (desktop): a compact "cosmic context" pill in mono caps showing the live sky, e.g. `LEO ♌ · MARS HOUR ♂ · FIRE DOMINANT` with the dominant-element dot glowing. On mobile this collapses under the subhead.
-
-**2. Control bar (sticky below header, glass panel)**
-Arrange as a responsive row that wraps:
-- **Cuisine selector:** a horizontal scroll of pill buttons for popular cuisines (Italian, Japanese, Mexican, Thai, Indian, Mediterranean, Chinese, Korean, American, French, Vietnamese, Greek) plus a "＋ Other" pill that reveals a text input. The active cuisine pill is filled with the violet accent; others are outlined glass.
-- **Location control:** a button "📍 Use my location" (filled violet→pink gradient) that, once resolved, becomes a chip showing the detected city/neighborhood with a small "change" affordance; beside it an "Or enter a city…" text field with autocomplete suggestions. Show a small mono caption of the active search radius with a slider or stepper (e.g. `WITHIN 2.5 mi`).
-- **Sort control:** a segmented group of mono-caps pills — **BEST MATCH · DISTANCE · RATING · PRICE** — with BEST MATCH selected by default (filled). Include an **"OPEN NOW"** toggle chip at the end.
-
-**3. Hero "Top Match" card (the single best result)**
-A large, glowing glass card that stands apart (violet panel-glow ring). Contains:
-- A small mono-caps label "YOUR BEST MATCH".
-- **Restaurant name** in large serif.
-- A row of quality signals: ★ rating + "(1,240 reviews)", price `$$`, distance `0.4 mi`, and the cuisine label.
-- A circular **match ring** (gradient stroke) on the right showing a percentage like `92%` with a tiny `✦` and a mono caption "COSMIC MATCH" — this is the *secondary* accent, smaller than the name/quality row.
-- The glowing dominant-element chip (e.g. 🔥 FIRE).
-- A short italic "why it matches" line (one sentence, e.g. "Fire-leaning Mexican resonates with the Mars hour").
-- Optional small "PARTNER" badge (emerald) when the restaurant supports in-app ordering.
-- Primary CTA button "Reserve" (or "Order Now" for partners, emerald), plus secondary ghost buttons "Menu", a heart "Save", and a "+" (log to food diary).
-
-**4. Ranked results list (runners-up)**
-A vertical list (single column on mobile, comfortable rows on desktop) of restaurant cards, each:
-- Left: a compact rank/match indicator — a small gradient badge with the match percentage `+ ✦` when scored, or a neutral provider chip when unscored; beneath it the glowing element dot + element label.
-- Middle: restaurant **name** (serif), then a wrap row of quality meta — ★ rating, review count, price, distance, cuisine label.
-- A subtle 1–2 line "match reasons" block with a left accent border (italic, dimmed) when a cosmic score exists.
-- Right: stacked CTAs — Reserve/Order (primary), Menu, Save (heart), Log (+).
-- Partner cards get an emerald left ring + "PARTNER" tag.
-- Hover: gentle lift + violet glow.
-
-**5. States** (design each)
-- **Needs location:** centered card with a 📍 glyph, copy "Enable location to find [cuisine] near you", and the violet "Use my location" button (plus the "enter a city" alternative).
-- **Loading:** 3–5 shimmer skeleton cards matching the row layout.
-- **Empty:** centered 🍽️ with "No [cuisine] spots found nearby — try a wider radius or a different cuisine," and a link to the "Cook It" recipe flow.
-- **Degraded-scoring notice:** a slim violet info banner above the list, e.g. "✦ Showing nearby results — cosmic scoring limited for this search." (Subtle, dismissible.)
-- **Error:** slim rose banner with a retry button.
-
-**6. Footer**
-Tiny centered mono-caps: "ALIGNED TO LEO ♌ · MARS HOUR ♂ · FIRE DOMINANT" and a faint "Data source: Google Places · Yelp" attribution line.
-
-### Layout & responsive
-- **Desktop (≥1024px):** max-width ~1100px centered; header + sticky control bar; hero card full-width; runners-up as roomy rows. Cosmic context pill visible top-right.
-- **Mobile (≤480px):** single column; control bar items stack (cuisine pills scroll horizontally, location stacks, sort pills scroll horizontally); hero card and rows go full-width; CTAs become a horizontal row of icon buttons.
-- Generous spacing, calm rhythm, high legibility on the dark surface. Everything feels like a refined instrument panel, not a busy dashboard.
-
-### Tone
-Premium, mystical-but-credible, food-forward. The quality signals (name, rating, price, distance) are the loudest; the cosmic "match" is the delightful, well-crafted accent that makes Alchm Kitchen distinct.
+- **Accent pair:** violet `#B85AF0` and copper/gold `#DEA54B`. Use a violet→pink→gold gradient `linear-gradient(135deg,#C084FC,#F472B6,#FBBF24)` for wordmarks and highlight scores.
+- **Elemental colors (glowing dots):** Fire `#EF7A5A`, Water `#58A6E8`, Earth `#76B266`, Air `#D9CD9F`. Render as a glowing 8px dot (`box-shadow: 0 0 12px <color>`) next to a tiny label.
+- **Typography:** Display/serif **Cormorant Garamond** for titles and names. Body **Manrope**. **JetBrains Mono** for numbers, scores, and mono-caps labels.
+- **Depth:** glassmorphism (`backdrop-filter: blur(22px)`); fine 64px grid overlay; colored shadows.
 
 ---
 
-## SAMPLE DATA (use this to populate the mockup)
+### STRUCTURAL BLUEPRINT (Implement this exact HTML tree)
 
-Selected cuisine: **Mexican** · Location: **Forest Hills, Queens** · Radius **2.5 mi** · Sort **BEST MATCH** · Open-now ON
+#### 1. Header Navigation (`<nav>`)
+- Left: "ALCHM KITCHEN" wordmark (gradient text, Cormorant Garamond).
+- Center: Links (Pantry, Recipes, Restaurants, Lab) in JetBrains Mono.
+- Right: "Initiate" button (copper outline).
 
-**Hero (Top Match):**
-- Casa Enrique — ★ 4.7 (1,240) · $$ · 0.4 mi · Mexican · 🔥 FIRE · **92% ✦ COSMIC MATCH** · "Fire-leaning Mexican resonates with the Mars hour" · [Reserve] [Menu] [♡] [+]
+#### 2. Main Container (`<main class="relative z-10 pt-[128px] pb-32 px-8 max-w-7xl mx-auto flex flex-col gap-16">`)
+Inside main, you MUST render:
 
-**Runners-up:**
-1. De Mole — ★ 4.5 (860) · $$ · 0.7 mi · Mexican · 🔥 FIRE · 88% ✦ · PARTNER (emerald) · [Order Now]
-2. Maya Taqueria — ★ 4.4 (430) · $ · 1.1 mi · Mexican · 🌿 EARTH · 81% ✦
-3. El Paso — ★ 4.2 (2,010) · $$ · 1.6 mi · Mexican · 🔥 FIRE · 76% ✦
-4. Habanero Grill — ★ 4.1 (305) · $ · 2.2 mi · Mexican · 💨 AIR · 71% ✦
+##### A. Hero Section (`<section class="flex flex-col items-center text-center gap-6">`)
+- Eyebrow: "YOUR KITCHEN · THE LIVE SKY" (JetBrains Mono).
+- Title: "Know what to **eat next**."
+- Subhead: "Turn your birth chart, pantry, and the current sky into clear culinary recommendations."
+- CTAs: "Build tonight's recipe →" (violet gradient fill) and "Set up my chart" (ghost glass).
+- **Benefits Row:** A grid of 3 columns:
+  - `01` **Personalized:** "Your natal chart and the live sky."
+  - `02` **Practical:** "Recipes, ingredients, and methods."
+  - `03` **Pantry-aware:** "Plan around what you already have."
+
+##### B. Welcome Promo & Featured Recipe Block (Split Card)
+A grid of 2 columns on desktop (`grid grid-cols-1 lg:grid-cols-5 gap-8 bg-glass-card rounded-3xl p-8`):
+- **Left (Span 3): Welcome Promotion**
+  - Eyebrow: "NEW MEMBER WELCOME · AVAILABLE NOW"
+  - Title: "Start with 60 ESMS tokens"
+  - Description: "Claim your free welcome grant of 60 ESMS tokens to power cosmic recipe generation."
+  - Grid: 4 token chips (🝧 Spirit, 🝑 Essence, 🝙 Matter, 🝉 Substance) with small counts "+15".
+- **Right (Span 2): Featured Recipe**
+  - Title: "Alchemist's Dragon Noodle" (Cormorant Garamond).
+  - Quick stats row: Time `25 min`, Serves `2`, Level `Medium`, Aligns `94/100`.
+  - **Elemental Signature Bars:** Fire (60%), Earth (20%), Air (10%), Water (10%) with color-matching glowing progress bars.
+  - CTA Button: "Mint Recipe as NFT" (copper border).
+
+##### C. Recommender 1: Cuisine Recommender (Tonight's Cuisines)
+- Title: "Tonight's cuisine, tuned to the sky" with subtitle "Live planetary scoring".
+- Grid of 6 cuisine cards. **Each cuisine card MUST show**:
+  - Rank badge (e.g., `#1`), Score badge (e.g. `95%`), Planet ruler (e.g., `♀ Venus` for Italian).
+  - Cuisine title (e.g., Italian, Thai, Japanese, Mexican, Indian, Greek).
+  - Short description/reasoning.
+  - **Flavor Profile Bars:** Render small horizontal bars for: Spicy, Umami, Salty, Sweet, Sour.
+  - Bottom Buttons: Outlined "Cook It" button, and a violet-gradient "Order It" button.
+  - **Click Behavior:** Note that clicking the card or "Order It" selects the cuisine (highlighting the card with a thick glowing violet/pink border) and slides open the drawer.
+
+##### D. Recommender 2: Ingredient Recommender (Alchemical Pantry)
+- Title: "Ingredients aligned with the live sky"
+- Subtitle: "Tap Pantry to track it in your kitchen."
+- **Horizontal Scroll Track:** A scrollable row of 6 ingredient cards:
+  - Card: Image/icon placeholder, element tag (e.g. `🔥 FIRE`), name (e.g. "Chili Flakes"), match score (`88%`), and a toggle button "＋ Pantry".
+
+##### E. Recommender 3: Preparation Recommender (Celestial Prep)
+- Title: "Alchemical Techniques & Sauces"
+- Subtitle: "Apply heat and moisture in phase with the transits."
+- **Tab Controls:** Row with two buttons: "Sauces" and "Cooking Methods" (active tab styled in violet).
+- **Tab Content Container:**
+  - If Sauces: Grid of 3 sauce cards (e.g. Salsa Macha, Garlic Aioli, Ponzu) with flavor tags and planetary hours.
+  - If Cooking Methods: Grid of 3 method cards (e.g. Sautéing, Grilling, Braising) showing the Monica constant, thermodynamic stats (Heat, Entropy, Reactivity), and kinetics profiles.
+
+#### 3. Restaurant Discovery Drawer ("Order It")
+A slide-out container placed at the root level (`<div class="fixed top-0 right-0 h-full w-[450px] bg-glass-overlay z-50 shadow-2xl border-l border-white/10 flex flex-col p-6 transition-transform duration-300">`). *Design it in the open state for display.*
+- **Header:** Title "Best Match Mexican Restaurants" with close button `✕` and live sky pill (`LEO ♌ · MARS HOUR ♂`).
+- **Control Bar:** Location chip ("📍 Forest Hills, Queens"), radius preset slider, sort segmented control (Best Match / Distance / Rating / Price), and "Open Now" switch.
+- **Top Match Hero Card:** A large highlighted card showing "Casa Enrique" (★ 4.7, $$, 0.4 mi), element tag `🔥 FIRE`, custom Mars hour quote, and a large circular gradient match ring showing `92%`.
+- **Runners-Up List:** A vertical scrollable container of 3 cards (De Mole, Maya Taqueria, El Paso) with scores, ratings, and CTA buttons (Reserve / Order / Menu).
 
 ---
 
-## What to send back to me
-- The Stitch **design link/screenshots** for desktop + mobile, and/or the **exported front-end code** (HTML/CSS or React/Tailwind).
-- I'll adapt it to the repo's Next.js + Tailwind + "Modern Alchemist" tokens and wire it to the live backend (new scored `/api/restaurants/best-match` route, shared `useUserLocation()` hook, provider-agnostic scorer so Google results actually rank, and the sort/open-now controls).
+### SAMPLE DATA (use this to populate the mockup)
+- **Cuisines:**
+  1. Italian (Venus, 95% Match)
+  2. Mexican (Mars, 92% Match)
+  3. Japanese (Mercury, 88% Match)
+  4. Thai (Mars, 85% Match)
+  5. Indian (Jupiter, 81% Match)
+  6. Greek (Sun, 76% Match)
+- **Top Restaurant (Mexican):**
+  - Casa Enrique (★ 4.7, $$, 0.4 mi, 92% Match)
+- **Runners-up (Mexican):**
+  - De Mole (★ 4.5, $$, 0.7 mi, 88% Match, PARTNER)
+  - Maya Taqueria (★ 4.4, $, 1.1 mi, 81% Match)
+  - El Paso (★ 4.2, $$, 1.6 mi, 76% Match)

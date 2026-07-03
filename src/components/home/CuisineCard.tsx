@@ -140,10 +140,19 @@ interface CuisineCardProps {
   cuisine: DynamicCuisineRecommendation;
   rank: number;
   compact?: boolean;
+  selectedCuisine?: string | null;
+  onSelectCuisine?: (cuisineName: string | null) => void;
   onDoubleClickCuisine?: OnDoubleClickCuisine;
 }
 
-export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: CuisineCardProps) {
+export function CuisineCard({
+  cuisine,
+  rank,
+  compact,
+  selectedCuisine,
+  onSelectCuisine,
+  onDoubleClickCuisine,
+}: CuisineCardProps) {
   const [showPreview, setShowPreview] = useState(false);
   const router = useRouter();
   const cuisineSlug = encodeURIComponent(cuisine.cuisine.toLowerCase());
@@ -164,7 +173,70 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
         : "bg-gradient-to-br from-slate-500 to-slate-700 border-slate-400/40";
 
   if (compact) {
-    return (
+    const cardContent = (
+      <div
+        onClick={(e) => {
+          if (onSelectCuisine) {
+            e.preventDefault();
+            onSelectCuisine(cuisine.cuisine);
+          }
+        }}
+        className={`rounded-xl border bg-[#0c0c14]/80 backdrop-blur-md hover:border-purple-400/40 hover:bg-[#10101a]/90 transition-all duration-200 p-4 cursor-pointer ${
+          selectedCuisine === cuisine.cuisine
+            ? "border-purple-500 shadow-[0_0_20px_rgba(192,132,252,0.25)] bg-[#10101a]/95"
+            : "border-white/10"
+        }`}
+      >
+        <div className="flex items-start gap-3 mb-2">
+          {imageUrl && (
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5">
+              <Image
+                src={imageUrl}
+                alt=""
+                fill
+                sizes="56px"
+                className="object-cover"
+              />
+            </div>
+          )}
+          <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-lg text-purple-300/80 shrink-0">{icon}</span>
+              <h3 className="font-bold text-white truncate">{cuisine.cuisine}</h3>
+              {cuisine.isRetrograde && (
+                <span
+                  className="text-[10px] text-amber-300 font-bold shrink-0"
+                  title={`${cuisine.planet} retrograde`}
+                >
+                  Rx
+                </span>
+              )}
+            </div>
+            <div
+              className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-[10px] font-black border shadow-lg`}
+            >
+              {cuisine.score}%
+            </div>
+          </div>
+        </div>
+        <p className="text-xs text-white/55 line-clamp-2 leading-relaxed">
+          {cuisine.reasoning}
+        </p>
+        <TopFlavorPills cuisineName={cuisine.cuisine} />
+        <div className="flex items-center justify-between mt-2 text-[10px] text-white/40 font-medium">
+          {cuisine.recipeCount > 0 && (
+            <span>{cuisine.recipeCount} recipes</span>
+          )}
+          <span className="uppercase tracking-wider">
+            {cuisine.optimalTiming}
+          </span>
+        </div>
+      </div>
+    );
+
+    return onSelectCuisine ? (
+      cardContent
+    ) : (
       <Link
         href={cookHref}
         onDoubleClick={(e) => {
@@ -174,52 +246,7 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
           }
         }}
       >
-        <div className="rounded-xl border border-white/10 bg-[#0c0c14]/80 backdrop-blur-md hover:border-purple-400/40 hover:bg-[#10101a]/90 transition-all duration-200 p-4 cursor-pointer">
-          <div className="flex items-start gap-3 mb-2">
-            {imageUrl && (
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-white/5">
-                <Image
-                  src={imageUrl}
-                  alt=""
-                  fill
-                  sizes="56px"
-                  className="object-cover"
-                />
-              </div>
-            )}
-            <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-lg text-purple-300/80 shrink-0">{icon}</span>
-                <h3 className="font-bold text-white truncate">{cuisine.cuisine}</h3>
-                {cuisine.isRetrograde && (
-                  <span
-                    className="text-[10px] text-amber-300 font-bold shrink-0"
-                    title={`${cuisine.planet} retrograde`}
-                  >
-                    Rx
-                  </span>
-                )}
-              </div>
-              <div
-                className={`px-2 py-0.5 ${scoreColor} text-white rounded-full text-[10px] font-black border shadow-lg`}
-              >
-                {cuisine.score}%
-              </div>
-            </div>
-          </div>
-          <p className="text-xs text-white/55 line-clamp-2 leading-relaxed">
-            {cuisine.reasoning}
-          </p>
-          <TopFlavorPills cuisineName={cuisine.cuisine} />
-          <div className="flex items-center justify-between mt-2 text-[10px] text-white/40 font-medium">
-            {cuisine.recipeCount > 0 && (
-              <span>{cuisine.recipeCount} recipes</span>
-            )}
-            <span className="uppercase tracking-wider">
-              {cuisine.optimalTiming}
-            </span>
-          </div>
-        </div>
+        {cardContent}
       </Link>
     );
   }
@@ -236,7 +263,11 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
         }
       }}
     >
-      <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl overflow-hidden transform transition-all duration-300 hover:border-purple-400/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-900/30">
+      <div className={`relative rounded-2xl border bg-gradient-to-br from-[#0c0c14]/90 to-[#16101e]/90 backdrop-blur-xl overflow-hidden transform transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${
+        selectedCuisine === cuisine.cuisine
+          ? "border-purple-500 shadow-[0_0_20px_rgba(192,132,252,0.25)] bg-[#10101a]/95 scale-[1.01]"
+          : "border-white/10 hover:border-purple-400/40 hover:shadow-purple-900/30"
+      }`}>
         {/* Ambient planet glow */}
         <div
           className={`absolute -top-20 -right-20 w-64 h-64 ${planetGlow} rounded-full blur-[80px] pointer-events-none opacity-70`}
@@ -258,12 +289,26 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
           </div>
         </div>
 
-        {/* Clickable surface — header + content navigates to cookHref. Buttons live OUTSIDE this so the hover preview can't intercept their clicks. */}
+        {/* Clickable surface — header + content */}
         <div
           role="link"
           tabIndex={0}
-          onClick={() => { router.push(cookHref); }}
-          onKeyDown={(e) => { if (e.key === 'Enter') router.push(cookHref); }}
+          onClick={() => {
+            if (onSelectCuisine) {
+              onSelectCuisine(cuisine.cuisine);
+            } else {
+              router.push(cookHref);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              if (onSelectCuisine) {
+                onSelectCuisine(cuisine.cuisine);
+              } else {
+                router.push(cookHref);
+              }
+            }
+          }}
           aria-label={`Explore ${cuisine.cuisine} recipes`}
           className="relative cursor-pointer"
         >
@@ -343,8 +388,7 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
             </div>
           </div>
 
-          {/* Hover Preview — only covers the clickable surface, NOT the buttons below.
-              pointer-events-none lets hover tracking continue against the underlying card. */}
+          {/* Hover Preview */}
           {showPreview && cuisine.topRecipes.length > 0 && (
             <div className="absolute inset-0 z-30 bg-[#0c0c14]/95 backdrop-blur-sm p-5 flex flex-col justify-center border-y border-purple-400/30 pointer-events-none">
               <h4 className="font-black text-purple-200 uppercase tracking-widest text-xs mb-3">
@@ -374,8 +418,7 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
           )}
         </div>
 
-        {/* Action Buttons — sibling of the clickable surface so the hover preview can't cover them.
-            Cook It → cuisine-filtered recipe database. Order It → restaurant finder. */}
+        {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-2 px-5 pb-5 relative z-40">
           <Link
             href={cookHref}
@@ -385,14 +428,25 @@ export function CuisineCard({ cuisine, rank, compact, onDoubleClickCuisine }: Cu
             <span aria-hidden className="text-base">🥘</span>
             Cook It
           </Link>
-          <Link
-            href={orderHref}
-            className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
-            aria-label={`Find ${cuisine.cuisine} restaurants near me`}
-          >
-            <span aria-hidden className="text-base">📍</span>
-            Order It
-          </Link>
+          {onSelectCuisine ? (
+            <button
+              onClick={() => onSelectCuisine(cuisine.cuisine)}
+              className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
+              aria-label={`Find ${cuisine.cuisine} restaurants near me`}
+            >
+              <span aria-hidden className="text-base">📍</span>
+              Order It
+            </button>
+          ) : (
+            <Link
+              href={orderHref}
+              className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
+              aria-label={`Find ${cuisine.cuisine} restaurants near me`}
+            >
+              <span aria-hidden className="text-base">📍</span>
+              Order It
+            </Link>
+          )}
         </div>
       </div>
     </div>
