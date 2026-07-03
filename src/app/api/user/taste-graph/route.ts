@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import {
+  computeTasteGraph,
   fetchUserInteractions,
   recordInteraction,
   type InteractionType,
@@ -32,8 +33,11 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const interactions = await fetchUserInteractions(session.user.id);
-    return NextResponse.json({ interactions });
+    const [interactions, tasteGraph] = await Promise.all([
+      fetchUserInteractions(session.user.id),
+      computeTasteGraph(session.user.id),
+    ]);
+    return NextResponse.json({ interactions, tasteGraph });
   } catch (error) {
     console.error("[GET /api/user/taste-graph] failed:", error);
     return NextResponse.json(

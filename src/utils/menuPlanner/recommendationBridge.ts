@@ -79,6 +79,12 @@ export interface DayRecommendationOptions {
   preferredCookingMethods?: string[];
   /** Flavor preferences to guide ingredient and cuisine selection */
   flavorPreferences?: string[];
+  /** Learned favorite ingredients to softly boost matching recipes */
+  favoriteIngredients?: string[];
+  /** Learned disliked ingredients to avoid in generated recommendations */
+  dislikedIngredients?: string[];
+  /** Learned complexity preference to softly bias recipe selection */
+  complexityPreference?: "simple" | "moderate" | "complex";
   /** User personalization context for chart-based recommendations */
   userContext?: UserPersonalizationContext;
   /** Meals already planned for the week, used to avoid repetition */
@@ -149,6 +155,9 @@ export async function generateDayRecommendations(
       requiredIngredients = [],
       preferredCookingMethods = [],
       flavorPreferences = [],
+      favoriteIngredients = [],
+      dislikedIngredients = [],
+      complexityPreference,
       userContext,
       existingMeals = [],
       budgetPerMeal,
@@ -182,6 +191,9 @@ export async function generateDayRecommendations(
           requiredIngredients,
           preferredCookingMethods,
           flavorPreferences,
+          favoriteIngredients,
+          dislikedIngredients,
+          complexityPreference,
           existingMeals,
           budgetPerMeal,
           maxPrepTimeMinutes,
@@ -406,6 +418,9 @@ async function generateMealRecommendations(
     requiredIngredients?: string[];
     preferredCookingMethods?: string[];
     flavorPreferences?: string[];
+    favoriteIngredients?: string[];
+    dislikedIngredients?: string[];
+    complexityPreference?: "simple" | "moderate" | "complex";
     existingMeals?: Array<{
       recipeId: string;
       recipeName: string;
@@ -654,6 +669,25 @@ function containsExcludedIngredient(
   });
 }
 
+function getRecipeComplexity(
+  recipe: Recipe,
+): "simple" | "moderate" | "complex" | undefined {
+  const raw = String(
+    (recipe as any).complexity ?? (recipe as any).difficulty ?? "",
+  ).toLowerCase();
+  if (!raw) return undefined;
+  if (raw === "simple" || raw === "easy" || raw === "beginner") {
+    return "simple";
+  }
+  if (raw === "complex" || raw === "hard" || raw === "advanced") {
+    return "complex";
+  }
+  if (raw === "moderate" || raw === "medium" || raw === "intermediate") {
+    return "moderate";
+  }
+  return undefined;
+}
+
 /**
  * Get the primary protein from a recipe's ingredients.
  */
@@ -679,6 +713,9 @@ async function searchRecipesForDay(
     requiredIngredients?: string[];
     preferredCookingMethods?: string[];
     flavorPreferences?: string[];
+    favoriteIngredients?: string[];
+    dislikedIngredients?: string[];
+    complexityPreference?: "simple" | "moderate" | "complex";
     existingMeals?: Array<{
       recipeId: string;
       recipeName: string;
@@ -711,6 +748,10 @@ async function searchRecipesForDay(
     const existingProteins = existingMeals
       .map((m) => m.primaryProtein?.toLowerCase())
       .filter(Boolean) as string[];
+    const blockedIngredients = [
+      ...options.excludeIngredients,
+      ...(options.dislikedIngredients ?? []),
+    ];
 
     const planetProfile =
       PLANET_CULINARY_PROFILES[dayChar.planet] ||
@@ -749,7 +790,7 @@ async function searchRecipesForDay(
         return false;
 
       // Excluded ingredients
-      if (containsExcludedIngredient(recipe, options.excludeIngredients))
+      if (containsExcludedIngredient(recipe, blockedIngredients))
         return false;
 
       // Required ingredients (if specified, must contain at least one)
@@ -788,7 +829,7 @@ async function searchRecipesForDay(
           !matchesDietaryRestrictions(recipe, options.dietaryRestrictions)
         )
           return false;
-        if (containsExcludedIngredient(recipe, options.excludeIngredients))
+        if (containsExcludedIngredient(recipe, blockedIngredients))
           return false;
         return true;
       });
@@ -828,6 +869,12 @@ async function searchRecipesForDay(
     );
     const preferredCookingMethodsLc = (options.preferredCookingMethods ?? []).map(
       (pm) => pm.toLowerCase(),
+    );
+    const favoriteIngredientsLc = (options.favoriteIngredients ?? []).map((ing) =>
+      ing.toLowerCase(),
+    );
+    const dislikedIngredientsLc = (options.dislikedIngredients ?? []).map((ing) =>
+      ing.toLowerCase(),
     );
     const budget = options.budgetPerMeal;
     const budgetEnabled = typeof budget === "number" && budget > 0;
@@ -884,6 +931,40 @@ async function searchRecipesForDay(
         )
       ) {
         score += 0.05;
+      }
+
+      // Learned ingredient preferences (soft boosts/penalties)
+      const recipeIngredientNames = recipe.ingredients.map((ing) =>
+        (typeof ing === "string" ? ing : ing.name ?? "").toLowerCase(),
+      );
+      if (favoriteIngredientsLc.length > 0) {
+        const favoriteMatches = favoriteIngredientsLc.filter((favorite) =>
+          recipeIngredientNames.some(
+            (name) => name.includes(favorite) || favorite.includes(name),
+          ),
+        ).length;
+        if (favoriteMatches > 0) {
+          score += Math.min(0.15, favoriteMatches * 0.04);
+        }
+      }
+      if (dislikedIngredientsLc.length > 0) {
+        const dislikedMatches = dislikedIngredientsLc.filter((disliked) =>
+          recipeIngredientNames.some(
+            (name) => name.includes(disliked) || disliked.includes(name),
+          ),
+        ).length;
+        if (dislikedMatches > 0) {
+          score -= Math.min(0.2, dislikedMatches * 0.08);
+        }
+      }
+
+      if (options.complexityPreference) {
+        const recipeComplexity = getRecipeComplexity(recipe);
+        if (recipeComplexity === options.complexityPreference) {
+          score += 0.06;
+        } else if (recipeComplexity) {
+          score -= 0.03;
+        }
       }
 
       // Weekly variety penalties
