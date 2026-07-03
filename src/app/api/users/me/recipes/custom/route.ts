@@ -13,6 +13,8 @@ import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import { questService } from "@/services/QuestService";
+import { recordInteraction } from "@/services/userInteractionsService";
+import { buildRecipeLearningPayload } from "@/utils/recipes/learningPayload";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +27,7 @@ const CustomRecipeBodySchema = z.object({
   sourceRecipeId: z.string().trim().max(200).optional(),
   payload: z.record(z.string(), z.unknown()),
   notes: z.string().max(2000).optional(),
+  action: z.enum(["save", "like"]).optional(),
 });
 
 interface CustomRecipeRow {
@@ -63,6 +66,33 @@ function rowToDTO(row: CustomRecipeRow): CustomRecipeDTO {
     createdAt: new Date(row.created_at).getTime(),
     updatedAt: new Date(row.updated_at).getTime(),
   };
+}
+
+async function recordRecipeSaveSignal(
+  userId: string,
+  row: CustomRecipeRow,
+  action: "save" | "like",
+): Promise<void> {
+  const learningPayload = buildRecipeLearningPayload(row.payload, {
+    id: row.id,
+    name: row.name,
+    cuisine: row.cuisine ?? undefined,
+    source: row.source ?? undefined,
+    sourceRecipeId: row.source_recipe_id ?? undefined,
+  });
+
+  await recordInteraction({
+    userId,
+    type: "recipe_save",
+    payload: { ...learningPayload },
+    context: {
+      action,
+      source: row.source,
+      sourceRecipeId: row.source_recipe_id,
+      recipeBookEntryId: row.id,
+    },
+    weight: action === "like" ? 2.5 : 2,
+  });
 }
 
 export async function GET() {
@@ -118,22 +148,92 @@ export async function POST(request: NextRequest) {
   const body = parsed.data;
 
   try {
-    const result = await executeQuery<CustomRecipeRow>(
-      `INSERT INTO user_custom_recipes
-         (user_id, name, cuisine, source, source_recipe_id, payload, notes)
-       VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7)
-       RETURNING id, name, cuisine, source, source_recipe_id, payload, notes,
-                 created_at, updated_at`,
-      [
-        userId,
-        body.name,
-        body.cuisine ?? null,
-        body.source ?? null,
-        body.sourceRecipeId ?? null,
-        JSON.stringify(body.payload),
-        body.notes ?? null,
-      ],
-    );
+    let wasExisting = false;
+    let row: CustomRecipeRow;
+
+    if (body.sourceRecipeId) {
+      const existing = await executeQuery<CustomRecipeRow>(
+        `SELECT id, name, cuisine, source, source_recipe_id, payload, notes,
+                created_at, updated_at
+           FROM user_custom_recipes
+          WHERE user_id = $1
+            AND source_recipe_id = $2
+            AND COALESCE(source, '') = COALESCE($3, '')
+          ORDER BY created_at DESC
+          LIMIT 1`,
+        [userId, body.sourceRecipeId, body.source ?? null],
+      );
+
+      if (existing.rows[0]) {
+        wasExisting = true;
+        const updated = await executeQuery<CustomRecipeRow>(
+          `UPDATE user_custom_recipes
+              SET name = $3,
+                  cuisine = $4,
+                  payload = $5::jsonb,
+                  notes = $6,
+                  updated_at = CURRENT_TIMESTAMP
+            WHERE id = $1 AND user_id = $2
+            RETURNING id, name, cuisine, source, source_recipe_id, payload, notes,
+                      created_at, updated_at`,
+          [
+            existing.rows[0].id,
+            userId,
+            body.name,
+            body.cuisine ?? null,
+            JSON.stringify(body.payload),
+            body.notes ?? existing.rows[0].notes,
+          ],
+        );
+        row = updated.rows[0];
+      } else {
+        const inserted = await executeQuery<CustomRecipeRow>(
+          `INSERT INTO user_custom_recipes
+             (user_id, name, cuisine, source, source_recipe_id, payload, notes)
+           VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7)
+           RETURNING id, name, cuisine, source, source_recipe_id, payload, notes,
+                     created_at, updated_at`,
+          [
+            userId,
+            body.name,
+            body.cuisine ?? null,
+            body.source ?? null,
+            body.sourceRecipeId,
+            JSON.stringify(body.payload),
+            body.notes ?? null,
+          ],
+        );
+        row = inserted.rows[0];
+      }
+    } else {
+      const inserted = await executeQuery<CustomRecipeRow>(
+        `INSERT INTO user_custom_recipes
+           (user_id, name, cuisine, source, source_recipe_id, payload, notes)
+         VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7)
+         RETURNING id, name, cuisine, source, source_recipe_id, payload, notes,
+                   created_at, updated_at`,
+        [
+          userId,
+          body.name,
+          body.cuisine ?? null,
+          body.source ?? null,
+          null,
+          JSON.stringify(body.payload),
+          body.notes ?? null,
+        ],
+      );
+      row = inserted.rows[0];
+    }
+
+    try {
+      await recordRecipeSaveSignal(userId, row, body.action ?? "save");
+    } catch (learningErr) {
+      console.error(
+        "[POST /api/users/me/recipes/custom] learning signal failed",
+        learningErr,
+      );
+    }
+
     // Best-effort: reward building the Lab Book. reportEvent increments every
     // quest listening on "ingest_recipe" (the tiered "add N recipes"
     // achievements + the weekly) and returns any that just completed.
@@ -142,18 +242,21 @@ export async function POST(request: NextRequest) {
       tokensAwarded: number;
       tokenType: string;
     }> = [];
-    try {
-      completedQuests = await questService.reportEvent(userId, "ingest_recipe");
-    } catch (questErr) {
-      console.error(
-        "[POST /api/users/me/recipes/custom] quest report failed",
-        questErr,
-      );
+    if (!wasExisting) {
+      try {
+        completedQuests = await questService.reportEvent(userId, "ingest_recipe");
+      } catch (questErr) {
+        console.error(
+          "[POST /api/users/me/recipes/custom] quest report failed",
+          questErr,
+        );
+      }
     }
 
     return NextResponse.json({
       authenticated: true,
-      recipe: rowToDTO(result.rows[0]),
+      recipe: rowToDTO(row),
+      wasExisting,
       completedQuests,
     });
   } catch (error) {

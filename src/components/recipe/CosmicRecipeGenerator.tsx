@@ -118,6 +118,9 @@ export default function CosmicRecipeGenerator() {
   const [disallowedIngredients, setDisallowedIngredients] = useState("");
   const [preferredCuisine, setPreferredCuisine] = useState<string>("");
   const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
+  const [storedRecipe, setStoredRecipe] = useState<MonicaOptimizedRecipe | null>(null);
+  const [isLikingRecipe, setIsLikingRecipe] = useState(false);
+  const [likedRecipe, setLikedRecipe] = useState(false);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -291,6 +294,7 @@ export default function CosmicRecipeGenerator() {
             preferredCuisineRef.current || undefined,
           );
           saveRecipeToStore(stored);
+          setStoredRecipe(stored);
           setSavedRecipeId(stored.id);
         } catch (err) {
           console.error("Failed to persist cosmic recipe", err);
@@ -312,6 +316,8 @@ export default function CosmicRecipeGenerator() {
   const handleGenerate = () => {
     setImageUrl(null);
     setSavedRecipeId(null);
+    setStoredRecipe(null);
+    setLikedRecipe(false);
     void submit({
       prompt: prompt || "A nourishing, restorative meal",
       diet,
@@ -320,6 +326,47 @@ export default function CosmicRecipeGenerator() {
       birthData,
       preferredCuisine: preferredCuisine || undefined,
     });
+  };
+
+  const handleLikeRecipe = async () => {
+    if (!storedRecipe) return;
+    saveRecipeToStore(storedRecipe);
+    if (!currentUser) {
+      setLikedRecipe(true);
+      showSuccess("Liked locally. Sign in to sync your cookbook.");
+      return;
+    }
+
+    setIsLikingRecipe(true);
+    try {
+      const res = await fetch("/api/users/me/recipes/custom", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          name: storedRecipe.name,
+          cuisine: storedRecipe.cuisine,
+          source: "cosmic-generator",
+          sourceRecipeId: storedRecipe.id,
+          payload: storedRecipe,
+          action: "like",
+        }),
+      });
+      if (res.status === 401) {
+        setLikedRecipe(true);
+        showSuccess("Liked locally. Sign in to sync your cookbook.");
+        return;
+      }
+      if (!res.ok) throw new Error("Failed to like recipe");
+      setLikedRecipe(true);
+      showSuccess("Recipe liked and saved to your cookbook.");
+    } catch (err) {
+      console.error(err);
+      setLikedRecipe(true);
+      showError("Liked locally, but cookbook sync failed.");
+    } finally {
+      setIsLikingRecipe(false);
+    }
   };
 
   const generateImage = async (title: string, description: string) => {
@@ -533,6 +580,17 @@ export default function CosmicRecipeGenerator() {
                 >
                   View full recipe page
                 </Link>
+                <button
+                  onClick={() => { void handleLikeRecipe(); }}
+                  disabled={likedRecipe || isLikingRecipe}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
+                    likedRecipe
+                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-200 dark:border-slate-750"
+                      : "bg-white hover:bg-slate-50 text-pink-700 border border-pink-200 disabled:opacity-60"
+                  }`}
+                >
+                  {likedRecipe ? "Liked" : isLikingRecipe ? "Liking..." : "Like Recipe"}
+                </button>
                 <Link
                   href="/recipe-builder"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white hover:bg-slate-50 text-purple-700 text-sm font-semibold border border-purple-200 transition-colors"

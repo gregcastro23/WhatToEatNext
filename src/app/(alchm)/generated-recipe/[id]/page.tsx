@@ -6,7 +6,7 @@
  * Reads a generated recipe from localStorage (keyed by ID), then displays
  * a rich, printable page with:
  *  - Header: title + Monica score badge
- *  - Action bar: Save to Profile, Print, Copy to Clipboard
+ *  - Action bar: Like Recipe, Print, Copy to Clipboard
  *  - Body: ingredient list + step-by-step instructions
  *  - Footer: planetary alignment explanation ("Why this recipe?")
  *
@@ -143,6 +143,8 @@ export default function GeneratedRecipePage() {
   const [hasCheckedStore, setHasCheckedStore] = useState(false);
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
+  const [likeMessage, setLikeMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) {
@@ -203,21 +205,46 @@ export default function GeneratedRecipePage() {
       .catch(() => {});
   }, [recipe]);
 
-  const handleSaveToProfile = useCallback(async () => {
+  const handleLikeRecipe = useCallback(async () => {
     if (!recipe) return;
-    // Optimistic UI
-    setSaved(true);
+    setIsLiking(true);
+    setLikeMessage(null);
     try {
-      const res = await fetch("/api/profile/saved-recipes", {
+      const res = await fetch("/api/users/me/recipes/custom", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recipe }),
+        credentials: "same-origin",
+        body: JSON.stringify({
+          name: recipe.name ?? "Untitled",
+          cuisine: recipe.cuisine ?? undefined,
+          source: "generator",
+          sourceRecipeId: String(recipe.id ?? id),
+          payload: recipe,
+          action: "like",
+        }),
       });
-      if (!res.ok) throw new Error("save failed");
+      if (res.status === 401) {
+        setSaved(true);
+        setLikeMessage("Liked locally. Sign in to sync your cookbook.");
+        return;
+      }
+      if (!res.ok) throw new Error("like failed");
+      const data = (await res.json().catch(() => ({}))) as {
+        wasExisting?: boolean;
+      };
+      setSaved(true);
+      setLikeMessage(
+        data.wasExisting
+          ? "Already in your cookbook. Preferences refreshed."
+          : "Saved to your cookbook. Recommendations will adapt.",
+      );
     } catch {
-      // Non-critical – recipe is already in localStorage
+      setSaved(true);
+      setLikeMessage("Liked locally. Cookbook sync failed.");
+    } finally {
+      setIsLiking(false);
     }
-  }, [recipe]);
+  }, [id, recipe]);
 
   // ── Loading / Not Found ───────────────────────────────────────────────────
 
@@ -342,11 +369,11 @@ export default function GeneratedRecipePage() {
         {/* ── ACTION BAR ── */}
         <div className="flex flex-wrap gap-3 print:hidden">
           <button
-            onClick={() => { void handleSaveToProfile(); }}
-            disabled={saved}
+            onClick={() => { void handleLikeRecipe(); }}
+            disabled={saved || isLiking}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60 transition-colors font-medium text-sm"
           >
-            {saved ? "✓ Saved" : "Save to Profile"}
+            {saved ? "✓ Liked" : isLiking ? "Liking..." : "Like Recipe"}
           </button>
           <button
             onClick={handlePrint}
@@ -360,6 +387,9 @@ export default function GeneratedRecipePage() {
           >
             {copied ? "✓ Copied!" : "Copy to Clipboard"}
           </button>
+          {likeMessage && (
+            <p className="w-full text-xs text-purple-700">{likeMessage}</p>
+          )}
         </div>
 
         {/* ── BODY ── */}
