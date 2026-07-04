@@ -40,12 +40,6 @@ interface MigrationStats {
   errors: string[];
   warnings: string[];
 }
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _ {
-  id?: string;
-  name?: string;
-  [key: string]: unknown;
-}
 // Singleton management
 let _migrationInstance: FlavorProfileMigration | null = null;
 let _cachedProfiles: Map<string, UnifiedFlavorProfile> = new Map();

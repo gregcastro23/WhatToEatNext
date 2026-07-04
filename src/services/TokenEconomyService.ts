@@ -47,29 +47,78 @@ let memoryTxnId = 1;
 
 // ─── Row Converters ───────────────────────────────────────────────────
 
-function rowToBalances(row: any): TokenBalances {
+type DbScalar = Date | number | string | null | undefined;
+
+interface TokenBalanceRow {
+  spirit?: DbScalar;
+  essence?: DbScalar;
+  matter?: DbScalar;
+  substance?: DbScalar;
+  last_daily_claim_at?: DbScalar;
+  last_daily_claim_agents_at?: DbScalar;
+  updated_at?: DbScalar;
+}
+
+interface TokenTransactionRow {
+  id?: DbScalar;
+  transaction_group_id?: DbScalar;
+  user_id?: DbScalar;
+  token_type?: DbScalar;
+  amount?: DbScalar;
+  source_type?: DbScalar;
+  source_id?: DbScalar;
+  description?: DbScalar;
+  created_at?: DbScalar;
+}
+
+const toNumber = (value: unknown, fallback = 0): number => {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseFloat(value)
+        : Number.NaN;
+
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const toNullableIsoString = (value: unknown): string | null => {
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === "string") return value;
+  return null;
+};
+
+const toIsoString = (value: unknown, fallback = new Date().toISOString()): string =>
+  toNullableIsoString(value) ?? fallback;
+
+const toNullableString = (value: unknown): string | null => {
+  if (value == null) return null;
+  return String(value);
+};
+
+function rowToBalances(row: TokenBalanceRow): TokenBalances {
   return {
-    spirit: parseFloat(row.spirit) || 0,
-    essence: parseFloat(row.essence) || 0,
-    matter: parseFloat(row.matter) || 0,
-    substance: parseFloat(row.substance) || 0,
-    lastDailyClaimAt: row.last_daily_claim_at?.toISOString?.() || row.last_daily_claim_at || null,
-    lastDailyClaimAgentsAt: row.last_daily_claim_agents_at?.toISOString?.() || row.last_daily_claim_agents_at || null,
-    updatedAt: row.updated_at?.toISOString?.() || row.updated_at || new Date().toISOString(),
+    spirit: toNumber(row.spirit),
+    essence: toNumber(row.essence),
+    matter: toNumber(row.matter),
+    substance: toNumber(row.substance),
+    lastDailyClaimAt: toNullableIsoString(row.last_daily_claim_at),
+    lastDailyClaimAgentsAt: toNullableIsoString(row.last_daily_claim_agents_at),
+    updatedAt: toIsoString(row.updated_at),
   };
 }
 
-function rowToTransaction(row: any): TokenTransaction {
+function rowToTransaction(row: TokenTransactionRow): TokenTransaction {
   return {
-    id: row.id,
-    transactionGroupId: row.transaction_group_id,
-    userId: row.user_id,
+    id: toNumber(row.id),
+    transactionGroupId: String(row.transaction_group_id ?? ""),
+    userId: String(row.user_id ?? ""),
     tokenType: row.token_type as TokenType,
-    amount: parseFloat(row.amount),
+    amount: toNumber(row.amount),
     sourceType: row.source_type as TransactionSourceType,
-    sourceId: row.source_id || null,
-    description: row.description || null,
-    createdAt: row.created_at?.toISOString?.() || row.created_at,
+    sourceId: toNullableString(row.source_id),
+    description: toNullableString(row.description),
+    createdAt: toIsoString(row.created_at),
   };
 }
 

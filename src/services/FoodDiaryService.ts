@@ -11,6 +11,7 @@
 
 import { _logger } from "@/lib/logger";
 import { userCache } from "@/lib/performance/advanced-cache";
+import type { TokenType } from "@/types/economy";
 import type {
   FoodDiaryEntry,
   CreateFoodDiaryEntryInput,
@@ -68,6 +69,113 @@ const QUICK_FOOD_CATEGORY_MAP: Record<QuickFoodCategory, string[]> = {
   nuts_seeds: ["nuts", "seeds", "nuts_seeds"],
   condiments: ["condiment", "condiments", "seasonings", "oils", "vinegars"],
   prepared_foods: ["prepared_foods", "prepared foods", "prepared"],
+};
+
+type FoodDiaryDbScalar = Date | string | number | boolean | null | undefined;
+
+interface FoodDiaryEntryRow {
+  id: string;
+  user_id: string;
+  food_name: string;
+  food_source: FoodDiaryEntry["foodSource"];
+  source_id?: string | null;
+  brand_name?: string | null;
+  date: Date | string;
+  meal_type: MealType;
+  time: string;
+  serving_amount?: FoodDiaryDbScalar;
+  serving_unit: ServingSize["unit"];
+  serving_grams?: FoodDiaryDbScalar;
+  serving_description?: string | null;
+  quantity?: FoodDiaryDbScalar;
+  calories?: FoodDiaryDbScalar;
+  protein?: FoodDiaryDbScalar;
+  carbs?: FoodDiaryDbScalar;
+  fat?: FoodDiaryDbScalar;
+  fiber?: FoodDiaryDbScalar;
+  sugar?: FoodDiaryDbScalar;
+  sodium?: FoodDiaryDbScalar;
+  nutrition_confidence?: FoodDiaryEntry["nutritionConfidence"] | null;
+  elemental_fire?: FoodDiaryDbScalar;
+  elemental_water?: FoodDiaryDbScalar;
+  elemental_earth?: FoodDiaryDbScalar;
+  elemental_air?: FoodDiaryDbScalar;
+  rating?: FoodDiaryDbScalar;
+  mood_tags?: MoodTag[] | null;
+  notes?: string | null;
+  would_eat_again?: boolean | null;
+  is_favorite?: boolean | null;
+  tags?: string[] | null;
+  price?: FoodDiaryDbScalar;
+  store?: string | null;
+  quality?: string | null;
+  astrological_context?: string | FoodDiaryEntry["astrologicalContext"] | null;
+  created_at: Date | string;
+  updated_at: Date | string;
+}
+
+interface QuickFoodIngredientRow {
+  id: string;
+  name: string;
+  common_name?: string | null;
+  category?: string | null;
+  calories?: FoodDiaryDbScalar;
+  protein?: FoodDiaryDbScalar;
+  carbohydrates?: FoodDiaryDbScalar;
+  fat?: FoodDiaryDbScalar;
+  fiber?: FoodDiaryDbScalar;
+  sugar?: FoodDiaryDbScalar;
+}
+
+const toNumber = (value: FoodDiaryDbScalar, fallback = 0): number => {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseFloat(value)
+        : Number.NaN;
+
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const toOptionalNumber = (value: FoodDiaryDbScalar): number | undefined => {
+  if (value == null || value === "") return undefined;
+  const parsed = toNumber(value, Number.NaN);
+  return Number.isFinite(parsed) ? parsed : undefined;
+};
+
+type NutritionAccumulator = Partial<Record<keyof NutritionalSummary, number>>;
+
+const addNutritionValue = (
+  summary: NutritionalSummary,
+  key: string,
+  value: number,
+): void => {
+  const accumulator = summary as NutritionAccumulator;
+  if (!(key in accumulator)) return;
+  const nutritionKey = key as keyof NutritionalSummary;
+  accumulator[nutritionKey] = (accumulator[nutritionKey] ?? 0) + value;
+};
+
+const setNutritionValue = (
+  summary: NutritionalSummary,
+  key: string,
+  value: number,
+): void => {
+  const accumulator = summary as NutritionAccumulator;
+  if (!(key in accumulator)) return;
+  accumulator[key as keyof NutritionalSummary] = value;
+};
+
+const toDate = (value: Date | string): Date =>
+  value instanceof Date ? value : new Date(value);
+
+const parseAstrologicalContext = (
+  value: FoodDiaryEntryRow["astrological_context"],
+): FoodDiaryEntry["astrologicalContext"] | undefined => {
+  if (!value) return undefined;
+  if (typeof value === "string") return JSON.parse(value) as FoodDiaryEntry["astrologicalContext"];
+  return value;
 };
 
 /**
@@ -2627,12 +2735,29 @@ class FoodDiaryService {
       // 1. ESMS Rewards based on ingredient stats
       if (entry.elementalProperties) {
         const rewardScale = 0.5; // Award 50% of elemental stats as tokens
-        const credits = [
-          { tokenType: "Spirit" as any, amount: Math.round((entry.elementalProperties.Fire || 0) * 10 * rewardScale) / 10 },
-          { tokenType: "Essence" as any, amount: Math.round((entry.elementalProperties.Water || 0) * 10 * rewardScale) / 10 },
-          { tokenType: "Matter" as any, amount: Math.round((entry.elementalProperties.Earth || 0) * 10 * rewardScale) / 10 },
-          { tokenType: "Substance" as any, amount: Math.round((entry.elementalProperties.Air || 0) * 10 * rewardScale) / 10 },
-        ].filter(c => c.amount > 0);
+        const creditCandidates: Array<{ tokenType: TokenType; amount: number }> = [
+          {
+            tokenType: "Spirit",
+            amount:
+              Math.round((entry.elementalProperties.Fire || 0) * 10 * rewardScale) / 10,
+          },
+          {
+            tokenType: "Essence",
+            amount:
+              Math.round((entry.elementalProperties.Water || 0) * 10 * rewardScale) / 10,
+          },
+          {
+            tokenType: "Matter",
+            amount:
+              Math.round((entry.elementalProperties.Earth || 0) * 10 * rewardScale) / 10,
+          },
+          {
+            tokenType: "Substance",
+            amount:
+              Math.round((entry.elementalProperties.Air || 0) * 10 * rewardScale) / 10,
+          },
+        ];
+        const credits = creditCandidates.filter((credit) => credit.amount > 0);
 
         if (credits.length > 0) {
           await tokenEconomy.creditMultipleTokens(userId, credits, "alchemical_log", {
@@ -2687,57 +2812,54 @@ class FoodDiaryService {
   /**
    * Convert database row to FoodDiaryEntry
    */
-  private rowToFoodDiaryEntry(row: any): FoodDiaryEntry {
+  private rowToFoodDiaryEntry(row: FoodDiaryEntryRow): FoodDiaryEntry {
     return {
       id: row.id,
       userId: row.user_id,
       foodName: row.food_name,
       foodSource: row.food_source,
-      sourceId: row.source_id,
-      brandName: row.brand_name,
-      date: new Date(row.date),
+      sourceId: row.source_id || undefined,
+      brandName: row.brand_name || undefined,
+      date: toDate(row.date),
       mealType: row.meal_type,
       time: row.time,
       serving: {
-        amount: parseFloat(row.serving_amount) || 1,
+        amount: toNumber(row.serving_amount, 1),
         unit: row.serving_unit,
-        grams: parseFloat(row.serving_grams) || 100,
-        description: row.serving_description,
+        grams: toNumber(row.serving_grams, 100),
+        description: row.serving_description || undefined,
       },
-      quantity: parseFloat(row.quantity) || 1,
+      quantity: toNumber(row.quantity, 1),
       nutrition: {
-        calories: row.calories ? parseFloat(row.calories) : undefined,
-        protein: row.protein ? parseFloat(row.protein) : undefined,
-        carbs: row.carbs ? parseFloat(row.carbs) : undefined,
-        fat: row.fat ? parseFloat(row.fat) : undefined,
-        fiber: row.fiber ? parseFloat(row.fiber) : undefined,
-        sugar: row.sugar ? parseFloat(row.sugar) : undefined,
-        sodium: row.sodium ? parseFloat(row.sodium) : undefined,
+        calories: toOptionalNumber(row.calories),
+        protein: toOptionalNumber(row.protein),
+        carbs: toOptionalNumber(row.carbs),
+        fat: toOptionalNumber(row.fat),
+        fiber: toOptionalNumber(row.fiber),
+        sugar: toOptionalNumber(row.sugar),
+        sodium: toOptionalNumber(row.sodium),
       },
-      nutritionConfidence: row.nutrition_confidence,
-      elementalProperties: row.elemental_fire
+      nutritionConfidence: row.nutrition_confidence || "medium",
+      elementalProperties: row.elemental_fire != null
         ? {
-            Fire: parseFloat(row.elemental_fire),
-            Water: parseFloat(row.elemental_water),
-            Earth: parseFloat(row.elemental_earth),
-            Air: parseFloat(row.elemental_air),
+            Fire: toNumber(row.elemental_fire),
+            Water: toNumber(row.elemental_water),
+            Earth: toNumber(row.elemental_earth),
+            Air: toNumber(row.elemental_air),
           }
         : undefined,
-      rating: row.rating ? (parseFloat(row.rating) as FoodRating) : undefined,
+      rating: toOptionalNumber(row.rating) as FoodRating | undefined,
       moodTags: row.mood_tags || [],
-      notes: row.notes,
-      wouldEatAgain: row.would_eat_again,
-      isFavorite: row.is_favorite,
+      notes: row.notes || undefined,
+      wouldEatAgain: row.would_eat_again ?? undefined,
+      isFavorite: row.is_favorite ?? false,
       tags: row.tags || [],
-      price: row.price ? parseFloat(row.price) : undefined,
-      store: row.store,
-      quality: row.quality,
-      astrologicalContext:
-        typeof row.astrological_context === "string"
-          ? JSON.parse(row.astrological_context)
-          : row.astrological_context,
-      createdAt: new Date(row.created_at),
-      updatedAt: new Date(row.updated_at),
+      price: toOptionalNumber(row.price),
+      store: row.store || undefined,
+      quality: row.quality || undefined,
+      astrologicalContext: parseAstrologicalContext(row.astrological_context),
+      createdAt: toDate(row.created_at),
+      updatedAt: toDate(row.updated_at),
     };
   }
 
@@ -2939,7 +3061,7 @@ class FoodDiaryService {
         }
 
         const result = await db.executeQuery(query, params);
-        return result.rows.map((row: any) => this.rowToFoodDiaryEntry(row));
+        return result.rows.map((row: FoodDiaryEntryRow) => this.rowToFoodDiaryEntry(row));
       } catch (error) {
         _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
@@ -3060,7 +3182,7 @@ class FoodDiaryService {
     return "prepared_foods";
   }
 
-  private mapIngredientRowToQuickFoodPreset(row: any): QuickFoodPreset {
+  private mapIngredientRowToQuickFoodPreset(row: QuickFoodIngredientRow): QuickFoodPreset {
     return {
       id: row.id,
       name: row.common_name || row.name,
@@ -3072,12 +3194,12 @@ class FoodDiaryService {
         description: "100 g serving",
       },
       nutritionPer100g: {
-        calories: row.calories ? Number(row.calories) : undefined,
-        protein: row.protein ? Number(row.protein) : undefined,
-        carbs: row.carbohydrates ? Number(row.carbohydrates) : undefined,
-        fat: row.fat ? Number(row.fat) : undefined,
-        fiber: row.fiber ? Number(row.fiber) : undefined,
-        sugar: row.sugar ? Number(row.sugar) : undefined,
+        calories: toOptionalNumber(row.calories),
+        protein: toOptionalNumber(row.protein),
+        carbs: toOptionalNumber(row.carbohydrates),
+        fat: toOptionalNumber(row.fat),
+        fiber: toOptionalNumber(row.fiber),
+        sugar: toOptionalNumber(row.sugar),
       },
     };
   }
@@ -3109,7 +3231,7 @@ class FoodDiaryService {
         values,
       );
 
-      return result.rows.map((row: any) => this.mapIngredientRowToQuickFoodPreset(row));
+      return result.rows.map((row: QuickFoodIngredientRow) => this.mapIngredientRowToQuickFoodPreset(row));
     } catch (error) {
       _logger.warn("Database quick food lookup failed, using fallback presets", error);
       return [];
@@ -3805,7 +3927,7 @@ class FoodDiaryService {
     for (const entry of entries) {
       for (const [key, value] of Object.entries(entry.nutrition)) {
         if (typeof value === "number" && key in summary.totalNutrition) {
-          (summary.totalNutrition as any)[key] += value;
+          addNutritionValue(summary.totalNutrition, key, value);
         }
       }
 
@@ -3821,7 +3943,7 @@ class FoodDiaryService {
         for (const [element, value] of Object.entries(
           entry.elementalProperties,
         )) {
-          (summary.elementalBalance as any)[element] += value / entries.length;
+          summary.elementalBalance[element] += value / entries.length;
         }
       }
     }
@@ -3882,7 +4004,7 @@ class FoodDiaryService {
     for (const day of dailySummaries) {
       for (const [key, value] of Object.entries(day.totalNutrition)) {
         if (typeof value === "number") {
-          (weeklyTotals as any)[key] += value;
+          addNutritionValue(weeklyTotals, key, value);
         }
       }
     }
@@ -3891,8 +4013,11 @@ class FoodDiaryService {
     if (daysWithEntries > 0) {
       for (const [key, value] of Object.entries(weeklyTotals)) {
         if (typeof value === "number") {
-          (averageDaily as any)[key] =
-            Math.round((value / daysWithEntries) * 10) / 10;
+          setNutritionValue(
+            averageDaily,
+            key,
+            Math.round((value / daysWithEntries) * 10) / 10,
+          );
         }
       }
     }
@@ -3990,7 +4115,7 @@ class FoodDiaryService {
     for (const entry of entries) {
       for (const [key, value] of Object.entries(entry.nutrition)) {
         if (typeof value === "number" && key in total) {
-          (total as any)[key] += value;
+          addNutritionValue(total, key, value);
         }
       }
     }
@@ -3998,7 +4123,7 @@ class FoodDiaryService {
     // Average per day
     if (days > 0) {
       for (const key of Object.keys(total)) {
-        (total as any)[key] = (total as any)[key] / days;
+        setNutritionValue(total, key, (total[key as keyof NutritionalSummary] ?? 0) / days);
       }
     }
 

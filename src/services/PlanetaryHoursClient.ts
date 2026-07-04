@@ -20,15 +20,6 @@ export interface PlanetaryHourResult {
   end?: Date;
 }
 
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _BackendPlanetaryHourPayload {
-  planet: Planet;
-  hourNumber?: number;
-  isDaytime: boolean;
-  start?: string;
-  end?: string;
-}
-
 function _parseBackendResult(data: unknown): PlanetaryHourResult | null {
   if (!data || typeof data !== "object") return null;
   const obj = data as Record<string, unknown>;

@@ -153,6 +153,36 @@ export interface AuthEventCounts {
   byType: Array<{ type: string; status: string; count: number }>;
 }
 
+interface AuthEventCountRow {
+  event_type?: unknown;
+  status?: unknown;
+  count?: unknown;
+}
+
+interface AuthEventRow {
+  id?: unknown;
+  event_type?: unknown;
+  status?: unknown;
+  provider?: unknown;
+  error_code?: unknown;
+  error_message?: unknown;
+  metadata?: unknown;
+  created_at?: unknown;
+}
+
+const toNullableString = (value: unknown): string | null => {
+  if (value == null) return null;
+  return String(value);
+};
+
+const toIsoString = (value: unknown): string => {
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === "string" || typeof value === "number") {
+    return new Date(value).toISOString();
+  }
+  return new Date().toISOString();
+};
+
 /**
  * Aggregate event counts over the last `windowMs` milliseconds.
  * Default window: 24 hours.
@@ -173,7 +203,7 @@ export async function getEventCounts(
            ORDER BY count DESC`,
         [sinceDate],
       );
-      const byType = result.rows.map((r: any) => ({
+      const byType = result.rows.map((r: AuthEventCountRow) => ({
         type: String(r.event_type),
         status: String(r.status),
         count: Number(r.count),
@@ -244,15 +274,15 @@ export async function getUserEvents(
            LIMIT $2`,
         [userId, Math.min(Math.max(limit, 1), 500)],
       );
-      return result.rows.map((r: any) => ({
+      return result.rows.map((r: AuthEventRow) => ({
         id: Number(r.id),
         type: String(r.event_type),
         status: String(r.status),
-        provider: r.provider ?? null,
-        errorCode: r.error_code ?? null,
-        errorMessage: r.error_message ?? null,
+        provider: toNullableString(r.provider),
+        errorCode: toNullableString(r.error_code),
+        errorMessage: toNullableString(r.error_message),
         metadata: (r.metadata ?? {}) as Record<string, unknown>,
-        createdAt: new Date(r.created_at).toISOString(),
+        createdAt: toIsoString(r.created_at),
       }));
     }
   } catch (err) {

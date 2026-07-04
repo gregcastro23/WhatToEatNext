@@ -123,10 +123,6 @@ export function calculateSeasonalScores(
   const currentZodiac =
     zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase();
 
-  // Use the zodiac sign directly with our new SEASONAL_MODIFIERS
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-  const _UNUSED_seasonMultiplier = 1.2; // Fixed multiplier
-
   // Calculate seasonal alignment - direct check with current zodiac
   const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase();
   const seasonalScore = isAlignedWithSeason ? 80 : 50;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // Test utility for cooking method recommendations
 
 import type { AlchemicalItem } from "../calculations/alchemicalTransformation";
@@ -44,20 +43,6 @@ export async function testCookingMethodRecommendations() {
     _dominantPlanets: ["Venus"],
     _planetaryDignities: {},
   } as any;
-
-  // Create mock cooking methods
-  const mockCookingMethods = [
-    { name: "baking", element: "Fire" },
-    { name: "boiling", element: "Water" },
-    { name: "grilling", element: "Fire" },
-    { name: "steaming", element: "Water" },
-    { name: "sauteing", element: "Air" },
-    { name: "roasting", element: "Fire" },
-    { name: "braising", element: "Water" },
-    { name: "poaching", element: "Water" },
-    { name: "frying", element: "Fire" },
-    { name: "fermenting", element: "Earth" },
-  ];
 
   // Run the test
   console.warn("TESTING COOKING METHOD RECOMMENDATIONS");

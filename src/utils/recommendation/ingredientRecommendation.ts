@@ -1,6 +1,6 @@
 import { _logger } from "@/lib/logger";
 import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
-import type { ElementalData, ScoredItem } from "@/types/common";
+import type { ScoredItem } from "@/types/common";
 import type { Element } from "@/types/unified";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import type {
@@ -14,45 +14,6 @@ import type {
   Modality,
   SensoryProfile,
 } from "../../data/ingredients/types";
-
-// Phase 10: Calculation Type Interfaces
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _CalculationData {
-  value: number;
-  weight?: number;
-  score?: number;
-}
-
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _CuisineData {
-  id: string;
-  name: string;
-  zodiacInfluences?: string[];
-  planetaryDignities?: Record<string, unknown>;
-  elementalState?: ElementalData;
-  elementalProperties?: ElementalData;
-  modality?: string;
-  gregsEnergy?: number;
-  [key: string]: unknown;
-}
-
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _NutrientData {
-  nutrient?: { name?: string };
-  nutrientName?: string;
-  name?: string;
-  vitaminCount?: number;
-  data?: unknown;
-  [key: string]: unknown;
-}
-
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
-}
 
 // Phase, 8: Lazy loading imports for performance optimization
 let vegetables: { [key: string]: Record<string, unknown> } = {};

@@ -23,6 +23,17 @@ interface SessionRow {
   current: boolean;
 }
 
+interface DeviceSessionRow {
+  id?: string | null;
+  subdomain?: string | null;
+  device?: string | null;
+  user_agent?: string | null;
+  location_city?: string | null;
+  location_region?: string | null;
+  location_country?: string | null;
+  last_seen_at?: Date | string | null;
+}
+
 function relativeTime(input: Date | string | null | undefined): string {
   if (!input) return "—";
   const ts = typeof input === "string" ? new Date(input) : input;
@@ -123,17 +134,18 @@ export async function GET(request: Request) {
       [user.id],
     );
 
-    const rows: SessionRow[] = result.rows.map((r: any) => {
-      const ua = (r.user_agent || r.device || "Unknown device") as string;
+    const rows: SessionRow[] = result.rows.map((r: DeviceSessionRow) => {
+      const rowId = r.id || "";
+      const ua = r.user_agent || r.device || "Unknown device";
       const locParts = [r.location_city, r.location_region, r.location_country]
         .filter((x: unknown): x is string => typeof x === "string" && x.length > 0);
       return {
-        id: r.id as string,
-        sub: (r.subdomain as string) || "kitchen.alchm.kitchen",
+        id: rowId,
+        sub: r.subdomain || "kitchen.alchm.kitchen",
         device: ua.slice(0, 80),
         loc: locParts.join(", ") || "—",
-        time: relativeTime(r.last_seen_at as string),
-        current: currentJti === r.id,
+        time: relativeTime(r.last_seen_at),
+        current: currentJti === rowId,
       };
     });
 

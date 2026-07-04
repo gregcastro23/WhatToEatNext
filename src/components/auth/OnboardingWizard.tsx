@@ -8,20 +8,6 @@ import { useForm } from "react-hook-form"; // For form management
 import { z } from "zod"; // For validation
 import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
 
-// Assuming these types are defined elsewhere (e.g., src/types/auth.ts, src/types/chart.ts)
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _UserIdentity {
-  email: string;
-  password: string;
-  confirmPassword?: string;
-}
-
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _KitchenPreferences {
-  thermodynamicDefaults: string; // e.g., "neutral", "warming", "cooling"
-  kineticDefaults: string; // e.g., "gentle", "moderate", "intense"
-}
-
 // Zod schemas for validation
 const IdentitySchema = z
   .object({

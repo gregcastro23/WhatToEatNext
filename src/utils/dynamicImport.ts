@@ -76,20 +76,6 @@ interface CuisineCalculationsModule {
   ) => unknown[];
 }
 
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _SunTimesModule {
-  _calculateSunTimes: (
-    date: Date,
-    latitude: number,
-    longitude: number,
-  ) => {
-    _sunrise: Date;
-    _sunset: Date;
-    _solarNoon: Date;
-    _goldenHour: Date;
-  };
-}
-
 interface SolarPositionsModule {
   getSunPosition: (
     date: Date,

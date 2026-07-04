@@ -181,6 +181,20 @@ interface PlanetPoint {
   house?: number;
 }
 
+interface TransitPlanetInput {
+  name?: string;
+  sign?: string;
+  position?: number;
+}
+
+function hasTransitPosition(value: unknown): value is TransitPlanetInput {
+  return (
+    !!value &&
+    typeof value === "object" &&
+    typeof (value as TransitPlanetInput).position === "number"
+  );
+}
+
 function flattenNatalChart(chart: NatalChartInput): PlanetPoint[] {
   const out: PlanetPoint[] = [];
   for (const [planet, position] of Object.entries(chart.planets || {})) {
@@ -556,8 +570,8 @@ export async function getTransitNatalOverlay(
   // Convert the WTEN-side PlanetInfo[] (with absolute `position` lng) to
   // our PlanetPoint shape for symmetric aspect detection.
   const transitPoints: PlanetPoint[] = (transitChart.planets || [])
-    .filter((p: any) => p && typeof p.position === "number")
-    .map((p: any) => {
+    .filter(hasTransitPosition)
+    .map((p) => {
       const sign = normalizeSign(String(p.sign || ""));
       return {
         planet: String(p.name),

@@ -154,11 +154,30 @@ export default [
         "warn",
         {
           selector: "interface",
+          filter: {
+            regex: "^(ingredient|nutritionInfo|recipe)$",
+            match: true,
+          },
+          format: ["camelCase"],
+        },
+        {
+          selector: "interface",
           format: ["PascalCase"],
+          leadingUnderscore: "allow",
+        },
+        {
+          selector: "typeAlias",
+          filter: {
+            regex: "^(_isDaytime|_season|alchemicalProperties)$",
+            match: true,
+          },
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
         },
         {
           selector: "typeAlias",
           format: ["PascalCase"],
+          leadingUnderscore: "allow",
         },
         {
           selector: "enum",

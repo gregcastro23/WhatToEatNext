@@ -59,7 +59,6 @@ export function getCurrentSeason(): Season {
 }
 
 // recipe type (simple type, causing error in AlchemicalRecommendationService.ts)
-                 // eslint-disable-next-line @typescript-eslint/naming-convention
 export interface recipe {
   _id: string;
   _name: string;
