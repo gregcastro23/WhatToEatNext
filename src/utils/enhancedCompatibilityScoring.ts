@@ -96,9 +96,9 @@ function sigmoidCompatibility(
   steepness = 5.0,
 ): number {
   const diff = Math.abs(value1 - value2);
-  // 1 / (1 + e^(steepness * (diff - 0.5)))
-  // Shifted sigmoid centered at diff=0
-  return 1 / (1 + Math.exp(steepness * diff));
+  // Shifted sigmoid centered at diff=0 scaled to [0, 1] range:
+  // f(0) = 1.0, and f(diff) decays to 0.
+  return 2 / (1 + Math.exp(steepness * diff));
 }
 
 /**
@@ -113,13 +113,32 @@ function logarithmicCompatibility(value1: number, value2: number): number {
   return 1 / (1 + Math.log(ratio));
 }
 
+export const FALLBACK_METRICS: Record<string, { mean: number; stdDev: number }> = {
+  heat: { mean: 0.08, stdDev: 0.03 },
+  entropy: { mean: 0.30, stdDev: 0.08 },
+  reactivity: { mean: 10.0, stdDev: 4.0 },
+  kalchm: { mean: 1.0, stdDev: 0.5 },
+  monica: { mean: 1.0, stdDev: 0.5 },
+  power: { mean: 0.08, stdDev: 0.04 },
+  currentFlow: { mean: 0.4, stdDev: 0.2 },
+  charge: { mean: 8.0, stdDev: 3.0 },
+};
+
 /**
  * Projects a raw tightly-compressed metric into a widened 0.1-0.9 distribution
  * targeting extreme bounds, based on its standard deviation Z-Score.
  */
-export function projectZScoreTarget(value: number, metric?: { mean: number; stdDev: number }): number {
-  if (!metric || metric.stdDev === 0) return value;
-  const zScore = (value - metric.mean) / metric.stdDev;
+export function projectZScoreTarget(
+  value: number,
+  metric?: { mean: number; stdDev: number },
+  fallbackKey?: string
+): number {
+  const activeMetric = metric || (fallbackKey ? FALLBACK_METRICS[fallbackKey] : undefined);
+  if (!activeMetric || activeMetric.stdDev === 0) {
+    // If absolutely no metric or fallback, at least clamp to standard [0.1, 0.9] range.
+    return Math.max(0.1, Math.min(0.9, value));
+  }
+  const zScore = (value - activeMetric.mean) / activeMetric.stdDev;
   return Math.max(0.1, Math.min(0.9, 0.5 + (zScore * 0.15)));
 }
 
@@ -140,11 +159,11 @@ export function calculateThermodynamicCompatibility(
   kalchmCompatibility: number;
   monicaCompatibility: number;
 } {
-  const userHeatTarget = projectZScoreTarget(userState.heat, historicalMetrics?.heat);
-  const userEntropyTarget = projectZScoreTarget(userState.entropy, historicalMetrics?.entropy);
-  const userReactivityTarget = projectZScoreTarget(userState.reactivity, historicalMetrics?.reactivity);
-  const userKalchmTarget = userState.kalchm ? projectZScoreTarget(userState.kalchm, historicalMetrics?.kalchm) : undefined;
-  const userMonicaTarget = userState.monica ? projectZScoreTarget(userState.monica, historicalMetrics?.monica) : undefined;
+  const userHeatTarget = projectZScoreTarget(userState.heat, historicalMetrics?.heat, "heat");
+  const userEntropyTarget = projectZScoreTarget(userState.entropy, historicalMetrics?.entropy, "entropy");
+  const userReactivityTarget = projectZScoreTarget(userState.reactivity, historicalMetrics?.reactivity, "reactivity");
+  const userKalchmTarget = userState.kalchm ? projectZScoreTarget(userState.kalchm, historicalMetrics?.kalchm, "kalchm") : undefined;
+  const userMonicaTarget = userState.monica ? projectZScoreTarget(userState.monica, historicalMetrics?.monica, "monica") : undefined;
 
   // Heat compatibility - exponential (sensitive to differences)
   const heatCompatibility = exponentialCompatibility(
@@ -232,9 +251,9 @@ export function calculateKineticCompatibility(
   chargeCompatibility: number;
   momentumCompatibility: number;
 } {
-  const userPowerTarget = projectZScoreTarget(userKinetics.power, historicalMetrics?.power);
-  const userCurrentTarget = projectZScoreTarget(userKinetics.currentFlow, historicalMetrics?.currentFlow);
-  const userChargeTarget = projectZScoreTarget(userKinetics.charge, historicalMetrics?.charge);
+  const userPowerTarget = projectZScoreTarget(userKinetics.power, historicalMetrics?.power, "power");
+  const userCurrentTarget = projectZScoreTarget(userKinetics.currentFlow, historicalMetrics?.currentFlow, "currentFlow");
+  const userChargeTarget = projectZScoreTarget(userKinetics.charge, historicalMetrics?.charge, "charge");
 
   // Power compatibility (P = I × V)
   const powerCompatibility = exponentialCompatibility(

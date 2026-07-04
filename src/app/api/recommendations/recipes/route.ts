@@ -51,9 +51,9 @@ export async function GET(request: Request) {
         const historicalStats = await getCachedHistoricalStats();
         const metrics = historicalStats?.metrics;
 
-        const projectedHeatTarget = projectZScoreTarget(heat, metrics?.heat);
-        const projectedEntropyTarget = projectZScoreTarget(entropy, metrics?.entropy);
-        const projectedReactivityTarget = projectZScoreTarget(reactivity, metrics?.reactivity);
+        const projectedHeatTarget = projectZScoreTarget(heat, metrics?.heat, "heat");
+        const projectedEntropyTarget = projectZScoreTarget(entropy, metrics?.entropy, "entropy");
+        const projectedReactivityTarget = projectZScoreTarget(reactivity, metrics?.reactivity, "reactivity");
 
         const scoredRecipes = matchingRecipes.map(recipe => {
             const rAsAny = recipe as any;

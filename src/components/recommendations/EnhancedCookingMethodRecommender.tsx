@@ -549,9 +549,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const kProfile = getKineticProfile(id, (method as any).kineticProfile);
       const referenceProfile = METHOD_PHYSICAL_REFERENCE[id];
 
-      const projHeat = currentMoment ? projectZScoreTarget(currentMoment.heat ?? 0.5, currentMoment.historicalContext?.metrics?.heat) : null;
-      const projEntropy = currentMoment ? projectZScoreTarget(currentMoment.entropy ?? 0.5, currentMoment.historicalContext?.metrics?.entropy) : null;
-      const projReactivity = currentMoment ? projectZScoreTarget(currentMoment.reactivity ?? 0.5, currentMoment.historicalContext?.metrics?.reactivity) : null;
+      const projHeat = currentMoment ? projectZScoreTarget(currentMoment.heat ?? 0.5, currentMoment.historicalContext?.metrics?.heat, "heat") : null;
+      const projEntropy = currentMoment ? projectZScoreTarget(currentMoment.entropy ?? 0.5, currentMoment.historicalContext?.metrics?.entropy, "entropy") : null;
+      const projReactivity = currentMoment ? projectZScoreTarget(currentMoment.reactivity ?? 0.5, currentMoment.historicalContext?.metrics?.reactivity, "reactivity") : null;
 
       const thermoAlignmentScore = projHeat !== null
         ? Math.max(
