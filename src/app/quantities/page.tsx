@@ -15,7 +15,6 @@ import {
   FaCoins,
 } from "react-icons/fa";
 import AlchmKinetics from "@/components/alchm-kinetics";
-import { QuestPanel } from "@/components/economy/QuestPanel";
 import { TokenRainParticles } from "@/components/economy/TokenRainParticles";
 import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
 import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
@@ -146,7 +145,7 @@ const TOKEN_CONFIG = [
 
 // ─── Tab Definition ───────────────────────────────────────────────────────────
 
-type Tab = "economy" | "kinetics" | "aspects" | "trends" | "statistics" | "quests" | "zodiac" | "agents";
+type Tab = "economy" | "kinetics" | "aspects" | "trends" | "statistics" | "zodiac" | "agents";
 
 const VALID_TABS: Set<Tab> = new Set([
   "economy",
@@ -154,7 +153,6 @@ const VALID_TABS: Set<Tab> = new Set([
   "aspects",
   "trends",
   "statistics",
-  "quests",
   "zodiac",
   "agents",
 ]);
@@ -167,7 +165,6 @@ const TABS: Array<{ id: Tab; label: string; icon: string }> = [
   { id: "agents", label: "Agents", icon: "👥" },
   { id: "trends", label: "Trends", icon: "📈" },
   { id: "statistics", label: "Statistics", icon: "📊" },
-  { id: "quests", label: "Quests", icon: "🎯" },
 ];
 
 // ─── Spinner ──────────────────────────────────────────────────────────────────
@@ -1220,9 +1217,6 @@ function QuantitiesPageContent() {
               </div>
             )}
 
-            {activeTab === "quests" && (
-              <QuestPanel className="w-full" />
-            )}
           </motion.div>
         </AnimatePresence>
 

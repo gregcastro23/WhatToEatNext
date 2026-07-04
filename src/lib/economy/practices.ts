@@ -38,6 +38,8 @@ export interface PracticeDefinition {
   requiresTarget: boolean;
   /** Causal lines for the delight toast — rotated deterministically. */
   hints: string[];
+  /** In-world description shown in the grimoire. */
+  description: string;
 }
 
 export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
@@ -54,6 +56,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "A dish cooked is a spell completed",
       "The kitchen is the true athanor",
     ],
+    description:
+      "Cook a dish and mark it made — the deepest transmutation, recipe into Matter.",
   },
   photo_added: {
     type: "photo_added",
@@ -66,6 +70,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "Proof of the Work, sealed in light",
       "The plate, witnessed",
     ],
+    description:
+      "Seal proof of a finished Work in light; the plate, witnessed.",
   },
   recommendation_acted: {
     type: "recommendation_acted",
@@ -79,6 +85,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "The stars suggested; you listened",
       "Alignment tastes better when acted on",
     ],
+    description:
+      "Follow the day's alignment into a cuisine, recipe, or table — Essence flows to those who act on the sky's suggestion.",
   },
   feed_visit: {
     type: "feed_visit",
@@ -91,6 +99,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "You joined the commons under today's sky",
       "Spirit gathers where alchemists meet",
     ],
+    description:
+      "Walk the commons where alchemists gather beneath a shared sky.",
   },
   feed_reaction: {
     type: "feed_reaction",
@@ -103,6 +113,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "A spark passed between charts",
       "Recognition is its own small ritual",
     ],
+    description:
+      "Recognize the work of another practitioner — a spark passed between charts.",
   },
   chat_joined: {
     type: "chat_joined",
@@ -115,6 +127,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "You took a seat beneath the transit",
       "The table under this sky welcomes you",
     ],
+    description:
+      "Take a seat at a transit table when the sky calls your chart to it.",
   },
   surface_discovered: {
     type: "surface_discovered",
@@ -128,6 +142,8 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
       "Substance rewards the explorer",
       "The map grows as you walk it",
     ],
+    description:
+      "Cross the threshold of a chamber of the kitchen you have never entered.",
   },
 };
 
@@ -166,6 +182,7 @@ export const DISCOVERABLE_SURFACES = new Set([
   "commensal",
   "pantry",
   "birth-chart",
+  "grimoire",
 ]);
 
 /** Deterministic hint rotation — stable per (user, day) so retries repeat the line. */

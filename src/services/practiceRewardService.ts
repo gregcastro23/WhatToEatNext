@@ -14,6 +14,7 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { getCelestialRewardContext, type CelestialRewardContext } from "@/lib/economy/celestial";
 import {
   DISCOVERABLE_SURFACES,
   PRACTICES,
@@ -50,9 +51,14 @@ function dedupeKeyFor(def: PracticeDefinition, target: string | null): string {
   return def.dedupe === "daily" ? `${base}:${todayKey()}` : base;
 }
 
-/** Flat PR1 rate. PR2 replaces this with sky × chart modulation + budget. */
-function computeReward(def: PracticeDefinition): number {
-  return def.baseAmount;
+/**
+ * Sky × chart modulation: the same act pays more when the user's natal
+ * weights resonate with today's transits (see lib/economy/celestial.ts).
+ */
+function computeReward(def: PracticeDefinition, ctx: CelestialRewardContext): number {
+  const coin = def.tokenType.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
+  const modulated = def.baseAmount * ctx.perCoinReward[coin];
+  return Math.round(modulated * 100) / 100;
 }
 
 export const practiceRewardService = {
@@ -69,22 +75,30 @@ export const practiceRewardService = {
     const dedupeKey = dedupeKeyFor(def, target);
     const day = todayKey();
     const hint = pickHint(def, userId, day);
+    const ctx = await getCelestialRewardContext(userId);
 
     try {
       // One statement decides everything: the insert only lands if this act is
       // new (unique dedupe), and the amount is zero when today's rewarded rows
-      // already reached the cap — no separate read races the write.
+      // already reached the per-type cap OR the day's celestial budget is
+      // spent — no separate read races the write. The budget check is
+      // strictly-before ($10), so the final grant may overshoot by at most one
+      // reward — accepted, documented in-world as the sky's generosity.
       const res = await executeQuery<{ amount: string }>(
         `WITH todays AS (
-           SELECT COUNT(*) AS rewarded_today
+           SELECT
+             COUNT(*) FILTER (WHERE practice_type = $2 AND amount > 0) AS rewarded_today,
+             COALESCE(SUM(amount), 0) AS spent_today
            FROM practice_events
-           WHERE user_id = $1 AND practice_type = $2
-             AND amount > 0 AND created_at >= $6::date
+           WHERE user_id = $1 AND created_at >= $6::date
          ),
          ins AS (
            INSERT INTO practice_events (user_id, practice_type, dedupe_key, target_id, token_type, amount, hint)
            SELECT $1, $2, $3, $4, $5,
-                  CASE WHEN t.rewarded_today < $7 THEN $8::decimal ELSE 0 END,
+                  CASE
+                    WHEN t.rewarded_today < $7 AND t.spent_today < $10 THEN $8::decimal
+                    ELSE 0
+                  END,
                   $9
            FROM todays t
            ON CONFLICT ON CONSTRAINT uniq_practice_dedupe DO NOTHING
@@ -99,8 +113,9 @@ export const practiceRewardService = {
           def.tokenType,
           day,
           def.dailyCap,
-          computeReward(def),
+          computeReward(def, ctx),
           hint,
+          ctx.dailyBudget,
         ],
       );
 
@@ -126,10 +141,37 @@ export const practiceRewardService = {
         },
       );
 
+      // Credit failed (DB blip) after the practice row landed: zero the row so
+      // the celestial budget isn't charged for tokens that never credited, and
+      // stay silent — never toast a reward that didn't happen.
+      if (!balances) {
+        await executeQuery(
+          `UPDATE practice_events SET amount = 0
+           WHERE user_id = $1 AND practice_type = $2 AND dedupe_key = $3`,
+          [userId, def.type, dedupeKey],
+        ).catch(() => {});
+        return { rewarded: false, reason: "error" };
+      }
+
       return { rewarded: true, tokenType: def.tokenType, amount, hint, balances };
     } catch (err) {
       console.error("[practiceRewardService] recognize failed:", err);
       return { rewarded: false, reason: "error" };
+    }
+  },
+
+  /** Tokens already drawn from today's celestial allowance (all practice types). */
+  async todaysSpend(userId: string): Promise<number> {
+    try {
+      const res = await executeQuery<{ spent: string }>(
+        `SELECT COALESCE(SUM(amount), 0) AS spent
+         FROM practice_events
+         WHERE user_id = $1 AND created_at >= $2::date`,
+        [userId, todayKey()],
+      );
+      return parseFloat(res.rows[0]?.spent ?? "0") || 0;
+    } catch {
+      return 0;
     }
   },
 

@@ -5,4 +5,3 @@
  */
 
 export { TokenBalanceBar } from './TokenBalanceBar';
-export { QuestPanel } from './QuestPanel';

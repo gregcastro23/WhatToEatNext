@@ -215,7 +215,7 @@ function MenuPlannerContent() {
         let questMessage = "";
         if (data.completedQuests && data.completedQuests.length > 0) {
           const rewardQuest = data.completedQuests[0];
-          questMessage = ` 🏆 Quest completed! Earned ${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType}!`;
+          questMessage = ` ✨ +${rewardQuest.tokenRewardAmount} ${rewardQuest.tokenRewardType} — the Work notices.`;
         }
         // Dual-write to the live feed so connected clients see the share
         // instantly (Postgres via /api/feed/share stays the source of truth).

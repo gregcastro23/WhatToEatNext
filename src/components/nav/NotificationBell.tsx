@@ -112,7 +112,7 @@ export default function NotificationBell() {
                       }
                       if (n.type === 'quest_completed') {
                         setOpen(false);
-                        router.push('/profile?tab=quests');
+                        router.push('/grimoire');
                       } else {
                         setOpen(false);
                         router.push('/profile');

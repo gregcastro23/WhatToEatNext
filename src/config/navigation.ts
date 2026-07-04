@@ -104,6 +104,7 @@ export const NAV_IA: NavIA = {
     routes: [
       { label: "Recommendation Engine", path: "/lab", glyph: "orbital", hint: "Live signal flow · weights · overrides" },
       { label: "Lab Book", path: "/lab-book", glyph: "bookmark", hint: "Scan or paste recipes into your cookbook" },
+      { label: "Grimoire", path: "/grimoire", glyph: "bookmark", hint: "The practices · today's resonance · your feats" },
       { label: "Planetary Chart", path: "/planetary-chart", glyph: "ring", hint: "Current transit · zoomable", premium: true },
       { label: "Current Chart", path: "/current-chart", glyph: "wave", hint: "Live sky × your natal" },
       { label: "Alchm Quantities", path: "/quantities", glyph: "crosshair", hint: "ESMS · Monica constants · P=IV" },
@@ -123,6 +124,7 @@ export function activePrimaryFromPathname(pathname: string | null | undefined): 
   // Lab cluster
   if (
     pathname.startsWith("/lab") ||
+    pathname.startsWith("/grimoire") ||
     pathname.startsWith("/planetary-chart") ||
     pathname.startsWith("/birth-chart") ||
     pathname.startsWith("/current-chart") ||
