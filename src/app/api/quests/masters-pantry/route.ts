@@ -63,10 +63,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Invalid data" }, { status: 400 });
     }
 
+    // Anti-farm guards: one reward per ingredient per day (idempotency key) and
+    // a hard daily ceiling — previously this credited 2 Matter per POST at the
+    // 60/min rate limit with no dedupe, i.e. ~120 Matter/min for a curl loop.
+    const today = new Date().toISOString().slice(0, 10);
+    const DAILY_VERIFICATION_CAP = 5;
+    const capRes = await executeQuery(
+      `SELECT COUNT(*)::int AS n FROM token_transactions
+       WHERE user_id = $1 AND source_type = 'quest_reward' AND source_id = 'masters-pantry'
+         AND created_at >= $2::date`,
+      [user.id, today],
+    ).catch(() => ({ rows: [{ n: 0 }] }));
+    if ((capRes.rows[0]?.n ?? 0) >= DAILY_VERIFICATION_CAP) {
+      return NextResponse.json(
+        { success: false, error: "The Master's Pantry is closed for today — return tomorrow.", code: "daily_cap" },
+        { status: 429 },
+      );
+    }
+
     // Award Matter (🝙) tokens
-    // Let's assume the user successfully verified it
-    await tokenEconomy.creditTokens(user.id, "Matter", 2, "quest_reward", { description: "The Master's Pantry - Verification" });
-    
+    const credited = await tokenEconomy.creditTokens(user.id, "Matter", 2, "quest_reward", {
+      sourceId: "masters-pantry",
+      description: "The Master's Pantry - Verification",
+      idempotencyKey: `masters_pantry:${user.id}:${String(ingredientId)}:${today}`,
+    });
+    if (!credited) {
+      return NextResponse.json({ success: false, error: "Verification could not be recorded" }, { status: 500 });
+    }
+
     // Also report the event for the quest system
     await questService.reportEvent(user.id, "masters_pantry_verified");
 

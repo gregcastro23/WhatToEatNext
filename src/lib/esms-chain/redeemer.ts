@@ -46,8 +46,8 @@ export function toOnchainAmounts(a: EsmsAmounts): bigint[] {
 /** True when a backend settlement (BURNER) wallet is configured for sponsored burns. */
 export function redeemerConfigured(): boolean {
   return Boolean(
-    process.env.PRIVY_REDEEMER_WALLET_ID ||
-    process.env.PRIVY_MINTER_WALLET_ID ||
+    ((process.env.PRIVY_REDEEMER_WALLET_ID || process.env.PRIVY_MINTER_WALLET_ID) &&
+      getPrivyClient()) ||
     process.env.REDEEMER_PRIVATE_KEY ||
     process.env.MINTER_PRIVATE_KEY
   )
@@ -77,9 +77,11 @@ export async function redeemEsmsFor(params: {
 
   // Preferred: Privy server wallet (no raw key, gas-sponsorable). Reuse the
   // minter wallet id when a single backend wallet holds both MINTER and BURNER.
+  // getPrivyClient() is null when PRIVY_APP_SECRET is unset — fall through to
+  // the raw-key signer instead of crashing on the null client.
   const walletId = process.env.PRIVY_REDEEMER_WALLET_ID || process.env.PRIVY_MINTER_WALLET_ID
-  if (walletId) {
-    const privy = getPrivyClient()
+  const privy = walletId ? getPrivyClient() : null
+  if (walletId && privy) {
     const res = (await (privy as any).walletApi.ethereum.sendTransaction({
       walletId,
       caip2: esmsCaip2(),

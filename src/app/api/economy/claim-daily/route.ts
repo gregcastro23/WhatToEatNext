@@ -86,10 +86,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const milestoneNote = yieldResult.milestoneBonus
+      ? ` 🔥 ${yieldResult.milestoneBonus.days}-day streak milestone: +${yieldResult.milestoneBonus.totalTokens} bonus tokens!`
+      : "";
     const response: ClaimDailyResponse = {
       success: true,
       yield: yieldResult,
-      message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.`,
+      message: `✨ Cosmic Yield collected! +${yieldResult.totalTokens.toFixed(1)} tokens across Spirit, Essence, Matter & Substance.${milestoneNote}`,
     };
 
     // Record the action in the community feed

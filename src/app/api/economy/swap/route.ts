@@ -121,12 +121,40 @@ export async function POST(request: NextRequest) {
       { description: creditDescription, transactionGroupId: groupId },
     );
 
+    if (!newBalances) {
+      // The debit committed but the credit didn't — refund the spent coins so
+      // the swap is all-or-nothing instead of silently destroying tokens.
+      const refunded = await tokenEconomy.creditTokens(
+        userId,
+        fromToken,
+        costAmount,
+        "transmutation",
+        {
+          description: `Refund — swap credit failed (${debitDescription})`,
+          transactionGroupId: groupId,
+          idempotencyKey: `swap_refund:${groupId}`,
+        },
+      );
+      if (!refunded) {
+        console.error("[POST /api/economy/swap] credit AND refund failed — tokens need manual reconcile:", {
+          userId,
+          groupId,
+          fromToken,
+          costAmount,
+        });
+      }
+      return NextResponse.json(
+        { success: false, message: "Swap failed — your coins were returned. Try again.", refunded: !!refunded },
+        { status: 500 },
+      );
+    }
+
     return NextResponse.json({
       success: true,
       result: {
         spent: { tokenType: fromToken, amount: costAmount },
         received: { tokenType: toToken, amount },
-        newBalances: newBalances || afterDebit,
+        newBalances,
       },
       rate: rateEntry,
       planetaryContext: {

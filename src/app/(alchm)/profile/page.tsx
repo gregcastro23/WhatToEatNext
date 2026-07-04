@@ -271,16 +271,30 @@ function PremiumDashboard({
                     <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">
                       Full Token Economy
                     </h2>
-                    <Link
-                      href="/quantities"
-                      className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors"
-                    >
-                      Open Ledger →
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link
+                        href="/shop"
+                        className="text-[10px] font-black text-cyan-400 hover:text-cyan-300 uppercase tracking-[0.3em] transition-colors"
+                      >
+                        Visit Bazaar →
+                      </Link>
+                      <Link
+                        href="/account"
+                        className="text-[10px] font-black text-emerald-400 hover:text-emerald-300 uppercase tracking-[0.3em] transition-colors"
+                      >
+                        Wallet Vault →
+                      </Link>
+                      <Link
+                        href="/quantities"
+                        className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors"
+                      >
+                        Open Ledger →
+                      </Link>
+                    </div>
                   </div>
                   <p className="text-white/20 text-xs mb-6">
-                    Your Spirit 🝇, Essence 🝑, Matter 🝙, and Substance 🝉 token balances. 
-                    As a Premium Premium you earn 2× daily yields.
+                    Your Spirit 🝇, Essence 🝑, Matter 🝙, and Substance 🝉 token balances.
+                    As a Premium member you earn 2× daily yields.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
@@ -624,7 +638,7 @@ function FreeDashboard({
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-amber-400 text-lg">✦</span>
                           <h3 className="text-lg font-black text-white tracking-tight">
-                            Ascend to Premium Premium
+                            Ascend to Premium
                           </h3>
                         </div>
                         <p className="text-white/40 text-sm max-w-lg leading-relaxed">

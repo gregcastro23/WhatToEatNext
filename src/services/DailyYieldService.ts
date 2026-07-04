@@ -21,6 +21,7 @@ import {
   PREMIUM_YIELD_MULTIPLIER,
   TRANSIT_BONUS_SCALE,
   getHoldingsMultiplier,
+  getStreakMilestone,
   getStreakMultiplier,
 } from "@/types/economy";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
@@ -342,6 +343,33 @@ class DailyYieldService {
     const updatedStreak = await streakService.getStreak(userId);
     await reportQuestEventBestEffort(userId, "maintain_streak");
 
+    // 9. Streak milestone bonus — fires the day the streak hits a milestone.
+    // Day-scoped idempotency: a rebuilt streak re-earns the milestone later,
+    // but a retry/race today can never double-credit.
+    let milestoneBonus: { days: number; totalTokens: number } | undefined;
+    const milestone = getStreakMilestone(updatedStreak.currentStreak);
+    if (milestone) {
+      const perToken = Math.round((milestone.totalTokens / 4) * 100) / 100;
+      const bonusBalances = await tokenEconomy.creditMultipleTokens(
+        userId,
+        [
+          { tokenType: "Spirit", amount: perToken },
+          { tokenType: "Essence", amount: perToken },
+          { tokenType: "Matter", amount: perToken },
+          { tokenType: "Substance", amount: perToken },
+        ],
+        "streak_bonus",
+        {
+          sourceId: `milestone-${milestone.days}`,
+          description: `🔥 ${milestone.days}-day streak milestone bonus`,
+          idempotencyKey: `streak_bonus:${userId}:m${milestone.days}:${todayStr}`,
+        },
+      );
+      if (bonusBalances) {
+        milestoneBonus = milestone;
+      }
+    }
+
     return {
       baseTokens: BASE_DAILY_TOKENS,
       streakMultiplier,
@@ -351,6 +379,7 @@ class DailyYieldService {
       transitBonus,
       newBalances,
       streakCount: updatedStreak.currentStreak,
+      milestoneBonus,
     };
   }
 }

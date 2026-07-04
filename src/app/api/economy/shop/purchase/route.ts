@@ -17,6 +17,8 @@ import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { Address, Hex } from 'viem'
 
 export const dynamic = 'force-dynamic'
+// The sponsored burn now waits for its receipt before granting.
+export const maxDuration = 60
 
 const TX_PATTERN = /^0x[0-9a-f]{64}$/i
 
@@ -165,6 +167,17 @@ export async function POST(request: Request) {
 
   try {
     const burnTx = await redeemEsmsFor({ from: wallet, orderId, amounts, deadline: BigInt(String(body.deadline)), sig })
+    // Never grant on an unverified send: wait for the receipt and require the
+    // {Redeemed} event for this exact orderId. A reverted burn (insufficient
+    // balance, expired deadline) must not unlock the item — and a receipt
+    // timeout is safe to retry because redeemedOrders reconciles at the top.
+    const burned = await verifyRedeem({ txHash: burnTx, orderId, from: wallet })
+    if (!burned) {
+      return NextResponse.json(
+        { error: 'The on-chain ESMS burn did not confirm — nothing was granted.', code: 'burn_unconfirmed', retryable: true, txHash: burnTx },
+        { status: 502 }
+      )
+    }
     await grantPurchase();
     return NextResponse.json({ ok: true, itemId: shopItemSlug, orderId, txHash: burnTx })
   } catch (err) {

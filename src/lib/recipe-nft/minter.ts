@@ -21,6 +21,7 @@ import {
   recipeNftChain,
   recipeNftEnabled,
   recipeNftPublicClient,
+  recipeNftRpcUrl,
   recipeRegistryAbi,
   recipeRegistryAddress,
   rightsRegistryAbi,
@@ -84,7 +85,10 @@ export async function mintRecipeOnChain(input: MintOnChainInput): Promise<MintOn
       args: [rightsId],
     }));
 
-    const walletClient = createWalletClient({ account, chain, transport: http() });
+    // Route writes through the configured RPC (falls back to the chain's
+    // default public RPC when unset) — previously http() ignored
+    // BASE_RPC_URL/BASE_SEPOLIA_RPC_URL for the mint tx.
+    const walletClient = createWalletClient({ account, chain, transport: http(recipeNftRpcUrl()) });
 
     const txHash = await walletClient.writeContract({
       address: registry,
