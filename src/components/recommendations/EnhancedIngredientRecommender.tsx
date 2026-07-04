@@ -104,6 +104,23 @@ const CATEGORIES = [
     ],
   },
   {
+    id: "vegetables",
+    name: "Vegetables",
+    icon: "🥬",
+    altIds: [
+      "vegetable",
+      "leafy_greens",
+      "leafy greens",
+      "leafy green",
+      "root vegetable",
+      "root vegetables",
+      "nightshade",
+      "squash",
+      "allium",
+      "cruciferous",
+    ],
+  },
+  {
     id: "grains",
     name: "Grains",
     icon: "🌾",
@@ -897,6 +914,17 @@ export const EnhancedIngredientRecommender: React.FC<
     onCategoryChange?.(categoryId);
   };
 
+  const handleClearCategory = () => {
+    setSelectedCategory(null);
+    setSelectedIngredient(null);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategory(null);
+    setSelectedIngredient(null);
+    setSearchQuery("");
+  };
+
   const handleIngredientSelect = (ingredientName: string) => {
     setSelectedIngredient(
       selectedIngredient === ingredientName ? null : ingredientName,
@@ -946,6 +974,16 @@ export const EnhancedIngredientRecommender: React.FC<
     !currentCategoryExpanded && !searchQuery
       ? Math.max(0, scoredIngredients.length - pageSize)
       : 0;
+  const selectedCategoryName = selectedCategory
+    ? CATEGORIES.find((c) => c.id === selectedCategory)?.name
+    : null;
+  const compactResultLabel = searchQuery
+    ? `Showing ${displayedIngredients.length} search match${
+        displayedIngredients.length !== 1 ? "es" : ""
+      }${selectedCategoryName ? ` in ${selectedCategoryName}` : ""}`
+    : selectedCategoryName
+      ? `Best ${selectedCategoryName.toLowerCase()} right now`
+      : "Best matches right now";
 
   // Render category grid
   const renderCategoryGrid = () => (
@@ -995,6 +1033,57 @@ export const EnhancedIngredientRecommender: React.FC<
         placeholder="Search ingredients..."
         className="w-full rounded-lg border border-white/10 bg-black/25 px-10 py-2.5 text-white placeholder-slate-500 outline-none transition focus:border-amber-300/40 focus:ring-2 focus:ring-amber-300/20"
       />
+    </div>
+  );
+
+  const renderCompactCategorySelector = () => (
+    <div className="mb-4">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <div className="t-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
+          Ingredient categories
+        </div>
+        {selectedCategoryName && (
+          <button
+            type="button"
+            onClick={handleClearCategory}
+            className="text-xs font-semibold text-amber-200 transition-colors hover:text-amber-100"
+          >
+            Clear filter
+          </button>
+        )}
+      </div>
+
+      <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+        <button
+          type="button"
+          aria-pressed={!selectedCategory}
+          onClick={handleClearCategory}
+          className={`shrink-0 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
+            !selectedCategory
+              ? "border-amber-300/45 bg-amber-500/15 text-amber-100"
+              : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-white/25 hover:bg-white/[0.07]"
+          }`}
+        >
+          All
+        </button>
+
+        {CATEGORIES.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            aria-pressed={selectedCategory === category.id}
+            onClick={() => handleCategorySelect(category.id)}
+            className={`inline-flex shrink-0 items-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
+              selectedCategory === category.id
+                ? "border-amber-300/45 bg-amber-500/15 text-amber-100"
+                : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-white/25 hover:bg-white/[0.07]"
+            }`}
+          >
+            <span aria-hidden="true">{category.icon}</span>
+            <span>{category.name}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 
@@ -2488,6 +2577,8 @@ export const EnhancedIngredientRecommender: React.FC<
       )}
       {!compact && renderCategoryGrid()}
       {!compact && renderSearchBar()}
+      {compact && renderSearchBar()}
+      {compact && renderCompactCategorySelector()}
 
       {/* Selected category indicator */}
       {!compact && selectedCategory && (
@@ -2497,10 +2588,7 @@ export const EnhancedIngredientRecommender: React.FC<
             {CATEGORIES.find((c) => c.id === selectedCategory)?.name}
           </span>
           <button
-            onClick={() => {
-              setSelectedCategory(null);
-              setSearchQuery("");
-            }}
+            onClick={handleClearFilters}
             className="text-sm font-medium text-amber-200 hover:text-amber-100"
           >
             Clear filters
@@ -2510,9 +2598,7 @@ export const EnhancedIngredientRecommender: React.FC<
 
       {/* Results count */}
       <div className="mb-4 text-sm text-slate-300">
-        {compact
-          ? "Best matches right now"
-          : `Showing ${displayedIngredients.length}`}
+        {compact ? compactResultLabel : `Showing ${displayedIngredients.length}`}
         {!compact && remainingCount > 0
           ? ` of ${scoredIngredients.length}`
           : ""}
