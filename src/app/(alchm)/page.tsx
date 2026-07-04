@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FeaturedRecipe } from "@/components/home/FeaturedRecipe";
 import { Promotion } from "@/components/home/Promotion";
 import type { JSX } from "react";
 
@@ -377,7 +378,7 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         <HomeHero />
 
-        {/* Featured Recipe of the Month + NFT mint mechanic — leads the page. */}
+        {/* Welcome Grant & Token Economy Promo */}
         <Promotion />
 
         {/* Natal chart soft-prompt banner (shown after skip) */}
@@ -393,6 +394,14 @@ export default function AlchmKitchenHome(): JSX.Element {
             selectedCuisine={selectedCuisine}
             onSelectCuisine={(c) => setSelectedCuisine(c === selectedCuisine ? null : c)}
           />
+        </HomeSection>
+
+        {/* FEATURED BLOCKCHAIN RECIPE SHOWCASE */}
+        <HomeSection
+          tag="LEDGER · BLOCKCHAIN SHOWCASE"
+          title="Featured Recipe of the Month"
+        >
+          <FeaturedRecipe />
         </HomeSection>
 
         {/* 2 · INGREDIENT RECOMMENDER */}
