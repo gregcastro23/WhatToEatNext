@@ -241,7 +241,7 @@ function generateCuisineReasons(
  */
 function getSuggestedDishes(
   cuisine: string,
-  elementals: ElementalProperties,
+  _elementals: ElementalProperties,
 ): string[] {
   const dishes: Record<string, string[]> = {
     Mexican: ["Tacos al pastor", "Mole poblano", "Ceviche", "Pozole"],
@@ -260,15 +260,6 @@ function getSuggestedDishes(
     "Traditional dishes",
     "Regional specialties",
   ];
-
-  // Filter based on dominant element
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-  const _UNUSED_dominantElement = Object.entries(elementals).reduce((a, b) =>
-    elementals[a[0] as keyof ElementalProperties] >
-    elementals[b[0] as keyof ElementalProperties]
-      ? a
-      : b,
-  )[0];
 
   // Return dishes that align with dominant element
   return cuisineDishes.slice(0, 3);

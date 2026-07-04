@@ -38,21 +38,6 @@ let reliablePositionsCache: StateCache<
 > | null = null;
 const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
-// Interface for transit date
-interface TransitDate {
-  _Start: string;
-  _End: string;
-}
-
-// Interface for planet data with transits
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-interface _UNUSED_PlanetDataWithTransits {
-  PlanetSpecific?: {
-    ZodiacTransit?: { [key: string]: unknown };
-    TransitDates?: { [key: string]: TransitDate };
-  };
-}
-
 /**
  * Get reliable planetary positions with fallback
  * @returns Record of planetary positions

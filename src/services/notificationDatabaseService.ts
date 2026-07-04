@@ -6,7 +6,11 @@
  */
 
 import { _logger } from "@/lib/logger";
-import type { NotificationType, UserNotification } from "@/types/notification";
+import type {
+  NotificationMetadata,
+  NotificationType,
+  UserNotification,
+} from "@/types/notification";
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;
@@ -27,7 +31,36 @@ const getDbModule = async () => {
 // ─── In-memory fallback ─────────────────────────────────
 const notificationsStore: Map<string, UserNotification> = new Map();
 
-function rowToNotification(row: any): UserNotification {
+interface NotificationRow {
+  id: string;
+  user_id: string;
+  type: NotificationType;
+  title: string;
+  message: string;
+  is_read: boolean;
+  related_user_id?: string | null;
+  related_user_name?: string | null;
+  metadata?: string | NotificationMetadata | null;
+  created_at?: Date | string | null;
+  expires_at?: Date | string | null;
+}
+
+const toIsoString = (value: Date | string | null | undefined): string =>
+  value instanceof Date ? value.toISOString() : value || new Date().toISOString();
+
+const toOptionalIsoString = (
+  value: Date | string | null | undefined,
+): string | undefined =>
+  value instanceof Date ? value.toISOString() : value || undefined;
+
+const parseNotificationMetadata = (
+  value: NotificationRow["metadata"],
+): NotificationMetadata => {
+  if (typeof value === "string") return JSON.parse(value) as NotificationMetadata;
+  return value || {};
+};
+
+function rowToNotification(row: NotificationRow): UserNotification {
   return {
     id: row.id,
     userId: row.user_id,
@@ -37,9 +70,9 @@ function rowToNotification(row: any): UserNotification {
     isRead: row.is_read,
     relatedUserId: row.related_user_id || undefined,
     relatedUserName: row.related_user_name || undefined,
-    metadata: typeof row.metadata === "string" ? JSON.parse(row.metadata) : (row.metadata || {}),
-    createdAt: row.created_at?.toISOString?.() || row.created_at,
-    expiresAt: row.expires_at?.toISOString?.() || row.expires_at || undefined,
+    metadata: parseNotificationMetadata(row.metadata),
+    createdAt: toIsoString(row.created_at),
+    expiresAt: toOptionalIsoString(row.expires_at),
   };
 }
 

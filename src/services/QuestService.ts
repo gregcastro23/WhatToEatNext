@@ -92,19 +92,44 @@ export interface QuestEventMetadata {
 
 // ─── Row Converters ───────────────────────────────────────────────────
 
-function rowToQuestDef(row: any): QuestDefinition {
+interface QuestDefinitionRow {
+  id?: unknown;
+  slug?: unknown;
+  title?: unknown;
+  description?: unknown;
+  quest_type?: unknown;
+  token_reward_type?: unknown;
+  token_reward_amount?: unknown;
+  trigger_event?: unknown;
+  trigger_threshold?: unknown;
+  is_active?: unknown;
+  sort_order?: unknown;
+}
+
+const toNumber = (value: unknown, fallback = 0): number => {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseFloat(value)
+        : Number.NaN;
+
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+function rowToQuestDef(row: QuestDefinitionRow): QuestDefinition {
   return {
-    id: row.id,
-    slug: row.slug,
-    title: row.title,
-    description: row.description || null,
-    questType: row.quest_type,
-    tokenRewardType: row.token_reward_type,
-    tokenRewardAmount: parseFloat(row.token_reward_amount),
-    triggerEvent: row.trigger_event,
-    triggerThreshold: row.trigger_threshold || 1,
+    id: String(row.id ?? ""),
+    slug: String(row.slug ?? ""),
+    title: String(row.title ?? ""),
+    description: row.description == null ? null : String(row.description),
+    questType: row.quest_type as QuestDefinition["questType"],
+    tokenRewardType: row.token_reward_type as TokenType | "all",
+    tokenRewardAmount: toNumber(row.token_reward_amount),
+    triggerEvent: String(row.trigger_event ?? ""),
+    triggerThreshold: toNumber(row.trigger_threshold, 1),
     isActive: row.is_active !== false,
-    sortOrder: row.sort_order ?? 0,
+    sortOrder: toNumber(row.sort_order),
   };
 }
 

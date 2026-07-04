@@ -34,6 +34,33 @@ const getDbModule = async () => {
   return dbModule;
 };
 
+interface UserWithProfileRow {
+  id: string;
+  email: string;
+  password_hash: string;
+  role?: string | null;
+  is_active: boolean;
+  is_agent?: boolean | null;
+  privy_did?: string | null;
+  wallet_address?: string | null;
+  created_at: Date | string;
+  last_login_at?: Date | string | null;
+  profile_name?: string | null;
+  name?: string | null;
+  birth_data?: string | UserProfile["birthData"] | null;
+  natal_chart?: string | UserProfile["natalChart"] | null;
+  dietary_preferences?: string | Record<string, unknown> | null;
+  preferences?: string | Record<string, unknown> | null;
+  group_members?: string | UserProfile["groupMembers"] | null;
+  dining_groups?: string | UserProfile["diningGroups"] | null;
+  onboarding_completed?: boolean | null;
+}
+
+const parseJsonColumn = <T>(value: string | T | null | undefined, fallback: T): T => {
+  if (typeof value === "string") return safeJsonParse<T>(value, fallback) ?? fallback;
+  return value ?? fallback;
+};
+
 class UserDatabaseService {
   // In-memory fallback storage
   private users: Map<string, UserWithProfile> = new Map();
@@ -704,7 +731,7 @@ class UserDatabaseService {
            ORDER BY u.created_at DESC`,
         );
 
-        return result.rows.map((row: any) => this.rowToUserWithProfile(row));
+        return result.rows.map((row: UserWithProfileRow) => this.rowToUserWithProfile(row));
       } catch (error) {
         _logger.warn("PostgreSQL query failed, using in-memory:", error);
       }
@@ -853,52 +880,54 @@ class UserDatabaseService {
   /**
    * Convert database row to UserWithProfile object
    */
-  private rowToUserWithProfile(row: any): UserWithProfile {
+  private rowToUserWithProfile(row: UserWithProfileRow): UserWithProfile {
     // Guarded JSON parsing: these are JSONB columns (node-postgres usually returns
     // them pre-parsed), but a text-typed or double-encoded value would otherwise
     // throw here and turn one corrupt row into a silent auth/profile-load outage.
-    const birthData =
-      typeof row.birth_data === "string"
-        ? safeJsonParse(row.birth_data)
-        : row.birth_data;
-    const natalChart =
-      typeof row.natal_chart === "string"
-        ? safeJsonParse(row.natal_chart)
-        : row.natal_chart;
-    const dietaryPreferences =
-      typeof row.dietary_preferences === "string"
-        ? safeJsonParse(row.dietary_preferences, {})
-        : row.dietary_preferences || {};
+    const birthData = parseJsonColumn<UserProfile["birthData"] | undefined>(
+      row.birth_data,
+      undefined,
+    );
+    const natalChart = parseJsonColumn<UserProfile["natalChart"] | undefined>(
+      row.natal_chart,
+      undefined,
+    );
+    const dietaryPreferences = parseJsonColumn<Record<string, unknown>>(
+      row.dietary_preferences,
+      {},
+    );
     // users.preferences is the canonical store for general preferences.
     // For legacy rows where general prefs were written to dietary_preferences,
     // fall back to that column if users.preferences is empty.
-    const rawUserPrefs =
-      typeof row.preferences === "string"
-        ? safeJsonParse(row.preferences, {})
-        : row.preferences || {};
+    const rawUserPrefs = parseJsonColumn<Record<string, unknown>>(
+      row.preferences,
+      {},
+    );
     const preferences =
       Object.keys(rawUserPrefs || {}).length > 0
         ? rawUserPrefs
         : dietaryPreferences;
-    const groupMembers =
-      typeof row.group_members === "string"
-        ? safeJsonParse(row.group_members, [])
-        : row.group_members || [];
-    const diningGroups =
-      typeof row.dining_groups === "string"
-        ? safeJsonParse(row.dining_groups, [])
-        : row.dining_groups || [];
+    const groupMembers = parseJsonColumn<UserProfile["groupMembers"]>(
+      row.group_members,
+      [],
+    );
+    const diningGroups = parseJsonColumn<UserProfile["diningGroups"]>(
+      row.dining_groups,
+      [],
+    );
 
     // Map single 'role' ENUM column back to roles array
     const dbRole = (row.role || "USER").toUpperCase();
     const roles =
-      dbRole === "ADMIN" ? ["admin", "user"] : ["user"];
+      dbRole === "ADMIN"
+        ? (["admin", "user"] as UserRole[])
+        : (["user"] as UserRole[]);
 
     return {
       id: row.id,
       email: row.email,
       passwordHash: row.password_hash,
-      roles: roles as UserRole[],
+      roles,
       isActive: row.is_active,
       isAgent: row.is_agent === true,
       privyDid: row.privy_did || undefined,
@@ -907,7 +936,7 @@ class UserDatabaseService {
       lastLoginAt: row.last_login_at ? new Date(row.last_login_at) : undefined,
       profile: {
         userId: row.id,
-        name: row.profile_name || row.name,
+        name: row.profile_name || row.name || undefined,
         email: row.email,
         preferences,
         dietaryPreferences,

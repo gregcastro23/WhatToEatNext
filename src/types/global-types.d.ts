@@ -32,7 +32,6 @@ declare global {
   const validatePlanetaryPositions: typeof import("@/utils/validatePlanetaryPositions").validatePlanetaryPositions;
   type AlchemicalProperties = _AlchemicalProperties;
   // Provide shorthand alias if referenced without import
-       // eslint-disable-next-line @typescript-eslint/naming-convention
   type alchemicalProperties = _AlchemicalProperties; // lowercase variant sometimes appears
   type PlanetName = _PlanetName;
 }

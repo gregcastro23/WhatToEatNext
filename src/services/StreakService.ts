@@ -33,13 +33,41 @@ const memoryStreaks = new Map<string, UserStreak>();
 
 // ─── Helpers ──────────────────────────────────────────────────────────
 
-function rowToStreak(row: any): UserStreak {
+interface UserStreakRow {
+  current_streak?: unknown;
+  longest_streak?: unknown;
+  last_activity_date?: unknown;
+  streak_frozen_until?: unknown;
+  updated_at?: unknown;
+}
+
+const toNumber = (value: unknown, fallback = 0): number => {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number.parseFloat(value)
+        : Number.NaN;
+
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const toNullableIsoString = (value: unknown): string | null => {
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === "string") return value;
+  return null;
+};
+
+const toIsoString = (value: unknown, fallback = new Date().toISOString()): string =>
+  toNullableIsoString(value) ?? fallback;
+
+function rowToStreak(row: UserStreakRow): UserStreak {
   return {
-    currentStreak: row.current_streak || 0,
-    longestStreak: row.longest_streak || 0,
-    lastActivityDate: row.last_activity_date || null,
-    streakFrozenUntil: row.streak_frozen_until || null,
-    updatedAt: row.updated_at?.toISOString?.() || row.updated_at || new Date().toISOString(),
+    currentStreak: toNumber(row.current_streak),
+    longestStreak: toNumber(row.longest_streak),
+    lastActivityDate: toNullableIsoString(row.last_activity_date),
+    streakFrozenUntil: toNullableIsoString(row.streak_frozen_until),
+    updatedAt: toIsoString(row.updated_at),
   };
 }
 

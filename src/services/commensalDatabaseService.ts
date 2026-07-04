@@ -41,6 +41,98 @@ const getDbModule = async () => {
 const commensalshipsStore: Map<string, Commensalship> = new Map();
 const savedChartsStore: Map<string, SavedChart> = new Map();
 
+type DbTimestamp = Date | string | null | undefined;
+
+interface SearchUserRow {
+  id?: string | number | null;
+  name?: string | null;
+  email?: string | null;
+}
+
+interface LinkedCommensalProfile {
+  birthData?: BirthData;
+  birth_data?: BirthData;
+  natalChart?: NatalChart;
+  natal_chart?: NatalChart;
+}
+
+interface LinkedCommensalRow {
+  commensal_id?: string | number | null;
+  commensal_name?: string | null;
+  commensal_email?: string | null;
+  profile?: string | LinkedCommensalProfile | null;
+  commensalship_id?: string | null;
+  synced_at?: DbTimestamp;
+}
+
+interface SavedChartRow {
+  id?: string | null;
+  owner_id?: string | null;
+  label?: string | null;
+  chart_type?: SavedChart["chartType"] | null;
+  birth_data?: string | BirthData | null;
+  natal_chart?: string | NatalChart | null;
+  is_primary?: boolean | null;
+  created_at?: DbTimestamp;
+  updated_at?: DbTimestamp;
+}
+
+interface ManualCompanionRow {
+  id?: string | null;
+  name?: string | null;
+  relationship?: string | null;
+  birth_data?: string | BirthData | null;
+  natal_chart?: string | NatalChart | null;
+  created_at?: DbTimestamp;
+}
+
+interface CommensalshipRow {
+  id?: string | null;
+  requester_id?: string | number | null;
+  requester_name?: string | null;
+  requester_email?: string | null;
+  addressee_id?: string | number | null;
+  addressee_name?: string | null;
+  addressee_email?: string | null;
+  status?: CommensalshipStatus | null;
+  created_at?: DbTimestamp;
+  updated_at?: DbTimestamp;
+}
+
+const dbString = (value: string | number | null | undefined, fallback = ""): string =>
+  value == null ? fallback : String(value);
+
+const dbOptionalString = (
+  value: string | number | null | undefined,
+): string | undefined => {
+  const resolved = dbString(value);
+  return resolved || undefined;
+};
+
+const dbIsoString = (value: DbTimestamp, fallback = new Date().toISOString()): string =>
+  value instanceof Date ? value.toISOString() : value || fallback;
+
+const readJsonColumn = <T>(value: string | T | null | undefined, fallback: T): T => {
+  if (typeof value === "string") return safeJsonParse<T>(value, fallback) ?? fallback;
+  return value ?? fallback;
+};
+
+const normalizeGroupRelationship = (
+  value: string | null | undefined,
+): GroupMember["relationship"] => {
+  const allowed: Array<NonNullable<GroupMember["relationship"]>> = [
+    "self",
+    "family",
+    "friend",
+    "partner",
+    "colleague",
+    "other",
+  ];
+  return allowed.includes(value as NonNullable<GroupMember["relationship"]>)
+    ? (value as GroupMember["relationship"])
+    : undefined;
+};
+
 class CommensalDatabaseService {
   // ─── User Search ─────────────────────────────────────────
 
@@ -69,7 +161,7 @@ class CommensalDatabaseService {
       );
 
       // Obscure email for privacy (show first 2 chars + domain)
-      return result.rows.map((r: any) => {
+      return result.rows.map((r: SearchUserRow) => {
         const email = r.email || "";
         const [local, domain] = email.split("@");
         const obscuredEmail = local && domain
@@ -77,7 +169,7 @@ class CommensalDatabaseService {
           : email;
 
         return {
-          id: r.id,
+          id: dbString(r.id),
           name: r.name || "",
           email: obscuredEmail,
         };
@@ -169,14 +261,21 @@ class CommensalDatabaseService {
         );
         if (check.rows.length === 0) return null;
 
-                 
-                              // eslint-disable-next-line @typescript-eslint/naming-convention
-        const { requester_id, addressee_id, status } = check.rows[0];
-        const isParty = actingUserId === requester_id.toString() || actingUserId === addressee_id.toString();
+        const {
+          requester_id: requesterId,
+          addressee_id: addresseeId,
+          status,
+        } = check.rows[0];
+        const isParty =
+          actingUserId === requesterId.toString() ||
+          actingUserId === addresseeId.toString();
         if (!isParty) return null;
 
         // Only addressee can accept
-        if (newStatus === "accepted" && actingUserId !== addressee_id.toString()) return null;
+        if (
+          newStatus === "accepted" &&
+          actingUserId !== addresseeId.toString()
+        ) return null;
         // Can't accept if already blocked
         if (status === "blocked" && newStatus === "accepted") return null;
 
@@ -250,7 +349,7 @@ class CommensalDatabaseService {
           [userId],
         );
 
-        return result.rows.map((r: any) => this.rowToCommensalship(r));
+        return result.rows.map((r: CommensalshipRow) => this.rowToCommensalship(r));
       } catch (error) {
         _logger.error("getCommensalshipsForUser failed:", error);
         return [];
@@ -288,24 +387,24 @@ class CommensalDatabaseService {
       );
 
       return result.rows
-        .filter((r: any) => {
+        .filter((r: LinkedCommensalRow) => {
           // Only include commensals who have completed onboarding (have natal chart)
-          const profile = typeof r.profile === "string" ? safeJsonParse(r.profile) : r.profile;
-          return profile?.natalChart && Object.keys(profile.natalChart).length > 0;
+          const profile = readJsonColumn<LinkedCommensalProfile>(r.profile, {});
+          return !!profile.natalChart && Object.keys(profile.natalChart).length > 0;
         })
-        .map((r: any) => {
-          const profile = typeof r.profile === "string" ? safeJsonParse(r.profile) : r.profile;
+        .map((r: LinkedCommensalRow) => {
+          const profile = readJsonColumn<LinkedCommensalProfile>(r.profile, {});
           const birthData = profile.birthData || profile.birth_data;
           const natalChart = profile.natalChart || profile.natal_chart;
           
           return {
-            userId: r.commensal_id.toString(),
-            name: r.commensal_name,
-            email: r.commensal_email,
+            userId: dbString(r.commensal_id),
+            name: dbString(r.commensal_name),
+            email: dbString(r.commensal_email),
             natalChart: natalChart as NatalChart,
             birthData: birthData as BirthData,
-            commensalshipId: r.commensalship_id,
-            syncedAt: r.synced_at?.toISOString?.() ?? new Date().toISOString(),
+            commensalshipId: dbString(r.commensalship_id),
+            syncedAt: dbIsoString(r.synced_at),
           };
         });
     } catch (error) {
@@ -337,7 +436,7 @@ class CommensalDatabaseService {
           [userId],
         );
 
-        return result.rows.map((r: any) => this.rowToCommensalship(r));
+        return result.rows.map((r: CommensalshipRow) => this.rowToCommensalship(r));
       } catch (error) {
         _logger.error("getPendingRequestsForUser failed:", error);
         return [];
@@ -387,7 +486,7 @@ class CommensalDatabaseService {
           `SELECT * FROM saved_charts WHERE owner_id = $1 ORDER BY is_primary DESC, created_at ASC LIMIT 500`,
           [userId],
         );
-        return result.rows.map((r: any) => this.rowToSavedChart(r));
+        return result.rows.map((r: SavedChartRow) => this.rowToSavedChart(r));
       } catch (error) {
         _logger.error("getSavedChartsForUser failed:", error);
         return [];
@@ -430,14 +529,17 @@ class CommensalDatabaseService {
     return chart;
   }
 
-  private rowToSavedChart(row: any): SavedChart {
+  private rowToSavedChart(row: SavedChartRow): SavedChart {
     return {
-      id: row.id, ownerId: row.owner_id, label: row.label, chartType: row.chart_type,
-      birthData: typeof row.birth_data === "string" ? safeJsonParse(row.birth_data) : row.birth_data,
-      natalChart: typeof row.natal_chart === "string" ? safeJsonParse(row.natal_chart) : row.natal_chart,
-      isPrimary: row.is_primary,
-      createdAt: row.created_at?.toISOString?.() ?? row.created_at,
-      updatedAt: row.updated_at?.toISOString?.() ?? row.updated_at,
+      id: dbString(row.id),
+      ownerId: dbString(row.owner_id),
+      label: dbString(row.label),
+      chartType: row.chart_type as SavedChart["chartType"],
+      birthData: readJsonColumn<BirthData>(row.birth_data, {} as BirthData),
+      natalChart: readJsonColumn<NatalChart>(row.natal_chart, {} as NatalChart),
+      isPrimary: row.is_primary === true,
+      createdAt: dbIsoString(row.created_at),
+      updatedAt: dbIsoString(row.updated_at),
     };
   }
 
@@ -452,13 +554,13 @@ class CommensalDatabaseService {
           `SELECT * FROM manual_companion_charts WHERE owner_id::text = $1 ORDER BY created_at DESC LIMIT 500`,
           [userId],
         );
-        return result.rows.map((r: any) => ({
-          id: r.id,
-          name: r.name,
-          relationship: r.relationship,
-          birthData: typeof r.birth_data === "string" ? safeJsonParse(r.birth_data) : r.birth_data,
-          natalChart: typeof r.natal_chart === "string" ? safeJsonParse(r.natal_chart) : r.natal_chart,
-          createdAt: r.created_at?.toISOString?.() ?? r.created_at,
+        return result.rows.map((r: ManualCompanionRow) => ({
+          id: dbString(r.id),
+          name: dbString(r.name),
+          relationship: normalizeGroupRelationship(r.relationship),
+          birthData: readJsonColumn<BirthData>(r.birth_data, {} as BirthData),
+          natalChart: readJsonColumn<NatalChart>(r.natal_chart, {} as NatalChart),
+          createdAt: dbIsoString(r.created_at),
         }));
       } catch (error) {
         _logger.error("getManualCompanionsForUser failed:", error);
@@ -490,7 +592,7 @@ class CommensalDatabaseService {
         return {
           id,
           name: data.name,
-          relationship: data.relationship as any,
+          relationship: normalizeGroupRelationship(data.relationship),
           birthData: data.birthData,
           natalChart: data.natalChart,
           createdAt: now,
@@ -683,18 +785,18 @@ class CommensalDatabaseService {
   }
 
   // ─── Internal helpers ────────────────────────────────────────
-  private rowToCommensalship(row: any): Commensalship {
+  private rowToCommensalship(row: CommensalshipRow): Commensalship {
     return {
-      id: row.id,
-      requesterId: row.requester_id.toString(),
-      requesterName: row.requester_name || undefined,
-      requesterEmail: row.requester_email || undefined,
-      addresseeId: row.addressee_id.toString(),
-      addresseeName: row.addressee_name || undefined,
-      addresseeEmail: row.addressee_email || undefined,
-      status: row.status as CommensalshipStatus,
-      createdAt: row.created_at?.toISOString?.() ?? row.created_at,
-      updatedAt: row.updated_at?.toISOString?.() ?? row.updated_at,
+      id: dbString(row.id),
+      requesterId: dbString(row.requester_id),
+      requesterName: dbOptionalString(row.requester_name),
+      requesterEmail: dbOptionalString(row.requester_email),
+      addresseeId: dbString(row.addressee_id),
+      addresseeName: dbOptionalString(row.addressee_name),
+      addresseeEmail: dbOptionalString(row.addressee_email),
+      status: row.status || "pending",
+      createdAt: dbIsoString(row.created_at),
+      updatedAt: dbIsoString(row.updated_at),
     };
   }
 }
