@@ -5,6 +5,15 @@ import { sauceRecommender } from "@/services/sauceRecommender";
 import RecipeClient from "./RecipeClient";
 import type { Metadata } from "next";
 
+// Recipe pages are generated on demand (generateStaticParams is normally
+// disabled below) and would otherwise stay cached until the next deploy —
+// DB-side content changes (description backfills, image swaps) never reached
+// already-rendered pages. Hourly ISR keeps the HTML at most 1h behind the DB;
+// the underlying LocalRecipeService Redis catalog cache is 5 min, so the page
+// regenerates from reasonably fresh data. POST /api/internal/revalidate
+// forces an immediate refresh after bulk backfills.
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   if (process.env.ENABLE_RECIPE_STATIC_PARAMS !== "true") {
     return [];
@@ -118,6 +127,17 @@ export default async function RecipePage({ params }: RecipePageProps) {
       } catch (err) {
         console.error("Error checking custom recipe in catalog fallback:", err);
       }
+    }
+    // With ISR enabled, notFound() is a cacheable result — a 404 rendered
+    // during a transient outage would poison this URL for the whole
+    // revalidate window. When the catalog was served from the degraded
+    // hardcoded fallback (DB unreachable / empty), the recipe may exist but
+    // be invisible, so fail the render instead: thrown errors are never
+    // cached and the next request retries against a healthy catalog.
+    if (LocalRecipeService.isCatalogDegraded()) {
+      throw new Error(
+        `Recipe catalog degraded while rendering /recipes/${recipeId}; refusing to cache a 404`,
+      );
     }
     notFound();
   }

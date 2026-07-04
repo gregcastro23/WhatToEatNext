@@ -250,6 +250,18 @@ export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
   private static _allRecipesLoadedAt: number | null = null;
   private static readonly CACHE_TTL_MS = REDIS_TTL_SECONDS * 1000;
+  private static _catalogDegraded = false;
+
+  /**
+   * True when the most recent catalog load fell back to the hardcoded local
+   * payload (DB empty or unreachable) instead of the authoritative Redis/DB
+   * path. DB-only recipes are invisible in that state, so a "not found" from
+   * getRecipeById is unreliable — ISR renderers use this to fail the render
+   * (uncached) rather than cache a 404 for the revalidate window.
+   */
+  static isCatalogDegraded(): boolean {
+    return this._catalogDegraded;
+  }
 
   private static isCacheFresh(): boolean {
     return (
@@ -277,6 +289,7 @@ export class LocalRecipeService {
       if (cached && Array.isArray(cached) && cached.length > 0) {
         this._allRecipes = cached;
         this._allRecipesLoadedAt = Date.now();
+        this._catalogDegraded = false;
         return cached;
       }
     } catch (err) {
@@ -292,11 +305,13 @@ export class LocalRecipeService {
         const { getServerRecipes } = await import("@/actions/recipes");
         this._allRecipes = await getServerRecipes();
         this._allRecipesLoadedAt = Date.now();
+        this._catalogDegraded = true;
         return this._allRecipes;
       }
 
       this._allRecipes = recipes;
       this._allRecipesLoadedAt = Date.now();
+      this._catalogDegraded = false;
 
       // Populate Redis asynchronously so we don't block the response
       redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
@@ -307,6 +322,7 @@ export class LocalRecipeService {
       return recipes;
     } catch (error) {
       logger.error("Error loading recipes from database, extracting raw local fallback:", error);
+      this._catalogDegraded = true;
       const { getServerRecipes } = await import("@/actions/recipes");
       return getServerRecipes();
     }
@@ -464,6 +480,7 @@ export class LocalRecipeService {
   static clearCache(): void {
     this._allRecipes = null;
     this._allRecipesLoadedAt = null;
+    this._catalogDegraded = false;
     redisDel(REDIS_CATALOG_KEY).catch(() => {});
   }
 }
