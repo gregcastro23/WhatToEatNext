@@ -37,6 +37,16 @@ const ELEMENT_ROWS = [
 const MIN_SERVINGS = 1;
 const MAX_SERVINGS = 24;
 
+// Real recipe-NFT protocol wiring for the ledger showcase (env-driven; the
+// showcase previously displayed hardcoded mock registry/token/block values).
+const REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_RECIPE_REGISTRY_ADDRESS || "";
+const RIGHTS_ID = process.env.NEXT_PUBLIC_ALCHM_RIGHTS_ID || "";
+const IS_TESTNET = (process.env.NEXT_PUBLIC_RECIPE_NFT_CHAIN ?? "base-sepolia") !== "base";
+const NFT_ENABLED =
+  process.env.NEXT_PUBLIC_RECIPE_NFT_ENABLED === "true" && Boolean(REGISTRY_ADDRESS) && Boolean(RIGHTS_ID);
+const CHAIN_LABEL = IS_TESTNET ? "Base Sepolia" : "Base";
+const EXPLORER_BASE = IS_TESTNET ? "https://sepolia.basescan.org" : "https://basescan.org";
+
 function parseQty(raw: string): number | null {
   const s = raw.trim();
   const mixed = s.match(/^(\d+)\s+(\d+)\/(\d+)$/);
@@ -253,23 +263,40 @@ export function FeaturedRecipe() {
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-[9px] font-extrabold text-cyan-300 uppercase tracking-widest">
                   ⛓ Base Ledger Showcase
                 </span>
-                <span className="text-[9px] font-semibold text-emerald-400 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                  ✓ Minted & Verified
-                </span>
+                {NFT_ENABLED ? (
+                  <span className="text-[9px] font-semibold text-emerald-400 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    Registry Live{IS_TESTNET ? " · Testnet" : ""}
+                  </span>
+                ) : (
+                  <span className="text-[9px] font-semibold text-amber-400 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    Wiring Deploy
+                  </span>
+                )}
               </div>
 
-              {/* Ledger metadata list */}
+              {/* Ledger metadata list — real protocol wiring, no mock values */}
               <div className="space-y-2.5 font-mono text-[10px] text-white/70">
                 <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Ledger Registry</span>
-                  <span className="text-white/80 text-right truncate max-w-[150px]" title="0x47b92B08f75b7b98e72322af505f0628e932b7e">
-                    0x47b92B08...3df9
-                  </span>
+                  <span className="text-white/35 uppercase tracking-wider font-bold">Recipe Registry</span>
+                  {REGISTRY_ADDRESS ? (
+                    <a
+                      href={`${EXPLORER_BASE}/address/${REGISTRY_ADDRESS}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-cyan-300/90 hover:text-cyan-200 text-right truncate max-w-[150px] transition-colors"
+                      title={REGISTRY_ADDRESS}
+                    >
+                      {REGISTRY_ADDRESS.substring(0, 10)}…{REGISTRY_ADDRESS.substring(REGISTRY_ADDRESS.length - 4)}
+                    </a>
+                  ) : (
+                    <span className="text-white/40">pending deploy</span>
+                  )}
                 </div>
                 <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Token ID</span>
-                  <span className="text-cyan-300 font-extrabold">#1002</span>
+                  <span className="text-white/35 uppercase tracking-wider font-bold">Chain</span>
+                  <span className="text-cyan-300 font-extrabold">{CHAIN_LABEL}</span>
                 </div>
                 <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
                   <span className="text-white/35 uppercase tracking-wider font-bold">Alchemical Weight</span>
@@ -282,8 +309,14 @@ export function FeaturedRecipe() {
                   </span>
                 </div>
                 <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
-                  <span className="text-white/35 uppercase tracking-wider font-bold">Provenance Block</span>
-                  <span className="text-white/80">#18,349,202</span>
+                  <span className="text-white/35 uppercase tracking-wider font-bold">Rights Anchor</span>
+                  {RIGHTS_ID ? (
+                    <span className="text-white/80 text-right truncate max-w-[150px]" title={RIGHTS_ID}>
+                      {RIGHTS_ID.substring(0, 10)}…{RIGHTS_ID.substring(RIGHTS_ID.length - 6)}
+                    </span>
+                  ) : (
+                    <span className="text-white/40">pending anchor</span>
+                  )}
                 </div>
                 <div className="flex justify-between border-b border-white/[0.03] pb-1.5">
                   <span className="text-white/35 uppercase tracking-wider font-bold">Alchm License</span>
@@ -292,16 +325,17 @@ export function FeaturedRecipe() {
               </div>
 
               <p className="text-[10px] text-white/40 leading-relaxed">
-                Alchm.kitchen publishes a new curated recipe on-chain monthly. This ledger record serves as proof-of-provenance. Minting is sponsored and preserved immutably.
+                Every minted recipe anchors its content hash to the Alchm rights registry on {CHAIN_LABEL}.
+                Minting is backend-sponsored — your ESMS is the only cost, and the record is immutable.
               </p>
             </div>
 
             <div className="relative z-10 pt-4 border-t border-white/[0.06] mt-4">
               <Link
-                href="/recipe-builder"
+                href="/cosmic-recipe"
                 className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-500/40 text-cyan-300 font-bold text-xs transition-all duration-200 group"
               >
-                ✨ Build &amp; Mint Your Own Recipe
+                ✨ Conjure &amp; Mint Your Own Recipe
                 <span className="group-hover:translate-x-0.5 transition-transform duration-200">&rarr;</span>
               </Link>
             </div>

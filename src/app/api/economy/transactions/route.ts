@@ -23,7 +23,9 @@ export async function GET(request: NextRequest) {
     }
 
     const url = new URL(request.url);
-    const limit = Math.min(parseInt(url.searchParams.get("limit") || "20", 10), 50);
+    // Clamp at 100 — the balance-trends chart requests the full 100 for its
+    // history window (the old 50 cap silently halved it).
+    const limit = Math.min(parseInt(url.searchParams.get("limit") || "20", 10), 100);
     const offset = parseInt(url.searchParams.get("offset") || "0", 10);
 
     const { transactions, total } = await tokenEconomy.getTransactions(userId, { limit, offset });

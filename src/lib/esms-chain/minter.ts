@@ -34,6 +34,14 @@ function toOnchainAmounts(a: EsmsAmounts): bigint[] {
   return [a.spirit, a.essence, a.matter, a.substance].map(v => parseUnits(v || '0', 18))
 }
 
+/** True when a claim-mint custody path is configured (Privy server wallet or raw key). */
+export function minterConfigured(): boolean {
+  return Boolean(
+    (process.env.PRIVY_MINTER_WALLET_ID && getPrivyClient()) ||
+    process.env.MINTER_PRIVATE_KEY
+  )
+}
+
 /**
  * Mint a settled claim. `claimId` is a bytes32 hex (also the off-chain idempotency
  * key); the contract rejects a repeat claimId, so retries never double-mint.
@@ -54,10 +62,12 @@ export async function mintEsmsClaim(params: {
     args: [to, claimId, ids, values],
   })
 
-  // Preferred: Privy server wallet (no raw key, gas-sponsorable).
+  // Preferred: Privy server wallet (no raw key, gas-sponsorable). getPrivyClient()
+  // is null when PRIVY_APP_SECRET is unset — fall through to the raw-key signer
+  // instead of crashing on the null client.
   const walletId = process.env.PRIVY_MINTER_WALLET_ID
-  if (walletId) {
-    const privy = getPrivyClient()
+  const privy = walletId ? getPrivyClient() : null
+  if (walletId && privy) {
     // NOTE: verify the exact input shape against @privy-io/server-auth on first
     // testnet run (walletId/caip2/tx-field nesting); cast to satisfy types here.
     const res = (await (privy as any).walletApi.ethereum.sendTransaction({

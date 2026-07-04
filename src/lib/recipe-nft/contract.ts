@@ -163,7 +163,7 @@ export function recipeNftEnabled(): boolean {
   );
 }
 
-function recipeNftRpcUrl(): string | undefined {
+export function recipeNftRpcUrl(): string | undefined {
   return recipeNftChain().id === base.id
     ? process.env.BASE_RPC_URL
     : process.env.BASE_SEPOLIA_RPC_URL;

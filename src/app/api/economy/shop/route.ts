@@ -25,11 +25,23 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const category = url.searchParams.get("category") || "feature";
 
-    const [balances, items, pricing] = await Promise.all([
+    const [balances, items, pricing, ownedRes] = await Promise.all([
       tokenEconomy.getBalances(user.id),
-      tokenEconomy.getShopItems({ category, onlyActive: true }),
+      // "all" → the whole storefront (used by the /shop Bazaar page)
+      tokenEconomy.getShopItems({ category: category === "all" ? undefined : category, onlyActive: true }),
       getLivePricingContext(),
+      import("@/lib/database")
+        .then((db) =>
+          db.executeQuery<{ slug: string }>(
+            `SELECT si.slug FROM user_purchases up
+             JOIN shop_items si ON si.id = up.shop_item_id
+             WHERE up.user_id = $1`,
+            [user.id],
+          ),
+        )
+        .catch(() => ({ rows: [] as Array<{ slug: string }> })),
     ]);
+    const ownedSlugs = new Set(ownedRes.rows.map((r) => r.slug));
 
     const shopItems = items.map(item => {
       const baseCost = {
@@ -55,6 +67,7 @@ export async function GET(request: NextRequest) {
         baseCost,
         liveCost,
         canAfford,
+        owned: ownedSlugs.has(item.slug),
       };
     });
 
