@@ -12,6 +12,7 @@ import React, {
 } from "react";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
+import { firePractice } from "@/lib/economy/practiceClient";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
@@ -248,6 +249,12 @@ export default function FeedPage() {
       requestInFlight.current = false;
       setIsRefreshing(false);
     }
+  }, []);
+
+  // Joining the commons quietly counts (invisible practice, dedupes daily
+  // server-side; silent no-op for signed-out visitors).
+  useEffect(() => {
+    firePractice("feed_visit");
   }, []);
 
   // The 30s HTTP poll stays in place: it covers agents/transactions/swap

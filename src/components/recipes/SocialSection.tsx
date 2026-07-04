@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { revealPracticeReward } from "@/lib/economy/practiceClient";
 
 const STORAGE_PREFIX = "alchm:recipe-social:v1:";
 
@@ -134,6 +135,11 @@ export function SocialSection({ recipeId }: Props) {
       if (!res.ok) throw new Error(`status ${res.status}`);
       const data = await res.json();
       if (typeof data.madeCount === "number") setMadeCount(data.madeCount);
+      // A genuine first "I made this" quietly earns — the server decides; we
+      // just hand the moment to the global delight host.
+      if (data.reward?.amount > 0) {
+        revealPracticeReward(data.reward);
+      }
     } catch (err) {
       console.warn("social save failed (cached locally):", err);
     } finally {

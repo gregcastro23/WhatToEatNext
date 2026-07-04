@@ -25,6 +25,7 @@ import {
 } from "@/components/RestaurantDiscovery/restaurantDisplay";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
+import { firePractice } from "@/lib/economy/practiceClient";
 import {
   useUserLocation,
   type CitySuggestion,
@@ -638,8 +639,14 @@ export function BestMatchExplorer({
             source={source}
             cuisine={cuisine}
             saved={savedIds.has(hero.business.id)}
-            onReserve={() => setReservingItem(hero)}
-            onSave={() => void saveRestaurant(hero, source)}
+            onReserve={() => {
+              firePractice("recommendation_acted", `restaurant:${hero.business.id}`);
+              setReservingItem(hero);
+            }}
+            onSave={() => {
+              firePractice("recommendation_acted", `restaurant:${hero.business.id}`);
+              void saveRestaurant(hero, source);
+            }}
             onLog={() => setLoggingItem(hero)}
           />
 
@@ -661,8 +668,14 @@ export function BestMatchExplorer({
                     entry={entry}
                     source={source}
                     saved={savedIds.has(entry.business.id)}
-                    onReserve={() => setReservingItem(entry)}
-                    onSave={() => void saveRestaurant(entry, source)}
+                    onReserve={() => {
+                      firePractice("recommendation_acted", `restaurant:${entry.business.id}`);
+                      setReservingItem(entry);
+                    }}
+                    onSave={() => {
+                      firePractice("recommendation_acted", `restaurant:${entry.business.id}`);
+                      void saveRestaurant(entry, source);
+                    }}
                     onLog={() => setLoggingItem(entry)}
                   />
                 ))}

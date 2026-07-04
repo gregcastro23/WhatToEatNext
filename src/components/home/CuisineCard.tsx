@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
+import { firePractice } from "@/lib/economy/practiceClient";
 import { getCuisineByDisplayName } from "@/utils/cuisineSlug";
 
 type OnDoubleClickCuisine = (cuisineName: string) => void;
@@ -158,6 +159,9 @@ export function CuisineCard({
   const cuisineSlug = encodeURIComponent(cuisine.cuisine.toLowerCase());
   const cookHref = `/recipes?cuisine=${cuisineSlug}`;
   const orderHref = `/restaurants?cuisine=${cuisineSlug}`;
+  // Following the sky's suggestion quietly counts (invisible practice; deduped
+  // per cuisine per day server-side, silent for signed-out visitors).
+  const acted = () => firePractice("recommendation_acted", `cuisine:${cuisine.cuisine}`);
   const imageUrl = cuisine.imageUrl ?? getCuisineByDisplayName(cuisine.cuisine)?.meta.imageUrl;
 
   const icon = PLANET_ICONS[cuisine.planet] || "☉";
@@ -178,6 +182,7 @@ export function CuisineCard({
         onClick={(e) => {
           if (onSelectCuisine) {
             e.preventDefault();
+            acted();
             onSelectCuisine(cuisine.cuisine);
           }
         }}
@@ -294,6 +299,7 @@ export function CuisineCard({
           role="link"
           tabIndex={0}
           onClick={() => {
+            acted();
             if (onSelectCuisine) {
               onSelectCuisine(cuisine.cuisine);
             } else {
@@ -302,6 +308,7 @@ export function CuisineCard({
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
+              acted();
               if (onSelectCuisine) {
                 onSelectCuisine(cuisine.cuisine);
               } else {
@@ -422,6 +429,7 @@ export function CuisineCard({
         <div className="grid grid-cols-2 gap-2 px-5 pb-5 relative z-40">
           <Link
             href={cookHref}
+            onClick={acted}
             className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-amber-900/30 border border-amber-400/40 transition-all"
             aria-label={`Cook ${cuisine.cuisine} at home`}
           >
@@ -430,7 +438,10 @@ export function CuisineCard({
           </Link>
           {onSelectCuisine ? (
             <button
-              onClick={() => onSelectCuisine(cuisine.cuisine)}
+              onClick={() => {
+                acted();
+                onSelectCuisine(cuisine.cuisine);
+              }}
               className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
               aria-label={`Find ${cuisine.cuisine} restaurants near me`}
             >
@@ -440,6 +451,7 @@ export function CuisineCard({
           ) : (
             <Link
               href={orderHref}
+              onClick={acted}
               className="group/btn relative flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-purple-900/30 border border-purple-400/40 transition-all"
               aria-label={`Find ${cuisine.cuisine} restaurants near me`}
             >
