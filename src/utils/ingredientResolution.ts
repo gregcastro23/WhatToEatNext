@@ -115,6 +115,23 @@ function buildIndex(): void {
       tokenIndex.push({ tokens, count: tokens.size, ingredient });
     }
   }
+  // Second pass: authored aliases ("shoyu" → soy sauce). Indexed after every
+  // display name so an alias can never shadow another ingredient's real name.
+  for (const ingredient of Object.values(unifiedIngredients)) {
+    const aliases = (ingredient as { aliases?: unknown }).aliases;
+    if (!Array.isArray(aliases)) continue;
+    for (const alias of aliases) {
+      if (typeof alias !== "string" || !alias) continue;
+      const norm = normName(alias);
+      if (!exactIndex.has(norm)) exactIndex.set(norm, ingredient);
+      const singular = norm.split(" ").map(singularizeWord).join(" ");
+      if (!exactIndex.has(singular)) exactIndex.set(singular, ingredient);
+      const tokens = new Set(coreTokens(alias));
+      if (tokens.size > 0) {
+        tokenIndex.push({ tokens, count: tokens.size, ingredient });
+      }
+    }
+  }
   // Stable order so token-subset ties resolve deterministically (fewest tokens,
   // then alphabetical) regardless of catalog iteration order.
   tokenIndex.sort((a, b) =>
@@ -158,6 +175,14 @@ export function resolveIngredientByName(
       }
     }
     if (all) return entry.ingredient;
+  }
+
+  // Compound lines ("sea salt and pepper to taste") resolve as their first
+  // item. Query-side only — indexed catalog names keep their full identity —
+  // and last, so it can only turn a miss into a hit.
+  const firstSegment = name.split(/\s+and\s+/i)[0];
+  if (firstSegment && firstSegment.trim() && firstSegment !== name) {
+    return resolveIngredientByName(firstSegment);
   }
   return undefined;
 }

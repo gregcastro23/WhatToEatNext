@@ -105,18 +105,51 @@ export default async function RecipePage({ params }: RecipePageProps) {
   if (!rawRecipe) {
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(recipeId);
     if (isUuid) {
+      // redirect() throws NEXT_REDIRECT, so it must be called outside the
+      // try/catch — a catch here would swallow the redirect into notFound().
+      let isCustomRecipe = false;
       try {
         const { executeQuery } = await import("@/lib/database/connection");
         const customCheck = await executeQuery(
           "SELECT 1 FROM user_custom_recipes WHERE id = $1",
           [recipeId]
         );
-        if (customCheck.rows.length > 0) {
-          const { redirect } = await import("next/navigation");
-          redirect(`/generated-recipe/${recipeId}`);
-        }
+        isCustomRecipe = customCheck.rows.length > 0;
       } catch (err) {
         console.error("Error checking custom recipe in catalog fallback:", err);
+      }
+      if (isCustomRecipe) {
+        const { redirect } = await import("next/navigation");
+        redirect(`/generated-recipe/${recipeId}`);
+      }
+    } else {
+      // Legacy slug URL. The sitemap enumerates ids from the static server
+      // payload ("hsca-dinner-all-whole-steamed-fish"), while the live catalog
+      // is UUID-keyed — every indexed slug URL soft-404ed. Resolve the slug to
+      // its static recipe, match the live catalog by normalized name, and 308
+      // to the canonical UUID URL.
+      let target: string | null = null;
+      try {
+        const { getServerRecipes } = await import("@/actions/recipes");
+        const staticRecipes = await getServerRecipes();
+        const staticHit = staticRecipes.find((r) => String(r?.id ?? "") === recipeId);
+        const staticName = typeof staticHit?.name === "string" ? staticHit.name : "";
+        if (staticName) {
+          const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+          const all = await LocalRecipeService.getAllRecipes();
+          const match = all.find(
+            (r) => typeof r.name === "string" && norm(r.name) === norm(staticName),
+          );
+          if (match?.id && String(match.id) !== recipeId) {
+            target = `/recipes/${String(match.id)}`;
+          }
+        }
+      } catch (err) {
+        console.error("Legacy slug recipe resolution failed:", err);
+      }
+      if (target) {
+        const { permanentRedirect } = await import("next/navigation");
+        permanentRedirect(target);
       }
     }
     notFound();
