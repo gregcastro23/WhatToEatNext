@@ -83,7 +83,15 @@ export type TransactionSourceType =
    * and was verified never-claimed on-chain. Idempotency key shape:
    * `onchain_claim_refund:<claimRowId>`.
    */
-  | "onchain_claim_refund";
+  | "onchain_claim_refund"
+  /**
+   * Invisible practice reward — a natural product action (cooking a recipe,
+   * acting on a recommendation, feed presence, discovering a surface) that
+   * quietly pays. No quest UI advertises these; the delight toast reveals
+   * them. source_id is the practice type; idempotency key shape:
+   * `practice:<userId>:<type>:<dedupeKey>`. See src/lib/economy/practices.ts.
+   */
+  | "practice_reward";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
