@@ -739,6 +739,28 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
+  bean_sprouts: {
+    image_url: "ingredients/bean_sprouts.png",
+    description: "Crisp, pale shoots germinated from mung beans (*Vigna radiata*), harvested within days of sprouting. Sprouting converts the bean's starches into simpler sugars and boosts vitamin C, giving a juicy, snappy texture with a clean, faintly nutty flavor. Essential in pad thai, spring rolls, pho garnishes, and stir-fries — add in the final moments of cooking so they keep their crunch. Choose plump white sprouts with pale tips; avoid slimy or browning ones and use within a couple of days.",
+    name: "Bean Sprouts",
+    aliases: ["mung bean sprouts", "beansprouts"],
+    origin: ["East Asia", "Southeast Asia"],
+    season: ["spring", "summer", "fall", "winter"],
+    elementalProperties: { Fire: 0.05, Water: 0.45, Earth: 0.2, Air: 0.3 },
+    qualities: ["crisp", "fresh", "light", "hydrating"],
+    category: "vegetable",
+    subcategory: "sprout",
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Mercury"],
+      favorableZodiac: ["cancer", "gemini", "virgo"],
+      seasonalAffinity: ["spring"],
+    },
+      sensoryProfile: { taste: { sweet: 0.15, salty: 0.0, sour: 0.05, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { vegetal: 0.6, grassy: 0.4, fresh: 0.5 }, texture: { crisp: 0.9, juicy: 0.6, tender: 0.2 } },
+      nutritionalProfile: { serving_size: "1 cup (104g)", calories: 31, macros: { protein: 3.2, carbs: 6.2, fat: 0.2, fiber: 1.9 }, vitamins: { C: 0.15, K: 0.29, folate: 0.16 }, minerals: { copper: 0.09, manganese: 0.1, potassium: 0.05 }, source: "USDA FoodData Central" },
+      culinaryProfile: { flavorProfile: { primary: ["fresh", "vegetal"], secondary: ["nutty", "sweet"], notes: "Prized for texture more than flavor; wilts in seconds over high heat." }, cookingMethods: ["stir-fry", "blanch", "raw", "steam"], cuisineAffinity: ["Chinese", "Thai", "Vietnamese", "Korean", "Japanese"], preparationTips: ["Rinse well and drain thoroughly before stir-frying.", "Add in the last 30-60 seconds of cooking to preserve crunch.", "Blanch briefly and shock in ice water for salads and garnishes."] },
+      pairingRecommendations: { complementary: ["soy sauce", "garlic", "ginger", "scallions", "sesame oil", "rice noodles"], contrasting: ["chili", "lime", "peanuts"], toAvoid: [] },
+      storage: { refrigerated: "1-2 days in a breathable container.", notes: "Highly perishable; buy close to use and keep cold." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

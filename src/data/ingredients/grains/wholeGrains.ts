@@ -867,6 +867,7 @@ const rawWholeGrains = {
       image_url: "ingredients/flour.png",
     description: "A powder made by grinding raw grains, roots, beans, nuts, or seeds, though most commonly refers to wheat. Its specific culinary use is dictated by its protein content: high-protein bread flour forms strong gluten networks for chewy breads, while low-protein cake flour yields tender, delicate crumb structures.",
     name: "flour",
+    aliases: ["bread flour", "gluten-free flour blend", "whole wheat pastry flour"],
     origin: ["Cultivated worldwide"],
     season: ["all"],
     elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },

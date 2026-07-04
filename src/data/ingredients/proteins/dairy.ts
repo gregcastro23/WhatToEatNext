@@ -1381,6 +1381,7 @@ const rawDairy = {
   parmesan: {
       image_url: "ingredients/parmesan.png",
     name: "Parmesan (Parmigiano-Reggiano)",
+    aliases: ["parmigiano-reggiano", "parmigiano reggiano", "parmesan cheese"],
     origin: ["Italy"],
     description:
       "Italian hard, granular cheese — PDO-protected when from Parma, Reggio Emilia, Modena, Bologna, or Mantua. Aged 12–36+ months from raw cow's milk, developing crunchy calcium-lactate crystals and an unmistakable deeply savory, nutty, fruity flavor. The 'King of Cheeses' — shaved over pasta, risotto, salads, and soups; the essential umami boost. Rinds add incredible depth to stocks and minestrone. American-made 'Parmesan' is not the same thing; look for the pin-dot rind mark of genuine Parmigiano-Reggiano.",

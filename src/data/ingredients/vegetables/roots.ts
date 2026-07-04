@@ -397,6 +397,28 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       pairingRecommendations: { complementary: ["olive oil", "garlic", "salt", "lemon", "herbs"], contrasting: ["vinegar", "chili", "citrus zest"], toAvoid: [] },
       storage: { refrigerated: "Crisper drawer, 1-2 weeks.", notes: "Store unwashed; wash just before use to extend freshness." }
 },
+  beet: {
+      image_url: "ingredients/beet.png",
+    description: "A deeply pigmented taproot (*Beta vulgaris*) with an earthy sweetness that intensifies dramatically when roasted. The betalain pigments that stain everything crimson are potent antioxidants, and the root is among the richest whole-food sources of dietary nitrates, which support circulation. The greens are edible and cook like chard. Choose firm, heavy roots with taut skin; smaller beets are sweeter and less woody than large ones.",
+    name: "Beet",
+    aliases: ["beets", "beetroot", "red beet"],
+    origin: ["Mediterranean coast"],
+    season: ["fall", "winter", "spring"],
+    elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
+    qualities: ["earthy", "sweet", "grounding", "nourishing"],
+    category: "vegetable",
+    subcategory: "root_vegetable",
+    astrologicalProfile: {
+      rulingPlanets: ["Saturn", "Venus"],
+      favorableZodiac: ["capricorn", "taurus", "libra"],
+      seasonalAffinity: ["fall", "winter"],
+    },
+      sensoryProfile: { taste: { sweet: 0.45, salty: 0.0, sour: 0.05, bitter: 0.1, umami: 0.1, spicy: 0.0 }, aroma: { earthy: 0.8, vegetal: 0.4, sweet: 0.3 }, texture: { firm: 0.6, tender: 0.4, juicy: 0.3 } },
+      nutritionalProfile: { serving_size: "1 cup raw (136g)", calories: 58, macros: { protein: 2.2, carbs: 13, fat: 0.2, fiber: 3.8 }, vitamins: { folate: 0.37, C: 0.11, B6: 0.05 }, minerals: { manganese: 0.22, potassium: 0.13, magnesium: 0.08, iron: 0.06 }, source: "USDA FoodData Central" },
+      culinaryProfile: { flavorProfile: { primary: ["earthy", "sweet"], secondary: ["mineral"], notes: "Roasting concentrates sugars and mellows the earthiness; raw shaved beet is crisp and mineral." }, cookingMethods: ["roast", "boil", "steam", "pickle", "raw"], cuisineAffinity: ["Eastern European", "Mediterranean", "Scandinavian", "American"], preparationTips: ["Roast whole in foil until a knife slides in easily, then slip the skins off.", "Pair with acid (vinegar, citrus) to brighten the earthy sweetness.", "Wear gloves or oil your hands to limit betalain staining."] },
+      pairingRecommendations: { complementary: ["goat cheese", "walnuts", "orange", "dill", "horseradish", "yogurt"], contrasting: ["balsamic vinegar", "capers", "chili"], toAvoid: [] },
+      storage: { refrigerated: "Remove greens; roots keep 2-4 weeks in the crisper.", notes: "Store greens separately and use within a few days." }
+},
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

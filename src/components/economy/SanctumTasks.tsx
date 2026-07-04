@@ -30,7 +30,9 @@ const QUEST_ACTIONS: Record<string, { label: string; href?: string }> = {
   'essence-generate-recipes-50': { label: 'Generate', href: '/recipes' },
   'essence-generate-premium': { label: 'Go Premium', href: '/premium' },
   'essence-generate-meal-plan': { label: 'Meal Planner', href: '/planner' },
-  'substance-first-purchase': { label: 'Shop', href: '/shop' },
+  // 'substance-first-purchase' is hidden until the ESMS Bazaar ships on this
+  // origin: /shop 404s here (the bazaar UI lives in the AlchmAgentsETH repo,
+  // undeployed), so the quest cannot be completed and its CTA was a dead link.
   'substance-premium-signup': { label: 'Upgrade', href: '/premium' },
   'substance-add-favorite-restaurant': { label: 'Restaurants', href: '/restaurants' },
   'substance-add-restaurant-dish': { label: 'Restaurants', href: '/restaurants' },

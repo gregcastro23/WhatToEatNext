@@ -1,38 +1,20 @@
 [
   {
-    "name": "shoyu",
-    "occurrences": 30,
+    "name": "alchemical binding agent",
+    "occurrences": 11,
     "sampleRecipes": [
-      "hsca / Fried Tempeh (for Tempeh Reuben Sandwich)",
-      "hsca / Warm Pinto Bean Salad with Shiitake",
-      "hsca / Vegan Caesar Salad"
+      "thai / Gaeng Panang Neua",
+      "thai / Khao Soi Gai",
+      "thai / Tub Tim Grob"
     ]
   },
   {
-    "name": "agave syrup",
-    "occurrences": 16,
+    "name": "cocoa powder",
+    "occurrences": 8,
     "sampleRecipes": [
-      "hsca / Fresh Ketchup (for Red Lentil and Toasted Sunflower Burger)",
-      "hsca / MEDITERRANEAN-INSPIRED PASTA SALAD",
-      "hsca / Coleslaw"
-    ]
-  },
-  {
-    "name": "vanilla",
-    "occurrences": 15,
-    "sampleRecipes": [
-      "hsca / Blueberry Syrup",
+      "italian / Authentic Tiramisù",
       "hsca / CHOCOLATE PUDDING",
-      "hsca / ARUGULA, OLIVE OIL, BALSAMIC REDUCTION"
-    ]
-  },
-  {
-    "name": "agave",
-    "occurrences": 7,
-    "sampleRecipes": [
-      "hsca / Pomegranate, Blueberry, and Ginger Elixir",
-      "hsca / Hibiscus-Mint Cooler",
-      "hsca / BABY BOK CHOY AND RED CABBAGE SLAW (FOR SEAFOOD SAUSAGE)"
+      "hsca / Vegan and Gluten-Free Chocolate Brownies"
     ]
   },
   {
@@ -63,10 +45,21 @@
     ]
   },
   {
-    "name": "plus one tablespoon agave",
+    "name": "bamboo skewers",
+    "occurrences": 4,
+    "sampleRecipes": [
+      "thai / Chicken Satay with Peanut Sauce",
+      "japanese / Authentic Yakitori (Negima)",
+      "japanese / Yakitori"
+    ]
+  },
+  {
+    "name": "aromatic catalyst",
     "occurrences": 3,
     "sampleRecipes": [
-      "hsca / Cucumber Agua Fresca"
+      "korean / Hotteok",
+      "korean / Songpyeon",
+      "korean / Japchae"
     ]
   },
   {
@@ -131,6 +124,14 @@
     ]
   },
   {
+    "name": "tvorog farmers cheese",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "russian / Pashka",
+      "russian / Sochnik"
+    ]
+  },
+  {
     "name": "hibiscus tea leaves",
     "occurrences": 2,
     "sampleRecipes": [
@@ -175,14 +176,6 @@
     "sampleRecipes": [
       "hsca / OATMEAL DULSE CRACKERS",
       "hsca / WHOLE WHEAT POPPYSEED BREAD"
-    ]
-  },
-  {
-    "name": "4 tablespoons shoyu",
-    "occurrences": 2,
-    "sampleRecipes": [
-      "hsca / TERIYAKI SAUCE",
-      "hsca / BAKED MILLET CROQUETTES"
     ]
   },
   {
@@ -289,14 +282,6 @@
     ]
   },
   {
-    "name": "1 1 2 teaspoons shoyu",
-    "occurrences": 2,
-    "sampleRecipes": [
-      "hsca / PAN-FRIED MILLET CROQUETTES",
-      "hsca / WAKAME, SEITAN, AND TOASTED WALNUT CASSEROLE"
-    ]
-  },
-  {
     "name": "rum",
     "occurrences": 2,
     "sampleRecipes": [
@@ -313,19 +298,123 @@
     ]
   },
   {
-    "name": "2 teaspoons agave syrup",
-    "occurrences": 2,
-    "sampleRecipes": [
-      "hsca / Salted Pecan and Rosemary Brittle",
-      "hsca / Salted Almond and Thyme Brittle"
-    ]
-  },
-  {
     "name": "pound whole wheat phyllo",
     "occurrences": 2,
     "sampleRecipes": [
       "hsca / Phyllo Triangles with Feta and Kale",
       "hsca / Phyllo Triangles with Tofu and Spinach"
+    ]
+  },
+  {
+    "name": "toppings matrix",
+    "occurrences": 2,
+    "sampleRecipes": [
+      "thai / Nam Kang Sai"
+    ]
+  },
+  {
+    "name": "kitchen towel",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "middle eastern / Persian Tahdig"
+    ]
+  },
+  {
+    "name": "core element of haemul pajeon",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Haemul Pajeon"
+    ]
+  },
+  {
+    "name": "alchemical spice",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Haemul Pajeon"
+    ]
+  },
+  {
+    "name": "pancake mix",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Authentic Haemul Pajeon"
+    ]
+  },
+  {
+    "name": "dried jujubes",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Samgye-tang"
+    ]
+  },
+  {
+    "name": "primary ingredient for hotteok",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Hotteok"
+    ]
+  },
+  {
+    "name": "primary ingredient for songpyeon",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Songpyeon"
+    ]
+  },
+  {
+    "name": "primary ingredient for japchae",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "korean / Japchae"
+    ]
+  },
+  {
+    "name": "cedar grilling plank",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "american / Grilled Cedar Plank Salmon with Summer Vegetables"
+    ]
+  },
+  {
+    "name": "stale tuscan bread",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "italian / Authentic Ribollita (Tuscan Bean Soup)"
+    ]
+  },
+  {
+    "name": "bolognese ragu",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "italian / Authentic Lasagna al Forno"
+    ]
+  },
+  {
+    "name": "ajwain carom seeds",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "indian / Authentic Aloo Paratha"
+    ]
+  },
+  {
+    "name": "khoya",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "indian / Authentic Gulab Jamun"
+    ]
+  },
+  {
+    "name": "filling",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "russian / Authentic Pirozhki (Stuffed Pastries)"
+    ]
+  },
+  {
+    "name": "for glaze",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "russian / Pirozhki"
     ]
   },
   {
@@ -365,6 +454,13 @@
   },
   {
     "name": "uettes",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / GOAT CHEESE, BEET, AND WALNUT SALAD"
+    ]
+  },
+  {
+    "name": "recipe creamy fresh horseradish dressing",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / GOAT CHEESE, BEET, AND WALNUT SALAD"
@@ -588,13 +684,6 @@
     ]
   },
   {
-    "name": "3 tablespoons agave syrup",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / POMEGRANATE REDUCTION"
-    ]
-  },
-  {
     "name": "romaine hearts",
     "occurrences": 1,
     "sampleRecipes": [
@@ -679,13 +768,6 @@
     ]
   },
   {
-    "name": "agave syrup or more to taste",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / Tomato Sauce"
-    ]
-  },
-  {
     "name": "veloute sauce",
     "occurrences": 1,
     "sampleRecipes": [
@@ -701,13 +783,6 @@
   },
   {
     "name": "szechwan peppercorns",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY"
-    ]
-  },
-  {
-    "name": "small dried arbol chilies",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / SHIITAKE BROTH WITH SHRIMP, SOBA, AND BABY BOK CHOY"
@@ -749,13 +824,6 @@
     ]
   },
   {
-    "name": "shoyu to taste",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / HIZIKI WITH CARROTS, ONIONS, AND AGÉ TOFU"
-    ]
-  },
-  {
     "name": "bok choy stems and leaves",
     "occurrences": 1,
     "sampleRecipes": [
@@ -785,13 +853,6 @@
   },
   {
     "name": "dried hiziki",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / HIZIKI WITH FRESH LEMON"
-    ]
-  },
-  {
-    "name": "to 3 tablespoons shoyu",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / HIZIKI WITH FRESH LEMON"
@@ -868,13 +929,6 @@
     ]
   },
   {
-    "name": "cup shoyu",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / BASIC SEITAN RECIPE"
-    ]
-  },
-  {
     "name": "burdock",
     "occurrences": 1,
     "sampleRecipes": [
@@ -903,6 +957,13 @@
     ]
   },
   {
+    "name": "fresh seitan",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Seitan Kebabs with Yellow Rice"
+    ]
+  },
+  {
     "name": "rilled seitan cubes",
     "occurrences": 1,
     "sampleRecipes": [
@@ -910,7 +971,7 @@
     ]
   },
   {
-    "name": "cup panko bread crumbs",
+    "name": "fresh horseradish",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / HORSERADISH-CRUSTED SALMON"
@@ -1022,10 +1083,24 @@
     ]
   },
   {
+    "name": "cocoa",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Chocolate Fondue"
+    ]
+  },
+  {
     "name": "carob powder",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / CAROB CAKE WITH WALNUTS"
+    ]
+  },
+  {
+    "name": "cocoa powder plus 2 teaspoons for dusting pan",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Fudgy Chocolate Cake"
     ]
   },
   {
@@ -1120,17 +1195,17 @@
     ]
   },
   {
+    "name": "2 tablespoons cocoa powder",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "hsca / Chocolate Biscotti"
+    ]
+  },
+  {
     "name": "uette",
     "occurrences": 1,
     "sampleRecipes": [
       "hsca / Truffled Portobello Mousse"
-    ]
-  },
-  {
-    "name": "vanilla or rum",
-    "occurrences": 1,
-    "sampleRecipes": [
-      "hsca / PHYLLO CUPS WITH SAUTÉED APPLES"
     ]
   },
   {
@@ -1148,10 +1223,129 @@
     ]
   },
   {
-    "name": "2 tablespoons vanilla",
+    "name": "sifted cocoa powder",
     "occurrences": 1,
     "sampleRecipes": [
-      "hsca / Crème Anglaise (Stirred Custard)"
+      "hsca / CHOCOLATE SOUFFLÉ"
+    ]
+  },
+  {
+    "name": "finely sliced",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Authentic Larb Moo (Spicy Minced Pork Salad)"
+    ]
+  },
+  {
+    "name": "torn",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Authentic Gaeng Panang (Panang Curry)"
+    ]
+  },
+  {
+    "name": "beaten",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Authentic Thai Green Curry Fried Rice"
+    ]
+  },
+  {
+    "name": "foundation of gaeng panang neua",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Gaeng Panang Neua"
+    ]
+  },
+  {
+    "name": "foundation of khao soi gai",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Khao Soi Gai"
+    ]
+  },
+  {
+    "name": "foundation of tub tim grob",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Tub Tim Grob"
+    ]
+  },
+  {
+    "name": "foundation of bua loi",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Bua Loi"
+    ]
+  },
+  {
+    "name": "foundation of sangkaya fak thong",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Sangkaya Fak Thong"
+    ]
+  },
+  {
+    "name": "foundation of kluay tod",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "thai / Kluay Tod"
+    ]
+  },
+  {
+    "name": "wooden skewers",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "greek / Authentic Greek Souvlaki (Pork Skewers)"
+    ]
+  },
+  {
+    "name": "kefalotyri or mizithra cheese",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "greek / Authentic Greek Youvetsi"
+    ]
+  },
+  {
+    "name": "miso soup",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "japanese / Traditional Japanese Breakfast Set (Ichiju Sansai)"
+    ]
+  },
+  {
+    "name": "kobachi side dish",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "japanese / Traditional Japanese Breakfast Set (Ichiju Sansai)"
+    ]
+  },
+  {
+    "name": "tenkasu",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "japanese / Okonomiyaki"
+    ]
+  },
+  {
+    "name": "fresh or frozen udon noodles",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "japanese / Udon Noodle Soup"
+    ]
+  },
+  {
+    "name": "bitterleaves",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "african / Authentic Ndolé"
+    ]
+  },
+  {
+    "name": "foundation of banh mi op la",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "vietnamese / Bánh Mì Ốp La"
     ]
   },
   {
@@ -1159,6 +1353,27 @@
     "occurrences": 1,
     "sampleRecipes": [
       "vietnamese / Bún Bò Huế"
+    ]
+  },
+  {
+    "name": "foundation of thit kho tau",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "vietnamese / Thịt Kho Tàu"
+    ]
+  },
+  {
+    "name": "foundation of lau thai",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "vietnamese / Lẩu Thái"
+    ]
+  },
+  {
+    "name": "foundation of che ba mau",
+    "occurrences": 1,
+    "sampleRecipes": [
+      "vietnamese / Chè Ba Màu"
     ]
   }
 ]
