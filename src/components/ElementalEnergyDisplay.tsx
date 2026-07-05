@@ -8,7 +8,7 @@ import {
   calculateThermodynamicProperties 
 } from '@/constants/alchemicalEnergyMapping';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import type { AlchemicalState } from '@/contexts/AlchemicalContext/types';
+import type { AlchemicalState, AstrologicalState } from '@/contexts/AlchemicalContext/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { 
@@ -75,9 +75,9 @@ interface AlchemicalHookResult {
   isDaytime: boolean;
   refreshPlanetaryPositions: () => Promise<PlanetaryPositionsType>;
   // Shorthands
-  astrologicalState?: any;
-  elementalState?: any;
-  alchemicalValues?: any;
+  astrologicalState?: AstrologicalState;
+  elementalState?: AlchemicalState['elementalState'];
+  alchemicalValues?: AlchemicalState['alchemicalValues'];
   planetaryHour?: string;
   lunarPhase?: string;
   state: AlchemicalState;
@@ -247,8 +247,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       if (astrologicalState?.modalityDistribution) {
         setAlchemicalResults(prev => ({
           ...prev,
-          modalityDistribution: (astrologicalState.modalityDistribution as any) || prev.modalityDistribution,
-          dominantModality: (astrologicalState.dominantModality as any) || prev.dominantModality
+          modalityDistribution: (astrologicalState.modalityDistribution as { Cardinal: number; Fixed: number; Mutable: number } | undefined) || prev.modalityDistribution,
+          dominantModality: (astrologicalState.dominantModality as Modality | undefined) || prev.dominantModality
         }));
       }
 
@@ -426,7 +426,11 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         logger.error("Error calculating elemental state:", err);
         
         // Fallback to a default state if calculation fails
-      
+
+        // Intentionally any: ElementalCalculator has no getCurrentElementalState static method
+        // (verified against src/services/ElementalCalculator.ts); this cast + optional chaining
+        // always evaluates to undefined and falls through to the hardcoded default below,
+        // preserving existing (likely vestigial) behavior without a compile error.
         const defaultState = (ElementalCalculator as any).getCurrentElementalState?.() || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         setAlchemicalResults(prev => ({
           ...prev,
