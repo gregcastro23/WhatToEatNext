@@ -8,7 +8,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { BlurredLedgerPreview } from '@/components/economy/BlurredLedgerPreview';
 import { DailyAlignmentWidget } from '@/components/economy/DailyAlignmentWidget';
 import { LiveLedgerFeed } from '@/components/economy/LiveLedgerFeed';
-import { SanctumTasks } from '@/components/economy/SanctumTasks';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
@@ -21,9 +20,8 @@ import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
 import type { BirthData, NatalChart } from '@/types/natalChart';
 
 // Heavy panels that only render on non-default profile tabs (cosmos / agents /
-// quests / economy) are code-split so they stay out of the initial bundle.
+// economy) are code-split so they stay out of the initial bundle.
 const UserDashboard = dynamic(() => import('@/components/dashboard').then((m) => m.UserDashboard));
-const QuestPanel = dynamic(() => import('@/components/economy/QuestPanel').then((m) => m.QuestPanel));
 const YieldMultiplierCard = dynamic(() =>
   import('@/components/economy/YieldMultiplierCard').then((m) => m.YieldMultiplierCard),
 );
@@ -64,7 +62,6 @@ const PREMIUM_NAV = [
   { id: 'cosmos', label: 'Cosmos', icon: '🔮' },
   { id: 'economy', label: 'Tokens', icon: '🝇' },
   { id: 'agents', label: 'Agents', icon: '🤖' },
-  { id: 'quests', label: 'Quests', icon: '🎯' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ] as const;
 
@@ -196,14 +193,12 @@ function PremiumDashboard({
                 {/* Live ledger feed */}
                 <LiveLedgerFeed />
 
-                {/* Sanctum Tasks — dev-ops quests */}
-                <SanctumTasks onOpenSettings={() => setActiveTab('settings')} />
-
                 {/* Quick links */}
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
                   {[
                     { label: 'Birth Chart', href: '/birth-chart', icon: '🌌', desc: 'Natal positions' },
                     { label: 'Current Chart', href: '/current-chart', icon: '⚡', desc: 'Live transits' },
+                    { label: 'Grimoire', href: '/grimoire', icon: '📖', desc: 'Practices & feats' },
                     { label: 'Token Economy', href: '/quantities', icon: '⚗️', desc: 'ESMS ledger' },
                     { label: 'Menu Planner', href: '/menu-planner', icon: '🍽️', desc: 'Cosmic meals' },
                     { label: 'Your Agents', href: 'https://agents.alchm.kitchen/me', icon: '🤖', desc: 'Planetary agents' },
@@ -316,13 +311,6 @@ function PremiumDashboard({
 
             {activeTab === 'agents' && (
               <AgentsPane />
-            )}
-
-            {activeTab === 'quests' && (
-              <div className="space-y-6">
-                <TokenBalanceBar className="mb-2" />
-                <QuestPanel />
-              </div>
             )}
 
             {activeTab === 'settings' && (

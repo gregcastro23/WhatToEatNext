@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect, useCallback } from 'react';
-import { QuestPanel } from '@/components/economy/QuestPanel';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
@@ -409,7 +408,7 @@ function usePendingRequestCount(): number {
 
 /* ─── Main Dashboard ─────────────────────────────────────── */
 
-type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'labbook' | 'cosmic-quests' | 'settings';
+type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' | 'labbook' | 'settings';
 
 export const UserDashboard: React.FC<UserDashboardProps> = ({
   session,
@@ -491,16 +490,6 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         <div className="alchm-card rounded-[2.5rem] p-4 shadow-2xl overflow-hidden border-white/5">
           <FoodLabBook />
         </div>
-      </motion.div>
-    );
-  }
-
-  if (viewMode === 'cosmic-quests') {
-    return (
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-        <BackButton />
-        <TokenBalanceBar className="mb-4" />
-        <QuestPanel />
       </motion.div>
     );
   }
@@ -603,9 +592,9 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
                 delay={0.7}
               />
               <NavCard
-                label="Cosmic Quests"
-                description="Complete daily rituals and weekly quests to earn ESMS tokens."
-                onClick={() => setViewMode('cosmic-quests')}
+                label="Grimoire"
+                description="The practices the kitchen honors, today's resonance, and your recorded feats."
+                onClick={() => { window.location.href = '/grimoire'; }}
                 delay={0.75}
               />
               <NavCard
