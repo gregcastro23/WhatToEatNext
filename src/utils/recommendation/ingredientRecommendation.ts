@@ -116,7 +116,7 @@ const loadOils = async (): Promise<Record<string, unknown>> => {
   if (Object.keys(oils).length === 0) {
     try {
       const ingredientModule = await import("../../data/ingredients/oils");
-      oils = (ingredientModule as any).oils || ingredientModule;
+      oils = ingredientModule.oils || ingredientModule;
     } catch (error) {
       _logger.error("Error loading oils: ", error);
     }
@@ -150,7 +150,7 @@ interface FlavorProperties {
 // Type guard for FlavorProperties
 function hasFlavorProperties(obj: unknown): obj is FlavorProperties {
   if (!obj || typeof obj !== "object") return false;
-  const objRecord = obj as any;
+  const objRecord = obj as Record<string, unknown>;
   return (
     (typeof objRecord.bitter === "number" || objRecord.bitter === undefined) &&
     (typeof objRecord.sweet === "number" || objRecord.sweet === undefined) &&
@@ -201,7 +201,9 @@ export interface IngredientRecommendation {
   };
   element?: Element;
   astrologicalProfile?: {
-    elementalAffinity?: any; // ElementalAffinity type not defined
+    elementalAffinity?:
+      | string
+      | { base: string; secondary?: string; decanModifiers?: Record<string, unknown> };
     rulingPlanets?: string[];
     favorableZodiac?: string[];
     signAffinities?: string[];
@@ -248,7 +250,9 @@ export interface EnhancedIngredient {
     rulingPlanets?: string[];
     favorableZodiac?: string[];
     signAffinities?: string[];
-    elementalAffinity?: any; // ElementalAffinity type not defined
+    elementalAffinity?:
+      | string
+      | { base: string; secondary?: string; decanModifiers?: Record<string, unknown> };
   };
   flavorProfile?: { [key: string]: number };
   season?: string[];
@@ -469,11 +473,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as any).category === "egg")
+    .filter(([_, value]) => (value as Record<string, unknown>).category === "egg")
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as any).category === "dairy")
+    .filter(([_, value]) => (value as Record<string, unknown>).category === "dairy")
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
   // Define all categories with loaded data
@@ -502,7 +506,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data as any),
+        ...(data as Record<string, unknown>),
       } as EnhancedIngredient;
 
       // Special categorization for grains and herbs
@@ -549,7 +553,16 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   const validIngredients = allIngredients.filter(
     (ing) =>
       ing.astrologicalProfile &&
-      (ing.astrologicalProfile.elementalAffinity as unknown as any).base &&
+      // Preserved as-is (non-null assertion, not `?.`): the original `any`-cast
+      // access here was unconditional, so it threw for ingredients whose
+      // astrologicalProfile omits elementalAffinity entirely (common in real
+      // ingredient data) and returned `undefined` (not a throw) when
+      // elementalAffinity is stored as a plain string rather than the
+      // {base,...} object form. Both are pre-existing latent filtering bugs —
+      // not fixed here, since fixing the missing-field case would silently
+      // exclude those ingredients instead of throwing, changing which
+      // ingredients pass validation.
+      (ing.astrologicalProfile.elementalAffinity! as { base?: string }).base &&
       ing.astrologicalProfile.rulingPlanets,
   );
 
@@ -648,9 +661,13 @@ export async function getRecommendedIngredients(
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
       const aValue =
-        a.elementalProperties[astroState.dominantElement as any] || 0;
+        a.elementalProperties[
+          astroState.dominantElement as keyof ElementalProperties
+        ] || 0;
       const bValue =
-        b.elementalProperties[astroState.dominantElement as any] || 0;
+        b.elementalProperties[
+          astroState.dominantElement as keyof ElementalProperties
+        ] || 0;
       return bValue - aValue;
     });
   }
@@ -950,7 +967,11 @@ async function calculateSeasonalScore(
           ? "autumn"
           : "winter";
 
-  const ingredientData = ingredient as unknown as any;
+  // Ingredient (declared param type) has no `season` field — only `seasonality`.
+  // The sole call site actually passes an EnhancedIngredient (which does have
+  // `season`) via a double-cast to Ingredient. Preserved as-is; narrowed to just
+  // the field actually read rather than widening the function's param type.
+  const ingredientData = ingredient as unknown as { season?: unknown };
   if (ingredientData.season && Array.isArray(ingredientData.season)) {
     return (ingredientData.season as string[]).includes(season) ? 0.9 : 0.4;
   }
@@ -983,7 +1004,7 @@ async function calculateModalityScore(
     );
   }
 
-  return Math.min(1, 0.5 + ((matches as any)?.length || 0) * 0.2);
+  return Math.min(1, 0.5 + (matches?.length || 0) * 0.2);
 }
 
 function calculateUnifiedFlavorScore(
@@ -1014,7 +1035,7 @@ function calculateUnifiedFlavorScore(
 
       // Calculate alignment between flavor profile and elemental preferences
       Object.entries(flavorMap).forEach(([flavor, preference]) => {
-        const flavorValue = (flavorProfile as any)[flavor] || 0;
+        const flavorValue = (flavorProfile as Record<string, number>)[flavor] || 0;
         if (flavorValue > 0) {
           // Use exponential compatibility for better spread
           const alignment = exponentialElementalCompatibility(
@@ -1318,10 +1339,10 @@ function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return Boolean(
     obj &&
     typeof obj === "object" &&
-    typeof (obj as any).Fire === "number" &&
-    typeof (obj as any).Water === "number" &&
-    typeof (obj as any).Earth === "number" &&
-    typeof (obj as any).Air === "number",
+    typeof (obj as Record<string, unknown>).Fire === "number" &&
+    typeof (obj as Record<string, unknown>).Water === "number" &&
+    typeof (obj as Record<string, unknown>).Earth === "number" &&
+    typeof (obj as Record<string, unknown>).Air === "number",
   );
 }
 
@@ -1403,7 +1424,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elements).forEach((key) => {
-      elements[key as any] /= total;
+      elements[key as keyof typeof elements] /= total;
     });
   }
 

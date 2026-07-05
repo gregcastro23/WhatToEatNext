@@ -222,6 +222,20 @@ export const DEFAULT_GLOBAL_AVERAGES: GlobalPropertyAverages = {
  * Recipe weighting strategy for cuisine aggregation
  */
 export type WeightingStrategy = "equal" | "popularity" | "representativeness";
+
+/**
+ * Loose recipe shape accepted by the aggregation functions in this module.
+ * Would be the full Recipe type with metadata; only the fields actually
+ * read here are captured, with an index signature for pass-through data.
+ */
+export interface RecipeWeightInput {
+  id?: string;
+  viewCount?: number;
+  rating?: number;
+  _computed?: RecipeComputedProperties;
+  [key: string]: unknown;
+}
+
 /**
  * Calculate recipe weight based on strategy
  *
@@ -231,9 +245,9 @@ export type WeightingStrategy = "equal" | "popularity" | "representativeness";
  * @returns Weight value (higher = more influence)
  */
 export function calculateRecipeWeight(
-  recipe: any, // Would be Recipe type with metadata
+  recipe: RecipeWeightInput,
   strategy: WeightingStrategy,
-  allRecipes: any[] = [],
+  allRecipes: RecipeWeightInput[] = [],
 ): number {
   switch (strategy) {
     case "equal":
@@ -321,7 +335,7 @@ function calculateElementalSimilarity(
  * @returns Weighted average elemental properties
  */
 export function aggregateElementalProperties(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+  recipes: RecipeWeightInput[],
   strategy: WeightingStrategy = "equal",
 ): ElementalProperties {
   if (!recipes || recipes.length === 0) {
@@ -365,7 +379,7 @@ export function aggregateElementalProperties(
  * @returns Weighted average alchemical properties
  */
 export function aggregateAlchemicalProperties(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+  recipes: RecipeWeightInput[],
   strategy: WeightingStrategy = "equal",
 ): AlchemicalProperties | undefined {
   const validRecipes = recipes.filter(
@@ -413,7 +427,7 @@ export function aggregateAlchemicalProperties(
  * @returns Property variance metrics
  */
 export function calculatePropertyVariance(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+  recipes: RecipeWeightInput[],
   averages: {
     elementals: ElementalProperties;
     alchemical?: AlchemicalProperties;
@@ -590,21 +604,26 @@ export function identifyCuisineSignatures(
  * @returns Array of planetary patterns
  */
 export function identifyPlanetaryPatterns(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+  recipes: RecipeWeightInput[],
 ): PlanetaryPattern[] {
   const planetaryCounts: Record<string, Record<string, number>> = {};
 
   // Count occurrences of each planet-sign combination
   for (const recipe of recipes) {
-    const positions = (recipe._computed as any)?.planetaryPositionsUsed;
+    // NOTE: `planetaryPositionsUsed` does not exist directly on
+    // RecipeComputedProperties — it is nested under `computationMetadata`
+    // (see src/types/hierarchy.ts). This lookup is therefore always
+    // `undefined` at runtime; preserved as pre-existing behavior, not
+    // fixed, per typing-only campaign scope.
+    const positions = (recipe._computed as Record<string, unknown> | undefined)
+      ?.planetaryPositionsUsed as Record<string, string> | undefined;
     if (!positions) continue;
 
     for (const [planet, sign] of Object.entries(positions)) {
       if (!planetaryCounts[planet]) {
         planetaryCounts[planet] = {};
       }
-      planetaryCounts[planet as any][sign as any] =
-        (planetaryCounts[planet as any][sign as any] || 0) + 1;
+      planetaryCounts[planet][sign] = (planetaryCounts[planet][sign] || 0) + 1;
     }
   }
 
@@ -675,7 +694,7 @@ export function identifyPlanetaryPatterns(
  * @returns Complete cuisine computed properties
  */
 export function computeCuisineProperties(
-  recipes: Array<{ _computed?: RecipeComputedProperties; [key: string]: any }>,
+  recipes: RecipeWeightInput[],
   options: {
     weightingStrategy?: WeightingStrategy;
     globalAverages?: GlobalPropertyAverages;

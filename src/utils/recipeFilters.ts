@@ -250,25 +250,29 @@ export class RecipeFilter {
     restriction: DietaryRestriction,
   ): boolean {
     // Properly check dietary restrictions based on recipe properties
-    switch (restriction) {
-      case "vegetarian" as any:
+    // NOTE: DietaryRestriction's real values are capitalized/hyphenated
+    // (e.g. "Vegetarian", "Gluten-Free"), so these lowercase case labels never
+    // match and every branch below is currently dead code (always falls
+    // through to `default: return true`). Preserved as-is; see report.
+    switch (restriction as string) {
+      case "vegetarian":
         return recipe.isVegetarian === true;
-      case "vegan" as any:
+      case "vegan":
         return recipe.isVegan === true;
-      case "gluten-free" as any:
+      case "gluten-free":
         return recipe.isGlutenFree === true;
-      case "dairy-free" as any:
+      case "dairy-free":
         return recipe.isDairyFree === true;
-      case "keto" as any:
+      case "keto":
         return recipe.isKeto === true || this.hasKetoAttributes(recipe);
-      case "paleo" as any:
+      case "paleo":
         return recipe.isPaleo === true || this.hasPaleoAttributes(recipe);
-      case "low-carb" as any:
+      case "low-carb":
         return (
           recipe.isLowCarb === true ||
           (recipe.nutrition?.carbs !== undefined && recipe.nutrition.carbs < 20)
         );
-      case "low-fat" as any:
+      case "low-fat":
         return (
           recipe.isLowFat === true ||
           (recipe.nutrition?.fat !== undefined && recipe.nutrition.fat < 10)
@@ -350,7 +354,7 @@ export class RecipeFilter {
       let total = 0;
 
       Object.keys(targetElements).forEach((element) => {
-        const key = element as any;
+        const key = element as keyof ElementalProperties;
         const diff = Math.abs(
           (recipeElements[key] || 0) - (targetElements[key] || 0),
         );
@@ -472,9 +476,16 @@ export class RecipeFilter {
         }
 
         // Cooking method filter
+        // NOTE: recipe.cookingMethod is string[], and this compares it against
+        // options.cookingMethod (also string[]) via Array.prototype.includes,
+        // which can never match an array element against an array needle.
+        // This branch is therefore always true (always excludes the recipe)
+        // whenever a cookingMethod filter is supplied. Preserved as-is; see report.
         if (
           options.cookingMethod?.length &&
-          !options.cookingMethod.includes(recipe.cookingMethod as any)
+          !options.cookingMethod.includes(
+            recipe.cookingMethod as unknown as string,
+          )
         ) {
           return false;
         }
@@ -701,7 +712,11 @@ export function filterRecipesByIngredientMappings(
         ingredientRequirements.dietaryRestrictions.every((restriction) =>
           Array.isArray(recipe.dietaryInfo)
             ? recipe.dietaryInfo.includes(restriction)
-            : (recipe.dietaryInfo as any)?.includes?.(restriction) || false,
+            : (
+                recipe.dietaryInfo as
+                  | { includes?: (value: string) => boolean }
+                  | undefined
+              )?.includes?.(restriction) || false,
         );
 
       if (!meetsRestrictions) {

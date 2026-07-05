@@ -1,6 +1,7 @@
 import type { Recipe } from "@/types/recipe";
 import type {
   AstrologicalStateType,
+  Element,
   ElementalProperties,
 } from "../../types/alchemy";
 
@@ -68,7 +69,7 @@ export function calculateRecommendationScore(
   const elementalWeight = 0.4;
   const elementalScore = calculateElementalScore(
     recipe,
-    astrologicalState.dominantElement as any,
+    astrologicalState.dominantElement,
   );
   totalScore += elementalScore * elementalWeight;
   weightSum += elementalWeight;
@@ -135,8 +136,15 @@ export function explainRecommendation(
 
   // Elemental explanation
   if (astrologicalState.dominantElement && recipe.elementalState) {
+    // NOTE: `elementalState` is not a real Recipe field (the real field is
+    // `elementalProperties`); this always resolves to `undefined` at runtime via
+    // Recipe's `[key: string]: unknown` index signature. Preserved as pre-existing
+    // dead-fallback behavior rather than fixed, per no-behavior-change instructions.
+    const recipeElementalState = recipe.elementalState as
+      | ElementalProperties
+      | undefined;
     const elementValue =
-      recipe.elementalState[astrologicalState.dominantElement as any] || 0;
+      recipeElementalState?.[astrologicalState.dominantElement] || 0;
     if (elementValue > 0.3) {
       explanations.push(
         `Strong ${astrologicalState.dominantElement} element alignment`,
@@ -183,7 +191,13 @@ function calculateElementalScore(
   userElement?: Element,
 ): number {
   if (!recipe.elementalState || !userElement) return 0.5;
-  const recipeElementValue = recipe.elementalState[userElement as any] || 0;
+  // NOTE: `elementalState` is not a real Recipe field (see explainRecommendation);
+  // always `unknown` via the index signature. Boundary cast preserves the
+  // pre-existing always-undefined-at-runtime behavior.
+  const recipeElementalState = recipe.elementalState as
+    | ElementalProperties
+    | undefined;
+  const recipeElementValue = recipeElementalState?.[userElement] || 0;
   // Higher values indicate better compatibility (following elemental principles)
   return Math.min(1, 0.3 + recipeElementValue * 0.7);
 }
@@ -197,9 +211,7 @@ function calculatePlanetaryScore(
   const planetaryMatch = safeSome(
     recipe.astrologicalPropertiesInfluences as unknown[],
     (influence) => {
-      // Apply surgical type casting with variable extraction
-      const influenceData = influence as any;
-      const influenceLower = String(influenceData).toLowerCase();
+      const influenceLower = String(influence).toLowerCase();
       const planetNameLower = planetName.toLowerCase();
 
       return influenceLower.includes(planetNameLower);
@@ -243,7 +255,7 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
     ),
   );
 
-  return Math.min(1, 0.5 + ((matches as any)?.length || 0) * 0.2);
+  return Math.min(1, 0.5 + (matches.length || 0) * 0.2);
 }
 
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
@@ -256,7 +268,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
   return mealTypeMatch ? 0.9 : 0.3;
 }
 
-function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
+function _calculateZodiacScore(recipe: Recipe, sunSign: string): number {
   if (!recipe.astrologicalPropertiesInfluences) return 0.5;
 
   // Apply Pattern, H: Safe unknown type array casting
@@ -264,9 +276,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
   const zodiacMatch = safeSome(
     recipe.astrologicalPropertiesInfluences as unknown[],
     (influence) => {
-      // Apply surgical type casting with variable extraction
-      const influenceDataZodiac = influence as any;
-      const influenceLowerZodiac = String(influenceDataZodiac).toLowerCase();
+      const influenceLowerZodiac = String(influence).toLowerCase();
       const sunSignLower = sunSign.toLowerCase();
 
       return influenceLowerZodiac.includes(sunSignLower);
@@ -277,7 +287,13 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
   // Check elemental compatibility with zodiac sign
   const zodiacElement = getZodiacElement(sunSign);
   if (zodiacElement && recipe.elementalState) {
-    const elementValue = recipe.elementalState[zodiacElement as any] || 0;
+    // NOTE: `elementalState` is not a real Recipe field (see explainRecommendation);
+    // always `unknown` via the index signature. Boundary cast preserves the
+    // pre-existing always-undefined-at-runtime behavior.
+    const recipeElementalState = recipe.elementalState as
+      | ElementalProperties
+      | undefined;
+    const elementValue = recipeElementalState?.[zodiacElement] || 0;
     return Math.min(1, 0.4 + elementValue * 0.4);
   }
 
@@ -309,7 +325,7 @@ function getCurrentSeason(): Season {
   return "winter";
 }
 
-function getZodiacElement(sign: any): Element | null {
+function getZodiacElement(sign: string): Element | null {
   const fireSigns = ["aries", "leo", "sagittarius"];
   const earthSigns = ["taurus", "virgo", "capricorn"];
   const airSigns = ["gemini", "libra", "aquarius"];
@@ -317,10 +333,10 @@ function getZodiacElement(sign: any): Element | null {
 
   const signLower = sign.toLowerCase();
 
-  if (fireSigns.includes(signLower)) return "Fire" as any;
-  if (earthSigns.includes(signLower)) return "Earth" as any;
-  if (airSigns.includes(signLower)) return "Air" as any;
-  if (waterSigns.includes(signLower)) return "Water" as any;
+  if (fireSigns.includes(signLower)) return "Fire";
+  if (earthSigns.includes(signLower)) return "Earth";
+  if (airSigns.includes(signLower)) return "Air";
+  if (waterSigns.includes(signLower)) return "Water";
 
   return null;
 }
@@ -378,8 +394,14 @@ export function getDetailedRecipeRecommendations(
 
     // Collect reasons for the score
     if (astrologicalState.dominantElement && recipe.elementalState) {
+      // NOTE: `elementalState` is not a real Recipe field (see explainRecommendation);
+      // always `unknown` via the index signature. Boundary cast preserves the
+      // pre-existing always-undefined-at-runtime behavior.
+      const recipeElementalState = recipe.elementalState as
+        | ElementalProperties
+        | undefined;
       const elementValue =
-        recipe.elementalState[astrologicalState.dominantElement as any] || 0;
+        recipeElementalState?.[astrologicalState.dominantElement] || 0;
       if (elementValue > 0.3) {
         reasons.push(`Strong ${astrologicalState.dominantElement} element`);
       }
@@ -441,7 +463,7 @@ export function calculateElementalMatch(
   let elementCount = 0;
 
   Object.entries(recipeElements).forEach(([element, recipeValue]) => {
-    const userValue = userElements[element as any] || 0;
+    const userValue = userElements[element] || 0;
     // Calculate compatibility (higher values for similar elements)
     const compatibility = 1 - Math.abs(recipeValue - userValue);
     totalMatch += compatibility;
@@ -536,8 +558,11 @@ export function calculateRecipeMatchScore(
       Earth: elementalState.Earth,
       Air: elementalState.Air,
     };
-    // Apply Pattern, J: Safe type casting for recipe.elementalState
-    const recipeElementalProperties = recipe.elementalState as any;
+    // NOTE: `elementalState` is not a real Recipe field (see explainRecommendation);
+    // always `unknown` via the index signature. This cast preserves the pre-existing
+    // always-undefined-at-runtime behavior (calculateElementalMatch itself guards with
+    // `if (!recipeElements ...) return 0.5`). Do not change to recipe.elementalProperties.
+    const recipeElementalProperties = recipe.elementalState as ElementalProperties;
     const elementalMatch = calculateElementalMatch(
       recipeElementalProperties,
       userElementalProperties,

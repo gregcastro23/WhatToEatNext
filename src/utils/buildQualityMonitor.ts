@@ -708,7 +708,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   if (metrics.errorCount > 0) {
     bottlenecks.push({
       phase: "TypeScript Compilation",
-      duration: Math.round(((metrics as any)?.duration || 0) * 0.2), // Estimate 40% of build time,
+      duration: Math.round((metrics.duration || 0) * 0.2), // Estimate 40% of build time,
       percentage: 40,
       suggestions: [
         "Fix TypeScript errors to improve compilation speed",
@@ -722,7 +722,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   if (metrics.bundleSize.total > PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE) {
     bottlenecks.push({
       phase: "Bundle Generation",
-      duration: Math.round(((metrics as any)?.duration || 0) * 0.2), // Estimate 30% of build time,
+      duration: Math.round((metrics.duration || 0) * 0.2), // Estimate 30% of build time,
       percentage: 30,
       suggestions: [
         "Implement code splitting to reduce bundle size",
@@ -736,7 +736,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
   if (metrics.cacheHitRate < 0.7) {
     bottlenecks.push({
       phase: "Cache Management",
-      duration: Math.round(((metrics as any)?.duration || 0) * 0.2), // Estimate 20% of build time,
+      duration: Math.round((metrics.duration || 0) * 0.2), // Estimate 20% of build time,
       percentage: 20,
       suggestions: [
         "Optimize cache configuration",
@@ -957,9 +957,11 @@ async function getTypeScriptErrorCount(): Promise<number> {
 
     const errorMatches = output.match(/error TS\d+: /g);
     return errorMatches ? errorMatches.length : 0;
-  } catch (error: any) {
-    if (error.stdout) {
-      const errorMatches = error.stdout.match(/error TS\d+:/g);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException & { stdout?: string }).stdout) {
+      const errorMatches = (
+        error as NodeJS.ErrnoException & { stdout?: string }
+      ).stdout?.match(/error TS\d+:/g);
       return errorMatches ? errorMatches.length : 0;
     }
     return 0;
@@ -1001,7 +1003,7 @@ function calculateOverallQualityScore(
     0,
     100 -
       codeQuality.typeScriptErrors -
-      ((codeQuality as any)?.lintingWarnings || 0) * 0.2,
+      (codeQuality.lintingWarnings || 0) * 0.2,
   );
   const buildScore = buildQuality.successRate;
   const performanceScore = Math.min(
@@ -1141,7 +1143,7 @@ function generateOptimizationRecommendations(
   // Bundle size recommendations
   if (
     buildMetrics.bundleSize.total >
-    ((PERFORMANCE_THRESHOLDS.BUNDLE_SIZE as any)?.MAX_SIZE || 0) * 0.2
+    (PERFORMANCE_THRESHOLDS.BUNDLE_SIZE.MAX_SIZE || 0) * 0.2
   ) {
     recommendations.push({
       category: "bundle",

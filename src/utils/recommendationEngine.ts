@@ -19,7 +19,15 @@ const ELEMENTAL_AFFINITIES: Record<Element, Element[]> = {
 };
 
 // Planetary affinities for cuisines
-const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
+// NOTE: keys are prefixed with a leading underscore (e.g. "_Sun") which does NOT match
+// any real PlanetName ("Sun", "Moon", ...). This means PLANET_CUISINE_AFFINITIES[planetName]
+// always returns undefined for real callers and calculatePlanetaryScore always falls through
+// to its 0.3 default. This looks like an unintentional typo, but it is preserved exactly here
+// (types-only pass) rather than silently fixed, since correcting the keys would change
+// calculateRecommendationScore's/explainRecommendation's actual output. The declared type is
+// widened to Record<string, string[]> (rather than Record<PlanetName, string[]>) so the
+// mistyped keys type-check without an `as any` escape hatch.
+const PLANET_CUISINE_AFFINITIES: Record<string, string[]> = {
   _Sun: ["Mediterranean", "Italian", "Spanish", "Greek"],
   _Moon: ["Asian", "Japanese", "Seafood"],
   _Mercury: ["Fusion", "Eclectic", "Experimental"],
@@ -32,18 +40,24 @@ const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
   _Neptune: ["Ethereal", "Mystical", "Fluid", "Oceanic"],
   _Pluto: ["Transformative", "Intense", "Powerful", "Regenerative"],
   _Ascendant: ["Personal", "Identity", "Self-expression", "Signature"],
-} as any;
+};
 
 // Season to cuisine mapping
-const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
+// NOTE: same underscore-key mismatch as PLANET_CUISINE_AFFINITIES above (e.g. "_Spring" vs
+// "Spring") — preserved exactly; see note above. calculateSeasonalScore always falls through
+// to its recipe-name-substring check or 0.5 default for real Season values.
+const SEASONAL_CUISINE_AFFINITIES: Record<string, string[]> = {
   _Spring: ["Mediterranean", "Asian", "Light", "Fresh"],
   _Summer: ["Mexican", "Greek", "Indian", "BBQ", "Salads"],
   _Fall: ["American", "German", "Hearty", "Spiced"],
   _Winter: ["Slow-cooked", "Soup", "Stew", "Rich", "Warming"],
-} as any;
+};
 
 // Weekday to cuisine mapping
-const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
+// NOTE: same underscore-key mismatch as above (e.g. "_Sunday" vs "Sunday") — preserved
+// exactly; see note above. calculateWeekdayScore always returns its 0.5 default for real
+// WeekDay values.
+const WEEKDAY_CUISINE_AFFINITIES: Record<string, string[]> = {
   _Sunday: ["Traditional", "Roast", "Family Style"],
   _Monday: ["Simple", "Comfort", "Easy"],
   _Tuesday: ["Spicy", "Quick", "Energetic"],
@@ -51,7 +65,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
   _Thursday: ["Hearty", "Abundant", "Social"],
   _Friday: ["Festive", "Indulgent", "Special"],
   _Saturday: ["Complex", "Experimental", "Project Cooking"],
-} as any;
+};
 
 // Time of day to meal type mapping is already in time.ts
 
@@ -118,7 +132,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 }
 
 // Calculate sun sign affinity - certain zodiac signs favor certain flavors/cuisines
-function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
+function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSignType): number {
   const zodiacAffinities: Record<ZodiacSignType, string[]> = {
     aries: ["Spicy", "Bold", "Quick"],
     taurus: ["Rich", "Indulgent", "Traditional"],
@@ -258,8 +272,8 @@ export function explainRecommendation(
     const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
     if (mealScore > 0.6) {
       // Apply surgical type casting with variable extraction
-      const mealTypeData = timeFactors.mealType as unknown as any;
-      const timeOfDayData = timeFactors.timeOfDay as unknown as any;
+      const mealTypeData = timeFactors.mealType;
+      const timeOfDayData = timeFactors.timeOfDay;
       const mealTypeLower =
         typeof mealTypeData.toLowerCase === "function"
           ? mealTypeData.toLowerCase()
@@ -298,10 +312,17 @@ export function explainRecommendation(
     astrologicalState.dominantPlanets.length > 0
   ) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
+      // dominantPlanets is typed string[], but this defensively guards against a runtime
+      // value shaped like { name: string } (pre-existing dead-code path, preserved as-is;
+      // not "fixed" to avoid changing which branch runs).
       const planetName = String(
-        (dominantPlanet as unknown as any).name || dominantPlanet,
+        (dominantPlanet as unknown as Record<string, unknown>).name ||
+          dominantPlanet,
       );
-      const planetScore = calculatePlanetaryScore(recipe, planetName as any);
+      const planetScore = calculatePlanetaryScore(
+        recipe,
+        planetName as PlanetName,
+      );
       if (planetScore > 0.6) {
         reasons.push(
           `The influence of ${planetName} in your chart is complemented by this recipe.`,

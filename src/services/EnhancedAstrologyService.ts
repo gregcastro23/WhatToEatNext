@@ -14,6 +14,7 @@ import {
   getEclipseSeasons,
   COMPREHENSIVE_TRANSIT_DATABASE,
 } from "@/data/transits/comprehensiveTransitDatabase";
+import type { TransitSeason } from "@/data/transits/comprehensiveTransitDatabase";
 import type {
   CelestialPosition,
   Planet,
@@ -176,34 +177,22 @@ export class EnhancedAstrologyService {
 
     return {
       seasonalThemes:
-        ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
+        (currentSeason as unknown as TransitSeason).seasonalThemes || [],
       culinaryInfluences:
-        ((currentSeason as unknown as any).culinaryInfluences as string[]) ||
-        [],
+        (currentSeason as unknown as TransitSeason).culinaryInfluences || [],
       dominantElements:
-        ((currentSeason as unknown as any).dominantElements as Record<
-          string,
-          number
-        >) || {},
+        (currentSeason as unknown as TransitSeason).dominantElements || {},
       recommendedCuisines:
         this.getRecommendedCuisines(
-          (currentSeason as unknown as any).dominantElements as Record<
-            string,
-            number
-          >,
+          (currentSeason as unknown as TransitSeason).dominantElements,
         ) || {},
       recommendedCookingMethods:
         this.getRecommendedCookingMethods(
-          (currentSeason as unknown as any).dominantElements as Record<
-            string,
-            number
-          >,
+          (currentSeason as unknown as TransitSeason).dominantElements,
         ) || {},
       alchemicalProperties:
-        ((currentSeason as unknown as any).alchemicalProperties as Record<
-          string,
-          number
-        >) || {},
+        (currentSeason as unknown as TransitSeason).alchemicalProperties ||
+        {},
     };
   }
 
@@ -219,11 +208,29 @@ export class EnhancedAstrologyService {
 
     // Unified positions service
     try {
-      const positionsModule =
-        (await import("@/services/PlanetaryPositionsService")) as any;
-      const servicePositions =
-        await positionsModule.planetaryPositionsService.getForDate(date);
+      // PlanetaryPositionsService.ts only exports `_planetaryPositionsService`
+      // (underscore-prefixed); the property access below (`.planetaryPositionsService`,
+      // no underscore) is a pre-existing latent bug — that property is always undefined,
+      // so calling `.getForDate(date)` on it always throws a TypeError, which is caught
+      // below and falls through to the Swiss/fallback chain. Preserved as-is (types-only
+      // pass): the boundary type intentionally types this as an optional/unknown-shaped
+      // property (not the real, nonexistent shape) so the throw-on-access behavior is
+      // unchanged — using `?.` here would swallow the throw and silently change behavior.
+      const positionsModule = (await import(
+        "@/services/PlanetaryPositionsService"
+      )) as Record<string, unknown>;
+      const servicePositions = await (
+        positionsModule.planetaryPositionsService as {
+          getForDate: (
+            date: Date,
+          ) => Promise<Record<string, CelestialPosition>>;
+        }
+      ).getForDate(date);
       primaryPositions = servicePositions;
+      // "positions-service" is not a member of EnhancedAstrologicalData["dataSource"]
+      // ("astrologize" | "swiss-ephemeris" | "fallback" | "composite"). Unreachable in
+      // practice given the throw above, but preserved exactly rather than corrected.
+      // Intentionally any: literal is intentionally outside the declared dataSource union.
       dataSource = "positions-service" as any;
       confidence = 0.95;
     } catch (_error) {
@@ -251,11 +258,11 @@ export class EnhancedAstrologyService {
 
     // Calculate dominant elements from positions
     const dominantElements = this.calculateDominantElements(
-      primaryPositions as any,
+      primaryPositions || {},
     );
 
     // Get retrograde planets
-    const retrogradePlanets = (Object.entries(primaryPositions || {}) as any)
+    const retrogradePlanets = Object.entries(primaryPositions || {})
       .filter(([_, position]) => position.isRetrograde)
       .map(([planet]) => planet);
 
@@ -267,7 +274,7 @@ export class EnhancedAstrologyService {
       (seasonalTransit?.keyAspects as unknown as Planet[]) || [];
 
     return {
-      planetaryPositions: (primaryPositions as any) || {},
+      planetaryPositions: primaryPositions || {},
       dataSource,
       confidence,
       siderealTime: siderealTime || undefined,

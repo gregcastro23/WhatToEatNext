@@ -22,6 +22,7 @@ import type {
   Planet,
   Season,
   ThermodynamicProperties,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import { alchemicalEngine } from "@/utils/alchemyInitializer";
 import { resolveIngredientByName } from "@/utils/ingredientResolution";
@@ -51,7 +52,7 @@ interface IngredientFilter {
   currentSeason?: string;
   searchQuery?: string;
   excludeIngredients?: string[];
-  currentZodiacSignType?: any;
+  currentZodiacSignType?: ZodiacSignType;
   planetaryInfluence?: Planet;
 }
 
@@ -60,6 +61,14 @@ interface ElementalFilter {
   minThreshold?: number;
   maxThreshold?: number;
   dominantElement?: Element;
+  minfire?: number;
+  maxfire?: number;
+  minwater?: number;
+  maxwater?: number;
+  minearth?: number;
+  maxearth?: number;
+  minAir?: number;
+  maxAir?: number;
 }
 
 interface NutritionalFilter {
@@ -70,12 +79,54 @@ interface NutritionalFilter {
   vegetarian?: boolean;
   vegan?: boolean;
   glutenFree?: boolean;
+  minCalories?: number;
+  maxProtein?: number;
+  maxFiber?: number;
+  vitamins?: string[];
+  minerals?: string[];
+  highProtein?: boolean;
+  lowCarb?: boolean;
+  lowFat?: boolean;
 }
 
 interface DietaryFilter {
   restrictions: string[];
   preferences: string[];
   allergies?: string[];
+  isVegetarian?: boolean;
+  isVegan?: boolean;
+  isGlutenFree?: boolean;
+  isDAiryFree?: boolean;
+  isNutFree?: boolean;
+  isLowSodium?: boolean;
+  isLowSugar?: boolean;
+}
+
+/**
+ * Shape of the legacy astrological blob some ingredient data uses. Not a
+ * declared field on UnifiedIngredient (accessed via its index signature),
+ * kept narrow to describe only what these methods read.
+ */
+interface LegacyAstrologicalProperties {
+  astrologicalProperties?: {
+    planets?: unknown;
+    signs?: unknown;
+  };
+}
+
+/**
+ * Shape of the legacy `nutrition` blob some ingredient data uses. Not a
+ * declared field on UnifiedIngredient (only `nutritionalProfile` is), kept
+ * narrow to describe only what applyNutritionalFilter reads.
+ */
+interface LegacyNutrition {
+  protein?: number;
+  fiber?: number;
+  calories?: number;
+  carbs?: number;
+  fat?: number;
+  vitamins?: unknown;
+  minerals?: unknown;
 }
 
 export class UnifiedIngredientService implements IngredientServiceInterface {
@@ -188,10 +239,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const normalizedSubCategory = subcategory.toLowerCase().trim();
     const result: UnifiedIngredient[] = [];
     for (const ingredients of this.ingredientCache.values()) {
-      const matching = (ingredients || []).filter(
-        (ing) =>
-          (ing as any)?.subCategory?.toLowerCase() === normalizedSubCategory,
-      );
+      const matching = (ingredients || []).filter((ing) => {
+        const subCategory = (ing as Record<string, unknown>).subCategory;
+        return (
+          typeof subCategory === "string" &&
+          subCategory.toLowerCase() === normalizedSubCategory
+        );
+      });
       result.push(...matching);
     }
     return result;
@@ -386,9 +440,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
 
     return (allIngredients || []).filter((_ingredient) => {
-      if (!(_ingredient as any)?.astrologicalProperties?.planets) return false;
+      const legacy = (_ingredient as unknown as LegacyAstrologicalProperties)
+        ?.astrologicalProperties;
+      if (!legacy?.planets) return false;
 
-      const planets = (_ingredient as any)?.astrologicalProperties?.planets;
+      const planets = legacy.planets;
       return Array.isArray(planets)
         ? planets.includes(planet) // ← Pattern HH-1: Safe conversion via unknown
         : planets === (planet as unknown); // ← Pattern HH-1: Safe conversion via unknown
@@ -398,15 +454,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by zodiac sign
    */
-  getIngredientsByZodiacSignType(sign: any): UnifiedIngredient[] {
+  getIngredientsByZodiacSignType(sign: ZodiacSignType): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
 
     return (allIngredients || []).filter((_ingredient) => {
-      if (!(_ingredient as any)?.astrologicalProperties?.signs) return false;
+      const legacy = (_ingredient as unknown as LegacyAstrologicalProperties)
+        ?.astrologicalProperties;
+      if (!legacy?.signs) return false;
 
-      const signs = (_ingredient as any)?.astrologicalProperties?.signs;
+      const signs = legacy.signs;
       return Array.isArray(signs)
-        ? signs.includes(sign as unknown) // ← Pattern HH-1: Safe conversion via unknown
+        ? signs.includes(sign) // ← Pattern HH-1: Safe conversion via unknown
         : signs === (sign as unknown); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
@@ -419,8 +477,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     options: IngredientRecommendationOptions = {},
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
-    // Extract options with safe property access for missing properties
-    const optionsData = options as any;
+    // Extract options with safe property access for missing properties.
+    // These 3 fields are not declared on IngredientRecommendationOptions.
+    const optionsData = options as IngredientRecommendationOptions & {
+      maxResults?: number;
+      optimizeForSeason?: boolean;
+      includeExotic?: boolean;
+    };
     const maxResults = Number(optionsData.maxResults || 10);
     const optimizeForSeason =
       optionsData.optimizeForSeason !== undefined
@@ -449,7 +512,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map((_ingredient) => {
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as any;
+      const alchemicalEngineData = alchemicalEngine as Record<string, unknown>;
       const compatibilityMethod =
         alchemicalEngineData.calculateElementalCompatibility ||
         this.fallbackElementalCompatibility;
@@ -513,7 +576,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Calculate elemental compatibility
-    const alchemicalEngineData2 = alchemicalEngine as any;
+    const alchemicalEngineData2 = alchemicalEngine as Record<string, unknown>;
     const compatibilityMethod2 =
       alchemicalEngineData2.calculateElementalCompatibility ||
       this.fallbackElementalCompatibility;
@@ -705,20 +768,25 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     filter: NutritionalFilter,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter((_ingredient) => {
-      const { nutrition } = _ingredient;
+      // `nutrition` is not a declared UnifiedIngredient field (only
+      // `nutritionalProfile` is) so this reads via the index signature;
+      // narrow it once here to the shape actually accessed below.
+      const nutrition = (_ingredient as Record<string, unknown>).nutrition as
+        | LegacyNutrition
+        | undefined;
       if (!nutrition) return true; // Skip if no nutrition data
 
       // Check protein
       if (
         filter.minProtein !== undefined &&
-        ((nutrition as any)?.protein || 0) < filter.minProtein
+        (nutrition?.protein || 0) < filter.minProtein
       ) {
         return false;
       }
 
       if (
         filter.minProtein !== undefined &&
-        ((nutrition as any)?.protein || 0) < filter.minProtein
+        (nutrition?.protein || 0) < filter.minProtein
       ) {
         return false;
       }
@@ -726,19 +794,18 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       // Check fiber
       if (
         filter.minFiber !== undefined &&
-        ((nutrition as any)?.fiber || 0) < filter.minFiber
+        (nutrition?.fiber || 0) < filter.minFiber
       ) {
         return false;
       }
 
       // Extract filter data with safe property access for maxFiber
-      const filterData = filter as any;
-      const { maxFiber } = filterData;
+      const { maxFiber } = filter;
 
       if (
         maxFiber !== undefined &&
         maxFiber !== null &&
-        ((nutrition as any)?.fiber || 0) > maxFiber
+        (nutrition?.fiber || 0) > maxFiber
       ) {
         return false;
       }
@@ -746,32 +813,31 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       // Check calories
       if (
         filter.maxCalories !== undefined &&
-        ((nutrition as any)?.calories || 0) > filter.maxCalories
+        (nutrition?.calories || 0) > filter.maxCalories
       ) {
         return false;
       }
 
       if (
         filter.maxCalories !== undefined &&
-        ((nutrition as any)?.calories || 0) > filter.maxCalories
+        (nutrition?.calories || 0) > filter.maxCalories
       ) {
         return false;
       }
 
       // Check vitamins
       // Extract filter vitamins with safe property access
-      const filterVitamins = filterData.vitamins;
+      const filterVitamins = filter.vitamins;
 
       if (filterVitamins && Array.isArray(filterVitamins)) {
-        if (!(nutrition as any)?.vitamins) {
+        if (!nutrition?.vitamins) {
           return false;
         }
 
         const hasAllVitamins = filterVitamins.every((vitamin) =>
-          (nutrition as any)?.vitamins &&
-          Array.isArray((nutrition as any)?.vitamins)
-            ? (nutrition as any)?.vitamins.includes(vitamin)
-            : (nutrition as any)?.vitamins === vitamin,
+          nutrition?.vitamins && Array.isArray(nutrition?.vitamins)
+            ? nutrition.vitamins.includes(vitamin)
+            : nutrition?.vitamins === vitamin,
         );
 
         if (!hasAllVitamins) {
@@ -781,18 +847,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Check minerals
       // Extract filter minerals with safe property access
-      const filterMinerals = filterData.minerals;
+      const filterMinerals = filter.minerals;
 
       if (filterMinerals && Array.isArray(filterMinerals)) {
-        if (!(nutrition as any)?.minerals) {
+        if (!nutrition?.minerals) {
           return false;
         }
 
         const hasAllMinerals = filterMinerals.every((mineral) =>
-          (nutrition as any)?.minerals &&
-          Array.isArray((nutrition as any)?.minerals)
-            ? (nutrition as any)?.minerals.includes(mineral)
-            : (nutrition as any)?.minerals === mineral,
+          nutrition?.minerals && Array.isArray(nutrition?.minerals)
+            ? nutrition.minerals.includes(mineral)
+            : nutrition?.minerals === mineral,
         );
 
         if (!hasAllMinerals) {
@@ -802,21 +867,21 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       // Check high protein flag
       // Extract additional filter flags with safe property access
-      const { highProtein } = filterData;
-      const { lowCarb } = filterData;
-      const { lowFat } = filterData;
+      const { highProtein } = filter;
+      const { lowCarb } = filter;
+      const { lowFat } = filter;
 
-      if (highProtein && ((nutrition as any)?.protein || 0) < 15) {
+      if (highProtein && (nutrition?.protein || 0) < 15) {
         return false;
       }
 
       // Check low carb flag
-      if (lowCarb && ((nutrition as any)?.carbs || 0) > 10) {
+      if (lowCarb && (nutrition?.carbs || 0) > 10) {
         return false;
       }
 
       // Check low fat flag
-      if (lowFat && ((nutrition as any)?.fat || 0) > 3) {
+      if (lowFat && (nutrition?.fat || 0) > 3) {
         return false;
       }
 
@@ -832,25 +897,29 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     filter: ElementalFilter,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter((_ingredient) => {
-      const elemental = _ingredient.elementalPropertiesState;
+      // `elementalPropertiesState` is not a declared UnifiedIngredient field
+      // (only `elementalProperties` is); narrow it once here to the shape
+      // actually read below.
+      const elemental = _ingredient.elementalPropertiesState as
+        | ElementalProperties
+        | undefined;
       if (!elemental) return true; // Skip if no elemental data
 
       // Extract filter data with safe property access for elemental properties
-      const filterData = filter as any;
-      const { minfire } = filterData;
-      const { maxfire } = filterData;
-      const { minwater } = filterData;
-      const { maxwater } = filterData;
-      const { minearth } = filterData;
-      const { maxearth } = filterData;
-      const { minAir } = filterData;
-      const { maxAir } = filterData;
+      const { minfire } = filter;
+      const { maxfire } = filter;
+      const { minwater } = filter;
+      const { maxwater } = filter;
+      const { minearth } = filter;
+      const { maxearth } = filter;
+      const { minAir } = filter;
+      const { maxAir } = filter;
 
       // Check Fire
       if (
         minfire !== undefined &&
         minfire !== null &&
-        (elemental as any)?.Fire < minfire
+        elemental?.Fire < minfire
       ) {
         return false;
       }
@@ -858,7 +927,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (
         maxfire !== undefined &&
         maxfire !== null &&
-        (elemental as any)?.Fire > maxfire
+        elemental?.Fire > maxfire
       ) {
         return false;
       }
@@ -867,7 +936,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (
         minwater !== undefined &&
         minwater !== null &&
-        (elemental as any)?.Water < minwater
+        elemental?.Water < minwater
       ) {
         return false;
       }
@@ -875,7 +944,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (
         maxwater !== undefined &&
         maxwater !== null &&
-        (elemental as any)?.Water > maxwater
+        elemental?.Water > maxwater
       ) {
         return false;
       }
@@ -884,7 +953,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (
         minearth !== undefined &&
         minearth !== null &&
-        (elemental as any)?.Earth < minearth
+        elemental?.Earth < minearth
       ) {
         return false;
       }
@@ -892,25 +961,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (
         maxearth !== undefined &&
         maxearth !== null &&
-        (elemental as any)?.Earth > maxearth
+        elemental?.Earth > maxearth
       ) {
         return false;
       }
 
       // Check Air
-      if (
-        minAir !== undefined &&
-        minAir !== null &&
-        (elemental as any)?.Air < minAir
-      ) {
+      if (minAir !== undefined && minAir !== null && elemental?.Air < minAir) {
         return false;
       }
 
-      if (
-        maxAir !== undefined &&
-        maxAir !== null &&
-        (elemental as any)?.Air > maxAir
-      ) {
+      if (maxAir !== undefined && maxAir !== null && elemental?.Air > maxAir) {
         return false;
       }
 
@@ -934,51 +995,62 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     filter: DietaryFilter,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter((_ingredient) => {
-      const dietary = _ingredient.dietaryFlags;
+      // `dietaryFlags` is not a declared UnifiedIngredient field; narrow it
+      // once here to the shape actually read below.
+      const dietary = _ingredient.dietaryFlags as
+        | {
+            isVegetarian?: boolean;
+            isVegan?: boolean;
+            isGlutenFree?: boolean;
+            isDAiryFree?: boolean;
+            isNutFree?: boolean;
+            isLowSodium?: boolean;
+            isLowSugar?: boolean;
+          }
+        | undefined;
       if (!dietary) return true; // Skip if no dietary data
 
       // Extract filter data with safe property access for dietary properties
-      const filterData = filter as any;
-      const { isVegetarian } = filterData;
-      const { isVegan } = filterData;
-      const { isGlutenFree } = filterData;
-      const { isDAiryFree } = filterData;
-      const { isNutFree } = filterData;
-      const { isLowSodium } = filterData;
-      const { isLowSugar } = filterData;
+      const { isVegetarian } = filter;
+      const { isVegan } = filter;
+      const { isGlutenFree } = filter;
+      const { isDAiryFree } = filter;
+      const { isNutFree } = filter;
+      const { isLowSodium } = filter;
+      const { isLowSugar } = filter;
 
       // Check vegetarian
-      if (isVegetarian && !(dietary as any)?.isVegetarian) {
+      if (isVegetarian && !dietary?.isVegetarian) {
         return false;
       }
 
       // Check vegan
-      if (isVegan && !(dietary as any)?.isVegan) {
+      if (isVegan && !dietary?.isVegan) {
         return false;
       }
 
       // Check gluten-free
-      if (isGlutenFree && !(dietary as any)?.isGlutenFree) {
+      if (isGlutenFree && !dietary?.isGlutenFree) {
         return false;
       }
 
       // Check dairy-free
-      if (isDAiryFree && !(dietary as any)?.isDAiryFree) {
+      if (isDAiryFree && !dietary?.isDAiryFree) {
         return false;
       }
 
       // Check nut-free
-      if (isNutFree && !(dietary as any)?.isNutFree) {
+      if (isNutFree && !dietary?.isNutFree) {
         return false;
       }
 
       // Check low-sodium
-      if (isLowSodium && !(dietary as any)?.isLowSodium) {
+      if (isLowSodium && !dietary?.isLowSodium) {
         return false;
       }
 
       // Check low-sugar
-      if (isLowSugar && !(dietary as any)?.isLowSugar) {
+      if (isLowSugar && !dietary?.isLowSugar) {
         return false;
       }
 
@@ -1000,7 +1072,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
       return (seasons || []).some((season) =>
         Array.isArray(_ingredient.seasonality)
-          ? _ingredient.seasonality.includes(season as any)
+          ? _ingredient.seasonality.includes(season as Season)
           : _ingredient.seasonality === (season as unknown),
       );
     });
@@ -1031,17 +1103,17 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
 
       // Check subcategory
+      const subCategory = (_ingredient as Record<string, unknown>).subCategory;
       if (
-        (_ingredient as any)?.subCategory
-          ?.toLowerCase()
-          ?.includes(normalizedQuery)
+        typeof subCategory === "string" &&
+        subCategory.toLowerCase().includes(normalizedQuery)
       ) {
         return true;
       }
 
       // Check tags
       if (
-        ((_ingredient as any).tags || []).some((tag: any) =>
+        (_ingredient.tags || []).some((tag: string) =>
           tag?.toLowerCase()?.includes(normalizedQuery),
         )
       ) {
@@ -1074,18 +1146,18 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private applyZodiacFilter(
     ingredients: UnifiedIngredient[],
-    currentZodiacSignType: any,
+    currentZodiacSignType: ZodiacSignType,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter((ingredient) => {
-      if (!(ingredient as any)?.astrologicalProperties?.signs) {
+      const legacy = (ingredient as unknown as LegacyAstrologicalProperties)
+        ?.astrologicalProperties;
+      if (!legacy?.signs) {
         return false;
       }
 
-      const signs = (ingredient as any)?.astrologicalProperties?.signs;
+      const signs = legacy.signs;
       return Array.isArray(signs)
-        ? signs.includes(
-            currentZodiacSignType as unknown,
-          )
+        ? signs.includes(currentZodiacSignType)
         : signs ===
             (currentZodiacSignType as unknown as Record<
               string,
@@ -1102,15 +1174,15 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     planet: Planet,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter((ingredient) => {
-      if (!(ingredient as any)?.astrologicalProperties?.planets) {
+      const legacy = (ingredient as unknown as LegacyAstrologicalProperties)
+        ?.astrologicalProperties;
+      if (!legacy?.planets) {
         return false;
       }
 
-      const planets = (ingredient as any)?.astrologicalProperties?.planets;
+      const planets = legacy.planets;
       return Array.isArray(planets)
-        ? planets.includes(
-            planet,
-          )
+        ? planets.includes(planet)
         : planets ===
             (planet as unknown as Record<string, Record<string, string>>);
     });
@@ -1220,21 +1292,20 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ing1: UnifiedIngredient,
     ing2: UnifiedIngredient,
   ): number {
-    // Calculate thermodynamic metrics if needed
-    const metrics1 =
-      ing1.thermodynamicProperties || this.calculateThermodynamicMetrics(ing1);
-    const metrics2 =
-      ing2.thermodynamicProperties || this.calculateThermodynamicMetrics(ing2);
+    // Calculate thermodynamic metrics if needed. `thermodynamicProperties`
+    // is not a declared UnifiedIngredient field (only `energyValues`/
+    // `energyProfile` are), so narrow the fallback-or-computed result to
+    // the shape actually read below.
+    const metrics1 = (ing1.thermodynamicProperties ||
+      this.calculateThermodynamicMetrics(ing1)) as ThermodynamicProperties;
+    const metrics2 = (ing2.thermodynamicProperties ||
+      this.calculateThermodynamicMetrics(ing2)) as ThermodynamicProperties;
 
     // Calculate differences in key properties
-    const heatDiff = (Math as any).abs(
-      (metrics1 as any)?.heat - (metrics2 as any)?.heat,
-    );
-    const entropyDiff = (Math as any).abs(
-      (metrics1 as any)?.entropy - (metrics2 as any)?.entropy,
-    );
+    const heatDiff = Math.abs(metrics1?.heat - metrics2?.heat);
+    const entropyDiff = Math.abs(metrics1?.entropy - metrics2?.entropy);
     const reactivityDiff = Math.abs(
-      (metrics1 as any)?.reactivity - (metrics2 as any)?.reactivity,
+      metrics1?.reactivity - metrics2?.reactivity,
     );
 
     // Calculate average difference

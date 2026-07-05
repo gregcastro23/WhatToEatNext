@@ -67,7 +67,7 @@ export interface SeasonalTransit {
   season: string;
   startDate: Date;
   endDate: Date;
-  sunSign: any;
+  sunSign: ZodiacSignType;
   dominantElements: Record<string, number>;
   keyAspects: PlanetaryAspect[];
   planetaryPlacements: Record<string, CelestialPosition>;
@@ -110,7 +110,7 @@ const PLANET_MAPPING = {
 /**
  * Zodiac signs in order (0-11)
  */
-const ZODIAC_SIGNS: any[] = [
+const ZODIAC_SIGNS: ZodiacSignType[] = [
   "aries",
   "taurus",
   "gemini",
@@ -775,7 +775,7 @@ export class SwissEphemerisService {
     keyAspects: PlanetaryAspect[];
     dominantElements: Record<string, number>;
 
-    planetaryTrends: Record<string, any[]>;
+    planetaryTrends: Record<string, unknown[]>;
   } {
     const seasonalTransits: SeasonalTransit[] = [];
     const keyAspects: PlanetaryAspect[] = [];
@@ -786,7 +786,7 @@ export class SwissEphemerisService {
       Water: 0,
     };
 
-    const planetaryTrends: Record<string, any[]> = {};
+    const planetaryTrends: Record<string, unknown[]> = {};
 
     // Collect all transits in the date range
     const years = this.getAvailableYears();
@@ -863,7 +863,12 @@ export class SwissEphemerisService {
         const { sign, degree } = this.longitudeToSignAndDegree(longitude);
 
         positions[planetName] = {
-          sign: (signName.toLowerCase() as any) || sign,
+          // NOTE: signName is `undefined` at runtime for planet codes L (NorthNode),
+          // K (SouthNode), M (Chiron), N (Lilith) -- SwissEphemerisData has no `_sign`
+          // field for them and no data entries populate one. This causes a pre-existing
+          // latent TypeError (signName.toLowerCase() on undefined) for those codes.
+          // Preserved as-is; not in scope to fix (would change throw-vs-fallback behavior).
+          sign: signName.toLowerCase() || sign,
           degree,
           exactLongitude: longitude,
           isRetrograde,
@@ -954,10 +959,13 @@ export class SwissEphemerisService {
         let newLongitude = currentLongitude + motion * daysDiff;
         newLongitude = ((newLongitude % 360) + 360) % 360;
 
-        (approximatedEntry as unknown as any)[planetCode] = newLongitude;
+        (approximatedEntry as unknown as Record<string, number>)[planetCode] =
+          newLongitude;
 
         const { sign } = this.longitudeToSignAndDegree(newLongitude);
-        (approximatedEntry as any)[`${planetCode}_sign`] = sign;
+        (approximatedEntry as unknown as Record<string, string>)[
+          `${planetCode}_sign`
+        ] = sign;
       }
     });
 
@@ -1039,7 +1047,7 @@ export class SwissEphemerisService {
 
     Object.entries(positions).forEach(([planet, position]) => {
       astrologizeFormat[planet] = {
-        sign: position.sign as any,
+        sign: position.sign,
         degree: position.degree || 0,
         minute: position.minutes || 0,
         exactLongitude: position.exactLongitude || 0,

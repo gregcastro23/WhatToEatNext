@@ -26,11 +26,23 @@ function computeInertia(_elements: ElementVector): number {
   return 0
 }
 
+interface AlchmSample {
+  spirit: number
+  matter: number
+  essence: number
+  substance: number
+  Heat: number
+  Entropy: number
+  Reactivity: number
+  Energy: number
+  totals: ElementVector
+}
+
 async function sampleHourlyAlchm(
   _location: Location,
   _timestamp: Date,
-  _options: any
-): Promise<any[]> {
+  _options: Record<string, unknown>
+): Promise<AlchmSample[]> {
   return [
     {
       spirit: 50,
@@ -315,7 +327,10 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate enhanced alchemical metrics including A#
    */
-  private calculateAlchemicalMetrics(sample: any, horoscope: HoroscopeData) {
+  private calculateAlchemicalMetrics(
+    sample: AlchmSample,
+    horoscope: HoroscopeData
+  ): CelestialMoment['alchemical'] {
     // Calculate A# (Alchemical Number) using advanced formula
     const aNumber = this.calculateAlchemicalNumber(sample, horoscope)
 
@@ -331,7 +346,7 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate advanced A# using planetary positions and alchemical ratios
    */
-  private calculateAlchemicalNumber(sample: any, horoscope: HoroscopeData): number {
+  private calculateAlchemicalNumber(sample: AlchmSample, horoscope: HoroscopeData): number {
     // Get alchemical values directly from sample (capitalized for consistency)
     const Spirit = sample.spirit || 0
     const Matter = sample.matter || 0
@@ -363,7 +378,10 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate kinetic metrics with enhanced derivatives
    */
-  private calculateKineticMetrics(currentSample: any, _timeSeries: any[]) {
+  private calculateKineticMetrics(
+    currentSample: AlchmSample,
+    _timeSeries: AlchmSample[]
+  ): CelestialMoment['kinetic'] {
     const elements: ElementVector = {
       Fire: currentSample.totals.Fire,
       Water: currentSample.totals.Water,
@@ -409,9 +427,16 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate planetary context
    */
-  private calculatePlanetaryContext(horoscope: HoroscopeData) {
-    // Null check for (horoscope as any).planets
-    if (!horoscope || !(horoscope as any).planets) {
+  private calculatePlanetaryContext(horoscope: HoroscopeData): CelestialMoment['planetary'] {
+    // NOTE: `planets` is not a field on the real HoroscopeData/GeneratedHoroscope shape
+    // (src/lib/monica/horoscope-generator.ts) — only `tropical.CelestialBodies.all` exists.
+    // This means `(horoscope as unknown as Record<string, unknown>).planets` is always
+    // undefined at runtime, so this guard is always taken and the dominant-planet/sign/
+    // retrograde logic below is effectively dead code. Preserved as-is (types-only pass)
+    // rather than fixed, since deriving this from `tropical.CelestialBodies.all` would
+    // change what this method (and downstream consciousness/evolution-phase calculations)
+    // actually returns.
+    if (!horoscope || !(horoscope as unknown as Record<string, unknown>).planets) {
       console.error('Invalid horoscope data: planets is null or undefined')
       return {
         dominantPlanet: 'Sun',
@@ -421,14 +446,16 @@ export class CelestialEnergyCalculator {
       }
     }
 
-    const planets = Object.entries((horoscope as any).planets)
+    const planets = Object.entries(
+      (horoscope as unknown as Record<string, unknown>).planets as Record<string, unknown>
+    )
 
     // Find dominant planet (most aspects or strongest dignity)
     let dominantPlanet = 'Sun' // default
     let maxStrength = 0
 
     for (const [planet, data] of planets) {
-      const strength = this.calculatePlanetaryStrength(planet, data)
+      const strength = this.calculatePlanetaryStrength(planet, data as Record<string, unknown>)
       if (strength > maxStrength) {
         maxStrength = strength
         dominantPlanet = planet
@@ -438,8 +465,9 @@ export class CelestialEnergyCalculator {
     // Find dominant sign (most planets)
     const signCounts: Record<string, number> = {}
     for (const [, data] of planets) {
-      if (data && (data as any).sign) {
-        signCounts[(data as any).sign] = (signCounts[(data as any).sign] || 0) + 1
+      if (data && (data as Record<string, unknown>).sign) {
+        const sign = (data as Record<string, unknown>).sign as string
+        signCounts[sign] = (signCounts[sign] || 0) + 1
       }
     }
     const dominantSign = Object.entries(signCounts).sort(([, a], [, b]) => b - a)[0]?.[0] || 'Aries'
@@ -451,7 +479,9 @@ export class CelestialEnergyCalculator {
       isNaN(sunDegree) || isNaN(moonDegree) ? 0 : ((moonDegree - sunDegree + 360) % 360) / 360
 
     // Count retrograde planets
-    const retrogradeCount = planets.filter(([, data]) => (data as any).retrograde).length
+    const retrogradeCount = planets.filter(
+      ([, data]) => (data as Record<string, unknown>).retrograde
+    ).length
 
     return {
       dominantPlanet,
@@ -464,7 +494,11 @@ export class CelestialEnergyCalculator {
   /**
    * Calculate consciousness metrics
    */
-  private calculateConsciousnessMetrics(alchemical: any, kinetic: any, planetary: any) {
+  private calculateConsciousnessMetrics(
+    alchemical: CelestialMoment['alchemical'],
+    kinetic: CelestialMoment['kinetic'],
+    planetary: CelestialMoment['planetary']
+  ) {
     // Resonance level based on A# and elemental harmony
     const resonanceLevel =
       Math.min(1.0, alchemical.A_number / 100) * (1 + (kinetic.power / 10) * 0.1)
@@ -486,7 +520,10 @@ export class CelestialEnergyCalculator {
   /**
    * Determine evolution phase based on planetary and alchemical factors
    */
-  private determineEvolutionPhase(planetary: any, alchemical: any): string {
+  private determineEvolutionPhase(
+    planetary: CelestialMoment['planetary'],
+    alchemical: CelestialMoment['alchemical']
+  ): string {
     const phases = [
       'Initiation',
       'Development',
@@ -608,6 +645,11 @@ export class CelestialEnergyCalculator {
       peakEnergy,
       averageValues,
       trends,
+      // Intentionally any: this return value is assigned (via a `... ? ... : null` ternary
+      // at the generateTimeSeries call site) into CelestialTimeSeries.statistics, which is a
+      // non-nullable field. Giving this method a precise return type would surface a new
+      // null-assignability typecheck error there; keeping this cast preserves the current
+      // passing typecheck state without changing the public interface or runtime behavior.
     } as any
   }
 
@@ -657,7 +699,7 @@ export class CelestialEnergyCalculator {
    * Detect patterns in the time series
    */
   private detectPatterns(moments: CelestialMoment[]) {
-    const patterns: any[] = []
+    const patterns: CelestialTimeSeries['patterns'] = []
 
     // Peak detection
     const peaks = this.findPeaks(moments.map(m => m.alchemical.A_number))
@@ -695,11 +737,12 @@ export class CelestialEnergyCalculator {
    * Helper methods
    */
 
-  private calculatePlanetaryStrength(_planet: string, data: any): number {
+  private calculatePlanetaryStrength(_planet: string, data: Record<string, unknown>): number {
     // Simplified strength calculation with null checks
     let strength = 1
     if (data && typeof data === 'object') {
-      if (data.dignity && data.dignity > 0) strength += data.dignity
+      const dignity = data.dignity as number | undefined
+      if (dignity && dignity > 0) strength += dignity
       if (data.retrograde === false) strength += 0.5
     }
     return strength

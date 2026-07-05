@@ -2,6 +2,30 @@ import { useState, useEffect} from "react";
 import { cookingMethods } from "@/data/cooking/cookingMethods";
 import { allCookingMethods } from "@/data/cooking/methods";
 import { log } from "@/services/LoggingService";
+import type { AlchemicalProperties, ElementalProperties } from "@/types/alchemy";
+
+// Snapshot of the fields we actually read off entries from either
+// `allCookingMethods` or `cookingMethods` — both sources have inconsistent
+// per-entry shapes (some fields missing on some literals), so every field
+// here is intentionally optional rather than reusing CookingMethodData's
+// required fields. Nested field groups (elementalEffect, duration,
+// alchemicalProperties) are kept as full (non-Partial) shapes to match the
+// `CookingMethod` return type below, which declares these sub-fields as
+// required numbers — the same as the pre-existing `any`-typed behavior,
+// which never enforced partial-vs-full at the property level either.
+interface RawCookingMethodEntry {
+  name?: string;
+  description?: string;
+  score?: number;
+  elementalEffect?: ElementalProperties;
+  duration?: {
+    min: number;
+    max: number;
+  };
+  suitable_for?: string[];
+  benefits?: string[];
+  alchemicalProperties?: AlchemicalProperties;
+}
 
 // Define the interface for cooking methods that the component expects
 interface CookingMethod {
@@ -42,26 +66,26 @@ export function useCookingMethods() {
       const convertedMethods: CookingMethod[] = Object.entries(
         allCookingMethods,
       ).map(([key, methodData]) => {
-        const data = methodData as unknown;
+        const data = methodData as unknown as RawCookingMethodEntry;
 
         return {
           id: key,
-          name: (data as any).name || key.replace(/_/g, " "),
-          description: (data as any).description || `Cooking method: ${key}`,
-          score: (data as any).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0,
-          elementalEffect: (data as any).elementalEffect || {
+          name: data.name || key.replace(/_/g, " "),
+          description: data.description || `Cooking method: ${key}`,
+          score: data.score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0,
+          elementalEffect: data.elementalEffect || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
           },
-          duration: (data as any).duration || {
+          duration: data.duration || {
             min: 10,
             max: 60,
           },
-          suitable_for: (data as any).suitable_for || ["various ingredients"],
-          benefits: (data as any).benefits || ["cooking"],
-          alchemicalProperties: (data as any).alchemicalProperties || {
+          suitable_for: data.suitable_for || ["various ingredients"],
+          benefits: data.benefits || ["cooking"],
+          alchemicalProperties: data.alchemicalProperties || {
             Spirit: 0.5,
             Essence: 0.5,
             Matter: 0.5,
@@ -74,26 +98,26 @@ export function useCookingMethods() {
       const additionalMethods: CookingMethod[] = Object.entries(
         cookingMethods,
       ).map(([key, methodData]) => {
-        const data = methodData as unknown;
+        const data = methodData as unknown as RawCookingMethodEntry;
 
         return {
           id: key,
-          name: (data as any).name || key.replace(/_/g, " "),
-          description: (data as any).description || `Cooking method: ${key}`,
-          score: (data as any).score || Math.random() * 0.5 + 0.5,
-          elementalEffect: (data as any).elementalEffect || {
+          name: data.name || key.replace(/_/g, " "),
+          description: data.description || `Cooking method: ${key}`,
+          score: data.score || Math.random() * 0.5 + 0.5,
+          elementalEffect: data.elementalEffect || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25,
           },
-          duration: (data as any).duration || {
+          duration: data.duration || {
             min: 10,
             max: 60,
           },
-          suitable_for: (data as any).suitable_for || ["various ingredients"],
-          benefits: (data as any).benefits || ["cooking"],
-          alchemicalProperties: (data as any).alchemicalProperties || {
+          suitable_for: data.suitable_for || ["various ingredients"],
+          benefits: data.benefits || ["cooking"],
+          alchemicalProperties: data.alchemicalProperties || {
             Spirit: 0.5,
             Essence: 0.5,
             Matter: 0.5,

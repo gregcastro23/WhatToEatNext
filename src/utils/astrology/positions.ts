@@ -2,6 +2,7 @@
 // so Body, AstroTime, etc. resolve correctly regardless of bundler ESM/CJS resolution.
 import * as Astronomy from "astronomy-engine";
 import { _logger } from "@/lib/logger";
+import type { ZodiacSignType } from "@/types/celestial";
 import type { DegradedInfo } from "@/types/degraded";
 
 // Removed unused log import
@@ -89,8 +90,8 @@ interface PositionsCache {
 /**
  * Type for planetary position object
  */
-interface PlanetPositionData {
-  sign: any;
+export interface PlanetPositionData {
+  sign: ZodiacSignType;
   degree: number;
   exactLongitude: number;
   isRetrograde: boolean;
@@ -170,10 +171,8 @@ function calculateReferenceLongitude(planet: string): number {
 /**
  * Get planetary positions for a given date using fallback approach
  */
-export function getFallbackPlanetaryPositions(date: Date): {
-  [key: string]: unknown;
-} {
-  const positions: { [key: string]: unknown } = {};
+export function getFallbackPlanetaryPositions(date: Date): Record<string, PlanetPositionData> {
+  const positions: Record<string, PlanetPositionData> = {};
 
   // Calculate days difference from reference date
   const daysDiff =
@@ -201,7 +200,7 @@ export function getFallbackPlanetaryPositions(date: Date): {
 
     // Store both the raw longitude and the formatted data
     positions[planet] = {
-      sign: sign.toLowerCase(),
+      sign: sign.toLowerCase() as ZodiacSignType,
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
       isRetrograde,
@@ -340,7 +339,7 @@ export function getAccuratePlanetaryPositionsWithMeta(date: Date): {
           const { sign, degree } = getSignFromLongitude(sunLong);
 
           positions[planet] = {
-            sign: sign.toLowerCase() as any,
+            sign: sign.toLowerCase() as ZodiacSignType,
             degree,
             exactLongitude: sunLong,
             isRetrograde,
@@ -356,7 +355,7 @@ export function getAccuratePlanetaryPositionsWithMeta(date: Date): {
           const { sign, degree } = getSignFromLongitude(longitude);
 
           positions[planet] = {
-            sign: sign.toLowerCase() as any,
+            sign: sign.toLowerCase() as ZodiacSignType,
             degree,
             exactLongitude: longitude,
             isRetrograde,
@@ -370,14 +369,9 @@ export function getAccuratePlanetaryPositionsWithMeta(date: Date): {
 
         // Use fallback method for this planet
         const fallbackData = getFallbackPlanetaryPositions(date);
-        if (fallbackData[planet]) {
-          const fallback = fallbackData[planet] as any;
-          positions[planet] = {
-            sign: fallback.sign || "aries",
-            degree: fallback.degree || 0,
-            exactLongitude: fallback.exactLongitude || 0,
-            isRetrograde: fallback.isRetrograde || false,
-          };
+        const fallback = fallbackData[planet];
+        if (fallback) {
+          positions[planet] = fallback;
           usedFallback = true;
         }
       }
@@ -420,17 +414,7 @@ export function getAccuratePlanetaryPositionsWithMeta(date: Date): {
 
     // Return fallback positions with proper type conversion
     const fallbackData = getFallbackPlanetaryPositions(date);
-    const convertedPositions: { [key: string]: PlanetPositionData } = {};
-
-    for (const [planet, data] of Object.entries(fallbackData)) {
-      const planetData = data as any;
-      convertedPositions[planet] = {
-        sign: planetData.sign || "aries",
-        degree: planetData.degree || 0,
-        exactLongitude: planetData.exactLongitude || 0,
-        isRetrograde: planetData.isRetrograde || false,
-      };
-    }
+    const convertedPositions: Record<string, PlanetPositionData> = { ...fallbackData };
 
     return {
       positions: convertedPositions,
@@ -474,7 +458,7 @@ export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
 
   return {
-    sign: (sign.toLowerCase() || "aries") as any,
+    sign: (sign.toLowerCase() || "aries") as ZodiacSignType,
     degree,
     exactLongitude: nodeLongitude,
     isRetrograde: true, // Lunar nodes are always retrograde
@@ -547,7 +531,7 @@ export function validatePositionsStructure(positions: {
     }
 
     // Check for required properties
-    const planetData = pos as any;
+    const planetData = pos as Record<string, unknown>;
     if (!planetData.sign || typeof planetData.degree !== "number") {
       return false;
     }

@@ -20,6 +20,8 @@ if (typeof window !== "undefined") {
       ) {
         log.warn(
           "[ScriptReplacer] Blocked error from: ",
+          // Intentionally any: filename (string) does not structurally satisfy LogContext's shape;
+          // preserving existing call-shape mismatch, not reshaping the log.warn call
           _event.filename as any,
         );
         _event.preventDefault();
@@ -31,6 +33,7 @@ if (typeof window !== "undefined") {
   );
 
   // Setup global properties for lockdown
+  // Intentionally any: lockdown/harden are ad-hoc globals not declared on Window
   if (!(window as unknown as any).lockdown) {
     (window as unknown as any).lockdown = function () {
       log.info("[ScriptReplacer] Safely intercepted lockdown() call");
@@ -52,7 +55,7 @@ if (typeof window !== "undefined") {
   // Ensure popup object exists
   if (!window.popup) {
     window.popup = {
-      create(_options?: Record<string, unknown>, _unknown?: any) {
+      create(_options?: Record<string, unknown>, _unknown?: unknown) {
         return {
           show() {
             return this;
@@ -110,6 +113,9 @@ if (typeof window !== "undefined") {
         if (callback) callback({});
         return true;
       },
+      // Intentionally any: mock shape (_query naming, create() arity) does not structurally
+      // match the declared Window.chrome.tabs type; preserving existing mismatch rather than
+      // renaming/reshaping
     } as any;
   }
 

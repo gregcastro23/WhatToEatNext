@@ -2,11 +2,10 @@ import { ingredientsMap } from "@/data/ingredients";
 import { _logger } from "@/lib/logger";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type {
-  AstrologicalState,
   ElementalProperties,
   Season,
 } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 // Define IngredientMapping locally since it's not exported from alchemy
 interface IngredientMapping {
@@ -61,6 +60,38 @@ interface MatchFilters {
   preferredComplexity?: number | string;
 }
 
+interface ExtendedRecipe extends Recipe {
+  dietaryTags?: string[];
+  cookingMethods?: string[];
+  nutritionalProfile?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    carbohydrates?: number;
+    fat?: number;
+    fiber?: number;
+  };
+}
+
+interface MatchingEnergyState {
+  Fire?: number;
+  Water?: number;
+  Earth?: number;
+  Air?: number;
+  currentElementalProperties?: ElementalProperties;
+  preferredModality?: "cardinal" | "fixed" | "mutable";
+  season?: Season | string;
+  nutritionalGoals?: {
+    highProtein?: boolean;
+    lowCarb?: boolean;
+    lowFat?: boolean;
+    lowCalorie?: boolean;
+    [key: string]: unknown;
+  };
+  astrologicalSign?: string;
+  [key: string]: unknown;
+}
+
 // Cache for recipe matches to improve performance
 interface CacheEntry<T> {
   data: T;
@@ -78,7 +109,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 export async function findBestMatches(
   recipes?: Recipe[],
   matchFilters: MatchFilters = {},
-  currentEnergy: ElementalProperties | null = null,
+  currentEnergy: MatchingEnergyState | null = null,
   limit = 10,
 ): Promise<MatchResult[]> {
   // log.info(`Finding best matches from ${recipes?.length || 0} recipes with filters: `, matchFilters)
@@ -127,7 +158,7 @@ export async function findBestMatches(
   ) {
     filteredRecipes = filteredRecipes.filter((recipe) => {
       // Extract recipe data with safe property access
-      const recipeData = recipe as any;
+      const recipeData = recipe as ExtendedRecipe;
       const { dietaryTags } = recipeData;
       if (!dietaryTags) return true; // Keep recipes without tags
 
@@ -147,19 +178,19 @@ export async function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       const aIsInSeason = Array.isArray(a.season)
-        ? a.season.includes((matchFilters as any).season as Season) ||
+        ? (matchFilters.season && a.season.includes(matchFilters.season)) ||
           a.season.includes("all")
-        : a.season === (matchFilters as any).season || a.season === "all";
+        : a.season === matchFilters.season || a.season === "all";
       const bIsInSeason = Array.isArray(b.season)
-        ? b.season.includes((matchFilters as any).season as Season) ||
+        ? (matchFilters.season && b.season.includes(matchFilters.season)) ||
           b.season.includes("all")
-        : b.season === (matchFilters as any).season || b.season === "all";
+        : b.season === matchFilters.season || b.season === "all";
 
       if (aIsInSeason && !bIsInSeason) return -1;
       if (!aIsInSeason && bIsInSeason) return 1;
       return 0;
     });
-    // log.info(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`)
+    // log.info(`After season sorting (${matchFilters.season}): prioritized seasonal recipes`)
   }
 
   if (matchFilters.servings) {
@@ -183,19 +214,17 @@ export async function findBestMatches(
       const hasExcludedIngredient = matchFilters.excludeIngredients?.some(
         (excluded) => {
           const lowerExcluded = excluded.toLowerCase();
-          return recipe.ingredients.some((ingredient) => {
+          return recipe.ingredients.some((ingredient: string | RecipeIngredient) => {
             if (typeof ingredient === "string") {
-              const ingredientStr = ingredient as string;
-              return ingredientStr.toLowerCase().includes(lowerExcluded);
-            } else {
-              // Extract ingredient data with safe property access
-              const ingredientData = ingredient as any;
-              const name = ingredientData.name;
+              return ingredient.toLowerCase().includes(lowerExcluded);
+            } else if (ingredient && typeof ingredient === "object" && "name" in ingredient) {
+              const name = ingredient.name;
               return (
                 typeof name === "string" &&
                 name.toLowerCase().includes(lowerExcluded)
               );
             }
+            return false;
           });
         },
       );
@@ -210,8 +239,8 @@ export async function findBestMatches(
     // Prioritize recipes that use preferred cooking methods
     filteredRecipes = filteredRecipes.sort((a, b) => {
       // Extract recipe data with safe property access for cooking methods;
-      const aData = a as any;
-      const bData = b as any;
+      const aData = a as ExtendedRecipe;
+      const bData = b as ExtendedRecipe;
       const aCookingMethods = aData.cookingMethods;
       const bCookingMethods = bData.cookingMethods;
 
@@ -265,21 +294,21 @@ export async function findBestMatches(
         // Calculate elemental alignment
         const elementalScore = calculateElementalAlignment(
           recipe,
-          currentEnergy as AstrologicalState,
+          currentEnergy,
         );
         score += elementalScore * 0.4; // 40% weight for elemental alignment
 
         // Calculate nutritional alignment
         const nutritionalScore = calculateNutritionalAlignment(
           recipe,
-          currentEnergy as AstrologicalState,
+          currentEnergy,
         );
         score += nutritionalScore * 0.3; // 30% weight for nutritional alignment
 
         // Calculate astrological alignment
         const astrologicalScore = await _calculateRecipeEnergyMatch(
           recipe,
-          currentEnergy as AstrologicalState,
+          currentEnergy,
         );
         score += astrologicalScore * 0.3; // 30% weight for astrological alignment
       } else {
@@ -328,14 +357,14 @@ const _calculateBaseElements = async (
     return baseElements;
   }
 
-  for (const ingredient of recipe.ingredients) {
+  for (const ingredient of recipe.ingredients as Array<string | RecipeIngredient>) {
     let ingredientName: string;
     if (typeof ingredient === "string") {
       ingredientName = ingredient;
+    } else if (ingredient && typeof ingredient === "object" && "name" in ingredient) {
+      ingredientName = ingredient.name || "unknown";
     } else {
-      // Extract ingredient data with safe property access
-      const ingredientData = ingredient as any;
-      ingredientName = ingredientData.name || "unknown";
+      ingredientName = "unknown";
     }
 
     // Get ingredient mapping
@@ -465,7 +494,7 @@ const _calculateDominantElements = (
 
 async function _calculateRecipeEnergyMatch(
   recipe: Recipe,
-  currentEnergy: AstrologicalState,
+  currentEnergy: MatchingEnergyState,
 ): Promise<number> {
   // Base score starts at 0.5 (neutral match)
   let score = 0.5;
@@ -496,15 +525,13 @@ async function _calculateRecipeEnergyMatch(
 
   // 2. Calculate modality score - use qualities array even if preferredModality doesn't exist
   const qualities = recipe.qualities || [];
-  // Extract currentEnergy data with safe property access for preferredModality
-  const energyData = currentEnergy as any;
-  const { preferredModality } = energyData;
+  const { preferredModality } = currentEnergy;
 
   // Check if preferredModality exists in currentEnergy, if not skip this boost
   if (preferredModality) {
     const modalityScore = calculateModalityScore(
       qualities as unknown as string[],
-      preferredModality as "cardinal" | "fixed" | "mutable",
+      preferredModality,
     );
     score += modalityScore * 0.5; // Doubled from 0.25
   }
@@ -519,10 +546,10 @@ async function _calculateRecipeEnergyMatch(
   }
 
   // 4. Calculate seasonal score - check if season exists
-  if ((recipe as any).season && (currentEnergy as any).season) {
-    const recipeSeason = (recipe as any).season;
-    const currentSeason = (currentEnergy as any).season;
+  const recipeSeason = (recipe as ExtendedRecipe).season;
+  const currentSeason = currentEnergy.season;
 
+  if (recipeSeason && currentSeason) {
     // Apply Pattern GG-6: Enhanced property access with type guards
     const seasonalScore =
       (Array.isArray(recipeSeason) &&
@@ -544,12 +571,10 @@ async function _calculateRecipeEnergyMatch(
 
 function calculateElementalAlignment(
   _recipe: Recipe,
-  currentEnergy: AstrologicalState,
+  currentEnergy: MatchingEnergyState,
 ): number {
   // Extract current elemental properties with safe property access
-  const currentData = currentEnergy as any;
-  const currentElements =
-    currentData.currentElementalProperties as ElementalProperties;
+  const currentElements = currentEnergy.currentElementalProperties;
 
   if (!currentElements) {
     return 0.5; // Default score if no current elements
@@ -578,18 +603,17 @@ function calculateElementalAlignment(
 // New function to calculate nutritional alignment
 function calculateNutritionalAlignment(
   _recipe: Recipe,
-  currentEnergy: AstrologicalState,
+  currentEnergy: MatchingEnergyState,
 ): number {
   // Extract nutritional goals with safe property access
-  const currentData = currentEnergy as any;
-  const { nutritionalGoals } = currentData;
+  const { nutritionalGoals } = currentEnergy;
 
   if (!nutritionalGoals) {
     return 0.5; // Default score if no nutritional goals
   }
 
   // Extract recipe nutritional profile with safe property access
-  const recipeData = _recipe as any;
+  const recipeData = _recipe as ExtendedRecipe;
   const recipeProfile = recipeData.nutritionalProfile;
 
   if (!recipeProfile) {
@@ -626,7 +650,7 @@ function calculateNutritionalAlignment(
 // Helper functions for nutritional evaluation
 function hasHighProtein(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as any;
+  const recipeData = recipe as ExtendedRecipe;
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
@@ -636,17 +660,17 @@ function hasHighProtein(recipe: Recipe): boolean {
 
 function hasLowCarb(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as any;
+  const recipeData = recipe as ExtendedRecipe;
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
-  const carbs = profile.carbohydrates;
+  const carbs = profile.carbohydrates || profile.carbs;
   return typeof carbs === "number" && carbs <= 30;
 }
 
 function hasHighFiber(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as any;
+  const recipeData = recipe as ExtendedRecipe;
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
@@ -656,7 +680,7 @@ function hasHighFiber(recipe: Recipe): boolean {
 
 function hasLowFat(recipe: Recipe): boolean {
   // Extract nutritional profile with safe property access
-  const recipeData = recipe as any;
+  const recipeData = recipe as ExtendedRecipe;
   const profile = recipeData.nutritionalProfile;
 
   if (!profile) return false;
@@ -826,17 +850,15 @@ export const astrologyUtils = {
 function getCacheKey(
   recipes: Recipe[] | undefined,
   filters: MatchFilters,
-  energy: ElementalProperties | null,
+  energy: MatchingEnergyState | null,
   limit: number,
 ): string {
   // Create a simplified representation of recipes (just ids to avoid huge keys)
   const recipeIds =
     recipes
       ?.map((r) => {
-        // Apply Pattern GG-6: Enhanced property access with type guards
-        const recipeData = r as any;
         return (
-          r.id || `${recipeData.name || "unknown"}-${r.cuisine || "unknown"}`
+          r.id || `${r.name || "unknown"}-${r.cuisine || "unknown"}`
         );
       })
       .join(",") || "none";
@@ -981,7 +1003,7 @@ export const connectIngredientsToMappings = (
   const isBrowser = typeof window !== "undefined";
 
   // Create a cache key for this recipe's ingredients
-  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as any).name}`;
+  const cacheKey = `ingredient-mapping-${recipe.id || recipe.name}`;
   let cached: string | null = null;
   // Try to get from localStorage, with proper error handling
   if (isBrowser) {
@@ -1011,10 +1033,7 @@ export const connectIngredientsToMappings = (
 
   const matches = recipe.ingredients.map((recipeIngredient) => {
     // Initial result with no match
-    // Apply Pattern MM-1: Safe type assertions
-    const ingredientData = recipeIngredient as any;
-    const ingredientName =
-      typeof ingredientData.name === "string" ? ingredientData.name : "unknown";
+    const ingredientName = recipeIngredient.name || "unknown";
 
     const result = {
       name: ingredientName,
@@ -1063,10 +1082,7 @@ export const connectIngredientsToMappings = (
           : 0;
 
       // Calculate string similarity
-      // Apply Pattern MM-1: Safe type assertions
-      const ingredientData = recipeIngredient as any;
-      const ingredientName =
-        typeof ingredientData.name === "string" ? ingredientData.name : "";
+      const ingredientName = recipeIngredient.name || "";
       const similarity =
         getStringSimilarity(ingredientName, key) + categoryMatch;
 
@@ -1085,8 +1101,7 @@ export const connectIngredientsToMappings = (
     }
 
     // 4. Try matching with swaps if provided
-    const ingredientSwapData = recipeIngredient as any;
-    const { swaps } = ingredientSwapData;
+    const swaps = recipeIngredient["swaps"] as string[] | undefined;
     if (swaps && Array.isArray(swaps) && swaps.length > 0) {
       for (const swap of swaps) {
         const swapMatch = ingredientsMap[swap.toLowerCase()];
@@ -1214,6 +1229,8 @@ interface AstrologicalInfluence {
   zodiacCompatibility?: Record<string, number>;
   planetaryAlignment?: Record<string, number>;
   lunarInfluence?: Record<string, number>;
+  sign?: string;
+  elements?: ElementalProperties;
 }
 
 function _calculateAstrologicalMatch(
@@ -1428,10 +1445,8 @@ function _calculateAstrologicalMatch(
 
   if (!userElement) return 0.5; // Default to neutral if sign not recognized
 
-  // Extract recipeInfluence data with safe property access
-  const influenceData = recipeInfluence as any;
-  const sign = influenceData?.sign;
-  const elements = influenceData?.elements;
+  const sign = recipeInfluence.sign;
+  const elements = recipeInfluence.elements;
 
   // If recipe has a specific sign it aligns with
   if (sign && typeof sign === "string") {

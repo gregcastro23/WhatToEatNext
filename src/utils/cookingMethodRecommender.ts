@@ -34,6 +34,62 @@ interface PlanetaryDataStructure {
   };
 }
 
+// Snapshot of the fields this file reads off venusData.PlanetSpecific.Retrograde.
+// NOTE (latent bug, preserved as-is): the real venus.ts data shape nests elemental
+// info under Retrograde.ElementalShift, not Retrograde.Elements — so the `.Elements`
+// read below is always undefined at runtime and the "retrograde elements influence"
+// branch that consumes it never executes. Do not rename Elements -> ElementalShift.
+interface VenusRetrogradeData {
+  FoodFocus?: unknown;
+  Elements?: Record<string, unknown>;
+}
+
+// NOTE: none of these three fields exist on the real AstrologicalState
+// (src/types/celestial.ts), yet both live importers (HomeMethodsComponent.tsx,
+// MethodsRecommender.tsx) construct their astroState literal with an
+// `elementalState` key specifically to be picked up here — so this is a genuine
+// type-completeness gap in AstrologicalState, not dead code. Preserved as-is and
+// flagged for separate triage rather than fixed in this types-only pass.
+interface ExtendedAstrologicalState extends AstrologicalState {
+  elementalProfile?: ElementalProperties;
+  elementalState?: ElementalProperties;
+  currentElementalProperties?: ElementalProperties;
+}
+
+// NOTE (latent bug, preserved as-is): the real CookingMethod.astrologicalInfluence
+// (src/types/cooking.ts) is declared as a plain `string`, not an object with these
+// sub-fields, so the `if (astrologicalInfluence)` branch in calculateMethodScore is
+// effectively unreachable against conforming real data. calculateMethodScore is
+// LIVE (imported by HomeMethodsComponent.tsx and MethodsRecommender.tsx) — do not
+// "fix" this, just preserve and flag.
+interface ExtendedCookingMethodProfile extends CookingMethodProfile {
+  astrologicalInfluence?: {
+    zodiacCompatibility?: Record<string, number>;
+    planetaryAlignment?: Record<string, number>;
+  };
+  elementalProperties?: ElementalProperties;
+  elementalEffect?: ElementalProperties;
+}
+
+// NOTE (latent bug, preserved as-is): _calculateLunarMethodAffinity reads
+// `.properties.element` off a CookingMethod-typed param, but neither field is
+// declared on the real CookingMethod interface (src/types/cooking.ts). This
+// function is confirmed dead code (zero callers anywhere in the repo).
+interface LunarMethodInfo {
+  properties?: { element?: string };
+}
+
+// NOTE (latent bug, preserved as-is): _calculateAspectMethodAffinity reads
+// `.sensoryProfile` / `.properties` off a CookingMethod-typed param, but neither
+// field is declared on the real CookingMethod interface. This function is
+// confirmed dead code (the live `_calculateAspectMethodAffinity`-named function
+// actually invoked elsewhere lives in src/utils/recommendation/methodRecommendation.ts
+// and is unrelated).
+interface AspectMethodInfo {
+  properties?: { element?: string };
+  sensoryProfile?: unknown;
+}
+
 // Removed unused, interface: SignArrays
 
 import {
@@ -92,8 +148,8 @@ interface CulturalMethod {
   culturalOrigin?: string;
   relatedToMainMethod?: string;
   astrologicalInfluences?: {
-    favorableZodiac?: unknown[];
-    unfavorableZodiac?: unknown[];
+    favorableZodiac?: string[];
+    unfavorableZodiac?: string[];
     dominantPlanets?: string[];
   };
   [key: string]: unknown;
@@ -113,8 +169,8 @@ interface CookingMethodData {
   suitable_for: string[];
   benefits: string[];
   astrologicalInfluences?: {
-    favorableZodiac?: any[];
-    unfavorableZodiac?: any[];
+    favorableZodiac?: string[];
+    unfavorableZodiac?: string[];
     dominantPlanets?: string[];
   };
   toolsRequired?: string[];
@@ -188,11 +244,11 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 culturalOrigin: culturalMethod.culturalOrigin,
                 astrologicalInfluences: {
                   favorableZodiac:
-                    (culturalMethod.astrologicalInfluences
-                      ?.favorableZodiac as any[]) || [],
+                    culturalMethod.astrologicalInfluences?.favorableZodiac ||
+                    [],
                   unfavorableZodiac:
-                    (culturalMethod.astrologicalInfluences
-                      ?.unfavorableZodiac as any[]) || [],
+                    culturalMethod.astrologicalInfluences
+                      ?.unfavorableZodiac || [],
                   dominantPlanets:
                     culturalMethod.astrologicalInfluences?.dominantPlanets ||
                     [],
@@ -229,11 +285,9 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           culturalOrigin: culturalMethod.culturalOrigin,
           astrologicalInfluences: {
             favorableZodiac:
-              (culturalMethod.astrologicalInfluences
-                ?.favorableZodiac as any[]) || [],
+              culturalMethod.astrologicalInfluences?.favorableZodiac || [],
             unfavorableZodiac:
-              (culturalMethod.astrologicalInfluences
-                ?.unfavorableZodiac as any[]) || [],
+              culturalMethod.astrologicalInfluences?.unfavorableZodiac || [],
             dominantPlanets:
               culturalMethod.astrologicalInfluences?.dominantPlanets || [],
           },
@@ -637,7 +691,7 @@ function isDaytime(date: Date = new Date()): boolean {
 // Improved scoring algorithm for cooking method recommendations
 export async function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
-  currentZodiac?: any,
+  currentZodiac?: string,
   planets?: string[],
   season = getCurrentSeason(),
   culturalPreference?: string,
@@ -1218,8 +1272,7 @@ export async function getRecommendedCookingMethods(
 
     // Lunar phase influence (new component)
     if (lunarPhase) {
-      const methodData = method as any;
-      const methodNameLower = String(methodData.name || "").toLowerCase();
+      const methodNameLower = String(method.name || "").toLowerCase();
       // New moon favors starting new methods, preparation methods
       if (lunarPhase === "new moon") {
         if (
@@ -1277,10 +1330,9 @@ export async function getRecommendedCookingMethods(
     if (isVenusActive) {
       // Check if method aligns with Venus culinary techniques
       if (venusData.PlanetSpecific?.CulinaryTechniques) {
-        const methodData = method as any;
-        const methodNameLower = String(methodData.name || "").toLowerCase();
+        const methodNameLower = String(method.name || "").toLowerCase();
         const methodDescLower = String(
-          methodData.description || "",
+          method.description || "",
         ).toLowerCase();
 
         // Check for aesthetic techniques
@@ -1355,9 +1407,8 @@ export async function getRecommendedCookingMethods(
         const foodFocus = String(
           venusTemperament.FoodFocus || "",
         ).toLowerCase();
-        const methodData = method as any;
-        const methodName = String(methodData.name || "").toLowerCase();
-        const methodDesc = String(methodData.description || "").toLowerCase();
+        const methodName = String(method.name || "").toLowerCase();
+        const methodDesc = String(method.description || "").toLowerCase();
 
         // Check keyword matches between Venus temperament food focus and method description
         const keywords = foodFocus.split(/[\s,,]+/).filter((k) => k.length > 3);
@@ -1369,15 +1420,17 @@ export async function getRecommendedCookingMethods(
         venusScore += matchCount * 0.8;
 
         // Check elements alignment with Venus temperament
-        if (venusTemperament.Elements && (method as any).elementalEffect) {
+        if (venusTemperament.Elements && method.elementalEffect) {
           for (const element in venusTemperament.Elements) {
-            const elementProperty = element as any;
-            const methodElementalEffect = (method as any)
-              .elementalEffect as Record<string, number>;
+            const elementProperty = element as keyof ElementalProperties;
+            const methodElementalEffect = method.elementalEffect as Record<
+              string,
+              number
+            >;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusTemperament.Elements[element] *
-                ((method as any).elementalEffect?.[elementProperty] || 0) *
+                (method.elementalEffect?.[elementProperty] || 0) *
                 1.2;
             }
           }
@@ -1389,15 +1442,12 @@ export async function getRecommendedCookingMethods(
         // Check food focus alignment
         if (venusZodiacTransit.FoodFocus) {
           const transitFocus = venusZodiacTransit.FoodFocus.toLowerCase();
-          const methodData = method as any;
           const methodDesc =
-            typeof methodData.description === "string"
-              ? methodData.description.toLowerCase()
+            typeof method.description === "string"
+              ? method.description.toLowerCase()
               : "";
           const methodName =
-            typeof methodData.name === "string"
-              ? methodData.name.toLowerCase()
-              : "";
+            typeof method.name === "string" ? method.name.toLowerCase() : "";
 
           // Check for keyword matches
           const focusKeywords = transitFocus
@@ -1412,11 +1462,13 @@ export async function getRecommendedCookingMethods(
         }
 
         // Check elements alignment with transit
-        if (venusZodiacTransit.Elements && (method as any).elementalEffect) {
+        if (venusZodiacTransit.Elements && method.elementalEffect) {
           for (const element in venusZodiacTransit.Elements) {
-            const elementProperty = element as any;
-            const methodElementalEffect = (method as any)
-              .elementalEffect as Record<string, number>;
+            const elementProperty = element as keyof ElementalProperties;
+            const methodElementalEffect = method.elementalEffect as Record<
+              string,
+              number
+            >;
             if (methodElementalEffect[elementProperty]) {
               venusScore +=
                 venusZodiacTransit.Elements[element] *
@@ -1431,20 +1483,18 @@ export async function getRecommendedCookingMethods(
       if (isVenusRetrograde && venusData.PlanetSpecific?.Retrograde) {
         // Check if cooking method aligns with retrograde focus
         // Extract retrograde data with safe property access
-        const retrogradeData = venusData.PlanetSpecific.Retrograde as any;
+        const retrogradeData = venusData.PlanetSpecific
+          .Retrograde as VenusRetrogradeData;
         const foodFocus = retrogradeData.FoodFocus;
 
         if (foodFocus) {
           const retroFocus =
             typeof foodFocus === "string" ? foodFocus.toLowerCase() : "";
-          const methodData = method as any;
           const methodName =
-            typeof methodData.name === "string"
-              ? methodData.name.toLowerCase()
-              : "";
+            typeof method.name === "string" ? method.name.toLowerCase() : "";
           const methodDesc =
-            typeof methodData.description === "string"
-              ? methodData.description.toLowerCase()
+            typeof method.description === "string"
+              ? method.description.toLowerCase()
               : "";
 
           if (
@@ -1476,12 +1526,14 @@ export async function getRecommendedCookingMethods(
 
         // Apply retrograde elements influence
         const elements = retrogradeData.Elements;
-        if (elements && (method as any).elementalEffect) {
+        if (elements && method.elementalEffect) {
           const elementsData = elements;
           for (const element in elementsData) {
-            const elementProperty = element as any;
-            const methodElementalEffect = (method as any)
-              .elementalEffect as Record<string, number>;
+            const elementProperty = element as keyof ElementalProperties;
+            const methodElementalEffect = method.elementalEffect as Record<
+              string,
+              number
+            >;
             if (methodElementalEffect[elementProperty]) {
               venusScore *=
                 1 +
@@ -1507,14 +1559,11 @@ export async function getRecommendedCookingMethods(
       };
 
       for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
-        const methodData = method as any;
         const methodNameStr =
-          typeof methodData.name === "string"
-            ? methodData.name.toLowerCase()
-            : "";
+          typeof method.name === "string" ? method.name.toLowerCase() : "";
         const methodDescStr =
-          typeof methodData.description === "string"
-            ? methodData.description.toLowerCase()
+          typeof method.description === "string"
+            ? method.description.toLowerCase()
             : "";
         if (
           methodNameStr.includes(methodName) ||
@@ -1539,7 +1588,7 @@ export async function getRecommendedCookingMethods(
         const methodElementals = methodWithProps.elementalEffect ||
           methodWithProps.elementalProperties ||
           { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-        const methodElementValue = (methodElementals as any)[zodiacElement] || 0;
+        const methodElementValue = methodElementals[zodiacElement] || 0;
 
         // Methods with high emphasis on the current zodiac element get a bonus
         if (methodElementValue >= 0.6) {
@@ -1579,7 +1628,9 @@ export async function getRecommendedCookingMethods(
 
     // Capture detailed scoring components for transparency
     // Extract method data with safe property access
-    const methodData = method as any;
+    // planetaryAffinity is not declared on the local CookingMethodData interface;
+    // narrow to Record<string, unknown> to read it without an `any` cast.
+    const methodData = method as Record<string, unknown>;
     const scoreDetails = {
       elemental: elementalScore * 0.28,
       thermodynamic: thermodynamicScore * 0.10,
@@ -1596,7 +1647,7 @@ export async function getRecommendedCookingMethods(
 
     // Add the recommendation with calculated score
     // Extract affinity data with safe property access
-    const _planetaryAffinity = methodData.planetaryAffinity || 0;
+    const _planetaryAffinity = Number(methodData.planetaryAffinity) || 0;
     const _scoreDetailsForUI = scoreDetails;
 
     // Store score on the method object and push the method itself
@@ -1616,9 +1667,9 @@ function _calculateLunarMethodAffinity(
   phase: LunarPhase,
 ): number {
   // Convert method to proper type with safe property access
-  const methodData = method as unknown as any;
+  const methodData = method as unknown as LunarMethodInfo;
   const { properties } = methodData;
-  const { element } = properties;
+  const { element } = properties || {};
 
   if (!element) return 0.5;
 
@@ -1663,8 +1714,8 @@ function _calculateAspectMethodAffinity(
 
   for (const aspect of aspects) {
     // Convert method to proper type with safe property access
-    const methodData = method as unknown as any;
-    const _sensoryProfile = methodData.sensoryProfile as unknown;
+    const methodData = method as unknown as AspectMethodInfo;
+    const _sensoryProfile = methodData.sensoryProfile;
     const { properties } = methodData;
 
     if (!properties) continue;
@@ -1712,7 +1763,7 @@ export function calculateMethodScore(
 ): number {
   // Convert method to proper type with safe property access
   // ✅ Pattern MM-1: Safe type assertion for method data access
-  const methodData = method as unknown as any;
+  const methodData: ExtendedCookingMethodProfile = method;
   const { astrologicalInfluence } = methodData;
 
   let score = 0.5; // Base score
@@ -1769,7 +1820,7 @@ function getMethodElementalProfile(
   method: CookingMethodProfile,
 ): ElementalProperties {
   // ✅ Pattern GG-6: Safe property access for elemental profile
-  const methodData = method as unknown as any;
+  const methodData: ExtendedCookingMethodProfile = method;
   return (
     (methodData.elementalProperties as ElementalProperties) ||
     (methodData.elementalEffect as ElementalProperties) || {
@@ -1789,18 +1840,18 @@ function getAstrologicalElementalProfile(
   // 1. Check if a comprehensive elemental profile is provided directly in astroState
   //    (Names might be 'elementalProfile' or 'elementalState' based on usage elsewhere)
   // ✅ Pattern GG-6: Safe property access for astrological state elemental profile
-  const astroData = astroState as unknown as any;
+  const astroData = astroState as unknown as ExtendedAstrologicalState;
   if (
     astroData.elementalProfile &&
     Object.keys(astroData.elementalProfile).length > 0
   ) {
-    return astroData.elementalProfile as ElementalProperties;
+    return astroData.elementalProfile;
   }
   if (
     astroData.elementalState &&
     Object.keys(astroData.elementalState).length > 0
   ) {
-    return astroData.elementalState as ElementalProperties;
+    return astroData.elementalState;
   }
 
   // 2. Fallback: Calculate a simplified profile based only on the zodiac (Sun) sign
@@ -1850,13 +1901,13 @@ function calculateElementalCompatibility(
     return 0.2; // Low base compatibility if profiles are incomplete
   }
 
-  const elements = ["Fire", "Water", "Earth", "Air"];
+  const elements: Array<keyof ElementalProperties> = ["Fire", "Water", "Earth", "Air"];
   let compatibilityScore = 0;
   let totalWeight = 0;
 
   for (const element of elements) {
-    const valA = elementalA[element as any];
-    const valB = elementalB[element as any];
+    const valA = elementalA[element];
+    const valB = elementalB[element];
 
     // Ensure both values are numbers before calculating
     if (typeof valA === "number" && typeof valB === "number") {
@@ -1877,7 +1928,7 @@ export function getCookingMethodRecommendations(
 ): MethodRecommendation[] {
   // Convert astroState to proper type with safe property access
   // ✅ Pattern MM-1: Safe type assertion for astrological state
-  const astroData = astroState as unknown as any;
+  const astroData = astroState as unknown as ExtendedAstrologicalState;
   const currentElementalProperties =
     astroData.currentElementalProperties as ElementalProperties;
 
@@ -1918,7 +1969,7 @@ export function getCookingMethodRecommendations(
 /**
  * Helper to get the element associated with a zodiac sign
  */
-function getElementForSign(sign: any): keyof ElementalProperties {
+function getElementForSign(sign: string | undefined): keyof ElementalProperties {
   // ✅ Pattern KK-1: Safe string conversion for element lookup
   const signLower = String(sign || "").toLowerCase();
   const fireElements = ["aries", "leo", "sagittarius"];
