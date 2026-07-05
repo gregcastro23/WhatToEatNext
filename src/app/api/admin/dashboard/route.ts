@@ -29,6 +29,7 @@ import {
   getCommerceTelemetry,
   getPageTelemetry,
   getRecentAlerts,
+  getLivingEconomyMetrics,
   getSecuritySummary,
   getDeployHistory,
   getFeatureFlags,
@@ -183,6 +184,7 @@ export async function GET(request: NextRequest) {
     const systemStatusPromise = getSystemStatus();
     const liveActivityPromise = getLiveActivity();
     const recentAlertsPromise = getRecentAlerts();
+    const livingEconomyPromise = getLivingEconomyMetrics();
     const errorGroupsPromise = getErrorGroupSummary();
     const securityPromise = getSecuritySummary();
     const deploysPromise = Promise.resolve(getDeployHistory());
@@ -239,6 +241,7 @@ export async function GET(request: NextRequest) {
     const systemStatus = await systemStatusPromise;
     const liveActivityResult = await liveActivityPromise;
     const recentAlerts = await recentAlertsPromise;
+    const livingEconomy = await livingEconomyPromise;
     const errorGroups = await errorGroupsPromise;
     const security = await securityPromise;
     const deploys = await deploysPromise;
@@ -308,6 +311,7 @@ export async function GET(request: NextRequest) {
         live: liveActivityResult.live,
       },
       recentAlerts,
+      livingEconomy,
       errorGroups,
       security,
       deploys,

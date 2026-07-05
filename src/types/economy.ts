@@ -69,7 +69,29 @@ export type TransactionSourceType =
    * Makes the off-chain spend exactly-once per content hash. Idempotency key
    * shape: `mint_refund:<contentHash>`. See src/app/api/recipes/mint/route.ts.
    */
-  | "mint_refund";
+  | "mint_refund"
+  /**
+   * Debit that moves a snapshot of the user's off-chain balance on-chain: the
+   * four coins are debited atomically and EsmsToken.claimMint mints the same
+   * amounts (18-dp scaled) to the user's linked wallet. source_id is the
+   * esms_onchain_claims row id; idempotency key shape: `onchain_claim:<claimRowId>`.
+   * See src/app/api/economy/claim-onchain/route.ts.
+   */
+  | "onchain_claim"
+  /**
+   * Re-credit of an `onchain_claim` debit when the claim could not be minted
+   * and was verified never-claimed on-chain. Idempotency key shape:
+   * `onchain_claim_refund:<claimRowId>`.
+   */
+  | "onchain_claim_refund"
+  /**
+   * Invisible practice reward — a natural product action (cooking a recipe,
+   * acting on a recommendation, feed presence, discovering a surface) that
+   * quietly pays. No quest UI advertises these; the delight toast reveals
+   * them. source_id is the practice type; idempotency key shape:
+   * `practice:<userId>:<type>:<dedupeKey>`. See src/lib/economy/practices.ts.
+   */
+  | "practice_reward";
 
 // ─── Token Balances ────────────────────────────────────────────────────
 
@@ -143,6 +165,11 @@ export interface DailyYieldResult {
   };
   newBalances: TokenBalances;
   streakCount: number;
+  /** Set when this claim crossed a streak milestone and its bonus was granted. */
+  milestoneBonus?: {
+    days: number;
+    totalTokens: number;
+  };
 }
 
 // ─── Streaks ───────────────────────────────────────────────────────────
@@ -257,6 +284,28 @@ export function getStreakMultiplier(streakCount: number): number {
 
 /** Bonus scale factor for transit ESMS deltas */
 export const TRANSIT_BONUS_SCALE = 2.0;
+
+// ─── Streak Milestone Bonuses ────────────────────────────────────────────
+
+/**
+ * One-shot bonus (total ESMS, split evenly across the four coins) granted the
+ * day a claim streak reaches each milestone — the `streak_bonus` ledger source.
+ * Rebuilding a broken streak re-earns the milestone (it can't double-fire on
+ * the same day thanks to the day-scoped idempotency key).
+ */
+export const STREAK_MILESTONE_BONUSES: ReadonlyArray<{ days: number; totalTokens: number }> = [
+  { days: 7, totalTokens: 10 },
+  { days: 14, totalTokens: 16 },
+  { days: 30, totalTokens: 40 },
+  { days: 60, totalTokens: 80 },
+  { days: 100, totalTokens: 150 },
+  { days: 365, totalTokens: 500 },
+];
+
+/** The milestone hit exactly at `streakCount`, if any. */
+export function getStreakMilestone(streakCount: number): { days: number; totalTokens: number } | null {
+  return STREAK_MILESTONE_BONUSES.find((m) => m.days === streakCount) ?? null;
+}
 
 // ─── Holdings-Scaled Yield ───────────────────────────────────────────────
 

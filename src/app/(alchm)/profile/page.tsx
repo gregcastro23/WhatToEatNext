@@ -8,7 +8,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { BlurredLedgerPreview } from '@/components/economy/BlurredLedgerPreview';
 import { DailyAlignmentWidget } from '@/components/economy/DailyAlignmentWidget';
 import { LiveLedgerFeed } from '@/components/economy/LiveLedgerFeed';
-import { SanctumTasks } from '@/components/economy/SanctumTasks';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
@@ -21,9 +20,8 @@ import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
 import type { BirthData, NatalChart } from '@/types/natalChart';
 
 // Heavy panels that only render on non-default profile tabs (cosmos / agents /
-// quests / economy) are code-split so they stay out of the initial bundle.
+// economy) are code-split so they stay out of the initial bundle.
 const UserDashboard = dynamic(() => import('@/components/dashboard').then((m) => m.UserDashboard));
-const QuestPanel = dynamic(() => import('@/components/economy/QuestPanel').then((m) => m.QuestPanel));
 const YieldMultiplierCard = dynamic(() =>
   import('@/components/economy/YieldMultiplierCard').then((m) => m.YieldMultiplierCard),
 );
@@ -64,7 +62,6 @@ const PREMIUM_NAV = [
   { id: 'cosmos', label: 'Cosmos', icon: '🔮' },
   { id: 'economy', label: 'Tokens', icon: '🝇' },
   { id: 'agents', label: 'Agents', icon: '🤖' },
-  { id: 'quests', label: 'Quests', icon: '🎯' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ] as const;
 
@@ -196,14 +193,12 @@ function PremiumDashboard({
                 {/* Live ledger feed */}
                 <LiveLedgerFeed />
 
-                {/* Sanctum Tasks — dev-ops quests */}
-                <SanctumTasks onOpenSettings={() => setActiveTab('settings')} />
-
                 {/* Quick links */}
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
                   {[
                     { label: 'Birth Chart', href: '/birth-chart', icon: '🌌', desc: 'Natal positions' },
                     { label: 'Current Chart', href: '/current-chart', icon: '⚡', desc: 'Live transits' },
+                    { label: 'Grimoire', href: '/grimoire', icon: '📖', desc: 'Practices & feats' },
                     { label: 'Token Economy', href: '/quantities', icon: '⚗️', desc: 'ESMS ledger' },
                     { label: 'Menu Planner', href: '/menu-planner', icon: '🍽️', desc: 'Cosmic meals' },
                     { label: 'Your Agents', href: 'https://agents.alchm.kitchen/me', icon: '🤖', desc: 'Planetary agents' },
@@ -271,16 +266,30 @@ function PremiumDashboard({
                     <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em]">
                       Full Token Economy
                     </h2>
-                    <Link
-                      href="/quantities"
-                      className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors"
-                    >
-                      Open Ledger →
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link
+                        href="/shop"
+                        className="text-[10px] font-black text-cyan-400 hover:text-cyan-300 uppercase tracking-[0.3em] transition-colors"
+                      >
+                        Visit Bazaar →
+                      </Link>
+                      <Link
+                        href="/account"
+                        className="text-[10px] font-black text-emerald-400 hover:text-emerald-300 uppercase tracking-[0.3em] transition-colors"
+                      >
+                        Wallet Vault →
+                      </Link>
+                      <Link
+                        href="/quantities"
+                        className="text-[10px] font-black text-purple-400 hover:text-purple-300 uppercase tracking-[0.3em] transition-colors"
+                      >
+                        Open Ledger →
+                      </Link>
+                    </div>
                   </div>
                   <p className="text-white/20 text-xs mb-6">
-                    Your Spirit 🝇, Essence 🝑, Matter 🝙, and Substance 🝉 token balances. 
-                    As a Premium Premium you earn 2× daily yields.
+                    Your Spirit 🝇, Essence 🝑, Matter 🝙, and Substance 🝉 token balances.
+                    As a Premium member you earn 2× daily yields.
                   </p>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
@@ -302,13 +311,6 @@ function PremiumDashboard({
 
             {activeTab === 'agents' && (
               <AgentsPane />
-            )}
-
-            {activeTab === 'quests' && (
-              <div className="space-y-6">
-                <TokenBalanceBar className="mb-2" />
-                <QuestPanel />
-              </div>
             )}
 
             {activeTab === 'settings' && (
@@ -624,7 +626,7 @@ function FreeDashboard({
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-amber-400 text-lg">✦</span>
                           <h3 className="text-lg font-black text-white tracking-tight">
-                            Ascend to Premium Premium
+                            Ascend to Premium
                           </h3>
                         </div>
                         <p className="text-white/40 text-sm max-w-lg leading-relaxed">

@@ -366,6 +366,146 @@ class TokenEconomyService {
   }
 
   /**
+   * Atomically debit all four coins at once (e.g. moving a balance snapshot
+   * on-chain via an ESMS claim). Same one-statement CTE shape as
+   * purchaseShopItem — balance check, per-axis ledger rows, and the balance
+   * update either all commit or none do — but with no shop item involved.
+   * Per-axis idempotency keys (`<key>:<TokenType>`) make a retry after a
+   * network error a clean `already_applied` instead of a double debit.
+   */
+  async debitAllTokens(
+    userId: string,
+    amounts: { spirit: number; essence: number; matter: number; substance: number },
+    sourceType: TransactionSourceType,
+    opts?: {
+      sourceId?: string;
+      description?: string;
+      idempotencyKey?: string;
+    },
+  ): Promise<
+    | { success: true; balances: TokenBalances; transactionGroupId: string }
+    | { success: false; reason: "insufficient_funds" | "already_applied" | "debit_failed" }
+  > {
+    const db = await getDbModule();
+    const idemKey = opts?.idempotencyKey ?? null;
+
+    if (db) {
+      try {
+        if (idemKey) {
+          const dup = await db.executeQuery(
+            `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
+            [`${idemKey}:%`],
+          );
+          if (dup.rows.length > 0) {
+            return { success: false, reason: "already_applied" };
+          }
+        }
+
+        const result = await db.executeQuery(
+          `WITH ensure_balance AS (
+            INSERT INTO token_balances (user_id) VALUES ($1)
+            ON CONFLICT (user_id) DO NOTHING
+          ),
+          balance_check AS (
+            SELECT * FROM token_balances WHERE user_id = $1
+            AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
+          ),
+          new_group AS (
+            SELECT uuid_generate_v4() AS gid
+          ),
+          debit_spirit AS (
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Spirit', -$2, $6, $7, $8,
+                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Spirit' ELSE NULL END
+            FROM balance_check bc, new_group g
+            WHERE $2 > 0
+            RETURNING id
+          ),
+          debit_essence AS (
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Essence', -$3, $6, $7, $8,
+                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Essence' ELSE NULL END
+            FROM balance_check bc, new_group g
+            WHERE $3 > 0
+            RETURNING id
+          ),
+          debit_matter AS (
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Matter', -$4, $6, $7, $8,
+                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Matter' ELSE NULL END
+            FROM balance_check bc, new_group g
+            WHERE $4 > 0
+            RETURNING id
+          ),
+          debit_substance AS (
+            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+            SELECT g.gid, $1, 'Substance', -$5, $6, $7, $8,
+                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Substance' ELSE NULL END
+            FROM balance_check bc, new_group g
+            WHERE $5 > 0
+            RETURNING id
+          ),
+          updated AS (
+            UPDATE token_balances
+            SET spirit = token_balances.spirit - $2,
+                essence = token_balances.essence - $3,
+                matter = token_balances.matter - $4,
+                substance = token_balances.substance - $5,
+                updated_at = now()
+            FROM balance_check bc
+            WHERE token_balances.user_id = $1
+            RETURNING token_balances.*
+          )
+          SELECT u.*, g.gid AS txn_group_id FROM updated u, new_group g`,
+          [
+            userId,
+            amounts.spirit,
+            amounts.essence,
+            amounts.matter,
+            amounts.substance,
+            sourceType,
+            opts?.sourceId || null,
+            opts?.description || null,
+            idemKey,
+          ],
+        );
+
+        if (result.rows.length === 0) {
+          return { success: false, reason: "insufficient_funds" };
+        }
+        return {
+          success: true,
+          balances: rowToBalances(result.rows[0]),
+          transactionGroupId: result.rows[0].txn_group_id,
+        };
+      } catch (error) {
+        if ((error as { code?: string })?.code === "23505") {
+          return { success: false, reason: "already_applied" };
+        }
+        _logger.error("[TokenEconomy] debitAllTokens failed:", error);
+        return { success: false, reason: "debit_failed" };
+      }
+    }
+
+    // In-memory fallback: honest affordability check across all four axes.
+    const balances = await this.getBalances(userId);
+    if (
+      balances.spirit < amounts.spirit ||
+      balances.essence < amounts.essence ||
+      balances.matter < amounts.matter ||
+      balances.substance < amounts.substance
+    ) {
+      return { success: false, reason: "insufficient_funds" };
+    }
+    balances.spirit -= amounts.spirit;
+    balances.essence -= amounts.essence;
+    balances.matter -= amounts.matter;
+    balances.substance -= amounts.substance;
+    balances.updatedAt = new Date().toISOString();
+    return { success: true, balances, transactionGroupId: `mem_${Date.now()}` };
+  }
+
+  /**
    * Credit multiple token types at once (for 'all' rewards or daily yield).
    */
   async creditMultipleTokens(

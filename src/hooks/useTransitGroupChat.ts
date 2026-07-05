@@ -17,6 +17,7 @@
 import { track } from "@vercel/analytics";
 import { useCallback, useState } from "react";
 import type { TransitParticipant, TransitDescriptor } from "@/lib/agents/transitAgents";
+import { firePractice } from "@/lib/economy/practiceClient";
 
 export function useTransitGroupChat() {
   const [pending, setPending] = useState(false);
@@ -53,6 +54,9 @@ export function useTransitGroupChat() {
         const data = (await res.json().catch(() => ({}))) as { url?: string };
 
         if (data.url) {
+          // Taking a seat under this transit quietly counts (invisible
+          // practice; once-ever per transit key, server-deduped).
+          firePractice("chat_joined", descriptor.key);
           if (tab) {
             try {
               tab.opener = null;

@@ -477,23 +477,33 @@ class QuestService {
     }
 
     const periodStart = periodStartStr !== undefined ? periodStartStr : getPeriodStartForType(quest.questType);
+    const periodCondition = periodStart !== null
+      ? `AND period_start = $3`
+      : `AND period_start IS NULL`;
+    const stampParams = periodStart !== null
+      ? [new Date().toISOString(), userId, quest.id, periodStart]
+      : [new Date().toISOString(), userId, quest.id];
+    const unstampParams = periodStart !== null
+      ? [userId, quest.id, periodStart]
+      : [userId, quest.id];
 
     if (db) {
       try {
-        const periodCondition = periodStart !== null
-          ? `AND period_start = $3`
-          : `AND period_start IS NULL`;
-        const params = periodStart !== null
-          ? [new Date().toISOString(), userId, quest.id, periodStart]
-          : [new Date().toISOString(), userId, quest.id];
-
-        await db.executeQuery(
+        // Atomic claim gate: only the caller whose UPDATE flips claimed_at from
+        // NULL wins — two concurrent claims can both pass the pre-check above,
+        // but only one gets a row back here.
+        const stamped = await db.executeQuery(
           `UPDATE user_quest_progress
            SET claimed_at = $1
            WHERE user_id = $2 AND quest_id = $3
-             ${periodCondition}`,
-          params,
+             ${periodCondition}
+             AND claimed_at IS NULL
+           RETURNING user_id`,
+          stampParams,
         );
+        if (stamped.rows.length === 0) {
+          return { success: false, tokensAwarded: 0, tokenType: "", message: "Reward already claimed" };
+        }
       } catch (error) {
         _logger.error("[QuestService] claimQuestReward DB failed:", error);
         return { success: false, tokensAwarded: 0, tokenType: "", message: "Database error" };
@@ -507,7 +517,30 @@ class QuestService {
       memoryProgress.set(key, { ...mem, claimedAt: new Date().toISOString() });
     }
 
-    const reward = await this.awardQuestReward(userId, quest);
+    const reward = await this.awardQuestReward(userId, quest, periodStart);
+    if (!reward.credited) {
+      // The stamp committed but the credit didn't — release the stamp so the
+      // reward isn't permanently burned; the period-scoped idempotency key
+      // keeps the retry from ever double-crediting.
+      if (db) {
+        try {
+          await db.executeQuery(
+            `UPDATE user_quest_progress
+             SET claimed_at = NULL
+             WHERE user_id = $1 AND quest_id = $2
+               ${periodStart !== null ? "AND period_start = $3" : "AND period_start IS NULL"}`,
+            unstampParams,
+          );
+        } catch (error) {
+          _logger.error(
+            "[QuestService] claim credit failed AND stamp release failed — reward needs manual reconcile:",
+            { userId, questSlug, periodStart, error },
+          );
+        }
+      }
+      return { success: false, tokensAwarded: 0, tokenType: "", message: "Reward crediting failed — try again." };
+    }
+
     return {
       success: true,
       tokensAwarded: reward.tokensAwarded,
@@ -517,21 +550,25 @@ class QuestService {
   }
 
   /**
-   * Award tokens for completing a quest.
+   * Award tokens for completing a quest. `credited: false` means nothing was
+   * written (the caller must release the claim stamp). The idempotency key is
+   * PERIOD-scoped — the previous day-scoped key collided when a current and a
+   * prior period of the same quest were both claimed on the same day, silently
+   * dropping the second reward.
    */
   private async awardQuestReward(
     userId: string,
     quest: QuestDefinition,
-  ): Promise<{ questSlug: string; tokensAwarded: number; tokenType: string }> {
-    const todayStr = new Date().toISOString().slice(0, 10);
-    const idemKey = `quest_claim:${userId}:${quest.slug}:${todayStr}`;
+    periodStart: string | null,
+  ): Promise<{ questSlug: string; tokensAwarded: number; tokenType: string; credited: boolean }> {
+    const idemKey = `quest_claim:${userId}:${quest.slug}:${periodStart || "all"}`;
 
     if (quest.tokenRewardType === "all") {
       // Split evenly across all 4 token types
       const perToken = Math.round((quest.tokenRewardAmount / 4) * 100) / 100;
       const credits = TOKEN_TYPES.map((t: TokenType) => ({ tokenType: t, amount: perToken }));
 
-      await tokenEconomy.creditMultipleTokens(userId, credits, "quest_reward", {
+      const balances = await tokenEconomy.creditMultipleTokens(userId, credits, "quest_reward", {
         sourceId: quest.slug,
         description: `Quest completed: ${quest.title}`,
         idempotencyKey: idemKey,
@@ -541,9 +578,10 @@ class QuestService {
         questSlug: quest.slug,
         tokensAwarded: quest.tokenRewardAmount,
         tokenType: "all",
+        credited: balances !== null,
       };
     } else {
-      await tokenEconomy.creditTokens(
+      const balances = await tokenEconomy.creditTokens(
         userId,
         quest.tokenRewardType,
         quest.tokenRewardAmount,
@@ -559,6 +597,7 @@ class QuestService {
         questSlug: quest.slug,
         tokensAwarded: quest.tokenRewardAmount,
         tokenType: quest.tokenRewardType,
+        credited: balances !== null,
       };
     }
   }

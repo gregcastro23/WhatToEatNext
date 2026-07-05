@@ -15,6 +15,7 @@ import {
   AMAZON_ASSOCIATE_TAG,
   getStandardizedQuantity,
 } from "@/data/amazon";
+import { firePractice } from "@/lib/economy/practiceClient";
 import { reportQuestEvent } from "@/lib/questReporter";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
@@ -461,6 +462,8 @@ export default function GroceryListModal({
   };
 
   const handleOrderOnAmazon = () => {
+    // Conjuring the week's order list quietly counts (deduped per menu per day).
+    firePractice("list_conjured", `menu:${currentMenu?.id ?? "week"}`);
     setShowAmazonPreview(true);
     setAmazonError(null);
     setAmazonResolution(null);

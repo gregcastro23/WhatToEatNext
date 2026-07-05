@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { revealPracticeReward } from "@/lib/economy/practiceClient";
 
 const STORAGE_PREFIX = "alchm:recipe-social:v1:";
 
@@ -42,9 +43,11 @@ function writeLocalState(recipeId: string, state: LocalSocialState) {
 
 interface Props {
   recipeId: string;
+  /** Enables the share-to-commons offer on cooked dishes. */
+  recipeName?: string;
 }
 
-export function SocialSection({ recipeId }: Props) {
+export function SocialSection({ recipeId, recipeName }: Props) {
   const { data: session, status } = useSession();
   const isAuthed = status === "authenticated";
 
@@ -53,6 +56,50 @@ export function SocialSection({ recipeId }: Props) {
   const [madeCount, setMadeCount] = useState<number>(0);
   const [tips, setTips] = useState<CommunityTip[]>([]);
   const [saving, setSaving] = useState(false);
+  const [shareState, setShareState] = useState<"idle" | "sharing" | "shared">("idle");
+
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(`alchm:cooked-shared:${recipeId}`)) setShareState("shared");
+    } catch {
+      /* private mode */
+    }
+  }, [recipeId]);
+
+  // The moment of pride: cooked + photographed → one-tap offer to post the
+  // dish card (chart-persona identity, never a real name) to the commons.
+  const shareToCommons = async () => {
+    if (!recipeName || !state.photoDataUrl || shareState !== "idle") return;
+    setShareState("sharing");
+    try {
+      const res = await fetch("/api/feed/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          shareType: "cooked",
+          payload: {
+            recipeName,
+            recipeId,
+            rating: state.rating || undefined,
+            photoDataUrl: state.photoDataUrl,
+          },
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setShareState("shared");
+        try {
+          window.localStorage.setItem(`alchm:cooked-shared:${recipeId}`, "1");
+        } catch {
+          /* private mode */
+        }
+      } else {
+        setShareState("idle");
+      }
+    } catch {
+      setShareState("idle");
+    }
+  };
 
   // Debounce review saves so each keystroke doesn't POST.
   const reviewDebounce = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -134,6 +181,11 @@ export function SocialSection({ recipeId }: Props) {
       if (!res.ok) throw new Error(`status ${res.status}`);
       const data = await res.json();
       if (typeof data.madeCount === "number") setMadeCount(data.madeCount);
+      // A genuine first "I made this" quietly earns — the server decides; we
+      // just hand the moment to the global delight host.
+      if (data.reward?.amount > 0) {
+        revealPracticeReward(data.reward);
+      }
     } catch (err) {
       console.warn("social save failed (cached locally):", err);
     } finally {
@@ -276,7 +328,27 @@ export function SocialSection({ recipeId }: Props) {
               &#x2715;
             </button>
           </div>
-        ) : (
+        ) : null}
+        {state.photoDataUrl && isAuthed && state.madeIt && recipeName && (
+          <div className="mt-3">
+            {shareState === "shared" ? (
+              <p className="text-xs text-emerald-300/90">✨ Shared to the commons — your work cooks under its own stars now.</p>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void shareToCommons()}
+                disabled={shareState === "sharing"}
+                className="px-4 py-2 rounded-xl text-sm font-medium border bg-purple-500/10 border-purple-500/30 text-purple-200 hover:bg-purple-500/20 transition-colors disabled:opacity-60"
+              >
+                {shareState === "sharing" ? "Sharing…" : "Share to the commons ✨"}
+              </button>
+            )}
+            <p className="text-[10px] text-white/35 mt-1.5">
+              Posts appear under your chart-persona — never your name.
+            </p>
+          </div>
+        )}
+        {!state.photoDataUrl && (
           <label className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 border border-dashed border-white/15 text-sm text-white/60 hover:text-amber-200 hover:border-amber-500/40 cursor-pointer transition-colors">
             <span className="text-lg">{"\u{1F4F7}"}</span>
             Add a photo

@@ -15,10 +15,26 @@
  */
 
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useTokenEconomy } from '@/hooks/useTokenEconomy';
+import type { AgentEventFeedItem, RecipePostFeedItem } from '@/lib/feed/historicalAgentFeed';
+import { fetchHistoricalAgentFeed } from '@/lib/feed/historicalAgentFeedSource';
+
+// Sign → element, for matching resonant agent voices to the user's element.
+const SIGN_ELEMENT: Record<string, string> = {
+  aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+  taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+  gemini: 'Air', libra: 'Air', aquarius: 'Air',
+  cancer: 'Water', scorpio: 'Water', pisces: 'Water',
+};
+
+function teaserLine(item: RecipePostFeedItem | AgentEventFeedItem): string {
+  if (item.type === 'recipe_post') return `shared ${item.recipe.name}`;
+  return 'channeled a new insight';
+}
 
 // ─── Element palette (for birth-element glow) ───────────────────────
 
@@ -52,6 +68,29 @@ export function DailyAlignmentWidget() {
     }
   })();
   const elementCfg = ELEMENT_GLOW[dominantElement] ?? ELEMENT_GLOW.Fire;
+
+  // Resonant-voice teaser: the freshest post from a historical agent whose
+  // sun sign shares the user's dominant element — a daily pull into the feed.
+  const [resonantItem, setResonantItem] = useState<RecipePostFeedItem | AgentEventFeedItem | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetchHistoricalAgentFeed()
+      .then((items) => {
+        if (cancelled || !Array.isArray(items)) return;
+        const match = items.find((item): item is RecipePostFeedItem | AgentEventFeedItem => {
+          if (item.type !== 'recipe_post' && item.type !== 'agent_event') return false;
+          const sun = String(item.agent?.birthchart?.sun ?? '').toLowerCase();
+          return SIGN_ELEMENT[sun] === dominantElement;
+        });
+        setResonantItem(match ?? null);
+      })
+      .catch(() => {
+        /* the teaser is decoration — silence on failure */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [dominantElement]);
 
   const handleAlign = () => {
     setGlowing(true);
@@ -121,6 +160,17 @@ export function DailyAlignmentWidget() {
               </span>
               <span className="text-[9px] text-amber-400/60 font-medium">day streak</span>
             </div>
+          )}
+
+          {/* Resonant voice — deep link into the commons */}
+          {resonantItem && (
+            <p className="mt-3 text-[11px] text-purple-300/70">
+              ✶ <span className="font-semibold text-purple-200">{resonantItem.agent.name}</span>{' '}
+              (a fellow {dominantElement} voice) {teaserLine(resonantItem)} —{' '}
+              <Link href="/feed" className="underline underline-offset-2 hover:text-purple-100">
+                hear it in the commons
+              </Link>
+            </p>
           )}
         </div>
 

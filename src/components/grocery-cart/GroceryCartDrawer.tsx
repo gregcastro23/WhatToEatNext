@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
@@ -21,6 +22,7 @@ export function GroceryCartDrawer() {
   } = useGroceryCart();
   const { showToast } = useToast();
   const [checkingOut, setCheckingOut] = useState(false);
+  const [smartOrderOpen, setSmartOrderOpen] = useState(false);
 
   // Escape key handler — closes the drawer for keyboard users
   useEffect(() => {
@@ -309,7 +311,29 @@ export function GroceryCartDrawer() {
                   </>
                 )}
               </button>
+              <button
+                type="button"
+                onClick={() => setSmartOrderOpen(true)}
+                disabled={items.length === 0}
+                className="w-full px-4 py-2.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-200 font-semibold text-xs hover:bg-cyan-500/20 transition-all disabled:opacity-50"
+              >
+                🧺 Smart order list (staples &amp; pantry aware)
+              </button>
             </div>
+
+            <OrderIngredientsModal
+              open={smartOrderOpen}
+              onClose={() => setSmartOrderOpen(false)}
+              title="Your grocery cart"
+              inputs={items.map((item) => ({
+                name: item.name,
+                amount: item.quantity,
+                unit: item.unit,
+                category: item.category,
+              }))}
+              source="grocery_drawer"
+              listTarget="cart"
+            />
             <button
               type="button"
               onClick={clear}

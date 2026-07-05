@@ -6,8 +6,10 @@
  */
 
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth/auth";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
+import { practiceRewardService } from "@/services/practiceRewardService";
+import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -33,12 +35,11 @@ async function getAggregateMadeCount(recipeId: string): Promise<number> {
 }
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ recipeId: string }> },
 ) {
   const { recipeId } = await params;
-  const session = await auth();
-  const userId = session?.user?.id;
+  const userId = await getUserIdFromRequest(request);
 
   try {
     let resolvedId = recipeId;
@@ -100,8 +101,7 @@ export async function POST(
   { params }: { params: Promise<{ recipeId: string }> },
 ) {
   const { recipeId } = await params;
-  const session = await auth();
-  const userId = session?.user?.id;
+  const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -120,24 +120,55 @@ export async function POST(
     typeof body.review === "string" ? body.review.slice(0, 500) : "";
 
   try {
-    await executeQuery(
-      `INSERT INTO user_recipe_interactions (user_id, recipe_id, made_it, rating, review)
+    // Mirror GET's slug→UUID resolution so the same recipe can't produce two
+    // interaction rows (and two cook rewards) under its slug and its id.
+    let resolvedId = recipeId;
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(recipeId);
+    if (!isUuid) {
+      const { LocalRecipeService } = await import("@/services/LocalRecipeService");
+      const recipe = await LocalRecipeService.getRecipeById(recipeId);
+      if (recipe?.id) resolvedId = String(recipe.id);
+    }
+    // Capture the PRIOR made_it in the same statement: the false→true
+    // transition is what counts as "cooked it" for the invisible reward
+    // (toggling off and back on can't re-pay — the practice ledger dedupes
+    // per day on top of this).
+    const upsert = await executeQuery<{ prior_made_it: boolean | null }>(
+      `WITH prior AS (
+         SELECT made_it FROM user_recipe_interactions
+         WHERE user_id = $1 AND recipe_id = $2
+       )
+       INSERT INTO user_recipe_interactions (user_id, recipe_id, made_it, rating, review)
        VALUES ($1, $2, $3, $4, $5)
        ON CONFLICT (user_id, recipe_id) DO UPDATE SET
          made_it = EXCLUDED.made_it,
          rating = EXCLUDED.rating,
          review = EXCLUDED.review,
-         updated_at = CURRENT_TIMESTAMP`,
-      [userId, recipeId, madeIt, rating || null, review || null],
+         updated_at = CURRENT_TIMESTAMP
+       RETURNING (SELECT made_it FROM prior) AS prior_made_it`,
+      [userId, resolvedId, madeIt, rating || null, review || null],
     );
 
-    const madeCount = await getAggregateMadeCount(recipeId);
+    // Invisible practice: a genuine new "I made this" quietly earns Matter.
+    // Best-effort — the interaction save never fails because of the reward.
+    let reward: { tokenType: string; amount: number; hint: string } | null = null;
+    const priorMadeIt = upsert.rows[0]?.prior_made_it === true;
+    if (madeIt && !priorMadeIt) {
+      reportQuestEventBestEffort(userId, "cook_recipe");
+      const result = await practiceRewardService.recognize(userId, "cooked_recipe", resolvedId);
+      if (result.rewarded && result.tokenType && result.amount && result.hint) {
+        reward = { tokenType: result.tokenType, amount: result.amount, hint: result.hint };
+      }
+    }
+
+    const madeCount = await getAggregateMadeCount(resolvedId);
     return NextResponse.json({
       authenticated: true,
       madeIt,
       rating,
       review,
       madeCount,
+      reward,
     });
   } catch (error) {
     console.error("[POST /api/users/me/recipes/:id]", error);
@@ -149,12 +180,11 @@ export async function POST(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ recipeId: string }> },
 ) {
   const { recipeId } = await params;
-  const session = await auth();
-  const userId = session?.user?.id;
+  const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

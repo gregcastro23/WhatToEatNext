@@ -2,6 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import React from "react";
+import { PracticeDelightHost } from "@/components/economy/PracticeDelightHost";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { MasterQuestBroadcastListener } from "@/components/MasterQuestBroadcastListener";
 import { ToastProvider } from "@/components/ToastProvider";
@@ -33,6 +34,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                       <SpacetimeProvider>
                         <GroceryCartProvider>
                           <MasterQuestBroadcastListener />
+                          {/* Invisible-reward reveals: toast + token rain */}
+                          <PracticeDelightHost />
                           {children}
                         </GroceryCartProvider>
                       </SpacetimeProvider>

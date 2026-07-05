@@ -15,7 +15,8 @@ import { PrivyProvider, usePrivy, useWallets, useFundWallet } from "@privy-io/re
 import { ArrowLeft, Check, CheckCircle2, Copy, ShieldAlert, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState, type JSX } from "react";
-import { base } from "viem/chains";
+import { base, baseSepolia } from "viem/chains";
+import { OnchainEsmsPanel } from "@/components/account/OnchainEsmsPanel";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +30,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmi9t84qs00acl80dam2j8195";
+
+// Follow the ESMS deployment chain (Base Sepolia on testnet, Base on mainnet)
+// so wallet signing, funding, and the on-chain panel all agree with where the
+// contracts actually live.
+const ESMS_CHAIN = process.env.NEXT_PUBLIC_ESMS_CHAIN === "base" ? base : baseSepolia;
 
 interface DBConnectionStatus {
   connected: boolean;
@@ -167,7 +173,9 @@ function AccountInner(): JSX.Element {
   }, [ready, login]);
 
   // Open Privy's fiat on-ramp to fund the embedded Base wallet. If the user
-  // isn't authenticated with Privy this session, prompt login first.
+  // isn't authenticated with Privy this session, prompt login first. Hidden on
+  // testnet: claim mints and shop burns are backend-sponsored, so the wallet
+  // needs no gas — and fiat on-ramps can't fund Sepolia anyway.
   const handleFund = useCallback(async (): Promise<void> => {
     if (!walletAddress) return;
     if (!authenticated) {
@@ -175,7 +183,7 @@ function AccountInner(): JSX.Element {
       return;
     }
     try {
-      await fundWallet({ address: walletAddress, options: { chain: base } });
+      await fundWallet({ address: walletAddress, options: { chain: ESMS_CHAIN } });
     } catch {
       /* user exited the on-ramp or it's unsupported in their region */
     }
@@ -384,7 +392,7 @@ function AccountInner(): JSX.Element {
                   <div style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.03)", borderRadius: 6, padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                     <div>
                       <div style={{ fontSize: 9, fontFamily: "var(--font-mono, monospace)", color: "var(--fg-mute, #718096)", marginBottom: 4 }}>
-                        EMBEDDED WALLET · BASE
+                        EMBEDDED WALLET · {ESMS_CHAIN.name.toUpperCase()}
                       </div>
                       <button
                         type="button"
@@ -400,15 +408,21 @@ function AccountInner(): JSX.Element {
                         )}
                       </button>
                     </div>
-                    <Button
-                      onClick={() => { void handleFund(); }}
-                      disabled={!ready}
-                      className="glowing-btn"
-                      style={{ padding: "10px 18px" }}
-                    >
-                      <Wallet style={{ width: 14, height: 14, marginRight: 6 }} />
-                      Fund Wallet
-                    </Button>
+                    {ESMS_CHAIN.testnet ? (
+                      <span style={{ fontSize: 11, color: "var(--fg-mute, #718096)", fontFamily: "var(--font-mono, monospace)" }}>
+                        TESTNET · GAS SPONSORED
+                      </span>
+                    ) : (
+                      <Button
+                        onClick={() => { void handleFund(); }}
+                        disabled={!ready}
+                        className="glowing-btn"
+                        style={{ padding: "10px 18px" }}
+                      >
+                        <Wallet style={{ width: 14, height: 14, marginRight: 6 }} />
+                        Fund Wallet
+                      </Button>
+                    )}
                   </div>
                 )}
 
@@ -445,6 +459,9 @@ function AccountInner(): JSX.Element {
           </div>
         </div>
       )}
+
+      {/* On-chain ESMS vault: site vs wallet balances + sponsored claim bridge */}
+      {!authError && !loading && <OnchainEsmsPanel />}
 
       {/* Branded modal dialog to present conflict / link error details beautifully */}
       <AlertDialog open={conflictOpen} onOpenChange={setConflictOpen}>
@@ -489,8 +506,8 @@ export default function AccountPage(): JSX.Element {
           ethereum: { createOnLogin: "users-without-wallets" },
           solana: { createOnLogin: "off" },
         },
-        defaultChain: base,
-        supportedChains: [base],
+        defaultChain: ESMS_CHAIN,
+        supportedChains: ESMS_CHAIN.id === base.id ? [base] : [ESMS_CHAIN, base],
         appearance: {
           theme: "dark",
           accentColor: "#805ad5", // Alchm purple accent
