@@ -9,7 +9,7 @@ import {
 } from "../calculations/enhancedAlchemicalMatching";
 import { getZodiacElementalInfluence } from "./zodiacUtils";
 
-const validateAlgorithms: any = () => ({}); // Function not exported
+const validateAlgorithms: () => Record<string, never> = () => ({}); // Function not exported
 
 /**
  * Utility function to get enhanced food recommendations based on
@@ -30,7 +30,11 @@ export function getEnhancedFoodRecommendation(
   // Recipe generation functionality is deactivated
   // Return a placeholder with the dominant element information
   // Apply surgical type casting with variable extraction
-  const resultData = alchemicalResult as any;
+  // NOTE: AlchemicalResult has no `dominant` field; this access is always undefined
+  // at runtime (pre-existing latent no-op preserved as-is — see report).
+  const resultData = alchemicalResult as unknown as {
+    dominant?: { element?: string };
+  };
   const dominant = resultData?.dominant;
   const dominantElement = dominant?.element || "balanced";
   return {
@@ -60,15 +64,16 @@ export function getEnhancedFoodRecommendation(
 export function getIngredientCompatibility(
   ingredientA: ElementalProperties,
   ingredientB: ElementalProperties,
-  signA?: any,
-  signB?: any,
+  signA?: ZodiacSignType,
+  signB?: ZodiacSignType,
 ) {
-  return (calculateAlchemicalCompatibility as any)(
-    ingredientA,
-    ingredientB,
-    signA,
-    signB,
-  );
+  // NOTE: calculateAlchemicalCompatibility's real signature is
+  // (recipeElements, astrologicalSign, currentElements) — 3 params. This call site
+  // passes 4 args in a different order/arity, a pre-existing latent mismatch
+  // preserved as-is (function is unreferenced anywhere in the app).
+  const variadicCompatibilityFn: (...args: unknown[]) => number =
+    calculateAlchemicalCompatibility;
+  return variadicCompatibilityFn(ingredientA, ingredientB, signA, signB);
 }
 
 /**
@@ -81,7 +86,7 @@ export function getIngredientCompatibility(
  * @returns Compatibility score between 0-1
  */
 export function getUserFoodCompatibility(
-  userSign: any,
+  userSign: ZodiacSignType,
   foodElement: string,
   foodElementalProps: ElementalProperties,
 ) {
@@ -93,7 +98,7 @@ export function getUserFoodCompatibility(
     Air: "gemini", // Could also use libra or aquarius
   };
 
-  const foodSign = foodSignMap[foodElement] || ("aries" as any);
+  const foodSign = foodSignMap[foodElement] || "aries";
 
   // Get base astrological affinity;
   const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);
@@ -102,7 +107,13 @@ export function getUserFoodCompatibility(
   const userElementalProfile = getZodiacElementalInfluence(userSign);
 
   // Calculate elemental compatibility
-  const elementalCompatibility = (calculateAlchemicalCompatibility as any)(
+  // NOTE: calculateAlchemicalCompatibility's real signature is
+  // (recipeElements, astrologicalSign, currentElements) — 3 params. This call site
+  // passes only 2 args, a pre-existing latent mismatch preserved as-is (function is
+  // unreferenced anywhere in the app).
+  const variadicCompatibilityFn: (...args: unknown[]) => number =
+    calculateAlchemicalCompatibility;
+  const elementalCompatibility = variadicCompatibilityFn(
     userElementalProfile,
     foodElementalProps,
   );
@@ -125,12 +136,16 @@ export function getUserFoodCompatibility(
  */
 export function generatePersonalizedMealPlan(
   alchemicalResult: AlchemicalResult,
-  _userSign: any,
+  _userSign: ZodiacSignType,
   _season: string,
   _userPreferences?: string[],
 ) {
   // Apply surgical type casting with variable extraction
-  const alchemicalResultData = alchemicalResult as any;
+  // NOTE: AlchemicalResult has no `dominant` field; this access is always undefined
+  // at runtime (pre-existing latent no-op preserved as-is — see report).
+  const alchemicalResultData = alchemicalResult as unknown as {
+    dominant?: { element?: string };
+  };
   const dominant = alchemicalResultData?.dominant;
 
   // Recipe generation functionality is deactivated
@@ -260,7 +275,7 @@ export function validateEnhancedAlgorithms() {
  */
 export function enhanceAlchemicalCalculations(
   alchemicalResult: AlchemicalResult,
-  userSign?: any,
+  userSign?: ZodiacSignType,
   season?: string,
   userPreferences?: string[],
 ) {

@@ -3,11 +3,15 @@ import { fruits } from "../data/ingredients/fruits";
 import { grains } from "../data/ingredients/grains";
 import { herbs } from "../data/ingredients/herbs";
 // import { oils } from "../data/ingredients/oils";
-const oils: any = {}; // Commented out non-existent export
+const oils: Record<string, IngredientMapping> = {}; // Commented out non-existent export
 import { _proteins as __proteins } from "../data/ingredients/proteins";
 import { spices } from "../data/ingredients/spices";
 import { vegetables } from "../data/ingredients/vegetables";
-import type { IngredientMapping, ElementalProperties } from "../types/alchemy";
+import type {
+  IngredientMapping,
+  ElementalProperties,
+  NutritionalProfile,
+} from "../types/alchemy";
 import type { ElementalFilter } from "../types/elemental";
 import type { NutritionalFilter, NutritionData } from "../types/nutrition";
 
@@ -88,7 +92,7 @@ export class IngredientFilterService {
       [INGREDIENT_GROUPS.HERBS]: herbs as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.SPICES]: spices as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
-      [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.OILS]: oils,
     };
   }
 
@@ -369,7 +373,9 @@ export class IngredientFilterService {
           >
         )
           .filter(([key]) =>
-            ["Fire", "Water", "Earth", "Air"].includes(key as any),
+            (["Fire", "Water", "Earth", "Air"] as Array<string | number>).includes(
+              key,
+            ),
           )
           .sort(([, a], [, b]) => b - a)[0];
 
@@ -558,11 +564,15 @@ export class IngredientFilterService {
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
       const sorted = [...ingredients].sort((a, b) => {
-        const aNutrition = a.nutritionalProfile || ({} as any);
-        const bNutrition = b.nutritionalProfile || ({} as any);
+        // Note: nutritionalProfile is typed NutritionalProfile (protein, fiber, carbohydrates)
+        // but calculateNutritionalScore expects NutritionData (protein_g, fiber_g, carbs).
+        // This mismatch pre-exists (same pattern at applyNutritionalFilter above) and is
+        // preserved as-is; fixing field names would change scoring behavior.
+        const aNutrition = (a.nutritionalProfile || {}) as NutritionData;
+        const bNutrition = (b.nutritionalProfile || {}) as NutritionData;
 
-        const aScore = this.calculateNutritionalScore(aNutrition as any);
-        const bScore = this.calculateNutritionalScore(bNutrition as any);
+        const aScore = this.calculateNutritionalScore(aNutrition);
+        const bScore = this.calculateNutritionalScore(bNutrition);
 
         return bScore - aScore; // Higher score first
       });
@@ -642,14 +652,24 @@ export class IngredientFilterService {
 
   public async getEnhancedNutritionData(
     ingredientName: string,
-  ): Promise<any | null> {
+  ): Promise<{
+    name: string;
+    nutrition: NutritionalProfile;
+    source: string;
+  } | null> {
     try {
       // Use local nutritional profiles
       const ingredient = this.findIngredientByName(ingredientName);
       if (ingredient && ingredient.nutritionalProfile) {
         return {
           name: ingredientName,
-          nutrition: ingredient.nutritionalProfile,
+          // Note: findIngredientByName is declared to return IngredientMapping
+          // (Record<string, Ingredient>) though at runtime it returns a single
+          // ingredient object; this pre-existing type/shape mismatch means
+          // `.nutritionalProfile` resolves to `Ingredient` via the index
+          // signature rather than `NutritionalProfile`. Cast preserves the
+          // existing runtime behavior without widening to `any`.
+          nutrition: ingredient.nutritionalProfile as unknown as NutritionalProfile,
           source: "local",
         };
       }

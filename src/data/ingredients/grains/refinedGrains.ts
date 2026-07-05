@@ -11,7 +11,7 @@ const rawRefinedGrains = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["cancer", "virgo"] as any[],
+      favorableZodiac: ["cancer", "virgo"],
       elementalAffinity: {
         base: "Air",
         secondary: "Earth",
@@ -111,7 +111,7 @@ const rawRefinedGrains = {
     elementalProperties: { Fire: 0.18, Water: 0.09, Earth: 0.37, Air: 0.36 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Saturn"],
-      favorableZodiac: ["virgo", "capricorn"] as any[],
+      favorableZodiac: ["virgo", "capricorn"],
       elementalAffinity: {
         base: "Earth",
         secondary: "Air",
@@ -223,7 +223,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Saturn"],
-      favorableZodiac: ["cancer", "capricorn"] as any[],
+      favorableZodiac: ["cancer", "capricorn"],
       elementalAffinity: {
         base: "Earth",
         decanModifiers: {
@@ -327,7 +327,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Saturn", "Mercury"],
-      favorableZodiac: ["capricorn", "virgo"] as any[],
+      favorableZodiac: ["capricorn", "virgo"],
       elementalAffinity: {
         base: "Earth",
         secondary: "Air",
@@ -432,7 +432,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Sun", "Jupiter"],
-      favorableZodiac: ["leo", "sagittarius"] as any[],
+      favorableZodiac: ["leo", "sagittarius"],
       elementalAffinity: {
         base: "Earth",
         secondary: "Fire",
@@ -538,7 +538,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["virgo", "libra"] as any[],
+      favorableZodiac: ["virgo", "libra"],
       elementalAffinity: {
         base: "Earth",
         secondary: "Air",

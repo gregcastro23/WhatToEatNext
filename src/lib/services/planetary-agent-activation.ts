@@ -19,6 +19,7 @@ import {
 import { getLunarDegreePersonality } from '../moon-phase-calculator'
 import { PLANET_SYMBOLS, PLANET_COLORS } from '../planetary-config-helper'
 import { UnifiedAgentFactory } from '../unified-agent-factory'
+import type { Element } from '../agent-types'
 import type { PlanetaryConfig, UnifiedAgent } from '../unified-agent-types'
 
 export interface ActivatedPlanetaryAgent {
@@ -72,13 +73,19 @@ export function activatePlanetaryAgentForDegree(
   if (!config) return null
 
   // Create planetary config for unified agent factory
-  const planetaryConfig: PlanetaryConfig = {
+  // NOTE: this object literal omits the required `dignity`, `element`, `color`,
+  // and `symbol` fields from PlanetaryConfig (they end up `undefined` at
+  // runtime). `factory.createFromPlanetary()` recomputes `dignity`/`element`
+  // itself from `planet`/`sign`, but `color`/`symbol` are consumed as-is
+  // downstream — preserving the existing (incomplete) shape via cast rather
+  // than fabricating values that would change runtime behavior.
+  const planetaryConfig = {
     planet: config.ruler,
     sign: config.sign,
     degree: String(config.zodiacDegree),
     isDiurnal: options.currentDateTime ? isDiurnalTime(options.currentDateTime) : true,
     retrograde: false, // Would need ephemeris data for accuracy
-  } as any
+  } as unknown as PlanetaryConfig
 
   // Create unified agent
   const factory = new UnifiedAgentFactory()
@@ -226,17 +233,27 @@ export function createMomentPlanetaryAgents(
     }
 
     // Create planetary config for unified agent factory
-    const planetaryConfig: PlanetaryConfig = {
+    // NOTE: getSignElement can fall back to the string 'Unknown', which is
+    // outside the Element union ('Fire'|'Water'|'Air'|'Earth'). Casting to
+    // Element preserves the exact same runtime value as before (still
+    // whichever string was actually returned) without a runtime guard.
+    // NOTE: `isDiurnal` and `retrograde` are not declared on PlanetaryConfig
+    // (isDiurnal is read downstream via a local cast in
+    // unified-agent-factory.ts; retrograde is carried but unused). Preserving
+    // both extra fields via `as unknown as PlanetaryConfig` to keep the exact
+    // same runtime object rather than dropping fields the original `as any`
+    // silently let through.
+    const planetaryConfig = {
       planet: planetName,
       sign: planetData.sign,
       degree: planetData.signDegree.toString(),
       dignity: getPlanetaryDignity(planetName, planetData.sign),
-      element: getSignElement(planetData.sign) as any,
+      element: getSignElement(planetData.sign) as Element,
       color: PLANET_COLORS[planetName] || '#8b5cf6',
       symbol: PLANET_SYMBOLS[planetName] || '●',
       isDiurnal: options.currentDateTime ? isDiurnalTime(options.currentDateTime) : true,
       retrograde: planetData.retrograde || false,
-    } as any
+    } as unknown as PlanetaryConfig
 
     // Add lunar personality for Moon agent
     if (planetName === 'Moon') {
@@ -251,8 +268,12 @@ export function createMomentPlanetaryAgents(
     const agent = factory.createFromPlanetary(planetaryConfig)
 
     // Calculate activation strength
+    // NOTE: this stand-in config is missing `zodiacDegree` and
+    // `isCriticalDegree`, both read inside calculateActivationStrength; both
+    // degrade to falsy/no-op on `undefined`, which is the intended meaning
+    // of "use default config". Cast (not filled in) to preserve behavior.
     const activationStrength = calculateActivationStrength(
-      { powerLevel: 0.5 } as any, // Use default config
+      { powerLevel: 0.5 } as unknown as PlanetaryAgentConfig, // Use default config
       { orb: 0 }
     )
 
@@ -266,9 +287,9 @@ export function createMomentPlanetaryAgents(
         sign: planetData.sign,
         zodiacDegree: planetData.signDegree,
         degree: Number(planetData.signDegree),
-        rulerDignity: getPlanetaryDignity(planetName, planetData.sign) as any,
+        rulerDignity: getPlanetaryDignity(planetName, planetData.sign) as PlanetaryAgentConfig['rulerDignity'],
         isCardinalDegree: false,
-        element: (getPlanetaryElement(planetName) || getSignElement(planetData.sign)) as any,
+        element: (getPlanetaryElement(planetName) || getSignElement(planetData.sign)) as PlanetaryAgentConfig['element'],
         powerLevel: 0.5,
         consciousnessLevel: 'active',
         themes: [`${planetName} energy`, `${planetData.sign} expression`],
