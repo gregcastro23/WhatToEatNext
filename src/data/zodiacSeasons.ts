@@ -2,7 +2,7 @@ import type { ZodiacSignType, Element } from "@/types/alchemy";
 
 // Define the interface for zodiac season data
 interface ZodiacSeasonData {
-  name: any;
+  name: ZodiacSignType;
   element: Element;
   startMonth: number; // 1-based month (1 = January)
   startDay: number;
@@ -258,7 +258,7 @@ export const zodiacSeasons: Record<ZodiacSignType, ZodiacSeasonData> = {
  * @param date Date to get zodiac sign for
  * @returns The zodiac sign for the given date
  */
-export function getZodiacSignTypeForDate(date: Date): any {
+export function getZodiacSignTypeForDate(date: Date): ZodiacSignType {
   const month = date.getMonth() + 1; // JavaScript months are 0-indexed
   const day = date.getDate();
 
@@ -294,7 +294,7 @@ export function getZodiacSignTypeForDate(date: Date): any {
  * Get the current zodiac sign based on today's date
  * @returns The current zodiac sign
  */
-export function getCurrentZodiacSignType(): any {
+export function getCurrentZodiacSignType(): ZodiacSignType {
   return getZodiacSignTypeForDate(new Date());
 }
 
@@ -303,7 +303,7 @@ export function getCurrentZodiacSignType(): any {
  * @param sign The zodiac sign
  * @returns The element (Fire, Earth, Air, Water)
  */
-export function getElementForZodiacSignType(sign: any): Element {
+export function getElementForZodiacSignType(sign: ZodiacSignType): Element {
   return zodiacSeasons[sign].element;
 }
 
@@ -312,6 +312,6 @@ export function getElementForZodiacSignType(sign: any): Element {
  * @param sign The zodiac sign
  * @returns The ruling planet
  */
-export function getRulingPlanetForZodiacSignType(sign: any): string {
+export function getRulingPlanetForZodiacSignType(sign: ZodiacSignType): string {
   return zodiacSeasons[sign].ruling_planet;
 }
