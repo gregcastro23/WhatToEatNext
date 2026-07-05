@@ -1,6 +1,7 @@
 import { allIngredients } from "@/data/ingredients";
 import type {
   AstrologicalProfile,
+  Element,
   ElementalProperties,
   Ingredient,
 } from "@/types/alchemy";
@@ -32,8 +33,9 @@ export function cleanupIngredientsDatabase() {
         const ingredientWithAstrology =
           ingredient as unknown as IngredientWithAstrology;
 
-        // Safe property access using type assertion
-        const data = ingredientWithAstrology as unknown as any;
+        // Safe property access - IngredientWithAstrology already covers
+        // the fields (`name`, `elementalProperties`) accessed on `data` below.
+        const data = ingredientWithAstrology;
         const { name } = data;
 
         // Ensure ingredient has a name
@@ -114,8 +116,8 @@ export function cleanupIngredientsDatabase() {
           const currentElementalProps = data.elementalProperties;
           const dominantElement = currentElementalProps
             ? Object.entries(currentElementalProps).reduce(
-                (a, b) => ((a as any)[1] > (b as any)[1] ? a : b),
-                ["Fire", 0],
+                (a, b) => (a[1] > b[1] ? a : b),
+                ["Fire", 0] as [string, number],
               )[0]
             : "Fire";
 
@@ -128,22 +130,23 @@ export function cleanupIngredientsDatabase() {
             `Added default astrological profile to ${data.name || name || "unknown ingredient"}`,
           );
         } else if (
-          !(ingredientWithAstrology.astrologicalProfile as any)
-            .elementalAffinity
+          !ingredientWithAstrology.astrologicalProfile.elementalAffinity
         ) {
           // Ensure elementalAffinity exists within the profile - safe property access
           const currentElementalProps = data.elementalProperties;
           const dominantElement = currentElementalProps
             ? Object.entries(currentElementalProps).reduce(
-                (a, b) => ((a as any)[1] > (b as any)[1] ? a : b),
-                ["Fire", 0],
+                (a, b) => (a[1] > b[1] ? a : b),
+                ["Fire", 0] as [string, number],
               )[0]
             : "Fire";
 
-          (
-            ingredientWithAstrology.astrologicalProfile as any
-          ).elementalAffinity = {
-            base: dominantElement,
+          // dominantElement is derived from Object.keys of an ElementalProperties
+          // object (or the "Fire" fallback), so it is always actually one of the
+          // four Element strings at runtime; cast narrows `string` -> `Element`
+          // to satisfy AstrologicalProfile['elementalAffinity'] without changing behavior.
+          ingredientWithAstrology.astrologicalProfile.elementalAffinity = {
+            base: dominantElement as Element,
           };
           fixedEntries++;
           logger.warn(

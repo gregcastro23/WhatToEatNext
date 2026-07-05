@@ -11,6 +11,7 @@
 
 import type { ElementalProperties } from "@/types/alchemy";
 import type {
+  AspectPhase,
   FoodEnergyCategory,
   KineticMetrics,
   KineticsElementalTotals,
@@ -293,7 +294,7 @@ function getAspectPhase(powerLevel: number, trend?: string) {
 
 function getFoodCategoriesForEnergy(
   energyCategory: FoodEnergyCategory,
-  aspectPhase: any,
+  aspectPhase: AspectPhase | undefined,
 ): string[] {
   const baseCategories = {
     energizing: ["stimulating", "warming", "protein_rich", "complex_carbs"],
@@ -316,7 +317,7 @@ function getFoodCategoriesForEnergy(
 }
 
 function getOptimalTimingDescription(
-  aspectPhase: any,
+  aspectPhase: AspectPhase | undefined,
   powerLevel: number,
 ): string {
   if (aspectPhase?.type === "applying") {
@@ -332,7 +333,7 @@ function getOptimalTimingDescription(
 
 function generateRecommendationNote(
   energyCategory: FoodEnergyCategory,
-  aspectPhase: any,
+  aspectPhase: AspectPhase | undefined,
   powerLevel: number,
 ): string {
   if (aspectPhase?.type === "applying" && powerLevel > 0.8) {
@@ -445,13 +446,26 @@ export function getKineticsEnhancedRecommendations(
 
   return {
     ...baseRecommendation,
-    aspectPhase: kineticsMetrics.aspectPhase as any,
+    // Latent type-contract mismatch (pre-existing, preserved as-is):
+    // KineticMetrics.aspectPhase is AspectPhase | null, but
+    // KineticsEnhancedRecommendation.aspectPhase is AspectPhase | undefined
+    // (no null). No cast needed here (its static type is already
+    // AspectPhase | null); the mismatch is absorbed by the outer
+    // unknown-mediated cast below, which preserves the raw null at runtime
+    // rather than silently coercing null -> undefined.
+    aspectPhase: kineticsMetrics.aspectPhase,
     portionModifier: calculateKineticsPortionModifier(kineticsMetrics),
     seasonalTags: getSeasonalTags(
       kineticsResponse.data.base.timing?.seasonalInfluence ?? "Spring",
     ),
     ...kineticsEnhancements,
-  } as any;
+    // Latent bug (pre-existing, preserved as-is): calculateKineticsEnhancements()
+    // returns powerLevel: 'high' | 'low' | 'moderate', which spreads after (and
+    // overwrites) the numeric powerLevel inherited from baseRecommendation
+    // (TemporalFoodRecommendation.powerLevel: number). The resulting object does
+    // not structurally satisfy KineticsEnhancedRecommendation, hence the
+    // unknown-mediated cast below instead of a direct assertion.
+  } as unknown as KineticsEnhancedRecommendation;
 }
 
 /**

@@ -302,7 +302,11 @@ export function identifyThermodynamicSignatures(
     }
 
     const zScore = calculateZScore(
-      value as any,
+      // kalchm/monica are optional on ThermodynamicProperties, so `value` is
+      // typed number | undefined here even though DEFAULT_GLOBAL_BASELINE and
+      // real baseline data always populate them; the guard above only
+      // narrows globalMean/globalStdDev, not value itself.
+      value as number,
       globalMean,
       globalStdDev,
     );
@@ -314,7 +318,7 @@ export function identifyThermodynamicSignatures(
         property,
         zscore: zScore,
         strength,
-        averageValue: value as any,
+        averageValue: value as number,
         globalAverage: globalMean,
         description: generateThermodynamicSignatureDescription(
           property,
@@ -482,7 +486,13 @@ export function identifyCuisineSignatures(
         sampleSize,
         globalBaseline.cuisineCount,
       );
-      (signature as any).confidence = confidence;
+      // CuisineSignature (src/types/hierarchy.ts) has no `confidence` field;
+      // this augments the object at runtime with an extra property that is
+      // never read downstream (verified via repo-wide grep). Preserving the
+      // existing behavior exactly via a local intersection-type cast rather
+      // than editing the shared type or dropping the assignment.
+      (signature as CuisineSignature & { confidence: number }).confidence =
+        confidence;
     });
   }
 
@@ -539,10 +549,17 @@ export function getSignatureSummary(signatures: CuisineSignature[]): {
     byStrength[sig.strength]++;
 
     // Classify property type
-    if (["Fire", "Water", "Earth", "Air"].includes(sig.property as any)) {
+    // sig.property's declared union resolves to `string | number` because
+    // ElementalProperties (src/types/alchemy.ts) carries a `[key: string]:
+    // number` index signature, which widens `keyof` to include `number`;
+    // at runtime it is always one of the named string literals below, so a
+    // `string` cast (not `any`) accurately narrows for .includes().
+    if (["Fire", "Water", "Earth", "Air"].includes(sig.property as string)) {
       byPropertyType.elemental++;
     } else if (
-      ["Spirit", "Essence", "Matter", "Substance"].includes(sig.property as any)
+      ["Spirit", "Essence", "Matter", "Substance"].includes(
+        sig.property as string,
+      )
     ) {
       byPropertyType.alchemical++;
     } else {

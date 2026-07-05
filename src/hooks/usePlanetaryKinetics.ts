@@ -17,6 +17,10 @@ import {
 import { _logger } from "@/lib/logger";
 import { planetaryKineticsClient } from "@/services/PlanetaryKineticsClient";
 import type {
+  KineticsLocation as ClientKineticsLocation,
+  KineticsOptions as ClientKineticsOptions,
+} from "@/services/PlanetaryKineticsClient";
+import type {
   GroupDynamicsResponse,
   KineticMetrics,
   KineticsEnhancedRecommendation,
@@ -105,8 +109,15 @@ export function usePlanetaryKinetics(
       setError(null);
 
       const data = await planetaryKineticsClient.getEnhancedKinetics(
-        location as any,
-        kineticsOptions as any,
+        // Hook's KineticsLocation ({lat, lon}) differs from the client's own
+        // KineticsLocation ({latitude, longitude}); preserved as-is (latent
+        // mismatch, not fixed here) via unknown-cast.
+        location as unknown as ClientKineticsLocation,
+        // Hook's KineticsOptions (agent/power-prediction/resonance flags) has
+        // no field overlap with the client's own KineticsOptions
+        // (includeThermodynamics/useCache/cacheTimeout); preserved as-is via
+        // unknown-cast.
+        kineticsOptions as unknown as ClientKineticsOptions,
       );
 
       // Get accurate planetary positions utilizing our robust astronomy-engine wrapper
@@ -134,7 +145,12 @@ export function usePlanetaryKinetics(
 
       const metrics = calculateKinetics(kineticsInput);
 
-      setKinetics(data as any);
+      // The client's real KineticsResponse ({success, data?: KineticMetrics,
+      // error?, timestamp, cacheHit?}) is structurally different from the
+      // @/types/kinetics KineticsResponse that `kinetics` state and this
+      // hook's memos (currentPowerLevel, dominantElement, etc.) assume.
+      // Preserved as-is (latent mismatch, not fixed here) via unknown-cast.
+      setKinetics(data as unknown as KineticsResponse);
       setKineticsMetrics(metrics);
       setPreviousPlanetaryPositions(currentPlanetaryPositions);
       setLastKineticsTime(currentTime);
@@ -142,7 +158,14 @@ export function usePlanetaryKinetics(
       setLastUpdate(new Date());
 
       _logger.debug("usePlanetaryKinetics: Kinetics data updated", {
-        powerLevel: (data.data as any).base.power[0]?.power,
+        // data.data has no `.base` field on the client's real KineticMetrics
+        // shape; this only "works" via the upstream any-cast reinterpretation.
+        // Preserved exactly (including the throw-to-catch-fallback behavior
+        // when data.data is undefined) via a narrow object-shape cast instead
+        // of optional chaining.
+        powerLevel: (
+          data.data as unknown as { base: { power: Array<{ power: number }> } }
+        ).base.power[0]?.power,
         forceMagnitude: metrics.forceMagnitude,
         cacheHit: data.cacheHit,
       });
@@ -170,7 +193,10 @@ export function usePlanetaryKinetics(
       try {
         const data = await planetaryKineticsClient.getGroupDynamics(
           userIds,
-          location as any,
+          // Same shape mismatch as above; the client's getGroupDynamics
+          // ignores this param entirely (`_location`, unused), so this cast
+          // is currently inert but preserved for consistency/safety.
+          location as unknown as ClientKineticsLocation,
         );
         setGroupDynamics(data);
 
