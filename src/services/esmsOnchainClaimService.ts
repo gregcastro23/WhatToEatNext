@@ -112,6 +112,27 @@ export const esmsOnchainClaimService = {
     }
   },
 
+  /**
+   * All in-flight claims older than `minAgeMinutes`, oldest first — the
+   * reconcile cron's worklist. Fresh claims are skipped so the cron never
+   * races a request that is still confirming its own mint.
+   */
+  async listStalePending(minAgeMinutes = 30, limit = 25): Promise<EsmsOnchainClaim[]> {
+    try {
+      const res = await executeQuery<ClaimRow>(
+        `SELECT * FROM esms_onchain_claims
+         WHERE status = 'pending'
+           AND updated_at < now() - ($1 || ' minutes')::interval
+         ORDER BY created_at ASC LIMIT $2`,
+        [String(Math.max(1, minAgeMinutes)), Math.min(Math.max(limit, 1), 100)],
+      );
+      return res.rows.map(rowToClaim);
+    } catch (err) {
+      console.error("[esmsOnchainClaimService] listStalePending failed:", err);
+      return [];
+    }
+  },
+
   /** The user's single in-flight claim, if any. */
   async findPending(userId: string): Promise<EsmsOnchainClaim | null> {
     try {

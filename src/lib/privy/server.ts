@@ -24,7 +24,16 @@ export function getPrivyClient(): PrivyClient | null {
   const appId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
   const appSecret = process.env.PRIVY_APP_SECRET;
   if (appId && appSecret) {
-    _client = new PrivyClient(appId, appSecret);
+    // If the app registers an authorization keypair in the Privy Dashboard,
+    // every walletApi call (createWallet, ethereum.sendTransaction for the
+    // server-wallet minter/redeemer) must be signed with its private key —
+    // without it those calls fail. Optional until a keypair is registered.
+    const authorizationPrivateKey = process.env.PRIVY_AUTHORIZATION_PRIVATE_KEY;
+    _client = new PrivyClient(
+      appId,
+      appSecret,
+      authorizationPrivateKey ? { walletApi: { authorizationPrivateKey } } : undefined,
+    );
   }
   return _client;
 }
