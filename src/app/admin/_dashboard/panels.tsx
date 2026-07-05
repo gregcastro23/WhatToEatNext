@@ -924,6 +924,23 @@ export function CatalogState({
 // ============================================================
 // COMMERCE PANEL — MRR + orders
 // ============================================================
+export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: number; cookedPostsWeek: number; feedDauToday: number; live: boolean } }) {
+  const d = data ?? { affiliateClicksWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false };
+  return (
+    <Card
+      title="Living Economy"
+      subtitle={d.live ? "affiliate funnel · cook flywheel · social pull" : "offline — DB unreachable"}
+      right={<Legend label={d.live ? "LIVE" : "STALE"} color={d.live ? "var(--el-earth)" : "var(--el-fire)"} />}
+    >
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, padding: 12 }}>
+        <MiniStat label="Amazon handoffs / 7d" value={d.affiliateClicksWeek.toLocaleString()} />
+        <MiniStat label="Cooked posts / 7d" value={d.cookedPostsWeek.toLocaleString()} />
+        <MiniStat label="Feed DAU today" value={d.feedDauToday.toLocaleString()} />
+      </div>
+    </Card>
+  );
+}
+
 export function CommercePanel({ commerceSummary }: { commerceSummary: any }) {
   const summary = commerceSummary || { mrr: 0, paidSubs: 0, provisionedSubs: 0, recentOrders: [], live: false };
   const live = summary.live ?? false;

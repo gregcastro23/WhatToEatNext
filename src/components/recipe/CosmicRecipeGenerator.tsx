@@ -8,7 +8,7 @@ import { useToast } from '@/components/common/Toast';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
-import { mintRecipe as submitRecipeMint, mintResultMessage } from '@/lib/recipe-nft/mintClient';
+import { mintRecipe as submitRecipeMint, mintResultMessage, quoteRecipeMint, type MintQuoteResult } from '@/lib/recipe-nft/mintClient';
 import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
@@ -132,6 +132,31 @@ export default function CosmicRecipeGenerator() {
   const [hasShared, setHasShared] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
   const [hasMinted, setHasMinted] = useState(false);
+  const [mintQuote, setMintQuote] = useState<MintQuoteResult | null>(null);
+
+  // Cost-before-mint: quote the ESMS price once the recipe is saved so the
+  // mint button states its price instead of revealing it via a 402 toast.
+  useEffect(() => {
+    if (!object || !savedRecipeId) {
+      setMintQuote(null);
+      return;
+    }
+    let cancelled = false;
+    void quoteRecipeMint(object).then((q) => {
+      if (!cancelled) setMintQuote(q);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedRecipeId]);
+
+  const mintCostLabel = (() => {
+    if (!mintQuote?.enabled) return null;
+    const c = mintQuote.quote.liveCost;
+    const total = (c.spirit || 0) + (c.essence || 0) + (c.matter || 0) + (c.substance || 0);
+    return total > 0 ? `${Math.round(total * 10) / 10} ESMS` : null;
+  })();
 
   const handleMintNft = async () => {
     if (!object) return;
@@ -621,7 +646,13 @@ export default function CosmicRecipeGenerator() {
                   }`}
                   title="Spend ESMS equal to this recipe's alchemical fingerprint to mint it as an on-chain NFT"
                 >
-                  {hasMinted ? "✓ Minted" : isMinting ? "Minting…" : "⛓ Mint as NFT"}
+                  {hasMinted
+                    ? "✓ Minted"
+                    : isMinting
+                      ? "Minting…"
+                      : mintCostLabel
+                        ? `⛓ Mint as NFT · ${mintCostLabel}`
+                        : "⛓ Mint as NFT"}
                 </button>
               </div>
             )}

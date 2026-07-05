@@ -21,6 +21,8 @@ export interface FeedEvent {
    * for human actors: their email must not leak through this public endpoint.
    */
   actorSlug?: string;
+  /** Spark count from feed_reactions (recent-events read path only). */
+  reactionCount?: number;
 }
 
 class FeedDatabaseService {
@@ -110,10 +112,14 @@ class FeedDatabaseService {
   async getRecentEvents(limit: number = 50, offset: number = 0): Promise<FeedEvent[]> {
     try {
       const result = await executeQuery(
-        `SELECT f.*, u.is_agent, u.email as actor_email, u.image as actor_image, up.name as actor_name
+        `SELECT f.*, u.is_agent, u.email as actor_email, u.image as actor_image, up.name as actor_name,
+                COALESCE(r.n, 0) AS reaction_count
          FROM feed_events f
          JOIN users u ON f.actor_id = u.id
          LEFT JOIN user_profiles up ON u.id = up.user_id
+         LEFT JOIN LATERAL (
+           SELECT COUNT(*)::int AS n FROM feed_reactions fr WHERE fr.event_id = f.id
+         ) r ON true
          ORDER BY f.created_at DESC
          LIMIT $1 OFFSET $2`,
         [limit, offset]
@@ -158,6 +164,7 @@ class FeedDatabaseService {
           actorImage,
           actorIsAgent: isAgent,
           actorSlug,
+          reactionCount: Number(row.reaction_count) || 0,
         };
       });
     } catch (error) {

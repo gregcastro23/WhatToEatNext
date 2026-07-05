@@ -19,6 +19,7 @@ import type {
   CommerceSummaryData,
   PageTelemetryData,
   RecentAlertsData,
+  LivingEconomyMetrics,
   SecuritySummaryData,
   DeployHistoryEntry,
   FeatureFlagEntry,
@@ -147,6 +148,8 @@ export interface AdminDashboardData {
   liveActivity: { entries: ActivityEvent[]; live: boolean };
   /** Recent alert_events rows for the IncidentsPanel. */
   recentAlerts: RecentAlertsData;
+  /** Living Economy scorecard: affiliate clicks, cooked posts, feed DAU. */
+  livingEconomy?: LivingEconomyMetrics;
   /** request_log_entries aggregated 5xx/4xx by path for ErrorGroups. */
   errorGroups: ErrorGroupsData;
   /** auth_events rollup for SecurityPanel. */
@@ -276,6 +279,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   liveActivity: { entries: [], live: false },
   recentAlerts: { entries: [], live: false },
+  livingEconomy: { affiliateClicksWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false },
   errorGroups: { groups: [], windowMinutes: 60, live: false },
   security: {
     signinSuccess24h: 0,
