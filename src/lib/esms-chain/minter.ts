@@ -68,14 +68,14 @@ export async function mintEsmsClaim(params: {
   const walletId = process.env.PRIVY_MINTER_WALLET_ID
   const privy = walletId ? getPrivyClient() : null
   if (walletId && privy) {
-    // NOTE: verify the exact input shape against @privy-io/server-auth on first
-    // testnet run (walletId/caip2/tx-field nesting); cast to satisfy types here.
-    const res = (await (privy as any).walletApi.ethereum.sendTransaction({
+    // Typed against @privy-io/server-auth@1.32.x — a breaking SDK bump now
+    // fails tsc instead of exploding at runtime.
+    const res = await privy.walletApi.ethereum.sendTransaction({
       walletId,
-      caip2: esmsCaip2(),
+      caip2: esmsCaip2() as `eip155:${string}`,
       transaction: { to: contract, data },
-    })) as { hash?: Hex; transactionHash?: Hex }
-    const hash = res.hash ?? res.transactionHash
+    })
+    const hash = res.hash as Hex | undefined
     if (!hash) throw new Error('Privy sendTransaction returned no hash')
     return hash
   }
