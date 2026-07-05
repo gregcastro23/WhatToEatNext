@@ -28,7 +28,7 @@ function getAstrologicalElementalProfile(
     typeof astroState === "object" &&
     "elementalProperties" in astroState
   ) {
-    const props = (astroState as any).elementalProperties;
+    const props = (astroState as Record<string, unknown>).elementalProperties;
     if (props && typeof props === "object") {
       return props as ElementalProperties;
     }
@@ -64,7 +64,7 @@ interface FlavorProperties {
 
 function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
   if (!obj || typeof obj !== "object") return false;
-  const objRecord = obj as any;
+  const objRecord = obj as Record<string, unknown>;
   return (
     typeof objRecord.bitter === "number" ||
     typeof objRecord.sweet === "number" ||
@@ -100,8 +100,8 @@ interface CookingMethodData {
   suitable_for: string[];
   benefits: string[];
   astrologicalInfluences?: {
-    favorableZodiac?: any[];
-    unfavorableZodiac?: any[];
+    favorableZodiac?: string[];
+    unfavorableZodiac?: string[];
     dominantPlanets?: string[];
   };
   toolsRequired?: string[];
@@ -122,7 +122,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
   ...Object.entries(allCookingMethods).reduce(
     (acc: CookingMethodDictionary, [id, method]) => {
-      const methodData = method as unknown as any;
+      const methodData = method as unknown as Record<string, unknown>;
       acc[id] = {
         id,
         ...methodData,
@@ -149,11 +149,16 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
   // Add cultural methods with proper organization
   ...culturalCookingMethods.reduce(
     (methods: CookingMethodDictionary, method) => {
-      const methodData = method as unknown as any;
+      // Note: `method` is statically CulturalCookingMethod (elementalProperties,
+      // no `duration`), but this block reads `.elementalState`/`.duration`, neither
+      // of which exist on that interface. Preserved as pre-existing (always-undefined)
+      // behavior via a Record<string, unknown> boundary cast rather than the real type,
+      // which would hard-error on these reads.
+      const methodData = method as unknown as Record<string, unknown>;
       // Check if this method is a variation of a main method
       if (methodData.relatedToMainMethod) {
         // If the main method exists, add this as a variation
-        const mainId = methodData.relatedToMainMethod;
+        const mainId = methodData.relatedToMainMethod as string;
         if (methods[mainId]) {
           const existingVariations = methods[mainId].variations || [];
           const existingVariationsArray = Array.isArray(existingVariations)
@@ -163,9 +168,10 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             methods[mainId].variations = [
               ...existingVariationsArray,
               {
-                id: methodData.id,
-                name: methodData.variationName || methodData.name,
-                description: methodData.description,
+                id: methodData.id as string,
+                name: (methodData.variationName ||
+                  methodData.name) as string,
+                description: methodData.description as string,
                 elementalEffect:
                   (methodData.elementalState as ElementalProperties) ||
                   createElementalProperties({
@@ -176,8 +182,9 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                   }),
                 toolsRequired: (methodData.toolsRequired as Element[]) || [],
                 bestFor: (methodData.bestFor as Element[]) || [],
-                culturalOrigin: methodData.culturalOrigin,
-                astrologicalInfluences: methodData.astrologicalInfluences,
+                culturalOrigin: methodData.culturalOrigin as string,
+                astrologicalInfluences:
+                  methodData.astrologicalInfluences as CookingMethodData["astrologicalInfluences"],
                 duration: {
                   min: methodData.duration ? (methodData.duration as { min?: number }).min || 0 : 0,
                   max: methodData.duration ? (methodData.duration as { max?: number }).max || 0 : 0,
@@ -198,9 +205,9 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         !methodData.relatedToMainMethod
       ) {
         methods[methodData.id as string] = {
-          id: methodData.id,
-          name: methodData.name,
-          description: methodData.description,
+          id: methodData.id as string,
+          name: methodData.name as string,
+          description: methodData.description as string,
           elementalEffect:
             (methodData.elementalState as ElementalProperties) ||
             createElementalProperties({
@@ -211,16 +218,22 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             }),
           toolsRequired: (methodData.toolsRequired as Element[]) || [],
           bestFor: (methodData.bestFor as Element[]) || [],
-          culturalOrigin: methodData.culturalOrigin,
+          culturalOrigin: methodData.culturalOrigin as string,
           astrologicalInfluences: {
             favorableZodiac:
-              (methodData.astrologicalInfluences?.favorableZodiac as any[]) ||
+              ((methodData.astrologicalInfluences as
+                | { favorableZodiac?: string[] }
+                | undefined)?.favorableZodiac) ||
               [],
             unfavorableZodiac:
-              (methodData.astrologicalInfluences?.unfavorableZodiac as any[]) ||
+              ((methodData.astrologicalInfluences as
+                | { unfavorableZodiac?: string[] }
+                | undefined)?.unfavorableZodiac) ||
               [],
             dominantPlanets:
-              (methodData.astrologicalInfluences?.dominantPlanets as string[]) ||
+              ((methodData.astrologicalInfluences as
+                | { dominantPlanets?: string[] }
+                | undefined)?.dominantPlanets) ||
               [],
           },
           duration: {
@@ -247,7 +260,8 @@ export function getMethodThermodynamics(
   method: CookingMethodProfile,
 ): BasicThermodynamicProperties {
   const methodNameLower =
-    String((method as unknown as any).name).toLowerCase() || "";
+    String((method as unknown as Record<string, unknown>).name).toLowerCase() ||
+    "";
 
   // 1. Check the detailed data source first
   const detailedMethodData =
@@ -265,8 +279,10 @@ export function getMethodThermodynamics(
   }
 
   // 2. Check if the method object itself has thermodynamic properties
-  const methodData = method as unknown as any;
-  const { thermodynamicProperties } = methodData;
+  const methodData = method as unknown as Record<string, unknown>;
+  const thermodynamicProperties = methodData.thermodynamicProperties as
+    | Record<string, unknown>
+    | undefined;
   if (thermodynamicProperties) {
     return {
       heat: Number(thermodynamicProperties.heat) || 0.5,
@@ -447,7 +463,7 @@ export function calculatePlanetaryDayInfluence(
     Saturn: ["preserve", "cure", "age", "ferment", "pickle"],
   };
 
-  const methodData = method as unknown as any;
+  const methodData = method as unknown as Record<string, unknown>;
   const methodName = String(methodData.name || "").toLowerCase();
   const affinities = planetaryMethodAffinities[planetaryDay] || [];
 
@@ -476,7 +492,7 @@ export function calculatePlanetaryHourInfluence(
     Saturn: isDaytime ? ["preserve", "cure"] : ["age", "ferment"],
   };
 
-  const methodData = method as unknown as any;
+  const methodData = method as unknown as Record<string, unknown>;
   const methodName = String(methodData.name || "").toLowerCase();
   const affinities = hourMethodAffinities[planetaryHour] || [];
 
@@ -499,7 +515,7 @@ export function isDaytime(date: Date = new Date()): boolean {
  */
 export function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
-  currentZodiac?: any,
+  currentZodiac?: string,
   planets?: string[],
   season = getCurrentSeason(),
   culturalPreference?: string,
@@ -519,7 +535,7 @@ export function getRecommendedCookingMethods(
     const reasons: string[] = [];
 
     // Elemental compatibility (40% weight)
-    const methodData = method as unknown as any;
+    const methodData = method as unknown as Record<string, unknown>;
     const elementalEffect = methodData.elementalEffect as ElementalProperties;
     const elementalScore = calculateEnhancedElementalCompatibility(
       elementalEffect,
@@ -531,7 +547,9 @@ export function getRecommendedCookingMethods(
     }
 
     // Zodiac compatibility (20% weight)
-    const astrologicalInfluences = methodData.astrologicalInfluences;
+    const astrologicalInfluences = methodData.astrologicalInfluences as
+      | CookingMethodData["astrologicalInfluences"]
+      | undefined;
     const favorableZodiac = (astrologicalInfluences?.favorableZodiac as string[]) || [];
     if (currentZodiac && favorableZodiac.length > 0) {
       const zodiacMatch = favorableZodiac.includes(currentZodiac);
@@ -629,8 +647,7 @@ export function calculateLunarMethodAffinity(
     "waning crescent": ["rest", "minimal cooking", "raw"],
   };
 
-  const methodData = method as unknown as any;
-  const methodName = String(methodData.name || "").toLowerCase();
+  const methodName = String(method.name || "").toLowerCase();
   const phaseAffinities = lunarAffinities[phase] || [];
 
   const hasAffinity = phaseAffinities.some((affinity) =>
@@ -653,8 +670,7 @@ function _calculateAspectMethodAffinity(
     // Different aspects favor different cooking approaches
     let affinity = 0.5;
 
-    const methodData = method as unknown as any;
-    const methodName = String(methodData.name || "").toLowerCase();
+    const methodName = String(method.name || "").toLowerCase();
 
     // Scale intensity based on the exactness of the aspect
     // Peak strength = 1.0 at 0º orb, trails off to 0.0 at 8º orb
@@ -733,7 +749,7 @@ export function calculateMethodScore(
 export function getMethodElementalProfile(
   method: CookingMethodProfile,
 ): ElementalProperties {
-  const methodData = method as unknown as any;
+  const methodData = method as unknown as Record<string, unknown>;
   const elementalEffect = methodData.elementalEffect as ElementalProperties;
   const elementalState = methodData.elementalState as ElementalProperties;
   return (
@@ -818,7 +834,7 @@ export function getCookingMethodRecommendations(
     );
 
     // Apply surgical type casting with variable extraction
-    const methodData = method as unknown as any;
+    const methodData = method as unknown as Record<string, unknown>;
     const methodId = String(methodData.id || methodData.name || "unknown");
     const methodName = String(methodData.name || "Unknown Method");
     const elementalEffect =
@@ -829,8 +845,7 @@ export function getCookingMethodRecommendations(
         Earth: 0.25,
         Air: 0.25,
       });
-    const astrologicalInfluences =
-      (methodData.astrologicalInfluences as unknown) || {};
+    const astrologicalInfluences = methodData.astrologicalInfluences || {};
     const description = String(
       methodData.description || "Recommended cooking method",
     );
@@ -847,7 +862,12 @@ export function getCookingMethodRecommendations(
     } as unknown as MethodRecommendation;
   });
 
-  const limit = Number((options as unknown as any).limit) || 5;
+  // Note: MethodRecommendationOptions has no `.limit` field (only
+  // `maxRecommendations`), so this always reads undefined and `limit` is
+  // effectively hard-coded to 5 regardless of caller input. Pre-existing
+  // latent bug, preserved as-is (not fixed) per types-only-pass scope.
+  const limit =
+    Number((options as unknown as Record<string, unknown>).limit) || 5;
   return scoredMethods
     .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
     .slice(0, limit);
@@ -888,14 +908,14 @@ export function getHolisticCookingRecommendations(
   includeReasons = false,
   availableMethods: string[] = [],
   limit = 5,
-): Array<{ method: string; compatibility; number; reason?; string }> {
+): Array<{ method: string; compatibility: number; reason?: string }> {
   try {
     // Default to empty elementalProperties if not provided
     const elementalProperties = (ingredient.transformedElementalProperties || {
-      Fire: ingredient.Fire || 0.25,
-      Water: ingredient.Water || 0.25,
-      Earth: ingredient.Earth || 0.25,
-      Air: ingredient.Air || 0.25,
+      Fire: (ingredient.Fire as number) || 0.25,
+      Water: (ingredient.Water as number) || 0.25,
+      Earth: (ingredient.Earth as number) || 0.25,
+      Air: (ingredient.Air as number) || 0.25,
     }) as ElementalProperties;
 
     // Get recommended methods
@@ -908,34 +928,49 @@ export function getHolisticCookingRecommendations(
     );
 
     // Filter by available methods if provided
+    // Note: `rec` here is a plain object literal returned by
+    // getRecommendedCookingMethods ({ name, score, description, reasons,
+    // elementalEffect, duration, thermodynamics, variations }) — it has no
+    // `.method` or `.id` field. Those fallback reads are pre-existing dead
+    // branches (always undefined), preserved as-is via a Record<string,
+    // unknown> boundary cast rather than fixed.
     const filteredRecs =
       (availableMethods || []).length > 0
-        ? (recommendations || []).filter((rec) =>
-          (availableMethods || []).some((method) =>
+        ? (recommendations || []).filter((rec) => {
+          const recData = rec as unknown as Record<string, unknown>;
+          return (availableMethods || []).some((method) =>
             areSimilarMethods(
-              String(
-                (rec as any).method || (rec as any).name || (rec as any).id,
-              ),
+              String(recData.method || recData.name || recData.id),
               method,
             ),
-          ),
-        )
+          );
+        })
         : recommendations;
 
     // Format the results with safe property access
-    return filteredRecs.slice(0, limit || 5).map((rec) => ({
-      method:
-        (rec as any).method?.name ||
-        (rec as any).method?.id ||
-        (rec as any).name ||
-        (rec as any).id ||
-        "unknown",
-      compatibility: (Number((rec as any).score) || 0) * 100,
-      reason: includeReasons
-        ? String(((rec as any).reasons as string[])[0]) ||
-        `Good match for ${ingredient.name}`
-        : undefined,
-    })) as any;
+    return filteredRecs.slice(0, limit || 5).map((rec) => {
+      const recData = rec as unknown as Record<string, unknown>;
+      const method = recData.method as
+        | { name?: string; id?: string }
+        | undefined;
+      return {
+        method:
+          method?.name ||
+          method?.id ||
+          recData.name ||
+          recData.id ||
+          "unknown",
+        compatibility: (Number(recData.score) || 0) * 100,
+        reason: includeReasons
+          ? String((recData.reasons as string[])[0]) ||
+          `Good match for ${ingredient.name}`
+          : undefined,
+      };
+    }) as unknown as Array<{
+      method: string;
+      compatibility: number;
+      reason?: string;
+    }>;
   } catch (error) {
     _logger.error("Error in getHolisticCookingRecommendations: ", error);
     // Return empty array as fallback
@@ -951,19 +986,27 @@ export function getRecommendedCookingMethodsForIngredient(
   ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
   limit = 5,
-): Array<{ method: string; compatibility; number }> {
+): Array<{ method: string; compatibility: number }> {
   try {
     // Extract elemental properties from ingredient
-    const elementalProps = {
-      Fire: ingredient.Fire || 0.25,
-      Water: ingredient.Water || 0.25,
-      Earth: ingredient.Earth || 0.25,
-      Air: ingredient.Air || 0.25,
+    // Note: Ingredient/UnifiedIngredient type these fields via an index
+    // signature ([key: string]: unknown), so an explicit annotation is
+    // needed here to keep them usable as numbers below.
+    const elementalProps: {
+      Fire: number;
+      Water: number;
+      Earth: number;
+      Air: number;
+    } = {
+      Fire: (ingredient.Fire as number) || 0.25,
+      Water: (ingredient.Water as number) || 0.25,
+      Earth: (ingredient.Earth as number) || 0.25,
+      Air: (ingredient.Air as number) || 0.25,
     };
 
     // Calculate compatibility for each method
     const scoredMethods = (cookingMethods as unknown[]).map((method) => {
-      const methodData = method as any;
+      const methodData = method as Record<string, unknown>;
       const methodElement = String(methodData.element || "").toLowerCase();
 
       // Simple compatibility based on elemental harmony
@@ -975,14 +1018,17 @@ export function getRecommendedCookingMethodsForIngredient(
       }
 
       // Further adjust based on elemental values
+      // Note: methodElement is lowercased above but compared against these
+      // capitalized literals, so these branches can never be true at
+      // runtime. Pre-existing latent bug, preserved as-is (not fixed).
       if (methodElement === "Fire")
-        compatibility += ((elementalProps as any)?.Fire || 0) * 0.2;
+        compatibility += (elementalProps?.Fire || 0) * 0.2;
       if (methodElement === "Water")
-        compatibility += ((elementalProps as any)?.Water || 0) * 0.2;
+        compatibility += (elementalProps?.Water || 0) * 0.2;
       if (methodElement === "Earth")
-        compatibility += ((elementalProps as any)?.Earth || 0) * 0.2;
+        compatibility += (elementalProps?.Earth || 0) * 0.2;
       if (methodElement === "Air")
-        compatibility += ((elementalProps as any)?.Air || 0) * 0.2;
+        compatibility += (elementalProps?.Air || 0) * 0.2;
 
       return {
         method: String(methodData.name || "Unknown Method"),
@@ -993,7 +1039,7 @@ export function getRecommendedCookingMethodsForIngredient(
     // Sort by compatibility and limit results
     return scoredMethods
       .sort((a, b) => b.compatibility - a.compatibility)
-      .slice(0, limit) as any;
+      .slice(0, limit);
   } catch (error) {
     _logger.error(
       "Error in getRecommendedCookingMethodsForIngredient: ",

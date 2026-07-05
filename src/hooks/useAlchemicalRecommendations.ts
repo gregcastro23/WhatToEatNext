@@ -11,7 +11,18 @@ import type {
   AlchemicalItem,
   LunarPhaseWithSpaces,
   PlanetaryAspect,
+  ZodiacSign,
 } from "../types/alchemy";
+
+// Mirrors RecommendationAdapter's internal (unexported) PlanetData interface —
+// the exact shape RecommendationAdapter.initialize's first parameter expects.
+interface PlanetPositionData {
+  sign?: string;
+  degree?: number;
+  isRetrograde?: boolean;
+  exactLongitude?: number;
+  speed?: number;
+}
 
 export interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[];
@@ -22,7 +33,7 @@ export interface UseAlchemicalRecommendationsProps {
   targetElement?: ElementalCharacter;
   targetAlchemicalProperty?: AlchemicalProperty;
   count?: number;
-  currentZodiac?: any | null;
+  currentZodiac?: ZodiacSign | null;
   lunarPhase?: LunarPhaseWithSpaces;
   tarotElementBoosts?: Record<ElementalCharacter, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
@@ -93,8 +104,14 @@ export const useAlchemicalRecommendations = ({
         );
 
         // Initialize with planetary data and context
+        // NOTE: planetPositions is declared as Record<RulingPlanet, number> (plain
+        // per-planet degrees) but RecommendationAdapter.initialize expects
+        // Record<string, PlanetData> (objects with sign/degree/etc). This works at
+        // runtime only because RecommendationAdapter's position-conversion loop has a
+        // `typeof data === 'number'` fallback that treats a bare number as
+        // `{ degree: data }`. Opaque cast preserves that exact runtime path.
         adapter.initialize(
-          planetPositions as any,
+          planetPositions as unknown as Record<string, PlanetPositionData>,
           isDaytime,
           currentZodiac || null,
           lunarPhase || null,
@@ -122,54 +139,57 @@ export const useAlchemicalRecommendations = ({
         setRecommendations(recs);
 
         // Apply deep type conversion to resolve cross-import conflicts
+        // NOTE: this helper is currently unused (never invoked below) but is retyped
+        // in place rather than removed, to keep this pass types-only.
         const _convertToLocalAlchemicalItem = (
           items: unknown[],
         ): AlchemicalItem[] =>
           items.map((item) => {
+            const itemData = item as Record<string, unknown>;
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
-              ...(item as any),
+              ...itemData,
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: (item as any).elementalProperties || {
+              elementalProperties: itemData.elementalProperties || {
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,
                 Air: 0.25,
               },
-              alchemicalProperties: (item as any).alchemicalProperties || {
+              alchemicalProperties: itemData.alchemicalProperties || {
                 Spirit: 0.25,
                 Essence: 0.25,
                 Matter: 0.25,
                 Substance: 0.25,
               },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: (item as any)
+              transformedElementalProperties: itemData
                 .transformedElementalProperties ||
-                (item as any).elementalProperties || {
+                itemData.elementalProperties || {
                   Fire: 0.25,
                   Water: 0.25,
                   Earth: 0.25,
                   Air: 0.25,
                 },
-              heat: (item as any).heat || 0.5,
-              entropy: (item as any).entropy || 0.5,
-              reactivity: (item as any).reactivity || 0.5,
-              gregsEnergy:
-                (item as any).gregsEnergy || (item as any).energy || 0.5,
-              kalchm: (item as any).kalchm || 1.0,
-              monica: (item as any).monica || 0.5,
-              transformations: (item as any).transformations || [],
-              seasonalResonance: (item as any).seasonalResonance || [],
-              thermodynamicProperties: (item as any)
-                .thermodynamicProperties || {
-                heat: (item as any).heat || 0.5,
-                entropy: (item as any).entropy || 0.5,
-                reactivity: (item as any).reactivity || 0.5,
-                gregsEnergy:
-                  (item as any).gregsEnergy || (item as any).energy || 0.5,
+              heat: itemData.heat || 0.5,
+              entropy: itemData.entropy || 0.5,
+              reactivity: itemData.reactivity || 0.5,
+              // NOTE: `energy` fallback is preserved as-is; it is not a declared field
+              // on AlchemicalItem/ElementalItem, so this fallback is always undefined
+              // at runtime (pre-existing latent no-op, not fixed here).
+              gregsEnergy: itemData.gregsEnergy || itemData.energy || 0.5,
+              kalchm: itemData.kalchm || 1.0,
+              monica: itemData.monica || 0.5,
+              transformations: itemData.transformations || [],
+              seasonalResonance: itemData.seasonalResonance || [],
+              thermodynamicProperties: itemData.thermodynamicProperties || {
+                heat: itemData.heat || 0.5,
+                entropy: itemData.entropy || 0.5,
+                reactivity: itemData.reactivity || 0.5,
+                gregsEnergy: itemData.gregsEnergy || itemData.energy || 0.5,
               },
             };
-            return convertedItem as AlchemicalItem;
+            return convertedItem as unknown as AlchemicalItem;
           });
 
         setTransformedIngredients(

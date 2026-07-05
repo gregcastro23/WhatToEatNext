@@ -44,7 +44,7 @@ export async function GET(request: Request) {
 
     if (action === "current-period") {
       const currentIngress = SUN_INGRESS_2026.find(i => i.sign === sunSign);
-      const signIdx = ZODIAC_SIGNS.indexOf(sunSign as any);
+      const signIdx = ZODIAC_SIGNS.indexOf(sunSign);
       const nextSign = ZODIAC_SIGNS[(signIdx + 1) % 12];
       const nextIngress = SUN_INGRESS_2026.find(i => i.sign === nextSign);
 

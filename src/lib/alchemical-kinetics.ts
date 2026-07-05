@@ -216,7 +216,7 @@ export function computeMetricVelocity(
       if (!previous || dt === 0) {
         dvdt[k] = 0
       } else {
-        const dv = (current as any)[k] - (previous as any)[k]
+        const dv = (current as Record<MetricKey, number>)[k] - (previous as Record<MetricKey, number>)[k]
         dvdt[k] = safeDivide(dv, dt)
       }
     })
@@ -601,6 +601,24 @@ export interface KineticValidationResult {
   traditionalAssessment: string
 }
 
+// Local, narrow shape for validateKineticResults: captures only the fields this
+// function reads from a kinetics summary. Not reused from src/types/kinetics.ts
+// because that file models a disjoint kinetics-API-response domain
+// (KineticsRequest/KineticsResponse/etc.) with no matching shape here.
+interface KineticSeriesSample {
+  magnitude?: number
+  power?: number
+  planetaryHour?: PlanetaryHour
+  hour?: string
+  v?: ElementVector
+}
+interface KineticsSummaryInput {
+  elementalVelocity?: KineticSeriesSample[]
+  elementalMomentum?: KineticSeriesSample[]
+  power?: KineticSeriesSample[]
+  elementalForce?: KineticSeriesSample[]
+}
+
 /**
  * Traditional validation helper
  * Performs sanity checks and classical expectations:
@@ -610,19 +628,19 @@ export interface KineticValidationResult {
  * - Earth inertia dampens rapid changes (lower velocity variance with high earth)
  */
 export function validateKineticResults(
-  kinetics: any,
+  kinetics: KineticsSummaryInput,
   expectedRanges: KineticValidationExpectedRanges
 ): KineticValidationResult {
   const warnings: string[] = []
 
   // Range checks
   const vMax =
-    kinetics.elementalVelocity?.reduce((m: number, s: any) => Math.max(m, s.magnitude || 0), 0) ?? 0
+    kinetics.elementalVelocity?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude || 0), 0) ?? 0
   const pMax =
-    kinetics.elementalMomentum?.reduce((m: number, s: any) => Math.max(m, s.magnitude || 0), 0) ?? 0
-  const powMax = kinetics.power?.reduce((m: number, s: any) => Math.max(m, s.power || 0), 0) ?? 0
+    kinetics.elementalMomentum?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude || 0), 0) ?? 0
+  const powMax = kinetics.power?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.power || 0), 0) ?? 0
   const fMax =
-    kinetics.elementalForce?.reduce((m: number, s: any) => Math.max(m, s.magnitude || 0), 0) ?? 0
+    kinetics.elementalForce?.reduce((m: number, s: KineticSeriesSample) => Math.max(m, s.magnitude || 0), 0) ?? 0
   if (vMax > expectedRanges.velocityMax)
     warnings.push(
       `Velocity magnitude exceeds expected max (${vMax.toFixed(3)} > ${expectedRanges.velocityMax}).`
@@ -643,7 +661,7 @@ export function validateKineticResults(
     string,
     { fireLead: number; total: number; powerSum: number; powerCount: number }
   > = {}
-  ;(kinetics.elementalVelocity ?? []).forEach((s: any) => {
+  ;(kinetics.elementalVelocity ?? []).forEach((s: KineticSeriesSample) => {
     const hour = s.planetaryHour ?? s.hour ?? 'unknown'
     if (!countByHour[hour])
       countByHour[hour] = { fireLead: 0, total: 0, powerSum: 0, powerCount: 0 }
@@ -655,7 +673,7 @@ export function validateKineticResults(
     if (maxEl === 'Fire') countByHour[hour].fireLead += 1
     countByHour[hour].total += 1
   })
-  ;(kinetics.power ?? []).forEach((s: any) => {
+  ;(kinetics.power ?? []).forEach((s: KineticSeriesSample) => {
     const hour = s.planetaryHour ?? s.hour ?? 'unknown'
     if (!countByHour[hour])
       countByHour[hour] = { fireLead: 0, total: 0, powerSum: 0, powerCount: 0 }

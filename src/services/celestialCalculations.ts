@@ -10,6 +10,7 @@ import type {
   ChakraEnergies,
   AspectType,
   CelestialBody,
+  ZodiacSignType,
 } from "../types/alchemy";
 import type { LunarPhase } from "../types/shared";
 // astronomia calculator removed - using direct calculations
@@ -315,7 +316,7 @@ class CelestialCalculator {
    * Calculate tarot influences based on current zodiac, planets, and date
    */
   private calculateTarotInfluences(
-    zodiacSign: any,
+    zodiacSign: ZodiacSignType,
     dominantPlanets: CelestialBody[],
   ): TarotCard[] {
     const tarotCards: TarotCard[] = [];
@@ -387,7 +388,7 @@ class CelestialCalculator {
     // Start with complete defaults (using type assertion due to interface mismatch)
     const safeAlignment = {
       date: new Date().toISOString(),
-      zodiacSign: "libra" as any,
+      zodiacSign: "libra" as ZodiacSignType,
       dominantPlanets: [
         { name: "Sun", influence: 0.5 },
         { name: "Moon", influence: 0.5 },
@@ -468,7 +469,7 @@ class CelestialCalculator {
   private getFallbackAlignment(): CelestialAlignment {
     return {
       date: new Date().toISOString(),
-      zodiacSign: "libra" as any, // Balance,
+      zodiacSign: "libra" as ZodiacSignType, // Balance,
       dominantPlanets: [
         { name: "Sun", influence: 0.5 },
         { name: "Moon", influence: 0.5 },
@@ -488,7 +489,7 @@ class CelestialCalculator {
   /**
    * Determine zodiac sign based on month and day
    */
-  private determineZodiacSignType(month: number, day: number): any {
+  private determineZodiacSignType(month: number, day: number): ZodiacSignType {
     // Zodiac date ranges
     if ((month === 2 && day >= 21) || (month === 3 && day <= 19))
       return "aries";
@@ -899,7 +900,7 @@ class CelestialCalculator {
    * Calculate elemental balance based on zodiac sign, planets, and lunar phase
    */
   private calculateElementalBalance(
-    zodiacSign: any,
+    zodiacSign: ZodiacSignType,
     dominantPlanets: CelestialBody[],
     lunarPhase: string,
   ): ElementalProperties {
@@ -1112,7 +1113,7 @@ class CelestialCalculator {
    * Get tarot influences from cache or calculate new ones
    */
   private getTarotInfluences(): TarotCard[] {
-    let tarotCards = cache.get(this.TAROT_CACHE_KEY);
+    let tarotCards: TarotCard[] | undefined = cache.get(this.TAROT_CACHE_KEY);
 
     if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
       const alignment = this.getCurrentAlignment();
@@ -1123,7 +1124,7 @@ class CelestialCalculator {
       cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60);
     }
 
-    return tarotCards as any;
+    return tarotCards;
   }
 
   /**
@@ -1310,10 +1311,11 @@ class CelestialCalculator {
       );
       if (jupiterPlanet) {
         const jupiterInfluence = jupiterPlanet.influence;
-        const jupiterEffect = (jupiterPlanet as any).effect as
+        const jupiterEffect = jupiterPlanet.effect as
           | "expansive"
           | "balanced"
-          | "restricted";
+          | "restricted"
+          | undefined;
         // Apply effects based on Jupiter's condition
         if (jupiterEffect === "expansive") {
           // Jupiter expands all energies, but especially Spirit and Substance
@@ -1342,10 +1344,11 @@ class CelestialCalculator {
       );
       if (saturnPlanet) {
         const saturnInfluence = saturnPlanet.influence;
-        const saturnEffect = (saturnPlanet as any).effect as
+        const saturnEffect = saturnPlanet.effect as
           | "restrictive"
           | "balanced"
-          | "softened";
+          | "softened"
+          | undefined;
         // Apply effects based on Saturn's condition
         if (saturnEffect === "restrictive") {
           // Strong Saturn restricts expansion but adds discipline and structure, especially to Matter
@@ -1405,30 +1408,30 @@ class CelestialCalculator {
       Earth: 0.25,
       Air: 0.25,
     };
-    chakraEnergies.root += ((elementalBalance as any)?.Earth || 0) * 0.2;
-    chakraEnergies.sacral += ((elementalBalance as any)?.Water || 0) * 0.2;
-    chakraEnergies.solarPlexus += ((elementalBalance as any)?.Fire || 0) * 0.2;
+    chakraEnergies.root += (elementalBalance.Earth || 0) * 0.2;
+    chakraEnergies.sacral += (elementalBalance.Water || 0) * 0.2;
+    chakraEnergies.solarPlexus += (elementalBalance.Fire || 0) * 0.2;
     chakraEnergies.heart +=
-      ((elementalBalance as any)?.Air || 0) * 0.2 +
-      ((elementalBalance as any)?.Water || 0) * 0.2;
-    chakraEnergies.throat += ((elementalBalance as any)?.Air || 0) * 0.2;
+      (elementalBalance.Air || 0) * 0.2 +
+      (elementalBalance.Water || 0) * 0.2;
+    chakraEnergies.throat += (elementalBalance.Air || 0) * 0.2;
     // Apply safe type casting for chakra property access
     chakraEnergies.thirdEye +=
-      ((elementalBalance as any)?.Water || 0) * 0.2 +
-      ((elementalBalance as any)?.Air || 0) * 0.2;
-    chakraEnergies.crown += ((elementalBalance as any)?.Fire || 0) * 0.2;
+      (elementalBalance.Water || 0) * 0.2 +
+      (elementalBalance.Air || 0) * 0.2;
+    chakraEnergies.crown += (elementalBalance.Fire || 0) * 0.2;
 
     // Map energy states to chakras using the correct ESMS relationships
     // Spirit (Wands): Crown
     // Substance (Swords): Throat
     // Essence (Cups): Heart/Solar Plexus
     // Matter (Pentacles): Root
-    chakraEnergies.crown += ((energyStates as any)?.Spirit || 0) * 0.2;
-    chakraEnergies.throat += ((energyStates as any)?.Substance || 0) * 0.2;
-    chakraEnergies.heart += ((energyStates as any)?.Essence || 0) * 0.2;
-    chakraEnergies.solarPlexus += ((energyStates as any)?.Essence || 0) * 0.2;
-    chakraEnergies.sacral += ((energyStates as any)?.Essence || 0) * 0.2;
-    chakraEnergies.root += ((energyStates as any)?.Matter || 0) * 0.2;
+    chakraEnergies.crown += (energyStates.Spirit || 0) * 0.2;
+    chakraEnergies.throat += (energyStates.Substance || 0) * 0.2;
+    chakraEnergies.heart += (energyStates.Essence || 0) * 0.2;
+    chakraEnergies.solarPlexus += (energyStates.Essence || 0) * 0.2;
+    chakraEnergies.sacral += (energyStates.Essence || 0) * 0.2;
+    chakraEnergies.root += (energyStates.Matter || 0) * 0.2;
 
     // Apply lunar phase influence
     switch (alignment.lunarPhase) {

@@ -58,7 +58,7 @@ export interface EnhancedIngredient {
   // Enhanced Astrological Properties
   astrologicalProfile: {
     planetaryRuler: PlanetName;
-    zodiacRuler: any;
+    zodiacRuler: string;
     element: Element;
     energyType: string;
     seasonalPeak: {
@@ -362,6 +362,12 @@ export class EnhancedIngredientsSystem {
         const compatibility =
           this.flavorProfileSystem.calculateFlavorCompatibility(
             targetProfile ||
+              // Intentionally preserving latent bug: this fallback literal is only
+              // BaseFlavorNotes-shaped, not a full UnifiedFlavorProfile (missing
+              // elementalFlavors/kalchm/monicaOptimization/seasonalPeak/name that
+              // calculateFlavorCompatibility actually reads). Re-shaping it to be
+              // spec-complete would change compatibility scores/output, so the cast
+              // is preserved verbatim rather than "fixed".
               ({
                 sweet: 0,
                 sour: 0,
@@ -369,7 +375,7 @@ export class EnhancedIngredientsSystem {
                 bitter: 0,
                 umami: 0,
                 spicy: 0,
-              } as any),
+              } as unknown as UnifiedFlavorProfile),
             ingredient.unifiedFlavorProfile,
           );
         return compatibility.compatibility >= tolerance;
@@ -377,6 +383,7 @@ export class EnhancedIngredientsSystem {
       .sort((a, b) => {
         const compatA = this.flavorProfileSystem.calculateFlavorCompatibility(
           targetProfile ||
+            // Intentionally preserving latent bug: see comment above.
             ({
               sweet: 0,
               sour: 0,
@@ -384,8 +391,9 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as any),
+            } as unknown as UnifiedFlavorProfile),
           a.unifiedFlavorProfile ||
+            // Intentionally preserving latent bug: see comment above.
             ({
               sweet: 0,
               sour: 0,
@@ -393,10 +401,11 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as any),
+            } as unknown as UnifiedFlavorProfile),
         ).compatibility;
         const compatB = this.flavorProfileSystem.calculateFlavorCompatibility(
           targetProfile ||
+            // Intentionally preserving latent bug: see comment above.
             ({
               sweet: 0,
               sour: 0,
@@ -404,8 +413,9 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as any),
+            } as unknown as UnifiedFlavorProfile),
           b.unifiedFlavorProfile ||
+            // Intentionally preserving latent bug: see comment above.
             ({
               sweet: 0,
               sour: 0,
@@ -413,7 +423,7 @@ export class EnhancedIngredientsSystem {
               bitter: 0,
               umami: 0,
               spicy: 0,
-            } as any),
+            } as unknown as UnifiedFlavorProfile),
         ).compatibility;
         return compatB - compatA;
       });
@@ -544,7 +554,7 @@ export class EnhancedIngredientsSystem {
     const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
     if (
       (seasonal || []).length >=
-      Math.ceil(((ingredientsArray as any)?.length || 0) * 0.2)
+      Math.ceil((ingredientsArray?.length || 0) * 0.2)
     ) {
       return seasonal;
     }
@@ -740,7 +750,7 @@ export class EnhancedIngredientsSystem {
       pairings: ingredient.pairingRecommendations || [],
       substitutions: ingredient.swaps || [],
       storage: this.getStorageForCategory(category),
-      seasonality: this.getSeasonalityForIngredient(ingredient) as any,
+      seasonality: this.getSeasonalityForIngredient(ingredient),
       preparationMethods: this.getPreparationMethodsForCategory(category),
     };
   }
@@ -761,10 +771,13 @@ export class EnhancedIngredientsSystem {
         this.getPlanetaryRulerForElement(
           dominantElement,
         )) as unknown as import("@/types/celestial").Planet,
-      zodiacRuler: this.getZodiacRulerForElement(dominantElement) as any,
+      zodiacRuler: this.getZodiacRulerForElement(dominantElement),
       element: dominantElement,
       energyType: this.getEnergyTypeForElement(dominantElement),
-      seasonalPeak: this.getSeasonalPeakForElement(dominantElement) as any,
+      seasonalPeak: this.getSeasonalPeakForElement(dominantElement) as {
+        northern: number[];
+        southern: number[];
+      },
       lunarAffinity: this.getLunarAffinityForElement(
         dominantElement,
       ) as LunarPhase[],
@@ -779,7 +792,19 @@ export class EnhancedIngredientsSystem {
   ): EnhancedIngredient["nutritionalProfile"] {
     // Use existing nutritional profile if available
     if (ingredient.nutritionalProfile) {
-      const existingProfile = ingredient.nutritionalProfile as any;
+      const existingProfile = ingredient.nutritionalProfile as unknown as {
+        servingSize?: unknown;
+        calories?: unknown;
+        macros: {
+          protein?: unknown;
+          carbs?: unknown;
+          fat?: unknown;
+          fiber?: unknown;
+        };
+        vitamins?: unknown;
+        minerals?: unknown;
+        source?: unknown;
+      };
       return {
         serving_size: String(existingProfile.servingSize || "100g"),
         calories: Number(existingProfile.calories || 0),
@@ -835,8 +860,10 @@ export class EnhancedIngredientsSystem {
     // Check for additional data
     if (ingredient.nutritionalProfile) qualityPoints += 1;
     if (
-      ((ingredient.astrologicalPropertiesProfile as any)?.rulingPlanets || [])
-        .length
+      (
+        (ingredient as unknown as Record<string, unknown>)
+          .astrologicalPropertiesProfile as { rulingPlanets?: unknown[] } | undefined
+      )?.rulingPlanets?.length
     )
       qualityPoints += 1;
     if ((ingredient.qualities || []).length) qualityPoints += 1;
@@ -904,8 +931,12 @@ export class EnhancedIngredientsSystem {
         });
       }
       // Index by planetary ruler
-      const planetaryRuler = (ingredient.astrologicalPropertiesProfile as any)
-        ?.planetaryRuler;
+      const planetaryRuler = (
+        (ingredient as unknown as Record<string, unknown>)
+          .astrologicalPropertiesProfile as
+          | { planetaryRuler?: string }
+          | undefined
+      )?.planetaryRuler;
       if (planetaryRuler) {
         const planetaryIngredients =
           this.planetaryIndex.get(planetaryRuler) || [];
@@ -1171,17 +1202,21 @@ export class EnhancedIngredientsSystem {
   /**
    * Get seasonality for an ingredient
    */
-  private getSeasonalityForIngredient(ingredient: UnifiedIngredient): unknown {
+  private getSeasonalityForIngredient(
+    ingredient: UnifiedIngredient,
+  ): EnhancedIngredient["culinaryProperties"]["seasonality"] {
     // Use existing seasonality if available
     if ((ingredient.seasonality || []).length) {
       return {
-        peak: ingredient.seasonality,
-        optimal: ingredient.seasonality,
-        available: ["spring", "summer", "fall", "winter"],
+        peak: ingredient.seasonality as Season[],
+        optimal: ingredient.seasonality as Season[],
+        available: ["spring", "summer", "fall", "winter"] as Season[],
       };
     }
     // Default seasonality by element
-    const seasonalityByElement: { [key: string]: unknown } = {
+    const seasonalityByElement: {
+      [key: string]: EnhancedIngredient["culinaryProperties"]["seasonality"];
+    } = {
       Fire: {
         peak: ["summer"],
         optimal: ["summer", "fall"],

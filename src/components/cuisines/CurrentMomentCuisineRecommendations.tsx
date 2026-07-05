@@ -42,12 +42,20 @@ import {
  * Displays cuisine recommendations based on current astrological moment
  * with nested recipes and sauce recommendations
  */
+// Intentionally any: `Card` resolves to the Chakra v3 namespace object (Card.Root/Card.Body/...),
+// not a renderable component; this file uses the removed v2 single-component Card API.
+// Casting preserves the existing (broken-if-ever-rendered) behavior -- this component is
+// currently unreferenced/dead so the mismatch never executes at runtime.
 const Card = _Card as any;
+// Intentionally any: `Tooltip` resolves to the Chakra v3 namespace object (Tooltip.Root/Trigger/...),
+// not a renderable component; this file uses the removed v2 `<Tooltip label={...}>` API.
 const Tooltip = _Tooltip as any;
+// Intentionally any: `Progress` resolves to the Chakra v3 namespace object (Progress.Root/Track/...),
+// not a renderable component; this file uses the removed v2 `<Progress value=.../>` API.
 const Progress = _Progress as any;
-const AccordionItem = _AccordionItem as any;
-const AccordionItemTrigger = _AccordionItemTrigger as any;
-const AccordionItemContent = _AccordionItemContent as any;
+const AccordionItem = _AccordionItem;
+const AccordionItemTrigger = _AccordionItemTrigger;
+const AccordionItemContent = _AccordionItemContent;
 interface CurrentMoment {
   zodiac_sign: string;
   season: string;
@@ -301,13 +309,13 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     Earth: number;
     Air: number;
   }) => (
-    <HStack {...({ spacing: 2, wrap: "wrap" } as any)}>
+    <HStack gap={2} wrap="wrap">
       {Object.entries(properties).map(([element, value]) => (
         <Tooltip
           key={element}
           label={`${element}: ${(value * 100).toFixed(0)}%`}
         >
-          <HStack {...({ spacing: 1 } as any)}>
+          <HStack gap={1}>
             <Icon
               as={getElementIcon(element)}
               color={`${getElementColor(element)}.500`}
@@ -333,7 +341,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
     const topFlavors = getTopFlavors(flavorProfile, 3);
     if (topFlavors.length === 0) return null;
     return (
-      <HStack {...({ spacing: 2, wrap: "wrap" } as any)}>
+      <HStack gap={2} wrap="wrap">
         <Text fontSize="xs" color="gray.600" fontWeight="medium">
           Flavors:
         </Text>
@@ -391,12 +399,12 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
         </Flex>
       </CardHeader>
       <CardBody pt={0}>
-        <VStack {...({ align: "start", spacing: 4 } as any)}>
+        <VStack align="start" gap={4}>
           {/* Recipe Meta - Enhanced */}
-          <Wrap {...({ spacing: 2 } as any)}>
+          <Wrap gap={2}>
             {recipe.prep_time && (
               <Badge colorScheme="blue" size="sm">
-                <HStack {...({ spacing: 1 } as any)}>
+                <HStack gap={1}>
                   <Icon as={FaClock} boxSize={3} />
                   <Text fontSize="xs">{recipe.prep_time}</Text>
                 </HStack>
@@ -404,7 +412,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             )}
             {recipe.cook_time && (
               <Badge colorScheme="orange" size="sm">
-                <HStack {...({ spacing: 1 } as any)}>
+                <HStack gap={1}>
                   <Icon as={FaFire} boxSize={3} />
                   <Text fontSize="xs">{recipe.cook_time}</Text>
                 </HStack>
@@ -412,7 +420,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             )}
             {recipe.servings && (
               <Badge colorScheme="purple" size="sm">
-                <HStack {...({ spacing: 1 } as any)}>
+                <HStack gap={1}>
                   <Icon as={FaUsers} boxSize={3} />
                   <Text fontSize="xs">{recipe.servings} servings</Text>
                 </HStack>
@@ -434,7 +442,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             <Text fontSize="sm" fontWeight="medium" mb={2}>
               Ingredients:
             </Text>
-            <ListRoot {...({ spacing: 1 } as any)}>
+            <ListRoot gap={1}>
               {recipe.ingredients.slice(0, 5).map((ingredient, idx) => (
                 <ListItem key={idx} fontSize="xs">
                   <ListIndicator>
@@ -464,7 +472,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               <Text fontSize="sm" fontWeight="medium" mb={1}>
                 Quick Steps:
               </Text>
-              <ListRoot {...({ as: "ol", spacing: 1 } as any)}>
+              <ListRoot as="ol" gap={1}>
                 {recipe.instructions.slice(0, 3).map((step, idx) => (
                   <ListItem key={idx} fontSize="xs" pl={4}>
                     {step.length > 60 ? `${step.substring(0, 60)}...` : step}
@@ -485,7 +493,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               <Text fontSize="sm" fontWeight="medium" mb={2}>
                 👨‍🍳 Chef&apos;s Notes:
               </Text>
-              <VStack {...({ align: "start", spacing: 2 } as any)}>
+              <VStack align="start" gap={2}>
                 {recipe.tips && (
                   <Box>
                     <Text
@@ -496,7 +504,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     >
                       💡 Tips:
                     </Text>
-                    <ListRoot {...({ spacing: 1 } as any)}>
+                    <ListRoot gap={1}>
                       {recipe.tips.map((tip, idx) => (
                         <ListItem key={idx} fontSize="xs">
                           {tip}
@@ -515,7 +523,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     >
                       🔁 Substitutions:
                     </Text>
-                    <ListRoot {...({ spacing: 1 } as any)}>
+                    <ListRoot gap={1}>
                       {recipe.substitutions.map((sub, idx) => (
                         <ListItem key={idx} fontSize="xs">
                           <strong>{sub.original}:</strong>{" "}
@@ -535,7 +543,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     >
                       🌿 Variations:
                     </Text>
-                    <ListRoot {...({ spacing: 1 } as any)}>
+                    <ListRoot gap={1}>
                       {recipe.variations.map((variation, idx) => (
                         <ListItem key={idx} fontSize="xs">
                           {variation}
@@ -554,7 +562,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     >
                       🍷 Pairings:
                     </Text>
-                    <ListRoot {...({ spacing: 1 } as any)}>
+                    <ListRoot gap={1}>
                       {recipe.pairing_suggestions.sides && (
                         <ListItem fontSize="xs">
                           <strong>Sides:</strong>{" "}
@@ -605,7 +613,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     >
                       ❌ Common Mistakes:
                     </Text>
-                    <ListRoot {...({ spacing: 1 } as any)}>
+                    <ListRoot gap={1}>
                       {recipe.common_mistakes.map((mistake, idx) => (
                         <ListItem key={idx} fontSize="xs">
                           {mistake}
@@ -624,7 +632,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                     >
                       ⏰ Timing Tips:
                     </Text>
-                    <ListRoot {...({ spacing: 1 } as any)}>
+                    <ListRoot gap={1}>
                       {recipe.timing_tips.map((tip, idx) => (
                         <ListItem key={idx} fontSize="xs">
                           {tip}
@@ -650,7 +658,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
       borderColor="orange.100"
     >
       <CardBody>
-        <VStack {...({ align: "start", spacing: 3 } as any)}>
+        <VStack align="start" gap={3}>
           <Flex justify="space-between" width="100%" align="start">
             <Heading size="sm" color="orange.700">
               {sauce.sauce_name}
@@ -667,7 +675,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               <Text fontSize="xs" fontWeight="bold" color="gray.600" mb={2}>
                 🥘 Key Ingredients:
               </Text>
-              <Wrap {...({ spacing: 1 } as any)}>
+              <Wrap gap={1}>
                 {sauce.key_ingredients.map((ingredient, idx) => (
                   <WrapItem key={idx}>
                     <TagRoot size="sm" variant="subtle" colorScheme="orange">
@@ -683,7 +691,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
               <Text fontSize="xs" fontWeight="bold" color="gray.600" mb={2}>
                 🔥 Elemental Properties:
               </Text>
-              <Wrap {...({ spacing: 1 } as any)}>
+              <Wrap gap={1}>
                 {Object.entries(sauce.elemental_properties).map(
                   ([element, value]) => (
                     <WrapItem key={element}>
@@ -753,7 +761,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
   if (!data) return null;
   return (
     <Box maxW="1400px" mx="auto" p={6}>
-      <VStack {...({ spacing: 8, align: "stretch" } as any)}>
+      <VStack gap={8} align="stretch">
         {/* Header */}
         <Box textAlign="center">
           <Heading size="xl" mb={2} color="purple.600">
@@ -766,11 +774,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
           <Card bg={cardBg} shadow="md" maxW="800px" mx="auto">
             <CardBody>
               <SimpleGrid
-                {...({
-                  columns: { base: 1, md: 3 },
-                  spacing: 4,
-                  textAlign: "center",
-                } as any)}
+                columns={{ base: 1, md: 3 }}
+                gap={4}
+                textAlign="center"
               >
                 <VStack>
                   <Icon as={FaMagic} boxSize={8} color="purple.500" />
@@ -830,7 +836,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
         </Box>
         {/* Cuisine Recommendations */}
         <Box>
-          <VStack {...({ spacing: 2, mb: 6 } as any)}>
+          <VStack gap={2} mb={6}>
             <Heading size="lg" textAlign="center">
               Your Astrologically Aligned Cuisines
             </Heading>
@@ -851,7 +857,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
             const goodTier = getTierInfo("good");
             const otherTier = getTierInfo("other");
             return (
-              <VStack {...({ spacing: 8 } as any)}>
+              <VStack gap={8}>
                 {/* Top Matches Tier */}
                 {topMatches.length > 0 && (
                   <Box width="100%">
@@ -868,11 +874,13 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                         {topTier.description}
                       </Text>
                     </Flex>
-                    <VStack {...({ spacing: 6 } as any)}>
+                    <VStack gap={6}>
                       {topMatches.map((cuisine) => (
                         <Card
                           key={cuisine.cuisine_id}
-                          {...({ bg: cardBg, shadow: "lg", size: "lg" } as any)}
+                          bg={cardBg}
+                          shadow="lg"
+                          size="lg"
                         >
                           <CardHeader>
                             <Flex
@@ -913,13 +921,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   {cuisine.compatibility_reason}
                                 </Text>
                               </Box>
-                              <VStack
-                                {...({
-                                  align: "end",
-                                  spacing: 2,
-                                  minW: "120px",
-                                } as any)}
-                              >
+                              <VStack align="end" gap={2} minW="120px">
                                 <Box textAlign="center">
                                   <Progress
                                     value={cuisine.astrological_score * 100}
@@ -945,9 +947,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                             </Flex>
                           </CardHeader>
                           <CardBody>
-                            <VStack
-                              {...({ spacing: 6, align: "stretch" } as any)}
-                            >
+                            <VStack gap={6} align="stretch">
                               {/* Accordion for Recipes and Sauces - PRIMARY FOCUS */}
                               <AccordionRoot
                                 collapsible
@@ -973,10 +973,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   </AccordionItemTrigger>
                                   <AccordionItemContent pb={4}>
                                     <SimpleGrid
-                                      {...({
-                                        columns: { base: 1, lg: 2 },
-                                        spacing: 4,
-                                      } as any)}
+                                      columns={{ base: 1, lg: 2 }}
+                                      gap={4}
                                     >
                                       {cuisine.nested_recipes.map((recipe) =>
                                         recipe
@@ -1005,10 +1003,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   </AccordionItemTrigger>
                                   <AccordionItemContent pb={4}>
                                     <SimpleGrid
-                                      {...({
-                                        columns: { base: 1, md: 2, lg: 3 },
-                                        spacing: 4,
-                                      } as any)}
+                                      columns={{ base: 1, md: 2, lg: 3 }}
+                                      gap={4}
                                     >
                                       {cuisine.recommended_sauces.map(
                                         (sauce) =>
@@ -1036,10 +1032,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </AccordionItemTrigger>
                                     <AccordionItemContent pb={4}>
                                       <SimpleGrid
-                                        {...({
-                                          columns: { base: 2, md: 3 },
-                                          spacing: 3,
-                                        } as any)}
+                                        columns={{ base: 2, md: 3 }}
+                                        gap={3}
                                       >
                                         <Box
                                           bg="orange.50"
@@ -1193,10 +1187,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     </AccordionItemTrigger>
                                     <AccordionItemContent pb={4}>
                                       <SimpleGrid
-                                        {...({
-                                          columns: { base: 2, md: 4 },
-                                          spacing: 3,
-                                        } as any)}
+                                        columns={{ base: 2, md: 4 }}
+                                        gap={3}
                                       >
                                         <Box
                                           bg="cyan.50"
@@ -1334,12 +1326,10 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                           bg="gray.100"
                                           p={3}
                                           borderRadius="md"
-                                          {...({
-                                            gridColumn: {
-                                              base: "span 2",
-                                              md: "span 2",
-                                            },
-                                          } as any)}
+                                          gridColumn={{
+                                            base: "span 2",
+                                            md: "span 2",
+                                          }}
                                         >
                                           <Text
                                             fontSize="xs"
@@ -1389,12 +1379,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                       <AccordionItemIndicator />
                                     </AccordionItemTrigger>
                                     <AccordionItemContent pb={4}>
-                                      <VStack
-                                        {...({
-                                          align: "stretch",
-                                          spacing: 2,
-                                        } as any)}
-                                      >
+                                      <VStack align="stretch" gap={2}>
                                         {Object.entries(
                                           cuisine.flavor_profile,
                                         ).map(([flavor, value]) => (
@@ -1464,12 +1449,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                         <AccordionItemIndicator />
                                       </AccordionItemTrigger>
                                       <AccordionItemContent pb={4}>
-                                        <VStack
-                                          {...({
-                                            align: "stretch",
-                                            spacing: 2,
-                                          } as any)}
-                                        >
+                                        <VStack align="stretch" gap={2}>
                                           {cuisine.cultural_signatures.map(
                                             (sig, idx) => (
                                               <Box
@@ -1547,12 +1527,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                         <AccordionItemIndicator />
                                       </AccordionItemTrigger>
                                       <AccordionItemContent pb={4}>
-                                        <VStack
-                                          {...({
-                                            align: "stretch",
-                                            spacing: 3,
-                                          } as any)}
-                                        >
+                                        <VStack align="stretch" gap={3}>
                                           {cuisine.fusion_pairings.map(
                                             (pairing, idx) => (
                                               <Card
@@ -1594,11 +1569,9 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                                     {pairing.reason}
                                                   </Text>
                                                   <SimpleGrid
-                                                    {...({
-                                                      columns: 3,
-                                                      spacing: 2,
-                                                      fontSize: "xs",
-                                                    } as any)}
+                                                    columns={3}
+                                                    gap={2}
+                                                    fontSize="xs"
                                                   >
                                                     <Box>
                                                       <Text color="gray.600">
@@ -1628,11 +1601,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                                       <Text color="gray.600">
                                                         Shared Elements
                                                       </Text>
-                                                      <Wrap
-                                                        {...({
-                                                          spacing: 1,
-                                                        } as any)}
-                                                      >
+                                                      <Wrap gap={1}>
                                                         {pairing.shared_elements.map(
                                                           (el, i) => (
                                                             <WrapItem key={i}>
@@ -1720,7 +1689,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                         {goodTier.description}
                       </Text>
                     </Flex>
-                    <VStack {...({ spacing: 4 } as any)}>
+                    <VStack gap={4}>
                       {goodMatches.map((cuisine) => (
                         <Card
                           key={cuisine.cuisine_id}
@@ -1764,13 +1733,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                 )}
                               </Box>
                               {/* Right side - Quick stats */}
-                              <VStack
-                                {...({
-                                  align: "stretch",
-                                  spacing: 2,
-                                  minW: "200px",
-                                } as any)}
-                              >
+                              <VStack align="stretch" gap={2} minW="200px">
                                 <Box>
                                   <Text fontSize="xs" color="gray.600" mb={1}>
                                     Match Quality
@@ -1784,9 +1747,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     borderRadius="full"
                                   />
                                 </Box>
-                                <HStack
-                                  {...({ spacing: 2, fontSize: "xs" } as any)}
-                                >
+                                <HStack gap={2} fontSize="xs">
                                   <Icon
                                     as={FaUtensils}
                                     color="green.500"
@@ -1796,9 +1757,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     {cuisine.nested_recipes.length} recipes
                                   </Text>
                                 </HStack>
-                                <HStack
-                                  {...({ spacing: 2, fontSize: "xs" } as any)}
-                                >
+                                <HStack gap={2} fontSize="xs">
                                   <Icon
                                     as={FaPepperHot}
                                     color="red.500"
@@ -1822,12 +1781,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   <AccordionItemIndicator />
                                 </AccordionItemTrigger>
                                 <AccordionItemContent pb={4}>
-                                  <VStack
-                                    {...({
-                                      spacing: 4,
-                                      align: "stretch",
-                                    } as any)}
-                                  >
+                                  <VStack gap={4} align="stretch">
                                     <Text
                                       fontSize="sm"
                                       color="purple.600"
@@ -1847,9 +1801,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                       <AccordionItem value="recipes">
                                         <AccordionItemTrigger>
                                           <Box flex="1" textAlign="left">
-                                            <HStack
-                                              {...({ spacing: 2 } as any)}
-                                            >
+                                            <HStack gap={2}>
                                               <Icon
                                                 as={FaUtensils}
                                                 color="green.500"
@@ -1865,10 +1817,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                         </AccordionItemTrigger>
                                         <AccordionItemContent pb={4}>
                                           <SimpleGrid
-                                            {...({
-                                              columns: { base: 1, lg: 2 },
-                                              spacing: 3,
-                                            } as any)}
+                                            columns={{ base: 1, lg: 2 }}
+                                            gap={3}
                                           >
                                             {cuisine.nested_recipes.map(
                                               (recipe) =>
@@ -1883,9 +1833,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                       <AccordionItem value="sauces">
                                         <AccordionItemTrigger>
                                           <Box flex="1" textAlign="left">
-                                            <HStack
-                                              {...({ spacing: 2 } as any)}
-                                            >
+                                            <HStack gap={2}>
                                               <Icon
                                                 as={FaPepperHot}
                                                 color="red.500"
@@ -1905,10 +1853,8 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                         </AccordionItemTrigger>
                                         <AccordionItemContent pb={4}>
                                           <SimpleGrid
-                                            {...({
-                                              columns: { base: 1, md: 2 },
-                                              spacing: 3,
-                                            } as any)}
+                                            columns={{ base: 1, md: 2 }}
+                                            gap={3}
                                           >
                                             {cuisine.recommended_sauces.map(
                                               (sauce) =>
@@ -1924,9 +1870,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                         <AccordionItem value="flavor-detail">
                                           <AccordionItemTrigger>
                                             <Box flex="1" textAlign="left">
-                                              <HStack
-                                                {...({ spacing: 2 } as any)}
-                                              >
+                                              <HStack gap={2}>
                                                 <Icon
                                                   as={FaPepperHot}
                                                   color="orange.500"
@@ -1940,12 +1884,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                             <AccordionItemIndicator />
                                           </AccordionItemTrigger>
                                           <AccordionItemContent pb={4}>
-                                            <VStack
-                                              {...({
-                                                align: "stretch",
-                                                spacing: 2,
-                                              } as any)}
-                                            >
+                                            <VStack align="stretch" gap={2}>
                                               {Object.entries(
                                                 cuisine.flavor_profile,
                                               ).map(([flavor, value]) => (
@@ -2021,7 +1960,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                         {otherTier.description}
                       </Text>
                     </Flex>
-                    <VStack {...({ spacing: 4 } as any)}>
+                    <VStack gap={4}>
                       {otherOptions.map((cuisine) => (
                         <Card
                           key={cuisine.cuisine_id}
@@ -2064,13 +2003,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                   cuisine.flavor_profile,
                                 )}
                               </Box>
-                              <VStack
-                                {...({
-                                  align: "stretch",
-                                  spacing: 2,
-                                  minW: "200px",
-                                } as any)}
-                              >
+                              <VStack align="stretch" gap={2} minW="200px">
                                 <Box>
                                   <Text fontSize="xs" color="gray.600" mb={1}>
                                     Match Quality
@@ -2084,9 +2017,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     borderRadius="full"
                                   />
                                 </Box>
-                                <HStack
-                                  {...({ spacing: 2, fontSize: "xs" } as any)}
-                                >
+                                <HStack gap={2} fontSize="xs">
                                   <Icon
                                     as={FaUtensils}
                                     color="green.500"
@@ -2096,9 +2027,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
                                     {cuisine.nested_recipes.length} recipes
                                   </Text>
                                 </HStack>
-                                <HStack
-                                  {...({ spacing: 2, fontSize: "xs" } as any)}
-                                >
+                                <HStack gap={2} fontSize="xs">
                                   <Icon
                                     as={FaPepperHot}
                                     color="red.500"

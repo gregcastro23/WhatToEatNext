@@ -529,7 +529,9 @@ export function validateRecipe(
     const invalidSeasons = seasons.filter(
       (s) =>
         typeof s !== "string" ||
-        !VALID_SEASONS.includes(s.toLowerCase() as any),
+        !VALID_SEASONS.includes(
+          s.toLowerCase() as (typeof VALID_SEASONS)[number],
+        ),
     );
     if (invalidSeasons.length > 0) {
       issues.push({
@@ -557,7 +559,9 @@ export function validateRecipe(
     const invalidTypes = mealTypes.filter(
       (t) =>
         typeof t !== "string" ||
-        !VALID_MEAL_TYPES.includes(t.toLowerCase() as any),
+        !VALID_MEAL_TYPES.includes(
+          t.toLowerCase() as (typeof VALID_MEAL_TYPES)[number],
+        ),
     );
     if (invalidTypes.length > 0) {
       issues.push({
@@ -608,7 +612,11 @@ export function validateRecipe(
   // Spice Level
   if (r.spiceLevel !== undefined && r.spiceLevel !== null) {
     if (typeof r.spiceLevel === "string") {
-      if (!VALID_SPICE_LEVELS.includes(r.spiceLevel.toLowerCase() as any)) {
+      if (
+        !VALID_SPICE_LEVELS.includes(
+          r.spiceLevel.toLowerCase() as (typeof VALID_SPICE_LEVELS)[number],
+        )
+      ) {
         issues.push({
           field: "spiceLevel",
           severity: "warning",
@@ -820,10 +828,14 @@ function calculateRecipeSimilarity(
 
   // Ingredient overlap (weight: 0.3)
   const ingredients1 = Array.isArray(recipe1.ingredients)
-    ? recipe1.ingredients.map((i: any) => String(i.name || i).toLowerCase())
+    ? recipe1.ingredients.map((i: unknown) =>
+        String((i as Record<string, unknown>).name || i).toLowerCase(),
+      )
     : [];
   const ingredients2 = Array.isArray(recipe2.ingredients)
-    ? recipe2.ingredients.map((i: any) => String(i.name || i).toLowerCase())
+    ? recipe2.ingredients.map((i: unknown) =>
+        String((i as Record<string, unknown>).name || i).toLowerCase(),
+      )
     : [];
 
   if (ingredients1.length > 0 && ingredients2.length > 0) {
@@ -911,7 +923,9 @@ export function detectDuplicates(
 
       // Determine which recipe to keep
       const recipeObjects = group.map((g) => {
-        const originalRecipe = recipes.find((r: any) => r.id === g.id); // Find the original recipe by ID
+        const originalRecipe = recipes.find(
+          (r) => (r as Record<string, unknown>).id === g.id,
+        ); // Find the original recipe by ID
         return {
           ...g,
           recipe: originalRecipe as Record<string, unknown>,

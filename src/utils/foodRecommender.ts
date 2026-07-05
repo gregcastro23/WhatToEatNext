@@ -21,9 +21,38 @@ import { log } from "@/services/LoggingService";
 import type {
   AstrologicalStateType,
   ElementalProperties,
+  Element,
 } from "@/types/alchemy";
-// Removed unused, _imports: LunarPhase, Season, Element
-import type { Modality, Planet } from "@/types/celestial";
+import type { Modality, Planet, ZodiacSignType } from "@/types/celestial";
+
+interface FlavorProfile {
+  spicy?: number;
+  sweet?: number;
+  salty?: number;
+  bitter?: number;
+  sour?: number;
+  umami?: number;
+  [key: string]: number | undefined;
+}
+
+interface SeasonalAdjustment {
+  score?: number;
+  elementalBoost?: Partial<ElementalProperties>;
+}
+
+interface EnhancedAstrologicalState extends AstrologicalStateType {
+  userPreferences?: {
+    taste?: {
+      sweet?: number;
+      salty?: number;
+      sour?: number;
+      bitter?: number;
+      umami?: number;
+      spicy?: number;
+    };
+    [key: string]: unknown;
+  };
+}
 
 export interface EnhancedIngredient {
   name: string;
@@ -31,14 +60,22 @@ export interface EnhancedIngredient {
   elementalProperties: ElementalProperties;
   astrologicalProfile: {
     elementalAffinity: {
-      base: string;
+      base: Element;
       decanModifiers?: Record<string, unknown>;
     };
     rulingPlanets: string[];
-    favorableZodiac?: any[];
+    favorableZodiac?: ZodiacSignType[];
+    aspectEnhancers?: string[];
   };
-  flavorProfile?: Record<string, number>;
+  flavorProfile?: FlavorProfile;
   season?: string[];
+  seasonalAdjustments?: Record<string, SeasonalAdjustment>;
+  sensoryProfile?: {
+    taste?: Record<string, number>;
+    aroma?: Record<string, number>;
+    [key: string]: unknown;
+  };
+  qualities?: string[];
   nutritionalProfile?: {
     calories: number;
     macros: {
@@ -123,7 +160,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...(data as any),
+        ...(data as Record<string, unknown>),
       } as EnhancedIngredient;
 
       // Special tracking for grains and herbs
@@ -238,7 +275,7 @@ function standardizeIngredient(
     );
     if (sum > 0) {
       Object.keys(standardized.elementalProperties).forEach((key) => {
-        standardized.elementalProperties[key as any] /= sum;
+        standardized.elementalProperties[key as keyof ElementalProperties] /= sum;
       });
     }
   }
@@ -268,7 +305,7 @@ function standardizeIngredient(
       }
     }
     standardized.astrologicalProfile.elementalAffinity = {
-      base: dominantElement,
+      base: dominantElement as Element,
     };
   }
 
@@ -365,35 +402,35 @@ function calculateElementalProperties(
   if (ingredient.flavorProfile) {
     if (ingredient.flavorProfile.spicy) {
       elementalProps.Fire +=
-        ((ingredient.flavorProfile as any)?.spicy || 0) * 0.2;
+        (ingredient.flavorProfile.spicy || 0) * 0.2;
     }
     if (ingredient.flavorProfile.sweet) {
       elementalProps.Water +=
-        ((ingredient.flavorProfile as any)?.sweet || 0) * 0.2;
+        (ingredient.flavorProfile.sweet || 0) * 0.2;
       elementalProps.Earth +=
-        ((ingredient.flavorProfile as any)?.sweet || 0) * 0.2;
+        (ingredient.flavorProfile.sweet || 0) * 0.2;
     }
     if (ingredient.flavorProfile.salty) {
       elementalProps.Water +=
-        ((ingredient.flavorProfile as any)?.salty || 0) * 0.2;
+        (ingredient.flavorProfile.salty || 0) * 0.2;
       elementalProps.Fire +=
-        ((ingredient.flavorProfile as any)?.salty || 0) * 0.2;
+        (ingredient.flavorProfile.salty || 0) * 0.2;
     }
     if (ingredient.flavorProfile.bitter) {
       elementalProps.Air +=
-        ((ingredient.flavorProfile as any)?.bitter || 0) * 0.2;
+        (ingredient.flavorProfile.bitter || 0) * 0.2;
       elementalProps.Fire +=
-        ((ingredient.flavorProfile as any)?.bitter || 0) * 0.2;
+        (ingredient.flavorProfile.bitter || 0) * 0.2;
     }
     if (ingredient.flavorProfile.sour) {
       elementalProps.Air +=
-        ((ingredient.flavorProfile as any)?.sour || 0) * 0.2;
+        (ingredient.flavorProfile.sour || 0) * 0.2;
       elementalProps.Water +=
-        ((ingredient.flavorProfile as any)?.sour || 0) * 0.2;
+        (ingredient.flavorProfile.sour || 0) * 0.2;
     }
     if (ingredient.flavorProfile.umami) {
       elementalProps.Earth +=
-        ((ingredient.flavorProfile as any)?.umami || 0) * 0.2;
+        (ingredient.flavorProfile.umami || 0) * 0.2;
     }
   }
 
@@ -457,7 +494,7 @@ function calculateElementalProperties(
     // Category-based inference for ingredients that didn't match any known category.
     // Uses the ingredient's qualities array and name to assign meaningful elemental defaults
     // rather than the generic flat 0.25 distribution.
-    const quals = ((ingredient as any).qualities as string[] | undefined) ?? [];
+    const quals = ingredient.qualities ?? [];
     const name = (ingredient.name || "").toLowerCase();
     const qualSet = new Set(quals.map((q) => q.toLowerCase()));
 
@@ -532,7 +569,7 @@ export const getRecommendedIngredients = (
 
     // Calculate base score
     const profile = standardized.astrologicalProfile;
-    const baseElement = profile.elementalAffinity.base as any;
+    const baseElement = profile.elementalAffinity.base;
 
     // Calculate element score (0-1) with improved elemental matching
     const elementScore = standardized.elementalProperties[baseElement];
@@ -743,7 +780,7 @@ export const getRecommendedIngredients = (
           const boosts =
             modifier.elementalBoost as Partial<ElementalProperties>;
           Object.entries(boosts).forEach(([element, boost]) => {
-            if (standardized.elementalProperties[element as any] > 0.3) {
+            if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
               lunarScore += (boost || 0) * 0.1; // Small additional boost
             }
           });
@@ -861,8 +898,8 @@ export const getRecommendedIngredients = (
       if (adjustment.elementalBoost) {
         Object.entries(adjustment.elementalBoost).forEach(
           ([element, boost]) => {
-            if (standardized.elementalProperties[element as any] > 0.3) {
-              seasonalScore = Math.min(1, seasonalScore + (boost as any) * 0.1);
+            if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
+              seasonalScore = Math.min(1, seasonalScore + (boost || 0) * 0.1);
             }
           },
         );
@@ -899,16 +936,16 @@ export const getRecommendedIngredients = (
     let aspectScore = 0.5; // Default neutral score
     if (astroState.aspects && astroState.aspects.length > 0) {
       // Check for specific aspect enhancers in the ingredient data
-      const profileData = profile as any;
+      const enhancers = profile.aspectEnhancers;
       if (
-        profileData.aspectEnhancers &&
-        (profileData.aspectEnhancers as unknown[]).length > 0
+        enhancers &&
+        enhancers.length > 0
       ) {
         const relevantAspects = astroState.aspects.filter(
           (aspect) =>
             // Check if this aspect type is specifically listed as an enhancer
             aspect.type &&
-            (profileData.aspectEnhancers as string[]).includes(aspect.type),
+            enhancers.includes(aspect.type),
         );
 
         if (relevantAspects.length > 0) {
@@ -993,10 +1030,10 @@ export const getRecommendedIngredients = (
       ).sort(([, a], [, b]) => b - a)[0][0];
 
       // Check if this element is boosted by tarot
-      if (astroState.tarotElementBoosts[dominantElement as any]) {
+      if (astroState.tarotElementBoosts[dominantElement]) {
         tarotScore = Math.min(
           1,
-          0.5 + astroState.tarotElementBoosts[dominantElement as any],
+          0.5 + (astroState.tarotElementBoosts[dominantElement] || 0),
         );
       }
     }
@@ -1030,7 +1067,7 @@ export const getRecommendedIngredients = (
 
     // Get user preferences from the state manager if available
     // instead of using a placeholder assumption
-    const astroStateData = astroState as any;
+    const astroStateData = astroState as EnhancedAstrologicalState;
     const userPreferences = astroStateData.userPreferences || {};
     const tastePreferences = userPreferences.taste || {
       sweet: 0.5,
@@ -1042,7 +1079,7 @@ export const getRecommendedIngredients = (
     };
 
     if (standardized.sensoryProfile) {
-      const sensory = standardized.sensoryProfile as any;
+      const sensory = standardized.sensoryProfile;
 
       // Calculate weighted scores based on user preferences
       if (sensory.taste) {
@@ -1051,7 +1088,7 @@ export const getRecommendedIngredients = (
 
         // Weight taste dimensions based on user preferences
         Object.entries(sensory.taste).forEach(([taste, value]) => {
-          const tasteValue = value as any;
+          const tasteValue = value;
           const preference = tastePreferences[taste] || 0.5;
           tasteScore += tasteValue * preference;
           weightSum += preference;

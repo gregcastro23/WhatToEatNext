@@ -13,7 +13,8 @@ import type { ElementalProperties, Season } from "@/types/alchemy";
 import type {
     AlchemicalProperties,
     PlanetaryAspect,
-    PlanetaryPosition
+    PlanetaryPosition,
+    ZodiacSignType
 } from "@/types/celestial";
 import type {
     SignVector,
@@ -24,7 +25,7 @@ import type {
 } from "@/types/signVectors";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
 
-const ZODIAC_SIGNS: any[] = [
+const ZODIAC_SIGNS: ZodiacSignType[] = [
   "aries",
   "taurus",
   "gemini",
@@ -60,7 +61,7 @@ function createEmptyComponents(): SignVectorComponents {
     seasonal: 0,
   };
 }
-function getSeasonalAlignment(sign: any, season?: Season): number {
+function getSeasonalAlignment(sign: ZodiacSignType, season?: Season): number {
   if (!season) return 0.5; // neutral when unknown
   const signs = ZODIAC_SEASONS[season];
   if (!Array.isArray(signs)) return 0.5;
@@ -68,7 +69,7 @@ function getSeasonalAlignment(sign: any, season?: Season): number {
 }
 function addModalityComponent(
   components: SignVectorComponents,
-  sign: any,
+  sign: ZodiacSignType,
   weight: number,
 ): void {
   const modality = getModalityForZodiac(sign);
@@ -78,7 +79,7 @@ function addModalityComponent(
 }
 function addElementalComponent(
   components: SignVectorComponents,
-  sign: any,
+  sign: ZodiacSignType,
   weight: number,
 ): void {
   const element = ZODIAC_ELEMENTS[sign];
@@ -86,7 +87,7 @@ function addElementalComponent(
   components[element] += weight;
 }
 function computePlanetaryWeightForSign(
-  targetSign: any,
+  targetSign: ZodiacSignType,
   planetaryPositions: Record<string, PlanetaryPosition>,
   aspects?: PlanetaryAspect[],
 ): number {
@@ -361,9 +362,17 @@ export function getAlchemicalStateWithVectors(input: {
   config: typeof VECTOR_CONFIG;
 } {
   const { planetaryPositions, aspects, season, governing = "dominant" } = input;
-  const baseAlchemical = calcESMSFromPositions(planetaryPositions as any);
+  // calcESMSFromPositions/calculateElementalValues are typed against
+  // @/types/alchemy's PlanetaryPosition (element?: Element, sign: ZodiacSignType),
+  // while this file's PlanetaryPosition comes from @/types/celestial
+  // (element?: string, sign: any) -- a genuine cross-module type drift between the
+  // two PlanetaryPosition definitions, not something to reconcile in this types-only
+  // pass. Cast narrowed to the specific incompatible shape rather than `as any`.
+  const baseAlchemical = calcESMSFromPositions(
+    planetaryPositions as unknown as { [key: string]: import("@/types/alchemy").PlanetaryPosition },
+  );
   const baseElemental = calculateElementalValues(
-    planetaryPositions as any,
+    planetaryPositions as unknown as { [key: string]: import("@/types/alchemy").PlanetaryPosition },
   ) as ElementalProperties;
   const signVectors = calculateSignVectors({
     planetaryPositions,
@@ -374,24 +383,24 @@ export function getAlchemicalStateWithVectors(input: {
   if (governing === "sun") {
     const sunSign = String(
       planetaryPositions.Sun.sign || "",
-    ).toLowerCase() as any;
+    ).toLowerCase() as keyof SignVectorMap;
     selected = sunSign ? signVectors[sunSign] : null;
   } else if (governing === "moon") {
     const moonSign = String(
       planetaryPositions.Moon.sign || "",
-    ).toLowerCase() as any;
+    ).toLowerCase() as keyof SignVectorMap;
     selected = moonSign ? signVectors[moonSign] : null;
   } else if (governing === "ensemble") {
     // Sun/Moon/Ascendant ensemble (if available) with heuristic weights
     const sunSign = String(
       planetaryPositions.Sun.sign || "",
-    ).toLowerCase() as any;
+    ).toLowerCase() as keyof SignVectorMap;
     const moonSign = String(
       planetaryPositions.Moon.sign || "",
-    ).toLowerCase() as any;
+    ).toLowerCase() as keyof SignVectorMap;
     const ascSign = String(
       planetaryPositions.Ascendant.sign || "",
-    ).toLowerCase() as any;
+    ).toLowerCase() as keyof SignVectorMap;
     const parts: SignVector[] = [
       sunSign && signVectors[sunSign],
       moonSign && signVectors[moonSign],

@@ -651,6 +651,7 @@ export interface AlchemicalItem extends ElementalItem {
   thermodynamicProperties?: ThermodynamicProperties;
   transformations?: ElementalInteraction[];
   seasonalResonance?: Season[];
+  compatibilityScore?: number;
 }
 
 // FilterOptions type (causing errors in FilterSection.tsx)

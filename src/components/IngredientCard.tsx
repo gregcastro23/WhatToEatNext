@@ -53,17 +53,46 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   const colorClass = elementColors[dominantElement] || elementColors.Air;
   const textColorClass =
     elementTextColors[dominantElement] || elementTextColors.Air;
-  
+
+  // `ingredient` is `Ingredient | RecipeIngredient`. Several fields below
+  // (image_url/imageUrl/image/description/planetaryRuler/alchemicalProperties)
+  // are declared on Ingredient but not explicitly on RecipeIngredient, which
+  // only covers them via its catch-all `[key: string]: unknown` index
+  // signature. Record<string, unknown> is the accurate read for that side of
+  // the union (matching the house pattern in RecommendationAdapter.ts /
+  // UnifiedIngredientService.ts) in place of the previous `as any` escape.
+  const ingredientFields = ingredient as unknown as Record<string, unknown>;
+
   const rawImageUrl =
-    (ingredient as any).image_url ||
-    (ingredient as any).imageUrl ||
-    (ingredient as any).image;
+    (ingredientFields.image_url as string | undefined) ||
+    (ingredientFields.imageUrl as string | undefined) ||
+    // Note: `image` is not a declared field on Ingredient or RecipeIngredient;
+    // this fallback only ever compiled via RecipeIngredient's index signature
+    // and is preserved as-is (pre-existing behavior, not a fix target here).
+    (ingredientFields.image as string | undefined);
 
   const imageUrl = getAssetUrl(rawImageUrl);
 
   const description =
-    (ingredient as any).description ||
+    (ingredientFields.description as string | undefined) ||
     ingredientSummaries[ingredient.name.toLowerCase().replace(/ /g, "_")];
+
+  // Hoisted out of the JSX below: TS's contextual ReactNode check for the
+  // whole children array wants a concretely-typed value here (JSX cannot
+  // render `unknown`), and the pre-existing `alchemicalProperties` gap
+  // between Ingredient and RecipeIngredient (see comment at the render site)
+  // means it only surfaces once a nearby sibling like `description` stops
+  // being `any`-typed. Read as Record<string, unknown> | undefined rather
+  // than narrowed to AlchemicalResult, so any shape RecipeIngredient happens
+  // to carry under this key still renders exactly as it did before this
+  // types-only pass.
+  const alchemicalStats = ingredientFields.alchemicalProperties as
+    | Record<string, unknown>
+    | undefined;
+
+  const planetaryRuler = ingredientFields.planetaryRuler as
+    | string
+    | undefined;
 
   const handleClick = (e: React.MouseEvent) => {
     if (onClick && !(e.target as HTMLElement).closest(".add-diary-btn")) {
@@ -154,20 +183,29 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
           )}
 
           {/* Alchemical Stats (ESMS) */}
-          {ingredient.alchemicalProperties && (
+          {/*
+           * Note: `alchemicalProperties` is declared on Ingredient (as
+           * AlchemicalResult) but NOT explicitly on RecipeIngredient, which
+           * only covers it via its catch-all index signature. On the
+           * RecipeIngredient side of the union this reads as `unknown`,
+           * matching the pre-existing (any-derived) runtime behavior exactly:
+           * preserved via Record<string, unknown> rather than narrowed to
+           * AlchemicalResult, so any shape RecipeIngredient happens to carry
+           * under this key still renders exactly as it did before this
+           * types-only pass.
+           */}
+          {alchemicalStats && (
             <div className="grid grid-cols-4 gap-2 mb-4 bg-black/30 rounded-xl p-3 border border-white/5">
-              {Object.entries(ingredient.alchemicalProperties).map(
-                ([key, value]) => (
-                  <div key={key} className="text-center">
-                    <div className="text-[10px] uppercase tracking-tighter text-gray-500">
-                      {key}
-                    </div>
-                    <div className="text-sm font-bold text-amber-100">
-                      {value}
-                    </div>
+              {Object.entries(alchemicalStats).map(([key, value]) => (
+                <div key={key} className="text-center">
+                  <div className="text-[10px] uppercase tracking-tighter text-gray-500">
+                    {key}
                   </div>
-                ),
-              )}
+                  <div className="text-sm font-bold text-amber-100">
+                    {value as React.ReactNode}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
@@ -210,9 +248,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 {ingredient.category}
               </span>
             )}
-            {(ingredient as any).planetaryRuler && (
+            {planetaryRuler && (
               <span className="bg-purple-500/10 px-2 py-1 rounded border border-purple-500/20 text-purple-300 flex items-center gap-1">
-                <span>☽</span> {(ingredient as any).planetaryRuler}
+                <span>☽</span> {planetaryRuler}
               </span>
             )}
             {isRecipeIngredient(ingredient) && ingredient.optional && (

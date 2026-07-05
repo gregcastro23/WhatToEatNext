@@ -42,18 +42,10 @@ export function applySeasonalAdjustments(
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
 
   return {
-    Fire:
-      ((baseProperties as any)?.Fire || 0) * 0.2 +
-      ((modifier as any)?.Fire || 0) * 0.2,
-    Water:
-      ((baseProperties as any)?.Water || 0) * 0.2 +
-      ((modifier as any)?.Water || 0) * 0.2,
-    Air:
-      ((baseProperties as any)?.Air || 0) * 0.2 +
-      ((modifier as any)?.Air || 0) * 0.2,
-    Earth:
-      ((baseProperties as any)?.Earth || 0) * 0.2 +
-      ((modifier as any)?.Earth || 0) * 0.2,
+    Fire: (baseProperties?.Fire || 0) * 0.2 + (modifier?.Fire || 0) * 0.2,
+    Water: (baseProperties?.Water || 0) * 0.2 + (modifier?.Water || 0) * 0.2,
+    Air: (baseProperties?.Air || 0) * 0.2 + (modifier?.Air || 0) * 0.2,
+    Earth: (baseProperties?.Earth || 0) * 0.2 + (modifier?.Earth || 0) * 0.2,
   };
 }
 
@@ -69,18 +61,10 @@ export function applyLunarPhaseAdjustments(
     LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS["full moon"];
 
   return {
-    Fire:
-      ((baseProperties as any)?.Fire || 0) * 0.2 +
-      ((modifier as any)?.Fire || 0) * 0.2,
-    Water:
-      ((baseProperties as any)?.Water || 0) * 0.2 +
-      ((modifier as any)?.Water || 0) * 0.2,
-    Air:
-      ((baseProperties as any)?.Air || 0) * 0.2 +
-      ((modifier as any)?.Air || 0) * 0.2,
-    Earth:
-      ((baseProperties as any)?.Earth || 0) * 0.2 +
-      ((modifier as any)?.Earth || 0) * 0.2,
+    Fire: (baseProperties?.Fire || 0) * 0.2 + (modifier?.Fire || 0) * 0.2,
+    Water: (baseProperties?.Water || 0) * 0.2 + (modifier?.Water || 0) * 0.2,
+    Air: (baseProperties?.Air || 0) * 0.2 + (modifier?.Air || 0) * 0.2,
+    Earth: (baseProperties?.Earth || 0) * 0.2 + (modifier?.Earth || 0) * 0.2,
   };
 }
 
@@ -94,15 +78,15 @@ export function applyTimeOfDayAdjustments(
   if (isDaytime) {
     return {
       Fire: baseProperties.Fire * 1.2,
-      Water: ((baseProperties as any)?.Water || 0) * 0.2,
+      Water: (baseProperties?.Water || 0) * 0.2,
       Air: baseProperties.Air * 1.1,
-      Earth: ((baseProperties as any)?.Earth || 0) * 0.2,
+      Earth: (baseProperties?.Earth || 0) * 0.2,
     };
   } else {
     return {
-      Fire: ((baseProperties as any)?.Fire || 0) * 0.2,
+      Fire: (baseProperties?.Fire || 0) * 0.2,
       Water: baseProperties.Water * 1.2,
-      Air: ((baseProperties as any)?.Air || 0) * 0.2,
+      Air: (baseProperties?.Air || 0) * 0.2,
       Earth: baseProperties.Earth * 1.1,
     };
   }

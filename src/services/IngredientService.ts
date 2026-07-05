@@ -6,7 +6,8 @@ import type {
     ElementalProperties,
     PlanetName,
     Season,
-    ThermodynamicMetrics
+    ThermodynamicMetrics,
+    ThermodynamicProperties
 } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
 import { calculateThermodynamicCompatibility } from "@/utils/enhancedCompatibilityScoring";
@@ -297,7 +298,15 @@ export class IngredientService implements IngredientServiceInterface {
   getIngredientsByZodiacSignType(sign: string): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     return allIngredients.filter((ingredient) => {
-      const influences = (ingredient.astrologicalInfluences || []) as any[];
+      // Intentionally cast: astrologicalInfluences is not a declared field on
+      // UnifiedIngredient (only astrologicalProfile is), so this always reads
+      // undefined at the type level today. Preserving the existing (dead)
+      // lookup exactly rather than "fixing" it to read a different field,
+      // since that would change this method's return value.
+      const influences =
+        ((ingredient as Record<string, unknown>).astrologicalInfluences as
+          | string[]
+          | undefined) || [];
       return influences.some((influence: string) =>
         influence.toLowerCase().includes(sign.toLowerCase()),
       );
@@ -436,13 +445,20 @@ export class IngredientService implements IngredientServiceInterface {
     let energeticCompatibility = 0.75; // Default value
     try {
       // Use thermodynamic properties if available for energetic compatibility
+      // Intentionally cast: thermodynamicProperties is not a declared field on
+      // UnifiedIngredient (the real field is energyValues?: ThermodynamicProperties),
+      // so this branch is effectively dead code today. Preserving the existing
+      // (always-falsy) lookup exactly rather than "fixing" it to read
+      // energyValues, since that would change this method's return value.
       if (
-        (ing1 as any).thermodynamicProperties &&
-        (ing2 as any).thermodynamicProperties
+        (ing1 as Record<string, unknown>).thermodynamicProperties &&
+        (ing2 as Record<string, unknown>).thermodynamicProperties
       ) {
         const thermoCompat = calculateThermodynamicCompatibility(
-          (ing1 as any).thermodynamicProperties,
-          (ing2 as any).thermodynamicProperties,
+          (ing1 as Record<string, unknown>)
+            .thermodynamicProperties as ThermodynamicProperties,
+          (ing2 as Record<string, unknown>)
+            .thermodynamicProperties as ThermodynamicProperties,
         );
         energeticCompatibility = thermoCompat.overall;
       }

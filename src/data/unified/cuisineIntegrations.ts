@@ -79,7 +79,7 @@ export interface CuisineSeasonalAdaptation {
     temperatureAdjustment: number;
     timingAdjustment: number;
     intensityModifier: string;
-    zodiacAlignment?: any; // Astrological alignment for season
+    zodiacAlignment?: unknown; // Astrological alignment for season (declared, never populated/read anywhere in this file)
   };
   traditionalSeasonalDishes: string[];
   monicaOptimization: number;
@@ -964,9 +964,8 @@ export class UnifiedCuisineIntegrationSystem {
         0,
       );
     }
-    // Make sure 'fall' and 'autumn' have the same value (safe property access)
-    const seasonalData = seasonalCompatibility as any;
-    seasonalData.fall = seasonalCompatibility.autumn;
+    // Make sure 'fall' and 'autumn' have the same value
+    seasonalCompatibility.fall = seasonalCompatibility.autumn;
     return seasonalCompatibility;
   }
   /**
@@ -1364,8 +1363,8 @@ export class UnifiedCuisineIntegrationSystem {
       "winter",
     ] as Season[]) {
       // Get seasonal ingredients with safe property access
-      const seasonalSystem = unifiedSeasonalSystem as any;
-      const { getSeasonalScore } = seasonalSystem;
+      const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
+      const getSeasonalScore = seasonalSystem.getSeasonalScore;
       const seasonalIngredients = (fusionIngredients || []).filter(
         (ingredient) => {
           if (typeof getSeasonalScore === "function") {
@@ -1377,7 +1376,10 @@ export class UnifiedCuisineIntegrationSystem {
       // Get seasonal cooking methods with safe property access
       const seasonalMethods = (fusionCookingMethods || []).filter((method) => {
         const seasonalProfile = unifiedSeasonalProfiles[season];
-        const profileData = seasonalProfile as unknown as Record<string, any>;
+        const profileData = seasonalProfile as unknown as Record<
+          string,
+          unknown
+        >;
         const { optimalCookingMethods } = profileData;
         if (!seasonalProfile || !optimalCookingMethods) {
           return false; // Skip if seasonal profile is missing
@@ -1402,7 +1404,14 @@ export class UnifiedCuisineIntegrationSystem {
               string,
               unknown
             >;
-            const monicaModifiers = profileData.monicaModifiers as any;
+            // Intentionally unguarded: unifiedSeasonalProfiles is a stub with no
+            // monicaModifiers field, so this is always undefined and preserves the
+            // existing throw-if-undefined behavior (adding `?.` would silently
+            // change throw-vs-fallback behavior).
+            const monicaModifiers = profileData.monicaModifiers as Record<
+              string,
+              unknown
+            >;
             return Number(monicaModifiers.temperatureAdjustment || 0);
           })(),
           timingAdjustment: (() => {
@@ -1410,7 +1419,11 @@ export class UnifiedCuisineIntegrationSystem {
               string,
               unknown
             >;
-            const monicaModifiers = profileData.monicaModifiers as any;
+            // Intentionally unguarded: see temperatureAdjustment above.
+            const monicaModifiers = profileData.monicaModifiers as Record<
+              string,
+              unknown
+            >;
             return Number(monicaModifiers.timingAdjustment || 0);
           })(),
           intensityModifier: (() => {
@@ -1418,7 +1431,11 @@ export class UnifiedCuisineIntegrationSystem {
               string,
               unknown
             >;
-            const monicaModifiers = profileData.monicaModifiers as any;
+            // Intentionally unguarded: see temperatureAdjustment above.
+            const monicaModifiers = profileData.monicaModifiers as Record<
+              string,
+              unknown
+            >;
             return String(monicaModifiers.intensityModifier || "normal");
           })(),
         },
@@ -1466,7 +1483,7 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalProfile = unifiedSeasonalProfiles[season];
     const dishes: string[] = [];
     // Get dishes from first cuisine with safe property access
-    const profileData = seasonalProfile as unknown as Record<string, any>;
+    const profileData = seasonalProfile as unknown as Record<string, unknown>;
     const cuisines = profileData.cuisines as
       | Record<string, { dishes: string[] }>
       | undefined;
@@ -1510,8 +1527,10 @@ export class UnifiedCuisineIntegrationSystem {
     let totalWeight = 0;
     for (const element of ["Fire", "Water", "Earth", "Air"] as Element[]) {
       // Safe property access for elementalDominance
-      const profileData = seasonalProfile as unknown as Record<string, any>;
-      const { elementalDominance } = profileData;
+      const profileData = seasonalProfile as unknown as Record<string, unknown>;
+      const elementalDominance = profileData.elementalDominance as
+        | Record<string, number>
+        | undefined;
       const elementWeight = elementalDominance?.[element] || 0;
       if (elementWeight > 0) {
         const match = cuisineElements[element] * elementWeight;
@@ -1613,8 +1632,8 @@ export class UnifiedCuisineIntegrationSystem {
     // Get seasonal ingredients for the cuisine
     const cuisineIngredients = this.getCuisineIngredients(cuisine);
     // Safe property access for getSeasonalScore;
-    const seasonalSystem = unifiedSeasonalSystem as any;
-    const { getSeasonalScore } = seasonalSystem;
+    const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
+    const getSeasonalScore = seasonalSystem.getSeasonalScore;
     const adaptedIngredients = (cuisineIngredients || []).filter(
       (ingredient) => {
         if (typeof getSeasonalScore === "function") {
@@ -1629,7 +1648,10 @@ export class UnifiedCuisineIntegrationSystem {
     if (monica) {
       const seasonalProfile = unifiedSeasonalProfiles[season];
       // Safe property access for optimalCookingMethods
-      const profileData = seasonalProfile as unknown as Record<string, any>;
+      const profileData = seasonalProfile as unknown as Record<
+        string,
+        unknown
+      >;
       const optimalCookingMethods = profileData.optimalCookingMethods || [];
       for (const methodName of (optimalCookingMethods as string[]) || []) {
         const method = this.enhancedCookingMethods[methodName];
@@ -1645,7 +1667,12 @@ export class UnifiedCuisineIntegrationSystem {
       string,
       unknown
     >;
-    const { monicaModifiers } = seasonalProfileData as any;
+    // Intentionally unguarded: unifiedSeasonalProfiles is a stub with no
+    // monicaModifiers field, so this is always undefined and preserves the
+    // existing throw-if-undefined behavior (adding `?.` would silently change
+    // throw-vs-fallback behavior).
+    const { monicaModifiers: monicaModifiersRaw } = seasonalProfileData;
+    const monicaModifiers = monicaModifiersRaw as Record<string, unknown>;
     const seasonalModifiers = {
       temperatureAdjustment: Number(monicaModifiers.temperatureAdjustment || 0),
       timingAdjustment: Number(monicaModifiers.timingAdjustment || 0),
@@ -1687,7 +1714,7 @@ export class UnifiedCuisineIntegrationSystem {
     if ((ingredients || []).length === 0) return 0.5;
     const seasonalProfile = unifiedSeasonalProfiles[season];
     // Safe property access for kalchmRange
-    const profileData = seasonalProfile as unknown as Record<string, any>;
+    const profileData = seasonalProfile as unknown as Record<string, unknown>;
     const kalchmRange = (profileData.kalchmRange as {
       min?: number;
       max?: number;
@@ -1894,8 +1921,8 @@ export class UnifiedCuisineIntegrationSystem {
       season,
     );
     // Get seasonal ingredients with safe property access
-    const seasonalSystem = unifiedSeasonalSystem as any;
-    const { getSeasonalScore } = seasonalSystem;
+    const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
+    const getSeasonalScore = seasonalSystem.getSeasonalScore;
     const seasonalIngredients = (fusionProfile.fusionIngredients || []).filter(
       (ingredient) => {
         if (typeof getSeasonalScore === "function") {
@@ -1906,7 +1933,7 @@ export class UnifiedCuisineIntegrationSystem {
     );
     // Get seasonal cooking methods with safe property access
     const seasonalProfile = unifiedSeasonalProfiles[season];
-    const profileData = seasonalProfile as unknown as Record<string, any>;
+    const profileData = seasonalProfile as unknown as Record<string, unknown>;
     const { optimalCookingMethods } = profileData;
     const seasonalCookingMethods = (
       fusionProfile.fusionCookingMethods || []
@@ -1921,7 +1948,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate seasonal elemental balance with safe property access
     const seasonalProfileData = seasonalProfile as unknown as Record<
       string,
-      any
+      unknown
     >;
     const elementalDominance = seasonalProfileData.elementalDominance || {
       Fire: 0.25,
@@ -2112,8 +2139,8 @@ export class UnifiedCuisineIntegrationSystem {
     ] as Season[]) {
       let totalScore = 0;
       // Safe property access for getSeasonalScore
-      const seasonalSystem = unifiedSeasonalSystem as any;
-      const { getSeasonalScore } = seasonalSystem;
+      const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
+      const getSeasonalScore = seasonalSystem.getSeasonalScore;
       for (const ingredient of ingredients) {
         if (typeof getSeasonalScore === "function") {
           totalScore += getSeasonalScore(ingredient.name, season);
@@ -2150,8 +2177,8 @@ export class UnifiedCuisineIntegrationSystem {
     let ingredients = this.getCuisineIngredients(cuisine);
     if (season) {
       // Filter by seasonal availability with safe property access
-      const seasonalSystem = unifiedSeasonalSystem as any;
-      const { getSeasonalScore } = seasonalSystem;
+      const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
+      const getSeasonalScore = seasonalSystem.getSeasonalScore;
       ingredients = (ingredients || []).filter((ingredient) => {
         if (typeof getSeasonalScore === "function") {
           return getSeasonalScore(ingredient.name, season) > 0.5;

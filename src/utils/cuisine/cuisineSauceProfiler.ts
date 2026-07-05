@@ -12,6 +12,7 @@ import { cuisinesMap } from "@/data/cuisines";
 import { allSauces, type Sauce as DataSauce } from "@/data/sauces";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
+import type { RecipeIngredient } from "@/types/recipe";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { aggregateIngredientElementals } from "@/utils/hierarchicalRecipeCalculations";
 import {
@@ -102,6 +103,54 @@ export interface UnifiedSauce {
   dataKey?: string;
 }
 
+/**
+ * Narrow local mirror of the unexported `RegionalCuisine` shape in
+ * `src/types/cuisine.ts` — only the fields actually read here.
+ */
+interface RegionalCuisineEntry {
+  name?: string;
+  description?: string;
+  signature?: string[];
+  signatureDishes?: string[];
+}
+
+/**
+ * Loosely-typed sauce blob as it appears in `cuisine.motherSauces` (a `Sauce`)
+ * or `cuisine.traditionalSauces` (declared `Record<string, unknown>` in
+ * `src/types/cuisine.ts`). Fields mirror `UnifiedSauce`/`DataSauce` 1:1; only
+ * fields actually read in `fromCuisineSauce` are included.
+ *
+ * `elementalProperties` is deliberately the bare four-key shape (not the
+ * imported `ElementalProperties`, which has a `[key: string]: number` index
+ * signature): `src/types/cuisine.ts` declares its OWN unexported, structurally
+ * narrower `ElementalProperties` (no index signature) for its local `Sauce`
+ * interface, and `cuisine.motherSauces: Record<string, Sauce>` uses that one.
+ * The bare shape is satisfied by both variants without a cast.
+ */
+interface CuisineSauceBlob {
+  name?: string;
+  description?: string;
+  base?: string;
+  keyIngredients?: string[];
+  variants?: string[];
+  derivatives?: string[];
+  elementalProperties?: { Fire: number; Water: number; Earth: number; Air: number };
+  astrologicalInfluences?: string[];
+  seasonality?: string;
+  preparationNotes?: string;
+  technicalTips?: string;
+  difficulty?: string;
+  prepTime?: string;
+  cookTime?: string;
+  yield?: string;
+  ingredients?: string[];
+  preparationSteps?: string[];
+  storageInstructions?: string;
+  alchemicalProperties?: UnifiedSauce["alchemicalProperties"];
+  thermodynamicProperties?: UnifiedSauce["thermodynamicProperties"];
+  nutritionalProfile?: DataSauce["nutritionalProfile"];
+}
+
 export interface ScoreBreakdown {
   cuisineAuthenticity: number;
   dishPairing: number;
@@ -128,7 +177,7 @@ export interface CuisineSauceResult {
 /**
  * Look up a cuisine by user-facing name (case-insensitive).
  */
-function resolveCuisine(key: string, cuisinesMapData?: Record<string, any>): { cuisine: Cuisine; canonicalKey: string } | null {
+function resolveCuisine(key: string, cuisinesMapData?: Record<string, Cuisine>): { cuisine: Cuisine; canonicalKey: string } | null {
   if (!key) return null;
   const map = cuisinesMapData || cuisinesMap;
 
@@ -149,7 +198,7 @@ function resolveCuisine(key: string, cuisinesMapData?: Record<string, any>): { c
   return null;
 }
 
-export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Record<string, any>): CuisineFingerprint | null {
+export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Record<string, Cuisine>): CuisineFingerprint | null {
   const resolved = resolveCuisine(cuisineKey, cuisinesMapData);
   if (!resolved) return null;
   const { cuisine, canonicalKey } = resolved;
@@ -161,13 +210,13 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
 
   const regionalEntries = cuisine.regionalCuisines
     ? Array.isArray(cuisine.regionalCuisines)
-      ? cuisine.regionalCuisines.map((r: any, i: number) => ({
+      ? cuisine.regionalCuisines.map((r: RegionalCuisineEntry, i: number) => ({
         key: String(i),
         name: r?.name ?? String(i),
         description: r?.description,
         signature: r?.signature ?? r?.signatureDishes,
       }))
-      : Object.entries(cuisine.regionalCuisines).map(([k, r]: [string, any]) => ({
+      : Object.entries(cuisine.regionalCuisines).map(([k, r]: [string, RegionalCuisineEntry]) => ({
         key: k,
         name: r?.name ?? k,
         description: r?.description,
@@ -214,7 +263,7 @@ export function getCuisineFingerprint(cuisineKey: string, cuisinesMapData?: Reco
   };
 }
 
-export function listCuisines(cuisinesMapData?: Record<string, any>): Array<{ key: string; name: string }> {
+export function listCuisines(cuisinesMapData?: Record<string, Cuisine>): Array<{ key: string; name: string }> {
   const map = cuisinesMapData || cuisinesMap;
   return [
     "Italian", "French", "Japanese", "Mexican", "Thai", "Chinese", "Indian",
@@ -257,10 +306,10 @@ function fromCuisineSauce(
   ownerCuisine: string,
   origin: "mother" | "traditional",
   key: string,
-  raw: any,
+  raw: CuisineSauceBlob | undefined,
 ): UnifiedSauce {
   const richer = findDataSauce(raw?.name ?? key);
-  const merged: any = richer ? { ...richer.sauce, ...raw } : raw ?? {};
+  const merged: CuisineSauceBlob = richer ? { ...richer.sauce, ...raw } : raw ?? {};
   return {
     id: `${ownerCuisine}:${origin}:${key}`,
     name: raw?.name ?? key,
@@ -324,11 +373,17 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
 
   const recipeIngs = ingredientsArray.map(name => ({
     name,
+    // NOTE: `amount` is intentionally the string literal "1" here, not the numeric `1`
+    // required by `RecipeIngredient.amount`. This predates this pass and is left as-is:
+    // every consumer inside aggregateIngredientElementals reads it via `Number(amount) || 1`,
+    // so `Number("1") === 1` behaves identically to a numeric literal. Not "fixed" here to
+    // avoid an unapproved behavior-adjacent change; hence the `as unknown as` cast below
+    // instead of a direct structural cast (which would fail type-check on this mismatch).
     amount: "1",
     unit: "part"
   }));
 
-  const rawElementals = aggregateIngredientElementals(recipeIngs as any);
+  const rawElementals = aggregateIngredientElementals(recipeIngs as unknown as RecipeIngredient[]);
 
   if (rawElementals.Fire === 0 && rawElementals.Water === 0 && rawElementals.Earth === 0 && rawElementals.Air === 0) {
     return sauce;
@@ -346,7 +401,7 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
   };
 }
 
-export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Record<string, any>): UnifiedSauce[] {
+export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Record<string, Cuisine>): UnifiedSauce[] {
   const resolved = resolveCuisine(cuisineKey, cuisinesMapData);
   const pool = new Map<string, UnifiedSauce>();
 
@@ -360,9 +415,12 @@ export function buildCuisineSaucePool(cuisineKey: string, cuisinesMapData?: Reco
     }
     if (cuisine.traditionalSauces) {
       for (const [k, raw] of Object.entries(cuisine.traditionalSauces)) {
-        const key = norm((raw as any)?.name ?? k);
+        // `traditionalSauces` is declared `Record<string, unknown>` in src/types/cuisine.ts,
+        // so `raw` here is `unknown` — narrow through Record<string, unknown> before reading `.name`.
+        const rawBlob = raw as Record<string, unknown> | undefined;
+        const key = norm((rawBlob?.name as string | undefined) ?? k);
         if (!pool.has(key)) {
-          const u = enhanceSauceWithDynamicProperties(fromCuisineSauce(canonicalKey, "traditional", k, raw));
+          const u = enhanceSauceWithDynamicProperties(fromCuisineSauce(canonicalKey, "traditional", k, rawBlob));
           pool.set(key, u);
         }
       }
@@ -585,7 +643,7 @@ export interface RecommendOptions {
 export function recommendForCuisineContext(
   ctx: CuisineSauceContext,
   options: RecommendOptions = {},
-  cuisinesMapData?: Record<string, any>,
+  cuisinesMapData?: Record<string, Cuisine>,
 ): CuisineSauceResult[] {
   const resolved = resolveCuisine(ctx.cuisine, cuisinesMapData);
   const cuisine = resolved?.cuisine ?? null;

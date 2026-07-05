@@ -229,7 +229,7 @@ function validateIngredientElementalProperties(
 
     // Check that all elements are present and numeric
     for (const element of elements) {
-      const value = props[element as any];
+      const value = props[element as keyof ElementalProperties];
       if (typeof value !== "number" || isNaN(value)) {
         errors.push({
           type: "ELEMENTAL_INVALID",
@@ -255,7 +255,7 @@ function validateIngredientElementalProperties(
 
     // Check that elemental properties sum to approximately 1.0
     const sum = elements.reduce((total, element) => {
-      const value = props[element as any];
+      const value = props[element as keyof ElementalProperties];
       return total + (typeof value === "number" ? value : 0);
     }, 0);
 
@@ -275,7 +275,7 @@ function validateIngredientElementalProperties(
     // Check for elemental dominance (at least one element should be > 0.3)
     const maxElement = Math.max(
       ...elements.map((el) => {
-        const value = props[el as any];
+        const value = props[el as keyof ElementalProperties];
         return typeof value === "number" ? value : 0;
       }),
     );
@@ -450,7 +450,7 @@ async function validateAlchemicalMappings(): Promise<{
     const ingredients = allIngredients;
     for (const [name, ingredient] of Object.entries(ingredients)) {
       try {
-        if ((ingredient as unknown as any).alchemicalProperties) {
+        if ((ingredient as unknown as Record<string, unknown>).alchemicalProperties) {
           const validation = validateAlchemicalConsistency(name, ingredient);
           errors.push(...validation.errors);
           warnings.push(...validation.warnings);
@@ -498,7 +498,21 @@ function validateAlchemicalConsistency(
   const warnings: IngredientValidationWarning[] = [];
 
   try {
-    const ingredientData = ingredient as unknown as any;
+    // NOTE: Ingredient.alchemicalProperties is typed as AlchemicalResult
+    // ({elementalProperties, thermodynamicProperties, kalchm, monica, score}),
+    // which has no spirit/essence/matter/substance fields. Those lowercase
+    // fields only exist on the unrelated AlchemicalItem.alchemicalProperties
+    // shape, and no ingredient data file populates them, so this branch is a
+    // pre-existing dead/always-failing check. Preserved verbatim (not fixed)
+    // via this narrow cast to avoid changing validation behavior.
+    const ingredientData = ingredient as unknown as {
+      alchemicalProperties?: {
+        spirit?: number;
+        essence?: number;
+        matter?: number;
+        substance?: number;
+      };
+    };
     if (
       !ingredientData.alchemicalProperties ||
       !ingredient.elementalProperties
@@ -729,7 +743,8 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       if (ingredient.elementalProperties) {
         const elements = ["Fire", "Water", "Earth", "Air"];
         const hasValidElements = elements.every((el) => {
-          const value = ingredient.elementalProperties[el as any];
+          const value =
+            ingredient.elementalProperties[el as keyof ElementalProperties];
           return (
             typeof value === "number" &&
             !isNaN(value) &&
@@ -836,7 +851,17 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     let totalMappings = 0;
 
     for (const ingredient of Object.values(ingredients)) {
-      const ingredientData = ingredient as unknown as any;
+      // NOTE: see validateAlchemicalConsistency() above for why
+      // alchemicalProperties.spirit/essence/matter/substance don't match the
+      // declared Ingredient type; preserved verbatim, not fixed.
+      const ingredientData = ingredient as unknown as {
+        alchemicalProperties?: {
+          spirit?: number;
+          essence?: number;
+          matter?: number;
+          substance?: number;
+        };
+      };
       if (ingredientData.alchemicalProperties) {
         totalMappings++;
 

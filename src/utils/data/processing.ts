@@ -78,7 +78,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     return createDefaultIngredient("unknown");
   }
 
-  const raw = ingredient as any;
+  const raw = ingredient as Record<string, unknown>;
 
   return {
     id: String(raw.id || "unknown"),
@@ -114,7 +114,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     return createDefaultRecipe("unknown");
   }
 
-  const raw = recipe as any;
+  const raw = recipe as Record<string, unknown>;
 
   return {
     id: String(raw.id || "unknown"),
@@ -137,9 +137,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
         : typeof raw.cookTime === "string"
           ? raw.cookTime
           : "30 minutes",
-    difficulty: validateDifficulty(raw.difficulty)
-      ? (raw.difficulty as unknown)
-      : "medium",
+    difficulty: validateDifficulty(raw.difficulty) ? raw.difficulty : "medium",
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions)
       ? raw.instructions || [].map(String)
@@ -195,7 +193,7 @@ export function validateIngredient(
   }
 
   // Astrological profile validation
-  const ingredientData = ingredient as any;
+  const ingredientData = ingredient as Record<string, unknown>;
   if (
     ingredientData.astrologicalPropertiesProfile ||
     ingredientData.astrologicalProfile
@@ -435,7 +433,7 @@ function standardizeElementalProperties(
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
 
-  const props = properties as any;
+  const props = properties as Record<string, unknown>;
   const Fire = typeof props.Fire === "number" ? props.Fire : 0.25;
   const Water = typeof props.Water === "number" ? props.Water : 0.25;
   const Earth = typeof props.Earth === "number" ? props.Earth : 0.25;
@@ -465,10 +463,13 @@ function _standardizeAstrologicalProfile(
       favorableZodiac: [],
     } as unknown as AstrologicalProfile;
   }
-  const prof = profile as any;
+  const prof = profile as Record<string, unknown>;
   return {
     elementalAffinity: standardizeElementalAffinity(
-      String(prof.elementalAffinity?.base || ""),
+      String(
+        (prof.elementalAffinity as Record<string, unknown> | undefined)
+          ?.base || "",
+      ),
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets)
       ? (prof.rulingPlanets || []).map(String)
@@ -492,7 +493,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   }
 
   const result: { [key: string]: number } = {};
-  const prof = profile as any;
+  const prof = profile as Record<string, unknown>;
 
   Object.entries(prof || {}).forEach(([key, value]) => {
     if (typeof value === "number" && value >= 0 && value <= 1) {
@@ -510,7 +511,7 @@ function standardizeNutritionalProfile(
     return undefined;
   }
 
-  return profile as any;
+  return profile as Record<string, unknown>;
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
@@ -568,7 +569,7 @@ function standardizeNutritionalInfo(
     return undefined;
   }
 
-  return info as any;
+  return info as Record<string, unknown>;
 }
 
 function validateDifficulty(difficulty: unknown): boolean {
@@ -620,9 +621,15 @@ function validateAstrologicalProfile(
     return { isValid: false, errors };
   }
 
-  // Safe property access for AstrologicalProfile properties
-  const profileData = profile as any;
-  const { elementalAffinity } = profileData;
+  // Safe property access for AstrologicalProfile properties.
+  // NOTE: this intentionally does NOT guard `elementalAffinity` before reading
+  // `.base` — if elementalAffinity is missing this throws at runtime (pre-existing
+  // behavior, not altered by this types-only pass). See campaign notes.
+  const profileData = profile as Record<string, unknown>;
+  const { elementalAffinity } = profileData as {
+    elementalAffinity: { base?: unknown };
+    rulingPlanets?: unknown;
+  };
   if (!elementalAffinity.base) {
     errors.push("Elemental affinity is required");
   }
@@ -646,7 +653,7 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
     return { isValid: false, errors };
   }
 
-  const ing = ingredient as any;
+  const ing = ingredient as Record<string, unknown>;
 
   if (!ing.name || typeof ing.name !== "string") {
     errors.push("Ingredient name is required");

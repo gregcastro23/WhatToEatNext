@@ -226,7 +226,7 @@ function validateSinglePlanetaryPosition(
       return { isValid: false, errors, warnings };
     }
 
-    const pos = position as any;
+    const pos = position as Record<string, unknown>;
     const requiredProps = ["sign", "degree", "exactLongitude", "isRetrograde"];
 
     // Check required properties
@@ -244,7 +244,9 @@ function validateSinglePlanetaryPosition(
     const { sign } = pos;
     if (
       typeof sign !== "string" ||
-      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(sign.toLowerCase() as any)
+      !TRANSIT_CONSTANTS.VALID_SIGNS.includes(
+        sign.toLowerCase() as (typeof TRANSIT_CONSTANTS.VALID_SIGNS)[number],
+      )
     ) {
       errors.push(`${planet} has invalid sign: ${sign}`);
     }
@@ -328,7 +330,9 @@ function validateSinglePlanetaryPosition(
 
     // Validate retrograde logic
     if (
-      TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(planet.toLowerCase() as any) &&
+      TRANSIT_CONSTANTS.ALWAYS_DIRECT.includes(
+        planet.toLowerCase() as (typeof TRANSIT_CONSTANTS.ALWAYS_DIRECT)[number],
+      ) &&
       isRetrograde
     ) {
       warnings.push(`${planet} cannot be retrograde`);
@@ -339,7 +343,7 @@ function validateSinglePlanetaryPosition(
 
     if (
       TRANSIT_CONSTANTS.ALWAYS_RETROGRADE.includes(
-        planet.toLowerCase() as any,
+        planet.toLowerCase() as (typeof TRANSIT_CONSTANTS.ALWAYS_RETROGRADE)[number],
       ) &&
       !isRetrograde
     ) {
@@ -514,9 +518,12 @@ export async function validateAstrologicalCalculation(
           input.planetaryPositions,
         )) {
           try {
+            // Structural cast: validatePlanetaryPosition's param type requires
+            // exactly these fields; `position` is `unknown` here with no prior
+            // shape validation at this call site (pre-existing behavior).
             const isValid = await validatePlanetaryPosition(
               planet,
-              position as any,
+              position as { sign: string; degree: number; exactLongitude: number },
               input.date,
             );
             if (!isValid) {
@@ -579,7 +586,8 @@ export function quickValidate(
   try {
     switch (type) {
       case "planetary":
-        return validatePlanetaryPositions(data as any).isValid;
+        return validatePlanetaryPositions(data as Record<string, unknown>)
+          .isValid;
       case "elemental":
         return validateElementalProperties(data);
       case "constants":

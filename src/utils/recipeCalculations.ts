@@ -1,4 +1,5 @@
 import { _logger } from "@/lib/logger";
+import type { ElementalProperties } from "@/types/alchemy";
 import type { RecipeElementalMapping } from "@/types/recipes";
 
 /**
@@ -24,12 +25,14 @@ export const _recipeCalculations = {
     const alignmentScore = Object.entries(recipe._elementalProperties).reduce(
       (sum, [element, value]) =>
         sum +
-        (value as any) *
+        value *
           cuisineElements[element],
       0,
     );
 
-    const recipeData = recipe as any as { name?: string };
+    // Note: RecipeElementalMapping does not declare a `name` field; this cast
+    // preserves a pre-existing (dead outside of debugLog) lookup as-is.
+    const recipeData = recipe as unknown as { name?: string };
     debugLog(
       `Cuisine alignment score for ${recipeData.name || "Unknown Recipe"}: ${alignmentScore.toFixed(2)}`,
     );
@@ -49,7 +52,9 @@ export const _recipeCalculations = {
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers,
     ];
 
-    const recipeWindowData = recipe as any;
+    // Note: RecipeElementalMapping does not declare a `name` field; this cast
+    // preserves a pre-existing (dead outside of debugLog) lookup as-is.
+    const recipeWindowData = recipe as unknown as { name?: string };
     debugLog(
       `Optimal cooking windows for ${recipeWindowData?.name || "Unknown Recipe"}:`,
       optimalTimes,
@@ -70,13 +75,15 @@ export const _recipeCalculations = {
   ): number {
     // Find the dominant element in the recipe
     const dominantElement = Object.entries(recipe._elementalProperties).sort(
-      ([, a], [, b]) => (b as any) - (a as any),
+      ([, a], [, b]) => b - a,
     )[0][0];
 
     // Calculate boost from the user's affinity with that element
     const boost = userElements[dominantElement] * 1.5;
 
-    const recipeBoostData = recipe as any;
+    // Note: RecipeElementalMapping does not declare a `name` field; this cast
+    // preserves a pre-existing (dead outside of debugLog) lookup as-is.
+    const recipeBoostData = recipe as unknown as { name?: string };
     debugLog(
       `Elemental boost for ${recipeBoostData?.name || "Unknown Recipe"}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
     );

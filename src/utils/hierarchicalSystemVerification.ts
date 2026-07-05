@@ -94,11 +94,11 @@ export const TEST_COOKING_METHODS: Array<string | CookingMethod> = [
  */
 export function verifyLevel1Ingredients(): {
   isValid: boolean;
-  results: any[];
+  results: string[];
   errors: string[];
 } {
   console.log("🔍 Verifying Level 1: Ingredients");
-  const results: any[] = [];
+  const results: string[] = [];
   const errors: string[] = [];
   try {
     // Test 1: Ingredient elemental properties validation
@@ -184,12 +184,12 @@ export function verifyLevel1Ingredients(): {
  */
 export function verifyLevel2Recipes(): {
   isValid: boolean;
-  results: any[];
+  results: string[];
   errors: string[];
   computedRecipe?: RecipeComputedProperties;
 } {
   console.log("🔍 Verifying Level 2: Recipes");
-  const results: any[] = [];
+  const results: string[] = [];
   const errors: string[] = [];
   let computedRecipe: RecipeComputedProperties | undefined;
   try {
@@ -314,12 +314,12 @@ export function verifyLevel2Recipes(): {
  */
 export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
   isValid: boolean;
-  results: any[];
+  results: string[];
   errors: string[];
   computedCuisine?: CuisineComputedProperties;
 } {
   console.log("🔍 Verifying Level 3: Cuisines");
-  const results: any[] = [];
+  const results: string[] = [];
   const errors: string[] = [];
   let computedCuisine: CuisineComputedProperties | undefined;
   try {
@@ -429,6 +429,14 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
       Earth: 0.1,
       Air: 0.1,
     });
+    // Intentionally any: this call site passes a single wrong-shaped object as
+    // the sole argument to generateCuisineRecommendations, whose real signature
+    // is (userProfile: UserProfile, availableCuisines: Map<string, { name; properties }>, options?)
+    // — see src/utils/cuisine/cuisineRecommendationEngine.ts:313. availableCuisines
+    // is therefore undefined at runtime and `.forEach` on it would throw, which is
+    // caught by this function's surrounding try/catch and surfaces as a Level 3
+    // verification error. Preserving this pre-existing behavior exactly rather than
+    // retyping to the real signature or fixing the call shape (dead/unimported file).
     const recommendations = (generateCuisineRecommendations as any)({
       elementalProperties: userProfile.elementalPreferences,
       useAdvancedAnalysis: true,
@@ -486,7 +494,13 @@ export async function verifyHierarchicalSystem(): Promise<{
     totalTests: number;
     passedTests: number;
     failedTests: number;
-    performance: any;
+    performance: {
+      executionTime: number;
+      averageTimePerTest: number;
+      level1Time: number;
+      level2Time: number;
+      level3Time: number;
+    };
   };
 }> {
   console.log("🚀 Starting Complete Hierarchical System Verification");

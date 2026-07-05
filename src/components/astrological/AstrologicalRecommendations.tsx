@@ -34,6 +34,15 @@ import {
     FaUtensils
 } from "react-icons/fa";
 
+// Intentionally any: Chakra v3's Card/Select/Tooltip exports are compound-component
+// namespaces (Card.Root/Card.Body, Select.Root/Select.Trigger/Select.Item,
+// Tooltip.Root/Tooltip.Trigger/Tooltip.Content), not renderable JSX components like in
+// v2. This file uses the v2-style API (<Card>, <Select onChange> with native <option>
+// children, <Tooltip label=...>). The component is unreferenced anywhere in src (only
+// re-exported by the barrel at src/components/astrological/index.ts, never imported or
+// mounted), so it is never exercised against real Chakra v3 at runtime. Fixing properly
+// requires a full v2->v3 rewrite of the JSX structure, which is a behavior/structure
+// change out of scope for a types-only pass.
 const Card = _Card as any;
 const Select = _Select as any;
 const Tooltip = _Tooltip as any;
@@ -173,6 +182,12 @@ export const AstrologicalRecommendations: React.FC = () => {
   return (
     <ChakraProvider value={defaultSystem}>
       <Box maxW="1200px" mx="auto" p={6}>
+        {/* Intentionally any (this file): Chakra v3's VStack/HStack/SimpleGrid no longer
+            accept v2 props like `spacing`/`columns` (renamed to `gap`/templateColumns);
+            this file's spread props use the v2 shape. Same unreachable-component
+            reasoning as the Card/Select/Tooltip casts above — preserved as-is at every
+            spread site below rather than changed to `gap`, which would alter behavior
+            of this (never-mounted) render path. */}
         <VStack {...({ spacing: 6, align: "stretch" } as any)}>
           {/* Header */}
           <Box textAlign="center">
@@ -201,7 +216,9 @@ export const AstrologicalRecommendations: React.FC = () => {
                   <Select
                     placeholder="Select your zodiac sign"
                     value={zodiacSign}
-                    onChange={(e: any) => setZodiacSignType(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      setZodiacSignType(e.target.value)
+                    }
                   >
                     {ZODIAC_SIGNS.map((sign) => (
                       <option key={sign} value={sign}>
@@ -219,7 +236,9 @@ export const AstrologicalRecommendations: React.FC = () => {
                   <Select
                     placeholder="Select current season"
                     value={season}
-                    onChange={(e: any) => setSeason(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      setSeason(e.target.value)
+                    }
                   >
                     {SEASONS.map((seasonName) => (
                       <option key={seasonName} value={seasonName}>

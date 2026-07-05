@@ -21,8 +21,12 @@ export function isNutritionalProfile(obj: unknown): obj is NutritionalSummary {
     typeof maybe.calories === "number" ||
     typeof maybe.protein === "number" ||
     typeof maybe.carbs === "number" ||
-    !!(maybe as any).vitamins ||
-    !!(maybe as any).minerals
+    // NOTE: `vitamins`/`minerals` are not declared on NutritionalSummary
+    // (only discrete fields like vitaminA/calcium exist there) — they belong
+    // to the separate NutritionalProfile interface. Preserved as-is via a
+    // Record cast to keep exact existing runtime behavior (see nutrition.ts).
+    !!(maybe as Record<string, unknown>).vitamins ||
+    !!(maybe as Record<string, unknown>).minerals
   );
 }
 
@@ -32,7 +36,11 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
     typeof maybe.degree === "number" ||
-    typeof (maybe as any).exactLongitude === "number" ||
+    // NOTE: `exactLongitude` is not declared on PlanetaryPosition (which has
+    // `longitude` instead) — this intentionally duck-types against sibling
+    // astrology position shapes used elsewhere (celestial.ts, astrological.ts).
+    // Preserved as-is via a Record cast to keep exact existing behavior.
+    typeof (maybe as Record<string, unknown>).exactLongitude === "number" ||
     typeof maybe.sign === "string"
   );
 }
@@ -45,7 +53,9 @@ export function hasAstrologicalProfile(
     !!obj &&
     typeof obj === "object" &&
     "astrologicalProfile" in obj &&
-    isAstrologicalProfile((obj as any).astrologicalProfile)
+    isAstrologicalProfile(
+      (obj as Record<string, unknown>).astrologicalProfile,
+    )
   );
 }
 
