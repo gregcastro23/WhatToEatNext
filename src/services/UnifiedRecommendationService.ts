@@ -62,6 +62,15 @@ interface QuantityAwareIngredientCriteria extends IngredientRecommendationCriter
   useQuantityScaling?: boolean;
 }
 /**
+ * Legacy criteria aliases read at runtime but absent from the declared
+ * criteria interfaces (older callers passed elementalState / currentSeason
+ * instead of elementalProperties / season).
+ */
+interface LegacyCriteriaAliases {
+  elementalState?: ElementalProperties;
+  currentSeason?: string;
+}
+/**
  * UnifiedRecommendationService
  *
  * A consolidated service for all recommendation-related operations.
@@ -94,13 +103,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredRecipes = (allRecipes || []).map((recipe) => {
       let score = 0;
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as RecipeRecommendationCriteria &
+        LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState as ElementalProperties,
+          elementalState,
           recipe.elementalState,
         );
         score += elementalScore * 0.7; // Elemental compatibility is weighted heavily
@@ -227,13 +237,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredIngredients = (allIngredients || []).map((ingredient) => {
       let score = 0;
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as IngredientRecommendationCriteria &
+        LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState as ElementalProperties,
+          elementalState,
           ingredient.elementalProperties,
         );
         score += elementalScore * 0.7; // Elemental compatibility is weighted heavily
@@ -252,8 +263,12 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         ingredient.astrologicalProfile?.rulingPlanets
       ) {
         const { rulingPlanets } = ingredient.astrologicalProfile;
+        // Note: the declared Planet type is an object ({name, influence}), but
+        // rulingPlanets is string[] — an object-shaped value can never match
+        // here. Runtime callers pass planet-name strings; mismatch preserved
+        // (types-only pass).
         const planetMatch = Array.isArray(rulingPlanets)
-          ? rulingPlanets.includes(criteria.planetaryRuler as any)
+          ? (rulingPlanets as unknown as string[]).includes(criteria.planetaryRuler as unknown as string)
           : false;
         score += planetMatch ? 0.1 : 0;
       }
@@ -372,13 +387,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredCuisines = (availableCuisines || []).map((cuisine) => {
       let score = 0.5; // Start with a neutral score
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as CuisineRecommendationCriteria &
+        LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState as ElementalProperties,
+          elementalState,
           cuisineElements[cuisine],
         );
         score = elementalScore; // Base score on elemental compatibility
@@ -485,14 +501,15 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredMethods = (availableMethods || []).map((method) => {
       let score = 0.5; // Start with a neutral score
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as CookingMethodRecommendationCriteria &
+        LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // Calculate elemental compatibility if criteria includes elemental properties
       const methodData = method;
       if (elementalState && methodData.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState as ElementalProperties,
+          elementalState,
           methodData.elementalEffect,
         );
         score = elementalScore; // Base score on elemental compatibility
@@ -515,7 +532,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach((item) => {
-      const methodData = item.method as unknown as any;
+      const methodData = item.method;
       const methodId = String(methodData.name || "unknown");
       scores[methodId] = item.score;
     });
@@ -539,7 +556,15 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties,
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as unknown as any;
+    // Note: the alchemicalEngine default export ({alchemize, signs,
+    // planetInfo, signInfo}) does not expose calculateElementalCompatibility
+    // (it lives on the AlchemicalEngine class), so this feature-detect is
+    // always false and the fallback below always runs. Preserved as-is
+    // (types-only pass).
+    const alchemicalEngineData = alchemicalEngine as unknown as Record<
+      string,
+      unknown
+    >;
     if (
       typeof alchemicalEngineData.calculateElementalCompatibility === "function"
     ) {
@@ -701,7 +726,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredRecipes = (allRecipes || []).map((recipe) => {
       let score = 0;
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as QuantityAwareRecipeCriteria &
+        LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // Calculate quantity-aware elemental compatibility if quantities provided
@@ -712,14 +738,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       ) {
         const quantityAwareScore = this.calculateQuantityAwareRecipeScore(
           recipe,
-          elementalState as ElementalProperties,
+          elementalState,
           criteria.ingredientQuantities,
         );
         score += quantityAwareScore * 0.7;
       } else if (elementalState && recipe.elementalState) {
         // Fall back to standard elemental compatibility
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState as ElementalProperties,
+          elementalState,
           recipe.elementalState,
         );
         score += elementalScore * 0.7;
@@ -848,14 +874,15 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredIngredients = (allIngredients || []).map((ingredient) => {
       let score = 0;
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as QuantityAwareIngredientCriteria &
+        LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
       // Calculate elemental compatibility
       if (elementalState && ingredient.elementalProperties) {
         // Standard elemental compatibility
         const elementalScore = this.calculateElementalCompatibility(
-          elementalState as ElementalProperties,
+          elementalState,
           ingredient.elementalProperties,
         );
         score += elementalScore * 0.7;

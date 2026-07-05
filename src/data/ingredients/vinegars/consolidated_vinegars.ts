@@ -29,7 +29,7 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["cancer", "virgo", "pisces"] as any[],
+      favorableZodiac: ["cancer", "virgo", "pisces"],
       elementalAffinity: {
         base: "Water",
         secondary: "Air",
@@ -79,7 +79,7 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Sun"],
-      favorableZodiac: ["taurus", "leo", "libra"] as any[],
+      favorableZodiac: ["taurus", "leo", "libra"],
       elementalAffinity: {
         base: "Fire",
         secondary: "Water",
@@ -129,7 +129,7 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Jupiter"],
-      favorableZodiac: ["taurus", "libra", "sagittarius"] as any[],
+      favorableZodiac: ["taurus", "libra", "sagittarius"],
       elementalAffinity: {
         base: "Fire",
         secondary: "Water",
@@ -179,7 +179,7 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mars", "Venus"],
-      favorableZodiac: ["aries", "taurus", "scorpio"] as any[],
+      favorableZodiac: ["aries", "taurus", "scorpio"],
       elementalAffinity: {
         base: "Fire",
         secondary: "Water",
@@ -229,7 +229,7 @@ const rawVinegars = {
     },
     astrologicalProfile: {
       rulingPlanets: ["Mercury", "Venus"],
-      favorableZodiac: ["gemini", "libra", "aquarius"] as any[],
+      favorableZodiac: ["gemini", "libra", "aquarius"],
       elementalAffinity: {
         base: "Air",
         secondary: "Water",

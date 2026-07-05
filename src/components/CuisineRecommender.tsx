@@ -48,6 +48,79 @@ interface CuisineStyles {
   error: string;
 }
 
+// Local boundary views over untyped recipe/sauce JSON blobs; only fields read below are declared.
+type IngredientLike =
+  | string
+  | {
+      name?: string;
+      amount?: number;
+      unit?: string;
+      category?: string;
+      notes?: string;
+      preparation?: string;
+    };
+
+interface RecipeLike {
+  id?: string;
+  name?: string;
+  description?: string;
+  matchScore?: number;
+  matchPercentage?: number;
+  hasDualMatch?: boolean;
+  elementalProperties?: Record<string, number>;
+  ingredients?: IngredientLike[];
+  instructions?: string[];
+  preparationSteps?: string[];
+  procedure?: string[];
+  cookTime?: string;
+  prepTime?: string;
+  servingSize?: number | string;
+  numberOfServings?: number;
+  servings?: number;
+  dietaryInfo?: string[] | string;
+  culturalNotes?: string;
+  pairingSuggestions?: string[] | string;
+  flavorProfile?: Record<string, number>;
+  astrologicalInfluences?: string[] | string;
+}
+
+interface SauceLike {
+  id?: string;
+  name?: string;
+  description?: string;
+  matchPercentage?: number;
+  isTraditional?: boolean;
+  elementalProperties?: Record<string, number>;
+  ingredients?: string[];
+  preparationSteps?: string[] | string;
+  procedure?: string[] | string;
+  instructions?: string[] | string;
+  prepTime?: string;
+  cookTime?: string;
+  yield?: string;
+  difficulty?: string;
+  storageInstructions?: string;
+  technicalTips?: string;
+  culinaryUses?: string[] | string;
+  variants?: string[] | string;
+  pairsWith?: string[] | string;
+  usage?: string;
+}
+
+interface AmazonCartItem {
+  name: string;
+  asin: string | null;
+  amount: number;
+}
+
+interface NormalizedCartIngredient {
+  name: string;
+  amount: number;
+  unit: string;
+  category?: string;
+  notes?: string;
+}
+
 // Add this helper function near the top of the file, outside any components
 const getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
@@ -80,12 +153,12 @@ export default function CuisineRecommender() {
   const [cuisinesList, setCuisines] = useState<Cuisine[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [_filter, _setFilter] = useState<string>('all');
-  const [cuisineRecipes, setCuisineRecipes] = useState<any[]>([]);
-  const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
+  const [cuisineRecipes, setCuisineRecipes] = useState<RecipeLike[]>([]);
+  const [sauceRecommendations, setSauceRecommendations] = useState<SauceLike[]>([]);
   const [showAllRecipes, setShowAllRecipes] = useState<boolean>(false);
   const [showAllSauces, setShowAllSauces] = useState<boolean>(false);
   const [expandedRecipes, setExpandedRecipes] = useState<{[key: number]: boolean}>({});
-  const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
+  const [topRecommendedSauces, setTopRecommendedSauces] = useState<SauceLike[]>([]);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
   const [amazonLoading, setAmazonLoading] = useState<string | null>(null);
@@ -106,14 +179,14 @@ export default function CuisineRecommender() {
     router.push(`/restaurants?cuisine=${encodeURIComponent(cuisineName)}`);
   }, [router]);
 
-  const handleShopOnAmazon = (recipe: any) => {
+  const handleShopOnAmazon = (recipe: RecipeLike) => {
     setAmazonLoading(recipe.id || recipe.name);
     try {
-      const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients.map((ing: any) => {
+      const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients.map((ing: IngredientLike): AmazonCartItem | null => {
         const name = typeof ing === 'string' ? ing : ing.name;
         const amount = typeof ing === 'object' ? (ing.amount || 1) : 1;
         return name ? { name, asin: resolveAsin(name), amount } : null;
-      }).filter((x: any) => x && x.asin) : [];
+      }).filter((x): x is AmazonCartItem & { asin: string } => Boolean(x && x.asin)) : [];
 
       if (ingredients.length === 0) {
         showToast("No ingredients could be matched to Amazon products.", "error");
@@ -150,7 +223,7 @@ export default function CuisineRecommender() {
       submitAddInput.value = "1";
       form.appendChild(submitAddInput);
 
-      ingredients.forEach((item: any, idx: number) => {
+      ingredients.forEach((item: AmazonCartItem, idx: number) => {
         const pos = idx + 1;
         const asinInput = document.createElement("input");
         asinInput.type = "hidden";
@@ -176,17 +249,17 @@ export default function CuisineRecommender() {
     }
   };
 
-  const buildRecipeHref = useCallback((recipe: any): string | null => {
+  const buildRecipeHref = useCallback((recipe: RecipeLike): string | null => {
     const slug = recipe?.id || recipe?.name;
     if (!slug) return null;
     return `/recipes/${encodeURIComponent(String(slug))}`;
   }, []);
 
-  const handleAddRecipeToCart = useCallback((recipe: any) => {
+  const handleAddRecipeToCart = useCallback((recipe: RecipeLike) => {
     if (!recipe) return;
     const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
     const normalized = ingredients
-      .map((ing: any) => {
+      .map((ing: IngredientLike) => {
         if (!ing) return null;
         if (typeof ing === 'string') {
           return { name: ing, amount: 1, unit: 'each' };
@@ -199,7 +272,7 @@ export default function CuisineRecommender() {
           notes: ing.notes,
         };
       })
-      .filter((x: any) => x && x.name);
+      .filter((x): x is NormalizedCartIngredient => Boolean(x && x.name));
 
     if (normalized.length === 0) {
       showToast('This recipe has no ingredients to add.', 'warning');
@@ -229,7 +302,7 @@ export default function CuisineRecommender() {
       Air: 0.25
     }
   );
-  const [matchingRecipes, _setMatchingRecipes] = useState<any[]>([]);
+  const [matchingRecipes, _setMatchingRecipes] = useState<RecipeLike[]>([]);
 
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
@@ -592,14 +665,14 @@ export default function CuisineRecommender() {
   };
 
   // Function to generate sauce recommendations for a specific cuisine
-  const generateSauceRecommendationsForCuisine = (cuisine: Cuisine): unknown[] => {
+  const generateSauceRecommendationsForCuisine = (cuisine: Cuisine): SauceLike[] => {
     if (!allSauces) return [];
     
     // Convert sauces record to array for mapping
     const saucesArray = Object.values(allSauces);
     
     // First, look for sauces from the traditional sauces of this cuisine
-    const traditionalSauces: unknown[] = [];
+    const traditionalSauces: SauceLike[] = [];
     // Get all cuisines data
     const allCuisinesData = cuisines || {};
     
@@ -609,7 +682,7 @@ export default function CuisineRecommender() {
       
       // Add all traditional sauces from this cuisine with their match scores
       // @ts-expect-error - Auto-fixed by script
-      Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+      Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, SauceLike]) => {
         const matchScore = calculateElementalMatch(
           sauceData.elementalProperties as ElementalProperties,
           cuisine.elementalProperties as ElementalProperties

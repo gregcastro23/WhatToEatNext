@@ -6,27 +6,73 @@
 // import client from "prom-client"; // Commented out - prom-client not installed
 import { logger } from "@/utils/logger";
 // import type { Request, Response, NextFunction } from "express"; // Commented out - express not installed
-type Request = any;
-type Response = any;
-type NextFunction = any;
+interface Request {
+  method: string;
+  path: string;
+  route?: { path: string };
+  // extra args tolerated: collectHttpMetrics passes a stray `10` as a second
+  // argument to req.get("content-length", 10) (pre-existing quirk, preserved)
+  get(name: string, ...legacyArgs: unknown[]): string | undefined;
+}
+interface Response {
+  statusCode: number;
+  end(chunk?: string | Buffer, encoding?: BufferEncoding): unknown;
+  set(field: string, value: string): void;
+  status(code: number): Response;
+}
+type NextFunction = () => void;
+
+// Local stand-ins for prom-client shapes (prom-client not installed)
+interface MetricConfig {
+  name: string;
+  help: string;
+  labelNames?: string[];
+  buckets?: number[];
+}
+interface MetricLike {
+  labels(...values: string[]): MetricLike;
+  observe(value: number): void;
+  inc(value?: number): void;
+  dec(value?: number): void;
+  set(value: number): void;
+  startTimer(labels?: Record<string, string | number>): () => number;
+}
+interface PromClientLike {
+  collectDefaultMetrics(config: { timeout: number; prefix: string }): void;
+  Histogram: new (config: MetricConfig) => MetricLike;
+  Counter: new (config: MetricConfig) => MetricLike;
+  Gauge: new (config: MetricConfig) => MetricLike;
+  Summary: new (config: MetricConfig) => MetricLike;
+  // metrics() is Promise<string> in real prom-client; the mock returns a plain
+  // string (getMetrics awaits it either way)
+  register: {
+    metrics(): string | Promise<string>;
+    contentType: string;
+    clear(): void;
+  };
+}
 
 // Mock client for prom-client (not installed)
-const client: any = {
+// Cast through unknown: this mock intentionally implements only what
+// module-load-time code touches. Metric instances have NO methods (every
+// .labels()/.observe()/.startTimer() call throws) and register has no clear()
+// (clearMetrics() throws) — pre-existing dead-code behavior, preserved.
+const client = {
   collectDefaultMetrics: () => {},
   Histogram: class {
-    constructor(_config: any) {}
+    constructor(_config: MetricConfig) {}
   },
   Counter: class {
-    constructor(_config: any) {}
+    constructor(_config: MetricConfig) {}
   },
   Gauge: class {
-    constructor(_config: any) {}
+    constructor(_config: MetricConfig) {}
   },
   Summary: class {
-    constructor(_config: any) {}
+    constructor(_config: MetricConfig) {}
   },
   register: { metrics: () => "", contentType: "text/plain" },
-};
+} as unknown as PromClientLike;
 
 // Initialize Prometheus metrics collection (DISABLED - prom-client not installed)
 const { collectDefaultMetrics } = client;
@@ -323,7 +369,11 @@ export function collectHttpMetrics(serviceName: string) {
 
     // Override res.end to capture response metrics
     const originalEnd = res.end;
-    res.end = function (chunk?: any, encoding?: any) {
+    res.end = function (
+      this: Response,
+      chunk?: string | Buffer,
+      encoding?: BufferEncoding,
+    ) {
       const duration = (Date.now() - startTime) / 1000;
       const responseSize = chunk ? Buffer.byteLength(chunk, encoding) : 0;
 

@@ -8,7 +8,7 @@ import {
     AstrologicalService
 } from "./AstrologicalService";
 
-const _getCurrentElementalState: any = null; // Commented out non-existent export
+const _getCurrentElementalState: unknown = null; // Commented out non-existent export
 
 interface CelestialPosition {
   sunSign: string;
@@ -82,6 +82,23 @@ interface CelestialPosition {
   timestamp: number;
 }
 
+// NOTE (types-only pass): getCurrentState is an INSTANCE method on AstrologicalService
+// and getStateForDate does not exist at all, but this file calls both on the CLASS
+// constructor. Every branch therefore resolves to undefined at runtime and execution
+// falls through to the catch/fallback paths. That latent dead lookup is preserved
+// exactly here — the optional methods below only describe what the code attempts.
+interface AstroStateLike {
+  currentZodiac: string;
+  moonPhase: string;
+  currentPlanetaryAlignment: CelestialPosition["planetaryPositions"];
+  elementalState?: ElementalProperties;
+}
+
+interface AstroServiceLike {
+  getStateForDate?: (date: Date) => Promise<AstroStateLike>;
+  getCurrentState?: (date?: Date) => Promise<AstroStateLike>;
+}
+
 let cachedPositions: CelestialPosition | null = null;
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 
@@ -111,7 +128,7 @@ export const _getCelestialPositionsForDate = async (
       const degreeValue =
         typeof position === "number"
           ? position
-          : (position as unknown as any).degree || 0;
+          : position.degree || 0;
 
       const sign = getSignFromDegree(degreeValue);
       planetaryPositions[planet.toLowerCase()] = {
@@ -149,15 +166,15 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
     // Use AstrologicalService to get accurate positions for current date
     const currentDate = new Date();
     // Apply safe type casting for service method access
-    const astroService = AstrologicalService as any;
+    const astroService = AstrologicalService as unknown as AstroServiceLike;
     const astroState = await (astroService.getStateForDate
       ? astroService.getStateForDate(currentDate)
       : astroService.getCurrentState?.(currentDate));
     // Map the data to our format
     cachedPositions = {
-      sunSign: astroState.currentZodiac,
-      moonPhase: astroState.moonPhase,
-      planetaryPositions: astroState.currentPlanetaryAlignment,
+      sunSign: astroState!.currentZodiac,
+      moonPhase: astroState!.moonPhase,
+      planetaryPositions: astroState!.currentPlanetaryAlignment,
       time: {
         hours: currentDate.getHours(),
         minutes: currentDate.getMinutes(),
@@ -179,7 +196,7 @@ const getFallbackPositions = async (
   // Get fallback data from AstrologicalService for the specified date
   try {
     // Apply safe type casting for service method access
-    const astroService = AstrologicalService as any;
+    const astroService = AstrologicalService as unknown as AstroServiceLike;
     const fallbackState = astroService.getStateForDate
       ? await astroService.getStateForDate(date)
       : await astroService.getCurrentState?.(date);
@@ -236,7 +253,7 @@ export const _getElementalInfluence =
     // Use the zodiac to element mapping if available
     try {
       // Apply safe type casting for service method access
-      const astroService = AstrologicalService as any;
+      const astroService = AstrologicalService as unknown as AstroServiceLike;
       const astroState = await (astroService?.getCurrentState
         ? astroService?.getCurrentState()
         : astroService.getStateForDate?.(new Date()));
@@ -383,7 +400,7 @@ export function calculateElementalBalanceFromPositions(
   // Calculate elemental influence from each planet's position
   Object.entries(positions).forEach(([planet, data]) => {
     // Apply safe type casting for data property access
-    const planetData = data as any;
+    const planetData = data as { sign?: string };
     if (!planetData.sign) return;
 
     const planetKey = planet.toLowerCase();

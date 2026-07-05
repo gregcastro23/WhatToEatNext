@@ -5,8 +5,8 @@ import { _logger } from "@/lib/logger";
 export interface ConfigurationUpdate {
   section: "api" | "astrology" | "debug";
   key: string;
-  // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
-  value: any;
+  // Configuration values can be strings, numbers, booleans, or objects
+  value: unknown;
   timestamp: number;
 }
 export interface ConfigurationState {
@@ -81,8 +81,8 @@ class ConfigurationServiceImpl {
   private mergeWithDefaults(
     stored: Record<string, unknown>,
   ): ConfigurationState {
-    const storedApi = (stored.api as any) || {};
-    const storedAstrology = (stored.astrology as any) || {};
+    const storedApi = (stored.api as Record<string, unknown>) || {};
+    const storedAstrology = (stored.astrology as Record<string, unknown>) || {};
     const celestialUpdateInterval = Number(
       storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
     );
@@ -171,7 +171,6 @@ class ConfigurationServiceImpl {
   /**
    * Update configuration
    */
-  // Intentionally, any: Configuration values have multiple valid types
   public updateConfiguration(
     section: keyof ConfigurationState,
     key: string,
@@ -209,9 +208,9 @@ class ConfigurationServiceImpl {
         this.notifyListeners(update);
         // Update global config if it's a live system
         if (section === "api") {
-          (config.api as unknown as any)[key] = value;
+          (config.api as unknown as Record<string, unknown>)[key] = value;
         } else if (section === "astrology") {
-          (config.astrology as unknown as any)[key] = value;
+          (config.astrology as unknown as Record<string, unknown>)[key] = value;
         } else if (section === "debug" && key === "debug") {
           config.debug = Boolean(value);
         }
@@ -225,7 +224,6 @@ class ConfigurationServiceImpl {
   /**
    * Validate configuration update
    */
-  // Intentionally, any: Validation must handle any incoming configuration value type
   private validateUpdate(
     section: keyof ConfigurationState,
     key: string,
@@ -327,8 +325,8 @@ class ConfigurationServiceImpl {
     updates: Array<{
       section: keyof ConfigurationState;
       key: string;
-      // Intentionally any: Bulk configuration values can be of any valid type
-      value: any;
+      // Bulk configuration values can be of multiple valid types
+      value: unknown;
     }>,
   ): Promise<boolean> {
     // Validate all updates first
