@@ -94,10 +94,10 @@ export class PlanetaryKineticsClient {
 
       for (const [planet, data] of Object.entries(rawPositions)) {
         if (data && typeof data === "object" && "sign" in data) {
-          currentPositions[planet] = String((data as any).sign);
+          currentPositions[planet] = String(data.sign);
           aspectInput[planet] = {
-            sign: String((data as any).sign),
-            degree: Number((data as any).degree) || 0,
+            sign: String(data.sign),
+            degree: Number(data.degree) || 0,
           };
         }
       }
@@ -164,9 +164,12 @@ export class PlanetaryKineticsClient {
       if (!aspects || aspects.length === 0) return 0.5; // neutral default
 
       const harmoniousTypes = new Set(["trine", "sextile", "conjunction"]);
-      const harmoniousCount = aspects.filter((a) =>
-        harmoniousTypes.has(String((a as any).type || (a as any).aspectType || "")),
-      ).length;
+      const harmoniousCount = aspects.filter((a) => {
+        // aspectType is a defensive fallback for the celestial.ts PlanetaryAspect variant;
+        // calculateAspects only ever sets `type`, so it is normally undefined at runtime.
+        const view: { type?: string; aspectType?: string } = a;
+        return harmoniousTypes.has(String(view.type || view.aspectType || ""));
+      }).length;
 
       return aspects.length > 0 ? harmoniousCount / aspects.length : 0.5;
     } catch {

@@ -99,7 +99,7 @@ export async function validatePlanetaryPositions(
       }
 
       // Safe access to calculated properties
-      const calculatedData = calculated as unknown as any;
+      const calculatedData = calculated;
 
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
@@ -165,6 +165,15 @@ export async function validatePlanetaryPositions(
   }
 }
 
+// Shape of the per-planet entries built by validatePlanetaryPositions,
+// capturing only the fields read below.
+interface PlanetValidationEntryLike {
+  status?: string;
+  reference: PlanetaryPosition;
+  calculated: PlanetaryPosition;
+  accurate?: boolean;
+}
+
 // Export a debug component function to display validation results
 export async function getValidationSummary(): Promise<string> {
   const result = await validatePlanetaryPositions();
@@ -180,7 +189,7 @@ export async function getValidationSummary(): Promise<string> {
   summary += `Overall _Accuracy: ${accurate ? "PASSED ✓" : "FAILED ✗"}\n\n`;
 
   Object.entries(differences).forEach(([planet, data]) => {
-    const planetData = data as any;
+    const planetData = data as PlanetValidationEntryLike;
 
     if (planetData.status === "missing") {
       summary += `${planet}: MISSING\n`;
@@ -256,7 +265,7 @@ export async function validateAgainstAPI(): Promise<{
     }
 
     // Safe access to calculated position data
-    const positionData = calculatedPosition as any;
+    const positionData = calculatedPosition as Record<string, unknown>;
 
     const formattedCalculated: PlanetaryPosition = {
       sign: String(positionData.sign || "").toLowerCase(),
@@ -329,7 +338,7 @@ export function validatePlanetaryPositionsStructure(
   return requiredPlanets.every((planet) => {
     const p = positions[planet];
     // Apply safe type casting for property access
-    const planetData = p as any;
+    const planetData = p as Record<string, unknown> | undefined;
     return (
       planetData &&
       typeof planetData.longitude === "number" &&
