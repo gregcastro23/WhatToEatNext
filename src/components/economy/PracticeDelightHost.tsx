@@ -45,6 +45,28 @@ export function PracticeDelightHost(): JSX.Element {
   const queue = useRef<PracticeReward[]>([]);
   const playing = useRef(false);
 
+  // Wallet-funnel nudge: the FIRST cook reward of a session, for a user with
+  // no linked wallet, follows up with a one-tap path to the on-chain claim.
+  const nudgedThisSession = useRef(false);
+  const maybeNudgeWallet = useCallback(() => {
+    if (nudgedThisSession.current) return;
+    nudgedThisSession.current = true;
+    void fetch("/api/economy/claim-onchain", { cache: "no-store" })
+      .then(async (res) => {
+        if (!res.ok) return;
+        const json = (await res.json()) as { walletLinked?: boolean; configured?: boolean };
+        if (json.configured && json.walletLinked === false) {
+          setTimeout(() => {
+            showToast("Your earnings can live on-chain — claim them to a wallet of your own.", "info", {
+              duration: 8000,
+              action: { label: "Open the vault", onClick: () => { window.location.href = "/account"; } },
+            });
+          }, 3200);
+        }
+      })
+      .catch(() => {});
+  }, [showToast]);
+
   const playNext = useCallback(() => {
     const reward = queue.current.shift();
     if (!reward) {
@@ -57,13 +79,14 @@ export function PracticeDelightHost(): JSX.Element {
     showToast(`+${formatAmount(reward.amount)} ${symbol} — ${reward.hint}`, "success", {
       duration: 4200,
     });
+    if (reward.tokenType === "Matter") maybeNudgeWallet();
     if (TOKEN_TYPES.has(reward.tokenType)) {
       setSplashCoin([reward.tokenType as TokenType]);
       setSplash(true);
     }
     const coinKey = reward.tokenType.toLowerCase() as Lowercase<TokenType>;
     emitTokenEconomyUpdate({ source: "quest", credits: { [coinKey]: reward.amount } });
-  }, [showToast]);
+  }, [showToast, maybeNudgeWallet]);
 
   useEffect(() => {
     const onReward = (e: Event) => {

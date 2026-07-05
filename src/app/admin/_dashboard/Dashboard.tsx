@@ -24,6 +24,7 @@ import {
   EngineHealth,
   CatalogState,
   CommercePanel,
+  LivingEconomyPanel,
   CommensalPulse,
   DeploysPanel,
   FeatureFlagsPanel,
@@ -179,6 +180,7 @@ export function Dashboard({ data }: DashboardProps) {
           <CatalogState realCards={catalogCards} trending={data.catalogTrending} />
           <CommensalPulse pageTelemetry={data.pageTelemetry} />
           <CommercePanel commerceSummary={data.commerce} />
+          <LivingEconomyPanel data={data.livingEconomy} />
         </div>
 
         <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>

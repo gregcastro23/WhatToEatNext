@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { FutureRecipeSkeleton } from "@/components/premium/FutureRecipeSkeleton";
 import { TemporalFrictionGate } from "@/components/premium/TemporalFrictionGate";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
@@ -703,6 +704,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
   const { showToast } = useToast();
   const [addedToCart, setAddedToCart] = useState(false);
+  const [orderOpen, setOrderOpen] = useState(false);
 
   const handleAddToGroceryCart = useCallback(() => {
     if (!recipe || !recipe.ingredients || recipe.ingredients.length === 0) {
@@ -915,6 +917,15 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
                   Add to grocery cart
                 </>
               )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setOrderOpen(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 bg-gradient-to-r from-cyan-600 to-teal-600 border border-cyan-400/40 text-white hover:from-cyan-500 hover:to-teal-500"
+            >
+              <span aria-hidden>🧺</span>
+              Order ingredients
             </button>
 
             <RiffOnThisLink recipe={recipe} />
@@ -1437,7 +1448,23 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             )}
 
             {/* Community (local-only shell) */}
-            <SocialSection recipeId={recipe.id} />
+            <SocialSection recipeId={recipe.id} recipeName={recipe.name} />
+
+            <OrderIngredientsModal
+              open={orderOpen}
+              onClose={() => setOrderOpen(false)}
+              title={recipe.name}
+              inputs={(recipe.ingredients || []).map((ing) => ({
+                name: ing.name,
+                amount: typeof ing.amount === "number" ? ing.amount : 1,
+                unit: ing.unit || "each",
+                category: ing.category,
+                optional: ing.optional,
+              }))}
+              scale={scale}
+              source="recipe_detail"
+              listTarget={`recipe:${recipe.id}`}
+            />
           </div>
         </div>
 

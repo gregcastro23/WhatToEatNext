@@ -21,7 +21,9 @@ export type PracticeType =
   | "feed_visit"
   | "feed_reaction"
   | "chat_joined"
-  | "surface_discovered";
+  | "surface_discovered"
+  | "work_resonated"
+  | "list_conjured";
 
 export type DedupeScope = "daily" | "ever";
 
@@ -145,6 +147,36 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "Cross the threshold of a chamber of the kitchen you have never entered.",
   },
+  work_resonated: {
+    type: "work_resonated",
+    tokenType: "Spirit",
+    baseAmount: 1,
+    dedupe: "ever",
+    dailyCap: 3,
+    requiresTarget: true,
+    hints: [
+      "Your work found its witnesses",
+      "The commons tasted what you made",
+      "A dish shared returns as Spirit",
+    ],
+    description:
+      "Share a finished Work and let it resonate — when others spark to your dish, Spirit returns to its maker.",
+  },
+  list_conjured: {
+    type: "list_conjured",
+    tokenType: "Substance",
+    baseAmount: 1,
+    dedupe: "daily",
+    dailyCap: 2,
+    requiresTarget: true,
+    hints: [
+      "Provisions summoned to the door",
+      "The pantry hears the call",
+      "Substance follows a well-made list",
+    ],
+    description:
+      "Conjure an ingredient order from a recipe or menu — the market answers those who prepare.",
+  },
 };
 
 /**
@@ -156,6 +188,10 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
 export const SERVER_ONLY_PRACTICES: ReadonlySet<PracticeType> = new Set([
   "cooked_recipe",
   "photo_added",
+  // Both sides of a reaction are recognized inside POST /api/feed/react —
+  // the reaction ROW is the proof, a bare practice POST is not.
+  "feed_reaction",
+  "work_resonated",
 ]);
 
 /**

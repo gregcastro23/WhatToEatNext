@@ -817,6 +817,54 @@ export async function getRecentAlerts(
   }
 }
 
+// ─── Living Economy · the release's three success numbers ─────────────
+
+export interface LivingEconomyMetrics {
+  /** Amazon cart handoffs in the trailing 7 days (cart_handoff_intents). */
+  affiliateClicksWeek: number;
+  /** Cooked-it dish cards posted in the trailing 7 days. */
+  cookedPostsWeek: number;
+  /** Distinct users whose feed_visit practice fired today. */
+  feedDauToday: number;
+  live: boolean;
+}
+
+/**
+ * The composite scorecard for the Living Economy release: affiliate-funnel
+ * top (handoffs), the cook→share flywheel (dish cards), and social pull
+ * (feed DAU via the practice ledger). Never throws.
+ */
+export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
+  try {
+    const result = await executeQuery<{
+      affiliate_clicks: string;
+      cooked_posts: string;
+      feed_dau: string;
+    }>(
+      `SELECT
+         (SELECT COUNT(*) FROM cart_handoff_intents
+           WHERE created_at >= now() - interval '7 days') AS affiliate_clicks,
+         (SELECT COUNT(*) FROM feed_events
+           WHERE event_type = 'made_it'
+             AND metadata_payload->>'card' = 'cooked'
+             AND created_at >= now() - interval '7 days') AS cooked_posts,
+         (SELECT COUNT(DISTINCT user_id) FROM practice_events
+           WHERE practice_type = 'feed_visit'
+             AND created_at >= CURRENT_DATE) AS feed_dau`,
+    );
+    const row = result.rows[0];
+    return {
+      affiliateClicksWeek: Number(row?.affiliate_clicks ?? 0),
+      cookedPostsWeek: Number(row?.cooked_posts ?? 0),
+      feedDauToday: Number(row?.feed_dau ?? 0),
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getLivingEconomyMetrics] failed:", error);
+    return { affiliateClicksWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false };
+  }
+}
+
 // ─── Error Groups · request_log_entries rollup ────────────────────────
 
 export interface ErrorGroupEntry {

@@ -10,7 +10,10 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { CookedDishCard } from "@/components/feed/CookedDishCard";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
+import { LunarTableStrip } from "@/components/feed/LunarTableStrip";
+import { TransitInviteBanner } from "@/components/feed/TransitInviteBanner";
 import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
 import { firePractice } from "@/lib/economy/practiceClient";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
@@ -31,6 +34,7 @@ interface FeedEvent {
   eventType: string;
   metadataPayload: any;
   createdAt: string;
+  reactionCount?: number;
 }
 
 interface AgentSummary {
@@ -612,6 +616,10 @@ function FeedTab({
 
   return (
     <section aria-labelledby="activity-heading">
+      {/* Personal invite when today's sky touches the viewer's chart */}
+      <TransitInviteBanner />
+      {/* The sky's standing invitation — open or upcoming lunar table */}
+      <LunarTableStrip />
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[9px] font-black uppercase tracking-[0.28em] text-purple-300/55">
@@ -693,6 +701,19 @@ function FeedTab({
 function HumanFeedRow({ event }: { event: FeedEvent }) {
   const narration = getEventNarration(event);
   const actorHref = `/profile/${event.actorId}`;
+
+  // Cooked-it dish cards carry their own alchemical identity (chart-persona,
+  // signature, transit line) — rendered as a full card, not a narration row.
+  if (event.metadataPayload?.card === "cooked") {
+    return (
+      <CookedDishCard
+        eventId={event.id}
+        createdAtLabel={formatRelativeTime(event.createdAt)}
+        meta={event.metadataPayload}
+        initialCount={event.reactionCount ?? 0}
+      />
+    );
+  }
   return (
     <div className="glass-card-premium rounded-2xl p-5 transition-all flex items-start gap-4 border-white/8 hover:border-purple-500/20">
       <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5 overflow-hidden">
