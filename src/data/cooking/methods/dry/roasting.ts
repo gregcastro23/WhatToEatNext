@@ -1,4 +1,6 @@
+import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Roasting cooking method
@@ -40,8 +42,8 @@ export const roasting: CookingMethodData = {
     "creates appetizing aromas",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["aries", "leo", "sagittarius"] as any[],
-    unfavorableZodiac: ["pisces", "cancer", "scorpio"] as any[],
+    favorableZodiac: ["aries", "leo", "sagittarius"] as ZodiacSignType[],
+    unfavorableZodiac: ["pisces", "cancer", "scorpio"] as ZodiacSignType[],
     dominantPlanets: ["Sun", "Mars", "Jupiter"],
     lunarPhaseEffect: {
       full_moon: 1.1, // Slight enhancement
@@ -232,12 +234,13 @@ export const roasting: CookingMethodData = {
     "Sanitizing thermometers between temperature checks",
     "Ensuring sufficient clearance around heating equipment",
   ],
+  // NOTE: literal uses entropy/reactivity but ThermodynamicProperties expects _entropy/_reactivity — field-name mismatch preserved intentionally (types-only pass); double-cast keeps the existing runtime shape untouched.
   thermodynamicProperties: {
     heat: 0.75, // High heat application
     entropy: 0.6, // Moderate-high structural transformations
     reactivity: 0.8, // High chemical reactivity (significant Maillard)
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as any,
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.70,            // Moderate-high oven temp (300-450°F)

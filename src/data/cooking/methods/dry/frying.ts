@@ -1,4 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Frying cooking method
@@ -77,8 +78,8 @@ export const frying: CookingMethodData = {
     "scalability for quantity cooking",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["leo", "aries", "sagittarius"] as any[], // Fire signs amplify the transformative heat
-    unfavorableZodiac: ["cancer", "pisces", "scorpio"] as any[], // Water signs prefer gentler cooking methods
+    favorableZodiac: ["leo", "aries", "sagittarius"], // Fire signs amplify the transformative heat
+    unfavorableZodiac: ["cancer", "pisces", "scorpio"], // Water signs prefer gentler cooking methods
     dominantPlanets: ["Mars", "Sun", "Saturn"], // Mars (heat), Sun (transformation), Saturn (structure)
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced crispiness, intensifies fire element
@@ -335,7 +336,8 @@ export const frying: CookingMethodData = {
     entropy: 0.7, // Rapid breakdown of structures and reorganization
     reactivity: 0.8, // High reactivity with numerous chemical changes
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as any,
+    // Cast via `unknown`: literal uses entropy/reactivity but shared.ts ThermodynamicProperties expects _entropy/_reactivity (pre-existing data/interface drift previously masked by `as any`). Data preserved as-is, do not rename.
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.85,            // Very high oil temp (350-375°F)

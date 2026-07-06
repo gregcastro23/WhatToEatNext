@@ -57,8 +57,8 @@ export const boiling: CookingMethodData = {
     "creates natural thickening agents through starch release",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["cancer", "pisces", "scorpio"] as any[],
-    unfavorableZodiac: ["leo", "aries", "sagittarius"] as any[],
+    favorableZodiac: ["cancer", "pisces", "scorpio"],
+    unfavorableZodiac: ["leo", "aries", "sagittarius"],
     dominantPlanets: ["Moon", "Neptune", "Jupiter"],
     rulingPlanets: ["Moon", "Neptune"],
     lunarPhaseEffect: {
@@ -303,4 +303,6 @@ export const boiling: CookingMethodData = {
     "Can reduce pesticide residues on produce surface",
     "Blanching helps preserve nutrient content for freezing",
   ],
-} as any;
+  // advancedTechniques/culturalSignificance are extra data fields not (yet) on CookingMethodData; intersection preserves them without `any`.
+  // Cast via `unknown` because thermodynamicProperties references a same-named ThermodynamicProperties that differs structurally from the one CookingMethodData expects (pre-existing type drift previously masked by `as any`).
+} as unknown as CookingMethodData & { advancedTechniques?: string[]; culturalSignificance?: string[] };

@@ -1,4 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ZodiacSignType } from "@/types/zodiac";
 
 /**
  * Broiling cooking method
@@ -43,8 +44,8 @@ export const broiling: CookingMethodData = {
   ],
 
   astrologicalInfluences: {
-    favorableZodiac: ["aries", "leo", "sagittarius"] as any[],
-    unfavorableZodiac: ["cancer", "pisces", "scorpio"] as any[],
+    favorableZodiac: ["aries", "leo", "sagittarius"] as ZodiacSignType[],
+    unfavorableZodiac: ["cancer", "pisces", "scorpio"] as ZodiacSignType[],
     dominantPlanets: ["Mars", "Sun", "Mercury"],
     lunarPhaseEffect: {
       full_moon: 1.25, // Enhanced browning effects
@@ -126,7 +127,10 @@ export const broiling: CookingMethodData = {
     entropy: 0.7, // Significant surface transformation
     reactivity: 0.8, // High chemical reactivity on food surface
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as any,
+    // Cast via the field's own type: CookingMethodData's thermodynamicProperties resolves to the
+    // @/types/shared variant (heat/_entropy/_reactivity/gregsEnergy), which differs structurally
+    // from this literal's shape. Indexed-access keeps the cast honest to the exact field type.
+  } as unknown as CookingMethodData["thermodynamicProperties"],
 
   kineticProfile: {
     voltage: 0.95,            // Extreme radiant heat from above (500-550°F)

@@ -1,4 +1,6 @@
+import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Raw cooking method
@@ -61,8 +63,8 @@ export const raw: CookingMethodData = {
     "natural fiber structure preservation",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["gemini", "libra", "aquarius", "virgo"] as any[],
-    unfavorableZodiac: ["aries", "leo", "sagittarius"] as any[],
+    favorableZodiac: ["gemini", "libra", "aquarius", "virgo"] as ZodiacSignType[],
+    unfavorableZodiac: ["aries", "leo", "sagittarius"] as ZodiacSignType[],
     dominantPlanets: ["Mercury", "Venus", "Moon"],
     lunarPhaseEffect: {
       new_moon: 1.3, // Enhanced purification energy
@@ -199,7 +201,12 @@ export const raw: CookingMethodData = {
     entropy: 0.3, // Minimal structural disruption
     reactivity: 0.4, // Moderate natural enzymatic reactions
     gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity)
-  } as any,
+    // NOTE: field-name mismatch preserved — ThermodynamicProperties declares _entropy/_reactivity
+    // but this literal uses entropy/reactivity, so it is genuinely not assignable to that interface
+    // (a real latent shape bug). Cast through unknown to preserve the original `as any` boundary
+    // behavior without reintroducing `any`, avoiding a data-shape change in this types-only pass;
+    // do NOT rename entropy/reactivity to satisfy the type.
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.0,             // No heat applied — zero thermal differential

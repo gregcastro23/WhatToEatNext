@@ -1,4 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Grilling cooking method
@@ -40,8 +41,8 @@ export const grilling: CookingMethodData = {
     "develops umami",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["aries", "leo", "sagittarius"] as any[],
-    unfavorableZodiac: ["cancer", "scorpio", "pisces"] as any[],
+    favorableZodiac: ["aries", "leo", "sagittarius"],
+    unfavorableZodiac: ["cancer", "scorpio", "pisces"],
     dominantPlanets: ["Mars", "Sun", "Jupiter"],
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced flame intensity,
@@ -111,7 +112,8 @@ export const grilling: CookingMethodData = {
     entropy: 0.65, // Significant structural transformation,
     reactivity: 0.85, // High chemical reactivity (Maillard, carbonization),
     gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
-  } as any,
+    // Intentionally cast via unknown: literal uses entropy/reactivity but ThermodynamicProperties expects _entropy/_reactivity (repo-wide data/interface drift, see shared.ts). Shapes do not overlap, so a direct assertion is rejected by TS2352; data preserved as-is, do not rename.
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.88,            // High radiant heat from coals/gas
