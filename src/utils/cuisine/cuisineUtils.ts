@@ -7,6 +7,13 @@ import { _grainCuisineMatrix as __grainCuisineMatrix } from "../../data/integrat
 import { _herbCuisineMatrix as __herbCuisineMatrix } from "../../data/integrations/herbCuisineMatrix";
 import type { IngredientCategory } from "../../data/ingredients/types";
 
+// NOTE: latent bug preserved from original. _grainCuisineMatrix values are string[],
+// so `.cuisines` is always undefined and the grain branch always yields []. Types-only
+// pass must not change this behavior; do not "fix" by reading the array directly.
+interface GrainCuisineEntryLike {
+  cuisines?: string[];
+}
+
 /**
  * Get cuisine pairings for a specific ingredient
  */
@@ -16,7 +23,9 @@ export function getCuisinePAirings(
 ): string[] {
   switch (category) {
     case "grain": {
-      const grainData = __grainCuisineMatrix[ingredientName] as any;
+      const grainData = __grainCuisineMatrix[
+        ingredientName
+      ] as unknown as GrainCuisineEntryLike;
       return grainData?.cuisines || [];
     }
     case "culinary_herb":
@@ -33,8 +42,8 @@ export function getCuisinePAirings(
 export function getIngredientsForCuisine(
   cuisineName: string,
   categories: IngredientCategory[] = ["grain", "culinary_herb"],
-): Record<IngredientCategory, string[]> {
-  const result: Record<IngredientCategory, string[]> = {
+): Record<string, string[]> {
+  const result: Record<string, string[]> = {
     grain: [],
     culinary_herb: [],
     _spice: [],
@@ -45,12 +54,12 @@ export function getIngredientsForCuisine(
     _vinegar: [],
     _seasoning: [],
     _dairy: [],
-  } as any;
+  };
 
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes("grain")) {
     Object.entries(__grainCuisineMatrix || {}).forEach(([grain, data]) => {
-      const grainDataEntry = data as any;
+      const grainDataEntry = data as unknown as GrainCuisineEntryLike;
       if (
         grainDataEntry?.cuisines &&
         grainDataEntry.cuisines.includes(cuisineName)
