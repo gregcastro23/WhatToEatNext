@@ -455,8 +455,9 @@ export function getKineticsEnhancedLunarModifiers(
     }
 
     const dominant = getDominantElementFromModifiers(enhanced);
-    const aspectPhaseType =
-      (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
+    // Latent bug preserved: compared below against aspect-KIND names ("conjunction"/"opposition") which AspectPhase["type"] ("applying"|"exact"|"separating") can never equal, so aspectBoost always hits the 0.05 default. Types-only pass -- behavior unchanged. Typed as unknown so the always-false literal comparisons remain type-legal dead code.
+    const aspectPhaseType: unknown =
+      kinetics.aspectPhase?.type || kinetics.aspectPhase;
     const aspectBoost =
       aspectPhaseType === "conjunction"
         ? 0.15
@@ -509,8 +510,9 @@ export function calculateLunarKineticsMetrics(
       timeInterval: 3600, // 1 hour default
     });
     const phaseVelocity = calculatePhaseVelocity(phase, kinetics);
-    const aspectPhaseType =
-      (kinetics.aspectPhase as any)?.type || kinetics.aspectPhase;
+    // Latent bug preserved: compared below against aspect-KIND names ("conjunction"/"opposition"/"trine"/"square") which AspectPhase["type"] ("applying"|"exact"|"separating") can never equal, so aspectInfluence always hits the 0.2 default. Types-only pass -- behavior unchanged. Typed as unknown so the always-false literal comparisons remain type-legal dead code.
+    const aspectPhaseType: unknown =
+      kinetics.aspectPhase?.type || kinetics.aspectPhase;
     const aspectInfluence =
       aspectPhaseType === "conjunction"
         ? 1.0
@@ -549,12 +551,13 @@ function calculatePhaseVelocity(
   phase: LunarPhase,
   kinetics: KineticMetrics,
 ): number {
-  const kineticsData = kinetics as any;
+  // Latent bug preserved: velocityBoost is not a field on KineticMetrics (it lives on AspectPhase), so this read is always undefined and the waxing/waning boost terms are always 0. Types-only pass -- behavior unchanged.
+  const kineticsData = kinetics as unknown as Record<string, unknown>;
   let baseVelocity = 0.5;
   if (phase.includes("waxing")) {
-    baseVelocity = 0.7 + (kineticsData.velocityBoost || 0) * 0.3;
+    baseVelocity = 0.7 + ((kineticsData.velocityBoost as number) || 0) * 0.3;
   } else if (phase.includes("waning")) {
-    baseVelocity = 0.3 - (kineticsData.velocityBoost || 0) * 0.2;
+    baseVelocity = 0.3 - ((kineticsData.velocityBoost as number) || 0) * 0.2;
   } else if (phase === "full moon") {
     baseVelocity = 1.0;
   } else if (phase === "new moon") {

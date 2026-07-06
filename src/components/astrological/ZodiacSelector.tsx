@@ -7,7 +7,20 @@ import { Box, HStack, Icon, Select as _Select, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaFire, FaLeaf, FaSnowflake, FaSun } from "react-icons/fa";
 
-const Select = _Select as any;
+// Chakra v2-style API preserved verbatim; component is dead code (never mounted), typed via minimal local views rather than a v2->v3 rewrite (out of scope for types-only pass).
+interface ZodiacSelectProps {
+  value: string;
+  onChange: (e: { target: { value: string } }) => void;
+  placeholder?: string;
+  size?: "sm" | "md" | "lg";
+  bg?: string;
+  borderColor?: string;
+  _hover?: Record<string, unknown>;
+  _focus?: Record<string, unknown>;
+  children?: React.ReactNode;
+}
+type ChakraFnComponent = (props: Record<string, unknown>) => React.ReactNode;
+const Select = _Select as unknown as React.FC<ZodiacSelectProps>;
 
 interface ZodiacSelectorProps {
   value: string;
@@ -106,10 +119,10 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
 
       {value && showElement && (
         <Box mt={2}>
-          {(HStack as any)({
+          {(HStack as unknown as ChakraFnComponent)({
             spacing: 2,
             children: [
-              (Icon as any)({
+              (Icon as unknown as ChakraFnComponent)({
                 as: ELEMENT_ICONS[
                   ZODIAC_ELEMENTS[
                     value as keyof typeof ZODIAC_ELEMENTS
@@ -118,7 +131,7 @@ export const ZodiacSelector: React.FC<ZodiacSelectorProps> = ({
                 color: `${ELEMENT_COLORS[ZODIAC_ELEMENTS[value as keyof typeof ZODIAC_ELEMENTS] as keyof typeof ELEMENT_COLORS]}.500`,
                 boxSize: 4,
               }),
-              (Text as any)({
+              (Text as unknown as ChakraFnComponent)({
                 fontSize: "xs",
                 color: "gray.600",
                 children: [

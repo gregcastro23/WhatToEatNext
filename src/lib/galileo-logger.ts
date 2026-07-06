@@ -31,7 +31,7 @@ export interface AlchemicalMetrics {
   sunSign: string
   chartRuler: string
   timestamp: string
-  planetaryPositions?: Record<string, any>
+  planetaryPositions?: Record<string, unknown>
 }
 
 export interface GalileoSpan {
@@ -77,7 +77,7 @@ class GalileoLogger {
   /**
    * Start a new session for grouping related traces
    */
-  startSession(sessionName: string, metadata: Record<string, any> = {}): string {
+  startSession(sessionName: string, metadata: Record<string, unknown> = {}): string {
     const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
     this.currentSession = {
@@ -98,7 +98,7 @@ class GalileoLogger {
   /**
    * Start a new trace within the current session
    */
-  startTrace(traceName: string, metadata: Record<string, any> = {}): string {
+  startTrace(traceName: string, metadata: Record<string, unknown> = {}): string {
     const traceId = `trace_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
     this.currentTrace = {
@@ -124,9 +124,9 @@ class GalileoLogger {
   startSpan(
     spanName: string,
     type: GalileoSpan['type'],
-    input: any = {},
+    input: unknown = {},
     parentId?: string,
-    metadata: Record<string, any> = {}
+    metadata: Record<string, unknown> = {}
   ): string {
     const spanId = `span_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -155,7 +155,7 @@ class GalileoLogger {
   /**
    * End a span with output and status
    */
-  endSpan(spanId: string, output: any = {}, status: 'success' | 'error' = 'success'): void {
+  endSpan(spanId: string, output: unknown = {}, status: 'success' | 'error' = 'success'): void {
     const span = this.spans.get(spanId)
     if (!span) {
       console.warn(`Span ${spanId} not found`)
@@ -369,7 +369,7 @@ export default galileoLogger
  */
 export async function logQuantitiesToGalileo(
   metrics: AlchemicalMetrics,
-  context: Record<string, any> = {}
+  context: Record<string, unknown> = {}
 ): Promise<boolean> {
   if (!GALILEO_API_KEY) return false
 
@@ -506,7 +506,7 @@ export function getGalileoConfig() {
 export async function testGalileoConnection(): Promise<{
   success: boolean
   message: string
-  details?: any
+  details?: unknown
 }> {
   if (!GALILEO_API_KEY) {
     return {

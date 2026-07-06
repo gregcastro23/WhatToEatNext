@@ -2,6 +2,7 @@ import type {
   ChakraEnergies,
   ElementalProperties,
   Planet,
+  ZodiacSign,
 } from "@/types/alchemy";
 import type { KeyCardChakraMapping } from "@/types/chakra";
 import type { Recipe } from "@/types/recipe";
@@ -111,8 +112,8 @@ export class ChakraRecipeEnhancer {
    */
   enhanceRecipes(
     recipes: Recipe[],
-    sunSign: any,
-    moonSign: any,
+    sunSign: ZodiacSign,
+    moonSign: ZodiacSign,
     dominantPlanets: Planet[] = [],
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
@@ -183,7 +184,9 @@ export class ChakraRecipeEnhancer {
         let planetaryAlignment = 0;
         // Apply surgical type casting with variable extraction
         const { astrologicalAffinities } = recipe;
-        const planets = (astrologicalAffinities as any)?.planets;
+        const planets = (
+          astrologicalAffinities as Record<string, unknown> | undefined
+        )?.planets;
 
         if (planets) {
           if ((planets as Planet[]).includes(planetaryHour)) {

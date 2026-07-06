@@ -8,7 +8,7 @@ interface CacheEntry<T> {
 }
 
 class PerformanceCache {
-  private cache = new Map<string, CacheEntry<any>>()
+  private cache = new Map<string, CacheEntry<unknown>>()
 
   // Cache planetary positions for 5 minutes (they don't change that often)
   private readonly PLANETARY_POSITIONS_TTL = 5 * 60 * 1000 // 5 minutes
@@ -31,7 +31,7 @@ class PerformanceCache {
       return null
     }
 
-    return entry.data
+    return entry.data as T
   }
 
   set<T>(key: string, data: T, ttl?: number): void {
@@ -113,7 +113,14 @@ class PerformanceCache {
 }
 
 // Utility functions for creating cache keys
-export function createBirthInfoHash(birthInfo: any): string {
+interface BirthInfoLike {
+  date?: unknown
+  time?: unknown
+  location?: unknown
+  hour?: unknown
+}
+
+export function createBirthInfoHash(birthInfo: BirthInfoLike): string {
   // Create a hash from birth info for caching
   const key = JSON.stringify({
     date: birthInfo.date,
@@ -133,7 +140,7 @@ export function createBirthInfoHash(birthInfo: any): string {
   return Math.abs(hash).toString(36)
 }
 
-export function createRequestHash(request: any): string {
+export function createRequestHash(request: unknown): string {
   const key = JSON.stringify(request)
 
   let hash = 0
