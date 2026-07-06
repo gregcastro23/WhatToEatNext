@@ -42,16 +42,17 @@ export async function testCookingMethodRecommendations() {
     _planetaryBoost: 1.0,
     _dominantPlanets: ["Venus"],
     _planetaryDignities: {},
-  } as any;
+    // NOTE: mock uses underscore-prefixed keys that don't match AlchemicalItem's declared fields (absorbed by ElementalItem's index signature); shape mismatch preserved intentionally.
+  } as unknown as AlchemicalItem;
 
   // Run the test
   console.warn("TESTING COOKING METHOD RECOMMENDATIONS");
   console.warn("=====================================");
   console.warn("Ingredient: ", mockIngredient.name);
-  console.warn("Element: ", (mockIngredient as any).element);
+  console.warn("Element: ", (mockIngredient as Record<string, unknown>).element);
   console.warn(
     "Elemental Character: ",
-    (mockIngredient as any).elementalCharacter,
+    (mockIngredient as Record<string, unknown>).elementalCharacter,
   );
 
   // NOTE: Test functions are stubbed out as the required imports don't exist

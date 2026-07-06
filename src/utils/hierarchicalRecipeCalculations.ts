@@ -12,6 +12,7 @@
  */
 
 import { calculateKinetics } from "@/calculations/kinetics";
+import type { KineticsCalculationInput } from "@/calculations/kinetics";
 import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
 import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
 import type {
@@ -35,6 +36,7 @@ import {
   getDominantAlchemicalProperty,
   getDominantElement,
 } from "./planetaryAlchemyMapping";
+import type { ThermodynamicMetrics } from "./monicaKalchmCalculations";
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
 
@@ -388,7 +390,8 @@ export function computeRecipeProperties(
     dominantAlchemicalProperty,
     computationMetadata: {
       planetaryPositionsUsed: planetaryPositions,
-      cookingMethodsApplied: cookingMethodNames as any,
+      // NOTE: preserves pre-existing shape mismatch — runtime value is method-name string[] but the declared field type is CookingMethod[]. Kept as-is (types-only pass); double-cast documents the divergence.
+      cookingMethodsApplied: cookingMethodNames as unknown as CookingMethod[],
       computationTimestamp: new Date(),
     },
   };
@@ -412,20 +415,19 @@ export function computeRecipeProperties(
  */
 export function calculateRecipeKinetics(
   alchemicalProperties: AlchemicalProperties,
-  thermodynamicMetrics: any,
+  thermodynamicMetrics: ThermodynamicMetrics,
   planetaryPositions: { [planet: string]: string },
 ): KineticMetrics {
   const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
-  const { heat, entropy, reactivity, gregsEnergy, _kalchm, _monica } =
-    thermodynamicMetrics;
+  // NOTE: previously also destructured _kalchm/_monica, which never existed on ThermodynamicMetrics (real fields are kalchm/monica) and were unused. Bug preserved by simply not reading them — do NOT rename in this types-only pass.
+  const { heat, entropy, reactivity, gregsEnergy } = thermodynamicMetrics;
 
   // Recipe circuit parameters (30-minute standard time interval)
   const timeInterval = 1800; // 30 minutes in seconds
   const dominantPlanet = getDominantPlanet(planetaryPositions);
 
   // Prepare kinetics calculation input
-  const kineticsInput: any = {
-    // KineticsCalculationInput type not defined
+  const kineticsInput: KineticsCalculationInput = {
     currentPlanetaryPositions: planetaryPositions,
     timeInterval,
     currentPlanet: dominantPlanet,

@@ -33,12 +33,13 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as any).chrome = {};
+      window.chrome = {};
     }
 
     // Initialize tabs API with safe methods
     // Apply Pattern GG-6: Enhanced property access with type guards
-    const chromeObj = (window as unknown as any).chrome;
+    // Intentionally any: mock chrome object is assigned deliberately non-conforming shapes (underscored decoy keys) that don't match the declared Window.chrome interface; a real type would reject the mock assignments.
+    const chromeObj = (window as any).chrome;
     if (!chromeObj.tabs) {
       chromeObj.tabs = {
         create(options: { url?; string }) {
@@ -87,7 +88,7 @@ export function initializeChromeApis(): void {
         sendMessage(message: unknown) {
           log.info(
             "[ChromeAPI] Mocked chrome.runtime.sendMessage called: ",
-            message as any,
+            message as Record<string, unknown>,
           );
           return Promise.resolve({ _success: true });
         },

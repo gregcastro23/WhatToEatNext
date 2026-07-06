@@ -6,6 +6,7 @@ import {
 } from "../data/cuisines/index.js";
 import { loadCuisinePopularityWeights } from "../lib/cuisinePopularity.js";
 import type { AlchemicalRecipe } from "../types/alchemicalRecipe.js";
+import type { Cuisine, SeasonalDishes } from "../types/cuisine.js";
 import type {
   CuisineComputedProperties,
   RecipeComputedProperties,
@@ -59,6 +60,10 @@ function normalizeCuisineName(value: string): string {
     .join(" ");
 }
 
+interface RecipeCuisineTypesLike {
+  classifications?: { cuisineTypes?: unknown };
+}
+
 function extractCuisineAliases(recipe: Partial<AlchemicalRecipe>): string[] {
   const aliases = new Set<string>();
   const fromClassifications = recipe.classifications?.cookingMethods || [];
@@ -76,7 +81,8 @@ function extractCuisineAliases(recipe: Partial<AlchemicalRecipe>): string[] {
       .forEach((name) => aliases.add(normalizeCuisineName(name)));
   }
 
-  const fromCuisineTypes = (recipe as any)?.classifications?.cuisineTypes;
+  const fromCuisineTypes = (recipe as RecipeCuisineTypesLike).classifications
+    ?.cuisineTypes;
   if (Array.isArray(fromCuisineTypes)) {
     fromCuisineTypes
       .map((item: unknown) => String(item))
@@ -86,7 +92,7 @@ function extractCuisineAliases(recipe: Partial<AlchemicalRecipe>): string[] {
   return Array.from(aliases).filter(Boolean);
 }
 
-function collectUniqueRecipes(cuisine: any): AlchemicalRecipe[] {
+function collectUniqueRecipes(cuisine: Cuisine): AlchemicalRecipe[] {
   // Cuisine files store the bulk of recipes under `all:` (year-round) plus
   // optional season-specific lists. Earlier versions of this script missed
   // `all:` and produced a fraction of the real corpus.
@@ -95,9 +101,11 @@ function collectUniqueRecipes(cuisine: any): AlchemicalRecipe[] {
   const byName = new Map<string, AlchemicalRecipe>();
 
   mealTypes.forEach((mealType) => {
-    const meal = cuisine?.dishes?.[mealType] || {};
+    const meal: SeasonalDishes = cuisine?.dishes?.[mealType] || {};
     seasonKeys.forEach((season) => {
-      const recipes = Array.isArray(meal?.[season]) ? meal[season] : [];
+      const recipes = Array.isArray(meal?.[season])
+        ? (meal[season] as AlchemicalRecipe[])
+        : [];
       recipes.forEach((recipe: AlchemicalRecipe) => {
         const key = String(recipe?.name || "")
           .trim()
@@ -150,6 +158,13 @@ function toComputedRecipe(recipe: AlchemicalRecipe): {
       alchemicalProperties: alchemical,
       elementalProperties: elemental,
       thermodynamicProperties: thermodynamics,
+      // Intentionally any: placeholder KineticMetrics for a build-only script.
+      // This literal's fields (resistance/current/voltage/impedance/resonance)
+      // don't exist on the real KineticMetrics interface, and this value is
+      // never serialized into the output manifest (only elementals/alchemical/
+      // thermodynamics/signatures are). A type-safe fix would require
+      // constructing a full valid KineticMetrics, changing emitted data —
+      // out of scope for a types-only pass.
       kineticProperties: {
         power: 0,
         resistance: 0,

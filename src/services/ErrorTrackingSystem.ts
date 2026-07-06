@@ -67,6 +67,16 @@ export interface QualityMetrics {
   timestamp: Date;
 }
 
+interface SubscriberSnapshot {
+  typeScriptErrors: TypeScriptError[];
+  lintingViolations: LintingViolation[];
+  buildFailures: BuildFailure[];
+  errorPatterns: ErrorPattern[];
+  qualityMetrics: QualityMetrics | undefined;
+  trends: ErrorTrend[];
+  summary: ReturnType<ErrorTrackingSystem["getErrorSummary"]>;
+}
+
 class ErrorTrackingSystem {
   private typeScriptErrors: TypeScriptError[] = [];
   private lintingViolations: LintingViolation[] = [];
@@ -300,7 +310,7 @@ class ErrorTrackingSystem {
           file: (filePath as string) || "",
           line: message.line || 0,
           column: message.column || 0,
-          severity: this.mapLintSeverity(message.severity as any),
+          severity: this.mapLintSeverity(message.severity ?? 0),
           fixable: message.fix !== undefined,
           timestamp: new Date(),
           resolved: false,
@@ -591,7 +601,7 @@ class ErrorTrackingSystem {
     score -= Math.min(50, (errors.length + lintErrors.length) * 2);
 
     // Deduct for warnings (less severe)
-    score -= Math.min(30, ((warnings as any)?.length || 0) * 0.2);
+    score -= Math.min(30, (warnings.length || 0) * 0.2);
 
     // Bonus for resolved issues
     const recentlyResolved = this.typeScriptErrors.filter(
@@ -669,7 +679,7 @@ class ErrorTrackingSystem {
   }
 
   private notifySubscribers() {
-    const data = {
+    const data: SubscriberSnapshot = {
       typeScriptErrors: this.typeScriptErrors
         .filter((e) => !e.resolved)
         .slice(-50),
@@ -685,7 +695,19 @@ class ErrorTrackingSystem {
 
     this.subscribers.forEach((callback) => {
       try {
-        callback(data as any);
+        // NOTE (types-only cleanup): the subscriber callback is declared with param
+        // `TypeScriptError | LintingViolation | BuildFailure | QualityMetrics`, but the
+        // snapshot passed here is a composite object (SubscriberSnapshot) matching none of
+        // those members. This is a pre-existing shape mismatch preserved verbatim; the cast
+        // through the callback's own param type keeps the exact runtime behavior (callback
+        // receives the full snapshot) that the original `as any` silenced.
+        callback(
+          data as unknown as
+            | TypeScriptError
+            | LintingViolation
+            | BuildFailure
+            | QualityMetrics,
+        );
       } catch (error) {
         _logger.error("[Error Tracking System] Subscriber error: ", error);
       }
