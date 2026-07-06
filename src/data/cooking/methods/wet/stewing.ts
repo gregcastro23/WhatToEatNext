@@ -1,4 +1,4 @@
-import type { ThermodynamicProperties } from "@/types/alchemy";
+import type { ThermodynamicProperties, ZodiacSign } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -48,8 +48,8 @@ export const stewing: CookingMethodData = {
   ],
 
   astrologicalInfluences: {
-    favorableZodiac: ["cancer", "scorpio", "taurus"] as any[],
-    unfavorableZodiac: ["aries", "leo", "gemini"] as any[],
+    favorableZodiac: ["cancer", "scorpio", "taurus"] as ZodiacSign[],
+    unfavorableZodiac: ["aries", "leo", "gemini"] as ZodiacSign[],
     dominantPlanets: ["Moon", "Saturn", "Neptune"],
     lunarPhaseEffect: {
       full_moon: 1.15, // Enhanced flavor development

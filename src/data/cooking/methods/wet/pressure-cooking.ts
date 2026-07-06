@@ -69,7 +69,11 @@ export const _pressureCooking: CookingMethodData = {
     entropy: 0.75, // Significant structural transformation
     reactivity: 0.9, // High chemical reactivity from pressure and heat
     gregsEnergy: 0.175, // heat - (entropy × reactivity)
-  } as any,
+    // Cast via `unknown` to CookingMethodData's own field type because that field references a same-named
+    // ThermodynamicProperties (from @/types/shared, declaring _entropy/_reactivity) that differs
+    // structurally from the runtime object's keys (entropy/reactivity, read by scoring/stats consumers).
+    // Pre-existing type drift previously masked by a loose cast; runtime keys are intentionally left unchanged.
+  } as unknown as CookingMethodData["thermodynamicProperties"],
 
   kineticProfile: {
     voltage: 0.75,            // High temp from pressure (250°F)

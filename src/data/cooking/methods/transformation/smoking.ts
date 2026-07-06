@@ -70,12 +70,21 @@ export const smoking = {
     "High consumption of smoked foods has been linked to increased cancer risk",
     "Often high in sodium",
   ],
+  // NOTE: these keys are NON-underscore `entropy`/`reactivity`, which do NOT match
+  // the shared ThermodynamicProperties interface (src/types/shared.ts) whose fields
+  // are `_entropy`/`_reactivity`. The real consumer
+  // (src/utils/recommendation/methodRecommendation.ts) reads `._entropy`/`._reactivity`,
+  // so these authored values never reach it and it silently falls back to 0.5. This is
+  // a pre-existing latent data bug, preserved intentionally — a types-only pass must not
+  // rename the data keys (that would change behavior). The former loose inner cast was
+  // removed; the outer `as unknown as CookingMethodData` already bridges this sub-object
+  // to the target type, so no inner assertion is needed.
   thermodynamicProperties: {
     heat: 0.65, // Moderate-high heat from smoking
     entropy: 0.75, // High transformation with smoke infusion
     reactivity: 0.8, // High chemical interaction with smoke compounds
     gregsEnergy: 0.05, // heat - (entropy × reactivity)
-  } as any,
+  },
 
   kineticProfile: {
     voltage: 0.45,            // 125-275°F — low-moderate temp differential (cold/hot smoke)

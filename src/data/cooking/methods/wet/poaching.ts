@@ -1,4 +1,4 @@
-import type { ThermodynamicProperties } from "@/types/alchemy";
+import type { ThermodynamicProperties, ZodiacSignType } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -64,8 +64,8 @@ export const poaching: CookingMethodData = {
     "prevents food from drying out",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["pisces", "cancer", "scorpio", "libra"] as any[], // Water signs and balanced Libra
-    unfavorableZodiac: ["aries", "leo", "sagittarius"] as any[], // Fire signs prefer more dynamic cooking methods
+    favorableZodiac: ["pisces", "cancer", "scorpio", "libra"] as ZodiacSignType[], // Water signs and balanced Libra
+    unfavorableZodiac: ["aries", "leo", "sagittarius"] as ZodiacSignType[], // Fire signs prefer more dynamic cooking methods
     dominantPlanets: ["Venus", "Neptune", "Moon"], // Venus (harmony), Neptune (subtlety), Moon (fluidity)
     rulingPlanets: ["Venus", "Neptune"], // Primary rulers - gentleness and subtlety
     lunarPhaseEffect: {

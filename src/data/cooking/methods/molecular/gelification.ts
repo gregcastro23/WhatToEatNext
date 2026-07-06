@@ -1,4 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Gelification cooking method
@@ -61,8 +62,8 @@ export const gelification: CookingMethodData = {
     "flavor sequencing in multi-layer applications",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["virgo", "capricorn", "scorpio"] as any[],
-    unfavorableZodiac: ["aries", "leo", "sagittarius"] as any[],
+    favorableZodiac: ["virgo", "capricorn", "scorpio"],
+    unfavorableZodiac: ["aries", "leo", "sagittarius"],
     dominantPlanets: ["Mercury", "Saturn", "Neptune"],
     lunarPhaseEffect: {
       full_moon: 1.2, // Enhanced gel firmness
@@ -211,7 +212,9 @@ export const gelification: CookingMethodData = {
     entropy: 0.55, // Significant transformation of structure
     reactivity: 0.6, // Moderate-high chemical reactions
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as any,
+    // NOTE: entropy/reactivity are declared as _entropy/_reactivity on ThermodynamicProperties (src/types/shared.ts).
+    // This field-name mismatch is a pre-existing data bug preserved intentionally; do not rename in a types-only pass.
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.25,            // Warm to cool — hydrocolloids hydrate at various temps
