@@ -42,6 +42,20 @@ interface PerformanceConfig {
   enableMemoryTracking: boolean;
 }
 
+// Non-standard/experimental PerformanceEntry subtypes not in the DOM lib.
+interface FirstInputLike {
+  processingStart?: number;
+  startTime?: number;
+}
+interface LayoutShiftLike {
+  hadRecentInput?: boolean;
+  value: number;
+}
+// Chrome-only non-standard performance.memory
+interface PerformanceWithMemory {
+  memory?: { usedJSHeapSize: number };
+}
+
 export function usePerformanceMonitoring(
   config: PerformanceConfig = {
     updateInterval: 5000,
@@ -100,7 +114,9 @@ export function usePerformanceMonitoring(
       try {
         const lcpObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1] as any;
+          const lastEntry = entries[entries.length - 1] as
+            | PerformanceEntry
+            | undefined;
           if (lastEntry) {
             setMetrics((prev) => ({
               ...prev,
@@ -113,7 +129,7 @@ export function usePerformanceMonitoring(
         // First Input Delay
         const fidObserver = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          entries.forEach((entry: any) => {
+          entries.forEach((entry: FirstInputLike) => {
             if (entry.processingStart && entry.startTime) {
               const fid = entry.processingStart - entry.startTime;
               setMetrics((prev) => ({
@@ -128,7 +144,8 @@ export function usePerformanceMonitoring(
         // Cumulative Layout Shift
         const clsObserver = new PerformanceObserver((list) => {
           let clsValue = 0;
-          list.getEntries().forEach((entry: any) => {
+          list.getEntries().forEach((rawEntry) => {
+            const entry = rawEntry as unknown as LayoutShiftLike;
             if (!entry.hadRecentInput) {
               clsValue += entry.value;
             }
@@ -149,7 +166,7 @@ export function usePerformanceMonitoring(
   const getMemoryUsage = useCallback(() => {
     if (!config.enableMemoryTracking || typeof window === "undefined") return;
 
-    const performance = window.performance as any;
+    const performance = window.performance as unknown as PerformanceWithMemory;
     if (performance.memory) {
       const memoryUsage = performance.memory.usedJSHeapSize / (1024 * 1024); // MB
       setMetrics((prev) => ({ ...prev, memoryUsage }));

@@ -9,6 +9,38 @@ import { logger } from "@/lib/logger";
 import { userCache } from "@/lib/performance/advanced-cache";
 import type { ElementalProperties } from "@/types/alchemy";
 
+/**
+ * The ad-hoc payload attached to a tracked interaction. Every field is a
+ * read the store performs somewhere (recipe_view / ingredient_select /
+ * planetary_query / food_diary_entry / food_rating), all optional because
+ * which fields are present depends on the interaction type. The index
+ * signature keeps the `...recipeData` / `...entryData` / `...ratingData`
+ * spreads assignable and lets a server-hydrated Record<string, unknown>
+ * (PersistedInteraction.data) flow in unchanged.
+ */
+interface InteractionData {
+  // recipe_view
+  cuisine?: string;
+  cookingMethod?: string;
+  complexity?: string;
+  ingredients?: string[];
+  elementalBalance?: ElementalProperties;
+  interactionType?: string;
+  weight?: number;
+  type?: string;
+  // ingredient_select
+  selected?: string[];
+  rejected?: string[];
+  // planetary_query
+  planet?: string;
+  engagement?: number;
+  // food_diary_entry / food_rating
+  foodName?: string;
+  rating?: number;
+  mealType?: string;
+  [key: string]: unknown;
+}
+
 interface UserInteraction {
   type:
     | "recipe_view"
@@ -18,7 +50,7 @@ interface UserInteraction {
     | "planetary_query"
     | "food_diary_entry"
     | "food_rating";
-  data: any;
+  data: InteractionData;
   timestamp: number;
   context?: {
     planetaryHour?: string;
@@ -67,6 +99,22 @@ interface RecommendationScore {
   personalizedScore: number;
   reasons: string[];
   confidence: number;
+}
+
+/**
+ * The read-only shape personalizeRecommendations / calculatePersonalizedScore
+ * consume off each incoming recommendation. Captures only the fields those
+ * methods actually access; everything past `id` is optional because callers
+ * pass loosely-typed recommendation objects.
+ */
+interface RecommendationInput {
+  id: string;
+  score?: number;
+  baseScore?: number;
+  cuisine?: string;
+  elementalBalance?: ElementalProperties;
+  ingredients?: string[];
+  complexity?: string;
 }
 
 /**
@@ -159,9 +207,9 @@ class UserLearningSystem {
     if (typeof window === "undefined") return;
     // Skip low-signal page-visit pings — they'd bloat the event log without
     // contributing any cuisine/ingredient/rating signal.
-    if ((interaction.data as { type?: string })?.type === "page_visit") return;
+    if (interaction.data?.type === "page_visit") return;
 
-    const data = (interaction.data ?? {}) as Record<string, unknown>;
+    const data = interaction.data ?? {};
     const weight = typeof data.weight === "number" ? data.weight : undefined;
 
     void fetch(TASTE_GRAPH_ENDPOINT, {
@@ -186,8 +234,7 @@ class UserLearningSystem {
    */
   private toServerInteractionType(interaction: UserInteraction): string {
     if (interaction.type === "recipe_view") {
-      const kind = (interaction.data as { interactionType?: string })
-        ?.interactionType;
+      const kind = interaction.data?.interactionType;
       if (kind === "cook") return "recipe_cook";
       if (kind === "save") return "recipe_save";
       return "recipe_view";
@@ -242,7 +289,7 @@ class UserLearningSystem {
    */
   async personalizeRecommendations(
     userId: string,
-    baseRecommendations: any[],
+    baseRecommendations: RecommendationInput[],
     context?: { planetaryHour?: string; timeOfDay?: string },
   ): Promise<RecommendationScore[]> {
     const preferences = await this.getUserPreferences(userId);
@@ -449,9 +496,12 @@ class UserLearningSystem {
     // Calculate average ratings per food
     const ratingsByFood: Record<string, number[]> = {};
     for (const interaction of foodRatings) {
-      const food = interaction.data.foodName;
+      // `!` preserves the pre-typing behavior: foodName/rating were read off an
+      // `any` payload, so a missing foodName coerced to the "undefined" bucket
+      // key and a missing rating pushed `undefined` (later NaN) — unchanged here.
+      const food = interaction.data.foodName!;
       if (!ratingsByFood[food]) ratingsByFood[food] = [];
-      ratingsByFood[food].push(interaction.data.rating);
+      ratingsByFood[food].push(interaction.data.rating!);
     }
 
     const averageRatings: Record<string, number> = {};
@@ -472,7 +522,9 @@ class UserLearningSystem {
     // Frequent foods from diary entries
     const foodCounts: Record<string, number> = {};
     for (const entry of foodEntries) {
-      const food = entry.data.foodName;
+      // `!` keeps the prior `any`-read behavior: a missing foodName coerces to
+      // the literal "undefined" index key rather than throwing.
+      const food = entry.data.foodName!;
       foodCounts[food] = (foodCounts[food] || 0) + 1;
     }
 
@@ -499,7 +551,9 @@ class UserLearningSystem {
     for (const entry of foodEntries) {
       const mealType = entry.context?.mealType || entry.data.mealType;
       if (mealType && mealFoods[mealType]) {
-        mealFoods[mealType].add(entry.data.foodName);
+        // `!` matches the prior `any` read; a missing foodName adds the string
+        // "undefined" to the set exactly as before.
+        mealFoods[mealType].add(entry.data.foodName!);
       }
     }
 
@@ -559,15 +613,17 @@ class UserLearningSystem {
    * Calculate personalized score for a recommendation
    */
   private calculatePersonalizedScore(
-    recommendation: any,
+    recommendation: RecommendationInput,
     preferences: UserPreferences,
-    context?: any,
+    context?: { planetaryHour?: string; timeOfDay?: string },
   ): { score: number; reasons: string[] } {
     let score = recommendation.baseScore || 0.5;
     const reasons: string[] = [];
 
     // Cuisine preference boost
-    if (preferences.cuisinePreferences.includes(recommendation.cuisine)) {
+    // `!` preserves the prior `any` behavior: a missing cuisine reaches
+    // `.includes(undefined)`, which returns false against a string[] as before.
+    if (preferences.cuisinePreferences.includes(recommendation.cuisine!)) {
       const boost = 0.2 * preferences.weights.cuisine;
       score += boost;
       reasons.push(
@@ -635,8 +691,10 @@ class UserLearningSystem {
     }
 
     // Complexity preference
+    // `!` matches the prior `any` read; a missing complexity flows into
+    // getComplexityScore's own `|| 2` fallback (level 2) exactly as before.
     const complexityMatch = this.getComplexityScore(
-      recommendation.complexity,
+      recommendation.complexity!,
       preferences.complexityPreference,
     );
     if (complexityMatch !== 0) {
