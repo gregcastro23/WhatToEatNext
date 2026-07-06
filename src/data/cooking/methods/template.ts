@@ -31,8 +31,8 @@ export const _methodName: CookingMethodData = {
   benefits: ["benefit1", "benefit2", "benefit3", "benefit4", "benefit5"], // Advantages of this cooking method
 
   astrologicalInfluences: {
-    favorableZodiac: ["zodiac1", "zodiac2", "zodiac3"] as unknown as any[], // Zodiac signs that enhance this method
-    unfavorableZodiac: ["zodiac4", "zodiac5", "zodiac6"] as unknown as any[], // Zodiac signs that diminish this method
+    favorableZodiac: ["zodiac1", "zodiac2", "zodiac3"], // Zodiac signs that enhance this method
+    unfavorableZodiac: ["zodiac4", "zodiac5", "zodiac6"], // Zodiac signs that diminish this method
     dominantPlanets: ["Planet1", "Planet2", "Planet3"],
     lunarPhaseEffect: {
       full_moon: 0.0, // Effect during full moon (multiplier)
@@ -121,12 +121,15 @@ export const _methodName: CookingMethodData = {
     "safety7",
   ],
 
+  // Placeholder template: keys entropy/reactivity are intentionally left un-prefixed here;
+  // real cooking-method files use _entropy/_reactivity to match ThermodynamicProperties.
+  // Bridged to the field's type to satisfy typechecking without altering placeholder data.
   thermodynamicProperties: {
     heat: 0.0, // Heat level (0.0-1.0)
     entropy: 0.0, // Entropy/chaos/transformation level (0.0-1.0)
     reactivity: 0.0, // Chemical reactivity level (0.0-1.0)
     gregsEnergy: 0.0, // Greg's Energy (heat - entropy * reactivity)
-  } as any,
+  } as unknown as CookingMethodData["thermodynamicProperties"],
 
   // Additional metadata
   history:

@@ -188,7 +188,7 @@ export function getCookingMethodsByTemperature(
       const methodData = method;
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData.optimalTemperatures) return false;
-      return Object.values((methodData as any)?.optimalTemperatures).some(
+      return Object.values(methodData.optimalTemperatures).some(
         (temp) => {
           // Pattern KK-10: Final Arithmetic Elimination for data layer operations
           const numericTemp = Number(temp) || 0;
@@ -216,10 +216,8 @@ export function getCookingMethodsBySustainability(
     })
     .sort((a, b) => {
       // Apply safe type casting for method property access
-      const aData = a as any;
-      const bData = b as any;
-      const aRating = aData?.sustainabilityRating || 0;
-      const bRating = bData?.sustainabilityRating || 0;
+      const aRating = a?.sustainabilityRating || 0;
+      const bRating = b?.sustainabilityRating || 0;
       return descending ? bRating - aRating : aRating - bRating;
     });
 }

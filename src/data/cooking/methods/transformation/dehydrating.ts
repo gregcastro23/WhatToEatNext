@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod } from "@/types/shared";
+import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Dehydrating: A preservation method that removes moisture from food,
@@ -65,12 +65,20 @@ export const _dehydrating: CookingMethodData = {
     "Proper storage needed to prevent moisture reabsorption",
     "Insufficient drying can lead to mold growth",
   ],
+  // NOTE: these keys are NON-underscore `entropy`/`reactivity`, which do NOT match
+  // the shared ThermodynamicProperties interface (src/types/shared.ts) whose fields
+  // are `_entropy`/`_reactivity`. The real consumer
+  // (src/utils/recommendation/methodRecommendation.ts) reads `._entropy`/`._reactivity`,
+  // so these authored values never reach it and it silently falls back to 0.5. This is
+  // a pre-existing latent data bug, preserved intentionally — a types-only pass must not
+  // rename the data keys (that would change behavior). The `as unknown as` double-cast
+  // bridges this intentionally-mismatched literal to the target type without `any`.
   thermodynamicProperties: {
     heat: 0.35, // Low-moderate heat for drying
     entropy: 0.8, // High structural change from moisture removal
     reactivity: 0.5, // Moderate chemical changes during drying
     gregsEnergy: -0.05, // heat - (entropy × reactivity)
-  } as any,
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.35,            // 95-165°F — low temp, relies on airflow
