@@ -160,8 +160,8 @@ export class ChakraAlchemyService {
    * Calculate chakra energy distribution based on current planetary influences
    */
   public calculateChakraEnergies(
-    sunSign: any,
-    moonSign: any,
+    sunSign: ZodiacSignType,
+    moonSign: ZodiacSignType,
     dominantPlanets: Planet[],
     planetaryHour: Planet,
   ): ChakraEnergies {
@@ -277,7 +277,7 @@ export class ChakraAlchemyService {
    */
   private addZodiacInfluence(
     energies: ChakraEnergies,
-    sign: any,
+    sign: ZodiacSignType,
     strength: number,
   ): void {
     // Map zodiac signs to elements

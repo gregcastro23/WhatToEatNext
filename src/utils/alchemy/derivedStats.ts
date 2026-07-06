@@ -1,3 +1,4 @@
+import type { IngredientCategory } from '@/data/ingredients/types';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 import type { AlchemicalProperties, AstrologicalState } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
@@ -50,12 +51,25 @@ export function getRecipeKAlchm(recipe: MonicaOptimizedRecipe): number {
         // We need to get the full ingredient object to pass to getIngredientKAlchm
         // This is a simplification and assumes the ingredient name is enough to fetch the full ingredient data.
         // In a real scenario, you'd fetch the ingredient from a data source.
+        // Boundary view: RecipeIngredient declares `category?: string` and carries an index
+        // signature (`[key: string]: unknown`) but does not declare `qualities`/`alchemicalProperties`.
+        // Double-assert (`unknown` first) because `category`'s `string` is not assignable to the
+        // narrower `IngredientCategory` union; captures only the three fields read below.
+        const ing = ingredient as unknown as {
+            category?: IngredientCategory;
+            qualities?: string[];
+            alchemicalProperties?: AlchemicalProperties;
+        };
         const fullIngredient: Ingredient = {
             name: ingredient.name,
             elementalProperties: ingredient.elementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-            alchemicalProperties: (ingredient as any).alchemicalProperties,
-            category: (ingredient as any).category,
-            qualities: (ingredient as any).qualities,
+            alchemicalProperties: ing.alchemicalProperties,
+            // `category`/`qualities` are required on Ingredient but optional/undeclared on the source;
+            // the original `as any` silently passed through whatever was present (often undefined).
+            // `!` preserves that exact runtime value (incl. undefined) without adding a default.
+            // getIngredientKAlchm only reads `.alchemicalProperties`, so these are inert at runtime.
+            category: ing.category!,
+            qualities: ing.qualities!,
         };
         return sum + getIngredientKAlchm(fullIngredient);
     }, 0);

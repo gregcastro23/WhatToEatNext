@@ -1,4 +1,4 @@
-import type { /* _ , */ Element } from "@/types/alchemy";
+import type { /* _ , */ Element, ZodiacSign } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 import { dryCookingMethods } from "./dry";
 import { molecularCookingMethods } from "./molecular";
@@ -27,7 +27,7 @@ export const allCookingMethods = {
  * @returns Object containing cooking methods favorable for the sign
  */
 export const _getMethodsForZodiacSignType = (
-  sign: any,
+  sign: ZodiacSign,
 ): Record<string, CookingMethodData> =>
   Object.entries(allCookingMethods)
     .filter(([_, method]) => {

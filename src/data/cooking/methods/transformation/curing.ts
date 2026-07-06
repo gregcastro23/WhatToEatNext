@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod } from "@/types/shared";
+import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Curing: A food preservation method that removes moisture and enhances flavor
@@ -59,7 +59,10 @@ export const curing: CookingMethodData = {
     entropy: 0.45, // Moderate preservation transformation
     reactivity: 0.35, // Slow chemical changes
     gregsEnergy: 0.0425, // heat - (entropy × reactivity)
-  } as any,
+    // Data uses entropy/reactivity; the shared ThermodynamicProperties interface
+    // declares _entropy/_reactivity (field-name mismatch, preserved intentionally —
+    // runtime consumers read .entropy/.reactivity, see src/components/CookingMethods.tsx).
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.10,            // Ambient or cold temp — osmotic pressure, not heat

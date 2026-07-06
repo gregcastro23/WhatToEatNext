@@ -11,7 +11,7 @@ export function adaptPlanetaryPosition(
     return null;
   }
 
-  const pos = position as any;
+  const pos = position as Record<string, unknown>;
 
   // Extract and validate required fields
   const sign = typeof pos.sign === "string" ? pos.sign : null;
@@ -100,7 +100,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
     return false;
   }
 
-  const pos = obj as any;
+  const pos = obj as Record<string, unknown>;
   return (
     typeof pos.sign === "string" &&
     typeof pos.degree === "number" &&
@@ -118,7 +118,7 @@ export function isPlanetaryPositionsMap(
     return false;
   }
 
-  const positions = obj as any;
+  const positions = obj as Record<string, unknown>;
   return Object.values(positions).some(isPlanetaryPosition);
 }
 
@@ -130,7 +130,7 @@ export function getSignFromPosition(position: unknown): string | null {
     return null;
   }
 
-  const pos = position as any;
+  const pos = position as Record<string, unknown>;
   const { sign } = pos;
 
   if (typeof sign === "string" && sign.length > 0) {
@@ -148,7 +148,7 @@ export function getDegreeFromPosition(_position: unknown): number {
     return 0;
   }
 
-  const pos = _position as any;
+  const pos = _position as Record<string, unknown>;
   const { degree } = pos;
 
   if (typeof degree === "number") {

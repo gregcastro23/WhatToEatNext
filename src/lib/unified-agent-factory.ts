@@ -13,7 +13,7 @@ import {
   getLunarDegreePersonality,
   getMoonPhaseEmoji,
 } from './moon-phase-calculator'
-import type { CraftedAgent } from './agent-types'
+import type { CraftedAgent, ConsciousnessLevel } from './agent-types'
 import type {
   UnifiedAgent,
   UnifiedAgentType,
@@ -45,8 +45,8 @@ export class UnifiedAgentFactory implements AgentFactory {
       type: 'historical',
 
       consciousness: {
-        level: agent.consciousness.level as any,
-        monicaConstant: (agent.consciousness as any).monicaConstant || 3.5,
+        level: agent.consciousness.level!,
+        monicaConstant: agent.consciousness.monicaConstant || 3.5,
         dominantElement: agent.consciousness.dominantElement,
         dominantModality: agent.consciousness.dominantModality,
         signature: agent.consciousness.signature,
@@ -306,7 +306,7 @@ export class UnifiedAgentFactory implements AgentFactory {
     return collaboration[planet] || 'specialist'
   }
 
-  private calculatePlanetaryConsciousness(planet: string, dignity: string, degree: number): any {
+  private calculatePlanetaryConsciousness(planet: string, dignity: string, degree: number): ConsciousnessLevel {
     // Base consciousness mapping
     const baseLevels: Record<string, number> = {
       Sun: 4,
@@ -330,7 +330,7 @@ export class UnifiedAgentFactory implements AgentFactory {
     // Adjust for critical degrees
     if ([0, 15, 30].some(critical => Math.abs(degree - critical) < 1)) level += 0.5
 
-    const levels = [
+    const levels: ConsciousnessLevel[] = [
       'Dormant',
       'Awakening',
       'Active',

@@ -1,4 +1,4 @@
-import type { ThermodynamicProperties } from "@/types/alchemy";
+import type { ThermodynamicProperties, ZodiacSignType } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -52,8 +52,8 @@ export const _sousVide: CookingMethodData = {
     "eliminates risk of overcooking",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["aquarius", "virgo", "capricorn"] as any[], // Earth signs and technological Aquarius
-    unfavorableZodiac: ["aries", "leo", "sagittarius"] as any[], // Fire signs prefer more spontaneous cooking methods
+    favorableZodiac: ["aquarius", "virgo", "capricorn"] as ZodiacSignType[], // Earth signs and technological Aquarius
+    unfavorableZodiac: ["aries", "leo", "sagittarius"] as ZodiacSignType[], // Fire signs prefer more spontaneous cooking methods
     dominantPlanets: ["Mercury", "Saturn", "Uranus"], // Precision (Mercury), stability (Saturn), innovation (Uranus)
     lunarPhaseEffect: {
       full_moon: 0.8, // Less effective - water energies are more chaotic

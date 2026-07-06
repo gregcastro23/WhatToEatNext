@@ -22,7 +22,7 @@ const rawWholeGrains = {
     kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.9 }, // Mild warming, gentle force
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["cancer", "capricorn", "taurus"] as any[],
+      favorableZodiac: ["cancer", "capricorn", "taurus"],
       elementalAffinity: {
         base: "Earth",
         secondary: "Water",
@@ -399,7 +399,7 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Mercury"],
-      favorableZodiac: ["cancer", "gemini"] as any[],
+      favorableZodiac: ["cancer", "gemini"],
       elementalAffinity: {
         base: "Air",
         decanModifiers: {
@@ -763,7 +763,7 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
-      favorableZodiac: ["cancer", "taurus"] as any[],
+      favorableZodiac: ["cancer", "taurus"],
       elementalAffinity: {
         base: "Earth",
         decanModifiers: {
@@ -818,7 +818,7 @@ const rawWholeGrains = {
     season: ["all"],
     astrologicalProfile: {
       rulingPlanets: ["Venus", "Moon"],
-      favorableZodiac: ["cancer", "taurus"] as any[],
+      favorableZodiac: ["cancer", "taurus"],
     },
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ["nutty", "chewy", "wholesome"],

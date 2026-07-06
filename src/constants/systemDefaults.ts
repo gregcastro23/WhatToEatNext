@@ -9,6 +9,7 @@ import type {
   AstrologicalState,
   CelestialPosition,
   AlchemicalProperties,
+  ZodiacSignType,
 } from "@/types/celestial";
 
 /**
@@ -48,9 +49,9 @@ export const DEFAULT_LUNAR_PHASE: LunarPhase = "new moon";
 /**
  * Default zodiac signs
  */
-export const DEFAULT_SUN_SIGN: any = "aries";
-export const DEFAULT_MOON_SIGN: any = "taurus";
-export const DEFAULT_RISING_SIGN: any = "leo";
+export const DEFAULT_SUN_SIGN: ZodiacSignType = "aries";
+export const DEFAULT_MOON_SIGN: ZodiacSignType = "taurus";
+export const DEFAULT_RISING_SIGN: ZodiacSignType = "leo";
 
 /**
  * Default planetary alignment with safe values
@@ -810,9 +811,9 @@ export function mergeWithDefaults<T extends Record<string, unknown>>(
         !Array.isArray(userValues[key])
       ) {
         result[key] = mergeWithDefaults(
-          userValues[key] as any,
-          defaults[key] as any,
-        );
+          userValues[key] as Record<string, unknown>,
+          defaults[key] as Record<string, unknown>,
+        ) as T[Extract<keyof T, string>];
       } else {
         result[key] = userValues[key] as T[Extract<keyof T, string>];
       }

@@ -59,9 +59,17 @@ export interface UserPreferences {
   savedRestaurants?: SavedRestaurant[];
 }
 
+interface SessionLike {
+  user?: { email?: string | null; name?: string | null } | null;
+}
+
+interface ProfileDataLike {
+  subscription?: { tier?: string } | null;
+}
+
 interface UserDashboardProps {
-  session: any;
-  profileData: any;
+  session: SessionLike | null;
+  profileData: ProfileDataLike | null;
   natalChart: NatalChart;
   preferences: UserPreferences;
   onEditBirthData: () => void;
@@ -82,10 +90,10 @@ function LiveTransitBar({ natalChart }: { natalChart: NatalChart }) {
   }, []);
 
   const natalPositions = extractPlanetaryPositions(natalChart);
-  const sunData = currentPositionsRaw?.sun as any;
-  const moonData = currentPositionsRaw?.moon as any;
-  const transitSunSign = (sunData?.sign || natalPositions.Sun || '') as string;
-  const transitMoonSign = (moonData?.sign || natalPositions.Moon || '') as string;
+  const sunData = currentPositionsRaw?.sun;
+  const moonData = currentPositionsRaw?.moon;
+  const transitSunSign = sunData?.sign || natalPositions.Sun || '';
+  const transitMoonSign = moonData?.sign || natalPositions.Moon || '';
 
   const sunDeg = sunData?.degree != null ? `${Math.floor(sunData.degree % 30)}\u00B0` : '';
   const moonDeg = moonData?.degree != null ? `${Math.floor(moonData.degree % 30)}\u00B0` : '';

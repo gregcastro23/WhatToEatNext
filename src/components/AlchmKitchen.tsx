@@ -7,14 +7,23 @@ import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getRecipesForTarotCard, type TarotRecipe } from '@/lib/recipeCalculations';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+import type { ElementalProperties } from '@/types/alchemy';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { calculatePlanetaryAlchemicalValues, calculateElementalBalance } from '@/utils/alchemicalCalculations';
+import { calculatePlanetaryAlchemicalValues, calculateElementalBalance, type PlanetaryPositionsType } from '@/utils/alchemicalCalculations';
 import { createLogger } from '@/utils/logger';
 import styles from './AlchmKitchen.module.css';
 
 const logger = createLogger('AlchmKitchen');
 
 type TimeFrame = 'current' | 'tomorrow' | 'nextWeek' | 'nextMonth';
+
+interface AlchemicalValues {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+}
+type AccuratePositions = Awaited<ReturnType<typeof getAccuratePlanetaryPositions>>;
 
 /**
  * Simple helper to determine if it's daytime (6 AM to 6 PM)
@@ -37,9 +46,9 @@ export default function AlchmKitchen() {
   const [isDaytimeTarget, setIsDaytimeTarget] = useState<boolean>(true);
   const [currentSuit, setCurrentSuit] = useState<string | undefined>(undefined);
   
-  const [displayElementalState, setDisplayElementalState] = useState<any>(null);
-  const [displayAlchemicalValues, setDisplayAlchemicalValues] = useState<any>(null);
-  const [displayPositions, setDisplayPositions] = useState<any>(null);
+  const [displayElementalState, setDisplayElementalState] = useState<ElementalProperties | null>(null);
+  const [displayAlchemicalValues, setDisplayAlchemicalValues] = useState<AlchemicalValues | null>(null);
+  const [displayPositions, setDisplayPositions] = useState<AccuratePositions | null>(null);
 
   // Get current state from AlchemicalContext
   // Get current state from AlchemicalContext using the new shorthands
@@ -111,10 +120,11 @@ export default function AlchmKitchen() {
           const suit = cards.minorCard.suit;
           setCurrentSuit(suit);
           
-          const newElementalState = calculateElementalBalance(newPositions as any, isDay, suit);
+          // PlanetaryPosition (interface) lacks the index signature PlanetaryPositionsType requires; shapes are otherwise compatible.
+          const newElementalState = calculateElementalBalance(newPositions as PlanetaryPositionsType, isDay, suit);
           setDisplayElementalState(newElementalState);
-          
-          const newAlchemicalValues = calculatePlanetaryAlchemicalValues(newPositions as any, isDay, suit);
+
+          const newAlchemicalValues = calculatePlanetaryAlchemicalValues(newPositions as PlanetaryPositionsType, isDay, suit);
           setDisplayAlchemicalValues(newAlchemicalValues);
         } catch (err) {
           logger.error('Failed to calculate future state', err);
@@ -130,8 +140,8 @@ export default function AlchmKitchen() {
           new Date(),
           planetaryPositions.sun
             ? {
-                sign: ((planetaryPositions.sun as any).sign as string) || 'aries',
-                degree: (planetaryPositions.sun as any).degree || 0,
+                sign: planetaryPositions.sun.sign || 'aries',
+                degree: planetaryPositions.sun.degree || 0,
               }
             : undefined
         );

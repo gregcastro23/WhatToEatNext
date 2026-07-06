@@ -1,4 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ZodiacSignType } from "@/types/zodiac";
 
 /**
  * Tilt Skillet (tilting braising pan)
@@ -44,8 +45,8 @@ export const _tiltSkillet: CookingMethodData = {
     "controlled liquid reduction at scale",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["aries", "leo", "capricorn"] as any[],
-    unfavorableZodiac: ["pisces", "cancer", "libra"] as any[],
+    favorableZodiac: ["aries", "leo", "capricorn"] as ZodiacSignType[],
+    unfavorableZodiac: ["pisces", "cancer", "libra"] as ZodiacSignType[],
     dominantPlanets: ["Mars", "Saturn", "Sun"],
     lunarPhaseEffect: {
       full_moon: 1.2, // Searing/fond development peaks
@@ -112,7 +113,10 @@ export const _tiltSkillet: CookingMethodData = {
     entropy: 0.5, // Significant structural breakdown over a long braise
     reactivity: 0.7, // Strong Maillard/fond reactivity in the sear phase
     gregsEnergy: -7.5, // fallback display value; the live engine recomputes from ESMS + elements
-  } as any,
+    // Cast via the field's own type: CookingMethodData's thermodynamicProperties resolves to the
+    // @/types/shared variant (heat/_entropy/_reactivity/gregsEnergy), which differs structurally
+    // from this literal's shape (entropy/reactivity). Indexed-access keeps the cast honest to the field type.
+  } as unknown as CookingMethodData["thermodynamicProperties"],
 
   kineticProfile: {
     voltage: 0.78, // High floor temperature, below a wok's extreme but broad and sustained

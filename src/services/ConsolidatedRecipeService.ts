@@ -9,7 +9,7 @@
 
 import { calculateRecipeCompatibility } from "@/calculations/culinary/recipeMatching";
 import type { ElementalProperties } from "@/types/alchemy";
-import type { Recipe } from "@/types/recipe";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { calculateElementalSimilarity } from "./RecipeElementalService";
 
 interface RecipeMatchCriteria {
@@ -36,7 +36,7 @@ async function loadRecipes(): Promise<RecipeList> {
 
 function hasAnyIngredient(recipe: Recipe, names: string[] | undefined): boolean {
   if (!names || names.length === 0) return true;
-  const ingredients = (recipe.ingredients ?? []).map((i: any) =>
+  const ingredients = (recipe.ingredients ?? []).map((i: string | RecipeIngredient) =>
     typeof i === "string" ? i.toLowerCase() : (i.name ?? "").toLowerCase(),
   );
   const needles = names.map((n) => n.toLowerCase());
@@ -48,7 +48,7 @@ function excludesAllIngredients(
   names: string[] | undefined,
 ): boolean {
   if (!names || names.length === 0) return true;
-  const ingredients = (recipe.ingredients ?? []).map((i: any) =>
+  const ingredients = (recipe.ingredients ?? []).map((i: string | RecipeIngredient) =>
     typeof i === "string" ? i.toLowerCase() : (i.name ?? "").toLowerCase(),
   );
   const needles = names.map((n) => n.toLowerCase());
@@ -97,7 +97,7 @@ export class ConsolidatedRecipeService {
       if (r.name?.toLowerCase().includes(q)) return true;
       if (r.description?.toLowerCase().includes(q)) return true;
       if (r.cuisine?.toLowerCase().includes(q)) return true;
-      const ingredientHit = (r.ingredients ?? []).some((i: any) => {
+      const ingredientHit = (r.ingredients ?? []).some((i: string | RecipeIngredient) => {
         const name = typeof i === "string" ? i : (i.name ?? "");
         return name.toLowerCase().includes(q);
       });
@@ -176,7 +176,7 @@ export class ConsolidatedRecipeService {
         recipe: r,
         score: calculateRecipeCompatibility(r, {
           activePlanets,
-        } as any).score,
+        }).score,
       }))
       .filter((s) => s.score >= minScore)
       .sort((a, b) => b.score - a.score);

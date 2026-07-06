@@ -54,11 +54,14 @@ export interface TokenRatesResult {
   }>;
 }
 
-function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
-  const esms =
+function computeTokensFromAlchemical(
+  alchemicalResult: unknown,
+): TokenRatesResult {
+  const ar =
     alchemicalResult && typeof alchemicalResult === "object"
-      ? (alchemicalResult as Record<string, any>).esms
+      ? (alchemicalResult as Record<string, unknown>)
       : undefined;
+  const esms = ar?.esms as Record<string, unknown> | undefined;
 
   const Spirit = typeof esms?.Spirit === "number" ? esms.Spirit : 0.5;
   const Essence = typeof esms?.Essence === "number" ? esms.Essence : 0.5;
@@ -70,14 +73,8 @@ function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
     Essence,
     Matter,
     Substance,
-    kalchm:
-      typeof alchemicalResult?.kalchm === "number"
-        ? alchemicalResult.kalchm
-        : 1.0,
-    monica:
-      typeof alchemicalResult?.monica === "number"
-        ? alchemicalResult.monica
-        : 1.0,
+    kalchm: typeof ar?.kalchm === "number" ? ar.kalchm : 1.0,
+    monica: typeof ar?.monica === "number" ? ar.monica : 1.0,
   };
 }
 
@@ -108,14 +105,20 @@ export class TokensClient {
         };
 
         const result = await alchmAPI.calculateTokenRates(request);
-        (logger.debug as any)(
+        // FIXME(types-only): _logger.debug takes (message, data); the extra
+        // "TokensClient" category arg shifts data and drops `result` at runtime.
+        // Preserved as-is — fix arg order in a behavior change, not this pass.
+        void (logger.debug as (...args: unknown[]) => Promise<void>)(
           "TokensClient",
           "Backend calculation successful",
           result,
         );
         return result;
       } catch (error) {
-        (logger.warn as any)(
+        // FIXME(types-only): _logger.warn takes (message, data); the extra
+        // "TokensClient" category arg shifts data and drops `error` at runtime.
+        // Preserved as-is — fix arg order in a behavior change, not this pass.
+        void (logger.warn as (...args: unknown[]) => Promise<void>)(
           "TokensClient",
           "Backend calculation failed, falling back to local",
           error,

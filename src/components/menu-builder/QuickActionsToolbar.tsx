@@ -25,6 +25,10 @@ import { isSuitableForMealType } from "@/utils/menuPlanner/mealTypeMatching";
 
 const logger = createLogger("QuickActionsToolbar");
 
+// Ingredient entries may arrive as plain strings or objects at runtime
+// despite the declared RecipeIngredient[] type; capture only the field read.
+interface NamedIngredientLike { name?: string }
+
 /**
  * Score a recipe for nutritional gap-filling potential
  */
@@ -263,7 +267,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
     if (generationPreferences.excludeIngredients.length > 0) {
       filtered = filtered.filter((r) => {
         const ingNames = (r.ingredients || []).map((i) =>
-          (typeof i === "string" ? i : (i as any).name ?? "").toLowerCase(),
+          (typeof i === "string" ? i : (i as NamedIngredientLike).name ?? "").toLowerCase(),
         );
         return !generationPreferences.excludeIngredients.some((excl) =>
           ingNames.some((name) => name.includes(excl)),
@@ -430,7 +434,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
         .filter((m) => m.recipe)
         .map((m) => ({
           slot: m,
-          score: calculateNutritionScore(m.recipe! as any),
+          score: calculateNutritionScore(m.recipe!),
         }))
         .sort((a, b) => a.score - b.score);
 
@@ -500,7 +504,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
         .forEach((m) => {
           const recipeIngs = new Set<string>();
           (m.recipe!.ingredients || []).forEach((ing) => {
-            const name = (typeof ing === 'string' ? ing : (ing as any).name ?? '').toLowerCase();
+            const name = (typeof ing === 'string' ? ing : (ing as NamedIngredientLike).name ?? '').toLowerCase();
             ingredientCounts.set(name, (ingredientCounts.get(name) || 0) + 1);
             recipeIngs.add(name);
           });
@@ -537,7 +541,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
           .filter((r) => !usedIds.has(r.id) && isSuitableForMealType(r, meal.slot.mealType))
           .map((r) => {
             const recipeIngs = (r.ingredients || []).map((ing) =>
-              (typeof ing === 'string' ? ing : (ing as any).name ?? '').toLowerCase()
+              (typeof ing === 'string' ? ing : (ing as NamedIngredientLike).name ?? '').toLowerCase()
             );
             const newIngCount = recipeIngs.filter(
               (ing) => !currentIngs.has(ing),

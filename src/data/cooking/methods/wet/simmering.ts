@@ -1,4 +1,6 @@
+import type { ZodiacSign } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Simmering cooking method
@@ -56,8 +58,8 @@ export const simmering: CookingMethodData = {
     "minimizes evaporation compared to boiling",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["cancer", "pisces", "scorpio", "taurus"] as any[],
-    unfavorableZodiac: ["leo", "aries"] as any[],
+    favorableZodiac: ["cancer", "pisces", "scorpio", "taurus"] as ZodiacSign[],
+    unfavorableZodiac: ["leo", "aries"] as ZodiacSign[],
     dominantPlanets: ["Moon", "Neptune", "Venus"],
     rulingPlanets: ["Moon", "Venus"],
     lunarPhaseEffect: {
@@ -211,7 +213,8 @@ export const simmering: CookingMethodData = {
     entropy: 0.5, // Moderate structural disruption
     reactivity: 0.4, // Moderate chemical reactions
     gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
-  } as any,
+    // Cast via `unknown`: literal uses entropy/reactivity but shared.ts ThermodynamicProperties expects _entropy/_reactivity (pre-existing data/interface drift previously masked by `as any`). Data preserved as-is, do not rename.
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.38,            // 185-200°F — lower temp differential than boiling

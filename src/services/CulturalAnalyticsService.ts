@@ -10,7 +10,7 @@ import {
   culturalRules,
   getCulturalRecommendations as _getCulturalRecommendations,
 } from "@/data/culturalrules";
-import type { ElementalProperties, LunarPhase } from "@/types/alchemy";
+import type { ElementalProperties, LunarPhase, ZodiacSign } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 
 // ===== INTERFACES =====
@@ -425,7 +425,7 @@ export class CulturalAnalyticsService {
     cuisineName: string,
     elementalProfile: ElementalProperties,
     astrologicalState: {
-      zodiacSign: any;
+      zodiacSign: ZodiacSign;
       lunarPhase: LunarPhase;
     },
   ): CulturalAnalytics {
@@ -579,14 +579,14 @@ export class CulturalAnalyticsService {
 
   private static calculateAstrologicalCulturalCompatibility(
     cuisine: string,
-    astrologicalState: { zodiacSign: any; lunarPhase: LunarPhase },
+    astrologicalState: { zodiacSign: ZodiacSign; lunarPhase: LunarPhase },
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
     if (!culinaryTradition || !culinaryTradition.astrologicalProfile) {
       return 0.7; // Default compatibility
     }
 
-    const { favorableZodiac } = culinaryTradition.astrologicalProfile as any;
+    const { favorableZodiac } = culinaryTradition.astrologicalProfile;
     const isZodiacFavorable = favorableZodiac?.includes(
       astrologicalState.zodiacSign.toLowerCase(),
     );

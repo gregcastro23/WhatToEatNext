@@ -8,6 +8,29 @@ import type { PlanetaryConfig } from './unified-agent-types'
 
 export type { PlanetaryConfig } from './unified-agent-types'
 
+// Boundary view of a live-sky planet position. Captures only the fields read
+// off the incoming data. `planet` is read unconditionally (p.planet.toLowerCase())
+// so it stays required to preserve the throw-on-missing behavior; `sign`/`degree`
+// are read defensively (|| fallback, optional-chained) so they stay optional.
+interface PlanetPositionLike {
+  planet: string
+  sign?: string
+  degree?: number | string
+}
+
+// Boundary view of the legacy agent config passed to convertLegacyAgentConfig.
+// planet/sign/degree are assigned unconditionally into required PlanetaryConfig
+// fields (and passed as string args), so they are required; the rest are guarded.
+interface LegacyAgentConfigLike {
+  planet: string
+  sign: string
+  degree: string
+  color?: string
+  symbol?: string
+  moonPhase?: string
+  moonDegree?: number
+}
+
 export const PLANET_SYMBOLS: Record<string, string> = {
   Sun: '☉',
   Moon: '☽',
@@ -146,17 +169,23 @@ export function createDefaultPlanetaryConfigs(): PlanetaryConfig[] {
 
 export function updatePlanetaryConfigWithLiveSky(
   config: PlanetaryConfig,
-  planetaryPositions: any
+  planetaryPositions:
+    | PlanetPositionLike[]
+    | Record<string, PlanetPositionLike>
+    | null
+    | undefined
 ): PlanetaryConfig {
   if (!config.liveSkySync || !planetaryPositions) {
     return config
   }
 
-  let planetData: any = null
+  let planetData: PlanetPositionLike | null = null
   if (Array.isArray(planetaryPositions)) {
-    planetData = planetaryPositions.find(
-      (p: any) => p.planet.toLowerCase() === config.planet.toLowerCase()
-    )
+    planetData =
+      planetaryPositions.find(
+        (p: PlanetPositionLike) =>
+          p.planet.toLowerCase() === config.planet.toLowerCase()
+      ) ?? null
   } else if (typeof planetaryPositions === 'object') {
     planetData = planetaryPositions[config.planet.toLowerCase()]
   }
@@ -178,7 +207,9 @@ export function getDefaultActivePlanets(): string[] {
   return ['Sun', 'Moon', 'Mercury']
 }
 
-export function convertLegacyAgentConfig(legacyConfig: any): PlanetaryConfig {
+export function convertLegacyAgentConfig(
+  legacyConfig: LegacyAgentConfigLike
+): PlanetaryConfig {
   return {
     planet: legacyConfig.planet,
     sign: legacyConfig.sign,

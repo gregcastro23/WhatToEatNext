@@ -1,4 +1,8 @@
-import type { AstrologicalState, ZodiacSignType } from "@/types/celestial";
+import type {
+  AstrologicalState,
+  Element,
+  ZodiacSignType,
+} from "@/types/celestial";
 import type {
   ElementalProperties,
   Recipe,
@@ -450,7 +454,7 @@ function scoreRecipe(
   );
   const recipeDominant = getRecipeDominantElement(recipeElements);
   const compatibilityScore = getElementalCompatibility(
-    recipeDominant as any,
+    recipeDominant as Element,
     currentDominant,
   );
   score += Math.floor(compatibilityScore * 15);
@@ -547,14 +551,18 @@ function calculatePlanetaryDayInfluence(
   planetaryDay: PlanetaryDay,
   recipeElements: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air">,
 ): { score: number; reason?: string } {
-  const associations: Record<
-    PlanetaryDay["planet"],
-    {
-      styles: string[];
-      ingredients: string[];
-      flavor: string;
-      elements: Array<keyof ElementalProperties>;
-    }
+  // Partial: only the 7 classical planets have day associations; other
+  // planets fall through to the score-0.5 guard below.
+  const associations: Partial<
+    Record<
+      PlanetaryDay["planet"],
+      {
+        styles: string[];
+        ingredients: string[];
+        flavor: string;
+        elements: Element[];
+      }
+    >
   > = {
     Sun: {
       styles: ["roasting", "grilling", "baking"],
@@ -598,7 +606,7 @@ function calculatePlanetaryDayInfluence(
       flavor: "structured and grounding",
       elements: ["Air", "Earth"],
     },
-  } as any;
+  };
 
   const association = associations[planetaryDay.planet];
   if (!association) {
@@ -613,7 +621,7 @@ function calculatePlanetaryDayInfluence(
   );
 
   const ingredientText = toArray(recipe.ingredients)
-    .map((ingredient: any) => {
+    .map((ingredient: unknown) => {
       if (typeof ingredient === "string") return ingredient.toLowerCase();
       if (
         typeof ingredient === "object" &&
@@ -661,13 +669,17 @@ function calculatePlanetaryHourInfluence(
   planetaryHour: PlanetaryHour,
   isDaytime: boolean,
 ): { score: number; reason?: string } {
-  const hourlyAssociations: Record<
-    PlanetaryHour["planet"],
-    {
-      daytime: string[];
-      nighttime: string[];
-      flavor: string;
-    }
+  // Partial: only the 7 classical planets have hourly associations; other
+  // planets fall through to the score-0.5 guard below.
+  const hourlyAssociations: Partial<
+    Record<
+      PlanetaryHour["planet"],
+      {
+        daytime: string[];
+        nighttime: string[];
+        flavor: string;
+      }
+    >
   > = {
     Sun: {
       daytime: ["energizing", "warming", "bright"],
@@ -704,7 +716,7 @@ function calculatePlanetaryHourInfluence(
       nighttime: ["grounding", "earthy", "practical"],
       flavor: "satisfying",
     },
-  } as any;
+  };
 
   const association = hourlyAssociations[planetaryHour.planet];
   if (!association) {

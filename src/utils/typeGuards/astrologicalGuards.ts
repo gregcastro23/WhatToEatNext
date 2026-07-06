@@ -8,7 +8,7 @@ export function isValidPlanetaryPosition(
   obj: unknown,
 ): obj is PlanetaryPosition {
   if (!obj || typeof obj !== "object") return false;
-  const pos = obj as any;
+  const pos = obj as Record<string, unknown>;
   return typeof pos.sign === "string" && typeof pos.degree === "number";
 }
 
@@ -16,18 +16,18 @@ export function isValidElementalProperties(
   obj: unknown,
 ): obj is ElementalProperties {
   if (!obj || typeof obj !== "object") return false;
-  const props = obj as any;
-  return ["Fire", "Water", "Earth", "Air"].every(
-    (element) =>
-      typeof props[element] === "number" && (props[element]) >= 0,
-  );
+  const props = obj as Record<string, unknown>;
+  return ["Fire", "Water", "Earth", "Air"].every((element) => {
+    const value = props[element];
+    return typeof value === "number" && value >= 0;
+  });
 }
 
 export function isValidAstrologicalState(
   obj: unknown,
 ): obj is AstrologicalState {
   if (!obj || typeof obj !== "object") return false;
-  const state = obj as any;
+  const state = obj as Record<string, unknown>;
   return state.currentZodiac !== undefined && state.lunarPhase !== undefined;
 }
 
@@ -38,7 +38,7 @@ export function safelyExtractElementalProperties(
 
   // Try to extract from nested structure
   if (obj && typeof obj === "object") {
-    const nested = (obj as any).elementalProperties;
+    const nested = (obj as Record<string, unknown>).elementalProperties;
     if (isValidElementalProperties(nested)) return nested;
   }
 

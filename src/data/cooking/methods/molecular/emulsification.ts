@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod } from "@/types/shared";
+import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Emulsification: A molecular gastronomy technique for creating stable mixtures
@@ -69,7 +69,10 @@ export const emulsification: CookingMethodData = {
     entropy: 0.5, // Moderate structural reorganization
     reactivity: 0.6, // Moderate chemical interactions between phases
     gregsEnergy: 0.1, // heat - (entropy × reactivity)
-  } as any,
+    // Intentionally cast via unknown: runtime keys are `entropy`/`reactivity` but
+    // ThermodynamicProperties declares `_entropy`/`_reactivity` (latent field-name
+    // mismatch preserved on purpose — live consumers read the non-underscore keys).
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.20,            // Low temp differential — mechanical energy dominates

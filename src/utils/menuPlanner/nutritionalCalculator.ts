@@ -27,10 +27,37 @@ import type {
   ChartDataPoint as _ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
-import type { ElementalProperties } from "@/types/recipe";
+import type { ElementalProperties, EnhancedRecipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("NutritionalCalculator");
+
+/**
+ * Nutrition shapes read off meal payloads. `nutritionPerServing` is carried by
+ * newer AlchemicalRecipe-format payloads and is not declared on EnhancedRecipe.
+ * NutritionalProfileLike widens the declared recipe/sauce profile shapes with
+ * the sodium/sugar fields this calculator reads — neither EnhancedRecipe's nor
+ * MealSlotSauce's nutritionalProfile declares them today, so those reads fall
+ * back to 0 via `|| 0` when the payload doesn't carry them.
+ */
+interface NutritionPerServingLike {
+  calories?: number;
+  proteinG?: number;
+  carbsG?: number;
+  fatG?: number;
+  fiberG?: number;
+  sodiumMg?: number;
+  sugarG?: number;
+}
+interface NutritionalProfileLike {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  sodium?: number;
+  sugar?: number;
+}
 
 /**
  * Default empty daily nutrition totals
@@ -104,8 +131,13 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     const servings = meal.servings || 1;
 
     // Basic nutrition - support both new AlchemicalRecipe format and old format
-    const nutritionPerServing = (recipe as any).nutritionPerServing;
-    const nutritionalProfile = (recipe as any).nutritionalProfile;
+    const nutritionPerServing = (
+      recipe as EnhancedRecipe & {
+        nutritionPerServing?: NutritionPerServingLike;
+      }
+    ).nutritionPerServing;
+    const nutritionalProfile: NutritionalProfileLike | undefined =
+      recipe.nutritionalProfile;
 
     if (nutritionPerServing) {
       totalCalories += (nutritionPerServing.calories || 0) * servings;
@@ -135,7 +167,19 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
 
     // Alchemical properties (ESMS)
     if (recipe.alchemicalProperties) {
-      const ap = recipe.alchemicalProperties as any;
+      // EnhancedRecipe declares only the thermodynamic snapshot
+      // (heat/entropy/reactivity/stability); runtime payloads may carry ESMS
+      // directly — the ?? remapping below handles both, preserved exactly.
+      const ap = recipe.alchemicalProperties as {
+        Spirit?: number;
+        Essence?: number;
+        Matter?: number;
+        Substance?: number;
+        heat?: number;
+        entropy?: number;
+        reactivity?: number;
+        stability?: number;
+      };
       const mappedAlchemicalProps: AlchemicalProperties = {
         Spirit: ap.Spirit ?? ap.reactivity ?? 0,
         Essence: ap.Essence ?? ap.entropy ?? 0,
@@ -152,7 +196,7 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
     // Sauce nutrition (adds to meal totals)
     if (meal.sauce?.nutritionalProfile) {
       const sauceServings = meal.sauce.servings || 1;
-      const sauceNutrition = meal.sauce.nutritionalProfile as any;
+      const sauceNutrition = meal.sauce.nutritionalProfile as NutritionalProfileLike;
       totalCalories += (sauceNutrition.calories || 0) * sauceServings;
       totalProtein += (sauceNutrition.protein || 0) * sauceServings;
       totalCarbs += (sauceNutrition.carbs || 0) * sauceServings;
@@ -215,7 +259,8 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
 export function calculateWeeklyTotals(
   mealsByDay: Record<DayOfWeek, MealSlot[]>,
 ): WeeklyNutritionTotals {
-  const dailyBreakdown: Record<DayOfWeek, DailyNutritionTotals> = {} as any;
+  // Filled for all 7 days by the loop below before it is ever read.
+  const dailyBreakdown = {} as Record<DayOfWeek, DailyNutritionTotals>;
 
   let totalCalories = 0;
   let totalProtein = 0;

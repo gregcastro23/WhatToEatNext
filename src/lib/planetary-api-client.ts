@@ -46,7 +46,7 @@ export interface BackendResponse<T> {
     requestDate?: string
     totalPlanets?: number
     coordinates?: { latitude: number; longitude: number } | null
-    [key: string]: any
+    [key: string]: unknown
   }
   error?: string
 }
@@ -136,7 +136,9 @@ export class PlanetaryAPIClient {
         )
       }
 
-      const result: BackendResponse<any> = await response.json()
+      const result: BackendResponse<
+        Array<{ date: string; planet: string; position: PlanetaryPosition | null }>
+      > = await response.json()
 
       if (!result.success) {
         throw new Error(result.error || 'Backend returned unsuccessful response')
@@ -256,7 +258,14 @@ export class PlanetaryAPIClient {
         throw new Error(`Failed to fetch available planets: ${response.statusText}`)
       }
 
-      const result: BackendResponse<any[]> = await response.json()
+      const result: BackendResponse<
+        Array<{
+          id: string
+          name: string
+          element: string
+          alchemy: { spirit: number; essence: number; matter: number; substance: number }
+        }>
+      > = await response.json()
 
       if (!result.success) {
         throw new Error(result.error || 'Backend returned unsuccessful response')

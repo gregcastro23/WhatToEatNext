@@ -417,16 +417,23 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           : similarity * pattern.weight;
 
         // Initialize array-based categories except for structured ones
+        // NOTE (latent bug, preserved): SearchFilters uses "_cookingTime"; no
+        // pattern ever has category "cookingTime", so this check never excludes
+        // anything and time patterns get initialized as arrays below.
         if (
           !extractedFilters[pattern.category as string] &&
-          (pattern.category as any) !== "cookingTime"
+          (pattern.category as string) !== "cookingTime"
         ) {
-          (extractedFilters as any)[pattern.category as string] =
-            [] as string[];
+          (extractedFilters as Record<string, unknown>)[
+            pattern.category as string
+          ] = [] as string[];
         }
 
         // Add values to the appropriate filter category
-        if ((pattern.category as any) === "cookingTime") {
+        // NOTE (latent bug, preserved): never true — see note above; _cookingTime
+        // gets an array of range strings here, possibly overwritten by
+        // extractTimeRange below.
+        if ((pattern.category as string) === "cookingTime") {
           const timeRange = extractTimeRange(query) || { min: 0, max: 30 };
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
@@ -544,7 +551,7 @@ export function enhancedSearch(
 
     const averageScore = matchCount > 0 ? totalScore / matchCount : 0;
     if (averageScore > 0.3) {
-      results.push({ ...((item as any) || {}), searchScore: averageScore });
+      results.push({ ...(item || {}), searchScore: averageScore });
     }
   }
 
@@ -713,13 +720,18 @@ export function processQueryWithKinetics(
     const kineticsKeywords = extractKineticsKeywords(query);
 
     // Determine kinetics context from planetary positions
+    // NOTE (latent bugs, preserved via unknown-cast): KineticMetrics.forceClassification
+    // can be "balanced" (not in the declared union), thermalDirection can be "stable"
+    // (declared union says "neutral"), aspectPhase is an AspectPhase object (declared
+    // string), and momentum is a Record<Element, number> (declared number; the "|| 0"
+    // never fires because objects are truthy).
     const kineticsContext = {
       forceClassification: kinetics.forceClassification,
       thermalDirection: kinetics.thermalDirection,
       aspectPhase: kinetics.aspectPhase || "neutral",
       powerLevel: kinetics.power || 50,
       momentumFactor: kinetics.momentum || 0,
-    } as any;
+    } as unknown as NonNullable<KineticsAwareSearchIntent["kineticsContext"]>;
 
     // Generate kinetics-aware filters
     const kineticsFilters = generateKineticsFilters(kineticsKeywords, kinetics);
@@ -787,7 +799,11 @@ function generateKineticsFilters(
   ) {
     filters.preferredForceType = "stable";
   } else {
-    filters.preferredForceType = kinetics.forceClassification as any;
+    // NOTE (latent bug, preserved): kinetics returns "balanced", not "stable".
+    filters.preferredForceType = kinetics.forceClassification as unknown as
+      | "stable"
+      | "accelerating"
+      | "decelerating";
   }
 
   // Determine thermal alignment
@@ -804,7 +820,11 @@ function generateKineticsFilters(
   ) {
     filters.thermalAlignment = "cooling";
   } else {
-    filters.thermalAlignment = kinetics.thermalDirection as any;
+    // NOTE (latent bug, preserved): kinetics returns "stable", not "neutral".
+    filters.thermalAlignment = kinetics.thermalDirection as unknown as
+      | "heating"
+      | "cooling"
+      | "neutral";
   }
 
   // Set power range based on intensity keywords
@@ -829,11 +849,14 @@ function generateKineticsFilters(
 }
 
 // Helper function stubs
-function filterItems(items: SearchableItem[], _filters: any): SearchableItem[] {
+function filterItems(
+  items: SearchableItem[],
+  _filters: SearchFilters,
+): SearchableItem[] {
   return items;
 }
 
-function matchesFilters(_item: SearchableItem, _filters: any): boolean {
+function matchesFilters(_item: SearchableItem, _filters: SearchFilters): boolean {
   return true;
 }
 
@@ -910,7 +933,7 @@ function determineItemForceType(
   // cooking methods, ingredient properties, and other factors
 
   if (hasProperty(item, "cookingMethod")) {
-    const method = (item as any).cookingMethod;
+    const method = item.cookingMethod as string;
     if (["grill", "fry", "sauté"].includes(method)) {
       return "accelerating"; // Quick, high-heat methods
     } else if (["slow cook", "braise", "poach"].includes(method)) {
@@ -934,7 +957,7 @@ function determineItemThermalType(
   }
 
   if (hasProperty(item, "cookingMethod")) {
-    const method = (item as any).cookingMethod;
+    const method = item.cookingMethod as string;
     if (["bake", "roast", "grill"].includes(method)) {
       return "heating";
     } else if (["raw", "cold", "poach"].includes(method)) {
@@ -954,7 +977,7 @@ function estimateItemPower(item: SearchableItem): number {
 
   // Adjust based on cooking method
   if (hasProperty(item, "cookingMethod")) {
-    const method = (item as any).cookingMethod;
+    const method = item.cookingMethod as string;
     if (["grill", "deep fry"].includes(method)) {
       power += 25;
     } else if (["steam", "poach"].includes(method)) {
@@ -964,7 +987,9 @@ function estimateItemPower(item: SearchableItem): number {
 
   // Adjust based on spiciness
   if (hasProperty(item, "spiciness")) {
-    const spice = (item as any)._spiciness;
+    // NOTE (latent bug, preserved): the guard above checks "spiciness" but this
+    // reads "_spiciness" — likely always undefined.
+    const spice = (item as Record<string, unknown>)._spiciness;
     if (spice === "hot" || spice === "very hot") {
       power += 20;
     }
@@ -994,9 +1019,11 @@ export function scoreItemWithKinetics(
 
   // Boost score based on thermal alignment
   const itemThermalType = determineItemThermalType(item);
+  // NOTE (latent bug, preserved): thermalDirection is "heating"|"cooling"|"stable"
+  // — this "neutral" comparison can never be true.
   if (
     kinetics.thermalDirection === itemThermalType ||
-    ((kinetics.thermalDirection as any) === "neutral" &&
+    ((kinetics.thermalDirection as string) === "neutral" &&
       itemThermalType === "neutral")
   ) {
     kineticsModifier *= 1.15;

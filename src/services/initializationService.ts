@@ -82,7 +82,11 @@ class InitializationService {
         this.convertToElementalProperties(celestialData);
 
       // Update the state with the elemental preference - safe method access
-      const managerObj = manager as any;
+      // Intentionally loose boundary view: manager is typed Promise<StateManager> and is used here without await (pre-existing bug preserved); StateManager has no updateState method, so that branch is dead. Types-only pass keeps runtime behavior exactly.
+      const managerObj = manager as unknown as {
+        updateState?: (s: unknown) => Promise<void>;
+        setState?: (s: unknown) => Promise<void>;
+      };
       if (typeof managerObj.updateState === "function") {
         await managerObj.updateState({
           elementalPreference,
@@ -122,7 +126,7 @@ class InitializationService {
         },
         lunarPhase: "new moon",
         currentTime: new Date(),
-      } as any);
+      } as Parameters<typeof _stateValidator.validateState>[0]);
 
       if (!isValid) {
         throw new Error("State validation failed after initialization");
@@ -194,7 +198,15 @@ class InitializationService {
       const alignment = _celestialCalculator.calculateCurrentInfluences();
 
       // Convert CelestialAlignment to CelestialData format with safe property access
-      const alignmentData = alignment as any;
+      // Intentionally loose: CelestialAlignment has no sun/moon/Fire/Water/Earth/Air fields, so every access below is a pre-existing dead lookup that always falls back to defaults. Preserved as-is in this types-only pass.
+      const alignmentData = alignment as unknown as {
+        sun?: { sign?: string; degree?: number; exactLongitude?: number };
+        moon?: { sign?: string; degree?: number; exactLongitude?: number };
+        Fire?: number;
+        Water?: number;
+        Earth?: number;
+        Air?: number;
+      };
       return {
         sun: alignmentData?.sun || { sign: "", degree: 0, exactLongitude: 0 },
         moon: alignmentData?.moon || { sign: "", degree: 0, exactLongitude: 0 },

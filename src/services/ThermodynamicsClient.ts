@@ -4,6 +4,7 @@ import { ThermodynamicCalculator } from "@/lib/ThermodynamicCalculator";
 import {
   calculateAlchemicalProperties,
   getCurrentAlchemicalState,
+  type PlanetaryPosition,
 } from "@/services/RealAlchemizeService";
 import type { ElementalProperties } from "@/types/celestial";
 
@@ -101,7 +102,10 @@ export class ThermodynamicsClient {
         if (input.ingredients && input.ingredients.length > 0) {
           const ingredients = input.ingredients.map((i) => String(i));
           const result = await alchmAPI.calculateThermodynamics(ingredients);
-          (logger.debug as any)(
+          // Intentionally cast: logger.debug/warn is (message, data?) but this passes 3 args
+          // (category, message, data); the category is logged as the message and the 3rd arg is
+          // dropped at runtime. Preserving existing behavior in a types-only pass — do not "fix".
+          (logger.debug as (...args: unknown[]) => void)(
             "ThermodynamicsClient",
             "Backend calculation successful",
             result,
@@ -109,7 +113,10 @@ export class ThermodynamicsClient {
           return result;
         }
       } catch (error) {
-        (logger.warn as any)(
+        // Intentionally cast: logger.debug/warn is (message, data?) but this passes 3 args
+        // (category, message, data); the category is logged as the message and the 3rd arg is
+        // dropped at runtime. Preserving existing behavior in a types-only pass — do not "fix".
+        (logger.warn as (...args: unknown[]) => void)(
           "ThermodynamicsClient",
           "Backend calculation failed, falling back to local",
           error,
@@ -125,7 +132,7 @@ export class ThermodynamicsClient {
       Object.keys(input.planetaryPositions).length > 0
     ) {
       const result = calculateAlchemicalProperties(
-        input.planetaryPositions as any,
+        input.planetaryPositions as Record<string, PlanetaryPosition>,
       );
       const t = result.thermodynamicProperties;
       return {

@@ -17,12 +17,22 @@ import {
   type GeographicCoordinates,
   type LocationPlanetaryInfluence,
 } from "@/data/planets/locationService";
+import type { PlanetData } from "@/data/planets/types";
 import {
   COMPREHENSIVE_TRANSIT_DATABASE,
   TransitAnalysisService as _TransitAnalysisService,
   type TransitSeason,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
+
+/**
+ * Minimal view of the aspect-influence runtime shape, capturing only the
+ * `culinaryEffects` field read below. See the preserved type mismatch note at
+ * the read site in generateLocationSpecificRecommendations.
+ */
+interface AspectInfluenceLike {
+  culinaryEffects?: string[];
+}
 
 /**
  * Enhanced planetary position with dignity and location modifiers
@@ -253,18 +263,13 @@ export class EnhancedTransitAnalysisService {
     dignity: { type: string; modifier: number },
     strength: number,
     locationInfluence: LocationPlanetaryInfluence | undefined,
-    planetData: Planet,
+    planetData: PlanetData,
   ): string[] {
     const recommendations: string[] = [];
 
     // Base recommendations from planet data
-    if ((planetData as unknown as any).FoodAssociations) {
-      recommendations.push(
-        ...((planetData as unknown as any).FoodAssociations as string[]).slice(
-          0,
-          3,
-        ),
-      );
+    if (planetData.FoodAssociations) {
+      recommendations.push(...planetData.FoodAssociations.slice(0, 3));
     }
 
     // Modify recommendations based on dignity
@@ -402,8 +407,11 @@ export class EnhancedTransitAnalysisService {
 
     // Add aspect-influenced methods
     aspectInfluences.forEach((aspectInfluence) => {
-      const effects = (aspectInfluence as unknown as any)
-        .culinaryEffects as string[];
+      // Types-only: aspectInfluences is declared PlanetaryPosition[] but the runtime
+      // objects are the aspect-influence shape (see force-casts at callsites ~L121/L130).
+      // culinaryEffects is read off that real shape; mismatch preserved intentionally.
+      const effects = (aspectInfluence as unknown as AspectInfluenceLike)
+        .culinaryEffects;
       if (Array.isArray(effects)) {
         cookingMethods.push(...effects.slice(0, 1));
       }

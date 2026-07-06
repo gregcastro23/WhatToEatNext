@@ -99,7 +99,9 @@ function generateLocalRune(): RuneResult {
   };
 }
 
-function generateLocalAgent(context = "cuisine"): AgentRecommendation {
+function generateLocalAgent(
+  context: AgentRecommendation["type"] = "cuisine",
+): AgentRecommendation {
   const agents = {
     cuisine: {
       name: "Culinary Sage",
@@ -135,10 +137,10 @@ function generateLocalAgent(context = "cuisine"): AgentRecommendation {
     },
   };
 
-  const agent = agents[context as keyof typeof agents] || agents.cuisine;
+  const agent = agents[context] || agents.cuisine;
 
   return {
-    type: context as any,
+    type: context,
     recommendations: [
       {
         name: "Sample Recommendation",
@@ -180,14 +182,24 @@ export class RuneAgentClient {
         };
 
         const result = await alchmAPI.getRuneGuidance(request);
-        (logger.debug as any)(
+        // Intentionally cast: logger.debug/warn is (message, data?) but this passes 3 args
+        // (category, message, data); the category is logged as the message and the 3rd arg is
+        // dropped at runtime. Preserving existing behavior in a types-only pass — do not "fix".
+        // Return typed as void (not Promise) to keep the original fire-and-forget call, which
+        // the prior untyped cast also did by suppressing the floating-promise check.
+        (logger.debug as (...args: unknown[]) => void)(
           "RuneAgentClient",
           "Backend rune generation successful",
           result,
         );
         return result;
       } catch (error) {
-        (logger.warn as any)(
+        // Intentionally cast: logger.debug/warn is (message, data?) but this passes 3 args
+        // (category, message, data); the category is logged as the message and the 3rd arg is
+        // dropped at runtime. Preserving existing behavior in a types-only pass — do not "fix".
+        // Return typed as void (not Promise) to keep the original fire-and-forget call, which
+        // the prior untyped cast also did by suppressing the floating-promise check.
+        (logger.warn as (...args: unknown[]) => void)(
           "RuneAgentClient",
           "Backend rune generation failed, falling back to local",
           error,

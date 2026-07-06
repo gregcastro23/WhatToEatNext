@@ -2,6 +2,13 @@
 import * as accurateAstronomy from "@/utils/accurateAstronomy";
 import * as astrologyUtils from "@/utils/astrologyUtils";
 
+// Local boundary view: `calculateLunarNodes` is defined but NOT exported by
+// accurateAstronomy, so at runtime this is undefined — the typeof guard below
+// handles that and falls through to the catch. Preserved as-is (types-only pass).
+interface AccurateAstronomyLike {
+  calculateLunarNodes?: (date: Date) => unknown;
+}
+
 // Sun calculation
 export function calculateSunPosition(date: Date = new Date()) {
   const t =
@@ -79,7 +86,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
 
   try {
     // Apply surgical type casting with variable extraction
-    const accurateAstronomyData = accurateAstronomy as any;
+    const accurateAstronomyData =
+      accurateAstronomy as unknown as AccurateAstronomyLike;
     const calculateLunarNodesMethod = accurateAstronomyData.calculateLunarNodes;
 
     // First try to import and use the accurate astronomy module
@@ -94,7 +102,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     }
 
     // Apply surgical type casting for node data access
-    const nodeDataTyped = nodeData;
+    const nodeDataTyped = nodeData as Record<string, unknown>;
     const northNodeValue = Number(nodeDataTyped.northNode) || 0;
     const _southNodeValue =
       Number(nodeDataTyped.southNode) || (northNodeValue + 180) % 360;
@@ -127,8 +135,11 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date);
-      northNode = (lunarNodes as any).northNode;
-      southNode = (lunarNodes as any).southNode;
+      // NOTE (preserved latent bug): calculateLunarNodes returns { northNode: number; isRetrograde: boolean }.
+      // `.northNode` is a number (not the {sign,degree,...} object expected here) and `.southNode` is undefined.
+      // Kept as-is in this types-only pass.
+      northNode = (lunarNodes as Record<string, unknown>).northNode;
+      southNode = (lunarNodes as Record<string, unknown>).southNode;
     } catch (_fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

@@ -48,7 +48,7 @@ export interface TarotSeasonalInfluence {
 export interface SeasonalTarotProfile {
   minorArcana: string[];
   majorArcana: string[];
-  currentZodiacSignTypes: any[];
+  currentZodiacSignTypes: string[];
   cookingRecommendations: string[];
   tarotInfluences: Record<string, TarotSeasonalInfluence | string>;
   dominant_element: Element;
@@ -716,6 +716,17 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
 
 // ===== UNIFIED SEASONAL SYSTEM CLASS =====;
 
+// Note: monicaConstant/alchemicalPillar are not declared on EnhancedCookingMethod
+// and are never set by getAllEnhancedCookingMethods — these reads are always
+// undefined at runtime; the isNaN/optional-chaining guards therefore always skip.
+// Shape preserved as-is (types-only pass). monicaConstant is typed non-optional to
+// match what the prior `as any` assumed (isNaN/subtraction expect a number); this is
+// types-only and does not change the always-undefined runtime value.
+interface CookingMethodMonicaLike {
+  monicaConstant: number;
+  alchemicalPillar?: { elementalAssociations?: { primary?: Element } };
+}
+
 export class UnifiedSeasonalSystem {
   private readonly enhancedCookingMethods: {
     [key: string]: EnhancedCookingMethod;
@@ -964,14 +975,14 @@ export class UnifiedSeasonalSystem {
     if (conditions.lunarPhase) {
       modifier *=
         1 +
-        ((seasonProfile.monicaModifiers as any)?.lunarPhaseBonus || 0) * 0.2;
+        (seasonProfile.monicaModifiers.lunarPhaseBonus || 0) * 0.2;
     }
 
     // Planetary hour modifier
     if (conditions.planetaryHour) {
       modifier *=
         1 +
-        ((seasonProfile.monicaModifiers as any)?.planetaryAlignment || 0) * 0.2;
+        (seasonProfile.monicaModifiers.planetaryAlignment || 0) * 0.2;
     }
 
     // Temperature modifier
@@ -1145,7 +1156,7 @@ export class UnifiedSeasonalSystem {
     }
 
     // Monica compatibility
-    const methodData = method as any;
+    const methodData = method as unknown as CookingMethodMonicaLike;
     if (targetMonica !== undefined && !isNaN(methodData.monicaConstant)) {
       const monicaDifference = Math.abs(
         methodData.monicaConstant - targetMonica,
@@ -1182,7 +1193,7 @@ export class UnifiedSeasonalSystem {
     let validMethods = 0;
 
     for (const method of cookingMethods) {
-      const methodData = method as any;
+      const methodData = method as unknown as CookingMethodMonicaLike;
       if (!isNaN(methodData.monicaConstant)) {
         const monicaDifference = Math.abs(
           methodData.monicaConstant - targetMonica,

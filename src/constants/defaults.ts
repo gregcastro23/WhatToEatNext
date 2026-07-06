@@ -5,6 +5,7 @@ import type {
   ElementalProperties,
   LunarPhase,
   PlanetaryAlignment,
+  ZodiacSignType,
 } from "@/types/alchemy";
 import type { CelestialPosition } from "@/types/celestial";
 
@@ -49,8 +50,8 @@ export const DEFAULT_LUNAR_PHASE: LunarPhase = "new moon";
 /**
  * Default zodiac sign
  */
-export const DEFAULT_SUN_SIGN: any = "aries";
-export const DEFAULT_MOON_SIGN: any = "taurus";
+export const DEFAULT_SUN_SIGN: ZodiacSignType = "aries";
+export const DEFAULT_MOON_SIGN: ZodiacSignType = "taurus";
 
 /**
  * Default planetary alignment with safe values

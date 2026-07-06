@@ -1,4 +1,6 @@
+import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Stir-frying cooking method
@@ -39,8 +41,8 @@ export const _stirFrying: CookingMethodData = {
     "caramelization",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["aries", "leo", "gemini"] as any[],
-    unfavorableZodiac: ["cancer", "pisces", "scorpio"] as any[],
+    favorableZodiac: ["aries", "leo", "gemini"] as ZodiacSignType[],
+    unfavorableZodiac: ["cancer", "pisces", "scorpio"] as ZodiacSignType[],
     dominantPlanets: ["Mercury", "Mars", "Sun"],
     lunarPhaseEffect: {
       full_moon: 1.3, // Enhanced wok hei flavor
@@ -103,12 +105,13 @@ export const _stirFrying: CookingMethodData = {
     "Beware of oil splatter",
     "Proper wok handling techniques",
   ],
+  // NOTE: literal uses entropy/reactivity but ThermodynamicProperties expects _entropy/_reactivity — field-name mismatch preserved intentionally (types-only pass); double-cast keeps the existing runtime shape untouched.
   thermodynamicProperties: {
     heat: 0.9, // Very high heat application
     entropy: 0.55, // Moderate structural breakdown
     reactivity: 0.85, // High reactivity (Maillard, caramelization)
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as any,
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.95,            // Wok heat 600-900°F — highest temp differential of any method

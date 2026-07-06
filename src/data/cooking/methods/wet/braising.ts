@@ -1,4 +1,4 @@
-import type { ThermodynamicProperties } from "@/types/alchemy";
+import type { ThermodynamicProperties, ZodiacSign } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -65,8 +65,8 @@ export const braising: CookingMethodData = {
     "intensifies aromatics through prolonged contact",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["taurus", "cancer", "scorpio", "capricorn"] as any[], // Earth and water signs enhance patience and depth
-    unfavorableZodiac: ["gemini", "aquarius", "libra"] as any[], // Air signs lack patience and grounding
+    favorableZodiac: ["taurus", "cancer", "scorpio", "capricorn"] as ZodiacSign[], // Earth and water signs enhance patience and depth
+    unfavorableZodiac: ["gemini", "aquarius", "libra"] as ZodiacSign[], // Air signs lack patience and grounding
     dominantPlanets: ["Saturn", "Moon", "Pluto", "Jupiter"], // Saturn (time), Moon (fluctuation), Pluto (transformation), Jupiter (expansion)
     lunarPhaseEffect: {
       full_moon: 0.9, // Reduced effectiveness - too much energy

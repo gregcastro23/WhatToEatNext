@@ -1,3 +1,4 @@
+import type { ZodiacSignType } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
 
 /**
@@ -52,8 +53,8 @@ export const steaming: CookingMethodData = {
     "consistent results",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["cancer", "pisces", "libra"] as any[],
-    unfavorableZodiac: ["leo", "aries", "virgo"] as any[],
+    favorableZodiac: ["cancer", "pisces", "libra"] as ZodiacSignType[],
+    unfavorableZodiac: ["leo", "aries", "virgo"] as ZodiacSignType[],
     dominantPlanets: ["Moon", "Venus", "Neptune"],
     lunarPhaseEffect: {
       full_moon: 1.25, // Enhanced moisture retention
@@ -199,7 +200,11 @@ export const steaming: CookingMethodData = {
     entropy: 0.45, // Gentle structural transformations
     reactivity: 0.3, // Low chemical reactivity (minimal browning)
     gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
-  } as any,
+    // Cast via `unknown` to CookingMethodData's own field type because that field references a same-named
+    // ThermodynamicProperties (from @/types/shared, declaring _entropy/_reactivity) that differs
+    // structurally from the runtime object's keys (entropy/reactivity, read by scoring/stats consumers).
+    // Pre-existing type drift previously masked by a loose cast; runtime keys are intentionally left unchanged.
+  } as unknown as CookingMethodData["thermodynamicProperties"],
 
   kineticProfile: {
     voltage: 0.40,            // Limited by 212°F water boiling point

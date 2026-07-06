@@ -1,4 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
+import type { ThermodynamicProperties, ZodiacSignType } from "@/types/shared";
 
 /**
  * Spherification cooking method
@@ -46,8 +47,8 @@ export const spherification: CookingMethodData = {
     "preservation of volatile flavors",
   ],
   astrologicalInfluences: {
-    favorableZodiac: ["aquarius", "gemini", "pisces"] as any[],
-    unfavorableZodiac: ["taurus", "virgo", "capricorn"] as any[],
+    favorableZodiac: ["aquarius", "gemini", "pisces"] as ZodiacSignType[],
+    unfavorableZodiac: ["taurus", "virgo", "capricorn"] as ZodiacSignType[],
     dominantPlanets: ["Neptune", "Uranus", "Mercury"],
     lunarPhaseEffect: {
       full_moon: 1.4, // Enhanced spherification
@@ -169,7 +170,9 @@ export const spherification: CookingMethodData = {
     entropy: 0.4, // Moderate structural transformation
     reactivity: 0.65, // High chemical reactivity (ionic gelation)
     gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as any,
+    // NOTE: entropy/reactivity are declared as _entropy/_reactivity on ThermodynamicProperties (src/types/shared.ts).
+    // This field-name mismatch is a pre-existing data bug preserved intentionally; do not rename in a types-only pass.
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.10,            // Room temp or slight warming — chemical, not thermal

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
+import type { HistoricalContext } from "@/services/HistoricalStatsService";
 
 interface ESMSKinetics {
   velocity: { Spirit: number; Essence: number; Matter: number; Substance: number };
@@ -23,6 +24,7 @@ interface CircuitData {
 interface ApiData {
   kinetics: ESMSKinetics;
   circuit: CircuitData;
+  historicalContext?: HistoricalContext;
 }
 
 const QUANTITIES = ["Spirit", "Essence", "Matter", "Substance"] as const;
@@ -157,7 +159,7 @@ export default function AlchmKinetics() {
         if (!response.ok) return;
         const data = await response.json();
         if (data.kinetics && data.circuit) {
-          setApiData({ kinetics: data.kinetics, circuit: data.circuit, historicalContext: data.historicalContext } as any);
+          setApiData({ kinetics: data.kinetics, circuit: data.circuit, historicalContext: data.historicalContext });
         }
       } catch (error) {
         console.error("Failed to fetch kinetics:", error);
@@ -257,18 +259,18 @@ export default function AlchmKinetics() {
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col">
             <CircuitStat label="Charge Q = M+Sub" value={circuit.charge} unit="u" />
-            {getZScoreBadge(circuit.charge, (apiData as any).historicalContext?.metrics?.charge)}
+            {getZScoreBadge(circuit.charge, apiData.historicalContext?.metrics?.charge)}
           </div>
           <div className="flex flex-col">
             <CircuitStat label="Potential ΔV" value={circuit.potentialDifference} />
           </div>
           <div className="flex flex-col">
             <CircuitStat label="Current Flow I" value={circuit.currentFlow} unit="A" />
-            {getZScoreBadge(circuit.currentFlow, (apiData as any).historicalContext?.metrics?.currentFlow)}
+            {getZScoreBadge(circuit.currentFlow, apiData.historicalContext?.metrics?.currentFlow)}
           </div>
           <div className="flex flex-col">
             <CircuitStat label="Power P = IV" value={circuit.power} />
-            {getZScoreBadge(circuit.power, (apiData as any).historicalContext?.metrics?.power)}
+            {getZScoreBadge(circuit.power, apiData.historicalContext?.metrics?.power)}
           </div>
           <div className="flex flex-col">
             <CircuitStat label="Inertia" value={circuit.inertia} />

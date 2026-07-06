@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod } from "@/types/shared";
+import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Marinating: A technique that soaks food in a flavorful liquid to enhance taste,
@@ -65,12 +65,21 @@ export const _marinating: CookingMethodData = {
     "Some marinades contain high amounts of sodium, sugar, or fat",
     "Proper refrigeration is essential for food safety",
   ],
+  // NOTE: these keys are NON-underscore `entropy`/`reactivity`, which do NOT match
+  // the shared ThermodynamicProperties interface (src/types/shared.ts) whose fields
+  // are `_entropy`/`_reactivity`. UI consumers that read the un-prefixed fields
+  // (e.g. CookingMethodPreview / CookingMethods / EnhancedCookingMethodRecommender)
+  // get these authored values; any consumer reading `._entropy`/`._reactivity`
+  // (e.g. src/utils/recommendation/methodRecommendation.ts) silently falls back to 0.5.
+  // Pre-existing latent data bug, preserved intentionally — a types-only pass must not
+  // rename the data keys (that would change behavior). The shape and target field names
+  // are mutually non-assignable, so the double assertion through `unknown` is required.
   thermodynamicProperties: {
     heat: 0.1, // No heat, cold marination
     entropy: 0.25, // Low structural change
     reactivity: 0.5, // Moderate flavor penetration
     gregsEnergy: -0.025, // heat - (entropy × reactivity)
-  } as any,
+  } as unknown as ThermodynamicProperties,
 
   kineticProfile: {
     voltage: 0.08,            // Ambient temp — minimal thermal differential
