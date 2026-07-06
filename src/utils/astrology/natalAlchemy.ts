@@ -69,8 +69,17 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
     const weight = NATAL_WEIGHTS[planetName] || 0;
 
     if (weight > 0) {
+      // Natal chart signs are stored lowercase (ZodiacSignType, via
+      // natalChartService.normalizeSignName), but SIGN_PROPERTIES is keyed by
+      // capitalized names. Normalize before lookup — without this every lookup
+      // missed, so elementalScores/modalityScores stayed 0 and the entire
+      // profile (elements + ESMS + thermodynamics) computed to zero.
       const sign = planet.sign;
-      const properties = SIGN_PROPERTIES[sign];
+      const normalizedSign =
+        typeof sign === "string" && sign.length > 0
+          ? sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase()
+          : "";
+      const properties = SIGN_PROPERTIES[normalizedSign];
       if (properties) {
         elementalScores[properties.element] += weight;
         modalityScores[properties.modality] += weight;
