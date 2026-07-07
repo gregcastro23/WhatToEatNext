@@ -49,6 +49,10 @@ interface UserWithProfileRow {
   name?: string | null;
   birth_data?: string | UserProfile["birthData"] | null;
   natal_chart?: string | UserProfile["natalChart"] | null;
+  // users.profile JSONB (selected via `SELECT u.*`). Legacy fallback source for
+  // rows onboarded via /api/agent-forge/ignite before the dual-write fix, which
+  // wrote the natal chart / birth data here only, never to the columns above.
+  profile?: string | Record<string, unknown> | null;
   dietary_preferences?: string | Record<string, unknown> | null;
   preferences?: string | Record<string, unknown> | null;
   group_members?: string | UserProfile["groupMembers"] | null;
@@ -884,14 +888,32 @@ class UserDatabaseService {
     // Guarded JSON parsing: these are JSONB columns (node-postgres usually returns
     // them pre-parsed), but a text-typed or double-encoded value would otherwise
     // throw here and turn one corrupt row into a silent auth/profile-load outage.
-    const birthData = parseJsonColumn<UserProfile["birthData"] | undefined>(
+    const columnBirthData = parseJsonColumn<UserProfile["birthData"] | undefined>(
       row.birth_data,
       undefined,
     );
-    const natalChart = parseJsonColumn<UserProfile["natalChart"] | undefined>(
+    const columnNatalChart = parseJsonColumn<UserProfile["natalChart"] | undefined>(
       row.natal_chart,
       undefined,
     );
+
+    // Legacy heal: users onboarded via /api/agent-forge/ignite before the
+    // dual-write fix have their birth data + natal chart only in the
+    // users.profile JSONB, never in the canonical user_profiles columns. The
+    // column is authoritative when populated; fall back to the JSONB otherwise
+    // so their /lab ELEMENTAL BALANCE / THERMODYNAMICS panels derive stats
+    // instead of showing "AWAITING BACKEND". New writes go through
+    // updateUserProfile (dual-writes both), so the column wins going forward and
+    // this fallback only ever fires for un-backfilled legacy rows.
+    const jsonbProfile = parseJsonColumn<Record<string, unknown>>(row.profile, {});
+    const hasColumnBirthData = Object.keys(columnBirthData || {}).length > 0;
+    const hasColumnNatalChart = Object.keys(columnNatalChart || {}).length > 0;
+    const birthData = hasColumnBirthData
+      ? columnBirthData
+      : (jsonbProfile?.birthData as UserProfile["birthData"] | undefined);
+    const natalChart = hasColumnNatalChart
+      ? columnNatalChart
+      : (jsonbProfile?.natalChart as UserProfile["natalChart"] | undefined);
     const dietaryPreferences = parseJsonColumn<Record<string, unknown>>(
       row.dietary_preferences,
       {},
@@ -940,7 +962,11 @@ class UserDatabaseService {
         email: row.email,
         preferences,
         dietaryPreferences,
-        onboardingComplete: row.onboarding_completed === true,
+        // Same legacy heal as birthData/natalChart below: ignite-onboarded rows
+        // set onboardingComplete in the JSONB but not the column.
+        onboardingComplete:
+          row.onboarding_completed === true ||
+          jsonbProfile?.onboardingComplete === true,
         birthData:
           Object.keys(birthData || {}).length > 0 ? birthData : undefined,
         natalChart:

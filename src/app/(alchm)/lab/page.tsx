@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useState, type JSX, type ReactNode } from "react";
 import {
   AstrologicalClockPanel,
   CuisineExplorerPanel,
@@ -79,7 +79,7 @@ function AwaitingBackend({
 }: {
   title: string;
   endpoint: string;
-  note?: string;
+  note?: ReactNode;
 }): JSX.Element {
   return (
     <div
@@ -389,6 +389,22 @@ export default function LaboratoryDashboardPage(): JSX.Element {
     currentUser?.natalChart?.planets?.find((p) => p.name === "Sun")?.sign ?? null;
   const birthDate = currentUser?.birthData?.dateTime?.split("T")[0] ?? null;
 
+  // A signed-in user with no natal profile hasn't entered birth data yet — the
+  // old "Sign in to populate" copy was wrong for them. Branch the prompt: guests
+  // sign in first, signed-in users get a direct link to finish onboarding.
+  const noStatsNote: ReactNode = currentUser ? (
+    <>
+      Add your birth details to populate your natal profile.{" "}
+      <Link href="/onboarding" style={{ color: "var(--accent)", textDecoration: "underline" }}>
+        Complete onboarding →
+      </Link>
+    </>
+  ) : (
+    <>
+      Sign in and add your birth details to populate your natal profile.
+    </>
+  );
+
   return (
     <div
       style={{
@@ -495,7 +511,7 @@ export default function LaboratoryDashboardPage(): JSX.Element {
             <AwaitingBackend
               title="ELEMENTAL BALANCE"
               endpoint="user.stats"
-              note="No AlchemicalProfile on the current user. Sign in to populate."
+              note={noStatsNote}
             />
           )}
         </div>
@@ -512,7 +528,7 @@ export default function LaboratoryDashboardPage(): JSX.Element {
             <AwaitingBackend
               title="THERMODYNAMICS"
               endpoint="user.stats"
-              note="Spirit / Essence / Matter / Substance not yet populated."
+              note={noStatsNote}
             />
           )}
         </div>
