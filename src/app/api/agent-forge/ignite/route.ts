@@ -21,6 +21,7 @@ import { getServiceUrl } from "@/lib/serviceUrls";
 import { geocodeLocationSingle } from "@/services/geocodingService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize } from "@/services/RealAlchemizeService";
+import { userDatabase } from "@/services/userDatabaseService";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
@@ -126,22 +127,33 @@ export async function POST(req: Request) {
         updated_at = NOW()
     `, [userId, spirit, essence, matter, substance, baseArchetype]);
 
-    // Also update users.profile.birthData, users.profile.natalChart, and users.profile.onboardingComplete if present
+    // Persist birth data, natal chart, and onboarding completion through the
+    // canonical profile writer. This dual-writes BOTH the users.profile JSONB
+    // AND the normalized user_profiles columns (birth_data, natal_chart,
+    // onboarding_completed, onboarding_completed_at). Those columns are the
+    // source of truth that rowToUserWithProfile reads back into the session JWT,
+    // that the admin onboarding funnel queries, and that the /lab ELEMENTAL
+    // BALANCE / THERMODYNAMICS panels derive from — a raw jsonb_set on
+    // users.profile alone is invisible to all of them, which is why
+    // ignite-onboarded users saw "AWAITING BACKEND" despite completing
+    // onboarding. updateUserProfile handles the JSONB write internally, so it
+    // fully replaces the previous raw UPDATE.
     try {
-      await executeQuery(`
-        UPDATE users 
-        SET profile = jsonb_set(
-          jsonb_set(
-            jsonb_set(COALESCE(profile, '{}'::jsonb), '{birthData}', $1::jsonb),
-            '{natalChart}', $2::jsonb
-          ),
-          '{onboardingComplete}', 'true'::jsonb
-        )
-        WHERE id = $3
-      `, [JSON.stringify(birthData), JSON.stringify(chart), userId]);
-      console.log(`[ignite] Updated user natal chart profile and marked onboarding complete.`);
+      await userDatabase.updateUserProfile(
+        userId,
+        { birthData, natalChart: chart, onboardingComplete: true },
+        session.user.email || undefined,
+      );
+      console.log(`[ignite] Persisted natal profile + marked onboarding complete (user_profiles synced).`);
     } catch (err) {
-      console.warn("[ignite] Failed to update user profile JSONB:", err);
+      // Non-blocking, to preserve the "never 500 a successful ignition" contract
+      // (the constitution is already stored above). But log at error level: a
+      // failure here means the user onboarded yet will NOT appear in the funnel
+      // or /lab stats, so it must surface in logs/alerts rather than fail silently.
+      console.error(
+        "[ignite] CRITICAL: profile persistence failed — onboarding will not be reflected in user_profiles/funnel/lab:",
+        err,
+      );
     }
 
     // 8. Recipe Generation (free-tier Groq/Gemini fallback)
