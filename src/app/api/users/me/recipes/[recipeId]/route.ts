@@ -154,7 +154,7 @@ export async function POST(
     let reward: { tokenType: string; amount: number; hint: string } | null = null;
     const priorMadeIt = upsert.rows[0]?.prior_made_it === true;
     if (madeIt && !priorMadeIt) {
-      reportQuestEventBestEffort(userId, "cook_recipe");
+      void reportQuestEventBestEffort(userId, "cook_recipe");
       const result = await practiceRewardService.recognize(userId, "cooked_recipe", resolvedId);
       if (result.rewarded && result.tokenType && result.amount && result.hint) {
         reward = { tokenType: result.tokenType, amount: result.amount, hint: result.hint };

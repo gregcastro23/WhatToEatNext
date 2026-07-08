@@ -25,11 +25,11 @@ import {
 } from "@/components/RestaurantDiscovery/restaurantDisplay";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
-import { firePractice } from "@/lib/economy/practiceClient";
 import {
   useUserLocation,
   type CitySuggestion,
 } from "@/hooks/useUserLocation";
+import { firePractice } from "@/lib/economy/practiceClient";
 import type { SavedRestaurant } from "@/types/restaurant";
 import type {
   AlchmScoredRestaurant,

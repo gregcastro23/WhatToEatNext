@@ -287,6 +287,53 @@ export class RecipeService {
     };
   }
 
+  /**
+   * Semantic search over recipe descriptions via pgvector cosine distance.
+   * Callers embed the query text themselves (see src/lib/embeddings) and pass
+   * the resulting vector — this method stays DB-only, no OpenAI dependency here.
+   */
+  static async searchByDescription(
+    queryEmbedding: number[],
+    options: QueryOptions = {},
+  ): Promise<PaginationResult<RecipeSearch>> {
+    const { limit = 20, offset = 0 } = options;
+    const vectorLiteral = `[${queryEmbedding.join(",")}]`;
+
+    const countResult = await executeQuery<{ count: number }>(
+      `SELECT COUNT(*) as count FROM recipes r
+       WHERE r.is_public = true AND r.description_embedding IS NOT NULL`,
+      [],
+    );
+
+    const dataResult = await executeQuery<RecipeSearch>(
+      `SELECT
+        r.id, r.name, r.description, r.cuisine, r.category,
+        r.prep_time_minutes, r.cook_time_minutes, r.difficulty_level,
+        r.dietary_tags, r.popularity_score, r.user_rating,
+        ep.fire, ep.water, ep.earth, ep.air
+       FROM recipes r
+       LEFT JOIN elemental_properties ep ON (ep.entity_type = 'recipe' AND ep.entity_id = r.id)
+       WHERE r.is_public = true AND r.description_embedding IS NOT NULL
+       ORDER BY r.description_embedding <=> $1::vector
+       LIMIT $2 OFFSET $3`,
+      [vectorLiteral, limit, offset],
+    );
+
+    const total = countResult.rows[0].count;
+    const totalPages = Math.ceil(total / limit);
+    const page = Math.floor(offset / limit) + 1;
+
+    return {
+      data: dataResult.rows,
+      total,
+      page,
+      pageSize: limit,
+      totalPages,
+      hasNext: page < totalPages,
+      hasPrevious: page > 1,
+    };
+  }
+
   static async getRecipeIngredients(recipeId: string): Promise<
     Array<{
       ingredient: Ingredient;
