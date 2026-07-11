@@ -105,7 +105,14 @@ export async function POST(request: NextRequest) {
 
     feedDatabase.createEvent(userId, "commensal_request", { targetName }).catch(() => {});
 
-    if (!targetUserRecord || !targetUserRecord.isAgent) {
+    // Skip when the link is already accepted: a pending reverse-direction
+    // request auto-accepts inside createCommensalRequest (mutual interest),
+    // which notifies the original requester with commensal_accepted — a
+    // "wants to be your dining companion" ping here would be wrong.
+    if (
+      (!targetUserRecord || !targetUserRecord.isAgent) &&
+      finalCommensalship.status === "pending"
+    ) {
       notificationDatabase.createNotification(
         targetUserId,
         "commensal_request",

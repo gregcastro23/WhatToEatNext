@@ -41,6 +41,8 @@ interface CompanionSuggestionsProps {
   ) => void;
   activeGuests: Array<{ id?: string; name: string }>;
   refreshTrigger?: number;
+  /** When true the table is full (12 seats) — invite buttons are disabled. */
+  inviteDisabled?: boolean;
 }
 
 const ELEMENT_ICON: Record<string, React.ReactNode> = {
@@ -69,6 +71,7 @@ export function CompanionSuggestions({
   onInvite,
   activeGuests,
   refreshTrigger = 0,
+  inviteDisabled = false,
 }: CompanionSuggestionsProps) {
   const [activeAgents, setActiveAgents] = useState<Companion[]>([]);
   const [historicalAgents, setHistoricalAgents] = useState<Companion[]>([]);
@@ -309,11 +312,18 @@ export function CompanionSuggestions({
                       agent.natalChart,
                     )
                   }
-                  disabled={isAlreadyInvited}
+                  disabled={isAlreadyInvited || inviteDisabled}
+                  title={
+                    !isAlreadyInvited && inviteDisabled
+                      ? "A table seats twelve."
+                      : undefined
+                  }
                   className={`w-full py-1.5 rounded-lg text-xs font-bold transition-all ${
                     isAlreadyInvited
                       ? "bg-green-500/10 text-green-300 border border-green-500/20 cursor-default"
-                      : "bg-white/5 hover:bg-white/10 border border-white/10 text-purple-100 hover:text-white"
+                      : inviteDisabled
+                        ? "bg-white/5 border border-white/10 text-purple-100/40 cursor-not-allowed"
+                        : "bg-white/5 hover:bg-white/10 border border-white/10 text-purple-100 hover:text-white"
                   }`}
                 >
                   {isAlreadyInvited ? "Invited to Table" : "Invite to Table"}

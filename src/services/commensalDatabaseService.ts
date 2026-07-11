@@ -65,13 +65,20 @@ interface LinkedCommensalRow {
   synced_at?: DbTimestamp;
 }
 
+/**
+ * Row shape of the PROD saved_charts table (database/init/10-social-schema.sql):
+ * structured birth fields keyed by (user_id, chart_name). There are no
+ * chart_type / birth_data JSONB / natal_chart columns in prod.
+ */
 interface SavedChartRow {
   id?: string | null;
-  owner_id?: string | null;
-  label?: string | null;
-  chart_type?: SavedChart["chartType"] | null;
-  birth_data?: string | BirthData | null;
-  natal_chart?: string | NatalChart | null;
+  user_id?: string | null;
+  chart_name?: string | null;
+  birth_date?: DbTimestamp;
+  birth_time?: string | null;
+  birth_latitude?: number | string | null;
+  birth_longitude?: number | string | null;
+  timezone_str?: string | null;
   is_primary?: boolean | null;
   created_at?: DbTimestamp;
   updated_at?: DbTimestamp;
@@ -185,6 +192,11 @@ class CommensalDatabaseService {
   /**
    * Send a commensal request from requester to addressee.
    * Prevents duplicates and self-requests.
+   *
+   * Mutual-interest shortcut: if the addressee already has a PENDING request
+   * pointing back at the requester, this call is treated as consent — the
+   * existing reverse row is auto-accepted (no reciprocal insert) and the
+   * original requester gets the commensal_accepted notification.
    */
   async createCommensalRequest(
     requesterId: string,
@@ -207,26 +219,66 @@ class CommensalDatabaseService {
 
     if (db) {
       try {
-        // Check for existing commensalship in either direction
-        const existing = await db.executeQuery(
-          `SELECT id, status FROM commensalships
-           WHERE (requester_id::text = $1 AND addressee_id::text = $2)
-              OR (requester_id::text = $2 AND addressee_id::text = $1)`,
-          [requesterId, addresseeId],
-        );
+        // Check for an existing commensalship in either direction. Returns
+        // undefined when no row exists (caller should insert), otherwise the
+        // resolved commensalship (or null when blocked).
+        const resolveExisting = async (): Promise<
+          Commensalship | null | undefined
+        > => {
+          const existing = await db.executeQuery(
+            `SELECT id, status, requester_id FROM commensalships
+             WHERE (requester_id = $1::uuid AND addressee_id = $2::uuid)
+                OR (requester_id = $2::uuid AND addressee_id = $1::uuid)`,
+            [requesterId, addresseeId],
+          );
+          if (existing.rows.length === 0) return undefined;
 
-        if (existing.rows.length > 0) {
           const row = existing.rows[0];
           if (row.status === "blocked") return null;
-          // Already exists — return existing
-          return await this.getCommensalshipById(row.id);
-        }
 
-        await db.executeQuery(
-          `INSERT INTO commensalships (id, requester_id, addressee_id, status)
-           VALUES ($1, $2::uuid, $3::uuid, 'pending')`,
-          [id, requesterId, addresseeId],
-        );
+          const isReversePending =
+            row.status === "pending" && String(row.requester_id) === addresseeId;
+          if (isReversePending) {
+            // The target already requested me — mutual interest. Accept their
+            // pending request instead of inserting a reciprocal row. The
+            // status guard makes concurrent accepts idempotent.
+            const updated = await db.executeQuery(
+              `UPDATE commensalships
+                  SET status = 'accepted', updated_at = CURRENT_TIMESTAMP
+                WHERE id = $1 AND status = 'pending'`,
+              [row.id],
+            );
+            if ((updated.rowCount ?? 0) > 0) {
+              // Fire-and-forget: never block the request path on notification.
+              void this.notifyAutoAccepted(
+                addresseeId,
+                requesterId,
+                String(row.id),
+              );
+            }
+          }
+          return await this.getCommensalshipById(String(row.id));
+        };
+
+        const preExisting = await resolveExisting();
+        if (preExisting !== undefined) return preExisting;
+
+        try {
+          await db.executeQuery(
+            `INSERT INTO commensalships (id, requester_id, addressee_id, status)
+             VALUES ($1, $2::uuid, $3::uuid, 'pending')`,
+            [id, requesterId, addresseeId],
+          );
+        } catch (insertError) {
+          // 23505 = unique violation: a concurrent request for this pair won
+          // the race (including the reverse direction, via the unordered-pair
+          // index idx_commensalships_pair). Resolve against what landed.
+          if ((insertError as { code?: string })?.code === "23505") {
+            const raced = await resolveExisting();
+            return raced ?? null;
+          }
+          throw insertError;
+        }
 
         // Fetch with names
         return await this.getCommensalshipById(id);
@@ -236,9 +288,67 @@ class CommensalDatabaseService {
       }
     }
 
-    // In-memory fallback
+    // In-memory fallback (mirrors the DB semantics, incl. mutual auto-accept)
+    const existingLocal = Array.from(commensalshipsStore.values()).find(
+      (c) =>
+        (c.requesterId === requesterId && c.addresseeId === addresseeId) ||
+        (c.requesterId === addresseeId && c.addresseeId === requesterId),
+    );
+    if (existingLocal) {
+      if (existingLocal.status === "blocked") return null;
+      if (
+        existingLocal.status === "pending" &&
+        existingLocal.requesterId === addresseeId
+      ) {
+        existingLocal.status = "accepted";
+        existingLocal.updatedAt = new Date().toISOString();
+      }
+      return existingLocal;
+    }
     commensalshipsStore.set(id, commensalship);
     return commensalship;
+  }
+
+  /**
+   * Notify the ORIGINAL requester that their pending request was accepted via
+   * the mutual-interest shortcut. Fire-and-forget; failures only warn.
+   */
+  private async notifyAutoAccepted(
+    originalRequesterId: string,
+    accepterId: string,
+    commensalshipId: string,
+  ): Promise<void> {
+    try {
+      let accepterName = "Someone";
+      const db = await getDbModule();
+      if (db) {
+        try {
+          const res = await db.executeQuery(
+            `SELECT COALESCE(NULLIF(profile->>'name', ''), NULLIF(name, ''), '') AS name
+               FROM users WHERE id = $1::uuid`,
+            [accepterId],
+          );
+          accepterName = res.rows[0]?.name || "Someone";
+        } catch {
+          // keep the generic fallback name
+        }
+      }
+      const { notificationDatabase } = await import(
+        "@/services/notificationDatabaseService"
+      );
+      await notificationDatabase.createNotification(
+        originalRequesterId,
+        "commensal_accepted",
+        "Dining Companion Request Accepted",
+        `${accepterName} accepted your dining companion request`,
+        {
+          relatedUserId: accepterId,
+          metadata: { commensalshipId },
+        },
+      );
+    } catch (error) {
+      _logger.warn("notifyAutoAccepted failed (non-blocking):", error);
+    }
   }
 
   /**
@@ -323,6 +433,165 @@ class CommensalDatabaseService {
     }
 
     commensalshipsStore.delete(commensalshipId);
+    return true;
+  }
+
+  /**
+   * Block a companion link. Either party may block. Upserts the pair row to
+   * status='blocked', creating one when no relationship exists yet.
+   * Blocked rows are excluded from linked-commensal listings (those filter on
+   * status='accepted') and createCommensalRequest returns null for the pair.
+   * Silent by design — no notifications for block/unblock.
+   */
+  async blockCommensal(
+    actingUserId: string,
+    opts: { commensalshipId?: string; targetUserId?: string },
+  ): Promise<Commensalship | null> {
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        if (opts.commensalshipId) {
+          const result = await db.executeQuery(
+            `UPDATE commensalships
+                SET status = 'blocked', updated_at = CURRENT_TIMESTAMP
+              WHERE id = $1
+                AND (requester_id = $2::uuid OR addressee_id = $2::uuid)`,
+            [opts.commensalshipId, actingUserId],
+          );
+          if ((result.rowCount ?? 0) === 0) return null;
+          return await this.getCommensalshipById(opts.commensalshipId);
+        }
+
+        if (opts.targetUserId) {
+          if (opts.targetUserId === actingUserId) return null;
+
+          const existing = await db.executeQuery(
+            `SELECT id FROM commensalships
+             WHERE (requester_id = $1::uuid AND addressee_id = $2::uuid)
+                OR (requester_id = $2::uuid AND addressee_id = $1::uuid)`,
+            [actingUserId, opts.targetUserId],
+          );
+          if (existing.rows.length > 0) {
+            const rowId = String(existing.rows[0].id);
+            await db.executeQuery(
+              `UPDATE commensalships
+                  SET status = 'blocked', updated_at = CURRENT_TIMESTAMP
+                WHERE id = $1`,
+              [rowId],
+            );
+            return await this.getCommensalshipById(rowId);
+          }
+
+          const id = `commensal_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+          try {
+            await db.executeQuery(
+              `INSERT INTO commensalships (id, requester_id, addressee_id, status)
+               VALUES ($1, $2::uuid, $3::uuid, 'blocked')`,
+              [id, actingUserId, opts.targetUserId],
+            );
+          } catch (insertError) {
+            // Unordered-pair unique index: a concurrent row landed first —
+            // block that one instead.
+            if ((insertError as { code?: string })?.code === "23505") {
+              return await this.blockCommensal(actingUserId, opts);
+            }
+            throw insertError;
+          }
+          return await this.getCommensalshipById(id);
+        }
+
+        return null;
+      } catch (error) {
+        _logger.error("blockCommensal failed:", error);
+        return null;
+      }
+    }
+
+    // In-memory fallback
+    const local = opts.commensalshipId
+      ? commensalshipsStore.get(opts.commensalshipId)
+      : Array.from(commensalshipsStore.values()).find(
+          (c) =>
+            (c.requesterId === actingUserId && c.addresseeId === opts.targetUserId) ||
+            (c.requesterId === opts.targetUserId && c.addresseeId === actingUserId),
+        );
+    if (local) {
+      const isParty =
+        local.requesterId === actingUserId || local.addresseeId === actingUserId;
+      if (!isParty) return null;
+      local.status = "blocked";
+      local.updatedAt = new Date().toISOString();
+      return local;
+    }
+    if (opts.targetUserId && opts.targetUserId !== actingUserId) {
+      const now = new Date().toISOString();
+      const created: Commensalship = {
+        id: `commensal_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        requesterId: actingUserId,
+        addresseeId: opts.targetUserId,
+        status: "blocked",
+        createdAt: now,
+        updatedAt: now,
+      };
+      commensalshipsStore.set(created.id, created);
+      return created;
+    }
+    return null;
+  }
+
+  /**
+   * Unblock: delete the blocked pair row so a fresh request becomes possible.
+   * LIMITATION: the schema has no blocked_by column, so either party may clear
+   * a block (the blocker can simply re-block).
+   */
+  async unblockCommensal(
+    actingUserId: string,
+    opts: { commensalshipId?: string; targetUserId?: string },
+  ): Promise<boolean> {
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        if (opts.commensalshipId) {
+          const result = await db.executeQuery(
+            `DELETE FROM commensalships
+              WHERE id = $1 AND status = 'blocked'
+                AND (requester_id = $2::uuid OR addressee_id = $2::uuid)`,
+            [opts.commensalshipId, actingUserId],
+          );
+          return (result.rowCount ?? 0) > 0;
+        }
+        if (opts.targetUserId) {
+          const result = await db.executeQuery(
+            `DELETE FROM commensalships
+              WHERE status = 'blocked'
+                AND ((requester_id = $1::uuid AND addressee_id = $2::uuid)
+                  OR (requester_id = $2::uuid AND addressee_id = $1::uuid))`,
+            [actingUserId, opts.targetUserId],
+          );
+          return (result.rowCount ?? 0) > 0;
+        }
+        return false;
+      } catch (error) {
+        _logger.error("unblockCommensal failed:", error);
+        return false;
+      }
+    }
+
+    // In-memory fallback
+    const local = opts.commensalshipId
+      ? commensalshipsStore.get(opts.commensalshipId)
+      : Array.from(commensalshipsStore.values()).find(
+          (c) =>
+            (c.requesterId === actingUserId && c.addresseeId === opts.targetUserId) ||
+            (c.requesterId === opts.targetUserId && c.addresseeId === actingUserId),
+        );
+    if (!local || local.status !== "blocked") return false;
+    const isParty =
+      local.requesterId === actingUserId || local.addresseeId === actingUserId;
+    if (!isParty) return false;
+    commensalshipsStore.delete(local.id);
     return true;
   }
 
@@ -476,6 +745,9 @@ class CommensalDatabaseService {
   // ─── Saved Charts (Cosmic Identities) ───────────────────────
   // Moved here from the removed socialDatabaseService.
 
+  private static readonly SAVED_CHART_COLUMNS = `id, user_id, chart_name, birth_date, birth_time,
+          birth_latitude, birth_longitude, timezone_str, is_primary, created_at, updated_at`;
+
   async getSavedChartsForUser(userId: string): Promise<SavedChart[]> {
     const db = await getDbModule();
     if (db) {
@@ -483,7 +755,11 @@ class CommensalDatabaseService {
         // LIMIT is a safety ceiling, not pagination — a user's saved charts are
         // inherently few; the cap just bounds a pathological/abuse-driven read.
         const result = await db.executeQuery(
-          `SELECT * FROM saved_charts WHERE owner_id = $1 ORDER BY is_primary DESC, created_at ASC LIMIT 500`,
+          `SELECT ${CommensalDatabaseService.SAVED_CHART_COLUMNS}
+             FROM saved_charts
+            WHERE user_id = $1::uuid
+            ORDER BY is_primary DESC, created_at ASC
+            LIMIT 500`,
           [userId],
         );
         return result.rows.map((r: SavedChartRow) => this.rowToSavedChart(r));
@@ -495,6 +771,13 @@ class CommensalDatabaseService {
     return Array.from(savedChartsStore.values()).filter((c) => c.ownerId === userId);
   }
 
+  /**
+   * Persist a saved chart. Prod saved_charts stores structured birth fields
+   * only (no natal_chart JSONB), so the caller-computed natalChart/chartType
+   * are echoed back on the returned object for API-response shape but are not
+   * stored. Idempotent on (user_id, chart_name): re-saving an existing name
+   * returns the existing row instead of failing.
+   */
   async createSavedChart(data: {
     ownerId: string;
     label: string;
@@ -504,27 +787,71 @@ class CommensalDatabaseService {
     isPrimary?: boolean;
   }): Promise<SavedChart | null> {
     const db = await getDbModule();
-    const id = `chart_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const now = new Date().toISOString();
-    const chart: SavedChart = {
-      id, ownerId: data.ownerId, label: data.label, chartType: data.chartType,
-      birthData: data.birthData, natalChart: data.natalChart,
-      isPrimary: data.isPrimary ?? false, createdAt: now, updatedAt: now,
-    };
+
     if (db) {
       try {
-        await db.executeQuery(
-          `INSERT INTO saved_charts (id, owner_id, label, chart_type, birth_data, natal_chart, is_primary)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-          [id, data.ownerId, data.label, data.chartType,
-           JSON.stringify(data.birthData), JSON.stringify(data.natalChart), data.isPrimary ?? false],
+        const birthDate = new Date(data.birthData.dateTime);
+        if (Number.isNaN(birthDate.getTime())) {
+          _logger.error("createSavedChart: invalid birthData.dateTime");
+          return null;
+        }
+        const insert = await db.executeQuery(
+          `INSERT INTO saved_charts
+             (user_id, chart_name, birth_date, birth_time, birth_latitude,
+              birth_longitude, timezone_str, is_primary)
+           VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8)
+           ON CONFLICT (user_id, chart_name) DO NOTHING
+           RETURNING id, created_at, updated_at`,
+          [
+            data.ownerId,
+            data.label,
+            birthDate.toISOString(),
+            birthDate.toISOString().slice(11, 19), // "HH:MM:SS" (UTC)
+            data.birthData.latitude,
+            data.birthData.longitude,
+            data.birthData.timezone || "UTC",
+            data.isPrimary ?? false,
+          ],
         );
-        return chart;
+
+        if (insert.rows.length === 0) {
+          // (user_id, chart_name) already exists — return the existing chart.
+          const existing = await db.executeQuery(
+            `SELECT ${CommensalDatabaseService.SAVED_CHART_COLUMNS}
+               FROM saved_charts
+              WHERE user_id = $1::uuid AND chart_name = $2`,
+            [data.ownerId, data.label],
+          );
+          return existing.rows.length > 0
+            ? this.rowToSavedChart(existing.rows[0])
+            : null;
+        }
+
+        const row = insert.rows[0];
+        return {
+          id: dbString(row.id),
+          ownerId: data.ownerId,
+          label: data.label,
+          chartType: data.chartType,
+          birthData: data.birthData,
+          natalChart: data.natalChart,
+          isPrimary: data.isPrimary ?? false,
+          createdAt: dbIsoString(row.created_at, now),
+          updatedAt: dbIsoString(row.updated_at, now),
+        };
       } catch (error) {
         _logger.error("createSavedChart failed:", error);
         return null;
       }
     }
+
+    const id = `chart_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const chart: SavedChart = {
+      id, ownerId: data.ownerId, label: data.label, chartType: data.chartType,
+      birthData: data.birthData, natalChart: data.natalChart,
+      isPrimary: data.isPrimary ?? false, createdAt: now, updatedAt: now,
+    };
     savedChartsStore.set(id, chart);
     return chart;
   }
@@ -532,11 +859,21 @@ class CommensalDatabaseService {
   private rowToSavedChart(row: SavedChartRow): SavedChart {
     return {
       id: dbString(row.id),
-      ownerId: dbString(row.owner_id),
-      label: dbString(row.label),
-      chartType: row.chart_type as SavedChart["chartType"],
-      birthData: readJsonColumn<BirthData>(row.birth_data, {} as BirthData),
-      natalChart: readJsonColumn<NatalChart>(row.natal_chart, {} as NatalChart),
+      ownerId: dbString(row.user_id),
+      label: dbString(row.chart_name),
+      // Prod saved_charts rows are user-owned cosmic identities (manual
+      // companions live in manual_companion_charts) — there is no chart_type
+      // column to read.
+      chartType: "cosmic_identity",
+      birthData: {
+        dateTime: dbIsoString(row.birth_date, ""),
+        latitude: Number(row.birth_latitude ?? 0),
+        longitude: Number(row.birth_longitude ?? 0),
+        timezone: row.timezone_str || undefined,
+      },
+      // No natal chart is stored in prod — callers needing planetary data must
+      // recompute from birthData. Empty object preserves the SavedChart shape.
+      natalChart: {} as NatalChart,
       isPrimary: row.is_primary === true,
       createdAt: dbIsoString(row.created_at),
       updatedAt: dbIsoString(row.updated_at),
@@ -603,6 +940,73 @@ class CommensalDatabaseService {
       }
     }
     return null;
+  }
+
+  /**
+   * Persist a batch of manual companions AND run a group-registration step as
+   * ONE atomic unit. All companion inserts go through a single checked-out
+   * client inside BEGIN/COMMIT; if any insert — or the registerGroup callback —
+   * throws, everything is rolled back (no orphaned companions, no group
+   * pointing at members that never landed).
+   *
+   * NOTE: registerGroup may use other services (e.g. updateUserProfile) that
+   * hold their own connection; its write commits independently, but a failure
+   * inside it still rolls the companion inserts back, which is the failure
+   * mode that used to strand orphans.
+   *
+   * Returns the created members, or null on failure (everything rolled back).
+   */
+  async createManualCompanionsAtomic(
+    ownerId: string,
+    companions: Array<{
+      name: string;
+      relationship?: string;
+      birthData: BirthData;
+      natalChart: NatalChart;
+    }>,
+    registerGroup: (created: GroupMember[]) => Promise<void>,
+  ): Promise<GroupMember[] | null> {
+    const db = await getDbModule();
+    if (!db) return null;
+
+    try {
+      return await db.withTransaction(async (client) => {
+        const created: GroupMember[] = [];
+        for (const c of companions) {
+          const id = `commensal_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+          await client.query(
+            `INSERT INTO manual_companion_charts (id, owner_id, name, relationship, birth_data, natal_chart)
+             VALUES ($1, $2::uuid, $3, $4, $5, $6)`,
+            [
+              id,
+              ownerId,
+              c.name,
+              c.relationship || "friend",
+              JSON.stringify(c.birthData),
+              JSON.stringify(c.natalChart),
+            ],
+          );
+          created.push({
+            id,
+            name: c.name,
+            relationship: normalizeGroupRelationship(c.relationship),
+            birthData: c.birthData,
+            natalChart: c.natalChart,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        // Register the group while the companion inserts are still
+        // uncommitted: a failure here rolls them back too.
+        await registerGroup(created);
+        return created;
+      });
+    } catch (error) {
+      _logger.error(
+        "createManualCompanionsAtomic failed (rolled back):",
+        error,
+      );
+      return null;
+    }
   }
 
   async deleteManualCompanion(id: string, ownerId: string): Promise<boolean> {
@@ -694,9 +1098,18 @@ class CommensalDatabaseService {
   /**
    * Load a user's primary elemental profile.
    *
-   * Looks at saved_charts (preferring is_primary) and falls back to the
-   * users.profile JSONB (older path). Recomputes from planetaryPositions
-   * when a stored elementalBalance is missing or stale-shaped.
+   * Sequential fallback chain — each step is isolated in its OWN try/catch so
+   * a failure (e.g. schema drift) in one source can never mask the next:
+   *   1. user_profiles.natal_chart column — the canonical profile write target
+   *      (userDatabaseService.updateUserProfile dual-writes here).
+   *   2. users.profile JSONB ->'natalChart' — legacy write path; heals users
+   *      whose chart only ever landed in the profile blob.
+   *   3. Give up → null with a warn log.
+   *
+   * NOTE: prod saved_charts has NO natal_chart column (see
+   * database/init/10-social-schema.sql), so it is intentionally not consulted.
+   * Recomputes from planetaryPositions when a stored elementalBalance is
+   * missing or stale-shaped.
    *
    * Returns null when the user has no chart on file — callers must handle.
    */
@@ -706,46 +1119,55 @@ class CommensalDatabaseService {
     const db = await getDbModule();
     if (!db) return null;
 
+    // 1. Canonical: user_profiles structured columns.
     try {
-      const chartResult = await db.executeQuery(
-        `SELECT natal_chart, birth_data
-         FROM saved_charts
-         WHERE owner_id::text = $1
-         ORDER BY is_primary DESC, created_at ASC
-         LIMIT 1`,
+      const result = await db.executeQuery(
+        `SELECT natal_chart, birth_data FROM user_profiles WHERE user_id = $1::uuid`,
         [userId],
       );
-
-      if (chartResult.rows.length > 0) {
-        const profile = this.extractElementalProfile(chartResult.rows[0]);
+      if (result.rows.length > 0) {
+        const profile = this.extractElementalProfile(result.rows[0]);
         if (profile) return profile;
       }
+    } catch (error) {
+      _logger.warn(
+        "getUserElementalProfile: user_profiles read failed, falling back to users.profile JSONB:",
+        error,
+      );
+    }
 
-      // Fallback to users.profile JSONB (older path before saved_charts existed)
-      const profileResult = await db.executeQuery(
-        `SELECT profile FROM users WHERE id::text = $1`,
+    // 2. Legacy: users.profile JSONB.
+    try {
+      const result = await db.executeQuery(
+        `SELECT profile FROM users WHERE id = $1::uuid`,
         [userId],
       );
-
-      if (profileResult.rows.length > 0) {
-        const profile = typeof profileResult.rows[0].profile === "string"
-          ? safeJsonParse(profileResult.rows[0].profile)
-          : profileResult.rows[0].profile;
+      if (result.rows.length > 0) {
+        const profile = typeof result.rows[0].profile === "string"
+          ? safeJsonParse(result.rows[0].profile)
+          : result.rows[0].profile;
         const natalChart = profile?.natalChart || profile?.natal_chart;
         const birthData = profile?.birthData || profile?.birth_data;
         if (natalChart) {
-          return this.extractElementalProfile({
+          const extracted = this.extractElementalProfile({
             natal_chart: natalChart,
             birth_data: birthData,
           });
+          if (extracted) return extracted;
         }
       }
-
-      return null;
     } catch (error) {
-      _logger.error("getUserElementalProfile failed:", error);
-      return null;
+      _logger.warn(
+        "getUserElementalProfile: users.profile JSONB fallback failed:",
+        error,
+      );
     }
+
+    // 3. Nothing usable on file.
+    _logger.warn(
+      `getUserElementalProfile: no elemental profile found for user ${userId}`,
+    );
+    return null;
   }
 
   private extractElementalProfile(row: {

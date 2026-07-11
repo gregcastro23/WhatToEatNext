@@ -11,6 +11,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
+import { rateLimit } from "@/lib/rateLimit";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import { safeJsonParse } from "@/utils/typeGuards";
@@ -64,7 +65,17 @@ function errorSummary(error: unknown): string {
   return "unavailable";
 }
 
+// Unauthenticated and fans out to the external PA API — moderate per-IP cap.
+const COMPANIONS_LIMIT = {
+  window: 60_000,
+  max: 30,
+  bucket: "commensal-companions",
+} as const;
+
 export async function GET(_req: NextRequest) {
+  const rl = await rateLimit(_req, COMPANIONS_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   const warnings: string[] = [];
 
   // Planetary activations and the local roster are independent sources. A

@@ -30,12 +30,17 @@ interface GuestEntry {
   natalChart?: NatalChart | null;
 }
 
+/** Max guests per session — mirrors the API's 12-guest schema cap. */
+const TABLE_CAPACITY = 12;
+
 interface GuestFormProps {
   onAdd: (name: string, data: BirthData) => void;
   onCompanionSaved?: () => void;
+  /** When true the table is full — submissions are disabled. */
+  atCapacity?: boolean;
 }
 
-function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
+function GuestForm({ onAdd, onCompanionSaved, atCapacity = false }: GuestFormProps) {
   const { status: authStatus } = useSession();
   const [name, setName] = useState("");
   const [dateTime, setDateTime] = useState("");
@@ -48,6 +53,7 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (atCapacity) return;
     if (name && dateTime && latitude && longitude) {
       const data: BirthData = {
         dateTime: new Date(dateTime).toISOString(),
@@ -80,9 +86,7 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
             }
 
             // Companion saved successfully!
-            setSuccessMsg(
-              `✓ Saved ${name}! Quest complete: Earned 20 Matter tokens.`,
-            );
+            setSuccessMsg(`✓ ${name} is at your table.`);
 
             // Trigger global token widget update
             if (typeof window !== "undefined") {
@@ -122,7 +126,7 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
         // Fallback for anonymous users: add locally
         onAdd(name, data);
         setSuccessMsg(
-          `Added locally. Sign in to save permanently & earn 20 Matter tokens!`,
+          "Added for this session. Sign in to keep them at your table.",
         );
         setName("");
         setDateTime("");
@@ -202,11 +206,17 @@ function GuestForm({ onAdd, onCompanionSaved }: GuestFormProps) {
 
       <button
         type="submit"
-        disabled={loading || !name || !dateTime || !latitude || !longitude}
+        disabled={
+          loading || atCapacity || !name || !dateTime || !latitude || !longitude
+        }
         className="w-full py-2.5 bg-gradient-to-r from-alchm-copper to-alchm-violet text-white text-sm font-bold rounded-lg hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
       >
         {loading ? "Calculating heavens & saving..." : "Add guest & Save Chart"}
       </button>
+
+      {atCapacity && (
+        <p className="text-[11px] text-amber-200/80">A table seats twelve.</p>
+      )}
 
       {successMsg && (
         <div className="px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-400/20 text-xs text-emerald-200">
@@ -247,12 +257,15 @@ export default function CommensalPage() {
     void run({ guests, location: searchLocation });
   };
 
+  const atCapacity = guests.length >= TABLE_CAPACITY;
+
   const handleInviteCompanion = (
     id: string,
     name: string,
     birthData: BirthData,
     natalChart: NatalChart | null,
   ) => {
+    if (guests.length >= TABLE_CAPACITY) return;
     if (
       guests.some(
         (guest) =>
@@ -303,8 +316,8 @@ export default function CommensalPage() {
           </h1>
           <p className="mt-4 text-white/60 max-w-2xl mx-auto text-lg">
             Add birth data for yourself and your companions. We&apos;ll find
-            real-time, perfectly balanced meals, recipes, and local restaurants
-            (via Foursquare) tailored for your group&apos;s composite energy.
+            real-time, perfectly balanced meals, recipes, and nearby
+            restaurants tailored for your group&apos;s composite energy.
           </p>
         </div>
 
@@ -316,15 +329,21 @@ export default function CommensalPage() {
           <aside className="md:col-span-1 space-y-5">
             <GuestForm
               onAdd={(name, data) =>
-                setGuests((prev) => [...prev, { name, birthData: data }])
+                setGuests((prev) =>
+                  prev.length >= TABLE_CAPACITY
+                    ? prev
+                    : [...prev, { name, birthData: data }],
+                )
               }
               onCompanionSaved={() => setRefreshTrigger((prev) => prev + 1)}
+              atCapacity={atCapacity}
             />
 
             <CompanionSuggestions
               onInvite={handleInviteCompanion}
               activeGuests={guests}
               refreshTrigger={refreshTrigger}
+              inviteDisabled={atCapacity}
             />
 
             <div className="glass-card-premium rounded-2xl p-5 border border-white/10">
@@ -372,8 +391,8 @@ export default function CommensalPage() {
                 showCoordinates={false}
               />
               <p className="text-[11px] text-white/40 mt-2 leading-relaxed">
-                Optional — leave blank to skip restaurant suggestions. We pass
-                exact coordinates to Foursquare for accurate local matches.
+                Optional — leave blank to skip restaurant suggestions. We use
+                your exact coordinates to find accurate nearby matches.
               </p>
             </div>
 

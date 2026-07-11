@@ -118,55 +118,46 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Persist companions sequentially so a partial failure halts cleanly with
-  // a clear error rather than fanning out partially-succeeded inserts.
-  const created: GroupMember[] = [];
-  for (const g of guests) {
-    const member = await commensalDatabase.createManualCompanion({
-      ownerId: user.id,
-      name: g.name,
-      relationship: g.relationship ?? "friend",
-      birthData: g.birthData,
-      natalChart: g.natalChart,
-    });
-    if (!member) {
-      _logger.error(
-        `[POST /api/commensal/save-group] Failed to save companion '${g.name}' for user ${user.id}`,
-      );
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Failed to save group companions. Please try again.",
-        },
-        { status: 500 },
-      );
-    }
-    created.push(member);
-  }
-
-  const now = new Date().toISOString();
-  const newGroup: DiningGroup = {
-    id: `group_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-    name: groupName.trim(),
-    memberIds: created.map((m) => m.id),
-    createdAt: now,
-    updatedAt: now,
-  };
-
+  // Persist companions AND register the group atomically: the companion
+  // inserts run on one transaction client, and the group registration happens
+  // before COMMIT — any failure rolls the whole write back, so there are
+  // never orphaned companions or a group without its members.
   const existingGroups = user.profile.diningGroups || [];
-  try {
-    await userDatabase.updateUserProfile(user.id, {
-      diningGroups: [...existingGroups, newGroup],
-    });
-  } catch (error) {
+  let newGroup: DiningGroup | null = null;
+
+  const created: GroupMember[] | null =
+    await commensalDatabase.createManualCompanionsAtomic(
+      user.id,
+      guests.map((g) => ({
+        name: g.name,
+        relationship: g.relationship ?? "friend",
+        birthData: g.birthData,
+        natalChart: g.natalChart,
+      })),
+      async (members) => {
+        const now = new Date().toISOString();
+        const group: DiningGroup = {
+          id: `group_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+          name: groupName.trim(),
+          memberIds: members.map((m) => m.id),
+          createdAt: now,
+          updatedAt: now,
+        };
+        await userDatabase.updateUserProfile(user.id, {
+          diningGroups: [...existingGroups, group],
+        });
+        newGroup = group;
+      },
+    );
+
+  if (!created || !newGroup) {
     _logger.error(
-      "[POST /api/commensal/save-group] Failed to update profile",
-      error,
+      `[POST /api/commensal/save-group] Atomic save failed for user ${user.id} — rolled back`,
     );
     return NextResponse.json(
       {
         success: false,
-        message: "Companions saved, but group registration failed.",
+        message: "Failed to save the group. Nothing was saved — please try again.",
       },
       { status: 500 },
     );
