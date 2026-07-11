@@ -1,5 +1,6 @@
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import {
+  apportionPercentages,
   ELEMENT_COLORS,
   ELEMENT_GLYPHS,
   ELEMENTS,
@@ -133,10 +134,15 @@ export function CompositeRadialBadge({
   const dominant = arcs.reduce((best, arc) =>
     arc.fraction > best.fraction ? arc : best,
   );
+  // Apportion from the drawn fractions (they sum to 1 even for an all-zero
+  // vector) so the announced percentages always sum to exactly 100.
+  const percentages = apportionPercentages(
+    Object.fromEntries(arcs.map((arc) => [arc.element, arc.fraction])),
+  );
   const label =
     ariaLabel ??
     `Elemental composition: ${arcs
-      .map((arc) => `${arc.element} ${Math.round(arc.fraction * 100)}%`)
+      .map((arc) => `${arc.element} ${percentages[arc.element]}%`)
       .join(", ")}`;
   return (
     <div

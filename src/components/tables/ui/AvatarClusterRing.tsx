@@ -34,6 +34,12 @@ const LABEL_TONE: Record<AvatarClusterRingVariant, string> = {
   host: "text-alchm-fg-mute",
 };
 
+const VARIANT_NAMES: Record<AvatarClusterRingVariant, string> = {
+  live: "Live table",
+  upcoming: "Upcoming table",
+  host: "Host a Table",
+};
+
 /**
  * Table-rail circular tile: gradient violet ring + glow when live, solid
  * copper ring for upcoming, dashed "Host a Table" affordance; inner circle
@@ -52,11 +58,15 @@ export function AvatarClusterRing({
   const ElementIcon = element ? ELEMENT_ICONS[element] : null;
   const members = avatars.slice(0, 3);
   const miniSize = Math.round(size * 0.42);
+  // Never an empty accessible name (axe button-name): announce the table
+  // state, plus the member names when there are any. A just-created table
+  // (no label, no avatars) still reads as "Live table" / "Upcoming table".
   const accessibleName =
-    label ??
-    (variant === "host"
-      ? "Host a Table"
-      : members.map((member) => member.name).join(", "));
+    members.length > 0
+      ? `${VARIANT_NAMES[variant]}: ${members
+          .map((member) => member.name)
+          .join(", ")}`
+      : label || VARIANT_NAMES[variant];
   return (
     <button
       type="button"

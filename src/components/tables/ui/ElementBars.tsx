@@ -1,4 +1,9 @@
-import { ELEMENT_COLORS, ELEMENTS, type Element } from "./elements";
+import {
+  apportionPercentages,
+  ELEMENT_COLORS,
+  ELEMENTS,
+  type Element,
+} from "./elements";
 import { LabelXS } from "./LabelXS";
 import type { JSX } from "react";
 
@@ -8,22 +13,14 @@ export interface ElementBarsProps {
   className?: string;
 }
 
-/** Normalize an element vector into whole percentages summing from raw shares. */
+/**
+ * Normalize an element vector into whole percentages that sum to exactly
+ * 100 (largest-remainder apportionment; all-zero input yields all 0s).
+ */
 export function elementPercentages(
   values: Partial<Record<Element, number>>,
 ): Record<Element, number> {
-  const total = ELEMENTS.reduce(
-    (sum, element) => sum + Math.max(0, values[element] ?? 0),
-    0,
-  );
-  return ELEMENTS.reduce(
-    (acc, element) => {
-      const value = Math.max(0, values[element] ?? 0);
-      acc[element] = total > 0 ? Math.round((value / total) * 100) : 0;
-      return acc;
-    },
-    {} as Record<Element, number>,
-  );
+  return apportionPercentages(values);
 }
 
 /**

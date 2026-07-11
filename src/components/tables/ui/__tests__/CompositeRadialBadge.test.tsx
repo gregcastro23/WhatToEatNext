@@ -56,6 +56,26 @@ describe("CompositeRadialBadge composite variant", () => {
     expect(Number(waterLength)).toBeCloseTo(0.5 * circumference, 5);
   });
 
+  it("announces percentages summing to exactly 100 for uneven thirds", () => {
+    render(
+      <CompositeRadialBadge values={{ Fire: 1, Water: 1, Earth: 1, Air: 0 }} />,
+    );
+    expect(
+      screen.getByRole("img", {
+        name: "Elemental composition: Fire 34%, Water 33%, Earth 33%, Air 0%",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("announces 25% quarters summing to 100 for an all-zero vector", () => {
+    render(<CompositeRadialBadge values={{}} />);
+    expect(
+      screen.getByRole("img", {
+        name: "Elemental composition: Fire 25%, Water 25%, Earth 25%, Air 25%",
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("skips zero-value elements and labels the mix for screen readers", () => {
     const { container } = render(
       <CompositeRadialBadge

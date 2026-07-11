@@ -78,4 +78,45 @@ export const ELEMENT_GLYPHS: Record<Element, GlyphName> = {
   Air: "triangle-up-bar",
 };
 
+/**
+ * Normalize an element vector into whole percentages via largest-remainder
+ * apportionment: floor each exact share, then hand the leftover points to
+ * the largest fractional remainders (ties broken deterministically by
+ * ELEMENTS order). Guarantees the values sum to exactly 100 whenever the
+ * input total is positive — independent per-element rounding does not
+ * ({Fire:1, Water:1, Earth:1} would otherwise read 33/33/33 = 99).
+ * Negative/missing entries count as 0; an all-zero vector returns all 0s.
+ */
+export function apportionPercentages(
+  values: Partial<Record<Element, number>>,
+): Record<Element, number> {
+  const result: Record<Element, number> = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+  };
+  const clamped = ELEMENTS.map(
+    (element) => [element, Math.max(0, values[element] ?? 0)] as const,
+  );
+  const total = clamped.reduce((sum, [, value]) => sum + value, 0);
+  if (total <= 0) return result;
+
+  let leftover = 100;
+  const remainders = clamped.map(([element, value], index) => {
+    const exact = (value / total) * 100;
+    const floored = Math.floor(exact);
+    result[element] = floored;
+    leftover -= floored;
+    return { element, remainder: exact - floored, index };
+  });
+  remainders.sort((a, b) => b.remainder - a.remainder || a.index - b.index);
+  for (const { element } of remainders) {
+    if (leftover <= 0) break;
+    result[element] += 1;
+    leftover -= 1;
+  }
+  return result;
+}
+
 export type { Element };

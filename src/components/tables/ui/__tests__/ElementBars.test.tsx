@@ -19,6 +19,17 @@ describe("elementPercentages", () => {
       Air: 0,
     });
   });
+
+  it("apportions so the percentages sum to exactly 100", () => {
+    // Independent rounding would produce 33/33/33/0 = 99 …
+    expect(
+      elementPercentages({ Fire: 1, Water: 1, Earth: 1, Air: 0 }),
+    ).toEqual({ Fire: 34, Water: 33, Earth: 33, Air: 0 });
+    // … or 34/34/33/0 = 101.
+    expect(
+      elementPercentages({ Fire: 0.335, Water: 0.335, Earth: 0.33, Air: 0 }),
+    ).toEqual({ Fire: 34, Water: 33, Earth: 33, Air: 0 });
+  });
 });
 
 describe("ElementBars", () => {
