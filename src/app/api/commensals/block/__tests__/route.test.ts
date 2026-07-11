@@ -77,15 +77,16 @@ describe("POST /api/commensals/block", () => {
     expect(commensalDatabase.blockCommensal).not.toHaveBeenCalled();
   });
 
-  it("blocks by targetUserId and returns the blocked commensalship", async () => {
+  it("blocks by targetUserId and returns success WITHOUT the commensalship body", async () => {
     (commensalDatabase.blockCommensal as jest.Mock).mockResolvedValue(blockedRow);
 
     const res = await POST(makeRequest({ targetUserId: TARGET }));
     const data = await res.json();
 
     expect(res.status).toBe(200);
-    expect(data.success).toBe(true);
-    expect(data.commensalship.status).toBe("blocked");
+    // The row carries both parties' emails and blocking works from a bare
+    // targetUserId — echoing it back would be an email-harvesting vector.
+    expect(data).toEqual({ success: true });
     expect(commensalDatabase.blockCommensal).toHaveBeenCalledWith(ME, {
       commensalshipId: undefined,
       targetUserId: TARGET,

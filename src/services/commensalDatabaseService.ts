@@ -20,6 +20,13 @@ import {
   isSectDiurnal,
 } from "@/utils/planetaryAlchemyMapping";
 import { safeJsonParse } from "@/utils/typeGuards";
+import type { PoolClient } from "pg";
+
+/**
+ * Minimal client surface handed to transactional callbacks — writes issued
+ * through it join the surrounding BEGIN/COMMIT.
+ */
+export type TransactionClient = Pick<PoolClient, "query">;
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;
@@ -122,6 +129,34 @@ const dbIsoString = (value: DbTimestamp, fallback = new Date().toISOString()): s
 const readJsonColumn = <T>(value: string | T | null | undefined, fallback: T): T => {
   if (typeof value === "string") return safeJsonParse<T>(value, fallback) ?? fallback;
   return value ?? fallback;
+};
+
+/**
+ * Local wall-clock "HH:MM:SS" at the birth location for a given instant —
+ * pre-drift prod saved_charts rows store birth_time as local wall time paired
+ * with timezone_str (the IANA zone). Falls back to the UTC clock (paired with
+ * timezone_str "UTC") when no/invalid timezone is supplied, keeping the two
+ * columns internally consistent.
+ */
+const localWallClock = (
+  instant: Date,
+  timeZone?: string,
+): { time: string; tz: string } => {
+  if (timeZone) {
+    try {
+      const time = new Intl.DateTimeFormat("en-GB", {
+        timeZone,
+        hourCycle: "h23",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }).format(instant);
+      return { time, tz: timeZone };
+    } catch {
+      // Invalid IANA zone name — fall through to UTC.
+    }
+  }
+  return { time: instant.toISOString().slice(11, 19), tz: "UTC" };
 };
 
 const normalizeGroupRelationship = (
@@ -389,10 +424,19 @@ class CommensalDatabaseService {
         // Can't accept if already blocked
         if (status === "blocked" && newStatus === "accepted") return null;
 
-        await db.executeQuery(
-          `UPDATE commensalships SET status = $2::commensalship_status, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+        // Accept is guarded (status='pending') so a concurrent block between
+        // the check above and this write can never be overwritten to accepted.
+        const guard = newStatus === "accepted" ? " AND status = 'pending'" : "";
+        const updated = await db.executeQuery(
+          `UPDATE commensalships SET status = $2::commensalship_status, updated_at = CURRENT_TIMESTAMP WHERE id = $1${guard}`,
           [commensalshipId, newStatus],
         );
+        if (newStatus === "accepted" && (updated.rowCount ?? 0) === 0) {
+          // The row changed under us. Re-read: an already-accepted row keeps
+          // accept idempotent; anything else (e.g. now blocked) is a refusal.
+          const current = await this.getCommensalshipById(commensalshipId);
+          return current?.status === "accepted" ? current : null;
+        }
 
         return await this.getCommensalshipById(commensalshipId);
       } catch (error) {
@@ -775,8 +819,9 @@ class CommensalDatabaseService {
    * Persist a saved chart. Prod saved_charts stores structured birth fields
    * only (no natal_chart JSONB), so the caller-computed natalChart/chartType
    * are echoed back on the returned object for API-response shape but are not
-   * stored. Idempotent on (user_id, chart_name): re-saving an existing name
-   * returns the existing row instead of failing.
+   * stored. Upserts on (user_id, chart_name): re-saving an existing name
+   * refreshes its birth fields instead of failing or silently discarding
+   * the caller's new data.
    */
   async createSavedChart(data: {
     ownerId: string;
@@ -796,39 +841,41 @@ class CommensalDatabaseService {
           _logger.error("createSavedChart: invalid birthData.dateTime");
           return null;
         }
+        // birth_time is LOCAL wall time at the birth location (matching
+        // pre-drift prod rows); birth_date is the birth instant (timestamptz
+        // normalizes to UTC internally, so the ISO instant is correct).
+        const wall = localWallClock(birthDate, data.birthData.timezone);
         const insert = await db.executeQuery(
           `INSERT INTO saved_charts
              (user_id, chart_name, birth_date, birth_time, birth_latitude,
               birth_longitude, timezone_str, is_primary)
            VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8)
-           ON CONFLICT (user_id, chart_name) DO NOTHING
+           ON CONFLICT (user_id, chart_name) DO UPDATE SET
+             birth_date = EXCLUDED.birth_date,
+             birth_time = EXCLUDED.birth_time,
+             birth_latitude = EXCLUDED.birth_latitude,
+             birth_longitude = EXCLUDED.birth_longitude,
+             timezone_str = EXCLUDED.timezone_str,
+             is_primary = EXCLUDED.is_primary,
+             updated_at = NOW()
            RETURNING id, created_at, updated_at`,
           [
             data.ownerId,
             data.label,
             birthDate.toISOString(),
-            birthDate.toISOString().slice(11, 19), // "HH:MM:SS" (UTC)
+            wall.time,
             data.birthData.latitude,
             data.birthData.longitude,
-            data.birthData.timezone || "UTC",
+            wall.tz,
             data.isPrimary ?? false,
           ],
         );
 
-        if (insert.rows.length === 0) {
-          // (user_id, chart_name) already exists — return the existing chart.
-          const existing = await db.executeQuery(
-            `SELECT ${CommensalDatabaseService.SAVED_CHART_COLUMNS}
-               FROM saved_charts
-              WHERE user_id = $1::uuid AND chart_name = $2`,
-            [data.ownerId, data.label],
-          );
-          return existing.rows.length > 0
-            ? this.rowToSavedChart(existing.rows[0])
-            : null;
-        }
-
         const row = insert.rows[0];
+        if (!row) {
+          _logger.error("createSavedChart: upsert returned no row");
+          return null;
+        }
         return {
           id: dbString(row.id),
           ownerId: data.ownerId,
@@ -944,15 +991,17 @@ class CommensalDatabaseService {
 
   /**
    * Persist a batch of manual companions AND run a group-registration step as
-   * ONE atomic unit. All companion inserts go through a single checked-out
-   * client inside BEGIN/COMMIT; if any insert — or the registerGroup callback —
-   * throws, everything is rolled back (no orphaned companions, no group
-   * pointing at members that never landed).
+   * ONE atomic unit. Everything — companion inserts and whatever registerGroup
+   * writes — runs on the SAME checked-out client inside one BEGIN/COMMIT, so a
+   * failure anywhere rolls the whole write back (no orphaned companions, no
+   * group pointing at members that never landed, and no group committed while
+   * its companions vanish).
    *
-   * NOTE: registerGroup may use other services (e.g. updateUserProfile) that
-   * hold their own connection; its write commits independently, but a failure
-   * inside it still rolls the companion inserts back, which is the failure
-   * mode that used to strand orphans.
+   * IMPORTANT: registerGroup receives the transaction client and MUST issue
+   * its writes through it. It must NOT acquire additional pooled connections
+   * (e.g. via other services) — the pool is small and hold-and-acquire under
+   * concurrency starves it, and any independently-committed write would break
+   * atomicity in the reverse direction.
    *
    * Returns the created members, or null on failure (everything rolled back).
    */
@@ -964,7 +1013,10 @@ class CommensalDatabaseService {
       birthData: BirthData;
       natalChart: NatalChart;
     }>,
-    registerGroup: (created: GroupMember[]) => Promise<void>,
+    registerGroup: (
+      created: GroupMember[],
+      client: TransactionClient,
+    ) => Promise<void>,
   ): Promise<GroupMember[] | null> {
     const db = await getDbModule();
     if (!db) return null;
@@ -995,9 +1047,8 @@ class CommensalDatabaseService {
             createdAt: new Date().toISOString(),
           });
         }
-        // Register the group while the companion inserts are still
-        // uncommitted: a failure here rolls them back too.
-        await registerGroup(created);
+        // Register the group on the same client, inside the same transaction.
+        await registerGroup(created, client);
         return created;
       });
     } catch (error) {

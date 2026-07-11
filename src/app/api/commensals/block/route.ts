@@ -96,7 +96,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ success: true, commensalship: blocked });
+    // Deliberately body-less: the commensalship row carries both parties'
+    // emails, and blocking works from a bare targetUserId — echoing the row
+    // back would be a silent email-harvesting vector.
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Block commensal error:", error);
     return NextResponse.json(

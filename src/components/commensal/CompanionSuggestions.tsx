@@ -228,7 +228,7 @@ export function CompanionSuggestions({
                 : activeTab === "feed"
                   ? "No recent feed broadcasts found. Sync agentic updates from Planetary Agents."
                   : activeTab === "saved"
-                    ? "You haven't saved any custom companion charts yet. Add charts using the form to persist them here and earn ESMS tokens!"
+                    ? "You haven't saved any custom companion charts yet. Add charts using the form to keep them here."
                     : "The cosmic roster is currently empty."}
             </p>
           </div>

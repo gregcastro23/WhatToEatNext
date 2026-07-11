@@ -261,3 +261,252 @@ describe("blocked rows stay out of the linked-commensal listing", () => {
     expect(sql).toContain("c.status = 'accepted'");
   });
 });
+
+describe("blockCommensal / unblockCommensal", () => {
+  const blockedJoinRow = {
+    id: "c-1",
+    requester_id: ME,
+    addressee_id: TARGET,
+    status: "blocked",
+    created_at: "2026-07-01T00:00:00Z",
+    updated_at: "2026-07-11T00:00:00Z",
+    requester_name: "Me",
+    requester_email: "me@example.com",
+    addressee_name: "Target",
+    addressee_email: "target@example.com",
+  };
+
+  it("upserts an EXISTING pair row to blocked (by targetUserId)", async () => {
+    const updates: Array<{ sql: string; params: unknown[] }> = [];
+    mockExecuteQuery.mockImplementation(async (sql: string, params: unknown[]) => {
+      if (sql.includes("SELECT id FROM commensalships")) {
+        return { rows: [{ id: "c-1" }], rowCount: 1 };
+      }
+      if (sql.includes("UPDATE commensalships")) {
+        updates.push({ sql, params });
+        return { rows: [], rowCount: 1 };
+      }
+      if (sql.includes("FROM commensalships c")) {
+        return { rows: [blockedJoinRow], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.blockCommensal(ME, {
+      targetUserId: TARGET,
+    });
+
+    expect(result).not.toBeNull();
+    expect(result!.status).toBe("blocked");
+    expect(updates).toHaveLength(1);
+    expect(updates[0].sql).toContain("SET status = 'blocked'");
+    expect(updates[0].params).toEqual(["c-1"]);
+    expect(sqlCalls().some((q) => q.includes("INSERT INTO"))).toBe(false);
+  });
+
+  it("creates a blocked row when NO relationship exists yet", async () => {
+    const inserts: Array<{ sql: string; params: unknown[] }> = [];
+    mockExecuteQuery.mockImplementation(async (sql: string, params: unknown[]) => {
+      if (sql.includes("SELECT id FROM commensalships")) {
+        return { rows: [], rowCount: 0 };
+      }
+      if (sql.includes("INSERT INTO commensalships")) {
+        inserts.push({ sql, params });
+        return { rows: [], rowCount: 1 };
+      }
+      if (sql.includes("FROM commensalships c")) {
+        return { rows: [blockedJoinRow], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.blockCommensal(ME, {
+      targetUserId: TARGET,
+    });
+
+    expect(result).not.toBeNull();
+    expect(result!.status).toBe("blocked");
+    expect(inserts).toHaveLength(1);
+    expect(inserts[0].sql).toContain("'blocked'");
+    expect(inserts[0].params.slice(1)).toEqual([ME, TARGET]);
+  });
+
+  it("retries on a 23505 insert race and blocks the row that won", async () => {
+    let selectCount = 0;
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      if (sql.includes("SELECT id FROM commensalships")) {
+        selectCount += 1;
+        // First look: no row. After the racing insert collides: the
+        // concurrent row exists — block that one instead.
+        if (selectCount === 1) return { rows: [], rowCount: 0 };
+        return { rows: [{ id: "c-2" }], rowCount: 1 };
+      }
+      if (sql.includes("INSERT INTO commensalships")) {
+        const err = new Error("duplicate key") as Error & { code?: string };
+        err.code = "23505";
+        throw err;
+      }
+      if (sql.includes("UPDATE commensalships")) {
+        return { rows: [], rowCount: 1 };
+      }
+      if (sql.includes("FROM commensalships c")) {
+        return { rows: [{ ...blockedJoinRow, id: "c-2" }], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.blockCommensal(ME, {
+      targetUserId: TARGET,
+    });
+
+    expect(result).not.toBeNull();
+    expect(result!.status).toBe("blocked");
+    expect(result!.id).toBe("c-2");
+  });
+
+  it("returns null when blocking by commensalshipId the actor is not a party to", async () => {
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      if (sql.includes("UPDATE commensalships")) {
+        // Party guard in the WHERE clause matched nothing.
+        return { rows: [], rowCount: 0 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.blockCommensal(ME, {
+      commensalshipId: "someone-elses",
+    });
+
+    expect(result).toBeNull();
+  });
+
+  it("unblock deletes ONLY the blocked row between the two users", async () => {
+    const deletes: Array<{ sql: string; params: unknown[] }> = [];
+    mockExecuteQuery.mockImplementation(async (sql: string, params: unknown[]) => {
+      if (sql.includes("DELETE FROM commensalships")) {
+        deletes.push({ sql, params });
+        return { rows: [], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const removed = await commensalDatabase.unblockCommensal(ME, {
+      targetUserId: TARGET,
+    });
+
+    expect(removed).toBe(true);
+    expect(deletes).toHaveLength(1);
+    // Scoped to blocked status AND the exact unordered pair.
+    expect(deletes[0].sql).toContain("status = 'blocked'");
+    expect(deletes[0].sql).toContain(
+      "requester_id = $1::uuid AND addressee_id = $2::uuid",
+    );
+    expect(deletes[0].sql).toContain(
+      "requester_id = $2::uuid AND addressee_id = $1::uuid",
+    );
+    expect(deletes[0].params).toEqual([ME, TARGET]);
+  });
+
+  it("unblock returns false when there is no blocked row", async () => {
+    mockExecuteQuery.mockResolvedValue({ rows: [], rowCount: 0 });
+
+    const removed = await commensalDatabase.unblockCommensal(ME, {
+      targetUserId: TARGET,
+    });
+
+    expect(removed).toBe(false);
+  });
+});
+
+describe("updateCommensalshipStatus — guarded accept", () => {
+  const checkRow = { requester_id: TARGET, addressee_id: ME, status: "pending" };
+  const joinRow = (status: string) => ({
+    id: "c-1",
+    requester_id: TARGET,
+    addressee_id: ME,
+    status,
+    created_at: "2026-07-01T00:00:00Z",
+    updated_at: "2026-07-11T00:00:00Z",
+    requester_name: "Target",
+    requester_email: "target@example.com",
+    addressee_name: "Me",
+    addressee_email: "me@example.com",
+  });
+
+  it("accepts with a status='pending' guard in the UPDATE", async () => {
+    const updates: string[] = [];
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      if (sql.includes("SELECT requester_id, addressee_id, status")) {
+        return { rows: [checkRow], rowCount: 1 };
+      }
+      if (sql.includes("UPDATE commensalships")) {
+        updates.push(sql);
+        return { rows: [], rowCount: 1 };
+      }
+      if (sql.includes("FROM commensalships c")) {
+        return { rows: [joinRow("accepted")], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.updateCommensalshipStatus(
+      "c-1",
+      "accepted",
+      ME,
+    );
+
+    expect(result).not.toBeNull();
+    expect(result!.status).toBe("accepted");
+    expect(updates).toHaveLength(1);
+    expect(updates[0]).toContain("AND status = 'pending'");
+  });
+
+  it("refuses accept when a concurrent block landed between check and write", async () => {
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      if (sql.includes("SELECT requester_id, addressee_id, status")) {
+        // Check still sees pending...
+        return { rows: [checkRow], rowCount: 1 };
+      }
+      if (sql.includes("UPDATE commensalships")) {
+        // ...but the guarded UPDATE matches nothing (row was just blocked).
+        return { rows: [], rowCount: 0 };
+      }
+      if (sql.includes("FROM commensalships c")) {
+        return { rows: [joinRow("blocked")], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.updateCommensalshipStatus(
+      "c-1",
+      "accepted",
+      ME,
+    );
+
+    expect(result).toBeNull();
+  });
+
+  it("keeps accept idempotent when the row was already accepted concurrently", async () => {
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      if (sql.includes("SELECT requester_id, addressee_id, status")) {
+        return { rows: [checkRow], rowCount: 1 };
+      }
+      if (sql.includes("UPDATE commensalships")) {
+        return { rows: [], rowCount: 0 };
+      }
+      if (sql.includes("FROM commensalships c")) {
+        return { rows: [joinRow("accepted")], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${sql}`);
+    });
+
+    const result = await commensalDatabase.updateCommensalshipStatus(
+      "c-1",
+      "accepted",
+      ME,
+    );
+
+    expect(result).not.toBeNull();
+    expect(result!.status).toBe("accepted");
+  });
+});
