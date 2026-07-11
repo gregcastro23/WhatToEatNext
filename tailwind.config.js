@@ -31,6 +31,12 @@ export default {
         // Accents
         "alchm-violet": "oklch(0.72 0.18 305)",
         "alchm-copper": "oklch(0.78 0.14 65)",
+        // Tables surface bright accent tints + warm metadata tone
+        // (docs/design/tables-design-spec.md §1). Hex on purpose so
+        // /alpha modifiers work, same as menu-planner tokens.
+        "alchm-copper-bright": "#fec184",
+        "alchm-violet-bright": "#e1b6ff",
+        "alchm-fg-warm": "#d5c3b5",
         "alchm-violet-soft":
           "color-mix(in oklch, oklch(0.72 0.18 305), transparent 70%)",
         "alchm-violet-glow":
@@ -144,6 +150,22 @@ export default {
         "alchm-sm": "8px",
         alchm: "14px",
         "alchm-lg": "16px",
+      },
+      // Tables type scale (docs/design/tables-design-spec.md §1). The
+      // colliding menu-planner `.text-display-lg` / `.text-headline-md` /
+      // `.text-body-lg` aliases were removed from globals.css (the planner
+      // uses the `font-*` spellings, which remain).
+      fontSize: {
+        "display-lg": [
+          "3rem",
+          { lineHeight: "3.5rem", letterSpacing: "-0.02em", fontWeight: "700" },
+        ],
+        "headline-md": ["1.5rem", { lineHeight: "2rem", fontWeight: "600" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.75rem", fontWeight: "400" }],
+        "label-xs": [
+          "0.625rem",
+          { lineHeight: "1rem", letterSpacing: "0.1em", fontWeight: "700" },
+        ],
       },
       keyframes: {
         "fade-in": {
