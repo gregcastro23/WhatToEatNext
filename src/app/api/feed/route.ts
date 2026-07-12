@@ -22,7 +22,6 @@ import { NextResponse } from "next/server";
 import { redisCached } from "@/lib/redis";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
-import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
 
@@ -283,10 +282,16 @@ export async function POST(request: Request) {
     }
 
     try {
+      // Agent-broadcast fan-out (§6). Default OFF: the /feed UI filters agent
+      // events OUT of the stream, so these rows have no click-through surface —
+      // pure bell spam until that changes. When enabled, it is ONE set-based
+      // INSERT…SELECT (single round-trip regardless of user count) instead of
+      // the old getAllUsers() + per-user createNotification O(users) fan-out.
       if (
-        incomingEventType === "insight" ||
-        incomingEventType === "lab_entry" ||
-        incomingEventType === "made_it"
+        process.env.AGENT_BROADCAST_NOTIFICATIONS_ENABLED === "true" &&
+        (incomingEventType === "insight" ||
+          incomingEventType === "lab_entry" ||
+          incomingEventType === "made_it")
       ) {
         const title =
           asString(metadataPayload.insightTitle) ||
@@ -299,25 +304,22 @@ export async function POST(request: Request) {
           asString(metadataPayload.review) ||
           `A Planetary Agent has shared a new ${incomingEventType.replace("_", " ")}.`;
 
-        const allUsers = await userDatabase.getAllUsers();
-
-        await Promise.allSettled(
-          allUsers.map((u) =>
-            notificationDatabase.createNotification(
-              u.id,
-              "agent_broadcast",
-              title,
-              message,
-              {
-                relatedUserId: user.id,
-                metadata: {
-                  ...metadataPayload,
-                  agentName: user.profile?.name || normalizedEmail,
-                  eventType: incomingEventType,
-                },
-              },
-            ),
-          ),
+        const { executeQuery } = await import("@/lib/database");
+        const metadata = JSON.stringify({
+          ...metadataPayload,
+          agentName: user.profile?.name || normalizedEmail,
+          eventType: incomingEventType,
+        });
+        // Unique text id per row (matches the notif_<ts>_<rand> service
+        // convention — see Risk 1; the column accepts text ids in prod).
+        await executeQuery(
+          `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
+           SELECT 'notif_' || floor(extract(epoch from now()) * 1000)::bigint
+                    || '_' || substr(md5(random()::text || u.id::text), 1, 6),
+                  u.id, 'agent_broadcast', $1, $2, $3, $4::jsonb
+             FROM users u
+            WHERE COALESCE(u.is_agent, false) = false`,
+          [title, message, user.id, metadata],
         );
       }
     } catch (notifError) {

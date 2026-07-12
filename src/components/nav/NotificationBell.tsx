@@ -110,11 +110,17 @@ export default function NotificationBell() {
                       if (!n.isRead) {
                         void markAsRead(n.id);
                       }
-                      if (n.type === 'quest_completed') {
-                        setOpen(false);
+                      setOpen(false);
+                      // Engagement bells (PR 5) deep-link to the feed event.
+                      const eventId = n.metadata?.eventId;
+                      if (
+                        (n.type === 'reaction_received' || n.type === 'comment_received') &&
+                        eventId
+                      ) {
+                        router.push(`/feed#event-${eventId}`);
+                      } else if (n.type === 'quest_completed') {
                         router.push('/grimoire');
                       } else {
-                        setOpen(false);
                         router.push('/profile');
                       }
                     }}

@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { isBlockedBetween, sanitizeCommentBody } from "@/lib/feed/commentEnforcement";
+import { notifyCommentReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
 import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
@@ -123,7 +124,15 @@ export async function POST(request: NextRequest) {
       } catch (error) {
         console.warn("[feed/comments] work_discussed recognize failed:", error);
       }
-      // (Commit 3 wires notifyCommentReceived here — the actor's deduped bell.)
+
+      // Fire-and-forget bell to the event actor (deduped; self/blocked/agent-safe
+      // — the dispatcher re-checks agent + block before writing).
+      void notifyCommentReceived({
+        eventId,
+        actorId: userId,
+        recipientId: actorId,
+        excerpt: cleanBody.slice(0, 120),
+      });
     }
 
     return NextResponse.json({ success: true, comment, reward });

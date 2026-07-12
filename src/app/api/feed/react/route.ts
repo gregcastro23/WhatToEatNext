@@ -20,6 +20,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { notifyReactionReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
@@ -106,7 +107,10 @@ export async function POST(request: NextRequest) {
       // Poster's resonance (once-ever per event: the FIRST spark pays the maker;
       // catalog caps how many works can resonate per day).
       await practiceRewardService.recognize(posterId, "work_resonated", eventId);
-      // (Commit 3 wires notifyReactionReceived here — the poster's deduped bell.)
+
+      // Fire-and-forget bell to the poster (deduped; self/blocked/agent-safe).
+      // Only on fresh insert — a re-tap of an existing kind never re-notifies.
+      void notifyReactionReceived({ eventId, actorId: userId, recipientId: posterId, kind });
     } else {
       // No insert landed → the viewer already had this kind: un-react.
       const del = await executeQuery(
