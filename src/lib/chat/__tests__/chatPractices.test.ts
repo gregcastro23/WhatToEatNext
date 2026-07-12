@@ -28,7 +28,7 @@ jest.mock("@/services/practiceRewardService", () => ({
   practiceRewardService: { recognize: (...a: unknown[]) => mockRecognize(...a) },
 }));
 jest.mock("@/services/notificationDatabaseService", () => ({
-  notificationDatabase: { createOrBumpEventNotification: jest.fn().mockResolvedValue(null) },
+  notificationDatabase: { createOrBumpConversationNotification: jest.fn().mockResolvedValue(null) },
 }));
 jest.mock("@/lib/feed/cookPhotoStorage", () => ({ storeChatPhoto: jest.fn() }));
 jest.mock("@/lib/chat/flags", () => ({

@@ -179,7 +179,7 @@ async function afterMessageInserted(
   await Promise.all(
     recipients.map((recipient) =>
       notificationDatabase
-        .createOrBumpEventNotification(recipient.userId, type, conversation.id, {
+        .createOrBumpConversationNotification(recipient.userId, type, conversation.id, {
           title,
           message: preview,
           relatedUserId: message.senderId,

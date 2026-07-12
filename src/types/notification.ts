@@ -21,6 +21,8 @@ export type NotificationType =
   | 'table_rsvp'
   | 'table_going_live'
   | 'table_memory_posted'
+  | 'reaction_received'
+  | 'comment_received'
   | 'dm_message'
   | 'circle_message'
   | 'table_chat_mention';
@@ -52,6 +54,14 @@ export interface NotificationMetadata {
   response?: string;
   feedEventId?: string;
   photoCount?: number;
+  /** Engagement notifications (PR 5): the feed event deep-linked from the bell. */
+  eventId?: string;
+  /** Number of distinct actors folded into one unread engagement row. */
+  count?: number;
+  /** Most-recent actor's display name (drives the "…and N others" copy). */
+  lastActorName?: string;
+  /** Reaction kind for reaction_received (spark/fire/water/earth/air). */
+  kind?: string;
   /** Chat deep-link target + dedup key (one unread row per recipient+conversation). */
   conversationId?: string;
   conversationKind?: string;
@@ -98,6 +108,8 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
   table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
   table_memory_posted: { bg: '#FFF8E1', border: '#e0a66b', icon: '📸' },
+  reaction_received:  { bg: '#FFF3E0', border: '#FFB74D', icon: '✨' },
+  comment_received:   { bg: '#E3F2FD', border: '#64B5F6', icon: '💬' },
   dm_message:          { bg: '#E8EAF6', border: '#7986CB', icon: '💬' },
   circle_message:      { bg: '#EDE9FE', border: '#A78BFA', icon: '💬' },
   table_chat_mention:  { bg: '#EDE9FE', border: '#B57EE0', icon: '📣' },

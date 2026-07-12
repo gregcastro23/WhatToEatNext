@@ -2,9 +2,9 @@
  * @jest-environment node
  *
  * The one-unread-row-per-(recipient, conversation) chat dedup upsert
- * (docs/plans/pr3-messaging-plan.md §6): createOrBumpEventNotification inserts
- * the first time and bumps an existing unread row's folded count thereafter;
- * clearChatNotifications marks a conversation's chat rows read.
+ * (docs/plans/pr3-messaging-plan.md §6): createOrBumpConversationNotification
+ * inserts the first time and bumps an existing unread row's folded count
+ * thereafter; clearChatNotifications marks a conversation's chat rows read.
  */
 
 const mockExecuteQuery = jest.fn();
@@ -52,7 +52,7 @@ beforeEach(() => {
 const clientCall = (needle: string) =>
   mockClientQuery.mock.calls.find(([sql]) => String(sql).includes(needle));
 
-describe("createOrBumpEventNotification", () => {
+describe("createOrBumpConversationNotification", () => {
   it("takes the advisory lock, then INSERTS a fresh row with unreadCount=1 when none exists", async () => {
     mockClientQuery.mockImplementation(async (sql: string) => {
       const q = String(sql);
@@ -78,7 +78,7 @@ describe("createOrBumpEventNotification", () => {
       throw new Error(`unexpected client query: ${q}`);
     });
 
-    const result = await notificationDatabase.createOrBumpEventNotification(
+    const result = await notificationDatabase.createOrBumpConversationNotification(
       CURIE,
       "dm_message",
       CONV,
@@ -126,7 +126,7 @@ describe("createOrBumpEventNotification", () => {
       throw new Error(`unexpected client query: ${q}`);
     });
 
-    await notificationDatabase.createOrBumpEventNotification(CURIE, "dm_message", CONV, {
+    await notificationDatabase.createOrBumpConversationNotification(CURIE, "dm_message", CONV, {
       title: "New message",
       message: "Third",
     });

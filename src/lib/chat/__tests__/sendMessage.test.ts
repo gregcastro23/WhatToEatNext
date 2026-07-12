@@ -39,7 +39,7 @@ jest.mock("@/services/practiceRewardService", () => ({
   practiceRewardService: { recognize: jest.fn().mockResolvedValue({ rewarded: false }) },
 }));
 jest.mock("@/services/notificationDatabaseService", () => ({
-  notificationDatabase: { createOrBumpEventNotification: jest.fn().mockResolvedValue(null) },
+  notificationDatabase: { createOrBumpConversationNotification: jest.fn().mockResolvedValue(null) },
 }));
 
 jest.mock("@/lib/logger", () => ({

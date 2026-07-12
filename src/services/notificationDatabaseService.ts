@@ -152,6 +152,153 @@ class NotificationDatabaseService {
   }
 
   /**
+   * Create OR bump an event-scoped notification — at most ONE unread row per
+   * (recipient, event, type). The first actor INSERTs `firstMessage`; each
+   * later actor bumps that row's count + lastActorName instead of adding a new
+   * bell entry, and rewrites the message from `bumpTemplate`. Sibling to
+   * `createOrBumpConversationNotification` below (same dedup principle,
+   * conversation-scoped instead of event-scoped — PR 3 and PR 5 converged on
+   * the pattern independently with different keys/mechanisms; kept as two
+   * named methods rather than one generic function so neither's reviewed
+   * concurrency strategy — this one's partial unique index + ON CONFLICT,
+   * that one's advisory lock — gets diluted by the merge). Returns the new or
+   * bumped row, or null.
+   *
+   * `bumpTemplate` must contain the literal tokens `__ACTOR__` (replaced with
+   * the newest actor's name) and `__OTHERS__` (replaced with the count of the
+   * OTHER actors already folded in — i.e. the pre-increment count). Example:
+   * "__ACTOR__ and __OTHERS__ others commented on Solstice Feast".
+   *
+   * The batching upsert is a single round-trip CTE: the UPDATE runs first and,
+   * only when it matched nothing, the INSERT lands.
+   */
+  async createOrBumpEventNotification(args: {
+    recipientId: string;
+    actorId: string;
+    type: NotificationType;
+    eventId: string;
+    title: string;
+    firstMessage: string;
+    bumpTemplate: string;
+    lastActorName: string;
+    extraMetadata?: Record<string, unknown>;
+  }): Promise<UserNotification | null> {
+    const db = await getDbModule();
+    const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+    const baseMetadata = {
+      ...(args.extraMetadata ?? {}),
+      eventId: args.eventId,
+      count: 1,
+      lastActorName: args.lastActorName,
+    };
+
+    const renderBump = (others: number): string =>
+      args.bumpTemplate.replace(/__ACTOR__/g, args.lastActorName).replace(/__OTHERS__/g, String(others));
+
+    if (!db) {
+      // In-memory fallback: find an existing unread row for this recipient+event+type.
+      const existing = Array.from(notificationsStore.values()).find(
+        (n) =>
+          n.userId === args.recipientId &&
+          n.type === args.type &&
+          !n.isRead &&
+          n.metadata?.eventId === args.eventId,
+      );
+      if (existing) {
+        const prior = (existing.metadata?.count as number) ?? 1;
+        existing.metadata = { ...existing.metadata, count: prior + 1, lastActorName: args.lastActorName };
+        existing.message = renderBump(prior); // "others" = the pre-increment count
+        return existing;
+      }
+      const created: UserNotification = {
+        id,
+        userId: args.recipientId,
+        type: args.type,
+        title: args.title,
+        message: args.firstMessage,
+        isRead: false,
+        relatedUserId: args.actorId,
+        metadata: baseMetadata,
+        createdAt: new Date().toISOString(),
+      };
+      notificationsStore.set(id, created);
+      return created;
+    }
+
+    try {
+      // The bump template with __ACTOR__ resolved in JS; __OTHERS__ resolved in
+      // SQL to the pre-increment count so the message stays truthful under races.
+      const actorResolvedTemplate = args.bumpTemplate.replace(/__ACTOR__/g, args.lastActorName);
+      const result = await db.executeQuery(
+        `WITH bumped AS (
+           UPDATE notifications
+              SET metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object(
+                    'count', COALESCE((metadata->>'count')::int, 1) + 1,
+                    'lastActorName', $6::text),
+                  message = replace($7, '__OTHERS__',
+                    COALESCE((metadata->>'count')::int, 1)::text),
+                  related_user_id = $3,
+                  updated_at = now()
+            WHERE user_id = $2 AND type = $4::notification_type
+              AND is_read = false
+              AND metadata->>'eventId' = $5
+            RETURNING id, user_id, type, title, message, related_user_id, metadata,
+                      created_at, expires_at, is_read
+         ),
+         inserted AS (
+           INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
+           SELECT $1, $2, $4::notification_type, $8, $9, $3, $10
+           WHERE NOT EXISTS (SELECT 1 FROM bumped)
+           -- Concurrency backstop (review §3): if a racing txn already inserted
+           -- the unread row for this (recipient, type, event), the partial unique
+           -- index uniq_unread_event_notification makes this INSERT conflict —
+           -- bump that row instead of double-inserting.
+           ON CONFLICT (user_id, type, (metadata->>'eventId')) WHERE is_read = false
+           DO UPDATE SET
+             metadata = COALESCE(notifications.metadata, '{}'::jsonb) || jsonb_build_object(
+               'count', COALESCE((notifications.metadata->>'count')::int, 1) + 1,
+               'lastActorName', $6::text),
+             message = replace($7, '__OTHERS__',
+               COALESCE((notifications.metadata->>'count')::int, 1)::text),
+             related_user_id = $3,
+             updated_at = now()
+           RETURNING id, user_id, type, title, message, related_user_id, metadata,
+                     created_at, expires_at, is_read
+         )
+         SELECT * FROM bumped
+         UNION ALL
+         SELECT * FROM inserted`,
+        [
+          id, // $1 new id
+          args.recipientId, // $2
+          args.actorId, // $3
+          args.type, // $4
+          args.eventId, // $5
+          args.lastActorName, // $6
+          actorResolvedTemplate, // $7 — SQL substitutes __OTHERS__
+          args.title, // $8
+          args.firstMessage, // $9 (count = 1 on fresh insert)
+          JSON.stringify(baseMetadata), // $10
+        ],
+      );
+      const row = result.rows[0];
+      return row ? rowToNotification(row) : null;
+    } catch (error) {
+      const code = (error as { code?: string })?.code;
+      if (code === "23503") {
+        _logger.warn(
+          "[Notification] FK violation on createOrBumpEventNotification — recipient missing, skipping",
+          { recipientId: args.recipientId, type: args.type },
+        );
+        return null;
+      }
+      _logger.error("createOrBumpEventNotification failed:", error);
+      return null;
+    }
+  }
+
+  /**
    * Chat dedup upsert (docs/plans/pr3-messaging-plan.md §6): keep AT MOST ONE
    * unread notification row per (recipient, conversation). If an unread row of
    * a chat type already exists for this conversation, bump its folded unread
@@ -162,7 +309,7 @@ class NotificationDatabaseService {
    * All work runs on ONE transaction client (the SELECT ... FOR UPDATE guards
    * the read-modify-write against a racing second message).
    */
-  async createOrBumpEventNotification(
+  async createOrBumpConversationNotification(
     userId: string,
     type: NotificationType,
     conversationId: string,
@@ -263,13 +410,13 @@ class NotificationDatabaseService {
     } catch (error) {
       const code = (error as { code?: string })?.code;
       if (code === "23503") {
-        _logger.warn("[Notification] FK violation on createOrBumpEventNotification — skipping", {
+        _logger.warn("[Notification] FK violation on createOrBumpConversationNotification — skipping", {
           userId,
           type,
         });
         return null;
       }
-      _logger.error("createOrBumpEventNotification failed:", error);
+      _logger.error("createOrBumpConversationNotification failed:", error);
       return null;
     }
   }

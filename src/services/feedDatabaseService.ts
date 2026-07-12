@@ -33,8 +33,15 @@ export interface FeedEvent {
    * for human actors: their email must not leak through this public endpoint.
    */
   actorSlug?: string;
-  /** Spark count from feed_reactions (recent-events read path only). */
+  /** Total reaction count from feed_reactions (derived sum; recent-events read path only). */
   reactionCount?: number;
+  /**
+   * Per-kind reaction counts (spark/fire/water/earth/air → n). Viewer-independent,
+   * so it rides the shared feed cache. `reactionCount` is the derived sum.
+   */
+  reactionCounts?: Record<string, number>;
+  /** Non-deleted, non-hidden comment count (viewer-independent → cache-safe). */
+  commentCount?: number;
   /**
    * Whether the actor's REAL identity is rendered (resolver output). False
    * means actorName is "Anonymous Alchemist" and actorImage is absent.
@@ -167,13 +174,20 @@ class FeedDatabaseService {
         `SELECT f.*, u.is_agent, u.email as actor_email,
                 COALESCE(up.avatar_url, u.image) as actor_image,
                 up.name as actor_name, up.share_identity as actor_share_identity,
-                COALESCE(r.n, 0) AS reaction_count
+                COALESCE(r.by_kind, '{}'::jsonb) AS reaction_by_kind,
+                COALESCE(cc.n, 0) AS comment_count
          FROM feed_events f
          JOIN users u ON f.actor_id = u.id
          LEFT JOIN user_profiles up ON u.id = up.user_id
          LEFT JOIN LATERAL (
-           SELECT COUNT(*)::int AS n FROM feed_reactions fr WHERE fr.event_id = f.id
+           SELECT jsonb_object_agg(kind, n) AS by_kind FROM
+             (SELECT kind, COUNT(*)::int n FROM feed_reactions
+               WHERE event_id = f.id GROUP BY kind) s
          ) r ON true
+         LEFT JOIN LATERAL (
+           SELECT COUNT(*)::int AS n FROM feed_comments c
+            WHERE c.event_id = f.id AND c.deleted_at IS NULL AND NOT c.hidden
+         ) cc ON true
          ORDER BY f.created_at DESC
          LIMIT $1 OFFSET $2`,
         [limit, offset]
@@ -205,6 +219,18 @@ class FeedDatabaseService {
           actorImage = undefined;
         }
 
+        // jsonb_object_agg gives {kind: n}. `pg` may hand it back parsed (object)
+        // or as a JSON string depending on the column type inference — normalize.
+        const rawByKind = row.reaction_by_kind;
+        const byKind: Record<string, number> =
+          typeof rawByKind === "string"
+            ? (JSON.parse(rawByKind) as Record<string, number>)
+            : (rawByKind as Record<string, number>) || {};
+        const reactionTotal = Object.values(byKind).reduce(
+          (sum, n) => sum + (Number(n) || 0),
+          0,
+        );
+
         return {
           id: row.id,
           actorId: row.actor_id,
@@ -215,7 +241,9 @@ class FeedDatabaseService {
           actorImage,
           actorIsAgent: isAgent,
           actorSlug,
-          reactionCount: Number(row.reaction_count) || 0,
+          reactionCount: reactionTotal,
+          reactionCounts: byKind,
+          commentCount: Number(row.comment_count) || 0,
           actorRevealed: revealed,
         };
       });
