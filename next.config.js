@@ -208,6 +208,9 @@ const nextConfig = {
             clientsClaim: true,
             skipWaiting: true,
             cleanupOutdatedCaches: true,
+            // Pull the static web-push handlers into the generated SW (PR 5).
+            // Lives in public/, so CopyPwaAssetsPlugin leaves it untouched.
+            importScripts: ["/push-listener.js"],
             mode: process.env.NODE_ENV === "production" ? "production" : "development",
             exclude: [/\.map$/, /^build-manifest\.json$/, /^app-build-manifest\.json$/, /^react-loadable-manifest\.json$/],
             // Safe, additive runtime caching only. HTML navigations and /api/* are

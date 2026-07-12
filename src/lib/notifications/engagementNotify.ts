@@ -18,6 +18,7 @@
 import { executeQuery } from "@/lib/database";
 import { isBlockedBetween } from "@/lib/feed/commentEnforcement";
 import { _logger } from "@/lib/logger";
+import { queueWebPush } from "@/lib/notifications/queueWebPush";
 import { resolveDisplayIdentity } from "@/lib/social/identity";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 
@@ -88,6 +89,16 @@ export async function notifyCommentReceived(args: {
       firstMessage: `${actorName} commented on ${dish}`,
       bumpTemplate: `__ACTOR__ and __OTHERS__ others commented on ${dish}`,
       lastActorName: actorName,
+    });
+
+    // comment_received is push-eligible — queueWebPush is triple-gated + dark by
+    // default, so this is a guarded no-op until WEB_PUSH_ENABLED is flipped on.
+    queueWebPush(args.recipientId, {
+      type: "comment_received",
+      title: "New comment",
+      body: `${actorName} commented on ${dish}`,
+      url: `/feed#event-${args.eventId}`,
+      tag: `evt-${args.eventId}`,
     });
   } catch (error) {
     _logger.warn("[engagementNotify] comment bell failed:", error);
