@@ -6,6 +6,7 @@ import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
+import type { GroupMember } from "@/types/natalChart";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
@@ -143,10 +144,27 @@ export async function POST(request: NextRequest) {
       alchemicalList.push(alch);
       memberInfo.push({ id: userId, name: currentUser.profile.name ?? "You", element: dominantElement(el) });
     }
-    // Manual commensals from the user's groupMembers
+    // Manual commensals live in TWO places: the modern manual_companion_charts
+    // table (written by POST /api/user/commensals and save-group) and the
+    // legacy user_profiles.group_members JSONB. Merge both sources — deduped
+    // by id, modern table rows winning — so companions saved via either path
+    // resolve here.
     if ((commensalIds).length > 0) {
-      const groupMembers = currentUser.profile.groupMembers || [];
-      for (const commensal of groupMembers) {
+      const legacyMembers: GroupMember[] = currentUser.profile.groupMembers || [];
+      let tableMembers: GroupMember[] = [];
+      try {
+        tableMembers = await commensalDatabase.getManualCompanionsForUser(userId);
+      } catch (err) {
+        _logger.error(
+          `[POST /api/group-recommendations] Manual companions lookup failed for user ${userId}`,
+          err,
+        );
+        // Table unavailable — fall back to legacy JSONB members only
+      }
+      const mergedById = new Map<string, GroupMember>();
+      for (const m of legacyMembers) mergedById.set(m.id, m);
+      for (const m of tableMembers) mergedById.set(m.id, m);
+      for (const commensal of mergedById.values()) {
         if (!(commensalIds).includes(commensal.id)) continue;
         const chart = commensal.natalChart;
         if (!chart) continue;

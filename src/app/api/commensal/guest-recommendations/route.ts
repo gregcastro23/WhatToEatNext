@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { rateLimit } from "@/lib/rateLimit";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import { calculateNatalChart } from "@/services/natalChartService";
@@ -33,7 +34,17 @@ const bodySchema = z.object({
   guests: z.array(guestSchema).min(1, "At least one guest is required").max(12),
 });
 
+// Unauthenticated AND computationally heavy (up to 12 natal charts plus a
+// full recipe-catalog scoring pass per call) — strict per-IP cap.
+const GUEST_RECS_LIMIT = {
+  window: 60_000,
+  max: 10,
+  bucket: "commensal-guest-recs",
+} as const;
+
 export async function POST(req: Request) {
+  const rl = await rateLimit(req, GUEST_RECS_LIMIT);
+  if (!rl.allowed) return rl.response!;
   try {
     const raw = await req.json().catch(() => null);
     const parsed = bodySchema.safeParse(raw);

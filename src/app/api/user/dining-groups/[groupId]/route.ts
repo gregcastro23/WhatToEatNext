@@ -7,6 +7,7 @@
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
+import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -49,9 +50,17 @@ export async function PUT(
   }
   const { name, memberIds } = body as { name?: string; memberIds?: string[] };
 
-  // Validate memberIds if provided
+  // Validate memberIds if provided — a member may live in EITHER storage:
+  // legacy profile JSONB (groupMembers) or the modern manual_companion_charts
+  // table (written by /api/user/commensals and save-group).
   if (memberIds) {
     const knownIds = new Set((user.profile.groupMembers || []).map((m) => m.id));
+    try {
+      const tableCompanions = await commensalDatabase.getManualCompanionsForUser(user.id);
+      for (const m of tableCompanions) knownIds.add(m.id);
+    } catch (error) {
+      _logger.error(`[PUT /api/user/dining-groups/${groupId}] Manual companions lookup failed`, error);
+    }
     const invalid = memberIds.filter((id) => !knownIds.has(id));
     if (invalid.length > 0) {
       return NextResponse.json(

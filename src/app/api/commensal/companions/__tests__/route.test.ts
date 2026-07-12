@@ -7,8 +7,14 @@ jest.mock("next/server", () => ({
     json: jest.fn((body, init) => ({
       status: init?.status ?? 200,
       json: async () => body,
+      headers: init?.headers ?? {},
     })),
   },
+}));
+
+// Force the rate limiter onto its in-memory fallback (no Redis in tests).
+jest.mock("@/lib/redis", () => ({
+  getRedisClient: () => null,
 }));
 
 jest.mock("@/lib/database", () => ({
@@ -36,10 +42,22 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { GET } from "../route";
 
-function makeRequest(url = "http://localhost/api/commensal/companions"): any {
+// Each request gets a unique client IP by default so the per-IP rate limiter
+// (whose in-memory store persists across tests in this file) never bleeds
+// between unrelated tests. Pass an explicit `ip` to simulate one client.
+let ipCounter = 0;
+function makeRequest(
+  url = "http://localhost/api/commensal/companions",
+  ip?: string,
+): any {
+  const addr = ip ?? `10.8.${Math.floor(++ipCounter / 250)}.${ipCounter % 250}`;
   return {
     url,
     method: "GET",
+    headers: {
+      get: (key: string) =>
+        key.toLowerCase() === "x-forwarded-for" ? addr : null,
+    },
   } as unknown as any;
 }
 
@@ -212,5 +230,25 @@ describe("GET /api/commensal/companions", () => {
     expect(data.savedCompanions[0].natalChart).toEqual(
       expect.objectContaining({ dominantElement: "Water" }),
     );
+  });
+
+  it("returns 429 once a single IP exceeds the per-minute cap", async () => {
+    const IP = "203.0.113.99";
+
+    // The moderate unauthenticated cap is 30/min — the first 30 pass.
+    for (let i = 0; i < 30; i++) {
+      const res = await GET(makeRequest(undefined, IP));
+      expect(res.status).toBe(200);
+    }
+
+    const res = await GET(makeRequest(undefined, IP));
+    const data = await res.json();
+
+    expect(res.status).toBe(429);
+    expect(data.error).toBe("rate_limit_exceeded");
+
+    // Other clients are unaffected — the limit is per-IP.
+    const other = await GET(makeRequest(undefined, "203.0.113.100"));
+    expect(other.status).toBe(200);
   });
 });

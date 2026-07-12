@@ -60,6 +60,10 @@ function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modali
 
 function hasMissingPlanetPrecision(chart: SavedChart): boolean {
   const planets = chart.natalChart?.planets || [];
+  // Charts loaded from the prod saved_charts table carry NO stored planets
+  // (structured birth fields only) — an empty list means "rebuild", not
+  // "nothing missing".
+  if (planets.length === 0) return true;
   return planets.some(
     (planet) =>
       planet.name !== "Ascendant" &&
@@ -79,15 +83,30 @@ async function ensureSubArcminutePrecision(chart: SavedChart): Promise<SavedChar
       longitude: chart.birthData.longitude,
     });
 
-    const updatedPlanets = (chart.natalChart.planets || []).map((planet) => {
-      const raw = rawPositions[planet.name];
-      if (!raw || typeof raw.exactLongitude !== "number") return planet;
-      return {
-        ...planet,
-        position: raw.exactLongitude,
-        sign: raw.sign || planet.sign,
-      };
-    });
+    const existingPlanets = chart.natalChart?.planets || [];
+    const updatedPlanets: PlanetInfo[] =
+      existingPlanets.length > 0
+        ? existingPlanets.map((planet) => {
+            const raw = rawPositions[planet.name];
+            if (!raw || typeof raw.exactLongitude !== "number") return planet;
+            return {
+              ...planet,
+              position: raw.exactLongitude,
+              sign: raw.sign || planet.sign,
+            };
+          })
+        : // DB-loaded chart with no stored planets — build the full array from
+          // the computed positions so GET never returns planet-less charts.
+          Object.entries(rawPositions)
+            .filter(
+              ([, value]) =>
+                !!value?.sign && typeof value.exactLongitude === "number",
+            )
+            .map(([planetName, value]) => ({
+              name: planetName as Planet,
+              sign: value.sign,
+              position: value.exactLongitude,
+            }));
 
     const updatedPlanetaryPositions = { ...chart.natalChart.planetaryPositions };
     Object.entries(rawPositions).forEach(([planetName, value]) => {
