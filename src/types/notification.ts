@@ -15,7 +15,8 @@ export type NotificationType =
   | 'quest_completed'
   | 'master_quest_broadcast'
   | 'agent_broadcast'
-  | 'transit_attunement';
+  | 'transit_attunement'
+  | 'new_follower';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -69,4 +70,5 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   master_quest_broadcast: { bg: '#FFF3E0', border: '#FFB74D', icon: '🌌' },
   agent_broadcast:    { bg: '#F3E8FF', border: '#C084FC', icon: '🤖' },
   transit_attunement: { bg: '#EDE9FE', border: '#A78BFA', icon: '🌠' },
+  new_follower:       { bg: '#E8EAF6', border: '#9FA8DA', icon: '🤝' },
 };

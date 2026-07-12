@@ -481,10 +481,29 @@ class CommensalDatabaseService {
   }
 
   /**
+   * Best-effort follow-edge purge after a block lands (PR 4 social graph):
+   * a blocked pair must not keep following each other. Log-and-continue —
+   * the block itself must never fail because the purge did. Silent, like the
+   * block itself (blocks emit no notifications).
+   */
+  private async purgeFollowsAfterBlock(a?: string, b?: string): Promise<void> {
+    if (!a || !b) return;
+    try {
+      const { followDatabase } = await import(
+        "@/services/followDatabaseService"
+      );
+      await followDatabase.purgeFollowsBetween(a, b);
+    } catch (error) {
+      _logger.warn("purgeFollowsAfterBlock failed (non-blocking):", error);
+    }
+  }
+
+  /**
    * Block a companion link. Either party may block. Upserts the pair row to
    * status='blocked', creating one when no relationship exists yet.
    * Blocked rows are excluded from linked-commensal listings (those filter on
    * status='accepted') and createCommensalRequest returns null for the pair.
+   * Existing follow edges between the pair are purged in both directions.
    * Silent by design — no notifications for block/unblock.
    */
   async blockCommensal(
@@ -504,7 +523,14 @@ class CommensalDatabaseService {
             [opts.commensalshipId, actingUserId],
           );
           if ((result.rowCount ?? 0) === 0) return null;
-          return await this.getCommensalshipById(opts.commensalshipId);
+          const blockedRow = await this.getCommensalshipById(
+            opts.commensalshipId,
+          );
+          await this.purgeFollowsAfterBlock(
+            blockedRow?.requesterId,
+            blockedRow?.addresseeId,
+          );
+          return blockedRow;
         }
 
         if (opts.targetUserId) {
@@ -524,6 +550,7 @@ class CommensalDatabaseService {
                 WHERE id = $1`,
               [rowId],
             );
+            await this.purgeFollowsAfterBlock(actingUserId, opts.targetUserId);
             return await this.getCommensalshipById(rowId);
           }
 
@@ -542,6 +569,7 @@ class CommensalDatabaseService {
             }
             throw insertError;
           }
+          await this.purgeFollowsAfterBlock(actingUserId, opts.targetUserId);
           return await this.getCommensalshipById(id);
         }
 
