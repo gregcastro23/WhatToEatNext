@@ -88,6 +88,31 @@ describe("ensureDmConversation — canonicalized lo<hi pair", () => {
 
     expect(clientSql()[0]).toContain("ON CONFLICT (dm_user_lo, dm_user_hi) WHERE kind = 'dm' DO NOTHING");
   });
+
+  it("lowercases before sorting so an UPPERCASE id can't violate the uuid-ordered CHECK", async () => {
+    // Raw byte sort disagrees with uuid (lowercase) ordering here: uppercase
+    // 'B' (0x42) sorts BEFORE lowercase 'a' (0x61), so a case-sensitive sort
+    // would pick lo='B0..' hi='a0..' — and Postgres, comparing as uuid, sees
+    // b0.. > a0.. → CHECK dm_user_lo < dm_user_hi fails → 500, DM never opens.
+    const selfLower = "a0000000-0000-4000-8000-000000000000";
+    const otherUpper = "B0000000-0000-4000-8000-000000000000";
+    mockClientQuery
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 })
+      .mockResolvedValueOnce({ rows: [{ id: CONV_ID }], rowCount: 1 })
+      .mockResolvedValueOnce({ rows: [], rowCount: 0 });
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: CONV_ID, kind: "dm" }],
+      rowCount: 1,
+    });
+
+    await chatDatabase.ensureDmConversation(selfLower, otherUpper);
+
+    const insertParams = mockClientQuery.mock.calls[0][1];
+    // Both ids lowercased; lo < hi as uuid text → CHECK holds.
+    expect(insertParams[0]).toBe("a0000000-0000-4000-8000-000000000000");
+    expect(insertParams[1]).toBe("b0000000-0000-4000-8000-000000000000");
+    expect(String(insertParams[0]) < String(insertParams[1])).toBe(true);
+  });
 });
 
 describe("ensureTableConversationOnClient — runs on the CALLER'S client", () => {

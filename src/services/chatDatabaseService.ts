@@ -293,7 +293,14 @@ class ChatDatabaseService {
     userA: string,
     userB: string,
   ): Promise<ConversationRecord | null> {
-    const [lo, hi] = [userA, userB].sort();
+    // Canonicalize to match the DB CHECK `dm_user_lo < dm_user_hi`, which
+    // compares as the `uuid` TYPE (lowercase-normalized) — NOT as raw text.
+    // z.string().uuid() accepts uppercase, so a mixed-case otherUserId could
+    // make a case-sensitive JS .sort() disagree with uuid ordering and violate
+    // the CHECK on INSERT. Lowercasing first makes JS ordering match Postgres.
+    const a = userA.toLowerCase();
+    const b = userB.toLowerCase();
+    const [lo, hi] = [a, b].sort();
     try {
       const conversationId = await withTransaction(async (client) => {
         await client.query(
