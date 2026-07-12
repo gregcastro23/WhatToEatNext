@@ -116,7 +116,7 @@ export async function GET(request: NextRequest) {
     if (!rl.allowed) return rl.response!;
 
     const inbox = await chatDatabase.listInbox(userId);
-    return NextResponse.json({ success: true, conversations: inbox });
+    return NextResponse.json({ success: true, conversations: inbox, viewerId: userId });
   } catch (error) {
     console.error("Chat conversations GET error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });

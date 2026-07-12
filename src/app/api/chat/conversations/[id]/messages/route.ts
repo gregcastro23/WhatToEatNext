@@ -57,7 +57,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         ? encodeCursor({ createdAt: oldest.createdAt, id: oldest.id })
         : null;
 
-    return NextResponse.json({ success: true, messages, nextCursor });
+    return NextResponse.json({ success: true, messages, nextCursor, viewerId: userId });
   } catch (error) {
     console.error("Chat messages GET error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
