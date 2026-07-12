@@ -25,7 +25,10 @@ export type PracticeType =
   | "work_resonated"
   | "list_conjured"
   | "table_toasted"
-  | "dm_thread_started";
+  | "dm_thread_started"
+  | "follow_made"
+  | "first_follower_gained"
+  | "visage_revealed";
 
 export type DedupeScope = "daily" | "ever";
 
@@ -209,6 +212,48 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "Begin a true exchange with a companion — Spirit flows once a message is answered.",
   },
+  follow_made: {
+    type: "follow_made",
+    tokenType: "Spirit",
+    baseAmount: 0.5,
+    dedupe: "ever",
+    dailyCap: 5,
+    requiresTarget: true,
+    hints: [
+      "A thread tied between charts",
+      "You chose a fellow traveler of the sky",
+    ],
+    description:
+      "Tie a thread to another practitioner's chart — Spirit gathers along the lines we choose to follow.",
+  },
+  first_follower_gained: {
+    type: "first_follower_gained",
+    tokenType: "Spirit",
+    baseAmount: 2,
+    dedupe: "ever",
+    dailyCap: 1,
+    requiresTarget: false,
+    hints: [
+      "Your table has found its first witness",
+      "Someone now walks by your light",
+    ],
+    description:
+      "The moment your work gains its first witness — a follower ties the first thread to your chart.",
+  },
+  visage_revealed: {
+    type: "visage_revealed",
+    tokenType: "Matter",
+    baseAmount: 2,
+    dedupe: "ever",
+    dailyCap: 1,
+    requiresTarget: false,
+    hints: [
+      "The alchemist steps from behind the sigil",
+      "A face given to the Work",
+    ],
+    description:
+      "Reveal your visage — set a true likeness where the sigil stood.",
+  },
 };
 
 /**
@@ -229,6 +274,12 @@ export const SERVER_ONLY_PRACTICES: ReadonlySet<PracticeType> = new Set([
   // or a two-way DM thread.
   "table_toasted",
   "dm_thread_started",
+  // Both sides of a follow are recognized inside POST /api/follows —
+  // the follows ROW is the proof (created === true), a bare POST is not.
+  "follow_made",
+  "first_follower_gained",
+  // Recognized inside POST /api/user/avatar — the avatar_url write is the proof.
+  "visage_revealed",
 ]);
 
 /**

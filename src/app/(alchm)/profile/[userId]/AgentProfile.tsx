@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { FollowButton } from "@/components/profile/tables/FollowButton";
 import { ConsciousnessSigil } from "@/components/ui/alchm/ConsciousnessSigil";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
 import type {
@@ -66,6 +67,10 @@ interface AgentProfileProps {
   interactions?: AgentInteraction[];
   actions?: AgentAction[];
   artifacts?: AgentArtifact[];
+  /** WTEN user id backing this agent — enables the follow button (PR 4). */
+  userId?: string;
+  /** social.viewer from GET /api/users/[userId]; null hides the button. */
+  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
 }
 
 const ELEMENT_TINT: Record<Element, string> = {
@@ -108,6 +113,8 @@ export default function AgentProfile({
   interactions = [],
   actions = [],
   artifacts = [],
+  userId,
+  viewer = null,
 }: AgentProfileProps) {
   const accent = agent.appearance?.color || "#7c3aed";
   const dominantElement = agent.consciousness?.dominantElement;
@@ -274,20 +281,25 @@ export default function AgentProfile({
                 {handle}
               </p>
             )}
-            {slug && (
-              <div className="mt-4">
-                <a
-                  href={agentChatUrl(slug)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-white text-xs font-black uppercase tracking-[0.2em] transition-all shadow-lg border border-white/20 hover:border-white/40 active:scale-95"
-                  style={{
-                    background: `linear-gradient(180deg, ${accent}cc, ${accent}88)`,
-                    boxShadow: `0 10px 25px -5px ${accent}40`,
-                  }}
-                >
-                  Chat with {agent.name} ✦
-                </a>
+            {(slug || (userId && viewer)) && (
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                {slug && (
+                  <a
+                    href={agentChatUrl(slug)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-white text-xs font-black uppercase tracking-[0.2em] transition-all shadow-lg border border-white/20 hover:border-white/40 active:scale-95"
+                    style={{
+                      background: `linear-gradient(180deg, ${accent}cc, ${accent}88)`,
+                      boxShadow: `0 10px 25px -5px ${accent}40`,
+                    }}
+                  >
+                    Chat with {agent.name} ✦
+                  </a>
+                )}
+                {/* Agents are followable first-class users (PR 4) — no bell
+                    or economy on their side, just the edge. */}
+                {userId && <FollowButton targetUserId={userId} viewer={viewer} />}
               </div>
             )}
           </div>

@@ -16,6 +16,7 @@ export type NotificationType =
   | 'master_quest_broadcast'
   | 'agent_broadcast'
   | 'transit_attunement'
+  | 'new_follower'
   | 'table_invite'
   | 'table_rsvp'
   | 'table_going_live'
@@ -92,6 +93,7 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   master_quest_broadcast: { bg: '#FFF3E0', border: '#FFB74D', icon: '🌌' },
   agent_broadcast:    { bg: '#F3E8FF', border: '#C084FC', icon: '🤖' },
   transit_attunement: { bg: '#EDE9FE', border: '#A78BFA', icon: '🌠' },
+  new_follower:       { bg: '#E8EAF6', border: '#9FA8DA', icon: '🤝' },
   table_invite:        { bg: '#FFF3E0', border: '#e0a66b', icon: '🍽️' },
   table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
   table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
