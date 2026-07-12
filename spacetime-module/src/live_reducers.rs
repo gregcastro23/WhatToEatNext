@@ -797,6 +797,17 @@ pub fn close_table_session(ctx: &ReducerContext, wten_table_id: String) -> Resul
 // SAFETY: ONLY table-chat bodies mirror here. DM and circle bodies must never
 // enter SpacetimeDB (world-readable tables) — that boundary lives in the
 // server send path, which never calls a Spacetime publish.
+//
+// HOST AUTHORITY CAVEAT (tracked: docs/plans/pr3-known-limitations.md #1):
+// the chat MODERATION reducers below (delete host-branch, set_table_chat_mute,
+// kick_table_chat_member) gate on `TableSession.host`, which is the UNVERIFIED
+// first-ensurer identity — a racing guest could win `ensure_table_session` and
+// gain live-mirror moderation. This is bounded, NOT authoritative: the mirror
+// is flag-gated and ephemeral, and DURABLE moderation authority is Postgres
+// `tables.host_id` (enforced by /api/chat/.../moderate). Matches PR 2's stance
+// of not re-architecting the module identity model; server-authenticated
+// identity binding is the fast-follow. Do not treat this host check as a
+// security boundary.
 // ---------------------------------------------------------------------------
 
 /// Max chat body bytes (mirrors the Postgres 2000-char cap; bytes >= chars).
@@ -906,6 +917,12 @@ pub fn send_table_chat_message(
 /// Tombstone a chat mirror row: the sender or the session host may delete.
 /// Body is blanked and `deleted` set — the row stays so subscribers see the
 /// removal (the canonical soft-delete already happened in Postgres).
+///
+/// NOTE: the host check uses `TableSession.host` — the unverified module-side
+/// first-ensurer identity, NOT the authoritative Postgres `tables.host_id`
+/// (see the section header + docs/plans/pr3-known-limitations.md #1). Bounded:
+/// durable deletion is the Postgres soft-delete; this only tombstones the
+/// ephemeral mirror row.
 #[spacetimedb::reducer]
 pub fn delete_table_chat_message(ctx: &ReducerContext, chat_id: u64) -> Result<(), String> {
     let message = ctx
@@ -938,6 +955,11 @@ pub fn delete_table_chat_message(ctx: &ReducerContext, chat_id: u64) -> Result<(
 /// Host-only: mute or unmute an identity in this table's live chat. Muting is
 /// idempotent (dedupes the row); unmuting removes every mute row for the
 /// member. Presence is untouched — muting silences without ejecting.
+///
+/// NOTE: "host-only" here means `TableSession.host`, the unverified module-side
+/// first-ensurer identity — NOT the authoritative Postgres `tables.host_id`
+/// (see the section header + docs/plans/pr3-known-limitations.md #1). Bounded:
+/// durable host moderation is `/api/chat/.../moderate`, gated on tables.host_id.
 #[spacetimedb::reducer]
 pub fn set_table_chat_mute(
     ctx: &ReducerContext,
@@ -988,6 +1010,12 @@ pub fn set_table_chat_mute(
 /// Host-only: kick an identity from the table's live chat — remove their
 /// presence AND insert a mute row so they cannot rejoin
 /// (`join_table_session` rejects muted identities). Unmuting readmits them.
+///
+/// NOTE: "host-only" gates on `TableSession.host`, the unverified module-side
+/// first-ensurer identity — NOT the authoritative Postgres `tables.host_id`
+/// (see the section header + docs/plans/pr3-known-limitations.md #1). Bounded:
+/// this only ejects from the ephemeral live mirror; durable kick/ban lives in
+/// Postgres (conversation_members) via the server moderate route.
 #[spacetimedb::reducer]
 pub fn kick_table_chat_member(
     ctx: &ReducerContext,
