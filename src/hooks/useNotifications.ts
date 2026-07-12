@@ -259,6 +259,42 @@ export function useNotifications(options?: UseNotificationsOptions) {
     [markAsRead],
   );
 
+  const respondToTableJoinRequest = useCallback(
+    async (notification: UserNotification) => {
+      const tableId = notification.metadata?.tableId;
+      const requesterId = notification.metadata?.requesterId || notification.relatedUserId;
+      if (!tableId || typeof tableId !== 'string' || !requesterId || typeof requesterId !== 'string') {
+        return { success: false, message: 'This request can no longer be acted on from notifications.' };
+      }
+
+      try {
+        // The host's "Invite" runs the normal add-member rail (table_invite → RSVP).
+        const res = await fetch(`/api/tables/${tableId}/members`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ userId: requesterId }),
+        });
+        const data = (await res.json()) as ApiResponse;
+
+        if (!res.ok || data.success === false) {
+          return { success: false, message: data.message || 'Could not send the invitation.' };
+        }
+
+        const markResult = await markAsRead(notification.id);
+        if (!markResult.success) {
+          return markResult;
+        }
+
+        notifyRefresh();
+        return { success: true };
+      } catch {
+        return { success: false, message: 'Could not send the invitation.' };
+      }
+    },
+    [markAsRead],
+  );
+
   const unreadNotifications = useMemo(
     () => notifications.filter((n) => !n.isRead),
     [notifications],
@@ -276,6 +312,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
     generateDailyInsight,
     respondToCommensalRequest,
     respondToTableInvite,
+    respondToTableJoinRequest,
   };
 }
 
