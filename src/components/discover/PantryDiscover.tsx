@@ -204,13 +204,36 @@ export function PantryDiscover(): JSX.Element {
         .discover-wrap {
           max-width: 1080px;
           margin: 0 auto;
-          padding: 8px 20px 88px;
+          /* Reduced top padding vs. the pre-PR6 standalone page (was 44px/64px)
+             since this now sits below the shared Tables/People/Pantry segmented
+             control rather than at the very top of the viewport. */
+          padding: 20px 20px 88px;
         }
         @media (min-width: 768px) {
-          .discover-wrap { padding: 8px 28px 96px; }
+          .discover-wrap { padding: 28px 28px 96px; }
+        }
+        .discover-hero-eyebrow {
+          display: inline-flex; align-items: center; gap: 9px;
+          color: var(--accent); margin-bottom: 18px;
+        }
+        .discover-hero-title {
+          font-family: var(--f-display);
+          font-weight: 500;
+          letter-spacing: -0.01em;
+          font-size: clamp(32px, 5vw, 52px);
+          line-height: 1.03;
+          color: var(--fg);
+          margin: 0;
+        }
+        .discover-hero-sub {
+          margin: 14px 0 0;
+          font-size: clamp(15px, 2vw, 17px);
+          line-height: 1.6;
+          color: var(--fg-dim);
+          max-width: 620px;
         }
         .discover-brief {
-          margin-top: 8px;
+          margin-top: 32px;
           padding: 24px 26px;
           position: relative;
           overflow: hidden;
@@ -303,6 +326,21 @@ export function PantryDiscover(): JSX.Element {
       `}</style>
 
       <div className="discover-wrap">
+        {/* HERO — the pantry launchpad's original header (PR 6 adversarial-review
+            finding 5: this must render whenever ?tab=pantry is active, not the
+            shell's "Find your table" copy which is Tables/People-specific). */}
+        <header>
+          <span className="discover-hero-eyebrow t-tag">
+            <Glyph name="atom" size={14} stroke={1.4} />
+            DISCOVER · THE COSMIC PANTRY
+          </span>
+          <h1 className="discover-hero-title">Browse the cosmic pantry</h1>
+          <p className="discover-hero-sub">
+            Every cuisine, ingredient, method, sauce, and recipe in the kitchen — each one
+            scored against the current planetary hour. Start anywhere; the sky does the ranking.
+          </p>
+        </header>
+
         {/* LIVE BRIEF */}
         <ElementalBrief />
 

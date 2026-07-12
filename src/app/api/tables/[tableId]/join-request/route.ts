@@ -70,7 +70,7 @@ async function notifyHostOfJoinRequest(
       `${requesterName} would like to join "${tableTitle}".`,
       {
         relatedUserId: requesterId,
-        metadata: { tableId, tableTitle, requesterId, requesterName },
+        metadata: { tableId, tableTitle, requesterId, requesterName, status: "pending" },
       },
     );
   } catch (err) {

@@ -18,12 +18,15 @@ interface Tab {
 // 5 tabs per design-spec §2.11. The center quick-action FAB is removed — its
 // actions remain reachable (recipe-builder/pantry under Plan, the palette via
 // the header ⌘K, and inviting people is now the Tables tab itself). Tables
-// keeps the internal `commensal` matchKey (navigation.ts relabels the section).
+// keeps the internal `commensal` matchKey (navigation.ts relabels the
+// section). Tables uses `orbital` (not `ring`, which Profile already claims) —
+// the orbital-ring motif the design spec uses for Tables elsewhere in this
+// program — so no two of the 5 tabs render the same icon.
 const TABS: readonly Tab[] = [
   { id: "kitchen", label: "Kitchen", icon: "flask", href: "/", matchKey: "kitchen" },
   { id: "discover", label: "Discover", icon: "atom", href: "/discover", matchKey: "discover" },
   { id: "plan", label: "Plan", icon: "diamond", href: "/menu-planner", matchKey: "plan" },
-  { id: "tables", label: "Tables", icon: "ring", href: "/tables", matchKey: "commensal" },
+  { id: "tables", label: "Tables", icon: "orbital", href: "/tables", matchKey: "commensal" },
   { id: "profile", label: "Profile", icon: "ring", href: "/profile", matchKey: "lab" },
 ] as const;
 

@@ -57,15 +57,21 @@ async function fakeQuery(sql: string, params: unknown[] = []): Promise<{ rows: R
     return { rows: [{ n }], rowCount: 1 };
   }
   if (q.includes("FROM notifications") && q.includes("type = 'table_join_request'")) {
+    // Status-based dedupe (PR 6 adversarial-review fix) — deliberately NOT
+    // is_read-based, so marking a request read (viewing it) can never defeat
+    // this check. Mirrors: COALESCE(metadata->>'status','pending') = 'pending'.
     const [host, requester, tableId] = params;
-    const hit = store.notifications.some(
-      (n) =>
+    const hit = store.notifications.some((n) => {
+      const meta = (n.metadata as Row) ?? {};
+      const status = (meta.status as string | undefined) ?? "pending";
+      return (
         n.user_id === host &&
         n.type === "table_join_request" &&
-        n.is_read === false &&
-        (n.metadata as Row)?.requesterId === requester &&
-        (n.metadata as Row)?.tableId === tableId,
-    );
+        status === "pending" &&
+        meta.requesterId === requester &&
+        meta.tableId === tableId
+      );
+    });
     return { rows: hit ? [{ x: 1 }] : [], rowCount: hit ? 1 : 0 };
   }
   throw new Error(`FakeDb: unhandled query: ${q}`);
@@ -97,6 +103,15 @@ jest.mock("@/lib/logger", () => ({
 jest.mock("@/lib/tables/composite", () => ({ computeAndStoreTableComposite: jest.fn().mockResolvedValue(undefined) }));
 
 jest.mock("@/lib/redis", () => ({ getRedisClient: () => null }));
+
+// The 10/min-per-user cap is unrelated to what this file tests (dedupe
+// semantics); the limiter's in-memory store is module-scoped and persists
+// across every `it` in this file, so without this mock enough calls
+// accumulate to legitimately 429 well before hitting any real request-volume
+// concern.
+jest.mock("@/lib/rateLimit", () => ({
+  rateLimit: jest.fn().mockResolvedValue({ allowed: true, remaining: 999, resetMs: 60_000 }),
+}));
 
 jest.mock("next/server", () => ({
   NextResponse: {
@@ -202,5 +217,55 @@ describe("POST /api/tables/[tableId]/join-request", () => {
     const res = await call("t-pub");
     expect(res.status).toBe(403);
     delete process.env.TABLE_JOIN_REQUESTS_ENABLED;
+  });
+
+  describe("dedupe is status-based, not is_read-based (adversarial-review finding 2)", () => {
+    it("merely VIEWING (is_read=true) a still-pending request does not defeat dedupe", async () => {
+      await call("t-pub");
+      expect(createNotification).toHaveBeenCalledTimes(1);
+
+      // Simulate the panel's click-to-read: is_read flips true, but the
+      // request's own lifecycle status is untouched (still 'pending').
+      store.notifications[0].is_read = true;
+
+      const res2 = await call("t-pub");
+      const data2 = await res2.json();
+      expect(res2.status).toBe(200); // duplicate → success-to-requester
+      expect(data2.success).toBe(true);
+      expect(createNotification).toHaveBeenCalledTimes(1); // still no second notification
+    });
+
+    it("a DISMISSED request frees the requester to ask again later", async () => {
+      await call("t-pub");
+      expect(createNotification).toHaveBeenCalledTimes(1);
+
+      // Simulate the host clicking Dismiss: status flips, is_read flips too.
+      (store.notifications[0].metadata as Row).status = "dismissed";
+      store.notifications[0].is_read = true;
+
+      const res2 = await call("t-pub");
+      const data2 = await res2.json();
+      expect(res2.status).toBe(201); // NOT a dedupe hit — a fresh request
+      expect(data2.success).toBe(true);
+      expect(createNotification).toHaveBeenCalledTimes(2); // a new pending notification
+    });
+
+    it("an ACTIONED (invited) request is blocked from re-request via the resulting membership, not the notification dedupe", async () => {
+      await call("t-pub");
+      expect(createNotification).toHaveBeenCalledTimes(1);
+
+      // Simulate the host clicking Invite: status flips to 'actioned' AND the
+      // normal add-member rail creates the invited table_members row.
+      (store.notifications[0].metadata as Row).status = "actioned";
+      store.notifications[0].is_read = true;
+      store.members.push({ table_id: "t-pub", user_id: SEEKER, rsvp_status: "invited" });
+
+      const res2 = await call("t-pub");
+      const data2 = await res2.json();
+      expect(res2.status).toBe(409);
+      expect(data2.message).toMatch(/already part of this table/i);
+      // Blocked by isAnyMember (already_member), not a second pending notification.
+      expect(createNotification).toHaveBeenCalledTimes(1);
+    });
   });
 });

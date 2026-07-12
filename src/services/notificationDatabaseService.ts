@@ -243,6 +243,49 @@ class NotificationDatabaseService {
     return false;
   }
 
+  /**
+   * Flip a `table_join_request` notification's own lifecycle status
+   * (pending → actioned | dismissed) — deliberately independent of `is_read`.
+   * A host merely opening the notification panel marks the row read via
+   * `markAsRead`; that must never itself grant/revoke actionability or defeat
+   * `tableDatabaseService.requestToJoin`'s dedupe, which reads this same
+   * field. Also marks the row read (the action IS the read). Scoped to the
+   * owning user and to this notification type so a stray id can't be used to
+   * tamper with an unrelated notification.
+   */
+  async updateJoinRequestStatus(
+    notificationId: string,
+    userId: string,
+    status: "actioned" | "dismissed",
+  ): Promise<boolean> {
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `UPDATE notifications
+              SET metadata = jsonb_set(COALESCE(metadata, '{}'::jsonb), '{status}', to_jsonb($3::text)),
+                  is_read = true
+            WHERE id = $1 AND user_id = $2 AND type = 'table_join_request'
+            RETURNING id`,
+          [notificationId, userId, status],
+        );
+        return (result.rows?.length || 0) > 0;
+      } catch (error) {
+        _logger.error("updateJoinRequestStatus failed:", error);
+        return false;
+      }
+    }
+
+    const n = notificationsStore.get(notificationId);
+    if (n && n.userId === userId && n.type === "table_join_request") {
+      n.metadata = { ...(n.metadata || {}), status };
+      n.isRead = true;
+      return true;
+    }
+    return false;
+  }
+
   async markAllAsRead(userId: string): Promise<number> {
     const db = await getDbModule();
 

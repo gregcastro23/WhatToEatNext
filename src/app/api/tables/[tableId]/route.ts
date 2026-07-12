@@ -65,11 +65,22 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const publicMemory = detail.status === "memory" && detail.visibility === "public";
     // PR 6 detail-access amendment: an authed viewer may see CARD-LEVEL detail
     // of a public planned/live table so /tables/[id] can render its Ask-to-join
-    // CTA — but never the full member list, and never the street address.
-    const publicJoinable =
-      !!userId &&
+    // CTA — but never the full member list, never the street address, and
+    // NEVER when the host has blocked the viewer. Every other interaction path
+    // (member-add, requestToJoin, redeemInvite) already enforces this same
+    // block check; this branch must too, or a blocked user could still
+    // surveil the public table (title/venue/photos/seatCap/host identity) via
+    // a direct tableId even though they can't act on it.
+    let publicJoinable = false;
+    if (
+      !isMember &&
+      userId &&
       detail.visibility === "public" &&
-      (detail.status === "planned" || detail.status === "live");
+      (detail.status === "planned" || detail.status === "live")
+    ) {
+      const blocked = await tableDatabase.isBlockedPair(detail.hostId, userId);
+      publicJoinable = !blocked;
+    }
 
     if (!isMember && !publicMemory && !publicJoinable) {
       return NextResponse.json(

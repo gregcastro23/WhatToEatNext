@@ -27,6 +27,7 @@ export function NotificationPanel() {
     respondToCommensalRequest,
     respondToTableInvite,
     respondToTableJoinRequest,
+    dismissTableJoinRequest,
   } = useNotifications({ limit: 30, pollingMs: 45_000 });
 
   const [filter, setFilter] = useState<NotificationFilter>('all');
@@ -103,20 +104,23 @@ export function NotificationPanel() {
     setBusyNotificationId(notification.id);
     setStatusMessage(null);
 
-    if (action === 'dismiss') {
-      // Declines are silent by design — just mark read, no requester-facing state.
-      await markAsRead(notification.id);
-      await fetchNotifications();
-      setBusyNotificationId(null);
-      return;
-    }
-
-    const result = await respondToTableJoinRequest(notification);
+    // Both paths flip the request's own lifecycle status (not just isRead) —
+    // declines are silent by design (no requester-facing rejection state),
+    // but the status flip still matters: it's what frees a later re-request.
+    const result =
+      action === 'invite'
+        ? await respondToTableJoinRequest(notification)
+        : await dismissTableJoinRequest(notification);
 
     if (!result.success) {
-      setStatusMessage(result.message || 'Could not send the invitation.');
+      setStatusMessage(
+        result.message ||
+          (action === 'invite' ? 'Could not send the invitation.' : 'Could not dismiss the request.'),
+      );
     } else {
-      setStatusMessage('Invitation sent — they can RSVP now.');
+      setStatusMessage(
+        action === 'invite' ? 'Invitation sent — they can RSVP now.' : 'Request dismissed.',
+      );
       await fetchNotifications();
     }
 
@@ -246,9 +250,15 @@ export function NotificationPanel() {
               typeof n.metadata?.commensalshipId === 'string';
             const canRespondToTableInvite =
               isTableInvite && !n.isRead && typeof n.metadata?.tableId === 'string';
+            // Actionability keys off the request's OWN lifecycle status, not
+            // `isRead` — merely viewing/opening the panel marks the row read
+            // (see the card's onClick below) and must never itself hide these
+            // actions or defeat the requestToJoin dedupe, which reads the same
+            // field. Absent `status` (pre-fix rows) defaults to pending.
+            const joinRequestStatus = n.metadata?.status ?? 'pending';
             const canRespondToJoinRequest =
               isTableJoinRequest &&
-              !n.isRead &&
+              joinRequestStatus === 'pending' &&
               typeof n.metadata?.tableId === 'string' &&
               (typeof n.metadata?.requesterId === 'string' || typeof n.relatedUserId === 'string');
 

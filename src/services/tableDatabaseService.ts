@@ -321,7 +321,19 @@ class TableDatabaseService {
     }
   }
 
-  private async isBlockedPair(userId1: string, userId2: string): Promise<boolean> {
+  /**
+   * Public — whether two users have a blocked commensalship (either
+   * direction). Every interaction path (member-add, requestToJoin,
+   * redeemInvite) already calls this internally; it is exposed here so
+   * external callers (the table detail route's public-planned/live
+   * card-level gate) enforce the exact same block check rather than
+   * re-implementing it or — worse — omitting it.
+   */
+  async isBlockedPair(userId1: string, userId2: string): Promise<boolean> {
+    return this.checkBlockedPair(userId1, userId2);
+  }
+
+  private async checkBlockedPair(userId1: string, userId2: string): Promise<boolean> {
     try {
       const result = await executeQuery(
         `SELECT 1 FROM commensalships
@@ -890,9 +902,13 @@ class TableDatabaseService {
    * `addRegisteredMember` → `table_invite` → RSVP rail).
    *
    * Validation reuses the PR 2 rails (block check, cap). Dedupe: a `duplicate`
-   * result when the requester is already a member OR an unactioned
-   * `table_join_request` notification for this (host, requester, table) already
-   * exists. Notification creation itself is the route's responsibility.
+   * result when the requester is already a member OR a PENDING
+   * `table_join_request` notification for this (host, requester, table) still
+   * exists — keyed on `metadata.status`, deliberately NOT `is_read` (viewing
+   * the notification must never defeat this dedupe). A 'dismissed' request
+   * frees the requester to ask again later; an 'actioned' one is instead
+   * blocked by the resulting table_members row via the isAnyMember check
+   * above. Notification creation itself is the route's responsibility.
    */
   async requestToJoin(tableId: string, requesterId: string): Promise<JoinRequestResult> {
     try {
@@ -921,11 +937,13 @@ class TableDatabaseService {
       const cap = row.seat_cap == null ? MAX_TABLE_MEMBERS : Number(row.seat_cap);
       if (joined >= cap) return { ok: false, reason: "cap_exceeded" };
 
-      // Dedupe against an existing unactioned request notification.
+      // Dedupe against an existing PENDING request notification — status-based,
+      // not is_read-based (see the method doc above).
       const dupeResult = await executeQuery(
         `SELECT 1 FROM notifications
-          WHERE user_id = $1 AND type = 'table_join_request' AND is_read = false
+          WHERE user_id = $1 AND type = 'table_join_request'
             AND metadata->>'requesterId' = $2 AND metadata->>'tableId' = $3
+            AND COALESCE(metadata->>'status', 'pending') = 'pending'
           LIMIT 1`,
         [hostId, requesterId, tableId],
       );

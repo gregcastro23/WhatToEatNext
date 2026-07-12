@@ -52,23 +52,31 @@ export default function DiscoverPage(): JSX.Element {
   return (
     <div className="lab discover-root" style={{ minHeight: "calc(100vh - 64px)" }}>
       <div className="mx-auto max-w-6xl px-5 pt-11 md:pt-16">
-        <span className="t-tag mb-4 inline-flex items-center gap-2" style={{ color: "var(--accent)" }}>
-          <Glyph name="atom" size={14} stroke={1.4} />
-          DISCOVER
-        </span>
-        <h1
-          className="text-alchm-fg"
-          style={{
-            fontFamily: "var(--f-display)",
-            fontWeight: 500,
-            letterSpacing: "-0.01em",
-            fontSize: "clamp(30px, 5vw, 46px)",
-            lineHeight: 1.04,
-            margin: 0,
-          }}
-        >
-          Find your table
-        </h1>
+        {/* Tables/People-specific hero — hidden on the Pantry tab, which
+            renders its own original "Browse the cosmic pantry" header inside
+            PantryDiscover (PR 6 adversarial-review finding 5: the pantry copy
+            must survive the tabbed shell, not get replaced by this one). */}
+        {tab !== "pantry" && (
+          <>
+            <span className="t-tag mb-4 inline-flex items-center gap-2" style={{ color: "var(--accent)" }}>
+              <Glyph name="atom" size={14} stroke={1.4} />
+              DISCOVER
+            </span>
+            <h1
+              className="text-alchm-fg"
+              style={{
+                fontFamily: "var(--f-display)",
+                fontWeight: 500,
+                letterSpacing: "-0.01em",
+                fontSize: "clamp(30px, 5vw, 46px)",
+                lineHeight: 1.04,
+                margin: 0,
+              }}
+            >
+              Find your table
+            </h1>
+          </>
+        )}
 
         {/* Segmented control */}
         <div

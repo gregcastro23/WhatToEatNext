@@ -47,9 +47,17 @@ export interface NotificationMetadata {
   venueName?: string;
   hostName?: string;
   guestName?: string;
-  /** `table_join_request`: the discoverer asking the host for an invite. */
+  /** `table_join_request`: the discoverer asking the host for an invite.
+   * `status` is the request's own lifecycle — deliberately independent of
+   * `isRead`, so a host merely viewing/opening the notification panel (which
+   * marks the row read) can never destroy actionability or defeat the
+   * requestToJoin dedupe. Defaults to 'pending' when absent (pre-fix rows).
+   * A 'dismissed' request may be re-requested later; an 'actioned' one is
+   * blocked from re-request via the resulting table_members row, not via
+   * this field. */
   requesterId?: string;
   requesterName?: string;
+  status?: 'pending' | 'actioned' | 'dismissed';
   response?: string;
   feedEventId?: string;
   photoCount?: number;
