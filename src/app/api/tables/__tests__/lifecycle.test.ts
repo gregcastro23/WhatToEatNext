@@ -105,6 +105,20 @@ async function fakeQuery(sql: string, params: unknown[] = []): Promise<{ rows: F
     return { rows: [t], rowCount: 1 };
   }
 
+  // ── conversations (PR 3: ensured on the go-live tx, archived on close) ──
+  if (has(q, "INSERT INTO conversations") && has(q, "'table'")) {
+    return { rows: [], rowCount: 0 }; // ON CONFLICT DO NOTHING
+  }
+  if (has(q, "SELECT id FROM conversations")) {
+    return { rows: [{ id: "conv-1" }], rowCount: 1 };
+  }
+  if (has(q, "INSERT INTO conversation_members")) {
+    return { rows: [], rowCount: 0 }; // seed members, ON CONFLICT DO NOTHING
+  }
+  if (has(q, "UPDATE conversations SET archived_at")) {
+    return { rows: [], rowCount: 0 };
+  }
+
   if (has(q, "FOR UPDATE") && has(q, "status = 'live'")) {
     const t = tables.find((r) => r.id === params[0] && r.host_id === params[1] && r.status === "live");
     return t ? { rows: [t], rowCount: 1 } : { rows: [], rowCount: 0 };
