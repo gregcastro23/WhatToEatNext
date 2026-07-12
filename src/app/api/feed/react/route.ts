@@ -107,10 +107,6 @@ export async function POST(request: NextRequest) {
       // Poster's resonance (once-ever per event: the FIRST spark pays the maker;
       // catalog caps how many works can resonate per day).
       await practiceRewardService.recognize(posterId, "work_resonated", eventId);
-
-      // Fire-and-forget bell to the poster (deduped; self/blocked/agent-safe).
-      // Only on fresh insert — a re-tap of an existing kind never re-notifies.
-      void notifyReactionReceived({ eventId, actorId: userId, recipientId: posterId, kind });
     } else {
       // No insert landed → the viewer already had this kind: un-react.
       const del = await executeQuery(
@@ -122,6 +118,15 @@ export async function POST(request: NextRequest) {
 
     const [counts, kinds] = await Promise.all([kindCounts(eventId), viewerKinds(eventId, userId)]);
     const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+
+    // Notify the poster ONLY on this actor's FIRST reaction to the event — a
+    // single user reacting with several kinds is one distinct reactor, so it
+    // must bump the bell once (review §4), not once per kind. After a fresh
+    // insert, kinds.length === 1 means this is their first current reaction.
+    // (Fire-and-forget; deduped + self/blocked/agent-safe in the dispatcher.)
+    if (isNew && kinds.length === 1) {
+      void notifyReactionReceived({ eventId, actorId: userId, recipientId: posterId, kind });
+    }
 
     return NextResponse.json({
       success: true,

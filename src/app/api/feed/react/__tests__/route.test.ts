@@ -32,8 +32,13 @@ jest.mock("@/services/practiceRewardService", () => ({
   },
 }));
 
+jest.mock("@/lib/notifications/engagementNotify", () => ({
+  notifyReactionReceived: jest.fn(),
+}));
+
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { notifyReactionReceived } from "@/lib/notifications/engagementNotify";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import { POST } from "../route";
 
@@ -205,5 +210,32 @@ describe("POST /api/feed/react — toggle", () => {
   it("400s a malformed eventId", async () => {
     const res = await POST(makeRequest({ eventId: "not-a-uuid", kind: "fire" }));
     expect(res.status).toBe(400);
+  });
+
+  it("notifies the poster on the actor's FIRST reaction to the event", async () => {
+    // Fresh insert, and afterward the viewer has exactly one kind → first reaction.
+    primeReact({ insertRows: [{ id: "r1" }], counts: [{ kind: "fire", n: 1 }], viewer: ["fire"] });
+    await POST(makeRequest({ eventId: EVENT, kind: "fire" }));
+    expect(notifyReactionReceived).toHaveBeenCalledTimes(1);
+    expect(notifyReactionReceived).toHaveBeenCalledWith(
+      expect.objectContaining({ eventId: EVENT, actorId: CURIE, recipientId: TESLA, kind: "fire" }),
+    );
+  });
+
+  it("does NOT re-notify when the same actor adds a SECOND kind (one distinct reactor)", async () => {
+    // Fresh insert of a second kind → the viewer now has 2 kinds → not first.
+    primeReact({
+      insertRows: [{ id: "r2" }],
+      counts: [{ kind: "fire", n: 1 }, { kind: "water", n: 1 }],
+      viewer: ["fire", "water"],
+    });
+    await POST(makeRequest({ eventId: EVENT, kind: "water" }));
+    expect(notifyReactionReceived).not.toHaveBeenCalled();
+  });
+
+  it("does NOT notify on un-react (toggle off)", async () => {
+    primeReact({ insertRows: [], deleteRowCount: 1, counts: [], viewer: [] });
+    await POST(makeRequest({ eventId: EVENT, kind: "fire" }));
+    expect(notifyReactionReceived).not.toHaveBeenCalled();
   });
 });

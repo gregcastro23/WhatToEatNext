@@ -33,13 +33,18 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Merge into the existing preferences JSONB, creating the push object if absent.
+    // Set the WHOLE push object, not '{push,enabled}': jsonb_set with a nested
+    // path is a NO-OP when the 'push' key doesn't already exist (all earlier
+    // path elements must be present), which would silently drop an opt-out and
+    // leave queueWebPush sending (fail-open consent bug). Writing '{push}' with
+    // jsonb_build_object creates it whether or not 'push' existed. Merge (||)
+    // preserves any other keys already inside preferences.push.
     await executeQuery(
       `UPDATE users
           SET preferences = jsonb_set(
                 COALESCE(preferences, '{}'::jsonb),
-                '{push,enabled}',
-                to_jsonb($2::boolean),
+                '{push}',
+                COALESCE(preferences->'push', '{}'::jsonb) || jsonb_build_object('enabled', $2::boolean),
                 true)
         WHERE id = $1::uuid`,
       [userId, enabled],

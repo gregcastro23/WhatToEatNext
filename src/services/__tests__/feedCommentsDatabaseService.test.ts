@@ -36,21 +36,58 @@ beforeEach(() => {
   });
 });
 
+// Event-identity signal columns the listComments query now selects (privacy
+// fix §1). REVEALED = the post shows the real poster; CONCEALED = anonymous.
+const REVEALED_EVENT = {
+  event_actor_is_agent: false,
+  event_actor_share_identity: true,
+  event_metadata: { identity: { v: 2, share: true, explicit: false }, shareName: true },
+};
+const CONCEALED_EVENT = {
+  event_actor_is_agent: false,
+  event_actor_share_identity: false,
+  event_metadata: { identity: { v: 2, share: false, explicit: false }, shareName: false },
+};
+
 describe("listComments", () => {
   it("resolves identity, marks the event actor, and renders oldest→newest", async () => {
     // Rows come back newest-first (created_at DESC); the service reverses them.
     mockQuery.mockResolvedValueOnce({
       rows: [
-        { id: "c2", event_id: EVENT, author_id: TESLA, body: "Thank you!", created_at: new Date("2026-07-02T10:00:00Z"), event_actor_id: TESLA },
-        { id: "c1", event_id: EVENT, author_id: CURIE, body: "Exquisite", created_at: new Date("2026-07-01T10:00:00Z"), event_actor_id: TESLA },
+        { id: "c2", event_id: EVENT, author_id: TESLA, body: "Thank you!", created_at: new Date("2026-07-02T10:00:00Z"), event_actor_id: TESLA, ...REVEALED_EVENT },
+        { id: "c1", event_id: EVENT, author_id: CURIE, body: "Exquisite", created_at: new Date("2026-07-01T10:00:00Z"), event_actor_id: TESLA, ...REVEALED_EVENT },
       ],
     });
     const page = await feedCommentsDatabase.listComments(EVENT, CURIE, { limit: 30 });
     expect(page.comments.map((c) => c.id)).toEqual(["c1", "c2"]); // ascending
     expect(page.comments[0].authorName).toBe("Marie Curie");
     expect(page.comments[0].isEventActor).toBe(false);
-    expect(page.comments[1].isEventActor).toBe(true); // Tesla is the poster
+    expect(page.comments[1].isEventActor).toBe(true); // Tesla is the (revealed) poster
+    expect(page.comments[1].authorName).toBe("Nikola Tesla");
     expect(page.nextCursor).toBeNull(); // partial page
+  });
+
+  it("PRIVACY: conceals the event actor's OWN comment when the post is anonymous", async () => {
+    // Tesla posted anonymously (CONCEALED_EVENT). His own comment must NOT
+    // surface his real name / avatar / the 'the cook' marker — that would link
+    // the anonymous post to the real person. Marie's comment is unaffected.
+    mockQuery.mockResolvedValueOnce({
+      rows: [
+        { id: "c2", event_id: EVENT, author_id: TESLA, body: "Glad you liked it", created_at: new Date("2026-07-02T10:00:00Z"), event_actor_id: TESLA, ...CONCEALED_EVENT },
+        { id: "c1", event_id: EVENT, author_id: CURIE, body: "Exquisite", created_at: new Date("2026-07-01T10:00:00Z"), event_actor_id: TESLA, ...CONCEALED_EVENT },
+      ],
+    });
+    const page = await feedCommentsDatabase.listComments(EVENT, CURIE, { limit: 30 });
+    const curie = page.comments.find((c) => c.id === "c1")!;
+    const teslaOwn = page.comments.find((c) => c.id === "c2")!;
+    // Other commenter: real identity (locked decision 4).
+    expect(curie.authorName).toBe("Marie Curie");
+    expect(curie.isEventActor).toBe(false);
+    // Event actor's own comment on an anonymous post: concealed, no marker.
+    expect(teslaOwn.authorName).toBe("Anonymous Alchemist");
+    expect(teslaOwn.authorImage).toBeNull();
+    expect(teslaOwn.authorElement).toBeNull();
+    expect(teslaOwn.isEventActor).toBe(false);
   });
 
   it("filters deleted + hidden + blocked pairs in the SQL and scopes 'own hidden' to the viewer", async () => {
@@ -84,24 +121,57 @@ describe("listComments", () => {
 });
 
 describe("createComment", () => {
-  it("inserts and returns the canonical identity-resolved comment", async () => {
+  /** Prime insert + the getEventActorReveal lookup for a given event signal. */
+  function primeCreate(revealRow: Record<string, unknown>) {
     mockQuery.mockImplementation((sql: string) => {
       if (sql.includes("INSERT INTO feed_comments")) {
         return Promise.resolve({ rows: [{ id: COMMENT, created_at: new Date("2026-07-03T10:00:00Z") }] });
       }
-      if (sql.includes("SELECT actor_id FROM feed_events")) {
-        return Promise.resolve({ rows: [{ actor_id: TESLA }] });
+      if (sql.includes("FROM feed_events f")) {
+        return Promise.resolve({ rows: [revealRow] });
       }
       return Promise.resolve({ rows: [] });
     });
+  }
+
+  it("inserts and returns the canonical identity-resolved comment", async () => {
+    primeCreate({ actor_id: TESLA, is_agent: false, share_identity: true, metadata_payload: { shareName: true } });
     const comment = await feedCommentsDatabase.createComment(EVENT, CURIE, "Exquisite work");
     expect(comment).toMatchObject({
       id: COMMENT,
       authorId: CURIE,
       authorName: "Marie Curie",
       body: "Exquisite work",
-      isEventActor: false,
+      isEventActor: false, // Curie is not the poster
     });
+  });
+
+  it("PRIVACY: conceals the poster's OWN comment on their anonymous post", async () => {
+    // Tesla comments on his own anonymously-posted event.
+    primeCreate({
+      actor_id: TESLA,
+      is_agent: false,
+      share_identity: false,
+      metadata_payload: { identity: { v: 2, share: false, explicit: false }, shareName: false },
+    });
+    const comment = await feedCommentsDatabase.createComment(EVENT, TESLA, "Glad you liked it");
+    expect(comment).toMatchObject({
+      authorName: "Anonymous Alchemist",
+      authorImage: null,
+      authorElement: null,
+      isEventActor: false, // marker dropped
+    });
+  });
+
+  it("keeps the poster's own comment real-identity + marked on a NON-anonymous post", async () => {
+    primeCreate({
+      actor_id: TESLA,
+      is_agent: false,
+      share_identity: true,
+      metadata_payload: { identity: { v: 2, share: true, explicit: false }, shareName: true },
+    });
+    const comment = await feedCommentsDatabase.createComment(EVENT, TESLA, "Thanks all");
+    expect(comment).toMatchObject({ authorName: "Nikola Tesla", isEventActor: true });
   });
 });
 

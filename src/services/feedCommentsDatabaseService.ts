@@ -9,6 +9,7 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { resolveFeedActorReveal } from "@/lib/feed/identity";
 import { _logger } from "@/lib/logger";
 import { resolveDisplayIdentity } from "@/lib/social/identity";
 
@@ -42,6 +43,28 @@ interface CommentRow {
   body: string;
   created_at: Date | string;
   event_actor_id: string;
+  // Event-identity signal — used ONLY for comments authored by the event actor,
+  // so an anonymous poster's own comment can't de-anonymize their post.
+  event_actor_is_agent: boolean;
+  event_actor_share_identity: boolean | null;
+  event_metadata: unknown;
+}
+
+/**
+ * The event actor's OWN comment must inherit the post's anonymity: if the feed
+ * event was posted concealed (PR 4 stamp share=false / legacy opt-out / current
+ * opt-out), rendering their real name here — and the copper "the cook" marker —
+ * would silently link the anonymous post to the real person. So for any comment
+ * where the author IS the event actor, we gate on resolveFeedActorReveal of the
+ * EVENT: concealed → "Anonymous Alchemist", no avatar, no isEventActor marker.
+ * Every OTHER commenter keeps real identity (locked decision 4).
+ */
+function eventActorRevealed(row: CommentRow): boolean {
+  return resolveFeedActorReveal({
+    isAgent: row.event_actor_is_agent === true,
+    metadata: row.event_metadata,
+    currentShareIdentity: row.event_actor_share_identity,
+  });
 }
 
 function encodeCursor(createdAt: Date | string, id: string): string {
@@ -74,6 +97,41 @@ class FeedCommentsDatabaseService {
   }
 
   /**
+   * The event actor plus whether their identity is REVEALED on the post itself
+   * (resolveFeedActorReveal). Used so the actor's own comment inherits the
+   * post's anonymity — an anonymous poster's comment must not surface their
+   * real name or the "the cook" marker.
+   */
+  async getEventActorReveal(eventId: string): Promise<{ actorId: string; revealed: boolean } | null> {
+    const res = await executeQuery<{
+      actor_id: string;
+      is_agent: boolean;
+      share_identity: boolean | null;
+      metadata_payload: unknown;
+    }>(
+      `SELECT f.actor_id,
+              COALESCE(u.is_agent, false) AS is_agent,
+              up.share_identity,
+              f.metadata_payload
+         FROM feed_events f
+         JOIN users u ON u.id = f.actor_id
+         LEFT JOIN user_profiles up ON up.user_id = f.actor_id
+        WHERE f.id = $1::uuid`,
+      [eventId],
+    );
+    const row = res.rows[0];
+    if (!row) return null;
+    return {
+      actorId: row.actor_id,
+      revealed: resolveFeedActorReveal({
+        isAgent: row.is_agent === true,
+        metadata: row.metadata_payload,
+        currentShareIdentity: row.share_identity,
+      }),
+    };
+  }
+
+  /**
    * Keyset-paginated comment page (newest-first fetch, returned ascending).
    * `viewerId` scopes the blocked-pair anti-join + the "own hidden" exception;
    * pass null for anonymous readers (hidden rows all excluded, no block filter).
@@ -96,9 +154,14 @@ class FeedCommentsDatabaseService {
     try {
       const res = await executeQuery<CommentRow>(
         `SELECT c.id, c.event_id, c.author_id, c.body, c.created_at,
-                f.actor_id AS event_actor_id
+                f.actor_id AS event_actor_id,
+                f.metadata_payload AS event_metadata,
+                COALESCE(eu.is_agent, false) AS event_actor_is_agent,
+                eup.share_identity AS event_actor_share_identity
            FROM feed_comments c
            JOIN feed_events f ON f.id = c.event_id
+           JOIN users eu ON eu.id = f.actor_id
+           LEFT JOIN user_profiles eup ON eup.user_id = f.actor_id
           WHERE c.event_id = $1::uuid
             AND c.deleted_at IS NULL
             -- hidden rows are excluded, except the viewer's own
@@ -120,17 +183,20 @@ class FeedCommentsDatabaseService {
 
       const descending: FeedComment[] = rows.map((row) => {
         const identity = identities[row.author_id];
+        const isActor = row.author_id === row.event_actor_id;
+        // The event actor's own comment inherits the post's anonymity.
+        const conceal = isActor && !eventActorRevealed(row);
         return {
           id: row.id,
           eventId: row.event_id,
           authorId: row.author_id,
-          authorName: identity?.name ?? "Alchemist",
-          authorImage: identity?.image ?? null,
+          authorName: conceal ? "Anonymous Alchemist" : identity?.name ?? "Alchemist",
+          authorImage: conceal ? null : identity?.image ?? null,
           authorIsAgent: identity?.isAgent ?? false,
-          authorElement: identity?.dominantElement ?? null,
+          authorElement: conceal ? null : identity?.dominantElement ?? null,
           body: row.body,
           createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
-          isEventActor: row.author_id === row.event_actor_id,
+          isEventActor: isActor && !conceal,
         };
       });
 
@@ -156,23 +222,28 @@ class FeedCommentsDatabaseService {
     const row = ins.rows[0];
     if (!row) return null;
 
-    const [identities, actorId] = await Promise.all([
+    const [identities, eventReveal] = await Promise.all([
       resolveDisplayIdentity([authorId]),
-      this.getEventActor(eventId),
+      this.getEventActorReveal(eventId),
     ]);
     const identity = identities[authorId];
+
+    const isActor = authorId === eventReveal?.actorId;
+    // The author's own comment inherits the post's anonymity (privacy parity
+    // with listComments): concealed event → no real name, no avatar, no marker.
+    const conceal = isActor && eventReveal?.revealed === false;
 
     return {
       id: row.id,
       eventId,
       authorId,
-      authorName: identity?.name ?? "Alchemist",
-      authorImage: identity?.image ?? null,
+      authorName: conceal ? "Anonymous Alchemist" : identity?.name ?? "Alchemist",
+      authorImage: conceal ? null : identity?.image ?? null,
       authorIsAgent: identity?.isAgent ?? false,
-      authorElement: identity?.dominantElement ?? null,
+      authorElement: conceal ? null : identity?.dominantElement ?? null,
       body,
       createdAt: row.created_at instanceof Date ? row.created_at.toISOString() : String(row.created_at),
-      isEventActor: authorId === actorId,
+      isEventActor: isActor && !conceal,
     };
   }
 

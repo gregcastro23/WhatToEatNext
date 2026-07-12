@@ -70,3 +70,16 @@ CREATE TABLE IF NOT EXISTS push_subscriptions (
 CREATE INDEX IF NOT EXISTS idx_push_subscriptions_user ON push_subscriptions (user_id);
 
 COMMENT ON TABLE push_subscriptions IS 'Web-push device subscriptions. Endpoint is unique: ON CONFLICT (endpoint) reassigns user_id on device user-switches. Dead rows (404/410 on send) are pruned inline by src/lib/push/webPush.ts.';
+
+-- ── Engagement-notification concurrency backstop (review §3) ────────────────
+-- At most ONE unread notification per (recipient, type, event). Without this,
+-- two fresh reactions/comments on the same event that race before either
+-- commits both INSERT (the UPDATE-first bump sees neither), and later bumps hit
+-- both rows so it never self-heals. This partial unique index makes the losing
+-- INSERT conflict → ON CONFLICT DO UPDATE bumps instead
+-- (notificationDatabase.createOrBumpEventNotification). Every NON-engagement
+-- notification has metadata->>'eventId' = NULL, and NULLs are distinct in a
+-- unique index, so this never constrains welcome / follower / broadcast rows.
+CREATE UNIQUE INDEX IF NOT EXISTS uniq_unread_event_notification
+  ON notifications (user_id, type, (metadata->>'eventId'))
+  WHERE is_read = false;

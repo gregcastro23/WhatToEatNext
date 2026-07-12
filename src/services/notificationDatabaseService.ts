@@ -245,6 +245,19 @@ class NotificationDatabaseService {
            INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
            SELECT $1, $2, $4::notification_type, $8, $9, $3, $10
            WHERE NOT EXISTS (SELECT 1 FROM bumped)
+           -- Concurrency backstop (review §3): if a racing txn already inserted
+           -- the unread row for this (recipient, type, event), the partial unique
+           -- index uniq_unread_event_notification makes this INSERT conflict —
+           -- bump that row instead of double-inserting.
+           ON CONFLICT (user_id, type, (metadata->>'eventId')) WHERE is_read = false
+           DO UPDATE SET
+             metadata = COALESCE(notifications.metadata, '{}'::jsonb) || jsonb_build_object(
+               'count', COALESCE((notifications.metadata->>'count')::int, 1) + 1,
+               'lastActorName', $6::text),
+             message = replace($7, '__OTHERS__',
+               COALESCE((notifications.metadata->>'count')::int, 1)::text),
+             related_user_id = $3,
+             updated_at = now()
            RETURNING id, user_id, type, title, message, related_user_id, metadata,
                      created_at, expires_at, is_read
          )
