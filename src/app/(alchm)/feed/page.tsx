@@ -779,6 +779,10 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
         meta={event.metadataPayload}
         createdAtLabel={formatRelativeTime(event.createdAt)}
         actorName={event.actorName}
+        eventId={engageable ? event.id : undefined}
+        reactionCounts={event.reactionCounts}
+        viewerKinds={engageable ? viewerKindsMap[event.id] : undefined}
+        commentCount={event.commentCount}
       />
     );
   }
