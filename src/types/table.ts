@@ -191,9 +191,10 @@ export interface TableRecord {
 }
 
 /** `GET /api/tables/[tableId]` response shape: the record plus its joined
- * members. `invites` is host-only. */
+ * members and photos. `invites` is host-only. */
 export interface TableDetail extends TableRecord {
   members: TableMember[];
+  photos: TablePhoto[];
   invites?: TableInvite[];
 }
 

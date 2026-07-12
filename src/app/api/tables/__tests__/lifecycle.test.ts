@@ -267,6 +267,11 @@ async function fakeQuery(sql: string, params: unknown[] = []): Promise<{ rows: F
     return { rows, rowCount: rows.length };
   }
 
+  if (has(q, "SELECT * FROM table_photos WHERE table_id = $1")) {
+    const rows = tablePhotos.filter((r) => r.table_id === params[0]);
+    return { rows, rowCount: rows.length };
+  }
+
   // ── commensalships (block/accepted checks — none exist in this test) ──
   if (has(q, "FROM commensalships")) {
     return { rows: [], rowCount: 0 };

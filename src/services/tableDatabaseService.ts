@@ -226,6 +226,8 @@ class TableDatabaseService {
       );
       const members = membersResult.rows.map((r: Row) => this.rowToTableMember(r));
 
+      const photos = await this.listPhotos(tableId);
+
       let invites: TableInvite[] | undefined;
       if (viewerId && viewerId === table.hostId) {
         const invitesResult = await executeQuery(
@@ -235,7 +237,7 @@ class TableDatabaseService {
         invites = invitesResult.rows.map((r: Row) => this.rowToTableInvite(r));
       }
 
-      return { ...table, members, invites };
+      return { ...table, members, photos, invites };
     } catch (error) {
       _logger.error("getTableDetail failed:", error);
       return null;

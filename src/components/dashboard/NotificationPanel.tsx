@@ -24,6 +24,7 @@ export function NotificationPanel() {
     markAllRead,
     generateDailyInsight,
     respondToCommensalRequest,
+    respondToTableInvite,
   } = useNotifications({ limit: 30, pollingMs: 45_000 });
 
   const [filter, setFilter] = useState<NotificationFilter>('all');
@@ -68,6 +69,25 @@ export function NotificationPanel() {
       setStatusMessage(
         action === 'accept' ? 'Companion request accepted.' : 'Companion request declined.',
       );
+      await fetchNotifications();
+    }
+
+    setBusyNotificationId(null);
+  };
+
+  const handleTableInviteAction = async (
+    notification: UserNotification,
+    response: 'joined' | 'declined',
+  ) => {
+    setBusyNotificationId(notification.id);
+    setStatusMessage(null);
+
+    const result = await respondToTableInvite(notification, response);
+
+    if (!result.success) {
+      setStatusMessage(result.message || `Could not ${response === 'joined' ? 'accept' : 'decline'} the invitation.`);
+    } else {
+      setStatusMessage(response === 'joined' ? 'You joined the table.' : 'Invitation declined.');
       await fetchNotifications();
     }
 
@@ -189,10 +209,13 @@ export function NotificationPanel() {
             const isDailyInsight = n.type === 'daily_insight';
             const isCommensalRequest = n.type === 'commensal_request';
             const isQuestCompleted = n.type === 'quest_completed';
+            const isTableInvite = n.type === 'table_invite';
             const canRespondToCommensal =
               isCommensalRequest &&
               !n.isRead &&
               typeof n.metadata?.commensalshipId === 'string';
+            const canRespondToTableInvite =
+              isTableInvite && !n.isRead && typeof n.metadata?.tableId === 'string';
 
             return (
               <div
@@ -277,6 +300,31 @@ export function NotificationPanel() {
                       </div>
                     )}
                     
+                    {canRespondToTableInvite && (
+                      <div className="mt-5 flex gap-3">
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void handleTableInviteAction(n, 'joined');
+                          }}
+                          disabled={busyNotificationId === n.id}
+                          className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white border border-emerald-500/20 transition-all disabled:opacity-30"
+                        >
+                          Join
+                        </button>
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void handleTableInviteAction(n, 'declined');
+                          }}
+                          disabled={busyNotificationId === n.id}
+                          className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border border-rose-500/20 transition-all disabled:opacity-30"
+                        >
+                          Decline
+                        </button>
+                      </div>
+                    )}
+
                     {isQuestCompleted && !n.isRead && (
                       <div className="mt-5 flex gap-3">
                         <button

@@ -150,6 +150,24 @@ export function narrateFeedEvent(
       };
     }
 
+    case "table_memory": {
+      // Normally rendered as a full TableMemoryCard; this narration is the
+      // fallback for compact surfaces (mini feed widget, profile activity).
+      const title = getString(metadata, "title");
+      const guestCount = getNumber(metadata, "guestCount");
+      const tableId = getString(metadata, "tableId");
+      const guestPhrase =
+        guestCount && guestCount > 1 ? ` with ${guestCount} at the table` : "";
+      return {
+        icon: "🍽️",
+        action: title
+          ? `closed the table on "${title}"${guestPhrase} — the memory is saved.`
+          : "closed a table and saved the memory.",
+        label: title ? `Table memory: ${title}` : "Table memory",
+        href: tableId ? `/tables/${tableId}` : undefined,
+      };
+    }
+
     case "weekly_menu":
     case "weekly_menu.completed":
     case "menu_planner.weekly_menu_completed": {

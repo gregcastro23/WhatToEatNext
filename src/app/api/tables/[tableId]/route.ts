@@ -66,7 +66,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    return NextResponse.json({ success: true, table: detail });
+    // viewerId: the caller's resolved DB id — clients must not derive this
+    // from the session (OAuth-sub vs DB-UUID mismatches, see
+    // getUserIdFromRequest); host/self checks key off this value.
+    return NextResponse.json({ success: true, table: detail, viewerId: userId });
   } catch (error) {
     console.error("Get table detail error:", error);
     return NextResponse.json(
