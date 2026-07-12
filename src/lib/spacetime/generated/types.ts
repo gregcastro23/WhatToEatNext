@@ -140,6 +140,28 @@ export const RecipeIngredientInput = __t.object("RecipeIngredientInput", {
 });
 export type RecipeIngredientInput = __Infer<typeof RecipeIngredientInput>;
 
+export const TableChatMessage = __t.object("TableChatMessage", {
+  chatId: __t.u64(),
+  wtenTableId: __t.string(),
+  messageUuid: __t.string(),
+  sender: __t.identity(),
+  senderName: __t.string(),
+  body: __t.string(),
+  replyToUuid: __t.string(),
+  createdAt: __t.timestamp(),
+  deleted: __t.bool(),
+});
+export type TableChatMessage = __Infer<typeof TableChatMessage>;
+
+export const TableChatMute = __t.object("TableChatMute", {
+  rowId: __t.u64(),
+  wtenTableId: __t.string(),
+  member: __t.identity(),
+  mutedBy: __t.identity(),
+  createdAt: __t.timestamp(),
+});
+export type TableChatMute = __Infer<typeof TableChatMute>;
+
 export const TablePresence = __t.object("TablePresence", {
   rowId: __t.u64(),
   wtenTableId: __t.string(),

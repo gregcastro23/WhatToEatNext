@@ -186,3 +186,59 @@ pub struct TablePresence {
     pub display_name: String,
     pub joined_at: Timestamp,
 }
+
+/// Live MIRROR of a Table's chat message (PR 3 — the canonical record lives in
+/// Postgres `messages`; these rows only push live delivery to subscribed
+/// clients). Keyed by `wten_table_id`, the same Spacetime key as TableSession
+/// and TablePresence (docs/plans/tables-program-sequencing.md Reconciliation
+/// 1/3). Bodies here are the SAME trust tier as the public `feed_event`: table
+/// chat is a room, not a private channel. DM and circle bodies NEVER enter
+/// SpacetimeDB — only table-chat mirrors.
+///
+/// The client publishes ONLY after the Postgres write returns 200, carrying
+/// that canonical row's `message_uuid`; the client reconciles live rows against
+/// canonical fetches by that uuid. `sender_name` is read from the presence row
+/// (never from reducer args) so a client can't spoof another member's name.
+#[spacetimedb::table(accessor = table_chat_message, public)]
+#[derive(Clone)]
+pub struct TableChatMessage {
+    #[primary_key]
+    #[auto_inc]
+    pub chat_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    /// The canonical Postgres messages.id (UUID) as text — the reconcile key.
+    pub message_uuid: String,
+    /// Author — always `ctx.sender`.
+    #[index(btree)]
+    pub sender: Identity,
+    /// Denormalized display name, taken from the sender's presence row.
+    pub sender_name: String,
+    pub body: String,
+    /// Canonical uuid of the replied-to message, or empty string for none.
+    pub reply_to_uuid: String,
+    pub created_at: Timestamp,
+    /// Tombstone flag; a deleted mirror keeps its row but blanks its body.
+    pub deleted: bool,
+}
+
+/// A host-imposed mute for one identity in a table's live chat. Presence is
+/// unaffected — a muted member still shows "at the table" but cannot post.
+/// Keyed by `wten_table_id`; the `join_table_session` guard also rejects muted
+/// identities (kick = remove-presence + mute; unmute readmits).
+#[spacetimedb::table(accessor = table_chat_mute, public)]
+#[derive(Clone)]
+pub struct TableChatMute {
+    #[primary_key]
+    #[auto_inc]
+    pub row_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    #[index(btree)]
+    pub member: Identity,
+    /// The host identity that imposed the mute (informational).
+    pub muted_by: Identity,
+    pub created_at: Timestamp,
+}
