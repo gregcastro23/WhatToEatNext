@@ -140,3 +140,24 @@ export const RecipeIngredientInput = __t.object("RecipeIngredientInput", {
 });
 export type RecipeIngredientInput = __Infer<typeof RecipeIngredientInput>;
 
+export const TablePresence = __t.object("TablePresence", {
+  rowId: __t.u64(),
+  wtenTableId: __t.string(),
+  member: __t.identity(),
+  wtenUserId: __t.string(),
+  displayName: __t.string(),
+  joinedAt: __t.timestamp(),
+});
+export type TablePresence = __Infer<typeof TablePresence>;
+
+export const TableSession = __t.object("TableSession", {
+  sessionId: __t.u64(),
+  wtenTableId: __t.string(),
+  host: __t.identity(),
+  title: __t.string(),
+  status: __t.u8(),
+  createdAt: __t.timestamp(),
+  updatedAt: __t.timestamp(),
+});
+export type TableSession = __Infer<typeof TableSession>;
+

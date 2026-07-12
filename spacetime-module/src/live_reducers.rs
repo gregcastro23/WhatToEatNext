@@ -552,3 +552,201 @@ pub fn set_commensal_session_status(
     });
     Ok(())
 }
+
+// ---------------------------------------------------------------------------
+// Table sessions (the Table entity's live-phase presence layer — PR 2)
+//
+// Keyed by `wten_table_id` (Postgres tables.id UUID as text). Presence-only:
+// chat reducers arrive with PR 3's conversations model. All identity here is
+// unverified client state — Postgres owns the authoritative member list and
+// lifecycle; these reducers only shape the ephemeral presence UX.
+// ---------------------------------------------------------------------------
+
+/// Bound for `wten_table_id` — a UUID is 36 chars; anything much longer is abuse.
+const WTEN_TABLE_ID_MAX_LEN: usize = 64;
+/// Bound for the client-claimed `wten_user_id` display hint.
+const WTEN_USER_ID_MAX_LEN: usize = 64;
+
+fn validate_wten_table_id(value: &str) -> Result<(), String> {
+    if value.trim().is_empty() {
+        return Err("wten_table_id must not be empty".to_string());
+    }
+    if value.len() > WTEN_TABLE_ID_MAX_LEN {
+        return Err(format!(
+            "wten_table_id must be <= {WTEN_TABLE_ID_MAX_LEN} bytes"
+        ));
+    }
+    Ok(())
+}
+
+fn validate_wten_user_id(value: &str) -> Result<(), String> {
+    if value.len() > WTEN_USER_ID_MAX_LEN {
+        return Err(format!(
+            "wten_user_id must be <= {WTEN_USER_ID_MAX_LEN} bytes"
+        ));
+    }
+    Ok(())
+}
+
+/// Idempotently ensure a live session exists for a Postgres table; the first
+/// caller becomes the module-side host and first present member. Subsequent
+/// calls are no-ops (Ok) — the host client calls this on entering the live
+/// room without caring whether a racing guest beat it there.
+#[spacetimedb::reducer]
+pub fn ensure_table_session(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    title: String,
+    wten_user_id: String,
+    display_name: String,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    validate_name("title", &title)?;
+    validate_name("display_name", &display_name)?;
+    validate_wten_user_id(&wten_user_id)?;
+
+    if ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&wten_table_id)
+        .is_some()
+    {
+        // Already ensured (possibly by a racing guest) — idempotent success.
+        return Ok(());
+    }
+
+    ctx.db
+        .table_session()
+        .try_insert(TableSession {
+            session_id: 0,
+            wten_table_id: wten_table_id.clone(),
+            host: ctx.sender(),
+            title,
+            status: SESSION_OPEN,
+            created_at: ctx.timestamp,
+            updated_at: ctx.timestamp,
+        })
+        .map_err(|e| e.to_string())?;
+
+    ctx.db
+        .table_presence()
+        .try_insert(TablePresence {
+            row_id: 0,
+            wten_table_id,
+            member: ctx.sender(),
+            wten_user_id,
+            display_name,
+            joined_at: ctx.timestamp,
+        })
+        .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+/// Join a live table session's presence. Fails closed if the session is
+/// missing or closed; dedupes — a caller already present is an idempotent Ok
+/// (their display fields refresh instead of duplicating the row).
+#[spacetimedb::reducer]
+pub fn join_table_session(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    wten_user_id: String,
+    display_name: String,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    validate_name("display_name", &display_name)?;
+    validate_wten_user_id(&wten_user_id)?;
+
+    let session = ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&wten_table_id)
+        .ok_or_else(|| format!("no live session for table {wten_table_id}"))?;
+    if session.status == SESSION_CLOSED {
+        return Err("this table's live session has closed".to_string());
+    }
+
+    let existing = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .find(|p| p.member == ctx.sender());
+    if let Some(presence) = existing {
+        ctx.db.table_presence().row_id().update(TablePresence {
+            wten_user_id,
+            display_name,
+            ..presence
+        });
+        return Ok(());
+    }
+
+    ctx.db
+        .table_presence()
+        .try_insert(TablePresence {
+            row_id: 0,
+            wten_table_id,
+            member: ctx.sender(),
+            wten_user_id,
+            display_name,
+            joined_at: ctx.timestamp,
+        })
+        .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+/// Leave a live table session. Unlike the commensal lobby, the HOST leaving
+/// does NOT close the session — the party continues until the host's client
+/// explicitly calls `close_table_session` (best-effort, mirroring the
+/// authoritative Postgres close). Idempotent for non-members.
+#[spacetimedb::reducer]
+pub fn leave_table_session(ctx: &ReducerContext, wten_table_id: String) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    let rows: Vec<TablePresence> = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .filter(|p| p.member == ctx.sender())
+        .collect();
+    for row in rows {
+        ctx.db.table_presence().row_id().delete(row.row_id);
+    }
+    Ok(())
+}
+
+/// Host-only: close a table's live session and clear its presence rows.
+/// Called best-effort by the host's client alongside the authoritative
+/// Postgres close — a missed call just leaves a stale open session, which
+/// affects nothing durable.
+#[spacetimedb::reducer]
+pub fn close_table_session(ctx: &ReducerContext, wten_table_id: String) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    let session = ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&wten_table_id)
+        .ok_or_else(|| format!("no live session for table {wten_table_id}"))?;
+    if session.host != ctx.sender() {
+        return Err("only the session host may close it".to_string());
+    }
+
+    let rows: Vec<TablePresence> = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .collect();
+    for row in rows {
+        ctx.db.table_presence().row_id().delete(row.row_id);
+    }
+
+    ctx.db.table_session().session_id().update(TableSession {
+        status: SESSION_CLOSED,
+        updated_at: ctx.timestamp,
+        ..session
+    });
+    Ok(())
+}

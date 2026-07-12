@@ -14,6 +14,7 @@ import { useState } from "react";
 import { CommentList } from "@/components/tables/CommentList";
 import { InvitePanel } from "@/components/tables/InvitePanel";
 import { LifecycleControls } from "@/components/tables/LifecycleControls";
+import { LiveTableRoom } from "@/components/tables/LiveTableRoom";
 import { MembersPanel } from "@/components/tables/MembersPanel";
 import { PhotoGrid } from "@/components/tables/PhotoGrid";
 import { TableCompositePanel } from "@/components/tables/TableCompositePanel";
@@ -183,6 +184,21 @@ export default function TableDetailPage() {
               </button>
             </div>
           </GlassPanel>
+        )}
+
+        {/* Live presence room — flag-gated (NEXT_PUBLIC_SPACETIME_LIVE_TABLES),
+            renders null when off/disconnected/not-live. Mounted for memory too
+            so it can watch the live -> memory transition and fire the
+            best-effort module-side session close. Presence only — chat is PR 3. */}
+        {(table.status === "live" || table.status === "memory") && (
+          <LiveTableRoom
+            tableId={table.id}
+            tableTitle={table.title}
+            tableStatus={table.status}
+            members={table.members}
+            viewerId={viewerId}
+            isHost={isHost}
+          />
         )}
 
         {table.status === "cancelled" ? (
