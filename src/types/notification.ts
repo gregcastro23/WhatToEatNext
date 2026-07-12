@@ -16,7 +16,11 @@ export type NotificationType =
   | 'master_quest_broadcast'
   | 'agent_broadcast'
   | 'transit_attunement'
-  | 'new_follower';
+  | 'new_follower'
+  | 'table_invite'
+  | 'table_rsvp'
+  | 'table_going_live'
+  | 'table_memory_posted';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -35,6 +39,16 @@ export interface NotificationMetadata {
     yieldMultiplier?: number;
     expiresAt?: string;
   };
+  /** Deep-link target for all `table_*` notification types. */
+  tableId?: string;
+  tableTitle?: string;
+  scheduledAt?: string;
+  venueName?: string;
+  hostName?: string;
+  guestName?: string;
+  response?: string;
+  feedEventId?: string;
+  photoCount?: number;
   [key: string]: unknown;
 }
 
@@ -71,4 +85,8 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   agent_broadcast:    { bg: '#F3E8FF', border: '#C084FC', icon: '🤖' },
   transit_attunement: { bg: '#EDE9FE', border: '#A78BFA', icon: '🌠' },
   new_follower:       { bg: '#E8EAF6', border: '#9FA8DA', icon: '🤝' },
+  table_invite:        { bg: '#FFF3E0', border: '#e0a66b', icon: '🍽️' },
+  table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
+  table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
+  table_memory_posted: { bg: '#FFF8E1', border: '#e0a66b', icon: '📸' },
 };

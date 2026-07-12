@@ -211,6 +211,7 @@
     "openai": "^6.40.0",
     "pg": "^8.21.0",
     "postcss": "^8.5.14",
+    "qrcode.react": "^4.2.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-error-boundary": "^6.0.0",

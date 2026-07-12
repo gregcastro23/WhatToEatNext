@@ -133,3 +133,56 @@ pub struct CommensalMember {
     pub display_name: String,
     pub joined_at: Timestamp,
 }
+
+/// Live session for a Postgres `tables` row (the Table entity, PR 2).
+///
+/// Keyed by `wten_table_id` — the Postgres UUID as text, the ONE Spacetime
+/// key shared by every table-scoped module table (see
+/// docs/plans/tables-program-sequencing.md Reconciliation 3). Clients look
+/// sessions up by table UUID, so no session id ever round-trips through
+/// Postgres. Presence-only in PR 2: chat tables arrive with PR 3's
+/// conversations model. Nothing durable derives from these rows — Postgres
+/// is authoritative for the whole table lifecycle; this layer is an
+/// ephemeral UX nicety for the live phase.
+#[spacetimedb::table(accessor = table_session, public)]
+#[derive(Clone)]
+pub struct TableSession {
+    #[primary_key]
+    #[auto_inc]
+    pub session_id: u64,
+    /// Postgres tables.id (UUID) as text. One session per table — the
+    /// unique constraint makes `ensure_table_session` race-safe.
+    #[unique]
+    pub wten_table_id: String,
+    /// First ensurer — an unverified client identity, only used to gate the
+    /// module-side close. The REAL host lives in Postgres (tables.host_id).
+    #[index(btree)]
+    pub host: Identity,
+    pub title: String,
+    /// 0 = open, 2 = closed (mirrors the commensal-session status space;
+    /// table sessions have no locked state).
+    pub status: u8,
+    pub created_at: Timestamp,
+    pub updated_at: Timestamp,
+}
+
+/// Who is present in a live table session. Subscribing to a table's rows by
+/// `wten_table_id` gives live presence for the party.
+#[spacetimedb::table(accessor = table_presence, public)]
+#[derive(Clone)]
+pub struct TablePresence {
+    #[primary_key]
+    #[auto_inc]
+    pub row_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    #[index(btree)]
+    pub member: Identity,
+    /// Client-claimed WTEN user id — a DISPLAY HINT matched against the
+    /// Postgres member list, never authoritative (ST identities are
+    /// anonymous localStorage tokens, unlinked to WTEN accounts).
+    pub wten_user_id: String,
+    pub display_name: String,
+    pub joined_at: Timestamp,
+}

@@ -13,6 +13,7 @@ import React, {
 import { CookedDishCard } from "@/components/feed/CookedDishCard";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import { LunarTableStrip } from "@/components/feed/LunarTableStrip";
+import { TableMemoryCard } from "@/components/feed/TableMemoryCard";
 import { TransitInviteBanner } from "@/components/feed/TransitInviteBanner";
 import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
 import { firePractice } from "@/lib/economy/practiceClient";
@@ -718,6 +719,18 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
         actorId={revealed ? event.actorId : undefined}
         actorName={revealed ? event.actorName : undefined}
         actorImage={revealed ? event.actorImage : undefined}
+      />
+    );
+  }
+
+  // Table memories are frozen social artifacts (real guest roster, composite
+  // badge, photos) — also a full card.
+  if (event.metadataPayload?.card === "table_memory") {
+    return (
+      <TableMemoryCard
+        meta={event.metadataPayload}
+        createdAtLabel={formatRelativeTime(event.createdAt)}
+        actorName={event.actorName}
       />
     );
   }

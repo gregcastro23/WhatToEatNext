@@ -21,7 +21,7 @@ import { _logger } from "@/lib/logger";
 export interface FeedEvent {
   id: string;
   actorId: string;
-  eventType: 'claim_daily' | 'transit_attunement' | 'commensal_request' | 'recipe_generation' | 'insight' | 'lab_entry' | 'made_it' | 'other';
+  eventType: 'claim_daily' | 'transit_attunement' | 'commensal_request' | 'recipe_generation' | 'insight' | 'lab_entry' | 'made_it' | 'table_memory' | 'other';
   metadataPayload: any;
   createdAt: Date;
   actorName: string;
