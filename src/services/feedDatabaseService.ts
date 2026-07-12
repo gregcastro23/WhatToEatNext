@@ -1,9 +1,21 @@
 /**
  * Feed Database Service
  * Manages fetching and recording community feed events.
+ *
+ * Identity (PR 4): every new event is stamped at write time with
+ * metadata_payload.identity = {v:2, share, explicit} plus the legacy
+ * shareName mirror (rollback-safe: an old reader renders new events
+ * correctly). Read paths resolve the actor's reveal through
+ * resolveFeedActorReveal — legacy (unstamped) events stay frozen under the
+ * old opt-in rule, so the default flip can never de-anonymize an existing row.
  */
 
 import { executeQuery } from "@/lib/database/connection";
+import {
+  buildIdentityStamp,
+  readIdentityStamp,
+  resolveFeedActorReveal,
+} from "@/lib/feed/identity";
 import { _logger } from "@/lib/logger";
 
 export interface FeedEvent {
@@ -23,39 +35,79 @@ export interface FeedEvent {
   actorSlug?: string;
   /** Spark count from feed_reactions (recent-events read path only). */
   reactionCount?: number;
+  /**
+   * Whether the actor's REAL identity is rendered (resolver output). False
+   * means actorName is "Anonymous Alchemist" and actorImage is absent.
+   * Always true for agents.
+   */
+  actorRevealed: boolean;
 }
 
 class FeedDatabaseService {
-  
+
   /**
-   * Record a new feed event
+   * Record a new feed event.
+   *
+   * `identity` is the caller's per-post choice (composer checkbox / API
+   * field); absent means "inherit the actor's share_identity default"
+   * (missing profile row = shared — the PR 4 flip; IDENTITY_DEFAULT_ANONYMOUS=1
+   * reverts the default without redeploy). Payloads that already carry a v2
+   * stamp (e.g. frozen table memories) are left untouched.
    */
-  async createEvent(actorId: string, eventType: string, metadataPayload: any = {}, skipWebhook = false): Promise<boolean> {
+  async createEvent(
+    actorId: string,
+    eventType: string,
+    metadataPayload: any = {},
+    skipWebhook = false,
+    identity?: { share?: boolean; explicit?: boolean },
+  ): Promise<boolean> {
     try {
       if (["agent_chat", "chat", "agent.chat"].includes(eventType)) {
         _logger.info(`[feed] Blocked agent chat event type: ${eventType} for anonymity`);
         return false;
       }
-      await executeQuery(
-        `INSERT INTO feed_events (actor_id, event_type, metadata_payload)
-         VALUES ($1, $2, $3)`,
-        [actorId, eventType, JSON.stringify(metadataPayload)]
-      );
 
-      // Secure Webhook Ingestion to Planetary Agents
-      if (!skipWebhook) {
-        // Query the database to check if this is an agentic user
+      // One indexed lookup serves both the identity stamp and the PA webhook.
+      // On failure the stamp falls back to CONCEALED unless the caller chose
+      // explicitly — a DB blip must never reveal someone who opted out.
+      let user: { email?: string; is_agent?: boolean; actor_name?: string; share_identity?: boolean | null } | null = null;
+      try {
         const result = await executeQuery(
-          `SELECT u.email, u.is_agent, up.name as actor_name
+          `SELECT u.email, u.is_agent, up.name as actor_name, up.share_identity
            FROM users u
            LEFT JOIN user_profiles up ON u.id = up.user_id
            WHERE u.id = $1`,
           [actorId]
         );
+        user = result?.rows?.[0] ?? null;
+      } catch (lookupError) {
+        _logger.warn("[feed] actor lookup failed — stamping privacy-safe:", lookupError);
+      }
 
-        if (result && result.rows.length > 0) {
-          const user = result.rows[0];
-          if (user.is_agent === true) {
+      let stampedPayload = metadataPayload ?? {};
+      if (!readIdentityStamp(stampedPayload)) {
+        const stamp =
+          identity?.share === undefined && !user
+            ? { v: 2 as const, share: false, explicit: false } // lookup failed → conceal
+            : buildIdentityStamp(identity, user?.share_identity);
+        stampedPayload = {
+          ...stampedPayload,
+          identity: stamp,
+          // Legacy mirror so a rolled-back reader renders new events correctly.
+          shareName: stamp.share,
+        };
+      }
+
+      await executeQuery(
+        `INSERT INTO feed_events (actor_id, event_type, metadata_payload)
+         VALUES ($1, $2, $3)`,
+        [actorId, eventType, JSON.stringify(stampedPayload)]
+      );
+
+      // Secure Webhook Ingestion to Planetary Agents
+      if (!skipWebhook) {
+        if (user) {
+          if (user.is_agent === true && user.email) {
             let agentEmail = user.email.toLowerCase().trim();
             // Ensure canonical agent email format (ends with @agentic.alchm.kitchen)
             if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
@@ -72,7 +124,7 @@ class FeedDatabaseService {
                 agentEmail,
                 eventType,
                 agentDisplayName: user.actor_name || agentEmail.split("@")[0],
-                metadataPayload,
+                metadataPayload: stampedPayload,
               };
 
               fetch(`${PLANETARY_AGENTS_URL}/api/feed`, {
@@ -139,21 +191,18 @@ class FeedDatabaseService {
         let actorName = row.actor_name || 'Alchemist';
         let actorImage = row.actor_image;
 
-        // Default all human activity feed items to display "Anonymous Alchemist"
-        // unless they explicitly opted in via metadataPayload.shareName === true
-        if (!isAgent) {
-          let metadata = row.metadata_payload;
-          if (typeof metadata === 'string') {
-            try {
-              metadata = JSON.parse(metadata);
-            } catch {
-              metadata = {};
-            }
-          }
-          if (!metadata || metadata.shareName !== true) {
-            actorName = "Anonymous Alchemist";
-            actorImage = undefined;
-          }
+        // Identity resolution (src/lib/feed/identity.ts): legacy events stay
+        // frozen under the old opt-in rule; stamped events honor the stamp,
+        // with default-named posts concealed by a LATER opt-out (never the
+        // reverse). Concealed rendering is unchanged: name + no image.
+        const revealed = resolveFeedActorReveal({
+          isAgent,
+          metadata: row.metadata_payload,
+          currentShareIdentity: row.actor_share_identity,
+        });
+        if (!revealed) {
+          actorName = "Anonymous Alchemist";
+          actorImage = undefined;
         }
 
         return {
@@ -167,6 +216,7 @@ class FeedDatabaseService {
           actorIsAgent: isAgent,
           actorSlug,
           reactionCount: Number(row.reaction_count) || 0,
+          actorRevealed: revealed,
         };
       });
     } catch (error) {
@@ -203,21 +253,15 @@ class FeedDatabaseService {
         let actorName = row.actor_name || 'Alchemist';
         let actorImage = row.actor_image;
 
-        // Default all human activity feed items to display "Anonymous Alchemist"
-        // unless they explicitly opted in via metadataPayload.shareName === true
-        if (!isAgent) {
-          let metadata = row.metadata_payload;
-          if (typeof metadata === 'string') {
-            try {
-              metadata = JSON.parse(metadata);
-            } catch {
-              metadata = {};
-            }
-          }
-          if (!metadata || metadata.shareName !== true) {
-            actorName = "Anonymous Alchemist";
-            actorImage = undefined;
-          }
+        // Same resolver as getRecentEvents — see the comment there.
+        const revealed = resolveFeedActorReveal({
+          isAgent,
+          metadata: row.metadata_payload,
+          currentShareIdentity: row.actor_share_identity,
+        });
+        if (!revealed) {
+          actorName = "Anonymous Alchemist";
+          actorImage = undefined;
         }
 
         return {
@@ -230,6 +274,7 @@ class FeedDatabaseService {
           actorImage,
           actorIsAgent: isAgent,
           actorSlug,
+          actorRevealed: revealed,
         };
       });
     } catch (error) {

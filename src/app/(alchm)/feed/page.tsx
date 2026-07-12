@@ -35,6 +35,8 @@ interface FeedEvent {
   metadataPayload: any;
   createdAt: string;
   reactionCount?: number;
+  /** Identity resolver output (PR 4): real identity rendered when true. */
+  actorRevealed?: boolean;
 }
 
 interface AgentSummary {
@@ -702,15 +704,20 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
   const narration = getEventNarration(event);
   const actorHref = `/profile/${event.actorId}`;
 
-  // Cooked-it dish cards carry their own alchemical identity (chart-persona,
-  // signature, transit line) — rendered as a full card, not a narration row.
+  // Cooked-it dish cards render as a full card, not a narration row. When
+  // the actor is revealed (identity resolver, PR 4) the real name + avatar
+  // head the card; concealed cards keep the pure chart-persona identity.
   if (event.metadataPayload?.card === "cooked") {
+    const revealed = event.actorRevealed === true;
     return (
       <CookedDishCard
         eventId={event.id}
         createdAtLabel={formatRelativeTime(event.createdAt)}
         meta={event.metadataPayload}
         initialCount={event.reactionCount ?? 0}
+        actorId={revealed ? event.actorId : undefined}
+        actorName={revealed ? event.actorName : undefined}
+        actorImage={revealed ? event.actorImage : undefined}
       />
     );
   }

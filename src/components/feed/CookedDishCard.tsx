@@ -3,12 +3,14 @@
 /**
  * Cooked-it dish card — how a shared Work appears in the commons.
  *
- * Renders the alchemical identity built at share time (chart-persona, never a
- * real name; elemental signature chip; the transit line) around the dish
- * photo, with the spark control. Sparking POSTs /api/feed/react — the server
- * anchors both invisible rewards to the reaction row (reactor's feed_reaction,
- * poster's work_resonated); reacted state is remembered locally so the button
- * renders lit without a per-user bootstrap call.
+ * Identity (PR 4): when the event actor is REVEALED (the identity resolver
+ * says so), the real name + avatar head the card and the chart-persona
+ * demotes to the signature line. When concealed (per-post anonymous / legacy
+ * default), the original pure-persona rendering is unchanged. Sparking POSTs
+ * /api/feed/react — the server anchors both invisible rewards to the reaction
+ * row (reactor's feed_reaction, poster's work_resonated); reacted state is
+ * remembered locally so the button renders lit without a per-user bootstrap
+ * call.
  */
 
 import Link from "next/link";
@@ -31,6 +33,10 @@ interface CookedDishCardProps {
   createdAtLabel: string;
   meta: CookedCardMeta;
   initialCount: number;
+  /** Real identity — pass ONLY when the feed event's actor is revealed. */
+  actorId?: string;
+  actorName?: string;
+  actorImage?: string;
 }
 
 const REACTED_CACHE_KEY = "alchm:feed:sparked";
@@ -54,7 +60,15 @@ function rememberSpark(eventId: string): void {
   }
 }
 
-export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: CookedDishCardProps): JSX.Element {
+export function CookedDishCard({
+  eventId,
+  createdAtLabel,
+  meta,
+  initialCount,
+  actorId,
+  actorName,
+  actorImage,
+}: CookedDishCardProps): JSX.Element {
   const [count, setCount] = useState(initialCount);
   const [sparked, setSparked] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -93,6 +107,12 @@ export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: 
   const dish = meta.recipeName || "a dish";
   const recipeHref = meta.recipeId ? `/recipes/${encodeURIComponent(meta.recipeId)}` : null;
 
+  // Revealed = real identity heads the card; persona joins the transit line.
+  const revealed = Boolean(actorId && actorName);
+  const personaLine = [meta.persona, meta.transitLine || "made under today's sky"]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
     <div className="glass-card-premium rounded-2xl overflow-hidden border-white/8 hover:border-purple-500/20 transition-all">
       {meta.photoUrl && (
@@ -108,7 +128,24 @@ export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: 
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="min-w-0">
             <p className="text-sm text-white/85">
-              <span className="font-bold text-purple-200">{meta.persona || "An alchemist of the kitchen"}</span>{" "}
+              {revealed ? (
+                <Link
+                  href={`/profile/${actorId}`}
+                  className="inline-flex items-center gap-2 align-middle font-bold text-white underline-offset-2 hover:underline hover:text-purple-200 mr-1"
+                >
+                  {actorImage && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={actorImage}
+                      alt=""
+                      className="w-5 h-5 rounded-full object-cover border border-white/10"
+                    />
+                  )}
+                  {actorName}
+                </Link>
+              ) : (
+                <span className="font-bold text-purple-200">{meta.persona || "An alchemist of the kitchen"}</span>
+              )}{" "}
               made{" "}
               {recipeHref ? (
                 <Link href={recipeHref} className="font-semibold text-white underline decoration-purple-400/30 underline-offset-2 hover:text-purple-100">
@@ -121,7 +158,9 @@ export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: 
                 <span className="text-amber-300/90"> · {"★".repeat(Math.min(5, meta.rating))}</span>
               )}
             </p>
-            <p className="text-[11px] text-white/40 mt-1 italic">{meta.transitLine || "made under today's sky"}</p>
+            <p className="text-[11px] text-white/40 mt-1 italic">
+              {revealed ? personaLine : meta.transitLine || "made under today's sky"}
+            </p>
           </div>
           {meta.signature && (
             <span className="shrink-0 text-[9px] font-black uppercase tracking-[0.14em] text-cyan-300/90 border border-cyan-500/25 rounded-full px-2.5 py-1">
