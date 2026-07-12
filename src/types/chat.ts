@@ -68,6 +68,8 @@ export interface ChatMessage {
   senderName?: string;
   senderAvatarUrl?: string;
   senderIsAgent?: boolean;
+  /** Client-only: a live/optimistic row not yet confirmed by a canonical fetch. */
+  pending?: boolean;
 }
 
 export type MessageReportReason = "spam" | "harassment" | "inappropriate" | "other";
