@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
@@ -300,6 +301,18 @@ export function NotificationPanel() {
                       </div>
                     )}
                     
+                    {n.type === 'new_follower' && n.relatedUserId && (
+                      <div className="mt-4">
+                        <Link
+                          href={`/profile/${n.relatedUserId}`}
+                          onClick={(event) => event.stopPropagation()}
+                          className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500 hover:text-white border border-indigo-500/20 transition-all inline-block"
+                        >
+                          View Profile
+                        </Link>
+                      </div>
+                    )}
+
                     {canRespondToTableInvite && (
                       <div className="mt-5 flex gap-3">
                         <button

@@ -15,7 +15,11 @@ export { GlassPanel, type GlassPanelProps } from "./GlassPanel";
 export { GradientText, type GradientTextProps } from "./GradientText";
 export { GradientButton, type GradientButtonProps } from "./GradientButton";
 export { LabelXS, type LabelXSProps } from "./LabelXS";
-export type { AvatarPerson } from "./AvatarCircle";
+export {
+  AvatarCircle,
+  type AvatarCircleProps,
+  type AvatarPerson,
+} from "./AvatarCircle";
 export {
   AvatarClusterRing,
   type AvatarClusterRingProps,

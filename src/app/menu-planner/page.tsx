@@ -27,7 +27,9 @@ import {
 import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useRecipeRefResolver } from "@/hooks/useRecipeRefResolver";
+import { useShareIdentityDefault } from "@/hooks/useShareIdentityDefault";
 import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
+import { shareIdentityForPost } from "@/lib/feed/identity";
 import { isLiveFeedEnabled } from "@/lib/spacetime/config";
 import { publishLiveFeedEvent } from "@/lib/spacetime/liveFeedPublish";
 import type { SavedChart } from "@/types/natalChart";
@@ -106,7 +108,14 @@ function MenuPlannerContent() {
 
   const [showGroceryList, setShowGroceryList] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [shareNameOptIn, setShareNameOptIn] = useState(false);
+  // Identity flip (PR 4): posts are NAMED by default; the checkbox is the
+  // per-post anonymity opt-out. Pre-checked for users whose global
+  // share_identity default is off.
+  const [postAnonymously, setPostAnonymously] = useState(false);
+  const { shareByDefault } = useShareIdentityDefault();
+  useEffect(() => {
+    setPostAnonymously(!shareByDefault);
+  }, [shareByDefault]);
   const [shareTitle, setShareTitle] = useState("");
   const [isSharing, setIsSharing] = useState(false);
   const [showNutritionDashboard, setShowNutritionDashboard] = useState(false);
@@ -202,7 +211,7 @@ function MenuPlannerContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           shareType: "menu",
-          shareName: shareNameOptIn,
+          shareIdentity: shareIdentityForPost(postAnonymously, shareByDefault),
           payload: {
             menuTitle: shareTitle.trim() || "a weekly menu",
             weekStartDate: currentMenu.weekStartDate,
@@ -221,7 +230,7 @@ function MenuPlannerContent() {
         // instantly (Postgres via /api/feed/share stays the source of truth).
         if (isLiveFeedEnabled() && stdbConnection && stdbStatus === "connected") {
           publishLiveFeedEvent(stdbConnection, {
-            actorName: shareNameOptIn ? (authSession?.user?.name ?? "") : "",
+            actorName: postAnonymously ? "" : (authSession?.user?.name ?? ""),
             eventType: "shared_menu",
             payload: {
               menuTitle: shareTitle.trim() || "a weekly menu",
@@ -486,7 +495,8 @@ function MenuPlannerContent() {
             <button
               onClick={() => {
                 setShareTitle("");
-                setShareNameOptIn(false);
+                // Reset to the user's global default (pre-checked for opt-outs).
+                setPostAnonymously(!shareByDefault);
                 setShowShareModal(true);
               }}
               className="flex items-center gap-2 px-4 py-2 border border-muted text-on-surface-variant hover:text-white hover:border-white transition-colors font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
@@ -995,12 +1005,12 @@ function MenuPlannerContent() {
                 <label className="flex items-center space-x-3 cursor-pointer p-3 bg-surface-container-low rounded-xl border border-muted">
                   <input
                     type="checkbox"
-                    checked={shareNameOptIn}
-                    onChange={(e) => setShareNameOptIn(e.target.checked)}
+                    checked={postAnonymously}
+                    onChange={(e) => setPostAnonymously(e.target.checked)}
                     className="form-checkbox h-5 w-5 text-active-violet rounded border-muted bg-surface-container-lowest focus:ring-active-violet focus:ring-offset-0"
                   />
                   <span className="text-xs font-label-caps text-primary">
-                    Opt-in to share my name (defaults to Anonymous Alchemist)
+                    Post anonymously (hide my name on this post)
                   </span>
                 </label>
               </div>
