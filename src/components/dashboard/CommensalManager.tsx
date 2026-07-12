@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { MessageButton } from '@/components/chat/MessageButton';
 import { CompositeEnergyVisualizer } from '@/components/commensal/CompositeEnergyVisualizer';
 import { CompositeEnergySkeleton } from '@/components/commensal/skeletons';
 import { LocationSearch } from '@/components/onboarding/LocationSearch';
@@ -421,10 +422,13 @@ interface CompanionCardProps {
   selected: boolean;
   onToggle: () => void;
   onDelete?: () => void;
+  /** When set (a linked companion with a real user id), shows a DM affordance
+   * — itself flag-gated (NEXT_PUBLIC_CHAT_DMS) so it's invisible until DMs open. */
+  messageUserId?: string;
 }
 
 const CompanionCard: React.FC<CompanionCardProps> = ({
-  name, element, modality, ascendant, relationship, isLinked, selected, onToggle, onDelete,
+  name, element, modality, ascendant, relationship, isLinked, selected, onToggle, onDelete, messageUserId,
 }) => {
   const colorClass = ELEMENT_COLORS[element] ?? ELEMENT_COLORS.Fire;
 
@@ -466,6 +470,7 @@ const CompanionCard: React.FC<CompanionCardProps> = ({
           )}
         </div>
       </div>
+      {messageUserId && <MessageButton otherUserId={messageUserId} />}
       {onDelete && (
         <button
           onClick={(e) => { e.stopPropagation(); onDelete(); }}
@@ -971,6 +976,7 @@ export const CommensalManager: React.FC = () => {
                 isLinked
                 selected={selectedLinkedIds.includes(f.userId)}
                 onToggle={() => { toggleLinkedSelect(f.userId); }}
+                messageUserId={f.userId}
               />
             ))}
 

@@ -20,10 +20,14 @@ export type PracticeType =
   | "recommendation_acted"
   | "feed_visit"
   | "feed_reaction"
+  | "comment_posted"
+  | "work_discussed"
   | "chat_joined"
   | "surface_discovered"
   | "work_resonated"
   | "list_conjured"
+  | "table_toasted"
+  | "dm_thread_started"
   | "follow_made"
   | "first_follower_gained"
   | "visage_revealed";
@@ -121,6 +125,34 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "Recognize the work of another practitioner — a spark passed between charts.",
   },
+  comment_posted: {
+    type: "comment_posted",
+    tokenType: "Spirit",
+    baseAmount: 0.5,
+    dedupe: "ever",
+    dailyCap: 3,
+    requiresTarget: true, // target = eventId (50 comments on one event pay once)
+    hints: [
+      "A word left at the table lingers",
+      "The commons hears what you add",
+    ],
+    description:
+      "Leave a word at another alchemist's Work — the conversation around a dish is Spirit.",
+  },
+  work_discussed: {
+    type: "work_discussed",
+    tokenType: "Spirit",
+    baseAmount: 1,
+    dedupe: "ever",
+    dailyCap: 2,
+    requiresTarget: true, // target = eventId; recognized for the event actor
+    hints: [
+      "Your work drew words from the commons",
+      "A dish that starts a conversation returns as Spirit",
+    ],
+    description:
+      "Share a finished Work and let it draw conversation — when others comment on your dish, Spirit returns to its maker.",
+  },
   chat_joined: {
     type: "chat_joined",
     tokenType: "Spirit",
@@ -180,6 +212,36 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "Conjure an ingredient order from a recipe or menu — the market answers those who prepare.",
   },
+  table_toasted: {
+    type: "table_toasted",
+    tokenType: "Spirit",
+    baseAmount: 1,
+    dedupe: "ever",
+    dailyCap: 2,
+    requiresTarget: true,
+    hints: [
+      "Your voice joined the table's",
+      "A word offered to the gathering",
+      "Spirit stirs where the table speaks",
+    ],
+    description:
+      "Speak at a live table — the first word you offer its gathering carries Spirit.",
+  },
+  dm_thread_started: {
+    type: "dm_thread_started",
+    tokenType: "Spirit",
+    baseAmount: 1,
+    dedupe: "ever",
+    dailyCap: 2,
+    requiresTarget: true,
+    hints: [
+      "A thread now runs both ways",
+      "Two charts in conversation",
+      "Spirit passes when a reply returns",
+    ],
+    description:
+      "Begin a true exchange with a companion — Spirit flows once a message is answered.",
+  },
   follow_made: {
     type: "follow_made",
     tokenType: "Spirit",
@@ -237,6 +299,15 @@ export const SERVER_ONLY_PRACTICES: ReadonlySet<PracticeType> = new Set([
   // the reaction ROW is the proof, a bare practice POST is not.
   "feed_reaction",
   "work_resonated",
+  // Both sides of a comment are recognized inside POST /api/feed/comments —
+  // the comment ROW is the proof, a bare practice POST is not.
+  "comment_posted",
+  "work_discussed",
+  // Chat practices hinge on a real message landing in Postgres, recognized
+  // inside the send pipeline — a bare practice POST can't fake a table toast
+  // or a two-way DM thread.
+  "table_toasted",
+  "dm_thread_started",
   // Both sides of a follow are recognized inside POST /api/follows —
   // the follows ROW is the proof (created === true), a bare POST is not.
   "follow_made",

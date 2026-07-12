@@ -533,16 +533,36 @@ class TableDatabaseService {
 
   // ─── Lifecycle transitions (host-only, race-safe guarded UPDATE) ────
 
+  /**
+   * planned -> live (host-only, race-safe guarded UPDATE) AND, on the SAME
+   * transaction client, ensure the Table's chat conversation exists with its
+   * members seeded (PR 3 — docs/plans/tables-program-sequencing.md
+   * Reconciliation 1: subject_ref = tables.id, host = tables.host_id). The
+   * conversation ensure is a no-op ON CONFLICT, so a re-run (or a table that
+   * never uses chat) costs nothing. chatDatabaseService is imported lazily so
+   * the two services stay decoupled at module load.
+   */
   async goLive(tableId: string, hostId: string): Promise<TableRecord | null> {
     try {
-      const result = await executeQuery(
-        `UPDATE tables SET status = 'live', went_live_at = CURRENT_TIMESTAMP
-          WHERE id = $1 AND host_id = $2::uuid AND status = 'planned'
-        RETURNING *`,
-        [tableId, hostId],
-      );
-      if (result.rows.length === 0) return null;
-      return this.rowToTableRecord(result.rows[0]);
+      const row = await withTransaction(async (client) => {
+        const result = await client.query(
+          `UPDATE tables SET status = 'live', went_live_at = CURRENT_TIMESTAMP
+            WHERE id = $1 AND host_id = $2::uuid AND status = 'planned'
+          RETURNING *`,
+          [tableId, hostId],
+        );
+        if (result.rows.length === 0) return null;
+        const tableRow = result.rows[0];
+        const { chatDatabase } = await import("@/services/chatDatabaseService");
+        await chatDatabase.ensureTableConversationOnClient(client, {
+          id: String(tableRow.id),
+          hostId: String(tableRow.host_id),
+          title: String(tableRow.title),
+        });
+        return tableRow;
+      });
+      if (!row) return null;
+      return this.rowToTableRecord(row);
     } catch (error) {
       _logger.error("goLive failed:", error);
       return null;
@@ -650,6 +670,14 @@ class TableDatabaseService {
           RETURNING *`,
           [tableId, closedAtIso, JSON.stringify(memory), feedEventId],
         );
+
+        // PR 3: the Postgres chat record is canonical and survives close —
+        // only archive the conversation (read-only) here, on this same
+        // transaction client. The Spacetime mirror rows are pruned separately
+        // by the module's close_table_session reducer
+        // (docs/plans/tables-program-sequencing.md Reconciliation 1).
+        const { chatDatabase } = await import("@/services/chatDatabaseService");
+        await chatDatabase.archiveTableConversationOnClient(client, tableId);
 
         const finalRecord = this.rowToTableRecord(finalResult.rows[0]);
         return {

@@ -10,6 +10,7 @@
  */
 
 import Link from "next/link";
+import { FeedEngagementBar } from "@/components/feed/FeedEngagementBar";
 import {
   AvatarRow,
   CompositeRadialBadge,
@@ -26,6 +27,13 @@ export interface TableMemoryCardProps {
   meta: TableMemoryPayload;
   createdAtLabel: string;
   actorName: string;
+  /** Feed event id — enables reactions/comments (PR 5). Omit for non-DB rows. */
+  eventId?: string;
+  /** Per-kind reaction counts (lowercase keys) from the feed payload. */
+  reactionCounts?: Record<string, number>;
+  /** The viewer's current reaction kinds (lowercase), from the bootstrap call. */
+  viewerKinds?: string[];
+  commentCount?: number;
 }
 
 const ELEMENT_CYCLE: Element[] = ["Fire", "Water", "Earth", "Air"];
@@ -40,6 +48,10 @@ export function TableMemoryCard({
   meta,
   createdAtLabel,
   actorName,
+  eventId,
+  reactionCounts,
+  viewerKinds,
+  commentCount,
 }: TableMemoryCardProps): JSX.Element {
   const guests: AvatarPerson[] = (meta.guests ?? []).map((guest, index) => ({
     name: guest.name,
@@ -51,7 +63,11 @@ export function TableMemoryCard({
   const photo = meta.photoUrls?.[0];
 
   return (
-    <GlassPanel rounded="32" className="overflow-hidden">
+    <GlassPanel
+      rounded="32"
+      className="overflow-hidden scroll-mt-24"
+      id={eventId ? `event-${eventId}` : undefined}
+    >
       <div className="flex items-start justify-between gap-3 p-5 pb-3">
         <div className="min-w-0">
           <LabelXS className="text-alchm-violet-bright">Table Memory</LabelXS>
@@ -111,6 +127,18 @@ export function TableMemoryCard({
         {!photo && dominant && (
           <div className="mt-4">
             <ElementChip element={dominant}>{`${dominant.toUpperCase()} DOMINANT`}</ElementChip>
+          </div>
+        )}
+
+        {/* Engagement footer (PR 5) — reactions + comments, design-spec §3.1. */}
+        {eventId && (
+          <div className="mt-4 border-t border-white/8 pt-3">
+            <FeedEngagementBar
+              eventId={eventId}
+              initialCounts={reactionCounts}
+              viewerKinds={viewerKinds}
+              commentCount={commentCount}
+            />
           </div>
         )}
       </div>

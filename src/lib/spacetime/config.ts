@@ -74,5 +74,13 @@ export function isLiveTablesEnabled(): boolean {
   return process.env.NEXT_PUBLIC_SPACETIME_LIVE_TABLES === "1";
 }
 
+/** Live table CHAT mirror via `table_chat_message` — PR 3. When off (or
+ * disconnected) the table chat still works fully over the 10s Postgres poll;
+ * this flag only adds instant Spacetime delivery. Table chat itself ships
+ * visible regardless (only DMs/circles are behind server flags). */
+export function isLiveTableChatEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_TABLE_CHAT === "1";
+}
+
 /** localStorage key for the SpacetimeDB identity token. */
 export const SPACETIME_TOKEN_STORAGE_KEY = "alchm:spacetime:token";

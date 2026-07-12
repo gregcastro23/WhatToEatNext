@@ -11,6 +11,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { TableChatPanel } from "@/components/chat/TableChatPanel";
 import { CommentList } from "@/components/tables/CommentList";
 import { InvitePanel } from "@/components/tables/InvitePanel";
 import { LifecycleControls } from "@/components/tables/LifecycleControls";
@@ -254,6 +255,19 @@ export default function TableDetailPage() {
             members={table.members}
             viewerId={viewerId}
             isHost={isHost}
+          />
+        )}
+
+        {/* Live Discussion — table chat (PR 3). Ships VISIBLE (not server
+            flag-gated); mounts only while live and only for a joined member.
+            When the Spacetime chat flag is off/disconnected it runs on the 10s
+            Postgres poll. */}
+        {table.status === "live" && isJoined && (
+          <TableChatPanel
+            tableId={table.id}
+            isHost={isHost}
+            viewerId={viewerId}
+            enabled
           />
         )}
 

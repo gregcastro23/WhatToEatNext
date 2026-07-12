@@ -4,7 +4,51 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
+import { usePushSubscription } from '@/hooks/usePushSubscription';
 import { NOTIFICATION_STYLES } from '@/types/notification';
+
+/**
+ * "Device notifications" toggle in the bell footer — triple-gated (client
+ * affordance flag + PWA flag + SW registered + permission not denied), so it
+ * only appears where web push can actually work. Dark by default.
+ */
+function PushToggleRow() {
+  const { supported, permission, subscribed, swReady, busy, subscribe, unsubscribe } =
+    usePushSubscription();
+
+  const flagsOn =
+    process.env.NEXT_PUBLIC_WEB_PUSH === '1' &&
+    process.env.NEXT_PUBLIC_ENABLE_PWA === 'true';
+  if (!flagsOn || !supported || !swReady || permission === 'denied') return null;
+
+  return (
+    <div className="sticky bottom-0 border-t border-gray-100 bg-white px-4 py-2.5 rounded-b-xl">
+      <button
+        type="button"
+        onClick={() => {
+          if (busy) return;
+          void (subscribed ? unsubscribe() : subscribe());
+        }}
+        disabled={busy}
+        aria-pressed={subscribed}
+        className="flex w-full items-center justify-between text-xs font-medium text-gray-700 disabled:opacity-60"
+      >
+        <span>Device notifications</span>
+        <span
+          className={`inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+            subscribed ? 'bg-purple-500' : 'bg-gray-300'
+          }`}
+        >
+          <span
+            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+              subscribed ? 'translate-x-4' : 'translate-x-0.5'
+            }`}
+          />
+        </span>
+      </button>
+    </div>
+  );
+}
 
 /**
  * NotificationBell — test-tube icon in the header with unread badge.
@@ -110,11 +154,17 @@ export default function NotificationBell() {
                       if (!n.isRead) {
                         void markAsRead(n.id);
                       }
-                      if (n.type === 'quest_completed') {
-                        setOpen(false);
+                      setOpen(false);
+                      // Engagement bells (PR 5) deep-link to the feed event.
+                      const eventId = n.metadata?.eventId;
+                      if (
+                        (n.type === 'reaction_received' || n.type === 'comment_received') &&
+                        eventId
+                      ) {
+                        router.push(`/feed#event-${eventId}`);
+                      } else if (n.type === 'quest_completed') {
                         router.push('/grimoire');
                       } else {
-                        setOpen(false);
                         router.push('/profile');
                       }
                     }}
@@ -147,6 +197,9 @@ export default function NotificationBell() {
               })}
             </div>
           )}
+
+          {/* Device-notifications toggle (dark by default — triple-gated). */}
+          <PushToggleRow />
         </div>
       )}
     </div>
