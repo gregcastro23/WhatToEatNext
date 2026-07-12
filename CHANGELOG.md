@@ -23,6 +23,27 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [3.4.0] — 2026-07-12 — Philosopher's Stone & Lab Diagnostics
+
+This release introduces the custom agent-forging system (Philosopher's Stone) with dynamic alchemical parameters, semantic search, and dynamic chat functionality, along with critical bug fixes targeting the `/lab` page alchemical stats panels and comprehensive type safety hardening.
+
+### Added
+- **Philosopher's Stone Agent Forging** — Created the `/philosophers-stone` interface allowing users to forge custom agents dynamically using birth details, name, and dominant elements.
+- **Dynamic Persona Chat** — Implemented context-aware chat interfaces powered by OpenAI embeddings, supporting vector searches against recipe databases.
+- **Recipe Embeddings & Migration** — Added database schema migration (`database/init/59-recipe-embeddings.sql`) and a script (`scripts/backfill-recipe-embeddings.ts`) to manage recipe embeddings.
+- **Sacred 7 Stats Engine** — Deployed the calculation system (`src/lib/sacred-7-stats.ts`) and generator workflows to dynamically compute and format detailed agent attributes (aspects, diurnal balance, dignity).
+
+### Fixed
+- **Lab page stats panel "AWAITING BACKEND"** — Fixed the `/lab` page showing missing stats for onboarded users by ensuring `/api/agent-forge/ignite` writes to the canonical `user_profiles.natal_chart` column via `updateUserProfile`.
+- **Legacy JSONB Fallback** — Added a fallback in the profile read path (`rowToUserWithProfile`) to load data from `users.profile` JSONB when column-level data is null, healing existing accounts.
+- **Natal Alchemical Profile Zeros Fix** — Normalised lowercase zodiac sign names before properties lookup to prevent calculations mismatch and restore accurate stats.
+- **Lab Onboarding CTA** — Updated the login prompt on `/lab` to guide logged-in users with empty birth details to complete onboarding.
+
+### Chore
+- **TypeScript `explicit-any` Cleanup** — Refactored several files across `src/data` and service layers (Token, Quest, Streak, FoodDiary, Commensal) to reduce lint warnings and enforce strict type safety.
+
+---
+
 ## [3.3.0] — 2026-06-29 — Data Authenticity & Live Economy
 
 The data-authenticity campaign: drive the catalog to **real** values — no fabricated nutrition, no placeholder/default templates, no hollow recipes. `src/data` stays authoritative for ingredient recommendations (static); recipes read from the denormalized DB JSONB read model. Plus the first piece of the Live Network economy kept alive by automation.

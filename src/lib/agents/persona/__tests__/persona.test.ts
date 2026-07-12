@@ -2,6 +2,7 @@ import { calculateAllPlanets } from '@/lib/enhanced-astronomical-calculator'
 import { deriveSacredStats } from '../derive-sacred-stats'
 import { formatPersonaBlock } from '../format-persona-block'
 import type { CraftedAgent } from '@/lib/agent-types'
+import { sanitizePromptString } from '@/lib/agents/ignition-bundle-generator'
 
 describe('Philosopher\'s Stone Agent Pipeline', () => {
   it('should successfully calculate chart, derive stats, and format persona block', () => {
@@ -104,5 +105,12 @@ describe('Philosopher\'s Stone Agent Pipeline', () => {
     expect(personaBlock).toContain('Internal stat profile (private — DO NOT mention):')
     expect(personaBlock).toContain('How to speak')
     expect(personaBlock).toContain('Never reference them')
+  })
+
+  it('should sanitize triple quotes to prevent prompt injection', () => {
+    const input = 'My name is """Agent Injection"""'
+    const result = sanitizePromptString(input)
+    expect(result).toBe('My name is " " "Agent Injection" " "')
+    expect(result).not.toContain('"""')
   })
 })

@@ -3,11 +3,16 @@ import { NextResponse } from "next/server";
 import { buildAgentContext } from "@/lib/agents/persona/build-agent-context";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database";
+import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { calculateNatalChart } from "@/services/natalChartService";
 import type { NextRequest} from "next/server";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 const PA_TIMEOUT_MS = 10000;
+const RATE_LIMIT = { window: 60_000, max: 20, bucket: "agents-unified" };
 
 interface UnifiedAgentRequest {
   action: string;
@@ -15,6 +20,9 @@ interface UnifiedAgentRequest {
 }
 
 export async function POST(request: NextRequest) {
+  const rl = await rateLimit(request, RATE_LIMIT);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const session = await auth();
     const userId = session?.user?.id;
@@ -43,10 +51,11 @@ export async function POST(request: NextRequest) {
       }
 
       case "get": {
-        if (!parameters.agentId) {
-          return NextResponse.json({ success: false, error: "Missing agentId", timestamp }, { status: 400 });
+        const { agentId } = parameters;
+        if (!agentId || typeof agentId !== "string" || agentId.trim().length === 0) {
+          return NextResponse.json({ success: false, error: "Invalid or missing agentId", timestamp }, { status: 400 });
         }
-        const ctx = await buildAgentContext(parameters.agentId);
+        const ctx = await buildAgentContext(agentId);
         if (!ctx) {
           return NextResponse.json({ success: false, error: "Agent not found", timestamp }, { status: 404 });
         }
@@ -69,16 +78,53 @@ export async function POST(request: NextRequest) {
           );
         }
 
+        if (typeof name !== "string" || name.trim().length === 0 || name.length > 100) {
+          return NextResponse.json(
+            { success: false, error: "Invalid name format or length (max 100 characters).", timestamp },
+            { status: 400 }
+          );
+        }
+
+        if (typeof purpose !== "string" || purpose.trim().length === 0 || purpose.length > 1000) {
+          return NextResponse.json(
+            { success: false, error: "Invalid purpose format or length (max 1000 characters).", timestamp },
+            { status: 400 }
+          );
+        }
+
+        const year = Number(birthInfo.year);
+        const month = Number(birthInfo.month);
+        const day = Number(birthInfo.day);
+        const hour = Number(birthInfo.hour ?? 12);
+        const minute = Number(birthInfo.minute ?? 0);
+        const latitude = Number(birthInfo.latitude);
+        const longitude = Number(birthInfo.longitude);
+
+        if (
+          isNaN(year) || year < 1900 || year > 2100 ||
+          isNaN(month) || month < 1 || month > 12 ||
+          isNaN(day) || day < 1 || day > 31 ||
+          isNaN(hour) || hour < 0 || hour > 23 ||
+          isNaN(minute) || minute < 0 || minute > 59 ||
+          isNaN(latitude) || latitude < -90 || latitude > 90 ||
+          isNaN(longitude) || longitude < -180 || longitude > 180
+        ) {
+          return NextResponse.json(
+            { success: false, error: "Invalid birthInfo parameters or range (year: 1900-2100, lat: -90 to 90, lon: -180 to 180).", timestamp },
+            { status: 400 }
+          );
+        }
+
         const birthData = {
           dateTime: new Date(Date.UTC(
-            birthInfo.year,
-            birthInfo.month - 1,
-            birthInfo.day,
-            birthInfo.hour,
-            birthInfo.minute
+            year,
+            month - 1,
+            day,
+            hour,
+            minute
           )).toISOString(),
-          latitude: Number(birthInfo.latitude),
-          longitude: Number(birthInfo.longitude),
+          latitude,
+          longitude,
           timezone: birthInfo.timezone || "UTC",
           name: birthInfo.locationName || birthInfo.location?.name || "Unknown"
         };
@@ -192,13 +238,13 @@ export async function POST(request: NextRequest) {
         }
 
         const { agentId, message, userMessage, sessionId, context, modelTier } = parameters;
-        if (!agentId) {
-          return NextResponse.json({ success: false, error: "Missing agentId", timestamp }, { status: 400 });
+        if (!agentId || typeof agentId !== "string" || agentId.trim().length === 0) {
+          return NextResponse.json({ success: false, error: "Invalid or missing agentId", timestamp }, { status: 400 });
         }
 
         const msgContent = message || userMessage;
-        if (!msgContent) {
-          return NextResponse.json({ success: false, error: "Missing message", timestamp }, { status: 400 });
+        if (!msgContent || typeof msgContent !== "string" || msgContent.trim().length === 0 || msgContent.length > 5000) {
+          return NextResponse.json({ success: false, error: "Invalid or missing message (max 5000 characters)", timestamp }, { status: 400 });
         }
 
         const personaCtx = await buildAgentContext(agentId);

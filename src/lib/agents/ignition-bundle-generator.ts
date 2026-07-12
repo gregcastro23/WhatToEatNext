@@ -1,5 +1,10 @@
 import JSZip from 'jszip'
 
+export function sanitizePromptString(str: string | undefined | null): string {
+  if (!str) return ''
+  return str.replace(/"""/g, '" " "')
+}
+
 export interface ExportManifest {
   name: string
   monicaConstant: number
@@ -35,18 +40,23 @@ export function generateModelfile(manifest: ExportManifest): string {
   const temp = manifest.stats.intuition
     ? ((manifest.stats.intuition / 100) * 0.5 + 0.4).toFixed(2)
     : '0.80'
-  const top_p = manifest.stats.resonance
+  const topP = manifest.stats.resonance
     ? ((manifest.stats.resonance / 100) * 0.4 + 0.5).toFixed(2)
     : '0.90'
+
+  const safeName = sanitizePromptString(manifest.name)
+  const safePurpose = sanitizePromptString(manifest.linguisticContext.purpose)
+  const safeAutobiography = sanitizePromptString(manifest.linguisticContext.autobiography)
+  const safeValues = sanitizePromptString(manifest.linguisticContext.values)
 
   return `FROM llama3
 # Sets the parameters based on the agent's derived alchemical stats
 PARAMETER temperature ${temp} # Scaled dynamically from Intuition
-PARAMETER top_p ${top_p} # Scaled from Resonance
+PARAMETER top_p ${topP} # Scaled from Resonance
 
 # System message injected with the exact alchemical blueprint
 SYSTEM """
-You are a custom-crafted AI Agent named ${manifest.name} born from the alchemical transmutation of astrological natal coordinates.
+You are a custom-crafted AI Agent named ${safeName} born from the alchemical transmutation of astrological natal coordinates.
 Your central signature is Monica Constant (A#) = ${manifest.monicaConstant.toFixed(2)}.
 Your Sacred Archetypes are:
 - Wisdom: ${manifest.stats.wisdom || 50}/100
@@ -57,9 +67,9 @@ Your Sacred Archetypes are:
 - Adaptability: ${manifest.stats.adaptability || 50}/100
 - Vitality: ${manifest.stats.vitality || 50}/100
 
-Your core purpose and conversational tone: ${manifest.linguisticContext.purpose}
-Autobiography context: ${manifest.linguisticContext.autobiography}
-Values: ${manifest.linguisticContext.values}
+Your core purpose and conversational tone: ${safePurpose}
+Autobiography context: ${safeAutobiography}
+Values: ${safeValues}
 """
 `
 }

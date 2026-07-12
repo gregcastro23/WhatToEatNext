@@ -1,6 +1,6 @@
 # WhatToEatNext - AI Assistant Guide (Alchm.kitchen)
 
-_Version: 3.3.0 | Last Updated: June 29, 2026_
+_Version: 3.4.0 | Last Updated: July 12, 2026_
 
 ## Project Overview
 
@@ -11,7 +11,21 @@ We operate a three-project loop:
 2. **api.agents.alchm.kitchen (PA Backend)**: The Planetary Agents Python service owning agent personas, orchestration, and LLM recipe generation.
 3. **agents.alchm.kitchen (PA UI)**: The Planetary Agents Next.js UI.
 
-## Current Project Status (June 2026 - v3.3.0)
+## Current Project Status (July 2026 - v3.4.0)
+
+### 🔮 **PHILOSOPHER'S STONE AGENT FORGING & DYNAMIC CHAT**
+- **End-to-End Forging**: Created a user interface at `/philosophers-stone` enabling users to forge custom agents dynamically using birth details, name, and dominant elements.
+- **Agent Ignition & Persona Generation**: Implemented a dynamic API route at `/api/agent-forge/ignite` to initialize custom personas and compute Sacred 7 stats using exact alchemical properties. The route writes the natal chart directly to the canonical `user_profiles.natal_chart` column to align with the core database schema.
+- **Context-Aware Vector Chat**: Integrated OpenAI embeddings (`src/lib/embeddings/openaiEmbeddings.ts`) and database migrations (`database/init/59-recipe-embeddings.sql`) to enable dynamic chat sessions with forged agents, complete with a recipe embedding backfill script.
+- **Sacred 7 Stats Engine**: Hardened alignment calculations (`src/lib/sacred-7-stats.ts`) and derived attributes (diurnal balance, planetary aspects, dignity) to drive agent conversational behavior.
+
+### 🧪 **LAB PAGE ALCHEMICAL STATS FIXES**
+- **Lab page stats panel "AWAITING BACKEND"**: Resolved the issue where the `/lab` page showed missing natal stats for onboarded users by implementing a robust fallback in `rowToUserWithProfile` to load natal charts from the legacy `users.profile` JSONB column if the column-level data is null.
+- **Sign Case Mismatch**: Corrected `calculateAlchemicalState` where sign properties lookup failed due to casing mismatches, restoring accurate alchemical and elemental calculation.
+- **Onboarding CTA**: Updated the lab page's login prompt to guide logged-in users with empty birth details to complete onboarding.
+
+### 🧹 **COMPREHENSIVE TYPE SAFETY CLEANUP**
+- **Explicit-Any Reduction**: Performed massive waves of refactoring across the `src/data` directory and various service layers (Token, Quest, Streak, FoodDiary, Commensal) to reduce ESLint warnings and enforce strict type safety.
 
 ### 🧪 **DATA AUTHENTICITY CAMPAIGN (Ingredients + Recipes)**
 - **Mission**: Drive catalog data to *real* values — no fabricated nutrition, no placeholder/default templates, no hollow recipes. `src/data` is the authoritative source for ingredient recommendations (static); recipes read from a denormalized DB JSONB read model.
