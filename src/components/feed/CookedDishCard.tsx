@@ -120,21 +120,23 @@ export function CookedDishCard({
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 mt-3">
+        <div className="mt-3">
           <FeedEngagementBar
             eventId={eventId}
             initialCounts={reactionCounts}
             viewerKinds={viewerKinds}
             commentCount={commentCount}
+            trailing={
+              <>
+                {meta.tableKey && (
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-purple-300/70">
+                    {meta.tableKey.startsWith("full-moon") ? "🌕 Full Moon Feast" : "🌑 New Moon Table"}
+                  </span>
+                )}
+                <span className="text-[10px] text-white/30 font-mono">{createdAtLabel}</span>
+              </>
+            }
           />
-          <div className="flex items-center gap-3">
-            {meta.tableKey && (
-              <span className="text-[9px] font-mono uppercase tracking-widest text-purple-300/70">
-                {meta.tableKey.startsWith("full-moon") ? "🌕 Full Moon Feast" : "🌑 New Moon Table"}
-              </span>
-            )}
-            <span className="text-[10px] text-white/30 font-mono">{createdAtLabel}</span>
-          </div>
         </div>
       </div>
     </div>

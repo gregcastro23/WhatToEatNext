@@ -16,7 +16,8 @@
  */
 
 import { MessageCircle } from "lucide-react";
-import { useCallback, useEffect, useState, type JSX } from "react";
+import { useCallback, useEffect, useState, type JSX, type ReactNode } from "react";
+import { CommentThread } from "@/components/feed/CommentThread";
 import { LabelXS, ReactionBar, type ReactionKind } from "@/components/tables/ui";
 import { revealPracticeReward } from "@/lib/economy/practiceClient";
 
@@ -90,8 +91,8 @@ export interface FeedEngagementBarProps {
   /** The viewer's current kinds (lowercase), from the bootstrap endpoint. */
   viewerKinds?: string[];
   commentCount?: number;
-  onToggleComments?: () => void;
-  commentsOpen?: boolean;
+  /** Card-specific content rendered at the right of the bar row (e.g. timestamp). */
+  trailing?: ReactNode;
   className?: string;
 }
 
@@ -100,13 +101,20 @@ export function FeedEngagementBar({
   initialCounts = {},
   viewerKinds,
   commentCount = 0,
-  onToggleComments,
-  commentsOpen = false,
+  trailing,
   className = "",
 }: FeedEngagementBarProps): JSX.Element {
   const [counts, setCounts] = useState<Record<string, number>>(initialCounts);
   const [active, setActive] = useState<Set<string>>(new Set());
   const [busy, setBusy] = useState<Set<string>>(new Set());
+  const [commentsOpen, setCommentsOpen] = useState(false);
+  const [commentTally, setCommentTally] = useState(commentCount);
+
+  // Track incoming comment-count refreshes from the shared feed payload.
+  useEffect(() => {
+    setCommentTally(commentCount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventId]);
 
   // Seed active kinds: prefer the server-provided bootstrap, else the local cache.
   const viewerKindsKey = viewerKinds ? viewerKinds.join(",") : undefined;
@@ -189,22 +197,26 @@ export function FeedEngagementBar({
   );
 
   return (
-    <div className={`flex items-center justify-between gap-3 ${className}`}>
-      <ReactionBar counts={kitCounts} active={kitActive} onReact={(k) => void onReact(k)} />
-      {onToggleComments && (
-        <button
-          type="button"
-          onClick={onToggleComments}
-          aria-pressed={commentsOpen}
-          aria-label={`${commentsOpen ? "Hide" : "Show"} comments${commentCount ? ` (${commentCount})` : ""}`}
-          className={`flex items-center gap-1.5 rounded-full p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-alchm-violet ${
-            commentsOpen ? "text-alchm-violet-bright" : "text-alchm-fg-mute hover:text-alchm-violet-bright"
-          }`}
-        >
-          <MessageCircle size={16} aria-hidden />
-          <LabelXS>{commentCount > 0 ? commentCount : ""}</LabelXS>
-        </button>
-      )}
+    <div className={`w-full ${className}`}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-4">
+          <ReactionBar counts={kitCounts} active={kitActive} onReact={(k) => void onReact(k)} />
+          <button
+            type="button"
+            onClick={() => setCommentsOpen((o) => !o)}
+            aria-pressed={commentsOpen}
+            aria-label={`${commentsOpen ? "Hide" : "Show"} comments${commentTally ? ` (${commentTally})` : ""}`}
+            className={`flex items-center gap-1.5 rounded-full p-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-alchm-violet ${
+              commentsOpen ? "text-alchm-violet-bright" : "text-alchm-fg-mute hover:text-alchm-violet-bright"
+            }`}
+          >
+            <MessageCircle size={16} aria-hidden />
+            <LabelXS>{commentTally > 0 ? commentTally : ""}</LabelXS>
+          </button>
+        </div>
+        {trailing && <div className="flex items-center gap-3">{trailing}</div>}
+      </div>
+      <CommentThread eventId={eventId} open={commentsOpen} onCountChange={setCommentTally} />
     </div>
   );
 }
