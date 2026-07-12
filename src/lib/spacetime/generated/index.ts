@@ -44,10 +44,14 @@ import CartSetQuantityReducer from "./cart_set_quantity_reducer";
 import CartUpsertItemReducer from "./cart_upsert_item_reducer";
 import ClearMealPlanSlotReducer from "./clear_meal_plan_slot_reducer";
 import ClearMealPlanWeekReducer from "./clear_meal_plan_week_reducer";
+import CloseTableSessionReducer from "./close_table_session_reducer";
 import CreateCommensalSessionReducer from "./create_commensal_session_reducer";
 import CreateRecipeReducer from "./create_recipe_reducer";
+import EnsureTableSessionReducer from "./ensure_table_session_reducer";
 import JoinCommensalSessionReducer from "./join_commensal_session_reducer";
+import JoinTableSessionReducer from "./join_table_session_reducer";
 import LeaveCommensalSessionReducer from "./leave_commensal_session_reducer";
+import LeaveTableSessionReducer from "./leave_table_session_reducer";
 import PostFeedEventReducer from "./post_feed_event_reducer";
 import SetCommensalSessionStatusReducer from "./set_commensal_session_status_reducer";
 import SetMealPlanSlotLockedReducer from "./set_meal_plan_slot_locked_reducer";
@@ -66,6 +70,8 @@ import IngredientRow from "./ingredient_table";
 import MealPlanSlotRow from "./meal_plan_slot_table";
 import RecipeRow from "./recipe_table";
 import RecipeIngredientRow from "./recipe_ingredient_table";
+import TablePresenceRow from "./table_presence_table";
+import TableSessionRow from "./table_session_table";
 
 /** Type-only namespace exports for generated type groups. */
 
@@ -217,6 +223,41 @@ const tablesSchema = __schema({
       { name: 'recipe_ingredient_row_id_key', constraint: 'unique', columns: ['rowId'] },
     ],
   }, RecipeIngredientRow),
+  table_presence: __table({
+    name: 'table_presence',
+    indexes: [
+      { accessor: 'member', name: 'table_presence_member_idx_btree', algorithm: 'btree', columns: [
+        'member',
+      ] },
+      { accessor: 'row_id', name: 'table_presence_row_id_idx_btree', algorithm: 'btree', columns: [
+        'rowId',
+      ] },
+      { accessor: 'wten_table_id', name: 'table_presence_wten_table_id_idx_btree', algorithm: 'btree', columns: [
+        'wtenTableId',
+      ] },
+    ],
+    constraints: [
+      { name: 'table_presence_row_id_key', constraint: 'unique', columns: ['rowId'] },
+    ],
+  }, TablePresenceRow),
+  table_session: __table({
+    name: 'table_session',
+    indexes: [
+      { accessor: 'host', name: 'table_session_host_idx_btree', algorithm: 'btree', columns: [
+        'host',
+      ] },
+      { accessor: 'session_id', name: 'table_session_session_id_idx_btree', algorithm: 'btree', columns: [
+        'sessionId',
+      ] },
+      { accessor: 'wten_table_id', name: 'table_session_wten_table_id_idx_btree', algorithm: 'btree', columns: [
+        'wtenTableId',
+      ] },
+    ],
+    constraints: [
+      { name: 'table_session_session_id_key', constraint: 'unique', columns: ['sessionId'] },
+      { name: 'table_session_wten_table_id_key', constraint: 'unique', columns: ['wtenTableId'] },
+    ],
+  }, TableSessionRow),
 });
 
 /** The schema information for all reducers in this module. This is defined the same way as the reducers would have been defined in the server, except the body of the reducer is omitted in code generation. */
@@ -231,10 +272,14 @@ const reducersSchema = __reducers(
   __reducerSchema("cart_upsert_item", CartUpsertItemReducer),
   __reducerSchema("clear_meal_plan_slot", ClearMealPlanSlotReducer),
   __reducerSchema("clear_meal_plan_week", ClearMealPlanWeekReducer),
+  __reducerSchema("close_table_session", CloseTableSessionReducer),
   __reducerSchema("create_commensal_session", CreateCommensalSessionReducer),
   __reducerSchema("create_recipe", CreateRecipeReducer),
+  __reducerSchema("ensure_table_session", EnsureTableSessionReducer),
   __reducerSchema("join_commensal_session", JoinCommensalSessionReducer),
+  __reducerSchema("join_table_session", JoinTableSessionReducer),
   __reducerSchema("leave_commensal_session", LeaveCommensalSessionReducer),
+  __reducerSchema("leave_table_session", LeaveTableSessionReducer),
   __reducerSchema("post_feed_event", PostFeedEventReducer),
   __reducerSchema("set_commensal_session_status", SetCommensalSessionStatusReducer),
   __reducerSchema("set_meal_plan_slot_locked", SetMealPlanSlotLockedReducer),

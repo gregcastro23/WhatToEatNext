@@ -219,6 +219,46 @@ export function useNotifications(options?: UseNotificationsOptions) {
     [markAsRead],
   );
 
+  const respondToTableInvite = useCallback(
+    async (notification: UserNotification, response: 'joined' | 'declined') => {
+      const tableId = notification.metadata?.tableId;
+      if (!tableId || typeof tableId !== 'string') {
+        return { success: false, message: 'This invitation can no longer be acted on from notifications.' };
+      }
+
+      try {
+        const res = await fetch(`/api/tables/${tableId}/rsvp`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ response }),
+        });
+        const data = (await res.json()) as ApiResponse;
+
+        if (!res.ok || data.success === false) {
+          return {
+            success: false,
+            message: data.message || `Failed to ${response === 'joined' ? 'accept' : 'decline'} the invitation.`,
+          };
+        }
+
+        const markResult = await markAsRead(notification.id);
+        if (!markResult.success) {
+          return markResult;
+        }
+
+        notifyRefresh();
+        return { success: true };
+      } catch {
+        return {
+          success: false,
+          message: `Failed to ${response === 'joined' ? 'accept' : 'decline'} the invitation.`,
+        };
+      }
+    },
+    [markAsRead],
+  );
+
   const unreadNotifications = useMemo(
     () => notifications.filter((n) => !n.isRead),
     [notifications],
@@ -235,6 +275,7 @@ export function useNotifications(options?: UseNotificationsOptions) {
     markAllRead,
     generateDailyInsight,
     respondToCommensalRequest,
+    respondToTableInvite,
   };
 }
 

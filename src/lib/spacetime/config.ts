@@ -68,5 +68,11 @@ export function isLiveCommensalEnabled(): boolean {
   return process.env.NEXT_PUBLIC_SPACETIME_LIVE_COMMENSAL === "1";
 }
 
+/** Live table presence room via `table_session`/`table_presence` — the
+ * Table entity's flag-gated live phase (presence only; chat is PR 3). */
+export function isLiveTablesEnabled(): boolean {
+  return process.env.NEXT_PUBLIC_SPACETIME_LIVE_TABLES === "1";
+}
+
 /** localStorage key for the SpacetimeDB identity token. */
 export const SPACETIME_TOKEN_STORAGE_KEY = "alchm:spacetime:token";

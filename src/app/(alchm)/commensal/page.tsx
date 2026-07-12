@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { CompanionSuggestions } from "@/components/commensal/CompanionSuggestions";
@@ -320,6 +321,19 @@ export default function CommensalPage() {
             restaurants tailored for your group&apos;s composite energy.
           </p>
         </div>
+
+        {/* Cross-link: recommendations explore the "what"; a Table plans the
+            actual occasion (lifecycle, invites, memory). */}
+        <Link
+          href="/tables"
+          className="glass-card-premium flex items-center justify-between gap-4 rounded-2xl border border-white/10 p-4 transition-colors hover:border-alchm-copper/40"
+        >
+          <p className="text-sm text-white/70">
+            Planning a real dinner? <span className="font-semibold text-alchm-copper">Plan a Table</span>{" "}
+            — invite your companions, go live, keep the memory.
+          </p>
+          <span aria-hidden className="shrink-0 text-alchm-copper">→</span>
+        </Link>
 
         {/* Real-time multiplayer lobby (renders only when the SpacetimeDB
             live-commensal flag is on and the connection is up). */}
