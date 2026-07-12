@@ -5,7 +5,7 @@
 //! deriving the row owner from `ctx.sender()` — client arguments can never
 //! write another identity's rows.
 
-use spacetimedb::{ReducerContext, Table};
+use spacetimedb::{Identity, ReducerContext, Table};
 
 use crate::live_tables::*;
 // Brings the culinary accessor traits (e.g. `ctx.db.recipe()`) into scope so
@@ -667,6 +667,18 @@ pub fn join_table_session(
         return Err("this table's live session has closed".to_string());
     }
 
+    // PR 3: a kicked/muted identity cannot rejoin presence (kick = remove
+    // presence + insert mute row; unmute readmits).
+    let muted = ctx
+        .db
+        .table_chat_mute()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .any(|m| m.member == ctx.sender());
+    if muted {
+        return Err("you have been removed from this table's live chat".to_string());
+    }
+
     let existing = ctx
         .db
         .table_presence()
@@ -743,10 +755,284 @@ pub fn close_table_session(ctx: &ReducerContext, wten_table_id: String) -> Resul
         ctx.db.table_presence().row_id().delete(row.row_id);
     }
 
+    // PR 3: prune the Spacetime chat MIRROR wholesale on close — the canonical
+    // messages survive in Postgres (docs/plans/tables-program-sequencing.md
+    // Reconciliation 1). Mute rows go too; the conversation is over.
+    let chat_rows: Vec<TableChatMessage> = ctx
+        .db
+        .table_chat_message()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .collect();
+    for row in chat_rows {
+        ctx.db.table_chat_message().chat_id().delete(row.chat_id);
+    }
+    let mute_rows: Vec<TableChatMute> = ctx
+        .db
+        .table_chat_mute()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .collect();
+    for row in mute_rows {
+        ctx.db.table_chat_mute().row_id().delete(row.row_id);
+    }
+
     ctx.db.table_session().session_id().update(TableSession {
         status: SESSION_CLOSED,
         updated_at: ctx.timestamp,
         ..session
     });
+    Ok(())
+}
+
+// ---------------------------------------------------------------------------
+// Table chat (the Table entity's live-discussion MIRROR — PR 3)
+//
+// Postgres `messages` is canonical; these reducers only shape the ephemeral
+// live mirror. The client publishes ONLY after its POST /api/chat/.../messages
+// returns 200, carrying the canonical `message_uuid`. Module-side enforcement
+// bounds rogue rows: the sender must be present (a `table_presence` row) and
+// not muted; `sender_name` is read from the presence row, never args.
+//
+// SAFETY: ONLY table-chat bodies mirror here. DM and circle bodies must never
+// enter SpacetimeDB (world-readable tables) — that boundary lives in the
+// server send path, which never calls a Spacetime publish.
+// ---------------------------------------------------------------------------
+
+/// Max chat body bytes (mirrors the Postgres 2000-char cap; bytes >= chars).
+const CHAT_BODY_MAX_LEN: usize = 2_000;
+/// Max canonical uuid length (a UUID is 36 chars).
+const CHAT_UUID_MAX_LEN: usize = 64;
+/// Newest-N chat rows retained per table in the live mirror.
+const CHAT_RETAIN_PER_TABLE: usize = 200;
+
+fn validate_chat_uuid(label: &str, value: &str) -> Result<(), String> {
+    if value.trim().is_empty() {
+        return Err(format!("{label} must not be empty"));
+    }
+    if value.len() > CHAT_UUID_MAX_LEN {
+        return Err(format!("{label} must be <= {CHAT_UUID_MAX_LEN} bytes"));
+    }
+    Ok(())
+}
+
+/// Publish one table-chat message into the live mirror. Enforces: session
+/// exists & not CLOSED; caller is PRESENT (a `table_presence` row for this
+/// table); caller is not muted; body 1..=2000 bytes; uuid bounds. Prunes the
+/// table's mirror to the newest `CHAT_RETAIN_PER_TABLE` rows.
+#[spacetimedb::reducer]
+pub fn send_table_chat_message(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    message_uuid: String,
+    body: String,
+    reply_to_uuid: String,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    validate_chat_uuid("message_uuid", &message_uuid)?;
+    if !reply_to_uuid.is_empty() && reply_to_uuid.len() > CHAT_UUID_MAX_LEN {
+        return Err(format!("reply_to_uuid must be <= {CHAT_UUID_MAX_LEN} bytes"));
+    }
+    if body.trim().is_empty() {
+        return Err("message body must not be empty".to_string());
+    }
+    if body.len() > CHAT_BODY_MAX_LEN {
+        return Err(format!("message body must be <= {CHAT_BODY_MAX_LEN} bytes"));
+    }
+
+    let session = ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&wten_table_id)
+        .ok_or_else(|| format!("no live session for table {wten_table_id}"))?;
+    if session.status == SESSION_CLOSED {
+        return Err("this table's live session has closed".to_string());
+    }
+
+    // Membership check references TablePresence (PR 2's table), NOT
+    // commensal_member (docs/plans/tables-program-sequencing.md
+    // Reconciliation 1). sender_name comes from that row, never args.
+    let presence = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .find(|p| p.member == ctx.sender())
+        .ok_or("only members present at the table may post")?;
+
+    let muted = ctx
+        .db
+        .table_chat_mute()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .any(|m| m.member == ctx.sender());
+    if muted {
+        return Err("you are muted in this table's live chat".to_string());
+    }
+
+    ctx.db
+        .table_chat_message()
+        .try_insert(TableChatMessage {
+            chat_id: 0,
+            wten_table_id: wten_table_id.clone(),
+            message_uuid,
+            sender: ctx.sender(),
+            sender_name: presence.display_name,
+            body,
+            reply_to_uuid,
+            created_at: ctx.timestamp,
+            deleted: false,
+        })
+        .map_err(|e| e.to_string())?;
+
+    // Retention: keep the newest CHAT_RETAIN_PER_TABLE rows for this table.
+    let mut rows: Vec<TableChatMessage> = ctx
+        .db
+        .table_chat_message()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .collect();
+    if rows.len() > CHAT_RETAIN_PER_TABLE {
+        rows.sort_by_key(|r| r.chat_id);
+        let excess = rows.len() - CHAT_RETAIN_PER_TABLE;
+        for row in rows.into_iter().take(excess) {
+            ctx.db.table_chat_message().chat_id().delete(row.chat_id);
+        }
+    }
+    Ok(())
+}
+
+/// Tombstone a chat mirror row: the sender or the session host may delete.
+/// Body is blanked and `deleted` set — the row stays so subscribers see the
+/// removal (the canonical soft-delete already happened in Postgres).
+#[spacetimedb::reducer]
+pub fn delete_table_chat_message(ctx: &ReducerContext, chat_id: u64) -> Result<(), String> {
+    let message = ctx
+        .db
+        .table_chat_message()
+        .chat_id()
+        .find(chat_id)
+        .ok_or_else(|| format!("no chat message {chat_id}"))?;
+
+    let is_sender = message.sender == ctx.sender();
+    let is_host = ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&message.wten_table_id)
+        .map(|s| s.host == ctx.sender())
+        .unwrap_or(false);
+    if !is_sender && !is_host {
+        return Err("only the sender or the table host may delete this message".to_string());
+    }
+
+    ctx.db.table_chat_message().chat_id().update(TableChatMessage {
+        body: String::new(),
+        deleted: true,
+        ..message
+    });
+    Ok(())
+}
+
+/// Host-only: mute or unmute an identity in this table's live chat. Muting is
+/// idempotent (dedupes the row); unmuting removes every mute row for the
+/// member. Presence is untouched — muting silences without ejecting.
+#[spacetimedb::reducer]
+pub fn set_table_chat_mute(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    member: Identity,
+    muted: bool,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    let session = ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&wten_table_id)
+        .ok_or_else(|| format!("no live session for table {wten_table_id}"))?;
+    if session.host != ctx.sender() {
+        return Err("only the table host may mute members".to_string());
+    }
+
+    let existing: Vec<TableChatMute> = ctx
+        .db
+        .table_chat_mute()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .filter(|m| m.member == member)
+        .collect();
+
+    if muted {
+        if existing.is_empty() {
+            ctx.db
+                .table_chat_mute()
+                .try_insert(TableChatMute {
+                    row_id: 0,
+                    wten_table_id,
+                    member,
+                    muted_by: ctx.sender(),
+                    created_at: ctx.timestamp,
+                })
+                .map_err(|e| e.to_string())?;
+        }
+    } else {
+        for row in existing {
+            ctx.db.table_chat_mute().row_id().delete(row.row_id);
+        }
+    }
+    Ok(())
+}
+
+/// Host-only: kick an identity from the table's live chat — remove their
+/// presence AND insert a mute row so they cannot rejoin
+/// (`join_table_session` rejects muted identities). Unmuting readmits them.
+#[spacetimedb::reducer]
+pub fn kick_table_chat_member(
+    ctx: &ReducerContext,
+    wten_table_id: String,
+    member: Identity,
+) -> Result<(), String> {
+    validate_wten_table_id(&wten_table_id)?;
+    let session = ctx
+        .db
+        .table_session()
+        .wten_table_id()
+        .find(&wten_table_id)
+        .ok_or_else(|| format!("no live session for table {wten_table_id}"))?;
+    if session.host != ctx.sender() {
+        return Err("only the table host may kick members".to_string());
+    }
+
+    let presence_rows: Vec<TablePresence> = ctx
+        .db
+        .table_presence()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .filter(|p| p.member == member)
+        .collect();
+    for row in presence_rows {
+        ctx.db.table_presence().row_id().delete(row.row_id);
+    }
+
+    let already_muted = ctx
+        .db
+        .table_chat_mute()
+        .wten_table_id()
+        .filter(&wten_table_id)
+        .any(|m| m.member == member);
+    if !already_muted {
+        ctx.db
+            .table_chat_mute()
+            .try_insert(TableChatMute {
+                row_id: 0,
+                wten_table_id,
+                member,
+                muted_by: ctx.sender(),
+                created_at: ctx.timestamp,
+            })
+            .map_err(|e| e.to_string())?;
+    }
     Ok(())
 }
