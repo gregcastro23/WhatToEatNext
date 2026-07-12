@@ -149,13 +149,15 @@ export async function sendChatMessage(
 }
 
 /**
- * Post-insert seam: notification fan-out (plan §6) and practice recognition
- * (plan §7). Fire-and-forget — the message already landed.
+ * Post-insert seam: economy practices (plan §7) and notification fan-out
+ * (plan §6). Fire-and-forget — the message already landed.
  */
 async function afterMessageInserted(
   conversation: ConversationRecord,
   message: ChatMessage,
 ): Promise<void> {
+  await recognizeChatPractices(conversation, message);
+
   // TABLE chat emits NO notification rows — its badge is /api/chat/unread
   // (plan §6). DM/circle notify their recipients with the one-row-per-
   // (recipient, conversation) dedup upsert.
@@ -186,6 +188,48 @@ async function afterMessageInserted(
         .catch(() => {}),
     ),
   );
+}
+
+/**
+ * Server-anchored chat practices (plan §7), both SERVER_ONLY, ambient:
+ * - table_toasted: the sender's first-ever message in a table conversation
+ *   (dedupe 'ever' on conversationId makes each call idempotent).
+ * - dm_thread_started: BOTH DM parties, once the second distinct sender posts
+ *   (an unanswered opener earns nothing).
+ */
+async function recognizeChatPractices(
+  conversation: ConversationRecord,
+  message: ChatMessage,
+): Promise<void> {
+  try {
+    const { practiceRewardService } = await import("@/services/practiceRewardService");
+
+    if (conversation.kind === "table") {
+      await practiceRewardService
+        .recognize(message.senderId, "table_toasted", conversation.id)
+        .catch(() => {});
+      return;
+    }
+
+    if (conversation.kind === "dm" && conversation.dmUserLo && conversation.dmUserHi) {
+      const { chatDatabase } = await import("@/services/chatDatabaseService");
+      const distinct = await chatDatabase.countDistinctSenders(conversation.id);
+      // Fires on the message that makes the thread two-way; the 'ever' dedupe
+      // keeps later messages from re-rewarding either party.
+      if (distinct >= 2) {
+        await Promise.all([
+          practiceRewardService
+            .recognize(conversation.dmUserLo, "dm_thread_started", conversation.id)
+            .catch(() => {}),
+          practiceRewardService
+            .recognize(conversation.dmUserHi, "dm_thread_started", conversation.id)
+            .catch(() => {}),
+        ]);
+      }
+    }
+  } catch {
+    // Practices are ambient and best-effort — never block or surface an error.
+  }
 }
 
 /** A short, body-free-safe preview line (photos read as an attachment note). */

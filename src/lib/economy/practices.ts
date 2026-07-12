@@ -23,7 +23,9 @@ export type PracticeType =
   | "chat_joined"
   | "surface_discovered"
   | "work_resonated"
-  | "list_conjured";
+  | "list_conjured"
+  | "table_toasted"
+  | "dm_thread_started";
 
 export type DedupeScope = "daily" | "ever";
 
@@ -177,6 +179,36 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "Conjure an ingredient order from a recipe or menu — the market answers those who prepare.",
   },
+  table_toasted: {
+    type: "table_toasted",
+    tokenType: "Spirit",
+    baseAmount: 1,
+    dedupe: "ever",
+    dailyCap: 2,
+    requiresTarget: true,
+    hints: [
+      "Your voice joined the table's",
+      "A word offered to the gathering",
+      "Spirit stirs where the table speaks",
+    ],
+    description:
+      "Speak at a live table — the first word you offer its gathering carries Spirit.",
+  },
+  dm_thread_started: {
+    type: "dm_thread_started",
+    tokenType: "Spirit",
+    baseAmount: 1,
+    dedupe: "ever",
+    dailyCap: 2,
+    requiresTarget: true,
+    hints: [
+      "A thread now runs both ways",
+      "Two charts in conversation",
+      "Spirit passes when a reply returns",
+    ],
+    description:
+      "Begin a true exchange with a companion — Spirit flows once a message is answered.",
+  },
 };
 
 /**
@@ -192,6 +224,11 @@ export const SERVER_ONLY_PRACTICES: ReadonlySet<PracticeType> = new Set([
   // the reaction ROW is the proof, a bare practice POST is not.
   "feed_reaction",
   "work_resonated",
+  // Chat practices hinge on a real message landing in Postgres, recognized
+  // inside the send pipeline — a bare practice POST can't fake a table toast
+  // or a two-way DM thread.
+  "table_toasted",
+  "dm_thread_started",
 ]);
 
 /**

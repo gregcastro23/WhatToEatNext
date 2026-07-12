@@ -23,11 +23,23 @@ jest.mock("@/services/chatDatabaseService", () => ({
     hasAcceptedCommensalship: (...a: unknown[]) => mockHasAccepted(...a),
     getMessageConversationId: (...a: unknown[]) => mockGetMessageConversationId(...a),
     insertMessage: (...a: unknown[]) => mockInsertMessage(...a),
+    getNotifiableRecipients: jest.fn().mockResolvedValue([]),
+    countDistinctSenders: jest.fn().mockResolvedValue(1),
   },
 }));
 
 jest.mock("@/lib/feed/cookPhotoStorage", () => ({
   storeChatPhoto: (...a: unknown[]) => mockStoreChatPhoto(...a),
+}));
+
+// Post-insert hooks (practices + notifications) are covered in
+// chatPractices.test.ts / chatNotificationDedup.test.ts; stub them here so the
+// send-orchestration assertions don't reach a real DB.
+jest.mock("@/services/practiceRewardService", () => ({
+  practiceRewardService: { recognize: jest.fn().mockResolvedValue({ rewarded: false }) },
+}));
+jest.mock("@/services/notificationDatabaseService", () => ({
+  notificationDatabase: { createOrBumpEventNotification: jest.fn().mockResolvedValue(null) },
 }));
 
 jest.mock("@/lib/logger", () => ({
