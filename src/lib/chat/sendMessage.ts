@@ -150,16 +150,48 @@ export async function sendChatMessage(
 
 /**
  * Post-insert seam: notification fan-out (plan §6) and practice recognition
- * (plan §7) attach here. Kept separate so the send path stays testable and
- * the hooks stay fire-and-forget.
+ * (plan §7). Fire-and-forget — the message already landed.
  */
 async function afterMessageInserted(
   conversation: ConversationRecord,
   message: ChatMessage,
 ): Promise<void> {
-  // Notifications (dm_message / circle_message; table kind emits none) and
-  // economy practices (table_toasted / dm_thread_started) are wired in the
-  // notifications and economy commits of this PR.
-  void conversation;
-  void message;
+  // TABLE chat emits NO notification rows — its badge is /api/chat/unread
+  // (plan §6). DM/circle notify their recipients with the one-row-per-
+  // (recipient, conversation) dedup upsert.
+  if (conversation.kind === "table") return;
+
+  const { chatDatabase } = await import("@/services/chatDatabaseService");
+  const { notificationDatabase } = await import("@/services/notificationDatabaseService");
+
+  const recipients = await chatDatabase.getNotifiableRecipients(
+    conversation.id,
+    message.senderId,
+  );
+  if (recipients.length === 0) return;
+
+  const type = conversation.kind === "dm" ? "dm_message" : "circle_message";
+  const title = conversation.kind === "dm" ? "New message" : conversation.title || "New message";
+  const preview = messagePreview(message);
+
+  await Promise.all(
+    recipients.map((recipient) =>
+      notificationDatabase
+        .createOrBumpEventNotification(recipient.userId, type, conversation.id, {
+          title,
+          message: preview,
+          relatedUserId: message.senderId,
+          metadata: { conversationId: conversation.id, conversationKind: conversation.kind },
+        })
+        .catch(() => {}),
+    ),
+  );
+}
+
+/** A short, body-free-safe preview line (photos read as an attachment note). */
+function messagePreview(message: ChatMessage): string {
+  const body = message.body.trim();
+  if (body) return body.slice(0, 140);
+  if (message.attachments.some((a) => a.type === "photo")) return "Sent a photo";
+  return "New message";
 }

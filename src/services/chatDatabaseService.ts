@@ -589,6 +589,35 @@ class ChatDatabaseService {
     }
   }
 
+  /**
+   * Recipients who should receive a chat notification for a new message: active
+   * members other than the sender, whose notify_level is not 'none', not
+   * host-muted, and not in a blocked relationship with the sender (either
+   * direction). Table conversations never call this (their badge is the unread
+   * endpoint). Never selects emails.
+   */
+  async getNotifiableRecipients(
+    conversationId: string,
+    senderId: string,
+  ): Promise<Array<{ userId: string; role: string }>> {
+    try {
+      const result = await executeQuery(
+        `SELECT cm.user_id, cm.role
+           FROM conversation_members cm
+          WHERE cm.conversation_id = $1::uuid
+            AND cm.user_id <> $2::uuid
+            AND cm.left_at IS NULL AND cm.banned = false
+            AND cm.notify_level <> 'none'
+            AND ${notBlockedForViewerSql("$2::uuid", "cm.user_id")}`,
+        [conversationId, senderId],
+      );
+      return result.rows.map((row: Row) => ({ userId: String(row.user_id), role: row.role }));
+    } catch (error) {
+      _logger.error("getNotifiableRecipients failed:", error);
+      return [];
+    }
+  }
+
   /** Distinct senders so the route can recognize dm_thread_started for both parties. */
   async countDistinctSenders(conversationId: string): Promise<number> {
     try {

@@ -46,9 +46,14 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ success: false, message: "This conversation is not available." }, { status: 403 });
     }
 
-    // Clearing this conversation's chat notification rows is wired in the
-    // notifications commit of this PR (dm_message/circle_message dedup rows);
-    // the /api/chat/unread aggregate is authoritative for the badge regardless.
+    // Clear this conversation's deduped chat notification rows (best-effort);
+    // the /api/chat/unread aggregate stays authoritative for the badge.
+    try {
+      const { notificationDatabase } = await import("@/services/notificationDatabaseService");
+      await notificationDatabase.clearChatNotifications(userId, conversationId);
+    } catch {
+      // Non-critical — unread endpoint is the source of truth.
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

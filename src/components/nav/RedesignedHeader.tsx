@@ -17,6 +17,7 @@ import {
 import { Logo } from "./Logo";
 
 const NotificationBell = dynamic(() => import("./NotificationBell"), { ssr: false });
+const MessagesBadge = dynamic(() => import("./MessagesBadge"), { ssr: false });
 const GroceryCartButton = dynamic(
   () =>
     import("@/components/grocery-cart/GroceryCartButton").then(
@@ -437,6 +438,7 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           </button>
 
           <GroceryCartButton />
+          {status === "authenticated" && <MessagesBadge />}
           {status === "authenticated" && <NotificationBell />}
 
           {status === "authenticated" ? (

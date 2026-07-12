@@ -19,7 +19,10 @@ export type NotificationType =
   | 'table_invite'
   | 'table_rsvp'
   | 'table_going_live'
-  | 'table_memory_posted';
+  | 'table_memory_posted'
+  | 'dm_message'
+  | 'circle_message'
+  | 'table_chat_mention';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -48,6 +51,12 @@ export interface NotificationMetadata {
   response?: string;
   feedEventId?: string;
   photoCount?: number;
+  /** Chat deep-link target + dedup key (one unread row per recipient+conversation). */
+  conversationId?: string;
+  conversationKind?: string;
+  /** Running unread count folded into a single deduped chat notification row. */
+  unreadCount?: number;
+  messagePreview?: string;
   [key: string]: unknown;
 }
 
@@ -87,4 +96,7 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
   table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
   table_memory_posted: { bg: '#FFF8E1', border: '#e0a66b', icon: '📸' },
+  dm_message:          { bg: '#E8EAF6', border: '#7986CB', icon: '💬' },
+  circle_message:      { bg: '#EDE9FE', border: '#A78BFA', icon: '💬' },
+  table_chat_mention:  { bg: '#EDE9FE', border: '#B57EE0', icon: '📣' },
 };
