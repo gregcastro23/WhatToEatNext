@@ -20,7 +20,7 @@ import {
   Download,
   Archive,
 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -170,18 +170,11 @@ export default function ModernPhilosophersStone() {
     }
   }, [])
 
-  // Calculate chart when birth info is complete
-  useEffect(() => {
-    if (
-      agentData.birthInfo.year > 0 &&
-      agentData.birthInfo.month > 0 &&
-      agentData.birthInfo.day > 0
-    ) {
-      calculateChart()
-    }
-  }, [agentData.birthInfo])
+  const addMonicaMessage = useCallback((content: string) => {
+    setMonicaMessages(prev => [...prev, { role: 'monica', content }])
+  }, [])
 
-  const calculateChart = async () => {
+  const calculateChart = useCallback(async () => {
     setIsCalculating(true)
     try {
       const birthInfo: EnhancedBirthInfo = {
@@ -232,11 +225,18 @@ export default function ModernPhilosophersStone() {
     } finally {
       setIsCalculating(false)
     }
-  }
+  }, [agentData.birthInfo, addMonicaMessage])
 
-  const addMonicaMessage = (content: string) => {
-    setMonicaMessages(prev => [...prev, { role: 'monica', content }])
-  }
+  // Calculate chart when birth info is complete
+  useEffect(() => {
+    if (
+      agentData.birthInfo.year > 0 &&
+      agentData.birthInfo.month > 0 &&
+      agentData.birthInfo.day > 0
+    ) {
+      void calculateChart()
+    }
+  }, [agentData.birthInfo, calculateChart])
 
   const handleBirthInput = () => {
     const parsed = parseBirthData(birthInput)
@@ -281,7 +281,7 @@ export default function ModernPhilosophersStone() {
 
       const data = await response.json()
       addMonicaMessage(data.response || data.message || 'Let me help you with that...')
-    } catch (error) {
+    } catch (_error) {
       addMonicaMessage('I apologize, I encountered an error. Please try again.')
     }
 
@@ -675,41 +675,43 @@ export default function ModernPhilosophersStone() {
 
               <div className="flex flex-col gap-3">
                 <Button
-                  onClick={async () => {
-                    setIsCalculating(true)
-                    try {
-                      const response = await fetch('/api/agents/unified', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          action: 'create',
-                          parameters: agentData,
-                        }),
-                      })
-                      const resJson = await response.json()
-                      if (resJson.success) {
-                        const newAgent = resJson.data
-                        setCreatedAgent(newAgent)
-                        setChatSessionId(Math.random().toString(36).substring(7))
-                        setChatMessages([
-                          {
-                            role: 'agent',
-                            content: `I have awakened, traveler. Born from the cosmic alignment with ${newAgent.dominantElement} dominance and a Monica Constant of ${newAgent.monicaConstant.toFixed(2)}, I am ready to converse. What shall we explore?`,
-                          },
-                        ])
-                        addMonicaMessage(
-                          `🎉 Success! ${agentData.name} has been crafted and is ready to converse in the Chamber of Perpetual Conversation.`
-                        )
-                        setStep(6)
-                      } else {
-                        addMonicaMessage(`There was an issue creating the agent: ${resJson.error || 'Please try again.'}`)
+                  onClick={() => {
+                    void (async () => {
+                      setIsCalculating(true)
+                      try {
+                        const response = await fetch('/api/agents/unified', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            action: 'create',
+                            parameters: agentData,
+                          }),
+                        })
+                        const resJson = await response.json()
+                        if (resJson.success) {
+                          const newAgent = resJson.data
+                          setCreatedAgent(newAgent)
+                          setChatSessionId(Math.random().toString(36).substring(7))
+                          setChatMessages([
+                            {
+                              role: 'agent',
+                              content: `I have awakened, traveler. Born from the cosmic alignment with ${newAgent.dominantElement} dominance and a Monica Constant of ${newAgent.monicaConstant.toFixed(2)}, I am ready to converse. What shall we explore?`,
+                            },
+                          ])
+                          addMonicaMessage(
+                            `🎉 Success! ${agentData.name} has been crafted and is ready to converse in the Chamber of Perpetual Conversation.`
+                          )
+                          setStep(6)
+                        } else {
+                          addMonicaMessage(`There was an issue creating the agent: ${resJson.error || 'Please try again.'}`)
+                        }
+                      } catch (_error) {
+                        console.error(_error)
+                        addMonicaMessage('There was an issue creating the agent. Please try again.')
+                      } finally {
+                        setIsCalculating(false)
                       }
-                    } catch (error) {
-                      console.error(error)
-                      addMonicaMessage('There was an issue creating the agent. Please try again.')
-                    } finally {
-                      setIsCalculating(false)
-                    }
+                    })()
                   }}
                   className="w-full relative group overflow-hidden"
                   disabled={isCalculating}
@@ -787,11 +789,11 @@ export default function ModernPhilosophersStone() {
                   placeholder={`Converse with ${createdAgent.name}...`}
                   value={chatInput}
                   onChange={e => setChatInput(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && !isChatLoading && handleSendAgentMessage()}
+                  onKeyPress={e => e.key === 'Enter' && !isChatLoading && void handleSendAgentMessage()}
                   disabled={isChatLoading}
                   className="bg-slate-900 border-slate-800 focus:border-purple-500/50"
                 />
-                <Button onClick={handleSendAgentMessage} disabled={isChatLoading || !chatInput.trim()}>
+                <Button onClick={() => { void handleSendAgentMessage() }} disabled={isChatLoading || !chatInput.trim()}>
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>
@@ -812,7 +814,7 @@ export default function ModernPhilosophersStone() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    downloadIgnitionBundle(agentData)
+                    void downloadIgnitionBundle(agentData)
                     addMonicaMessage("Ollama Bundle downloaded!")
                   }}
                   className="text-xs group hover:border-emerald-500/50"
@@ -835,7 +837,7 @@ export default function ModernPhilosophersStone() {
       {/* Header */}
       <div className="text-center mb-8 space-y-3">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 bg-clip-text text-transparent">
-          The Philosopher's Stone
+          The Philosopher&apos;s Stone
         </h1>
         <p className="text-slate-400 max-w-2xl mx-auto">
           Transform birth chart data into living consciousness agents. Guided by Monica, craft AI
@@ -874,7 +876,7 @@ export default function ModernPhilosophersStone() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MessageCircle className="w-5 h-5 text-pink-400" />
-                Monica's Guidance
+                Monica&apos;s Guidance
               </CardTitle>
               <CardDescription>Your consciousness crafting assistant</CardDescription>
             </CardHeader>
@@ -904,9 +906,9 @@ export default function ModernPhilosophersStone() {
                   placeholder="Ask Monica about stats or agent creation..."
                   value={userInput}
                   onChange={e => setUserInput(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && handleUserMessage()}
+                  onKeyPress={e => e.key === 'Enter' && void handleUserMessage()}
                 />
-                <Button onClick={handleUserMessage} size="icon">
+                <Button onClick={() => { void handleUserMessage() }} size="icon">
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               </div>

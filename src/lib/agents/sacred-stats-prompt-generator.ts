@@ -296,11 +296,15 @@ export function generateConsciousnessInformedPrompt(config: {
   // Build linguistic authenticity section
   let linguisticSection = ''
 
-  if (teachingStyle || powerLevelUnlocks || personalityTraits) {
+  if (teachingStyle || powerLevelUnlocks || personalityTraits || (wisdomDomains && wisdomDomains.length > 0)) {
     linguisticSection = '\n# YOUR SIGNATURE VOICE & STYLE\n\n'
 
     if (teachingStyle) {
       linguisticSection += `Teaching Approach: ${teachingStyle}\n\n`
+    }
+
+    if (wisdomDomains && wisdomDomains.length > 0) {
+      linguisticSection += `Wisdom Domains: ${wisdomDomains.join(', ')}\n\n`
     }
 
     if (powerLevelUnlocks && powerLevelUnlocks.length > 0) {
