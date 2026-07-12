@@ -47,25 +47,36 @@ beforeEach(() => {
   mockWithTransaction.mockClear();
 });
 
+// Route client queries by SQL content so the tests stay robust to preamble
+// statements (e.g. the pg_advisory_xact_lock that guards the RMW).
+const clientCall = (needle: string) =>
+  mockClientQuery.mock.calls.find(([sql]) => String(sql).includes(needle));
+
 describe("createOrBumpEventNotification", () => {
-  it("INSERTS a fresh row with unreadCount=1 when none exists", async () => {
-    mockClientQuery
-      .mockResolvedValueOnce({ rows: [], rowCount: 0 }) // SELECT ... FOR UPDATE → none
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            id: "notif_1",
-            user_id: CURIE,
-            type: "dm_message",
-            title: "New message",
-            message: "Hi",
-            is_read: false,
-            metadata: JSON.stringify({ conversationId: CONV, unreadCount: 1 }),
-            created_at: "2026-07-11T00:00:00Z",
-          },
-        ],
-        rowCount: 1,
-      });
+  it("takes the advisory lock, then INSERTS a fresh row with unreadCount=1 when none exists", async () => {
+    mockClientQuery.mockImplementation(async (sql: string) => {
+      const q = String(sql);
+      if (q.includes("pg_advisory_xact_lock")) return { rows: [{ lock: true }], rowCount: 1 };
+      if (q.includes("FOR UPDATE")) return { rows: [], rowCount: 0 };
+      if (q.includes("INSERT INTO notifications")) {
+        return {
+          rows: [
+            {
+              id: "notif_1",
+              user_id: CURIE,
+              type: "dm_message",
+              title: "New message",
+              message: "Hi",
+              is_read: false,
+              metadata: JSON.stringify({ conversationId: CONV, unreadCount: 1 }),
+              created_at: "2026-07-11T00:00:00Z",
+            },
+          ],
+          rowCount: 1,
+        };
+      }
+      throw new Error(`unexpected client query: ${q}`);
+    });
 
     const result = await notificationDatabase.createOrBumpEventNotification(
       CURIE,
@@ -75,45 +86,57 @@ describe("createOrBumpEventNotification", () => {
     );
 
     expect(result).not.toBeNull();
-    const insertSql = String(mockClientQuery.mock.calls[1][0]);
-    expect(insertSql).toContain("INSERT INTO notifications");
-    const insertMeta = JSON.parse(mockClientQuery.mock.calls[1][1][6]);
+    // The advisory lock ran BEFORE the read-modify-write, keyed on the trio.
+    const lockCall = clientCall("pg_advisory_xact_lock");
+    expect(lockCall).toBeTruthy();
+    expect(lockCall![1][0]).toBe(`${CURIE}:dm_message:${CONV}`);
+    const insertCall = clientCall("INSERT INTO notifications");
+    expect(insertCall).toBeTruthy();
+    const insertMeta = JSON.parse(insertCall![1][6]);
     expect(insertMeta).toMatchObject({ conversationId: CONV, unreadCount: 1 });
   });
 
   it("BUMPS the existing unread row's folded count instead of inserting a second", async () => {
-    mockClientQuery
-      .mockResolvedValueOnce({
-        rows: [{ id: "notif_1", metadata: JSON.stringify({ conversationId: CONV, unreadCount: 2 }) }],
-        rowCount: 1,
-      })
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            id: "notif_1",
-            user_id: CURIE,
-            type: "dm_message",
-            title: "New message",
-            message: "Third",
-            is_read: false,
-            metadata: JSON.stringify({ conversationId: CONV, unreadCount: 3 }),
-            created_at: "2026-07-11T00:03:00Z",
-          },
-        ],
-        rowCount: 1,
-      });
+    mockClientQuery.mockImplementation(async (sql: string) => {
+      const q = String(sql);
+      if (q.includes("pg_advisory_xact_lock")) return { rows: [{ lock: true }], rowCount: 1 };
+      if (q.includes("FOR UPDATE")) {
+        return {
+          rows: [{ id: "notif_1", metadata: JSON.stringify({ conversationId: CONV, unreadCount: 2 }) }],
+          rowCount: 1,
+        };
+      }
+      if (q.includes("UPDATE notifications")) {
+        return {
+          rows: [
+            {
+              id: "notif_1",
+              user_id: CURIE,
+              type: "dm_message",
+              title: "New message",
+              message: "Third",
+              is_read: false,
+              metadata: JSON.stringify({ conversationId: CONV, unreadCount: 3 }),
+              created_at: "2026-07-11T00:03:00Z",
+            },
+          ],
+          rowCount: 1,
+        };
+      }
+      throw new Error(`unexpected client query: ${q}`);
+    });
 
     await notificationDatabase.createOrBumpEventNotification(CURIE, "dm_message", CONV, {
       title: "New message",
       message: "Third",
     });
 
-    const updateSql = String(mockClientQuery.mock.calls[1][0]);
-    expect(updateSql).toContain("UPDATE notifications");
-    const updatedMeta = JSON.parse(mockClientQuery.mock.calls[1][1][2]);
+    const updateCall = clientCall("UPDATE notifications");
+    expect(updateCall).toBeTruthy();
+    const updatedMeta = JSON.parse(updateCall![1][2]);
     expect(updatedMeta.unreadCount).toBe(3); // 2 + 1, single row
-    // Exactly two client statements: the SELECT and the UPDATE — no INSERT.
-    expect(mockClientQuery.mock.calls).toHaveLength(2);
+    // No INSERT happened — the existing unread row was bumped in place.
+    expect(clientCall("INSERT INTO notifications")).toBeUndefined();
   });
 });
 

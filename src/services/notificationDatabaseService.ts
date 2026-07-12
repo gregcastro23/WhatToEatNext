@@ -199,6 +199,20 @@ class NotificationDatabaseService {
     try {
       const { withTransaction } = await import("@/lib/database/connection");
       const result = await withTransaction(async (client) => {
+        // Serialize concurrent first-messages for the SAME (recipient,
+        // conversation): SELECT ... FOR UPDATE locks NOTHING on an empty
+        // result, so two racing inserts would both find no row and each
+        // INSERT, violating the one-unread-row invariant. A transaction-scoped
+        // advisory lock keyed on (user, type, conversation) makes the loser
+        // wait until the winner commits — then its SELECT sees the winner's row
+        // and takes the UPDATE branch. hashtextextended(text, 0) -> bigint
+        // feeds the single-arg lock; collisions only serialize unrelated pairs,
+        // never miss.
+        await client.query(
+          `SELECT pg_advisory_xact_lock(hashtextextended($1, 0))`,
+          [`${userId}:${type}:${conversationId}`],
+        );
+
         const found = await client.query(
           `SELECT id, metadata FROM notifications
             WHERE user_id = $1::uuid AND type = $2 AND is_read = false
