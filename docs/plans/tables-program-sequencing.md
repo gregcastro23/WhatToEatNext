@@ -27,7 +27,7 @@ Given that history, PR 2 and PR 3 numbers are assigned explicitly here rather th
 - **PR 3**: `62-chat-schema.sql` (conversations/conversation_members/messages/message_reports/user_spacetime_identities), `63-notification-type-chat.sql` (`-- migrate:no-transaction`, 3 ALTER TYPE ADD VALUE).
 - **PR 4 (graph & identity)**: `64-follows-avatars.sql` (follows table + avatar columns/tables as its plan specifies), `65-notification-type-social-graph.sql` (`-- migrate:no-transaction`, e.g. new_follower).
 - **PR 5 (feed & engagement)**: `66-feed-comments-push.sql` (feed comments + web-push subscriptions), `67-notification-types-engagement.sql` (`-- migrate:no-transaction`, reaction/comment/mention types).
-- **PR 6 (discovery & mobile)**: `68-*.sql` only if its plan genuinely needs one (synastry-cache already exists as migration 47); prefer no migration.
+- **PR 6 (discovery & mobile)**: `68-tables-discovery.sql` (venue geo columns + seat_cap + discovery indexes — its plan verified tables/restaurants carry no coordinates, so a migration IS needed) and `69-notification-type-table-join-request.sql` (`-- migrate:no-transaction`, table_join_request).
 
 Implementation agents MUST still re-verify immediately before their final commit (`git fetch origin master && git ls-tree origin/master -- database/init/ | grep '/60-\|/61-'` etc.) in case yet another concurrent session claimed the same number in the meantime — bump to the next free integer and update this doc if so, rather than silently colliding again.
 
