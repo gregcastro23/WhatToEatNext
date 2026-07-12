@@ -155,9 +155,14 @@ class NotificationDatabaseService {
    * Create OR bump an event-scoped notification — at most ONE unread row per
    * (recipient, event, type). The first actor INSERTs `firstMessage`; each
    * later actor bumps that row's count + lastActorName instead of adding a new
-   * bell entry, and rewrites the message from `bumpTemplate` (identical dedup
-   * rule to PR 3 §6 chat notifications, so the two systems converge on one
-   * method). Returns the new or bumped row, or null.
+   * bell entry, and rewrites the message from `bumpTemplate`. Sibling to
+   * `createOrBumpConversationNotification` below (same dedup principle,
+   * conversation-scoped instead of event-scoped — PR 3 and PR 5 converged on
+   * the pattern independently with different keys/mechanisms; kept as two
+   * named methods rather than one generic function so neither's reviewed
+   * concurrency strategy — this one's partial unique index + ON CONFLICT,
+   * that one's advisory lock — gets diluted by the merge). Returns the new or
+   * bumped row, or null.
    *
    * `bumpTemplate` must contain the literal tokens `__ACTOR__` (replaced with
    * the newest actor's name) and `__OTHERS__` (replaced with the count of the
@@ -291,6 +296,168 @@ class NotificationDatabaseService {
       _logger.error("createOrBumpEventNotification failed:", error);
       return null;
     }
+  }
+
+  /**
+   * Chat dedup upsert (docs/plans/pr3-messaging-plan.md §6): keep AT MOST ONE
+   * unread notification row per (recipient, conversation). If an unread row of
+   * a chat type already exists for this conversation, bump its folded unread
+   * count + refresh the preview/timestamp; otherwise insert a fresh row. Table
+   * chat emits NO notification (its badge is /api/chat/unread) — only
+   * dm_message / circle_message / table_chat_mention flow through here.
+   *
+   * All work runs on ONE transaction client (the SELECT ... FOR UPDATE guards
+   * the read-modify-write against a racing second message).
+   */
+  async createOrBumpConversationNotification(
+    userId: string,
+    type: NotificationType,
+    conversationId: string,
+    opts: {
+      title: string;
+      message: string;
+      relatedUserId?: string;
+      metadata?: Record<string, any>;
+    },
+  ): Promise<UserNotification | null> {
+    const db = await getDbModule();
+    if (!db) {
+      // In-memory fallback: best-effort single-row dedup.
+      const existing = Array.from(notificationsStore.values()).find(
+        (n) =>
+          n.userId === userId &&
+          n.type === type &&
+          !n.isRead &&
+          n.metadata?.conversationId === conversationId,
+      );
+      if (existing) {
+        const count = (existing.metadata?.unreadCount ?? 1) + 1;
+        existing.metadata = { ...existing.metadata, unreadCount: count, messagePreview: opts.message };
+        existing.message = opts.message;
+        existing.createdAt = new Date().toISOString();
+        return existing;
+      }
+      return this.createNotification(userId, type, opts.title, opts.message, {
+        relatedUserId: opts.relatedUserId,
+        metadata: { ...opts.metadata, conversationId, unreadCount: 1, messagePreview: opts.message },
+      });
+    }
+
+    try {
+      const { withTransaction } = await import("@/lib/database/connection");
+      const result = await withTransaction(async (client) => {
+        // Serialize concurrent first-messages for the SAME (recipient,
+        // conversation): SELECT ... FOR UPDATE locks NOTHING on an empty
+        // result, so two racing inserts would both find no row and each
+        // INSERT, violating the one-unread-row invariant. A transaction-scoped
+        // advisory lock keyed on (user, type, conversation) makes the loser
+        // wait until the winner commits — then its SELECT sees the winner's row
+        // and takes the UPDATE branch. hashtextextended(text, 0) -> bigint
+        // feeds the single-arg lock; collisions only serialize unrelated pairs,
+        // never miss.
+        await client.query(
+          `SELECT pg_advisory_xact_lock(hashtextextended($1, 0))`,
+          [`${userId}:${type}:${conversationId}`],
+        );
+
+        const found = await client.query(
+          `SELECT id, metadata FROM notifications
+            WHERE user_id = $1::uuid AND type = $2 AND is_read = false
+              AND metadata->>'conversationId' = $3
+            ORDER BY created_at DESC
+            LIMIT 1
+            FOR UPDATE`,
+          [userId, type, conversationId],
+        );
+
+        if (found.rows.length > 0) {
+          const row = found.rows[0];
+          const prev = parseNotificationMetadata(row.metadata);
+          const nextCount = (typeof prev.unreadCount === "number" ? prev.unreadCount : 1) + 1;
+          const nextMeta = {
+            ...prev,
+            ...opts.metadata,
+            conversationId,
+            unreadCount: nextCount,
+            messagePreview: opts.message,
+          };
+          const updated = await client.query(
+            `UPDATE notifications
+                SET message = $2, metadata = $3, created_at = CURRENT_TIMESTAMP, is_read = false
+              WHERE id = $1
+              RETURNING *`,
+            [row.id, opts.message, JSON.stringify(nextMeta)],
+          );
+          return updated.rows[0];
+        }
+
+        const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        const meta = {
+          ...opts.metadata,
+          conversationId,
+          unreadCount: 1,
+          messagePreview: opts.message,
+        };
+        const inserted = await client.query(
+          `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           RETURNING *`,
+          [id, userId, type, opts.title, opts.message, opts.relatedUserId ?? null, JSON.stringify(meta)],
+        );
+        return inserted.rows[0];
+      });
+      return result ? rowToNotification(result) : null;
+    } catch (error) {
+      const code = (error as { code?: string })?.code;
+      if (code === "23503") {
+        _logger.warn("[Notification] FK violation on createOrBumpConversationNotification — skipping", {
+          userId,
+          type,
+        });
+        return null;
+      }
+      _logger.error("createOrBumpConversationNotification failed:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Mark a conversation's chat notifications read for a recipient — called
+   * when they open/read the conversation (the deduped row is cleared so the
+   * bell count drops). Table chat has no rows here; this is a no-op for it.
+   */
+  async clearChatNotifications(userId: string, conversationId: string): Promise<number> {
+    const db = await getDbModule();
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `UPDATE notifications SET is_read = true
+            WHERE user_id = $1::uuid AND is_read = false
+              AND type IN ('dm_message','circle_message','table_chat_mention')
+              AND metadata->>'conversationId' = $2
+            RETURNING id`,
+          [userId, conversationId],
+        );
+        return result.rows?.length || 0;
+      } catch (error) {
+        _logger.error("clearChatNotifications failed:", error);
+        return 0;
+      }
+    }
+
+    let count = 0;
+    notificationsStore.forEach((n) => {
+      if (
+        n.userId === userId &&
+        !n.isRead &&
+        n.metadata?.conversationId === conversationId &&
+        (n.type === "dm_message" || n.type === "circle_message" || n.type === "table_chat_mention")
+      ) {
+        n.isRead = true;
+        count++;
+      }
+    });
+    return count;
   }
 
   // ─── Read ───────────────────────────────────────────────

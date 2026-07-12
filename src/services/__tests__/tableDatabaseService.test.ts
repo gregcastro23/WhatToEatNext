@@ -55,51 +55,70 @@ beforeEach(() => {
 });
 
 describe("lifecycle transitions — guarded UPDATE ... WHERE ... RETURNING", () => {
-  it("goLive succeeds when the caller is host and the table is planned", async () => {
-    mockExecuteQuery.mockResolvedValue({
-      rows: [
-        {
-          id: TABLE_ID,
-          host_id: HOST,
-          title: "Solstice Feast",
-          status: "live",
-          venue_type: "home",
-          menu: "[]",
-          created_at: "2026-07-01T00:00:00Z",
-          updated_at: "2026-07-01T00:00:00Z",
-        },
-      ],
-      rowCount: 1,
-    });
+  // goLive now runs the planned->live UPDATE AND the PR 3 chat-conversation
+  // ensure on ONE transaction client (docs/plans/tables-program-sequencing.md
+  // Reconciliation 1), so it exercises mockClientQuery, not executeQuery.
+  const goLiveClient = (opts: { transitioned: boolean }) =>
+    async (sql: string) => {
+      const q = String(sql);
+      if (q.includes("UPDATE tables SET status = 'live'")) {
+        return opts.transitioned
+          ? {
+              rows: [
+                {
+                  id: TABLE_ID,
+                  host_id: HOST,
+                  title: "Solstice Feast",
+                  status: "live",
+                  venue_type: "home",
+                  menu: "[]",
+                  created_at: "2026-07-01T00:00:00Z",
+                  updated_at: "2026-07-01T00:00:00Z",
+                },
+              ],
+              rowCount: 1,
+            }
+          : { rows: [], rowCount: 0 };
+      }
+      if (q.includes("INSERT INTO conversations")) return { rows: [], rowCount: 0 };
+      if (q.includes("SELECT id FROM conversations")) {
+        return { rows: [{ id: "conv-1" }], rowCount: 1 };
+      }
+      if (q.includes("INSERT INTO conversation_members")) return { rows: [], rowCount: 0 };
+      throw new Error(`unexpected client query: ${q}`);
+    };
+
+  it("goLive succeeds and ensures the table chat conversation on the same transaction", async () => {
+    mockClientQuery.mockImplementation(goLiveClient({ transitioned: true }));
 
     const result = await tableDatabase.goLive(TABLE_ID, HOST);
 
     expect(result).not.toBeNull();
     expect(result!.status).toBe("live");
-    const sql = sqlCalls()[0];
-    expect(sql).toContain("status = 'live'");
-    expect(sql).toContain("AND host_id = $2::uuid AND status = 'planned'");
+    const updateSql = clientCalls().find((q) => q.includes("UPDATE tables SET status = 'live'"));
+    expect(updateSql).toContain("AND host_id = $2::uuid AND status = 'planned'");
+    // subject_ref = tables.id; seed members query ran on the SAME client.
+    const seedSql = clientCalls().find((q) => q.includes("INSERT INTO conversation_members"));
+    expect(seedSql).toBeDefined();
+    // Never acquires a second pooled connection while holding the tx client.
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
   });
 
-  it("goLive returns null (409) when a non-host calls it — the guard's host_id clause matches nothing", async () => {
-    mockExecuteQuery.mockResolvedValue({ rows: [], rowCount: 0 });
+  it("goLive returns null (409) when a non-host calls it — and never touches chat", async () => {
+    mockClientQuery.mockImplementation(goLiveClient({ transitioned: false }));
 
     const result = await tableDatabase.goLive(TABLE_ID, OTHER);
 
     expect(result).toBeNull();
+    expect(clientCalls().some((q) => q.includes("INSERT INTO conversations"))).toBe(false);
   });
 
   it("goLive is race-safe: a second concurrent call against an already-live table returns null", async () => {
-    // First call transitions planned -> live and consumes the guard.
-    mockExecuteQuery.mockResolvedValueOnce({
-      rows: [{ id: TABLE_ID, host_id: HOST, status: "live", venue_type: "home", menu: "[]" }],
-      rowCount: 1,
-    });
+    mockClientQuery.mockImplementation(goLiveClient({ transitioned: true }));
     const first = await tableDatabase.goLive(TABLE_ID, HOST);
     expect(first).not.toBeNull();
 
-    // Second call: the WHERE status='planned' guard now matches zero rows.
-    mockExecuteQuery.mockResolvedValueOnce({ rows: [], rowCount: 0 });
+    mockClientQuery.mockImplementation(goLiveClient({ transitioned: false }));
     const second = await tableDatabase.goLive(TABLE_ID, HOST);
     expect(second).toBeNull();
   });
@@ -156,6 +175,10 @@ describe("lifecycle transitions — guarded UPDATE ... WHERE ... RETURNING", () 
       }
       if (q.includes("INSERT INTO feed_events")) {
         return { rows: [{ id: "feed-1" }], rowCount: 1 };
+      }
+      // PR 3: close archives the table's chat conversation on the same client.
+      if (q.includes("UPDATE conversations SET archived_at")) {
+        return { rows: [], rowCount: 0 };
       }
       if (q.includes("UPDATE tables")) {
         return {
