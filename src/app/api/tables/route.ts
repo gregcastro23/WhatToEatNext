@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
+import { resolveVenueCoords } from "@/lib/tables/venueGeo";
 import { tableDatabase, type TableListScope } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
 
@@ -34,6 +35,10 @@ const createTableSchema = z.object({
   venue: venueSchema,
   visibility: z.enum(["public", "commensals", "private"]).optional(),
   menu: z.array(menuItemSchema).max(50).optional(),
+  // Discovery geo (PR 6). Home venues MUST NOT carry coordinates.
+  venueLat: z.number().min(-90).max(90).optional(),
+  venueLng: z.number().min(-180).max(180).optional(),
+  seatCap: z.number().int().min(2).max(24).optional(),
 });
 
 const CREATE_LIMIT = { window: 60_000, max: 10, bucket: "tables-create" } as const;
@@ -80,6 +85,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const coords = await resolveVenueCoords(
+      parsed.data.venue,
+      parsed.data.venueLat,
+      parsed.data.venueLng,
+    );
+    if (!coords) {
+      return NextResponse.json(
+        { success: false, message: "Home tables cannot carry a location" },
+        { status: 400 },
+      );
+    }
+
     const table = await tableDatabase.createTable(userId, {
       title: parsed.data.title,
       description: parsed.data.description,
@@ -87,6 +104,9 @@ export async function POST(request: NextRequest) {
       venue: parsed.data.venue,
       visibility: parsed.data.visibility,
       menu: parsed.data.menu,
+      venueLat: coords.venueLat,
+      venueLng: coords.venueLng,
+      seatCap: parsed.data.seatCap,
     });
 
     if (!table) {

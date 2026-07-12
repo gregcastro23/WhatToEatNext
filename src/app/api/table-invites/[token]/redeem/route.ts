@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { recognizeTableJoin } from "@/lib/economy/tableJoin";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -85,6 +86,12 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
             { status: 410 },
           );
       }
+    }
+
+    // First-time join via link/QR is an ambient recognition (server-anchored,
+    // no visible amounts). A no-op re-redeem (alreadyMember) never re-earns.
+    if (!result.alreadyMember) {
+      recognizeTableJoin(userId, result.tableId);
     }
 
     return NextResponse.json({

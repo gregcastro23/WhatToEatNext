@@ -20,7 +20,8 @@ export type NotificationType =
   | 'table_invite'
   | 'table_rsvp'
   | 'table_going_live'
-  | 'table_memory_posted';
+  | 'table_memory_posted'
+  | 'table_join_request';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -46,6 +47,9 @@ export interface NotificationMetadata {
   venueName?: string;
   hostName?: string;
   guestName?: string;
+  /** `table_join_request`: the discoverer asking the host for an invite. */
+  requesterId?: string;
+  requesterName?: string;
   response?: string;
   feedEventId?: string;
   photoCount?: number;
@@ -89,4 +93,5 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
   table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
   table_memory_posted: { bg: '#FFF8E1', border: '#e0a66b', icon: '📸' },
+  table_join_request:  { bg: '#FFF3E0', border: '#e0a66b', icon: '🙋' },
 };

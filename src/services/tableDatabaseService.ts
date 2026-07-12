@@ -65,6 +65,19 @@ export type RedeemInviteResult =
   | { ok: true; tableId: string; alreadyMember: boolean }
   | { ok: false; reason: "invalid" | "expired" | "closed" | "blocked" | "cap_exceeded" };
 
+export type JoinRequestFailureReason =
+  | "not_found"
+  | "not_public"
+  | "not_joinable"
+  | "blocked"
+  | "already_member"
+  | "cap_exceeded"
+  | "duplicate";
+
+export type JoinRequestResult =
+  | { ok: true; hostId: string; tableTitle: string }
+  | { ok: false; reason: JoinRequestFailureReason };
+
 // ─── Row → domain mapping helpers ────────────────────────────────────────
 
 type DbTimestamp = Date | string | null | undefined;
@@ -109,6 +122,7 @@ class TableDatabaseService {
       wentLiveAt: row.went_live_at ? dbIsoString(row.went_live_at) : null,
       closedAt: row.closed_at ? dbIsoString(row.closed_at) : null,
       feedEventId: row.feed_event_id ?? null,
+      seatCap: row.seat_cap == null ? null : Number(row.seat_cap),
       createdAt: dbIsoString(row.created_at),
       updatedAt: dbIsoString(row.updated_at),
     };
@@ -360,14 +374,23 @@ class TableDatabaseService {
       venue: TableVenue;
       visibility?: TableVisibility;
       menu?: TableMenuItem[];
+      /** Discovery geo — MUST be null for home venues (route enforces + DB CHECK). */
+      venueLat?: number | null;
+      venueLng?: number | null;
+      seatCap?: number | null;
     },
   ): Promise<TableDetail | null> {
     try {
+      // Defense-in-depth: never persist coordinates for a home venue (matches
+      // the DB CHECK; the route already refuses them).
+      const isHome = input.venue.type === "home";
+      const venueLat = isHome ? null : input.venueLat ?? null;
+      const venueLng = isHome ? null : input.venueLng ?? null;
       const tableId = await withTransaction(async (client) => {
         const tableResult = await client.query(
           `INSERT INTO tables
-             (host_id, title, description, scheduled_at, venue_type, venue_restaurant_id, venue_name, venue_address, visibility, menu)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+             (host_id, title, description, scheduled_at, venue_type, venue_restaurant_id, venue_name, venue_address, visibility, menu, venue_lat, venue_lng, seat_cap)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
            RETURNING id`,
           [
             hostId,
@@ -380,6 +403,9 @@ class TableDatabaseService {
             input.venue.address ?? null,
             input.visibility ?? "commensals",
             JSON.stringify(input.menu ?? []),
+            venueLat,
+            venueLng,
+            input.seatCap ?? null,
           ],
         );
         const id = tableResult.rows[0].id as string;
@@ -409,6 +435,10 @@ class TableDatabaseService {
       scheduledAt?: string;
       venue?: TableVenue;
       visibility?: TableVisibility;
+      /** Discovery geo — forced null for home venues (route enforces + DB CHECK). */
+      venueLat?: number | null;
+      venueLng?: number | null;
+      seatCap?: number | null;
     },
   ): Promise<TableRecord | null> {
     const sets: string[] = [];
@@ -428,6 +458,7 @@ class TableDatabaseService {
       params.push(patch.scheduledAt);
     }
     if (patch.venue !== undefined) {
+      const isHome = patch.venue.type === "home";
       sets.push(`venue_type = $${n++}`);
       params.push(patch.venue.type);
       sets.push(`venue_restaurant_id = $${n++}`);
@@ -436,6 +467,15 @@ class TableDatabaseService {
       params.push(patch.venue.name ?? null);
       sets.push(`venue_address = $${n++}`);
       params.push(patch.venue.address ?? null);
+      // Changing venue re-supplies coords; home venues clear them.
+      sets.push(`venue_lat = $${n++}`);
+      params.push(isHome ? null : patch.venueLat ?? null);
+      sets.push(`venue_lng = $${n++}`);
+      params.push(isHome ? null : patch.venueLng ?? null);
+    }
+    if (patch.seatCap !== undefined) {
+      sets.push(`seat_cap = $${n++}`);
+      params.push(patch.seatCap);
     }
     if (patch.visibility !== undefined) {
       sets.push(`visibility = $${n++}`);
@@ -837,6 +877,63 @@ class TableDatabaseService {
       return { ok: true, member, table: tableRecord };
     } catch (error) {
       _logger.error("rsvp failed:", error);
+      return { ok: false, reason: "not_found" };
+    }
+  }
+
+  // ─── Discovery join-request ─────────────────────────────────
+
+  /**
+   * A discoverer of a PUBLIC table asks the host for an invite (PR 6). Closes
+   * the discovery dead-end: the host receives a `table_join_request`
+   * notification with an Invite action (which runs the normal
+   * `addRegisteredMember` → `table_invite` → RSVP rail).
+   *
+   * Validation reuses the PR 2 rails (block check, cap). Dedupe: a `duplicate`
+   * result when the requester is already a member OR an unactioned
+   * `table_join_request` notification for this (host, requester, table) already
+   * exists. Notification creation itself is the route's responsibility.
+   */
+  async requestToJoin(tableId: string, requesterId: string): Promise<JoinRequestResult> {
+    try {
+      const tableResult = await executeQuery(
+        `SELECT host_id, status, visibility, title, seat_cap FROM tables WHERE id = $1`,
+        [tableId],
+      );
+      if (tableResult.rows.length === 0) return { ok: false, reason: "not_found" };
+      const row = tableResult.rows[0];
+      const hostId = dbString(row.host_id);
+      const tableTitle: string = row.title;
+
+      if (row.visibility !== "public") return { ok: false, reason: "not_public" };
+      if (row.status !== "planned" && row.status !== "live") {
+        return { ok: false, reason: "not_joinable" };
+      }
+      if (hostId === requesterId) return { ok: false, reason: "already_member" };
+      if (await this.isBlockedPair(hostId, requesterId)) return { ok: false, reason: "blocked" };
+      if (await this.isAnyMember(tableId, requesterId)) return { ok: false, reason: "already_member" };
+
+      const countResult = await executeQuery(
+        `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1 AND rsvp_status = 'joined'`,
+        [tableId],
+      );
+      const joined = countResult.rows[0]?.n ?? 0;
+      const cap = row.seat_cap == null ? MAX_TABLE_MEMBERS : Number(row.seat_cap);
+      if (joined >= cap) return { ok: false, reason: "cap_exceeded" };
+
+      // Dedupe against an existing unactioned request notification.
+      const dupeResult = await executeQuery(
+        `SELECT 1 FROM notifications
+          WHERE user_id = $1 AND type = 'table_join_request' AND is_read = false
+            AND metadata->>'requesterId' = $2 AND metadata->>'tableId' = $3
+          LIMIT 1`,
+        [hostId, requesterId, tableId],
+      );
+      if (dupeResult.rows.length > 0) return { ok: false, reason: "duplicate" };
+
+      return { ok: true, hostId, tableTitle };
+    } catch (error) {
+      _logger.error("requestToJoin failed:", error);
       return { ok: false, reason: "not_found" };
     }
   }
