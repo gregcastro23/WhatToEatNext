@@ -183,9 +183,23 @@ async function fakeQuery(sql: string, params: unknown[] = []): Promise<{ rows: F
     return { rows: [{ n }], rowCount: 1 };
   }
 
-  if (has(q, "SELECT id FROM table_members WHERE table_id = $1 AND user_id = $2::uuid")) {
+  if (
+    has(q, "SELECT id FROM table_members WHERE table_id = $1 AND user_id = $2::uuid") ||
+    has(q, "SELECT id, rsvp_status FROM table_members WHERE table_id = $1 AND user_id = $2::uuid")
+  ) {
     const m = tableMembers.find((r) => r.table_id === params[0] && r.user_id === params[1]);
-    return m ? { rows: [{ id: m.id }], rowCount: 1 } : { rows: [], rowCount: 0 };
+    return m
+      ? { rows: [{ id: m.id, rsvp_status: m.rsvp_status }], rowCount: 1 }
+      : { rows: [], rowCount: 0 };
+  }
+
+  // Invite-link redemption upgrading an already-invited guest to joined.
+  if (has(q, "UPDATE table_members SET rsvp_status = 'joined'") && has(q, "WHERE id = $1")) {
+    const m = tableMembers.find((r) => r.id === params[0]);
+    if (!m) return { rows: [], rowCount: 0 };
+    m.rsvp_status = "joined";
+    m.rsvp_at = nowIso();
+    return { rows: [], rowCount: 1 };
   }
 
   if (has(q, "UPDATE table_members SET rsvp_status = $3")) {

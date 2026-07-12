@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import { computeAndStoreTableComposite } from "@/lib/tables/composite";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { NextRequest } from "next/server";
@@ -17,6 +18,10 @@ export const runtime = "nodejs";
 interface RouteParams {
   params: Promise<{ tableId: string }>;
 }
+
+// The most expensive route in the surface (up to ~24 chart resolutions + a
+// full recipe-catalog scoring pass), so it carries a tight per-user limit.
+const RECOMPUTE_LIMIT = { window: 60_000, max: 6, bucket: "table-recompute" } as const;
 
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
@@ -29,6 +34,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
+    const rl = await rateLimit(request, { ...RECOMPUTE_LIMIT, identifier: userId });
+    if (!rl.allowed) return rl.response!;
+
     const info = await tableDatabase.getTableHostAndStatus(tableId);
     if (!info) {
       return NextResponse.json({ success: false, message: "Table not found" }, { status: 404 });
@@ -37,6 +45,13 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json(
         { success: false, message: "Only the host can recompute the table's energy" },
         { status: 403 },
+      );
+    }
+    if (info.status !== "planned" && info.status !== "live") {
+      // Never overwrite a memory table's frozen composite snapshot.
+      return NextResponse.json(
+        { success: false, message: "This table's energy is sealed" },
+        { status: 409 },
       );
     }
 

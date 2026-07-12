@@ -44,6 +44,7 @@ const OTHER = "33333333-3333-3333-3333-333333333333";
 const TABLE_ID = "44444444-4444-4444-4444-444444444444";
 
 const sqlCalls = () => mockExecuteQuery.mock.calls.map(([q]) => String(q));
+const clientCalls = () => mockClientQuery.mock.calls.map(([q]) => String(q));
 
 beforeEach(() => {
   mockExecuteQuery.mockReset();
@@ -212,32 +213,51 @@ describe("lifecycle transitions — guarded UPDATE ... WHERE ... RETURNING", () 
 describe("invite atomicity — redeemInvite", () => {
   const TOKEN = "test-token-abc";
 
-  it("membership is checked FIRST: an existing member gets a no-op success without consuming a use", async () => {
+  // Default: token resolves, table is joinable (planned), host has not blocked
+  // the redeemer. Per-test overrides layer on top via `overrides`.
+  const setupRedeem = (overrides: {
+    tableStatus?: string;
+    blocked?: boolean;
+    existingMember?: { rsvp_status: string } | null;
+    clientImpl?: (q: string) => unknown;
+  }) => {
+    const {
+      tableStatus = "planned",
+      blocked = false,
+      existingMember = null,
+      clientImpl,
+    } = overrides;
+
     mockExecuteQuery.mockImplementation(async (sql: string) => {
       const q = String(sql);
       if (q.includes("FROM table_invites WHERE token")) {
         return { rows: [{ table_id: TABLE_ID }], rowCount: 1 };
       }
-      if (q.includes("SELECT id FROM table_members")) {
-        return { rows: [{ id: "member-1" }], rowCount: 1 };
+      if (q.includes("SELECT host_id, status FROM tables")) {
+        return { rows: [{ host_id: HOST, status: tableStatus }], rowCount: 1 };
       }
-      throw new Error(`unexpected query: ${q}`);
+      if (q.includes("FROM commensalships") && q.includes("blocked")) {
+        return { rows: blocked ? [{ "?column?": 1 }] : [], rowCount: blocked ? 1 : 0 };
+      }
+      if (q.includes("rsvp_status FROM table_members")) {
+        return existingMember
+          ? { rows: [{ id: "member-1", rsvp_status: existingMember.rsvp_status }], rowCount: 1 }
+          : { rows: [], rowCount: 0 };
+      }
+      if (q.includes("UPDATE table_members SET rsvp_status = 'joined'")) {
+        return { rows: [], rowCount: 1 };
+      }
+      throw new Error(`unexpected executeQuery: ${q}`);
     });
 
-    const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
-
-    expect(result).toEqual({ ok: true, tableId: TABLE_ID, alreadyMember: true });
-    expect(sqlCalls().some((q) => q.includes("use_count = use_count + 1"))).toBe(false);
-  });
-
-  it("a guarded UPDATE ... use_count < max_uses consumes exactly one use per successful redemption", async () => {
-    mockExecuteQuery.mockImplementation(async (sql: string) => {
+    mockClientQuery.mockImplementation(async (sql: string) => {
       const q = String(sql);
-      if (q.includes("FROM table_invites WHERE token")) {
-        return { rows: [{ table_id: TABLE_ID }], rowCount: 1 };
+      if (clientImpl) {
+        const r = clientImpl(q);
+        if (r !== undefined) return r;
       }
-      if (q.includes("SELECT id FROM table_members")) {
-        return { rows: [], rowCount: 0 };
+      if (q.includes("SELECT COUNT(*)::int AS n FROM table_members")) {
+        return { rows: [{ n: 0 }], rowCount: 1 };
       }
       if (q.includes("use_count = use_count + 1")) {
         return { rows: [{ table_id: TABLE_ID }], rowCount: 1 };
@@ -245,38 +265,87 @@ describe("invite atomicity — redeemInvite", () => {
       if (q.includes("INSERT INTO table_members")) {
         return { rows: [], rowCount: 1 };
       }
-      throw new Error(`unexpected query: ${q}`);
+      throw new Error(`unexpected clientQuery: ${q}`);
+    });
+  };
+
+  it("membership is checked FIRST: an existing joined member gets a no-op success without consuming a use", async () => {
+    setupRedeem({ existingMember: { rsvp_status: "joined" } });
+
+    const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
+
+    expect(result).toEqual({ ok: true, tableId: TABLE_ID, alreadyMember: true });
+    expect(clientCalls().some((q) => q.includes("use_count = use_count + 1"))).toBe(false);
+  });
+
+  it("an invited guest who clicks the link is upgraded to joined without spending a use", async () => {
+    setupRedeem({ existingMember: { rsvp_status: "invited" } });
+
+    const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
+
+    expect(result).toEqual({ ok: true, tableId: TABLE_ID, alreadyMember: true });
+    expect(clientCalls().some((q) => q.includes("use_count = use_count + 1"))).toBe(false);
+    expect(sqlCalls().some((q) => q.includes("UPDATE table_members SET rsvp_status = 'joined'"))).toBe(
+      true,
+    );
+    expect(mockComputeAndStoreTableComposite).toHaveBeenCalledWith(TABLE_ID);
+  });
+
+  it("refuses to join a closed (memory/cancelled) table via a stale link", async () => {
+    setupRedeem({ tableStatus: "memory" });
+
+    const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
+
+    expect(result).toEqual({ ok: false, reason: "closed" });
+    expect(clientCalls().some((q) => q.includes("use_count = use_count + 1"))).toBe(false);
+  });
+
+  it("refuses a redeemer the host has blocked", async () => {
+    setupRedeem({ blocked: true });
+
+    const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
+
+    expect(result).toEqual({ ok: false, reason: "blocked" });
+    expect(clientCalls().some((q) => q.includes("use_count = use_count + 1"))).toBe(false);
+  });
+
+  it("refuses a new redeemer once the table is at the 24-member cap — no use spent", async () => {
+    setupRedeem({
+      clientImpl: (q) =>
+        q.includes("SELECT COUNT(*)::int AS n FROM table_members")
+          ? { rows: [{ n: 24 }], rowCount: 1 }
+          : undefined,
     });
 
     const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
 
+    expect(result).toEqual({ ok: false, reason: "cap_exceeded" });
+    expect(clientCalls().some((q) => q.includes("use_count = use_count + 1"))).toBe(false);
+    expect(mockComputeAndStoreTableComposite).not.toHaveBeenCalled();
+  });
+
+  it("a guarded UPDATE ... use_count < max_uses consumes exactly one use per successful redemption", async () => {
+    setupRedeem({});
+
+    const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
+
     expect(result).toEqual({ ok: true, tableId: TABLE_ID, alreadyMember: false });
-    const consumeCall = sqlCalls().find((q) => q.includes("use_count = use_count + 1"));
+    const consumeCall = clientCalls().find((q) => q.includes("use_count = use_count + 1"));
     expect(consumeCall).toContain("use_count < max_uses");
     expect(consumeCall).toContain("expires_at > CURRENT_TIMESTAMP");
     expect(mockComputeAndStoreTableComposite).toHaveBeenCalledWith(TABLE_ID);
   });
 
   it("returns 'expired' when the guarded consume UPDATE matches zero rows (exhausted, expired, or revoked) — cannot exceed maxUses", async () => {
-    mockExecuteQuery.mockImplementation(async (sql: string) => {
-      const q = String(sql);
-      if (q.includes("FROM table_invites WHERE token")) {
-        return { rows: [{ table_id: TABLE_ID }], rowCount: 1 };
-      }
-      if (q.includes("SELECT id FROM table_members")) {
-        return { rows: [], rowCount: 0 };
-      }
-      if (q.includes("use_count = use_count + 1")) {
-        // A racing redemption already pushed use_count to max_uses.
-        return { rows: [], rowCount: 0 };
-      }
-      throw new Error(`unexpected query: ${q}`);
+    setupRedeem({
+      clientImpl: (q) =>
+        q.includes("use_count = use_count + 1") ? { rows: [], rowCount: 0 } : undefined,
     });
 
     const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "qr");
 
     expect(result).toEqual({ ok: false, reason: "expired" });
-    expect(sqlCalls().some((q) => q.includes("INSERT INTO table_members"))).toBe(false);
+    expect(clientCalls().some((q) => q.includes("INSERT INTO table_members"))).toBe(false);
     expect(mockComputeAndStoreTableComposite).not.toHaveBeenCalled();
   });
 
@@ -289,25 +358,17 @@ describe("invite atomicity — redeemInvite", () => {
   });
 
   it("treats a concurrent-insert race (23505) on the member row as success, not an error", async () => {
-    mockExecuteQuery.mockImplementation(async (sql: string) => {
-      const q = String(sql);
-      if (q.includes("FROM table_invites WHERE token")) {
-        return { rows: [{ table_id: TABLE_ID }], rowCount: 1 };
-      }
-      if (q.includes("SELECT id FROM table_members")) {
-        return { rows: [], rowCount: 0 };
-      }
-      if (q.includes("use_count = use_count + 1")) {
-        return { rows: [{ table_id: TABLE_ID }], rowCount: 1 };
-      }
-      if (q.includes("INSERT INTO table_members")) {
-        const err = new Error("duplicate key value violates unique constraint") as Error & {
-          code?: string;
-        };
-        err.code = "23505";
-        throw err;
-      }
-      throw new Error(`unexpected query: ${q}`);
+    setupRedeem({
+      clientImpl: (q) => {
+        if (q.includes("INSERT INTO table_members")) {
+          const err = new Error("duplicate key value violates unique constraint") as Error & {
+            code?: string;
+          };
+          err.code = "23505";
+          throw err;
+        }
+        return undefined;
+      },
     });
 
     const result = await tableDatabase.redeemInvite(TOKEN, GUEST, "link");
@@ -478,18 +539,44 @@ describe("member identity — one of userId / manualCompanionChartId (XOR)", () 
 
 describe("RSVP", () => {
   it("requires an existing 'invited' row — the guard is baked into the UPDATE", async () => {
-    mockExecuteQuery.mockResolvedValue({ rows: [], rowCount: 0 });
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      const q = String(sql);
+      if (q.includes("SELECT host_id, status FROM tables")) {
+        return { rows: [{ host_id: HOST, status: "planned" }], rowCount: 1 };
+      }
+      // No matching invited row.
+      return { rows: [], rowCount: 0 };
+    });
 
     const result = await tableDatabase.rsvp(TABLE_ID, GUEST, "joined");
 
     expect(result).toEqual({ ok: false, reason: "not_found" });
-    const sql = sqlCalls()[0];
-    expect(sql).toContain("rsvp_status = 'invited'");
+    const updateSql = sqlCalls().find((q) => q.includes("UPDATE table_members"));
+    expect(updateSql).toContain("rsvp_status = 'invited'");
+  });
+
+  it("refuses to RSVP into a closed (memory) table — its composite is frozen", async () => {
+    mockExecuteQuery.mockImplementation(async (sql: string) => {
+      const q = String(sql);
+      if (q.includes("SELECT host_id, status FROM tables")) {
+        return { rows: [{ host_id: HOST, status: "memory" }], rowCount: 1 };
+      }
+      throw new Error(`unexpected query: ${q}`);
+    });
+
+    const result = await tableDatabase.rsvp(TABLE_ID, GUEST, "joined");
+
+    expect(result).toEqual({ ok: false, reason: "not_found" });
+    expect(sqlCalls().some((q) => q.includes("UPDATE table_members"))).toBe(false);
+    expect(mockComputeAndStoreTableComposite).not.toHaveBeenCalled();
   });
 
   it("joined RSVP triggers a composite recompute; declined does not", async () => {
     mockExecuteQuery.mockImplementation(async (sql: string) => {
       const q = String(sql);
+      if (q.includes("SELECT host_id, status FROM tables")) {
+        return { rows: [{ host_id: HOST, status: "planned" }], rowCount: 1 };
+      }
       if (q.includes("UPDATE table_members")) {
         return { rows: [{ id: "member-4" }], rowCount: 1 };
       }

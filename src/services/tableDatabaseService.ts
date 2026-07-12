@@ -63,7 +63,7 @@ export type RsvpResult =
 
 export type RedeemInviteResult =
   | { ok: true; tableId: string; alreadyMember: boolean }
-  | { ok: false; reason: "invalid" | "expired" };
+  | { ok: false; reason: "invalid" | "expired" | "closed" | "blocked" | "cap_exceeded" };
 
 // ─── Row → domain mapping helpers ────────────────────────────────────────
 
@@ -660,6 +660,9 @@ class TableDatabaseService {
       const table = await this.getTableHostAndStatus(tableId);
       if (!table) return { ok: false, reason: "not_found" };
       if (table.hostId !== hostId) return { ok: false, reason: "not_host" };
+      if (table.status !== "planned" && table.status !== "live") {
+        return { ok: false, reason: "not_found" };
+      }
       if (targetUserId === hostId) return { ok: false, reason: "duplicate" };
 
       if (await this.isBlockedPair(hostId, targetUserId)) {
@@ -710,6 +713,9 @@ class TableDatabaseService {
       const table = await this.getTableHostAndStatus(tableId);
       if (!table) return { ok: false, reason: "not_found" };
       if (table.hostId !== hostId) return { ok: false, reason: "not_host" };
+      if (table.status !== "planned" && table.status !== "live") {
+        return { ok: false, reason: "not_found" };
+      }
 
       const chartResult = await executeQuery(
         `SELECT id, name FROM manual_companion_charts WHERE id = $1 AND owner_id = $2::uuid`,
@@ -760,7 +766,7 @@ class TableDatabaseService {
   ): Promise<RemoveMemberResult> {
     try {
       const memberResult = await executeQuery(
-        `SELECT tm.id, tm.user_id, tm.role, tm.rsvp_status, t.host_id
+        `SELECT tm.id, tm.user_id, tm.role, tm.rsvp_status, t.host_id, t.status
            FROM table_members tm
            JOIN tables t ON t.id = tm.table_id
           WHERE tm.id = $1 AND tm.table_id = $2`,
@@ -780,7 +786,9 @@ class TableDatabaseService {
       ]);
       if ((deleteResult.rowCount ?? 0) === 0) return { ok: false, reason: "not_found" };
 
-      if (row.rsvp_status === "joined") {
+      // Recompute only while the table is still live/planned — never overwrite
+      // a memory table's frozen composite snapshot.
+      if (row.rsvp_status === "joined" && (row.status === "planned" || row.status === "live")) {
         await computeAndStoreTableComposite(tableId);
       }
       return { ok: true };
@@ -799,6 +807,14 @@ class TableDatabaseService {
     response: "joined" | "declined",
   ): Promise<RsvpResult> {
     try {
+      // A terminal (memory/cancelled) table cannot be RSVP'd into — joining it
+      // would trigger a recompute over its frozen composite snapshot.
+      const table = await this.getTableHostAndStatus(tableId);
+      if (!table) return { ok: false, reason: "not_found" };
+      if (table.status !== "planned" && table.status !== "live") {
+        return { ok: false, reason: "not_found" };
+      }
+
       const updateResult = await executeQuery(
         `UPDATE table_members SET rsvp_status = $3, rsvp_at = CURRENT_TIMESTAMP
           WHERE table_id = $1 AND user_id = $2::uuid AND rsvp_status = 'invited'
@@ -907,11 +923,18 @@ class TableDatabaseService {
   }
 
   /**
-   * Atomic consume: membership is checked FIRST — an existing member gets a
-   * no-op success without spending a use. Otherwise a guarded
-   * `use_count += 1` (0 rows = expired/exhausted/revoked) followed by an
-   * upsert-tolerant member insert (a concurrent racer's insert winning is
-   * treated as success, not an error).
+   * Atomic consume. Enforcement order:
+   *  1. Token → table; table must be joinable (planned|live) — a closed
+   *     (memory/cancelled) table never re-opens via a stale link, and joining
+   *     it would corrupt the frozen composite snapshot.
+   *  2. Block check against the host — a user the host blocked cannot slip in
+   *     via a forwarded bearer link (parity with the host-add path).
+   *  3. Existing member: an already-`joined` row is a no-op success; an
+   *     `invited`/`declined` row is upgraded to `joined` (no use spent) so a
+   *     guest who clicks the link instead of the RSVP button still joins.
+   *  4. New member: cap check + guarded `use_count += 1` + member insert, all
+   *     on ONE transaction client so a burned use always has its membership
+   *     (a concurrent racer's insert winning is treated as success).
    */
   async redeemInvite(
     token: string,
@@ -925,34 +948,67 @@ class TableDatabaseService {
       if (inviteResult.rows.length === 0) return { ok: false, reason: "invalid" };
       const tableId = dbString(inviteResult.rows[0].table_id);
 
+      const table = await this.getTableHostAndStatus(tableId);
+      if (!table) return { ok: false, reason: "invalid" };
+      if (table.status !== "planned" && table.status !== "live") {
+        return { ok: false, reason: "closed" };
+      }
+      if (await this.isBlockedPair(table.hostId, userId)) {
+        return { ok: false, reason: "blocked" };
+      }
+
       const existing = await executeQuery(
-        `SELECT id FROM table_members WHERE table_id = $1 AND user_id = $2::uuid`,
+        `SELECT id, rsvp_status FROM table_members WHERE table_id = $1 AND user_id = $2::uuid`,
         [tableId, userId],
       );
       if (existing.rows.length > 0) {
+        if (existing.rows[0].rsvp_status === "joined") {
+          return { ok: true, tableId, alreadyMember: true };
+        }
+        // invited / declined → join without spending a use.
+        await executeQuery(
+          `UPDATE table_members SET rsvp_status = 'joined', rsvp_at = CURRENT_TIMESTAMP
+            WHERE id = $1 AND table_id = $2`,
+          [existing.rows[0].id, tableId],
+        );
+        await computeAndStoreTableComposite(tableId);
         return { ok: true, tableId, alreadyMember: true };
       }
 
-      const consumed = await executeQuery(
-        `UPDATE table_invites SET use_count = use_count + 1
-          WHERE token = $1 AND revoked_at IS NULL AND expires_at > CURRENT_TIMESTAMP
-            AND use_count < max_uses
-        RETURNING table_id`,
-        [token],
-      );
-      if (consumed.rows.length === 0) return { ok: false, reason: "expired" };
-
-      try {
-        await executeQuery(
-          `INSERT INTO table_members (table_id, user_id, role, rsvp_status, joined_via, rsvp_at)
-           VALUES ($1, $2::uuid, 'guest', 'joined', $3, CURRENT_TIMESTAMP)`,
-          [tableId, userId, via],
+      const outcome = await withTransaction(async (client) => {
+        const countResult = await client.query(
+          `SELECT COUNT(*)::int AS n FROM table_members WHERE table_id = $1`,
+          [tableId],
         );
-      } catch (insertError) {
-        // A concurrent redemption for the same user landed first — the
-        // member row exists either way, so this is still a success.
-        if ((insertError as { code?: string })?.code !== "23505") throw insertError;
-      }
+        if ((countResult.rows[0]?.n ?? 0) >= MAX_TABLE_MEMBERS) {
+          return "cap" as const;
+        }
+
+        const consumed = await client.query(
+          `UPDATE table_invites SET use_count = use_count + 1
+            WHERE token = $1 AND revoked_at IS NULL AND expires_at > CURRENT_TIMESTAMP
+              AND use_count < max_uses
+          RETURNING table_id`,
+          [token],
+        );
+        if (consumed.rows.length === 0) return "expired" as const;
+
+        try {
+          await client.query(
+            `INSERT INTO table_members (table_id, user_id, role, rsvp_status, joined_via, rsvp_at)
+             VALUES ($1, $2::uuid, 'guest', 'joined', $3, CURRENT_TIMESTAMP)`,
+            [tableId, userId, via],
+          );
+        } catch (insertError) {
+          // A concurrent redemption for the same user landed first — the
+          // member row exists either way, so this is still a success.
+          if ((insertError as { code?: string })?.code !== "23505") throw insertError;
+        }
+        return "ok" as const;
+      });
+
+      if (outcome === "cap") return { ok: false, reason: "cap_exceeded" };
+      if (outcome === "expired") return { ok: false, reason: "expired" };
 
       await computeAndStoreTableComposite(tableId);
       return { ok: true, tableId, alreadyMember: false };

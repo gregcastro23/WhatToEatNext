@@ -57,16 +57,34 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     const result = await tableDatabase.redeemInvite(token, userId, parsed.data.via ?? "link");
     if (!result.ok) {
-      if (result.reason === "invalid") {
-        return NextResponse.json(
-          { success: false, message: "This invite link is not valid" },
-          { status: 404 },
-        );
+      switch (result.reason) {
+        case "invalid":
+          return NextResponse.json(
+            { success: false, message: "This invite link is not valid" },
+            { status: 404 },
+          );
+        case "closed":
+          return NextResponse.json(
+            { success: false, message: "This table is no longer open to join" },
+            { status: 409 },
+          );
+        case "blocked":
+          // Neutral message — never confirm a block to the blocked party.
+          return NextResponse.json(
+            { success: false, message: "This invite link is not valid" },
+            { status: 404 },
+          );
+        case "cap_exceeded":
+          return NextResponse.json(
+            { success: false, message: "This table is full" },
+            { status: 409 },
+          );
+        default:
+          return NextResponse.json(
+            { success: false, message: "This invite link has expired or reached its use limit" },
+            { status: 410 },
+          );
       }
-      return NextResponse.json(
-        { success: false, message: "This invite link has expired or reached its use limit" },
-        { status: 410 },
-      );
     }
 
     return NextResponse.json({

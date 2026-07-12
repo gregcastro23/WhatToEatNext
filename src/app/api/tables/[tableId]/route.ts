@@ -66,10 +66,18 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
+    // Non-members (incl. anonymous viewers of a public memory) never see the
+    // host's street address — parity with the invite preview and the frozen
+    // memory artifact, both of which carry only venue {type, name}.
+    const table =
+      !isMember && detail.venue?.address
+        ? { ...detail, venue: { ...detail.venue, address: undefined } }
+        : detail;
+
     // viewerId: the caller's resolved DB id — clients must not derive this
     // from the session (OAuth-sub vs DB-UUID mismatches, see
     // getUserIdFromRequest); host/self checks key off this value.
-    return NextResponse.json({ success: true, table: detail, viewerId: userId });
+    return NextResponse.json({ success: true, table, viewerId: userId });
   } catch (error) {
     console.error("Get table detail error:", error);
     return NextResponse.json(
