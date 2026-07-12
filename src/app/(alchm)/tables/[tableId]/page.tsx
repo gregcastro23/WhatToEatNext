@@ -54,6 +54,8 @@ export default function TableDetailPage() {
   const { table, viewerId, loading, error, statusCode, refetch } = useTable(tableId);
   const [rsvpBusy, setRsvpBusy] = useState(false);
   const [rsvpError, setRsvpError] = useState<string | null>(null);
+  const [joinRequestState, setJoinRequestState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [joinRequestError, setJoinRequestError] = useState<string | null>(null);
 
   if (loading) {
     return (
@@ -93,6 +95,17 @@ export default function TableDetailPage() {
   const isInvited = selfMember?.rsvpStatus === "invited";
   const dominant = table.compositeSnapshot?.compositeChart.dominantElement;
 
+  // Ask-to-join (PR 6 §3): the only affordance for a signed-in, non-member
+  // discoverer of a PUBLIC planned/live table — everything else (private,
+  // commensals-only, already a member, cancelled/memory) has no entry point
+  // here by design.
+  const canAskToJoin =
+    !!viewerId &&
+    !isHost &&
+    !selfMember &&
+    table.visibility === "public" &&
+    (table.status === "planned" || table.status === "live");
+
   const respond = async (response: "joined" | "declined") => {
     if (!tableId || rsvpBusy) return;
     setRsvpBusy(true);
@@ -114,6 +127,30 @@ export default function TableDetailPage() {
       setRsvpError("Could not record your response.");
     } finally {
       setRsvpBusy(false);
+    }
+  };
+
+  const askToJoin = async () => {
+    if (!tableId || joinRequestState === "sending" || joinRequestState === "sent") return;
+    setJoinRequestState("sending");
+    setJoinRequestError(null);
+    try {
+      const res = await fetch(`/api/tables/${tableId}/join-request`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = (await res.json()) as { success?: boolean; message?: string };
+      if (!res.ok || !data.success) {
+        setJoinRequestState("error");
+        setJoinRequestError(data.message || "Could not send your request.");
+        return;
+      }
+      // The server treats a dedupe hit as success too (host-silent by
+      // design) — either way, "Requested" is the correct terminal state.
+      setJoinRequestState("sent");
+    } catch {
+      setJoinRequestState("error");
+      setJoinRequestError("Could not send your request.");
     }
   };
 
@@ -183,6 +220,25 @@ export default function TableDetailPage() {
               >
                 Decline
               </button>
+            </div>
+          </GlassPanel>
+        )}
+
+        {canAskToJoin && (
+          <GlassPanel className="p-5">
+            <p className="text-sm text-alchm-fg">This table is open to join requests.</p>
+            {joinRequestError && <p className="mt-2 text-sm text-rose-400">{joinRequestError}</p>}
+            <div className="mt-3">
+              <GradientButton
+                onClick={() => void askToJoin()}
+                disabled={joinRequestState === "sending" || joinRequestState === "sent"}
+              >
+                {joinRequestState === "sent"
+                  ? "Requested"
+                  : joinRequestState === "sending"
+                    ? "Sending…"
+                    : "Ask to Join"}
+              </GradientButton>
             </div>
           </GlassPanel>
         )}

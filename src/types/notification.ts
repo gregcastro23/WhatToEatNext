@@ -21,6 +21,7 @@ export type NotificationType =
   | 'table_rsvp'
   | 'table_going_live'
   | 'table_memory_posted'
+  | 'table_join_request'
   | 'reaction_received'
   | 'comment_received'
   | 'dm_message'
@@ -51,6 +52,17 @@ export interface NotificationMetadata {
   venueName?: string;
   hostName?: string;
   guestName?: string;
+  /** `table_join_request`: the discoverer asking the host for an invite.
+   * `status` is the request's own lifecycle — deliberately independent of
+   * `isRead`, so a host merely viewing/opening the notification panel (which
+   * marks the row read) can never destroy actionability or defeat the
+   * requestToJoin dedupe. Defaults to 'pending' when absent (pre-fix rows).
+   * A 'dismissed' request may be re-requested later; an 'actioned' one is
+   * blocked from re-request via the resulting table_members row, not via
+   * this field. */
+  requesterId?: string;
+  requesterName?: string;
+  status?: 'pending' | 'actioned' | 'dismissed';
   response?: string;
   feedEventId?: string;
   photoCount?: number;
@@ -108,6 +120,7 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
   table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
   table_memory_posted: { bg: '#FFF8E1', border: '#e0a66b', icon: '📸' },
+  table_join_request:  { bg: '#FFF3E0', border: '#e0a66b', icon: '🙋' },
   reaction_received:  { bg: '#FFF3E0', border: '#FFB74D', icon: '✨' },
   comment_received:   { bg: '#E3F2FD', border: '#64B5F6', icon: '💬' },
   dm_message:          { bg: '#E8EAF6', border: '#7986CB', icon: '💬' },

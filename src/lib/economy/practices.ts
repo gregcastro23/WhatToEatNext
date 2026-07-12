@@ -338,6 +338,7 @@ export const DISCOVERABLE_SURFACES = new Set([
   "menu-planner",
   "ingredients",
   "commensal",
+  "tables",
   "pantry",
   "birth-chart",
   "grimoire",

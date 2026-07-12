@@ -186,6 +186,10 @@ export interface TableRecord {
   wentLiveAt?: string | null;
   closedAt?: string | null;
   feedEventId?: string | null;
+  /** Optional seat capacity (2..24) for discovery "seats left" (PR 6). Coords
+   * (venue_lat/venue_lng) are intentionally NOT surfaced on the domain record —
+   * discovery reads them directly in SQL and never exposes them. */
+  seatCap?: number | null;
   createdAt: string;
   updatedAt: string;
 }

@@ -26,6 +26,8 @@ export function NotificationPanel() {
     generateDailyInsight,
     respondToCommensalRequest,
     respondToTableInvite,
+    respondToTableJoinRequest,
+    dismissTableJoinRequest,
   } = useNotifications({ limit: 30, pollingMs: 45_000 });
 
   const [filter, setFilter] = useState<NotificationFilter>('all');
@@ -89,6 +91,36 @@ export function NotificationPanel() {
       setStatusMessage(result.message || `Could not ${response === 'joined' ? 'accept' : 'decline'} the invitation.`);
     } else {
       setStatusMessage(response === 'joined' ? 'You joined the table.' : 'Invitation declined.');
+      await fetchNotifications();
+    }
+
+    setBusyNotificationId(null);
+  };
+
+  const handleJoinRequestAction = async (
+    notification: UserNotification,
+    action: 'invite' | 'dismiss',
+  ) => {
+    setBusyNotificationId(notification.id);
+    setStatusMessage(null);
+
+    // Both paths flip the request's own lifecycle status (not just isRead) —
+    // declines are silent by design (no requester-facing rejection state),
+    // but the status flip still matters: it's what frees a later re-request.
+    const result =
+      action === 'invite'
+        ? await respondToTableJoinRequest(notification)
+        : await dismissTableJoinRequest(notification);
+
+    if (!result.success) {
+      setStatusMessage(
+        result.message ||
+          (action === 'invite' ? 'Could not send the invitation.' : 'Could not dismiss the request.'),
+      );
+    } else {
+      setStatusMessage(
+        action === 'invite' ? 'Invitation sent — they can RSVP now.' : 'Request dismissed.',
+      );
       await fetchNotifications();
     }
 
@@ -211,12 +243,24 @@ export function NotificationPanel() {
             const isCommensalRequest = n.type === 'commensal_request';
             const isQuestCompleted = n.type === 'quest_completed';
             const isTableInvite = n.type === 'table_invite';
+            const isTableJoinRequest = n.type === 'table_join_request';
             const canRespondToCommensal =
               isCommensalRequest &&
               !n.isRead &&
               typeof n.metadata?.commensalshipId === 'string';
             const canRespondToTableInvite =
               isTableInvite && !n.isRead && typeof n.metadata?.tableId === 'string';
+            // Actionability keys off the request's OWN lifecycle status, not
+            // `isRead` — merely viewing/opening the panel marks the row read
+            // (see the card's onClick below) and must never itself hide these
+            // actions or defeat the requestToJoin dedupe, which reads the same
+            // field. Absent `status` (pre-fix rows) defaults to pending.
+            const joinRequestStatus = n.metadata?.status ?? 'pending';
+            const canRespondToJoinRequest =
+              isTableJoinRequest &&
+              joinRequestStatus === 'pending' &&
+              typeof n.metadata?.tableId === 'string' &&
+              (typeof n.metadata?.requesterId === 'string' || typeof n.relatedUserId === 'string');
 
             return (
               <div
@@ -334,6 +378,31 @@ export function NotificationPanel() {
                           className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border border-rose-500/20 transition-all disabled:opacity-30"
                         >
                           Decline
+                        </button>
+                      </div>
+                    )}
+
+                    {canRespondToJoinRequest && (
+                      <div className="mt-5 flex gap-3">
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void handleJoinRequestAction(n, 'invite');
+                          }}
+                          disabled={busyNotificationId === n.id}
+                          className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-white border border-amber-500/20 transition-all disabled:opacity-30"
+                        >
+                          Invite
+                        </button>
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            void handleJoinRequestAction(n, 'dismiss');
+                          }}
+                          disabled={busyNotificationId === n.id}
+                          className="text-[9px] font-black uppercase tracking-[0.2em] px-5 py-2 rounded-xl bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/80 border border-white/10 transition-all disabled:opacity-30"
+                        >
+                          Dismiss
                         </button>
                       </div>
                     )}

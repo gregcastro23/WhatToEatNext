@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { resolveVenueCoords } from "@/lib/tables/venueGeo";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { TableRecord } from "@/types/table";
 import type { NextRequest } from "next/server";
@@ -42,6 +43,10 @@ const patchSchema = z.object({
   venue: venueSchema.optional(),
   visibility: z.enum(["public", "commensals", "private"]).optional(),
   menu: z.array(menuItemSchema).max(50).optional(),
+  // Discovery geo (PR 6). Home venues MUST NOT carry coordinates.
+  venueLat: z.number().min(-90).max(90).optional(),
+  venueLng: z.number().min(-180).max(180).optional(),
+  seatCap: z.number().int().min(2).max(24).optional(),
 });
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
@@ -58,8 +63,26 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       (!!userId && detail.hostId === userId) ||
       detail.members.some((m) => !!userId && m.userId === userId);
     const publicMemory = detail.status === "memory" && detail.visibility === "public";
+    // PR 6 detail-access amendment: an authed viewer may see CARD-LEVEL detail
+    // of a public planned/live table so /tables/[id] can render its Ask-to-join
+    // CTA — but never the full member list, never the street address, and
+    // NEVER when the host has blocked the viewer. Every other interaction path
+    // (member-add, requestToJoin, redeemInvite) already enforces this same
+    // block check; this branch must too, or a blocked user could still
+    // surveil the public table (title/venue/photos/seatCap/host identity) via
+    // a direct tableId even though they can't act on it.
+    let publicJoinable = false;
+    if (
+      !isMember &&
+      userId &&
+      detail.visibility === "public" &&
+      (detail.status === "planned" || detail.status === "live")
+    ) {
+      const blocked = await tableDatabase.isBlockedPair(detail.hostId, userId);
+      publicJoinable = !blocked;
+    }
 
-    if (!isMember && !publicMemory) {
+    if (!isMember && !publicMemory && !publicJoinable) {
       return NextResponse.json(
         { success: false, message: "Not authorized to view this table" },
         { status: 403 },
@@ -69,15 +92,25 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     // Non-members (incl. anonymous viewers of a public memory) never see the
     // host's street address — parity with the invite preview and the frozen
     // memory artifact, both of which carry only venue {type, name}.
-    const table =
+    let table: typeof detail =
       !isMember && detail.venue?.address
         ? { ...detail, venue: { ...detail.venue, address: undefined } }
         : detail;
 
+    // Card-level only for a non-member viewer of a public PLANNED/LIVE table:
+    // reduce members to the host row (identity for the card) and drop invites.
+    // joinedCount surfaces the headcount without exposing the roster. The
+    // existing public-memory path is untouched (it renders the frozen artifact).
+    const joinedCount = detail.members.filter((m) => m.rsvpStatus === "joined").length;
+    if (!isMember && publicJoinable) {
+      const hostRow = table.members.filter((m) => m.role === "host");
+      table = { ...table, members: hostRow, invites: undefined };
+    }
+
     // viewerId: the caller's resolved DB id — clients must not derive this
     // from the session (OAuth-sub vs DB-UUID mismatches, see
     // getUserIdFromRequest); host/self checks key off this value.
-    return NextResponse.json({ success: true, table, viewerId: userId });
+    return NextResponse.json({ success: true, table, joinedCount, viewerId: userId });
   } catch (error) {
     console.error("Get table detail error:", error);
     return NextResponse.json(
@@ -128,7 +161,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { menu, ...corePatch } = parsed.data;
+    const { menu, venueLat, venueLng, ...corePatch } = parsed.data;
     let scheduledAtIso: string | undefined;
     if (corePatch.scheduledAt !== undefined) {
       const parsedDate = new Date(corePatch.scheduledAt);
@@ -141,13 +174,32 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       scheduledAtIso = parsedDate.toISOString();
     }
 
-    const hasCorePatch = Object.values(corePatch).some((v) => v !== undefined);
+    // Coords are only re-resolved when the venue itself is being changed;
+    // home venues never carry coordinates (privacy invariant).
+    let resolvedLat: number | null | undefined;
+    let resolvedLng: number | null | undefined;
+    if (corePatch.venue !== undefined) {
+      const coords = await resolveVenueCoords(corePatch.venue, venueLat, venueLng);
+      if (!coords) {
+        return NextResponse.json(
+          { success: false, message: "Home tables cannot carry a location" },
+          { status: 400 },
+        );
+      }
+      resolvedLat = coords.venueLat;
+      resolvedLng = coords.venueLng;
+    }
+
+    const hasCorePatch =
+      Object.values(corePatch).some((v) => v !== undefined);
     let table: TableRecord | null = null;
 
     if (hasCorePatch) {
       table = await tableDatabase.updateTableCore(tableId, userId, {
         ...corePatch,
         scheduledAt: scheduledAtIso,
+        venueLat: resolvedLat,
+        venueLng: resolvedLng,
       });
       if (!table) {
         return NextResponse.json(

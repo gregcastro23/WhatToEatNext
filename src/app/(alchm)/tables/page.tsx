@@ -9,7 +9,7 @@
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TableCard } from "@/components/tables/TableCard";
 import {
   GlassPanel,
@@ -61,6 +61,16 @@ export default function TablesPage() {
   const [form, setForm] = useState<CreateForm>(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  // Discover deep-links: `?new=1` opens the create dialog; `?invite=<id>`
+  // preselects a guest ("Break bread" from a PersonCard) to add on create.
+  const [pendingInvite, setPendingInvite] = useState<{ id: string; name?: string } | null>(null);
+
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    if (sp.get("new") === "1") setCreating(true);
+    const invite = sp.get("invite");
+    if (invite) setPendingInvite({ id: invite, name: sp.get("inviteName") ?? undefined });
+  }, []);
 
   const submitCreate = async () => {
     const title = form.title.trim();
@@ -95,6 +105,19 @@ export default function TablesPage() {
       if (!res.ok || !data.success || !data.table) {
         setCreateError(data.message || "Could not create the table.");
         return;
+      }
+      // If we arrived from a PersonCard's "Break bread", invite that guest now.
+      if (pendingInvite?.id) {
+        try {
+          await fetch(`/api/tables/${data.table.id}/members`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ userId: pendingInvite.id }),
+          });
+        } catch {
+          // Best-effort — the host can still invite from the table page.
+        }
       }
       router.push(`/tables/${data.table.id}`);
     } catch {
@@ -131,6 +154,11 @@ export default function TablesPage() {
         {creating && (
           <GlassPanel className="p-6">
             <LabelXS className="text-alchm-fg-dim">Plan a Table</LabelXS>
+            {pendingInvite && (
+              <p className="mt-2 text-sm text-alchm-fg-warm">
+                {pendingInvite.name ? `${pendingInvite.name} will be invited` : "Your guest will be invited"} once the table is created.
+              </p>
+            )}
             <div className="mt-4 space-y-4">
               <input
                 type="text"
