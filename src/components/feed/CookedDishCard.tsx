@@ -6,16 +6,17 @@
  * Identity (PR 4): when the event actor is REVEALED (the identity resolver
  * says so), the real name + avatar head the card and the chart-persona
  * demotes to the signature line. When concealed (per-post anonymous / legacy
- * default), the original pure-persona rendering is unchanged. Sparking POSTs
- * /api/feed/react — the server anchors both invisible rewards to the reaction
- * row (reactor's feed_reaction, poster's work_resonated); reacted state is
- * remembered locally so the button renders lit without a per-user bootstrap
- * call.
+ * default), the original pure-persona rendering is unchanged.
+ *
+ * Engagement (PR 5): the bespoke single-spark button is replaced by
+ * FeedEngagementBar — all five elemental reaction kinds, per-kind toggle, and
+ * (from Commit 2) a comment toggle. The server anchors both invisible rewards
+ * to the reaction row (reactor's feed_reaction, poster's work_resonated).
  */
 
 import Link from "next/link";
-import { useCallback, useEffect, useState, type JSX } from "react";
-import { revealPracticeReward } from "@/lib/economy/practiceClient";
+import { type JSX } from "react";
+import { FeedEngagementBar } from "@/components/feed/FeedEngagementBar";
 
 interface CookedCardMeta {
   recipeName?: string;
@@ -32,78 +33,28 @@ interface CookedDishCardProps {
   eventId: string;
   createdAtLabel: string;
   meta: CookedCardMeta;
-  initialCount: number;
+  /** Per-kind reaction counts (lowercase keys) from the feed payload. */
+  reactionCounts?: Record<string, number>;
+  /** The viewer's current reaction kinds (lowercase), from the bootstrap call. */
+  viewerKinds?: string[];
+  commentCount?: number;
   /** Real identity — pass ONLY when the feed event's actor is revealed. */
   actorId?: string;
   actorName?: string;
   actorImage?: string;
 }
 
-const REACTED_CACHE_KEY = "alchm:feed:sparked";
-
-function sparkedCache(): Set<string> {
-  try {
-    const raw = window.localStorage.getItem(REACTED_CACHE_KEY);
-    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
-  } catch {
-    return new Set();
-  }
-}
-
-function rememberSpark(eventId: string): void {
-  try {
-    const cache = sparkedCache();
-    cache.add(eventId);
-    window.localStorage.setItem(REACTED_CACHE_KEY, JSON.stringify([...cache].slice(-500)));
-  } catch {
-    /* private mode */
-  }
-}
-
 export function CookedDishCard({
   eventId,
   createdAtLabel,
   meta,
-  initialCount,
+  reactionCounts,
+  viewerKinds,
+  commentCount,
   actorId,
   actorName,
   actorImage,
 }: CookedDishCardProps): JSX.Element {
-  const [count, setCount] = useState(initialCount);
-  const [sparked, setSparked] = useState(false);
-  const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    setSparked(sparkedCache().has(eventId));
-  }, [eventId]);
-
-  const spark = useCallback(async () => {
-    if (sparked || busy) return;
-    setBusy(true);
-    try {
-      const res = await fetch("/api/feed/react", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId }),
-      });
-      const json = (await res.json()) as {
-        success?: boolean;
-        count?: number;
-        reward?: { tokenType: string; amount: number; hint: string } | null;
-      };
-      if (json.success) {
-        setSparked(true);
-        rememberSpark(eventId);
-        if (typeof json.count === "number") setCount(json.count);
-        if (json.reward) revealPracticeReward(json.reward);
-      }
-    } catch {
-      /* invisible — a missed spark is not an error */
-    } finally {
-      setBusy(false);
-    }
-  }, [eventId, sparked, busy]);
-
   const dish = meta.recipeName || "a dish";
   const recipeHref = meta.recipeId ? `/recipes/${encodeURIComponent(meta.recipeId)}` : null;
 
@@ -114,7 +65,7 @@ export function CookedDishCard({
     .join(" · ");
 
   return (
-    <div className="glass-card-premium rounded-2xl overflow-hidden border-white/8 hover:border-purple-500/20 transition-all">
+    <div id={`event-${eventId}`} className="glass-card-premium rounded-2xl overflow-hidden border-white/8 hover:border-purple-500/20 transition-all scroll-mt-24">
       {meta.photoUrl && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -170,28 +121,20 @@ export function CookedDishCard({
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-3">
+          <FeedEngagementBar
+            eventId={eventId}
+            initialCounts={reactionCounts}
+            viewerKinds={viewerKinds}
+            commentCount={commentCount}
+          />
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => void spark()}
-              disabled={busy}
-              aria-pressed={sparked}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all ${
-                sparked
-                  ? "border-amber-400/50 bg-amber-500/15 text-amber-200"
-                  : "border-white/10 bg-white/[0.03] text-white/50 hover:text-amber-200 hover:border-amber-500/40"
-              }`}
-            >
-              <span aria-hidden>✦</span>
-              {count > 0 ? count : "Spark"}
-            </button>
             {meta.tableKey && (
               <span className="text-[9px] font-mono uppercase tracking-widest text-purple-300/70">
                 {meta.tableKey.startsWith("full-moon") ? "🌕 Full Moon Feast" : "🌑 New Moon Table"}
               </span>
             )}
+            <span className="text-[10px] text-white/30 font-mono">{createdAtLabel}</span>
           </div>
-          <span className="text-[10px] text-white/30 font-mono">{createdAtLabel}</span>
         </div>
       </div>
     </div>
