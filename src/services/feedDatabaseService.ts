@@ -112,7 +112,9 @@ class FeedDatabaseService {
   async getRecentEvents(limit: number = 50, offset: number = 0): Promise<FeedEvent[]> {
     try {
       const result = await executeQuery(
-        `SELECT f.*, u.is_agent, u.email as actor_email, u.image as actor_image, up.name as actor_name,
+        `SELECT f.*, u.is_agent, u.email as actor_email,
+                COALESCE(up.avatar_url, u.image) as actor_image,
+                up.name as actor_name, up.share_identity as actor_share_identity,
                 COALESCE(r.n, 0) AS reaction_count
          FROM feed_events f
          JOIN users u ON f.actor_id = u.id
@@ -179,7 +181,9 @@ class FeedDatabaseService {
   async getEventsByActor(actorId: string, limit: number = 20, offset: number = 0): Promise<FeedEvent[]> {
     try {
       const result = await executeQuery(
-        `SELECT f.*, u.is_agent, u.email as actor_email, u.image as actor_image, up.name as actor_name
+        `SELECT f.*, u.is_agent, u.email as actor_email,
+                COALESCE(up.avatar_url, u.image) as actor_image,
+                up.name as actor_name, up.share_identity as actor_share_identity
          FROM feed_events f
          JOIN users u ON f.actor_id = u.id
          LEFT JOIN user_profiles up ON u.id = up.user_id

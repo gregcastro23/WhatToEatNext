@@ -32,6 +32,7 @@ interface ProfileRow {
   birth_data: any;
   dietary_preferences: any;
   profile_layout: any;
+  avatar_url: string | null;
   created_at: string;
 }
 
@@ -83,6 +84,7 @@ export async function GET(
       `SELECT u.id AS user_id, u.email, COALESCE(u.is_agent, false) AS is_agent,
               up.name, up.bio, up.natal_chart, up.natal_positions,
               up.dominant_element, up.birth_data, up.dietary_preferences, up.profile_layout,
+              COALESCE(up.avatar_url, u.image) AS avatar_url,
               u.created_at
          FROM users u
          LEFT JOIN user_profiles up ON up.user_id = u.id
@@ -188,6 +190,9 @@ export async function GET(
         handle: row.is_agent ? row.email : null,
         name: row.name || (row.is_agent ? row.email.split("@")[0] : "Alchemist"),
         isAgent: row.is_agent,
+        // COALESCE(user_profiles.avatar_url, users.image) — client falls back
+        // to the element sigil (AvatarCircle) when null.
+        avatarUrl: row.avatar_url || null,
         agentSlug: slug,
         agentProfile,
         agentInteractions,

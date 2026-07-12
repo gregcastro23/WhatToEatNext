@@ -25,7 +25,8 @@ export type PracticeType =
   | "work_resonated"
   | "list_conjured"
   | "follow_made"
-  | "first_follower_gained";
+  | "first_follower_gained"
+  | "visage_revealed";
 
 export type DedupeScope = "daily" | "ever";
 
@@ -207,6 +208,20 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "The moment your work gains its first witness — a follower ties the first thread to your chart.",
   },
+  visage_revealed: {
+    type: "visage_revealed",
+    tokenType: "Matter",
+    baseAmount: 2,
+    dedupe: "ever",
+    dailyCap: 1,
+    requiresTarget: false,
+    hints: [
+      "The alchemist steps from behind the sigil",
+      "A face given to the Work",
+    ],
+    description:
+      "Reveal your visage — set a true likeness where the sigil stood.",
+  },
 };
 
 /**
@@ -226,6 +241,8 @@ export const SERVER_ONLY_PRACTICES: ReadonlySet<PracticeType> = new Set([
   // the follows ROW is the proof (created === true), a bare POST is not.
   "follow_made",
   "first_follower_gained",
+  // Recognized inside POST /api/user/avatar — the avatar_url write is the proof.
+  "visage_revealed",
 ]);
 
 /**

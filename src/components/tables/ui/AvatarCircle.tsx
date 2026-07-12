@@ -18,9 +18,9 @@ export interface AvatarCircleProps extends AvatarPerson {
 }
 
 /**
- * Internal avatar primitive (not part of the public kit barrel). When no
- * photo exists it falls back to the member's alchemical element sigil —
- * never an invented face (tables-design-spec.md §4.8).
+ * Avatar primitive (exported from the kit barrel since PR 4). When no photo
+ * exists it falls back to the member's alchemical element sigil — never an
+ * invented face (tables-design-spec.md §4.8).
  */
 export function AvatarCircle({
   name,
