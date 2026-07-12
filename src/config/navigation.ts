@@ -85,12 +85,16 @@ export const NAV_IA: NavIA = {
       { label: "Cosmic Recipes", path: "/cosmic-recipe", glyph: "spiral", hint: "Generated from your standing chart" },
     ],
   },
+  // PrimaryKey stays "commensal" (avoids rippling through every consumer); the
+  // section is relabeled to Tables (PR 6 §5).
   commensal: {
-    label: "Commensal",
-    path: "/commensal",
+    label: "Tables",
+    path: "/tables",
     glyph: "ring",
-    sub: "Cook for others, in harmony",
+    sub: "Break bread — live tables, kindred alchemists",
     routes: [
+      { label: "Tables Home", path: "/tables", glyph: "ring", hint: "Your tables · plan, live, memory" },
+      { label: "Discover Tables & People", path: "/discover?tab=tables", glyph: "atom", hint: "Nearby tables · kindred alchemists" },
       { label: "Dinner Party", path: "/commensal", glyph: "ring", hint: "Guest harmonization · up to 12" },
       { label: "Live Feed", path: "/feed", glyph: "wave", hint: "What practitioners are cooking now" },
       { label: "Restaurant Creator", path: "/restaurant-creator", glyph: "atom", hint: "Concept menus · premium", premium: true },
@@ -137,9 +141,12 @@ export function activePrimaryFromPathname(pathname: string | null | undefined): 
     return "lab";
   }
 
-  // Commensal cluster
+  // Commensal cluster (relabeled "Tables") — the Table entity + its landing
+  // token pages join it (PR 6 §5).
   if (
     pathname.startsWith("/commensal") ||
+    pathname.startsWith("/tables") ||
+    pathname.startsWith("/t/") ||
     pathname.startsWith("/feed") ||
     pathname.startsWith("/restaurant-creator")
   ) {
