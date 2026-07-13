@@ -49,6 +49,7 @@ interface EnhancedAstrologicalState extends AstrologicalStateType {
       bitter?: number;
       umami?: number;
       spicy?: number;
+      [key: string]: number | undefined;
     };
     [key: string]: unknown;
   };
@@ -92,6 +93,12 @@ export interface EnhancedIngredient {
   score?: number;
   scoreDetails?: Record<string, number>;
   subCategory?: string;
+  lunarPhaseModifiers?: {
+    [phase: string]: {
+      potencyMultiplier?: number;
+      elementalBoost?: Partial<ElementalProperties>;
+    };
+  };
   [key: string]: unknown; // Allow other properties
 }
 
@@ -671,7 +678,7 @@ export const getRecommendedIngredients = (
       "friday",
       "saturday",
     ];
-    const dayRulers = {
+    const dayRulers: Record<string, string> = {
       sunday: "sun",
       monday: "moon",
       tuesday: "mars",
@@ -777,8 +784,7 @@ export const getRecommendedIngredients = (
 
         // Adjust element scores based on lunar phase elemental boosts
         if (modifier.elementalBoost) {
-          const boosts =
-            modifier.elementalBoost as Partial<ElementalProperties>;
+          const boosts = modifier.elementalBoost;
           Object.entries(boosts).forEach(([element, boost]) => {
             if (standardized.elementalProperties[element as keyof ElementalProperties] > 0.3) {
               lunarScore += (boost || 0) * 0.1; // Small additional boost

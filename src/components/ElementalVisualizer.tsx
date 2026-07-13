@@ -579,7 +579,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
                 <strong>{elementalSignature(elementalProperties).shortLabel}</strong>
               </p>
               
-              {sortedElements.map((element) => (
+              {sortedElements.map((element: string) => (
                 <div key={element} style={{ 
                   display: 'flex', 
                   alignItems: 'center',

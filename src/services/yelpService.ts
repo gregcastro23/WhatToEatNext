@@ -91,9 +91,10 @@ class YelpService {
 
       if (!response.ok) {
         const body = await response.text().catch(() => "");
-        const error = `Yelp API ${response.status}: ${body.slice(0, 200) || response.statusText}`;
-        logger.warn(error, { endpoint });
-        return { data: null, error };
+        logger.warn(`Yelp API ${response.status}: ${body.slice(0, 200) || response.statusText}`, {
+          endpoint,
+        });
+        return { data: null, error: "Yelp unavailable" };
       }
 
       const data = (await response.json()) as T;

@@ -18,7 +18,9 @@ import {
   useMemo,
   useRef,
   useState,
+  type ChangeEvent,
   type JSX,
+  type KeyboardEvent,
 } from "react";
 import {
   AlertDialog,
@@ -334,8 +336,10 @@ export function ApiKeysPanel(): JSX.Element {
               ref={nameInputRef}
               placeholder="Claude Desktop on Mac"
               value={draftName}
-              onChange={(e) => setDraftName(e.target.value)}
-              onKeyDown={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setDraftName(e.target.value)
+              }
+              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
                 if (e.key === "Enter" && !creating) void handleCreate();
               }}
               maxLength={100}

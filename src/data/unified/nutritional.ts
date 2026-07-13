@@ -235,9 +235,9 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
 };
 // ===== CORE NUTRITIONAL ANALYSIS SYSTEM =====
 export class UnifiedNutritionalSystem {
-  private seasonalProfiles: Record<Season, SeasonalNutritionalProfile>;
-  private planetaryProfiles: Record<PlanetName, PlanetaryNutritionalProfile>;
-  private zodiacProfiles: Record<ZodiacSignType, ZodiacNutritionalProfile>;
+  private seasonalProfiles!: Record<Season, SeasonalNutritionalProfile>;
+  private planetaryProfiles!: Record<PlanetName, PlanetaryNutritionalProfile>;
+  private zodiacProfiles!: Record<ZodiacSignType, ZodiacNutritionalProfile>;
   constructor() {
     this.initializeProfiles();
   }
@@ -552,7 +552,7 @@ export const _calculateNutritionalBalance = (
       minerals: {},
     },
   );
-  return totals as NutritionalProfile;
+  return totals;
 };
 export const nutritionalToElemental = (
   profile: NutritionalProfile,

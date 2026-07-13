@@ -292,7 +292,7 @@ export const _getElementalInfluence =
 
         // Create a weighted influence based on planetary positions
         // Sun and Moon have more influence (0.3 each), other planets contribute the rest (0.1 each)
-        const elementalState = {
+        const elementalState: ElementalProperties = {
           Fire: 0,
           Water: 0,
           Earth: 0,

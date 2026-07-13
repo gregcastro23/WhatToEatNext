@@ -1,5 +1,6 @@
 import type {
     AlchemicalResult,
+    Element,
     ElementalProperties,
     ZodiacSignType
 } from "@/types/alchemy";
@@ -67,13 +68,15 @@ export function getIngredientCompatibility(
   signA?: ZodiacSignType,
   signB?: ZodiacSignType,
 ) {
-  // NOTE: calculateAlchemicalCompatibility's real signature is
-  // (recipeElements, astrologicalSign, currentElements) — 3 params. This call site
-  // passes 4 args in a different order/arity, a pre-existing latent mismatch
-  // preserved as-is (function is unreferenced anywhere in the app).
-  const variadicCompatibilityFn: (...args: unknown[]) => number =
-    calculateAlchemicalCompatibility;
-  return variadicCompatibilityFn(ingredientA, ingredientB, signA, signB);
+  // calculateAlchemicalCompatibility's real signature is
+  // (recipeElements: ElementalProperties, astrologicalSign: ZodiacSignType, currentElements: ElementalProperties).
+  // Map the two ingredients' elemental properties into the recipe/current slots and
+  // fall back to "aries" for the (currently unused) sign slot when neither sign is given.
+  return calculateAlchemicalCompatibility(
+    ingredientA,
+    signA ?? signB ?? "aries",
+    ingredientB,
+  );
 }
 
 /**
@@ -107,14 +110,9 @@ export function getUserFoodCompatibility(
   const userElementalProfile = getZodiacElementalInfluence(userSign);
 
   // Calculate elemental compatibility
-  // NOTE: calculateAlchemicalCompatibility's real signature is
-  // (recipeElements, astrologicalSign, currentElements) — 3 params. This call site
-  // passes only 2 args, a pre-existing latent mismatch preserved as-is (function is
-  // unreferenced anywhere in the app).
-  const variadicCompatibilityFn: (...args: unknown[]) => number =
-    calculateAlchemicalCompatibility;
-  const elementalCompatibility = variadicCompatibilityFn(
+  const elementalCompatibility = calculateAlchemicalCompatibility(
     userElementalProfile,
+    userSign,
     foodElementalProps,
   );
 
@@ -246,7 +244,7 @@ export function generatePersonalizedMealPlan(
  * @param element The primary element to consider
  * @returns The same element, as elements work best with themselves
  */
-function _getBalancingElement(element) {
+function _getBalancingElement(element: Element) {
   // Elements work best with themselves - reinforcing the current energy
   return element;
 }

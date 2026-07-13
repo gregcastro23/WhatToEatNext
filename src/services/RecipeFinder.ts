@@ -430,10 +430,12 @@ export class RecipeFinder implements RecipeServiceInterface {
         10,
       );
       // Convert recipes to scored recipes if they don't already have scores
-      const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
-        ...recipe,
-        score: recipe.score ?? 1 - index * 0.1, // Assign decreasing scores if not present
-      }));
+      const scoredRecipes: ScoredRecipe[] = recipes.map(
+        (recipe: Recipe & { score?: number }, index: number) => ({
+          ...recipe,
+          score: recipe.score ?? 1 - index * 0.1, // Assign decreasing scores if not present
+        }),
+      );
       return {
         success: true,
         data: scoredRecipes,
@@ -473,7 +475,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       // Since ConsolidatedRecipeService doesn't have getRecipeById, we'll search for it
       const allRecipes = await this.recipeService.getAllRecipes();
-      const recipe = allRecipes.find((r) => r.id === params.id);
+      const recipe = allRecipes.find((r: Recipe) => r.id === params.id);
       if (!recipe) {
         return {
           success: false,

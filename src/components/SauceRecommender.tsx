@@ -14,7 +14,7 @@ interface SauceRecommenderProps {
   showByDietary?: boolean;
   maxResults?: number;
   sauces?: Record<string, Sauce>;
-  cuisines?: unknown;
+  cuisines?: Record<string, any>;
   className?: string;
 }
 
@@ -550,7 +550,7 @@ export default function SauceRecommender({
                     {/* Show top 3 ingredients or category */}
                     {sauce.ingredients && sauce.ingredients.length > 0 ? (
                       <div className="text-xs text-gray-500">
-                        {sauce.ingredients.slice(0, 3).map((ing, idx, arr) => (
+                        {sauce.ingredients.slice(0, 3).map((ing: string, idx: number, arr: string[]) => (
                           <React.Fragment key={idx}>
                             <span>{typeof ing === 'string' ? ing : String(ing)}</span>
                             {idx < arr.length - 1 && idx < 2 && ", "}
@@ -579,7 +579,7 @@ export default function SauceRecommender({
                       <div>
                         <h5 className="text-xs font-medium mb-1">Key Ingredients:</h5>
                         <ul className="pl-2">
-                          {sauce.ingredients && sauce.ingredients.map((ing, idx) => (
+                          {sauce.ingredients && sauce.ingredients.map((ing: string, idx: number) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>
@@ -595,7 +595,7 @@ export default function SauceRecommender({
                       <div>
                         <h5 className="text-xs font-medium mb-1">Uses:</h5>
                         <ul className="pl-2">
-                          {sauce.culinaryUses && sauce.culinaryUses.map((use, idx) => (
+                          {sauce.culinaryUses && sauce.culinaryUses.map((use: string, idx: number) => (
                             <li key={idx} className="text-xs text-gray-600 flex items-start">
                               <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2" />
                               <span>{use}</span>

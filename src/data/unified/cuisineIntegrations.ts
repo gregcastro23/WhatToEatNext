@@ -7,7 +7,6 @@ import type {
 } from "@/types/alchemy";
 import { _createAstrologicalBridge as createAstrologicalBridge } from "@/types/bridges/astrologicalBridge";
 import type { EnhancedCookingMethod } from "@/types/cooking";
-import { FlavorProfileType } from "@/types/flavor";
 import type { Season } from "@/types/seasons";
 import { createElementalProperties } from "../../utils/elemental/elementalUtils";
 import { _grainCuisineMatrix as grainCuisineMatrix } from "../integrations/grainCuisineMatrix";
@@ -30,11 +29,25 @@ const unifiedSeasonalSystem = {
   autumn: { dominantElement: "Earth", supportingElements: ["Fire"] },
   winter: { dominantElement: "Water", supportingElements: ["Earth"] },
 };
-const unifiedSeasonalProfiles = {
+type SeasonalProfilePlaceholder = {
+  ingredients: never[];
+  flavors: never[];
+  techniques: never[];
+};
+// `Season` includes "fall" (alias of "autumn") and "all", but this
+// placeholder was only ever populated for the four calendar seasons; both
+// are declared explicitly (mapped to `undefined`) so indexing by any `Season`
+// value type-checks while preserving the original lookup-miss behavior.
+const unifiedSeasonalProfiles: Record<
+  Season,
+  SeasonalProfilePlaceholder | undefined
+> = {
   spring: { ingredients: [], flavors: [], techniques: [] },
   summer: { ingredients: [], flavors: [], techniques: [] },
   autumn: { ingredients: [], flavors: [], techniques: [] },
+  fall: undefined,
   winter: { ingredients: [], flavors: [], techniques: [] },
+  all: undefined,
 };
 const unifiedIngredients = {
   // Placeholder for unified ingredient system;
@@ -42,6 +55,13 @@ const unifiedIngredients = {
   getIngredientsByCategory: (_category: string) => [],
   getIngredientProperties: (_ingredient: string) => ({}),
 };
+// Name-indexed ingredient lookup used by the fusion helpers below. Kept as a
+// separate typed map (rather than an index signature on `unifiedIngredients`
+// above) because that object's own keys are utility method names, not
+// ingredient names; it is intentionally empty (placeholder), matching the
+// previous behavior where indexing `unifiedIngredients` by an arbitrary
+// ingredient name never resolved real ingredient data.
+const unifiedIngredientsByName: Record<string, UnifiedIngredient> = {};
 // Import existing cuisine data
 // ===== ENHANCED CUISINE INTEGRATION INTERFACES =====;
 export interface CuisineMonicaProfile {
@@ -197,25 +217,16 @@ export interface UnifiedCuisineIntegration {
 }
 // ===== CONSOLIDATED CUISINE DATA =====;
 // Enhanced cuisine matrix that includes all ingredient categories
-export const enhancedCuisineMatrix = {
+export const enhancedCuisineMatrix: Record<string, Record<string, string[]>> = {
   // Consolidate existing matrices (with fallbacks in case imports fail)
+  // Fallback shape mirrors the real `grainCuisineMatrix` (flat cuisine-name
+  // arrays); `grainCuisineMatrix` is a statically-imported const so it is
+  // always truthy and this branch never actually executes.
   grain: grainCuisineMatrix || {
-    white_rice: {
-      cuisines: ["japanese", "chinese", "korean", "indian", "thai"],
-      flavorProfileType: FlavorProfileType.SAVORY,
-    },
-    brown_rice: {
-      cuisines: ["american", "macrobiotic", "health_focused"],
-      flavorProfileType: FlavorProfileType.NEUTRAL,
-    },
-    quinoa: {
-      cuisines: ["peruvian", "bolivian", "health_focused"],
-      flavorProfileType: FlavorProfileType.HERBAL,
-    },
-    semolina: {
-      cuisines: ["italian", "north_african", "indian"],
-      flavorProfileType: FlavorProfileType.WARM,
-    },
+    white_rice: ["japanese", "chinese", "korean", "indian", "thai"],
+    brown_rice: ["american", "macrobiotic", "health_focused"],
+    quinoa: ["peruvian", "bolivian", "health_focused"],
+    semolina: ["italian", "north_african", "indian"],
   },
   herb: herbCuisineMatrix || {
     basil: ["italian", "thai", "mediterranean"],
@@ -812,9 +823,7 @@ export class UnifiedCuisineIntegrationSystem {
   private findSharedIngredients(cuisine1: string, cuisine2: string): string[] {
     const sharedIngredients: string[] = [];
     // Check each ingredient category
-    for (const [_, ingredientMap] of Object.entries(
-      enhancedCuisineMatrix as Record<string, Record<string, string[]>>,
-    )) {
+    for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredient, cuisines] of Object.entries(ingredientMap)) {
         const list = cuisines;
         if (list.includes(cuisine1) && list.includes(cuisine2)) {
@@ -1093,7 +1102,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Add shared ingredients (high priority);
     const sharedIngredients = this.findSharedIngredients(cuisine1, cuisine2);
     for (const ingredientName of sharedIngredients) {
-      const ingredient = unifiedIngredients[ingredientName];
+      const ingredient = unifiedIngredientsByName[ingredientName];
       if (ingredient) {
         fusionIngredients.push(ingredient);
       }
@@ -1123,7 +1132,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (const [_, ingredientMap] of Object.entries(enhancedCuisineMatrix)) {
       for (const [ingredientName, cuisines] of Object.entries(ingredientMap)) {
         if (cuisines.includes(cuisine)) {
-          const ingredient = unifiedIngredients[ingredientName];
+          const ingredient = unifiedIngredientsByName[ingredientName];
           if (ingredient) {
             ingredients.push(ingredient);
           }
@@ -1400,7 +1409,7 @@ export class UnifiedCuisineIntegrationSystem {
         adaptedCookingMethods: seasonalMethods as unknown as CookingMethod[],
         seasonalModifiers: {
           temperatureAdjustment: (() => {
-            const profileData = unifiedSeasonalProfiles[season] as Record<
+            const profileData = unifiedSeasonalProfiles[season] as unknown as Record<
               string,
               unknown
             >;
@@ -1415,7 +1424,7 @@ export class UnifiedCuisineIntegrationSystem {
             return Number(monicaModifiers.temperatureAdjustment || 0);
           })(),
           timingAdjustment: (() => {
-            const profileData = unifiedSeasonalProfiles[season] as Record<
+            const profileData = unifiedSeasonalProfiles[season] as unknown as Record<
               string,
               unknown
             >;
@@ -1427,7 +1436,7 @@ export class UnifiedCuisineIntegrationSystem {
             return Number(monicaModifiers.timingAdjustment || 0);
           })(),
           intensityModifier: (() => {
-            const profileData = unifiedSeasonalProfiles[season] as Record<
+            const profileData = unifiedSeasonalProfiles[season] as unknown as Record<
               string,
               unknown
             >;
@@ -1663,7 +1672,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Get seasonal modifiers
     const _ = unifiedSeasonalProfiles[season];
     // Safe property access for monicaModifiers
-    const seasonalProfileData = unifiedSeasonalProfiles[season] as Record<
+    const seasonalProfileData = unifiedSeasonalProfiles[season] as unknown as Record<
       string,
       unknown
     >;

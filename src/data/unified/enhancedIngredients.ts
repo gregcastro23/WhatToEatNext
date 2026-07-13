@@ -109,7 +109,7 @@ export interface IngredientSearchCriteria {
   category?: string;
   subcategory?: string;
   elementalFocus?: "Fire" | "Water" | "Earth" | "Air";
-  kalchmRange?: { min: number; max; number };
+  kalchmRange?: { min: number; max: number };
   seasonalAlignment?: string;
   planetaryRuler?: string;
   cookingMethods?: string[];

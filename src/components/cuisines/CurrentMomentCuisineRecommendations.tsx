@@ -372,7 +372,7 @@ const CurrentMomentCuisineRecommendations: React.FC = () => {
   const renderRecipeCard = (recipe: NestedRecipe) => (
     <Card
       key={recipe.recipe_id}
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
         window.location.href = `/recipes/${  recipe.recipe_id}`;
       }}

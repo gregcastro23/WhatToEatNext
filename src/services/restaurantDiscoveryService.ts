@@ -30,12 +30,15 @@ import type {
   YelpBusiness,
 } from "@/types/yelp";
 import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import { createLogger } from "@/utils/logger";
 import { getLunarPhaseFromDate } from "@/utils/lunarPhaseUtils";
 import {
   aggregateEnhancedZodiacElementals,
   calculateAlchemicalFromPlanets,
 } from "@/utils/planetaryAlchemyMapping";
 import { getTimeFactors } from "@/utils/time";
+
+const logger = createLogger("RestaurantDiscoveryService");
 
 // ─── Shared types ──────────────────────────────────────────────────────────
 
@@ -443,10 +446,11 @@ async function googleNearby(
 
     if (!response.ok) {
       const body = await response.text().catch(() => "");
+      logger.warn(`Google Places returned ${response.status}: ${body.slice(0, 160)}`);
       return {
         ok: false,
         notConfigured: false,
-        sourceNotice: `Google Places returned ${response.status}: ${body.slice(0, 160)}`,
+        sourceNotice: "Google Places unavailable",
       };
     }
 
@@ -1376,6 +1380,11 @@ async function gatherBestMatchCandidates(
   candidates: NormalizedRestaurant[];
   source: RestaurantDiscoverySource;
   notices: string[];
+  /** Notice about the quality/completeness of the WINNING result set only —
+   *  distinct from `notices`, which records earlier providers that were tried
+   *  and superseded. Only this should reach users once results are found;
+   *  `notices` is diagnostic and is only surfaced when nothing worked at all. */
+  resultNotice?: string;
 }> {
   const notices: string[] = [];
 
@@ -1419,12 +1428,11 @@ async function gatherBestMatchCandidates(
   // 3. OpenStreetMap / Overpass (keyless — the always-available live source).
   const osm = await osmNearby(input);
   if (osm && osm.restaurants.length > 0) {
-    if (osm.relaxed && input.cuisine) {
-      notices.push(
-        `No ${input.cuisine} spots tagged nearby — showing nearby restaurants ranked by ${input.cuisine} fit.`,
-      );
-    }
-    return { candidates: osm.restaurants, source: "osm", notices };
+    const resultNotice =
+      osm.relaxed && input.cuisine
+        ? `No ${input.cuisine} spots tagged nearby — showing nearby restaurants ranked by ${input.cuisine} fit.`
+        : undefined;
+    return { candidates: osm.restaurants, source: "osm", notices, resultNotice };
   }
   if (osm === null) notices.push("OpenStreetMap was unavailable.");
 
@@ -1459,10 +1467,8 @@ export async function bestMatchRestaurants(
   const cosmic = buildAstrologicalState();
   const cosmicContext = cosmic?.cosmicContext ?? emptyCosmicContext();
 
-  const { candidates, source, notices } = await gatherBestMatchCandidates(
-    input,
-    openNow,
-  );
+  const { candidates, source, notices, resultNotice } =
+    await gatherBestMatchCandidates(input, openNow);
 
   if (candidates.length === 0) {
     // OpenStreetMap is keyless and always attempted, so an empty result means
@@ -1520,9 +1526,7 @@ export async function bestMatchRestaurants(
 
   const sourceNotice = !cosmic
     ? "Planetary positions unavailable — results shown without cosmic scoring."
-    : notices.length > 0
-      ? notices.join(" ")
-      : undefined;
+    : resultNotice;
 
   return { restaurants: sorted, cosmicContext, source, sourceNotice };
 }

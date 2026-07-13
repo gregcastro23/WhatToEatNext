@@ -359,7 +359,9 @@ export function mapToIngredient(mapping: IngredientMappingType): Ingredient {
       key !== "elementalProperties" &&
       key !== "qualities"
     ) {
-      (ingredient as any)[key] = mapping[key];
+      // `key` ranges only over `mapping`'s own enumerable keys, all of which
+      // are literal keys of `IngredientMappingType`.
+      (ingredient as any)[key] = mapping[key as keyof IngredientMappingType];
     }
   }
 

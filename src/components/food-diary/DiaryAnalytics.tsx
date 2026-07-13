@@ -24,6 +24,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { TooltipValueType } from "recharts";
 import type {
   DailyFoodDiarySummary,
   WeeklyFoodDiarySummary,
@@ -211,7 +212,7 @@ function ElementalTrendChart({ rows }: { rows: DayRow[] }) {
                 borderRadius: 8,
                 fontSize: 12,
               }}
-              formatter={(value: number) => `${value}%`}
+              formatter={(value: TooltipValueType | undefined) => `${value}%`}
             />
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 4 }} />
             <Area

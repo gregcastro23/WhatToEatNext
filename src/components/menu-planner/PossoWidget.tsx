@@ -77,7 +77,7 @@ export default function PossoWidget({
           const originalEstimate = calculateRecipeEstimatedCost(normalizedIngs, 4, []);
           // Posso cost = only what the user still needs to buy (exclude inventory items)
           const possoIngs = normalizedIngs.filter(
-            (ing) => !inventory.some((invItem) => {
+            (ing: { name: string; amount: number; unit: string; optional?: boolean }) => !inventory.some((invItem) => {
               const ingLower = ing.name.toLowerCase();
               const invLower = invItem.toLowerCase();
               return ingLower.includes(invLower) || invLower.includes(ingLower);

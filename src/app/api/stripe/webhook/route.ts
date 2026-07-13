@@ -116,10 +116,16 @@ async function updateRestaurantOrderIntent(input: {
       ],
     );
   } catch (error) {
-    console.warn(
+    // Rethrow so the caller's failure propagates to the top-level handler,
+    // which returns a non-2xx status — Stripe retries on non-2xx, giving us
+    // another chance to persist state that real money already moved for.
+    // Swallowing this here would report {received: true} to Stripe for an
+    // order whose paid/transferred status never made it into our DB.
+    console.error(
       "[webhook] Restaurant order intent was not updated:",
       error instanceof Error ? error.message : error,
     );
+    throw error;
   }
 }
 
@@ -155,10 +161,15 @@ async function updateRestaurantConnectStatus(account: Stripe.Account) {
       ],
     );
   } catch (error) {
-    console.warn(
+    // Rethrow for the same reason as updateRestaurantOrderIntent above: a
+    // swallowed failure here means Stripe thinks the account status sync
+    // succeeded while our `restaurants` row is left stale, silently blocking
+    // that partner's payout/onboarding state until an unrelated event retries it.
+    console.error(
       "[webhook] Restaurant Connect status was not updated:",
       error instanceof Error ? error.message : error,
     );
+    throw error;
   }
 }
 
@@ -424,6 +435,8 @@ export async function POST(request: Request) {
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
           });
           console.log(`[webhook] Subscription updated: ${subscription.id} status=${subscription.status}`);
+        } else {
+          console.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (subscription.updated ${subscription.id})`);
         }
         break;
       }
@@ -446,6 +459,8 @@ export async function POST(request: Request) {
             stripeSubscriptionId: null,
           });
           console.log(`[webhook] Subscription deleted: ${subscription.id} for user=${sub.userId}`);
+        } else {
+          console.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (subscription.deleted ${subscription.id})`);
         }
         break;
       }
@@ -466,6 +481,8 @@ export async function POST(request: Request) {
               currentPeriodEnd: period.currentPeriodEnd,
             });
             console.log(`[webhook] Invoice paid, period extended: ${subscriptionId}`);
+          } else {
+            console.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_succeeded, subscription ${subscriptionId})`);
           }
         }
         break;
@@ -485,6 +502,8 @@ export async function POST(request: Request) {
             status: "past_due",
           });
           console.log(`[webhook] Invoice payment failed: ${invoice.id} for user=${sub.userId} — downgraded to free`);
+        } else {
+          console.warn(`[webhook] No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_failed ${invoice.id})`);
         }
         break;
       }

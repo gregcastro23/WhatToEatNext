@@ -77,6 +77,9 @@ interface AspectFieldsRead {
   body2?: unknown;
   aspectType?: unknown;
 }
+// Shape of the AspectsEffect lookup table on a PlanetData entry: keyed by the
+// other planet's lowercase name, then by aspect type, yielding a numeric boost.
+type AspectsEffectMap = Record<string, Record<string, number>>;
 // Snapshot of the nutritional fields read off ingredient.nutritionalProfile.
 interface NutritionSnapshot {
   macros?: { protein?: unknown };
@@ -361,13 +364,21 @@ export class RecommendationAdapter {
             typeof body1 === "string" ? body1.toLowerCase() : undefined;
           const planet2 =
             typeof body2 === "string" ? body2.toLowerCase() : undefined;
-          if (!planet1 || !planet2 || !aspectType) return;
+          const aspectTypeKey =
+            typeof aspectType === "string" ? aspectType : undefined;
+          if (!planet1 || !planet2 || !aspectTypeKey) return;
           // Get planets data
           const planetData1 = this.getPlanetData(planet1);
           const planetData2 = this.getPlanetData(planet2);
+          const aspectsEffect1 = planetData1.AspectsEffect as
+            | AspectsEffectMap
+            | undefined;
+          const aspectsEffect2 = planetData2.AspectsEffect as
+            | AspectsEffectMap
+            | undefined;
           // If either planet has aspect effects for the other planet
-          if (planetData1.AspectsEffect?.[planet2]) {
-            const aspectEffect = planetData1.AspectsEffect[planet2][aspectType];
+          if (aspectsEffect1?.[planet2]) {
+            const aspectEffect = aspectsEffect1[planet2][aspectTypeKey];
             if (aspectEffect) {
               // Boost alchemical properties based on aspect effect
               const boost = aspectEffect;
@@ -387,8 +398,8 @@ export class RecommendationAdapter {
                 alchemicalProperties.Substance + substance1 * boost;
             }
           }
-          if (planetData2.AspectsEffect?.[planet1]) {
-            const aspectEffect = planetData2.AspectsEffect[planet1][aspectType];
+          if (aspectsEffect2?.[planet1]) {
+            const aspectEffect = aspectsEffect2[planet1][aspectTypeKey];
             if (aspectEffect) {
               // Boost alchemical properties based on aspect effect
               const boost = aspectEffect;

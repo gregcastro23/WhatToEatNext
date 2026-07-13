@@ -1,5 +1,6 @@
 import type { IngredientMapping } from "@/data/ingredients/types";
 import type { ElementalProperties, Ingredient } from "@/types/alchemy";
+import type { LunarPhase } from "@/types/constants";
 import { fixIngredientMappings } from "@/utils/elementalUtils";
 import { herbs } from "../herbs";
 import { spices } from "../spices";
@@ -151,7 +152,9 @@ export const _getTraditionalCombinations = (
   return combinations;
 };
 
-export const _getSeasoningsByLunarPhase = (phase: string): IngredientMapping =>
+export const _getSeasoningsByLunarPhase = (
+  phase: LunarPhase,
+): IngredientMapping =>
   Object.entries(seasonings)
     .filter(
       ([_, value]) => value.astrologicalProfile?.lunarPhaseModifiers?.[phase],

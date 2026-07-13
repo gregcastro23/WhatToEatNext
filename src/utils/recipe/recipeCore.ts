@@ -34,12 +34,9 @@ import {
 
 const logger = createLogger("RecipeCore");
 
-const ELEMENT_KEYS: Array<keyof ElementalProperties> = [
-  "Fire",
-  "Water",
-  "Earth",
-  "Air",
-];
+type ElementKey = "Fire" | "Water" | "Earth" | "Air";
+
+const ELEMENT_KEYS: Array<ElementKey> = ["Fire", "Water", "Earth", "Air"];
 const WEEK_DAYS: WeekDay[] = [
   "Sunday",
   "Monday",
@@ -357,10 +354,10 @@ export function summarizeNutritionalBalance(recipe: Recipe): string {
 
 export function getRecipeDominantElement(
   properties: Pick<ElementalProperties, "Fire" | "Water" | "Earth" | "Air">,
-): keyof ElementalProperties {
+): ElementKey {
   return (
-    Object.entries(properties) as Array<[keyof ElementalProperties, number]>
-  ).reduce(
+    Object.entries(properties) as Array<[ElementKey, number]>
+  ).reduce<{ element: ElementKey; value: number }>(
     (current, [element, value]) =>
       value > current.value ? { element, value } : current,
     { element: "Fire", value: 0 },
@@ -454,7 +451,7 @@ function scoreRecipe(
   );
   const recipeDominant = getRecipeDominantElement(recipeElements);
   const compatibilityScore = getElementalCompatibility(
-    recipeDominant as Element,
+    recipeDominant,
     currentDominant,
   );
   score += Math.floor(compatibilityScore * 15);

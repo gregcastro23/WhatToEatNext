@@ -250,6 +250,7 @@
     "@types/pg": "^8",
     "@types/react": "^19.0.5",
     "@types/react-dom": "^19.0.2",
+    "@types/suncalc": "^1.9.2",
     "@types/web-push": "^3.6.4",
     "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^8.59.2",

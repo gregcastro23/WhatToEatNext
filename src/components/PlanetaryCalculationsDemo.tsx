@@ -525,7 +525,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
                 number,
               ]>
             ).map(([element, value]) => {
-              const colors = {
+              const colors: Record<string, string> = {
                 Fire: "from-red-50 to-orange-50 border-red-200 text-red-900",
                 Water: "from-blue-50 to-cyan-50 border-blue-200 text-blue-900",
                 Earth:

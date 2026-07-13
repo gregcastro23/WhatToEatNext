@@ -7,7 +7,10 @@ import { _PLANET_TO_MAJOR_ARCANA } from "@/constants/tarotCards";
 import { getTarotCardsForDate } from "@/lib/tarotCalculations";
 import type { LunarPhaseWithSpaces } from "@/types/alchemy";
 import { createLogger } from "@/utils/logger";
-import { REVERSE_LUNAR_PHASE_MAP } from "@/utils/lunarPhaseUtils";
+import {
+  getLunarPhaseKey,
+  REVERSE_LUNAR_PHASE_MAP,
+} from "@/utils/lunarPhaseUtils";
 import { useAstrologicalState } from "./useAstrologicalState";
 
 // Import all lunar phase utilities from the centralized utility file
@@ -299,9 +302,11 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       // Use the lunar phase from astrological state if available
       if (foodAssociationsLunarPhase) {
         const normalizedPhase =
-          REVERSE_LUNAR_PHASE_MAP[foodAssociationsLunarPhase];
+          REVERSE_LUNAR_PHASE_MAP[
+            getLunarPhaseKey(foodAssociationsLunarPhase)
+          ];
         if (normalizedPhase) {
-          setCurrentLunarPhase(normalizedPhase as LunarPhaseWithSpaces);
+          setCurrentLunarPhase(normalizedPhase);
         }
       }
       // Otherwise use a default lunar phase

@@ -352,7 +352,7 @@ function generateElementalSignatureDescription(
           ? "moderately"
           : "somewhat";
 
-  const elementDescriptions = {
+  const elementDescriptions: Record<string, string> = {
     Fire: "cooking techniques and spicy ingredients",
     Water: "sauces, moisture, and hydrating ingredients",
     Earth: "hearty, grounding, and substantial ingredients",
@@ -380,7 +380,7 @@ function generateAlchemicalSignatureDescription(
           ? "moderately"
           : "somewhat";
 
-  const propertyDescriptions = {
+  const propertyDescriptions: Record<string, string> = {
     Spirit: "innovative and transformative cooking approaches",
     Essence: "flavor depth and sensory richness",
     Matter: "substantial, hearty, and grounding dishes",

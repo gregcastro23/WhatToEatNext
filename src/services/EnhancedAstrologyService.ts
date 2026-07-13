@@ -15,11 +15,7 @@ import {
   COMPREHENSIVE_TRANSIT_DATABASE,
 } from "@/data/transits/comprehensiveTransitDatabase";
 import type { TransitSeason } from "@/data/transits/comprehensiveTransitDatabase";
-import type {
-  CelestialPosition,
-  Planet,
-  ZodiacSignType,
-} from "@/types/celestial";
+import type { CelestialPosition, Planet } from "@/types/celestial";
 // import { getFallbackPlanetaryPositions } from "@/utils/accurateAstronomy";
 import { createLogger } from "@/utils/logger";
 import { getCurrentPlanetaryPositions } from "./astrologizeApi";
@@ -329,7 +325,9 @@ export class EnhancedAstrologyService {
       Water: 0,
     };
 
-    const signElements: Record<ZodiacSignType, string> = {
+    // Keyed by an already-lowercased sign string (with an "aries" fallback) that
+    // isn't statically narrowed to ZodiacSignType, so this is typed as Record<string, string>.
+    const signElements: Record<string, string> = {
       aries: "Fire",
       leo: "Fire",
       sagittarius: "Fire",

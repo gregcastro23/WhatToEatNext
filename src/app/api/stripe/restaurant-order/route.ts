@@ -23,6 +23,7 @@ import {
   restaurantCryptoPaymentsEnabled,
   stripePaymentMethodTypes,
 } from "@/lib/payments/restaurantPayments";
+import { rateLimit } from "@/lib/rateLimit";
 import type { RestaurantDiscoverySource } from "@/types/yelp";
 
 type SplitMode =
@@ -409,6 +410,13 @@ function externalOrderFallback(input: {
 }
 
 export async function POST(request: Request) {
+  const rl = await rateLimit(request, {
+    window: 60_000,
+    max: 10,
+    bucket: "stripe-restaurant-order",
+  });
+  if (!rl.allowed) return rl.response!;
+
   let body: RestaurantOrderBody;
   try {
     body = (await request.json()) as RestaurantOrderBody;

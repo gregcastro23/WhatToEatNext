@@ -9,7 +9,10 @@ import type {
   AlchemicalItem,
   ElementalItem,
 } from "../calculations/alchemicalTransformation";
-import type { LunarPhaseWithSpaces } from "../types/alchemy";
+import type {
+  ElementalCharacter,
+  LunarPhaseWithSpaces,
+} from "../types/alchemy";
 
 /**
  * Transforms a set of ingredients based on current planetary positions
@@ -127,7 +130,7 @@ export const _sortByAlchemicalCompatibility = (
     let itemNorm = 0;
     let targetNorm = 0;
     // Get the element names (Fire, Water, Earth, Air)
-    const elements = ["Fire", "Water", "Earth", "Air"];
+    const elements: ElementalCharacter[] = ["Fire", "Water", "Earth", "Air"];
 
     for (const element of elements) {
       const itemValue = item.elementalProperties[element] || 0;

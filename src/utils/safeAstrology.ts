@@ -464,7 +464,8 @@ function countElements(
 
   // Count elements
   Object.entries(positions).forEach(([planet, position]) => {
-    const element = signElements[position.sign || "aries"];
+    const sign = (position.sign || "aries") as ZodiacSignType;
+    const element = signElements[sign];
     const weight = planetWeight[planet] || 1;
     elements[element] += weight;
   });

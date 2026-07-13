@@ -43,9 +43,12 @@ export function optimizePerformance(): {
 
       // Debounce expensive event handlers
       const setupDebounce = () => {
-        const debounce = (func: (...args: unknown[]) => void, wait: number) => {
+        const debounce = <Args extends unknown[]>(
+          func: (...args: Args) => void,
+          wait: number,
+        ) => {
           let timeout: ReturnType<typeof setTimeout>;
-          return function executedFunction(...args: unknown[]) {
+          return function executedFunction(...args: Args) {
             const later = () => {
               clearTimeout(timeout);
               func(...args);

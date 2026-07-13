@@ -25,6 +25,16 @@ interface ElementalSummary {
 
 const logger = createLogger("ElementalCalculator");
 
+// Typed views for indexing the astrology data lookup tables by dynamic string keys.
+const planetInfoRecord = planetInfo as unknown as Record<
+  string,
+  Record<string, unknown>
+>;
+const signInfoRecord = signInfo as unknown as Record<
+  string,
+  { Element?: string } & Record<string, unknown>
+>;
+
 export class ElementalCalculator {
   private static instance: ElementalCalculator;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
@@ -907,7 +917,7 @@ export class ElementalCalculator {
     };
 
     // Process dignity effect
-    const planetInfoData = planetInfo[planet] as Record<string, unknown>;
+    const planetInfoData = planetInfoRecord[planet];
     const dignityEffectData = planetInfoData["Dignity Effect"] as Record<
       string,
       unknown
@@ -919,7 +929,7 @@ export class ElementalCalculator {
           Math.abs(dignityEffectValue) === 1 ||
           Math.abs(dignityEffectValue) === 3
         ) {
-          const signElement = signInfo[sign]?.Element || "Fire";
+          const signElement = signInfoRecord[sign]?.Element || "Fire";
           elementalEffect[signElement] =
             1 * (dignityEffectValue / Math.abs(dignityEffectValue));
         }
@@ -1001,7 +1011,7 @@ export class ElementalCalculator {
       (key) =>
         typeof planets[key] === "object" &&
         planets[key] !== null &&
-        (planetInfo[key] || false),
+        (planetInfoRecord[key] || false),
     );
 
     // Process each planet

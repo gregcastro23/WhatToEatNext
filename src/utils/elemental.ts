@@ -102,7 +102,7 @@ export const _getElementalColor = (
 export const _getElementalSymbol = (
   element: keyof ElementalProperties,
 ): string => {
-  const symbols = {
+  const symbols: Record<keyof ElementalProperties, string> = {
     Fire: "🔥",
     Earth: "🌱",
     Air: "💨",
@@ -114,7 +114,7 @@ export const _getElementalSymbol = (
 export const _getElementalDescription = (
   element: keyof ElementalProperties,
 ): string => {
-  const descriptions = {
+  const descriptions: Record<keyof ElementalProperties, string> = {
     Fire: "Warming and energizing properties",
     Earth: "Grounding and nourishing qualities",
     Air: "Light and uplifting characteristics",
@@ -166,7 +166,10 @@ export const _getElementalCompatibility = (
     return "highly-compatible"; // Same element has highest compatibility
   }
 
-  const complementaryPairs = {
+  const complementaryPairs: Record<
+    keyof ElementalProperties,
+    Array<keyof ElementalProperties>
+  > = {
     Fire: ["Air"],
     Earth: ["Water"],
     Air: ["Fire"],

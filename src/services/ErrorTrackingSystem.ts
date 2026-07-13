@@ -89,7 +89,7 @@ class ErrorTrackingSystem {
     ) => void
   > = new Set();
   // Error categorization mappings
-  private readonly ERROR_CATEGORIES = {
+  private readonly ERROR_CATEGORIES: Record<string, string> = {
     TS2304: "Missing Imports",
     TS2352: "Missing Imports",
     TS2345: "Type Mismatch",
@@ -101,7 +101,10 @@ class ErrorTrackingSystem {
     TS7053: "Index Signature",
     TS2571: "Union Type",
   };
-  private readonly PRIORITY_MAPPING = {
+  private readonly PRIORITY_MAPPING: Record<
+    string,
+    "low" | "medium" | "high" | "critical"
+  > = {
     TS2304: "high",
     TS2352: "high",
     TS2345: "medium",
@@ -489,7 +492,7 @@ class ErrorTrackingSystem {
   }
 
   private getSuggestedFix(errorCode: string): string {
-    const fixes = {
+    const fixes: Record<string, string> = {
       TS2304: "Add missing import statement or install required dependency",
       TS2352: "Add missing import statement or check variable declaration",
       TS2345: "Check argument types and function signature compatibility",
@@ -507,7 +510,7 @@ class ErrorTrackingSystem {
   }
 
   private getLintingSuggestedFix(rule: string): string {
-    const fixes = {
+    const fixes: Record<string, string> = {
       "@typescript-eslint/no-unused-vars":
         "Remove unused variables or prefix with underscore",
       "@typescript-eslint/no-explicit-any":

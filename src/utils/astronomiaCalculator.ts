@@ -15,8 +15,15 @@ const ZODIAC_SIGNS = [
   'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
 ];
 
+interface PlanetPosition {
+  sign: string;
+  degree: number;
+  exactLongitude: number;
+  isRetrograde?: boolean;
+}
+
 // Current exact planetary positions (as of April 2024)
-const CURRENT_POSITIONS = {
+const CURRENT_POSITIONS: Record<string, PlanetPosition> = {
   'sun': { sign: 'aries', degree: 24.67, exactLongitude: 24.67 },
   'moon': { sign: 'scorpio', degree: 9.55, exactLongitude: 219.55 },
   'mercury': { sign: 'pisces', degree: 28.83, exactLongitude: 358.83 },
@@ -32,7 +39,7 @@ const CURRENT_POSITIONS = {
 };
 
 // Daily movement rates for planets (in degrees)
-const DAILY_MOVEMENT = {
+const DAILY_MOVEMENT: Record<string, number> = {
   'sun': 1.0,
   'moon': 13.2,
   'mercury': 1.5,

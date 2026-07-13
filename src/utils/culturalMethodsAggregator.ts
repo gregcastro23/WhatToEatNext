@@ -1,5 +1,11 @@
 import { cookingMethods } from "@/data/cooking";
 import { CUISINES_METADATA, getCuisineData } from "@/data/cuisines/index";
+import type { CookingMethodData } from "@/types/cookingMethod";
+
+// `cookingMethods` is a literal-keyed object (all values `CookingMethodData`).
+// Lookups below use dynamic string keys, so view it through a typed,
+// bounds-checked `Record` rather than indexing the literal type directly.
+const cookingMethodsByName: Record<string, CookingMethodData> = cookingMethods;
 
 // Define a standardized cooking method interface to use across the app
 export interface CulturalCookingMethod {
@@ -185,9 +191,9 @@ export async function getCulturalCookingMethods(): Promise<CulturalCookingMethod
   allMethods.forEach((method) => {
     if (
       method.relatedToMainMethod &&
-      cookingMethods[method.relatedToMainMethod]
+      cookingMethodsByName[method.relatedToMainMethod]
     ) {
-      const mainMethod = cookingMethods[method.relatedToMainMethod];
+      const mainMethod = cookingMethodsByName[method.relatedToMainMethod];
       if (mainMethod.astrologicalInfluences) {
         method.astrologicalInfluences = {
           ...method.astrologicalInfluences,

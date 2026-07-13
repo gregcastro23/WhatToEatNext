@@ -76,8 +76,9 @@ export const _getZodiacSignType = (date: Date): any => {
   return "capricorn";
 };
 
-export const _getElementalAffinity = (sign: any): keyof ElementalProperties =>
-  zodiacElements[sign];
+export const _getElementalAffinity = (
+  sign: ZodiacSignType,
+): keyof ElementalProperties => zodiacElements[sign];
 
 // Elemental Compatibility
 export const _elementalCompatibility: Record<

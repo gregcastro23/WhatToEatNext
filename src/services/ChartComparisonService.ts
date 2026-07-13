@@ -190,14 +190,14 @@ function calculateAlchemicalAlignment(
     return 0.5; // Neutral if no values
   }
 
-  const natalNorm = {
+  const natalNorm: AlchemicalProperties = {
     Spirit: natal.Spirit / natalTotal,
     Essence: natal.Essence / natalTotal,
     Matter: natal.Matter / natalTotal,
     Substance: natal.Substance / natalTotal,
   };
 
-  const momentNorm = {
+  const momentNorm: AlchemicalProperties = {
     Spirit: moment.Spirit / momentTotal,
     Essence: moment.Essence / momentTotal,
     Matter: moment.Matter / momentTotal,

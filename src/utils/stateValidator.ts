@@ -131,8 +131,12 @@ class StateValidator {
       const elemProps = recipe.elementalProperties;
       if (!elemProps || typeof elemProps !== "object") return false;
       const requiredElements = ["Fire", "Earth", "Air", "Water"];
+      const elemPropsRecord = elemProps as Record<string, unknown>;
       for (const element of requiredElements) {
-        if (!(element in elemProps) || typeof elemProps[element] !== "number") {
+        if (
+          !(element in elemPropsRecord) ||
+          typeof elemPropsRecord[element] !== "number"
+        ) {
           return false;
         }
       }

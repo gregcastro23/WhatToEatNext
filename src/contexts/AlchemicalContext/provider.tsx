@@ -113,15 +113,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
   // Helper function to get dominant element
   const getDominantElement = (): string => {
-    const elementalProps = state.astrologicalState?.elementalProperties;
+    const elementalProps = state.astrologicalState?.elementalProperties as
+      | Record<string, number>
+      | undefined;
     if (!elementalProps) return "Fire";
-    const entries = (Object.entries as any)(elementalProps);
+    const entries = Object.entries(elementalProps);
     if (!entries || entries.length === 0) return "Fire";
     return entries.reduce(
-      (max, [element, value]) =>
-        (value as number) > max.value
-          ? { element, value: value as number }
-          : max,
+      (max: { element: string; value: number }, [element, value]: [string, number]) =>
+        value > max.value ? { element, value } : max,
       { element: "Fire", value: 0 },
     ).element;
   };
@@ -135,13 +135,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     };
   // Helper function to calculate alchemical harmony
   const getAlchemicalHarmony = (): number => {
-    const elementalProperties = state.astrologicalState?.elementalProperties;
+    const elementalProperties = state.astrologicalState?.elementalProperties as
+      | Record<string, number>
+      | undefined;
     if (!elementalProperties) return 0.5;
-    const values = (Object.values as any)(elementalProperties);
+    const values = Object.values(elementalProperties);
     if (!values || values.length === 0) return 0.5;
-    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const mean = values.reduce((sum: number, val: number) => sum + val, 0) / values.length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
+      values.reduce((sum: number, val: number) => sum + Math.pow(val - mean, 2), 0) /
       values.length;
     return Math.max(0, 1 - Math.sqrt(variance));
   };
@@ -156,13 +158,15 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
   };
   // Helper function to calculate seasonal influence
   const calculateSeasonalInfluence = (): number => {
-    const seasonModifiers = {
+    const seasonModifiers: Record<string, number> = {
       spring: 0.8,
       summer: 1.0,
       autumn: 0.6,
       winter: 0.4,
     };
-    return seasonModifiers[state.currentSeason as any] || 0.5;
+    const season = state.currentSeason;
+    const modifier = season ? seasonModifiers[season] : undefined;
+    return modifier || 0.5;
   };
   // Helper function to get thermodynamic state
   const getThermodynamicState = () =>
@@ -413,7 +417,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     updatePlanetaryPositions: updatePlanetaryPositionsDirectly,
     refreshPlanetaryPositions: refreshPlanetaryPositionsAsync,
     setDaytime: () => { },
-    updateState: (updates) => dispatch({ type: "UPDATE_ASTROLOGICAL_STATE", payload: updates }),
+    updateState: (updates: Partial<AlchemicalState>) => dispatch({ type: "UPDATE_ASTROLOGICAL_STATE", payload: updates }),
   } as any;
   logger.debug("AlchemicalProvider rendered with state:", {
     season: state.currentSeason,

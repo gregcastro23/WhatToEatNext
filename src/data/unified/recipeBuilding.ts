@@ -1461,7 +1461,8 @@ export class UnifiedRecipeBuildingSystem {
     seasonalRecommendations: SeasonalRecommendations,
   ): MonicaOptimizedRecipe["seasonalAdaptation"]["seasonalIngredientSubstitutions"] {
     // Implementation for seasonal ingredient substitutions
-    const substitutions = [];
+    const substitutions: MonicaOptimizedRecipe["seasonalAdaptation"]["seasonalIngredientSubstitutions"] =
+      [];
 
     // Use recipe ingredients and seasonal recommendations for intelligent substitutions
     for (const ingredient of recipe.ingredients || []) {
@@ -1471,7 +1472,7 @@ export class UnifiedRecipeBuildingSystem {
         }
       ).getSeasonalEquivalent?.(ingredient.name, season);
       if (seasonalIngredient && seasonalIngredient !== ingredient.name) {
-        (substitutions as unknown as unknown[]).push({
+        substitutions.push({
           original: ingredient.name,
           seasonal: seasonalIngredient,
           reason: `Better availability in ${season}`,
@@ -1489,7 +1490,8 @@ export class UnifiedRecipeBuildingSystem {
     seasonalRecommendations: SeasonalRecommendations,
   ): MonicaOptimizedRecipe["seasonalAdaptation"]["seasonalCookingMethodAdjustments"] {
     // Implementation for seasonal cooking method adjustments
-    const adjustments = [];
+    const adjustments: MonicaOptimizedRecipe["seasonalAdaptation"]["seasonalCookingMethodAdjustments"] =
+      [];
 
     // Adapt cooking methods based on season and recipe type;
     const currentMethods =
@@ -1506,11 +1508,11 @@ export class UnifiedRecipeBuildingSystem {
         }
       ).getCookingMethodAdjustment?.(method, season);
       if (seasonalAdjustment) {
-        (adjustments as any).push({
+        adjustments.push({
           method,
           adjustment: seasonalAdjustment,
           reason: `Optimized for ${season} conditions`,
-        } as any);
+        });
       }
     }
 
@@ -1586,15 +1588,15 @@ export class UnifiedRecipeBuildingSystem {
     cuisine: string,
   ): string[] {
     // Generate cultural notes based on recipe characteristics and cuisine
-    const notes = [];
+    const notes: string[] = [];
 
     // Add cuisine-specific notes;
-    (notes as string[]).push(`Traditional ${cuisine} influences`);
+    notes.push(`Traditional ${cuisine} influences`);
 
     // Add ingredient-based cultural notes
     const recipeIngredients = recipe.ingredients.map((ing) => ing.name) || [];
     if (recipeIngredients.length > 10) {
-      (notes as unknown as string[]).push(
+      notes.push(
         "Complex ingredient profile reflects authentic culinary traditions",
       );
     }
@@ -1605,7 +1607,7 @@ export class UnifiedRecipeBuildingSystem {
       ? recipeWithMethods.cookingMethod
       : [recipeWithMethods.cookingMethod].filter(Boolean);
     if (cookingMethods.some((method) => method?.includes("slow"))) {
-      (notes as unknown as string[]).push(
+      notes.push(
         "Slow cooking methods enhance traditional flavors",
       );
     }
@@ -1617,29 +1619,29 @@ export class UnifiedRecipeBuildingSystem {
     recipe: EnhancedRecipe,
     cuisine: string,
   ): string[] {
-    const variations = [];
+    const variations: string[] = [];
 
     // Generate variations based on recipe characteristics and cuisine
     if (recipe.ingredients && recipe.ingredients.length > 0) {
-      (variations as string[]).push(
+      variations.push(
         `Traditional ${cuisine} preparation with authentic ingredients`,
       );
 
       // Add spice-based variations for certain cuisines
       if (["indian", "thai", "mexican"].includes(cuisine.toLowerCase())) {
-        (variations as string[]).push(
+        variations.push(
           `Spice-enhanced ${cuisine} version with traditional aromatics`,
         );
       }
 
       // Add regional variations
       if (cuisine.toLowerCase() === "italian") {
-        ((variations as string[]).push(
+        variations.push(
           "Northern Italian style with rich herbs",
-        ),
-          (variations as string[]).push(
-            "Southern Italian style with robust flavors",
-          ));
+        );
+        variations.push(
+          "Southern Italian style with robust flavors",
+        );
       }
     }
 
@@ -1650,16 +1652,16 @@ export class UnifiedRecipeBuildingSystem {
     recipe: EnhancedRecipe,
     cuisine: string,
   ): string[] {
-    const adaptations = [];
+    const adaptations: string[] = [];
 
     // Generate modern adaptations based on recipe and cuisine characteristics
     if (recipe.ingredients && recipe.ingredients.length > 0) {
-      (adaptations as string[]).push(
+      adaptations.push(
         `Modern ${cuisine} fusion with contemporary techniques`,
       );
 
       // Add health-conscious adaptations
-      (adaptations as string[]).push(
+      adaptations.push(
         `Health-optimized ${cuisine} version with nutritional enhancement`,
       );
 
@@ -1669,14 +1671,14 @@ export class UnifiedRecipeBuildingSystem {
           (method: string) => method.includes("traditional"),
         )
       ) {
-        (adaptations as string[]).push(
+        adaptations.push(
           "Modernized cooking techniques while preserving flavor",
         );
       }
 
       // Dietary adaptation suggestions
-      (adaptations as string[]).push("Plant-based alternative adaptation");
-      (adaptations as string[]).push("Gluten-free modern interpretation");
+      adaptations.push("Plant-based alternative adaptation");
+      adaptations.push("Gluten-free modern interpretation");
     }
 
     return adaptations;

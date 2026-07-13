@@ -22,6 +22,14 @@ interface MealCircuitBadgeProps {
 }
 
 /**
+ * `getEfficiencyColor` (in `@/hooks/useCircuitMetrics`) is typed to return
+ * `string`, but its implementation only ever returns one of these three
+ * literals. Narrowed locally so the color-keyed lookup objects below can be
+ * properly typed instead of using a loose string index signature.
+ */
+type EfficiencyColor = "green" | "yellow" | "red";
+
+/**
  * Compact badge for meal slot corner
  */
 function CompactBadge({
@@ -33,8 +41,8 @@ function CompactBadge({
   efficiency: number;
   isValid: boolean;
 }) {
-  const color = getEfficiencyColor(efficiency);
-  const colorClasses = {
+  const color = getEfficiencyColor(efficiency) as EfficiencyColor;
+  const colorClasses: Record<EfficiencyColor, string> = {
     green: "bg-green-100 border-green-400 text-green-700",
     yellow: "bg-yellow-100 border-yellow-400 text-yellow-700",
     red: "bg-red-100 border-red-400 text-red-700",
@@ -77,8 +85,8 @@ function ExpandedBadge({
   resistance: number;
   isValid: boolean;
 }) {
-  const color = getEfficiencyColor(efficiency);
-  const colorClasses = {
+  const color = getEfficiencyColor(efficiency) as EfficiencyColor;
+  const colorClasses: Record<EfficiencyColor, string> = {
     green: "bg-green-50 border-green-300",
     yellow: "bg-yellow-50 border-yellow-300",
     red: "bg-red-50 border-red-300",

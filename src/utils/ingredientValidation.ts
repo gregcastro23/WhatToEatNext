@@ -524,9 +524,14 @@ function validateAlchemicalConsistency(
     const elemental = ingredient.elementalProperties;
 
     // Check that alchemical properties are numeric and in valid range
-    const alchemicalProps = ["spirit", "essence", "matter", "substance"];
+    const alchemicalProps: Array<keyof typeof alchemical> = [
+      "spirit",
+      "essence",
+      "matter",
+      "substance",
+    ];
     for (const prop of alchemicalProps) {
-      const value = alchemical[prop] as number;
+      const value = alchemical[prop];
       if (typeof value !== "number" || isNaN(value)) {
         errors.push({
           type: "ALCHEMICAL_MISMATCH",
@@ -866,13 +871,14 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
         totalMappings++;
 
         const alchemical = ingredientData.alchemicalProperties;
-        const hasValidProps = [
+        const alchemicalProps: Array<keyof typeof alchemical> = [
           "spirit",
           "essence",
           "matter",
           "substance",
-        ].every((prop) => {
-          const value = alchemical[prop] as number;
+        ];
+        const hasValidProps = alchemicalProps.every((prop) => {
+          const value = alchemical[prop];
           return typeof value === "number" && !isNaN(value);
         });
 
