@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { rateLimit } from "@/lib/rateLimit";
 import {
   tableDatabase,
   type AddMemberFailureReason,
@@ -22,6 +23,8 @@ export const runtime = "nodejs";
 interface RouteParams {
   params: Promise<{ tableId: string }>;
 }
+
+const MEMBERS_ADD_LIMIT = { window: 60_000, max: 20, bucket: "tables-members-add" } as const;
 
 const membersPostSchema = z
   .object({
@@ -93,6 +96,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         { status: 401 },
       );
     }
+
+    const rl = await rateLimit(request, { ...MEMBERS_ADD_LIMIT, identifier: hostId });
+    if (!rl.allowed) return rl.response!;
 
     let rawBody: unknown;
     try {
