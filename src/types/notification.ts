@@ -15,7 +15,18 @@ export type NotificationType =
   | 'quest_completed'
   | 'master_quest_broadcast'
   | 'agent_broadcast'
-  | 'transit_attunement';
+  | 'transit_attunement'
+  | 'new_follower'
+  | 'table_invite'
+  | 'table_rsvp'
+  | 'table_going_live'
+  | 'table_memory_posted'
+  | 'table_join_request'
+  | 'reaction_received'
+  | 'comment_received'
+  | 'dm_message'
+  | 'circle_message'
+  | 'table_chat_mention';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -34,6 +45,41 @@ export interface NotificationMetadata {
     yieldMultiplier?: number;
     expiresAt?: string;
   };
+  /** Deep-link target for all `table_*` notification types. */
+  tableId?: string;
+  tableTitle?: string;
+  scheduledAt?: string;
+  venueName?: string;
+  hostName?: string;
+  guestName?: string;
+  /** `table_join_request`: the discoverer asking the host for an invite.
+   * `status` is the request's own lifecycle — deliberately independent of
+   * `isRead`, so a host merely viewing/opening the notification panel (which
+   * marks the row read) can never destroy actionability or defeat the
+   * requestToJoin dedupe. Defaults to 'pending' when absent (pre-fix rows).
+   * A 'dismissed' request may be re-requested later; an 'actioned' one is
+   * blocked from re-request via the resulting table_members row, not via
+   * this field. */
+  requesterId?: string;
+  requesterName?: string;
+  status?: 'pending' | 'actioned' | 'dismissed';
+  response?: string;
+  feedEventId?: string;
+  photoCount?: number;
+  /** Engagement notifications (PR 5): the feed event deep-linked from the bell. */
+  eventId?: string;
+  /** Number of distinct actors folded into one unread engagement row. */
+  count?: number;
+  /** Most-recent actor's display name (drives the "…and N others" copy). */
+  lastActorName?: string;
+  /** Reaction kind for reaction_received (spark/fire/water/earth/air). */
+  kind?: string;
+  /** Chat deep-link target + dedup key (one unread row per recipient+conversation). */
+  conversationId?: string;
+  conversationKind?: string;
+  /** Running unread count folded into a single deduped chat notification row. */
+  unreadCount?: number;
+  messagePreview?: string;
   [key: string]: unknown;
 }
 
@@ -69,4 +115,15 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   master_quest_broadcast: { bg: '#FFF3E0', border: '#FFB74D', icon: '🌌' },
   agent_broadcast:    { bg: '#F3E8FF', border: '#C084FC', icon: '🤖' },
   transit_attunement: { bg: '#EDE9FE', border: '#A78BFA', icon: '🌠' },
+  new_follower:       { bg: '#E8EAF6', border: '#9FA8DA', icon: '🤝' },
+  table_invite:        { bg: '#FFF3E0', border: '#e0a66b', icon: '🍽️' },
+  table_rsvp:          { bg: '#F3E5F5', border: '#B57EE0', icon: '📋' },
+  table_going_live:    { bg: '#EDE9FE', border: '#B57EE0', icon: '⚡' },
+  table_memory_posted: { bg: '#FFF8E1', border: '#e0a66b', icon: '📸' },
+  table_join_request:  { bg: '#FFF3E0', border: '#e0a66b', icon: '🙋' },
+  reaction_received:  { bg: '#FFF3E0', border: '#FFB74D', icon: '✨' },
+  comment_received:   { bg: '#E3F2FD', border: '#64B5F6', icon: '💬' },
+  dm_message:          { bg: '#E8EAF6', border: '#7986CB', icon: '💬' },
+  circle_message:      { bg: '#EDE9FE', border: '#A78BFA', icon: '💬' },
+  table_chat_mention:  { bg: '#EDE9FE', border: '#B57EE0', icon: '📣' },
 };

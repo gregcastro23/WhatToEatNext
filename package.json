@@ -211,6 +211,7 @@
     "openai": "^6.40.0",
     "pg": "^8.21.0",
     "postcss": "^8.5.14",
+    "qrcode.react": "^4.2.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-error-boundary": "^6.0.0",
@@ -224,6 +225,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "3.4.19",
     "viem": "^2.52.2",
+    "web-push": "^3.6.7",
     "ws": "^8.20.0",
     "zod": "^4.4.3"
   },
@@ -249,6 +251,7 @@
     "@types/react": "^19.0.5",
     "@types/react-dom": "^19.0.2",
     "@types/suncalc": "^1.9.2",
+    "@types/web-push": "^3.6.4",
     "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^8.59.2",
     "@typescript-eslint/parser": "^8.59.2",

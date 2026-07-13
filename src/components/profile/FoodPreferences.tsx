@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useToast } from '@/components/common/Toast';
+import { useShareIdentityDefault } from '@/hooks/useShareIdentityDefault';
+import { shareIdentityForPost } from '@/lib/feed/identity';
 
 interface UserPreferences {
   dietaryRestrictions: string[];
@@ -60,6 +62,13 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
   const [isSharing, setIsSharing] = useState(false);
   const [hasSharedFeed, setHasSharedFeed] = useState(false);
   const [hasSharedSocial, setHasSharedSocial] = useState(false);
+  // Identity flip (PR 4): named by default; checkbox = per-post anonymity
+  // opt-out, pre-checked when the global share_identity default is off.
+  const [postAnonymously, setPostAnonymously] = useState(false);
+  const { shareByDefault } = useShareIdentityDefault();
+  useEffect(() => {
+    setPostAnonymously(!shareByDefault);
+  }, [shareByDefault]);
 
   const handleShareToFeed = async () => {
     setIsSharing(true);
@@ -69,7 +78,7 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           shareType: "preferences",
-          shareName: false,
+          shareIdentity: shareIdentityForPost(postAnonymously, shareByDefault),
           payload: {
             dietaryRestrictions: localPrefs.dietaryRestrictions,
             preferredCuisines: localPrefs.preferredCuisines,
@@ -348,6 +357,15 @@ export const FoodPreferences: React.FC<FoodPreferencesProps> = ({
         <div>
           <h4 className="font-bold text-slate-800 text-lg">Showcase Your Constitution</h4>
           <p className="text-sm text-slate-500 font-medium">Share your culinary settings or download your alchemical profile card.</p>
+          <label className="mt-2 flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-600">
+            <input
+              type="checkbox"
+              checked={postAnonymously}
+              onChange={(e) => setPostAnonymously(e.target.checked)}
+              className="form-checkbox h-4 w-4 text-teal-600 rounded"
+            />
+            Post anonymously (hide my name on this post)
+          </label>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <button

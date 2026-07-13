@@ -26,9 +26,6 @@ export function RestaurantList({ restaurants, locationLabel }: Props) {
             )}
           </span>
         </h3>
-        <span className="text-[11px] text-purple-300/60 uppercase tracking-wider">
-          via Foursquare
-        </span>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">

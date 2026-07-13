@@ -3,17 +3,20 @@
 /**
  * Cooked-it dish card — how a shared Work appears in the commons.
  *
- * Renders the alchemical identity built at share time (chart-persona, never a
- * real name; elemental signature chip; the transit line) around the dish
- * photo, with the spark control. Sparking POSTs /api/feed/react — the server
- * anchors both invisible rewards to the reaction row (reactor's feed_reaction,
- * poster's work_resonated); reacted state is remembered locally so the button
- * renders lit without a per-user bootstrap call.
+ * Identity (PR 4): when the event actor is REVEALED (the identity resolver
+ * says so), the real name + avatar head the card and the chart-persona
+ * demotes to the signature line. When concealed (per-post anonymous / legacy
+ * default), the original pure-persona rendering is unchanged.
+ *
+ * Engagement (PR 5): the bespoke single-spark button is replaced by
+ * FeedEngagementBar — all five elemental reaction kinds, per-kind toggle, and
+ * (from Commit 2) a comment toggle. The server anchors both invisible rewards
+ * to the reaction row (reactor's feed_reaction, poster's work_resonated).
  */
 
 import Link from "next/link";
-import { useCallback, useEffect, useState, type JSX } from "react";
-import { revealPracticeReward } from "@/lib/economy/practiceClient";
+import { type JSX } from "react";
+import { FeedEngagementBar } from "@/components/feed/FeedEngagementBar";
 
 interface CookedCardMeta {
   recipeName?: string;
@@ -30,71 +33,39 @@ interface CookedDishCardProps {
   eventId: string;
   createdAtLabel: string;
   meta: CookedCardMeta;
-  initialCount: number;
+  /** Per-kind reaction counts (lowercase keys) from the feed payload. */
+  reactionCounts?: Record<string, number>;
+  /** The viewer's current reaction kinds (lowercase), from the bootstrap call. */
+  viewerKinds?: string[];
+  commentCount?: number;
+  /** Real identity — pass ONLY when the feed event's actor is revealed. */
+  actorId?: string;
+  actorName?: string;
+  actorImage?: string;
 }
 
-const REACTED_CACHE_KEY = "alchm:feed:sparked";
-
-function sparkedCache(): Set<string> {
-  try {
-    const raw = window.localStorage.getItem(REACTED_CACHE_KEY);
-    return new Set(raw ? (JSON.parse(raw) as string[]) : []);
-  } catch {
-    return new Set();
-  }
-}
-
-function rememberSpark(eventId: string): void {
-  try {
-    const cache = sparkedCache();
-    cache.add(eventId);
-    window.localStorage.setItem(REACTED_CACHE_KEY, JSON.stringify([...cache].slice(-500)));
-  } catch {
-    /* private mode */
-  }
-}
-
-export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: CookedDishCardProps): JSX.Element {
-  const [count, setCount] = useState(initialCount);
-  const [sparked, setSparked] = useState(false);
-  const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    setSparked(sparkedCache().has(eventId));
-  }, [eventId]);
-
-  const spark = useCallback(async () => {
-    if (sparked || busy) return;
-    setBusy(true);
-    try {
-      const res = await fetch("/api/feed/react", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId }),
-      });
-      const json = (await res.json()) as {
-        success?: boolean;
-        count?: number;
-        reward?: { tokenType: string; amount: number; hint: string } | null;
-      };
-      if (json.success) {
-        setSparked(true);
-        rememberSpark(eventId);
-        if (typeof json.count === "number") setCount(json.count);
-        if (json.reward) revealPracticeReward(json.reward);
-      }
-    } catch {
-      /* invisible — a missed spark is not an error */
-    } finally {
-      setBusy(false);
-    }
-  }, [eventId, sparked, busy]);
-
+export function CookedDishCard({
+  eventId,
+  createdAtLabel,
+  meta,
+  reactionCounts,
+  viewerKinds,
+  commentCount,
+  actorId,
+  actorName,
+  actorImage,
+}: CookedDishCardProps): JSX.Element {
   const dish = meta.recipeName || "a dish";
   const recipeHref = meta.recipeId ? `/recipes/${encodeURIComponent(meta.recipeId)}` : null;
 
+  // Revealed = real identity heads the card; persona joins the transit line.
+  const revealed = Boolean(actorId && actorName);
+  const personaLine = [meta.persona, meta.transitLine || "made under today's sky"]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
-    <div className="glass-card-premium rounded-2xl overflow-hidden border-white/8 hover:border-purple-500/20 transition-all">
+    <div id={`event-${eventId}`} className="glass-card-premium rounded-2xl overflow-hidden border-white/8 hover:border-purple-500/20 transition-all scroll-mt-24">
       {meta.photoUrl && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -108,7 +79,24 @@ export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: 
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="min-w-0">
             <p className="text-sm text-white/85">
-              <span className="font-bold text-purple-200">{meta.persona || "An alchemist of the kitchen"}</span>{" "}
+              {revealed ? (
+                <Link
+                  href={`/profile/${actorId}`}
+                  className="inline-flex items-center gap-2 align-middle font-bold text-white underline-offset-2 hover:underline hover:text-purple-200 mr-1"
+                >
+                  {actorImage && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={actorImage}
+                      alt=""
+                      className="w-5 h-5 rounded-full object-cover border border-white/10"
+                    />
+                  )}
+                  {actorName}
+                </Link>
+              ) : (
+                <span className="font-bold text-purple-200">{meta.persona || "An alchemist of the kitchen"}</span>
+              )}{" "}
               made{" "}
               {recipeHref ? (
                 <Link href={recipeHref} className="font-semibold text-white underline decoration-purple-400/30 underline-offset-2 hover:text-purple-100">
@@ -121,7 +109,9 @@ export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: 
                 <span className="text-amber-300/90"> · {"★".repeat(Math.min(5, meta.rating))}</span>
               )}
             </p>
-            <p className="text-[11px] text-white/40 mt-1 italic">{meta.transitLine || "made under today's sky"}</p>
+            <p className="text-[11px] text-white/40 mt-1 italic">
+              {revealed ? personaLine : meta.transitLine || "made under today's sky"}
+            </p>
           </div>
           {meta.signature && (
             <span className="shrink-0 text-[9px] font-black uppercase tracking-[0.14em] text-cyan-300/90 border border-cyan-500/25 rounded-full px-2.5 py-1">
@@ -130,29 +120,23 @@ export function CookedDishCard({ eventId, createdAtLabel, meta, initialCount }: 
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 mt-3">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => void spark()}
-              disabled={busy}
-              aria-pressed={sparked}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all ${
-                sparked
-                  ? "border-amber-400/50 bg-amber-500/15 text-amber-200"
-                  : "border-white/10 bg-white/[0.03] text-white/50 hover:text-amber-200 hover:border-amber-500/40"
-              }`}
-            >
-              <span aria-hidden>✦</span>
-              {count > 0 ? count : "Spark"}
-            </button>
-            {meta.tableKey && (
-              <span className="text-[9px] font-mono uppercase tracking-widest text-purple-300/70">
-                {meta.tableKey.startsWith("full-moon") ? "🌕 Full Moon Feast" : "🌑 New Moon Table"}
-              </span>
-            )}
-          </div>
-          <span className="text-[10px] text-white/30 font-mono">{createdAtLabel}</span>
+        <div className="mt-3">
+          <FeedEngagementBar
+            eventId={eventId}
+            initialCounts={reactionCounts}
+            viewerKinds={viewerKinds}
+            commentCount={commentCount}
+            trailing={
+              <>
+                {meta.tableKey && (
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-purple-300/70">
+                    {meta.tableKey.startsWith("full-moon") ? "🌕 Full Moon Feast" : "🌑 New Moon Table"}
+                  </span>
+                )}
+                <span className="text-[10px] text-white/30 font-mono">{createdAtLabel}</span>
+              </>
+            }
+          />
         </div>
       </div>
     </div>

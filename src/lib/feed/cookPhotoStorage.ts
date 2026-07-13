@@ -74,3 +74,72 @@ export async function storeCookPhoto(userId: string, dataUrl: string): Promise<s
     return null;
   }
 }
+
+/**
+ * Persist a table-memory photo data URL to R2. Same validation/cap as
+ * storeCookPhoto (5MB, jpeg/png/webp); key prefix `table-photos/<tableId>/`
+ * (docs/plans/tables-program-sequencing.md Reconciliation 3 — the shared R2
+ * key-prefix convention). Returns the public URL, or null on any failure so
+ * callers can fail the upload without failing the table mutation it's
+ * attached to.
+ */
+export async function storeTablePhoto(tableId: string, dataUrl: string): Promise<string | null> {
+  if (!cookPhotoStorageConfigured()) return null;
+  const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
+  if (!match) return null;
+  const [, mime, b64] = match;
+  const buf = Buffer.from(b64, "base64");
+  if (buf.length === 0 || buf.length > MAX_BYTES) return null;
+
+  const hash = createHash("sha256").update(buf).digest("hex").slice(0, 24);
+  const key = `table-photos/${tableId}/${hash}.${MIME_EXT[mime]}`;
+  try {
+    await r2().send(
+      new PutObjectCommand({
+        Bucket: R2_BUCKET,
+        Key: key,
+        Body: new Uint8Array(buf),
+        ContentType: mime,
+        CacheControl: "public, max-age=31536000, immutable",
+      }),
+    );
+    return `${R2_DOMAIN}/${key}`;
+  } catch (err) {
+    console.error("[cookPhotoStorage] R2 put failed (table photo):", err);
+    return null;
+  }
+}
+
+/**
+ * Persist a chat-message photo data URL to R2. Same validation/cap as
+ * storeCookPhoto (5MB, jpeg/png/webp); key prefix `chat-photos/<userId>/`
+ * (docs/plans/tables-program-sequencing.md Reconciliation 3). Returns the
+ * public URL, or null on any failure — the send route fails the message
+ * cleanly rather than posting a message missing its photo.
+ */
+export async function storeChatPhoto(userId: string, dataUrl: string): Promise<string | null> {
+  if (!cookPhotoStorageConfigured()) return null;
+  const match = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl);
+  if (!match) return null;
+  const [, mime, b64] = match;
+  const buf = Buffer.from(b64, "base64");
+  if (buf.length === 0 || buf.length > MAX_BYTES) return null;
+
+  const hash = createHash("sha256").update(buf).digest("hex").slice(0, 24);
+  const key = `chat-photos/${userId}/${hash}.${MIME_EXT[mime]}`;
+  try {
+    await r2().send(
+      new PutObjectCommand({
+        Bucket: R2_BUCKET,
+        Key: key,
+        Body: new Uint8Array(buf),
+        ContentType: mime,
+        CacheControl: "public, max-age=31536000, immutable",
+      }),
+    );
+    return `${R2_DOMAIN}/${key}`;
+  } catch (err) {
+    console.error("[cookPhotoStorage] R2 put failed (chat photo):", err);
+    return null;
+  }
+}

@@ -8,6 +8,8 @@ import { useToast } from '@/components/common/Toast';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import { useShareIdentityDefault } from '@/hooks/useShareIdentityDefault';
+import { shareIdentityForPost } from '@/lib/feed/identity';
 import { mintRecipe as submitRecipeMint, mintResultMessage, quoteRecipeMint, type MintQuoteResult } from '@/lib/recipe-nft/mintClient';
 import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
@@ -127,7 +129,13 @@ export default function CosmicRecipeGenerator() {
 
   const { showSuccess, showError } = useToast();
   const [showShareModal, setShowShareModal] = useState(false);
-  const [shareNameOptIn, setShareNameOptIn] = useState(false);
+  // Identity flip (PR 4): named by default; checkbox = per-post anonymity
+  // opt-out, pre-checked when the global share_identity default is off.
+  const [postAnonymously, setPostAnonymously] = useState(false);
+  const { shareByDefault } = useShareIdentityDefault();
+  useEffect(() => {
+    setPostAnonymously(!shareByDefault);
+  }, [shareByDefault]);
   const [isSharing, setIsSharing] = useState(false);
   const [hasShared, setHasShared] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
@@ -184,7 +192,7 @@ export default function CosmicRecipeGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           shareType: "recipe",
-          shareName: shareNameOptIn,
+          shareIdentity: shareIdentityForPost(postAnonymously, shareByDefault),
           payload: {
             recipeName: object.title,
             recipeId: savedRecipeId,
@@ -624,7 +632,8 @@ export default function CosmicRecipeGenerator() {
                 </Link>
                 <button
                   onClick={() => {
-                    setShareNameOptIn(false);
+                    // Reset to the user's global default (pre-checked for opt-outs).
+                    setPostAnonymously(!shareByDefault);
                     setShowShareModal(true);
                   }}
                   disabled={hasShared}
@@ -837,12 +846,12 @@ export default function CosmicRecipeGenerator() {
               <label className="flex items-center space-x-3 cursor-pointer p-3 bg-purple-50 dark:bg-purple-950/20 rounded-lg border border-purple-100 dark:border-purple-900/50">
                 <input
                   type="checkbox"
-                  checked={shareNameOptIn}
-                  onChange={(e) => setShareNameOptIn(e.target.checked)}
+                  checked={postAnonymously}
+                  onChange={(e) => setPostAnonymously(e.target.checked)}
                   className="form-checkbox h-5 w-5 text-purple-600 rounded"
                 />
                 <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
-                  Opt-in to share my name (defaults to Anonymous Alchemist)
+                  Post anonymously (hide my name on this post)
                 </span>
               </label>
             </div>

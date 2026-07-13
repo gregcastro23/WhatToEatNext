@@ -9,7 +9,13 @@ import Header from "@/components/Header";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
+import { CosmicIdentityPanel } from "@/components/profile/tables/CosmicIdentityPanel";
+import { FollowListSheet } from "@/components/profile/tables/FollowListSheet";
+import { ProfileIdentityPanel } from "@/components/profile/tables/ProfileIdentityPanel";
+import { ProfileStatsPanel } from "@/components/profile/tables/ProfileStatsPanel";
+import { TableMemoriesGallery } from "@/components/profile/tables/TableMemoriesGallery";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
+import type { ProfileSocialBlock } from "@/types/social";
 import AgentProfile from "./AgentProfile";
 
 interface NatalPosition {
@@ -37,6 +43,10 @@ interface PublicProfile {
   agentArtifacts?: any[];
   bio: string | null;
   dominantElement: string | null;
+  avatarUrl: string | null;
+  social: ProfileSocialBlock;
+  /** Owner-only: the "post anonymously by default" toggle state. */
+  shareIdentity?: boolean;
   natalChart: any;
   natalPositions: NatalPosition[];
   birthData: { date?: string; time?: string; location?: string } | null;
@@ -48,18 +58,20 @@ interface PublicProfile {
   tasteGraph?: any;
 }
 
-const ELEMENT_COLORS: Record<string, { glow: string; text: string }> = {
-  Fire: { glow: "shadow-amber-500/30", text: "text-amber-400" },
-  Water: { glow: "shadow-blue-500/30", text: "text-blue-400" },
-  Earth: { glow: "shadow-emerald-500/30", text: "text-emerald-400" },
-  Air: { glow: "shadow-purple-500/30", text: "text-purple-400" },
-};
-
 const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
   spirit: { symbol: "🝇", color: "text-amber-400" },
   essence: { symbol: "🝑", color: "text-blue-400" },
   matter: { symbol: "🝙", color: "text-emerald-400" },
   substance: { symbol: "🝉", color: "text-purple-400" },
+};
+
+const EMPTY_SOCIAL: ProfileSocialBlock = {
+  followers: 0,
+  following: 0,
+  commensals: 0,
+  tablesHosted: null,
+  tablesJoined: null,
+  viewer: null,
 };
 
 function formatPlacement(placement: NatalPosition): string | null {
@@ -81,6 +93,7 @@ export default function PublicProfilePage() {
   const [activeTab, setActiveTab] = useState<ProfileTab>("Palate");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [layout, setLayout] = useState<string[]>([]);
+  const [followSheetOpen, setFollowSheetOpen] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -93,7 +106,7 @@ export default function PublicProfilePage() {
         if (!res.ok || !data.success) {
           setError(data.message || "Profile unavailable");
         } else {
-          setProfile(data.profile);
+          setProfile({ social: EMPTY_SOCIAL, ...data.profile });
           setLayout(data.profile.profile_layout || ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
         }
       } catch (_err) {
@@ -113,6 +126,7 @@ export default function PublicProfilePage() {
     .filter(Boolean) as string[];
 
   const hasEnrichedAgent = !!(profile?.isAgent && profile.agentProfile);
+  const social = profile?.social ?? EMPTY_SOCIAL;
 
   return (
     <main className="min-h-screen bg-[#08080e] pb-24 text-white">
@@ -123,7 +137,7 @@ export default function PublicProfilePage() {
         <div className="absolute top-1/4 left-1/3 w-[600px] h-[500px] bg-purple-600/6 rounded-full blur-[140px]" />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 pt-32">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-32">
         <div className="flex justify-between items-center mb-8">
           <Link
             href="/feed"
@@ -157,133 +171,119 @@ export default function PublicProfilePage() {
             interactions={profile.agentInteractions || []}
             actions={profile.agentActions || []}
             artifacts={profile.agentArtifacts || []}
+            userId={profile.userId}
+            viewer={social.viewer}
           />
         ) : (
-          <>
-            <motion.section
+          <div className="grid md:grid-cols-12 gap-6 mb-8">
+            {/* ── Left rail: identity, stats, cosmic identity (§3.5) ── */}
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-card-premium rounded-3xl p-8 md:p-10 border-white/8 mb-8 relative overflow-hidden"
+              className="md:col-span-4 space-y-6"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/8 rounded-full blur-3xl pointer-events-none" />
-              <div className="relative z-10 flex flex-col md:flex-row md:items-start gap-6">
-                <div
-                  className={`w-20 h-20 rounded-2xl border border-white/10 flex items-center justify-center text-3xl shadow-inner ${
-                    profile.isAgent
-                      ? "bg-purple-900/40 shadow-purple-500/10"
-                      : "bg-emerald-900/30 shadow-emerald-500/10"
-                  }`}
-                >
-                  {profile.isAgent ? "🤖" : "🜍"}
-                </div>
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <h1 className="text-3xl md:text-4xl font-black text-white tracking-tighter">
-                      {profile.name}
-                    </h1>
-                    {profile.isAgent && (
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-purple-500/20 text-purple-200 border border-purple-400/30">
-                        Planetary Agent
-                      </span>
-                    )}
-                    {profile.dominantElement && (
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-white/10 bg-white/5 ${
-                          ELEMENT_COLORS[profile.dominantElement]?.text || "text-white/70"
-                        }`}
-                      >
-                        {profile.dominantElement} Dominant
-                      </span>
-                    )}
-                  </div>
-                  {profile.handle && (
-                    <p className="text-[11px] uppercase tracking-widest text-white/30 font-mono">
-                      {profile.handle}
-                    </p>
-                  )}
-                  {profile.bio && (
-                    <p className="text-sm text-white/70 leading-relaxed mt-4 max-w-2xl">
-                      {profile.bio}
-                    </p>
-                  )}
-                  {profile.birthData?.date && (
-                    <p className="text-[10px] uppercase tracking-widest text-white/30 mt-4">
-                      Born {profile.birthData.date}
-                      {profile.birthData.time ? ` · ${profile.birthData.time}` : ""}
-                      {profile.birthData.location ? ` · ${profile.birthData.location}` : ""}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </motion.section>
+              <ProfileIdentityPanel
+                userId={profile.userId}
+                name={profile.name}
+                isAgent={profile.isAgent}
+                agentSlug={profile.agentSlug}
+                avatarUrl={profile.avatarUrl}
+                dominantElement={profile.dominantElement}
+                natalPositions={profile.natalPositions ?? []}
+                bio={profile.bio}
+                createdAt={profile.createdAt}
+                isOwner={isOwner}
+                shareIdentity={profile.shareIdentity}
+                viewer={social.viewer}
+                tablesAvailable={social.tablesHosted !== null}
+                onAvatarChanged={(avatarUrl) =>
+                  setProfile((prev) => (prev ? { ...prev, avatarUrl } : prev))
+                }
+              />
+              <ProfileStatsPanel
+                social={social}
+                onOpenFollowers={() => setFollowSheetOpen(true)}
+              />
+              <CosmicIdentityPanel
+                elementalAffinities={profile.tasteGraph?.elementalAffinities}
+                dominantElement={profile.dominantElement}
+              />
+            </motion.div>
 
-            <div className="flex space-x-6 border-b border-white/10 mb-6">
-              {(["Essence", "Palate", "Practice"] as ProfileTab[]).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`pb-2 text-sm uppercase tracking-widest font-bold transition-colors ${
-                    activeTab === tab 
-                      ? "border-b-2 border-purple-500 text-purple-400" 
-                      : "text-white/40 hover:text-white/70"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
+            {/* ── Main column: memories + the existing block system ── */}
+            <div className="md:col-span-8 space-y-6">
+              <TableMemoriesGallery userId={profile.userId} />
 
-            <div className="space-y-4 mb-8">
-              {layout.map((blockId: string) => {
-                const block = PROFILE_BLOCKS[blockId];
-                if (!block) return null;
-                if (block.tab !== activeTab) return null;
-                if (block.visibleTo === "owner" && !isOwner) return null;
-
-                return <div key={blockId} className="text-white bg-white/5 border border-white/10 rounded-xl overflow-hidden">{block.render({ data: profile, isOwner })}</div>;
-              })}
-            </div>
-
-            <div className="grid md:grid-cols-4 gap-4 mb-8">
-              {(["spirit", "essence", "matter", "substance"] as const).map((key) => {
-                const visual = TOKEN_VISUAL[key];
-                return (
-                  <div
-                    key={key}
-                    className="glass-base rounded-2xl p-4 border border-white/8 flex items-center gap-3"
-                  >
-                    <span className={`text-xl ${visual.color}`}>{visual.symbol}</span>
-                    <div>
-                      <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">
-                        {key}
-                      </p>
-                      <p className="text-lg font-black text-white tabular-nums">
-                        {profile.balances[key].toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {placements.length > 0 && (
-              <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8 mb-8">
-                <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">
-                  Natal Chart Highlights
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {placements.map((placement) => (
-                    <span
-                      key={placement}
-                      className="px-3 py-1.5 rounded-full text-xs font-medium border border-purple-400/15 bg-purple-500/10 text-purple-100/85"
+              <div>
+                <div className="flex space-x-6 border-b border-white/10 mb-6">
+                  {(["Essence", "Palate", "Practice"] as ProfileTab[]).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`pb-2 text-sm uppercase tracking-widest font-bold transition-colors ${
+                        activeTab === tab
+                          ? "border-b-2 border-purple-500 text-purple-400"
+                          : "text-white/40 hover:text-white/70"
+                      }`}
                     >
-                      {placement}
-                    </span>
+                      {tab}
+                    </button>
                   ))}
                 </div>
-              </section>
-            )}
-          </>
+
+                <div className="space-y-4">
+                  {layout.map((blockId: string) => {
+                    const block = PROFILE_BLOCKS[blockId];
+                    if (!block) return null;
+                    if (block.tab !== activeTab) return null;
+                    if (block.visibleTo === "owner" && !isOwner) return null;
+
+                    return <div key={blockId} className="text-white bg-white/5 border border-white/10 rounded-xl overflow-hidden">{block.render({ data: profile, isOwner })}</div>;
+                  })}
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-4 gap-4">
+                {(["spirit", "essence", "matter", "substance"] as const).map((key) => {
+                  const visual = TOKEN_VISUAL[key];
+                  return (
+                    <div
+                      key={key}
+                      className="glass-base rounded-2xl p-4 border border-white/8 flex items-center gap-3"
+                    >
+                      <span className={`text-xl ${visual.color}`}>{visual.symbol}</span>
+                      <div>
+                        <p className="text-[9px] uppercase tracking-widest text-white/30 font-bold">
+                          {key}
+                        </p>
+                        <p className="text-lg font-black text-white tabular-nums">
+                          {profile.balances[key].toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {placements.length > 0 && (
+                <section className="glass-card-premium rounded-3xl p-6 md:p-8 border-white/8">
+                  <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">
+                    Natal Chart Highlights
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {placements.map((placement) => (
+                      <span
+                        key={placement}
+                        className="px-3 py-1.5 rounded-full text-xs font-medium border border-purple-400/15 bg-purple-500/10 text-purple-100/85"
+                      >
+                        {placement}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
+          </div>
         )}
 
         {!loading && !error && profile && (
@@ -291,13 +291,22 @@ export default function PublicProfilePage() {
             <h2 className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">
               Live Feed
             </h2>
-            <LiveAgentFeed 
-              userId={profile.userId} 
-              initialEvents={profile.recentActivity} 
+            <LiveAgentFeed
+              userId={profile.userId}
+              initialEvents={profile.recentActivity}
             />
           </section>
         )}
       </div>
+      {profile && (
+        <FollowListSheet
+          userId={profile.userId}
+          open={followSheetOpen}
+          onClose={() => setFollowSheetOpen(false)}
+          viewerSignedIn={Boolean(session?.user?.id)}
+          viewerId={session?.user?.id ?? null}
+        />
+      )}
       <CustomizeDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
@@ -307,4 +316,3 @@ export default function PublicProfilePage() {
     </main>
   );
 }
-

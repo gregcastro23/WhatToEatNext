@@ -133,3 +133,112 @@ pub struct CommensalMember {
     pub display_name: String,
     pub joined_at: Timestamp,
 }
+
+/// Live session for a Postgres `tables` row (the Table entity, PR 2).
+///
+/// Keyed by `wten_table_id` — the Postgres UUID as text, the ONE Spacetime
+/// key shared by every table-scoped module table (see
+/// docs/plans/tables-program-sequencing.md Reconciliation 3). Clients look
+/// sessions up by table UUID, so no session id ever round-trips through
+/// Postgres. Presence-only in PR 2: chat tables arrive with PR 3's
+/// conversations model. Nothing durable derives from these rows — Postgres
+/// is authoritative for the whole table lifecycle; this layer is an
+/// ephemeral UX nicety for the live phase.
+#[spacetimedb::table(accessor = table_session, public)]
+#[derive(Clone)]
+pub struct TableSession {
+    #[primary_key]
+    #[auto_inc]
+    pub session_id: u64,
+    /// Postgres tables.id (UUID) as text. One session per table — the
+    /// unique constraint makes `ensure_table_session` race-safe.
+    #[unique]
+    pub wten_table_id: String,
+    /// First ensurer — an unverified client identity, only used to gate the
+    /// module-side close. The REAL host lives in Postgres (tables.host_id).
+    #[index(btree)]
+    pub host: Identity,
+    pub title: String,
+    /// 0 = open, 2 = closed (mirrors the commensal-session status space;
+    /// table sessions have no locked state).
+    pub status: u8,
+    pub created_at: Timestamp,
+    pub updated_at: Timestamp,
+}
+
+/// Who is present in a live table session. Subscribing to a table's rows by
+/// `wten_table_id` gives live presence for the party.
+#[spacetimedb::table(accessor = table_presence, public)]
+#[derive(Clone)]
+pub struct TablePresence {
+    #[primary_key]
+    #[auto_inc]
+    pub row_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    #[index(btree)]
+    pub member: Identity,
+    /// Client-claimed WTEN user id — a DISPLAY HINT matched against the
+    /// Postgres member list, never authoritative (ST identities are
+    /// anonymous localStorage tokens, unlinked to WTEN accounts).
+    pub wten_user_id: String,
+    pub display_name: String,
+    pub joined_at: Timestamp,
+}
+
+/// Live MIRROR of a Table's chat message (PR 3 — the canonical record lives in
+/// Postgres `messages`; these rows only push live delivery to subscribed
+/// clients). Keyed by `wten_table_id`, the same Spacetime key as TableSession
+/// and TablePresence (docs/plans/tables-program-sequencing.md Reconciliation
+/// 1/3). Bodies here are the SAME trust tier as the public `feed_event`: table
+/// chat is a room, not a private channel. DM and circle bodies NEVER enter
+/// SpacetimeDB — only table-chat mirrors.
+///
+/// The client publishes ONLY after the Postgres write returns 200, carrying
+/// that canonical row's `message_uuid`; the client reconciles live rows against
+/// canonical fetches by that uuid. `sender_name` is read from the presence row
+/// (never from reducer args) so a client can't spoof another member's name.
+#[spacetimedb::table(accessor = table_chat_message, public)]
+#[derive(Clone)]
+pub struct TableChatMessage {
+    #[primary_key]
+    #[auto_inc]
+    pub chat_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    /// The canonical Postgres messages.id (UUID) as text — the reconcile key.
+    pub message_uuid: String,
+    /// Author — always `ctx.sender`.
+    #[index(btree)]
+    pub sender: Identity,
+    /// Denormalized display name, taken from the sender's presence row.
+    pub sender_name: String,
+    pub body: String,
+    /// Canonical uuid of the replied-to message, or empty string for none.
+    pub reply_to_uuid: String,
+    pub created_at: Timestamp,
+    /// Tombstone flag; a deleted mirror keeps its row but blanks its body.
+    pub deleted: bool,
+}
+
+/// A host-imposed mute for one identity in a table's live chat. Presence is
+/// unaffected — a muted member still shows "at the table" but cannot post.
+/// Keyed by `wten_table_id`; the `join_table_session` guard also rejects muted
+/// identities (kick = remove-presence + mute; unmute readmits).
+#[spacetimedb::table(accessor = table_chat_mute, public)]
+#[derive(Clone)]
+pub struct TableChatMute {
+    #[primary_key]
+    #[auto_inc]
+    pub row_id: u64,
+    /// Postgres tables.id (UUID) as text — same key as TableSession.
+    #[index(btree)]
+    pub wten_table_id: String,
+    #[index(btree)]
+    pub member: Identity,
+    /// The host identity that imposed the mute (informational).
+    pub muted_by: Identity,
+    pub created_at: Timestamp,
+}

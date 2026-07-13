@@ -11,8 +11,10 @@ import React, {
   useState,
 } from "react";
 import { CookedDishCard } from "@/components/feed/CookedDishCard";
+import { FeedEngagementBar } from "@/components/feed/FeedEngagementBar";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
 import { LunarTableStrip } from "@/components/feed/LunarTableStrip";
+import { TableMemoryCard } from "@/components/feed/TableMemoryCard";
 import { TransitInviteBanner } from "@/components/feed/TransitInviteBanner";
 import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
 import { firePractice } from "@/lib/economy/practiceClient";
@@ -35,6 +37,19 @@ interface FeedEvent {
   metadataPayload: any;
   createdAt: string;
   reactionCount?: number;
+  /** Per-kind reaction counts (lowercase keys) — viewer-independent (PR 5). */
+  reactionCounts?: Record<string, number>;
+  /** Non-deleted, non-hidden comment count (PR 5). */
+  commentCount?: number;
+  /** Identity resolver output (PR 4): real identity rendered when true. */
+  actorRevealed?: boolean;
+}
+
+/** Postgres UUID guard — engagement UI renders only on DB-backed rows, never
+ *  the synthetic `stdb-…` ids from the live SpacetimeDB store. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+function isUuidEventId(id: string): boolean {
+  return UUID_RE.test(id);
 }
 
 interface AgentSummary {
@@ -133,6 +148,11 @@ const PLANET_GLYPH: Record<string, string> = {
   Saturn: "♄",
 };
 
+// The viewer's per-event reaction kinds (lowercase), bootstrapped once per
+// refresh from GET /api/feed/reactions. Shared via context so the engagement
+// bars deep in the tree render lit without prop-drilling through FeedTab.
+const ViewerKindsContext = React.createContext<Record<string, string[]>>({});
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatRelativeTime(iso: string): string {
@@ -168,6 +188,7 @@ export default function FeedPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [loadWarning, setLoadWarning] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [viewerKinds, setViewerKinds] = useState<Record<string, string[]>>({});
   const requestInFlight = useRef(false);
 
   const refreshAll = useCallback(async (manual = false) => {
@@ -188,7 +209,29 @@ export default function FeedPage() {
 
       if (feedRes.status === "fulfilled" && feedRes.value.ok) {
         const data = await feedRes.value.json();
-        if (data.success) setEvents(data.events || []);
+        if (data.success) {
+          const nextEvents: FeedEvent[] = data.events || [];
+          setEvents(nextEvents);
+          // Per-viewer reaction bootstrap: one call with the visible UUID event
+          // ids (per-viewer state can't ride the shared-cached /api/feed). Silent
+          // on failure — the engagement bars fall back to their localStorage hint.
+          const uuidIds = nextEvents
+            .map((event) => event.id)
+            .filter((id) => isUuidEventId(id))
+            .slice(0, 100);
+          if (uuidIds.length > 0) {
+            fetch(`/api/feed/reactions?eventIds=${uuidIds.join(",")}`)
+              .then((res) => (res.ok ? res.json() : null))
+              .then((body) => {
+                if (body?.success && body.viewerKinds) {
+                  setViewerKinds(body.viewerKinds as Record<string, string[]>);
+                }
+              })
+              .catch(() => {
+                /* invisible — bars fall back to local cache */
+              });
+          }
+        }
       } else {
         failedSources += 1;
       }
@@ -306,6 +349,7 @@ export default function FeedPage() {
   };
 
   return (
+    <ViewerKindsContext.Provider value={viewerKinds}>
     <div className="min-h-screen bg-[#08080e] pb-28">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-950/20 via-[#08080e] to-amber-950/10" />
@@ -499,6 +543,7 @@ export default function FeedPage() {
         </AnimatePresence>
       </div>
     </div>
+    </ViewerKindsContext.Provider>
   );
 }
 
@@ -701,21 +746,48 @@ function FeedTab({
 function HumanFeedRow({ event }: { event: FeedEvent }) {
   const narration = getEventNarration(event);
   const actorHref = `/profile/${event.actorId}`;
+  const viewerKindsMap = React.useContext(ViewerKindsContext);
+  // Engagement UI mounts only on Postgres-backed rows (real UUIDs); the live
+  // SpacetimeDB store prepends synthetic `stdb-…` ids that carry no reactions.
+  const engageable = isUuidEventId(event.id);
 
-  // Cooked-it dish cards carry their own alchemical identity (chart-persona,
-  // signature, transit line) — rendered as a full card, not a narration row.
+  // Cooked-it dish cards render as a full card, not a narration row. When
+  // the actor is revealed (identity resolver, PR 4) the real name + avatar
+  // head the card; concealed cards keep the pure chart-persona identity.
   if (event.metadataPayload?.card === "cooked") {
+    const revealed = event.actorRevealed === true;
     return (
       <CookedDishCard
         eventId={event.id}
         createdAtLabel={formatRelativeTime(event.createdAt)}
         meta={event.metadataPayload}
-        initialCount={event.reactionCount ?? 0}
+        reactionCounts={event.reactionCounts}
+        viewerKinds={engageable ? viewerKindsMap[event.id] : undefined}
+        commentCount={event.commentCount}
+        actorId={revealed ? event.actorId : undefined}
+        actorName={revealed ? event.actorName : undefined}
+        actorImage={revealed ? event.actorImage : undefined}
+      />
+    );
+  }
+
+  // Table memories are frozen social artifacts (real guest roster, composite
+  // badge, photos) — also a full card.
+  if (event.metadataPayload?.card === "table_memory") {
+    return (
+      <TableMemoryCard
+        meta={event.metadataPayload}
+        createdAtLabel={formatRelativeTime(event.createdAt)}
+        actorName={event.actorName}
+        eventId={engageable ? event.id : undefined}
+        reactionCounts={event.reactionCounts}
+        viewerKinds={engageable ? viewerKindsMap[event.id] : undefined}
+        commentCount={event.commentCount}
       />
     );
   }
   return (
-    <div className="glass-card-premium rounded-2xl p-5 transition-all flex items-start gap-4 border-white/8 hover:border-purple-500/20">
+    <div id={engageable ? `event-${event.id}` : undefined} className="glass-card-premium rounded-2xl p-5 transition-all flex items-start gap-4 border-white/8 hover:border-purple-500/20 scroll-mt-24">
       <div className="w-10 h-10 rounded-full glass-base flex items-center justify-center text-xl shrink-0 border border-white/5 overflow-hidden">
         {event.actorImage ? (
           /* eslint-disable-next-line @next/next/no-img-element */
@@ -752,6 +824,16 @@ function HumanFeedRow({ event }: { event: FeedEvent }) {
             {formatRelativeTime(event.createdAt)}
           </span>
         </div>
+        {engageable && (
+          <div className="mt-3">
+            <FeedEngagementBar
+              eventId={event.id}
+              initialCounts={event.reactionCounts}
+              viewerKinds={viewerKindsMap[event.id]}
+              commentCount={event.commentCount}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

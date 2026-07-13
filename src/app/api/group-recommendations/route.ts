@@ -6,7 +6,9 @@ import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { subscriptionService } from "@/services/subscriptionService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
+import type { GroupMember } from "@/types/natalChart";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
+import { elementalCosineHarmony } from "@/utils/elemental/harmony";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -37,7 +39,6 @@ type ElementalProperties = Record<string, number> & {
 };
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-const ELEMENT_ORDER: Element[] = ["Fire", "Water", "Earth", "Air"];
 /** Average a list of elemental property objects */
 function avgElemental(items: ElementalProperties[]): ElementalProperties {
   if (items.length === 0) return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -72,16 +73,9 @@ function avgAlchemical(items: AlchemicalProperties[]): AlchemicalProperties {
     Substance: sum.Substance / items.length,
   };
 }
-/** Cosine similarity between two elemental property vectors */
-function elementalHarmony(a: ElementalProperties, b: ElementalProperties): number {
-  const va = ELEMENT_ORDER.map((e) => (a as any)[e] ?? 0);
-  const vb = ELEMENT_ORDER.map((e) => (b as any)[e] ?? 0);
-  const dot = va.reduce((s, ai, i) => s + ai * vb[i], 0);
-  const magA = Math.sqrt(va.reduce((s, ai) => s + ai * ai, 0));
-  const magB = Math.sqrt(vb.reduce((s, bi) => s + bi * bi, 0));
-  if (magA === 0 || magB === 0) return 0.7; // Neutral harmony for empty vectors
-  return Math.max(0, Math.min(1, dot / (magA * magB)));
-}
+// Cosine harmony is now the shared `elementalCosineHarmony`
+// (src/utils/elemental/harmony.ts) — extracted so the Tables discovery scorers
+// reuse the exact same math. Behavior is unchanged (parity test guards it).
 /** Dominant element from an elemental property object */
 function dominantElement(e: ElementalProperties): Element {
   return (Object.entries(e).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire") as Element;
@@ -143,10 +137,27 @@ export async function POST(request: NextRequest) {
       alchemicalList.push(alch);
       memberInfo.push({ id: userId, name: currentUser.profile.name ?? "You", element: dominantElement(el) });
     }
-    // Manual commensals from the user's groupMembers
+    // Manual commensals live in TWO places: the modern manual_companion_charts
+    // table (written by POST /api/user/commensals and save-group) and the
+    // legacy user_profiles.group_members JSONB. Merge both sources — deduped
+    // by id, modern table rows winning — so companions saved via either path
+    // resolve here.
     if ((commensalIds).length > 0) {
-      const groupMembers = currentUser.profile.groupMembers || [];
-      for (const commensal of groupMembers) {
+      const legacyMembers: GroupMember[] = currentUser.profile.groupMembers || [];
+      let tableMembers: GroupMember[] = [];
+      try {
+        tableMembers = await commensalDatabase.getManualCompanionsForUser(userId);
+      } catch (err) {
+        _logger.error(
+          `[POST /api/group-recommendations] Manual companions lookup failed for user ${userId}`,
+          err,
+        );
+        // Table unavailable — fall back to legacy JSONB members only
+      }
+      const mergedById = new Map<string, GroupMember>();
+      for (const m of legacyMembers) mergedById.set(m.id, m);
+      for (const m of tableMembers) mergedById.set(m.id, m);
+      for (const commensal of mergedById.values()) {
         if (!(commensalIds).includes(commensal.id)) continue;
         const chart = commensal.natalChart;
         if (!chart) continue;
@@ -212,7 +223,7 @@ export async function POST(request: NextRequest) {
         return {
           memberId: m.id,
           memberName: m.name,
-          score: elementalHarmony(memberEl, cuisine.elemental),
+          score: elementalCosineHarmony(memberEl, cuisine.elemental),
         };
       });
       const scores = memberScores.map((ms) => ms.score);
@@ -227,7 +238,7 @@ export async function POST(request: NextRequest) {
         // average
         groupScore = scores.reduce((a, b) => a + b, 0) / scores.length;
       }
-      const harmony = elementalHarmony(compositeElemental, cuisine.elemental);
+      const harmony = elementalCosineHarmony(compositeElemental, cuisine.elemental);
       return {
         cuisineId: cuisine.id,
         cuisineName: cuisine.name,

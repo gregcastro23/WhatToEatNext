@@ -26,7 +26,17 @@ export async function POST(request: NextRequest) {
     if (!rl.allowed) return rl.response!;
 
     const body = await request.json();
-    const { shareType, shareName, payload } = body;
+    const { shareType, shareName, shareIdentity, payload } = body;
+
+    // Per-post identity choice: `shareIdentity` is canonical, legacy
+    // `shareName` accepted as an alias. Absent = inherit the user's
+    // share_identity default (createEvent resolves + stamps it).
+    const requestedShare: boolean | undefined =
+      typeof shareIdentity === "boolean"
+        ? shareIdentity
+        : typeof shareName === "boolean"
+          ? shareName
+          : undefined;
 
     if (!shareType) {
       return NextResponse.json(
@@ -87,18 +97,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build metadata payload, ensuring shareName is passed. Cooked cards are
-    // ALWAYS pseudonymous (chart-persona) — shareName stays false so the feed
-    // never attaches a real name to a dish post.
-    const { photoDataUrl: _dropped, ...safePayload } = (payload || {}) as Record<string, unknown>;
+    // Build metadata payload. Identity is stamped by createEvent (v2 stamp +
+    // legacy shareName mirror): cooked cards now join the default like every
+    // other share (locked decision 4 — real identity by default; the per-post
+    // "Post anonymously" toggle restores pure chart-persona mode). Strip any
+    // client-supplied identity fields so they can't forge a stamp.
+    const {
+      photoDataUrl: _dropped,
+      shareName: _droppedShareName,
+      identity: _droppedIdentity,
+      ...safePayload
+    } = (payload || {}) as Record<string, unknown>;
     const metadataPayload = {
       ...safePayload,
       ...cardExtras,
-      shareName: shareType === "cooked" ? false : shareName === true,
     };
 
     // 1. Record the feed event
-    const success = await feedDatabase.createEvent(userId, eventType, metadataPayload, true);
+    const success = await feedDatabase.createEvent(
+      userId,
+      eventType,
+      metadataPayload,
+      true,
+      requestedShare === undefined ? undefined : { share: requestedShare },
+    );
     if (!success) {
       return NextResponse.json(
         { success: false, message: "Failed to post to feed" },

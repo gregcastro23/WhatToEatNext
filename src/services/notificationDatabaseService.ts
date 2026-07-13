@@ -151,6 +151,315 @@ class NotificationDatabaseService {
     return notification;
   }
 
+  /**
+   * Create OR bump an event-scoped notification — at most ONE unread row per
+   * (recipient, event, type). The first actor INSERTs `firstMessage`; each
+   * later actor bumps that row's count + lastActorName instead of adding a new
+   * bell entry, and rewrites the message from `bumpTemplate`. Sibling to
+   * `createOrBumpConversationNotification` below (same dedup principle,
+   * conversation-scoped instead of event-scoped — PR 3 and PR 5 converged on
+   * the pattern independently with different keys/mechanisms; kept as two
+   * named methods rather than one generic function so neither's reviewed
+   * concurrency strategy — this one's partial unique index + ON CONFLICT,
+   * that one's advisory lock — gets diluted by the merge). Returns the new or
+   * bumped row, or null.
+   *
+   * `bumpTemplate` must contain the literal tokens `__ACTOR__` (replaced with
+   * the newest actor's name) and `__OTHERS__` (replaced with the count of the
+   * OTHER actors already folded in — i.e. the pre-increment count). Example:
+   * "__ACTOR__ and __OTHERS__ others commented on Solstice Feast".
+   *
+   * The batching upsert is a single round-trip CTE: the UPDATE runs first and,
+   * only when it matched nothing, the INSERT lands.
+   */
+  async createOrBumpEventNotification(args: {
+    recipientId: string;
+    actorId: string;
+    type: NotificationType;
+    eventId: string;
+    title: string;
+    firstMessage: string;
+    bumpTemplate: string;
+    lastActorName: string;
+    extraMetadata?: Record<string, unknown>;
+  }): Promise<UserNotification | null> {
+    const db = await getDbModule();
+    const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+    const baseMetadata = {
+      ...(args.extraMetadata ?? {}),
+      eventId: args.eventId,
+      count: 1,
+      lastActorName: args.lastActorName,
+    };
+
+    const renderBump = (others: number): string =>
+      args.bumpTemplate.replace(/__ACTOR__/g, args.lastActorName).replace(/__OTHERS__/g, String(others));
+
+    if (!db) {
+      // In-memory fallback: find an existing unread row for this recipient+event+type.
+      const existing = Array.from(notificationsStore.values()).find(
+        (n) =>
+          n.userId === args.recipientId &&
+          n.type === args.type &&
+          !n.isRead &&
+          n.metadata?.eventId === args.eventId,
+      );
+      if (existing) {
+        const prior = (existing.metadata?.count as number) ?? 1;
+        existing.metadata = { ...existing.metadata, count: prior + 1, lastActorName: args.lastActorName };
+        existing.message = renderBump(prior); // "others" = the pre-increment count
+        return existing;
+      }
+      const created: UserNotification = {
+        id,
+        userId: args.recipientId,
+        type: args.type,
+        title: args.title,
+        message: args.firstMessage,
+        isRead: false,
+        relatedUserId: args.actorId,
+        metadata: baseMetadata,
+        createdAt: new Date().toISOString(),
+      };
+      notificationsStore.set(id, created);
+      return created;
+    }
+
+    try {
+      // The bump template with __ACTOR__ resolved in JS; __OTHERS__ resolved in
+      // SQL to the pre-increment count so the message stays truthful under races.
+      const actorResolvedTemplate = args.bumpTemplate.replace(/__ACTOR__/g, args.lastActorName);
+      const result = await db.executeQuery(
+        `WITH bumped AS (
+           UPDATE notifications
+              SET metadata = COALESCE(metadata, '{}'::jsonb) || jsonb_build_object(
+                    'count', COALESCE((metadata->>'count')::int, 1) + 1,
+                    'lastActorName', $6::text),
+                  message = replace($7, '__OTHERS__',
+                    COALESCE((metadata->>'count')::int, 1)::text),
+                  related_user_id = $3,
+                  updated_at = now()
+            WHERE user_id = $2 AND type = $4::notification_type
+              AND is_read = false
+              AND metadata->>'eventId' = $5
+            RETURNING id, user_id, type, title, message, related_user_id, metadata,
+                      created_at, expires_at, is_read
+         ),
+         inserted AS (
+           INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
+           SELECT $1, $2, $4::notification_type, $8, $9, $3, $10
+           WHERE NOT EXISTS (SELECT 1 FROM bumped)
+           -- Concurrency backstop (review §3): if a racing txn already inserted
+           -- the unread row for this (recipient, type, event), the partial unique
+           -- index uniq_unread_event_notification makes this INSERT conflict —
+           -- bump that row instead of double-inserting.
+           ON CONFLICT (user_id, type, (metadata->>'eventId')) WHERE is_read = false
+           DO UPDATE SET
+             metadata = COALESCE(notifications.metadata, '{}'::jsonb) || jsonb_build_object(
+               'count', COALESCE((notifications.metadata->>'count')::int, 1) + 1,
+               'lastActorName', $6::text),
+             message = replace($7, '__OTHERS__',
+               COALESCE((notifications.metadata->>'count')::int, 1)::text),
+             related_user_id = $3,
+             updated_at = now()
+           RETURNING id, user_id, type, title, message, related_user_id, metadata,
+                     created_at, expires_at, is_read
+         )
+         SELECT * FROM bumped
+         UNION ALL
+         SELECT * FROM inserted`,
+        [
+          id, // $1 new id
+          args.recipientId, // $2
+          args.actorId, // $3
+          args.type, // $4
+          args.eventId, // $5
+          args.lastActorName, // $6
+          actorResolvedTemplate, // $7 — SQL substitutes __OTHERS__
+          args.title, // $8
+          args.firstMessage, // $9 (count = 1 on fresh insert)
+          JSON.stringify(baseMetadata), // $10
+        ],
+      );
+      const row = result.rows[0];
+      return row ? rowToNotification(row) : null;
+    } catch (error) {
+      const code = (error as { code?: string })?.code;
+      if (code === "23503") {
+        _logger.warn(
+          "[Notification] FK violation on createOrBumpEventNotification — recipient missing, skipping",
+          { recipientId: args.recipientId, type: args.type },
+        );
+        return null;
+      }
+      _logger.error("createOrBumpEventNotification failed:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Chat dedup upsert (docs/plans/pr3-messaging-plan.md §6): keep AT MOST ONE
+   * unread notification row per (recipient, conversation). If an unread row of
+   * a chat type already exists for this conversation, bump its folded unread
+   * count + refresh the preview/timestamp; otherwise insert a fresh row. Table
+   * chat emits NO notification (its badge is /api/chat/unread) — only
+   * dm_message / circle_message / table_chat_mention flow through here.
+   *
+   * All work runs on ONE transaction client (the SELECT ... FOR UPDATE guards
+   * the read-modify-write against a racing second message).
+   */
+  async createOrBumpConversationNotification(
+    userId: string,
+    type: NotificationType,
+    conversationId: string,
+    opts: {
+      title: string;
+      message: string;
+      relatedUserId?: string;
+      metadata?: Record<string, any>;
+    },
+  ): Promise<UserNotification | null> {
+    const db = await getDbModule();
+    if (!db) {
+      // In-memory fallback: best-effort single-row dedup.
+      const existing = Array.from(notificationsStore.values()).find(
+        (n) =>
+          n.userId === userId &&
+          n.type === type &&
+          !n.isRead &&
+          n.metadata?.conversationId === conversationId,
+      );
+      if (existing) {
+        const count = (existing.metadata?.unreadCount ?? 1) + 1;
+        existing.metadata = { ...existing.metadata, unreadCount: count, messagePreview: opts.message };
+        existing.message = opts.message;
+        existing.createdAt = new Date().toISOString();
+        return existing;
+      }
+      return this.createNotification(userId, type, opts.title, opts.message, {
+        relatedUserId: opts.relatedUserId,
+        metadata: { ...opts.metadata, conversationId, unreadCount: 1, messagePreview: opts.message },
+      });
+    }
+
+    try {
+      const { withTransaction } = await import("@/lib/database/connection");
+      const result = await withTransaction(async (client) => {
+        // Serialize concurrent first-messages for the SAME (recipient,
+        // conversation): SELECT ... FOR UPDATE locks NOTHING on an empty
+        // result, so two racing inserts would both find no row and each
+        // INSERT, violating the one-unread-row invariant. A transaction-scoped
+        // advisory lock keyed on (user, type, conversation) makes the loser
+        // wait until the winner commits — then its SELECT sees the winner's row
+        // and takes the UPDATE branch. hashtextextended(text, 0) -> bigint
+        // feeds the single-arg lock; collisions only serialize unrelated pairs,
+        // never miss.
+        await client.query(
+          `SELECT pg_advisory_xact_lock(hashtextextended($1, 0))`,
+          [`${userId}:${type}:${conversationId}`],
+        );
+
+        const found = await client.query(
+          `SELECT id, metadata FROM notifications
+            WHERE user_id = $1::uuid AND type = $2 AND is_read = false
+              AND metadata->>'conversationId' = $3
+            ORDER BY created_at DESC
+            LIMIT 1
+            FOR UPDATE`,
+          [userId, type, conversationId],
+        );
+
+        if (found.rows.length > 0) {
+          const row = found.rows[0];
+          const prev = parseNotificationMetadata(row.metadata);
+          const nextCount = (typeof prev.unreadCount === "number" ? prev.unreadCount : 1) + 1;
+          const nextMeta = {
+            ...prev,
+            ...opts.metadata,
+            conversationId,
+            unreadCount: nextCount,
+            messagePreview: opts.message,
+          };
+          const updated = await client.query(
+            `UPDATE notifications
+                SET message = $2, metadata = $3, created_at = CURRENT_TIMESTAMP, is_read = false
+              WHERE id = $1
+              RETURNING *`,
+            [row.id, opts.message, JSON.stringify(nextMeta)],
+          );
+          return updated.rows[0];
+        }
+
+        const id = `notif_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        const meta = {
+          ...opts.metadata,
+          conversationId,
+          unreadCount: 1,
+          messagePreview: opts.message,
+        };
+        const inserted = await client.query(
+          `INSERT INTO notifications (id, user_id, type, title, message, related_user_id, metadata)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           RETURNING *`,
+          [id, userId, type, opts.title, opts.message, opts.relatedUserId ?? null, JSON.stringify(meta)],
+        );
+        return inserted.rows[0];
+      });
+      return result ? rowToNotification(result) : null;
+    } catch (error) {
+      const code = (error as { code?: string })?.code;
+      if (code === "23503") {
+        _logger.warn("[Notification] FK violation on createOrBumpConversationNotification — skipping", {
+          userId,
+          type,
+        });
+        return null;
+      }
+      _logger.error("createOrBumpConversationNotification failed:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Mark a conversation's chat notifications read for a recipient — called
+   * when they open/read the conversation (the deduped row is cleared so the
+   * bell count drops). Table chat has no rows here; this is a no-op for it.
+   */
+  async clearChatNotifications(userId: string, conversationId: string): Promise<number> {
+    const db = await getDbModule();
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `UPDATE notifications SET is_read = true
+            WHERE user_id = $1::uuid AND is_read = false
+              AND type IN ('dm_message','circle_message','table_chat_mention')
+              AND metadata->>'conversationId' = $2
+            RETURNING id`,
+          [userId, conversationId],
+        );
+        return result.rows?.length || 0;
+      } catch (error) {
+        _logger.error("clearChatNotifications failed:", error);
+        return 0;
+      }
+    }
+
+    let count = 0;
+    notificationsStore.forEach((n) => {
+      if (
+        n.userId === userId &&
+        !n.isRead &&
+        n.metadata?.conversationId === conversationId &&
+        (n.type === "dm_message" || n.type === "circle_message" || n.type === "table_chat_mention")
+      ) {
+        n.isRead = true;
+        count++;
+      }
+    });
+    return count;
+  }
+
   // ─── Read ───────────────────────────────────────────────
 
   async getNotificationsForUser(
@@ -237,6 +546,49 @@ class NotificationDatabaseService {
 
     const n = notificationsStore.get(notificationId);
     if (n && n.userId === userId) {
+      n.isRead = true;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Flip a `table_join_request` notification's own lifecycle status
+   * (pending → actioned | dismissed) — deliberately independent of `is_read`.
+   * A host merely opening the notification panel marks the row read via
+   * `markAsRead`; that must never itself grant/revoke actionability or defeat
+   * `tableDatabaseService.requestToJoin`'s dedupe, which reads this same
+   * field. Also marks the row read (the action IS the read). Scoped to the
+   * owning user and to this notification type so a stray id can't be used to
+   * tamper with an unrelated notification.
+   */
+  async updateJoinRequestStatus(
+    notificationId: string,
+    userId: string,
+    status: "actioned" | "dismissed",
+  ): Promise<boolean> {
+    const db = await getDbModule();
+
+    if (db) {
+      try {
+        const result = await db.executeQuery(
+          `UPDATE notifications
+              SET metadata = jsonb_set(COALESCE(metadata, '{}'::jsonb), '{status}', to_jsonb($3::text)),
+                  is_read = true
+            WHERE id = $1 AND user_id = $2 AND type = 'table_join_request'
+            RETURNING id`,
+          [notificationId, userId, status],
+        );
+        return (result.rows?.length || 0) > 0;
+      } catch (error) {
+        _logger.error("updateJoinRequestStatus failed:", error);
+        return false;
+      }
+    }
+
+    const n = notificationsStore.get(notificationId);
+    if (n && n.userId === userId && n.type === "table_join_request") {
+      n.metadata = { ...(n.metadata || {}), status };
       n.isRead = true;
       return true;
     }

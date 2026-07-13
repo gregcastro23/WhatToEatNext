@@ -219,6 +219,120 @@ export function useNotifications(options?: UseNotificationsOptions) {
     [markAsRead],
   );
 
+  const respondToTableInvite = useCallback(
+    async (notification: UserNotification, response: 'joined' | 'declined') => {
+      const tableId = notification.metadata?.tableId;
+      if (!tableId || typeof tableId !== 'string') {
+        return { success: false, message: 'This invitation can no longer be acted on from notifications.' };
+      }
+
+      try {
+        const res = await fetch(`/api/tables/${tableId}/rsvp`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ response }),
+        });
+        const data = (await res.json()) as ApiResponse;
+
+        if (!res.ok || data.success === false) {
+          return {
+            success: false,
+            message: data.message || `Failed to ${response === 'joined' ? 'accept' : 'decline'} the invitation.`,
+          };
+        }
+
+        const markResult = await markAsRead(notification.id);
+        if (!markResult.success) {
+          return markResult;
+        }
+
+        notifyRefresh();
+        return { success: true };
+      } catch {
+        return {
+          success: false,
+          message: `Failed to ${response === 'joined' ? 'accept' : 'decline'} the invitation.`,
+        };
+      }
+    },
+    [markAsRead],
+  );
+
+  /**
+   * Flip a table_join_request's own lifecycle status (NOT `isRead`) so a mere
+   * viewing/click-to-read of the card can never re-open or defeat dedupe.
+   * Updates local state optimistically-on-success so the Invite/Dismiss
+   * buttons vanish immediately, without waiting for the next poll.
+   */
+  const updateJoinRequestStatus = useCallback(
+    async (notification: UserNotification, status: 'actioned' | 'dismissed') => {
+      try {
+        const res = await fetch(`/api/notifications/${notification.id}/join-request`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ status }),
+        });
+        const data = (await res.json()) as ApiResponse;
+
+        if (!res.ok || data.success === false) {
+          return { success: false, message: data.message || 'Could not update the request.' };
+        }
+
+        setNotifications((prev) =>
+          prev.map((n) =>
+            n.id === notification.id
+              ? { ...n, isRead: true, metadata: { ...n.metadata, status } }
+              : n,
+          ),
+        );
+        notifyRefresh();
+        return { success: true };
+      } catch {
+        return { success: false, message: 'Could not update the request.' };
+      }
+    },
+    [],
+  );
+
+  const respondToTableJoinRequest = useCallback(
+    async (notification: UserNotification) => {
+      const tableId = notification.metadata?.tableId;
+      const requesterId = notification.metadata?.requesterId || notification.relatedUserId;
+      if (!tableId || typeof tableId !== 'string' || !requesterId || typeof requesterId !== 'string') {
+        return { success: false, message: 'This request can no longer be acted on from notifications.' };
+      }
+
+      try {
+        // The host's "Invite" runs the normal add-member rail (table_invite → RSVP).
+        const res = await fetch(`/api/tables/${tableId}/members`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ userId: requesterId }),
+        });
+        const data = (await res.json()) as ApiResponse;
+
+        if (!res.ok || data.success === false) {
+          return { success: false, message: data.message || 'Could not send the invitation.' };
+        }
+
+        // Flip the request's own lifecycle status (not just isRead) so a
+        // subsequent view can never re-surface the Invite/Dismiss buttons.
+        return await updateJoinRequestStatus(notification, 'actioned');
+      } catch {
+        return { success: false, message: 'Could not send the invitation.' };
+      }
+    },
+    [updateJoinRequestStatus],
+  );
+
+  const dismissTableJoinRequest = useCallback(
+    async (notification: UserNotification) => updateJoinRequestStatus(notification, 'dismissed'),
+    [updateJoinRequestStatus],
+  );
+
   const unreadNotifications = useMemo(
     () => notifications.filter((n) => !n.isRead),
     [notifications],
@@ -235,6 +349,9 @@ export function useNotifications(options?: UseNotificationsOptions) {
     markAllRead,
     generateDailyInsight,
     respondToCommensalRequest,
+    respondToTableInvite,
+    respondToTableJoinRequest,
+    dismissTableJoinRequest,
   };
 }
 

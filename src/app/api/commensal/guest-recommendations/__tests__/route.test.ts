@@ -8,6 +8,7 @@
  *   - empty guests array (400)
  *   - single-member group (composite math still valid)
  *   - large group (10 guests, payload schema unchanged)
+ *   - per-IP rate limiting (429 past the strict unauthenticated cap)
  */
 
 // Mock next/server before any imports.
@@ -16,8 +17,14 @@ jest.mock("next/server", () => ({
     json: jest.fn((body, init) => ({
       status: init?.status ?? 200,
       json: async () => body,
+      headers: init?.headers ?? {},
     })),
   },
+}));
+
+// Force the rate limiter onto its in-memory fallback (no Redis in tests).
+jest.mock("@/lib/redis", () => ({
+  getRedisClient: () => null,
 }));
 
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
@@ -49,9 +56,18 @@ jest.mock("@/utils/recommendation/methodRecommendation", () => ({
   getRecommendedCookingMethods: jest.fn(),
 }));
 
-function makeRequest(body: unknown): Request {
+// Each request gets a unique client IP by default so the per-IP rate limiter
+// (whose in-memory store persists across tests in this file) never bleeds
+// between unrelated tests. Pass an explicit `ip` to simulate one client.
+let ipCounter = 0;
+function makeRequest(body: unknown, ip?: string): Request {
+  const addr = ip ?? `10.9.${Math.floor(++ipCounter / 250)}.${ipCounter % 250}`;
   return {
     json: async () => body,
+    headers: {
+      get: (key: string) =>
+        key.toLowerCase() === "x-forwarded-for" ? addr : null,
+    },
   } as unknown as Request;
 }
 
@@ -298,6 +314,28 @@ describe("POST /api/commensal/guest-recommendations", () => {
 
     expect(res.status).toBe(400);
     expect(data.success).toBe(false);
+  });
+
+  it("returns 429 once a single IP exceeds the per-minute cap", async () => {
+    const IP = "203.0.113.7";
+    const body = { guests: [makeGuest("Repeat")] };
+
+    // The strict unauthenticated cap is 10/min — the first 10 pass.
+    for (let i = 0; i < 10; i++) {
+      const res = await POST(makeRequest(body, IP));
+      expect(res.status).toBe(200);
+    }
+
+    const res = await POST(makeRequest(body, IP));
+    const data = await res.json();
+
+    expect(res.status).toBe(429);
+    expect(data.error).toBe("rate_limit_exceeded");
+    expect(typeof data.retryAfter).toBe("number");
+
+    // Other clients are unaffected — the limit is per-IP.
+    const other = await POST(makeRequest(body, "203.0.113.8"));
+    expect(other.status).toBe(200);
   });
 });
 

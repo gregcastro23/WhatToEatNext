@@ -1232,8 +1232,10 @@ export interface BestMatchInput extends DiscoverInput {
   openNow?: boolean;
 }
 
-/** Great-circle distance in meters between two lat/lng points. */
-function haversineMeters(
+/** Great-circle distance in meters between two lat/lng points.
+ * Exported so Tables near-me discovery (src/services/discoveryService.ts)
+ * reuses the exact same haversine rather than reimplementing it. */
+export function haversineMeters(
   lat1: number,
   lng1: number,
   lat2: number,
