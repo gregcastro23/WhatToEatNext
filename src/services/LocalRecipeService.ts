@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache";
+import { after } from "next/server";
 import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
@@ -247,6 +249,39 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
 const REDIS_CATALOG_KEY = "recipes:catalog:all";
 const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
 
+// The Upstash Redis client's GET call is a plain uncached fetch(), which
+// Next 15 (uncached-by-default) flags as "dynamic API usage" — fatal for
+// /recipes/[recipeId], which relies on ISR (revalidate = 3600). Wrapping the
+// read in unstable_cache tells Next's Data Cache to own this read instead,
+// so it no longer forces the route to bail from static to dynamic mid-render.
+const getCachedCatalogFromRedis = unstable_cache(
+  async (): Promise<Recipe[] | null> => {
+    try {
+      return await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
+    } catch (err) {
+      logger.warn("Redis cache read failed, falling through to DB:", err);
+      return null;
+    }
+  },
+  ["recipe-catalog-redis-read"],
+  { revalidate: REDIS_TTL_SECONDS },
+);
+
+/**
+ * Defer a fire-and-forget write until after the response is sent, via
+ * next/server's `after()` — keeps it outside the render's dynamic-API
+ * detection window. Falls back to firing immediately when called outside a
+ * Next.js request scope (e.g. the standalone Hono API server), where
+ * `after()` throws.
+ */
+function deferAfterResponse(work: () => void): void {
+  try {
+    after(work);
+  } catch {
+    work();
+  }
+}
+
 export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
   private static _allRecipesLoadedAt: number | null = null;
@@ -285,16 +320,12 @@ export class LocalRecipeService {
     }
 
     // L2: Redis catalog cache (cross-instance — target <20ms)
-    try {
-      const cached = await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
-      if (cached && Array.isArray(cached) && cached.length > 0) {
-        this._allRecipes = cached;
-        this._allRecipesLoadedAt = Date.now();
-        this._catalogDegraded = false;
-        return cached;
-      }
-    } catch (err) {
-      logger.warn("Redis cache read failed, falling through to DB:", err);
+    const cached = await getCachedCatalogFromRedis();
+    if (cached && Array.isArray(cached) && cached.length > 0) {
+      this._allRecipes = cached;
+      this._allRecipesLoadedAt = Date.now();
+      this._catalogDegraded = false;
+      return cached;
     }
 
     // L3: PostgreSQL
@@ -314,8 +345,12 @@ export class LocalRecipeService {
       this._allRecipesLoadedAt = Date.now();
       this._catalogDegraded = false;
 
-      // Populate Redis asynchronously so we don't block the response
-      redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
+      // Populate Redis asynchronously, after the response is sent — keeps
+      // this fire-and-forget write outside the render's dynamic-API
+      // detection window (same reasoning as getCachedCatalogFromRedis above).
+      deferAfterResponse(() => {
+        redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
+      });
 
       // Part 3: Warm Image Asset Cache
       this.warmImageAssetCache(recipes);
