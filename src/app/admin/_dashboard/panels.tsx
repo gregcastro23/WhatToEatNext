@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 import type {
   AuditEventsData,
   CatalogTrendingData,
@@ -1358,34 +1359,114 @@ export function AuditLogPanel({ data }: { data: AuditEventsData }) {
 // Moderation queue has no live source yet — there's no user-generated
 // content moderation pipeline. Honest empty state until we add one.
 // ============================================================
+function ModerationRow({
+  label,
+  href,
+  count,
+  alert,
+}: {
+  label: string;
+  href: string;
+  count: string;
+  alert: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "10px 12px",
+        border: "1px solid var(--line)",
+        borderRadius: 8,
+        background: "rgba(255,255,255,0.02)",
+        textDecoration: "none",
+      }}
+    >
+      <span style={{ fontSize: 12, color: "var(--fg-dim)" }}>{label}</span>
+      <span
+        className="t-num"
+        style={{ fontSize: 13, color: alert ? "var(--el-fire)" : "var(--fg-mute)" }}
+      >
+        {count} →
+      </span>
+    </a>
+  );
+}
+
+// Wired to the two live report queues: reported chat messages and reported feed
+// comments. Both endpoints are admin-guarded and return report arrays; we count
+// the open set (capped display) and deep-link to the full moderation screens.
 export function ModerationQueue() {
+  const [counts, setCounts] = React.useState<{
+    chat: number | null;
+    comment: number | null;
+  }>({ chat: null, comment: null });
+  const [live, setLive] = React.useState(false);
+
+  const poll = React.useCallback(async (): Promise<{ ok: boolean }> => {
+    const readCount = async (url: string): Promise<number | null> => {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) return null;
+        const json = (await res.json()) as { reports?: unknown[] };
+        return Array.isArray(json.reports) ? json.reports.length : 0;
+      } catch {
+        return null;
+      }
+    };
+    const [chat, comment] = await Promise.all([
+      readCount("/api/admin/chat/reports?status=open&limit=200"),
+      readCount("/api/admin/feed/comment-reports?status=open&limit=200"),
+    ]);
+    setCounts({ chat, comment });
+    const ok = chat !== null || comment !== null;
+    setLive(ok);
+    return { ok };
+  }, []);
+
+  useHardenedPolling(poll, { baseIntervalMs: 60_000 });
+
+  const fmt = (n: number | null, cap = 200): string =>
+    n === null ? "—" : n >= cap ? `${cap}+` : String(n);
+  const openTotal = (counts.chat ?? 0) + (counts.comment ?? 0);
+  const anyAlert = openTotal > 0;
+
   return (
     <Card
       title="Moderation Queue"
-      subtitle="no moderation pipeline configured"
+      subtitle="open user-content reports"
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          style={{
+            fontSize: 9,
+            color: !live
+              ? "var(--fg-mute)"
+              : anyAlert
+                ? "var(--el-fire)"
+                : "var(--el-earth)",
+            letterSpacing: "0.14em",
+          }}
         >
-          ○ NO SOURCE
+          {!live ? "○ NO SOURCE" : anyAlert ? `● ${fmt(openTotal, 400)} OPEN` : "● CLEAR"}
         </span>
       }
     >
-      <div
-        style={{
-          padding: "32px 12px",
-          textAlign: "center",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-          No user content moderation pipeline
-        </div>
-        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-          add a <code>moderation_queue</code> table + classifier when UGC ships
-        </div>
+      <div style={{ display: "grid", gap: 8 }}>
+        <ModerationRow
+          label="Chat message reports"
+          href="/admin/chat-reports"
+          count={fmt(counts.chat)}
+          alert={(counts.chat ?? 0) > 0}
+        />
+        <ModerationRow
+          label="Feed comment reports"
+          href="/admin/feed/comment-reports"
+          count={fmt(counts.comment)}
+          alert={(counts.comment ?? 0) > 0}
+        />
       </div>
     </Card>
   );

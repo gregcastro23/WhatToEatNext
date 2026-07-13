@@ -1,9 +1,14 @@
 "use client";
 
 import React from "react";
+import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 
 /**
  * Admin Settings Page - System configuration overview
+ *
+ * Top: the live launch-readiness board (presence-only config for every
+ * revenue + on-chain subsystem, fed by /api/admin/launch-readiness).
+ * Below: static platform facts that don't move without a redeploy.
  */
 export default function AdminSettingsPage() {
   const settings = [
@@ -61,10 +66,20 @@ export default function AdminSettingsPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Settings</h1>
-        <p className="text-gray-600 mt-1">System configuration overview</p>
+        <p className="text-gray-600 mt-1">
+          Launch readiness &amp; system configuration overview
+        </p>
       </div>
 
-      {/* Settings Sections */}
+      {/* Live readiness board — which revenue / on-chain subsystems are wired */}
+      <div className="mb-10">
+        <LaunchReadinessPanel variant="full" />
+      </div>
+
+      {/* Static platform facts */}
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">
+        Platform
+      </h2>
       <div className="space-y-6">
         {settings.map((section) => (
           <div key={section.section} className="bg-white rounded-lg shadow">

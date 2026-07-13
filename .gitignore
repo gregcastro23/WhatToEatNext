@@ -120,7 +120,11 @@ node_modules/@next/swc-*
 lint-fix-log.txt
 .typescript-errors-metrics.json
 .explicit-any-metrics.json
-reports/
+# Root-anchored so it only ignores a top-level build-output reports/ dir — an
+# unanchored `reports/` silently swallowed source route dirs named `reports`
+# (e.g. src/app/api/admin/chat/reports/). Nested reports/ dirs are covered by
+# their own rules (archive/, .next).
+/reports/
 *-report.json
 .eslint-fix-tmp/
 *.tsbuildinfo
