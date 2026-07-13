@@ -7,6 +7,10 @@ const config = {
   // rejects the config if .mjs is listed explicitly.
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   moduleNameMapper: {
+    // Stub the SpacetimeDB codegen entrypoint — its real module pulls in the
+    // spacetimedb package's ESM-only build, which ts-jest can't transform.
+    // Must come before the general "@/(.*)" mapping below.
+    "^@/lib/spacetime/generated$": "<rootDir>/tests/setup/spacetime-generated-stub.ts",
     "^@/(.*)$": "<rootDir>/src/$1",
     "^react$": "<rootDir>/node_modules/react",
     "^react-dom$": "<rootDir>/node_modules/react-dom",
