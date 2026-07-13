@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
+import { rateLimit } from "@/lib/rateLimit";
 import { subscriptionService } from "@/services/subscriptionService";
 import type { SubscriptionTier } from "@/types/subscription";
 import { TIER_LIMITS } from "@/types/subscription";
@@ -17,6 +18,14 @@ export async function POST(request: Request) {
   if (!session?.user?.id || !session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const rl = await rateLimit(request, {
+    window: 60_000,
+    max: 10,
+    bucket: "stripe-checkout",
+    identifier: session.user.id,
+  });
+  if (!rl.allowed) return rl.response!;
 
   try {
     const body = await request.json();
