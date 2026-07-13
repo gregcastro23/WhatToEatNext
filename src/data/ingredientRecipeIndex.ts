@@ -12,6 +12,7 @@
  * measurement pulled verbatim from the recipe.
  */
 
+import { isInternalCuisineCode } from "@/utils/internalCuisineCodes";
 import rawIndex from "./generated/ingredientRecipeIndex.json";
 
 export interface IngredientRecipeMatch {
@@ -167,7 +168,12 @@ export function resolveIngredientSlug(input: string): string | null {
  */
 export function getRecipesForIngredient(slug: string): IngredientRecipeMatch[] {
   const resolved = resolveIngredientSlug(slug) ?? slug;
-  return INDEX[resolved] ?? [];
+  const matches = INDEX[resolved] ?? [];
+  // Internal archive codes (e.g. "hsca") must never surface as cuisine
+  // labels — group those matches under "other" instead.
+  return matches.map((m) =>
+    isInternalCuisineCode(m.cuisine) ? { ...m, cuisine: "other" } : m,
+  );
 }
 
 /**
