@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
 import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
+import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
 import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
@@ -236,6 +237,11 @@ export default function AdminDashboardPage() {
           Welcome to the alchm.kitchen admin panel
         </p>
       </div>
+
+      {/* Launch readiness — settlement backlog + presence-only config for every
+          revenue / on-chain subsystem. First thing an operator should see: a
+          stuck restaurant order is a real-money hazard. Polls every 2 min. */}
+      <LaunchReadinessPanel variant="compact" />
 
       {/* Today's headline counts — 24h vs prior 24h. The "did anything happen
           today?" glance at the top of the dashboard. Polls every 60s. */}

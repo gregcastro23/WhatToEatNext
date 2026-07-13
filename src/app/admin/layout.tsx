@@ -67,6 +67,9 @@ export default function AdminLayout({
     { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
     { href: "/admin/mcp", label: "MCP Network ✦", icon: "🔌" },
     { href: "/admin/users", label: "Users", icon: "👥" },
+    { href: "/admin/settlements", label: "Settlements", icon: "💳" },
+    { href: "/admin/chat-reports", label: "Chat Reports", icon: "🚩" },
+    { href: "/admin/feed/comment-reports", label: "Comment Reports", icon: "💬" },
     { href: "/admin/settings", label: "Settings", icon: "⚙️" },
   ];
 
