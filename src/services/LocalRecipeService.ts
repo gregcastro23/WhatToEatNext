@@ -6,6 +6,7 @@ import type {
   Recipe,
   RecipeIngredient,
 } from "@/types/recipe";
+import { publicCuisine } from "@/utils/internalCuisineCodes";
 import { logger } from "@/utils/logger";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -174,7 +175,7 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
       image: imageUrl,
       imageUrl,
       description: rm.description || row.description || undefined,
-      cuisine: rm.cuisine || row.cuisine || undefined,
+      cuisine: publicCuisine(rm.cuisine || row.cuisine),
       ingredients: normalizeIngredients(rm.ingredients),
       instructions: normalizeInstructions(rm.instructions),
       prepTime: String(rm.prep_time_minutes ?? row.prep_time_minutes ?? 0),
@@ -216,7 +217,7 @@ function mapRowToRecipe(row: DbRecipeRow & { read_model?: any }): Recipe {
     image: imageUrl,
     imageUrl,
     description: row.description ?? undefined,
-    cuisine: row.cuisine ?? row.cuisine_type ?? undefined,
+    cuisine: publicCuisine(row.cuisine ?? row.cuisine_type),
     ingredients: normalizeIngredients(row.ingredients),
     instructions: normalizeInstructions(row.instructions),
     prepTime: String(prepTime),

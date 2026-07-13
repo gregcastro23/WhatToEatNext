@@ -113,12 +113,10 @@ export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
     description: "Fresh, light flavors with an emphasis on herbs and clear broths.",
     imageUrl: cuisineImages.Vietnamese,
   },
-  HSCA: {
-    name: "HSCA",
-    elementalProperties: { Fire: 0.25, Earth: 0.35, Water: 0.25, Air: 0.15 },
-    description: "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
-    imageUrl: cuisineImages.HSCA,
-  },
+  // HSCA is intentionally absent: it is an internal archive collection, not
+  // a real cuisine, and must never surface on public cuisine browse/detail
+  // pages (see src/utils/internalCuisineCodes.ts). Its dishes stay loadable
+  // through cuisineImports for the static recipe payload.
 };
 
 /**
@@ -182,6 +180,7 @@ export const PRIMARY_CUISINE_KEYS = Object.keys(cuisineImports);
 const cuisinesMapBase: Record<string, Cuisine> = {};
 PRIMARY_CUISINE_KEYS.forEach(key => {
   const meta = CUISINES_METADATA[key];
+  if (!meta) return; // internal collections (HSCA) have no public metadata
   (cuisinesMapBase as any)[key] = {
     ...meta,
     id: key.toLowerCase(),
