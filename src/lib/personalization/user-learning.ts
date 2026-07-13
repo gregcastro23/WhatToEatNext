@@ -774,7 +774,12 @@ class UserLearningSystem {
   private calculateElementalAffinities(
     interactions: UserInteraction[],
   ): ElementalProperties {
-    const affinities = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const affinities: ElementalProperties = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+    };
     let totalWeight = 0;
 
     interactions.forEach((interaction) => {
@@ -938,7 +943,8 @@ class UserLearningSystem {
     const complexityMap = { simple: 1, moderate: 2, complex: 3 };
     const recipeLevels =
       complexityMap[recipeComplexity as keyof typeof complexityMap] || 2;
-    const userLevel = complexityMap[userPreference] || 2;
+    const userLevel =
+      complexityMap[userPreference as keyof typeof complexityMap] || 2;
 
     return 1 - Math.abs(recipeLevels - userLevel) / 2; // -1 to 1 range
   }

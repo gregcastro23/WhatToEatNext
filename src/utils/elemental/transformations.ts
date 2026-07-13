@@ -541,7 +541,7 @@ function calculateAlchemicalProperties(
   planetaryInfluences: { [key: string]: PlanetaryInfluence },
   tarotPlanetaryBoosts?: { [key: string]: number },
 ): { [key: string]: number } {
-  const alchemicalProps = {
+  const alchemicalProps: Record<string, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,

@@ -75,7 +75,7 @@ export const SeasonSelector: React.FC<SeasonSelectorProps> = ({
       </Text>
       <Select
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
         placeholder={placeholder}
         size={size}
         bg={bgColor}

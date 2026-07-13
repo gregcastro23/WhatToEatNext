@@ -171,32 +171,44 @@ export function calculateElementalHarmony(
 }
 
 /**
+ * The four core element names, as used for compatibility matrix lookups.
+ * (`keyof ElementalProperties` widens to `string | number` because
+ * `ElementalProperties` carries a string index signature, so a dedicated
+ * literal union is used here instead.)
+ */
+type ElementName = "Fire" | "Water" | "Earth" | "Air";
+
+/**
  * Get compatibility score between different elements
  */
 function getElementalCompatibility(
-  source: keyof ElementalProperties,
-  target: keyof ElementalProperties,
+  source: ElementName,
+  target: ElementName,
 ): number {
-  const compatibilityMatrix = {
-    Fire: { 
-      Water: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
-      Earth: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
-      Air: ELEMENTAL_CONSTANTS.FIRE_AIR_COMPATIBILITY 
+  const compatibilityMatrix: Record<ElementName, Record<ElementName, number>> = {
+    Fire: {
+      Fire: ELEMENTAL_CONSTANTS.SAME_ELEMENT_COMPATIBILITY,
+      Water: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY,
+      Earth: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY,
+      Air: ELEMENTAL_CONSTANTS.FIRE_AIR_COMPATIBILITY
     },
-    Water: { 
-      Fire: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
-      Earth: ELEMENTAL_CONSTANTS.WATER_EARTH_COMPATIBILITY, 
-      Air: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY 
+    Water: {
+      Fire: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY,
+      Water: ELEMENTAL_CONSTANTS.SAME_ELEMENT_COMPATIBILITY,
+      Earth: ELEMENTAL_CONSTANTS.WATER_EARTH_COMPATIBILITY,
+      Air: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY
     },
-    Earth: { 
-      Fire: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
-      Water: ELEMENTAL_CONSTANTS.WATER_EARTH_COMPATIBILITY, 
-      Air: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY 
+    Earth: {
+      Fire: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY,
+      Water: ELEMENTAL_CONSTANTS.WATER_EARTH_COMPATIBILITY,
+      Earth: ELEMENTAL_CONSTANTS.SAME_ELEMENT_COMPATIBILITY,
+      Air: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY
     },
-    Air: { 
-      Fire: ELEMENTAL_CONSTANTS.FIRE_AIR_COMPATIBILITY, 
-      Water: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY, 
-      Earth: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY 
+    Air: {
+      Fire: ELEMENTAL_CONSTANTS.FIRE_AIR_COMPATIBILITY,
+      Water: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY,
+      Earth: ELEMENTAL_CONSTANTS.DIFFERENT_ELEMENT_COMPATIBILITY,
+      Air: ELEMENTAL_CONSTANTS.SAME_ELEMENT_COMPATIBILITY,
     },
   };
 

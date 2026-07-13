@@ -95,10 +95,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getRecommendedRecipes(
     criteria: RecipeRecommendationCriteria,
   ): Promise<RecommendationResult<Recipe>> {
-    const allRecipesResult = recipeDataService.getAllRecipes();
-    const allRecipes = Array.isArray(allRecipesResult)
-      ? allRecipesResult
-      : await Promise.resolve(allRecipesResult);
+    const allRecipes = await recipeDataService.getAllRecipes();
     // Score recipes based on criteria
     const scoredRecipes = (allRecipes || []).map((recipe) => {
       let score = 0;
@@ -107,11 +104,17 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         LegacyCriteriaAliases;
       const elementalState =
         criteriaData.elementalState || criteriaData.elementalProperties;
+      // Recipe's index signature types unrecognized keys as `unknown`; cast
+      // consistent with the same field's usage elsewhere in this file
+      // (calculateQuantityAwareRecipeScore) and in src/utils/elemental/core.ts.
+      const recipeElementalState = recipe.elementalState as
+        | ElementalProperties
+        | undefined;
       // Calculate elemental compatibility if criteria includes elemental properties
-      if (elementalState && recipe.elementalState) {
+      if (elementalState && recipeElementalState) {
         const elementalScore = this.calculateElementalCompatibility(
           elementalState,
-          recipe.elementalState,
+          recipeElementalState,
         );
         score += elementalScore * 0.7; // Elemental compatibility is weighted heavily
       }
@@ -218,9 +221,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       items: (limitedRecipes || []).map((item) => item.recipe),
       scores,
       context: {
-        criteriaUsed: Object.keys(criteria || {}).filter(
-          (key) => criteria[key] !== undefined,
-        ),
+        criteriaUsed: Object.entries(criteria || {})
+          .filter(([, value]) => value !== undefined)
+          .map(([key]) => key),
         totalCandidates: (allRecipes || []).length,
         matchingCandidates: (filteredRecipes || []).length,
       },
@@ -319,9 +322,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       items: (limitedIngredients || []).map((item) => toIngredient(item.ingredient)),
       scores,
       context: {
-        criteriaUsed: Object.keys(criteria || {}).filter(
-          (key) => criteria[key] !== undefined,
-        ),
+        criteriaUsed: Object.entries(criteria || {})
+          .filter(([, value]) => value !== undefined)
+          .map(([key]) => key),
         totalCandidates: (allIngredients || []).length,
         matchingCandidates: (filteredIngredients || []).length,
       },
@@ -423,9 +426,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       items: (limitedCuisines || []).map((item) => item.cuisine),
       scores,
       context: {
-        criteriaUsed: Object.keys(criteria || {}).filter(
-          (key) => criteria[key] !== undefined,
-        ),
+        criteriaUsed: Object.entries(criteria || {})
+          .filter(([, value]) => value !== undefined)
+          .map(([key]) => key),
         totalCandidates: (availableCuisines || []).length,
         matchingCandidates: (filteredCuisines || []).length,
       },
@@ -540,9 +543,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       items: (limitedMethods || []).map((item) => item.method.name),
       scores,
       context: {
-        criteriaUsed: Object.keys(criteria || {}).filter(
-          (key) => criteria[key] !== undefined,
-        ),
+        criteriaUsed: Object.entries(criteria || {})
+          .filter(([, value]) => value !== undefined)
+          .map(([key]) => key),
         totalCandidates: (availableMethods || []).length,
         matchingCandidates: (filteredMethods || []).length,
       },
@@ -718,10 +721,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     criteria: QuantityAwareRecipeCriteria,
   ): Promise<RecommendationResult<Recipe>> {
     const _ingredientService = IngredientService.getInstance();
-    const allRecipesResult = recipeDataService.getAllRecipes();
-    const allRecipes = Array.isArray(allRecipesResult)
-      ? allRecipesResult
-      : await Promise.resolve(allRecipesResult);
+    const allRecipes = await recipeDataService.getAllRecipes();
     // Score recipes based on criteria with quantity scaling
     const scoredRecipes = (allRecipes || []).map((recipe) => {
       let score = 0;
@@ -742,11 +742,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           criteria.ingredientQuantities,
         );
         score += quantityAwareScore * 0.7;
-      } else if (elementalState && recipe.elementalState) {
+      } else if (
+        elementalState &&
+        (recipe.elementalState as ElementalProperties | undefined)
+      ) {
         // Fall back to standard elemental compatibility
         const elementalScore = this.calculateElementalCompatibility(
           elementalState,
-          recipe.elementalState,
+          recipe.elementalState as ElementalProperties,
         );
         score += elementalScore * 0.7;
       }
@@ -853,9 +856,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       items: (limitedRecipes || []).map((item) => item.recipe),
       scores,
       context: {
-        criteriaUsed: Object.keys(criteria || {}).filter(
-          (key) => criteria[key] !== undefined,
-        ),
+        criteriaUsed: Object.entries(criteria || {})
+          .filter(([, value]) => value !== undefined)
+          .map(([key]) => key),
         totalCandidates: (allRecipes || []).length,
         matchingCandidates: (filteredRecipes || []).length,
         quantityAware: criteria.useQuantityScaling || false,
@@ -919,9 +922,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       items: (limitedIngredients || []).map((item) => toIngredient(item.ingredient)),
       scores,
       context: {
-        criteriaUsed: Object.keys(criteria || {}).filter(
-          (key) => criteria[key] !== undefined,
-        ),
+        criteriaUsed: Object.entries(criteria || {})
+          .filter(([, value]) => value !== undefined)
+          .map(([key]) => key),
         totalCandidates: (allIngredients || []).length,
         matchingCandidates: (filteredIngredients || []).length,
         quantityAware: criteria.useQuantityScaling || false,

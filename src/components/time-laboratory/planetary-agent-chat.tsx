@@ -466,7 +466,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
             <Input
               ref={inputRef}
               value={inputMessage}
-              onChange={e => setInputMessage(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder={`Ask ${agent.name} about cosmic wisdom...`}
               className="cosmic-input flex-1 text-sm sm:text-base"

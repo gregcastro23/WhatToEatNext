@@ -78,7 +78,7 @@ export function calculateMatchScore(
   let totalWeight = 0;
 
   // Process each element (Fire, Water, Earth, Air)
-  for (const element of ["Fire", "Water", "Earth", "Air"]) {
+  for (const element of ["Fire", "Water", "Earth", "Air"] as const) {
     // Get values, defaulting to 0 if undefined
     const ingredientValue = validatedProperties[element] || 0;
     const stateValue = validatedState[element] || 0;

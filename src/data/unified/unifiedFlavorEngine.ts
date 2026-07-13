@@ -233,7 +233,7 @@ export class UnifiedFlavorEngine {
 
           // Log category stats
           const categoryStats = (profiles as any).reduce(
-            (acc, profile: Record<string, unknown>) => {
+            (acc: Record<string, number>, profile: Record<string, unknown>) => {
               const category =
                 (profile as { category?: string }).category ?? "unknown";
               acc[category] = (acc[category] || 0) + 1;
@@ -956,7 +956,12 @@ export class UnifiedFlavorEngine {
   getCacheStats(): {
     compatibility: number;
     search: number;
-    performance: typeof this.performanceMetrics;
+    performance: {
+      totalCalculations: number;
+      totalCacheHits: number;
+      averageCalculationTime: number;
+      peakMemoryUsage: number;
+    };
     hitRate: number;
     memoryEstimate: number;
   } {

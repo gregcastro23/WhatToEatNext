@@ -28,9 +28,19 @@ interface PlanetaryTemperamentData {
   AirSaturn?: unknown;
 }
 
+// Shape of the per-sign entries under PlanetSpecific.ZodiacTransit, as read
+// by the venusZodiacTransit consumer below (FoodFocus string + Elements map).
+interface PlanetZodiacTransitData {
+  FoodFocus?: string;
+  Elements?: Record<string, number>;
+  [key: string]: unknown;
+}
+
 interface PlanetaryDataStructure {
   PlanetSpecific?: {
     CulinaryTemperament?: PlanetaryTemperamentData;
+    CulinaryTechniques?: Record<string, number>;
+    ZodiacTransit?: Record<string, PlanetZodiacTransitData>;
   };
 }
 
@@ -609,10 +619,10 @@ function calculatePlanetaryDayInfluence(
   // Calculate how much of each planetary element is present in the method
   // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
   const methodWithProps = method as unknown as MethodWithElementalProperties;
-  const methodElementals =
+  const methodElementals: ElementalProperties =
     methodWithProps.elementalProperties ||
     methodWithProps.elementalEffect ||
-    {};
+    { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   const diurnalMatch = methodElementals[diurnalElement] || 0;
   const nocturnalMatch = methodElementals[nocturnalElement] || 0;
 
@@ -657,10 +667,10 @@ function calculatePlanetaryHourInfluence(
   // Calculate how much of the relevant planetary element is present in the method
   // ✅ Pattern MM-1: Safe type assertion for method with elemental properties
   const methodWithProps = method as unknown as MethodWithElementalProperties;
-  const methodElementals =
+  const methodElementals: ElementalProperties =
     methodWithProps.elementalProperties ||
     methodWithProps.elementalEffect ||
-    {};
+    { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   const elementalMatch = methodElementals[relevantElement] || 0;
 
   // Calculate score based on how well the method matches the planetary hour's element
@@ -769,51 +779,60 @@ export async function getRecommendedCookingMethods(
   const _isPlutoRetrograde = planets?.includes("Pluto-R") || false;
 
   // Get Venus transit data for current zodiac sign if applicable
+  // ✅ Pattern MM-1: Safe type assertion for planetary data access
   const venusZodiacTransit =
     isVenusActive && currentZodiac
-      ? venusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (venusData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Mars transit data for current zodiac sign if applicable
   const _marsZodiacTransit =
     isMarsActive && currentZodiac
-      ? marsData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (marsData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Mercury transit data for current zodiac sign if applicable
   const _mercuryZodiacTransit =
     isMercuryActive && currentZodiac
-      ? mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (mercuryData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Jupiter transit data for current zodiac sign if applicable
   const _jupiterZodiacTransit =
     isJupiterActive && currentZodiac
-      ? jupiterData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (jupiterData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Saturn transit data for current zodiac sign if applicable
   const _saturnZodiacTransit =
     isSaturnActive && currentZodiac
-      ? saturnData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (saturnData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Uranus transit data for current zodiac sign if applicable
   const _uranusZodiacTransit =
     isUranusActive && currentZodiac
-      ? uranusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (uranusData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Neptune transit data for current zodiac sign if applicable
   const _neptuneZodiacTransit =
     isNeptuneActive && currentZodiac
-      ? neptuneData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (neptuneData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Pluto transit data for current zodiac sign if applicable
   const _plutoZodiacTransit =
     isPlutoActive && currentZodiac
-      ? plutoData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+      ? (plutoData as unknown as PlanetaryDataStructure).PlanetSpecific
+          ?.ZodiacTransit?.[currentZodiac]
       : undefined;
 
   // Get Venus sign-based temperament for current zodiac
@@ -1037,7 +1056,7 @@ export async function getRecommendedCookingMethods(
           "Friday",
           "Saturday",
         ];
-        const dayRulers = {
+        const dayRulers: Record<string, string> = {
           Sunday: "Sun",
           Monday: "Moon",
           Tuesday: "Mars",
@@ -1329,7 +1348,11 @@ export async function getRecommendedCookingMethods(
     // Venus influence scoring
     if (isVenusActive) {
       // Check if method aligns with Venus culinary techniques
-      if (venusData.PlanetSpecific?.CulinaryTechniques) {
+      // ✅ Pattern MM-1: Safe type assertion for planetary data access
+      const venusCulinaryTechniques = (
+        venusData as unknown as PlanetaryDataStructure
+      ).PlanetSpecific?.CulinaryTechniques;
+      if (venusCulinaryTechniques) {
         const methodNameLower = String(method.name || "").toLowerCase();
         const methodDescLower = String(
           method.description || "",
@@ -1341,12 +1364,9 @@ export async function getRecommendedCookingMethods(
             methodNameLower.includes("present") ||
             methodDescLower.includes("presentation") ||
             methodDescLower.includes("aesthetic")) &&
-          venusData.PlanetSpecific.CulinaryTechniques["Aesthetic Presentation"]
+          venusCulinaryTechniques["Aesthetic Presentation"]
         ) {
-          venusScore +=
-            venusData.PlanetSpecific.CulinaryTechniques[
-              "Aesthetic Presentation"
-            ] * 1.5;
+          venusScore += venusCulinaryTechniques["Aesthetic Presentation"] * 1.5;
         }
 
         // Check for aroma techniques
@@ -1355,10 +1375,9 @@ export async function getRecommendedCookingMethods(
             methodNameLower.includes("infuse") ||
             methodDescLower.includes("fragrant") ||
             methodDescLower.includes("scent")) &&
-          venusData.PlanetSpecific.CulinaryTechniques["Aroma Infusion"]
+          venusCulinaryTechniques["Aroma Infusion"]
         ) {
-          venusScore +=
-            venusData.PlanetSpecific.CulinaryTechniques["Aroma Infusion"] * 1.5;
+          venusScore += venusCulinaryTechniques["Aroma Infusion"] * 1.5;
         }
 
         // Check for flavor balancing techniques
@@ -1367,11 +1386,9 @@ export async function getRecommendedCookingMethods(
             methodNameLower.includes("harmonize") ||
             methodDescLower.includes("balanced") ||
             methodDescLower.includes("harmony")) &&
-          venusData.PlanetSpecific.CulinaryTechniques["Flavor Balancing"]
+          venusCulinaryTechniques["Flavor Balancing"]
         ) {
-          venusScore +=
-            venusData.PlanetSpecific.CulinaryTechniques["Flavor Balancing"] *
-            1.8;
+          venusScore += venusCulinaryTechniques["Flavor Balancing"] * 1.8;
         }
 
         // Check for textural contrast techniques
@@ -1381,11 +1398,9 @@ export async function getRecommendedCookingMethods(
             methodDescLower.includes("textural") ||
             methodDescLower.includes("crispy") ||
             methodDescLower.includes("crunchy")) &&
-          venusData.PlanetSpecific.CulinaryTechniques["Textural Contrast"]
+          venusCulinaryTechniques["Textural Contrast"]
         ) {
-          venusScore +=
-            venusData.PlanetSpecific.CulinaryTechniques["Textural Contrast"] *
-            1.6;
+          venusScore += venusCulinaryTechniques["Textural Contrast"] * 1.6;
         }
 
         // Check for sensory harmony techniques
@@ -1394,11 +1409,9 @@ export async function getRecommendedCookingMethods(
             methodNameLower.includes("harmony") ||
             methodDescLower.includes("sensory") ||
             methodDescLower.includes("experience")) &&
-          venusData.PlanetSpecific.CulinaryTechniques["Sensory Harmony"]
+          venusCulinaryTechniques["Sensory Harmony"]
         ) {
-          venusScore +=
-            venusData.PlanetSpecific.CulinaryTechniques["Sensory Harmony"] *
-            1.7;
+          venusScore += venusCulinaryTechniques["Sensory Harmony"] * 1.7;
         }
       }
 

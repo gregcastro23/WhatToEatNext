@@ -506,7 +506,7 @@ class CurrentMomentManager {
   /**
    * Get element for zodiac sign
    */
-  private getElementForSign(sign: any): string {
+  private getElementForSign(sign: ZodiacSignType): string {
     const elementMap: Record<ZodiacSignType, string> = {
       aries: "Fire",
       leo: "Fire",

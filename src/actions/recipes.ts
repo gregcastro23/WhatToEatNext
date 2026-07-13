@@ -274,7 +274,10 @@ function extractRecipesFromCuisines(
                 [];
               return { original, alternatives };
             })
-            .filter((s) => s.original && s.alternatives.length > 0);
+            .filter(
+              (s: { original: string; alternatives: string[] }) =>
+                s.original && s.alternatives.length > 0,
+            );
 
           const recipe: IndexedRecipe = {
             id:

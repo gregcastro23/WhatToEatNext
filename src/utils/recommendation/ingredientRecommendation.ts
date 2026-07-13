@@ -659,15 +659,10 @@ export async function getRecommendedIngredients(
 
   // Sort by dominant element if available
   if (astroState.dominantElement) {
+    const dominantElement = astroState.dominantElement;
     filteredIngredients.sort((a, b) => {
-      const aValue =
-        a.elementalProperties[
-          astroState.dominantElement as keyof ElementalProperties
-        ] || 0;
-      const bValue =
-        b.elementalProperties[
-          astroState.dominantElement as keyof ElementalProperties
-        ] || 0;
+      const aValue = a.elementalProperties[dominantElement] || 0;
+      const bValue = b.elementalProperties[dominantElement] || 0;
       return bValue - aValue;
     });
   }
@@ -1411,7 +1406,7 @@ export const _formatFactorName = (factor: string): string =>
 export function calculateElementalInfluences(
   planetaryAlignment: Record<string, { sign: string; degree: number }>,
 ): ElementalProperties {
-  const elements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const elements: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   Object.entries(planetaryAlignment).forEach(([planet, data]) => {
     const element = getZodiacElement(data.sign);
@@ -1424,7 +1419,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (total > 0) {
     Object.keys(elements).forEach((key) => {
-      elements[key as keyof typeof elements] /= total;
+      elements[key] /= total;
     });
   }
 

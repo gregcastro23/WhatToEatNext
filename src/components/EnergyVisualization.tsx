@@ -89,7 +89,7 @@ export function EnergyVisualization({
     const entries = Object.entries(currentLevels) as Array<
       [keyof ElementalLevels, number]
     >;
-    return entries.reduce(
+    return entries.reduce<{ element: keyof ElementalLevels; level: number }>(
       (max, [element, level]) => (level > max.level ? { element, level } : max),
       { element: "Fire", level: 0 },
     );

@@ -38,7 +38,7 @@ export class SauceRecommender {
     const recommendations = new Set<string>();
 
     if (criteria.protein && forProtein && forProtein[criteria.protein]) {
-      forProtein[criteria.protein].forEach((sauce) =>
+      forProtein[criteria.protein].forEach((sauce: string) =>
         recommendations.add(sauce),
       );
     }
@@ -48,7 +48,7 @@ export class SauceRecommender {
       forVegetable &&
       forVegetable[criteria.vegetable]
     ) {
-      forVegetable[criteria.vegetable].forEach((sauce) =>
+      forVegetable[criteria.vegetable].forEach((sauce: string) =>
         recommendations.add(sauce),
       );
     }
@@ -58,7 +58,7 @@ export class SauceRecommender {
       forCookingMethod &&
       forCookingMethod[criteria.cookingMethod]
     ) {
-      forCookingMethod[criteria.cookingMethod].forEach((sauce) =>
+      forCookingMethod[criteria.cookingMethod].forEach((sauce: string) =>
         recommendations.add(sauce),
       );
     }

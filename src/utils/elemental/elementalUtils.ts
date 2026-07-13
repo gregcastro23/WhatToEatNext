@@ -99,7 +99,10 @@ export function calculateElementalCompatibility(
   const targetProps = createElementalProperties(target);
 
   // Define element compatibility scores (same elements have highest compatibility)
-  const compatibilityScores = {
+  const compatibilityScores: Record<
+    keyof ElementalProperties,
+    Record<keyof ElementalProperties, number>
+  > = {
     Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
     Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },

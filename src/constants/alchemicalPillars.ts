@@ -429,7 +429,11 @@ export const _TAROT_SUIT_ALCHEMICAL_MAPPING: Record<
 export function getCookingMethodPillar(
   cookingMethod: string,
 ): AlchemicalPillar | undefined {
-  const pillerId = COOKING_METHOD_PILLAR_MAPPING[cookingMethod.toLowerCase()];
+  // `COOKING_METHOD_PILLAR_MAPPING` is a literal-keyed object; view it through
+  // a bounds-checked `Record` for the dynamic lookup below (same pattern used
+  // in monicaKalchmCalculations.ts).
+  const pillarMapping: Record<string, number> = COOKING_METHOD_PILLAR_MAPPING;
+  const pillerId = pillarMapping[cookingMethod.toLowerCase()];
   if (!pillerId) return undefined;
   return ALCHEMICAL_PILLARS.find((pillar) => pillar.id === pillerId);
 }

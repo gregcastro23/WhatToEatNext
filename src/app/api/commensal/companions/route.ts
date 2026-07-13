@@ -41,6 +41,22 @@ interface CompanionView {
   natalChart: NatalChart | null;
 }
 
+// `fetchAgentsForDate` (in @/lib/planetaryAgentsClient) has an inferred
+// `Promise<any>` return type (it proxies an external API's JSON response),
+// so its resolved array is typed here based on the fields actually read
+// below (`act.agent?.id`, `act.strength`, `act.dignity`, `act.element`,
+// `act.planetaryRuler`, `act.agent?.description`).
+interface PlanetaryActivation {
+  agent?: {
+    id?: string;
+    description?: string;
+  };
+  strength?: number;
+  dignity?: string;
+  element?: string;
+  planetaryRuler?: string;
+}
+
 function parseObject(value: unknown): Record<string, any> | null {
   const parsed =
     typeof value === "string"
@@ -70,14 +86,16 @@ export async function GET(_req: NextRequest) {
   // Planetary activations and the local roster are independent sources. A
   // failure in either one should not prevent saved companions from loading.
   const [activations, localAgents] = await Promise.all([
-    fetchAgentsForDate(new Date()).catch((error) => {
-      warnings.push("planetary-activations");
-      console.warn(
-        "[companions] Planetary activations unavailable:",
-        errorSummary(error),
-      );
-      return [] as any[];
-    }),
+    (fetchAgentsForDate(new Date()) as Promise<PlanetaryActivation[]>).catch(
+      (error) => {
+        warnings.push("planetary-activations");
+        console.warn(
+          "[companions] Planetary activations unavailable:",
+          errorSummary(error),
+        );
+        return [] as PlanetaryActivation[];
+      },
+    ),
     executeQuery<LocalAgentRow>(
       `SELECT u.id AS user_id,
               u.email,
@@ -175,7 +193,7 @@ export async function GET(_req: NextRequest) {
 
   // Category 1: Present Moment Agents (aligned with active transits)
   const activeAgents = activations
-    .map((act: any) => {
+    .map((act: PlanetaryActivation) => {
       const actAgentId = String(act.agent?.id || "").toLowerCase();
       // Match by email slug (prefix before @)
       const matchedLocal = hydratedAgents.find(

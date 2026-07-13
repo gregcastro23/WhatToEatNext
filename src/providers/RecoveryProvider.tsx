@@ -1,21 +1,16 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { logger } from "@/utils/logger";
 
 // Simple error fallback component
-function ErrorFallback({
-  error,
-  resetErrorBoundary,
-}: {
-  error: Error;
-  resetErrorBoundary: () => void;
-}) {
+function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+  const message = error instanceof Error ? error.message : String(error);
   return (
     <div role="alert" style={{ padding: "20px", textAlign: "center" }}>
       <h2>Something went wrong</h2>
-      <pre style={{ color: "red" }}>{error.message}</pre>
+      <pre style={{ color: "red" }}>{message}</pre>
       <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   );

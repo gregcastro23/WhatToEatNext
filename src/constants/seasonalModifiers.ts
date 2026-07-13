@@ -50,7 +50,9 @@ function createElementalModifiersForZodiac(
 export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(
   zodiacSeasons,
 ).reduce((acc, [sign, data]) => {
-  acc[sign as any] = createElementalModifiersForZodiac(data.element);
+  acc[sign as ZodiacSignType] = createElementalModifiersForZodiac(
+    data.element,
+  );
   return acc;
 }, {} as ZodiacElementModifiers);
 

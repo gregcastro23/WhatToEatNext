@@ -209,7 +209,11 @@ function alchemize(planetaryPositions: {
 
     // Sum alchemical properties
     for (const prop in planetData.Alchemy) {
-      totals[prop as keyof AlchemyTotals] += planetData.Alchemy[prop];
+      // `prop` ranges only over `planetData.Alchemy`'s own keys (Spirit,
+      // Essence, Matter, Substance), so this mirrors the existing
+      // `keyof AlchemyTotals` assertion on the left-hand side.
+      totals[prop as keyof AlchemyTotals] +=
+        planetData.Alchemy[prop as keyof typeof planetData.Alchemy];
     }
 
     // Sum elemental properties (use signInfo for sign's element).

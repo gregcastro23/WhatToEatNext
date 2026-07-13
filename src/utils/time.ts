@@ -11,7 +11,7 @@ export function getTimeFactors() {
     "Friday",
     "Saturday",
   ];
-  const planetaryDayMap = {
+  const planetaryDayMap: Record<string, string> = {
     Sunday: "Sun",
     Monday: "Moon",
     Tuesday: "Mars",

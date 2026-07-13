@@ -123,8 +123,8 @@ export const DegreeAgentSelector: React.FC<DegreeAgentSelectorProps> = ({
               min="0"
               max="359"
               value={inputDegree}
-              onChange={e => setInputDegree(e.target.value)}
-              onKeyPress={e => e.key === 'Enter' && handleInputSubmit()}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputDegree(e.target.value)}
+              onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleInputSubmit()}
               className="cosmic-input max-w-24"
             />
             <Button size="sm" onClick={handleInputSubmit} className="cosmic-button">

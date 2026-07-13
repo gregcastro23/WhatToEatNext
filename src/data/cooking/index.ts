@@ -119,7 +119,13 @@ export interface CookingState {
  * @returns The cooking method data or undefined if not found
  */
 export function getCookingMethod(name: string): CookingMethodData | undefined {
-  return allCookingMethods[name] || allCookingMethods[name.toLowerCase()];
+  // `allCookingMethods` is a literal-keyed object (all values `CookingMethodData`)
+  // built from spreading several per-category method collections; it has no
+  // index signature of its own, so it's rebound here to a `Record` for the
+  // dynamic name lookups below. Every property on the source type is a
+  // `CookingMethodData`, so this is a safe, direct (non-widening) assignment.
+  const methods: Record<string, CookingMethodData> = allCookingMethods;
+  return methods[name] || methods[name.toLowerCase()];
 }
 /**
  * Get multiple cooking methods by name

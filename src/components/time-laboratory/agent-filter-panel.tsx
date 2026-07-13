@@ -188,7 +188,9 @@ export const AgentFilterPanel: React.FC<AgentFilterPanelProps> = ({
           <Input
             placeholder="Search by agent name, description, or planetary ruler..."
             value={filters.searchTerm}
-            onChange={e => updateFilters({ searchTerm: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              updateFilters({ searchTerm: e.target.value })
+            }
             className="cosmic-input"
           />
         </div>
@@ -222,7 +224,7 @@ export const AgentFilterPanel: React.FC<AgentFilterPanelProps> = ({
               <div className="space-y-2">
                 <Slider
                   value={[filters.minStrength, filters.maxStrength]}
-                  onValueChange={([min, max]) =>
+                  onValueChange={([min, max]: number[]) =>
                     updateFilters({ minStrength: min, maxStrength: max })
                   }
                   max={100}

@@ -982,7 +982,7 @@ async function applyAdditionalFilters(
   limit: number,
 ): Promise<RecipeData[]> {
   // Preload modules we'll need
-  let cuisineModule;
+  let cuisineModule: typeof import("./cuisineFlavorProfiles") | undefined;
   if (criteria.cuisine) {
     try {
       cuisineModule = await import("./cuisineFlavorProfiles");
@@ -1260,8 +1260,16 @@ export const _getRecommendedCuisines = (
 
       // Dietary preference matching
       if (profile.dietaryPreference && cuisineProfile.dietarySuitability) {
+        // dietarySuitability is a string[]; only a numeric-index lookup
+        // type-checks against it, matching the array indexing that was
+        // already happening here at runtime (non-numeric preferences
+        // resolve to `undefined` -> 0, same as before).
         const dietaryScore =
-          cuisineProfile.dietarySuitability[profile.dietaryPreference] || 0;
+          Number(
+            cuisineProfile.dietarySuitability[
+              Number(profile.dietaryPreference)
+            ],
+          ) || 0;
         matchScore += dietaryScore;
         totalFactors += 1;
       }

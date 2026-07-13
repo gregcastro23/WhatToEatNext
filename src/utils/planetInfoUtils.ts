@@ -7,6 +7,17 @@ import {
 } from "@/utils/astrologyUtils";
 import { planetaryModifiers } from "@/utils/planetaryCycles";
 
+type MajorArcanaCard = keyof typeof _MAJOR_ARCANA;
+type ArcanaPlanetKey = keyof typeof _PLANET_TO_MAJOR_ARCANA;
+
+function isMajorArcanaCard(name: string): name is MajorArcanaCard {
+  return Object.prototype.hasOwnProperty.call(_MAJOR_ARCANA, name);
+}
+
+function isArcanaPlanetKey(name: string): name is ArcanaPlanetKey {
+  return Object.prototype.hasOwnProperty.call(_PLANET_TO_MAJOR_ARCANA, name);
+}
+
 export interface PlanetInfo {
   name: string;
   sign: string;
@@ -111,13 +122,17 @@ export async function getPlanetInfo(
       const cardName = signToCard[planetSign] || "The Fool";
       tarotCard = {
         name: cardName,
-        element: _MAJOR_ARCANA[cardName]?.element || "Unknown",
+        element: isMajorArcanaCard(cardName)
+          ? _MAJOR_ARCANA[cardName]?.element || "Unknown"
+          : "Unknown",
       };
-    } else if (_PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
+    } else if (isArcanaPlanetKey(normalizedPlanetName)) {
       const cardName = _PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
       tarotCard = {
         name: cardName,
-        element: _MAJOR_ARCANA[cardName]?.element || "Unknown",
+        element: isMajorArcanaCard(cardName)
+          ? _MAJOR_ARCANA[cardName]?.element || "Unknown"
+          : "Unknown",
       };
     }
 

@@ -714,9 +714,12 @@ export function calculateMonicaOptimizationScore(
   for (const method of cookingMethods) {
     const normalizedMethod = method.toLowerCase().replace(/\s+/g, "-");
     // Look up the pillar for this cooking method
+    // (indexed via a Record view since the mapping's inferred literal-key
+    // type has no index signature for arbitrary method-name lookups)
+    const pillarMapping: Record<string, number> = COOKING_METHOD_PILLAR_MAPPING;
     const pillarId =
-      COOKING_METHOD_PILLAR_MAPPING[normalizedMethod] ||
-      COOKING_METHOD_PILLAR_MAPPING[normalizedMethod.replace(/-/g, "_")];
+      pillarMapping[normalizedMethod] ||
+      pillarMapping[normalizedMethod.replace(/-/g, "_")];
     const pillar = pillarId
       ? ALCHEMICAL_PILLARS.find((p: { id: number }) => p.id === pillarId)
       : null;

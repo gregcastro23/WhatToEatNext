@@ -458,8 +458,11 @@ export class CuisineAnalyzer {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access
       const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
-      const elementalBalance = alchemicalData.elementalBalance;
-      return elementalBalance?.[element] >= threshold;
+      const elementalBalance = alchemicalData.elementalBalance as
+        | ElementalProperties
+        | undefined;
+      if (!elementalBalance) return false;
+      return elementalBalance[element] >= threshold;
     });
   }
   /**
@@ -493,7 +496,9 @@ export class CuisineAnalyzer {
     enhanced.forEach(cuisine => {
       // Analyze elemental dominance with safe type casting
       const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
-      const elementalBalance = alchemicalData.elementalBalance;
+      const elementalBalance = alchemicalData.elementalBalance as
+        | ElementalProperties
+        | undefined;
       if (elementalBalance) {
         const dominant = Object.entries(elementalBalance).reduce((a, b) =>
           elementalBalance[a[0] as keyof ElementalProperties] >

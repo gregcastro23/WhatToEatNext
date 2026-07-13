@@ -322,7 +322,7 @@ export interface SystemState {
   isInitialized: boolean;
   lastUpdated: Date;
   activeChart?: BirthChart;
-  currentPlanetaryPositions?: Record<string, { sign: string; degree; number }>;
+  currentPlanetaryPositions?: Record<string, { sign: string; degree: number }>;
   currentAspects?: Array<{ type: string; planets: [string, string] }>;
   systemHealth: "optimal" | "degraded" | "offline";
   errorMessages: string[];

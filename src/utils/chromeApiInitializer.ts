@@ -42,7 +42,7 @@ export function initializeChromeApis(): void {
     const chromeObj = (window as any).chrome;
     if (!chromeObj.tabs) {
       chromeObj.tabs = {
-        create(options: { url?; string }) {
+        create(options: { url?: string }) {
           log.info(
             "[ChromeAPI] Mocked chrome.tabs.create called with: ",
             options,
@@ -103,7 +103,7 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.extension) {
       chromeObj.extension = {
-        getURL(path, _string) {
+        getURL(path: string, _string?: unknown) {
           return `${window.location.origin}/${path}`;
         },
         _getBackgroundPage() {
@@ -170,7 +170,7 @@ export function initializeChromeApis(): void {
           },
         },
         _sync: {
-          get(keys, unknown, callback?: Function) {
+          get(keys: string | string[] | null, _unused?: unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0);
             return Promise.resolve({});
           },

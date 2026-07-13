@@ -390,7 +390,7 @@ function generateBalancingMeals(
  * @returns Array of recommended foods
  */
 export function getZodiacSignTypeFoodRecommendations(
-  zodiacSign: any,
+  zodiacSign: ZodiacSignType,
 ): string[] {
   // Mapping of zodiac signs to primarily associated chakras
   const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSignType, Chakra> = {

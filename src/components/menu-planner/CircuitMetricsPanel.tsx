@@ -79,7 +79,7 @@ function WeeklyOverview() {
   }
 
   const efficiencyColor = getEfficiencyColor(metrics.weekEfficiency);
-  const efficiencyClasses = {
+  const efficiencyClasses: Record<string, string> = {
     green: "bg-green-100 text-green-800 border-green-300",
     yellow: "bg-yellow-100 text-yellow-800 border-yellow-300",
     red: "bg-red-100 text-red-800 border-red-300",
@@ -240,7 +240,7 @@ function DayBreakdown() {
         if (!dayMetrics) return null;
 
         const efficiencyColor = getEfficiencyColor(dayMetrics.dayEfficiency);
-        const colorClasses = {
+        const colorClasses: Record<string, string> = {
           green: "border-green-400 bg-green-50",
           yellow: "border-yellow-400 bg-yellow-50",
           red: "border-red-400 bg-red-50",

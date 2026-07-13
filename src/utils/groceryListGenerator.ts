@@ -108,6 +108,13 @@ function detectCategory(ingredientName: string): GroceryCategory {
 }
 
 /**
+ * Type guard: is this string a valid GroceryCategory key?
+ */
+function isGroceryCategory(value: string): value is GroceryCategory {
+  return Object.prototype.hasOwnProperty.call(CATEGORY_PATTERNS, value);
+}
+
+/**
  * Convert unit to base unit
  */
 function convertToBaseUnit(
@@ -431,7 +438,8 @@ export function getGroupedGroceryList(
   };
 
   items.forEach((item) => {
-    grouped[item.category].push(item);
+    const category = isGroceryCategory(item.category) ? item.category : "other";
+    grouped[category].push(item);
   });
 
   return grouped;

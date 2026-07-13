@@ -453,7 +453,7 @@ export function calculatePlanetaryDayInfluence(
   method: CookingMethodProfile,
   planetaryDay: string,
 ): number {
-  const planetaryMethodAffinities = {
+  const planetaryMethodAffinities: Record<string, string[]> = {
     Sun: ["grill", "roast", "bake", "sear", "broil"],
     Moon: ["steam", "poach", "simmer", "braise", "slow cook"],
     Mars: ["fry", "sauté", "stir fry", "char", "blacken"],
@@ -482,7 +482,7 @@ export function calculatePlanetaryHourInfluence(
   planetaryHour: string,
   isDaytime: boolean,
 ): number {
-  const hourMethodAffinities = {
+  const hourMethodAffinities: Record<string, string[]> = {
     Sun: isDaytime ? ["grill", "roast", "bake"] : ["warm", "heat"],
     Moon: isDaytime ? ["steam", "poach"] : ["simmer", "braise"],
     Mars: isDaytime ? ["fry", "sear"] : ["char", "blacken"],
@@ -641,7 +641,7 @@ export function calculateLunarMethodAffinity(
     "waxing crescent": ["steam", "poach", "simmer"],
     "first quarter": ["sauté", "stir fry", "quick cook"],
     "waxing gibbous": ["bake", "roast", "grill"],
-    "full Moon": ["feast", "celebration", "abundance"],
+    "full moon": ["feast", "celebration", "abundance"],
     "waning gibbous": ["braise", "slow cook", "stew"],
     "last quarter": ["reduce", "concentrate", "intensify"],
     "waning crescent": ["rest", "minimal cooking", "raw"],

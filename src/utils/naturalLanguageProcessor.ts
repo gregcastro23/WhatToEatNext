@@ -421,7 +421,9 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
         // pattern ever has category "cookingTime", so this check never excludes
         // anything and time patterns get initialized as arrays below.
         if (
-          !extractedFilters[pattern.category as string] &&
+          !(extractedFilters as Record<string, unknown>)[
+            pattern.category as string
+          ] &&
           (pattern.category as string) !== "cookingTime"
         ) {
           (extractedFilters as Record<string, unknown>)[
@@ -442,9 +444,13 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
             max: timeRange.max,
           };
         } else if (
-          Array.isArray(extractedFilters[pattern.category as string])
+          Array.isArray(
+            (extractedFilters as Record<string, unknown>)[
+              pattern.category as string
+            ],
+          )
         ) {
-          const currentArray = extractedFilters[
+          const currentArray = (extractedFilters as Record<string, unknown>)[
             pattern.category as string
           ] as string[];
           for (const value of pattern.values) {

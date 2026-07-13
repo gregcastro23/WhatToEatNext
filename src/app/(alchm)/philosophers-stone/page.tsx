@@ -21,6 +21,7 @@ import {
   Archive,
 } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
+import type { ChangeEvent, KeyboardEvent } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -347,8 +348,10 @@ export default function ModernPhilosophersStone() {
                   id="birthInput"
                   placeholder="e.g., June 23, 1991 at 10:24 AM in Brooklyn, New York"
                   value={birthInput}
-                  onChange={e => setBirthInput(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && handleBirthInput()}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setBirthInput(e.target.value)}
+                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
+                    e.key === 'Enter' && handleBirthInput()
+                  }
                 />
                 <p className="text-sm text-slate-500">
                   Format: [Month Day, Year] at [Time] in [City, State]
@@ -405,7 +408,9 @@ export default function ModernPhilosophersStone() {
                   id="agentName"
                   placeholder="e.g., Aristotle, Marie Curie"
                   value={agentData.name}
-                  onChange={e => setAgentData(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setAgentData(prev => ({ ...prev, name: e.target.value }))
+                  }
                 />
               </div>
 
@@ -466,7 +471,7 @@ export default function ModernPhilosophersStone() {
                     <p className="text-xs text-slate-500">{stat.description}</p>
                     <Slider
                       value={[agentData.stats[stat.key]]}
-                      onValueChange={([value]) =>
+                      onValueChange={([value]: number[]) =>
                         setAgentData(prev => ({
                           ...prev,
                           stats: { ...prev.stats, [stat.key]: value },
@@ -788,8 +793,10 @@ export default function ModernPhilosophersStone() {
                 <Input
                   placeholder={`Converse with ${createdAgent.name}...`}
                   value={chatInput}
-                  onChange={e => setChatInput(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && !isChatLoading && void handleSendAgentMessage()}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setChatInput(e.target.value)}
+                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
+                    e.key === 'Enter' && !isChatLoading && void handleSendAgentMessage()
+                  }
                   disabled={isChatLoading}
                   className="bg-slate-900 border-slate-800 focus:border-purple-500/50"
                 />
@@ -905,8 +912,10 @@ export default function ModernPhilosophersStone() {
                 <Input
                   placeholder="Ask Monica about stats or agent creation..."
                   value={userInput}
-                  onChange={e => setUserInput(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && void handleUserMessage()}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setUserInput(e.target.value)}
+                  onKeyPress={(e: KeyboardEvent<HTMLInputElement>) =>
+                    e.key === 'Enter' && void handleUserMessage()
+                  }
                 />
                 <Button onClick={() => { void handleUserMessage() }} size="icon">
                   <ChevronRight className="w-4 h-4" />

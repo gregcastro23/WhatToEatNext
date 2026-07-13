@@ -177,7 +177,15 @@ export class EnhancedTransitAnalysisService {
       );
 
       // Get planet data for culinary recommendations
-      const planetData = planetInfo[planet];
+      // NOTE: "@/data/planets" resolves to src/data/planets.ts (a simpler
+      // { element, foodCorrespondences, ... } shape), not the PlanetData-shaped
+      // barrel at src/data/planets/index.ts, because Node module resolution
+      // prefers the sibling file over the same-named directory. This cast
+      // preserves the pre-existing (implicit-any) runtime behavior of passing
+      // that value through as PlanetData rather than fixing the import target.
+      const planetData = (planetInfo as unknown as Record<string, PlanetData>)[
+        planet
+      ];
       const culinaryRecommendations =
         this.generatePlanetaryCulinaryRecommendations(
           planet,

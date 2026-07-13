@@ -42,7 +42,7 @@ if (typeof window !== "undefined") {
   }
 
   if (!(window as unknown as any).harden) {
-    (window as unknown as any).harden = function (obj) {
+    (window as unknown as any).harden = function <T>(obj: T): T {
       return obj;
     };
   }

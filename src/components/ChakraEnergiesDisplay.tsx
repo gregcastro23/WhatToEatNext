@@ -71,7 +71,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Planetary correspondences for each chakra with day/night distinctions
-  const CHAKRA_PLANETS = (() => {
+  const CHAKRA_PLANETS: Record<string, string[]> = (() => {
     if (isDaytime) {
       return {
         crown: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
@@ -168,12 +168,14 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Ensure all chakras have some energy value
-  const ensureChakraEnergies = (energies: unknown): unknown => {
+  const ensureChakraEnergies = (
+    energies: Record<string, number> | null | undefined,
+  ): Record<string, number> | null => {
     if (!energies) return null;
-    
+
     // Create a new object with guaranteed values for all chakras
-    const ensuredEnergies = { ...energies };
-    
+    const ensuredEnergies: Record<string, number> = { ...energies };
+
     // Make sure each chakra has at least a minimal value
     CHAKRA_ORDER.forEach(chakra => {
       // If chakra has no value or value is too low, give it a minimum value
@@ -181,7 +183,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
         ensuredEnergies[chakra] = 1 + Math.random() * 2; // Random value between 1-3
       }
     });
-    
+
     return ensuredEnergies;
   };
 
@@ -210,11 +212,12 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const validatedChakraEnergies = ensureChakraEnergies(chakraEnergies);
 
   // Prepare chakra data in the correct order
+    const safeChakraEnergies: Record<string, number> = validatedChakraEnergies ?? {};
     const orderedChakras = CHAKRA_ORDER
-      .filter(chakraKey => chakraKey in (validatedChakraEnergies as any))
+      .filter(chakraKey => chakraKey in safeChakraEnergies)
       .map(chakraKey => ({
         key: chakraKey,
-        energy: (validatedChakraEnergies as any)[chakraKey] || 0
+        energy: safeChakraEnergies[chakraKey] || 0
       }));
 
   return (

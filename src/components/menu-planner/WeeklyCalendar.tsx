@@ -546,10 +546,19 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
   };
 
   // Group meals by day
-  const mealsByDay = useMemo(() => {
-    if (!currentMenu) return {};
+  const mealsByDay = useMemo<Record<DayOfWeek, MealSlotType[]>>(() => {
+    const grouped: Record<DayOfWeek, MealSlotType[]> = {
+      0: [],
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+    };
 
-    const grouped: Record<DayOfWeek, MealSlotType[]> = {} as any;
+    if (!currentMenu) return grouped;
+
     currentMenu.meals.forEach((meal) => {
       if (!grouped[meal.dayOfWeek]) {
         grouped[meal.dayOfWeek] = [];

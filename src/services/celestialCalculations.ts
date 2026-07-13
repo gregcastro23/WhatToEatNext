@@ -821,7 +821,7 @@ class CelestialCalculator {
 
     // Add outer planets based on their actual positions and dignities
     const outerPlanets = ["Uranus", "Neptune", "Pluto"];
-    const outerPlanetDignities = {
+    const outerPlanetDignities: Record<string, Record<string, number>> = {
       Uranus: {
         aquarius: 0.8, // Modern rulership
         scorpio: 0.5, // Exaltation

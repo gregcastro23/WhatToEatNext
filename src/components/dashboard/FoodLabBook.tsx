@@ -521,7 +521,19 @@ function NewEntryForm({
   const [error, setError] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    dishName: string;
+    description: string;
+    notes: string;
+    recipeName: string;
+    cuisineType: string;
+    cookingMethod: string;
+    cookedAt: string;
+    rating: number;
+    tags: string;
+    isPublic: boolean;
+    elementalTags: Record<string, number>;
+  }>({
     dishName: '',
     description: '',
     notes: '',

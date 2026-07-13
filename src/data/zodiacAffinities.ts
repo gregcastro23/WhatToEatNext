@@ -939,7 +939,7 @@ export const modalityCookingTechniques: Record<Modality, string[]> = {
 /**
  * Get recommended cooking techniques based on zodiac sign
  */
-export function getCookingTechniquesForSign(sign: any): string[] {
+export function getCookingTechniquesForSign(sign: ZodiacSignType): string[] {
   const modality = ZODIAC_MODALITIES[sign];
   return modalityCookingTechniques[modality];
 }
@@ -1084,8 +1084,8 @@ export function getCompatibleFlavorsForModality(modality: Modality): string[] {
  * Calculate zodiac compatibility for recipe combinations
  */
 export function calculateRecipeZodiacCompatibility(
-  mainIngredientSign: any,
-  preparationMethodSign: any,
+  mainIngredientSign: ZodiacSignType,
+  preparationMethodSign: ZodiacSignType,
 ): number {
   // Get modalities
   const ingredientModality = ZODIAC_MODALITIES[mainIngredientSign];

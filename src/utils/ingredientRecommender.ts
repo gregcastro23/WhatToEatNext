@@ -17,6 +17,7 @@ import jupiterData from "@/data/planets/jupiter";
 import marsData from "@/data/planets/mars";
 import mercuryData from "@/data/planets/mercury";
 import saturnData from "@/data/planets/saturn";
+import type { PlanetData } from "@/data/planets/types";
 import venusData from "@/data/planets/venus";
 import type {
     AstrologicalStateType,
@@ -44,6 +45,31 @@ interface BaseIngredient {
     signAffinities?: string[];
   };
   [key: string]: unknown; // For dynamic properties
+}
+// Shape of a single zodiac-sign entry within a planet's PlanetSpecific.ZodiacTransit data
+interface ZodiacTransitEntry {
+  FoodFocus?: string;
+  Elements?: Record<string, number>;
+  Ingredients?: string[];
+  [key: string]: unknown;
+}
+// Safely extracts the full ZodiacTransit map (keyed by zodiac sign) from a planet's data,
+// since PlanetSpecific is typed as Record<string, unknown> and needs a validated narrowing.
+function getZodiacTransitRecord(
+  planetData: PlanetData,
+): Record<string, ZodiacTransitEntry> | undefined {
+  const zodiacTransit = planetData.PlanetSpecific?.ZodiacTransit;
+  if (zodiacTransit && typeof zodiacTransit === "object") {
+    return zodiacTransit as Record<string, ZodiacTransitEntry>;
+  }
+  return undefined;
+}
+// Safely retrieves a single zodiac sign's transit entry for a planet
+function getZodiacTransitEntry(
+  planetData: PlanetData,
+  zodiacSign: string,
+): ZodiacTransitEntry | undefined {
+  return getZodiacTransitRecord(planetData)?.[zodiacSign];
 }
 // Helper functions for safe type access
 function safeGetString(value: unknown): string | undefined {
@@ -341,19 +367,19 @@ export function getRecommendedIngredients(
     // Apply Venus's zodiac transit data if Venus is active and in this sign
     const venusBoost =
       planetsToUse.includes("Venus") &&
-      venusData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
+      getZodiacTransitEntry(venusData, astroState.zodiacSign)
         ? 2.0
         : 0.0;
     // Apply Mars's zodiac transit data if Mars is active and in this sign
     const marsBoost =
       planetsToUse.includes("Mars") &&
-      marsData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
+      getZodiacTransitEntry(marsData, astroState.zodiacSign)
         ? 2.0
         : 0.0;
     // Apply Mercury's zodiac transit data if Mercury is active and in this sign
     const mercuryBoost =
       planetsToUse.includes("Mercury") &&
-      mercuryData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign]
+      getZodiacTransitEntry(mercuryData, astroState.zodiacSign)
         ? 2.0
         : 0.0;
     filteredIngredients.sort((a, b) => {
@@ -827,7 +853,7 @@ function calculateEnhancedPlanetaryScore(
  * @returns Elemental influence values
  */
 export function calculateElementalInfluences(
-  planetaryAlignment: Record<string, { sign: string; degree; number }>,
+  planetaryAlignment: Record<string, { sign: string; degree: number }>,
 ): ElementalProperties {
   // Define elemental affinities for each zodiac sign
   const zodiacElements: Record<string, keyof ElementalProperties> = {
@@ -1033,12 +1059,9 @@ function isVenusAssociatedIngredient(ingredientName: string): boolean {
     }
   }
   // Check against zodiac-specific Venus ingredients
-  if (
-    venusData.PlanetSpecific?.ZodiacTransit &&
-    typeof venusData.PlanetSpecific.ZodiacTransit === "object"
-  ) {
-    for (const zodiac in venusData.PlanetSpecific.ZodiacTransit) {
-      const transitData = venusData.PlanetSpecific.ZodiacTransit[zodiac];
+  const venusZodiacTransitRecord = getZodiacTransitRecord(venusData);
+  if (venusZodiacTransitRecord) {
+    for (const transitData of Object.values(venusZodiacTransitRecord)) {
       if (transitData.Ingredients) {
         for (const ingredient of transitData.Ingredients) {
           if (
@@ -1082,12 +1105,9 @@ function isMarsAssociatedIngredient(ingredientName: string): boolean {
     }
   }
   // Check all zodiac transits for ingredients
-  if (
-    marsData.PlanetSpecific?.ZodiacTransit &&
-    typeof marsData.PlanetSpecific.ZodiacTransit === "object"
-  ) {
-    for (const sign in marsData.PlanetSpecific.ZodiacTransit) {
-      const transit = marsData.PlanetSpecific.ZodiacTransit[sign];
+  const marsZodiacTransitRecord = getZodiacTransitRecord(marsData);
+  if (marsZodiacTransitRecord) {
+    for (const transit of Object.values(marsZodiacTransitRecord)) {
       if (transit.Ingredients) {
         for (const ingredient of transit.Ingredients) {
           if (
@@ -1240,14 +1260,9 @@ function calculateVenusInfluence(
   }
   // Zodiac sign-specific preferences
   if (zodiacSign && venusData.PlanetSpecific?.ZodiacTransit) {
-    const transitData = venusData.PlanetSpecific.ZodiacTransit[zodiacSign];
     // Check food focus alignment
     // Extract transit data with safe property access
-    const transitDataRecord = transitData as {
-      FoodFocus?: string;
-      Elements?: Record<string, number>;
-      Ingredients?: string[];
-    } | undefined;
+    const transitDataRecord = getZodiacTransitEntry(venusData, zodiacSign);
     const foodFocusProperty = transitDataRecord?.FoodFocus;
     if (foodFocusProperty) {
       const foodFocus = (foodFocusProperty || "").toString().toLowerCase();
@@ -1760,11 +1775,13 @@ function calculateMarsInfluence(
   // Extract ingredient data with safe property access for flavor profile
   const ingredientFlavorProfile = ingredientData.flavorProfile as Record<string, unknown> | undefined;
   if (marsData.FlavorProfiles && ingredientFlavorProfile) {
-    for (const flavor in marsData.FlavorProfiles) {
+    const marsFlavorProfiles = marsData.FlavorProfiles;
+    for (const flavor in marsFlavorProfiles) {
+      const flavorKey = flavor as keyof typeof marsFlavorProfiles;
       const flavorValue = safeGetNumber(ingredientFlavorProfile[flavor]);
       if (flavorValue > 0) {
         // Higher score when both have high values for same flavor
-        score += marsData.FlavorProfiles[flavor] * flavorValue;
+        score += marsFlavorProfiles[flavorKey] * flavorValue;
       }
     }
   }
@@ -1778,7 +1795,7 @@ function calculateMarsInfluence(
   }
   // Zodiac sign specific boost
   if (zodiacSign && marsData.PlanetSpecific?.ZodiacTransit) {
-    const transit = marsData.PlanetSpecific.ZodiacTransit[zodiacSign];
+    const transit = getZodiacTransitEntry(marsData, zodiacSign);
     // Check if ingredient is in the transit's ingredient list
     if (transit?.Ingredients) {
       for (const transitIngredient of transit.Ingredients) {
@@ -1966,14 +1983,12 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
   // Check Mercury ZodiacTransit ingredient associations in current sign
   // This is a more dynamic way to check for transient associations
   const currentZodiacSignType = "aries"; // Use fallback or implement getCurrentZodiacSignType function
-  if (
-    currentZodiacSignType &&
-    mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSignType]
-      ?.Ingredients
-  ) {
-    const transitIngredients =
-      mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSignType]
-        .Ingredients;
+  const currentZodiacTransitEntry = getZodiacTransitEntry(
+    mercuryData,
+    currentZodiacSignType,
+  );
+  if (currentZodiacTransitEntry?.Ingredients) {
+    const transitIngredients = currentZodiacTransitEntry.Ingredients;
     if (
       transitIngredients.some(
         (ingredient) =>
@@ -2057,8 +2072,7 @@ function calculateMercuryInfluence(
       score += 1.5;
     }
     // Check Mercury's zodiac transit data for this sign
-    const mercuryTransit =
-      mercuryData.PlanetSpecific?.ZodiacTransit?.[zodiacSign];
+    const mercuryTransit = getZodiacTransitEntry(mercuryData, zodiacSign);
     if (mercuryTransit) {
       // Boost for ingredients matching transit ingredients
       if (
@@ -2907,8 +2921,15 @@ export async function recommendIngredients(
   const _calculatedPositions = calculatePlanetaryPositions(date);
   // Use _LUNAR_PHASES data for phase-based filtering (await lunarPhase since it's a Promise)
   const lunarPhaseValue = await lunarPhase;
+  // _LUNAR_PHASES is keyed by phase name (e.g. "new"); lunarPhaseValue is a numeric
+  // phase fraction, so this lookup is a bounds-checked (always-undefined) fallback
+  // chain by design — cast to a Record so the string/number lookups type-check.
+  const lunarPhasesLookup = _LUNAR_PHASES as Record<
+    string | number,
+    (typeof _LUNAR_PHASES)[keyof typeof _LUNAR_PHASES]
+  >;
   const currentLunarPhaseData =
-    _LUNAR_PHASES[lunarPhaseValue] || _LUNAR_PHASES["new moon"];
+    lunarPhasesLookup[lunarPhaseValue] || lunarPhasesLookup["new moon"];
   // Create astrological bridge for enhanced compatibility
   const astrologicalBridge = _createAstrologicalBridge();
   // Note: Bridge configuration moved to separate initialization if needed

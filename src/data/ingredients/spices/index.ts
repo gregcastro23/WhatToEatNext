@@ -503,12 +503,20 @@ export const _getTraditionalBlends = (
   region: string,
 ): Record<string, IngredientMapping> =>
   Object.entries(spiceBlends)
-    .filter(
-      ([_, value]) =>
+    .filter(([_, value]) => {
+      // `regionalVariations` isn't a named field on `IngredientMapping`, so
+      // it's typed `unknown` via that interface's catch-all index signature.
+      // Actual spice-blend data (see spiceBlends.ts) always stores it as a
+      // region-name-keyed object, so this narrows it for the lookup below.
+      const regionalVariations = value.regionalVariations as
+        | Record<string, unknown>
+        | undefined;
+      return (
         (Array.isArray(value.origin)
           ? value.origin.includes(region)
-          : value.origin === region) || value.regionalVariations?.[region],
-    )
+          : value.origin === region) || regionalVariations?.[region]
+      );
+    })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const _getSpiceConversionRatio = (

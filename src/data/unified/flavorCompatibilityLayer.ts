@@ -51,7 +51,7 @@ export interface LegacyCuisineProfile {
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
 export function calculateFlavorCompatibility(
-  profile1,
+  profile1: {},
   profile2: {},
 ): LegacyFlavorCompatibilityResult {
   try {
@@ -218,7 +218,7 @@ export function getFlavorProfileForIngredient(
  * @deprecated Use findCompatibleProfiles from unifiedFlavorEngine instead
  */
 export function findCompatibleProfiles(
-  targetProfile,
+  targetProfile: {},
   minCompatibility = 0.7,
 ): Array<{ profile: unknown; compatibility: number }> {
   try {

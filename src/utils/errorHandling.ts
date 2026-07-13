@@ -39,7 +39,7 @@ export interface EnhancedError extends Error {
 
 // Error recovery strategies
 export interface ErrorRecoveryStrategy {
-  canRecover: (error, EnhancedError) => boolean;
+  canRecover: (error: EnhancedError) => boolean;
   recover: (error: EnhancedError) => Promise<unknown> | unknown;
   fallback?: () => unknown;
 }
@@ -432,7 +432,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
     return React.createElement(
       ErrorBoundary,
       {
-        fallback: ((error, Error, errorInfo: React.ErrorInfo) => {
+        fallback: ((error: Error, errorInfo: React.ErrorInfo) => {
           const enhancedError = createEnhancedError(
             error.message,
             errorType,

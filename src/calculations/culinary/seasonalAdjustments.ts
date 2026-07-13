@@ -103,7 +103,15 @@ export function getSeasonalCookingRecommendations(season: string): {
 } {
   const seasonKey = season.toLowerCase();
 
-  const recommendations = {
+  const recommendations: Record<
+    string,
+    {
+      cookingMethods: string[];
+      ingredients: string[];
+      flavors: string[];
+      timing: string[];
+    }
+  > = {
     spring: {
       cookingMethods: [
         "Steaming",

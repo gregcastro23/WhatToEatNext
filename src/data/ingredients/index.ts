@@ -108,8 +108,10 @@ const calculateElementalProperties = (
   );
 };
 // Helper function to get planetary element
-function getPlanetaryElement(planet: string): string | null {
-  const planetElements: Record<string, string> = {
+function getPlanetaryElement(
+  planet: string,
+): "Fire" | "Water" | "Earth" | "Air" | null {
+  const planetElements: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {
     Sun: "Fire",
     Mars: "Fire",
     Jupiter: "Fire",
@@ -124,8 +126,10 @@ function getPlanetaryElement(planet: string): string | null {
   return planetElements[planet] || null;
 }
 // Helper function to get zodiac element
-function getZodiacElement(sign: string): string | null {
-  const signElements: Record<string, string> = {
+function getZodiacElement(
+  sign: string,
+): "Fire" | "Water" | "Earth" | "Air" | null {
+  const signElements: Record<string, "Fire" | "Water" | "Earth" | "Air"> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
