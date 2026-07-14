@@ -55,6 +55,38 @@ body {
     "Segoe UI", system-ui, sans-serif;
 }
 
+/*
+ * Readable text in form controls.
+ *
+ * Tailwind Preflight resets form controls to `color: inherit`, so in dark theme
+ * every input inherits the white body text. On the many search/filter fields
+ * with a light (white/gray) background this rendered as near-invisible
+ * white-on-white — the "grey on white as you type" bug. Force a dark default so
+ * typed text is legible on light input surfaces site-wide.
+ *
+ * `:where()` keeps this at element-level specificity (0,0,1) so any input that
+ * intends light text on a dark surface still opts in via its own `text-*`
+ * utility or inline color (which win). Non-text inputs are excluded so their
+ * accent/check rendering is untouched.
+ */
+input:where(
+    :not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="image"]
+    )
+  ),
+textarea,
+select {
+  color: #111827;
+}
+
 * {
   box-sizing: border-box;
 }
