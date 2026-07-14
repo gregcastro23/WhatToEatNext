@@ -3,11 +3,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useToast } from '@/components/common/Toast';
 import { FaMagic, FaCog, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { useToast } from '@/components/common/Toast';
 import { useRecipeBuilder } from '@/contexts/RecipeBuilderContext';
 import { useUser } from '@/contexts/UserContext';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import { useShareIdentityDefault } from '@/hooks/useShareIdentityDefault';
+import { shareIdentityForPost } from '@/lib/feed/identity';
+import { mintRecipe as submitRecipeMint, mintResultMessage, quoteRecipeMint, type MintQuoteResult } from '@/lib/recipe-nft/mintClient';
 import type { cosmicRecipeSchema } from '@/types/cosmicRecipeSchema';
 import { getAllCuisineNames } from '@/utils/cuisine/cuisineIndex';
 import { saveRecipeToStore } from '@/utils/generatedRecipeStore';
@@ -117,15 +120,68 @@ export default function CosmicRecipeGenerator() {
   const [disallowedIngredients, setDisallowedIngredients] = useState("");
   const [preferredCuisine, setPreferredCuisine] = useState<string>("");
   const [savedRecipeId, setSavedRecipeId] = useState<string | null>(null);
+  const [storedRecipe, setStoredRecipe] = useState<MonicaOptimizedRecipe | null>(null);
+  const [isLikingRecipe, setIsLikingRecipe] = useState(false);
+  const [likedRecipe, setLikedRecipe] = useState(false);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
 
   const { showSuccess, showError } = useToast();
   const [showShareModal, setShowShareModal] = useState(false);
-  const [shareNameOptIn, setShareNameOptIn] = useState(false);
+  // Identity flip (PR 4): named by default; checkbox = per-post anonymity
+  // opt-out, pre-checked when the global share_identity default is off.
+  const [postAnonymously, setPostAnonymously] = useState(false);
+  const { shareByDefault } = useShareIdentityDefault();
+  useEffect(() => {
+    setPostAnonymously(!shareByDefault);
+  }, [shareByDefault]);
   const [isSharing, setIsSharing] = useState(false);
   const [hasShared, setHasShared] = useState(false);
+  const [isMinting, setIsMinting] = useState(false);
+  const [hasMinted, setHasMinted] = useState(false);
+  const [mintQuote, setMintQuote] = useState<MintQuoteResult | null>(null);
+
+  // Cost-before-mint: quote the ESMS price once the recipe is saved so the
+  // mint button states its price instead of revealing it via a 402 toast.
+  useEffect(() => {
+    if (!object || !savedRecipeId) {
+      setMintQuote(null);
+      return;
+    }
+    let cancelled = false;
+    void quoteRecipeMint(object).then((q) => {
+      if (!cancelled) setMintQuote(q);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedRecipeId]);
+
+  const mintCostLabel = (() => {
+    if (!mintQuote?.enabled) return null;
+    const c = mintQuote.quote.liveCost;
+    const total = (c.spirit || 0) + (c.essence || 0) + (c.matter || 0) + (c.substance || 0);
+    return total > 0 ? `${Math.round(total * 10) / 10} ESMS` : null;
+  })();
+
+  const handleMintNft = async () => {
+    if (!object) return;
+    setIsMinting(true);
+    try {
+      const result = await submitRecipeMint(object);
+      const message = mintResultMessage(result);
+      if (result.ok) {
+        showSuccess(message);
+        setHasMinted(true);
+      } else {
+        showError(message);
+      }
+    } finally {
+      setIsMinting(false);
+    }
+  };
 
   const handleShareToFeed = async () => {
     if (!object || !savedRecipeId) return;
@@ -136,7 +192,7 @@ export default function CosmicRecipeGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           shareType: "recipe",
-          shareName: shareNameOptIn,
+          shareIdentity: shareIdentityForPost(postAnonymously, shareByDefault),
           payload: {
             recipeName: object.title,
             recipeId: savedRecipeId,
@@ -271,6 +327,7 @@ export default function CosmicRecipeGenerator() {
             preferredCuisineRef.current || undefined,
           );
           saveRecipeToStore(stored);
+          setStoredRecipe(stored);
           setSavedRecipeId(stored.id);
         } catch (err) {
           console.error("Failed to persist cosmic recipe", err);
@@ -292,6 +349,8 @@ export default function CosmicRecipeGenerator() {
   const handleGenerate = () => {
     setImageUrl(null);
     setSavedRecipeId(null);
+    setStoredRecipe(null);
+    setLikedRecipe(false);
     void submit({
       prompt: prompt || "A nourishing, restorative meal",
       diet,
@@ -300,6 +359,47 @@ export default function CosmicRecipeGenerator() {
       birthData,
       preferredCuisine: preferredCuisine || undefined,
     });
+  };
+
+  const handleLikeRecipe = async () => {
+    if (!storedRecipe) return;
+    saveRecipeToStore(storedRecipe);
+    if (!currentUser) {
+      setLikedRecipe(true);
+      showSuccess("Liked locally. Sign in to sync your cookbook.");
+      return;
+    }
+
+    setIsLikingRecipe(true);
+    try {
+      const res = await fetch("/api/users/me/recipes/custom", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          name: storedRecipe.name,
+          cuisine: storedRecipe.cuisine,
+          source: "cosmic-generator",
+          sourceRecipeId: storedRecipe.id,
+          payload: storedRecipe,
+          action: "like",
+        }),
+      });
+      if (res.status === 401) {
+        setLikedRecipe(true);
+        showSuccess("Liked locally. Sign in to sync your cookbook.");
+        return;
+      }
+      if (!res.ok) throw new Error("Failed to like recipe");
+      setLikedRecipe(true);
+      showSuccess("Recipe liked and saved to your cookbook.");
+    } catch (err) {
+      console.error(err);
+      setLikedRecipe(true);
+      showError("Liked locally, but cookbook sync failed.");
+    } finally {
+      setIsLikingRecipe(false);
+    }
   };
 
   const generateImage = async (title: string, description: string) => {
@@ -357,7 +457,7 @@ export default function CosmicRecipeGenerator() {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="What should we create? (e.g., A warm, grounding stew for Saturn day...)"
-            className="flex-1 px-5 py-3.5 text-lg border border-slate-300 dark:border-slate-600 shadow-sm rounded-xl bg-white dark:bg-slate-800 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all"
+            className="flex-1 px-5 py-3.5 text-lg border border-slate-300 dark:border-slate-600 shadow-sm rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all"
           />
           <button 
             onClick={handleGenerate}
@@ -412,7 +512,7 @@ export default function CosmicRecipeGenerator() {
                   value={ingredientsMain}
                   onChange={(e) => setIngredientsMain(e.target.value)}
                   placeholder="e.g., Chicken, Basil, Garlic"
-                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -425,7 +525,7 @@ export default function CosmicRecipeGenerator() {
                   value={disallowedIngredients}
                   onChange={(e) => setDisallowedIngredients(e.target.value)}
                   placeholder="e.g., Peanuts, Coriander"
-                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
                 />
               </div>
               <div>
@@ -436,7 +536,7 @@ export default function CosmicRecipeGenerator() {
                 <select
                   value={preferredCuisine}
                   onChange={(e) => setPreferredCuisine(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
                 >
                   <option value="">Any (let the stars decide)</option>
                   {cuisineOptions.map((c) => (
@@ -513,6 +613,17 @@ export default function CosmicRecipeGenerator() {
                 >
                   View full recipe page
                 </Link>
+                <button
+                  onClick={() => { void handleLikeRecipe(); }}
+                  disabled={likedRecipe || isLikingRecipe}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
+                    likedRecipe
+                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-200 dark:border-slate-750"
+                      : "bg-white hover:bg-slate-50 text-pink-700 border border-pink-200 disabled:opacity-60"
+                  }`}
+                >
+                  {likedRecipe ? "Liked" : isLikingRecipe ? "Liking..." : "Like Recipe"}
+                </button>
                 <Link
                   href="/recipe-builder"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white hover:bg-slate-50 text-purple-700 text-sm font-semibold border border-purple-200 transition-colors"
@@ -521,7 +632,8 @@ export default function CosmicRecipeGenerator() {
                 </Link>
                 <button
                   onClick={() => {
-                    setShareNameOptIn(false);
+                    // Reset to the user's global default (pre-checked for opt-outs).
+                    setPostAnonymously(!shareByDefault);
                     setShowShareModal(true);
                   }}
                   disabled={hasShared}
@@ -532,6 +644,24 @@ export default function CosmicRecipeGenerator() {
                   }`}
                 >
                   {hasShared ? "✓ Shared to Feed" : "📢 Share to Feed"}
+                </button>
+                <button
+                  onClick={() => { void handleMintNft(); }}
+                  disabled={isMinting || hasMinted}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors ${
+                    hasMinted
+                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-200 dark:border-slate-750"
+                      : "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white disabled:opacity-60"
+                  }`}
+                  title="Spend ESMS equal to this recipe's alchemical fingerprint to mint it as an on-chain NFT"
+                >
+                  {hasMinted
+                    ? "✓ Minted"
+                    : isMinting
+                      ? "Minting…"
+                      : mintCostLabel
+                        ? `⛓ Mint as NFT · ${mintCostLabel}`
+                        : "⛓ Mint as NFT"}
                 </button>
               </div>
             )}
@@ -716,12 +846,12 @@ export default function CosmicRecipeGenerator() {
               <label className="flex items-center space-x-3 cursor-pointer p-3 bg-purple-50 dark:bg-purple-950/20 rounded-lg border border-purple-100 dark:border-purple-900/50">
                 <input
                   type="checkbox"
-                  checked={shareNameOptIn}
-                  onChange={(e) => setShareNameOptIn(e.target.checked)}
+                  checked={postAnonymously}
+                  onChange={(e) => setPostAnonymously(e.target.checked)}
                   className="form-checkbox h-5 w-5 text-purple-600 rounded"
                 />
                 <span className="text-sm font-semibold text-purple-900 dark:text-purple-300">
-                  Opt-in to share my name (defaults to Anonymous Alchemist)
+                  Post anonymously (hide my name on this post)
                 </span>
               </label>
             </div>
@@ -735,7 +865,7 @@ export default function CosmicRecipeGenerator() {
                 Cancel
               </button>
               <button
-                onClick={handleShareToFeed}
+                onClick={() => { void handleShareToFeed(); }}
                 disabled={isSharing}
                 className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg transition-all font-semibold"
               >
