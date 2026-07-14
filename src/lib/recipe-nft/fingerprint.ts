@@ -1,13 +1,17 @@
 /**
  * Recipe alchemical fingerprint — SERVER ONLY (imports the ingredient catalog).
  *
- * v2 aggregation ("potency_weighted_v2"):
+ * v3 aggregation ("potency_weighted_v3"):
  *   • Each ingredient resolves to per-unit ESMS + elemental + potency (catalog
  *     or curated override).
  *   • weight_i = massGrams_i × potencyFactor_i, where potencyFactor = potency/5
  *     (5 = neutral). A potent pinch (chili, spice) punches above its mass.
- *   • Totals are PER-SERVING: Σ(esms_i × weight_i) ÷ yields ÷ CALIBRATION, where
- *     CALIBRATION anchors the flagship to a sane ~20-ESMS economy.
+ *   • Totals are NORMALIZED to a fixed economy target: raw = Σ(esms_i × weight_i)
+ *     per coin, then each coin is scaled by TARGET_ESMS ÷ (raw four-coin sum) so
+ *     EVERY recipe's four coins sum to TARGET_ESMS (20). Ingredient density no
+ *     longer changes the total — only the SPLIT across coins varies, reflecting
+ *     the recipe's alchemical signature. (v2 divided by servings × a global
+ *     CALIBRATION constant, so denser recipes drifted above the target.)
  *   • Elemental shares feeding the physics are INGREDIENT-DERIVED (weight-weighted),
  *     not the authored elementalBalance (which only seeds the fallback).
  *   • Mass prefers precise measures (g/ml/tsp/tbsp/cup, incl. from the household
@@ -25,14 +29,16 @@ import type {
 } from "./types";
 
 /** Bump when the alchemical computation changes — committed on-chain as engineVersion. */
-export const ENGINE_VERSION = 2;
+export const ENGINE_VERSION = 3;
 
 /**
- * Economy calibration: divides the per-serving potency-weighted ESMS sum so the
- * flagship (Pasta Primavera) lands at ~20 total ESMS. Tune this single constant
- * to scale the whole mint economy up or down.
+ * Fixed mint-economy target: every recipe's four ESMS coins are normalized to
+ * sum to exactly this value, so all recipes cost the same to mint (20 ESMS) and
+ * density no longer inflates the price. The per-recipe SPLIT across the four
+ * coins still reflects its alchemical signature. Tune this single constant to
+ * scale the whole mint economy up or down.
  */
-export const CALIBRATION = 30.0;
+export const TARGET_ESMS = 20.0;
 
 const NEUTRAL_POTENCY = 5;
 
@@ -53,6 +59,20 @@ const CURATED_OVERRIDES: Array<{
   { match: "tarragon", key: "curated:tarragon", esms: { spirit: 0.6, essence: 0.4, matter: 0.15, substance: 0.25 }, elemental: { Fire: 0.3, Water: 0.2, Earth: 0.1, Air: 0.4 }, potency: 7, servingGrams: 2, category: "culinary_herb" },
   { match: "mafaldine", key: "curated:pasta", esms: { spirit: 0.15, essence: 0.25, matter: 0.6, substance: 0.35 }, elemental: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }, potency: 3, servingGrams: 56, category: "grain" },
   { match: "chili", key: "curated:chili-flakes", esms: { spirit: 0.7, essence: 0.35, matter: 0.15, substance: 0.2 }, elemental: { Fire: 0.7, Water: 0, Earth: 0.1, Air: 0.2 }, potency: 9, servingGrams: 1, category: "seasoning" },
+  // Chorizo Bolognese (flagship v3) — real-valued fallbacks for ingredients the
+  // catalog may miss or mis-resolve. Element→coin: Fire=Spirit, Water=Essence,
+  // Earth=Matter, Air=Substance. The catalog is still tried first (resolveIngredient).
+  { match: "chorizo", key: "curated:chorizo-fresh", esms: { spirit: 0.7, essence: 0.4, matter: 0.5, substance: 0.3 }, elemental: { Fire: 0.55, Water: 0.12, Earth: 0.23, Air: 0.1 }, potency: 8, servingGrams: 85, category: "protein" },
+  { match: "paprika", key: "curated:smoked-paprika", esms: { spirit: 0.7, essence: 0.3, matter: 0.15, substance: 0.25 }, elemental: { Fire: 0.72, Water: 0.03, Earth: 0.1, Air: 0.15 }, potency: 9, servingGrams: 2, category: "seasoning" },
+  { match: "tomato paste", key: "curated:tomato-paste", esms: { spirit: 0.3, essence: 0.6, matter: 0.45, substance: 0.3 }, elemental: { Fire: 0.15, Water: 0.5, Earth: 0.3, Air: 0.05 }, potency: 6, servingGrams: 16, category: "condiment" },
+  { match: "red wine", key: "curated:red-wine", esms: { spirit: 0.4, essence: 0.55, matter: 0.15, substance: 0.4 }, elemental: { Fire: 0.25, Water: 0.45, Earth: 0.05, Air: 0.25 }, potency: 6, servingGrams: 150, category: "beverage" },
+  { match: "nutmeg", key: "curated:nutmeg", esms: { spirit: 0.6, essence: 0.3, matter: 0.2, substance: 0.35 }, elemental: { Fire: 0.4, Water: 0.1, Earth: 0.15, Air: 0.35 }, potency: 8, servingGrams: 1, category: "spice" },
+  { match: "rigatoni", key: "curated:pasta", esms: { spirit: 0.15, essence: 0.25, matter: 0.62, substance: 0.33 }, elemental: { Fire: 0.08, Water: 0.17, Earth: 0.65, Air: 0.1 }, potency: 3, servingGrams: 56, category: "grain" },
+  { match: "celery", key: "curated:celery", esms: { spirit: 0.2, essence: 0.45, matter: 0.35, substance: 0.4 }, elemental: { Fire: 0.05, Water: 0.55, Earth: 0.2, Air: 0.2 }, potency: 4, servingGrams: 40, category: "vegetable" },
+  { match: "whole milk", key: "curated:milk", esms: { spirit: 0.2, essence: 0.5, matter: 0.45, substance: 0.35 }, elemental: { Fire: 0.05, Water: 0.6, Earth: 0.25, Air: 0.1 }, potency: 4, servingGrams: 244, category: "dairy" },
+  { match: "butter", key: "curated:butter", esms: { spirit: 0.15, essence: 0.35, matter: 0.5, substance: 0.3 }, elemental: { Fire: 0.1, Water: 0.35, Earth: 0.45, Air: 0.1 }, potency: 4, servingGrams: 14, category: "dairy" },
+  { match: "oregano", key: "curated:oregano", esms: { spirit: 0.5, essence: 0.35, matter: 0.15, substance: 0.3 }, elemental: { Fire: 0.35, Water: 0.15, Earth: 0.15, Air: 0.35 }, potency: 7, servingGrams: 2, category: "culinary_herb" },
+  { match: "confit", key: "curated:confit-garlic", esms: { spirit: 0.35, essence: 0.5, matter: 0.4, substance: 0.35 }, elemental: { Fire: 0.2, Water: 0.35, Earth: 0.35, Air: 0.1 }, potency: 6, servingGrams: 15, category: "aromatic" },
 ];
 
 // Categories that don't define a serving portion (oils, seasonings, garnishes,
@@ -282,7 +302,7 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
     weight: round(weight, 2),
   }));
 
-  // Per-serving, potency-weighted ESMS totals.
+  // Potency-weighted ESMS, summed across all ingredients (the raw signature).
   const weighted = rows.reduce(
     (acc, { r, weight }) => ({
       spirit: acc.spirit + r.esms.spirit * weight,
@@ -292,12 +312,18 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
     }),
     { spirit: 0, essence: 0, matter: 0, substance: 0 },
   );
-  const scale = smartServings * CALIBRATION;
+  // Normalize to the fixed economy target: every recipe's four coins sum to
+  // TARGET_ESMS, so all recipes cost the same to mint. Only the SPLIT varies,
+  // preserving the raw potency-weighted ratio between coins. A degenerate recipe
+  // with no resolved ESMS (rawTotal 0) yields all-zero totals rather than NaN.
+  const rawTotal =
+    weighted.spirit + weighted.essence + weighted.matter + weighted.substance;
+  const normScale = rawTotal > 0 ? TARGET_ESMS / rawTotal : 0;
   const totals: CoinAmounts = {
-    spirit: weighted.spirit / scale,
-    essence: weighted.essence / scale,
-    matter: weighted.matter / scale,
-    substance: weighted.substance / scale,
+    spirit: weighted.spirit * normScale,
+    essence: weighted.essence * normScale,
+    matter: weighted.matter * normScale,
+    substance: weighted.substance * normScale,
   };
   const aSharp = totals.spirit + totals.essence + totals.matter + totals.substance;
 
@@ -365,7 +391,7 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
     yields: authoredYields,
     smartServings,
     servingsLimitedBy: servingsResult.limitedBy,
-    aggregationMode: "potency_weighted_v2",
+    aggregationMode: "potency_weighted_v3",
     elementalSource,
     engineVersion: ENGINE_VERSION,
   };

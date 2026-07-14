@@ -3,7 +3,7 @@
  * quote and the generic POST quote so the cost logic never drifts.
  */
 
-import { applyPersonalizedPricing, getPersonalizedPricingContext } from "@/lib/economy/livePricing";
+import { getPersonalizedPricingContext } from "@/lib/economy/livePricing";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
 import { recipeNftEnabled } from "./contract";
 import { baseMintCost, buildRedistributePreview } from "./cost";
@@ -21,8 +21,14 @@ export interface RecipeMintQuote {
 
 /**
  * Compute the full mint quote for a recipe: its alchemical fingerprint, the
- * base + live (sky × optional chart) four-coin cost, and the premium
- * chart-weighted redistribution preview for each possible dominant coin.
+ * flat four-coin cost, and the premium chart-weighted redistribution preview
+ * for each possible dominant coin.
+ *
+ * Every recipe costs exactly TARGET_ESMS (20) to mint: the fingerprint totals
+ * are normalized to that target, and the live sky × chart multiplier is
+ * intentionally NOT applied to the mint cost — so `liveCost` equals `baseCost`.
+ * The pricing context is still surfaced (aNumber, dominant element) for display,
+ * but the charged/quoted cost is flat.
  */
 export async function buildMintQuote(
   recipe: MintableRecipe,
@@ -32,7 +38,7 @@ export async function buildMintQuote(
   const base = baseMintCost(fingerprint);
 
   const pricing = await getPersonalizedPricingContext(natalPositions ?? null);
-  const live = applyPersonalizedPricing(base, pricing);
+  const live = base; // flat cost — multiplier intentionally bypassed
 
   const swap = getCurrentSwapRates();
   const redistributePreview = buildRedistributePreview(live, swap);
@@ -47,10 +53,12 @@ export async function buildMintQuote(
       liveCost: live,
       redistributePreview,
       pricing: {
-        multiplier: pricing.multiplier,
+        // Multiplier is not applied to mint cost — reported as 1 (flat) so the
+        // UI never implies a floating price.
+        multiplier: 1,
         aNumber: pricing.aNumber,
         dominantElement: pricing.dominantElement,
-        personalized: pricing.personalized,
+        personalized: false,
         timestamp: pricing.timestamp,
       },
       swap: {

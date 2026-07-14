@@ -67,7 +67,9 @@ export interface RecipePhysics {
  */
 export interface RecipeFingerprint {
   ingredients: IngredientFingerprint[];
-  /** Additive recipe ESMS totals (the cost basis). */
+  /** Recipe ESMS totals — the cost basis. Normalized so the four coins always
+   *  sum to TARGET_ESMS (20); the split across coins reflects the recipe's
+   *  potency-weighted alchemical signature. */
   totals: CoinAmounts;
   /** The recipe "#": Spirit + Essence + Matter + Substance across all ingredients. */
   aSharp: number;
@@ -81,12 +83,17 @@ export interface RecipeFingerprint {
   massPrecision: number;
   /** Authored servings on the recipe (display fallback). */
   yields: number;
-  /** Smart default servings (yield-limiting) — what the per-serving totals are divided by. */
+  /** Smart default servings (yield-limiting) — used for display ("Serves N") and
+   *  per-serving nutrition; no longer scales the cost basis (totals normalize to TARGET_ESMS). */
   smartServings: number;
   /** The structural staple that limits the serving count, when one drove it (else null). */
   servingsLimitedBy: string | null;
   /** How per-ingredient ESMS were aggregated into the totals. */
-  aggregationMode: "unweighted_v1" | "quantity_weighted_v1" | "potency_weighted_v2";
+  aggregationMode:
+    | "unweighted_v1"
+    | "quantity_weighted_v1"
+    | "potency_weighted_v2"
+    | "potency_weighted_v3";
   /** Source of the elemental shares feeding physics. */
   elementalSource: "authored" | "ingredient-derived";
   /** Alchemical engine version that produced these quantities (uint64, non-zero). */
