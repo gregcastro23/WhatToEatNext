@@ -9,8 +9,8 @@
 
 import Link from "next/link";
 import { formatNotificationTimeAgo } from "@/hooks/useNotifications";
-import { SenderAvatar, elementForSender } from "./MessageBubble";
 import type { InboxEntry } from "@/types/chat";
+import { SenderAvatar, elementForSender } from "./MessageBubble";
 import type { JSX } from "react";
 
 export interface InboxListProps {

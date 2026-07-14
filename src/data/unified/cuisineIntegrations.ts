@@ -29,11 +29,11 @@ const unifiedSeasonalSystem = {
   autumn: { dominantElement: "Earth", supportingElements: ["Fire"] },
   winter: { dominantElement: "Water", supportingElements: ["Earth"] },
 };
-type SeasonalProfilePlaceholder = {
+interface SeasonalProfilePlaceholder {
   ingredients: never[];
   flavors: never[];
   techniques: never[];
-};
+}
 // `Season` includes "fall" (alias of "autumn") and "all", but this
 // placeholder was only ever populated for the four calendar seasons; both
 // are declared explicitly (mapped to `undefined`) so indexing by any `Season`
@@ -49,18 +49,9 @@ const unifiedSeasonalProfiles: Record<
   winter: { ingredients: [], flavors: [], techniques: [] },
   all: undefined,
 };
-const unifiedIngredients = {
-  // Placeholder for unified ingredient system;
-  getAllIngredients: () => [],
-  getIngredientsByCategory: (_category: string) => [],
-  getIngredientProperties: (_ingredient: string) => ({}),
-};
-// Name-indexed ingredient lookup used by the fusion helpers below. Kept as a
-// separate typed map (rather than an index signature on `unifiedIngredients`
-// above) because that object's own keys are utility method names, not
-// ingredient names; it is intentionally empty (placeholder), matching the
-// previous behavior where indexing `unifiedIngredients` by an arbitrary
-// ingredient name never resolved real ingredient data.
+// Name-indexed ingredient lookup used by the fusion helpers below.
+// Intentionally empty (placeholder): indexing it by an arbitrary ingredient
+// name never resolves real ingredient data, matching the previous behavior.
 const unifiedIngredientsByName: Record<string, UnifiedIngredient> = {};
 // Import existing cuisine data
 // ===== ENHANCED CUISINE INTEGRATION INTERFACES =====;

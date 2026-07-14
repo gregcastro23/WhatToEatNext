@@ -36,7 +36,7 @@ const logger = createLogger("RecipeCore");
 
 type ElementKey = "Fire" | "Water" | "Earth" | "Air";
 
-const ELEMENT_KEYS: Array<ElementKey> = ["Fire", "Water", "Earth", "Air"];
+const ELEMENT_KEYS: ElementKey[] = ["Fire", "Water", "Earth", "Air"];
 const WEEK_DAYS: WeekDay[] = [
   "Sunday",
   "Monday",
