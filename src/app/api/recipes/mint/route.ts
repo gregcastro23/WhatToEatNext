@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
-import { applyPersonalizedPricing, getPersonalizedPricingContext } from "@/lib/economy/livePricing";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
 import { getPrivyWallet } from "@/lib/privy/server";
 import { buildMetadata, computeCommitments } from "@/lib/recipe-nft/content";
@@ -27,10 +26,11 @@ const EVM_ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
 /**
  * Mint a recipe as an NFT — backend-sponsored. The user spends ESMS (all four
- * coins, equal to the recipe's quantity-weighted fingerprint, priced live by
- * sky × chart; premium members get chart-weighted redistribution). A sponsor
- * wallet then mints the token on their behalf (gas-free) once the protocol is
- * deployed; until then the off-chain debit + ledger row stand as the receipt.
+ * coins, equal to the recipe's normalized fingerprint — a flat TARGET_ESMS per
+ * recipe; the live sky × chart multiplier is not applied, though premium members
+ * still get chart-weighted redistribution). A sponsor wallet then mints the token
+ * on their behalf (gas-free) once the protocol is deployed; until then the
+ * off-chain debit + ledger row stand as the receipt.
  *
  * The cost is computed from the SERVER-validated recipe — client-sent ESMS is
  * never trusted.
@@ -69,12 +69,14 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Cost = recipe ESMS × live (sky × chart). Premium → chart-weighted redistribution.
+  // Cost = the recipe's normalized fingerprint — a flat TARGET_ESMS (20) for
+  // every recipe. The live sky × chart multiplier is intentionally NOT applied
+  // to the mint cost. Premium members still get chart-weighted redistribution
+  // (below), which shifts the same spend toward their dominant coin.
   const { userDatabase } = await import("@/services/userDatabaseService");
   const dbUser = await userDatabase.getUserById(userId);
   const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
-  const pricing = await getPersonalizedPricingContext(natalPositions);
-  let cost = applyPersonalizedPricing(baseMintCost(fingerprint), pricing);
+  let cost = baseMintCost(fingerprint);
 
   const sub = await subscriptionService.getUserSubscription(userId);
   const isPremium = sub?.tier === "premium";
