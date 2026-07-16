@@ -44,6 +44,8 @@ jest.mock("@/utils/astrology/signElement", () => ({
 }));
 jest.mock("@/utils/planetaryAlchemyMapping", () => ({
   calculateAlchemicalFromPlanets: jest.fn(() => ({})),
+  // Pinned so the archetype does not depend on the test runner's timezone.
+  isSectDiurnalForBirth: jest.fn(() => true),
 }));
 jest.mock("@/services/userDatabaseService", () => ({
   userDatabase: { updateUserProfile: jest.fn() },
@@ -69,11 +71,20 @@ if (typeof (AbortSignal as unknown as { timeout?: unknown }).timeout !== "functi
     new AbortController().signal;
 }
 
+// The two readings are deliberately inconsistent so the reserves the route
+// persists reveal which one it used:
+//   alchemicalProperties (correct) -> shares of 13.0 total -> 35 / 49 / 8 / 8
+//   elementalBalance     (the bug) -> Fire/Water/Earth/Air -> 40 / 30 / 20 / 10
 const MOCK_CHART = {
+  // Raw planetary ESMS sums, the shape calculateNatalChart actually returns.
+  alchemicalProperties: { Spirit: 4.5, Essence: 6.4, Matter: 1.1, Substance: 1.0 },
   elementalBalance: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
   dominantElement: "Fire",
   planets: [],
 };
+
+const EXPECTED_RESERVES = [35, 49, 8, 8];
+const ELEMENTAL_RESERVES = [40, 30, 20, 10];
 
 const VALID_BODY = { dob: "1990-05-15T10:30:00.000Z", city: "New York" };
 
@@ -142,6 +153,27 @@ describe("POST /api/agent-forge/ignite", () => {
       },
       "test@example.com",
     );
+  });
+
+  it("derives the reserves from planetary quantities, never from elemental balance", async () => {
+    // Regression guard: the route used to compute spirit = elementalBalance.Fire
+    // * 100 for all four, which planetaryAlchemyMapping.ts forbids — quantities
+    // come from the planets, elements from the signs those planets occupy.
+    mockAuth.mockResolvedValue({
+      user: { id: "user-123", email: "test@example.com" },
+    });
+
+    const res = await POST(makeRequest(VALID_BODY));
+    expect(res.status).toBe(200);
+
+    const constitutionWrite = mockExecuteQuery.mock.calls.find(
+      ([sql]: [string]) => typeof sql === "string" && sql.includes("alchemical_constitutions"),
+    );
+    expect(constitutionWrite).toBeDefined();
+
+    const [, params] = constitutionWrite as [string, unknown[]];
+    expect(params.slice(1, 5)).toEqual(EXPECTED_RESERVES);
+    expect(params.slice(1, 5)).not.toEqual(ELEMENTAL_RESERVES);
   });
 
   it("returns 401 and never writes the profile when the session has no user id", async () => {

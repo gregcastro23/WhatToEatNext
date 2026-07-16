@@ -26,7 +26,7 @@ import { userDatabase } from "@/services/userDatabaseService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
-import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
 
@@ -95,9 +95,10 @@ export async function POST(req: Request) {
     // 6. Archetype Assignment
     //
     // The quantity standing furthest above its sect baseline wins — see
-    // ESMS_BASELINE for why the raw maximum is not usable here. Sect comes from
-    // the same instant `calculateNatalChart` used, so the two agree.
-    const diurnal = isSectDiurnal(new Date(birthData.dateTime));
+    // ESMS_BASELINE for why the raw maximum is not usable here. Uses the same
+    // birth instant and the same sect helper as `calculateNatalChart`, so the
+    // archetype can never disagree with the quantities it is scoring.
+    const diurnal = isSectDiurnalForBirth(new Date(birthData.dateTime));
     const { dominantToken, baseArchetype } = selectArchetype(shares, diurnal);
 
     console.log(`[ignite] Dominant token: ${dominantToken}, Archetype: ${baseArchetype}`);

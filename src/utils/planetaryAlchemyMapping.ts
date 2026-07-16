@@ -245,6 +245,39 @@ export function isSectDiurnal(date?: Date): boolean {
 }
 
 /**
+ * Determine the sect of a *birth* moment.
+ *
+ * Birth times arrive as timezone-less wall-clock strings ("1990-05-15T14:30")
+ * and so are parsed in whatever zone the host runs in. The astrologize payload
+ * reads that Date back with the local getters, so the wall clock round-trips and
+ * the chart itself is host-independent — but {@link isSectDiurnal} reads
+ * getUTCHours(), which is not. On a UTC host (Vercel) the two agree; on any other
+ * host the same birth flips day/night, which swings the whole ESMS profile
+ * (day ~32/49/9/9 vs night ~14/16/47/22).
+ *
+ * Re-projecting the wall clock into UTC keeps sect on the same hour the chart was
+ * computed from, on every host. This is a no-op in production.
+ *
+ * Note: like isSectDiurnal, this is still a 06:00–18:00 local-clock approximation
+ * of "sun above the horizon", not a true altitude calculation.
+ *
+ * @param birth - the birth instant, as parsed from a wall-clock string
+ * @returns true if diurnal (day), false if nocturnal (night)
+ */
+export function isSectDiurnalForBirth(birth: Date): boolean {
+  const wallClock = new Date(
+    Date.UTC(
+      birth.getFullYear(),
+      birth.getMonth(),
+      birth.getDate(),
+      birth.getHours(),
+      birth.getMinutes(),
+    ),
+  );
+  return isSectDiurnal(wallClock);
+}
+
+/**
  * Get the sectarian element for a planet given the current sect.
  *
  * @param planet - Planet name (capitalised: "Sun", "Moon", etc.)
