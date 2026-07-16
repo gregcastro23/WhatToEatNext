@@ -6,8 +6,9 @@
  * Steps:
  * 1. Authenticates the active NextAuth session.
  * 2. Ingests dob and city, and geocodes coordinates.
- * 3. Invokes the Swisseph temporal chart calculation for elemental balances.
- * 4. Maps elements Fire -> Spirit, Water -> Essence, Earth -> Matter, Air -> Substance.
+ * 3. Invokes the Swisseph temporal chart calculation for the natal chart.
+ * 4. Reads the four alchemical quantities (ESMS) the chart derives from the
+ *    planets, and normalizes them to a 0-100 share of the chart's total.
  * 5. Persists the balances and dominant archetype to the database.
  * 6. Generates a complimentary onboarding recipe routed through the free-tier Groq/Gemini chain.
  *
@@ -22,9 +23,10 @@ import { geocodeLocationSingle } from "@/services/geocodingService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { userDatabase } from "@/services/userDatabaseService";
+import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { calculateAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
 
@@ -65,7 +67,7 @@ export async function POST(req: Request) {
     const longitude = geocoded?.longitude ?? -73.7976;
     const timezone = geocoded?.estimatedTimezone ?? "UTC";
 
-    // 4. Temporal Analysis (retrieves elemental balance)
+    // 4. Temporal Analysis (retrieves the natal chart)
     const birthData = {
       dateTime: new Date(dob).toISOString(),
       latitude,
@@ -76,32 +78,27 @@ export async function POST(req: Request) {
     console.log(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);
     const chart = await calculateNatalChart(birthData);
 
-    // 5. Token Translation (Map elements Fire/Water/Earth/Air to reserves 0-100)
-    const spirit = Math.round((chart.elementalBalance.Fire || 0) * 100);
-    const essence = Math.round((chart.elementalBalance.Water || 0) * 100);
-    const matter = Math.round((chart.elementalBalance.Earth || 0) * 100);
-    const substance = Math.round((chart.elementalBalance.Air || 0) * 100);
+    // 5. Token Translation (ESMS reserves 0-100)
+    //
+    // The quantities MUST come from the planets, never from the chart's
+    // elemental balance — see the header of `src/utils/planetaryAlchemyMapping.ts`.
+    // `calculateNatalChart` already derives them (sect- and dignity-aware) into
+    // `alchemicalProperties`; they arrive as raw planetary sums, so normalize to
+    // each quantity's share of the chart total to fill the 0-100 reserve scale.
+    // Exact shares drive the archetype; the rounded values are displayed/persisted.
+    const shares = toEsmsShares(chart.alchemicalProperties);
+    const spirit = Math.round(shares.spirit);
+    const essence = Math.round(shares.essence);
+    const matter = Math.round(shares.matter);
+    const substance = Math.round(shares.substance);
 
     // 6. Archetype Assignment
-    let dominantToken = 'Fire';
-    let maxVal = spirit;
-    let baseArchetype = 'Solar Forager';
-
-    if (essence > maxVal) {
-      maxVal = essence;
-      dominantToken = 'Water';
-      baseArchetype = 'Lunar Adept';
-    }
-    if (matter > maxVal) {
-      maxVal = matter;
-      dominantToken = 'Earth';
-      baseArchetype = 'Root Alchemist';
-    }
-    if (substance > maxVal) {
-      maxVal = substance;
-      dominantToken = 'Air';
-      baseArchetype = 'Wind Whisperer';
-    }
+    //
+    // The quantity standing furthest above its sect baseline wins — see
+    // ESMS_BASELINE for why the raw maximum is not usable here. Sect comes from
+    // the same instant `calculateNatalChart` used, so the two agree.
+    const diurnal = isSectDiurnal(new Date(birthData.dateTime));
+    const { dominantToken, baseArchetype } = selectArchetype(shares, diurnal);
 
     console.log(`[ignite] Dominant token: ${dominantToken}, Archetype: ${baseArchetype}`);
 
