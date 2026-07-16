@@ -23,8 +23,10 @@ import type {
   AlchemicalPropertiesType,
   ElementalProperties,
 } from "@/types/alchemy";
+import type { AlchemicalProperties } from "@/types/celestial";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
+import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
 import {
   calculateThermodynamicMetrics,
   elementalToAlchemicalApproximation,
@@ -261,6 +263,12 @@ interface AstroContext {
   lunarPhase?: string;
   planetaryPositions?: Record<string, unknown>;
   isDaytime?: boolean;
+  /**
+   * The live sky's quantities, derived from the planets themselves. Undefined
+   * only when planetary positions are unavailable, which is the one case where
+   * the elemental approximation is a legitimate fallback.
+   */
+  alchemical?: AlchemicalProperties;
 }
 
 /**
@@ -439,13 +447,17 @@ function calculateCompatibilityScore(
   const elementalScore =
     (fireCompat + waterCompat + earthCompat + airCompat) / 4;
 
-  // Use ingredient's own alchemical properties if available (more accurate),
-  // otherwise fall back to elemental approximation
+  // An ingredient is not a chart — it has no planets — so its quantities come
+  // from its own data, and the elemental approximation is a legitimate fallback.
   const ingredientAlchemical = ingredientAlchemicalProps?.Spirit
     ? ingredientAlchemicalProps
     : elementalToAlchemicalApproximation(ingredientElementals);
+  // The current moment DOES have planets, so its quantities are derived from
+  // them (once per render, in astroCtx). The approximation — whose own docstring
+  // says it is "NOT the correct method" — is now only reached when positions are
+  // unavailable, the single case it was written for.
   const currentAlchemical =
-    elementalToAlchemicalApproximation(currentElementals);
+    astroCtx?.alchemical ?? elementalToAlchemicalApproximation(currentElementals);
 
   const ingredientThermo = calculateThermodynamicMetrics(
     ingredientAlchemical,
@@ -945,12 +957,18 @@ export const EnhancedIngredientRecommender: React.FC<
     }
 
     // Build the astrological context once per render — every ingredient is
-    // scored against the same current moment.
+    // scored against the same current moment, so the sky's quantities (which
+    // require an aspect pass) are derived here rather than per ingredient.
     const astroCtx: AstroContext = {
       zodiacSign: alchemicalContext?.zodiacSign,
       lunarPhase: alchemicalContext?.lunarPhase,
       planetaryPositions: alchemicalContext?.planetaryPositions,
       isDaytime: alchemicalContext?.isDaytime,
+      alchemical:
+        deriveLiveSkyQuantities(
+          alchemicalContext?.planetaryPositions,
+          alchemicalContext?.isDaytime,
+        ) ?? undefined,
     };
 
     // Calculate scores and sort
