@@ -2,7 +2,10 @@ import fs from "fs";
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
 import { type DegradedInfo, mergeDegraded } from "@/types/degraded";
-import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
+import {
+  calculateComprehensiveAspects,
+  signDegreeToLongitude,
+} from "@/utils/aspectCalculator";
 import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
 import { getAccuratePlanetaryPositionsWithMeta, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
@@ -349,7 +352,15 @@ export function alchemize(
     positionData[planet] = {
       sign,
       degree: pos.degree,
-      exactLongitude: pos.exactLongitude || (pos.degree + (pos.minute || 0) / 60),
+      // `degree` is sign-relative, so it is NOT a longitude. Reconstruct the
+      // absolute longitude from sign + degree when the caller omitted it;
+      // treating degree as a longitude would collapse all ten planets into the
+      // first 30° of the zodiac and make almost every pair a false conjunction.
+      // `??` not `||`, so a true 0° Aries longitude is not discarded.
+      exactLongitude:
+        pos.exactLongitude ??
+        signDegreeToLongitude(sign, pos.degree, pos.minute) ??
+        undefined,
       isRetrograde: pos.isRetrograde,
     };
   }
@@ -645,7 +656,15 @@ export function alchemizeDetailed(
     positionData[planet] = {
       sign,
       degree: pos.degree,
-      exactLongitude: pos.exactLongitude || (pos.degree + (pos.minute || 0) / 60),
+      // `degree` is sign-relative, so it is NOT a longitude. Reconstruct the
+      // absolute longitude from sign + degree when the caller omitted it;
+      // treating degree as a longitude would collapse all ten planets into the
+      // first 30° of the zodiac and make almost every pair a false conjunction.
+      // `??` not `||`, so a true 0° Aries longitude is not discarded.
+      exactLongitude:
+        pos.exactLongitude ??
+        signDegreeToLongitude(sign, pos.degree, pos.minute) ??
+        undefined,
       isRetrograde: pos.isRetrograde,
     };
   }

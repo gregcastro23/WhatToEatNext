@@ -13,11 +13,17 @@
  * Recompute is from each chart's OWN stored data (no astrologize re-fetch):
  *   alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
  *     natalChart.planetaryPositions,
- *     isSectDiurnal(new Date(natalChart.birthData.dateTime)),
+ *     isSectDiurnalForBirth(new Date(natalChart.birthData.dateTime)),
+ *     aspects rebuilt from natalChart.planets[].position,
  *   )
- * which exactly reproduces what corrected onboarding would have stored (the
- * onboarding `positions` map — Ascendant included — is what gets persisted as
- * `planetaryPositions`).
+ * which reproduces what natalChartService now writes.
+ *
+ * ⚠️ The aspects argument is NOT optional here. Aspects are the engine's Layer 3
+ * and the main source of chart-to-chart variation — without them every chart
+ * collapses to nearly the same profile. This script previously omitted them, so
+ * running that version today would OVERWRITE correct aspect-aware values with
+ * near-constant ones. Charts too old to carry `planets[].position` are counted
+ * and SKIPPED rather than written with a value we know contradicts the app.
  *
  * Covers the two stores that actually hold a natal chart in prod, updating ONLY
  * where the recomputed alchemicalProperties differ (idempotent):
@@ -33,8 +39,13 @@
  */
 import pkg from "pg";
 import {
+  calculateComprehensiveAspects,
+  type PlanetaryPositionData,
+} from "../src/utils/aspectCalculator";
+import type { AspectWithStrength } from "../src/utils/aspectESMSEffects";
+import {
   calculateEnhancedAlchemicalFromPlanets,
-  isSectDiurnal,
+  isSectDiurnalForBirth,
 } from "../src/utils/planetaryAlchemyMapping";
 
 const { Pool } = pkg;
@@ -60,6 +71,7 @@ interface Recompute {
   after: Esms | null;
   changed: boolean;
   symptomatic: boolean; // before.Matter == 0 && before.Substance == 0 (day-chart collapse)
+  noAspects: boolean; // chart has no planets[] longitudes -> cannot recompute safely, skipped
 }
 
 const round6 = (n: unknown): number => Math.round((Number(n) || 0) * 1e6) / 1e6;
@@ -77,6 +89,39 @@ function getDateTime(natalChart: any, fallbackBirthData?: any): string | null {
   return null;
 }
 
+/**
+ * Rebuild the chart's aspects from its stored planet longitudes.
+ *
+ * `natalChart.planets[]` carries `position` — an absolute ecliptic longitude —
+ * which is exactly what aspects are computed from. Returns null when the stored
+ * chart predates that field, in which case this script MUST NOT write: see the
+ * header for why a no-aspect recompute is now a regression, not a fix.
+ */
+function buildAspects(natalChart: any): AspectWithStrength[] | null {
+  const planets = natalChart?.planets;
+  if (!Array.isArray(planets) || planets.length === 0) return null;
+
+  const positions: Record<string, PlanetaryPositionData> = {};
+  for (const planet of planets) {
+    const name = planet?.name;
+    const longitude = planet?.position;
+    if (typeof name !== "string" || typeof longitude !== "number") continue;
+    positions[name] = {
+      sign: String(planet?.sign ?? "").toLowerCase(),
+      degree: longitude % 30,
+      exactLongitude: longitude,
+    };
+  }
+  if (Object.keys(positions).length === 0) return null;
+
+  return calculateComprehensiveAspects(positions).map((a) => ({
+    planet1: a.planet1,
+    planet2: a.planet2,
+    type: a.type,
+    strength: a.strength,
+  }));
+}
+
 /** Recompute alchemicalProperties for one natalChart object. Returns null if not a chart. */
 function recompute(natalChart: any, fallbackBirthData?: any): Recompute | null {
   if (!natalChart || typeof natalChart !== "object") return null;
@@ -91,18 +136,27 @@ function recompute(natalChart: any, fallbackBirthData?: any): Recompute | null {
       : null;
 
   if (!hasPositions || !hasDate) {
-    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false };
+    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false, noAspects: false };
   }
 
-  const diurnal = isSectDiurnal(new Date(dateTime as string));
+  // Aspects are the engine's Layer 3. Recomputing without them would overwrite
+  // the aspect-aware values natalChartService now writes with near-constant
+  // ones — the opposite of a backfill. Skip rather than corrupt.
+  const aspects = buildAspects(natalChart);
+  if (!aspects) {
+    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false, noAspects: true };
+  }
+
+  const diurnal = isSectDiurnalForBirth(new Date(dateTime as string));
   const after = calculateEnhancedAlchemicalFromPlanets(
     positions as Record<string, string>,
     diurnal,
+    aspects,
   ) as Esms;
 
   const changed = esmsKey(before) !== esmsKey(after);
   const symptomatic = !!before && round6(before.Matter) === 0 && round6(before.Substance) === 0;
-  return { hasPositions, hasDate, before, after, changed, symptomatic };
+  return { hasPositions, hasDate, before, after, changed, symptomatic, noAspects: false };
 }
 
 interface Tally {
@@ -110,13 +164,14 @@ interface Tally {
   charts: number; // chart objects examined
   noPositions: number;
   noDate: number;
+  noAspects: number; // skipped: no planets[] longitudes, cannot rebuild aspects
   symptomatic: number;
   changed: number;
   updates: number; // jsonb_set writes that would run / ran
 }
 
 function newTally(): Tally {
-  return { rows: 0, charts: 0, noPositions: 0, noDate: 0, symptomatic: 0, changed: 0, updates: 0 };
+  return { rows: 0, charts: 0, noPositions: 0, noDate: 0, noAspects: 0, symptomatic: 0, changed: 0, updates: 0 };
 }
 
 const samples: string[] = [];
@@ -152,6 +207,7 @@ async function main(): Promise<void> {
       up.charts++;
       if (!r.hasPositions) up.noPositions++;
       if (r.hasPositions && !r.hasDate) up.noDate++;
+      if (r.noAspects) up.noAspects++;
       if (r.symptomatic) up.symptomatic++;
       if (r.changed && r.after) {
         up.changed++;
@@ -193,6 +249,7 @@ async function main(): Promise<void> {
         us.charts++;
         if (!rChart.hasPositions) us.noPositions++;
         if (rChart.hasPositions && !rChart.hasDate) us.noDate++;
+        if (rChart.noAspects) us.noAspects++;
         if (rChart.symptomatic) us.symptomatic++;
         if (rChart.changed && rChart.after) {
           us.changed++;
@@ -219,6 +276,7 @@ async function main(): Promise<void> {
         us.charts++;
         if (!rSaved.hasPositions) us.noPositions++;
         if (rSaved.hasPositions && !rSaved.hasDate) us.noDate++;
+        if (rSaved.noAspects) us.noAspects++;
         if (rSaved.symptomatic) us.symptomatic++;
         if (rSaved.changed && rSaved.after) {
           us.changed++;
@@ -248,6 +306,7 @@ async function main(): Promise<void> {
         `  rows scanned ............ ${t.rows}\n` +
         `  charts examined ......... ${t.charts}\n` +
         `  missing planetaryPositions ${t.noPositions}\n` +
+    `  SKIPPED, no planets[] longitudes (cannot rebuild aspects) ${t.noAspects}\n` +
         `  missing birth dateTime .. ${t.noDate} (skipped — can't determine sect)\n` +
         `  symptomatic (Matter=0 & Substance=0) ${t.symptomatic}\n` +
         `  would change ............ ${t.changed}\n` +

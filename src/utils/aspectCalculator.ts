@@ -9,9 +9,37 @@ import type { AspectType } from "@/types/alchemy";
 // Interface for position data
 export interface PlanetaryPositionData {
   sign: string;
+  /** Degree WITHIN the sign (0–29.999), not an absolute ecliptic longitude. */
   degree: number;
+  /** Absolute ecliptic longitude (0–360). */
   exactLongitude?: number;
   isRetrograde?: boolean;
+}
+
+const ZODIAC_ORDER = [
+  "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+  "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
+];
+
+/**
+ * Convert a sign + degree-within-sign into an absolute ecliptic longitude.
+ *
+ * Aspects are angular separations, so they need absolute longitudes (0–360).
+ * `degree` is sign-relative (see `positions.ts`, which derives it as
+ * `longitude % 30`), so using it as a longitude collapses every planet into the
+ * first 30° of the zodiac and turns almost every pair into a false conjunction.
+ *
+ * @returns the longitude, or null if the sign is unrecognized — callers must not
+ *   substitute a guess, since a wrong longitude yields confidently wrong aspects.
+ */
+export function signDegreeToLongitude(
+  sign: string,
+  degree: number,
+  minute = 0,
+): number | null {
+  const signIndex = ZODIAC_ORDER.indexOf(String(sign).toLowerCase());
+  if (signIndex < 0) return null;
+  return signIndex * 30 + degree + minute / 60;
 }
 
 // Interface for aspect data
@@ -99,24 +127,12 @@ export function calculateComprehensiveAspects(
       return 0; // Return default value
     }
 
-    const signs = [
-      "aries",
-      "taurus",
-      "gemini",
-      "cancer",
-      "leo",
-      "virgo",
-      "libra",
-      "scorpio",
-      "sagittarius",
-      "capricorn",
-      "aquarius",
-      "pisces",
-    ];
-    const signIndex = signs.findIndex(
-      (s) => s.toLowerCase() === position.sign.toLowerCase(),
-    );
-    return signIndex * 30 + position.degree;
+    const longitude = signDegreeToLongitude(position.sign, position.degree);
+    if (longitude === null) {
+      _logger.warn(`Unknown zodiac sign in aspect calculation: ${position.sign}`);
+      return 0;
+    }
+    return longitude;
   };
 
   // Calculate aspects between each planet pair

@@ -66,6 +66,10 @@ function asPlanetaryPositions(
       degree: Number(pos?.degree ?? 0),
       minute: Number(pos?.minute ?? 0),
       isRetrograde: Boolean(pos?.isRetrograde),
+      // Carried through so aspects get real angular separations; dropping it
+      // forces a reconstruction from sign + degree.
+      exactLongitude:
+        typeof pos?.exactLongitude === "number" ? pos.exactLongitude : undefined,
     };
   }
   return normalized;

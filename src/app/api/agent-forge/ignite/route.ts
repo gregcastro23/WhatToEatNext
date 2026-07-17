@@ -223,6 +223,12 @@ export async function POST(req: Request) {
               degree: Number((pos as any).degree) || 0,
               minute: Number((pos as any).minute) || 0,
               isRetrograde: Boolean((pos as any).isRetrograde),
+              // getAccuratePlanetaryPositions supplies this; aspects need real
+              // angular separations, so don't drop it.
+              exactLongitude:
+                typeof (pos as any).exactLongitude === "number"
+                  ? (pos as any).exactLongitude
+                  : undefined,
             };
             return acc;
           }, {} as any)
