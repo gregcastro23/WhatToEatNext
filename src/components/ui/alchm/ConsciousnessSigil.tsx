@@ -149,17 +149,21 @@ export function ConsciousnessSigil({
 
   const h = sigHash(signature);
 
-  // Normalize Alchemical Constitution
-  const constFire = agent.constitution?.fire ?? agent.consciousness?.alchemicalElements?.spirit ?? 0.25;
-  const constWater = agent.constitution?.water ?? agent.consciousness?.alchemicalElements?.essence ?? 0.25;
-  const constEarth = agent.constitution?.earth ?? agent.consciousness?.alchemicalElements?.matter ?? 0.25;
-  const constAir = agent.constitution?.air ?? agent.consciousness?.alchemicalElements?.substance ?? 0.25;
+  // This sigil visualizes the ELEMENTAL constitution (Fire/Water/Earth/Air).
+  // It must NOT fall back to the ESMS quantities (spirit/essence/…): quantities
+  // and elements are orthogonal readings — see CONTEXT.md — so substituting a
+  // quantity for an element renders one axis as the other. When the elemental
+  // breakdown is absent, show a neutral quarter rather than a mislabelled value.
+  const constFire = agent.constitution?.fire ?? 0.25;
+  const constWater = agent.constitution?.water ?? 0.25;
+  const constEarth = agent.constitution?.earth ?? 0.25;
+  const constAir = agent.constitution?.air ?? 0.25;
 
   const els = [
-    { id: "fire",  label: "FIRE · SPIRIT",    up: true,  v: constFire,  color: "var(--el-fire)",  bar: false },
-    { id: "air",   label: "AIR · SUBSTANCE",  up: true,  v: constAir,   color: "var(--el-air)",   bar: true  },
-    { id: "water", label: "WATER · ESSENCE",  up: false, v: constWater, color: "var(--el-water)", bar: false },
-    { id: "earth", label: "EARTH · MATTER",   up: false, v: constEarth, color: "var(--el-earth)", bar: true  },
+    { id: "fire",  label: "FIRE",   up: true,  v: constFire,  color: "var(--el-fire)",  bar: false },
+    { id: "air",   label: "AIR",    up: true,  v: constAir,   color: "var(--el-air)",   bar: true  },
+    { id: "water", label: "WATER",  up: false, v: constWater, color: "var(--el-water)", bar: false },
+    { id: "earth", label: "EARTH",  up: false, v: constEarth, color: "var(--el-earth)", bar: true  },
   ];
 
   const modalities = [

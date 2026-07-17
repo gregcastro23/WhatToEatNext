@@ -18,8 +18,9 @@ import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { NatalChart, PlanetInfo } from "@/types/natalChart";
+import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
-import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -222,8 +223,14 @@ export async function POST(request: NextRequest) {
       dominantModality: calcDominantModality(positions),
       elementalBalance: calcElementalBalance(positions),
       // Enhanced mapping injects the Ascendant so Matter/Substance don't collapse
-      // to 0 for day-born (diurnal) charts. Matches /api/user/charts.
-      alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(positions, isSectDiurnal(birthDate)),
+      // to 0 for day-born (diurnal) charts. Aspects (Layer 3) come from
+      // rawPositions' longitudes and are the main per-chart differentiator —
+      // omitting them leaves ESMS near-constant. Matches natalChartService.
+      alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(
+        positions,
+        isSectDiurnalForBirth(birthDate),
+        buildAspectsWithStrength(rawPositions),
+      ),
       calculatedAt: new Date().toISOString(),
     };
 

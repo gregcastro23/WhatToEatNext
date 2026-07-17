@@ -4,8 +4,9 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useProfile } from '@/hooks/useProfile';
+import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
-import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnal, calculateEnhancedAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
+import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnalForBirth, calculateEnhancedAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
 
 export default function DayNightEffectsPage() {
   const { profileData, isLoading } = useProfile();
@@ -44,12 +45,14 @@ export default function DayNightEffectsPage() {
   
   // Calculate user's natal sect using the birth time if available
   const birthDate = natalChart.birthData?.dateTime ? new Date(natalChart.birthData.dateTime) : new Date();
-  const _isNatalDiurnal = isSectDiurnal(birthDate);
+  const _isNatalDiurnal = isSectDiurnalForBirth(birthDate);
 
-  // Get alchemical properties for current view
+  // Get alchemical properties for the toggled view. Aspects (Layer 3) come from
+  // the chart's own planet longitudes and don't depend on the day/night toggle.
   const currentAlchemical = calculateEnhancedAlchemicalFromPlanets(
-    natalPositions, 
-    viewDiurnal
+    natalPositions,
+    viewDiurnal,
+    buildAspectsFromChartPlanets(natalChart.planets),
   );
 
   const toggleView = () => {

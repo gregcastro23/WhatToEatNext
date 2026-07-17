@@ -132,16 +132,19 @@ export async function POST(request: NextRequest) {
         console.log(`[unified-api] Calculating natal chart on create for agent: ${name}`);
         const serverChart = await calculateNatalChart(birthData);
 
-        const spirit = Math.round((serverChart.elementalBalance.Fire || 0) * 100);
-        const essence = Math.round((serverChart.elementalBalance.Water || 0) * 100);
-        const matter = Math.round((serverChart.elementalBalance.Earth || 0) * 100);
-        const substance = Math.round((serverChart.elementalBalance.Air || 0) * 100);
+        // These are the chart's ELEMENTS (from the signs the planets occupy), used
+        // only to pick the dominant one. They are not the alchemical quantities —
+        // ESMS cannot be derived this way; see `src/utils/planetaryAlchemyMapping.ts`.
+        const fire = Math.round((serverChart.elementalBalance.Fire || 0) * 100);
+        const water = Math.round((serverChart.elementalBalance.Water || 0) * 100);
+        const earth = Math.round((serverChart.elementalBalance.Earth || 0) * 100);
+        const air = Math.round((serverChart.elementalBalance.Air || 0) * 100);
 
         let dominantElement = "Fire";
-        let maxVal = spirit;
-        if (essence > maxVal) { maxVal = essence; dominantElement = "Water"; }
-        if (matter > maxVal) { maxVal = matter; dominantElement = "Earth"; }
-        if (substance > maxVal) { maxVal = substance; dominantElement = "Air"; }
+        let maxVal = fire;
+        if (water > maxVal) { maxVal = water; dominantElement = "Water"; }
+        if (earth > maxVal) { maxVal = earth; dominantElement = "Earth"; }
+        if (air > maxVal) { maxVal = air; dominantElement = "Air"; }
 
         // Convert serverChart structure to client-compatible structure
         const formattedChart = {

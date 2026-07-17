@@ -9,6 +9,7 @@ import {
 } from "@/services/astrologizeApi";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
+import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import {
   aggregateZodiacElementals,
   calculateEnhancedAlchemicalFromPlanets,
@@ -187,8 +188,15 @@ export function useChartData(options: ChartDataOptions = {}): ChartData {
 
       // 4. Alchemical properties.
       //    ESMS via the same path /api/alchemize uses (lowercase signs).
+      //    Aspects (Layer 3) are built from the raw positions' longitudes — the
+      //    main per-chart differentiator; this hook had computed them for display
+      //    (derivedAspects) but dropped them from ESMS, leaving it near-constant.
       const diurnal = isSectDiurnal(requestedDate);
-      const esms = calculateEnhancedAlchemicalFromPlanets(lower, diurnal);
+      const esms = calculateEnhancedAlchemicalFromPlanets(
+        lower,
+        diurnal,
+        buildAspectsWithStrength(fetchedPositions),
+      );
       //    Elemental properties need Capitalized signs (ZODIAC_ELEMENTS).
       const elementalProperties = aggregateZodiacElementals(capital);
 

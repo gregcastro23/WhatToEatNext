@@ -8,6 +8,13 @@ _Last Updated: January 2025 - Updated for Denormalized System_
 
 The four classical elements (Fire, Water, Earth, Air) are **fundamental quantitative properties** that describe the energetic nature of ingredients, recipes, and culinary transformations in our alchemical system. Unlike the alchemical properties (Spirit, Essence, Matter, Substance - ESMS) which are derived from planetary positions, elemental properties are intrinsic qualities that combine with astrological influences to determine the complete alchemical state.
 
+> ⚠️ **Terminology.** This guide's title says "Quantities" but means the four
+> ELEMENTS. Do not confuse them with the four alchemical **quantities** (ESMS),
+> which are an orthogonal reading — elements come from the signs, quantities from
+> the planets. `CONTEXT.md` is authoritative. The per-element "Primary
+> Correspondence" lines below (e.g. Fire → Spirit) are thematic connotations for
+> flavour and mood, **not** a computation: ESMS is never derived from an element.
+
 **🚨 CRITICAL UPDATE**: As of the denormalization update, elemental properties are now **raw calculated values** (not normalized to sum to 1.0). This preserves true energetic intensity information, allowing recipes with high-intensity ingredients to express their full energetic signatures. Normalization is now only used for UI display purposes.
 
 ---

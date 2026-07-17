@@ -5,10 +5,6 @@ import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import {
-  FaFire,
-  FaTint,
-  FaWind,
-  FaMountain,
   FaSyncAlt,
   FaSun,
   FaMoon,
@@ -60,12 +56,19 @@ const PlanetaryAgentsView = dynamic(
 
 // ─── Token Config ─────────────────────────────────────────────────────────────
 
+/**
+ * Copy constraint: quantities (Spirit/Essence/Matter/Substance) come from the
+ * planets in the sky; elements (Fire/Water/Earth/Air) come from the signs those
+ * planets occupy. They are orthogonal readings and must never be presented as
+ * the same four things — see the header of `src/utils/planetaryAlchemyMapping.ts`.
+ * Each `sources` list is the set of planets contributing that quantity in
+ * `PLANETARY_ALCHEMY`; keep them in sync with that table.
+ */
 const TOKEN_CONFIG = [
   {
     key: "Spirit" as const,
     balanceKey: "spirit" as const,
     symbol: "🝇",
-    icon: FaFire,
     label: "Spirit",
     subtitle: "Creative Force",
     description:
@@ -79,13 +82,12 @@ const TOKEN_CONFIG = [
     barColor: "from-amber-500 to-yellow-400",
     ringColor: "ring-amber-500/30",
     chartStroke: "#f59e0b",
-    planet: "Sun 🝇",
+    sources: "Sun · Mercury · Jupiter · Saturn",
   },
   {
     key: "Essence" as const,
     balanceKey: "essence" as const,
     symbol: "🝑",
-    icon: FaTint,
     label: "Essence",
     subtitle: "Life Energy",
     description:
@@ -99,17 +101,16 @@ const TOKEN_CONFIG = [
     barColor: "from-blue-500 to-cyan-400",
     ringColor: "ring-blue-500/30",
     chartStroke: "#3b82f6",
-    planet: "Moon 🝑",
+    sources: "Moon · Venus · Mars · Jupiter · Uranus · Neptune · Pluto",
   },
   {
     key: "Matter" as const,
     balanceKey: "matter" as const,
     symbol: "🝙",
-    icon: FaMountain,
     label: "Matter",
     subtitle: "Physical Form",
     description:
-      "Physical nourishment, grounding sustenance, and elemental Earth. Governs nutritional depth and satiation.",
+      "Physical nourishment, grounding, and weight. Governs nutritional depth and satiation.",
     color: "emerald",
     bgGradient: "from-emerald-500/20 via-green-500/10 to-transparent",
     borderColor: "border-emerald-500/30",
@@ -119,13 +120,12 @@ const TOKEN_CONFIG = [
     barColor: "from-emerald-500 to-green-400",
     ringColor: "ring-emerald-500/30",
     chartStroke: "#10b981",
-    planet: "Earth 🝙",
+    sources: "Moon · Venus · Mars · Saturn · Uranus · Pluto",
   },
   {
     key: "Substance" as const,
     balanceKey: "substance" as const,
     symbol: "🝉",
-    icon: FaWind,
     label: "Substance",
     subtitle: "Etheric Field",
     description:
@@ -139,7 +139,7 @@ const TOKEN_CONFIG = [
     barColor: "from-purple-500 to-fuchsia-400",
     ringColor: "ring-purple-500/30",
     chartStroke: "#8b5cf6",
-    planet: "Mercury 🝉",
+    sources: "Mercury · Neptune",
   },
 ] as const;
 
@@ -231,7 +231,6 @@ function TokenHeroCard({
   isDebitFlashing: boolean;
   alchData: AlchemyData | null;
 }) {
-  const Icon = cfg.icon;
   const total = alchData
     ? (alchData.quantities.Spirit || 0) +
     (alchData.quantities.Essence || 0) +
@@ -264,7 +263,9 @@ function TokenHeroCard({
             <div
               className={`w-11 h-11 rounded-2xl flex items-center justify-center bg-gradient-to-br ${cfg.barColor} shadow-lg`}
             >
-              <Icon className="w-5 h-5 text-white" />
+              <span className="text-xl text-white font-serif leading-none">
+                {cfg.symbol}
+              </span>
             </div>
             <div>
               <h3 className="text-base font-black text-white tracking-wider uppercase">
@@ -274,9 +275,6 @@ function TokenHeroCard({
                 {cfg.subtitle}
               </p>
             </div>
-          </div>
-          <div className={`text-3xl ${cfg.textColor} opacity-60 font-serif`}>
-            {cfg.symbol}
           </div>
         </div>
 
@@ -289,7 +287,10 @@ function TokenHeroCard({
             {liveValue.toFixed(3)}
           </div>
           <div className="text-[10px] text-white/20 font-mono mt-0.5">
-            {share.toFixed(1)}% of total A# · via {cfg.planet}
+            {share.toFixed(1)}% of total A#
+          </div>
+          <div className="text-[10px] text-white/20 font-mono mt-0.5 leading-relaxed">
+            from {cfg.sources}
           </div>
           <QuantityContextStrip
             path={`esms.${cfg.key}`}

@@ -5,7 +5,13 @@ import type { RulingPlanet } from "./planets";
  */
 export type ElementalCharacter = "Fire" | "Water" | "Earth" | "Air";
 /**
- * The four alchemical properties derived from elemental interactions
+ * The four alchemical quantities (ESMS).
+ *
+ * These are NOT derived from the elements. Quantities come from which planets
+ * are present (plus sect, dignity and aspects); elements come from the signs
+ * those planets occupy. They are orthogonal readings of the same chart — see
+ * the header of `src/utils/planetaryAlchemyMapping.ts`, which holds the only
+ * correct derivation.
  */
 export type AlchemicalProperty = "Spirit" | "Essence" | "Matter" | "Substance";
 /**
@@ -133,23 +139,6 @@ export const majorArcanaPlanetMap: Record<string, RulingPlanet> = {
 };
 
 /**
- * Maps each planet to a corresponding alchemical property
- */
-export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> =
-  {
-    Sun: "Spirit",
-    Moon: "Essence",
-    Mercury: "Substance",
-    Venus: "Essence",
-    Mars: "Spirit",
-    Jupiter: "Substance",
-    Saturn: "Matter",
-    Neptune: "Essence",
-    Uranus: "Substance",
-    Pluto: "Matter",
-  };
-
-/**
  * Gets the elemental character associated with a planet
  * @param planet Ruling planet
  * @returns The associated elemental character
@@ -157,15 +146,6 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> =
 export const _getPlanetaryElement = (
   planet: RulingPlanet,
 ): ElementalCharacter => planetaryElementMap[planet];
-
-/**
- * Gets the alchemical property associated with a planet
- * @param planet Ruling planet
- * @returns The associated alchemical property
- */
-export const _getPlanetaryAlchemicalProperty = (
-  planet: RulingPlanet,
-): AlchemicalProperty => planetaryAlchemicalMap[planet];
 
 /**
  * Gets the elemental character from a tarot card name

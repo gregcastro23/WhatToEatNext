@@ -166,10 +166,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-6">Alchemical Constitution</h3>
           <div className="space-y-5">
             {[
-              { key: 'Spirit', val: alch.Spirit, color: 'grad-spirit-fire', desc: 'The spark of action and thought' },
-              { key: 'Essence', val: alch.Essence, color: 'grad-essence-water', desc: 'The flow of feeling and connection' },
-              { key: 'Matter', val: alch.Matter, color: 'grad-matter-earth', desc: 'The physical form and nourishment' },
-              { key: 'Substance', val: alch.Substance, color: 'grad-substance-air', desc: 'The building blocks and fuel' },
+              { key: 'Spirit', val: alch.Spirit, color: 'grad-spirit', desc: 'The spark of action and thought' },
+              { key: 'Essence', val: alch.Essence, color: 'grad-essence', desc: 'The flow of feeling and connection' },
+              { key: 'Matter', val: alch.Matter, color: 'grad-matter', desc: 'The physical form and nourishment' },
+              { key: 'Substance', val: alch.Substance, color: 'grad-substance', desc: 'The building blocks and fuel' },
             ].map((item) => {
               const pct = Math.min((item.val / esmsNorm) * 100, 100);
               return (

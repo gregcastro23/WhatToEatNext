@@ -153,9 +153,18 @@ export interface PlanetPosition {
 
 export interface PlanetaryPosition {
   sign: ZodiacSignType;
+  /** Degree WITHIN the sign (0–29.999), not an absolute ecliptic longitude. */
   degree: number;
   minute: number;
   isRetrograde: boolean;
+  /**
+   * Absolute ecliptic longitude (0–360). Optional because some sources only
+   * carry sign + degree, but pass it through whenever the source has it: aspects
+   * are angular separations, so they need absolute longitudes. Consumers that
+   * omit it force a reconstruction from sign + degree, which is only as precise
+   * as `degree`.
+   */
+  exactLongitude?: number;
 }
 
 // Search filter types (for advanced search functionality)

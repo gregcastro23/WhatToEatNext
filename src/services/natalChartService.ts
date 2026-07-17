@@ -14,6 +14,7 @@ import type {
   Modality,
 } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
+import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import {
   validateBirthChartAgainstEstimates,
   detectStaticFallback,
@@ -22,7 +23,7 @@ import {
   calculateEnhancedAlchemicalFromPlanets,
   aggregateEnhancedZodiacElementals,
   getDominantElement,
-  isSectDiurnal,
+  isSectDiurnalForBirth,
 } from "@/utils/planetaryAlchemyMapping";
 import { getSelfBaseUrl } from "@/utils/urlUtils";
 import { getModalityForZodiac } from "@/utils/zodiacUtils";
@@ -329,7 +330,7 @@ export async function calculateNatalChart(
 
     // Validate birth chart positions against astronomical estimates
     const birthDate = new Date(birthData.dateTime);
-    const diurnal = isSectDiurnal(birthDate);
+    const diurnal = isSectDiurnalForBirth(birthDate);
 
     if (detectStaticFallback(signPositions)) {
       _logger.error(
@@ -350,9 +351,24 @@ export async function calculateNatalChart(
       positionsForAlchemy[planet] = sign;
     });
 
+    // Aspects are the engine's Layer 3 and the main source of chart-to-chart
+    // variation in ESMS: every chart holds the same ten planets, so Layers 1-2
+    // (sect + dignity) land within ~0.5 points of the same profile for everyone.
+    // Omitting them here left natal ESMS near-constant within a sect — Matter's
+    // spread alone widens ~13x once they are applied. Mirrors RealAlchemizeService,
+    // which has always passed them for the live sky.
+    //
+    // Unlike RealAlchemizeService — which injects a placeholder Ascendant for the
+    // live sky and so must keep it out of the aspect set — a natal Ascendant is a
+    // real computed angle, so its aspects are included.
+    const aspects = buildAspectsWithStrength(planetaryPositions);
+
     // Calculate alchemical properties from planetary positions WITH sect logic
-    const alchemicalProperties =
-      calculateEnhancedAlchemicalFromPlanets(positionsForAlchemy, diurnal);
+    const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
+      positionsForAlchemy,
+      diurnal,
+      aspects,
+    );
 
     // Calculate elemental balance from zodiac signs WITH sect logic
     const elementalBalance = aggregateEnhancedZodiacElementals(positionsForAlchemy, diurnal);

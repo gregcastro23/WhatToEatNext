@@ -546,18 +546,24 @@ export default function OnboardingPage() {
               {/* Pillar A: Alchemical Balance (ESMS Meters) */}
               <div className="lg:col-span-2 flex flex-col justify-between border border-white/10 bg-[#0c0c16]/50 backdrop-blur-xl rounded-[2rem] p-6 shadow-xl">
                 <div>
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] font-mono text-purple-400 border-b border-white/5 pb-3.5 mb-5 flex items-center justify-between">
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] font-mono text-purple-400 border-b border-white/5 pb-3.5 mb-4 flex items-center justify-between">
                     <span>Alchemical Equilibrium</span>
                     <span className="text-[10px] text-white/30 font-medium">Base Reserve Values</span>
                   </h3>
 
+                  <p className="text-[10px] text-white/40 leading-relaxed mb-5">
+                    Four quantities, read from the planets in your birth chart.
+                    The signs those planets occupy set a separate elemental
+                    balance.
+                  </p>
+
                   {/* ESMS Progress List */}
                   <div className="space-y-5">
                     {[
-                      { label: "Spirit (Fire)", color: "from-orange-500 to-red-600", shadow: "shadow-orange-500/20", icon: "☀️", val: constitution.spiritBalance },
-                      { label: "Essence (Water)", color: "from-blue-500 to-indigo-600", shadow: "shadow-blue-500/20", icon: "🌙", val: constitution.essenceBalance },
-                      { label: "Matter (Earth)", color: "from-emerald-500 to-teal-600", shadow: "shadow-emerald-500/20", icon: "⛰️", val: constitution.matterBalance },
-                      { label: "Substance (Air)", color: "from-slate-400 to-zinc-500", shadow: "shadow-slate-400/20", icon: "💨", val: constitution.substanceBalance }
+                      { label: "Spirit", color: "from-amber-500 to-yellow-400", icon: "🝇", val: constitution.spiritBalance },
+                      { label: "Essence", color: "from-blue-500 to-cyan-400", icon: "🝑", val: constitution.essenceBalance },
+                      { label: "Matter", color: "from-emerald-500 to-green-400", icon: "🝙", val: constitution.matterBalance },
+                      { label: "Substance", color: "from-purple-500 to-fuchsia-400", icon: "🝉", val: constitution.substanceBalance }
                     ].map((token) => (
                       <div key={token.label} className="space-y-2">
                         <div className="flex justify-between items-center text-xs">
@@ -586,10 +592,10 @@ export default function OnboardingPage() {
                     Archetype Paradigm
                   </div>
                   <p className="text-[10px] text-white/50 leading-relaxed">
-                    {constitution.baseArchetype === "Solar Forager" && "Driven by fire elements, your body generates intense metabolic heat. Highly compatible with quick, roasted, robustly spicy grains and earthy roots."}
-                    {constitution.baseArchetype === "Lunar Adept" && "Centered in emotional/water transits. Your culinary blueprint focuses on restorative broths, sea harvests, and cooling herbs that soothe thermodynamic inflammation."}
-                    {constitution.baseArchetype === "Root Alchemist" && "Aligned deeply with Earth nodes. Your constitution absorbs heavy elements cleanly, requiring dense proteins, rich culinary reduction sauces, and grounding flora."}
-                    {constitution.baseArchetype === "Wind Whisperer" && "Vibrated under gaseous/Air elements. Your spirit thrives on fermented light cultures, steaming herbal teas, active aeration culinary techniques, and raw herbs."}
+                    {constitution.baseArchetype === "Solar Forager" && "Spirit stands out most in your chart — the creative spark, carried by the Sun, Mercury, Jupiter and Saturn. Your culinary blueprint favors quick, roasted, robustly spicy grains and earthy roots."}
+                    {constitution.baseArchetype === "Lunar Adept" && "Essence stands out most in your chart — life energy and feeling, carried chiefly by the Moon, Venus and Mars. Your culinary blueprint favors restorative broths, sea harvests, and cooling herbs."}
+                    {constitution.baseArchetype === "Root Alchemist" && "Matter stands out most in your chart — physical form and grounding, carried chiefly by Saturn, the Moon and Venus. Your culinary blueprint favors dense proteins, rich reduction sauces, and grounding flora."}
+                    {constitution.baseArchetype === "Wind Whisperer" && "Substance stands out most in your chart — the etheric field, and the scarcest of the four, carried only by Mercury and Neptune. Your culinary blueprint favors fermented light cultures, steaming herbal teas, and raw herbs."}
                   </p>
                 </div>
               </div>

@@ -13,16 +13,32 @@
  * Recompute is from each chart's OWN stored data (no astrologize re-fetch):
  *   alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
  *     natalChart.planetaryPositions,
- *     isSectDiurnal(new Date(natalChart.birthData.dateTime)),
+ *     isSectDiurnalForBirth(new Date(natalChart.birthData.dateTime)),
+ *     aspects rebuilt from natalChart.planets[].position,
  *   )
- * which exactly reproduces what corrected onboarding would have stored (the
- * onboarding `positions` map — Ascendant included — is what gets persisted as
- * `planetaryPositions`).
+ * which reproduces what natalChartService now writes.
  *
- * Covers the two stores that actually hold a natal chart in prod, updating ONLY
- * where the recomputed alchemicalProperties differ (idempotent):
+ * ⚠️ The aspects argument is NOT optional here. Aspects are the engine's Layer 3
+ * and the main source of chart-to-chart variation — without them every chart
+ * collapses to nearly the same profile. This script previously omitted them, so
+ * running that version today would OVERWRITE correct aspect-aware values with
+ * near-constant ones. Charts too old to carry `planets[].position` are counted
+ * and SKIPPED rather than written with a value we know contradicts the app.
+ *
+ * Covers the stores that actually hold this data in prod, updating ONLY where
+ * the recomputed values differ (idempotent):
  *   1. users.profile (JSONB)      -> profile.natalChart, profile.savedCharts[].natalChart
  *   2. user_profiles.natal_chart  (jsonb column)
+ *   3. alchemical_constitutions   -> spirit/essence/matter/substance_balance +
+ *      base_archetype. Written by /api/agent-forge/ignite when it still did
+ *      spirit = elementalBalance.Fire * 100 for all four, so both the reserves
+ *      and the archetype derived from them are wrong. Recomputed from the same
+ *      chart, via the same toEsmsShares/selectArchetype the route now uses.
+ *
+ * Note agent users carry a DIFFERENT chart shape (src/lib/agent-types.ts:
+ * planets{} + houses, no planetaryPositions). The `? 'planetaryPositions'`
+ * filters below intentionally exclude them — they are not natal charts in the
+ * ESMS sense and have nothing to recompute.
  *
  * (The legacy `saved_charts` table in prod has a different schema — no
  * natal_chart column — and is empty, so there's nothing to backfill there.)
@@ -32,9 +48,12 @@
  *   DATABASE_URL=postgres://... bun scripts/backfillNatalChartAlchemy.ts --apply  # write changes
  */
 import pkg from "pg";
+import { selectArchetype, toEsmsShares } from "../src/utils/alchemicalConstitution";
+import { buildAspectsFromChartPlanets } from "../src/utils/aspectCalculator";
+import type { AspectWithStrength } from "../src/utils/aspectESMSEffects";
 import {
   calculateEnhancedAlchemicalFromPlanets,
-  isSectDiurnal,
+  isSectDiurnalForBirth,
 } from "../src/utils/planetaryAlchemyMapping";
 
 const { Pool } = pkg;
@@ -60,6 +79,7 @@ interface Recompute {
   after: Esms | null;
   changed: boolean;
   symptomatic: boolean; // before.Matter == 0 && before.Substance == 0 (day-chart collapse)
+  noAspects: boolean; // chart has no planets[] longitudes -> cannot recompute safely, skipped
 }
 
 const round6 = (n: unknown): number => Math.round((Number(n) || 0) * 1e6) / 1e6;
@@ -77,6 +97,23 @@ function getDateTime(natalChart: any, fallbackBirthData?: any): string | null {
   return null;
 }
 
+/**
+ * Rebuild the chart's aspects from its stored planet longitudes.
+ *
+ * `natalChart.planets[]` carries `position` — an absolute ecliptic longitude —
+ * which is exactly what aspects are computed from. Returns null when the stored
+ * chart predates that field, in which case this script MUST NOT write: see the
+ * header for why a no-aspect recompute is now a regression, not a fix.
+ */
+function buildAspects(natalChart: any): AspectWithStrength[] | null {
+  const planets = natalChart?.planets;
+  if (!Array.isArray(planets) || planets.length === 0) return null;
+  const aspects = buildAspectsFromChartPlanets(planets);
+  // Distinguish "old chart, no longitudes" (skip) from "genuinely no aspects".
+  const hasLongitudes = planets.some((p: any) => typeof p?.position === "number" && p.position > 0);
+  return hasLongitudes ? aspects : null;
+}
+
 /** Recompute alchemicalProperties for one natalChart object. Returns null if not a chart. */
 function recompute(natalChart: any, fallbackBirthData?: any): Recompute | null {
   if (!natalChart || typeof natalChart !== "object") return null;
@@ -91,18 +128,27 @@ function recompute(natalChart: any, fallbackBirthData?: any): Recompute | null {
       : null;
 
   if (!hasPositions || !hasDate) {
-    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false };
+    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false, noAspects: false };
   }
 
-  const diurnal = isSectDiurnal(new Date(dateTime as string));
+  // Aspects are the engine's Layer 3. Recomputing without them would overwrite
+  // the aspect-aware values natalChartService now writes with near-constant
+  // ones — the opposite of a backfill. Skip rather than corrupt.
+  const aspects = buildAspects(natalChart);
+  if (!aspects) {
+    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false, noAspects: true };
+  }
+
+  const diurnal = isSectDiurnalForBirth(new Date(dateTime as string));
   const after = calculateEnhancedAlchemicalFromPlanets(
     positions as Record<string, string>,
     diurnal,
+    aspects,
   ) as Esms;
 
   const changed = esmsKey(before) !== esmsKey(after);
   const symptomatic = !!before && round6(before.Matter) === 0 && round6(before.Substance) === 0;
-  return { hasPositions, hasDate, before, after, changed, symptomatic };
+  return { hasPositions, hasDate, before, after, changed, symptomatic, noAspects: false };
 }
 
 interface Tally {
@@ -110,13 +156,14 @@ interface Tally {
   charts: number; // chart objects examined
   noPositions: number;
   noDate: number;
+  noAspects: number; // skipped: no planets[] longitudes, cannot rebuild aspects
   symptomatic: number;
   changed: number;
   updates: number; // jsonb_set writes that would run / ran
 }
 
 function newTally(): Tally {
-  return { rows: 0, charts: 0, noPositions: 0, noDate: 0, symptomatic: 0, changed: 0, updates: 0 };
+  return { rows: 0, charts: 0, noPositions: 0, noDate: 0, noAspects: 0, symptomatic: 0, changed: 0, updates: 0 };
 }
 
 const samples: string[] = [];
@@ -152,6 +199,7 @@ async function main(): Promise<void> {
       up.charts++;
       if (!r.hasPositions) up.noPositions++;
       if (r.hasPositions && !r.hasDate) up.noDate++;
+      if (r.noAspects) up.noAspects++;
       if (r.symptomatic) up.symptomatic++;
       if (r.changed && r.after) {
         up.changed++;
@@ -193,6 +241,7 @@ async function main(): Promise<void> {
         us.charts++;
         if (!rChart.hasPositions) us.noPositions++;
         if (rChart.hasPositions && !rChart.hasDate) us.noDate++;
+        if (rChart.noAspects) us.noAspects++;
         if (rChart.symptomatic) us.symptomatic++;
         if (rChart.changed && rChart.after) {
           us.changed++;
@@ -219,6 +268,7 @@ async function main(): Promise<void> {
         us.charts++;
         if (!rSaved.hasPositions) us.noPositions++;
         if (rSaved.hasPositions && !rSaved.hasDate) us.noDate++;
+        if (rSaved.noAspects) us.noAspects++;
         if (rSaved.symptomatic) us.symptomatic++;
         if (rSaved.changed && rSaved.after) {
           us.changed++;
@@ -242,12 +292,99 @@ async function main(): Promise<void> {
     }
   }
 
+  // ---- Store 3: alchemical_constitutions (reserves + archetype) ----
+  //
+  // Same chart, same pass. These rows were written by /api/agent-forge/ignite
+  // back when it set spirit = elementalBalance.Fire * 100 for all four, so both
+  // the reserves and the archetype derived from them are wrong. Recompute from
+  // the chart's planets, exactly as ignite now does.
+  const ac = { rows: 0, recomputable: 0, noChart: 0, changed: 0, updates: 0 };
+  const acSamples: string[] = [];
+  {
+    const { rows } = await pool.query<{
+      user_id: string;
+      spirit_balance: number;
+      essence_balance: number;
+      matter_balance: number;
+      substance_balance: number;
+      base_archetype: string | null;
+      col_chart: any;
+      jsonb_chart: any;
+      birth_data: any;
+    }>(
+      `SELECT ac.user_id,
+              ac.spirit_balance, ac.essence_balance, ac.matter_balance, ac.substance_balance,
+              ac.base_archetype,
+              up.natal_chart          AS col_chart,
+              u.profile -> 'natalChart' AS jsonb_chart,
+              up.birth_data
+         FROM alchemical_constitutions ac
+         LEFT JOIN user_profiles up ON up.user_id = ac.user_id
+         LEFT JOIN users u ON u.id = ac.user_id`,
+    );
+    ac.rows = rows.length;
+
+    for (const row of rows) {
+      // Prefer the canonical column, fall back to the JSONB copy.
+      const chart = row.col_chart ?? row.jsonb_chart;
+      const r = recompute(chart, row.birth_data);
+      if (!r || !r.after || !r.hasPositions || !r.hasDate || r.noAspects) {
+        ac.noChart++;
+        continue;
+      }
+      ac.recomputable++;
+
+      const shares = toEsmsShares(r.after);
+      const spirit = Math.round(shares.spirit);
+      const essence = Math.round(shares.essence);
+      const matter = Math.round(shares.matter);
+      const substance = Math.round(shares.substance);
+
+      const dateTime = getDateTime(chart, row.birth_data)!;
+      const diurnal = isSectDiurnalForBirth(new Date(dateTime));
+      const { baseArchetype } = selectArchetype(shares, diurnal);
+
+      const changed =
+        spirit !== row.spirit_balance ||
+        essence !== row.essence_balance ||
+        matter !== row.matter_balance ||
+        substance !== row.substance_balance ||
+        baseArchetype !== row.base_archetype;
+
+      if (!changed) continue;
+      ac.changed++;
+      if (acSamples.length < 8) {
+        acSamples.push(
+          `  user_id=${row.user_id}\n` +
+            `    before: ${row.spirit_balance},${row.essence_balance},${row.matter_balance},${row.substance_balance}` +
+            `  ${row.base_archetype ?? "(null)"}\n` +
+            `    after:  ${spirit},${essence},${matter},${substance}  ${baseArchetype}`,
+        );
+      }
+      if (APPLY) {
+        await pool.query(
+          `UPDATE alchemical_constitutions
+              SET spirit_balance = $2,
+                  essence_balance = $3,
+                  matter_balance = $4,
+                  substance_balance = $5,
+                  base_archetype = $6,
+                  updated_at = NOW()
+            WHERE user_id = $1`,
+          [row.user_id, spirit, essence, matter, substance, baseArchetype],
+        );
+      }
+      ac.updates++;
+    }
+  }
+
   const report = (name: string, t: Tally) => {
     console.log(
       `${name}:\n` +
         `  rows scanned ............ ${t.rows}\n` +
         `  charts examined ......... ${t.charts}\n` +
         `  missing planetaryPositions ${t.noPositions}\n` +
+    `  SKIPPED, no planets[] longitudes (cannot rebuild aspects) ${t.noAspects}\n` +
         `  missing birth dateTime .. ${t.noDate} (skipped — can't determine sect)\n` +
         `  symptomatic (Matter=0 & Substance=0) ${t.symptomatic}\n` +
         `  would change ............ ${t.changed}\n` +
@@ -259,11 +396,20 @@ async function main(): Promise<void> {
   report("Store 1  users.profile (natalChart + savedCharts[])", us);
   report("Store 2  user_profiles.natal_chart", up);
 
+  console.log(
+    `Store 3  alchemical_constitutions (reserves + archetype):\n` +
+      `  rows scanned ............ ${ac.rows}\n` +
+      `  recomputable ............ ${ac.recomputable}\n` +
+      `  SKIPPED, no usable chart  ${ac.noChart}\n` +
+      `  would change ............ ${ac.changed}\n` +
+      `  ${APPLY ? "writes applied" : "writes that WOULD run"} ......... ${ac.updates}\n`,
+  );
+
   const totalChanged = us.changed + up.changed;
   const totalSymptomatic = us.symptomatic + up.symptomatic;
   console.log(
-    `TOTAL: ${totalChanged} chart(s) would change; ${totalSymptomatic} are symptomatic ` +
-      `(Matter=0 & Substance=0).\n`,
+    `TOTAL: ${totalChanged} chart(s) + ${ac.changed} constitution(s) would change; ` +
+      `${totalSymptomatic} chart(s) symptomatic (Matter=0 & Substance=0).\n`,
   );
 
   if (samples.length) {
@@ -272,10 +418,18 @@ async function main(): Promise<void> {
     console.log("");
   }
 
+  if (acSamples.length) {
+    console.log("Constitutions (before -> after, S,E,M,Su + archetype):");
+    console.log(acSamples.join("\n"));
+    console.log("");
+  }
+
   if (!APPLY) {
     console.log("DRY RUN complete — no writes. Re-run with --apply to persist.\n");
   } else {
-    console.log(`APPLY complete — ${totalChanged} chart(s) updated.\n`);
+    console.log(
+      `APPLY complete — ${totalChanged} chart(s) and ${ac.updates} constitution(s) updated.\n`,
+    );
   }
 
   await pool.end();

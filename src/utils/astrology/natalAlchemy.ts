@@ -1,9 +1,15 @@
 
 import { PLANET_WEIGHTS, normalizePlanetWeight } from '@/data/planets';
-import { performAlchemicalAnalysis, deriveAlchemicalFromElemental } from '@/data/unified/alchemicalCalculations';
+import { performAlchemicalAnalysis } from '@/data/unified/alchemicalCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
+import type { AlchemicalProperties } from '@/types/celestial';
 import type { NatalChart} from '@/types/natalChart';
+import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
 import type { AlchemicalState } from '@/utils/monica/types';
+import {
+  calculateEnhancedAlchemicalFromPlanets,
+  isSectDiurnalForBirth,
+} from '@/utils/planetaryAlchemyMapping';
 
 /**
  * Astrological interpretive weights for natal chart scoring.
@@ -54,6 +60,48 @@ const SIGN_PROPERTIES: Record<string, { element: 'Fire' | 'Earth' | 'Air' | 'Wat
 };
 
 /**
+ * The chart's four alchemical quantities (ESMS), as raw planetary sums.
+ *
+ * Quantities come from which planets the chart holds, plus sect, dignity and
+ * aspects — they CANNOT be derived from the elements of the signs those planets
+ * occupy (see the header of `@/utils/planetaryAlchemyMapping`). This module used
+ * to synthesize them from elements and modalities, and inverted at that (Spirit
+ * from Air, Substance from Fire), then persist the result via UserContext.
+ *
+ * `natalChartService` already stores the correct, aspect-aware values on the
+ * chart, so prefer those; recompute from the chart's own planets only when an
+ * older stored chart lacks them.
+ */
+function resolveNatalQuantities(
+  chart: NatalChart,
+  planets: Array<{ name: string; sign: string; position?: number }>,
+): AlchemicalProperties {
+  if (chart.alchemicalProperties) return chart.alchemicalProperties;
+
+  // Derived from the same planet list the elemental scoring walks, so the two
+  // readings can never disagree about which bodies the chart contains.
+  const positions: Record<string, string> = {};
+  for (const planet of planets) {
+    if (typeof planet?.sign === "string" && planet.sign) {
+      positions[planet.name] = planet.sign.toLowerCase();
+    }
+  }
+  if (Object.keys(positions).length === 0) {
+    return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  }
+
+  // Aspects are the engine's Layer 3 and the main source of chart-to-chart
+  // variation; rebuild them when the chart carries real longitudes. Older charts
+  // without them still get correct sect- and dignity-aware quantities.
+  const aspects = buildAspectsFromChartPlanets(planets);
+
+  const birthDate = chart.birthData?.dateTime ? new Date(chart.birthData.dateTime) : null;
+  const diurnal = birthDate ? isSectDiurnalForBirth(birthDate) : true;
+
+  return calculateEnhancedAlchemicalFromPlanets(positions, diurnal, aspects);
+}
+
+/**
  * Calculates the alchemical state from a natal chart.
  * @param chart - The user's natal chart.
  * @returns The alchemical state derived from the chart.
@@ -102,16 +150,25 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
       }
   }
   
-  // Heuristic to map elements and modalities to alchemical properties
+  // Elements come from the signs the planets occupy (computed above).
+  // Quantities come from the planets themselves — never from those elements.
+  // Expressed as shares of the chart total so they stay on the same 0-1 scale
+  // as the normalized elemental scores, which is what the thermodynamics
+  // downstream expects.
+  const quantities = resolveNatalQuantities(chart, planets);
+  const quantityTotal =
+    quantities.Spirit + quantities.Essence + quantities.Matter + quantities.Substance;
+  const share = (value: number) => (quantityTotal > 0 ? value / quantityTotal : 0);
+
   const alchemicalState: AlchemicalState = {
       fire: elementalScores.Fire,
       water: elementalScores.Water,
       air: elementalScores.Air,
       earth: elementalScores.Earth,
-      spirit: (elementalScores.Air + modalityScores.Cardinal) / 2,
-      essence: (elementalScores.Water + modalityScores.Mutable) / 2,
-      matter: (elementalScores.Earth + modalityScores.Fixed) / 2,
-      substance: (elementalScores.Fire + modalityScores.Fixed) / 2,
+      spirit: share(quantities.Spirit),
+      essence: share(quantities.Essence),
+      matter: share(quantities.Matter),
+      substance: share(quantities.Substance),
   };
 
   return alchemicalState;
@@ -132,7 +189,15 @@ export function calculateAlchemicalProfile(chart: NatalChart) {
         Earth: alchemicalState.earth,
     };
 
-    const alchemicalProps = deriveAlchemicalFromElemental(elementalProps);
+    // The quantities are already on the state, derived from the planets. This
+    // previously called deriveAlchemicalFromElemental(elementalProps), fabricating
+    // them from the elements a second time — the derivation the engine forbids.
+    const alchemicalProps: AlchemicalProperties = {
+        Spirit: alchemicalState.spirit,
+        Essence: alchemicalState.essence,
+        Matter: alchemicalState.matter,
+        Substance: alchemicalState.substance,
+    };
 
     const metrics = performAlchemicalAnalysis(alchemicalProps, elementalProps);
 

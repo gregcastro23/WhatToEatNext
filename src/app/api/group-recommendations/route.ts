@@ -7,9 +7,10 @@ import { subscriptionService } from "@/services/subscriptionService";
 import type { AlchemicalProperties } from "@/types/alchemy";
 import type { Element } from "@/types/celestial";
 import type { GroupMember } from "@/types/natalChart";
+import { buildAspectsFromChartPlanets } from "@/utils/aspectCalculator";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
 import { elementalCosineHarmony } from "@/utils/elemental/harmony";
-import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
+import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 /**
@@ -131,8 +132,8 @@ export async function POST(request: NextRequest) {
     const ownerChart = currentUser.profile.natalChart;
     if (ownerChart) {
       const el = (ownerChart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
-      const diurnal = ownerChart.birthData?.dateTime ? isSectDiurnal(new Date(ownerChart.birthData.dateTime)) : true;
-      const alch = (ownerChart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(ownerChart), diurnal)) as any;
+      const diurnal = ownerChart.birthData?.dateTime ? isSectDiurnalForBirth(new Date(ownerChart.birthData.dateTime)) : true;
+      const alch = (ownerChart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(ownerChart), diurnal, buildAspectsFromChartPlanets(ownerChart.planets))) as any;
       elementalList.push(el);
       alchemicalList.push(alch);
       memberInfo.push({ id: userId, name: currentUser.profile.name ?? "You", element: dominantElement(el) });
@@ -162,8 +163,8 @@ export async function POST(request: NextRequest) {
         const chart = commensal.natalChart;
         if (!chart) continue;
         const el = (chart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
-        const diurnal = chart.birthData?.dateTime ? isSectDiurnal(new Date(chart.birthData.dateTime)) : true;
-        const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(chart), diurnal)) as any;
+        const diurnal = chart.birthData?.dateTime ? isSectDiurnalForBirth(new Date(chart.birthData.dateTime)) : true;
+        const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(chart), diurnal, buildAspectsFromChartPlanets(chart.planets))) as any;
         elementalList.push(el);
         alchemicalList.push(alch);
         memberInfo.push({ id: commensal.id, name: commensal.name, element: dominantElement(el) });
@@ -178,8 +179,8 @@ export async function POST(request: NextRequest) {
           const chart = friend.natalChart;
           if (!chart) continue;
           const el = (chart.elementalBalance ?? { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as any;
-          const diurnal = chart.birthData?.dateTime ? isSectDiurnal(new Date(chart.birthData.dateTime)) : true;
-          const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(chart), diurnal)) as any;
+          const diurnal = chart.birthData?.dateTime ? isSectDiurnalForBirth(new Date(chart.birthData.dateTime)) : true;
+          const alch = (chart.alchemicalProperties ?? calculateEnhancedAlchemicalFromPlanets(extractPlanetaryPositions(chart), diurnal, buildAspectsFromChartPlanets(chart.planets))) as any;
           elementalList.push(el);
           alchemicalList.push(alch);
           memberInfo.push({ id: friend.userId, name: friend.name, element: dominantElement(el) });
