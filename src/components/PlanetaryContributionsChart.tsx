@@ -16,6 +16,20 @@ import {
   capitalizeFirstLetter,
 } from "@/utils/planetaryTransitions";
 
+/**
+ * Alchemical sigils for the four quantities. Quantities are read from the
+ * planets, not the elements — so they carry their own sigils, never element
+ * pictograms (FaFire etc., which this file still uses below for the actual
+ * Fire/Water/Earth/Air elements). Canonical palette: Spirit amber, Essence
+ * blue, Matter emerald, Substance purple.
+ */
+const ESMS_GLYPH: Record<"Spirit" | "Essence" | "Matter" | "Substance", string> = {
+  Spirit: "🝇",
+  Essence: "🝑",
+  Matter: "🝙",
+  Substance: "🝉",
+};
+
 interface PlanetPosition {
   sign: string;
   degree: number;
@@ -140,19 +154,19 @@ export default function PlanetaryContributionsChart() {
       {/* Legends */}
       <div className="flex gap-4 flex-wrap text-xs">
         <div className="flex items-center gap-1">
-          <FaFire className="h-3 w-3 text-red-400" />
+          <span className="text-amber-400 text-sm leading-none">{ESMS_GLYPH.Spirit}</span>
           <span className="text-gray-300">Spirit</span>
         </div>
         <div className="flex items-center gap-1">
-          <FaTint className="h-3 w-3 text-blue-400" />
+          <span className="text-blue-400 text-sm leading-none">{ESMS_GLYPH.Essence}</span>
           <span className="text-gray-300">Essence</span>
         </div>
         <div className="flex items-center gap-1">
-          <FaMountain className="h-3 w-3 text-green-400" />
+          <span className="text-emerald-400 text-sm leading-none">{ESMS_GLYPH.Matter}</span>
           <span className="text-gray-300">Matter</span>
         </div>
         <div className="flex items-center gap-1">
-          <FaWind className="h-3 w-3 text-purple-400" />
+          <span className="text-purple-400 text-sm leading-none">{ESMS_GLYPH.Substance}</span>
           <span className="text-gray-300">Substance</span>
         </div>
         <span className="text-gray-600">|</span>
@@ -236,32 +250,32 @@ export default function PlanetaryContributionsChart() {
               {/* ESMS Contributions */}
               <div className="grid grid-cols-4 gap-2 mb-3">
                 {planet.esms.Spirit > 0 && (
-                  <div className="flex flex-col items-center p-2 bg-red-900/20 rounded border border-red-500/20">
-                    <FaFire className="h-4 w-4 text-red-400 mb-1" />
-                    <span className="text-sm font-bold text-red-300">
+                  <div className="flex flex-col items-center p-2 bg-amber-900/20 rounded border border-amber-500/20">
+                    <span className="text-base text-amber-400 mb-1 leading-none">{ESMS_GLYPH.Spirit}</span>
+                    <span className="text-sm font-bold text-amber-300">
                       {planet.esms.Spirit}
                     </span>
                   </div>
                 )}
                 {planet.esms.Essence > 0 && (
                   <div className="flex flex-col items-center p-2 bg-blue-900/20 rounded border border-blue-500/20">
-                    <FaTint className="h-4 w-4 text-blue-400 mb-1" />
+                    <span className="text-base text-blue-400 mb-1 leading-none">{ESMS_GLYPH.Essence}</span>
                     <span className="text-sm font-bold text-blue-300">
                       {planet.esms.Essence}
                     </span>
                   </div>
                 )}
                 {planet.esms.Matter > 0 && (
-                  <div className="flex flex-col items-center p-2 bg-green-900/20 rounded border border-green-500/20">
-                    <FaMountain className="h-4 w-4 text-green-400 mb-1" />
-                    <span className="text-sm font-bold text-green-300">
+                  <div className="flex flex-col items-center p-2 bg-emerald-900/20 rounded border border-emerald-500/20">
+                    <span className="text-base text-emerald-400 mb-1 leading-none">{ESMS_GLYPH.Matter}</span>
+                    <span className="text-sm font-bold text-emerald-300">
                       {planet.esms.Matter}
                     </span>
                   </div>
                 )}
                 {planet.esms.Substance > 0 && (
                   <div className="flex flex-col items-center p-2 bg-purple-900/20 rounded border border-purple-500/20">
-                    <FaWind className="h-4 w-4 text-purple-400 mb-1" />
+                    <span className="text-base text-purple-400 mb-1 leading-none">{ESMS_GLYPH.Substance}</span>
                     <span className="text-sm font-bold text-purple-300">
                       {planet.esms.Substance}
                     </span>

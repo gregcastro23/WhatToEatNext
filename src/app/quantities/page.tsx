@@ -5,10 +5,6 @@ import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import {
-  FaFire,
-  FaTint,
-  FaWind,
-  FaMountain,
   FaSyncAlt,
   FaSun,
   FaMoon,
@@ -73,7 +69,6 @@ const TOKEN_CONFIG = [
     key: "Spirit" as const,
     balanceKey: "spirit" as const,
     symbol: "🝇",
-    icon: FaFire,
     label: "Spirit",
     subtitle: "Creative Force",
     description:
@@ -93,7 +88,6 @@ const TOKEN_CONFIG = [
     key: "Essence" as const,
     balanceKey: "essence" as const,
     symbol: "🝑",
-    icon: FaTint,
     label: "Essence",
     subtitle: "Life Energy",
     description:
@@ -113,7 +107,6 @@ const TOKEN_CONFIG = [
     key: "Matter" as const,
     balanceKey: "matter" as const,
     symbol: "🝙",
-    icon: FaMountain,
     label: "Matter",
     subtitle: "Physical Form",
     description:
@@ -133,7 +126,6 @@ const TOKEN_CONFIG = [
     key: "Substance" as const,
     balanceKey: "substance" as const,
     symbol: "🝉",
-    icon: FaWind,
     label: "Substance",
     subtitle: "Etheric Field",
     description:
@@ -239,7 +231,6 @@ function TokenHeroCard({
   isDebitFlashing: boolean;
   alchData: AlchemyData | null;
 }) {
-  const Icon = cfg.icon;
   const total = alchData
     ? (alchData.quantities.Spirit || 0) +
     (alchData.quantities.Essence || 0) +
@@ -272,7 +263,9 @@ function TokenHeroCard({
             <div
               className={`w-11 h-11 rounded-2xl flex items-center justify-center bg-gradient-to-br ${cfg.barColor} shadow-lg`}
             >
-              <Icon className="w-5 h-5 text-white" />
+              <span className="text-xl text-white font-serif leading-none">
+                {cfg.symbol}
+              </span>
             </div>
             <div>
               <h3 className="text-base font-black text-white tracking-wider uppercase">
@@ -282,9 +275,6 @@ function TokenHeroCard({
                 {cfg.subtitle}
               </p>
             </div>
-          </div>
-          <div className={`text-3xl ${cfg.textColor} opacity-60 font-serif`}>
-            {cfg.symbol}
           </div>
         </div>
 
