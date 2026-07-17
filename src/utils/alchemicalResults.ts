@@ -2,7 +2,11 @@ import type { ElementalProperties } from "@/types/alchemy";
 
 /**
  * Calculate simplified alchemical properties for display from elemental properties.
- * Uses a stable mapping consistent with our UI components.
+ *
+ * @deprecated DO NOT USE. Derives ESMS quantities from elements
+ * (Spirit = Fire*0.7 + Air*0.3, etc.), which the engine forbids — quantities
+ * come from the planets, not the elements (see CONTEXT.md). Use
+ * calculateEnhancedAlchemicalFromPlanets. Currently unreferenced.
  */
 export function calculateAlchemicalPropertiesForDisplay(
   elemental: ElementalProperties,

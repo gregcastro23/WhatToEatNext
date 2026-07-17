@@ -266,6 +266,15 @@ export function compareSignVectors(
 }
 // =====================
 // Vector → ESMS mapping and integration
+//
+// ⚠️ DO NOT USE. This whole section derives ESMS quantities from elements
+// (elementalToESMS), which the engine forbids: quantities come from the planets,
+// elements from the signs — see CONTEXT.md and the header of
+// planetaryAlchemyMapping.ts. It is retained only because it is currently
+// unreferenced (no live consumer); getAlchemicalStateWithVectors even blends
+// this fabricated ESMS into correct planet-derived ESMS at alpha=0.15. For real
+// quantities use calculateEnhancedAlchemicalFromPlanets. Delete once confirmed
+// dead across the tree.
 // =====================
 export const VECTOR_CONFIG = {
   blendWeightAlpha: 0.15,
@@ -284,6 +293,7 @@ export const VECTOR_CONFIG = {
     Record<keyof AlchemicalProperties, number>
   >,
 };
+/** @deprecated Derives ESMS from elements — forbidden. See the section warning above. */
 export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
   const { components, _magnitude, direction } = _v;
   const elemental: ElementalProperties = {
@@ -341,6 +351,11 @@ export function blendESMS(
     Substance: Substance / sum,
   };
 }
+/**
+ * @deprecated Contaminates correct planet-derived ESMS with element-derived ESMS
+ * (blend at alpha=0.15). See the section warning above; use
+ * calculateEnhancedAlchemicalFromPlanets. Currently unreferenced.
+ */
 export function getAlchemicalStateWithVectors(input: {
   planetaryPositions: Record<string, PlanetaryPosition>;
   aspects?: PlanetaryAspect[];
