@@ -581,7 +581,7 @@ export const cookingMethods = {
     },
     benefits: ["gluten development", "structural alignment", "elasticity building", "air incorporation"],
     astrologicalInfluences: {
-      dominantPlanets: ["Saturn", "Earth"],
+      dominantPlanets: ["Saturn"],
       lunarPhaseEffect: {
         waxing_crescent: 0.6,
         first_quarter: 0.5,

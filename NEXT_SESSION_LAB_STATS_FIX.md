@@ -1,5 +1,18 @@
 # Next session: FIX THE LIVE `/lab` "AWAITING BACKEND" STATS PANELS (priority: live site)
 
+> ⚠️ **PARTIALLY STALE (2026-07-17).** This plan predates the ignite dual-write
+> fix. Claims below that ignite "never calls `updateUserProfile`" and "never
+> writes `user_profiles.natal_chart`" are **no longer true** — `/api/agent-forge/
+> ignite` now persists through `userDatabase.updateUserProfile`, dual-writing the
+> JSONB and the normalized column. The "two-ESMS-formula inconsistency" it flags
+> is also resolved: `natalAlchemy.ts` no longer derives ESMS from elements+
+> modalities; it reads the chart's planet-derived quantities. Before acting on
+> any step here, re-verify against the current code — do not re-fix fixed bugs.
+> A prod natal-chart backfill also ran 2026-07-17 (only 8 humans hold real
+> charts). Remaining genuine gap: some users' charts live only in the
+> `users.profile` JSONB, not the `user_profiles.natal_chart` column the read path
+> prefers.
+
 Paste this whole file as the opening prompt for the next chat.
 
 ---

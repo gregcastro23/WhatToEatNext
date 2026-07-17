@@ -163,11 +163,14 @@ select {
   filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.3));
 }
 
-/* Alchemical Property Gradients - Premium */
-.grad-spirit-fire { background: linear-gradient(135deg, #ff5f5f, #dc2626); }
-.grad-essence-water { background: linear-gradient(135deg, #60a5fa, #2563eb); }
-.grad-matter-earth { background: linear-gradient(135deg, #4ade80, #16a34a); }
-.grad-substance-air { background: linear-gradient(135deg, #fcd34d, #d97706); }
+/* Alchemical Quantity Gradients - Premium.
+   Named by quantity, NOT element (quantities are read from planets, elements
+   from signs — see CONTEXT.md). Canonical palette: Spirit amber, Essence blue,
+   Matter emerald, Substance purple. */
+.grad-spirit { background: linear-gradient(135deg, #fcd34d, #d97706); }
+.grad-essence { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+.grad-matter { background: linear-gradient(135deg, #4ade80, #16a34a); }
+.grad-substance { background: linear-gradient(135deg, #c084fc, #7c3aed); }
 
 /* Glows */
 .glow-purple { box-shadow: 0 0 20px rgba(167, 139, 250, 0.3); }

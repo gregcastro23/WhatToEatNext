@@ -42,12 +42,12 @@ export const AlchemicalConstitutionPanel: React.FC<AlchemicalConstitutionPanelPr
           const val = alch[item.key] ?? 0;
           const pct = (val / norm) * 100;
           const isDominant = item.key === dominant.key;
-          // Map to the premium gradients in globals.css
+          // Map to the premium gradients in globals.css (named by quantity).
           const gradMap: Record<string, string> = {
-            Spirit: 'grad-spirit-fire',
-            Essence: 'grad-essence-water',
-            Matter: 'grad-matter-earth',
-            Substance: 'grad-substance-air'
+            Spirit: 'grad-spirit',
+            Essence: 'grad-essence',
+            Matter: 'grad-matter',
+            Substance: 'grad-substance'
           };
 
           return (

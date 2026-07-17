@@ -217,7 +217,7 @@ export const korean: Cuisine = {
           },
           "elementalProperties": { "Fire": 0.2, "Water": 0.2, "Earth": 0.4, "Air": 0.2 },
           "astrologicalAffinities": {
-            "planets": ["Sun", "Earth"],
+            "planets": ["Sun"],
             "signs": ["Virgo", "Leo"],
             "lunarPhases": ["Full Moon"]
           },

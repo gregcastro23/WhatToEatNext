@@ -84,7 +84,7 @@ export function Promotion() {
                 Start with 60 ESMS tokens
               </h2>
               <p className="mt-2 text-xs md:text-sm text-white/50 leading-relaxed max-w-xl">
-                Alchm Kitchen balances four primary alchemical elements to match recipes with your birth chart and the live sky. Create an account to receive a welcome grant of{" "}
+                Alchm Kitchen reads four alchemical quantities from your birth chart and the live sky to match recipes. Create an account to receive a welcome grant of{" "}
                 <strong className="text-white/80">60 ESMS tokens</strong> (15 of each: Spirit, Essence, Matter, Substance) to immediately begin your cosmic culinary journey.
                 {onchainEsms && (
                   <>

@@ -433,7 +433,7 @@ const rawWholeGrains = {
     season: ["all"],
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ["Saturn", "Earth"],
+      rulingPlanets: ["Saturn"],
       favorableZodiac: ["virgo", "taurus", "capricorn"],
       seasonalAffinity: ["fall"],
     },
@@ -488,7 +488,7 @@ const rawWholeGrains = {
     season: ["all"],
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ["Saturn", "Earth"],
+      rulingPlanets: ["Saturn"],
       favorableZodiac: ["virgo", "taurus", "capricorn"],
       seasonalAffinity: ["fall"],
     },

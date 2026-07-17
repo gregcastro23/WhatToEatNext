@@ -110,10 +110,17 @@ type ElementType = "Fire" | "Water" | "Earth" | "Air";
 
 #### **Elemental Properties**
 
-- **Fire**: Spirit, energy, transformation, passion
-- **Water**: Essence, emotion, intuition, flow
-- **Earth**: Matter, stability, grounding, nourishment
-- **Air**: Substance, intellect, communication, movement
+> ⚠️ **These are loose thematic associations, NOT a derivation.** The alchemical
+> quantities (Spirit/Essence/Matter/Substance) come from *which planets* a chart
+> holds, not from its elements — see `CONTEXT.md` and the header of
+> `src/utils/planetaryAlchemyMapping.ts`. Never compute a quantity from an
+> element. The words below describe each element's character; the quantity names
+> are mentioned only for their shared connotations.
+
+- **Fire**: energy, transformation, passion
+- **Water**: emotion, intuition, flow
+- **Earth**: stability, grounding, nourishment
+- **Air**: intellect, communication, movement
 
 #### **CRITICAL: Elemental Logic Principles**
 
