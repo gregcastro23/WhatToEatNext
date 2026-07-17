@@ -1,5 +1,6 @@
 import { _logger } from "@/lib/logger";
 import type { AspectType } from "@/types/alchemy";
+import type { AspectWithStrength } from "./aspectESMSEffects";
 
 /**
  * Utility for calculating comprehensive aspects between planets
@@ -221,6 +222,70 @@ export function calculateComprehensiveAspects(
 
   // Sort aspects by strength (descending)
   return aspects.sort((a, b) => b.strength - a.strength);
+}
+
+/**
+ * Build the strength-weighted aspect list the ESMS engine's Layer 3 consumes,
+ * from any loose position record carrying sign + (exactLongitude or degree).
+ *
+ * This is the single place that adapts a position bag into aspects — every
+ * caller of `calculateEnhancedAlchemicalFromPlanets` that has real positions
+ * should route through here rather than re-inlining the mapping, since an
+ * omitted or malformed aspect pass silently collapses ESMS toward a constant.
+ *
+ * Prefers `exactLongitude`; falls back to `degree` (sign-relative) only when the
+ * longitude is absent. Bodies missing a sign are skipped, and fewer than two
+ * usable bodies yields no aspects.
+ */
+export function buildAspectsWithStrength(
+  positions: Record<string, unknown>,
+): AspectWithStrength[] {
+  const normalized: Record<string, PlanetaryPositionData> = {};
+  for (const [planet, raw] of Object.entries(positions)) {
+    if (!raw || typeof raw !== "object") continue;
+    const pos = raw as { sign?: unknown; degree?: unknown; exactLongitude?: unknown };
+    if (pos.sign == null) continue;
+    const exactLongitude =
+      typeof pos.exactLongitude === "number" ? pos.exactLongitude : undefined;
+    const degree =
+      typeof pos.degree === "number"
+        ? pos.degree
+        : exactLongitude !== undefined
+          ? exactLongitude % 30
+          : 0;
+    normalized[planet] = {
+      sign: String(pos.sign).toLowerCase(),
+      degree,
+      exactLongitude,
+    };
+  }
+
+  if (Object.keys(normalized).length < 2) return [];
+
+  return calculateComprehensiveAspects(normalized).map((aspect) => ({
+    planet1: aspect.planet1,
+    planet2: aspect.planet2,
+    type: aspect.type,
+    strength: aspect.strength,
+  }));
+}
+
+/**
+ * Build aspects from a NatalChart's `planets[]` array, whose `position` field is
+ * an absolute ecliptic longitude. Convenience over {@link buildAspectsWithStrength}
+ * for the many callers holding the chart's planet list rather than a keyed bag.
+ */
+export function buildAspectsFromChartPlanets(
+  planets: ReadonlyArray<{ name?: unknown; sign?: unknown; position?: unknown }> | null | undefined,
+): AspectWithStrength[] {
+  if (!Array.isArray(planets)) return [];
+  const positions: Record<string, unknown> = {};
+  for (const planet of planets) {
+    if (typeof planet?.name === "string" && typeof planet?.position === "number") {
+      positions[planet.name] = { sign: planet.sign, exactLongitude: planet.position };
+    }
+  }
+  return buildAspectsWithStrength(positions);
 }
 
 /**

@@ -13,12 +13,8 @@
  */
 
 import type { AlchemicalProperties } from "@/types/celestial";
-import {
-  calculateComprehensiveAspects,
-  type PlanetaryPositionData,
-} from "./aspectCalculator";
+import { buildAspectsWithStrength } from "./aspectCalculator";
 import { calculateEnhancedAlchemicalFromPlanets } from "./planetaryAlchemyMapping";
-import type { AspectWithStrength } from "./aspectESMSEffects";
 
 /**
  * Derive the live sky's quantities from the planets overhead.
@@ -40,38 +36,17 @@ export function deriveLiveSkyQuantities(
 ): AlchemicalProperties | null {
   if (!positions || Object.keys(positions).length === 0) return null;
 
+  // The engine matches signs in lowercase — the same convention useChartData
+  // and /api/alchemize use.
   const signMap: Record<string, string> = {};
-  const aspectPositions: Record<string, PlanetaryPositionData> = {};
-
   for (const [planet, raw] of Object.entries(positions)) {
-    const pos = raw as
-      | { sign?: unknown; degree?: unknown; exactLongitude?: unknown }
-      | null
-      | undefined;
+    const pos = raw as { sign?: unknown } | null | undefined;
     if (!pos || typeof pos !== "object" || pos.sign == null) continue;
-
-    // The engine matches signs in lowercase — the same convention useChartData
-    // and /api/alchemize use.
-    const sign = String(pos.sign).toLowerCase();
-    signMap[planet] = sign;
-    aspectPositions[planet] = {
-      sign,
-      degree: typeof pos.degree === "number" ? pos.degree : 0,
-      exactLongitude:
-        typeof pos.exactLongitude === "number" ? pos.exactLongitude : undefined,
-    };
+    signMap[planet] = String(pos.sign).toLowerCase();
   }
 
   if (Object.keys(signMap).length === 0) return null;
 
-  const aspects: AspectWithStrength[] = calculateComprehensiveAspects(
-    aspectPositions,
-  ).map((aspect) => ({
-    planet1: aspect.planet1,
-    planet2: aspect.planet2,
-    type: aspect.type,
-    strength: aspect.strength,
-  }));
-
+  const aspects = buildAspectsWithStrength(positions);
   return calculateEnhancedAlchemicalFromPlanets(signMap, isDaytime ?? true, aspects);
 }

@@ -49,10 +49,7 @@
  */
 import pkg from "pg";
 import { selectArchetype, toEsmsShares } from "../src/utils/alchemicalConstitution";
-import {
-  calculateComprehensiveAspects,
-  type PlanetaryPositionData,
-} from "../src/utils/aspectCalculator";
+import { buildAspectsFromChartPlanets } from "../src/utils/aspectCalculator";
 import type { AspectWithStrength } from "../src/utils/aspectESMSEffects";
 import {
   calculateEnhancedAlchemicalFromPlanets,
@@ -111,26 +108,10 @@ function getDateTime(natalChart: any, fallbackBirthData?: any): string | null {
 function buildAspects(natalChart: any): AspectWithStrength[] | null {
   const planets = natalChart?.planets;
   if (!Array.isArray(planets) || planets.length === 0) return null;
-
-  const positions: Record<string, PlanetaryPositionData> = {};
-  for (const planet of planets) {
-    const name = planet?.name;
-    const longitude = planet?.position;
-    if (typeof name !== "string" || typeof longitude !== "number") continue;
-    positions[name] = {
-      sign: String(planet?.sign ?? "").toLowerCase(),
-      degree: longitude % 30,
-      exactLongitude: longitude,
-    };
-  }
-  if (Object.keys(positions).length === 0) return null;
-
-  return calculateComprehensiveAspects(positions).map((a) => ({
-    planet1: a.planet1,
-    planet2: a.planet2,
-    type: a.type,
-    strength: a.strength,
-  }));
+  const aspects = buildAspectsFromChartPlanets(planets);
+  // Distinguish "old chart, no longitudes" (skip) from "genuinely no aspects".
+  const hasLongitudes = planets.some((p: any) => typeof p?.position === "number" && p.position > 0);
+  return hasLongitudes ? aspects : null;
 }
 
 /** Recompute alchemicalProperties for one natalChart object. Returns null if not a chart. */

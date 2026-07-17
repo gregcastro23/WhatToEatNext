@@ -14,11 +14,7 @@ import type {
   Modality,
 } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
-import {
-  calculateComprehensiveAspects,
-  type PlanetaryPositionData,
-} from "@/utils/aspectCalculator";
-import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
+import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import {
   validateBirthChartAgainstEstimates,
   detectStaticFallback,
@@ -365,23 +361,7 @@ export async function calculateNatalChart(
     // Unlike RealAlchemizeService — which injects a placeholder Ascendant for the
     // live sky and so must keep it out of the aspect set — a natal Ascendant is a
     // real computed angle, so its aspects are included.
-    const aspectPositions: Record<string, PlanetaryPositionData> = {};
-    Object.entries(planetaryPositions).forEach(([planet, data]) => {
-      aspectPositions[planet] = {
-        sign: data.sign,
-        degree: data.exactLongitude % 30,
-        exactLongitude: data.exactLongitude,
-      };
-    });
-
-    const aspects: AspectWithStrength[] = calculateComprehensiveAspects(
-      aspectPositions,
-    ).map((aspect) => ({
-      planet1: aspect.planet1,
-      planet2: aspect.planet2,
-      type: aspect.type,
-      strength: aspect.strength,
-    }));
+    const aspects = buildAspectsWithStrength(planetaryPositions);
 
     // Calculate alchemical properties from planetary positions WITH sect logic
     const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(

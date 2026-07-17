@@ -26,8 +26,7 @@
  * real population's spread. Deterministic seed: reruns reproduce byte-for-byte.
  */
 
-import { calculateComprehensiveAspects, type PlanetaryPositionData } from "@/utils/aspectCalculator";
-import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
+import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import { calculateEnhancedAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 const SIGNS = [
@@ -65,19 +64,17 @@ export function sampleSect(
   const samples: Record<Key, number[]> = { spirit: [], essence: [], matter: [], substance: [] };
 
   for (let i = 0; i < sampleSize; i++) {
-    const aspectPositions: Record<string, PlanetaryPositionData> = {};
+    const aspectPositions: Record<string, { sign: string; exactLongitude: number }> = {};
     const signMap: Record<string, string> = {};
     for (const body of BODIES) {
       const longitude = rnd() * 360;
       const sign = SIGNS[Math.floor(longitude / 30)];
-      aspectPositions[body] = { sign, degree: longitude % 30, exactLongitude: longitude };
+      aspectPositions[body] = { sign, exactLongitude: longitude };
       signMap[body] = sign;
     }
 
     // Layer 3 — the same aspects natalChartService now feeds the engine.
-    const aspects: AspectWithStrength[] = calculateComprehensiveAspects(aspectPositions).map(
-      (a) => ({ planet1: a.planet1, planet2: a.planet2, type: a.type, strength: a.strength }),
-    );
+    const aspects = buildAspectsWithStrength(aspectPositions);
 
     const esms = calculateEnhancedAlchemicalFromPlanets(signMap, diurnal, aspects);
     const total = esms.Spirit + esms.Essence + esms.Matter + esms.Substance;

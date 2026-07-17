@@ -4,11 +4,7 @@ import { performAlchemicalAnalysis } from '@/data/unified/alchemicalCalculations
 import type { ElementalProperties } from '@/types/alchemy';
 import type { AlchemicalProperties } from '@/types/celestial';
 import type { NatalChart} from '@/types/natalChart';
-import {
-  calculateComprehensiveAspects,
-  type PlanetaryPositionData,
-} from '@/utils/aspectCalculator';
-import type { AspectWithStrength } from '@/utils/aspectESMSEffects';
+import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
 import type { AlchemicalState } from '@/utils/monica/types';
 import {
   calculateEnhancedAlchemicalFromPlanets,
@@ -97,24 +93,7 @@ function resolveNatalQuantities(
   // Aspects are the engine's Layer 3 and the main source of chart-to-chart
   // variation; rebuild them when the chart carries real longitudes. Older charts
   // without them still get correct sect- and dignity-aware quantities.
-  const aspectPositions: Record<string, PlanetaryPositionData> = {};
-  for (const planet of planets) {
-    if (typeof planet.position !== "number" || planet.position <= 0) continue;
-    aspectPositions[planet.name] = {
-      sign: String(planet.sign ?? "").toLowerCase(),
-      degree: planet.position % 30,
-      exactLongitude: planet.position,
-    };
-  }
-  const aspects: AspectWithStrength[] =
-    Object.keys(aspectPositions).length > 1
-      ? calculateComprehensiveAspects(aspectPositions).map((a) => ({
-          planet1: a.planet1,
-          planet2: a.planet2,
-          type: a.type,
-          strength: a.strength,
-        }))
-      : [];
+  const aspects = buildAspectsFromChartPlanets(planets);
 
   const birthDate = chart.birthData?.dateTime ? new Date(chart.birthData.dateTime) : null;
   const diurnal = birthDate ? isSectDiurnalForBirth(birthDate) : true;

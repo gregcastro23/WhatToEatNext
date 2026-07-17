@@ -17,10 +17,11 @@ import type {
   SavedChart,
   GroupMember,
 } from "@/types/natalChart";
-import { 
+import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
+import {
   calculateEnhancedAlchemicalFromPlanets,
   aggregateEnhancedZodiacElementals,
-  isSectDiurnal
+  isSectDiurnalForBirth
 } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -255,7 +256,7 @@ export async function POST(request: NextRequest) {
     position: rawPositions[pname]?.exactLongitude ?? 0,
   }));
 
-  const diurnal = isSectDiurnal(birthDate);
+  const diurnal = isSectDiurnalForBirth(birthDate);
 
   const natalChart: NatalChart = {
     birthData: { dateTime: birthData.dateTime, latitude: birthData.latitude, longitude: birthData.longitude, timezone: birthData.timezone },
@@ -265,7 +266,13 @@ export async function POST(request: NextRequest) {
     dominantElement: calcDominantElement(positions),
     dominantModality: calcDominantModality(positions),
     elementalBalance: aggregateEnhancedZodiacElementals(positions, diurnal),
-    alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(positions, diurnal),
+    // Aspects (Layer 3) from rawPositions' longitudes — the main per-chart
+    // differentiator; omitting them leaves ESMS near-constant.
+    alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(
+      positions,
+      diurnal,
+      buildAspectsWithStrength(rawPositions),
+    ),
     calculatedAt: new Date().toISOString(),
   };
 
