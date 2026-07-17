@@ -30,15 +30,30 @@ jest.mock("@/services/AlchemicalService", () => ({
 
 jest.mock("@/services/IngredientService", () => ({
   ingredientService: {
-    getIngredientByName: (name: string) =>
-      name === "tomato"
-        ? {
-            name: "Tomato",
-            category: "vegetable",
-            elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
-            planetaryRuler: "Mars",
-          }
-        : null,
+    getIngredientByName: (name: string) => {
+      // Tomato carries elements but NO curated quantities — the common case, and
+      // the one that used to be filled in with Fire * 100.
+      if (name === "tomato") {
+        return {
+          name: "Tomato",
+          category: "vegetable",
+          elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
+          planetaryRuler: "Mars",
+        };
+      }
+      // Sage carries curated quantities, like the ~327 catalog entries that do.
+      // Deliberately NOT equal to its elements, so the two can be told apart.
+      if (name === "sage") {
+        return {
+          name: "Sage",
+          category: "herb",
+          elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
+          alchemicalProperties: { Spirit: 0.32, Essence: 0.21, Matter: 0.24, Substance: 0.23 },
+          planetaryRuler: "Jupiter",
+        };
+      }
+      return null;
+    },
   },
 }));
 
@@ -144,7 +159,7 @@ describe("invokeTool", () => {
     expect(result.errorMessage).toMatch(/ingredients\[\]/);
   });
 
-  it("alchemize_ingredients produces aggregated ESMS for known ingredients", async () => {
+  it("alchemize_ingredients reports elements, and null quantities when uncurated", async () => {
     const result = await invokeTool("alchemize_ingredients", {
       ingredients: ["tomato"],
     });
@@ -153,10 +168,39 @@ describe("invokeTool", () => {
       ingredientCount: 1,
       dominantElement: "Fire",
     });
-    expect(
-      (result.data as { aggregateBalances: { spirit: number } }).aggregateBalances
-        .spirit,
-    ).toBe(50);
+
+    const data = result.data as {
+      aggregateBalances: unknown;
+      esmsCoverage: { withQuantities: number; total: number };
+      ingredients: { esms: unknown; esmsSource: unknown }[];
+    };
+    // Regression: this used to report spirit = Fire * 100 = 50. Quantities come
+    // from planets or curated data — an ingredient has neither here, so the
+    // honest answer is "none", not the elemental vector relabelled.
+    expect(data.ingredients[0].esms).toBeNull();
+    expect(data.ingredients[0].esmsSource).toBeNull();
+    expect(data.aggregateBalances).toBeNull();
+    expect(data.esmsCoverage).toEqual({ withQuantities: 0, total: 1 });
+  });
+
+  it("alchemize_ingredients uses curated quantities, not the elemental vector", async () => {
+    const result = await invokeTool("alchemize_ingredients", {
+      ingredients: ["sage"],
+    });
+    expect(result.ok).toBe(true);
+
+    const data = result.data as {
+      aggregateBalances: { spirit: number; essence: number };
+      esmsCoverage: { withQuantities: number; total: number };
+      ingredients: { esms: { spirit: number }; esmsSource: string }[];
+    };
+    // Sage's curated Spirit is 0.32 -> 32. Its Fire is 0.5, so the old
+    // derivation would have said 50: the two must not coincide.
+    expect(data.ingredients[0].esms.spirit).toBe(32);
+    expect(data.ingredients[0].esms.spirit).not.toBe(50);
+    expect(data.ingredients[0].esmsSource).toBe("ingredient-data");
+    expect(data.aggregateBalances.spirit).toBe(32);
+    expect(data.esmsCoverage).toEqual({ withQuantities: 1, total: 1 });
   });
 
   it("generate_cosmic_recipe returns recipes when no token gate triggers", async () => {

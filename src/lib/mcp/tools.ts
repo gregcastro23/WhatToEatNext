@@ -122,16 +122,27 @@ export async function alchemizeIngredients(
       Earth: 0.25,
       Air: 0.25,
     };
+    // An ingredient is not a chart — it has no planets — so its quantities can
+    // only come from its own curated data. They must NEVER be synthesized from
+    // its elements: quantities and elements are orthogonal readings (see the
+    // header of src/utils/planetaryAlchemyMapping.ts). This previously returned
+    // spirit = Fire * 100, i.e. the elemental vector wearing an ESMS label.
+    // Only part of the catalog carries curated quantities, so report null
+    // rather than inventing a number an LLM client would treat as real.
+    const stored = item?.alchemicalProperties;
     return {
       name,
       resolvedName: item?.name || "Unknown Alchemical Flora",
       category: item?.category || "uncategorized",
-      esms: {
-        spirit: Math.round(props.Fire * 100),
-        essence: Math.round(props.Water * 100),
-        matter: Math.round(props.Earth * 100),
-        substance: Math.round(props.Air * 100),
-      },
+      esms: stored
+        ? {
+            spirit: Math.round(stored.Spirit * 100),
+            essence: Math.round(stored.Essence * 100),
+            matter: Math.round(stored.Matter * 100),
+            substance: Math.round(stored.Substance * 100),
+          }
+        : null,
+      esmsSource: stored ? ("ingredient-data" as const) : null,
       elementalProperties: props,
       planetaryRuler: item?.planetaryRuler || "none",
     };
@@ -150,6 +161,20 @@ export async function alchemizeIngredients(
   averageProps.Earth /= len;
   averageProps.Air /= len;
 
+  // Aggregate only over ingredients that actually carry quantities.
+  const withEsms = analyzed.filter(
+    (a): a is typeof a & { esms: NonNullable<typeof a.esms> } => a.esms !== null,
+  );
+  const aggregateBalances =
+    withEsms.length > 0
+      ? {
+          spirit: Math.round(withEsms.reduce((s, a) => s + a.esms.spirit, 0) / withEsms.length),
+          essence: Math.round(withEsms.reduce((s, a) => s + a.esms.essence, 0) / withEsms.length),
+          matter: Math.round(withEsms.reduce((s, a) => s + a.esms.matter, 0) / withEsms.length),
+          substance: Math.round(withEsms.reduce((s, a) => s + a.esms.substance, 0) / withEsms.length),
+        }
+      : null;
+
   const harmony = alchemicalService.analyzeAlchemicalHarmony(
     analyzed.map((a) => a.elementalProperties),
   );
@@ -158,12 +183,10 @@ export async function alchemizeIngredients(
   const data = {
     ingredientCount: len,
     ingredients: analyzed,
-    aggregateBalances: {
-      spirit: Math.round(averageProps.Fire * 100),
-      essence: Math.round(averageProps.Water * 100),
-      matter: Math.round(averageProps.Earth * 100),
-      substance: Math.round(averageProps.Air * 100),
-    },
+    // null when no supplied ingredient carries curated quantities. Elements are
+    // always present; quantities are not, and are not derivable from elements.
+    aggregateBalances,
+    esmsCoverage: { withQuantities: withEsms.length, total: len },
     overallHarmony: harmony.overallHarmony,
     dominantElement: harmony.dominantElement,
     thermodynamics: thermo,
@@ -231,12 +254,14 @@ export async function generateCosmicRecipe(
       cuisine: r.cuisine || "Cosmic",
       prepTime: r.timeToMake || "30 MIN",
       servings: r.numberOfServings || 2,
-      esms: {
-        spirit: Math.round(props.Fire * 100),
-        essence: Math.round(props.Water * 100),
-        matter: Math.round(props.Earth * 100),
-        substance: Math.round(props.Air * 100),
-      },
+      // A recipe has no planets, and the Recipe type carries no curated
+      // quantities (elementalProperties is its only such reading — see
+      // src/types/recipe.ts). This field previously returned spirit = Fire * 100,
+      // i.e. the elemental vector relabelled. Quantities are not derivable from
+      // elements, so report their absence and surface the real elemental data.
+      esms: null,
+      esmsSource: null,
+      elementalProperties: props,
       isVegetarian: r.isVegetarian,
       isVegan: r.isVegan,
       isGlutenFree: r.isGlutenFree,

@@ -2,6 +2,7 @@ import type { IngredientCategory } from '@/data/ingredients/types';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 import type { AlchemicalProperties, AstrologicalState } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
+import { PLANETARY_ALCHEMY } from '@/utils/planetaryAlchemyMapping';
 
 /**
  * Calculates the KAlchm (The Equilibrium Constant) for a given ingredient.
@@ -78,25 +79,55 @@ export function getRecipeKAlchm(recipe: MonicaOptimizedRecipe): number {
 }
 
 /**
+ * Sum the ESMS each active planet contributes, per PLANETARY_ALCHEMY.
+ *
+ * Returns null when no recognized planet is active — callers must fall back to a
+ * neutral value rather than invent quantities, since there is nothing here to
+ * derive them from.
+ */
+function quantitiesFromActivePlanets(
+  activePlanets: string[] | undefined,
+): AlchemicalProperties | null {
+  if (!Array.isArray(activePlanets) || activePlanets.length === 0) return null;
+
+  const totals: AlchemicalProperties = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  let matched = 0;
+  for (const name of activePlanets) {
+    // PLANETARY_ALCHEMY is keyed by capitalized planet names.
+    const key = String(name).charAt(0).toUpperCase() + String(name).slice(1).toLowerCase();
+    const contribution = PLANETARY_ALCHEMY[key as keyof typeof PLANETARY_ALCHEMY];
+    if (!contribution) continue;
+    matched++;
+    totals.Spirit += contribution.Spirit;
+    totals.Essence += contribution.Essence;
+    totals.Matter += contribution.Matter;
+    totals.Substance += contribution.Substance;
+  }
+
+  return matched > 0 ? totals : null;
+}
+
+/**
  * Calculates the user's target KAlchm based on their current state.
  * This is the inverse of their current state's KAlchm to promote balance.
  * @param astroState - The user's current astrological state.
  * @returns The user's target KAlchm.
  */
 export function getUserTargetKAlchm(astroState: AstrologicalState): number {
-    // This is a simplified heuristic. A more complex model would be needed for a real application.
-    if (!astroState.domElements) {
+    // Quantities come from WHICH PLANETS are present — never from the dominant
+    // elements, which are a separate reading taken from the signs those planets
+    // occupy (see the header of `@/utils/planetaryAlchemyMapping`). This used to
+    // build Spirit from (Air + Fire) / 2 and so on, which the engine forbids.
+    //
+    // Only planet names are available here (the menu-planner bridge supplies
+    // `activePlanets` without signs), so this is PLANETARY_ALCHEMY's base layer:
+    // correct in kind, but without the sect, dignity and aspect refinements that
+    // callers holding real positions get from calculateEnhancedAlchemicalFromPlanets.
+    const alchemicalProps = quantitiesFromActivePlanets(astroState.activePlanets);
+    if (!alchemicalProps) {
         return 1.0;
     }
-    const { domElements } = astroState;
 
-    const alchemicalProps: AlchemicalProperties = {
-        Spirit: (domElements.Air + domElements.Fire) / 2,
-        Essence: (domElements.Water + domElements.Fire) / 2,
-        Matter: (domElements.Earth) / 2,
-        Substance: (domElements.Earth + domElements.Water) / 2,
-    };
-    
     const { Spirit, Essence, Matter, Substance } = alchemicalProps as { Spirit: number; Essence: number; Matter: number; Substance: number; };
 
     const safeSpirit = Math.max(Spirit || 0, 0.01);
