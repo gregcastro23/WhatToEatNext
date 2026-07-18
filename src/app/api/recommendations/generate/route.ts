@@ -16,11 +16,14 @@ import {
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { DayOfWeek } from "@/types/menuPlanner";
+import type { NatalChart } from "@/types/natalChart";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
+import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import {
   generateDayRecommendations,
   type AstrologicalState,
   type DayRecommendationOptions,
+  type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
 import type { NextRequest } from "next/server";
 
@@ -102,6 +105,40 @@ function storeMemo(key: string, recommendations: unknown): void {
     recommendations,
     expiresAt: Date.now() + MEMO_TTL_MS,
   });
+}
+
+/**
+ * Build the personalization context from the server-loaded profile.
+ *
+ * The client-supplied `options.userContext` is never trusted: `natalChart`
+ * and `stats` are derived entirely from the authenticated user's stored
+ * chart, so a forged request body cannot personalize (or price) against a
+ * chart the user doesn't own. Only the `prioritizeHarmony` preference is
+ * honored from the client payload.
+ */
+function buildServerUserContext(
+  natalChart: NatalChart | undefined,
+  clientContext: unknown,
+): UserPersonalizationContext | undefined {
+  if (!natalChart?.planets?.length) return undefined;
+
+  let stats: UserPersonalizationContext["stats"];
+  try {
+    stats = calculateAlchemicalProfile(natalChart);
+  } catch {
+    stats = undefined;
+  }
+
+  const clientPriority =
+    clientContext && typeof clientContext === "object"
+      ? (clientContext as Partial<UserPersonalizationContext>).prioritizeHarmony
+      : undefined;
+
+  return {
+    natalChart,
+    stats,
+    prioritizeHarmony: typeof clientPriority === "boolean" ? clientPriority : true,
+  };
 }
 
 function cleanupExpiredRetryGrants(now = Date.now()): void {
@@ -186,13 +223,23 @@ export async function POST(request: NextRequest) {
     dayOfWeek < 0 ||
     dayOfWeek > 6 ||
     !astroState ||
-    typeof astroState !== "object"
+    typeof astroState !== "object" ||
+    !options ||
+    typeof options !== "object" ||
+    Array.isArray(options)
   ) {
     return NextResponse.json(
       { success: false, message: "Invalid request payload" },
       { status: 400 },
     );
   }
+
+  // The client's userContext (natal chart, stats) is never trusted. For
+  // authenticated users it is rebuilt below from the stored profile; for the
+  // anonymous demo path it is dropped so demo runs stay chart-free.
+  const clientUserContext = options.userContext;
+  const sanitizedOptions: DayRecommendationOptions = { ...options };
+  delete sanitizedOptions.userContext;
 
   // ── Demo path: anonymous visitor inside their daily demo budget. ──
   // Skip memo cache, monthly cap, premium check, token debit, retry grant,
@@ -202,7 +249,7 @@ export async function POST(request: NextRequest) {
     try {
       const tGen = Date.now();
       const recommendations = await withTimeout(
-        generateDayRecommendations(dayOfWeek, astroState, options),
+        generateDayRecommendations(dayOfWeek, astroState, sanitizedOptions),
         55_000,
       );
       const genMs = Date.now() - tGen;
@@ -244,12 +291,30 @@ export async function POST(request: NextRequest) {
   // Auth path beyond this point — access.mode is narrowed to "auth".
   const userId = access.userId;
 
+  // Load the stored profile once up front: the server-side natal chart drives
+  // both personalization and per-user live pricing. getUserById already
+  // resolves the canonical chart (user_profiles column first, users.profile
+  // JSONB fallback for legacy ignite-onboarded rows).
+  const { userDatabase } = await import("@/services/userDatabaseService");
+  const dbUser = await userDatabase.getUserById(userId);
+  const serverNatalChart = dbUser?.profile?.natalChart;
+
+  const serverUserContext = buildServerUserContext(
+    serverNatalChart,
+    clientUserContext,
+  );
+  if (serverUserContext) {
+    sanitizedOptions.userContext = serverUserContext;
+  }
+
   // ── Memo cache hit: return immediately without charging tokens ──
   //
-  // We key on (userId, dayOfWeek, astroState, options). When the user
-  // clicks Generate repeatedly with the same payload, we return the
-  // previously computed result. No token charge on a cache hit.
-  const cacheKey = memoKey(userId, dayOfWeek, astroState, options);
+  // We key on (userId, dayOfWeek, astroState, sanitizedOptions). When the
+  // user clicks Generate repeatedly with the same payload, we return the
+  // previously computed result. No token charge on a cache hit. The
+  // server-injected chart is part of sanitizedOptions, so results computed
+  // for one chart are never served after the user's stored chart changes.
+  const cacheKey = memoKey(userId, dayOfWeek, astroState, sanitizedOptions);
   const cachedRecommendations = lookupMemo(cacheKey);
   if (cachedRecommendations !== null) {
     const totalMs = Date.now() - tStart;
@@ -302,9 +367,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const { userDatabase } = await import("@/services/userDatabaseService");
-      const dbUser = await userDatabase.getUserById(userId);
-      const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
+      const natalPositions = getCapitalizedNatalPositions(serverNatalChart);
 
       const pricing = await getPersonalizedPricingContext(natalPositions);
       const liveCost = applyPersonalizedPricing(
@@ -353,7 +416,7 @@ export async function POST(request: NextRequest) {
     // Keep below maxDuration to ensure timeout handling can return retry token.
     const tGen = Date.now();
     const recommendations = await withTimeout(
-      generateDayRecommendations(dayOfWeek, astroState, options),
+      generateDayRecommendations(dayOfWeek, astroState, sanitizedOptions),
       55_000,
     );
     const genMs = Date.now() - tGen;
