@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FeaturedRecipe } from "@/components/home/FeaturedRecipe";
-import { QuantitiesExplainer } from "@/components/home/QuantitiesExplainer";
+import { KitchenDex } from "@/components/home/KitchenDex";
 import type { JSX } from "react";
 
 const NATAL_DISMISSED_KEY = "alchm:natal:dismissed";
@@ -378,8 +378,8 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         <HomeHero />
 
-        {/* Orientation: the four alchemical quantities & how a match is made */}
-        <QuantitiesExplainer />
+        {/* The Kitchen Déx — interactive field-guide tour of the site */}
+        <KitchenDex />
 
         {/* Natal chart soft-prompt banner (shown after skip) */}
         <NatalPromptBanner />
