@@ -9,6 +9,10 @@ import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
 import { createLogger } from '@/utils/logger';
+import {
+  parseCuisineResponse,
+  type CuisineRecommendation,
+} from './parseCuisineResponse';
 
 const logger = createLogger('RecommendationsPanel');
 
@@ -25,24 +29,6 @@ interface UserPreferences {
   spicePreference: 'mild' | 'medium' | 'hot';
   complexity: 'simple' | 'moderate' | 'complex';
   savedRestaurants?: SavedRestaurant[];
-}
-
-interface CuisineRecommendation {
-  cuisine_id: string;
-  name: string;
-  description: string;
-  elemental_properties: Record<string, number>;
-  alchemical_properties: Record<string, number>;
-  flavor_profile: Record<string, number>;
-  nested_recipes: Array<{
-    recipe_id: string;
-    name: string;
-    description: string;
-    prep_time: string;
-    cook_time: string;
-    difficulty: string;
-    meal_type: string;
-  }>;
 }
 
 interface PersonalizedData {
@@ -283,25 +269,19 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
         }
 
         if (cuisineRes.ok) {
-          const cuisineResult = await cuisineRes.json();
-          if (cuisineResult.recommendations) {
-            let filtered = cuisineResult.recommendations as CuisineRecommendation[];
-            if (preferences.preferredCuisines.length > 0) {
-              filtered = [
-                ...filtered.filter((c) =>
-                  preferences.preferredCuisines.some(
-                    (p) => c.name.toLowerCase().includes(p.toLowerCase())
-                  )
-                ),
-                ...filtered.filter((c) =>
-                  !preferences.preferredCuisines.some(
-                    (p) => c.name.toLowerCase().includes(p.toLowerCase())
-                  )
-                ),
-              ];
-            }
-            setCuisines(filtered);
+          const cuisineResult: unknown = await cuisineRes.json();
+          let parsed = parseCuisineResponse(cuisineResult);
+          if (preferences.preferredCuisines.length > 0) {
+            const matchesPreference = (c: CuisineRecommendation) =>
+              preferences.preferredCuisines.some((p) =>
+                c.name.toLowerCase().includes(p.toLowerCase())
+              );
+            parsed = [
+              ...parsed.filter(matchesPreference),
+              ...parsed.filter((c) => !matchesPreference(c)),
+            ];
           }
+          setCuisines(parsed);
         }
       } catch (err) {
         console.error('Failed to load recommendations:', err);
@@ -417,7 +397,7 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
           )}
 
           {/* Full cuisine list */}
-          {cuisines.length > 0 && (
+          {cuisines.length > 0 ? (
             <div className="alchm-card rounded-[3rem] p-7 border-white/5 shadow-2xl">
               <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-1">Cuisine Recommendations</h3>
               <p className="text-[10px] text-white/30 mb-6 italic">
@@ -425,7 +405,10 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
               </p>
               <div className="space-y-3">
                 {cuisines.slice(0, 10).map((cuisine) => {
-                  const isExpanded = expandedCuisine === cuisine.cuisine_id;
+                  const isExpandable = Boolean(
+                    cuisine.flavor_profile || (cuisine.nested_recipes && cuisine.nested_recipes.length > 0)
+                  );
+                  const isExpanded = isExpandable && expandedCuisine === cuisine.cuisine_id;
                   return (
                     <div
                       key={cuisine.cuisine_id}
@@ -433,8 +416,11 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                     >
                       <button
                         type="button"
+                        disabled={!isExpandable}
                         onClick={() => setExpandedCuisine(isExpanded ? null : cuisine.cuisine_id)}
-                        className="w-full px-6 py-4 flex items-center justify-between hover:bg-white/[0.03] transition-colors text-left"
+                        className={`w-full px-6 py-4 flex items-center justify-between transition-colors text-left ${
+                          isExpandable ? 'hover:bg-white/[0.03]' : 'cursor-default'
+                        }`}
                       >
                         <div>
                           <span className="text-[11px] font-bold text-white uppercase tracking-widest">{cuisine.name}</span>
@@ -459,7 +445,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                                 );
                               })}
                           </div>
-                          <span className="text-white/20 text-xs">{isExpanded ? '\u25B2' : '\u25BC'}</span>
+                          {isExpandable && (
+                            <span className="text-white/20 text-xs">{isExpanded ? '\u25B2' : '\u25BC'}</span>
+                          )}
                         </div>
                       </button>
 
@@ -525,6 +513,13 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
                   );
                 })}
               </div>
+            </div>
+          ) : (
+            <div className="alchm-card rounded-[3rem] p-7 border-white/5 shadow-2xl">
+              <h3 className="text-[11px] font-bold text-white uppercase tracking-[0.2em] mb-1">Cuisine Recommendations</h3>
+              <p className="text-[10px] text-white/30 italic">
+                No cuisine recommendations available right now — check back soon as planetary positions shift.
+              </p>
             </div>
           )}
 
