@@ -27,7 +27,10 @@ export default function SignInModal() {
     }
   }, [searchParams, status]);
 
-  // Handle custom events and auto-popup
+  // Handle custom events. The modal only ever opens on an explicit signal
+  // (the open-signin-modal event or ?signin=true) — never on a timer. The
+  // anonymous on-ramp is the birthday strip + Kitchen Déx on the homepage,
+  // which pitch signing up without interrupting the visit.
   useEffect(() => {
     const handleOpen = () => {
       if (status !== 'authenticated') {
@@ -39,25 +42,13 @@ export default function SignInModal() {
       setIsOpen(false);
       setIsSigningIn(false); // Reset spinner on close
     };
-    
+
     window.addEventListener('open-signin-modal', handleOpen);
     window.addEventListener('close-signin-modal', handleClose);
 
-    // Auto-popup after 15 seconds if not logged in and not already seen
-    let timeoutId: NodeJS.Timeout;
-    const hasSeenPopup = sessionStorage.getItem('hasSeenSignInPopup');
-    
-    if (status === 'unauthenticated' && !hasSeenPopup) {
-      timeoutId = setTimeout(() => {
-        setIsOpen(true);
-        sessionStorage.setItem('hasSeenSignInPopup', 'true');
-      }, 15000);
-    }
-    
     return () => {
       window.removeEventListener('open-signin-modal', handleOpen);
       window.removeEventListener('close-signin-modal', handleClose);
-      if (timeoutId) clearTimeout(timeoutId);
     };
   }, [status]);
 
