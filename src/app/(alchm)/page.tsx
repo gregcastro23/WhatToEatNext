@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BirthdayStrip } from "@/components/home/BirthdayStrip";
 import { FeaturedRecipe } from "@/components/home/FeaturedRecipe";
 import { KitchenDex } from "@/components/home/KitchenDex";
 import type { JSX } from "react";
@@ -375,6 +376,9 @@ export default function AlchmKitchenHome(): JSX.Element {
           }
           .alchm-home-cookmethods :is(h1, h2, h3, h4) { color: var(--fg); }
         `}</style>
+
+        {/* Account-free personalization: birthday → sun-sign palate */}
+        <BirthdayStrip />
 
         <HomeHero />
 

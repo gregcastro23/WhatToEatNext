@@ -3,6 +3,18 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ELEMENT_ORDER,
+  FIRST_MEAL_QUIZ,
+  scoreFirstMeal,
+} from "@/components/home/kitchenDexFirstMeal";
+import {
+  GUEST_PALATE_EVENT,
+  loadGuestPalate,
+  saveGuestBirthday,
+  type GuestPalate,
+  type PalateElement,
+} from "@/utils/guestPalate";
 
 /**
  * The Kitchen Déx — a free-roam, arcade-style "culinary pokédex" that tours the
@@ -23,6 +35,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
  */
 
 const STORAGE_KEY = "alchm:kitchendex:v1";
+const FIRST_MEAL_KEY = "alchm:kitchendex:firstmeal:v1";
+const GOLD = "#fbbf24";
+
+const ELEMENT_TINTS: Record<PalateElement, string> = {
+  Fire: "#f87171",
+  Earth: "#34d399",
+  Air: "#c084fc",
+  Water: "#60a5fa",
+};
 
 interface ElementStat {
   label: string;
@@ -461,6 +482,12 @@ export function KitchenDex() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [flipped, setFlipped] = useState(false);
   const [forcedOpen, setForcedOpen] = useState(false);
+  // First Meal quiz: null = not open; length < quiz length = mid-question;
+  // full length = result view.
+  const [quizAnswers, setQuizAnswers] = useState<number[] | null>(null);
+  const [savedMeal, setSavedMeal] = useState<number[] | null>(null);
+  const [palate, setPalate] = useState<GuestPalate | null>(null);
+  const [bdayInput, setBdayInput] = useState("");
   // Ref mirrors so rapid clicks can never act on a stale closure and drop
   // an earlier discovery.
   const foundRef = useRef<Set<string>>(new Set());
@@ -472,6 +499,29 @@ export function KitchenDex() {
     foundRef.current = new Set(progress.found);
     celebratedRef.current = progress.celebrated;
     setFound(foundRef.current);
+    try {
+      const raw = window.localStorage.getItem(FIRST_MEAL_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { answers?: number[] };
+        if (
+          Array.isArray(parsed.answers) &&
+          parsed.answers.length === FIRST_MEAL_QUIZ.length
+        ) {
+          setSavedMeal(parsed.answers);
+        }
+      }
+    } catch {
+      /* localStorage unavailable */
+    }
+  }, []);
+
+  // Track the account-free guest palate (birthday → sun sign → element),
+  // staying in sync with the BirthdayStrip via the shared window event.
+  useEffect(() => {
+    const sync = () => setPalate(loadGuestPalate());
+    sync();
+    window.addEventListener(GUEST_PALATE_EVENT, sync);
+    return () => window.removeEventListener(GUEST_PALATE_EVENT, sync);
   }, []);
 
   const total = ENTRIES.length;
@@ -480,6 +530,19 @@ export function KitchenDex() {
   const openEntry = useMemo(
     () => ENTRIES.find((e) => e.id === openId) ?? null,
     [openId],
+  );
+  // The live quiz reading recomputes when a birthday arrives mid-flow, so
+  // adding your sign on the result screen visibly re-tunes the meal.
+  const reading = useMemo(
+    () =>
+      quizAnswers && quizAnswers.length === FIRST_MEAL_QUIZ.length
+        ? scoreFirstMeal(quizAnswers, palate?.element)
+        : null,
+    [quizAnswers, palate],
+  );
+  const savedReading = useMemo(
+    () => (savedMeal ? scoreFirstMeal(savedMeal, palate?.element) : null),
+    [savedMeal, palate],
   );
 
   const discover = (entry: DexEntry, tile: HTMLElement) => {
@@ -521,6 +584,39 @@ export function KitchenDex() {
     saveProgress({ found: [], celebrated: false });
   };
 
+  const startQuiz = () => {
+    setOpenId(null);
+    setQuizAnswers([]);
+  };
+
+  const answerQuiz = (optionIndex: number, btn: HTMLElement) => {
+    if (!quizAnswers || quizAnswers.length >= FIRST_MEAL_QUIZ.length) return;
+    const next = [...quizAnswers, optionIndex];
+    setQuizAnswers(next);
+    if (next.length === FIRST_MEAL_QUIZ.length) {
+      setSavedMeal(next);
+      try {
+        window.localStorage.setItem(
+          FIRST_MEAL_KEY,
+          JSON.stringify({ answers: next }),
+        );
+      } catch {
+        /* localStorage unavailable */
+      }
+    }
+    const host = sectionRef.current;
+    if (host) {
+      const hostRect = host.getBoundingClientRect();
+      const rect = btn.getBoundingClientRect();
+      burst(
+        rect.left - hostRect.left + rect.width / 2,
+        rect.top - hostRect.top + rect.height / 2,
+        GOLD,
+        next.length === FIRST_MEAL_QUIZ.length ? 40 : 16,
+      );
+    }
+  };
+
   if (collapsed) {
     return (
       <section className="alchm-dex-slim" aria-label="The Kitchen Déx">
@@ -560,9 +656,9 @@ export function KitchenDex() {
             The Kitchen Déx
           </h2>
           <p className="alchm-dex-intro">
-            A collector&apos;s index of what this kitchen can do. Tap the silhouettes
-            to catalogue each entry — the real thing runs live further down the
-            page.
+            A collector&apos;s index of what this kitchen can do. Tap the
+            silhouettes to catalogue each entry — the real thing runs live
+            further down the page.
           </p>
         </div>
         <div className="alchm-dex-hud t-mono" aria-live="polite">
@@ -583,7 +679,175 @@ export function KitchenDex() {
         </div>
       </header>
 
-      {openEntry ? (
+      {quizAnswers !== null && quizAnswers.length < FIRST_MEAL_QUIZ.length ? (
+        <div key={`quiz-${quizAnswers.length}`} className="alchm-dex-stage">
+          <div className="alchm-dex-panel" style={{ ["--q" as string]: GOLD }}>
+            <div className="alchm-dex-quiz-head">
+              <p className="t-mono alchm-dex-card-no">
+                №000 · CRAFTING — Q{quizAnswers.length + 1}/
+                {FIRST_MEAL_QUIZ.length}
+              </p>
+              <span className="alchm-dex-quiz-pips" aria-hidden="true">
+                {FIRST_MEAL_QUIZ.map((q, i) => (
+                  <i
+                    key={q.id}
+                    className={
+                      i < quizAnswers.length
+                        ? "is-on"
+                        : i === quizAnswers.length
+                          ? "is-now"
+                          : undefined
+                    }
+                  />
+                ))}
+              </span>
+            </div>
+            <h3 className="alchm-dex-quiz-prompt">
+              {FIRST_MEAL_QUIZ[quizAnswers.length].prompt}
+            </h3>
+            <div className="alchm-dex-quiz-opts">
+              {FIRST_MEAL_QUIZ[quizAnswers.length].options.map((o, i) => (
+                <button
+                  key={o.label}
+                  type="button"
+                  className="alchm-dex-quiz-opt"
+                  style={{ ["--i" as string]: i }}
+                  onClick={(e) => answerQuiz(i, e.currentTarget)}
+                >
+                  <span className="alchm-dex-quiz-opt-label">{o.label}</span>
+                  <span className="alchm-dex-quiz-opt-sub">{o.sub}</span>
+                </button>
+              ))}
+            </div>
+            <div className="alchm-dex-card-actions">
+              <button
+                type="button"
+                className="alchm-dex-btn is-ghost"
+                onClick={() => setQuizAnswers(null)}
+              >
+                ✕ Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : quizAnswers !== null && reading ? (
+        <div key="first-meal-result" className="alchm-dex-stage">
+          <div className="alchm-dex-panel" style={{ ["--q" as string]: GOLD }}>
+            <div className="alchm-dex-card-top">
+              <span className="alchm-dex-card-glyph" aria-hidden="true">
+                {reading.meal.emoji}
+              </span>
+              <div>
+                <p className="t-mono alchm-dex-card-no">
+                  №000 · THE FIRST READING
+                </p>
+                <h3 className="alchm-dex-card-name">{reading.meal.name}</h3>
+                <p className="t-mono alchm-dex-result-chips">
+                  {reading.meal.cuisine.toUpperCase()} ·{" "}
+                  {reading.meal.method.toUpperCase()}
+                </p>
+              </div>
+            </div>
+            <p className="alchm-dex-card-flavor">{reading.meal.blurb}</p>
+            <div className="alchm-dex-specimen">
+              <p className="t-mono alchm-dex-specimen-label">
+                Your reading —{" "}
+                {quizAnswers
+                  .slice(0, 3)
+                  .map((a, i) => FIRST_MEAL_QUIZ[i].options[a].label)
+                  .join(" · ")}
+                {palate ? ` · ${palate.glyph} ${palate.signLabel} sun` : ""}
+              </p>
+              <div className="alchm-dex-stats">
+                {ELEMENT_ORDER.map((el) => (
+                  <div
+                    key={el}
+                    className="alchm-dex-stat"
+                    style={{ ["--q" as string]: ELEMENT_TINTS[el] }}
+                  >
+                    <span className="t-mono alchm-dex-stat-label">{el}</span>
+                    <span className="alchm-dex-stat-track">
+                      <span
+                        className="alchm-dex-stat-bar"
+                        style={{ width: `${reading.pct[el]}%` }}
+                      />
+                    </span>
+                    <span className="t-mono alchm-dex-stat-pct">
+                      {reading.pct[el]}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {palate ? (
+              <p className="alchm-dex-result-note">
+                Tuned to your {palate.glyph} {palate.signLabel} sun. Want the
+                full picture?{" "}
+                <Link href="/onboarding" className="alchm-dex-result-link">
+                  Set up your chart →
+                </Link>{" "}
+                <Link href="/login" className="alchm-dex-result-link is-quiet">
+                  or sign in to save readings
+                </Link>
+              </p>
+            ) : (
+              <div className="alchm-dex-result-tune">
+                <p className="alchm-dex-result-note">
+                  Add your birthday and this reading tunes to your sun sign — no
+                  account needed.
+                </p>
+                <span className="alchm-dex-result-tune-row">
+                  <input
+                    type="date"
+                    className="alchm-dex-date"
+                    aria-label="Your birthday"
+                    value={bdayInput}
+                    min="1900-01-01"
+                    max={new Date().toISOString().slice(0, 10)}
+                    onChange={(e) => setBdayInput(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="alchm-dex-btn"
+                    disabled={!bdayInput}
+                    onClick={() => {
+                      const p = saveGuestBirthday(bdayInput);
+                      if (p) setPalate(p);
+                    }}
+                  >
+                    Tune it →
+                  </button>
+                </span>
+              </div>
+            )}
+            <div className="alchm-dex-card-actions">
+              <Link
+                href={`/recipes?cuisine=${reading.meal.cuisineSlug}`}
+                className="alchm-dex-btn is-cta"
+              >
+                See {reading.meal.cuisine} recipes →
+              </Link>
+              <Link href="/recipe-builder" className="alchm-dex-btn">
+                Build it my way
+              </Link>
+              <button
+                type="button"
+                className="alchm-dex-btn is-ghost"
+                onClick={() => setQuizAnswers([])}
+              >
+                ⟲ Recraft
+              </button>
+              <button
+                type="button"
+                className="alchm-dex-btn is-ghost"
+                onClick={() => setQuizAnswers(null)}
+              >
+                ← Index
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : openEntry ? (
         <div key={openEntry.id} className="alchm-dex-stage">
           <div
             className={`alchm-dex-card${flipped ? " is-flipped" : ""}`}
@@ -685,42 +949,74 @@ export function KitchenDex() {
           </div>
         </div>
       ) : (
-        <div className="alchm-dex-grid">
-          {ENTRIES.map((entry, index) => {
-            const isFound = found.has(entry.id);
-            return (
-              <button
-                key={entry.id}
-                type="button"
-                className={`alchm-dex-tile${isFound ? " is-found" : ""}`}
-                style={{
-                  ["--q" as string]: entry.tint,
-                  ["--i" as string]: index,
-                }}
-                onClick={(e) => discover(entry, e.currentTarget)}
-                aria-label={
-                  isFound
-                    ? `Entry ${entry.no}: ${entry.name}`
-                    : `Entry ${entry.no}: undiscovered — tap to catalogue`
-                }
-              >
-                <span className="t-mono alchm-dex-tile-no">№{entry.no}</span>
-                <span className="alchm-dex-tile-glyph" aria-hidden="true">
-                  {entry.glyph}
+        <>
+          <button
+            type="button"
+            className={`alchm-dex-first${savedMeal ? " is-crafted" : ""}`}
+            style={{ ["--q" as string]: GOLD }}
+            onClick={() =>
+              savedMeal ? setQuizAnswers([...savedMeal]) : startQuiz()
+            }
+          >
+            <span className="alchm-dex-first-copy">
+              <span className="t-mono alchm-dex-first-no">
+                №000 · THE FIRST MEAL
+              </span>
+              {savedReading ? (
+                <span className="alchm-dex-first-name">
+                  {savedReading.meal.emoji} {savedReading.meal.name}
+                  <em> · {savedReading.meal.cuisine}</em>
                 </span>
-                <span className="alchm-dex-tile-name">
-                  {isFound ? entry.name : "???"}
+              ) : (
+                <span className="alchm-dex-first-name">
+                  Four taps craft tonight&apos;s dish
+                  {palate
+                    ? ` — tuned to your ${palate.glyph} ${palate.signLabel} sun`
+                    : " — what do you feel like eating?"}
                 </span>
-                <span className="alchm-dex-tile-hint">
-                  {isFound ? "Catalogued ✓" : entry.hint}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+              )}
+            </span>
+            <span className="t-mono alchm-dex-first-start">
+              {savedMeal ? "VIEW →" : "▶ PRESS START"}
+            </span>
+          </button>
+          <div className="alchm-dex-grid">
+            {ENTRIES.map((entry, index) => {
+              const isFound = found.has(entry.id);
+              return (
+                <button
+                  key={entry.id}
+                  type="button"
+                  className={`alchm-dex-tile${isFound ? " is-found" : ""}`}
+                  style={{
+                    ["--q" as string]: entry.tint,
+                    ["--i" as string]: index,
+                  }}
+                  onClick={(e) => discover(entry, e.currentTarget)}
+                  aria-label={
+                    isFound
+                      ? `Entry ${entry.no}: ${entry.name}`
+                      : `Entry ${entry.no}: undiscovered — tap to catalogue`
+                  }
+                >
+                  <span className="t-mono alchm-dex-tile-no">№{entry.no}</span>
+                  <span className="alchm-dex-tile-glyph" aria-hidden="true">
+                    {entry.glyph}
+                  </span>
+                  <span className="alchm-dex-tile-name">
+                    {isFound ? entry.name : "???"}
+                  </span>
+                  <span className="alchm-dex-tile-hint">
+                    {isFound ? "Catalogued ✓" : entry.hint}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </>
       )}
 
-      {complete ? (
+      {quizAnswers !== null || openEntry ? null : complete ? (
         <div className="alchm-dex-complete">
           <div>
             <p className="t-mono alchm-dex-complete-tag">
@@ -1057,8 +1353,152 @@ const dexStyles = `
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
+  .alchm-dex-first {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 15px 18px;
+    border: 2px solid color-mix(in oklch, var(--q), transparent 45%);
+    border-radius: 12px;
+    background:
+      radial-gradient(circle at 0% 50%, color-mix(in oklch, var(--q), transparent 86%), transparent 55%),
+      rgba(0,0,0,0.24);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.12s, box-shadow 0.12s;
+    animation: alchm-dex-first-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes alchm-dex-first-pulse {
+    0%, 100% { border-color: color-mix(in oklch, var(--q), transparent 45%); }
+    50% { border-color: color-mix(in oklch, var(--q), transparent 10%); }
+  }
+  .alchm-dex-first.is-crafted { animation: none; }
+  .alchm-dex-first:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+  }
+  .alchm-dex-first:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+  }
+  .alchm-dex-first-copy { display: grid; gap: 4px; min-width: 0; }
+  .alchm-dex-first-no { color: var(--q); font-size: 9px; letter-spacing: 0.2em; }
+  .alchm-dex-first-name { color: var(--fg); font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+  .alchm-dex-first-name em { color: var(--fg-mute); font-style: normal; font-weight: 600; font-size: 12px; }
+  .alchm-dex-first-start {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    border: 2px solid color-mix(in oklch, var(--q), transparent 30%);
+    border-radius: 10px;
+    background: color-mix(in oklch, var(--q), transparent 88%);
+    color: var(--q);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+  .alchm-dex-panel {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+    padding: 22px;
+    border: 2px solid color-mix(in oklch, var(--q), transparent 50%);
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 90% 0%, color-mix(in oklch, var(--q), transparent 88%), transparent 45%),
+      rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.35);
+  }
+  .alchm-dex-quiz-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .alchm-dex-quiz-head p { margin: 0; }
+  .alchm-dex-quiz-pips { display: flex; gap: 5px; }
+  .alchm-dex-quiz-pips i {
+    width: 20px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--line-hi);
+  }
+  .alchm-dex-quiz-pips i.is-on { background: var(--q); border-color: var(--q); }
+  .alchm-dex-quiz-pips i.is-now { border-color: var(--q); }
+  .alchm-dex-quiz-prompt {
+    margin: 0;
+    color: var(--fg);
+    font-size: clamp(19px, 2.6vw, 25px);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+  .alchm-dex-quiz-opts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .alchm-dex-quiz-opt {
+    display: grid;
+    gap: 3px;
+    padding: 14px 16px;
+    border: 2px solid var(--line-hi);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.24);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.35);
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.1s, box-shadow 0.1s, border-color 0.2s;
+    animation: alchm-dex-tile-in 0.3s ease-out backwards;
+    animation-delay: calc(var(--i, 0) * 50ms);
+  }
+  .alchm-dex-quiz-opt:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.4);
+    border-color: color-mix(in oklch, var(--q), transparent 35%);
+  }
+  .alchm-dex-quiz-opt:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 rgba(0,0,0,0.4);
+  }
+  .alchm-dex-quiz-opt-label { color: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .alchm-dex-quiz-opt-sub { color: var(--fg-mute); font-size: 11px; }
+  .alchm-dex-result-chips { margin: 4px 0 0; color: var(--fg-mute); font-size: 9px; letter-spacing: 0.16em; }
+  .alchm-dex-result-note { margin: 0; color: var(--fg-dim); font-size: 12px; line-height: 1.55; }
+  .alchm-dex-result-link { color: var(--accent); text-decoration: none; font-weight: 650; }
+  .alchm-dex-result-link:hover { text-decoration: underline; }
+  .alchm-dex-result-link.is-quiet { color: var(--fg-mute); }
+  .alchm-dex-result-tune {
+    display: grid;
+    gap: 10px;
+    padding: 13px 15px;
+    border: 1px dashed color-mix(in oklch, var(--q), transparent 45%);
+    border-radius: 10px;
+    background: color-mix(in oklch, var(--q), transparent 94%);
+  }
+  .alchm-dex-result-tune-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .alchm-dex-date {
+    padding: 8px 10px;
+    border: 1px solid var(--line-hi);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.3);
+    color: var(--fg);
+    font-size: 12px;
+    color-scheme: dark;
+  }
+  .alchm-dex-date:focus {
+    outline: none;
+    border-color: color-mix(in oklch, var(--q), transparent 30%);
+  }
+  .alchm-dex-btn:disabled { opacity: 0.4; cursor: default; }
   @media (prefers-reduced-motion: reduce) {
-    .alchm-dex-tile, .alchm-dex-stage, .alchm-dex-complete { animation: none; }
+    .alchm-dex-tile, .alchm-dex-stage, .alchm-dex-complete,
+    .alchm-dex-first, .alchm-dex-quiz-opt { animation: none; }
     .alchm-dex-card { transition: none; }
   }
   @media (max-width: 900px) {
@@ -1066,8 +1506,10 @@ const dexStyles = `
   }
   @media (max-width: 640px) {
     .alchm-dex-tile { min-height: 128px; }
-    .alchm-dex-card-face { padding: 16px; }
+    .alchm-dex-card-face, .alchm-dex-panel { padding: 16px; }
     .alchm-dex-stat { grid-template-columns: 40px 1fr 32px; }
+    .alchm-dex-quiz-opts { grid-template-columns: 1fr; }
+    .alchm-dex-first { padding: 13px 14px; }
   }
 `;
 
