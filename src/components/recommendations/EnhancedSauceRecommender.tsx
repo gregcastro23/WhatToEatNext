@@ -10,6 +10,7 @@ import { useAlchemicalData } from "@/contexts/AlchemicalDataContext";
 import { allSauces } from "@/data/sauces";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import { useCurrentSeason } from "@/hooks/useCurrentSeason";
+import { useUserElementalBias } from "@/hooks/useUserElementalBias";
 import {
   getCuisineFingerprint,
   listCuisines,
@@ -268,6 +269,10 @@ export default function EnhancedSauceRecommender() {
 
   const fingerprint = useMemo(() => getCuisineFingerprint(cuisineKey, cuisinesMapData || undefined), [cuisineKey, cuisinesMapData]);
 
+  // Visitor's elemental bias (chart/table) rides the context so the sauce
+  // similarity target is personalized; null keeps scoring bit-identical.
+  const { bias: userBias, source: biasSource } = useUserElementalBias();
+
   const ctx: CuisineSauceContext = useMemo(() => ({
     cuisine: cuisineKey, region, protein, vegetable, cookingMethod,
     dietary: dietary.length ? dietary : undefined,
@@ -275,7 +280,8 @@ export default function EnhancedSauceRecommender() {
     role, season,
     cosmic: cosmicSync ? { zodiac: astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase } : undefined,
     cosmicWeight: cosmicSync ? 0.5 : 0,
-  }), [cuisineKey, region, protein, vegetable, cookingMethod, dietary, flavorTargets, role, season, cosmicSync, astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase]);
+    userElementals: userBias ?? undefined,
+  }), [cuisineKey, region, protein, vegetable, cookingMethod, dietary, flavorTargets, role, season, cosmicSync, astroState.currentZodiac, planetaryHour, isDaytime, lunarPhase, userBias]);
 
   const handleRecommend = useCallback(() => {
     setLoading(true);
@@ -370,6 +376,11 @@ export default function EnhancedSauceRecommender() {
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-800">Recommended Pairings</h2>
           <div className="flex gap-2">
+             {userBias && (
+               <span className="text-[10px] px-2 py-1 rounded border border-violet-300 bg-violet-50 text-violet-700 font-semibold">
+                 {biasSource === "chart" ? "Tuned to your chart" : "Tuned to your table"}
+               </span>
+             )}
              <button onClick={() => setStrictCuisine(!strictCuisine)} className={`text-[10px] px-2 py-1 rounded border transition-colors ${strictCuisine ? "bg-slate-800 text-white border-slate-800" : "bg-white text-slate-500 border-slate-200"}`}>Strict Cuisine</button>
              <button onClick={() => setCosmicSync(!cosmicSync)} className={`text-[10px] px-2 py-1 rounded border transition-colors ${cosmicSync ? "bg-purple-600 text-white border-purple-600" : "bg-white text-slate-500 border-slate-200"}`}>Cosmic Sync</button>
           </div>

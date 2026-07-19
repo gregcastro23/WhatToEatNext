@@ -17,6 +17,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { usePantry } from "@/hooks/usePantry";
+import { useUserElementalBias } from "@/hooks/useUserElementalBias";
 import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
 import { IngredientService } from "@/services/IngredientService";
 import type {
@@ -873,14 +874,24 @@ export const EnhancedIngredientRecommender: React.FC<
     }
   }, [ingredientService]);
 
-  // Get current elemental properties from alchemical context
+  // Visitor's elemental bias (chart/table) — blended into the scoring
+  // target; null keeps scoring bit-identical to unpersonalized.
+  const { bias: userBias, source: biasSource } = useUserElementalBias();
+
+  // Get current elemental properties from alchemical context, personalized
+  // by the visitor's bias when present (70/30 moment/user, renormalized).
   const currentElementals: ElementalProperties = useMemo(() => {
-    if (alchemicalContext?.state?.elementalState) {
-      return alchemicalContext.state.elementalState;
-    }
-    // Default balanced elementals
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  }, [alchemicalContext]);
+    const base: ElementalProperties = alchemicalContext?.state?.elementalState
+      ? alchemicalContext.state.elementalState
+      : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    if (!userBias) return base;
+    return normalizeForDisplay({
+      Fire: base.Fire * 0.7 + userBias.Fire * 0.3,
+      Water: base.Water * 0.7 + userBias.Water * 0.3,
+      Earth: base.Earth * 0.7 + userBias.Earth * 0.3,
+      Air: base.Air * 0.7 + userBias.Air * 0.3,
+    });
+  }, [alchemicalContext, userBias]);
 
   // Filter and score ingredients
   const scoredIngredients = useMemo(() => {
@@ -1111,6 +1122,11 @@ export const EnhancedIngredientRecommender: React.FC<
     : selectedCategoryName
       ? `Best ${selectedCategoryName.toLowerCase()} right now`
       : "Best matches right now";
+  const tunedLabel = userBias
+    ? biasSource === "chart"
+      ? " · tuned to your chart"
+      : " · tuned to your table"
+    : "";
 
   // Render category grid
   const renderCategoryGrid = () => (
@@ -2794,7 +2810,9 @@ export const EnhancedIngredientRecommender: React.FC<
 
       {/* Results count */}
       <div className="mb-4 text-sm text-slate-300">
-        {compact ? compactResultLabel : `Showing ${displayedIngredients.length}`}
+        {compact
+          ? `${compactResultLabel}${tunedLabel}`
+          : `Showing ${displayedIngredients.length}${tunedLabel}`}
         {!compact && remainingCount > 0
           ? ` of ${scoredIngredients.length}`
           : ""}

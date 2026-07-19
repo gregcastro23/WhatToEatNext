@@ -34,6 +34,7 @@ import {
 } from "@/data/cooking/methods";
 import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
 import { METHOD_PHYSICAL_REFERENCE } from "@/data/cooking/physicalReference";
+import { useUserElementalBias } from "@/hooks/useUserElementalBias";
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -409,6 +410,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
   const [expandedTab, setExpandedTab] = useState<ExpandedTab>("overview");
   const [focusMode, setFocusMode] = useState<FocusMode>("harmony");
   const [userIntent, setUserIntent] = useState<UserIntent>(null);
+  // Visitor's elemental bias (chart/table) — adds the "Personal" harmony
+  // dimension; null keeps scoring bit-identical to unpersonalized.
+  const { bias: userBias, source: biasSource } = useUserElementalBias();
   const [showPillarsGuide, setShowPillarsGuide] = useState(false);
   const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, string>>(DEFAULT_PLANETARY_POSITIONS);
   const [positionsSource, setPositionsSource] = useState<"real" | "fallback">("fallback");
@@ -584,6 +588,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           monica,
           duration: duration || undefined,
           kineticPower: kinetics?.power,
+          userElementalBias: userBias,
         },
         userIntent,
         {
@@ -616,7 +621,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
 
     // Sort by Harmony Index (primary sort for all focus modes)
     return methods.sort((a, b) => b.harmony.harmonyIndex - a.harmony.harmonyIndex);
-  }, [selectedCategory, planetaryPositions, contextPlanetaryPositions, focusMode, userIntent, currentMoment]);
+  }, [selectedCategory, planetaryPositions, contextPlanetaryPositions, focusMode, userIntent, currentMoment, userBias]);
 
 
   const loadAlignedRecipes = useCallback(async (methodId: string) => {
@@ -768,6 +773,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
                     { n: "Thermo", v: harmony.breakdown.thermoEfficiency },
                     { n: "Balance", v: harmony.breakdown.alchemicalBalance },
                     { n: "Speed", v: harmony.breakdown.speedFactor },
+                    ...(harmony.breakdown.personalAlignment != null
+                      ? [{ n: "Personal", v: harmony.breakdown.personalAlignment }]
+                      : []),
                   ].map(({ n, v }) => (
                     <div key={n} className="flex items-center gap-2 text-xs">
                       <span className="w-14 text-gray-500">{n}</span>
@@ -1258,9 +1266,16 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
         <div className="flex items-center justify-between gap-2 mb-4">
           <h3 className="text-sm font-bold text-gray-200">Current Moment Metrics</h3>
-          <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${momentStatus === "ready" ? "bg-emerald-100 text-emerald-700" : momentStatus === "loading" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
-            }`}>
-            {momentStatus === "ready" ? "LIVE /api/alchm-quantities" : momentStatus === "loading" ? "Loading..." : "Unavailable"}
+          <span className="flex items-center gap-2">
+            {userBias && (
+              <span className="rounded-full px-2.5 py-1 text-[10px] font-bold bg-violet-500/15 text-violet-300">
+                {biasSource === "chart" ? "Tuned to your chart" : "Tuned to your table"}
+              </span>
+            )}
+            <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${momentStatus === "ready" ? "bg-emerald-100 text-emerald-700" : momentStatus === "loading" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
+              }`}>
+              {momentStatus === "ready" ? "LIVE /api/alchm-quantities" : momentStatus === "loading" ? "Loading..." : "Unavailable"}
+            </span>
           </span>
         </div>
         {currentMoment ? (
