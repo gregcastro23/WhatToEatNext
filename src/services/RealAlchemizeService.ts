@@ -63,6 +63,35 @@ function normalizeAlchmWeight(periodYears: number): number {
 }
 
 /**
+ * Bodies excluded from the ESMS aspect universe — not real planets, so they
+ * carry no planetaryAlchemy/dignity entry and must not seed Layer-3 aspects.
+ *
+ * Matched case- and whitespace-insensitively. The Swiss-Ephemeris backend and
+ * the local astronomy-engine fallback disagree on spelling for the very same
+ * body ("North Node" vs "NorthNode"), and a literal `===` list silently
+ * admits whichever spelling it forgets to list. That happened here: "South
+ * Node" was excluded but "North Node" was not, so whenever backend positions
+ * were live, node aspects leaked into Layer 3 for one node but not the other.
+ * Normalizing closes this gap and any future one in the same shape, rather
+ * than chasing spellings one at a time.
+ */
+const EXCLUDED_ASPECT_BODIES = new Set([
+  "northnode",
+  "southnode",
+  "truenode",
+  "meannode",
+  "chiron",
+  "lilith",
+  "vertex",
+  "parsfortune",
+  "mc",
+]);
+
+function isExcludedAspectBody(planet: string): boolean {
+  return EXCLUDED_ASPECT_BODIES.has(planet.toLowerCase().replace(/\s+/g, ""));
+}
+
+/**
  * Real Alchemize Service
  *
  * This service provides real alchemical calculations based on actual planetary positions.
@@ -340,11 +369,7 @@ export function alchemize(
   const positionData: Record<string, any> = {};
   const signMap: Record<string, string> = {};
   for (const [planet, pos] of Object.entries(planetaryPositions)) {
-    if (
-      planet === "NorthNode" || planet === "SouthNode" || planet === "True Node" || planet === "South Node" || 
-      planet === "Chiron" || planet === "Lilith" || planet === "Vertex" || planet === "Pars Fortune" || 
-      planet === "Mean Node" || planet === "MC"
-    ) {
+    if (isExcludedAspectBody(planet)) {
       continue;
     }
     const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
@@ -644,11 +669,7 @@ export function alchemizeDetailed(
   const positionData: Record<string, any> = {};
   const signMap: Record<string, string> = {};
   for (const [planet, pos] of Object.entries(planetaryPositions)) {
-    if (
-      planet === "NorthNode" || planet === "SouthNode" || planet === "True Node" || planet === "South Node" || 
-      planet === "Chiron" || planet === "Lilith" || planet === "Vertex" || planet === "Pars Fortune" || 
-      planet === "Mean Node" || planet === "MC"
-    ) {
+    if (isExcludedAspectBody(planet)) {
       continue;
     }
     const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
