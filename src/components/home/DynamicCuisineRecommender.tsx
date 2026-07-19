@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { getServerRecipes } from "@/actions/recipes";
+import { biasQueryParam, useUserElementalBias } from "@/hooks/useUserElementalBias";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { fetchWithRetry } from "@/utils/apiUtils";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
@@ -168,18 +169,29 @@ export default function DynamicCuisineRecommender({
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(true);
   const [showAllCuisines, setShowAllCuisines] = useState(false);
+  const [personalized, setPersonalized] = useState(false);
+
+  // The visitor's elemental bias (chart and/or guest table) rides the request
+  // as a query param so the server reorders the ranking for their table.
+  const { bias, source: biasSource, hydrated: biasHydrated } = useUserElementalBias();
+  const biasParam = useMemo(() => biasQueryParam(bias), [bias]);
 
   const loadRecommendations = useCallback(async () => {
     setIsLoading(true);
     console.log("DynamicCuisineRecommender: Starting to load recommendations from unified API...");
     try {
       // Phase 1: Call the unified API endpoint (which handles backend + local fallback)
-      const response = await fetchWithRetry("/api/cuisines/recommend", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        timeout: 30000,
-        retries: 2,
-      });
+      const response = await fetchWithRetry(
+        biasParam
+          ? `/api/cuisines/recommend?bias=${encodeURIComponent(biasParam)}`
+          : "/api/cuisines/recommend",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          timeout: 30000,
+          retries: 2,
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`API error: ${response.status}`);
@@ -189,9 +201,10 @@ export default function DynamicCuisineRecommender({
       console.log("DynamicCuisineRecommender: API response received:", data.source);
 
       if (data.success) {
+        setPersonalized(Boolean(data.personalized));
         // Map API response to our component's format
         // The backend might return cuisines in several possible fields depending on the engine
-        const apiCuisines: any[] = 
+        const apiCuisines: any[] =
           Array.isArray(data.recommendations?.cuisines) ? data.recommendations.cuisines :
           Array.isArray(data.cuisines) ? data.cuisines :
           Array.isArray(data.topCuisines) ? data.topCuisines :
@@ -357,13 +370,16 @@ export default function DynamicCuisineRecommender({
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [biasParam]);
 
   useEffect(() => {
+    // Wait for the bias to hydrate from localStorage so the first request
+    // already carries the visitor's table instead of double-fetching.
+    if (!biasHydrated) return;
     void loadRecommendations();
     const interval = setInterval(() => { void loadRecommendations(); }, 15 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [loadRecommendations]);
+  }, [loadRecommendations, biasHydrated]);
 
   const topCuisines = recommendations.slice(0, 6);
   const remainingCuisines = recommendations.slice(6);
@@ -390,7 +406,11 @@ export default function DynamicCuisineRecommender({
             <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
           </span>
           <span className="text-sm font-medium text-emerald-300">
-            Live planetary scoring
+            {personalized
+              ? biasSource === "chart"
+                ? "Live planetary scoring · tuned to your chart"
+                : "Live planetary scoring · tuned to your table"
+              : "Live planetary scoring"}
           </span>
         </div>
       </div>

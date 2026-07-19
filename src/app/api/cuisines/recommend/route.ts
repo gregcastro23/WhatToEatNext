@@ -11,6 +11,12 @@
  * - zodiacSign: optional zodiac sign filter (e.g. "aries", "taurus")
  * - season: optional season filter ("spring" | "summer" | "fall" | "winter")
  * - mealType: optional meal type ("breakfast" | "lunch" | "dinner" | "snack" | "brunch" | "dessert")
+ * - bias: optional user elemental bias — four normalized non-negative floats
+ *   in Fire,Earth,Air,Water order (e.g. "0.5,0.1,0.1,0.3"), produced by
+ *   useUserElementalBias/biasQueryParam. Blended (30%) into the sky's element
+ *   distribution before ranking, so the cuisine ORDER follows the visitor's
+ *   table. Invalid values are ignored. The response's elementDistribution
+ *   always stays the raw sky; `personalized: true` marks a biased ranking.
  */
 import { NextResponse } from "next/server";
 import { getAllRecipes } from "@/data/recipes/index";
@@ -93,10 +99,30 @@ async function fetchFromBackend(params: { zodiacSign?: string; season?: string; 
   }
 }
 
+/** Weight of the user bias when blending into the sky's element shares. */
+const BIAS_ALPHA = 0.3;
+
 /**
- * Local fallback: compute recommendations from planetary positions.
+ * Parse the `bias` query param: four non-negative finite floats in
+ * Fire,Earth,Air,Water order. Returns a normalized vector or null.
  */
-function computeLocalRecommendations() {
+function parseBias(raw: string | null): Record<string, number> | null {
+  if (!raw) return null;
+  const parts = raw.split(",").map(Number);
+  if (parts.length !== 4 || parts.some((n) => !Number.isFinite(n) || n < 0)) {
+    return null;
+  }
+  const sum = parts.reduce((a, b) => a + b, 0);
+  if (!(sum > 0)) return null;
+  const [fire, earth, air, water] = parts.map((n) => n / sum);
+  return { Fire: fire, Earth: earth, Air: air, Water: water };
+}
+
+/**
+ * Local fallback: compute recommendations from planetary positions, with the
+ * visitor's elemental bias (when present) blended into the ranking input.
+ */
+function computeLocalRecommendations(bias: Record<string, number> | null = null) {
   const positions = getAccuratePlanetaryPositions(new Date());
 
   const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -106,14 +132,24 @@ function computeLocalRecommendations() {
     if (el) elementCounts[el]++;
   }
 
+  // The signature input: raw sky shares, or a 70/30 sky/bias blend when the
+  // visitor has a table. elementDistribution in the response stays the raw
+  // sky either way — the blend tunes the ranking, it never rewrites the sky.
+  const totalCount =
+    elementCounts.Fire + elementCounts.Water + elementCounts.Earth + elementCounts.Air || 1;
+  const share = (el: string) =>
+    bias
+      ? (elementCounts[el] / totalCount) * (1 - BIAS_ALPHA) + (bias[el] ?? 0) * BIAS_ALPHA
+      : elementCounts[el];
+
   // Canonical signature — one tie-break shared with every display surface, plus
   // adaptive co-dominant framing for the UI. The 3+2 primary/secondary cuisine
   // blend is preserved so the public marketing preview keeps its count.
   const sig = elementalSignature({
-    Fire: elementCounts.Fire,
-    Water: elementCounts.Water,
-    Earth: elementCounts.Earth,
-    Air: elementCounts.Air,
+    Fire: share("Fire"),
+    Water: share("Water"),
+    Earth: share("Earth"),
+    Air: share("Air"),
   });
   const dominant = sig.dominant;
   const secondary = sig.ranked[1].element;
@@ -136,6 +172,7 @@ function computeLocalRecommendations() {
       flavors:       [...primData.flavors,                    ...secData.flavors],
     },
     elementDistribution: elementCounts,
+    personalized: Boolean(bias),
   };
 }
 
@@ -157,14 +194,21 @@ async function handleRequest(request: Request) {
       mealType:   searchParams.get("mealType")   ?? undefined,
     });
 
+    const bias = parseBias(searchParams.get("bias"));
+
     const recipeCounts = await getRecipeCounts();
 
-    // Try Railway backend first
-    const backendData = await fetchFromBackend({ zodiacSign, season, mealType });
+    // Try Railway backend first — except for personalized requests: the
+    // backend can't blend a user bias, and its per-cuisine scores are
+    // near-flat anyway, so biased rankings always compute locally.
+    const backendData = bias
+      ? null
+      : await fetchFromBackend({ zodiacSign, season, mealType });
     if (backendData) {
       return NextResponse.json({
         success: true,
         source: "backend",
+        personalized: false,
         dominantElement:    backendData.dominantElement,
         secondaryElement:   backendData.secondaryElement,
         recommendations:    backendData.recommendations,
@@ -178,7 +222,7 @@ async function handleRequest(request: Request) {
     }
 
     // Fallback to local calculation
-    const localData = computeLocalRecommendations();
+    const localData = computeLocalRecommendations(bias);
 
     return NextResponse.json({
       success: true,
