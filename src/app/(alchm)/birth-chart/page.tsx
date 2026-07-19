@@ -1,12 +1,49 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { buildFreeBodyDiagrams, type FBDPositionInput, type PlanetFBD } from '@/calculations/planetaryFBD';
 import { NatalTransitChart } from '@/components/dashboard/NatalTransitChart';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
+import PlanetFBDCard from '@/components/ui/alchm/PlanetFBDCard';
 import { auth } from '@/lib/auth/auth';
 import { withTimeout } from '@/lib/performance/withTimeout';
 import { userDatabase } from '@/services/userDatabaseService';
+import type { NatalChart } from '@/types/natalChart';
+import { isSectDiurnalForBirth } from '@/utils/planetaryAlchemyMapping';
+
+/**
+ * Natal free-body diagrams from the stored chart. Only planets carrying a
+ * real absolute longitude participate (position 0 means unknown/legacy) — a
+ * fabricated degree would produce confidently wrong aspects. Stored charts
+ * carry no daily motions, so cards degrade honestly (no applying/separating,
+ * no momentum).
+ */
+function buildNatalFBDs(natalChart: NatalChart): PlanetFBD[] | null {
+  const fbdPositions: Record<string, FBDPositionInput> = {};
+  for (const planet of natalChart.planets ?? []) {
+    if (!planet?.name || !planet.sign) continue;
+    if (typeof planet.position !== 'number' || planet.position <= 0) continue;
+    const degreeInSign = planet.position % 30;
+    fbdPositions[planet.name] = {
+      sign: planet.sign,
+      // `degree` is sign-relative and already carries the fractional
+      // arc-minutes; passing `minute` as well would double-count them on the
+      // fallback path that reconstructs a longitude from sign + degree.
+      degree: degreeInSign,
+      exactLongitude: planet.position,
+    };
+  }
+  if (Object.keys(fbdPositions).length < 2) return null;
+
+  const birthDate = natalChart.birthData?.dateTime
+    ? new Date(natalChart.birthData.dateTime)
+    : new Date(natalChart.calculatedAt);
+  return buildFreeBodyDiagrams({
+    positions: fbdPositions,
+    diurnal: isSectDiurnalForBirth(birthDate),
+  }).cards;
+}
 
 
 export default async function BirthChartPage() {
@@ -30,7 +67,8 @@ export default async function BirthChartPage() {
   }
 
   const { natalChart } = profile.profile;
-  
+  const natalFBDs = buildNatalFBDs(natalChart);
+
   // Format the birth date string if available
   const chartDate = natalChart.birthData?.dateTime
     ? new Date(natalChart.birthData.dateTime).toLocaleDateString('en-US', {
@@ -85,12 +123,38 @@ export default async function BirthChartPage() {
              <div className="mb-6">
                <h3 className="text-lg font-bold text-white uppercase tracking-widest">Natal &amp; Transit Cartography</h3>
                <p className="text-white/40 text-sm mt-1">
-                 This overlay renders your exact natal planetary positions against real-time celestial weather.
+                 Your exact natal positions against real-time celestial weather — now with aspect
+                 chords (teal harmony, ember tension) and elemental sign vectors at each planet.
                </p>
              </div>
              <div className="bg-black/50 p-4 rounded-2xl border border-white/[0.02]">
                <NatalTransitChart natalChart={natalChart} />
              </div>
+          </div>
+
+          {/* Natal free-body diagrams (alchm-root scope provides the design tokens) */}
+          <div className="alchm-root bg-gray-950 rounded-3xl p-6 border border-white/5 shadow-2xl mt-8">
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-white uppercase tracking-widest">Natal Free-Body Diagrams</h3>
+              <p className="text-white/40 text-sm mt-1">
+                The forces frozen into each planet at your birth moment — aspects at true ecliptic
+                bearings, sign and sect pulls on the element compass, dignity boosts and drags, and
+                the violet ESMS resultant. A stored chart carries no daily motions, so
+                applying/separating dynamics and momentum are shown only on the live sky
+                (<Link href="/planetary-chart" className="underline decoration-white/20 hover:text-white/70">planetary ecosystem</Link>).
+              </p>
+            </div>
+            {natalFBDs ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {natalFBDs.map((fbd) => (
+                  <PlanetFBDCard key={fbd.planet} fbd={fbd} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-white/40 text-sm font-mono uppercase tracking-wider">
+                Awaiting exact natal longitudes — re-run ignite to compute degree-precise positions.
+              </p>
+            )}
           </div>
         </div>
       </main>

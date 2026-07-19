@@ -16,7 +16,7 @@
  */
 
 import { PLANET_WEIGHTS, normalizePlanetWeight, PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
-import type { ElementalProperties } from "@/types/alchemy";
+import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { calculateAspectESMSModifications, type AspectWithStrength } from "./aspectESMSEffects";
 import { getDignityScore } from "./dignityScales";
@@ -415,12 +415,67 @@ export function calculateEnhancedAlchemicalFromPlanets(
   diurnal: boolean = true,
   aspects?: AspectWithStrength[],
 ): AlchemicalProperties {
+  return calculateEnhancedAlchemicalFromPlanetsDetailed(
+    planetaryPositions,
+    diurnal,
+    aspects,
+  ).totals;
+}
+
+/** One body's Layer-1 × Layer-2 contribution to the ESMS totals. */
+export interface EnhancedPlanetContribution {
+  /** baseESMS(sect) × alchmWeight × dignityMultiplier — this body's share. */
+  esms: AlchemicalProperties;
+  /** The sign fed in (as provided). */
+  sign: string;
+  /** Orbital-period weight (log-normalized; Ascendant pinned to 1.0). */
+  alchmWeight: number;
+  /** Classical dignity type from the authoritative dual-scale table. */
+  dignityType: DignityType;
+  /** ESMS-scale points (+10 domicile … −10 fall) — NOT the food scale. */
+  dignityEsmsScale: number;
+  /** The multiplier actually applied: 1 + esmsScale/100. */
+  dignityMultiplier: number;
+  /** True for the Physical-Vessel Ascendant grounding constant. */
+  isGroundingVessel: boolean;
+}
+
+export interface EnhancedAlchemicalDetail {
+  /** Identical to what {@link calculateEnhancedAlchemicalFromPlanets} returns. */
+  totals: AlchemicalProperties;
+  /** Per-body Layer 1×2 contributions. Guaranteed: Σ perPlanet + aspectModifications = totals. */
+  perPlanet: Record<string, EnhancedPlanetContribution>;
+  /** Layer-3 total (0 when no aspects were supplied). */
+  aspectModifications: AlchemicalProperties;
+  /** True when the grounding Ascendant was injected rather than supplied. */
+  ascendantInjected: boolean;
+}
+
+/**
+ * The three-layer ESMS calculation, exposing its per-body decomposition.
+ *
+ * {@link calculateEnhancedAlchemicalFromPlanets} is a thin wrapper over this,
+ * so the parts provably reconcile with the whole:
+ *   Σ perPlanet[*].esms + aspectModifications === totals
+ *
+ * Surfaces that attribute ESMS to individual planets (the free-body-diagram
+ * cards) MUST read this rather than recomputing a parallel decomposition —
+ * a lookalike loop that misses the Ascendant grounding constant or uses the
+ * food-scale dignity table silently reports Matter/Substance of 0 for every
+ * planet in a day chart.
+ */
+export function calculateEnhancedAlchemicalFromPlanetsDetailed(
+  planetaryPositions: { [planet: string]: string },
+  diurnal: boolean = true,
+  aspects?: AspectWithStrength[],
+): EnhancedAlchemicalDetail {
   const totals: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
     Substance: 0,
   };
+  const perPlanet: Record<string, EnhancedPlanetContribution> = {};
 
   // Physical-Vessel grounding: in the diurnal sect every planet maps to
   // Spirit/Essence, so Matter & Substance collapse to 0 in any day chart lacking
@@ -473,15 +528,42 @@ export function calculateEnhancedAlchemicalFromPlanets(
     // Examples: +10 → 1.10 (10% boost), -10 → 0.90 (10% reduction)
 
     // Apply weighted ESMS with both alchm-period and dignity modifiers
-    totals.Spirit    += baseESMS.Spirit    * alchmWeight * dignityMultiplier;
-    totals.Essence   += baseESMS.Essence   * alchmWeight * dignityMultiplier;
-    totals.Matter    += baseESMS.Matter    * alchmWeight * dignityMultiplier;
-    totals.Substance += baseESMS.Substance * alchmWeight * dignityMultiplier;
+    const contribution: AlchemicalProperties = {
+      Spirit:    baseESMS.Spirit    * alchmWeight * dignityMultiplier,
+      Essence:   baseESMS.Essence   * alchmWeight * dignityMultiplier,
+      Matter:    baseESMS.Matter    * alchmWeight * dignityMultiplier,
+      Substance: baseESMS.Substance * alchmWeight * dignityMultiplier,
+    };
+    totals.Spirit    += contribution.Spirit;
+    totals.Essence   += contribution.Essence;
+    totals.Matter    += contribution.Matter;
+    totals.Substance += contribution.Substance;
+
+    perPlanet[planet] = {
+      esms: contribution,
+      sign,
+      alchmWeight,
+      dignityType: dignityScore.type,
+      dignityEsmsScale: dignityScore.esmsScale,
+      dignityMultiplier,
+      isGroundingVessel: planet === "Ascendant",
+    };
   }
 
   // LAYER 3: Apply aspect modifications
+  const aspectModifications: AlchemicalProperties = {
+    Spirit: 0,
+    Essence: 0,
+    Matter: 0,
+    Substance: 0,
+  };
   if (aspects && aspects.length > 0) {
     const aspectMods = calculateAspectESMSModifications(aspects);
+
+    aspectModifications.Spirit = aspectMods.Spirit;
+    aspectModifications.Essence = aspectMods.Essence;
+    aspectModifications.Matter = aspectMods.Matter;
+    aspectModifications.Substance = aspectMods.Substance;
 
     totals.Spirit += aspectMods.Spirit;
     totals.Essence += aspectMods.Essence;
@@ -489,7 +571,12 @@ export function calculateEnhancedAlchemicalFromPlanets(
     totals.Substance += aspectMods.Substance;
   }
 
-  return totals;
+  return {
+    totals,
+    perPlanet,
+    aspectModifications,
+    ascendantInjected: !planetaryPositions.Ascendant,
+  };
 }
 
 /**

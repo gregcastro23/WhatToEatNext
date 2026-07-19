@@ -150,9 +150,11 @@ export const authConfig = {
 
       // Routes that require premium tier (authenticated users without premium
       // get redirected to /upgrade instead of seeing errors)
+      // /planetary-chart is deliberately absent: the planetary-ecosystem
+      // surface is public (the current sky is the same for everyone), and its
+      // middleware matcher entry was removed alongside this.
       const isPremiumRoute =
         pathname.startsWith("/recipe-generator") ||
-        pathname.startsWith("/planetary-chart") ||
         pathname.startsWith("/restaurant-creator") ||
         pathname.startsWith("/premium-table");
 

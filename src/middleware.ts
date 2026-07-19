@@ -61,7 +61,8 @@ export const config = {
     "/birth-chart/:path*",
     "/current-chart/:path*",
     "/recipe-generator/:path*",
-    "/planetary-chart/:path*",
+    // /planetary-chart is deliberately absent: the planetary-ecosystem surface
+    // is fully public (the current sky is the same for everyone).
     "/restaurant-creator/:path*",
     "/premium-table/:path*",
   ],
