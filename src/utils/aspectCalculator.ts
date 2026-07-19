@@ -157,13 +157,19 @@ export function calculateComprehensiveAspects(
       let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff;
 
-      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
+      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs).
+      // Case-insensitive: every live caller keys positions by the canonical
+      // capitalized planet name ("Sun", "Moon" — see RealAlchemizeService's
+      // planetaryAlchemy table and every position-source convention in the
+      // repo), so a strict lowercase match here never fires in practice.
       let orbMultiplier = 1.0;
+      const p1Lower = planet1.toLowerCase();
+      const p2Lower = planet2.toLowerCase();
       if (
-        planet1 === "sun" ||
-        planet1 === "moon" ||
-        planet2 === "sun" ||
-        planet2 === "moon"
+        p1Lower === "sun" ||
+        p1Lower === "moon" ||
+        p2Lower === "sun" ||
+        p2Lower === "moon"
       ) {
         orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
       }
