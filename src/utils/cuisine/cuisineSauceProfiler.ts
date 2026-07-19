@@ -52,6 +52,12 @@ export interface CuisineSauceContext {
     lunarPhase?: string;
   };
   cosmicWeight?: number;
+  /**
+   * Visitor's elemental bias from useUserElementalBias (chart and/or guest
+   * table). When present it is blended (30%) into the cuisine's elemental
+   * target before sauce similarity; absent keeps scoring bit-identical.
+   */
+  userElementals?: { Fire: number; Water: number; Earth: number; Air: number } | null;
 }
 
 export interface CuisineFingerprint {
@@ -618,7 +624,28 @@ function astrologicalScore(sauce: UnifiedSauce, ctx: CuisineSauceContext, cuisin
 
 function elementalScore(sauce: UnifiedSauce, cuisine: Cuisine | null, ctx: CuisineSauceContext): { score: number; similarity: number } {
   if (!sauce.elementalProperties || !cuisine?.elementalProperties) return { score: 0.5, similarity: 0.5 };
-  const sim = cosineSimilarity(sauce.elementalProperties, cuisine.elementalProperties as ElementalProperties);
+  let target = cuisine.elementalProperties as ElementalProperties;
+  if (ctx.userElementals) {
+    // Personalize the comparison target: 70/30 cuisine/user blend,
+    // renormalized. Blending the target (rather than adding a cosine
+    // dimension, which compresses toward 1.0 on non-negative 4-vectors)
+    // keeps the existing pipeline and its discrimination intact.
+    const u = ctx.userElementals;
+    const blended = {
+      Fire: target.Fire * 0.7 + u.Fire * 0.3,
+      Water: target.Water * 0.7 + u.Water * 0.3,
+      Earth: target.Earth * 0.7 + u.Earth * 0.3,
+      Air: target.Air * 0.7 + u.Air * 0.3,
+    };
+    const sum = blended.Fire + blended.Water + blended.Earth + blended.Air || 1;
+    target = {
+      Fire: blended.Fire / sum,
+      Water: blended.Water / sum,
+      Earth: blended.Earth / sum,
+      Air: blended.Air / sum,
+    };
+  }
+  const sim = cosineSimilarity(sauce.elementalProperties, target);
   const adjusted = applyRoleAdjustment(ctx.role ?? "complement", sim);
   return { score: Math.max(0, Math.min(1, adjusted)), similarity: sim };
 }

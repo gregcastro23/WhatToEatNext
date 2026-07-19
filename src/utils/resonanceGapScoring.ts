@@ -33,6 +33,13 @@ export interface ResonanceInput {
   duration?: { min: number; max: number };
   /** Kinetic power (P=IV) */
   kineticPower?: number;
+  /**
+   * Visitor's elemental bias from useUserElementalBias (chart and/or guest
+   * table). Optional: absent/null keeps scoring bit-identical to
+   * unpersonalized behavior — the personal dimension only exists when a
+   * bias is present.
+   */
+  userElementalBias?: { Fire: number; Water: number; Earth: number; Air: number } | null;
 }
 
 export interface AstrologicalStressContext {
@@ -59,6 +66,11 @@ export interface HarmonyResult {
     alchemicalBalance: number;
     /** Speed factor (lower duration = higher for "fast" intent) */
     speedFactor: number;
+    /**
+     * Alignment between the method's elemental effect and the visitor's
+     * bias — null when no bias was supplied (dimension inactive).
+     */
+    personalAlignment: number | null;
   };
 }
 
@@ -88,16 +100,27 @@ export function calculateHarmonyIndex(
   // 5. Speed Factor — based on method duration
   const speedFactor = calculateSpeedFactor(input.duration);
 
-  // Dynamic weighting based on stress context and focus mode
-  const weights = getWeights(userIntent, stressContext, focusMode);
+  // 6. Personal Alignment — only when the visitor has an elemental bias
+  const personalAlignment = input.userElementalBias
+    ? calculatePersonalAlignment(input.elementalEffect, input.userElementalBias)
+    : null;
 
-  // Weighted sum
+  // Dynamic weighting based on stress context and focus mode
+  const weights = getWeights(
+    userIntent,
+    stressContext,
+    focusMode,
+    personalAlignment !== null,
+  );
+
+  // Weighted sum (weights.personal is 0 when no bias — bit-identical path)
   const raw =
     stabilityResonance * weights.stability +
     intentAlignment * weights.intent +
     thermoEfficiency * weights.thermo +
     alchemicalBalance * weights.balance +
-    speedFactor * weights.speed;
+    speedFactor * weights.speed +
+    (personalAlignment ?? 0) * weights.personal;
 
   // Clamp to 0–100
   const harmonyIndex = Math.max(0, Math.min(100, raw));
@@ -111,6 +134,7 @@ export function calculateHarmonyIndex(
       thermoEfficiency,
       alchemicalBalance,
       speedFactor,
+      personalAlignment,
     },
   };
 }
@@ -189,6 +213,33 @@ function calculateAlchemicalBalance(esms: { Spirit: number; Essence: number; Mat
   return Math.max(20, Math.min(100, 100 - cv * 70));
 }
 
+/**
+ * Total-variation similarity between the method's elemental effect and the
+ * visitor's bias, both normalized. TV (unlike cosine on non-negative
+ * 4-vectors) spreads across the full 0–100 range, so the dimension
+ * actually discriminates between methods.
+ */
+function calculatePersonalAlignment(
+  effect: { Fire: number; Water: number; Earth: number; Air: number },
+  bias: { Fire: number; Water: number; Earth: number; Air: number },
+): number {
+  const norm = (v: { Fire: number; Water: number; Earth: number; Air: number }) => {
+    const sum = v.Fire + v.Water + v.Earth + v.Air;
+    if (!(sum > 0)) return null;
+    return { Fire: v.Fire / sum, Water: v.Water / sum, Earth: v.Earth / sum, Air: v.Air / sum };
+  };
+  const a = norm(effect);
+  const b = norm(bias);
+  if (!a || !b) return 50;
+  const tv =
+    0.5 *
+    (Math.abs(a.Fire - b.Fire) +
+      Math.abs(a.Water - b.Water) +
+      Math.abs(a.Earth - b.Earth) +
+      Math.abs(a.Air - b.Air));
+  return Math.max(0, Math.min(100, (1 - tv) * 100));
+}
+
 function calculateSpeedFactor(duration?: { min: number; max: number }): number {
   if (!duration) return 50;
   const avgMinutes = (duration.min + duration.max) / 2;
@@ -208,12 +259,14 @@ interface Weights {
   thermo: number;
   balance: number;
   speed: number;
+  personal: number;
 }
 
 function getWeights(
   userIntent: UserIntent,
   stressContext: AstrologicalStressContext,
   focusMode: FocusMode,
+  hasPersonalBias = false,
 ): Weights {
   // Base weights (sum to ~1.0)
   let weights: Weights = {
@@ -222,20 +275,35 @@ function getWeights(
     thermo: 0.25,
     balance: 0.20,
     speed: 0.10,
+    personal: 0,
   };
 
   // Focus mode overrides
   switch (focusMode) {
     case "quickest":
-      weights = { stability: 0.10, intent: 0.15, thermo: 0.15, balance: 0.10, speed: 0.50 };
+      weights = { stability: 0.10, intent: 0.15, thermo: 0.15, balance: 0.10, speed: 0.50, personal: 0 };
       break;
     case "stability":
-      weights = { stability: 0.45, intent: 0.10, thermo: 0.20, balance: 0.15, speed: 0.10 };
+      weights = { stability: 0.45, intent: 0.10, thermo: 0.20, balance: 0.15, speed: 0.10, personal: 0 };
       break;
     case "flavorful":
-      weights = { stability: 0.10, intent: 0.35, thermo: 0.25, balance: 0.20, speed: 0.10 };
+      weights = { stability: 0.10, intent: 0.35, thermo: 0.25, balance: 0.20, speed: 0.10, personal: 0 };
       break;
     // "harmony" uses default balanced weights
+  }
+
+  // Personal bias present: carve out a fixed share proportionally from the
+  // five base dimensions so each focus mode keeps its relative character.
+  if (hasPersonalBias) {
+    const personalShare = 0.15;
+    weights = {
+      stability: weights.stability * (1 - personalShare),
+      intent: weights.intent * (1 - personalShare),
+      thermo: weights.thermo * (1 - personalShare),
+      balance: weights.balance * (1 - personalShare),
+      speed: weights.speed * (1 - personalShare),
+      personal: personalShare,
+    };
   }
 
   // Dynamic weighting: high-stress astrological window boosts stability
@@ -243,7 +311,9 @@ function getWeights(
     const stabilityBoost = 0.15;
     weights.stability += stabilityBoost;
     // Redistribute from other dimensions proportionally
-    const others = ["intent", "thermo", "balance", "speed"] as const;
+    const others = hasPersonalBias
+      ? (["intent", "thermo", "balance", "speed", "personal"] as const)
+      : (["intent", "thermo", "balance", "speed"] as const);
     const totalOther = others.reduce((s, k) => s + weights[k], 0);
     for (const key of others) {
       weights[key] -= stabilityBoost * (weights[key] / totalOther);
