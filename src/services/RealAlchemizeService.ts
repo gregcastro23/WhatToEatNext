@@ -314,6 +314,21 @@ export function alchemize(
   const SECT_WEIGHT = 0.4;
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
+    // Non-planets (nodes, MC, Chiron, Lilith, Vertex, Pars Fortune) contribute
+    // nothing here either — same rule as the aspect pass below.
+    //
+    // Without this gate they still reached the elemental blend: 60% from
+    // getZodiacElement(sign), which is real, plus 40% from
+    // getPlanetarySectElement(), which silently returns "Air" for any body it
+    // does not know. A live sky carrying MC and both nodes therefore had three
+    // phantom bodies each pushing 0.4 of pure Air into the totals, skewing
+    // elementalProperties and everything derived from it (thermodynamics,
+    // monica). Their momentum was fabricated too: alchmWeight falls back to
+    // PLANET_ALCHM_PERIODS[planet] ?? 1.0, and 1.0 is Pluto's weight, so MC
+    // was being handed the heaviest alchemical mass in the system.
+    if (isExcludedAspectBody(planet)) {
+      continue;
+    }
     // Get planetary alchemical properties
     const alchemy = planetaryAlchemy[planet];
     // Alchm weighting: orbital period (slower = deeper alchemical tide)
@@ -599,6 +614,13 @@ export function alchemizeDetailed(
   const SECT_WEIGHT = 0.4;
 
   for (const [planet, position] of Object.entries(planetaryPositions)) {
+    // Same exclusion as alchemize() above and the aspect pass below — see the
+    // comment there. Additionally keeps non-planets out of `perPlanet`, whose
+    // consumers reasonably assume its keys are real planets (an MC entry
+    // carried populated `elements` beside all-zero `esms`).
+    if (isExcludedAspectBody(planet)) {
+      continue;
+    }
     const alchemy = planetaryAlchemy[planet];
     const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
     const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);

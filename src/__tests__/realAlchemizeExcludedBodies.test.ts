@@ -44,18 +44,14 @@ const NODE_SPELLINGS: Record<string, { sign: string; degree: number; minute: num
 describe('excluded aspect bodies', () => {
   const baseline = alchemize(REAL_PLANETS, null, new Date('2026-07-19T19:22:00Z'));
 
-  // Scope note: `esms` and `kalchm` are driven entirely by `signMap` +
-  // aspects, both of which route through the exclusion check this PR fixes
-  // — so they are the correct signal for "does this body participate in
-  // Layer 3". `thermodynamicProperties`/`monica` additionally depend on
-  // elemental totals (Fire/Water/Earth/Air), which are accumulated in a
-  // SEPARATE loop that has never been gated by the exclusion check for ANY
-  // body (not even the correctly-spelled "South Node"/"MC") — a real,
-  // broader, pre-existing gap, but a different one from what this PR fixes.
-  // Asserting elemental equality here would therefore fail even after this
-  // fix, for a reason unrelated to the bug under test.
+  // An excluded body must be a COMPLETE no-op: it may not touch ESMS (the
+  // aspect/signMap loop) nor the elemental totals (the per-body loop). Both
+  // loops are now gated. Elemental equality is the stronger assertion — it
+  // catches the pollution path where getPlanetarySectElement() silently
+  // returns "Air" for a body it does not recognize, so an unrecognized key
+  // pushed 0.4 of phantom Air into every chart that carried one.
   test.each(Object.entries(NODE_SPELLINGS))(
-    'adding %s does not change ESMS or kalchm',
+    'adding %s changes nothing at all',
     (name, position) => {
       const withBody = alchemize(
         { ...REAL_PLANETS, [name]: position },
@@ -64,6 +60,14 @@ describe('excluded aspect bodies', () => {
       );
       expect(withBody.esms).toEqual(baseline.esms);
       expect(withBody.kalchm).toBe(baseline.kalchm);
+      expect(withBody.elementalProperties).toEqual(baseline.elementalProperties);
+      expect(withBody.thermodynamicProperties).toEqual(
+        baseline.thermodynamicProperties,
+      );
+      expect(withBody.monica).toBe(baseline.monica);
+      // Not a planet, so it earns no momentum entry — its alchmWeight would
+      // otherwise fall back to 1.0, i.e. Pluto's mass.
+      expect(withBody.planetaryMomentum).not.toHaveProperty(name);
     },
   );
 
@@ -85,22 +89,47 @@ describe('excluded aspect bodies', () => {
     expect(withSouth.esms).toEqual(baseline.esms);
   });
 
-  test('alchemizeDetailed: North Node contributes zero ESMS, symmetric with South Node', () => {
-    // perPlanet still gets AN ENTRY for excluded bodies (that part of the
-    // per-body loop is the separate, pre-existing gap noted above), but its
-    // esms must be all-zero — the aspect/ESMS-relevant half of the fix.
+  test('alchemizeDetailed gives excluded bodies no perPlanet entry at all', () => {
+    // perPlanet keys are consumed as "the real planets in this chart" (the
+    // free-body-diagram builder reconciles against them), so an MC or node
+    // entry — populated `elements` beside all-zero `esms` — was misleading.
     const detailed = alchemizeDetailed(
-      { ...REAL_PLANETS, 'North Node': NODE_SPELLINGS['North Node'] },
+      {
+        ...REAL_PLANETS,
+        'North Node': NODE_SPELLINGS['North Node'],
+        MC: NODE_SPELLINGS.MC,
+      },
       null,
       new Date('2026-07-19T19:22:00Z'),
     );
-    expect(detailed.perPlanet['North Node'].esms).toEqual({
-      Spirit: 0,
-      Essence: 0,
-      Matter: 0,
-      Substance: 0,
-    });
+    expect(detailed.perPlanet['North Node']).toBeUndefined();
+    expect(detailed.perPlanet.MC).toBeUndefined();
+    expect(Object.keys(detailed.perPlanet).sort()).toEqual(
+      Object.keys(REAL_PLANETS).sort(),
+    );
     expect(detailed.esms).toEqual(baseline.esms);
+    expect(detailed.elementalProperties).toEqual(baseline.elementalProperties);
+  });
+
+  test('several excluded bodies at once are still a complete no-op', () => {
+    // The live sky carries MC and BOTH nodes simultaneously — the real-world
+    // shape of this bug, where three phantom bodies each pushed 0.4 Air.
+    const liveSkyShape = alchemize(
+      {
+        ...REAL_PLANETS,
+        'North Node': NODE_SPELLINGS['North Node'],
+        'South Node': NODE_SPELLINGS['South Node'],
+        MC: NODE_SPELLINGS.MC,
+      },
+      null,
+      new Date('2026-07-19T19:22:00Z'),
+    );
+    expect(liveSkyShape.elementalProperties).toEqual(baseline.elementalProperties);
+    expect(liveSkyShape.thermodynamicProperties).toEqual(
+      baseline.thermodynamicProperties,
+    );
+    expect(liveSkyShape.monica).toBe(baseline.monica);
+    expect(liveSkyShape.esms).toEqual(baseline.esms);
   });
 
   test('real planets still participate (the exclusion is not over-broad)', () => {
