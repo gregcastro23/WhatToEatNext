@@ -1,14 +1,22 @@
 /**
- * The First Meal — the Kitchen Déx's opening quiz.
+ * Craft tonight's meal — the hero's four-tap quiz.
  *
  * Four taps about what the visitor feels like eating right now, each option
- * weighted toward the four elements. The visitor's sun-sign element (from the
- * account-free guest palate, if provided) tips the scales, and the dominant +
+ * weighted toward the four elements. The table's composite palate (from
+ * "Who's eating tonight?", if present) tips the scales, and the dominant +
  * secondary elements resolve to a curated dish. All fixture data — the live
- * recommenders below the Déx are the real engine; this is the arcade on-ramp.
+ * recommenders below the hero are the real engine; this is the on-ramp.
  */
 
-import type { PalateElement } from "@/utils/guestPalate";
+import {
+  ELEMENT_ORDER,
+  type ElementVector,
+  type PalateElement,
+} from "@/utils/guestPalate";
+
+const STORAGE_KEY = "alchm:firstmeal:v1";
+/** Pre-rename key; answers migrate forward on first load. */
+const LEGACY_KEY = "alchm:kitchendex:firstmeal:v1";
 
 export interface QuizOption {
   label: string;
@@ -244,13 +252,6 @@ export const FIRST_MEALS: Record<string, FirstMeal> = {
   },
 };
 
-export const ELEMENT_ORDER: readonly PalateElement[] = [
-  "Fire",
-  "Earth",
-  "Air",
-  "Water",
-];
-
 export interface FirstMealReading {
   totals: Record<PalateElement, number>;
   /** Display percentages, adjusted to sum to exactly 100. */
@@ -262,12 +263,14 @@ export interface FirstMealReading {
 
 /**
  * Score a completed quiz. `answers[i]` is the chosen option index for
- * question i; the sign element (when a guest birthday is present) adds a
- * +2 tip toward the visitor's sun-sign element.
+ * question i. When a composite palate is present its normalized vector
+ * distributes the same 2-point tip the old single sun-sign element got —
+ * a one-hot vector reproduces the legacy behavior exactly, and passing
+ * null/undefined is bit-identical to no personalization.
  */
 export function scoreFirstMeal(
   answers: readonly number[],
-  signElement?: PalateElement | null,
+  bias?: ElementVector | null,
 ): FirstMealReading {
   const totals: Record<PalateElement, number> = {
     Fire: 0,
@@ -281,7 +284,13 @@ export function scoreFirstMeal(
       totals[el] += option.weights[el] ?? 0;
     }
   });
-  if (signElement) totals[signElement] += 2;
+  if (bias) {
+    const biasSum =
+      ELEMENT_ORDER.reduce((acc, el) => acc + (bias[el] || 0), 0) || 1;
+    for (const el of ELEMENT_ORDER) {
+      totals[el] += ((bias[el] || 0) / biasSum) * 2;
+    }
+  }
 
   let dominant: PalateElement = ELEMENT_ORDER[0];
   for (const el of ELEMENT_ORDER) {
@@ -315,4 +324,46 @@ export function scoreFirstMeal(
     secondary,
     meal: FIRST_MEALS[`${dominant}-${secondary}`],
   };
+}
+
+/** Load saved quiz answers, migrating the pre-rename key forward. */
+export function loadSavedMealAnswers(): number[] | null {
+  try {
+    let raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      raw = window.localStorage.getItem(LEGACY_KEY);
+      if (raw) {
+        window.localStorage.setItem(STORAGE_KEY, raw);
+        window.localStorage.removeItem(LEGACY_KEY);
+      }
+    }
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { answers?: number[] };
+    if (
+      Array.isArray(parsed.answers) &&
+      parsed.answers.length === FIRST_MEAL_QUIZ.length &&
+      parsed.answers.every(
+        (a, i) =>
+          Number.isInteger(a) &&
+          a >= 0 &&
+          a < FIRST_MEAL_QUIZ[i].options.length,
+      )
+    ) {
+      return parsed.answers;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveMealAnswers(answers: readonly number[]): void {
+  try {
+    window.localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ answers: [...answers] }),
+    );
+  } catch {
+    /* localStorage unavailable */
+  }
 }
