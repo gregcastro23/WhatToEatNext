@@ -280,6 +280,12 @@ export function buildAspectsWithStrength(
  * Build aspects from a NatalChart's `planets[]` array, whose `position` field is
  * an absolute ecliptic longitude. Convenience over {@link buildAspectsWithStrength}
  * for the many callers holding the chart's planet list rather than a keyed bag.
+ *
+ * Only planets carrying a real absolute longitude participate (position <= 0
+ * means unknown/legacy, per `PlanetInfo.position`'s documented contract) —
+ * otherwise every legacy sign-only chart collapses all planets to longitude 0
+ * and reports mutual exact conjunctions. Matches the guard in
+ * `birth-chart/page.tsx`.
  */
 export function buildAspectsFromChartPlanets(
   planets: ReadonlyArray<{ name?: unknown; sign?: unknown; position?: unknown }> | null | undefined,
@@ -287,7 +293,11 @@ export function buildAspectsFromChartPlanets(
   if (!Array.isArray(planets)) return [];
   const positions: Record<string, unknown> = {};
   for (const planet of planets) {
-    if (typeof planet?.name === "string" && typeof planet?.position === "number") {
+    if (
+      typeof planet?.name === "string" &&
+      typeof planet?.position === "number" &&
+      planet.position > 0
+    ) {
       positions[planet.name] = { sign: planet.sign, exactLongitude: planet.position };
     }
   }
