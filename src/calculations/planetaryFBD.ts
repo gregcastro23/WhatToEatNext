@@ -31,7 +31,7 @@
  * and client components can use it.
  */
 
-import type { AspectType } from "@/types/alchemy";
+import type { AspectType, DignityType } from "@/types/alchemy";
 import {
   calculateComprehensiveAspects,
   signDegreeToLongitude,
@@ -47,7 +47,6 @@ import {
   getPlanetarySectElement,
   type EnhancedPlanetContribution,
 } from "@/utils/planetaryAlchemyMapping";
-import type { DignityType } from "@/types/alchemy";
 
 // ---------------------------------------------------------------------------
 // Inputs
@@ -550,10 +549,10 @@ function buildCard(
   const sectElement = getPlanetarySectElement(planet, diurnal);
   const elements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   if (signElement in elements) {
-    elements[signElement as keyof typeof elements] += SIGN_WEIGHT;
+    elements[signElement] += SIGN_WEIGHT;
   }
   if (sectElement in elements) {
-    elements[sectElement as keyof typeof elements] += SECT_WEIGHT;
+    elements[sectElement] += SECT_WEIGHT;
   }
 
   const dignityEsmsScale = contribution.dignityEsmsScale;

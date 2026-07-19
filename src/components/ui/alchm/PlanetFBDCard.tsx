@@ -499,7 +499,7 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
           color: "var(--fg-mute)",
         }}
       >
-        {(Object.entries(fbd.esms) as Array<[string, number]>).map(([key, value]) => (
+        {Object.entries(fbd.esms).map(([key, value]) => (
           <span key={key} title={`${key} (planet contribution incl. aspect share)`}>
             <span style={{ color: "var(--accent)" }}>{ESMS_GLYPHS[key]}</span> {fmt(value)}
           </span>
