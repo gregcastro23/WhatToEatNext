@@ -418,8 +418,13 @@ export function calculateAspectESMSModifications(
       continue;
     }
 
-    // Scale effect by aspect strength (0-1, where 1 = exact aspect)
-    const scaledEffect = aspect.strength || 1.0;
+    // Scale effect by aspect strength (0-1, where 1 = exact aspect).
+    // `??` not `||`: a pair sitting exactly at an aspect's maximum orb has a
+    // cosine-bell strength of exactly 0, and `||` would read that legitimate
+    // zero as "missing" and apply the FULL archetypal effect — the widest
+    // possible aspect hitting hardest, and disagreeing with every other
+    // consumer of the same `strength` field.
+    const scaledEffect = aspect.strength ?? 1.0;
 
     totalEffect.Spirit += effect.Spirit * scaledEffect;
     totalEffect.Essence += effect.Essence * scaledEffect;

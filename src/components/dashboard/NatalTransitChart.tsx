@@ -1,14 +1,20 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useActiveTransits } from '@/hooks/useActiveTransits';
 import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
 import type { NatalChart, Planet, ZodiacSignType } from '@/types/natalChart';
+import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
+import { getDignityScore } from '@/utils/dignityScales';
 
 interface NatalTransitChartProps {
   natalChart: NatalChart;
+  /** Draw natal-to-natal major-aspect chords on the wheel (default true). */
+  showAspectLines?: boolean;
+  /** Draw per-planet element/dignity pull arrows outside the natal ring (default true). */
+  showSignVectors?: boolean;
 }
 
 const ZODIAC_SIGNS: ZodiacSignType[] = [
@@ -49,7 +55,22 @@ interface TransitData {
   isRetrograde?: boolean;
 }
 
-export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart }) => {
+/** Majors only on the wheel — minors would hairball; they live on the FBD cards instead. */
+const MAJOR_ASPECTS = new Set(['conjunction', 'opposition', 'trine', 'square', 'sextile']);
+const HARMONIOUS_ASPECTS = new Set(['conjunction', 'trine', 'sextile']);
+const ASPECT_DASH: Record<string, string | undefined> = {
+  conjunction: undefined,
+  trine: undefined,
+  square: '3,3',
+  opposition: '5,5',
+  sextile: '2,2',
+};
+
+export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
+  natalChart,
+  showAspectLines = true,
+  showSignVectors = true,
+}) => {
   const { planetaryPositions: currentPositionsRaw } = useAlchemical();
   const [transitData, setTransitData] = useState<Record<string, TransitData>>({});
   const { groupForPlanet } = useActiveTransits();
@@ -153,6 +174,19 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
   const spreadNatal = spreadPositions(natalPositions, 8);
   const spreadTransit = spreadPositions(transitPositions, 8);
 
+  // Natal-to-natal major aspects for the wheel chords (minors live on the FBD cards).
+  const natalAspects = useMemo(
+    () =>
+      buildAspectsFromChartPlanets(natalChart.planets).filter(
+        (a) => MAJOR_ASPECTS.has(a.type) && a.strength >= 0.2,
+      ),
+    [natalChart.planets],
+  );
+
+  const spreadNatalByPlanet = new Map<string, { absAngle: number; sign: string }>(
+    spreadNatal.map((pos) => [pos.planet as string, pos as { absAngle: number; sign: string }]),
+  );
+
   return (
     <div className="space-y-4">
       <div className="flex justify-center">
@@ -202,6 +236,83 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
               </g>
             );
           })}
+
+          {/* Natal-to-natal aspect chords (under the planet markers) */}
+          {showAspectLines &&
+            natalAspects.map((aspect) => {
+              const p1 = spreadNatalByPlanet.get(aspect.planet1);
+              const p2 = spreadNatalByPlanet.get(aspect.planet2);
+              if (!p1 || !p2) return null;
+              const pt1 = polarToXY(toSvgAngle(p1.absAngle), natalR);
+              const pt2 = polarToXY(toSvgAngle(p2.absAngle), natalR);
+              const chordLength = Math.hypot(pt2.x - pt1.x, pt2.y - pt1.y);
+              // Conjunction chords collapse to dots — skip the near-zero ones.
+              if (aspect.type === 'conjunction' && chordLength < 6) return null;
+              const alpha = 0.25 + 0.45 * aspect.strength;
+              const stroke = HARMONIOUS_ASPECTS.has(aspect.type)
+                ? `rgba(78,205,196,${alpha.toFixed(3)})`
+                : `rgba(239,68,68,${alpha.toFixed(3)})`;
+              return (
+                <line
+                  key={`aspect-${aspect.planet1}-${aspect.planet2}-${aspect.type}`}
+                  x1={pt1.x}
+                  y1={pt1.y}
+                  x2={pt2.x}
+                  y2={pt2.y}
+                  stroke={stroke}
+                  strokeWidth={0.6 + 1.6 * aspect.strength}
+                  strokeDasharray={ASPECT_DASH[aspect.type]}
+                  strokeLinecap="round"
+                >
+                  <title>{`${aspect.planet1} ${aspect.type} ${aspect.planet2} · strength ${aspect.strength.toFixed(2)}`}</title>
+                </line>
+              );
+            })}
+
+          {/* Sign-element pull vectors: radial arrows scaled by dignity */}
+          {showSignVectors &&
+            spreadNatal.map((pos) => {
+              const signStr = typeof pos.sign === 'string' ? pos.sign.toLowerCase() : '';
+              const element = SIGN_ELEMENTS[signStr];
+              if (!element) return null;
+              const color = ELEMENT_COLORS[element];
+              // ESMS-scale dignity — the same multiplier the alchemical engine
+              // applies, so the arrow length means what the FBD cards mean.
+              const dignity = getDignityScore(pos.planet, signStr);
+              const multiplier = 1 + dignity.esmsScale / 100;
+              const length = 10 * multiplier;
+              const angle = toSvgAngle(pos.absAngle);
+              const rad = (angle * Math.PI) / 180;
+              const ux = Math.cos(rad);
+              const uy = Math.sin(rad);
+              const start = polarToXY(angle, 144);
+              const tip = polarToXY(angle, 144 + length);
+              const headLen = 3.5;
+              const headHalfWidth = 2.2;
+              const baseX = tip.x - ux * headLen;
+              const baseY = tip.y - uy * headLen;
+              const perpX = -uy;
+              const perpY = ux;
+              const signLabel = signStr ? signStr.charAt(0).toUpperCase() + signStr.slice(1) : signStr;
+              return (
+                <g key={`sign-vector-${pos.planet}`} opacity="0.8">
+                  <title>{`${signLabel} → ${element} · ${dignity.type} ×${multiplier.toFixed(2)}`}</title>
+                  <line
+                    x1={start.x}
+                    y1={start.y}
+                    x2={baseX}
+                    y2={baseY}
+                    stroke={color}
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                  />
+                  <polygon
+                    points={`${tip.x},${tip.y} ${baseX + perpX * headHalfWidth},${baseY + perpY * headHalfWidth} ${baseX - perpX * headHalfWidth},${baseY - perpY * headHalfWidth}`}
+                    fill={color}
+                  />
+                </g>
+              );
+            })}
 
           {/* Natal planet markers (outer ring) */}
           {spreadNatal.map((pos) => {
@@ -289,7 +400,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
       </div>
 
       {/* Legend */}
-      <div className="flex justify-center gap-6 text-xs">
+      <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: '#a78bfa', boxShadow: '0 0 6px rgba(167,139,250,0.4)' }} />
           <span className="text-white/40">Natal</span>
@@ -298,6 +409,29 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({ natalChart
           <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: '#fb923c', boxShadow: '0 0 6px rgba(251,146,60,0.4)' }} />
           <span className="text-white/40">Transit</span>
         </div>
+        {/* Keyed off what was actually drawn: charts stored sign-only carry no
+            longitudes, so no chords exist to explain. */}
+        {showAspectLines && natalAspects.length > 0 && (
+          <>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-0.5 inline-block rounded-full" style={{ backgroundColor: 'rgba(78,205,196,0.8)', boxShadow: '0 0 6px rgba(78,205,196,0.4)' }} />
+              <span className="text-white/40">Harmony</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-0.5 inline-block rounded-full" style={{ backgroundColor: 'rgba(239,68,68,0.8)', boxShadow: '0 0 6px rgba(239,68,68,0.4)' }} />
+              <span className="text-white/40">Tension</span>
+            </div>
+          </>
+        )}
+        {showSignVectors && spreadNatal.length > 0 && (
+          <div className="flex items-center gap-1.5">
+            <span
+              className="w-2.5 h-2.5 rounded-full inline-block"
+              style={{ background: 'conic-gradient(#ef4444, #a78bfa, #34d399, #60a5fa, #ef4444)', opacity: 0.8 }}
+            />
+            <span className="text-white/40">Element pull</span>
+          </div>
+        )}
       </div>
 
       {/* Natal Placements Table */}

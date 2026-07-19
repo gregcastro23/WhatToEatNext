@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";
 import { calculateComprehensiveAspects } from "@/utils/aspectCalculator";
+import { computeAspectKinematics, computeOrb } from "@/utils/aspectKinematics";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import { createLogger } from "@/utils/logger";
 import { AVERAGE_DAILY_MOTION } from "@/utils/planetaryTransitions";
@@ -23,16 +24,6 @@ function toLongitude(pos: { sign: string; degree: number; minute?: number; exact
   const SIGNS = ["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"];
   const idx = SIGNS.indexOf(String(pos.sign).toLowerCase());
   return Math.max(0, idx) * 30 + (pos.degree ?? 0) + (pos.minute ?? 0) / 60;
-}
-
-/**
- * Compute the minimal angular separation from the aspect's ideal angle.
- * Returns a value in [0, maxOrb].
- */
-function computeOrb(long1: number, long2: number, aspectAngle: number): number {
-  let diff = Math.abs(long1 - long2) % 360;
-  if (diff > 180) diff = 360 - diff;
-  return Math.abs(diff - aspectAngle);
 }
 
 export interface AspectEntry {
@@ -141,10 +132,6 @@ export async function GET(request: Request) {
       return { speed: base * sign, source: "average-fallback" };
     };
 
-    // dt for finite-difference orb velocity — small enough to be ~instantaneous
-    // for the slowest planets, large enough to dodge floating-point noise.
-    const DT_DAYS = 1 / 24; // 1 hour
-
     for (const aspect of rawAspects) {
       if (!MAJOR_ASPECTS.has(aspect.type)) continue;
 
@@ -164,28 +151,9 @@ export async function GET(request: Request) {
           ? "ephemeris"
           : "average-fallback";
 
-      // Orb at t and t+dt → finite-difference velocity.
       const currentOrb = computeOrb(L1, L2, aspectAngle);
-      const L1next = (L1 + m1 * DT_DAYS + 360) % 360;
-      const L2next = (L2 + m2 * DT_DAYS + 360) % 360;
-      const nextOrb = computeOrb(L1next, L2next, aspectAngle);
-
-      // Signed orb velocity in deg/day. Negative ⇒ orb shrinking ⇒ applying.
-      const orbVelocity = (nextOrb - currentOrb) / DT_DAYS;
-      const STATIONARY_EPS = 1e-4; // deg/day
-      const applying = orbVelocity < -STATIONARY_EPS;
-      const state: "applying" | "separating" | "stationary" =
-        Math.abs(orbVelocity) < STATIONARY_EPS
-          ? "stationary"
-          : applying
-            ? "applying"
-            : "separating";
-
-      // Days to exact (signed by state semantics: positive = future, also positive for
-      // separating to indicate days since exact, matching prior contract).
-      const daysToExact = Math.abs(orbVelocity) > 1e-6
-        ? currentOrb / Math.abs(orbVelocity)
-        : 9999;
+      const { orbVelocity, applying, state, daysToExact } =
+        computeAspectKinematics(L1, L2, aspectAngle, m1, m2);
 
       const strength = Math.max(0, 1 - currentOrb / maxOrb);
 

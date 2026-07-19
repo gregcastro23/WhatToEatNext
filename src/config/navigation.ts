@@ -109,7 +109,7 @@ export const NAV_IA: NavIA = {
       { label: "Recommendation Engine", path: "/lab", glyph: "orbital", hint: "Live signal flow · weights · overrides" },
       { label: "Lab Book", path: "/lab-book", glyph: "bookmark", hint: "Scan or paste recipes into your cookbook" },
       { label: "Grimoire", path: "/grimoire", glyph: "bookmark", hint: "The practices · today's resonance · your feats" },
-      { label: "Planetary Chart", path: "/planetary-chart", glyph: "ring", hint: "Current transit · zoomable", premium: true },
+      { label: "Planetary Chart", path: "/planetary-chart", glyph: "ring", hint: "Free-body diagrams of the current sky" },
       { label: "Current Chart", path: "/current-chart", glyph: "wave", hint: "Live sky × your natal" },
       { label: "Alchm Quantities", path: "/quantities", glyph: "crosshair", hint: "ESMS · Monica constants · P=IV" },
       { label: "Standing Chart", path: "/birth-chart", glyph: "diamond", hint: "Your natal · stored encrypted" },
