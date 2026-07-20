@@ -698,6 +698,49 @@ their own copies.
 before any judgement is required — the same lesson as `DIGNITY_FOOD_SCALE`, where
 an apparent two-scale conflict dissolved on discovering it had zero callers.
 
+### 14c-bis. The thermodynamic layer is worse than §9a stated
+
+`[RESEARCH 2026-07-20]` §9a called the heat formulas "≥3 conflicting
+implementations". Measured:
+
+| Quantity | Definition sites | Distinct numeric behaviours | Live |
+|---|---|---|---|
+| heat | 27 | 7 | 6 |
+| entropy | 25 | 7 | 6 |
+| **reactivity** | 26 | **9** | 8 |
+| gregsEnergy | 20 | 4 | 4 |
+| kalchm | 20 | 7 | 6 |
+| monica | 26 | 8 | 8 |
+
+Evaluated on one shared input (S=4, E=4, M=4, Sub=2, Fire=.3, Water=.25,
+Air=.25, Earth=.2):
+
+- **heat** spans `0.1405` (canonical) to `9.26` (`astrologyUtils` fake-ESMS) —
+  a **66× spread**. The linear form in `alchemicalEnergyMapping` returns `3.2`,
+  22× canonical and unbounded above 1.
+- **reactivity** — ⚠️ **the production path disagrees with everything else.**
+  `RealAlchemizeService` uses the Dignity form `(Σ/M) + Earth²` → `9.09`, while
+  `UnifiedScoringService`, `gregsEnergy`, `kalchmEngine`,
+  `monicaKalchmCalculations` and `data/unified` all use `(Matter+Earth)²` →
+  `2.05`. **4.4× apart on identical input, and the gap grows without bound as
+  Earth rises**, because Earth moved from the denominator to an additive term.
+  Any consumer comparing the two is comparing incommensurable numbers.
+- **kalchm and monica agree on normal input and diverge in the degenerate
+  regime** — the same undefined state returns `1.0`, `NaN`, `0` or `null`
+  depending on the module. `1.0` is indistinguishable from a legitimate value at
+  every consumer except `RealAlchemizeService`, the only site that flags it.
+
+### 14c-ter. ⚠️ A non-thermodynamic "monica" is persisted to user profiles
+
+`api/agents/unified/route.ts:173` and `philosophers-stone/page.tsx:199` compute
+"monica" as an **average of planetary longitudes** — values in `[0,10]` with no
+thermodynamic content whatsoever — and **the API route writes it to the user
+profile**. `recipeBuilding.ts:202` returns an `(Air+Fire)/(Water+Earth)` ratio
+under the same name.
+
+This is stored data, not just a display defect. It needs auditing before any
+monica-consuming feature is trusted. `[OPEN]`
+
 ### 14d. What this means for the work in this document
 
 **The magnitude question is downstream of an engine that disagrees with itself.**
