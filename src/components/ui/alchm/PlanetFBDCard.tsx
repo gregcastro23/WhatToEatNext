@@ -124,6 +124,12 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
   const color = planetColor(fbd.planet);
   const signGlyph = getZodiacGlyph(fbd.sign as ZodiacSignType);
   const active = fbd.vectors.find((v) => v.id === activeId) ?? null;
+  const dignityColor =
+    fbd.dignity.esmsScale > 0
+      ? "var(--accent-2)"
+      : fbd.dignity.esmsScale < 0
+        ? "#ef6a5a"
+        : "var(--fg-mute)";
 
   // Ruler ticks over the ± window around the planet's exact position.
   //
@@ -178,12 +184,13 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
             height: 30,
             borderRadius: "50%",
             flexShrink: 0,
-            background: `radial-gradient(circle at 30% 30%, ${color}, color-mix(in oklch, ${color}, black 55%))`,
+            background: `color-mix(in oklch, ${color}, transparent 80%)`,
+            border: `1px solid color-mix(in oklch, ${color}, transparent 50%)`,
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: 15,
-            color: "rgba(0,0,0,0.75)",
+            color,
           }}
         >
           {planetGlyph(fbd.planet)}
@@ -207,13 +214,9 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
             letterSpacing: "0.14em",
             padding: "3px 7px",
             borderRadius: 999,
-            border: "1px solid var(--line)",
-            color:
-              fbd.dignity.esmsScale > 0
-                ? "var(--accent-2)"
-                : fbd.dignity.esmsScale < 0
-                  ? "#ef6a5a"
-                  : "var(--fg-mute)",
+            border: `1px solid color-mix(in oklch, ${dignityColor}, transparent 60%)`,
+            background: `color-mix(in oklch, ${dignityColor}, transparent 88%)`,
+            color: dignityColor,
             whiteSpace: "nowrap",
           }}
         >
@@ -294,6 +297,17 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
             ? vector.angleDeg + 180
             : vector.angleDeg;
           const labelPos = polar(vector.angleDeg, len + 12);
+          const labelAnchor =
+            Math.cos((vector.angleDeg * Math.PI) / 180) > 0.35
+              ? "start"
+              : Math.cos((vector.angleDeg * Math.PI) / 180) < -0.35
+                ? "end"
+                : "middle";
+          const kinematics = vector.kind === "aspect" ? (vector.aspect?.kinematics ?? null) : null;
+          const countdown =
+            kinematics && kinematics.state !== "stationary"
+              ? `${kinematics.state} · ${kinematics.daysToExact.toFixed(1)}d`
+              : null;
           return (
             <g
               key={vector.id}
@@ -327,13 +341,7 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
               <text
                 x={labelPos.x}
                 y={labelPos.y}
-                textAnchor={
-                  Math.cos((vector.angleDeg * Math.PI) / 180) > 0.35
-                    ? "start"
-                    : Math.cos((vector.angleDeg * Math.PI) / 180) < -0.35
-                      ? "end"
-                      : "middle"
-                }
+                textAnchor={labelAnchor}
                 dominantBaseline="central"
                 fontSize={7.5}
                 fill={vColor}
@@ -342,6 +350,20 @@ export function PlanetFBDCard({ fbd }: PlanetFBDCardProps) {
               >
                 {vector.label}
               </text>
+              {countdown && (
+                <text
+                  x={labelPos.x}
+                  y={labelPos.y + 8}
+                  textAnchor={labelAnchor}
+                  dominantBaseline="central"
+                  fontSize={4.5}
+                  fill="var(--fg-mute)"
+                  opacity={isActive ? 0.9 : 0.45}
+                  style={{ fontFamily: "var(--f-mono)", letterSpacing: "0.04em", userSelect: "none" }}
+                >
+                  {countdown}
+                </text>
+              )}
             </g>
           );
         })}
