@@ -195,7 +195,7 @@ export interface FBDPhysics {
   speedDegPerDay: number | null;
   /** Signed daily motion, arc-minutes/day — the card's arc-minute tie-in. */
   arcminutesPerDay: number | null;
-  /** Orbital-period alchemical weight (log-normalized, Moon≈0.17 Pluto≈1). */
+  /** Orbital-period alchemical weight (log-normalized, Moon≈0.28 Pluto=1). */
   alchmWeight: number;
 }
 

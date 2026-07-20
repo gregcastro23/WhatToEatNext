@@ -166,17 +166,26 @@ export type ZodiacQuality = "Cardinal" | "Fixed" | "Mutable";
  * Night sect planets: Moon, Venus, Mars
  * Mercury is adaptable - it joins whichever sect it rises with
  *
- * Diurnal / Nocturnal element assignments (traditional authority):
+ * Diurnal / Nocturnal element assignments (traditional authority).
+ *
+ * ⚠️ This table is TRANSCRIBED FROM THE CODE BELOW, which is authoritative.
+ * It previously disagreed with its own code for FOUR of the ten planets
+ * (Venus, Jupiter, Uranus, Pluto had their pairs swapped or altered), so
+ * anyone hand-porting the engine from this header — as the sibling repos
+ * must — encoded four wrong sect elements. Sect drives the 0.4-weight pull
+ * vector on every FBD card, so a wrong pair silently tilts the elemental
+ * push. If you change the code, change this list in the same commit.
+ *
  *   Sun     Fire  / Fire    (luminary - always Fire)
  *   Moon    Water / Water   (luminary - always Water)
  *   Mercury Air   / Earth   (adapts to sect)
- *   Venus   Earth / Water
+ *   Venus   Water / Earth
  *   Mars    Fire  / Water
- *   Jupiter Fire  / Air
+ *   Jupiter Air   / Fire
  *   Saturn  Air   / Earth   ← key correction (was wrong before)
- *   Uranus  Air   / Air     (modern - airy by nature)
+ *   Uranus  Water / Air     (modern)
  *   Neptune Water / Water   (modern - watery by nature)
- *   Pluto   Water / Earth   (modern - transformative)
+ *   Pluto   Earth / Water   (modern - transformative)
  */
 export const PLANETARY_SECTARIAN_ELEMENTS = {
   Sun:     { diurnal: "Fire"  as AlchemicalElement, nocturnal: "Fire"  as AlchemicalElement },
@@ -514,7 +523,13 @@ export function calculateEnhancedAlchemicalFromPlanetsDetailed(
     const baseESMS = diurnal ? sectEntry.diurnal : sectEntry.nocturnal;
 
     // Alchm weight: orbital-period based (slower = higher alchemical volume)
-    // Pluto (P=248y) → weight ≈ 1.0; Moon (P=27d) → weight ≈ 0.17
+    // Pluto (P=248y) → weight = 1.0; Moon (P=27d) → weight ≈ 0.28
+    //
+    // NOTE: this is the ORBITAL-PERIOD scale (normalizeAlchmWeight), which is
+    // NOT the mass scale (normalizePlanetWeight) used a few hundred lines up.
+    // The two disagree per planet — e.g. Mercury is ≈0.39 here but ≈0.17 by
+    // mass. The stale "Moon ≈ 0.17" this line used to carry was Mercury's MASS
+    // weight copied across the two scales. Don't transcribe between them.
     //
     // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant.
     // It provides a fixed (+1) to all principles to anchor the system,
