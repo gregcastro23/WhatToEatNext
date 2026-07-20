@@ -649,3 +649,110 @@ adjacency stops implying a relationship. `[AUTHORED]`
 encoded as typed slots, the two flagged outliers marked `[OPEN]`. Nothing can
 be fitted or validated until the target exists in version control rather than a
 spreadsheet.
+
+---
+
+## 9. The unified dignity scale, and the effect-size layer
+
+### 9a. Ruling: Domicile ranks above Exaltation
+
+`[AUTHORED 2026-07-20]` Per the classical essential-dignity point systems
+(Ptolemy, later Lilly): **Domicile 5 points, Exaltation 4.**
+
+- **Domicile (rulership)** — the planet in its own home. Ultimate structural
+  authority, access to all its own resources, complete self-reliance. The
+  sovereign.
+- **Exaltation** — the planet as an honoured guest. High praise, visibility,
+  peak energetic expression, but it relies on the host (the domicile ruler) for
+  its underlying foundation.
+
+**`DIGNITY_ESMS_SCALE` (Domicile +10, Exaltation +7) already has the
+historically accurate order and is retained.**
+
+**Why the canvas drifted:** exaltation reads as the *louder*, more exaggerated,
+more acutely powerful state in practice, so it attracted more symbols. It lacks
+domicile's systemic stability and absolute control. The notation records
+intensity; the scale must record authority.
+
+### 9b. There is no scale collision — the food scale is dead code
+
+Verified on `origin/master`:
+
+| Symbol | Callers |
+|---|---|
+| `getDignityForFoodScoring` | **zero** |
+| `DIGNITY_FOOD_SCALE` | referenced only inside `dignityScales.ts` |
+| `esmsScale` | `planetaryAlchemyMapping.ts:541`, `NatalTransitChart.tsx:290` |
+
+The `// backward compatibility` comment on the food scale is aspirational —
+there is no caller to be compatible with. **Delete `DIGNITY_FOOD_SCALE` and
+`getDignityForFoodScoring`.** `[AUTHORED]`
+
+Ingredient and cuisine `elementalProperties` are independently authored data and
+were never derived from the dignity scale, so unification does not touch them.
+
+⚠️ This means #624 decision 7 ("two scales, crossing them forbidden") is
+guarding a crossing the code no longer makes. After deletion there is **one
+scale** and the rule is moot — but keep the lint rule as a ratchet so a second
+scale cannot reappear.
+
+### 9c. Consequence: the canvas's effect-size symbols encode the wrong order
+
+The effect-size column writes **Domicile `(+)` and Exaltation `(++)`** — two
+marks for the weaker state. Symbol count is therefore **not** magnitude, and
+transcribing it faithfully would propagate an inverted hierarchy.
+
+Under §8d this is the *cell wrong, not rule wrong* case:
+
+- The rule's **structure survives** — dignity-first, element-fallback, 94%.
+- The rule's **dignified values are remapped** to `DIGNITY_ESMS_SCALE` order.
+  Domicile outranks Exaltation regardless of how many marks the canvas drew.
+
+### 9d. Generated peregrine cells — 67, `[DERIVED]`
+
+Rule: `night element == sign element → (+ +), else (-)`. 10/10 on the observed
+cells. Generated for every peregrine planet-sign pair lacking a value.
+
+**Two warnings on this output:**
+
+1. **54 of 67 are negative (81%).** Since most planets in most charts are
+   peregrine, this makes the average placement materially worse than today,
+   where peregrine is exactly neutral (×1.00). **Measure this on a reference
+   chart before the v2 cutover** — it is plausibly the largest single behavioral
+   change in the model, larger than the Uranus correction. `[OPEN]`
+2. **10 cells are hypothesis-dependent** — flagged `discriminating` in the data.
+   These are pairs where the DAY element matches but the night element does not,
+   so night-only says `(-)` while either-element says `(+ +)`. They are the only
+   cells that can distinguish the two readings, and they are currently generated
+   under night-only. If the day hypothesis is later adopted, exactly these ten
+   flip.
+
+   `Gemini/Saturn · Cancer/Venus · Cancer/Uranus · Leo/Mars · Virgo/Pluto ·
+   Libra/Mercury · Libra/Jupiter · Sagittarius/Mars · Capricorn/Pluto ·
+   Pisces/Uranus`
+
+These 67 are `[DERIVED]`, not evidence. They were generated from a rule fitted
+on 52 observations and cannot independently confirm it. If the rule is revised
+they all regenerate.
+
+### 9e. Canvas corrections to apply
+
+`[AUTHORED]` All three are unambiguous:
+
+| Item | Canvas | Correct |
+|---|---|---|
+| Uranus detriment | Taurus | **Leo** — detriment is definitionally opposite the domicile (Aquarius) |
+| Saturn orbital period | 12 y | **29.46 y** — fill-right from the Jupiter cell |
+| Tarot "Dominant Sign/Planet" | implies card ruler | relabel as **decan sub-sign**; the Golden Dawn cards are Chaldean and disagree 29/36 |
+
+### 9f. Degree-layer gaps are all derivable
+
+`[AUTHORED]` None of these were undecided — they were dropped:
+
+- **Terms**, 27 of 360 degrees unruled → Lilly's published table.
+- **Sign-association**, blank in Virgo/Libra/Scorpio/Sagittarius → the 30-degree
+  zodiac cycle.
+- **Element column** → `[DERIVED]` from sign association, zero independent
+  information.
+- **Aquarius's missing Alchemy column** → the 14-name cycle, identical across
+  all twelve signs.
