@@ -649,3 +649,70 @@ part of it is already applied via `alchmWeight`. What remains unset is the
 **per-aspect-type constant** — conjunction versus opposition versus trine versus
 square. That is a much smaller question than it looked: four numbers, not 45.
 `[OPEN]`
+
+---
+
+## 14. The engine does not agree with itself
+
+`[RESEARCH 2026-07-20]` A full audit of every core physics quantity. Force and
+inertia were flagged earlier as double- and quadruple-booked; the real picture is
+much worse, and it is **upstream of everything in this document**.
+
+| Quantity | Live definitions | Dead | Agree? |
+|---|---|---|---|
+| `normalizeAlchmWeight` | 2 | 0 | **yes** — verbatim fork |
+| Planetary weight tables | **12** (+3 period, +2 mass) | 2 | **no** — differ in value *and rank order* |
+| Dignity multiplier | **9** | 5 | **no** — Sun-in-Leo spans ×1.10 → ×1.50 |
+| Aspect strength | **12** | 2 | **no** — three incompatible ranges (0–1, 0–2, 0–10) |
+| Orb budget | **12** | 1 | **no** — conjunction 8 vs 10, sextile 4 vs 6, trine 7 vs 8 |
+
+### 14a. Two live ESMS engines give different answers
+
+`RealAlchemizeService` and `planetaryAlchemyMapping` both compute per-planet ESMS
+and are both live. They apply **different dignity scales** (±3 → ×0.15 versus
+±10 → ÷100) on top of an *identical* `alchmWeight`. Same chart, two answers.
+**Mercury-in-Virgo is the worst case: ×1.45 versus ×1.07.**
+
+This is the same class of defect as the `Q 0.00` bug and the ESMS/element
+collapse — two plausible paths producing different numbers with nothing
+asserting they should match.
+
+### 14b. `alchm-quantities/route.ts` is an outlier on nearly every axis
+
+Its own inertia, its own force, its own aspect strength, and a **moiety-based orb
+model** instead of a fixed table: `maxOrb = (moiety₁ + moiety₂) × aspectScale`.
+A Sun–Moon conjunction gets **13.5°** there against **8°** everywhere else — so
+it admits aspects no other module considers to exist. Worth checking whether it
+was written against a different spec entirely.
+
+### 14c. A third of the conflict is dead code
+
+Unreferenced and removable before any real reconciliation: `DIGNITY_FOOD_SCALE`,
+`getDignityForFoodScoring`, `getDignityESMSMultiplier`, `_getDignityMultiplier`,
+`PLANETARY_ORBS`, `cookingMethodRecommender._calculateAspectMethodAffinity`, the
+whole `signVectors` module, plus two unimported duplicate files
+(`ingredientRecommendation 2.ts`, `PlanetaryCalculationsDemo 2.tsx`) carrying
+their own copies.
+
+**Deleting dead code first cuts the apparent conflict count by roughly a third**
+before any judgement is required — the same lesson as `DIGNITY_FOOD_SCALE`, where
+an apparent two-scale conflict dissolved on discovering it had zero callers.
+
+### 14d. What this means for the work in this document
+
+**The magnitude question is downstream of an engine that disagrees with itself.**
+Calibrating a new aspect scale against a system where aspect strength has three
+incompatible output ranges and orbs disagree by 25% would be fitting to noise.
+
+`[AUTHORED]` **Revised order:**
+
+1. **Delete the dead definitions.** No judgement needed, removes ~⅓ of the
+   conflict, and it is the cheapest possible win.
+2. **Reconcile the two ESMS engines** (§14a). Two live answers for one chart is
+   the most serious defect found.
+3. **Unify orb and aspect strength.** Both are inputs to any aspect magnitude, so
+   neither the grids nor G can be calibrated until they are single-valued.
+4. *Then* settle the per-aspect magnitude constant and wire the grids.
+
+The three live production bugs (§9a heat formulas, Uranus detriment, Saturn
+period) remain independent of all of this and are still unfixed.
