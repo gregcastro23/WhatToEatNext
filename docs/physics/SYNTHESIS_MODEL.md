@@ -590,3 +590,62 @@ comparison was trusted: the 0%/91% polarity split, the position of the
 elemental grids showing the same pattern (`Moon→Sun` positive, `Sun→Moon`
 negative). A global inversion here would have silently swapped conjunction with
 opposition across all 308 cells.
+
+---
+
+## 13. Impulse — and why alchmWeight already encodes it
+
+An aspect is not an instantaneous event; it acts over the window the pair spends
+within orb. So the quantity delivered is an **impulse** — force integrated over
+that window — not a force.
+
+Time in an 8° orb, from mean motions:
+
+| Pair | Relative motion °/day | Days in orb |
+|---|---|---|
+| Moon–Pluto | 13.17 | **1.2** |
+| Sun–Mars | 0.46 | 34.7 |
+| Saturn–Uranus | 0.022 | 733.9 |
+| Neptune–Pluto | 0.002 | **8000** |
+
+A **6,586× spread**. Taken literally, Neptune–Pluto would deliver thousands of
+times more total effect than any lunar aspect and dominate every chart.
+
+### 13a. The engine already solves this
+
+| | Pluto vs Moon |
+|---|---|
+| Duration-in-orb ratio | 3,294× |
+| Orbital period ratio | 3,306× |
+| `alchmWeight` ratio | **3.52×** |
+
+Duration-in-orb and orbital period track to within **0.4%** — they are the same
+quantity. And `alchmWeight` is the log₁₀-normalised period
+(`normalizeAlchmWeight`, `src/data/planets.ts:70`), which compresses a 3,306×
+raw spread into a usable 3.52×.
+
+**`alchmWeight` is therefore already a log-compressed impulse weighting.**
+`[CODE]` Multiplying an aspect by duration on top of it would double-count the
+same physical fact.
+
+### 13b. This defends period-weighting against gravitation
+
+#624 decisions 4–6 replace weight with `M/r²`. §9b left that `[OPEN]`, deferring
+until gravitation exists.
+
+This finding is an argument for the existing scheme rather than a deferral.
+Period-weighting **is** impulse-weighting: a slow planet's aspects act over a
+proportionally longer window, and the log normalisation is what keeps that
+tractable. `M/r²` would discard the property that makes aspect weighting
+physically meaningful and replace it with one that does not describe how aspects
+actually deliver their effect. `[AUTHORED]`
+
+The mass scale keeps its separate job (§9b): mechanics, not alchemical weight.
+
+### 13c. Consequence for magnitude
+
+Impulse cannot supply the per-pair aspect magnitude, because the pair-varying
+part of it is already applied via `alchmWeight`. What remains unset is the
+**per-aspect-type constant** — conjunction versus opposition versus trine versus
+square. That is a much smaller question than it looked: four numbers, not 45.
+`[OPEN]`
