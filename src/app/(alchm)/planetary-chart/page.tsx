@@ -11,6 +11,7 @@
 import type { Metadata } from "next";
 import { unstable_cache } from "next/cache";
 import {
+  ASPECT_GLYPHS,
   buildFreeBodyDiagrams,
   TEN_PLANETS,
   type FBDPositionInput,
@@ -40,7 +41,8 @@ function buildAspectLedger(fbds: PlanetFBD[]) {
     planet2: string;
     glyph: string;
     type: string;
-    orb: number;
+    orbDeg: number;
+    orbMin: number;
     strength: number;
     polarity: "harmonious" | "challenging" | "neutral";
     kinematics: { state: "applying" | "separating" | "stationary"; daysToExact: number } | null;
@@ -55,9 +57,14 @@ function buildAspectLedger(fbds: PlanetFBD[]) {
       rows.push({
         planet1: card.planet,
         planet2: other,
-        glyph: vector.label.split(" ")[0] ?? "",
+        // Read the glyph and the orb split from the engine — never re-derive
+        // either. Parsing `label.split(" ")[0]` yields a whole uppercase word
+        // for the glyph-less minor types, and re-splitting the orb with
+        // floor+round reintroduces the "2°60′" bug the engine already guards.
+        glyph: ASPECT_GLYPHS[vector.aspect.type],
         type: vector.aspect.type,
-        orb: vector.aspect.orb,
+        orbDeg: vector.aspect.orbDeg,
+        orbMin: vector.aspect.orbMin,
         strength: vector.aspect.strength,
         polarity: vector.polarity,
         kinematics: vector.aspect.kinematics,
@@ -293,8 +300,6 @@ export default async function PlanetaryChartPage() {
                 </thead>
                 <tbody>
                   {sky.aspectLedger.map((row) => {
-                    const orbDeg = Math.floor(row.orb);
-                    const orbMin = Math.round((row.orb - orbDeg) * 60);
                     const polarityColor =
                       row.polarity === "harmonious"
                         ? "#4ecdc4"
@@ -320,7 +325,7 @@ export default async function PlanetaryChartPage() {
                           {row.type.charAt(0).toUpperCase() + row.type.slice(1)}
                         </td>
                         <td style={{ padding: "5px 6px", color: "var(--fg-dim)" }}>
-                          {orbDeg}°{String(orbMin).padStart(2, "0")}′
+                          {row.orbDeg}°{String(row.orbMin).padStart(2, "0")}′
                         </td>
                         <td
                           style={{

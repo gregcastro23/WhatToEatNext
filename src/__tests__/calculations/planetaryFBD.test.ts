@@ -13,6 +13,8 @@
  * expected geometry is obvious by inspection.
  */
 import {
+  ASPECT_GLYPHS,
+  ASPECT_MAX_ORBS,
   ELEMENT_ANGLES,
   buildFreeBodyDiagrams,
   formatDegMin,
@@ -693,6 +695,80 @@ describe("orb formatting", () => {
     for (const card of cards) {
       for (const vector of card.vectors) {
         expect(vector.detail).not.toContain("°60′");
+      }
+    }
+  });
+
+  // The two tests above only pin the `detail` STRING. The orb split is also
+  // exposed as `orbDeg`/`orbMin` precisely so other surfaces (the aspect
+  // ledger on /planetary-chart) never re-derive it — a consumer doing
+  // `floor(orb)` + `round(frac*60)` reintroduces "N°60′" while `detail`
+  // stays correct, so the two surfaces disagree about the same aspect.
+  test("the exposed orbDeg/orbMin never carry 60 arc-minutes either", () => {
+    const { cards } = buildFreeBodyDiagrams({
+      positions: RICH_SKY_POSITIONS,
+      diurnal: true,
+    });
+    for (const card of cards) {
+      for (const vector of card.vectors) {
+        if (!vector.aspect) continue;
+        expect(vector.aspect.orbMin).toBeGreaterThanOrEqual(0);
+        expect(vector.aspect.orbMin).toBeLessThan(60);
+        expect(Number.isInteger(vector.aspect.orbDeg)).toBe(true);
+        expect(Number.isInteger(vector.aspect.orbMin)).toBe(true);
+      }
+    }
+  });
+
+  test("orbDeg/orbMin agree with the detail string for the same aspect", () => {
+    // 2.9999° off an exact trine — the danger band. detail says 3°00′, so the
+    // structured fields must too, not 2°60′.
+    const { cards } = buildFreeBodyDiagrams({
+      positions: {
+        Mars: { sign: "cancer", degree: 10, exactLongitude: 100 },
+        Venus: { sign: "scorpio", degree: 12, exactLongitude: 222.9999 },
+      },
+      diurnal: true,
+    });
+    const vector = byPlanet(cards, "Mars").vectors.find((v) => v.kind === "aspect");
+    expect(vector?.aspect).toBeDefined();
+    expect(vector!.aspect!.orbDeg).toBe(3);
+    expect(vector!.aspect!.orbMin).toBe(0);
+    expect(vector!.detail).toContain(
+      `${vector!.aspect!.orbDeg}°${String(vector!.aspect!.orbMin).padStart(2, "0")}′`,
+    );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Aspect glyphs — every type the calculator can emit needs one, or a surface
+// that reads the glyph renders a whole uppercase word in a glyph-sized slot.
+// ---------------------------------------------------------------------------
+
+describe("aspect glyphs", () => {
+  test("every aspect type the engine scores has a glyph", () => {
+    for (const type of Object.keys(ASPECT_MAX_ORBS) as Array<keyof typeof ASPECT_MAX_ORBS>) {
+      expect(ASPECT_GLYPHS[type]).toBeDefined();
+      expect(ASPECT_GLYPHS[type].length).toBeGreaterThan(0);
+    }
+  });
+
+  test("no glyph is a whole word — they render in a glyph-sized column", () => {
+    for (const glyph of Object.values(ASPECT_GLYPHS)) {
+      expect(glyph.length).toBeLessThanOrEqual(2);
+    }
+  });
+
+  test("vector labels never start with an uppercased type name", () => {
+    const { cards } = buildFreeBodyDiagrams({
+      positions: RICH_SKY_POSITIONS,
+      diurnal: true,
+    });
+    for (const card of cards) {
+      for (const vector of card.vectors) {
+        if (vector.kind !== "aspect" || !vector.aspect) continue;
+        const first = vector.label.split(" ")[0];
+        expect(first).not.toBe(vector.aspect.type.toUpperCase());
       }
     }
   });
