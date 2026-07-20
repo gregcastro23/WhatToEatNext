@@ -9,6 +9,7 @@
  */
 
 import type { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 import {
   buildFreeBodyDiagrams,
   type FBDPositionInput,
@@ -21,6 +22,10 @@ import {
 import { calculatePlanetaryPositionsWithMeta } from "@/utils/serverPlanetaryCalculations";
 import PlanetaryChartClient from "./PlanetaryChartClient";
 
+// The (alchm) route group forces dynamic rendering for every route it wraps
+// (see layout.tsx — most siblings depend on per-request providers), so a
+// page-level `revalidate` here would be silently overridden and do nothing.
+// computeEcosystem() itself is cached instead, via unstable_cache below.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -29,7 +34,7 @@ export const metadata: Metadata = {
     "Every force acting on every planet right now — aspects, elemental pulls, dignities, and momentum — drawn as physics-style free-body diagrams at arc-minute precision.",
 };
 
-async function computeEcosystem() {
+async function computeEcosystemUncached() {
   const now = new Date();
   const { positions, degraded } = await calculatePlanetaryPositionsWithMeta(now);
 
@@ -79,6 +84,17 @@ async function computeEcosystem() {
     timestamp: now.toISOString(),
   };
 }
+
+// The route itself stays force-dynamic (see above), but the expensive part —
+// two upstream HTTP round-trips plus a full alchemizeDetailed + FBD build —
+// is cached across requests via Next's Data Cache. `timestamp` is captured
+// inside the cached function, so it reflects when the sky was last actually
+// computed, never the time of the request that happened to hit the cache.
+const computeEcosystem = unstable_cache(
+  computeEcosystemUncached,
+  ["planetary-chart-ecosystem"],
+  { revalidate: 60 },
+);
 
 const fmtStat = (value: number) =>
   Math.abs(value) >= 1000 || (Math.abs(value) < 0.001 && value !== 0)
