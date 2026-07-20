@@ -1,0 +1,6088 @@
+{
+ "$schema": "./model.schema.md",
+ "modelVersion": "2.0.0-draft",
+ "generated": "2026-07-20",
+ "spec": "docs/physics/SYNTHESIS_MODEL.md",
+ "note": "Consolidated alchm model. Single source: the spec's tables and any TypeScript constants are generated FROM this file. A table appearing in two places is a defect.",
+ "provenanceTags": {
+  "CANVAS": "Transcribed from the Alchm Semantics workbook. Cite the tab.",
+  "CODE": "Resolved in implementation, promoted here. Cite file:line.",
+  "AUTHORED": "Decided during completion. Reasoning in the spec.",
+  "DERIVED": "Computed from other values. No independent information.",
+  "OPEN": "Unresolved. Listed in the spec's gap register."
+ },
+ "runtimeSlots": {
+  "SIGN_ELEMENT_OF_OTHER": "Resolves to the element of the other body's sign placement at computation time. The canvas writes this as 'x'. NOT missing data.",
+  "SIGN_ELEMENT_OF_SELF": "The canvas writes this as 'y'. Undefined anywhere in the workbook; treated as the self-side counterpart of x. [OPEN]"
+ },
+ "aspectGrids": {
+  "provenance": "CANVAS",
+  "source": "Alchm Semantics — Dignity Tables tab",
+  "note": "Lower triangle and upper triangle are DIFFERENT aspects. See SYNTHESIS_MODEL.md §5.",
+  "bodies": [
+   "Sun",
+   "Moon",
+   "Mercury",
+   "Venus",
+   "Mars",
+   "Jupiter",
+   "Saturn",
+   "Uranus",
+   "Neptune",
+   "Pluto",
+   "Ascendant"
+  ],
+  "counts": {
+   "totalCells": 363,
+   "valueBearing": 308,
+   "selfDiagonal": 33,
+   "impossible": 21,
+   "empty": 1,
+   "containingRuntimeSlot": 106
+  },
+  "grids": [
+   {
+    "id": "elemental-conjunction-opposition",
+    "compass": "element",
+    "lowerTriangle": {
+     "aspect": "conjunction",
+     "orb": "within 10°"
+    },
+    "upperTriangle": {
+     "aspect": "opposition",
+     "orb": "175–185°"
+    },
+    "cells": [
+     {
+      "row": "Sun",
+      "col": "Sun",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Sun",
+      "col": "Moon",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥 -💧)"
+     },
+     {
+      "row": "Sun",
+      "col": "Mercury",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Sun",
+      "col": "Venus",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Sun",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥 -x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Fire",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥 -🔥)"
+     },
+     {
+      "row": "Sun",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Fire",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💨-🔥)"
+     },
+     {
+      "row": "Sun",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥-💧)"
+     },
+     {
+      "row": "Sun",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥-x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥💧🔥💧)"
+     },
+     {
+      "row": "Moon",
+      "col": "Moon",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Moon",
+      "col": "Mercury",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧 -🜃 -💨 )"
+     },
+     {
+      "row": "Moon",
+      "col": "Venus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧-🜃)"
+     },
+     {
+      "row": "Moon",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧 -🜃 -💨 )"
+     },
+     {
+      "row": "Moon",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥-💧-💨)"
+     },
+     {
+      "row": "Moon",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-🜃-💨)"
+     },
+     {
+      "row": "Moon",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Moon",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧 -💧 -x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "( -🜃 -💧)"
+     },
+     {
+      "row": "Moon",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥 💨 🜃 )"
+     },
+     {
+      "row": "Mercury",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 🜃💨 )"
+     },
+     {
+      "row": "Mercury",
+      "col": "Mercury",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Mercury",
+      "col": "Venus",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Mercury",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥-💧-x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Fire",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💨-🔥)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🜃-🜃-💨)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🜃-💧)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💨-🜃-💧)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🜃 -x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x -x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥 💧 🜃 )"
+     },
+     {
+      "row": "Venus",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧🜃 )"
+     },
+     {
+      "row": "Venus",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃💨)"
+     },
+     {
+      "row": "Venus",
+      "col": "Venus",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Venus",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥-💧-💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥-💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-🜃-💨)"
+     },
+     {
+      "row": "Venus",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🜃 -💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x +x +x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥🔥💧 )"
+     },
+     {
+      "row": "Mars",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 🜃🔥 )",
+      "flag": "OPEN",
+      "flagReason": "Contains Ground, an element neither planet carries. Probable slip; the fitted rule adjudicates. See §5b."
+     },
+     {
+      "row": "Mars",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃🔥)"
+     },
+     {
+      "row": "Mars",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧🜃 )"
+     },
+     {
+      "row": "Mars",
+      "col": "Mars",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Mars",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨-🔥-💧-x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥-🜃-💨)"
+     },
+     {
+      "row": "Mars",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧 -x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-💧-x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-🔥 -x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Jupiter",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥🔥💨)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💨🔥)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨🔥)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 🜃💨 )"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥🔥💨)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Jupiter",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💨-💨)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🔥-💧)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x -x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥-💧-x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥💨🜃)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 🜃💨 )"
+     },
+     {
+      "row": "Saturn",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃💨💨)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧🜃)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 2
+     },
+     {
+      "row": "Saturn",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨💨)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Saturn",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Saturn",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨 -x -x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x-x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🜃 -💧 -💨)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥💨🜃)",
+      "flag": "OPEN",
+      "flagReason": "Byte-identical to Saturn×Sun above it and contains Ground, which is Saturn's element not Uranus's. Probable fill-down slip. See §5b."
+     },
+     {
+      "row": "Uranus",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💨 )"
+     },
+     {
+      "row": "Uranus",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃💨💧)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💨)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💨🔥)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨💨)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨💨🜃)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Uranus",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Uranus",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Uranus",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Uranus",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x +x +x)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧💧 )"
+     },
+     {
+      "row": "Neptune",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Uranus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Neptune",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Neptune",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Neptune",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x +x +x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥🜃)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧🜃 )"
+     },
+     {
+      "row": "Pluto",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃💧)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧🜃)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧🜃🔥)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨🜃)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨🜃🜃)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Uranus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃💧)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Neptune",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Pluto",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Pluto",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Uranus",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Neptune",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Pluto",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Ascendant",
+      "aspect": "self",
+      "kind": "self"
+     }
+    ]
+   },
+   {
+    "id": "elemental-trine-square",
+    "compass": "element",
+    "lowerTriangle": {
+     "aspect": "trine",
+     "orb": "unstated"
+    },
+    "upperTriangle": {
+     "aspect": "square",
+     "orb": "90°, within 5°"
+    },
+    "cells": [
+     {
+      "row": "Sun",
+      "col": "Sun",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Sun",
+      "col": "Moon",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥 -💧-x -x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Mercury",
+      "aspect": "square",
+      "kind": "impossible"
+     },
+     {
+      "row": "Sun",
+      "col": "Venus",
+      "aspect": "square",
+      "kind": "impossible"
+     },
+     {
+      "row": "Sun",
+      "col": "Mars",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥-x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Jupiter",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥-x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Saturn",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(- x -x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(- x -x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Sun",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x -x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥💧+x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Moon",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Moon",
+      "col": "Mercury",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       }
+      ],
+      "raw": "(- 💧-💨-🜃)"
+     },
+     {
+      "row": "Moon",
+      "col": "Venus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Moon",
+      "col": "Mars",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Jupiter",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(- x -x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Saturn",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(- x -x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Moon",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Mercury",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Mercury",
+      "col": "Venus",
+      "aspect": "square",
+      "kind": "impossible"
+     },
+     {
+      "row": "Mercury",
+      "col": "Mars",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Jupiter",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨-x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Saturn",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "Ground",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💨-🜃)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💨)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(- x -x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🜃-x)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨🜃)"
+     },
+     {
+      "row": "Venus",
+      "col": "Venus",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Venus",
+      "col": "Mars",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧 -x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Jupiter",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Saturn",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨-x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Venus",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Venus",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥+)"
+     },
+     {
+      "row": "Mars",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 +)"
+     },
+     {
+      "row": "Mars",
+      "col": "Mars",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Mars",
+      "col": "Jupiter",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🔥-x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Saturn",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(- x -x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "Water",
+        "sign": -1
+       }
+      ],
+      "raw": "(-💧-💧)"
+     },
+     {
+      "row": "Mars",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Mars",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(🔥🔥)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Fire",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧🔥)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💨 + x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Mars",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Jupiter",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Saturn",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨-x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨-x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x -x -x)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💨🜃)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(🜃 +)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Mars",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Jupiter",
+      "aspect": "trine",
+      "kind": "empty",
+      "flag": "OPEN",
+      "flagReason": "Only genuinely empty cell in any grid."
+     },
+     {
+      "row": "Saturn",
+      "col": "Saturn",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Saturn",
+      "col": "Uranus",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💨-x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-💧-x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🜃-x-x)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 +)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💨+ x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧 + x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Mars",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Jupiter",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💨+x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Saturn",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Air",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💨+x)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Uranus",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Uranus",
+      "col": "Neptune",
+      "aspect": "square",
+      "kind": "impossible"
+     },
+     {
+      "row": "Uranus",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "impossible"
+     },
+     {
+      "row": "Uranus",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "abstract",
+      "magnitude": 2
+     },
+     {
+      "row": "Neptune",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧💧)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Mars",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Jupiter",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Saturn",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Uranus",
+      "aspect": "trine",
+      "kind": "impossible"
+     },
+     {
+      "row": "Neptune",
+      "col": "Neptune",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Neptune",
+      "col": "Pluto",
+      "aspect": "square",
+      "kind": "impossible"
+     },
+     {
+      "row": "Neptune",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "Ground",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 🜃)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       }
+      ],
+      "raw": "(💧 +)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Mars",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Jupiter",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Saturn",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Ground",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🜃 +x)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Uranus",
+      "aspect": "trine",
+      "kind": "impossible"
+     },
+     {
+      "row": "Pluto",
+      "col": "Neptune",
+      "aspect": "trine",
+      "kind": "impossible"
+     },
+     {
+      "row": "Pluto",
+      "col": "Pluto",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Pluto",
+      "col": "Ascendant",
+      "aspect": "square",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-x-x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Sun",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Fire",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(🔥+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Moon",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Water",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(💧+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Mercury",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Venus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Mars",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Jupiter",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Saturn",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Uranus",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Neptune",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Pluto",
+      "aspect": "trine",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": 1,
+        "slot": true
+       }
+      ],
+      "raw": "(+x+x)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Ascendant",
+      "aspect": "self",
+      "kind": "self"
+     }
+    ]
+   },
+   {
+    "id": "esms-conjunction-opposition",
+    "compass": "esms",
+    "lowerTriangle": {
+     "aspect": "conjunction",
+     "orb": "within 10°"
+    },
+    "upperTriangle": {
+     "aspect": "opposition",
+     "orb": "175–185°"
+    },
+    "cells": [
+     {
+      "row": "Sun",
+      "col": "Sun",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Sun",
+      "col": "Moon",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 / -🝙 )"
+     },
+     {
+      "row": "Sun",
+      "col": "Mercury",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Sun",
+      "col": "Venus",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Sun",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 / 🝙)"
+     },
+     {
+      "row": "Sun",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝇 / -🝑)"
+     },
+     {
+      "row": "Sun",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝇 / -🝙)"
+     },
+     {
+      "row": "Sun",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Sun",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 / 🝉)"
+     },
+     {
+      "row": "Sun",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Sun",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_OTHER",
+        "sign": -1,
+        "slot": true
+       }
+      ],
+      "raw": "(-🝇-x)"
+     },
+     {
+      "row": "Moon",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(🝇 /🝑 / 🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Moon",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Moon",
+      "col": "Mercury",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝉-🝑 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Venus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙) /-🝑 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝑 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝑 /-🝙 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝑 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝑 / -🝉)"
+     },
+     {
+      "row": "Moon",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝑 / -🝙)"
+     },
+     {
+      "row": "Moon",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(🝇 /🝇 / 🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "/🝇 / 🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Mercury",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Mercury",
+      "col": "Venus",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Mercury",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝇 / -🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "/-🝇 / -🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇-🝙/-🝇 / -🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝇 / -🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝉 /-🝑 / -🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝇 / -🝉)"
+     },
+     {
+      "row": "Mercury",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_SELF",
+        "sign": -1,
+        "slot": true,
+        "undefined": true
+       }
+      ],
+      "raw": "(-🝑 / -🝙 -y)"
+     },
+     {
+      "row": "Venus",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇 /+🝑 / +🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ + 🝑 / +🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ + 🝑 / +🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Venus",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Venus",
+      "col": "Mars",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙) /-🝑 / -🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(- 🝇 / -🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝑/-🝙 / -🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙) /-🝑 / -🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝑 / -🝉)"
+     },
+     {
+      "row": "Venus",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙) /-🝑 / -🝙)"
+     },
+     {
+      "row": "Venus",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Mars",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇 /+🝑 /+ 🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+ 🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+ 🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+ 🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Mars",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Mars",
+      "col": "Jupiter",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(- 🝇 / -🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝑/-🝙 / -🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙) /-🝑 / -🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙/-🝑 / -🝉)"
+     },
+     {
+      "row": "Mars",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝑 / -🝙) /-🝑 / -🝙)"
+     },
+     {
+      "row": "Mars",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Jupiter",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇/+🝇/+🝑)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Jupiter",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Saturn",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 / -🝑/-🝇 / -🝙)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 /-🝑 / -🝉)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Jupiter",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": -2
+     },
+     {
+      "row": "Saturn",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇/+🝇/+🝑)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       }
+      ],
+      "raw": "(+/+🝇/+🝑)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Saturn",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Saturn",
+      "col": "Uranus",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Substance",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 /-🝑 / -🝉)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Essence",
+        "sign": -1
+       },
+       {
+        "axis": "Matter",
+        "sign": -1
+       }
+      ],
+      "raw": "(-🝇 /-🝑 /-🝑 / -🝙)"
+     },
+     {
+      "row": "Saturn",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": -2
+     },
+     {
+      "row": "Uranus",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇 /+🝑 / +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Matter",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝙/ +🝙)"
+     },
+     {
+      "row": "Uranus",
+      "col": "Uranus",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Uranus",
+      "col": "Neptune",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Uranus",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Uranus",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Neptune",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇 /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Uranus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 /+🝉)"
+     },
+     {
+      "row": "Neptune",
+      "col": "Neptune",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Neptune",
+      "col": "Pluto",
+      "aspect": "opposition",
+      "kind": "impossible"
+     },
+     {
+      "row": "Neptune",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Pluto",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇 /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       },
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝑 / +🝙/+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Uranus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Neptune",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+ /+🝑 / +🝙)"
+     },
+     {
+      "row": "Pluto",
+      "col": "Pluto",
+      "aspect": "self",
+      "kind": "self"
+     },
+     {
+      "row": "Pluto",
+      "col": "Ascendant",
+      "aspect": "opposition",
+      "kind": "abstract",
+      "magnitude": -2
+     },
+     {
+      "row": "Ascendant",
+      "col": "Sun",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Spirit",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝇 /+ 🝇 /+ 🝇)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Moon",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       }
+      ],
+      "raw": "(+🝑 / +🝙)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Mercury",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Spirit",
+        "sign": 1
+       },
+       {
+        "axis": "Substance",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_SELF",
+        "sign": 1,
+        "slot": true,
+        "undefined": true
+       }
+      ],
+      "raw": "(+🝇 / +🝉+y)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Venus",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_SELF",
+        "sign": 1,
+        "slot": true,
+        "undefined": true
+       }
+      ],
+      "raw": "(+🝑 / +🝙 +y)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Mars",
+      "aspect": "conjunction",
+      "kind": "terms",
+      "terms": [
+       {
+        "axis": "Essence",
+        "sign": 1
+       },
+       {
+        "axis": "Matter",
+        "sign": 1
+       },
+       {
+        "axis": "SIGN_ELEMENT_OF_SELF",
+        "sign": 1,
+        "slot": true,
+        "undefined": true
+       }
+      ],
+      "raw": "(+🝑 / +🝙 +y)"
+     },
+     {
+      "row": "Ascendant",
+      "col": "Jupiter",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Saturn",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Uranus",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Neptune",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Pluto",
+      "aspect": "conjunction",
+      "kind": "abstract",
+      "magnitude": 3
+     },
+     {
+      "row": "Ascendant",
+      "col": "Ascendant",
+      "aspect": "self",
+      "kind": "self"
+     }
+    ]
+   }
+  ]
+ }
+}
