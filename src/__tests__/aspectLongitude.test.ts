@@ -1,4 +1,5 @@
 import {
+  buildAspectsFromChartPlanets,
   calculateComprehensiveAspects,
   signDegreeToLongitude,
   type PlanetaryPositionData,
@@ -101,5 +102,51 @@ describe('aspect longitudes', () => {
     expect(fallback.map((a) => a.type).sort()).toEqual(
       explicit.map((a) => a.type).sort(),
     );
+  });
+});
+
+describe('buildAspectsFromChartPlanets', () => {
+  // `PlanetInfo.position` documents 0 as "unknown/legacy" (src/types/natalChart.ts).
+  // `typeof 0 === "number"` is true, so a naive numeric-type guard treats every
+  // legacy sign-only chart as if all ten planets sat at longitude 0 — i.e. one
+  // giant stellium of mutual exact conjunctions.
+  const legacyChart = Object.entries(CHART).map(([name, p]) => ({
+    name,
+    sign: p.sign,
+    position: 0,
+  }));
+
+  test('a legacy all-zero chart yields zero aspects, not 45 phantom conjunctions', () => {
+    const aspects = buildAspectsFromChartPlanets(legacyChart);
+    expect(aspects).toEqual([]);
+  });
+
+  test('a real chart with genuine longitudes still yields aspects', () => {
+    const realChart = Object.entries(CHART).map(([name, p]) => ({
+      name,
+      sign: p.sign,
+      position: signDegreeToLongitude(p.sign, p.degree)!,
+    }));
+    const aspects = buildAspectsFromChartPlanets(realChart);
+    expect(aspects.length).toBeGreaterThan(0);
+    expect(aspects.every((a) => a.type !== undefined)).toBe(true);
+  });
+
+  test('a mixed chart only builds aspects among planets with real longitudes', () => {
+    const mixedChart = Object.entries(CHART).map(([name, p], i) => ({
+      name,
+      sign: p.sign,
+      // Only the first two planets (Sun, Moon) carry a real longitude; the
+      // rest are legacy/unknown and must not silently join the aspect set.
+      position: i < 2 ? signDegreeToLongitude(p.sign, p.degree)! : 0,
+    }));
+    const aspects = buildAspectsFromChartPlanets(mixedChart);
+    const participants = new Set(aspects.flatMap((a) => [a.planet1, a.planet2]));
+    expect([...participants].every((p) => p === 'Sun' || p === 'Moon')).toBe(true);
+  });
+
+  test('a chart with fewer than two real longitudes yields zero aspects', () => {
+    const onePlanet = [{ name: 'Sun', sign: 'leo', position: 142 }];
+    expect(buildAspectsFromChartPlanets(onePlanet)).toEqual([]);
   });
 });
