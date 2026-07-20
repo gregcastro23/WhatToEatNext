@@ -33,6 +33,13 @@ const config = {
     "/node_modules/",
     "/.next/",
     "/.claude/",
+    // Git worktrees checked out inside the repo. Without this, running the
+    // suite from the primary checkout also collects every sibling worktree's
+    // copy of every test — they fail on module resolution (their node_modules
+    // is a symlink to this checkout's) and report as failures that belong to
+    // no branch. `/.claude/` above already covers `.claude/worktrees/`; this
+    // covers the top-level `.worktrees/` convention.
+    "/.worktrees/",
     "/docs/archived-tests/",
     "/.temp-disabled-tests/",
     "/archive/",
@@ -47,6 +54,9 @@ const config = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   modulePathIgnorePatterns: [
     "<rootDir>/.claude/",
+    // Also keeps Haste from colliding on duplicate package.json/module names
+    // between the primary checkout and any worktree nested inside it.
+    "<rootDir>/.worktrees/",
     "<rootDir>/Alchm Kitchen/",
     "<rootDir>/docs/Alchm Kitchen/",
     "<rootDir>/.next/",
