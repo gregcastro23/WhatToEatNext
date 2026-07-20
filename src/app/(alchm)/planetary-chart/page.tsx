@@ -11,16 +11,68 @@
 import type { Metadata } from "next";
 import { unstable_cache } from "next/cache";
 import {
+  ASPECT_GLYPHS,
   buildFreeBodyDiagrams,
+  TEN_PLANETS,
   type FBDPositionInput,
+  type PlanetFBD,
 } from "@/calculations/planetaryFBD";
 import PlanetFBDCard from "@/components/ui/alchm/PlanetFBDCard";
+import { planetColor, planetGlyph } from "@/components/ui/alchm/planetColors";
 import {
   alchemizeDetailed,
   type PlanetaryPosition,
 } from "@/services/RealAlchemizeService";
+import { getZodiacGlyph } from "@/utils/chartRendering";
 import { calculatePlanetaryPositionsWithMeta } from "@/utils/serverPlanetaryCalculations";
 import PlanetaryChartClient from "./PlanetaryChartClient";
+
+/**
+ * Every aspecting pair appears on both planets' cards (each side's vector
+ * carries identical type/orb/strength/kinematics — only `otherPlanet` and
+ * the ESMS-delta sign convention differ). Dedupe to one row per pair for
+ * a ledger, keyed off the sorted planet pair + aspect type, ranked by
+ * strength.
+ */
+function buildAspectLedger(fbds: PlanetFBD[]) {
+  const seen = new Set<string>();
+  const rows: Array<{
+    planet1: string;
+    planet2: string;
+    glyph: string;
+    type: string;
+    orbDeg: number;
+    orbMin: number;
+    strength: number;
+    polarity: "harmonious" | "challenging" | "neutral";
+    kinematics: { state: "applying" | "separating" | "stationary"; daysToExact: number } | null;
+  }> = [];
+  for (const card of fbds) {
+    for (const vector of card.vectors) {
+      if (vector.kind !== "aspect" || !vector.aspect) continue;
+      const other = vector.aspect.otherPlanet;
+      const key = [card.planet, other].sort().join("|") + "|" + vector.aspect.type;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      rows.push({
+        planet1: card.planet,
+        planet2: other,
+        // Read the glyph and the orb split from the engine — never re-derive
+        // either. Parsing `label.split(" ")[0]` yields a whole uppercase word
+        // for the glyph-less minor types, and re-splitting the orb with
+        // floor+round reintroduces the "2°60′" bug the engine already guards.
+        glyph: ASPECT_GLYPHS[vector.aspect.type],
+        type: vector.aspect.type,
+        orbDeg: vector.aspect.orbDeg,
+        orbMin: vector.aspect.orbMin,
+        strength: vector.aspect.strength,
+        polarity: vector.polarity,
+        kinematics: vector.aspect.kinematics,
+      });
+    }
+  }
+  return rows.sort((a, b) => b.strength - a.strength);
+}
 
 // The (alchm) route group forces dynamic rendering for every route it wraps
 // (see layout.tsx — most siblings depend on per-request providers), so a
@@ -73,6 +125,20 @@ async function computeEcosystemUncached() {
     diurnal: detailed.metadata.isDiurnal,
   });
 
+  const positionRows = TEN_PLANETS.filter((planet) => positions[planet] !== undefined).map(
+    (planet) => {
+      const pos = positions[planet];
+      return {
+        planet,
+        sign: pos.sign,
+        degree: pos.degree,
+        minute: pos.minute,
+        isRetrograde: pos.isRetrograde ?? false,
+        arcminPerDay: pos.longitudeSpeed != null ? pos.longitudeSpeed * 60 : null,
+      };
+    },
+  );
+
   return {
     fbds,
     totals,
@@ -82,6 +148,8 @@ async function computeEcosystemUncached() {
     isDiurnal: detailed.metadata.isDiurnal,
     degradedReasons: detailed.degraded?.reasons ?? null,
     timestamp: now.toISOString(),
+    positionRows,
+    aspectLedger: buildAspectLedger(fbds),
   };
 }
 
@@ -166,6 +234,116 @@ export default async function PlanetaryChartPage() {
               </div>
             </div>
           ))}
+        </section>
+
+        {/* Positions & aspect ledger */}
+        <section
+          aria-label="Sky positions and aspect ledger"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <details open className="alchm-panel" style={{ overflow: "hidden" }}>
+            <summary className="t-tag" style={{ padding: "12px 14px", cursor: "pointer" }}>
+              POSITIONS
+            </summary>
+            <div style={{ padding: "0 14px 14px", overflowX: "auto" }}>
+              <table className="t-mono" style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--line)", color: "var(--fg-mute)" }}>
+                    <th style={{ textAlign: "left", padding: "4px 6px", fontWeight: 400 }}>PLANET</th>
+                    <th style={{ textAlign: "left", padding: "4px 6px", fontWeight: 400 }}>SIGN</th>
+                    <th style={{ textAlign: "left", padding: "4px 6px", fontWeight: 400 }}>DEG°MIN′</th>
+                    <th style={{ textAlign: "right", padding: "4px 6px", fontWeight: 400 }}>SPEED ′/D</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sky.positionRows.map((row) => (
+                    <tr key={row.planet} style={{ borderBottom: "1px solid var(--line)" }}>
+                      <td style={{ padding: "5px 6px", color: planetColor(row.planet) }}>
+                        {planetGlyph(row.planet)} {row.planet}
+                      </td>
+                      <td style={{ padding: "5px 6px", color: "var(--fg-dim)" }}>
+                        {getZodiacGlyph(row.sign)} {row.sign.toUpperCase().slice(0, 3)}
+                      </td>
+                      <td style={{ padding: "5px 6px", color: "var(--fg-dim)" }}>
+                        {row.degree}°{String(row.minute).padStart(2, "0")}′
+                      </td>
+                      <td
+                        style={{
+                          padding: "5px 6px",
+                          textAlign: "right",
+                          color: row.isRetrograde ? "var(--accent-2)" : "var(--fg-dim)",
+                        }}
+                      >
+                        {row.arcminPerDay == null ? "—" : row.arcminPerDay.toFixed(1)}
+                        {row.isRetrograde ? " ℞" : ""}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <details open className="alchm-panel" style={{ overflow: "hidden" }}>
+            <summary className="t-tag" style={{ padding: "12px 14px", cursor: "pointer" }}>
+              ASPECT LEDGER · {sky.aspectLedger.length}
+            </summary>
+            <div style={{ padding: "0 14px 14px", overflowX: "auto" }}>
+              <table className="t-mono" style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--line)", color: "var(--fg-mute)" }}>
+                    <th style={{ textAlign: "left", padding: "4px 6px", fontWeight: 400 }}>PAIR</th>
+                    <th style={{ textAlign: "left", padding: "4px 6px", fontWeight: 400 }}>TYPE</th>
+                    <th style={{ textAlign: "left", padding: "4px 6px", fontWeight: 400 }}>ORB</th>
+                    <th style={{ textAlign: "right", padding: "4px 6px", fontWeight: 400 }}>VERDICT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sky.aspectLedger.map((row) => {
+                    const polarityColor =
+                      row.polarity === "harmonious"
+                        ? "#4ecdc4"
+                        : row.polarity === "challenging"
+                          ? "#ef6a5a"
+                          : "var(--fg-mute)";
+                    const verdict = !row.kinematics
+                      ? "—"
+                      : row.kinematics.state === "stationary"
+                        ? "STATIONARY"
+                        : `${row.kinematics.state === "applying" ? "APPLYING" : "SEPARATING"} ${row.kinematics.daysToExact.toFixed(1)}D`;
+                    return (
+                      <tr
+                        key={`${row.planet1}-${row.planet2}-${row.type}`}
+                        style={{ borderBottom: "1px solid var(--line)" }}
+                      >
+                        <td style={{ padding: "5px 6px", color: "var(--fg-dim)" }}>
+                          {row.planet1.slice(0, 3)}{" "}
+                          <span style={{ color: polarityColor }}>{row.glyph}</span>{" "}
+                          {row.planet2.slice(0, 3)}
+                        </td>
+                        <td style={{ padding: "5px 6px", color: polarityColor }}>
+                          {row.type.charAt(0).toUpperCase() + row.type.slice(1)}
+                        </td>
+                        <td style={{ padding: "5px 6px", color: "var(--fg-dim)" }}>
+                          {row.orbDeg}°{String(row.orbMin).padStart(2, "0")}′
+                        </td>
+                        <td
+                          style={{
+                            padding: "5px 6px",
+                            textAlign: "right",
+                            color: "var(--fg-mute)",
+                            fontSize: 9.5,
+                          }}
+                        >
+                          {verdict}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </details>
         </section>
 
         {/* How to read */}

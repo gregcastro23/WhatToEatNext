@@ -127,6 +127,15 @@ export interface FBDAspectDetail {
   type: AspectType;
   /** Orb in degrees (distance from exact). */
   orb: number;
+  /**
+   * The orb pre-split into whole degrees + arc-minutes, rounded to whole
+   * arc-minutes FIRST so the pair can never read "2°60′". Exposed because
+   * every surface that shows an orb must use the SAME split — re-deriving it
+   * with `floor(orb)` + `round(frac*60)` reintroduces exactly that bug, and
+   * two surfaces on one page then disagree about the same aspect.
+   */
+  orbDeg: number;
+  orbMin: number;
   /** Cosine-bell strength 0–1 (1 = exact). */
   strength: number;
   /** Type importance = the engine's own orb budget, maxOrb/8 (0.25–1). */
@@ -294,7 +303,13 @@ const ASPECT_ANGLES: Record<AspectType, number> = {
  * weight is derived from the engine's own orb budget — maxOrb/8 — rather than
  * a new hand-tuned table: conjunction/opposition/trine 1.0 … quintile 0.25.
  */
-const ASPECT_MAX_ORBS: Record<AspectType, number> = {
+/**
+ * The engine's own orb budget per aspect type. Exported alongside
+ * {@link ASPECT_GLYPHS} so a consumer (or a port to another repo) can assert
+ * the two stay in step: every type that gets scored here must have a glyph.
+ * `baseWeight = maxOrb / 8` is load-bearing — it sets vector length.
+ */
+export const ASPECT_MAX_ORBS: Record<AspectType, number> = {
   conjunction: 8,
   opposition: 8,
   trine: 8,
@@ -309,7 +324,19 @@ const ASPECT_MAX_ORBS: Record<AspectType, number> = {
   biquintile: 2,
 };
 
-const ASPECT_GLYPHS: Partial<Record<AspectType, string>> = {
+/**
+ * Aspect glyphs, keyed by type. Exported so every surface that shows an aspect
+ * reads the SAME glyph rather than reverse-parsing it out of `vector.label`
+ * (`label.split(" ")[0]`), which silently yields a whole uppercase word for
+ * any type missing from this map.
+ *
+ * `aspectCalculator` emits — and `ASPECT_ANGLES`/`ASPECT_MAX_ORBS` below treat
+ * as first-class — four minor types that have no standard single glyph:
+ * semisquare, sesquisquare, quintile and biquintile. They get short mono
+ * abbreviations rather than being omitted, because a `Partial` map here is
+ * what produced "Mar SESQUISQUARE Sat" in a glyph-sized column.
+ */
+export const ASPECT_GLYPHS: Record<AspectType, string> = {
   conjunction: "☌",
   opposition: "☍",
   trine: "△",
@@ -318,6 +345,10 @@ const ASPECT_GLYPHS: Partial<Record<AspectType, string>> = {
   quincunx: "⚻",
   inconjunct: "⚻",
   "semi-sextile": "⚺",
+  semisquare: "∠",
+  sesquisquare: "⚼",
+  quintile: "Q",
+  biquintile: "bQ",
 };
 
 /** Vectors shorter than this fraction of the card max stay visible. */
@@ -593,8 +624,16 @@ function buildCard(
     if (polarity === "challenging") netHarmony -= aspect.strength;
 
     const otherSpeed = positions[other]?.longitudeSpeed;
+    // The `!== 0` test mirrors the planet's own speed guard above: exactly 0 is
+    // the "no motion computed" sentinel, not a real standstill. Both sides of a
+    // pair must apply it, or a partner whose speed failed to compute would be
+    // read as stationary and yield a confident, wrong applying/separating
+    // verdict instead of an honest "motion unavailable".
     const kinematics =
-      speed !== null && typeof otherSpeed === "number" && Number.isFinite(otherSpeed)
+      speed !== null &&
+      typeof otherSpeed === "number" &&
+      Number.isFinite(otherSpeed) &&
+      otherSpeed !== 0
         ? computeAspectKinematics(
             lon,
             otherLon,
@@ -634,7 +673,7 @@ function buildCard(
       id: `aspect-${other}-${aspect.type}`,
       kind: "aspect",
       source: other,
-      label: `${ASPECT_GLYPHS[aspect.type] ?? aspect.type.toUpperCase()} ${other.toUpperCase()}`,
+      label: `${ASPECT_GLYPHS[aspect.type]} ${other.toUpperCase()}`,
       angleDeg: normalizeAngle(offsetDeg),
       magnitude,
       normalized: 0, // filled after per-card normalization
@@ -644,6 +683,8 @@ function buildCard(
         otherPlanet: other,
         type: aspect.type,
         orb: aspect.orb,
+        orbDeg,
+        orbMin,
         strength: aspect.strength,
         baseWeight,
         offsetDeg,
