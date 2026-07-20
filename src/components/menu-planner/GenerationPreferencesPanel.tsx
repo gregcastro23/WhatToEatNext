@@ -188,35 +188,35 @@ export default function GenerationPreferencesPanel({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-md border border-gray-200 mt-3 overflow-hidden">
+    <div className="alchm-panel rounded-xl mt-3 overflow-hidden">
       {/* Collapsed Header Bar */}
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors focus:outline-none"
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-container-low transition-colors focus:outline-none"
       >
         <div className="flex items-center gap-2">
           <span className="text-base">🎯</span>
-          <span className="text-sm font-semibold text-gray-700">
+          <span className="text-sm font-semibold text-on-surface">
             Generation Preferences
           </span>
           {activeCount > 0 && (
-            <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-purple-100 text-purple-700">
+            <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-active-violet/15 text-active-violet">
               {activeCount} active
             </span>
           )}
           {nutritionActiveCount > 0 && (
-            <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-700">
+            <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-earth-matter/15 text-earth-matter">
               Nutrition
             </span>
           )}
         </div>
         <div className="flex items-center gap-3">
           {!isOpen && activeCount > 0 && summaryParts.length > 0 && (
-            <span className="text-xs text-gray-500 hidden sm:inline truncate max-w-xs">
+            <span className="text-xs text-on-surface-variant hidden sm:inline truncate max-w-xs">
               {summaryParts.join(" | ")}
             </span>
           )}
-          <span className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}>
+          <span className={`text-on-surface-variant/60 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}>
             ▼
           </span>
         </div>
@@ -224,7 +224,7 @@ export default function GenerationPreferencesPanel({
 
       {/* Expanded Panel */}
       {isOpen && (
-        <div className="px-4 pb-4 border-t border-gray-100">
+        <div className="px-4 pb-4 border-t border-muted">
           {/* Reset Button */}
           {activeCount > 0 && (
             <div className="flex justify-end pt-3">
@@ -239,12 +239,12 @@ export default function GenerationPreferencesPanel({
 
           {/* ─── NUTRITIONAL GOALS ─── */}
           <div className="pt-3">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200">
-              <h4 className="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <div className="p-4 rounded-xl bg-surface-container-low border border-earth-matter/20">
+              <h4 className="text-xs font-bold text-earth-matter uppercase tracking-wider mb-3 flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold">N</span>
                 Daily Nutritional Goals
                 {nutritionActiveCount > 0 && (
-                  <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-emerald-200 text-emerald-800">
+                  <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-earth-matter/20 text-earth-matter">
                     {nutritionActiveCount} set
                   </span>
                 )}
@@ -252,7 +252,7 @@ export default function GenerationPreferencesPanel({
 
               {/* Calorie Target */}
               <div className="mb-3">
-                <span className="text-[11px] font-semibold text-emerald-700 mb-1.5 block">
+                <span className="text-[11px] font-semibold text-earth-matter mb-1.5 block">
                   Daily Calories
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -271,7 +271,7 @@ export default function GenerationPreferencesPanel({
                         className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
                           isSelected
                             ? "bg-emerald-600 text-white shadow-sm"
-                            : "bg-white text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+                            : "bg-surface-container-lowest text-earth-matter hover:bg-earth-matter/10 border border-earth-matter/20"
                         }`}
                       >
                         {preset.label}
@@ -300,9 +300,9 @@ export default function GenerationPreferencesPanel({
                       updateNutTarget("dailyCalories", val && val >= 800 ? val : null);
                     }}
                     placeholder="e.g. 2000"
-                    className="w-24 px-2 py-1 text-xs border border-emerald-300 rounded-lg focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 bg-white text-gray-800"
+                    className="w-24 px-2 py-1 text-xs border border-muted rounded-lg focus:border-active-violet focus:ring-1 focus:ring-active-violet bg-surface-container-lowest text-primary"
                   />
-                  <span className="text-[10px] text-emerald-600">kcal/day</span>
+                  <span className="text-[10px] text-earth-matter/80">kcal/day</span>
                 </div>
               </div>
 
@@ -369,7 +369,7 @@ export default function GenerationPreferencesPanel({
 
           {/* ─── CUISINE PREFERENCES ─── */}
           <div className="pt-4">
-            <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+            <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">
               Preferred Cuisines
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -382,7 +382,7 @@ export default function GenerationPreferencesPanel({
                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                       isSelected
                         ? "bg-purple-600 text-white shadow-sm"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                     }`}
                   >
                     {cuisine}
@@ -394,7 +394,7 @@ export default function GenerationPreferencesPanel({
 
           {/* ─── DIETARY RESTRICTIONS ─── */}
           <div className="pt-4">
-            <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+            <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">
               Dietary Restrictions
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -407,7 +407,7 @@ export default function GenerationPreferencesPanel({
                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                       isSelected
                         ? "bg-green-600 text-white shadow-sm"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                     }`}
                   >
                     {option.label}
@@ -421,7 +421,7 @@ export default function GenerationPreferencesPanel({
           <div className="pt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Cooking Methods */}
             <div>
-              <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+              <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">
                 Cooking Methods
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -434,7 +434,7 @@ export default function GenerationPreferencesPanel({
                       className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                         isSelected
                           ? "bg-amber-600 text-white shadow-sm"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                       }`}
                     >
                       {method}
@@ -446,7 +446,7 @@ export default function GenerationPreferencesPanel({
 
             {/* Flavor Profile */}
             <div>
-              <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+              <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">
                 Flavor Profile
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -459,7 +459,7 @@ export default function GenerationPreferencesPanel({
                       className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                         isSelected
                           ? "bg-pink-600 text-white shadow-sm"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                       }`}
                     >
                       {flavor.label}
@@ -469,7 +469,7 @@ export default function GenerationPreferencesPanel({
               </div>
 
               {/* Prep Time */}
-              <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2 mt-3">
+              <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2 mt-3">
                 Max Prep Time
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -482,7 +482,7 @@ export default function GenerationPreferencesPanel({
                       className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                         isSelected
                           ? "bg-indigo-600 text-white shadow-sm"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
                       }`}
                     >
                       {option.label}
@@ -497,7 +497,7 @@ export default function GenerationPreferencesPanel({
           <div className="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Must Include */}
             <div>
-              <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+              <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">
                 Must Include Ingredients
               </h4>
               <div className="flex flex-wrap gap-1.5 mb-2">
@@ -528,13 +528,13 @@ export default function GenerationPreferencesPanel({
                   }
                 }}
                 placeholder="Type ingredient, press Enter"
-                className="w-full px-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
+                className="w-full px-3 py-1.5 text-xs border border-muted rounded-lg focus:border-active-violet focus:ring-1 focus:ring-active-violet bg-surface-container-lowest"
               />
             </div>
 
             {/* Exclude */}
             <div>
-              <h4 className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+              <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">
                 Exclude Ingredients
               </h4>
               <div className="flex flex-wrap gap-1.5 mb-2">
@@ -565,7 +565,7 @@ export default function GenerationPreferencesPanel({
                   }
                 }}
                 placeholder="Type ingredient, press Enter"
-                className="w-full px-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-white"
+                className="w-full px-3 py-1.5 text-xs border border-muted rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-surface-container-lowest"
               />
             </div>
           </div>
@@ -593,7 +593,7 @@ function MacroInput({
   color: "blue" | "amber" | "orange" | "green";
 }) {
   const colorMap = {
-    blue: { bg: "bg-blue-50", border: "border-blue-200", focus: "focus:border-blue-500 focus:ring-blue-500", text: "text-blue-700", label: "text-blue-800" },
+    blue: { bg: "bg-blue-50", border: "border-blue-200", focus: "focus:border-active-violet focus:ring-active-violet", text: "text-blue-700", label: "text-blue-800" },
     amber: { bg: "bg-amber-50", border: "border-amber-200", focus: "focus:border-amber-500 focus:ring-amber-500", text: "text-amber-700", label: "text-amber-800" },
     orange: { bg: "bg-orange-50", border: "border-orange-200", focus: "focus:border-orange-500 focus:ring-orange-500", text: "text-orange-700", label: "text-orange-800" },
     green: { bg: "bg-green-50", border: "border-green-200", focus: "focus:border-green-500 focus:ring-green-500", text: "text-green-700", label: "text-green-800" },
@@ -617,7 +617,7 @@ function MacroInput({
             onChange(v && v > 0 ? v : null);
           }}
           placeholder={placeholder}
-          className={`w-full px-2 py-1 text-xs border ${c.border} rounded-md ${c.focus} focus:ring-1 bg-white text-gray-800`}
+          className={`w-full px-2 py-1 text-xs border ${c.border} rounded-md ${c.focus} focus:ring-1 bg-surface-container-lowest text-primary`}
         />
         <span className={`text-[10px] ${c.text} font-medium whitespace-nowrap`}>{unit}</span>
       </div>
@@ -643,14 +643,14 @@ function MacroSummaryBar({ targets }: { targets: NutritionalTargets }) {
   return (
     <div className="mt-2">
       <div className="flex items-center gap-1 mb-1">
-        <span className="text-[10px] text-gray-500 font-medium">Macro split:</span>
+        <span className="text-[10px] text-on-surface-variant font-medium">Macro split:</span>
         {totalMacroCal > cal * 1.05 && (
           <span className="text-[10px] text-amber-600 font-medium">
             (macros exceed calorie target by {Math.round(totalMacroCal - cal)} cal)
           </span>
         )}
       </div>
-      <div className="w-full h-2.5 rounded-full overflow-hidden flex bg-gray-200">
+      <div className="w-full h-2.5 rounded-full overflow-hidden flex bg-surface-container-high">
         {proteinCal > 0 && (
           <div
             className="h-full bg-blue-500 transition-all duration-300"
@@ -704,7 +704,7 @@ function PriorityToggle({
   const activeClasses = color === "blue"
     ? "bg-blue-600 text-white border-blue-700"
     : "bg-green-600 text-white border-green-700";
-  const inactiveClasses = "bg-white text-gray-600 border-gray-200 hover:bg-gray-50";
+  const inactiveClasses = "bg-surface-container-lowest text-on-surface-variant border-muted hover:bg-surface-container-low";
 
   return (
     <button
@@ -716,8 +716,8 @@ function PriorityToggle({
     >
       <span className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
         active
-          ? "border-white bg-white"
-          : "border-gray-400"
+          ? "border-white bg-surface-container-lowest"
+          : "border-muted"
       }`}>
         {active && <span className={`w-1.5 h-1.5 rounded-full ${color === "blue" ? "bg-blue-600" : "bg-green-600"}`} />}
       </span>

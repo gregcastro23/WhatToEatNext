@@ -30,6 +30,7 @@ import type { DailyNutritionResult } from "@/types/nutrition";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
+import RedesignedMobilePlanner from "./redesign/RedesignedMobilePlanner";
 import StitchTransitRibbon, { PLANET_GLYPHS } from "./StitchTransitRibbon";
 
 /**
@@ -95,6 +96,8 @@ function DayNutritionStrip({
 
 interface WeeklyCalendarProps {
   onMealClick?: (mealSlot: MealSlotType) => void;
+  /** Fires the "Shop the week" flow (build grocery list + open it). Mobile redesign. */
+  onShopWeek?: () => void;
 }
 
 /**
@@ -489,7 +492,7 @@ function TodayHeroCard({
 /**
  * Main Weekly Calendar Component
  */
-export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
+export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalendarProps) {
   const {
     currentMenu,
     navigation,
@@ -691,13 +694,13 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
               <div className="flex items-center gap-2">
                 <span className="text-gold-accent">☉</span>
                 <span>
-                  Click &quot;Generate&quot; on any day for planetary-aligned suggestions
+                  Tap &quot;+ Add&quot; on any meal to choose a recipe
                 </span>
               </div>
               <div className="hidden sm:block text-on-surface-variant/40">•</div>
               <div className="flex items-center gap-2">
                 <span className="text-active-violet">🜂</span>
-                <span>Search recipes below and drag to calendar</span>
+                <span>Or tap ✦ for a planetary-aligned suggestion</span>
               </div>
             </div>
           </div>
@@ -738,17 +741,19 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
         </div>
       )}
 
-      {/* Today Hero Card — always on top when today is within the viewed week */}
+      {/* Today Hero Card — desktop/tablet only; mobile uses the redesigned hero */}
       {todayDayOfWeek !== null && (
-        <TodayHeroCard
-          dayOfWeek={todayDayOfWeek}
-          date={weekDates[todayDayOfWeek]}
-          meals={mealsByDay[todayDayOfWeek] || []}
-          onCopyMealClick={handleCopyMealClick}
-          onFocusDay={() => handleOpenFocusedDay(todayDayOfWeek)}
-          currentPlanetaryHour={currentPlanetaryHour}
-          dailyNutrition={weeklyNutrition?.days?.[todayDayOfWeek]}
-        />
+        <div className="hidden md:block">
+          <TodayHeroCard
+            dayOfWeek={todayDayOfWeek}
+            date={weekDates[todayDayOfWeek]}
+            meals={mealsByDay[todayDayOfWeek] || []}
+            onCopyMealClick={handleCopyMealClick}
+            onFocusDay={() => handleOpenFocusedDay(todayDayOfWeek)}
+            currentPlanetaryHour={currentPlanetaryHour}
+            dailyNutrition={weeklyNutrition?.days?.[todayDayOfWeek]}
+          />
+        </div>
       )}
 
       {/* Calendar Grid - Desktop (7 columns, clickable to expand) */}
@@ -840,28 +845,20 @@ export default function WeeklyCalendar({ onMealClick }: WeeklyCalendarProps) {
         )}
       </div>
 
-      {/* Calendar Grid - Mobile (1 column) */}
-      <div className="md:hidden space-y-3">
-        {([0, 1, 2, 3, 4, 5, 6] as DayOfWeek[]).map((day) => (
-          <DayColumn
-            key={day}
-            dayOfWeek={day}
-            date={weekDates[day]}
-            meals={mealsByDay[day] || []}
-            onMealClick={onMealClick}
-            onCopyMealClick={handleCopyMealClick}
-            onFocusDay={() => handleOpenFocusedDay(day)}
-            onToggleExpand={() => toggleExpandDay(day)}
-            isExpanded={expandedDay === day}
-            currentPlanetaryHour={currentPlanetaryHour}
-            dailyNutrition={weeklyNutrition?.days?.[day]}
-            isSelectedForHero={day === todayDayOfWeek}
-          />
-        ))}
+      {/* Redesigned Mobile Planner — data-forward day cards + insights rail */}
+      <div className="md:hidden">
+        <RedesignedMobilePlanner
+          weekDates={weekDates}
+          mealsByDay={mealsByDay}
+          todayDayOfWeek={todayDayOfWeek}
+          weeklyNutrition={weeklyNutrition}
+          currentPlanetaryHour={currentPlanetaryHour}
+          onShopWeek={onShopWeek}
+        />
       </div>
 
-      {/* Helper Text */}
-      <div className="text-center text-xs text-on-surface-variant font-mono uppercase tracking-wider mt-6">
+      {/* Helper Text (desktop/tablet) */}
+      <div className="hidden md:block text-center text-xs text-on-surface-variant font-mono uppercase tracking-wider mt-6">
         <p>
           Click a day header to expand it inline • Click &quot;+ Add Recipe&quot;
           to add meals • Click 📋 to copy/move to multiple slots.

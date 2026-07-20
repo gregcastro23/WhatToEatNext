@@ -31,37 +31,37 @@ const CATEGORY_INFO: Record<
   GroceryCategory,
   { name: string; icon: string; color: string }
 > = {
-  produce: { name: "Produce", icon: "🥬", color: "bg-green-50 text-green-700" },
-  proteins: { name: "Proteins", icon: "🥩", color: "bg-red-50 text-red-700" },
-  dairy: { name: "Dairy", icon: "🥛", color: "bg-blue-50 text-blue-700" },
+  produce: { name: "Produce", icon: "🥬", color: "bg-earth-matter/10 text-earth-matter" },
+  proteins: { name: "Proteins", icon: "🥩", color: "bg-fire-spirit/10 text-fire-spirit" },
+  dairy: { name: "Dairy", icon: "🥛", color: "bg-water-essence/10 text-water-essence" },
   grains: {
     name: "Grains & Breads",
     icon: "🌾",
-    color: "bg-yellow-50 text-yellow-700",
+    color: "bg-gold-accent/10 text-gold-accent",
   },
   spices: {
     name: "Spices & Herbs",
     icon: "🌿",
-    color: "bg-purple-50 text-purple-700",
+    color: "bg-active-violet/10 text-active-violet",
   },
   condiments: {
     name: "Condiments & Sauces",
     icon: "🍯",
-    color: "bg-orange-50 text-orange-700",
+    color: "bg-fire-spirit/10 text-fire-spirit",
   },
   canned: {
     name: "Canned & Packaged",
     icon: "🥫",
-    color: "bg-gray-50 text-gray-700",
+    color: "bg-surface-container-low text-on-surface",
   },
-  frozen: { name: "Frozen", icon: "❄️", color: "bg-cyan-50 text-cyan-700" },
-  bakery: { name: "Bakery", icon: "🥐", color: "bg-pink-50 text-pink-700" },
+  frozen: { name: "Frozen", icon: "❄️", color: "bg-water-essence/10 text-water-essence" },
+  bakery: { name: "Bakery", icon: "🥐", color: "bg-active-violet/10 text-active-violet" },
   beverages: {
     name: "Beverages",
     icon: "☕",
-    color: "bg-brown-50 text-brown-700",
+    color: "bg-earth-matter/10 text-earth-matter",
   },
-  other: { name: "Other", icon: "📦", color: "bg-gray-50 text-gray-700" },
+  other: { name: "Other", icon: "📦", color: "bg-surface-container-low text-on-surface" },
 };
 
 /**
@@ -585,7 +585,7 @@ export default function GroceryListModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="alchm-panel rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-800 text-white p-8 relative overflow-hidden shadow-inner">
           {/* Decorative background circles */}
@@ -630,7 +630,7 @@ export default function GroceryListModal({
         </div>
 
         {/* Actions */}
-        <div className="p-4 border-b bg-gray-50 flex gap-2 flex-wrap">
+        <div className="p-4 border-b border-muted bg-surface-container-low flex gap-2 flex-wrap">
           <button
             onClick={() => { void handleExport("clipboard"); }}
             className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
@@ -651,7 +651,7 @@ export default function GroceryListModal({
           </button>
           <button
             onClick={regenerateGroceryList}
-            className="px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm"
+            className="px-3 py-2 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest text-sm"
           >
             🔄 Rebuild List
           </button>
@@ -694,7 +694,7 @@ export default function GroceryListModal({
             onChange={(e) =>
               setGroupBy(e.target.value as "category" | "recipe")
             }
-            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500"
+            className="px-3 py-2 border border-muted rounded-lg text-sm focus:ring-2 focus:ring-purple-500"
           >
             <option value="category">Group by Aisle</option>
             <option value="recipe">Group by Recipe</option>
@@ -708,7 +708,7 @@ export default function GroceryListModal({
         </div>
 
         {amazonError && (
-          <div className="px-4 py-2 bg-red-50 border-b border-red-200 flex items-center justify-between text-sm text-red-700">
+          <div className="px-4 py-2 bg-fire-spirit/10 border-b border-fire-spirit/20 flex items-center justify-between text-sm text-fire-spirit">
             <span>⚠️ {amazonError}</span>
             <button
               onClick={() => setAmazonError(null)}
@@ -753,7 +753,7 @@ export default function GroceryListModal({
                             e.stopPropagation();
                             markCategoryPurchased(categoryKey);
                           }}
-                          className="px-2 py-1 bg-white bg-opacity-50 rounded text-xs hover:bg-opacity-70"
+                          className="px-2 py-1 bg-surface-container-high bg-opacity-50 rounded text-xs hover:bg-opacity-70"
                         >
                           ✓ Mark All
                         </button>
@@ -799,7 +799,7 @@ export default function GroceryListModal({
           )}
 
           {groceryList.length === 0 && (
-            <div className="text-center text-gray-500 py-12">
+            <div className="text-center text-on-surface-variant py-12">
               <div className="text-4xl mb-2">🛒</div>
               <p>No items in grocery list yet.</p>
               <p className="text-sm mt-2">
@@ -818,7 +818,7 @@ export default function GroceryListModal({
       {/* Amazon Handoff Preview Modal */}
       {showAmazonPreview && (
         <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full overflow-hidden animate-fade-in flex flex-col">
+          <div className="alchm-panel rounded-xl max-w-lg w-full overflow-hidden animate-fade-in flex flex-col">
             <div className="bg-[#FF9900] p-5 text-black flex justify-between items-center">
               <h3 className="text-xl font-bold flex items-center gap-2">
                 <span>🛒</span> Send to Amazon
@@ -832,7 +832,7 @@ export default function GroceryListModal({
             </div>
 
             <div className="p-6">
-              <p className="text-gray-700 mb-6 font-medium">
+              <p className="text-on-surface mb-6 font-medium">
                 Here is your current cart status. We&apos;ll only send grocery items that can be confidently matched to Amazon products.
               </p>
 
@@ -848,7 +848,7 @@ export default function GroceryListModal({
                   <span className="text-2xl font-black text-emerald-600">{stats.inPantry}</span>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-center justify-between">
+                <div className="bg-water-essence/10 border border-water-essence/20 rounded-lg p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">📦</span>
                     <div>
@@ -960,23 +960,23 @@ export default function GroceryListModal({
               </div>
 
               {amazonError && (
-                <div className="mt-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg border border-red-200">
+                <div className="mt-4 p-3 bg-fire-spirit/10 text-fire-spirit text-sm rounded-lg border border-red-200">
                   {amazonError}
                 </div>
               )}
             </div>
 
-            <div className="p-4 bg-gray-50 border-t flex flex-wrap justify-end gap-3">
+            <div className="p-4 bg-surface-container-low border-t flex flex-wrap justify-end gap-3">
               <button
                 onClick={() => setShowAmazonPreview(false)}
-                className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-200 rounded-lg transition-colors"
+                className="px-4 py-2 text-on-surface-variant font-medium hover:bg-surface-container-high rounded-lg transition-colors"
               >
                 Cancel
               </button>
               {amazonLoading ? (
                 <button
                   disabled
-                  className="px-6 py-2 bg-gray-400 text-white font-bold rounded-lg transition-all flex items-center gap-2"
+                  className="px-6 py-2 bg-surface-container-high text-on-surface-variant font-bold rounded-lg transition-all flex items-center gap-2"
                 >
                   Processing...
                 </button>
@@ -1039,11 +1039,11 @@ function GroceryItemRow({
 }) {
   return (
     <div
-      className={`bg-white border rounded-lg p-3 ${item.purchased
-          ? "opacity-50 border-green-300 bg-green-50"
+      className={`bg-surface-container-low border border-muted rounded-lg p-3 ${item.purchased
+          ? "opacity-50 border-earth-matter/30 bg-earth-matter/10"
           : isInPantry
-            ? "border-orange-300 bg-orange-50"
-            : "border-gray-200"
+            ? "border-gold-accent/30 bg-gold-accent/10"
+            : "border-muted"
         }`}
     >
       <div className="flex items-center justify-between">
@@ -1151,7 +1151,7 @@ function RecipeGroupedView({
 
         return (
           <div key={recipeId} className="mb-4">
-            <div className="bg-purple-50 text-purple-700 rounded-lg p-3 flex items-center gap-2 font-bold">
+            <div className="bg-active-violet/10 text-active-violet rounded-lg p-3 flex items-center gap-2 font-bold">
               <span className="text-lg">🍽️</span>
               <span>{recipeName}</span>
               <span className="text-sm font-normal">
@@ -1190,13 +1190,13 @@ function PantryModalSimple({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
+      <div className="alchm-panel rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
         <div className="bg-gradient-to-r from-orange-600 to-yellow-600 text-white p-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">🏺 Pantry Items</h2>
             <button
               onClick={onClose}
-              className="text-white hover:text-gray-200 text-2xl font-bold"
+              className="text-on-surface hover:text-on-surface-variant text-2xl font-bold"
             >
               ×
             </button>
@@ -1205,7 +1205,7 @@ function PantryModalSimple({ onClose }: { onClose: () => void }) {
 
         <div className="flex-1 overflow-y-auto p-6">
           {pantryItems.length === 0 ? (
-            <div className="text-center text-gray-500 py-12">
+            <div className="text-center text-on-surface-variant py-12">
               <div className="text-4xl mb-2">🏺</div>
               <p>Your pantry is empty.</p>
               <p className="text-sm mt-2">
@@ -1217,13 +1217,13 @@ function PantryModalSimple({ onClose }: { onClose: () => void }) {
               {pantryItems.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between"
+                  className="bg-surface-container-low border border-muted rounded-lg p-3 flex items-center justify-between"
                 >
                   <div>
                     <div className="font-medium">
                       {item.quantity} {item.unit} {item.name}
                     </div>
-                    <div className="text-xs text-gray-600">
+                    <div className="text-xs text-on-surface-variant">
                       Category: {item.category}
                     </div>
                   </div>

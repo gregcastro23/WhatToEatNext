@@ -631,20 +631,20 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
       {/* Loading Overlay */}
       {isAnyLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 shadow-xl animate-fade-in">
+          <div className="alchm-panel rounded-lg p-6 animate-fade-in">
             <LoadingSpinner size="lg" message={loadingMessage} />
           </div>
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-md p-4 border border-gray-200">
+      <div className="alchm-panel rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700">
+            <span className="text-sm font-semibold text-on-surface">
               Quick Actions
             </span>
             {totalMeals > 0 && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-on-surface-variant">
                 ({totalMeals}/21 meals planned)
               </span>
             )}
@@ -652,18 +652,18 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
           {/* Personalization Status */}
           {hasNatalChart ? (
-            <div className="flex items-center gap-1.5 px-2 py-1 bg-purple-50 rounded-lg">
-              <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
-              <span className="text-xs text-purple-700 font-medium">
+            <div className="flex items-center gap-1.5 px-2 py-1 bg-active-violet/10 rounded-lg">
+              <span className="w-2 h-2 bg-active-violet/100 rounded-full animate-pulse" />
+              <span className="text-xs text-active-violet font-medium">
                 Personalized for you
               </span>
             </div>
           ) : (
             <Link
               href="/onboarding"
-              className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-1.5 px-2 py-1 bg-surface-container-low rounded-lg hover:bg-surface-container-low transition-colors"
             >
-              <span className="text-xs text-gray-600">
+              <span className="text-xs text-on-surface-variant">
                 Add birth data for personalized recipes
               </span>
             </Link>
@@ -752,7 +752,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
               }
             }}
             disabled={totalMeals === 0}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+            className="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-on-surface rounded-lg hover:bg-surface-container-high disabled:opacity-50 transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-active-violet/40 focus:ring-offset-2"
           >
             <span>🗑️</span>
             Clear Week
@@ -764,7 +764,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               weeklyBudget
                 ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 focus:ring-emerald-500"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-400"
+                : "bg-surface-container-low text-on-surface hover:bg-surface-container-high focus:ring-active-violet/40"
             }`}
             title="Set a weekly grocery budget"
           >
@@ -779,14 +779,14 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
               className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 relative ${
                 prefsActiveCount > 0
                   ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 focus:ring-purple-500"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-400"
+                  : "bg-surface-container-low text-on-surface hover:bg-surface-container-high focus:ring-active-violet/40"
               }`}
               title="Customize generation preferences"
             >
               <span>🎯</span>
               Preferences
               {prefsActiveCount > 0 && (
-                <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-white text-purple-700">
+                <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-active-violet/20 text-active-violet">
                   {prefsActiveCount}
                 </span>
               )}
@@ -796,10 +796,10 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
         {/* Active Preferences Summary */}
         {prefsActiveCount > 0 && (
-          <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
-            <span className="font-medium text-gray-600">Generating with:</span>
+          <div className="mt-2 flex items-center gap-2 text-xs text-on-surface-variant">
+            <span className="font-medium text-on-surface-variant">Generating with:</span>
             {generationPreferences.preferredCuisines.length > 0 && (
-              <span className="px-2 py-0.5 bg-purple-50 text-purple-700 rounded-full">
+              <span className="px-2 py-0.5 bg-active-violet/10 text-active-violet rounded-full">
                 {generationPreferences.preferredCuisines.slice(0, 3).join(", ")}
                 {generationPreferences.preferredCuisines.length > 3 && ` +${generationPreferences.preferredCuisines.length - 3}`}
               </span>
@@ -834,7 +834,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
 
         {/* Budget Control Panel */}
         {budgetInputVisible && (
-          <div className="mt-3 p-3 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-200">
+          <div className="mt-3 p-3 bg-surface-container-low rounded-xl border border-earth-matter/20">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
                 <label htmlFor="budget-input" className="text-sm font-semibold text-emerald-800">
@@ -864,7 +864,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
                         if (!isNaN(val) && val >= 20) setWeeklyBudget(val);
                       }
                     }}
-                    className="w-20 px-2 py-1 text-sm rounded-md border border-emerald-300 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 bg-white text-gray-800"
+                    className="w-20 px-2 py-1 text-sm rounded-md border border-muted focus:border-active-violet focus:ring-1 focus:ring-active-violet bg-surface-container-lowest text-primary"
                     placeholder="100"
                   />
                 </div>
@@ -892,41 +892,41 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
                         costConfidence === 'high' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 
                         costConfidence === 'medium' ? 'bg-amber-500' : 'bg-red-400'
                       }`} />
-                      <span className="text-[10px] uppercase tracking-tighter text-gray-400 font-bold">
+                      <span className="text-[10px] uppercase tracking-tighter text-on-surface-variant/60 font-bold">
                         {costConfidence === 'high' ? 'Live Match' : 'Estimated'}
                       </span>
                     </div>
                     <div className="flex flex-col items-end">
-                      <span className="text-xs text-gray-500">Est. Cost</span>
-                      <span className="font-semibold text-gray-900 drop-shadow-sm">
+                      <span className="text-xs text-on-surface-variant">Est. Cost</span>
+                      <span className="font-semibold text-primary drop-shadow-sm">
                         ${estimatedWeeklyCost.toFixed(2)}
                       </span>
                     </div>
 
                     {/* Tooltip Popup (Hidden by default, shown on group-hover) */}
-                    <div className="absolute top-10 right-0 z-50 w-72 p-3 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
-                      <h4 className="text-xs font-bold text-gray-800 mb-2 border-b pb-1">Grocery Breakdown ({costBreakdown.length} items)</h4>
+                    <div className="absolute top-10 right-0 z-50 w-72 p-3 bg-surface-container-high/95 backdrop-blur-md rounded-xl shadow-2xl border border-muted opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                      <h4 className="text-xs font-bold text-primary mb-2 border-b pb-1">Grocery Breakdown ({costBreakdown.length} items)</h4>
                       <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
                         {costBreakdown.slice(0, 15).map((item, idx) => (
                           <div key={idx} className="flex justify-between items-center text-[10px]">
-                            <span className="text-gray-600 truncate max-w-[180px]">{item.ingredient}</span>
-                            <span className="font-mono text-gray-800">${item.estimatedCost.toFixed(2)}</span>
+                            <span className="text-on-surface-variant truncate max-w-[180px]">{item.ingredient}</span>
+                            <span className="font-mono text-primary">${item.estimatedCost.toFixed(2)}</span>
                           </div>
                         ))}
                         {costBreakdown.length > 15 && (
-                          <div className="text-[9px] text-gray-400 text-center pt-1 italic">
+                          <div className="text-[9px] text-on-surface-variant/60 text-center pt-1 italic">
                             + {costBreakdown.length - 15} more items...
                           </div>
                         )}
                       </div>
                       <div className="mt-2 pt-2 border-t flex justify-between items-center">
-                        <span className="text-[10px] text-gray-400">Confidence: {costConfidence.toUpperCase()}</span>
+                        <span className="text-[10px] text-on-surface-variant/60">Confidence: {costConfidence.toUpperCase()}</span>
                         <span className="text-[10px] font-bold text-emerald-600">${estimatedWeeklyCost.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-xs text-gray-500">Remaining</span>
+                    <span className="text-xs text-on-surface-variant">Remaining</span>
                     <span
                       className={`font-semibold ${
                         weeklyBudget - estimatedWeeklyCost >= 0
@@ -939,8 +939,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
                   </div>
                   {budgetPerMeal && (
                     <div className="flex flex-col items-end">
-                      <span className="text-xs text-gray-500">Per Meal</span>
-                      <span className="font-semibold text-gray-700">
+                      <span className="text-xs text-on-surface-variant">Per Meal</span>
+                      <span className="font-semibold text-on-surface">
                         ${budgetPerMeal.toFixed(2)}
                       </span>
                     </div>
@@ -952,7 +952,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             {/* Budget progress bar */}
             {weeklyBudget && totalMeals > 0 && (
               <div className="mt-2">
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       estimatedWeeklyCost / weeklyBudget > 1
@@ -967,8 +967,8 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
                   />
                 </div>
                 <div className="flex justify-between mt-1">
-                  <span className="text-[10px] text-gray-400">$0</span>
-                  <span className="text-[10px] text-gray-400">
+                  <span className="text-[10px] text-on-surface-variant/60">$0</span>
+                  <span className="text-[10px] text-on-surface-variant/60">
                     ${weeklyBudget}
                   </span>
                 </div>

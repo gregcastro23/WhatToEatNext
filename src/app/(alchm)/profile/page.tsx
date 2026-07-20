@@ -29,6 +29,9 @@ const AgentsPane = dynamic(() => import('@/components/profile/AgentsPane').then(
 const CosmicAlignmentCard = dynamic(() =>
   import('@/components/profile/CosmicAlignmentCard').then((m) => m.CosmicAlignmentCard),
 );
+const ProfileWeekCard = dynamic(
+  () => import('@/components/menu-planner/redesign/ProfileWeekCard'),
+);
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -183,6 +186,9 @@ function PremiumDashboard({
                   onEditProfile={onEditBirthData}
                   onOpenSettings={() => setActiveTab('settings')}
                 />
+
+                {/* This week — interactive weekly-menu fixture */}
+                <ProfileWeekCard />
 
                 {/* Core data: constitution + elemental wheel */}
                 <div className="grid md:grid-cols-2 gap-7">

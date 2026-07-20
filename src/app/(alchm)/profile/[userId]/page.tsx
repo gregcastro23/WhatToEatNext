@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
+import AgentProfileWeekCard from "@/components/menu-planner/redesign/AgentProfileWeekCard";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
@@ -154,6 +155,17 @@ export default function PublicProfilePage() {
             </button>
           )}
         </div>
+
+        {/* Living weekly-menu fixture for agent profiles (self-hides when the
+            agent hasn't published a week). */}
+        {!loading && profile?.isAgent && (
+          <div className="mb-6">
+            <AgentProfileWeekCard
+              userId={profile.userId}
+              agentName={profile.name}
+            />
+          </div>
+        )}
 
         {loading ? (
           <div className="glass-card-premium rounded-3xl p-12 border-white/8 text-center">
