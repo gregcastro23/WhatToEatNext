@@ -525,3 +525,68 @@ single session. They are recorded because the failure modes recur.
 **The discipline that follows:** no structural claim enters this document without
 a script behind it and the score recorded. Prose reasoning about this workbook has
 a poor track record; arithmetic has a good one.
+
+---
+
+## 12. The grid versus the hand-authored pairs
+
+`aspectESMSEffects.ts` carries four hand-authored pairs; the grids now supply
+all 45. Comparing them where they overlap — the "compare first" ruling:
+
+| Pair / aspect | Grid | Code | Axes | Sign |
+|---|---|---|---|---|
+| Sun–Moon conjunction | Ess+1 Mat+1 Spi+1 | Ess−0.5 Spi−0.5 | overlap | **INVERT** |
+| Sun–Moon opposition | Ess−1 Mat−1 Spi−1 | Ess+0.3 Spi+0.3 | overlap | **INVERT** |
+| Mars–Venus conjunction | Ess+1 Mat+1 | Ess+0.4 Mat+0.2 | **same** | **same** |
+| Mars–Venus opposition | Ess−2 Mat−2 | Ess−0.2 Sub+0.2 | overlap | same |
+| Jupiter–Mercury conjunction | Ess+1 Spi+1 | Spi+0.4 Sub+0.2 | overlap | same |
+| Jupiter–Mercury opposition | Spi−1 Sub−1 | Spi+0.1 Sub+0.2 | **same** | **INVERT** |
+| Saturn–Sun conjunction | Ess+1 Spi+2 | Mat+0.4 Spi−0.3 Sub+0.2 | overlap | **INVERT** |
+| Saturn–Sun opposition | Mat−1 Spi−2 | Mat+0.2 Sub+0.3 | overlap | **INVERT** |
+
+**Axes identical 2/8; signs agree 3/8. Axis overlap is never zero.**
+
+### 12a. The grid cannot express depletion
+
+`[AUTHORED]` The disagreement is systematic, not noise. Measured across the ESMS
+grid:
+
+| Triangle | Cells | Predominantly negative |
+|---|---|---|
+| Lower (conjunction) | 55 | **0%** |
+| Upper (opposition) | 49 | **91%** |
+
+**Sign is fully determined by aspect type and carries no pair-specific
+information.** The grid's pair-specific content is entirely in *which axes move*
+and *how many glyphs* — and on that it agrees with the hand-authored values far
+more than it disagrees.
+
+Every sign inversion is a case where the code says something pair-specific the
+grid structurally cannot:
+
+- Sun–Moon conjunction: code says New Moon **depletes**; grid says all
+  conjunctions are positive.
+- Jupiter–Mercury and Saturn–Sun oppositions: code reads them as **balancing**;
+  grid reads all oppositions as negative.
+
+So the code consistently treats opposition as illumination and balance, while the
+grid treats it as tension and loss. That is a genuine difference of model, not a
+transcription artifact.
+
+**Ruling:** depletion cases are **missing from the grid**, not overridden by the
+code. The four hand-authored pairs are not exceptions to a rule — they express
+nuance the draft had no notation for. `[AUTHORED]`
+
+**Consequence for wiring:** take the grid's **axis selection** (where it agrees
+well) and **do not take its polarity as pair-specific** (where it carries no
+information). Pair polarity needs authoring or derivation; it is not in the
+canvas. `[OPEN]`
+
+### 12b. Orientation is verified, not assumed
+
+The triangle assignment was checked three independent ways before this
+comparison was trusted: the 0%/91% polarity split, the position of the
+"Opposition effect" and "Conjunction effect (within 10 degrees)" labels, and the
+elemental grids showing the same pattern (`Moon→Sun` positive, `Sun→Moon`
+negative). A global inversion here would have silently swapped conjunction with
+opposition across all 308 cells.
