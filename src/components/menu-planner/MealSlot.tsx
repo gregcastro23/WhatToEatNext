@@ -64,27 +64,30 @@ function getMealTypeColors(mealType: MealType): {
   border: string;
   text: string;
 } {
+  // On-brand element-aligned tokens (was off-brand amber/emerald/purple/cyan
+  // marketing gradients). Breakfast→Fire, Lunch→Earth, Dinner→Air/violet,
+  // Snack→Water, keeping text on the neutral surface ramp for legibility.
   const colors: Record<MealType, { bg: string; border: string; text: string }> =
     {
       breakfast: {
-        bg: "bg-gradient-to-br from-amber-400/15 to-yellow-500/5",
-        border: "border-amber-300/30",
-        text: "text-amber-200",
+        bg: "bg-fire-spirit/5",
+        border: "border-fire-spirit/20",
+        text: "text-on-surface",
       },
       lunch: {
-        bg: "bg-gradient-to-br from-emerald-400/15 to-teal-500/5",
-        border: "border-emerald-300/30",
-        text: "text-emerald-200",
+        bg: "bg-earth-matter/5",
+        border: "border-earth-matter/20",
+        text: "text-on-surface",
       },
       dinner: {
-        bg: "bg-gradient-to-br from-purple-400/20 to-indigo-500/10",
-        border: "border-purple-300/40",
-        text: "text-purple-200",
+        bg: "bg-active-violet/5",
+        border: "border-active-violet/20",
+        text: "text-on-surface",
       },
       snack: {
-        bg: "bg-gradient-to-br from-cyan-400/15 to-sky-500/5",
-        border: "border-cyan-300/30",
-        text: "text-cyan-200",
+        bg: "bg-water-essence/5",
+        border: "border-water-essence/20",
+        text: "text-on-surface",
       },
     };
   return colors[mealType];

@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import QuickActionsToolbar from "@/components/menu-builder/QuickActionsToolbar";
+import WeeklyInsights from "@/components/menu-planner/redesign/WeeklyInsights";
 import WeeklyCalendar from "@/components/menu-planner/WeeklyCalendar";
 import {
     MenuPlannerProvider,
@@ -252,79 +253,9 @@ function MenuPlannerContent() {
     }
   };
 
-  const energyPct = useMemo(() => {
-    return weeklyNutrition?.weeklyTotals?.calories && weeklyNutrition?.weeklyGoals?.calories
-      ? Math.round((weeklyNutrition.weeklyTotals.calories / weeklyNutrition.weeklyGoals.calories) * 100)
-      : 65;
-  }, [weeklyNutrition]);
-
-  const proteinPct = useMemo(() => {
-    return weeklyNutrition?.weeklyTotals?.protein && weeklyNutrition?.weeklyGoals?.protein
-      ? Math.round((weeklyNutrition.weeklyTotals.protein / weeklyNutrition.weeklyGoals.protein) * 100)
-      : 82;
-  }, [weeklyNutrition]);
-
-  const elementalTotals = useMemo(() => {
-    const totals = { fire: 0, water: 0, earth: 0, air: 0 };
-    if (!currentMenu) return { fire: 25, water: 25, earth: 25, air: 25 };
-    const mealsWithRecipe = currentMenu.meals.filter((m) => m.recipe);
-    if (mealsWithRecipe.length === 0) return { fire: 25, water: 25, earth: 25, air: 25 };
-    
-    mealsWithRecipe.forEach((m) => {
-      // ElementalProperties uses capitalized keys (Fire/Water/Earth/Air);
-      // accept lowercase too for recipes hydrated from older snapshots.
-      const props = m.recipe?.elementalProperties as
-        | Record<string, number>
-        | undefined;
-      if (props) {
-        totals.fire += props.Fire ?? props.fire ?? 0;
-        totals.water += props.Water ?? props.water ?? 0;
-        totals.earth += props.Earth ?? props.earth ?? 0;
-        totals.air += props.Air ?? props.air ?? 0;
-      }
-    });
-    
-    const sum = totals.fire + totals.water + totals.earth + totals.air || 1;
-    return {
-      fire: Math.round((totals.fire / sum) * 100),
-      water: Math.round((totals.water / sum) * 100),
-      earth: Math.round((totals.earth / sum) * 100),
-      air: Math.round((totals.air / sum) * 100),
-    };
-  }, [currentMenu]);
-
-  const qualities = useMemo(() => {
-    const fire = elementalTotals.fire;
-    const water = elementalTotals.water;
-    const earth = elementalTotals.earth;
-    const air = elementalTotals.air;
-    
-    const heat = (fire + air) - (water + earth); 
-    const moisture = (air + water) - (fire + earth);
-    
-    const x = 50 + (moisture * 0.4); 
-    const y = 50 - (heat * 0.4); 
-    
-    return {
-      x: Math.max(10, Math.min(90, x)),
-      y: Math.max(10, Math.min(90, y)),
-    };
-  }, [elementalTotals]);
-
-  const getElementalLabel = (pct: number) => {
-    if (pct === 0) return "Zero";
-    if (pct > 30) return "High";
-    if (pct < 15) return "Low";
-    if (pct >= 22 && pct <= 28) return "Opt";
-    return "Bal";
-  };
-
-  const natalResonance = useMemo(() => {
-    if (selectedChartIds.size > 0) {
-      return Math.min(100, 80 + (selectedChartIds.size * 4));
-    }
-    return 92;
-  }, [selectedChartIds.size]);
+  // The legacy "Cycle Telemetry" derived values (energyPct/proteinPct/
+  // elementalTotals/qualities/natalResonance) were removed with that panel;
+  // the desktop left column now renders the real <WeeklyInsights /> instead.
 
   const [activeElementFilter, setActiveElementFilter] = useState<"fire" | "water" | "earth" | "air" | null>(null);
 
@@ -408,17 +339,23 @@ function MenuPlannerContent() {
           </div>
         )}
 
-        {/* Quick Actions Toolbar - Generate, Balance, Variety, Clear */}
-        <QuickActionsToolbar onTogglePreferences={() => setShowPreferencesPanel((p) => !p)} />
+        {/* Quick Actions Toolbar + Generation Preferences — desktop/tablet only.
+            On mobile the redesigned calendar leads; whole-week generation returns
+            via the guided empty-state (next slice). */}
+        <div className="hidden md:block">
+          {/* Quick Actions Toolbar - Generate, Balance, Variety, Clear */}
+          <QuickActionsToolbar onTogglePreferences={() => setShowPreferencesPanel((p) => !p)} />
 
-        {/* Generation Preferences Panel */}
-        <GenerationPreferencesPanel
-          isOpen={showPreferencesPanel}
-          onToggle={() => setShowPreferencesPanel((p) => !p)}
-        />
+          {/* Generation Preferences Panel */}
+          <GenerationPreferencesPanel
+            isOpen={showPreferencesPanel}
+            onToggle={() => setShowPreferencesPanel((p) => !p)}
+          />
+        </div>
 
-        {/* Tools Bar */}
-        <div className="alchm-panel p-4 mt-3 rounded-xl">
+        {/* Tools Bar — desktop/tablet only (secondary tools; mobile uses the
+            redesigned calendar's inline actions + Shop the week) */}
+        <div className="hidden md:block alchm-panel p-4 mt-3 rounded-xl">
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setShowRecipeQueue(!showRecipeQueue)}
@@ -585,89 +522,24 @@ function MenuPlannerContent() {
             hardcoded placeholders, not computed from the planned meals. The real
             nutrition totals live in the Nutrition Dashboard panel below. */}
         
-        {/* Posso Widget Panel (collapsible) */}
+        {/* Posso Widget Panel (collapsible) — desktop/tablet only */}
         {showPosso && (
-          <div className="mb-6 h-[500px]">
+          <div className="hidden md:block mb-6 h-[500px]">
             <PossoWidget onClose={() => setShowPosso(false)} />
           </div>
         )}
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 mt-6">
-          {/* Week Progress (Left Column) */}
-          <div className="lg:col-span-4 alchm-panel p-6 rounded-xl flex flex-col gap-6">
-            <div className="flex justify-between items-center border-b border-muted pb-2">
-              <h3 className="font-headline-md text-headline-md text-primary">Cycle Telemetry</h3>
-              <span className="text-on-surface-variant font-telemetry-md text-telemetry-md">☽ 14°</span>
-            </div>
-            
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between font-telemetry-md text-telemetry-md mb-1">
-                  <span className="text-on-surface-variant">Energy (KCAL)</span>
-                  <span className="text-active-violet">{energyPct}%</span>
-                </div>
-                <div className="h-1 bg-surface-container-high rounded-full overflow-hidden">
-                  <div className="h-full bg-active-violet" style={{ width: `${Math.min(100, energyPct)}%` }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between font-telemetry-md text-telemetry-md mb-1">
-                  <span className="text-on-surface-variant">Protein</span>
-                  <span className="text-fire-spirit">{proteinPct}%</span>
-                </div>
-                <div className="h-1 bg-surface-container-high rounded-full overflow-hidden">
-                  <div className="h-full bg-fire-spirit" style={{ width: `${Math.min(100, proteinPct)}%` }} />
-                </div>
-              </div>
-            </div>
-
-            {/* Dual Axis Gauge */}
-            <div className="flex flex-col gap-2 mt-2 border-t border-muted pt-4">
-              <div className="text-xs text-on-surface-variant font-label-caps text-center">Alchemical Qualities</div>
-              <div className="relative w-full h-24 bg-surface-container-lowest border border-muted rounded gauge-crosshair flex items-center justify-center overflow-hidden">
-                <span className="absolute top-1 text-[10px] text-on-surface-variant">HOT</span>
-                <span className="absolute bottom-1 text-[10px] text-on-surface-variant">COLD</span>
-                <span className="absolute left-1 text-[10px] text-on-surface-variant">DRY</span>
-                <span className="absolute right-1 text-[10px] text-on-surface-variant">MOIST</span>
-                {/* Indicator Dot */}
-                <div
-                  className="w-3 h-3 rounded-full bg-gold-accent absolute shadow-[0_0_8px_rgba(201,162,39,0.8)] transition-all duration-500 ease-out"
-                  style={{ top: `${qualities.y}%`, left: `${qualities.x}%`, transform: "translate(-50%, -50%)" }}
-                />
-              </div>
-            </div>
-
-            {/* Elemental breakdown */}
-            <div className="grid grid-cols-2 gap-4 mt-2 border-t border-muted pt-4">
-              <div className="bg-surface-container-low p-3 rounded border border-muted text-center">
-                <div className="text-[10px] text-on-surface-variant mb-1 font-label-caps">Fire 🜂 ({elementalTotals.fire}%)</div>
-                <div className={`font-telemetry-lg text-telemetry-lg ${elementalTotals.fire > 25 ? 'text-fire-spirit' : 'text-on-surface-variant'}`}>{getElementalLabel(elementalTotals.fire)}</div>
-              </div>
-              <div className="bg-surface-container-low p-3 rounded border border-muted text-center">
-                <div className="text-[10px] text-on-surface-variant mb-1 font-label-caps">Water 🜄 ({elementalTotals.water}%)</div>
-                <div className={`font-telemetry-lg text-telemetry-lg ${elementalTotals.water > 25 ? 'text-water-essence' : 'text-on-surface-variant'}`}>{getElementalLabel(elementalTotals.water)}</div>
-              </div>
-              <div className="bg-surface-container-low p-3 rounded border border-muted text-center">
-                <div className="text-[10px] text-on-surface-variant mb-1 font-label-caps">Earth 🜃 ({elementalTotals.earth}%)</div>
-                <div className={`font-telemetry-lg text-telemetry-lg ${elementalTotals.earth > 25 ? 'text-earth-matter' : 'text-on-surface-variant'}`}>{getElementalLabel(elementalTotals.earth)}</div>
-              </div>
-              <div className="bg-surface-container-low p-3 rounded border border-muted text-center">
-                <div className="text-[10px] text-on-surface-variant mb-1 font-label-caps">Air 🜁 ({elementalTotals.air}%)</div>
-                <div className={`font-telemetry-lg text-telemetry-lg ${elementalTotals.air > 25 ? 'text-air-substance' : 'text-on-surface-variant'}`}>{getElementalLabel(elementalTotals.air)}</div>
-              </div>
-            </div>
-
-            {/* Terminals */}
-            <div className="mt-4 flex flex-col gap-2">
-              <div className="font-telemetry-md text-[10px] bg-surface-container-lowest p-2 border border-muted text-active-violet h-16 overflow-y-auto leading-relaxed font-mono">
-                &gt; SYNCING DEGREE AFFINITIES...<br/>
-                &gt; NATAL RESONANCE: {natalResonance}%<br/>
-                &gt; OPTIMIZING MACROS...
-              </div>
-              {/* Fake "MERCURY RETROGRADE" warning terminal removed — it was a
-                  hardcoded decorative error, not a real transit alert. */}
-            </div>
+        {/* Main Dashboard Grid — desktop/tablet only. The left "Cycle Telemetry"
+            panel is legacy/placeholder; on mobile the redesigned Week Insights
+            rail (real elemental balance + budget) replaces it, and the Today
+            hero replaces TodaysMealsWidget. */}
+        <div className="hidden md:grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 mt-6">
+          {/* Week Balance (Left Column) — real insights (elemental balance,
+              budget, variety/suggestions). Replaces the legacy placeholder
+              "Cycle Telemetry" (hardcoded ☽14°, 65/82 fallbacks, natal-resonance
+              terminal) with values computed from the planned meals. */}
+          <div className="lg:col-span-4">
+            <WeeklyInsights />
           </div>
 
           {/* Today's Meals (Middle/Right) */}
@@ -686,9 +558,9 @@ function MenuPlannerContent() {
           </div>
         </div>
 
-        {/* Recipe Browser Panel (collapsible) */}
+        {/* Recipe Browser Panel (collapsible) — desktop/tablet only */}
         {showRecipeBrowser && (
-          <div className="mb-6" style={{ maxHeight: "500px" }}>
+          <div className="hidden md:block mb-6" style={{ maxHeight: "500px" }}>
             <RecipeBrowserPanel
               activeElementFilter={activeElementFilter}
               onSelectRecipe={(recipe) => {
@@ -703,14 +575,22 @@ function MenuPlannerContent() {
 
         {/* Main Content - Full-width Calendar */}
         <div className="w-full">
-          <WeeklyCalendar />
+          <WeeklyCalendar
+            onShopWeek={() => {
+              regenerateGroceryList();
+              setShowGroceryList(true);
+              setIsWeeklyDashboardExpanded(false);
+              setShowPosso(false);
+            }}
+          />
         </div>
 
         {/* Sidebars row - below calendar for better readability */}
         <div className="flex flex-col lg:flex-row gap-4 mt-6">
-          {/* Recipe Queue */}
+          {/* Recipe Queue — desktop/tablet only (drag-oriented; mobile uses
+              tap-to-add on the calendar) */}
           {showRecipeQueue && (
-            <div className="w-full lg:w-96 flex-shrink-0">
+            <div className="hidden md:block w-full lg:w-96 flex-shrink-0">
               <RecipeQueue
                 onSelectRecipe={() => {
                   showInfo(
@@ -732,8 +612,10 @@ function MenuPlannerContent() {
           </div>
         </div>
 
-        {/* Mobile: Suggestions Bottom Sheet */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t-2 border-active-violet/30 shadow-xl z-40">
+        {/* Tablet: Suggestions Bottom Sheet — hidden on mobile to avoid a second
+            fixed bottom layer over the global tab bar (redesigned insights rail
+            already surfaces suggestions on mobile) */}
+        <div className="hidden md:block lg:hidden fixed bottom-0 left-0 right-0 bg-surface border-t-2 border-active-violet/30 shadow-xl z-40">
           <button
             onClick={() => setShowMobileSuggestions(!showMobileSuggestions)}
             className="w-full flex items-center justify-between px-4 py-3 focus:outline-none bg-surface-container-low"
