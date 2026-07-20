@@ -49,19 +49,40 @@ cell. This is the two-compass premise working, not an under-specification.
 
 Both are wrong against the model as stated. Neither is implemented yet.
 
-- **Uranus is inverted.** Code has day = Essence, night = Matter. It should be
-  **day = Matter, night = Essence** (`planetaryAlchemyMapping.ts:99-102`).
-  Uranus carries `alchmWeight` **0.9044** — the second-heaviest body, above
-  Saturn (0.812) and nearly double the Sun (0.513). Every chart currently
-  misplaces ~0.9 units between Essence and Matter, more than the Sun's entire
-  contribution on any axis.
-- **The Moon under-contributes.** Code gives it one axis per sect. It should
-  carry **both Essence and Matter in both sects** (weight 0.2843 each),
-  reflecting the Moon's importance.
+- **Uranus inverts — an AUTHORED CHANGE, not a transcription fix.** Code has
+  day = Essence, night = Matter. It becomes **day = Matter, night = Essence**
+  (`planetaryAlchemyMapping.ts:99-102`).
 
-This makes **both luminaries sect-invariant** — the Sun is Spirit in both sects,
-the Moon is Essence+Matter in both. Every other body swaps. That is a coherent
-claim about what a luminary is, not an exception bolted on.
+  ⚠️ **The canvas does not support this and never did.** Uranus reads `🝑 / 🝙`
+  (Essence/Matter, in that order) in the Dignity tab *and* in all twelve sign
+  pages — thirteen locations, unanimous, identical to Venus, Mars, Moon and
+  Pluto. Shipped code matches the canvas exactly. This inversion is the author's
+  deliberate decision that **Uranus goes against the grain**, ruled twice on
+  2026-07-20. Recorded here so a future session does not "correct" it back to
+  the canvas. If the rationale is ever lost, the canvas is the fallback.
+
+  Blast radius: Uranus carries `alchmWeight` **0.9044** — the second-heaviest
+  body, above Saturn (0.812) and nearly double the Sun (0.513). This moves ~0.9
+  units between Essence and Matter on every chart, more than the Sun's entire
+  contribution on any axis.
+
+- **The Moon carries both axes in both sects.** Code gives it one per sect; it
+  becomes Essence **and** Matter in both (weight 0.2843 each). The canvas's
+  `🝑 / 🝙` is compatible with this reading, unlike the Uranus case.
+
+The Moon change makes **both luminaries sect-invariant** — the Sun is Spirit in
+both sects, the Moon is Essence+Matter in both. Every other body swaps. That is
+a coherent claim about what a luminary is, not an exception bolted on.
+
+### 1b. The sign pages decode
+
+Each sign page's `Day/night` column reads
+`(planetDayElement + signElement / planetNightElement + signElement)`.
+
+Uranus in Aries is `(💧🔥/💨🔥)`: Aries is Fire, and Uranus's own day/night
+elements from the Dignity tab are 💧/💨. Consistent across all twelve signs —
+an independent confirmation of the day/night **element** table (distinct from
+the ESMS table above).
 
 ---
 
@@ -188,6 +209,20 @@ multiply, not a special mechanism.
 3. **The "Terms of" degree ranges** (Lilly recension — see §4).
 4. **Per-sign "Degree specific bonus" / "Planet bonus".**
 
+**Source, and it is no longer blocked.** Each of the twelve sign tabs carries a
+complete 30-row table: `Degree → Sign association → Element → Planet bonus →
+Alchemy process`. Twelve signs × 30 degrees = **360 fully-attributable rows**.
+Exported as CSV these are machine-readable — the visual-transcription blocker in
+§6 does not apply to this layer.
+
+Spot-check, Aries: degrees 1-10 → Mars, 11-20 → Sun, 21-30 → Jupiter and Venus.
+The Chaldean decan rulers for Aries are Mars, Sun, Venus — it matches, with the
+sign's own ruler appended to the third decan.
+
+Known transcription defects in the sign tabs: Aries reads `Prime: Pisces`
+(copy-paste; should be Aries), Leo's element reads `Fie`, and Taurus's decan
+bonus reads `Moon 11° - 10°` (descending/degenerate).
+
 **Signed, floored at zero.** The alchemy processes are signed, and the vessel
 uses that direction — but its contribution is clamped so it never drives a
 total negative.
@@ -265,8 +300,29 @@ must establish.
 5. **"Inertia" is quadruple-booked**, not triple as #624 states — there is a
    fourth in `src/app/api/alchm-quantities/route.ts:188`. Resolution:
    gravitational `M/r²` keeps the name; the others are renamed.
-6. **Visual transcription.** The four aspect matrices, decan tables, terms and
-   the 30-degree alchemy table cannot be recovered from the PDF's text layer —
-   cell attribution scrambles and the four aspect grids overlap. Re-reading the
-   PDF visually is its own scoped task, and everything in §4 that depends on
-   cell-level data is blocked on it.
+6. **Transcription — mostly unblocked as of the CSV export.**
+
+   The PDF's *text layer* scrambles cell attribution, but the Google Sheets
+   **CSV export is fully attributable**. Thirteen tabs exported 2026-07-20:
+   `Dignity Tables`, `Tarot Descriptions`, and one per sign. Extract with
+   `pdftotext` only as a last resort; prefer the CSVs.
+
+   Now recoverable: the dignity table, decan rulerships (Saturn/Uranus/Neptune
+   separate cleanly), the full terms table including Sagittarius–Pisces, the
+   planetary joys, the tarot mappings, and all 360 rows of the positional layer.
+
+   **Still needs the visual PDF:** the four aspect matrices. In the CSV they sit
+   as an 11×11 grid where **the lower triangle and upper triangle are different
+   aspects** — verified by sign: row Sun→Moon is `(-🔥 -💧)` while row Moon→Sun
+   is `(🔥💧🔥💧)`, and this holds throughout. Three grids therefore hold six
+   matrices:
+
+   | Grid | Below diagonal | Above diagonal |
+   |---|---|---|
+   | Elemental #1 | Conjunction (within 10°) | Opposition (175–185°) |
+   | Elemental #2 | Trine | Square (90°, within 5°) |
+   | ESMS | Conjunction | Opposition |
+
+   This is why the transposes are not symmetric, and it independently supports
+   the "polarity depends on the pair" ruling — the canvas encodes harmonious and
+   hard as transposes of one relation, not as independent tables.
