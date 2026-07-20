@@ -1709,21 +1709,12 @@ export function getZodiacSignType(longitude: number): ZodiacSignType {
   const signIndex = Math.min(11, Math.floor(adjustedLong / 30));
   return signs[signIndex];
 }
-const PLANETARY_ORBS: Record<string, number> = {
-  Sun: 1.5,
-  Moon: 1.5,
-  Mercury: 1.0,
-  Venus: 1.0,
-  Mars: 0.8,
-  Jupiter: 0.6,
-  Saturn: 0.5,
-  Uranus: 0.4,
-  Neptune: 0.3,
-  Pluto: 0.2,
-};
-function _getAspectOrb(planet1: string, planet2: string): number {
-  return (PLANETARY_ORBS[planet1] + PLANETARY_ORBS[planet2]) / 2;
-}
+// REMOVED: `PLANETARY_ORBS` and its sole consumer `_getAspectOrb`, both
+// callerless. This was a per-planet moiety table averaging to sub-2° orbs — an
+// order of magnitude tighter than every live orb budget in the repo (conjunction
+// 8-10°), so nothing could have used it without silently discarding almost every
+// aspect. One of twelve conflicting orb definitions found by the §14 audit.
+// See docs/physics/SYNTHESIS_MODEL.md §14c.
 /**
  * Calculate Placidus house cusps based on Julian date, latitude, and longitude
  * This is a proper implementation of the Placidus house system

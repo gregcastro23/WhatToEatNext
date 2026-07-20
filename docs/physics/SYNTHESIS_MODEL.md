@@ -689,10 +689,21 @@ was written against a different spec entirely.
 
 Unreferenced and removable before any real reconciliation: `DIGNITY_FOOD_SCALE`,
 `getDignityForFoodScoring`, `getDignityESMSMultiplier`, `_getDignityMultiplier`,
-`PLANETARY_ORBS`, `cookingMethodRecommender._calculateAspectMethodAffinity`, the
-whole `signVectors` module, plus two unimported duplicate files
-(`ingredientRecommendation 2.ts`, `PlanetaryCalculationsDemo 2.tsx`) carrying
-their own copies.
+`PLANETARY_ORBS`, `cookingMethodRecommender._calculateAspectMethodAffinity`,
+plus unimported duplicate files (`ingredientRecommendation 2.ts`,
+`PlanetaryCalculationsDemo 2.tsx` and others) carrying their own copies.
+
+> `[AUTHORED]` **Correction.** This list originally included the whole
+> `signVectors` module. **It is retained** — its intent is the missing modality
+> axis and is worth realising. Only its ESMS bridge is deleted. See §15.
+
+**Verified on deletion** (2026-07-20). Two entries were wrong as written:
+`getDignityScore` is **live** (two importers, one of them the production
+`planetaryAlchemyMapping`), so `dignityScales.ts` survives minus its dead
+exports; and `_calculateAspectMethodAffinity` names *two* functions, of which
+only the `cookingMethodRecommender` one is dead — the copy in
+`recommendation/methodRecommendation.ts` is called at `:739`. A point-in-time
+audit is a lead, not a warrant; re-check each caller before removing it.
 
 **Deleting dead code first cuts the apparent conflict count by roughly a third**
 before any judgement is required — the same lesson as `DIGNITY_FOOD_SCALE`, where
@@ -759,3 +770,153 @@ incompatible output ranges and orbs disagree by 25% would be fitting to noise.
 
 The three live production bugs (§9a heat formulas, Uranus detriment, Saturn
 period) remain independent of all of this and are still unfixed.
+
+---
+
+## 15. Modality is the missing axis — the sign-vector programme
+
+`[RESEARCH 2026-07-20]` §14c listed the `signVectors` module family among the
+dead definitions to delete. **That recommendation is withdrawn.** `[AUTHORED]`
+The module is unreferenced, but its *intent* is the one genuinely missing
+dimension in the engine, and the right move is to realise it rather than remove
+it. What must go is only its ESMS bridge.
+
+### 15a. What the engine actually lacks
+
+The engine has two established axes and a rule joining them: **quantities come
+from the planets, elements from the signs** (§1, CONTEXT.md). Modality —
+cardinal, fixed, mutable — is the third classical axis, and it is the one the
+engine never derives from the sky.
+
+It is not absent from the codebase. 28 files mention it. But measured, every
+live path derives modality from something other than planetary position:
+
+| Site | Modality comes from | Weight |
+|---|---|---|
+| `recommendation/ingredientRecommendation.ts:723` | **user preference** (`modalityPreference`) | 0.08 |
+| `ingredientRecommender.ts:539` | user preference, as a filter | — |
+| `cuisineUtils.determineModalityFromElements` | **elements** | — |
+| `foodRecommendation.getModalityElementAffinity` | elements | — |
+
+Deriving modality *from elements* is the same forbidden direction as
+`elementalToESMS` (§15c). Modality is a property of the sign, sitting orthogonal
+to its element — the twelve signs are exactly 4 elements × 3 modalities, a
+bijection. Inferring one from the other discards the independent half.
+
+And the element→modality function does not survive measurement:
+
+```
+determineModalityFromElements, over the normalised elemental simplex (12,341 samples)
+    Cardinal   7186   58.2%
+    Fixed      2879   23.3%
+    Mutable    2276   18.4%
+```
+
+The reason is in the arithmetic. `cardinalScore = Fire×0.8 + Earth×0.8 +
+Water×0.8 + Air×0.8` — four identical coefficients, so on a normalised profile it
+is **identically 0.8 for every input**, a constant wearing the shape of a
+weighted sum. `mutableScore` and `fixedScore` each range only [0.5, 0.9], so
+Cardinal wins by default across most of the space. This is the `Q 0.00` defect
+class again: a quantity that reads as computed and is not.
+
+### 15b. What the sign vector was reaching for
+
+`calculateSignVectors` builds, per sign, an 8-component vector — three modality
+axes, four elemental axes, one seasonal — together with a **magnitude**: how
+strongly that sign is expressed *right now*, given which planets occupy it, at
+what degree, under what aspects, retrograde or not.
+
+That magnitude is the valuable idea, and it is not expressible in the current
+model. "The Sun is in Aries" is a fact the engine already has. "Aries is running
+at 0.82 and Pisces at 0.11" is a different statement, and a strictly richer one.
+
+Modality also maps onto cooking method in a way elements do not, which is where
+the payoff is: cardinal is initiating (searing, blanching, a hot start), fixed is
+sustained (braising, roasting, fermentation), mutable is adaptive (stir-fry,
+sauté, improvisation). Because modality is orthogonal to element, it adds
+discriminating power to method recommendation instead of restating what the
+elemental profile already says.
+
+### 15c. The half that must go
+
+Lines 267–485 of `utils/signVectors.ts` — `VECTOR_CONFIG.elementalToESMS`,
+`signVectorToESMS`, `blendESMS`, `getAlchemicalStateWithVectors` — derive ESMS
+quantities from elements, which the engine forbids. The file's own header says
+so. `getAlchemicalStateWithVectors` then blends that fabricated ESMS into
+correct planet-derived ESMS at `alpha = 0.15` and runs the full thermodynamic
+stack on the contaminated result.
+
+`[AUTHORED]` Delete this half. It is the exact defect the rest of this document
+exists to eliminate, and keeping it next to the salvageable half is what made the
+module look deletable in the first place.
+
+### 15d. Four measured defects in the half worth keeping
+
+**1. The comparison is 2-valued, and carries no planetary information at all.**
+`calculateSignVectors` unit-normalises the modality sub-vector and the elemental
+sub-vector *independently*, and each sign contributes to exactly one slot of
+each. So after normalisation every sign vector is one-hot in modality and one-hot
+in element, and the entire planetary computation — degree, aspects, retrograde,
+planet weights — is divided back out before `compareSignVectors` ever sees it.
+
+Measured, randomising the planetary weight per sign, season held fixed:
+
+```
+planetary weight 0.01  -> aries~leo raw cosine = 0.5555555556
+planetary weight    1  -> aries~leo raw cosine = 0.5555555556
+planetary weight    6  -> aries~leo raw cosine = 0.5555555556
+planetary weight  250  -> aries~leo raw cosine = 0.5555555556
+
+across all 66 sign pairs, similarity takes 2 distinct values: 0.5556, 0.7778
+```
+
+`_magnitude` survives on the returned object, but `compareSignVectors` ignores
+it. The function is a disguised categorical: *shares an axis* or *does not*.
+
+**2. Similarity cannot fall below 0.550.** `compareSignVectors` maps cosine from
+`[-1,1]` to `[0,1]`, but all components are non-negative after normalisation, so
+cosine is never negative and the output occupies only the top **45%** of its
+nominal range. Any consumer reading it as a 0–1 score reads every pair as at
+least half-compatible.
+
+**3. Seven of ten planetary weights never apply.** The inline `planetWeightMap`
+keys all but Sun and Moon with a leading underscore — `_Mercury`, `_Mars`,
+`_Saturn` — while the lookup uses the bare planet name, so they fall through to
+the `?? 1.0` default:
+
+```
+Sun 1.5 ok   Moon 1.3 ok   Jupiter 1.0 ok (coincides with the default)
+Mercury/Venus/Mars/Saturn/Uranus/Neptune/Pluto  ->  all silently 1.0
+```
+
+Mars's 1.2 and Saturn's 0.95 have never once been applied. This is the same
+underscore rot as `_getDignityMultiplier` and `_calculateAspectMethodAffinity`
+(§14c) — a repo-wide defect class worth its own sweep.
+
+**4. `signVectorConfig.ts` is the un-rotted twin, and is never imported.** It
+carries the same tables with **correct** planet keys, plus more bodies
+(Ascendant, nodes, Chiron). The two have since diverged — `sextile` is 1.5 in the
+config and 1.05 inline; `cardinal.Essence` is 1.5 against 1.05. Someone extracted
+the config and never wired it up.
+
+### 15e. Plan
+
+`[AUTHORED]` Ordered, and gated behind §14d — the module currently introduces a
+**13th** planetary weight table and a **13th** aspect-strength scale, so wiring it
+before those are single-valued would add to the problem it is meant to help with.
+
+1. **Delete §15c's ESMS bridge.** Independent of everything else; do it now.
+2. **Fix the four defects.** Carry `_magnitude` into `compareSignVectors`; stop
+   independently unit-normalising the sub-vectors; rename `_magnitude` to
+   `magnitude` and `SignVector.sign: any` to `ZodiacSignType`; delete the inline
+   tables and import `signVectorConfig`.
+3. **Replace its private tables with the canonical ones** — `alchmWeight` for
+   planetary weight, and the unified orb and aspect-strength definitions once
+   §14d step 3 lands. The vector should own *modality and seasonality only*; it
+   has no business holding its own opinion about how strong a trine is.
+4. **Then wire modality into method recommendation**, where it is orthogonal to
+   the elemental signal and can be shown to add something. Not into ESMS.
+
+`[OPEN]` The cardinal/fixed/mutable → cooking-method mapping in §15b is
+archetypal and unmeasured. It needs the same treatment as the pair-polarity
+question (§12a): author it, derive it, compare, take the parsimonious consensus.
