@@ -38,7 +38,8 @@
    "selfDiagonal": 33,
    "impossible": 21,
    "empty": 1,
-   "containingRuntimeSlot": 106
+   "containingRuntimeSlot": 106,
+   "authoredCorrections": 2
   },
   "grids": [
    {
@@ -5269,11 +5270,19 @@
         "sign": 1
        },
        {
-        "axis": "Essence",
+        "axis": "Matter",
         "sign": 1
        }
       ],
-      "raw": "(+🝇/+🝇/+🝑)"
+      "raw": "(+🝇/+🝇/+🝑)",
+      "canvasRaw": "(+🝇/+🝇/+🝑)",
+      "canvasAxes": [
+       "Spirit",
+       "Spirit",
+       "Essence"
+      ],
+      "provenance": "AUTHORED",
+      "correctionReason": "Fill-down from the Jupiter row directly above (9/11 cells byte-identical, and the two planets' ESMS pairs differ, so identity can only be a copy). Essence is Jupiter's axis; Saturn is Spirit/Matter. Corrected by substituting Saturn's own second axis, Matter, which restores the synthesis-pool constraint to 100%. Canvas value preserved below. See SYNTHESIS_MODEL.md §5b, §12."
      },
      {
       "row": "Saturn",
@@ -5303,11 +5312,18 @@
         "sign": 1
        },
        {
-        "axis": "Essence",
+        "axis": "Matter",
         "sign": 1
        }
       ],
-      "raw": "(+/+🝇/+🝑)"
+      "raw": "(+/+🝇/+🝑)",
+      "canvasRaw": "(+/+🝇/+🝑)",
+      "canvasAxes": [
+       "Spirit",
+       "Essence"
+      ],
+      "provenance": "AUTHORED",
+      "correctionReason": "Fill-down from the Jupiter row directly above (9/11 cells byte-identical, and the two planets' ESMS pairs differ, so identity can only be a copy). Essence is Jupiter's axis; Saturn is Spirit/Matter. Corrected by substituting Saturn's own second axis, Matter, which restores the synthesis-pool constraint to 100%. Canvas value preserved below. See SYNTHESIS_MODEL.md §5b, §12."
      },
      {
       "row": "Saturn",

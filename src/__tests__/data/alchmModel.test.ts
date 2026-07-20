@@ -25,6 +25,10 @@ type Cell = {
   aspect: string;
   kind: "terms" | "abstract" | "self" | "impossible" | "empty";
   terms?: Array<{ axis: string; sign: number; slot?: boolean }>;
+  provenance?: string;
+  canvasAxes?: string[];
+  correctionReason?: string;
+  flagReason?: string;
   flag?: string;
 };
 
@@ -134,6 +138,52 @@ describe("alchm model — aspect grids", () => {
       "Uranus×Sun",
     ]);
     for (const c of flagged) expect(c.flagReason ?? "").not.toHaveLength(0);
+  });
+
+  /**
+   * Two Saturn conjunctions were corrected: the Saturn row of the ESMS grid is a
+   * fill-down from Jupiter's (9 of 11 cells byte-identical, and their ESMS pairs
+   * differ), which imported Jupiter's Essence into a planet that is Spirit/Matter.
+   * The canvas values are preserved alongside so the overwrite stays visible.
+   */
+  it("records the canvas value wherever a cell was corrected", () => {
+    const corrected = allCells.filter((c) => c.provenance === "AUTHORED");
+    expect(corrected).toHaveLength(2);
+    for (const c of corrected) {
+      expect(c.canvasAxes).toBeDefined();
+      expect(c.correctionReason ?? "").not.toHaveLength(0);
+      expect(c.canvasAxes).not.toEqual(c.terms?.map((t) => t.axis));
+    }
+  });
+
+  /**
+   * The load-bearing structural constraint on the ESMS grid: a cell may only
+   * contain axes the two planets themselves carry. This held at 82/84 as
+   * transcribed; the two misses were the Jupiter fill-down, and correcting them
+   * takes it to 84/84. If this ever drops below 100% again, either a cell was
+   * edited wrongly or the synthesis table changed.
+   */
+  it("satisfies the synthesis pool constraint exactly", () => {
+    const PAIR: Record<string, [string, string]> = {
+      Sun: ["Spirit", "Spirit"], Moon: ["Essence", "Matter"],
+      Mercury: ["Spirit", "Substance"], Venus: ["Essence", "Matter"],
+      Mars: ["Essence", "Matter"], Jupiter: ["Spirit", "Essence"],
+      Saturn: ["Spirit", "Matter"], Uranus: ["Essence", "Matter"],
+      Neptune: ["Essence", "Substance"], Pluto: ["Essence", "Matter"],
+    };
+    const esms = grids.find((g) => g.compass === "esms")!;
+    let checked = 0;
+    for (const c of esms.cells) {
+      if (c.kind !== "terms" || c.row === c.col) continue;
+      if (!PAIR[c.row] || !PAIR[c.col]) continue;
+      const pool = new Set([...PAIR[c.row], ...PAIR[c.col]]);
+      for (const t of c.terms ?? []) {
+        if (t.slot) continue;
+        expect(pool.has(t.axis)).toBe(true);
+      }
+      checked++;
+    }
+    expect(checked).toBe(84);
   });
 
   it("records the one genuinely empty cell as Saturn×Jupiter", () => {

@@ -121,9 +121,40 @@ for g in out['grids']:
         if c['kind']=='empty' and c['row']!=c['col']:
             c['flag']='OPEN'; c['flagReason']='Only genuinely empty cell in any grid.'
 
+# --- authored corrections -------------------------------------------------
+# The Saturn row of the ESMS grid is a fill-down from the Jupiter row directly
+# above it: 9 of 11 cells are byte-identical, and the two planets' ESMS pairs
+# differ (Jupiter is Spirit/Essence, Saturn is Spirit/Matter), so identity can
+# only be a copy. That import put Jupiter's Essence into two Saturn cells, the
+# only two violations of the synthesis-pool constraint. Substituting Saturn's
+# own second axis restores the constraint to 84/84.
+# The canvas value is preserved on each corrected cell. See SYNTHESIS_MODEL.md
+# sections 5b and 12.
+CORRECT = {('Saturn','Sun','conjunction'), ('Saturn','Mercury','conjunction')}
+CORRECT_REASON = ("Fill-down from the Jupiter row directly above (9/11 cells byte-identical, and the two "
+    "planets' ESMS pairs differ, so identity can only be a copy). Essence is Jupiter's axis; "
+    "Saturn is Spirit/Matter. Corrected by substituting Saturn's own second axis, Matter, "
+    "which restores the synthesis-pool constraint to 100%. Canvas value preserved below. "
+    "See SYNTHESIS_MODEL.md \u00a75b, \u00a712.")
+ncorr = 0
+for _g in out['grids']:
+    if _g['id'] != 'esms-conjunction-opposition':
+        continue
+    for _c in _g['cells']:
+        if (_c['row'], _c['col'], _c['aspect']) in CORRECT and _c['kind'] == 'terms':
+            _c['canvasRaw'] = _c.get('raw')
+            _c['canvasAxes'] = [t['axis'] for t in _c['terms']]
+            for _t in _c['terms']:
+                if _t['axis'] == 'Essence':
+                    _t['axis'] = 'Matter'
+            _c['provenance'] = 'AUTHORED'
+            _c['correctionReason'] = CORRECT_REASON
+            _c.pop('flag', None); _c.pop('flagReason', None)
+            ncorr += 1
+
 json.dump(out, open(sys.argv[1],'w'), ensure_ascii=False, indent=1)
 for k,v in stats.items(): print(f'{k:36} {dict(v)}')
-print(f'\nflagged outliers: {n}')
+print(f'\nflagged outliers: {n}   authored corrections: {ncorr}')
 tot=sum(sum(v.values()) for v in stats.values())
 pop=sum(v['terms']+v.get('abstract',0) for v in stats.values())
 se=sum(v['self'] for v in stats.values()); im=sum(v.get('impossible',0) for v in stats.values()); em=sum(v.get('empty',0) for v in stats.values())
