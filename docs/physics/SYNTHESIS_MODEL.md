@@ -51,9 +51,14 @@ decision wins. What the tag buys is that the disagreement stays visible.
 that the canvas had already partially answered:
 
 - **Open problem 2** ("the pair-interaction rule does not exist") — synthesis is
-  the operation. The canvas's aspect matrices sketch it, though 30% of their
-  cells are wildcards, so they are an oracle to fit against rather than a table
-  to transcribe.
+  the operation, and the canvas's aspect grids are the **most complete layer in
+  the workbook**: three 11×11 grids, **308 populated cells, exactly one empty**
+  (Saturn×Jupiter trine). They are a genuine 308-value oracle to fit G against.
+
+  ⚠️ An earlier revision called them "30% wildcards, a sketch with holes." That
+  figure was computed over the *whole workbook*, not the grids — wrong
+  denominator, and it understated the one finished layer. Recorded so the error
+  is not repeated.
 - **Open problem 3** ("the positional vessel function is unspecified") — the
   canvas has four positional layers, one already a degree → signed-four-axis
   function.
@@ -415,3 +420,97 @@ nothing in the workbook designates a winner.
    This is why the transposes are not symmetric, and it independently supports
    the "polarity depends on the pair" ruling — the canvas encodes harmonious and
    hard as transposes of one relation, not as independent tables.
+
+---
+
+## 7. The completion plan
+
+Decisions taken 2026-07-20. This section governs how the remaining gaps close.
+
+### 7a. Reconciliation policy
+
+**Precedence: `[AUTHORED]` > `[CODE]` > `[CANVAS]`.** The most recent deliberate
+decision wins; shipped behaviour beats a 5%-filled draft. The canvas is
+consulted for intent, never used to override a decision.
+
+**Confidence bar to leave `[OPEN]`: derivable, or twice-sourced** — where
+"independent" explicitly excludes templated replication. A value repeated across
+twelve sign pages by fill-down is *one* source, not twelve. This bar exists
+because that exact mistake was made twice in this document's history (§1a
+Uranus; §"Open problem 2" above).
+
+### 7b. Canonical home
+
+**Data files are the single source; the spec's tables and the TypeScript
+constants are both generated from them.** No table is ever written twice. A
+table appearing in two places is a defect, not redundancy.
+
+### 7c. The success test
+
+**Reproduce the 308 grid cells.** If the derived rules regenerate the aspect
+grids, the effect-size column and the dignity mapping from first principles,
+the model is complete enough to generate everything else. Score it as a
+percentage; a rule that cannot reproduce authored data is wrong.
+
+This is the strongest check available — 308 values is large enough that
+agreement is not coincidence, unlike the 13-cell peregrine sample.
+
+### 7d. Effect size is derivable — `[CODE]` + `[CANVAS]`, twice-sourced
+
+Verified 43/43 across all twelve signs, zero exceptions:
+
+```
+Domicile → (+)    Exaltation → (+ +)    Detriment → (-)    Fall → (- -)
+```
+
+This is exactly `DIGNITY_FOOD_SCALE` in `src/utils/dignityScales.ts`
+(`{Domicile: 1, Exaltation: 2, Detriment: -1, Fall: -2}`). So the effect-size
+column is **not 42% complete — it is a derived column**, and the 89 "blank"
+cells are peregrine planets that correctly have no dignity term.
+
+**Structure: `effect = sign baseline + dignity modifier`.** `[AUTHORED]` The
+two worked signs show per-sign baselines, not per-planet rules — Pisces reads
+`(++)` across its peregrine planets, Aquarius `(-)`. This explains why element
+matching fails as a generator (Mercury's day element is Air, Aquarius is Air,
+yet the cell reads `(-)`): the sign's baseline dominates.
+
+Pisces reading `(++)` for Domicile and `(+++)` for Exaltation is therefore
+**not a different dignity scale** — it is baseline `(+)` plus the standard
+dignity term. Aquarius, the other worked sign, uses the standard scale, so it
+is eleven-plus-Aquarius against Pisces, and the baseline reading reconciles
+them without either being wrong.
+
+The ~70 remaining peregrine cells are **generated from the rule and accepted**,
+not hand-authored.
+
+### 7e. Rulings on the aspect layer
+
+- **`*` cells are dropped**, not encoded. `[AUTHORED]` They mark genuinely
+  impossible aspects (Mercury never opposes the Sun); the geometry means the
+  engine never produces them, so encoding the impossibility is dead weight.
+- **The per-sign aspect blocks carry no information.** `[AUTHORED]` Four of
+  twelve signs have them, and Pisces and Scorpio are 26–27 of 27 identical to
+  Cancer. That is copy-paste from a template, not evidence that aspect effects
+  are sign-independent. Ignore the layer.
+- **Footnote markers (`*`, `**`, `*¹`, `*²`, `*³`) are dropped.** `[AUTHORED]`
+  No legend exists anywhere in the workbook; the referent was never written.
+
+### 7f. The language layer
+
+The per-sign **Words** column is 132/132 with **zero duplicates** — the only
+fully-authored layer in the workbook, and it currently ships nowhere. Extract to
+its own typed data file and wire it to the surfaces that describe placements, so
+real authored language replaces model-invented text.
+
+The aspect **Adjectives** column is 0.0% filled across all 2,001 rows — headered
+249 times, never once populated. Generate it, using the Words column as the
+voice reference.
+
+### 7g. Build order
+
+1. **Transcribe the three aspect grids** into versioned data (308 values), fill
+   the single gap, then **fit G against them.** Largest block of real data, and
+   it tests the whole rule-based approach immediately.
+2. The dignity / effect-size layer (fully specified by §7d today).
+3. PR 1 — the Moon and Uranus sect corrections.
+4. The heat-formula fix (§6c.4) — independent of all of the above.
