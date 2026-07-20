@@ -1,22 +1,65 @@
-# The Synthesis Model — closing open problems 2 and 3
+# The Synthesis Model — finishing the Alchm Semantics canvas
 
-Status: **design settled, unimplemented.** Decisions taken 2026-07-20.
+Status: **completion in progress.** Decisions taken 2026-07-20.
 Supplements [UNIFIED_PHYSICS_MODEL.md](./UNIFIED_PHYSICS_MODEL.md) (v2, PR #624).
 
-This document exists because #624 was written **without the foundational
-"Alchm Semantics" canvas in view**. That canvas already contains material #624
-declares missing. Two of its seven open problems are therefore misframed rather
-than unsolved:
+## What this document is
 
-- **Open problem 2** ("the pair-interaction rule does not exist") — it does.
-  Synthesis is the operation, and the canvas carries four hand-authored 45-pair
-  aspect matrices as an oracle.
+The "Alchm Semantics" workbook is a **hand-authored draft from several years
+ago that was never finished.** Measured across all thirteen CSV tabs:
+
+| | |
+|---|---|
+| Total cells | 68,284 |
+| Non-empty | 18,395 (26.9%) |
+| Value-bearing (not a label or header) | 3,409 (**5.0% of the workbook**) |
+| …containing an unresolved wildcard `x`/`y` | 1,018 (30% of values) |
+
+So roughly **3.5% of the workbook carries a resolved value.** Most non-empty
+cells are enumerated combination headers — `⊙ ☌ 🌙 ☌ ☿ ☌ ♄` and thousands like
+it — waiting for content that was never written. The author's own note appears
+on eleven pages: *"maybe im missing 20 extreme placements..."*
+
+**This document is not a description of that canvas, and not a replacement for
+it. It is its completion.** The canvas supplies the skeleton and a minority of
+the values; the shipped codebase supplies a second set, resolved over three
+years of implementation; the rest is authored here. `alchemicalPillars.ts` is
+the proof that this is the real relationship — that layer was finished in code
+and the canvas never caught up.
+
+### Provenance is mandatory
+
+Because three sources feed this model, **every value carries a tag.** Without
+it, a future reader cannot tell an inherited value from a decided one — and
+that confusion has already caused a real error (see §1a, Uranus).
+
+| Tag | Meaning |
+|---|---|
+| `[CANVAS]` | Transcribed from the workbook. Cite the tab. |
+| `[CODE]` | Resolved in implementation; promoted to spec here. Cite file:line. |
+| `[AUTHORED]` | Decided during completion. Record the date and the reasoning. |
+| `[DERIVED]` | Computed from other values. Carries no independent information. |
+| `[OPEN]` | Still a hole. Listed in the gap register, §6. |
+
+**A canvas value is not privileged over a code value or an authored one.** At
+5% fill it is a draft, and where it disagrees with a deliberate decision, the
+decision wins. What the tag buys is that the disagreement stays visible.
+
+### Why #624 needed this
+
+#624 was written without the canvas in view and declared two problems unsolved
+that the canvas had already partially answered:
+
+- **Open problem 2** ("the pair-interaction rule does not exist") — synthesis is
+  the operation. The canvas's aspect matrices sketch it, though 30% of their
+  cells are wildcards, so they are an oracle to fit against rather than a table
+  to transcribe.
 - **Open problem 3** ("the positional vessel function is unspecified") — the
-  canvas carries four positional layers, one of which is already a
-  degree → signed-four-axis function.
+  canvas has four positional layers, one already a degree → signed-four-axis
+  function.
 
-Provenance: every "current code" claim below was verified by opening the cited
-file on `origin/master` at `e1b37aa8`.
+Every "current code" claim below was verified by opening the cited file on
+`origin/master` at `e1b37aa8`.
 
 ---
 
@@ -49,26 +92,29 @@ cell. This is the two-compass premise working, not an under-specification.
 
 Both are wrong against the model as stated. Neither is implemented yet.
 
-- **Uranus inverts — an AUTHORED CHANGE, not a transcription fix.** Code has
-  day = Essence, night = Matter. It becomes **day = Matter, night = Essence**
-  (`planetaryAlchemyMapping.ts:99-102`).
-
-  ⚠️ **The canvas does not support this and never did.** Uranus reads `🝑 / 🝙`
-  (Essence/Matter, in that order) in the Dignity tab *and* in all twelve sign
-  pages — thirteen locations, unanimous, identical to Venus, Mars, Moon and
-  Pluto. Shipped code matches the canvas exactly. This inversion is the author's
-  deliberate decision that **Uranus goes against the grain**, ruled twice on
-  2026-07-20. Recorded here so a future session does not "correct" it back to
-  the canvas. If the rationale is ever lost, the canvas is the fallback.
+- **Uranus inverts: day = Matter, night = Essence.** `[AUTHORED 2026-07-20]` —
+  Uranus goes against the grain of the other Essence+Matter bodies. Code
+  currently has it the other way (`planetaryAlchemyMapping.ts:99-102`) and
+  changes here.
 
   Blast radius: Uranus carries `alchmWeight` **0.9044** — the second-heaviest
   body, above Saturn (0.812) and nearly double the Sun (0.513). This moves ~0.9
   units between Essence and Matter on every chart, more than the Sun's entire
   contribution on any axis.
 
-- **The Moon carries both axes in both sects.** Code gives it one per sect; it
-  becomes Essence **and** Matter in both (weight 0.2843 each). The canvas's
-  `🝑 / 🝙` is compatible with this reading, unlike the Uranus case.
+  📎 *Canvas note, for provenance only:* the workbook shows `🝑 / 🝙`
+  (Essence/Matter) for Uranus, same as Venus/Mars/Moon/Pluto. **This is not
+  evidence against the decision.** The pair appears on twelve sign pages, but a
+  planet's ESMS pair cannot vary by sign, so those twelve are one templated row
+  filled down — a single unelaborated draft entry, not twelve attestations. An
+  earlier revision of this document cited them as "thirteen unanimous locations"
+  and treated the decision as a departure requiring justification. That
+  reasoning was circular and is recorded here so it is not repeated.
+
+- **The Moon carries both axes in both sects.** `[AUTHORED 2026-07-20]` — code
+  gives it one per sect; it becomes Essence **and** Matter in both (weight
+  0.2843 each), reflecting the Moon's importance. The canvas's `🝑 / 🝙` is
+  silent on sect ordering, so nothing is being overridden here.
 
 The Moon change makes **both luminaries sect-invariant** — the Sun is Spirit in
 both sects, the Moon is Essence+Matter in both. Every other body swaps. That is
@@ -282,24 +328,67 @@ must establish.
 
 ---
 
-## 6. Still open
+## 6. The gap register
 
-1. **β** — the shared-axis diagonal coefficient is uncalibrated.
-2. **Diagonal synthesis for Essence, Substance and Matter.** Spirit×Spirit
-   yields the Sun. The other three diagonals name no planet, so their values
-   are the shared-axis term alone.
-3. **The invariant proof** (§5).
-4. **Heat / Entropy / Reactivity.** The canvas's formulas match **none** of the
-   ≥3 live implementations in `src/`
-   (`0.6·Spirit+0.4·Substance`, `(Fire²+Air²)/4`, …). The canvas is "primal
-   truth, adaptable" — but its **Reactivity formula has an unclosed
-   parenthesis** and its denominator pairing is inferred, not stated, so it
-   cannot be transcribed as written. Heat and Entropy are balanced and
-   transcribable. **This is the only item here that is wrong on a shipping
-   surface today.**
+This is the work list. Measured across all thirteen CSV tabs on 2026-07-20 —
+counts are from the files, not estimates.
+
+### 6a. Layers that are done and can be used directly
+
+| Layer | State | Source |
+|---|---|---|
+| Alchemy processes (14-cycle, signed ESMS) | Complete and shipped | `[CODE]` `alchemicalPillars.ts` — canvas agrees |
+| Synthesis / sect ESMS pairs | Complete | `[CODE]` `planetaryAlchemyMapping.ts:43` |
+| Major Arcana → planet/sign | 22/22 | `[CANVAS]` stored twice, agreeing |
+| Minor Arcana → decan | 36/36 decans covered | `[CANVAS]` ⚠️ but see 6c |
+| Day/night **element** grid | 132/132 | `[DERIVED]` — zero independent information (§1b) |
+
+### 6b. Layers with holes — usable, but the holes are real
+
+| Layer | Filled | Missing |
+|---|---|---|
+| Per-sign **effect sizes** | **56/132 (42%)** | Aquarius 11/11 and Pisces 10/11 are worked; every other sign is 18–45%. Those two are the pattern; the rest is template. |
+| Degree → **sign association** | 239/360 (66%) | **Virgo, Libra, Scorpio, Sagittarius are entirely blank** |
+| Degree → **element** | 239/360 (66%) | `[DERIVED]` from sign association — same four signs |
+| Degree → **planet bonus** | 180/360 (50%) | |
+| Degree → **alchemy process** | 330/360 (92%) | **Aquarius has no Alchemy column at all** — dropped in a template revision |
+| Terms table | 56/60 (+4 deliberate dashes) | **27 of 360 degrees unruled**; partition fails in 5/12 signs |
+| Per-sign adjectives / Tarot-words | Near zero | Scaffolding only |
+
+### 6c. Contradictions — more dangerous than the empty cells
+
+Empty cells announce themselves. Two populated tables that disagree do not, and
+nothing in the workbook designates a winner.
+
+1. **Decan rulers disagree with the Minor Arcana decan assignments in 30 of 36
+   decans.** Both tables are 100% populated. This needs a ruling, not a
+   transcription.
+2. **Uranus: detriment and fall both read Taurus.** Detriment is definitionally
+   opposite the domicile, so it must be Leo. `[OPEN]`
+3. **Saturn's orbital period reads 12 y** — a fill-right from the Jupiter cell.
+   True value ~29.46 y. `[CODE]` already correct in `PLANET_ALCHM_PERIODS`; the
+   canvas cell is wrong and would silently corrupt any transit math keyed off it.
+4. **Heat / Entropy / Reactivity** — the canvas's formulas match **none** of the
+   ≥3 live implementations in `src/` (`0.6·Spirit+0.4·Substance`,
+   `(Fire²+Air²)/4`, …). Reactivity additionally has an unclosed parenthesis and
+   an inferred denominator, so it cannot be transcribed as written; it must be
+   re-derived. Heat and Entropy are balanced and transcribable.
+   **This is the only item in this register that is wrong on a shipping surface
+   today.**
 5. **"Inertia" is quadruple-booked**, not triple as #624 states — there is a
    fourth in `src/app/api/alchm-quantities/route.ts:188`. Resolution:
-   gravitational `M/r²` keeps the name; the others are renamed.
+   gravitational `M/r²` keeps the name; the others are renamed. `[OPEN]`
+
+### 6d. Never started
+
+- **"Aspects from Astrologizer Code"** (Dignity tab, rows 71–81) — ten aspect
+  names, **zero populated cells in any column.** An index of intended work.
+- **Aces and court cards** — 0/16 assigned anything beyond an element.
+- **β**, the shared-axis diagonal coefficient — uncalibrated. `[OPEN]`
+- **Diagonal synthesis for Essence, Substance, Matter** — Spirit×Spirit yields
+  the Sun; the other three name no planet, so their cells are the shared-axis
+  term alone. `[OPEN]`
+- **The invariant proof** (§5). `[OPEN]`
 6. **Transcription — mostly unblocked as of the CSV export.**
 
    The PDF's *text layer* scrambles cell attribution, but the Google Sheets
