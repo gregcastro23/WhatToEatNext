@@ -55,6 +55,15 @@ interface TransitData {
   isRetrograde?: boolean;
 }
 
+/**
+ * Sign-vector length = BASE + (dignityMultiplier − 1) × GAIN, in SVG units.
+ * Yields ~6px at Fall (×0.90) and ~24px at Domicile (×1.10), a spread a
+ * reader can actually see, versus ~2px if the multiplier scaled the length
+ * directly. Neutral sits at BASE.
+ */
+const SIGN_VECTOR_BASE = 15;
+const SIGN_VECTOR_GAIN = 90;
+
 /** Majors only on the wheel — minors would hairball; they live on the FBD cards instead. */
 const MAJOR_ASPECTS = new Set(['conjunction', 'opposition', 'trine', 'square', 'sextile']);
 const HARMONIOUS_ASPECTS = new Set(['conjunction', 'trine', 'sextile']);
@@ -280,15 +289,25 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
               // applies, so the arrow length means what the FBD cards mean.
               const dignity = getDignityScore(pos.planet, signStr);
               const multiplier = 1 + dignity.esmsScale / 100;
-              const length = 10 * multiplier;
+              // Amplify the dignity deviation so it is actually visible.
+              //
+              // The ESMS dignity scale spans only ±7/±10% (Detriment 0.93 →
+              // Domicile 1.10), so drawing `10 × multiplier` put the entire
+              // range inside 2px — measured 5.8px to 7.5px on a real chart,
+              // which no reader can distinguish. Anchoring at a base length
+              // and scaling the *deviation* keeps the encoding monotonic and
+              // proportional while spreading it across ~6–24px. The exact
+              // multiplier stays in the <title> tooltip, so the precise value
+              // is never lost — only the scale is chosen for legibility.
+              const length = SIGN_VECTOR_BASE + (multiplier - 1) * SIGN_VECTOR_GAIN;
               const angle = toSvgAngle(pos.absAngle);
               const rad = (angle * Math.PI) / 180;
               const ux = Math.cos(rad);
               const uy = Math.sin(rad);
               const start = polarToXY(angle, 144);
               const tip = polarToXY(angle, 144 + length);
-              const headLen = 3.5;
-              const headHalfWidth = 2.2;
+              const headLen = 4.5;
+              const headHalfWidth = 2.8;
               const baseX = tip.x - ux * headLen;
               const baseY = tip.y - uy * headLen;
               const perpX = -uy;
@@ -303,7 +322,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
                     x2={baseX}
                     y2={baseY}
                     stroke={color}
-                    strokeWidth="1.2"
+                    strokeWidth="1.6"
                     strokeLinecap="round"
                   />
                   <polygon
