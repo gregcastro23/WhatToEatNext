@@ -514,3 +514,138 @@ voice reference.
 2. The dignity / effect-size layer (fully specified by §7d today).
 3. PR 1 — the Moon and Uranus sect corrections.
 4. The heat-formula fix (§6c.4) — independent of all of the above.
+
+---
+
+## 8. Rule-formation decisions
+
+Taken 2026-07-20. These govern how the aspect grids become a rule.
+
+### 8a. The Web of Planets and Elements — the generator
+
+`[CANVAS]` Each ESMS axis is defined as *the region between* two elements:
+
+```
+Spirit  = Fire ↔ Air        Substance = Air ↔ Ground
+Essence = Fire ↔ Water      Matter    = Water ↔ Ground
+```
+
+That is a **cycle** — Fire–Air–Ground–Water–Fire — and the four axes are its
+four **edges**. `[AUTHORED]` This is the model's actual geometry, not a
+mnemonic: ESMS and elements are two readings of one square, which is what makes
+a single structure able to relate both grids.
+
+Fire–Ground and Air–Water are the two diagonals, assigned to no axis.
+
+⚠️ Do not over-read the null. Substance and Matter share Ground and yield
+nothing, while Spirit and Substance share Air and yield Mercury — so "shares an
+element" does not predict synthesis. Six pairs is too small a sample to infer a
+mechanism. `[AUTHORED]` The null stays an authored fact.
+
+**Load-bearing contrast** `[CANVAS]`: Essence is composed of all four elements;
+Substance **lacks Fire**. That asymmetry explains their energy-state tie
+despite differing composition, and must survive into any element↔ESMS mapping.
+
+### 8b. Grid cell semantics
+
+- A cell is a **delta to elemental totals**, scaled by aspect strength.
+  `[AUTHORED]`
+- **Opposition = conjunction negated.** The upper triangle writes fewer glyphs
+  as shorthand, not as reduced magnitude. Fit one triangle, derive the other.
+  `[AUTHORED]`
+- **`x` is a typed runtime slot**, not missing data — it resolves to the element
+  of a sign placement at computation time. The Ascendant's row is entirely
+  abstract for this reason: its element comes from its sign, which is
+  chart-dependent and cannot be written statically. `[AUTHORED]` This raises the
+  grids' true fill rate above the measured figure.
+
+### 8c. What is established about the cells, and what is not
+
+✅ **The element pool holds at 42/44 (95%).** A conjunction cell draws from the
+two planets' own element pairs. Both violations are probable fill-down slips:
+`Uranus×Sun` is byte-identical to `Saturn×Sun` directly above it and contains
+🜃, which is Saturn's element and not Uranus's; `Mars×Moon` likewise carries an
+alien 🜃. `[OPEN]` — flagged, not corrected. The fitted rule adjudicates: if it
+predicts them, they are real; if it predicts the pool value, they were slips.
+
+❌ **The selector is NOT recovered.** Nine hypotheses scored against all 44
+clean cells; the best (row's both elements + column's day element) reaches
+15/44 exact and 25/44 set-match. Nothing here is a rule.
+
+| Hypothesis | Exact | Set-match |
+|---|---|---|
+| row both + col day | 15/44 | 25/44 |
+| union deduped | 13/44 | 20/44 |
+| heavier both + lighter day | 13/44 | 23/44 |
+| union multiset | 1/44 | 20/44 |
+
+**No rule may be asserted from this.** Any candidate must clear the naive
+baseline above before it counts as an explanation.
+
+### 8d. Method: derive, then validate
+
+`[AUTHORED]` Gaps are filled **by reasoning from the alchm rules** — the Web
+geometry, synthesis, energy states, sect, dignity — using the codebase and
+research as sources. **Not by curve-fitting.** The grids are the validation
+target, not the training data.
+
+- **Fit both grids jointly.** Derive each compass from its own inputs, then
+  test that they describe the same event consistently. The Web supplies the
+  mapping used to check agreement; it is not used to derive one from the other,
+  which would be the collapse #624 warns against.
+- **Pass bar: ≥90% exact.**
+- **Below 90%: adjudicate cell by cell.** Each disagreement gets a ruling —
+  rule wrong, or cell wrong. A years-old draft contains real errors and the
+  rule is permitted to correct them. That is what completion means.
+
+### 8e. Composition order
+
+```
+effect = cell × cosine-bell strength × dignity
+```
+
+`[AUTHORED]` Dignity modulates the aspect itself, not only the placement — a
+dignified planet both gives and receives more. The result then splits between
+the two planets by inverse inertia (decision 13).
+
+⚠️ Implementation must confirm dignity is not already applied inside each
+planet's base ESMS term, or it double-counts. `[OPEN]`
+
+### 8f. Aspect coverage
+
+**Majors only for now.** `[AUTHORED]` The canvas authored conjunction,
+opposition, trine and square. Sextile, quincunx, semi-square, septile,
+semi-sextile and quintile stay neutral until there is evidence the extension is
+right. They carry a small share of total aspect weight.
+
+### 8g. Decan systems — both, with different jobs
+
+`[RESEARCH 2026-07-20, 99% confidence]` The workbook's two decan tables are two
+coexisting traditions, both correctly transcribed:
+
+- **Chaldean faces** (Table A) — 33/35 correct. The two errors have a
+  structural cause: 36 faces ÷ 7 planets is not an integer, so Mars gets six
+  faces and every other planet five, but the spreadsheet grid is five columns
+  wide. Mars's sixth face was unrepresentable and the row cascaded.
+- **Modern decanate** (Table B) — **36/36 flawless**, Alan Leo's formulation.
+  Its outer-planet assignments generate Table A's outer rows 9/9.
+
+**Ruling** `[AUTHORED]`: **faces score, decanate colors.** Chaldean faces feed
+the dignity arithmetic as the minor +1 dignity they traditionally are; the
+decanate sub-sign feeds interpretation and the positional vessel.
+
+The 30/36 divergence is **mathematically inherent** — the two systems agree on
+only 7 decans by construction. It is not a transcription failure.
+
+⚠️ **Real defect:** the Golden Dawn Minor Arcana attributions are Chaldean, but
+the "Dominant Sign/Planet" column beside them is decanate. They disagree on
+29/36. Reading a card's ruler through that adjacency returns the wrong planet
+~80% of the time. **Relabel the column** as the decan's sub-sign so the
+adjacency stops implying a relationship. `[AUTHORED]`
+
+### 8h. First artifact
+
+**Transcribe the three grids into versioned data files** — all 308 values, `x`
+encoded as typed slots, the two flagged outliers marked `[OPEN]`. Nothing can
+be fitted or validated until the target exists in version control rather than a
+spreadsheet.
