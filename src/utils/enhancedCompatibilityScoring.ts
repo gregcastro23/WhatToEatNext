@@ -113,10 +113,19 @@ function logarithmicCompatibility(value1: number, value2: number): number {
   return 1 / (1 + Math.log(ratio));
 }
 
+// Priors for z-score projection. heat/entropy/reactivity are recalibrated to the
+// canonical engine's actual distribution, measured over the 1821-sample
+// alchemicalSamples.json (§17c). reactivity moved most: the old mean 10.0 was on
+// the divergent (Σ/M)+Earth² scale; the canonical (Matter+Earth)² distribution is
+// mean 6.54 / stdDev 6.91. kalchm and monica are kept as deliberate equilibrium
+// anchors (1.0 = the multiplicative identity / balance point) — their raw sample
+// distributions are degenerate (kalchm spans 0→2e8, monica clusters in ±0.05), so
+// the sample mean would be a poor prior. power/currentFlow/charge are kinetic
+// quantities, unaffected by the thermodynamic reconciliation.
 export const FALLBACK_METRICS: Record<string, { mean: number; stdDev: number }> = {
-  heat: { mean: 0.08, stdDev: 0.03 },
-  entropy: { mean: 0.30, stdDev: 0.08 },
-  reactivity: { mean: 10.0, stdDev: 4.0 },
+  heat: { mean: 0.067, stdDev: 0.037 },
+  entropy: { mean: 0.225, stdDev: 0.101 },
+  reactivity: { mean: 6.54, stdDev: 6.91 },
   kalchm: { mean: 1.0, stdDev: 0.5 },
   monica: { mean: 1.0, stdDev: 0.5 },
   power: { mean: 0.08, stdDev: 0.04 },
