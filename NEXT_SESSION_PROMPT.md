@@ -59,6 +59,9 @@ fake `monica_constant`.**
 | `Moon Phase <phase> N` | 107 | ⚠️ blocked — see §4 |
 | Real people (Poe, Mozart, Cicero…) | **71** — and **all 71 already have charts** | full-chart follow-up; **none need a chart computed** |
 | Junk | 3 | `Pa Prod Smoke 1779396999`, `Test Sage Hildegard`, `Alchemical Chef` |
+| Malformed edge case | 1 | `"Mars Gemini"` — planet + sign, **no degree**. Resolver must skip it, not default the degree |
+
+*(3919 + 360 + 360 + 107 + 71 + 3 + 1 = 4821 ✓ — the table accounts for every row.)*
 
 **Key principle (user's):** a planetary agent **is a single placement,
 agentified** — it should have **no birthchart**. The empty `natal_chart` `[]` rows
@@ -130,8 +133,11 @@ and **467 `user_subscriptions` rows** (≈362 distinct agents). **They have post
 the live feed** — deleting them destroys real history.
 
 This is a product decision — merge-and-repoint / keep-both / delete-with-cascade —
-**not** a cleanup script. **The backfill does not depend on it**; leave these 467
-rows unresolved and proceed.
+**not** a cleanup script. **The backfill does not depend on it**: leave these
+**467 agent rows** (360 `Moon Agent` + 107 `Moon Phase`) unresolved and proceed.
+
+> Note the numeric coincidence: those 467 blocked *agent* rows are unrelated to the
+> 467 `user_subscriptions` *reference* rows above. Different things, same number.
 
 ## 5. Follow-ups (same program, after the MVP)
 
