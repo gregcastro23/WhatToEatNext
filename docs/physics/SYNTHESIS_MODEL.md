@@ -920,3 +920,155 @@ before those are single-valued would add to the problem it is meant to help with
 `[OPEN]` The cardinal/fixed/mutable → cooking-method mapping in §15b is
 archetypal and unmeasured. It needs the same treatment as the pair-polarity
 question (§12a): author it, derive it, compare, take the parsimonious consensus.
+
+---
+
+## 16. Cross-repo: the character-vector stack (AAE / PA / WTEN)
+
+`[RESEARCH 2026-07-20]` A 17-agent workflow mapped the sign-vector / modality
+code across all three repos, adversarially verified, and this section records
+what survived plus the twenty rulings taken on it. WTEN's `signVectors.ts` (§15)
+and AlchmAgentsETH's "character vector" are **independent implementations of the
+same idea**, not one lineage — no shared identifiers, incompatible scale families
+(WTEN multiplicative ~1.5, AAE additive share-of-100), disjoint feature sets
+(WTEN carries aspect/degree/retrograde/season terms; AAE carries none).
+
+### 16a. Lineage — two different copy directions
+
+| Module | Direction | Evidence |
+|---|---|---|
+| Character-vector / sign-vector-rune stack (6 files) | **PA → AAE**, ~9 months later | PA oldest touch `2025-09-08`, AAE `2026-06-12`; all 6 shared files diff to **0 lines** |
+| `lib/alchm-fbd/*` (dignityScales, astrologyUtils, planetaryAlchemyMapping) | **WTEN → AAE** | AAE `lib/alchm-fbd/astrologyUtils.ts:2` states the extraction; AAE holds the **pre-cleanup** WTEN file, dead trio still present |
+| WTEN `signVectors.ts` ↔ AAE character-vectors | **INDEPENDENT** | disjoint identifiers, constants, scale families |
+
+**Consequence:** AAE's `lib/alchm-fbd/dignityScales.ts` `+10/+7` scale is **not a
+second witness** to WTEN's — it is a verbatim copy of the pre-cleanup file.
+Replication, not corroboration. The only cross-repo agreement on the ESMS dignity
+scale is one source counted twice. And any fix to AAE's character-vector code
+leaves the **byte-identical live-or-not code in PA** untouched (PA liveness under
+measurement as of this writing).
+
+### 16b. Is AAE shipping element-derived ESMS? No — but the derivation exists
+
+`lib/runes/sign-vector-runes.ts:364-377` maps dominant element → ESMS multipliers
+(`fire: {spirit 1.2, essence 0.8, …}`) — the forbidden direction. Its only call
+path is `/api/alchm-quantities`, which has **one** in-repo reference: its own log
+string. The hits that looked like callers are absolute URLs to
+`https://alchm.kitchen` — WTEN's route, not AAE's. A second element→ESMS
+derivation at `lib/astrological-dignities-engine.ts:304-308` is fully dead (2
+refs, one an unused import). **UNKNOWN residual:** both routes are `force-dynamic`
+and were never checked for external traffic — Galileo logs would settle it (§16f Q).
+
+### 16c. The four WTEN defects (§15d), retested against AAE
+
+| Defect | WTEN | AAE |
+|---|---|---|
+| Comparison carries no planetary info | yes — 2 distinct similarity values | INAPPLICABLE — AAE has no pairwise compare; but its denominator is a constant **80 for 52/52 agents** (Ascendant weight 20 never fires; outers dropped) |
+| Compressed score range | floor 0.550 (top 45%) | axes documented 0-100 reach **−50** |
+| Underscore-key rot | **two** live tables (`signVectors.ts`, **`safeAstrology.ts:449`** — flips dominant element) | **clean** — 8 bare keys, verified codepoint-by-codepoint |
+| Constant-in-disguise | `cardinalScore` ≡ 0.8 on any normalised profile | `chart_signature` hash is the constant **100000** for every chart; 3 of 16 interaction axes are one formula |
+
+The `safeAstrology.ts:449` table is the sharpest new find: 5 personals in Fire vs
+Sun+Moon in Water reads **Water dominant as written, Fire dominant as intended** —
+a flipped outcome in what appears to be live code.
+
+### 16d. Internal-consistency scorecard (files independently defining a constant class; lower is better)
+
+| Category | AAE | PA | WTEN |
+|---|---|---|---|
+| Planet-weight tables | 14 | 14 | **32** (five different Sun weights: 1.5, 1.5, 3, 1.0, 0.25) |
+| Aspect-strength tables | 9 | 9 | 10 |
+| Orb literals | **71** | 71 | 22 |
+| Dignity-multiplier defs | 6 | 6 | 10 |
+| Thermodynamic defs | 12 | ? | **32** |
+
+Neither repo is a clean reference: WTEN is worse everywhere except orbs; AAE is
+3.2× worse on orbs.
+
+### 16e. Persistence — zero, all three repos
+
+No `sign_vector` / `chart_signature` / `character_vector` / `modal_distribution`
+column in any `.sql`/`.prisma`/migration (controls: 42 schema files in AAE/PA,
+1855 in WTEN). No runtime persistence either. **Deletion or repair needs no
+backfill and no migration.** This materially lowers the cost of every option below.
+
+### 16f. Rulings (2026-07-20, twenty MC questions)
+
+`[AUTHORED]` unless noted. These are decisions; the code has not yet been changed
+except where a commit is cited.
+
+**Modality — the shape of the axis**
+- **Modality is intrinsic to the sign**, a deterministic lookup on any placement
+  with a sign — not derived from the sky, not from elements. `[USER]`
+- **Capacitance = alchmWeight per body.** Sum each placement's modality weighted
+  by the body's orbital-period `alchmWeight`, so a cardinal Sun outweighs a
+  cardinal Pluto and the cardinal/fixed/mutable totals actually vary with the
+  chart.
+- **Modality feeds method recommendation only** — orthogonal to the elemental
+  signal (cardinal=high-heat start, fixed=long braise, mutable=stir-fry). Never
+  into ESMS, never into elements.
+- **The sign vector's purpose is a recommendation input** first; a readable
+  portrait can reuse it later once the numbers are trustworthy.
+- **Sequence: finish §14d before building/wiring modality.** The vector must
+  import canonical orb, aspect-strength and planetary weights (`alchmWeight`);
+  wiring it first would add a 13th competing table. Modality's pure-lookup part
+  has no such dependency and may be prototyped in parallel.
+
+**Weights and aspects**
+- **`alchmWeight` (orbital-period scale) is canonical** for planetary weight —
+  the only physics-grounded table, already canonical elsewhere. The other six
+  WTEN tables collapse into it.
+- **`sextile: 1.5` is deferred**, not fixed in isolation — §14d step 3 settles
+  every aspect constant at once.
+
+**Dignity**
+- **Drop AAE's accidental-dignity (house) branch** — it reads a bare `house`
+  integer with no house system named, operating on fiction for agent charts that
+  have no real houses.
+- **`getPlanetaryDignityInfo` strength inversion (Domicile 1.0 < Exaltation
+  2.0): the premise was wrong.** The ruling was taken as "harmless, the field is
+  discarded". It is **not discarded** — `strength` is read live in
+  `PlanetInfoModal.tsx:136-140` (bar width `|strength|×25%`),
+  `celestialCalculations.ts:575` (`jupiterInfluence = 0.5 + strength`) and
+  `astrologyUtils.ts:1149`, reached via `planetInfoUtils.ts:96`. Fixing 1.0/2.0 →
+  2.0/1.0 **changes the UI and a computed influence**. `[OPEN]` — re-decide with
+  the real consequence in view before touching it. This is a §11-class correction:
+  a decision made on an unmeasured premise, caught at execution.
+
+**Cleanup — dispositions**
+- **`signVectorConfig.ts`: forbidden keys deleted** (`elementalToESMS`,
+  `modalityBoosts`, and `blendWeightAlpha` which only parameterised the deleted
+  blend). `planetaryWeights`/`aspectModifiers`/seasonal/magnitude kept — the
+  config has the clean, un-rotted planet keys. **Done** this session.
+- **`safeAstrology.ts:449`: resolve liveness, then fix.** Determine whether
+  `countElements` is reachable (the `getCurrentAstrologicalState` that holds it
+  has no namespace caller found so far) before changing keys that flip a result.
+- **Underscore-key rot: sweep all three repos, act on live files only.** Dead
+  instances go with their dead code.
+- **WTEN `utils/index.ts:24` barrel export: keep it** — the module is being
+  repaired, not removed.
+
+**AAE character-vector stack**
+- **Fix the ascendant conversion** (`Math.floor(asc/30)` — it is stored as a raw
+  ecliptic longitude and read as `.sign`), which restores the denominator to 100
+  and reprices every derived cost; **then reassess** the rest.
+- **In the same pass fix all three correctness bugs**: the NaN-on-no-chart
+  division (add a guard), the three duplicate interaction axes (branched on as
+  independent), and the −50 clamp floor.
+- **Historical agents with placeholder ascendants** (8 byte-identical at `94.2`,
+  12 within 0.5°, no Rodden rating): **drop the ascendant weight to 0 for unrated
+  charts** rather than feed a fabricated angle into the vector.
+- **Measure PA liveness before acting cross-repo** (in progress). AAE's two dead
+  routes and external-traffic question are **out of scope for now**.
+
+**Recording**
+- These findings live in this section (§16); durable cross-repo facts also go to
+  memory.
+
+### 16g. Duplicate `" 2."` files — audit pending
+
+`find src -name "* 2.ts*"` returns 34 Finder-style copy artifacts, each a fork of
+real code (some carrying their own physics definitions, inflating §14's counts).
+A per-file importer audit is running; **disposition is per-file on the audit
+result**, not a blanket delete — any copy that has diverged from its original
+gets handled individually.
