@@ -965,12 +965,21 @@ and were never checked for external traffic — Galileo logs would settle it (§
 |---|---|---|
 | Comparison carries no planetary info | yes — 2 distinct similarity values | INAPPLICABLE — AAE has no pairwise compare; but its denominator is a constant **80 for 52/52 agents** (Ascendant weight 20 never fires; outers dropped) |
 | Compressed score range | floor 0.550 (top 45%) | axes documented 0-100 reach **−50** |
-| Underscore-key rot | **two** live tables (`signVectors.ts`, **`safeAstrology.ts:449`** — flips dominant element) | **clean** — 8 bare keys, verified codepoint-by-codepoint |
+| Underscore-key rot | two tables (`signVectors.ts`; `safeAstrology.ts:449` — see correction below) | **clean** — 8 bare keys, verified codepoint-by-codepoint |
 | Constant-in-disguise | `cardinalScore` ≡ 0.8 on any normalised profile | `chart_signature` hash is the constant **100000** for every chart; 3 of 16 interaction axes are one formula |
 
-The `safeAstrology.ts:449` table is the sharpest new find: 5 personals in Fire vs
-Sun+Moon in Water reads **Water dominant as written, Fire dominant as intended** —
-a flipped outcome in what appears to be live code.
+The `safeAstrology.ts:449` table arithmetically flips the dominant element (5
+personals in Fire vs Sun+Moon in Water reads **Water as written, Fire as
+intended**), **but it is dead code** — verified 2026-07-20, correcting the audit
+which called `safeAstrology` "not a dead file". The file has live exports
+(`calculateLunarPhase`, `calculatePlanetaryAspects`, …), but the table lives
+inside `countElements` (module-private, not exported), which is called only by
+`safeAstrology.getCurrentAstrologicalState`, which nothing imports — the
+`getCurrentAstrologicalState` callers all resolve to `astrologyUtils`/`astrology
+/core`/`astrology/validation`, and the one property access
+(`astrologyDataProvider.ts:177` `safeAstrology.countElements`) reads `undefined`
+because the function is unexported, so its `typeof === "function"` guard fails.
+**Disposition: delete as dead code**, do not fix in place.
 
 ### 16d. Internal-consistency scorecard (files independently defining a constant class; lower is better)
 
@@ -1040,9 +1049,10 @@ except where a commit is cited.
   `modalityBoosts`, and `blendWeightAlpha` which only parameterised the deleted
   blend). `planetaryWeights`/`aspectModifiers`/seasonal/magnitude kept — the
   config has the clean, un-rotted planet keys. **Done** this session.
-- **`safeAstrology.ts:449`: resolve liveness, then fix.** Determine whether
-  `countElements` is reachable (the `getCurrentAstrologicalState` that holds it
-  has no namespace caller found so far) before changing keys that flip a result.
+- **`safeAstrology.ts:449`: RESOLVED — dead, delete as dead code.** Liveness
+  question settled (§16c correction): `countElements` and its enclosing
+  `getCurrentAstrologicalState` are unreachable. No fix-in-place needed; the
+  underscore table goes with the dead function in a dead-code pass.
 - **Underscore-key rot: sweep all three repos, act on live files only.** Dead
   instances go with their dead code.
 - **WTEN `utils/index.ts:24` barrel export: keep it** — the module is being
