@@ -13,17 +13,17 @@
  * - enhanced: true to use full enhanced calculation, false for legacy (defaults to true)
  */
 import { NextResponse } from "next/server";
+import {
+  calculateThermodynamics,
+  calculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import { rateLimit } from "@/lib/rateLimit";
 import { AlchemizeQuerySchema } from "@/lib/validation/railway";
 import { calculateComprehensiveAspects, type PlanetaryPositionData } from "@/utils/aspectCalculator";
 import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
 import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { calculateEnhancedAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
-import {
-  calculateThermodynamics,
-  calculateKalchm,
-  calculateMonica,
-} from "@/data/unified/alchemicalCalculations";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
