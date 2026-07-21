@@ -1376,6 +1376,51 @@ in …` does not start with a planet word).
 `[AUTHORED]` Canonical convention remains **`Moon <Sign> <Deg>`** and **`<Phase>
 Moon in <Sign> <Deg>`** — but reaching it is a dedupe/merge, not a rename.
 
+#### 18g-bis. The census, forced to sum `[MEASURED 2026-07-21, second pass]`
+
+The correction above was reached independently by two sessions, which agreed on
+every structural finding. A second pass added one discipline: **make the buckets
+sum exactly to the row count.** A table that reconciles cannot be hiding a
+family — and forcing it immediately surfaced a row that had been hand-waved.
+
+| Bucket | n |
+|---|---|
+| single: `<Planet> in <Sign> <N> Degree` | 3240 |
+| single: `<Planet> <Sign> <N>` | 679 |
+| single: `<Planet> Agent <N>` (duplicate of an existing row) | 360 |
+| phase: `<Phase> Moon in <Sign> <N> Degree` | 360 |
+| phase: `Moon Phase <p> <N>` | 107 |
+| person / degreeless | 46 |
+| unresolved — not yet classified | 26 |
+| junk / test | 3 |
+| **sum** | **4821 = row count, exact** |
+
+Reconciliations against the figures above, which were correct when measured:
+
+- **Real-person agents: 71–72, not 74.** All of them **already have charts** — the
+  §18d claim that 363 needed charts computed is false, which makes the full-chart
+  pass far cheaper than recorded.
+- **`Moon Phase <p> N`: 107, not 85.** The population is live: **121 agents were
+  created in 2 days** mid-programme. Every count here is a snapshot with a date on
+  it; re-measure before acting, never carry a number forward.
+- **Single-body target: 4279** including the 360 duplicates, 3919 excluding them.
+  Both figures are correct — they differ only by whether the blocked duplicates
+  are counted. `[RULED]` the backfill uses **4279**: it is additive and must not
+  wait on a product ruling.
+- **72 rows remain unclassified** (46 + 26) and are `[OPEN]`. `[RULED]` they are
+  classified *before* the backfill runs — an unexamined bucket is exactly what
+  hid the 3240-row family the first time.
+- One row, **`Mars Gemini`**, is a planet and a sign with **no degree**. The
+  resolver skips it rather than defaulting the degree. It exists only because the
+  sum was forced.
+
+`[RULED 2026-07-21]` The `[OPEN]` duplicate question above is now **settled:
+merge-and-repoint.** Reassign the referencing `feed_events` and
+`user_subscriptions` rows to the canonical twin, then delete the duplicate — all
+feed history preserved, one agent per placement. A partial unique index on the
+agent name follows, so the class cannot recur. The 3 colliding `Moon Phase <p> N`
+rows take the same path; the other 104 are renamed.
+
 **Two-body phase monica** (the 720 phase-bearing moon agents): `[AUTHORED]` the
 phase fixes the Sun's approximate longitude (New = conjunct, Full = opposite, …);
 build ESMS from **both** bodies (each sect-resolved + vessel, §18c) and run the
@@ -1383,9 +1428,12 @@ canonical thermodynamics on the combined chart — a genuine two-body monica, no
 scaled single-body.
 
 **Junk cleanup:** remove obvious test/non-agent rows (`Alchemical Chef`, `Pa Prod
-Smoke …`, `Test …`), reporting the list before deleting. The 434 real-person names
-(Poe, Mozart, Cicero, Aristotle …) are the synthesized/historical agents → full-
-chart monica, a **follow-up** after the planetary backfill.
+Smoke …`, `Test …`), reporting the list before deleting. `[MEASURED]` There are
+exactly **3**, and one of them (`Test Sage Hildegard`) holds a `user_streaks` row,
+so this is not a clean three-row delete either. The real-person names are the
+synthesized/historical agents → full-chart monica, a **follow-up** after the
+planetary backfill; `[MEASURED]` there are **72** of them among the agent rows,
+not the 434 recorded in §18d.
 
 ### 18h. Backfill contract and MVP
 
@@ -1416,3 +1464,42 @@ same-program follow-ups, not the MVP gate.
   `ALTER TABLE` at the **start** of next session, confirm the columns, then run.
 - `persona.test.ts:92-93` asserts monica ∈ [0,10] and **will break** on the real
   [−4, 4] scale — update it in the same change.
+
+#### 18h-bis. Status `[MEASURED 2026-07-21]`
+
+**Write-fix: DONE.** All three sites now produce a real monica.
+`src/utils/agentMonicaResolver.ts` is the single shared name→placement parser.
+`agents/unified` writes the canonical **full-chart** monica (these agents carry
+real birth data, so §18d applies, not the single-body calc — the chart already
+fixes the sect, so the sect columns stay NULL for those rows).
+`sync-debit` computes WTEN-side from the agent's own name and no longer reads
+the payload's `monicaConstant` at all. `philosophers-stone` is a **client**
+component and cannot load the server-only engine (`RealAlchemizeService` imports
+`fs`); rather than fork a seventh engine into the browser bundle it stops
+fabricating — the preview seeds from `MONICA_EQUILIBRIUM` and the authoritative
+value is the one the server returns on forge. It was never persisted.
+158 suites / 1311 tests green, typecheck clean.
+
+**Backfill: written, dry-run verified, NOT yet applied.**
+`scripts/backfillAgentMonica.ts`, dry run by default.
+
+| | |
+|---|---|
+| agent rows scanned | 4808 |
+| to write (single-body) | **4278** (not the ~3600 estimated) |
+| skipped — phase (two-body follow-up) | 455 |
+| skipped — not a placement | 75 |
+| **non-finite** | **0** |
+| combined range | **[−3.1973, 3.9751]**, median 0.0573 |
+| distinct values / negative | 379 / 27.7% |
+
+**Verification passed on both required axes.** An *independent* re-derivation of
+§18c, written from the spec prose rather than from `agentMonica.ts`, agrees with
+the module to 1e-12 on all 8 spot cases. No sentinel clustering: the largest
+single value holds 5.0% of rows, against **36%** (1330 of 3672) sitting on `0.50`
+in the fake data being replaced.
+
+**Ordering hazard:** `sync-debit` now references `monica_diurnal` /
+`monica_nocturnal`, so `70-agent-monica-sects.sql` **must be applied before this
+branch deploys** or that route errors. The columns did not exist as of
+2026-07-21.
