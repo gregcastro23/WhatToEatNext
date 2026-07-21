@@ -35,9 +35,10 @@ finite. NOT yet wired.
 
 ## THE MVP (this marks next session a success)
 
-Rename the malformed moon agents → single-body backfill (~3600) → write-fix (3
-sites). Two-body phase + encounter rules are same-program **follow-ups**, not the
-gate.
+Single-body backfill (~3600) → write-fix (3 sites). Two-body phase + encounter
+rules are same-program **follow-ups**, not the gate. (The moon-agent rename is
+**removed from the MVP** — see §2 below; it's a blocked product decision and the
+backfill doesn't depend on it.)
 
 **Key principle (user):** a planetary agent IS a single placement, agentified —
 **no birthchart** (the 3600 empty `natal_chart` `[]` are CORRECT). Read its config
@@ -67,8 +68,8 @@ delete-with-cascade. Get a ruling first. **The backfill does not depend on it.**
   `Moon Agent 5` has the same shape as `Mercury Aquarius 16`, so a shape-only
   regex reads "Agent" as a sign.
 - Then call `agentMonica`, write all three columns.
-- **Dry-run**: compute everything, print the distribution + unparseable list +
-  rename list, write NOTHING. Review, then a transactional, idempotent write.
+- **Dry-run**: compute everything, print the distribution + unparseable list,
+  write NOTHING. Review, then a transactional, idempotent write.
 - Unparseable rows: skip + log + leave NULL (don't guess).
 - DB access: `railway run --service Postgres -- node x.mjs` with
   `DATABASE_PUBLIC_URL` (pg, `ssl:{rejectUnauthorized:false}`). **Writes need the
@@ -101,7 +102,7 @@ Remove obvious test/non-agent rows — `Alchemical Chef`, `Pa Prod Smoke …`,
   one's dignity. ⚠️ **Gated on §14d step 3** (orb + aspect-strength unification) —
   can't build until aspect strength is single-valued.
 - **Synthesized/historical agents** (74 real people — Poe, Mozart, Cicero…): a
-  **full-chart** monica (71 have charts; 363 need charts computed first).
+  **full-chart** monica (71 already have charts, so only ~3 need one computed).
 
 ## Lower-priority / opportunistic
 
