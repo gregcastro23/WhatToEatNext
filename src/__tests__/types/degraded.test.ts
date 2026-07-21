@@ -2,6 +2,7 @@
  * Degraded-data signalling: the merge helper plus alchemize's monica-degenerate
  * detection and incoming-signal propagation.
  */
+import { MONICA_EQUILIBRIUM } from "@/data/unified/alchemicalCalculations";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { mergeDegraded } from "@/types/degraded";
 
@@ -44,10 +45,10 @@ describe("alchemize degraded signalling", () => {
   });
 
   it("flags monica-degenerate when monica cannot be computed", () => {
-    // Empty positions collapse ESMS to equal bases ⇒ kalchm === 1 ⇒ ln(K) === 0,
-    // so monica never escapes its 1.0 default.
+    // Empty positions collapse ESMS to equal bases ⇒ kalchm ≈ 1 ⇒ ln(K) in the
+    // equilibrium band, so monica falls back to φ (§17c) and is flagged degenerate.
     const result = alchemize({});
-    expect(result.monica).toBe(1);
+    expect(result.monica).toBe(MONICA_EQUILIBRIUM);
     expect(result.degraded?.reasons).toContain("monica-degenerate");
   });
 

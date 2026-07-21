@@ -1,4 +1,8 @@
 import fs from "fs";
+import {
+  calculateMonica,
+  MONICA_LN_EPSILON,
+} from "@/data/unified/alchemicalCalculations";
 import { _logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/celestial";
 import { type DegradedInfo, mergeDegraded } from "@/types/degraded";
@@ -138,7 +142,7 @@ export interface StandardizedAlchemicalResult {
   };
   /**
    * Present only when the result is not fully live — e.g. positions fell back to
-   * interpolated/static data, or monica stayed at its degenerate 1.0 default.
+   * interpolated/static data, or monica fell back to its equilibrium value (φ).
    * Absent on healthy results so existing consumers are unaffected.
    */
   degraded?: DegradedInfo;
@@ -481,18 +485,15 @@ export function alchemize(
   const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
   // Monica constant: −GregsEnergy / (Reactivity × ln(Kalchm))
   // Guards: kalchm must be > 0; lnK must be non-zero; reactivity must be non-zero
-  let monica = 1.0; // Degenerate default until a real value can be computed
-  let monicaDegenerate = true;
-  if (kalchm > 0 && isFinite(kalchm)) {
-    const lnK = Math.log(kalchm);
-    if (lnK !== 0 && reactivity !== 0) {
-      const monicaValue = -gregsEnergy / (reactivity * lnK);
-      if (Number.isFinite(monicaValue)) {
-        monica = monicaValue;
-        monicaDegenerate = false;
-      }
-    }
-  }
+  // Monica via the canonical engine (§17c): always finite, and returns φ at the
+  // equilibrium point (kalchm ≈ 1) instead of the old 1.0 placeholder. The
+  // degraded flag still fires when the value is that fallback rather than a real
+  // deviation, so consumers can still distinguish a degenerate monica.
+  const monica = calculateMonica(gregsEnergy, reactivity, kalchm);
+  const lnK = kalchm > 0 && Number.isFinite(kalchm) ? Math.log(kalchm) : 0;
+  const monicaDegenerate = !(
+    Math.abs(lnK) >= MONICA_LN_EPSILON && reactivity !== 0
+  );
   // A degraded result is surfaced when the inbound positions were not live
   // (passed via options.incomingDegraded) or monica never escaped its default.
   const degraded = mergeDegraded(
@@ -770,18 +771,15 @@ export function alchemizeDetailed(
     (Math.pow(kSpirit, kSpirit) * Math.pow(kEssence, kEssence)) /
     (Math.pow(kMatter, kMatter) * Math.pow(kSubstance, kSubstance));
   const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
-  let monica = 1.0; // Degenerate default until a real value can be computed
-  let monicaDegenerate = true;
-  if (kalchm > 0 && isFinite(kalchm)) {
-    const lnK = Math.log(kalchm);
-    if (lnK !== 0 && reactivity !== 0) {
-      const monicaValue = -gregsEnergy / (reactivity * lnK);
-      if (Number.isFinite(monicaValue)) {
-        monica = monicaValue;
-        monicaDegenerate = false;
-      }
-    }
-  }
+  // Monica via the canonical engine (§17c): always finite, and returns φ at the
+  // equilibrium point (kalchm ≈ 1) instead of the old 1.0 placeholder. The
+  // degraded flag still fires when the value is that fallback rather than a real
+  // deviation, so consumers can still distinguish a degenerate monica.
+  const monica = calculateMonica(gregsEnergy, reactivity, kalchm);
+  const lnK = kalchm > 0 && Number.isFinite(kalchm) ? Math.log(kalchm) : 0;
+  const monicaDegenerate = !(
+    Math.abs(lnK) >= MONICA_LN_EPSILON && reactivity !== 0
+  );
   const degraded = mergeDegraded(
     options.incomingDegraded,
     monicaDegenerate ? { reasons: ["monica-degenerate"] } : null,
