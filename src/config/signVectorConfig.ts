@@ -1,16 +1,23 @@
-import type { ElementalProperties } from "@/types/alchemy";
-import type { AlchemicalProperties } from "@/types/celestial";
+/**
+ * Sign-vector configuration.
+ *
+ * HISTORY: this file used to carry `elementalToESMS` and `modalityBoosts`, the
+ * config half of the "vector → ESMS bridge" that derived ESMS quantities from
+ * elements — the forbidden direction (quantities come from the planets, elements
+ * from the signs). The inline copy of that bridge was deleted from
+ * `src/utils/signVectors.ts`; these two keys, and `blendWeightAlpha` which only
+ * parameterised the deleted blend, are removed here too. See
+ * docs/physics/SYNTHESIS_MODEL.md §15c.
+ *
+ * What remains is the legitimate sign-vector configuration: planetary weights,
+ * aspect modifiers, seasonal alignment and magnitude scaling. Note that
+ * `sextile: 1.5` in `aspectModifiers` ranks sextile above trine and conjunction
+ * and is almost certainly a typo for 1.05 (the inline module had 1.05); it is
+ * left as-is pending the §14d aspect-strength unification, which will settle
+ * every aspect constant at once rather than piecemeal.
+ */
 
 export interface SignVectorConfig {
-  blendWeightAlpha: number;
-  elementalToESMS: Record<
-    keyof AlchemicalProperties,
-    Partial<ElementalProperties>
-  >;
-  modalityBoosts: Record<
-    "cardinal" | "fixed" | "mutable",
-    Record<keyof AlchemicalProperties, number>
-  >;
   planetaryWeights: Record<string, number>;
   aspectModifiers: Record<string, number>;
   seasonalAlignment: {
@@ -25,21 +32,6 @@ export interface SignVectorConfig {
 }
 
 export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
-  blendWeightAlpha: 0.15,
-
-  // Elemental to ESMS mapping
-  elementalToESMS: {
-    Spirit: { Fire: 0.5, Air: 0.5 },
-    Essence: { Water: 0.5, Fire: 0.5 },
-    Matter: { Earth: 0.6, Water: 0.4 },
-    Substance: { Earth: 0.5, Air: 0.5 },
-  },
-  // Modality boosts for ESMS
-  modalityBoosts: {
-    cardinal: { Spirit: 1.15, Essence: 1.5, Matter: 1.0, Substance: 1.0 },
-    fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.5, Substance: 1.15 },
-    mutable: { Spirit: 1.08, Essence: 1.12, Matter: 1.0, Substance: 1.0 },
-  },
   // Planetary weight configuration
   planetaryWeights: {
     Sun: 1.5,
@@ -85,18 +77,6 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   },
 };
 
-// Development configuration with more aggressive values for testing
-export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
-  ...DEFAULT_SIGN_VECTOR_CONFIG,
-  blendWeightAlpha: 0.25, // Higher blend weight for development
-
-  modalityBoosts: {
-    cardinal: { Spirit: 1.25, Essence: 1.15, Matter: 0.95, Substance: 0.95 },
-    fixed: { Spirit: 0.95, Essence: 0.95, Matter: 1.15, Substance: 1.25 },
-    mutable: { Spirit: 1.1, Essence: 1.2, Matter: 1.0, Substance: 1.0 },
-  },
-};
-
 // Function to merge configurations
 export function mergeSignVectorConfig(
   base: SignVectorConfig,
@@ -105,14 +85,6 @@ export function mergeSignVectorConfig(
   return {
     ...base,
     ...overrides,
-    elementalToESMS: {
-      ...base.elementalToESMS,
-      ...(overrides.elementalToESMS || {}),
-    },
-    modalityBoosts: {
-      ...base.modalityBoosts,
-      ...(overrides.modalityBoosts || {}),
-    },
     planetaryWeights: {
       ...base.planetaryWeights,
       ...(overrides.planetaryWeights || {}),
@@ -134,10 +106,7 @@ export function mergeSignVectorConfig(
 
 // Environment-based configuration selector
 export function getSignVectorConfig(): SignVectorConfig {
-  if (process.env.NODE_ENV === "production") {
-    return DEFAULT_SIGN_VECTOR_CONFIG;
-  }
-  return DEV_SIGN_VECTOR_CONFIG;
+  return DEFAULT_SIGN_VECTOR_CONFIG;
 }
 
 // Allow runtime configuration updates (primarily for development)

@@ -89,17 +89,6 @@ interface LunarMethodInfo {
   properties?: { element?: string };
 }
 
-// NOTE (latent bug, preserved as-is): _calculateAspectMethodAffinity reads
-// `.sensoryProfile` / `.properties` off a CookingMethod-typed param, but neither
-// field is declared on the real CookingMethod interface. This function is
-// confirmed dead code (the live `_calculateAspectMethodAffinity`-named function
-// actually invoked elsewhere lives in src/utils/recommendation/methodRecommendation.ts
-// and is unrelated).
-interface AspectMethodInfo {
-  properties?: { element?: string };
-  sensoryProfile?: unknown;
-}
-
 // Removed unused, interface: SignArrays
 
 import {
@@ -123,7 +112,6 @@ import type {
   LunarPhase,
   MethodRecommendation,
   MethodRecommendationOptions,
-  PlanetaryAspect,
 } from "@/types/alchemy";
 import { _COOKING_METHOD_THERMODYNAMICS } from "@/types/alchemy";
 // Removed unused, import: CookingMethodEnum
@@ -1717,58 +1705,16 @@ function _calculateLunarMethodAffinity(
   return 0.3; // Lower affinity for other combinations
 }
 
-function _calculateAspectMethodAffinity(
-  aspects: PlanetaryAspect[],
-  method: CookingMethod,
-): number {
-  if (!aspects || aspects.length === 0) return 0.5;
-  let totalAffinity = 0;
-  let aspectCount = 0;
-
-  for (const aspect of aspects) {
-    // Convert method to proper type with safe property access
-    const methodData = method as unknown as AspectMethodInfo;
-    const _sensoryProfile = methodData.sensoryProfile;
-    const { properties } = methodData;
-
-    if (!properties) continue;
-
-    // Calculate aspect-specific affinity
-    const aspectType = aspect.type;
-    const aspectStrength = aspect.orb || 0;
-
-    // Base affinity based on aspect type
-    let baseAffinity = 0.5;
-    switch (aspectType) {
-      case "conjunction":
-        baseAffinity = 0.9;
-        break;
-      case "trine":
-        baseAffinity = 0.8;
-        break;
-      case "sextile":
-        baseAffinity = 0.7;
-        break;
-      case "square":
-        baseAffinity = 0.4;
-        break;
-      case "opposition":
-        baseAffinity = 0.3;
-        break;
-      default:
-        baseAffinity = 0.5;
-    }
-
-    // Adjust for aspect strength
-    const strengthMultiplier = Math.max(0.5, 1 - aspectStrength / 10);
-    const adjustedAffinity = baseAffinity * strengthMultiplier;
-
-    totalAffinity += adjustedAffinity;
-    aspectCount++;
-  }
-
-  return aspectCount > 0 ? totalAffinity / aspectCount : 0.5;
-}
+// REMOVED: `_calculateAspectMethodAffinity`, zero callers. It read
+// `.sensoryProfile` and `.properties` off a CookingMethod-typed parameter when
+// neither field is declared on the real interface, so its `if (!properties)
+// continue` guard would have skipped every aspect and returned the 0.5 default
+// unconditionally. It also carried its own aspect-strength scale
+// (`1 - orb/10`), one of twelve conflicting definitions found by the §14 audit.
+//
+// The live function of the same name is in
+// src/utils/recommendation/methodRecommendation.ts and is unrelated to this one.
+// See docs/physics/SYNTHESIS_MODEL.md §14c.
 
 export function calculateMethodScore(
   method: CookingMethodProfile,

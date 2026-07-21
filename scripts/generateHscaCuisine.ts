@@ -7,6 +7,11 @@ import {
   calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients
 } from "../src/utils/recipeAlchemicalQuantities.ts";
+import {
+  calculateThermodynamics,
+  calculateKalchm,
+  calculateMonica,
+} from "../src/data/unified/alchemicalCalculations.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -246,13 +251,21 @@ async function run() {
     const Earth = elemSummary?.elementalProperties.Earth ?? r.elementalProperties?.Earth ?? 0.25;
     const Air = elemSummary?.elementalProperties.Air ?? r.elementalProperties?.Air ?? 0.25;
 
-    // Thermodynamic Calculations
-    const heat = Math.max(0.05, Math.min(0.95, parseFloat((0.5 + (Fire - Water) * 0.5).toFixed(4))));
-    const entropy = Math.max(0.1, Math.min(0.9, parseFloat((0.5 + (Air - Earth) * 0.4).toFixed(4))));
-    const reactivity = Math.max(0.1, Math.min(1.0, parseFloat((0.5 + (Fire + Water - Earth - Air) * 0.3).toFixed(4))));
-    const gregsEnergy = parseFloat((heat - reactivity * entropy).toFixed(4));
-    const kalchm = parseFloat((0.5 - (Math.abs(Fire - 0.25) + Math.abs(Water - 0.25) + Math.abs(Earth - 0.25) + Math.abs(Air - 0.25))).toFixed(4));
-    const monica = Math.max(0.1, Math.min(1.0, parseFloat((0.4 * gregsEnergy + 0.3 * kalchm + 0.3).toFixed(4))));
+    // Thermodynamic Calculations — CANONICAL engine (§17c). This was a SIXTH
+    // forked engine deriving thermo from elements alone with bespoke bounded
+    // heuristics (heat = 0.5 + (Fire−Water)·0.5, kalchm = 0.5 − Σ|el−0.25|, …).
+    // Now uses the real ESMS-based formulas from data/unified, the same ones the
+    // live engine uses. Values are finite by the totality contract.
+    const r5 = (n: number) => parseFloat(n.toFixed(4));
+    const thermo = calculateThermodynamics(alchemicalProperties, {
+      Fire, Water, Air, Earth,
+    });
+    const heat = r5(thermo.heat);
+    const entropy = r5(thermo.entropy);
+    const reactivity = r5(thermo.reactivity);
+    const gregsEnergy = r5(thermo.gregsEnergy);
+    const kalchm = r5(calculateKalchm(alchemicalProperties));
+    const monica = r5(calculateMonica(thermo.gregsEnergy, thermo.reactivity, kalchm));
 
     const thermodynamicProperties = {
       heat,

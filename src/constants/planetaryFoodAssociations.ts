@@ -286,24 +286,11 @@ const _getSeasonalMultiplier = (): number =>
   // Implementation depends on your seasonal logic
   1.0;
 
-/**
- * Get dignity multiplier for calculations
- */
-export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {
-  const multipliers: Record<PlanetaryDignity, number> = {
-    Domicile: 1.5,
-    Exaltation: 1.3,
-    Triplicity: 1.2,
-    Term: 1.1,
-    Face: 1.05,
-    Mooltrikona: 1.4,
-    Nakshatra: 1.25,
-    Detriment: 0.7,
-    Fall: 0.5,
-    Neutral: 1.0,
-  };
-  return multipliers[dignity] || 1.0;
-};
+// REMOVED: `_getDignityMultiplier`, a callerless ×1.5/×1.3 dignity scale. It was
+// one of nine live dignity multipliers found by the §14 audit and the widest
+// outlier of them — Sun-in-Leo scored ×1.50 here against ×1.10 from the canonical
+// `DIGNITY_ESMS_SCALE` in src/utils/dignityScales.ts. Use that one.
+// See docs/physics/SYNTHESIS_MODEL.md §14c.
 
 /**
  * Get zodiac boost based on elemental properties

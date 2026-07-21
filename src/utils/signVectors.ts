@@ -1,17 +1,7 @@
 import { ZODIAC_ELEMENTS } from "@/calculations/core/elementalCalculations";
-import {
-    calculateAlchemicalProperties as calcESMSFromPositions,
-    calculateElementalValues
-} from "@/calculations/core/kalchmEngine";
 import { ZODIAC_SEASONS } from "@/constants/seasonalCore";
-import {
-    calculateKalchm,
-    calculateMonica,
-    calculateThermodynamics
-} from "@/data/unified/alchemicalCalculations";
-import type { ElementalProperties, Season } from "@/types/alchemy";
+import type { Season } from "@/types/alchemy";
 import type {
-    AlchemicalProperties,
     PlanetaryAspect,
     PlanetaryPosition,
     ZodiacSignType
@@ -265,221 +255,18 @@ export function compareSignVectors(
   return { similarity, dominantSharedAxis };
 }
 // =====================
-// Vector → ESMS mapping and integration
+// REMOVED: the vector → ESMS bridge.
 //
-// ⚠️ DO NOT USE. This whole section derives ESMS quantities from elements
-// (elementalToESMS), which the engine forbids: quantities come from the planets,
-// elements from the signs — see CONTEXT.md and the header of
-// planetaryAlchemyMapping.ts. It is retained only because it is currently
-// unreferenced (no live consumer); getAlchemicalStateWithVectors even blends
-// this fabricated ESMS into correct planet-derived ESMS at alpha=0.15. For real
-// quantities use calculateEnhancedAlchemicalFromPlanets. Delete once confirmed
-// dead across the tree.
+// `VECTOR_CONFIG.elementalToESMS`, `signVectorToESMS`, `blendESMS` and
+// `getAlchemicalStateWithVectors` derived ESMS quantities from elements, which
+// the engine forbids — quantities come from the planets, elements from the signs
+// (CONTEXT.md, and the header of planetaryAlchemyMapping.ts).
+// `getAlchemicalStateWithVectors` blended that fabricated ESMS into correct
+// planet-derived ESMS at alpha=0.15 and ran the whole thermodynamic stack on the
+// result. All four were unreferenced. For real quantities use
+// `calculateEnhancedAlchemicalFromPlanets`.
+//
+// The sign vector itself is kept and is the subject of an active programme —
+// modality is the one classical axis the engine never derives from the sky.
+// See docs/physics/SYNTHESIS_MODEL.md §15.
 // =====================
-export const VECTOR_CONFIG = {
-  blendWeightAlpha: 0.15,
-  elementalToESMS: {
-    Spirit: { Fire: 0.5, Air: 0.5 },
-    Essence: { Water: 0.5, Fire: 0.5 },
-    Matter: { Earth: 0.6, Water: 0.4 },
-    Substance: { Earth: 0.5, Air: 0.5 },
-  } as Record<keyof AlchemicalProperties, Partial<ElementalProperties>>,
-  modalityBoosts: {
-    cardinal: { Spirit: 1.15, Essence: 1.05, Matter: 1.0, Substance: 1.0 },
-    fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.05, Substance: 1.15 },
-    mutable: { Spirit: 1.08, Essence: 1.12, Matter: 1.0, Substance: 1.0 },
-  } as Record<
-    "cardinal" | "fixed" | "mutable",
-    Record<keyof AlchemicalProperties, number>
-  >,
-};
-/** @deprecated Derives ESMS from elements — forbidden. See the section warning above. */
-export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
-  const { components, _magnitude, direction } = _v;
-  const elemental: ElementalProperties = {
-    Fire: components.Fire,
-    Water: components.Water,
-    Earth: components.Earth,
-    Air: components.Air,
-  };
-  const e2 = VECTOR_CONFIG.elementalToESMS;
-  const modality = VECTOR_CONFIG.modalityBoosts[direction];
-  const Spirit =
-    (elemental.Fire * (e2.Spirit.Fire || 0) +
-      elemental.Air * (e2.Spirit.Air || 0)) *
-    modality.Spirit *
-    _magnitude;
-  const Essence =
-    (elemental.Water * (e2.Essence.Water || 0) +
-      elemental.Fire * (e2.Essence.Fire || 0)) *
-    modality.Essence *
-    _magnitude;
-  const Matter =
-    (elemental.Earth * (e2.Matter.Earth || 0) +
-      elemental.Water * (e2.Matter.Water || 0)) *
-    modality.Matter *
-    _magnitude;
-  const Substance =
-    (elemental.Earth * (e2.Substance.Earth || 0) +
-      elemental.Air * (e2.Substance.Air || 0)) *
-    modality.Substance *
-    _magnitude;
-  const _raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance };
-  const sum = Spirit + Essence + Matter + Substance || 1;
-  return {
-    Spirit: Spirit / sum,
-    Essence: Essence / sum,
-    Matter: Matter / sum,
-    Substance: Substance / sum,
-  };
-}
-export function blendESMS(
-  base: AlchemicalProperties,
-  contribution: AlchemicalProperties,
-  alpha: number = VECTOR_CONFIG.blendWeightAlpha,
-): AlchemicalProperties {
-  const Spirit = base.Spirit * (1 - alpha) + contribution.Spirit * alpha;
-  const Essence = base.Essence * (1 - alpha) + contribution.Essence * alpha;
-  const Matter = base.Matter * (1 - alpha) + contribution.Matter * alpha;
-  const Substance =
-    base.Substance * (1 - alpha) + contribution.Substance * alpha;
-  const sum = Spirit + Essence + Matter + Substance || 1;
-  return {
-    Spirit: Spirit / sum,
-    Essence: Essence / sum,
-    Matter: Matter / sum,
-    Substance: Substance / sum,
-  };
-}
-/**
- * @deprecated Contaminates correct planet-derived ESMS with element-derived ESMS
- * (blend at alpha=0.15). See the section warning above; use
- * calculateEnhancedAlchemicalFromPlanets. Currently unreferenced.
- */
-export function getAlchemicalStateWithVectors(input: {
-  planetaryPositions: Record<string, PlanetaryPosition>;
-  aspects?: PlanetaryAspect[];
-  season?: Season;
-  governing?: "sun" | "moon" | "dominant" | "ensemble";
-}): {
-  signVectors: SignVectorMap;
-  selected: SignVector;
-  base: { alchemical: AlchemicalProperties; elemental: ElementalProperties };
-  blendedAlchemical: AlchemicalProperties;
-  thermodynamics: {
-    heat: number;
-    entropy: number;
-    reactivity: number;
-    gregsEnergy: number;
-    kalchm: number;
-    monica: number;
-  };
-  config: typeof VECTOR_CONFIG;
-} {
-  const { planetaryPositions, aspects, season, governing = "dominant" } = input;
-  // calcESMSFromPositions/calculateElementalValues are typed against
-  // @/types/alchemy's PlanetaryPosition (element?: Element, sign: ZodiacSignType),
-  // while this file's PlanetaryPosition comes from @/types/celestial
-  // (element?: string, sign: any) -- a genuine cross-module type drift between the
-  // two PlanetaryPosition definitions, not something to reconcile in this types-only
-  // pass. Cast narrowed to the specific incompatible shape rather than `as any`.
-  const baseAlchemical = calcESMSFromPositions(
-    planetaryPositions as unknown as { [key: string]: import("@/types/alchemy").PlanetaryPosition },
-  );
-  const baseElemental = calculateElementalValues(
-    planetaryPositions as unknown as { [key: string]: import("@/types/alchemy").PlanetaryPosition },
-  ) as ElementalProperties;
-  const signVectors = calculateSignVectors({
-    planetaryPositions,
-    aspects,
-    season,
-  });
-  let selected: SignVector | null = null;
-  if (governing === "sun") {
-    const sunSign = String(
-      planetaryPositions.Sun.sign || "",
-    ).toLowerCase() as keyof SignVectorMap;
-    selected = sunSign ? signVectors[sunSign] : null;
-  } else if (governing === "moon") {
-    const moonSign = String(
-      planetaryPositions.Moon.sign || "",
-    ).toLowerCase() as keyof SignVectorMap;
-    selected = moonSign ? signVectors[moonSign] : null;
-  } else if (governing === "ensemble") {
-    // Sun/Moon/Ascendant ensemble (if available) with heuristic weights
-    const sunSign = String(
-      planetaryPositions.Sun.sign || "",
-    ).toLowerCase() as keyof SignVectorMap;
-    const moonSign = String(
-      planetaryPositions.Moon.sign || "",
-    ).toLowerCase() as keyof SignVectorMap;
-    const ascSign = String(
-      planetaryPositions.Ascendant.sign || "",
-    ).toLowerCase() as keyof SignVectorMap;
-    const parts: SignVector[] = [
-      sunSign && signVectors[sunSign],
-      moonSign && signVectors[moonSign],
-      ascSign && signVectors[ascSign],
-    ].filter(Boolean);
-    const weights = [0.5, 0.3, 0.2].slice(0, parts.length);
-    if (parts.length > 0) {
-      // Weighted average on components and magnitude; direction from strongest magnitude
-      const ref = parts.reduce(
-        (acc, v, i) => {
-          const w = weights[i] || 0;
-          acc.components.cardinal += v.components.cardinal * w;
-          acc.components.fixed += v.components.fixed * w;
-          acc.components.mutable += v.components.mutable * w;
-          acc.components.Fire += v.components.Fire * w;
-          acc.components.Water += v.components.Water * w;
-          acc.components.Earth += v.components.Earth * w;
-          acc.components.Air += v.components.Air * w;
-          acc.components.seasonal += v.components.seasonal * w;
-          acc._magnitude += v._magnitude * w;
-          return acc;
-        },
-        {
-          components: {
-            cardinal: 0,
-            fixed: 0,
-            mutable: 0,
-            Fire: 0,
-            Water: 0,
-            Earth: 0,
-            Air: 0,
-            seasonal: 0,
-          },
-          magnitude: 0,
-        } as unknown as SignVector,
-      );
-      const strongest = parts.sort((a, b) => b._magnitude - a._magnitude)[0];
-      selected = {
-        sign: strongest.sign,
-        direction: strongest.direction,
-        _magnitude: ref._magnitude,
-        components: ref.components,
-      };
-    }
-  }
-  if (!selected) {
-    selected = Object.values(signVectors).sort(
-      (a, b) => b._magnitude - a._magnitude,
-    )[0];
-  }
-  const esmsFromVector = signVectorToESMS(selected);
-  const blendedAlchemical = blendESMS(baseAlchemical, esmsFromVector);
-  const { heat, entropy, reactivity, gregsEnergy } = calculateThermodynamics(
-    blendedAlchemical,
-    baseElemental,
-  );
-  const kalchm = calculateKalchm(blendedAlchemical);
-  const monica = calculateMonica(gregsEnergy, reactivity, kalchm);
-  return {
-    signVectors,
-    selected,
-    base: { alchemical: baseAlchemical, elemental: baseElemental },
-    blendedAlchemical,
-    thermodynamics: { heat, entropy, reactivity, gregsEnergy, kalchm, monica },
-    config: VECTOR_CONFIG,
-  };
-}

@@ -56,7 +56,13 @@ export interface AlchemicalSampleFile {
   samples: CompactAlchemicalSample[];
 }
 
-function parseArgs(): { past: number; future: number; interval: number; out: string } {
+function parseArgs(): {
+  past: number;
+  future: number;
+  interval: number;
+  out: string;
+  anchor: string | null;
+} {
   const args = process.argv.slice(2);
   const get = (key: string, fallback: number) => {
     const found = args.find((a) => a.startsWith(`--${key}=`));
@@ -71,6 +77,10 @@ function parseArgs(): { past: number; future: number; interval: number; out: str
     out:
       args.find((a) => a.startsWith("--out="))?.split("=")[1] ??
       "src/data/alchemicalSamples.json",
+    // --anchor=<ISO>: pin the window (and generatedAt) to a fixed instant so a
+    // regen is byte-reproducible and the diff is values-only. Omit to anchor on
+    // now (the original behaviour). See SYNTHESIS_MODEL.md §17c.
+    anchor: args.find((a) => a.startsWith("--anchor="))?.split("=")[1] ?? null,
   };
 }
 
@@ -97,12 +107,16 @@ function toRecord(
 }
 
 async function main() {
-  const { past, future, interval, out } = parseArgs();
+  const { past, future, interval, out, anchor } = parseArgs();
 
   // Silence the chatty per-call logger so progress lines stay legible.
   process.env.LOG_LEVEL = process.env.LOG_LEVEL ?? "warn";
 
-  const now = new Date();
+  // Deterministic when --anchor is supplied; otherwise anchored on now.
+  const now = anchor ? new Date(anchor) : new Date();
+  if (anchor && Number.isNaN(now.getTime())) {
+    throw new Error(`--anchor is not a valid date: ${anchor}`);
+  }
   const startMs = now.getTime() - past * 24 * 60 * 60 * 1000;
   const endMs = now.getTime() + future * 24 * 60 * 60 * 1000;
   const stepMs = interval * 60 * 60 * 1000;
@@ -198,7 +212,9 @@ async function main() {
 
   const file: AlchemicalSampleFile = {
     version: 1,
-    generatedAt: new Date().toISOString(),
+    // Pin generatedAt to the anchor when deterministic, so a same-anchor regen
+    // differs only in the computed values (the reactivity fix), never metadata.
+    generatedAt: (anchor ? now : new Date()).toISOString(),
     intervalHours: interval,
     startMs: samples[0]?.ts ?? snappedStart,
     endMs: samples[samples.length - 1]?.ts ?? endMs,

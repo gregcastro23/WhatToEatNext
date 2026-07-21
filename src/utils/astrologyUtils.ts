@@ -1329,15 +1329,24 @@ export function getPlanetaryDignityInfo(
     const rules = rulerships[planet] || [];
     return rules.map((sign) => signs[oppositeSignIndexes[sign]]);
   };
-  // Check each dignity type - Updated values to match the original algorithm
+  // Dignity strength, magnitude-ordered to match the canonical +10/+7/-7/-10
+  // scale (DIGNITY_ESMS_SCALE): Domicile pairs with Fall at the strongest
+  // magnitude, Exaltation with Detriment one step weaker. The previous values
+  // inverted the two positives (Domicile 1.0 < Exaltation 2.0), which read
+  // Exaltation as the more powerful state — see SYNTHESIS_MODEL.md §3a/§16f.
+  // This field is read live — PlanetInfoModal's strength bar (width
+  // |strength|*25%, via getPlanetInfo → planetInfoUtils:96) and the dignityEffects
+  // accumulator at astrologyUtils:1149 — so the correction is behavioural, not
+  // cosmetic. (celestialCalculations has its own local jupiterDignities table and
+  // is unaffected.)
   if (rulerships[planetLower] && rulerships[planetLower].includes(signLower)) {
-    return { type: "Domicile", strength: 1.0 }; // Original, value: 1
+    return { type: "Domicile", strength: 2.0 };
   } else if (exaltations[planetLower] === signLower) {
-    return { type: "Exaltation", strength: 2.0 }; // Original, value: 2
+    return { type: "Exaltation", strength: 1.0 };
   } else if (getDetriments(planetLower).includes(signLower)) {
-    return { type: "Detriment", strength: -1.0 }; // Original value: -1
+    return { type: "Detriment", strength: -1.0 };
   } else if (falls[planetLower] === signLower) {
-    return { type: "Fall", strength: -2.0 }; // Original value: -2
+    return { type: "Fall", strength: -2.0 };
   } else {
     return { type: "Neutral", strength: 0 };
   }
@@ -1709,21 +1718,12 @@ export function getZodiacSignType(longitude: number): ZodiacSignType {
   const signIndex = Math.min(11, Math.floor(adjustedLong / 30));
   return signs[signIndex];
 }
-const PLANETARY_ORBS: Record<string, number> = {
-  Sun: 1.5,
-  Moon: 1.5,
-  Mercury: 1.0,
-  Venus: 1.0,
-  Mars: 0.8,
-  Jupiter: 0.6,
-  Saturn: 0.5,
-  Uranus: 0.4,
-  Neptune: 0.3,
-  Pluto: 0.2,
-};
-function _getAspectOrb(planet1: string, planet2: string): number {
-  return (PLANETARY_ORBS[planet1] + PLANETARY_ORBS[planet2]) / 2;
-}
+// REMOVED: `PLANETARY_ORBS` and its sole consumer `_getAspectOrb`, both
+// callerless. This was a per-planet moiety table averaging to sub-2° orbs — an
+// order of magnitude tighter than every live orb budget in the repo (conjunction
+// 8-10°), so nothing could have used it without silently discarding almost every
+// aspect. One of twelve conflicting orb definitions found by the §14 audit.
+// See docs/physics/SYNTHESIS_MODEL.md §14c.
 /**
  * Calculate Placidus house cusps based on Julian date, latitude, and longitude
  * This is a proper implementation of the Placidus house system

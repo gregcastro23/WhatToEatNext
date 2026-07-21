@@ -87,10 +87,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5,
-          "Earth": 0.10000000000000002,
-          "Air": 0.26666666666666666
+          "Fire": 0.17,
+          "Water": 0.5000000000000001,
+          "Earth": 0.11600000000000002,
+          "Air": 0.21399999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -108,11 +108,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 28,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 3,
           "sodiumMg": 350,
-          "sugarG": 6,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -125,18 +125,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 2.46,
-          "Matter": 1.32,
-          "Substance": 1.06
+          "Spirit": 1.19,
+          "Essence": 2.06,
+          "Matter": 1.41,
+          "Substance": 1.4
         },
         "thermodynamicProperties": {
-          "heat": 0.3167,
-          "entropy": 0.5667,
-          "reactivity": 0.58,
-          "gregsEnergy": -0.012,
-          "kalchm": -0.0333,
-          "monica": 0.2852
+          "heat": 0.0445,
+          "entropy": 0.2067,
+          "reactivity": 3.4116,
+          "gregsEnergy": -0.6607,
+          "kalchm": 2.0965,
+          "monica": 0.2616
         },
         "substitutions": [
           {
@@ -208,10 +208,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3333333333333333,
-          "Water": 0.4000000000000001,
-          "Earth": 0.16666666666666666,
-          "Air": 0.10000000000000002
+          "Fire": 0.26,
+          "Water": 0.4,
+          "Earth": 0.2,
+          "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -229,9 +229,9 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 8,
-          "carbsG": 23,
-          "fatG": 9,
-          "fiberG": 3,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 4,
           "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
@@ -246,18 +246,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.84,
-          "Essence": 2.44,
-          "Matter": 1.51,
-          "Substance": 1.22
+          "Spirit": 1.68,
+          "Essence": 2.41,
+          "Matter": 1.6,
+          "Substance": 1.42
         },
         "thermodynamicProperties": {
-          "heat": 0.4667,
-          "entropy": 0.4733,
-          "reactivity": 0.64,
-          "gregsEnergy": 0.1638,
-          "kalchm": 0.0333,
-          "monica": 0.3755
+          "heat": 0.0759,
+          "entropy": 0.2318,
+          "reactivity": 3.3624,
+          "gregsEnergy": -0.7034,
+          "kalchm": 5.7061,
+          "monica": 0.1201
         },
         "substitutions": [
           {
@@ -324,10 +324,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.5,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.09999999999999999,
+          "Water": 0.4625,
+          "Earth": 0.175,
+          "Air": 0.26249999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -344,12 +344,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 29,
+          "proteinG": 8,
+          "carbsG": 28,
           "fatG": 6,
           "fiberG": 3,
-          "sodiumMg": 350,
-          "sugarG": 7,
+          "sodiumMg": 335,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -362,18 +362,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.32,
-          "Essence": 1.44,
-          "Matter": 0.89,
-          "Substance": 0.71
+          "Spirit": 0.66,
+          "Essence": 1.29,
+          "Matter": 1.04,
+          "Substance": 0.95
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0248,
-          "kalchm": -0.1,
-          "monica": 0.2601
+          "heat": 0.0255,
+          "entropy": 0.1609,
+          "reactivity": 2.2321,
+          "gregsEnergy": -0.3337,
+          "kalchm": 1.0642,
+          "monica": 2.4024
         },
         "substitutions": [
           {
@@ -445,31 +445,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.7,
-          "Earth": 0.15000000000000002,
-          "Air": 0.1
+          "Fire": 0.14,
+          "Water": 0.32,
+          "Earth": 0.41,
+          "Air": 0.13
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 430,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 278,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -483,18 +483,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.84,
-          "Essence": 1.54,
-          "Matter": 1.98,
-          "Substance": 1.74
+          "Spirit": 0.61,
+          "Essence": 1.52,
+          "Matter": 2.23,
+          "Substance": 1.89
         },
         "thermodynamicProperties": {
-          "heat": 0.175,
-          "entropy": 0.48,
-          "reactivity": 0.65,
-          "gregsEnergy": -0.137,
-          "kalchm": -0.4,
-          "monica": 0.1252
+          "heat": 0.0093,
+          "entropy": 0.1983,
+          "reactivity": 0.9173,
+          "gregsEnergy": -0.1727,
+          "kalchm": 0.0702,
+          "monica": -0.0709
         },
         "substitutions": [
           {
@@ -550,10 +550,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.4,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.3,
+          "Water": 0.45,
+          "Earth": 0.05,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -570,12 +570,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 29,
-          "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 310,
-          "sugarG": 7,
+          "proteinG": 6,
+          "carbsG": 26,
+          "fatG": 9,
+          "fiberG": 2,
+          "sodiumMg": 330,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -588,18 +588,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.9,
-          "Essence": 1.05,
-          "Matter": 0.45,
-          "Substance": 0.38
+          "Spirit": 0.51,
+          "Essence": 0.66,
+          "Matter": 0.42,
+          "Substance": 0.44
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0752,
-          "kalchm": 0.1,
-          "monica": 0.3601
+          "heat": 0.071,
+          "entropy": 0.2338,
+          "reactivity": 5.531,
+          "gregsEnergy": -1.2222,
+          "kalchm": 1.114,
+          "monica": 2.0469
         },
         "substitutions": [
           {
@@ -660,10 +660,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.4,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.16666666666666666,
+          "Water": 0.3333333333333333,
+          "Earth": 0.3,
+          "Air": 0.20000000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -680,12 +680,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 29,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 310,
-          "sugarG": 7,
+          "fiberG": 4,
+          "sodiumMg": 283,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -698,18 +698,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.15,
-          "Essence": 1.35,
-          "Matter": 0.7,
-          "Substance": 0.58
+          "Spirit": 0.54,
+          "Essence": 0.77,
+          "Matter": 0.93,
+          "Substance": 0.9
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0752,
-          "kalchm": 0.1,
-          "monica": 0.3601
+          "heat": 0.0271,
+          "entropy": 0.2148,
+          "reactivity": 1.2383,
+          "gregsEnergy": -0.2389,
+          "kalchm": 0.6896,
+          "monica": -0.5191
         },
         "substitutions": [
           {
@@ -781,31 +781,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3166666666666667,
-          "Water": 0.18333333333333338,
-          "Earth": 0.2833333333333333,
-          "Air": 0.2166666666666667
+          "Fire": 0.27999999999999997,
+          "Water": 0.27999999999999997,
+          "Earth": 0.244,
+          "Air": 0.196
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 9,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 223,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -819,18 +819,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.95,
-          "Essence": 1.76,
-          "Matter": 1.36,
-          "Substance": 1.19
+          "Spirit": 1.62,
+          "Essence": 1.7,
+          "Matter": 1.49,
+          "Substance": 1.42
         },
         "thermodynamicProperties": {
-          "heat": 0.5667,
-          "entropy": 0.4733,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.33,
-          "kalchm": 0.3,
-          "monica": 0.522
+          "heat": 0.0951,
+          "entropy": 0.3449,
+          "reactivity": 2.5696,
+          "gregsEnergy": -0.7911,
+          "kalchm": 1.8067,
+          "monica": 0.5205
         },
         "substitutions": [
           {
@@ -920,10 +920,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.162,
-          "Water": 0.31399999999999995,
-          "Earth": 0.238,
-          "Air": 0.286
+          "Fire": 0.20435595838119788,
+          "Water": 0.4403055453261294,
+          "Earth": 0.14895766116842643,
+          "Air": 0.2063808351242463
         },
         "astrologicalAffinities": {
           "planets": [
@@ -940,12 +940,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 29,
+          "proteinG": 7,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 276,
-          "sugarG": 6,
+          "fiberG": 3,
+          "sodiumMg": 326,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -958,18 +958,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.85,
-          "Essence": 3.73,
-          "Matter": 1.99,
-          "Substance": 1.82
+          "Spirit": 1.97,
+          "Essence": 3.81,
+          "Matter": 2.08,
+          "Substance": 1.97
         },
         "thermodynamicProperties": {
-          "heat": 0.424,
-          "entropy": 0.5192,
-          "reactivity": 0.4856,
-          "gregsEnergy": 0.1719,
-          "kalchm": 0.3,
-          "monica": 0.4588
+          "heat": 0.0524,
+          "entropy": 0.1869,
+          "reactivity": 4.5401,
+          "gregsEnergy": -0.7962,
+          "kalchm": 35.6248,
+          "monica": 0.0491
         },
         "substitutions": [
           {
@@ -1070,31 +1070,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11666666666666665,
-          "Water": 0.5166666666666666,
-          "Earth": 0.26666666666666666,
-          "Air": 0.10000000000000002
+          "Fire": 0.22999999999999998,
+          "Water": 0.3088888888888889,
+          "Earth": 0.3355555555555555,
+          "Air": 0.12555555555555553
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 357,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 274,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -1108,18 +1108,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.74,
-          "Essence": 2.94,
-          "Matter": 3.51,
-          "Substance": 2.94
+          "Spirit": 1.73,
+          "Essence": 2.65,
+          "Matter": 3.28,
+          "Substance": 2.96
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4333,
-          "reactivity": 0.58,
-          "gregsEnergy": 0.0487,
-          "kalchm": -0.0667,
-          "monica": 0.2995
+          "heat": 0.0326,
+          "entropy": 0.2735,
+          "reactivity": 1.449,
+          "gregsEnergy": -0.3637,
+          "kalchm": 0.0279,
+          "monica": -0.0701
         },
         "substitutions": [
           {
@@ -1187,10 +1187,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.6000000000000001,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.32999999999999996,
+          "Water": 0.42500000000000004,
+          "Earth": 0.13749999999999998,
+          "Air": 0.10750000000000001
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1208,11 +1208,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 6,
+          "carbsG": 23,
+          "fatG": 9,
           "fiberG": 3,
-          "sodiumMg": 390,
-          "sugarG": 5,
+          "sodiumMg": 320,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -1225,18 +1225,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 1.81,
-          "Matter": 1.01,
-          "Substance": 0.77
+          "Spirit": 0.96,
+          "Essence": 1.37,
+          "Matter": 0.9,
+          "Substance": 0.91
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0848,
-          "kalchm": -0.2,
-          "monica": 0.2061
+          "heat": 0.0695,
+          "entropy": 0.2331,
+          "reactivity": 3.6489,
+          "gregsEnergy": -0.781,
+          "kalchm": 1.7731,
+          "monica": 0.3737
         },
         "substitutions": [
           {
@@ -1295,10 +1295,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.6000000000000001,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.34,
+          "Water": 0.43333333333333335,
+          "Earth": 0.10000000000000002,
+          "Air": 0.12666666666666668
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1316,11 +1316,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 6,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 3,
-          "sodiumMg": 390,
-          "sugarG": 5,
+          "sodiumMg": 323,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -1333,18 +1333,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.94,
-          "Essence": 1.51,
-          "Matter": 0.76,
-          "Substance": 0.57
+          "Spirit": 0.76,
+          "Essence": 1.07,
+          "Matter": 0.6,
+          "Substance": 0.59
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0848,
-          "kalchm": -0.2,
-          "monica": 0.2061
+          "heat": 0.0813,
+          "entropy": 0.2178,
+          "reactivity": 4.8776,
+          "gregsEnergy": -0.981,
+          "kalchm": 1.6187,
+          "monica": 0.4176
         },
         "substitutions": [
           {
@@ -1397,10 +1397,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.04999999999999999,
+          "Water": 0.5249999999999999,
+          "Earth": 0.32499999999999996,
+          "Air": 0.09999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1417,12 +1417,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
+          "proteinG": 10,
           "carbsG": 23,
-          "fatG": 5,
-          "fiberG": 3,
-          "sodiumMg": 470,
-          "sugarG": 4,
+          "fatG": 6,
+          "fiberG": 5,
+          "sodiumMg": 360,
+          "sugarG": 3,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -1435,18 +1435,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.29,
-          "Essence": 0.76,
-          "Matter": 0.56,
-          "Substance": 0.39
+          "Spirit": 0.14,
+          "Essence": 0.64,
+          "Matter": 0.77,
+          "Substance": 0.57
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0026,
+          "entropy": 0.0699,
+          "reactivity": 0.8692,
+          "gregsEnergy": -0.0582,
+          "kalchm": 0.9615,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -1525,10 +1525,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11666666666666668,
-          "Water": 0.45,
-          "Earth": 0.16666666666666669,
-          "Air": 0.26666666666666666
+          "Fire": 0.14166666666666664,
+          "Water": 0.44999999999999996,
+          "Earth": 0.12499999999999999,
+          "Air": 0.28333333333333327
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1545,9 +1545,9 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 6,
+          "proteinG": 7,
+          "carbsG": 29,
+          "fatG": 7,
           "fiberG": 3,
           "sodiumMg": 330,
           "sugarG": 6,
@@ -1563,18 +1563,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.9,
-          "Essence": 3.25,
-          "Matter": 1.54,
-          "Substance": 1.42
+          "Spirit": 1.25,
+          "Essence": 1.96,
+          "Matter": 1.33,
+          "Substance": 1.39
         },
         "thermodynamicProperties": {
-          "heat": 0.3333,
-          "entropy": 0.54,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.0417,
-          "kalchm": 0.0667,
-          "monica": 0.3367
+          "heat": 0.0516,
+          "entropy": 0.2407,
+          "reactivity": 3.6084,
+          "gregsEnergy": -0.8168,
+          "kalchm": 2.1402,
+          "monica": 0.2975
         },
         "substitutions": [
           {
@@ -1658,10 +1658,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.4666666666666666,
-          "Water": 0.26666666666666666,
-          "Earth": 0.13333333333333333,
-          "Air": 0.13333333333333333
+          "Fire": 0.39571428571428563,
+          "Water": 0.24000000000000002,
+          "Earth": 0.22428571428571434,
+          "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1678,11 +1678,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
+          "proteinG": 8,
           "carbsG": 24,
-          "fatG": 11,
-          "fiberG": 3,
-          "sodiumMg": 257,
+          "fatG": 10,
+          "fiberG": 4,
+          "sodiumMg": 246,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -1696,18 +1696,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.74,
-          "Essence": 2.59,
-          "Matter": 1.86,
-          "Substance": 1.54
+          "Spirit": 2.78,
+          "Essence": 2.38,
+          "Matter": 1.94,
+          "Substance": 1.76
         },
         "thermodynamicProperties": {
-          "heat": 0.6,
-          "entropy": 0.5,
-          "reactivity": 0.64,
-          "gregsEnergy": 0.28,
-          "kalchm": 0.0333,
-          "monica": 0.422
+          "heat": 0.1765,
+          "entropy": 0.4807,
+          "reactivity": 3.5704,
+          "gregsEnergy": -1.5397,
+          "kalchm": 13.8121,
+          "monica": 0.1642
         },
         "substitutions": [
           {
@@ -1813,10 +1813,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11600000000000002,
-          "Water": 0.29000000000000004,
-          "Earth": 0.39,
-          "Air": 0.20400000000000001
+          "Fire": 0.184,
+          "Water": 0.294,
+          "Earth": 0.3329999999999999,
+          "Air": 0.18899999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1833,11 +1833,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 266,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -1851,18 +1851,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.32,
-          "Essence": 3.34,
-          "Matter": 3.58,
-          "Substance": 2.98
+          "Spirit": 2.23,
+          "Essence": 2.62,
+          "Matter": 3.35,
+          "Substance": 3.39
         },
         "thermodynamicProperties": {
-          "heat": 0.413,
-          "entropy": 0.4256,
-          "reactivity": 0.4436,
-          "gregsEnergy": 0.2242,
-          "kalchm": 0.14,
-          "monica": 0.4317
+          "heat": 0.0484,
+          "entropy": 0.3799,
+          "reactivity": 1.7314,
+          "gregsEnergy": -0.6095,
+          "kalchm": 0.0207,
+          "monica": -0.0908
         },
         "substitutions": [
           {
@@ -1960,10 +1960,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.07999999999999999,
-          "Water": 0.26399999999999996,
-          "Earth": 0.46399999999999997,
-          "Air": 0.19199999999999998
+          "Fire": 0.16000000000000003,
+          "Water": 0.23444444444444443,
+          "Earth": 0.4222222222222223,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1980,11 +1980,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 12,
+          "proteinG": 11,
           "carbsG": 26,
-          "fatG": 6,
-          "fiberG": 6,
-          "sodiumMg": 256,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 244,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -1998,18 +1998,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.64,
-          "Essence": 2.58,
-          "Matter": 3.45,
-          "Substance": 2.94
+          "Spirit": 1.5,
+          "Essence": 1.83,
+          "Matter": 3.25,
+          "Substance": 2.8
         },
         "thermodynamicProperties": {
-          "heat": 0.408,
-          "entropy": 0.3912,
-          "reactivity": 0.4064,
-          "gregsEnergy": 0.249,
-          "kalchm": 0.044,
-          "monica": 0.4128
+          "heat": 0.0299,
+          "entropy": 0.3084,
+          "reactivity": 1.005,
+          "gregsEnergy": -0.28,
+          "kalchm": 0.0067,
+          "monica": -0.0557
         },
         "substitutions": [
           {
@@ -2119,10 +2119,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12142857142857144,
-          "Water": 0.3857142857142857,
-          "Earth": 0.32142857142857145,
-          "Air": 0.17142857142857143
+          "Fire": 0.16727272727272727,
+          "Water": 0.3672727272727272,
+          "Earth": 0.30727272727272725,
+          "Air": 0.15818181818181815
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2141,10 +2141,10 @@ export const cuisine: Cuisine = {
           "calories": 280,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 304,
-          "sugarG": 5,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 297,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -2157,18 +2157,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.65,
-          "Essence": 4,
-          "Matter": 4.44,
-          "Substance": 3.71
+          "Spirit": 2.13,
+          "Essence": 3.83,
+          "Matter": 4.13,
+          "Substance": 3.94
         },
         "thermodynamicProperties": {
-          "heat": 0.3679,
-          "entropy": 0.44,
-          "reactivity": 0.5043,
-          "gregsEnergy": 0.146,
-          "kalchm": 0.0857,
-          "monica": 0.3841
+          "heat": 0.0282,
+          "entropy": 0.2698,
+          "reactivity": 1.7734,
+          "gregsEnergy": -0.4503,
+          "kalchm": 0.011,
+          "monica": -0.0563
         },
         "substitutions": [
           {
@@ -2266,10 +2266,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.35500000000000004,
-          "Earth": 0.35500000000000004,
-          "Air": 0.16500000000000004
+          "Fire": 0.24000000000000002,
+          "Water": 0.2155555555555555,
+          "Earth": 0.3522222222222222,
+          "Air": 0.19222222222222218
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2287,11 +2287,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 292,
-          "sugarG": 4,
+          "sodiumMg": 236,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -2304,18 +2304,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.76,
-          "Essence": 2.71,
-          "Matter": 3.5,
-          "Substance": 3.14
+          "Spirit": 2.01,
+          "Essence": 2.28,
+          "Matter": 3.16,
+          "Substance": 2.9
         },
         "thermodynamicProperties": {
-          "heat": 0.385,
-          "entropy": 0.424,
-          "reactivity": 0.488,
-          "gregsEnergy": 0.1781,
-          "kalchm": 0.08,
-          "monica": 0.3952
+          "heat": 0.0495,
+          "entropy": 0.3476,
+          "reactivity": 1.4421,
+          "gregsEnergy": -0.4517,
+          "kalchm": 0.032,
+          "monica": -0.091
         },
         "substitutions": [
           {
@@ -2403,10 +2403,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.275,
-          "Earth": 0.4125,
-          "Air": 0.1875
+          "Fire": 0.19142857142857145,
+          "Water": 0.2914285714285714,
+          "Earth": 0.3757142857142858,
+          "Air": 0.1414285714285714
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2424,11 +2424,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 11,
-          "carbsG": 26,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 260,
-          "sugarG": 5,
+          "sodiumMg": 267,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -2441,18 +2441,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.28,
-          "Essence": 1.95,
-          "Matter": 3.12,
-          "Substance": 2.64
+          "Spirit": 1.63,
+          "Essence": 2.44,
+          "Matter": 2.95,
+          "Substance": 2.85
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.41,
-          "reactivity": 0.44,
-          "gregsEnergy": 0.2446,
-          "kalchm": 0.125,
-          "monica": 0.4353
+          "heat": 0.0329,
+          "entropy": 0.2953,
+          "reactivity": 1.5257,
+          "gregsEnergy": -0.4177,
+          "kalchm": 0.0406,
+          "monica": -0.0855
         },
         "substitutions": [
           {
@@ -2552,10 +2552,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12499999999999997,
-          "Water": 0.2875,
-          "Earth": 0.42499999999999993,
-          "Air": 0.16249999999999998
+          "Fire": 0.18,
+          "Water": 0.28625000000000006,
+          "Earth": 0.36625,
+          "Air": 0.1675
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2572,12 +2572,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
           "sodiumMg": 265,
-          "sugarG": 4,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -2590,18 +2590,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.66,
-          "Essence": 2.61,
-          "Matter": 3.63,
-          "Substance": 3.09
+          "Spirit": 1.98,
+          "Essence": 3.01,
+          "Matter": 3.54,
+          "Substance": 3.36
         },
         "thermodynamicProperties": {
-          "heat": 0.4188,
-          "entropy": 0.395,
-          "reactivity": 0.4475,
-          "gregsEnergy": 0.242,
-          "kalchm": 0.075,
-          "monica": 0.4193
+          "heat": 0.0343,
+          "entropy": 0.2944,
+          "reactivity": 1.5999,
+          "gregsEnergy": -0.4366,
+          "kalchm": 0.0207,
+          "monica": -0.0704
         },
         "substitutions": [
           {
@@ -2689,10 +2689,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.324,
-          "Earth": 0.4039999999999999,
-          "Air": 0.17200000000000001
+          "Fire": 0.12857142857142856,
+          "Water": 0.29571428571428576,
+          "Earth": 0.39571428571428574,
+          "Air": 0.18
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2711,9 +2711,9 @@ export const cuisine: Cuisine = {
           "calories": 280,
           "proteinG": 11,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 280,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -2727,18 +2727,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.27,
-          "Essence": 2.65,
-          "Matter": 2.69,
-          "Substance": 2.19
+          "Spirit": 1.06,
+          "Essence": 2.09,
+          "Matter": 3.26,
+          "Substance": 2.92
         },
         "thermodynamicProperties": {
-          "heat": 0.388,
-          "entropy": 0.4072,
-          "reactivity": 0.4544,
-          "gregsEnergy": 0.203,
-          "kalchm": 0.044,
-          "monica": 0.3944
+          "heat": 0.0136,
+          "entropy": 0.2657,
+          "reactivity": 1.0591,
+          "gregsEnergy": -0.2678,
+          "kalchm": 0.0046,
+          "monica": -0.047
         },
         "substitutions": [
           {
@@ -2864,10 +2864,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.3,
-          "Earth": 0.4,
-          "Air": 0.2
+          "Fire": 0.1653846153846154,
+          "Water": 0.2538461538461539,
+          "Earth": 0.4076923076923077,
+          "Air": 0.1730769230769231
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2885,10 +2885,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 11,
-          "carbsG": 26,
-          "fatG": 6,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -2902,18 +2902,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.09,
-          "Essence": 4.86,
-          "Matter": 4.85,
-          "Substance": 4.1
+          "Spirit": 2.41,
+          "Essence": 3.3,
+          "Matter": 5.34,
+          "Substance": 4.7
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.44,
-          "gregsEnergy": 0.2152,
-          "kalchm": 0.1,
-          "monica": 0.4161
+          "heat": 0.029,
+          "entropy": 0.3231,
+          "reactivity": 1.1778,
+          "gregsEnergy": -0.3515,
+          "kalchm": 0,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -3069,32 +3069,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2571428571428572,
-          "Water": 0.3885714285714285,
-          "Earth": 0.18857142857142858,
-          "Air": 0.1657142857142857
+          "Fire": 0.26529411764705874,
+          "Water": 0.22470588235294112,
+          "Earth": 0.2970588235294118,
+          "Air": 0.21294117647058824
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
-          "carbsG": 25,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 305,
-          "sugarG": 4,
+          "sodiumMg": 240,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -3107,18 +3107,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.97,
-          "Essence": 6.36,
-          "Matter": 5.61,
-          "Substance": 4.97
+          "Spirit": 5.05,
+          "Essence": 5.69,
+          "Matter": 5.27,
+          "Substance": 4.95
         },
         "thermodynamicProperties": {
-          "heat": 0.4343,
-          "entropy": 0.4909,
-          "reactivity": 0.5874,
-          "gregsEnergy": 0.1459,
-          "kalchm": 0.2086,
-          "monica": 0.4209
+          "heat": 0.0923,
+          "entropy": 0.3802,
+          "reactivity": 2.6635,
+          "gregsEnergy": -0.9203,
+          "kalchm": 4.0362,
+          "monica": 0.2476
         },
         "substitutions": [
           {
@@ -3171,10 +3171,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.1,
+          "Water": 0.5,
+          "Earth": 0.25,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3191,11 +3191,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
-          "fiberG": 3,
-          "sodiumMg": 470,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 6,
+          "fiberG": 4,
+          "sodiumMg": 350,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -3209,18 +3209,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.29,
-          "Essence": 0.76,
-          "Matter": 0.56,
-          "Substance": 0.39
+          "Spirit": 0.24,
+          "Essence": 0.66,
+          "Matter": 0.65,
+          "Substance": 0.49
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0093,
+          "entropy": 0.0778,
+          "reactivity": 1.2541,
+          "gregsEnergy": -0.0883,
+          "kalchm": 1.0129,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -3282,10 +3282,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.13333333333333333,
+          "Water": 0.4833333333333334,
+          "Earth": 0.21666666666666667,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3302,12 +3302,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
-          "fiberG": 3,
-          "sodiumMg": 470,
-          "sugarG": 4,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 343,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -3320,18 +3320,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.54,
-          "Essence": 1.06,
-          "Matter": 0.81,
-          "Substance": 0.59
+          "Spirit": 0.43,
+          "Essence": 1,
+          "Matter": 0.89,
+          "Substance": 0.72
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0168,
+          "entropy": 0.1116,
+          "reactivity": 1.6187,
+          "gregsEnergy": -0.1639,
+          "kalchm": 0.9776,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -3444,10 +3444,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12000000000000002,
-          "Water": 0.30999999999999994,
-          "Earth": 0.42000000000000004,
-          "Air": 0.15
+          "Fire": 0.17636363636363636,
+          "Water": 0.2945454545454545,
+          "Earth": 0.37090909090909085,
+          "Air": 0.15818181818181817
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3466,9 +3466,9 @@ export const cuisine: Cuisine = {
           "calories": 280,
           "proteinG": 11,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 274,
+          "sodiumMg": 268,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -3482,18 +3482,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.04,
-          "Essence": 3.08,
-          "Matter": 4.37,
-          "Substance": 3.64
+          "Spirit": 2.19,
+          "Essence": 3.41,
+          "Matter": 4.38,
+          "Substance": 4.12
         },
         "thermodynamicProperties": {
-          "heat": 0.405,
-          "entropy": 0.392,
-          "reactivity": 0.458,
-          "gregsEnergy": 0.2255,
-          "kalchm": 0.04,
-          "monica": 0.4022
+          "heat": 0.0298,
+          "entropy": 0.3053,
+          "reactivity": 1.486,
+          "gregsEnergy": -0.4239,
+          "kalchm": 0.0017,
+          "monica": -0.0447
         },
         "substitutions": [
           {
@@ -3584,10 +3584,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.30000000000000004,
-          "Earth": 0.35,
-          "Air": 0.17500000000000002
+          "Fire": 0.20714285714285716,
+          "Water": 0.26428571428571435,
+          "Earth": 0.35714285714285715,
+          "Air": 0.17142857142857143
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3608,7 +3608,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 256,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -3622,18 +3622,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.26,
-          "Essence": 3.04,
-          "Matter": 3.45,
-          "Substance": 3.07
+          "Spirit": 2.16,
+          "Essence": 2.88,
+          "Matter": 3.26,
+          "Substance": 2.88
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.43,
-          "reactivity": 0.485,
-          "gregsEnergy": 0.229,
-          "kalchm": 0.2,
-          "monica": 0.4516
+          "heat": 0.0489,
+          "entropy": 0.2851,
+          "reactivity": 1.6354,
+          "gregsEnergy": -0.4173,
+          "kalchm": 0.112,
+          "monica": -0.1166
         },
         "substitutions": [
           {
@@ -3710,10 +3710,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2375,
-          "Water": 0.25,
-          "Earth": 0.3,
-          "Air": 0.21249999999999997
+          "Fire": 0.31666666666666665,
+          "Water": 0.2333333333333333,
+          "Earth": 0.32499999999999996,
+          "Air": 0.12499999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3731,11 +3731,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 5,
+          "carbsG": 24,
+          "fatG": 9,
+          "fiberG": 5,
+          "sodiumMg": 243,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -3748,18 +3748,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.91,
-          "Essence": 2.22,
-          "Matter": 2.58,
-          "Substance": 2.6
+          "Spirit": 2.27,
+          "Essence": 2.45,
+          "Matter": 2.77,
+          "Substance": 2.51
         },
         "thermodynamicProperties": {
-          "heat": 0.4938,
-          "entropy": 0.465,
-          "reactivity": 0.4925,
-          "gregsEnergy": 0.2648,
-          "kalchm": 0.4,
-          "monica": 0.5259
+          "heat": 0.0742,
+          "entropy": 0.3465,
+          "reactivity": 1.84,
+          "gregsEnergy": -0.5633,
+          "kalchm": 0.341,
+          "monica": -0.2846
         },
         "substitutions": [
           {
@@ -3855,10 +3855,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.09166666666666666,
-          "Water": 0.5583333333333332,
-          "Earth": 0.19166666666666662,
-          "Air": 0.15833333333333333
+          "Fire": 0.1875,
+          "Water": 0.38125,
+          "Earth": 0.25625000000000003,
+          "Air": 0.17500000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3875,12 +3875,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 373,
-          "sugarG": 4,
+          "sodiumMg": 303,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -3893,18 +3893,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.57,
-          "Essence": 3.06,
-          "Matter": 3.55,
-          "Substance": 3.07
+          "Spirit": 2.15,
+          "Essence": 3.04,
+          "Matter": 2.97,
+          "Substance": 2.62
         },
         "thermodynamicProperties": {
-          "heat": 0.2667,
-          "entropy": 0.4867,
-          "reactivity": 0.59,
-          "gregsEnergy": -0.0205,
-          "kalchm": -0.1167,
-          "monica": 0.2568
+          "heat": 0.0522,
+          "entropy": 0.2614,
+          "reactivity": 2.0117,
+          "gregsEnergy": -0.4737,
+          "kalchm": 0.4816,
+          "monica": -0.3223
         },
         "substitutions": [
           {
@@ -4013,31 +4013,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.135,
-          "Water": 0.375,
-          "Earth": 0.35,
-          "Air": 0.14
+          "Fire": 0.1714285714285714,
+          "Water": 0.2857142857142857,
+          "Earth": 0.39285714285714285,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 300,
+          "sodiumMg": 264,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -4051,18 +4051,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.15,
-          "Essence": 3.74,
-          "Matter": 3.32,
-          "Substance": 2.72
+          "Spirit": 2.68,
+          "Essence": 3.33,
+          "Matter": 3.84,
+          "Substance": 3.4
         },
         "thermodynamicProperties": {
-          "heat": 0.38,
-          "entropy": 0.416,
-          "reactivity": 0.506,
-          "gregsEnergy": 0.1695,
-          "kalchm": 0.05,
-          "monica": 0.3828
+          "heat": 0.0555,
+          "entropy": 0.3051,
+          "reactivity": 1.6724,
+          "gregsEnergy": -0.4548,
+          "kalchm": 0.0686,
+          "monica": -0.1015
         },
         "substitutions": [
           {
@@ -4169,10 +4169,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.36,
-          "Water": 0.20000000000000004,
-          "Earth": 0.24000000000000005,
-          "Air": 0.2
+          "Fire": 0.29444444444444445,
+          "Water": 0.2611111111111111,
+          "Earth": 0.24444444444444435,
+          "Air": 0.19999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -4193,7 +4193,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 230,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -4207,18 +4207,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.15,
-          "Essence": 4.25,
-          "Matter": 3.43,
-          "Substance": 2.95
+          "Spirit": 3.22,
+          "Essence": 3.61,
+          "Matter": 3.48,
+          "Substance": 3.33
         },
         "thermodynamicProperties": {
-          "heat": 0.58,
-          "entropy": 0.484,
-          "reactivity": 0.536,
-          "gregsEnergy": 0.3206,
-          "kalchm": 0.28,
-          "monica": 0.5122
+          "heat": 0.0845,
+          "entropy": 0.3741,
+          "reactivity": 2.5004,
+          "gregsEnergy": -0.851,
+          "kalchm": 1.0555,
+          "monica": 6.3009
         },
         "substitutions": [
           {
@@ -4309,32 +4309,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31666666666666665,
-          "Water": 0.26666666666666666,
-          "Earth": 0.25,
-          "Air": 0.16666666666666666
+          "Fire": 0.25,
+          "Water": 0.3,
+          "Earth": 0.2857142857142857,
+          "Air": 0.1642857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 9,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 257,
-          "sugarG": 5,
+          "sodiumMg": 270,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -4347,18 +4347,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.55,
-          "Essence": 3.2,
-          "Matter": 2.83,
-          "Substance": 2.52
+          "Spirit": 2.29,
+          "Essence": 3.02,
+          "Matter": 3.09,
+          "Substance": 2.95
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.4667,
-          "reactivity": 0.55,
-          "gregsEnergy": 0.2683,
-          "kalchm": 0.3333,
-          "monica": 0.5073
+          "heat": 0.0551,
+          "entropy": 0.3131,
+          "reactivity": 2.04,
+          "gregsEnergy": -0.5835,
+          "kalchm": 0.2364,
+          "monica": -0.1983
         },
         "substitutions": [
           {
@@ -4438,10 +4438,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21250000000000002,
-          "Water": 0.35000000000000003,
-          "Earth": 0.275,
-          "Air": 0.1625
+          "Fire": 0.26666666666666666,
+          "Water": 0.275,
+          "Earth": 0.26666666666666666,
+          "Air": 0.19166666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -4459,11 +4459,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 290,
-          "sugarG": 4,
+          "sodiumMg": 260,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -4476,18 +4476,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.89,
-          "Essence": 2.66,
-          "Matter": 2.61,
-          "Substance": 2.34
+          "Spirit": 1.94,
+          "Essence": 2.23,
+          "Matter": 2.17,
+          "Substance": 2.01
         },
         "thermodynamicProperties": {
-          "heat": 0.4313,
-          "entropy": 0.455,
-          "reactivity": 0.5375,
-          "gregsEnergy": 0.1867,
-          "kalchm": 0.25,
-          "monica": 0.4497
+          "heat": 0.0752,
+          "entropy": 0.324,
+          "reactivity": 2.1828,
+          "gregsEnergy": -0.632,
+          "kalchm": 0.9897,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -4569,31 +4569,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.16666666666666666,
+          "Water": 0.3416666666666666,
+          "Earth": 0.35000000000000003,
+          "Air": 0.14166666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 287,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -4607,18 +4607,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 2.19,
-          "Matter": 2.58,
-          "Substance": 2.29
+          "Spirit": 0.94,
+          "Essence": 1.53,
+          "Matter": 2.08,
+          "Substance": 1.79
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0235,
+          "entropy": 0.2235,
+          "reactivity": 1.1166,
+          "gregsEnergy": -0.2261,
+          "kalchm": 0.139,
+          "monica": -0.1026
         },
         "substitutions": [
           {
@@ -4726,31 +4726,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28,
-          "Water": 0.32,
-          "Earth": 0.26999999999999996,
-          "Air": 0.13
+          "Fire": 0.29727272727272724,
+          "Water": 0.22999999999999998,
+          "Earth": 0.32545454545454544,
+          "Air": 0.1472727272727273
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 24,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 278,
+          "fatG": 9,
+          "fiberG": 5,
+          "sodiumMg": 242,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -4764,18 +4764,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.55,
-          "Essence": 4.38,
-          "Matter": 4.37,
-          "Substance": 3.85
+          "Spirit": 3.5,
+          "Essence": 3.96,
+          "Matter": 4.21,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
-          "heat": 0.48,
-          "entropy": 0.444,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.2314,
-          "kalchm": 0.26,
-          "monica": 0.4706
+          "heat": 0.0772,
+          "entropy": 0.349,
+          "reactivity": 2.0567,
+          "gregsEnergy": -0.6407,
+          "kalchm": 0.2952,
+          "monica": -0.2553
         },
         "substitutions": [
           {
@@ -4863,10 +4863,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.2875,
-          "Earth": 0.42500000000000004,
-          "Air": 0.16250000000000003
+          "Fire": 0.19142857142857145,
+          "Water": 0.2914285714285714,
+          "Earth": 0.3757142857142858,
+          "Air": 0.1414285714285714
         },
         "astrologicalAffinities": {
           "planets": [
@@ -4884,10 +4884,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 11,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 265,
+          "sodiumMg": 267,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -4901,18 +4901,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.16,
-          "Essence": 2.01,
-          "Matter": 3.13,
-          "Substance": 2.69
+          "Spirit": 1.53,
+          "Essence": 2.48,
+          "Matter": 3,
+          "Substance": 2.9
         },
         "thermodynamicProperties": {
-          "heat": 0.4188,
-          "entropy": 0.395,
-          "reactivity": 0.4475,
-          "gregsEnergy": 0.242,
-          "kalchm": 0.075,
-          "monica": 0.4193
+          "heat": 0.0282,
+          "entropy": 0.286,
+          "reactivity": 1.4956,
+          "gregsEnergy": -0.3996,
+          "kalchm": 0.0308,
+          "monica": -0.0768
         },
         "substitutions": [
           {
@@ -4972,32 +4972,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.18333333333333335,
+          "Water": 0.4166666666666667,
+          "Earth": 0.2333333333333333,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "sodiumMg": 317,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -5010,18 +5010,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.53,
+          "Essence": 0.89,
+          "Matter": 0.86,
+          "Substance": 0.91
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.026,
+          "entropy": 0.2032,
+          "reactivity": 1.787,
+          "gregsEnergy": -0.3371,
+          "kalchm": 0.7988,
+          "monica": -0.8397
         },
         "substitutions": [
           {
@@ -5133,32 +5133,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26875,
-          "Water": 0.2625,
-          "Earth": 0.2625,
-          "Air": 0.20625000000000004
+          "Fire": 0.23500000000000001,
+          "Water": 0.29500000000000004,
+          "Earth": 0.31700000000000006,
+          "Air": 0.153
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 255,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 268,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -5171,18 +5171,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.42,
-          "Essence": 5,
-          "Matter": 4.25,
-          "Substance": 4.03
+          "Spirit": 3.74,
+          "Essence": 5.04,
+          "Matter": 4.74,
+          "Substance": 4.41
         },
         "thermodynamicProperties": {
-          "heat": 0.5031,
-          "entropy": 0.4775,
-          "reactivity": 0.5187,
-          "gregsEnergy": 0.2554,
-          "kalchm": 0.4125,
-          "monica": 0.5259
+          "heat": 0.0628,
+          "entropy": 0.3103,
+          "reactivity": 2.3072,
+          "gregsEnergy": -0.6532,
+          "kalchm": 0.4341,
+          "monica": -0.3393
         },
         "substitutions": [
           {
@@ -5244,10 +5244,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.4,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.225,
+          "Water": 0.325,
+          "Earth": 0.3,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -5264,12 +5264,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 310,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 280,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -5282,18 +5282,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.05,
-          "Essence": 1.45,
-          "Matter": 0.8,
-          "Substance": 0.62
+          "Spirit": 0.63,
+          "Essence": 1.04,
+          "Matter": 1.21,
+          "Substance": 1.16
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.1152,
-          "kalchm": 0.1,
-          "monica": 0.3761
+          "heat": 0.0256,
+          "entropy": 0.2197,
+          "reactivity": 1.317,
+          "gregsEnergy": -0.2637,
+          "kalchm": 0.5204,
+          "monica": -0.3066
         },
         "substitutions": [
           {
@@ -5385,31 +5385,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2916666666666667,
-          "Water": 0.25833333333333336,
-          "Earth": 0.19999999999999998,
-          "Air": 0.25
+          "Fire": 0.21624999999999997,
+          "Water": 0.25875,
+          "Earth": 0.2875,
+          "Air": 0.23749999999999993
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 9,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 253,
+          "sodiumMg": 254,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -5423,18 +5423,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.08,
-          "Essence": 3.11,
-          "Matter": 2.71,
-          "Substance": 2.59
+          "Spirit": 2.57,
+          "Essence": 2.88,
+          "Matter": 2.68,
+          "Substance": 2.4
         },
         "thermodynamicProperties": {
-          "heat": 0.5167,
-          "entropy": 0.52,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2411,
-          "kalchm": 0.4,
-          "monica": 0.5164
+          "heat": 0.087,
+          "entropy": 0.3344,
+          "reactivity": 2.3654,
+          "gregsEnergy": -0.7039,
+          "kalchm": 2.0733,
+          "monica": 0.4082
         },
         "substitutions": [
           {
@@ -5524,10 +5524,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23125,
-          "Water": 0.34375,
-          "Earth": 0.21875000000000003,
-          "Air": 0.20625
+          "Fire": 0.22250000000000003,
+          "Water": 0.32749999999999996,
+          "Earth": 0.23750000000000004,
+          "Air": 0.2125
         },
         "astrologicalAffinities": {
           "planets": [
@@ -5544,11 +5544,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 288,
+          "sodiumMg": 281,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -5562,18 +5562,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.14,
-          "Essence": 4.12,
-          "Matter": 2.85,
-          "Substance": 2.76
+          "Spirit": 2.08,
+          "Essence": 2.8,
+          "Matter": 2.35,
+          "Substance": 2.4
         },
         "thermodynamicProperties": {
-          "heat": 0.4437,
-          "entropy": 0.495,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1739,
-          "kalchm": 0.3125,
-          "monica": 0.4633
+          "heat": 0.0631,
+          "entropy": 0.3117,
+          "reactivity": 2.7077,
+          "gregsEnergy": -0.7809,
+          "kalchm": 1.3462,
+          "monica": 0.9702
         },
         "substitutions": [
           {
@@ -5714,31 +5714,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18636363636363634,
-          "Water": 0.38181818181818183,
-          "Earth": 0.29363636363636364,
-          "Air": 0.13818181818181818
+          "Fire": 0.21375000000000005,
+          "Water": 0.270625,
+          "Earth": 0.36125,
+          "Air": 0.15437499999999998
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 24,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 303,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 258,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -5752,18 +5752,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.07,
-          "Essence": 5.18,
-          "Matter": 7.18,
-          "Substance": 6.57
+          "Spirit": 3.66,
+          "Essence": 4.85,
+          "Matter": 7.11,
+          "Substance": 6.47
         },
         "thermodynamicProperties": {
-          "heat": 0.4023,
-          "entropy": 0.4378,
-          "reactivity": 0.5409,
-          "gregsEnergy": 0.1655,
-          "kalchm": 0.1491,
-          "monica": 0.4109
+          "heat": 0.0364,
+          "entropy": 0.3489,
+          "reactivity": 1.4139,
+          "gregsEnergy": -0.457,
+          "kalchm": 0,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -5887,10 +5887,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.09666666666666666,
-          "Water": 0.3166666666666666,
-          "Earth": 0.41333333333333333,
-          "Air": 0.1733333333333333
+          "Fire": 0.18000000000000002,
+          "Water": 0.2669230769230769,
+          "Earth": 0.3484615384615385,
+          "Air": 0.2046153846153846
         },
         "astrologicalAffinities": {
           "planets": [
@@ -5907,11 +5907,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 11,
-          "carbsG": 25,
-          "fatG": 6,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 277,
+          "sodiumMg": 257,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -5925,18 +5925,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.62,
-          "Essence": 4.06,
-          "Matter": 4.97,
-          "Substance": 4.25
+          "Spirit": 2.56,
+          "Essence": 3.25,
+          "Matter": 4.49,
+          "Substance": 4.07
         },
         "thermodynamicProperties": {
-          "heat": 0.39,
-          "entropy": 0.404,
-          "reactivity": 0.448,
-          "gregsEnergy": 0.209,
-          "kalchm": 0.04,
-          "monica": 0.3956
+          "heat": 0.0413,
+          "entropy": 0.3322,
+          "reactivity": 1.4449,
+          "gregsEnergy": -0.4387,
+          "kalchm": 0.002,
+          "monica": -0.0489
         },
         "substitutions": [
           {
@@ -6080,10 +6080,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18800000000000003,
-          "Water": 0.265,
-          "Earth": 0.383,
-          "Air": 0.164
+          "Fire": 0.22812500000000002,
+          "Water": 0.225625,
+          "Earth": 0.350625,
+          "Air": 0.19562500000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6100,12 +6100,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 11,
-          "carbsG": 25,
-          "fatG": 7,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 256,
-          "sugarG": 4,
+          "sodiumMg": 240,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -6118,18 +6118,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.72,
-          "Essence": 6.04,
-          "Matter": 6.77,
-          "Substance": 5.8
+          "Spirit": 4.3,
+          "Essence": 4.97,
+          "Matter": 6.14,
+          "Substance": 5.45
         },
         "thermodynamicProperties": {
-          "heat": 0.4615,
-          "entropy": 0.4124,
-          "reactivity": 0.4718,
-          "gregsEnergy": 0.2669,
-          "kalchm": 0.204,
-          "monica": 0.468
+          "heat": 0.0617,
+          "entropy": 0.3535,
+          "reactivity": 1.7336,
+          "gregsEnergy": -0.5512,
+          "kalchm": 0.0021,
+          "monica": -0.0516
         },
         "substitutions": [
           {
@@ -6207,10 +6207,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27999999999999997,
-          "Water": 0.22000000000000003,
-          "Earth": 0.33999999999999997,
-          "Air": 0.16
+          "Fire": 0.32999999999999996,
+          "Water": 0.19,
+          "Earth": 0.32999999999999996,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6229,9 +6229,9 @@ export const cuisine: Cuisine = {
           "calories": 280,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 238,
+          "sodiumMg": 226,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -6245,18 +6245,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.8,
+          "Spirit": 1.83,
           "Essence": 1.88,
           "Matter": 3.07,
           "Substance": 2.95
         },
         "thermodynamicProperties": {
-          "heat": 0.53,
-          "entropy": 0.428,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.316,
-          "kalchm": 0.26,
-          "monica": 0.5044
+          "heat": 0.0471,
+          "entropy": 0.4072,
+          "reactivity": 1.3627,
+          "gregsEnergy": -0.5078,
+          "kalchm": 0.013,
+          "monica": -0.0858
         },
         "substitutions": [
           {
@@ -6355,10 +6355,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11666666666666665,
-          "Water": 0.5166666666666667,
-          "Earth": 0.26666666666666666,
-          "Air": 0.10000000000000002
+          "Fire": 0.1625,
+          "Water": 0.39375000000000004,
+          "Earth": 0.32500000000000007,
+          "Air": 0.11875000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6375,11 +6375,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 357,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 308,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -6393,18 +6393,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.49,
-          "Essence": 2.64,
-          "Matter": 3.26,
-          "Substance": 2.74
+          "Spirit": 1.58,
+          "Essence": 3,
+          "Matter": 3.31,
+          "Substance": 3.18
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4333,
-          "reactivity": 0.58,
-          "gregsEnergy": 0.0487,
-          "kalchm": -0.0667,
-          "monica": 0.2995
+          "heat": 0.0237,
+          "entropy": 0.256,
+          "reactivity": 1.6502,
+          "gregsEnergy": -0.3989,
+          "kalchm": 0.0267,
+          "monica": -0.0667
         },
         "substitutions": [
           {
@@ -6526,10 +6526,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.5333333333333333,
-          "Earth": 0.2333333333333333,
-          "Air": 0.13333333333333333
+          "Fire": 0.24769230769230768,
+          "Water": 0.3215384615384615,
+          "Earth": 0.22846153846153844,
+          "Air": 0.2023076923076923
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6546,12 +6546,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 24,
-          "fatG": 6,
+          "proteinG": 8,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 363,
-          "sugarG": 4,
+          "sodiumMg": 279,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -6564,18 +6564,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.32,
-          "Essence": 4.38,
-          "Matter": 3.39,
-          "Substance": 2.64
+          "Spirit": 3.41,
+          "Essence": 4.48,
+          "Matter": 3.29,
+          "Substance": 3.14
         },
         "thermodynamicProperties": {
-          "heat": 0.2833,
-          "entropy": 0.46,
-          "reactivity": 0.58,
-          "gregsEnergy": 0.0165,
-          "kalchm": -0.0667,
-          "monica": 0.2866
+          "heat": 0.0859,
+          "entropy": 0.3119,
+          "reactivity": 3.3736,
+          "gregsEnergy": -0.9663,
+          "kalchm": 29.6814,
+          "monica": 0.0845
         },
         "substitutions": [
           {
@@ -6674,10 +6674,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1125,
-          "Water": 0.5175000000000001,
-          "Earth": 0.255,
-          "Air": 0.11499999999999999
+          "Fire": 0.12777777777777777,
+          "Water": 0.38555555555555554,
+          "Earth": 0.3577777777777778,
+          "Air": 0.1288888888888889
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6694,11 +6694,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 357,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 304,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -6712,18 +6712,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.59,
-          "Essence": 2.98,
-          "Matter": 3.53,
-          "Substance": 3.03
+          "Spirit": 1.13,
+          "Essence": 2.37,
+          "Matter": 3.25,
+          "Substance": 2.9
         },
         "thermodynamicProperties": {
-          "heat": 0.2975,
-          "entropy": 0.444,
-          "reactivity": 0.578,
-          "gregsEnergy": 0.0409,
-          "kalchm": -0.045,
-          "monica": 0.3029
+          "heat": 0.0147,
+          "entropy": 0.24,
+          "reactivity": 1.1897,
+          "gregsEnergy": -0.2709,
+          "kalchm": 0.0088,
+          "monica": -0.0481
         },
         "substitutions": [
           {
@@ -6826,10 +6826,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24600000000000005,
-          "Water": 0.3460000000000001,
-          "Earth": 0.23,
-          "Air": 0.17800000000000005
+          "Fire": 0.28333333333333327,
+          "Water": 0.325,
+          "Earth": 0.2333333333333333,
+          "Air": 0.15833333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6846,12 +6846,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 288,
-          "sugarG": 5,
+          "sodiumMg": 280,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -6864,18 +6864,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.05,
-          "Essence": 4.62,
-          "Matter": 3.03,
-          "Substance": 2.47
+          "Spirit": 2.53,
+          "Essence": 3.69,
+          "Matter": 3.15,
+          "Substance": 2.99
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.4792,
-          "reactivity": 0.5552,
-          "gregsEnergy": 0.1839,
-          "kalchm": 0.308,
-          "monica": 0.466
+          "heat": 0.0583,
+          "entropy": 0.2822,
+          "reactivity": 2.5481,
+          "gregsEnergy": -0.6608,
+          "kalchm": 1.3191,
+          "monica": 0.9364
         },
         "substitutions": [
           {
@@ -6961,10 +6961,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1875,
-          "Water": 0.35,
-          "Earth": 0.36250000000000004,
-          "Air": 0.09999999999999999
+          "Fire": 0.18333333333333335,
+          "Water": 0.2916666666666667,
+          "Earth": 0.38333333333333336,
+          "Air": 0.14166666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6981,11 +6981,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
-          "carbsG": 23,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 290,
+          "sodiumMg": 267,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -6999,18 +6999,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.2,
-          "Essence": 2.06,
-          "Matter": 3.15,
-          "Substance": 2.72
+          "Spirit": 1.67,
+          "Essence": 2.91,
+          "Matter": 3.39,
+          "Substance": 3.19
         },
         "thermodynamicProperties": {
-          "heat": 0.4188,
-          "entropy": 0.395,
-          "reactivity": 0.5225,
-          "gregsEnergy": 0.2124,
-          "kalchm": 0.075,
-          "monica": 0.4075
+          "heat": 0.0266,
+          "entropy": 0.2676,
+          "reactivity": 1.5151,
+          "gregsEnergy": -0.3789,
+          "kalchm": 0.0208,
+          "monica": -0.0646
         },
         "substitutions": [
           {
@@ -7129,31 +7129,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3216666666666667,
-          "Water": 0.22666666666666666,
-          "Earth": 0.30333333333333334,
-          "Air": 0.14833333333333334
+          "Fire": 0.31818181818181823,
+          "Water": 0.17272727272727273,
+          "Earth": 0.3909090909090909,
+          "Air": 0.11818181818181818
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 241,
+          "fiberG": 5,
+          "sodiumMg": 219,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7167,18 +7167,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.84,
-          "Essence": 3.68,
-          "Matter": 4.33,
-          "Substance": 3.61
+          "Spirit": 3.9,
+          "Essence": 3.85,
+          "Matter": 4.76,
+          "Substance": 4.23
         },
         "thermodynamicProperties": {
-          "heat": 0.5475,
-          "entropy": 0.438,
-          "reactivity": 0.529,
-          "gregsEnergy": 0.3158,
-          "kalchm": 0.25,
-          "monica": 0.5013
+          "heat": 0.0837,
+          "entropy": 0.3947,
+          "reactivity": 1.8118,
+          "gregsEnergy": -0.6314,
+          "kalchm": 0.0483,
+          "monica": -0.115
         },
         "substitutions": [
           {
@@ -7297,31 +7297,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3216666666666667,
-          "Water": 0.22666666666666666,
-          "Earth": 0.30333333333333334,
-          "Air": 0.14833333333333334
+          "Fire": 0.31818181818181823,
+          "Water": 0.17272727272727273,
+          "Earth": 0.3909090909090909,
+          "Air": 0.11818181818181818
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 241,
+          "fiberG": 5,
+          "sodiumMg": 219,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7335,18 +7335,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.84,
-          "Essence": 3.68,
-          "Matter": 4.33,
-          "Substance": 3.61
+          "Spirit": 3.9,
+          "Essence": 3.85,
+          "Matter": 4.76,
+          "Substance": 4.23
         },
         "thermodynamicProperties": {
-          "heat": 0.5475,
-          "entropy": 0.438,
-          "reactivity": 0.529,
-          "gregsEnergy": 0.3158,
-          "kalchm": 0.25,
-          "monica": 0.5013
+          "heat": 0.0837,
+          "entropy": 0.3947,
+          "reactivity": 1.8118,
+          "gregsEnergy": -0.6314,
+          "kalchm": 0.0483,
+          "monica": -0.115
         },
         "substitutions": [
           {
@@ -7414,10 +7414,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.7,
-          "Earth": 0.15000000000000002,
-          "Air": 0.1
+          "Fire": 0.125,
+          "Water": 0.41250000000000003,
+          "Earth": 0.3125,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -7434,11 +7434,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 430,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 315,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7452,18 +7452,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.59,
-          "Essence": 1.24,
-          "Matter": 1.73,
-          "Substance": 1.54
+          "Spirit": 0.53,
+          "Essence": 1.15,
+          "Matter": 1.37,
+          "Substance": 1.1
         },
         "thermodynamicProperties": {
-          "heat": 0.175,
-          "entropy": 0.48,
-          "reactivity": 0.65,
-          "gregsEnergy": -0.137,
-          "kalchm": -0.4,
-          "monica": 0.1252
+          "heat": 0.0147,
+          "entropy": 0.1452,
+          "reactivity": 1.0674,
+          "gregsEnergy": -0.1403,
+          "kalchm": 0.4907,
+          "monica": -0.1847
         },
         "substitutions": [
           {
@@ -7523,10 +7523,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.13333333333333333,
+          "Water": 0.4833333333333334,
+          "Earth": 0.21666666666666667,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -7543,12 +7543,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
-          "fiberG": 3,
-          "sodiumMg": 470,
-          "sugarG": 4,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 343,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -7561,18 +7561,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.54,
-          "Essence": 1.06,
-          "Matter": 0.81,
-          "Substance": 0.59
+          "Spirit": 0.43,
+          "Essence": 1,
+          "Matter": 0.89,
+          "Substance": 0.72
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0168,
+          "entropy": 0.1116,
+          "reactivity": 1.6187,
+          "gregsEnergy": -0.1639,
+          "kalchm": 0.9776,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -7639,10 +7639,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.08333333333333333,
-          "Water": 0.6166666666666667,
-          "Earth": 0.19333333333333336,
-          "Air": 0.10666666666666667
+          "Fire": 0.07500000000000001,
+          "Water": 0.4625,
+          "Earth": 0.3125,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -7659,11 +7659,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 397,
+          "fiberG": 5,
+          "sodiumMg": 335,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7677,18 +7677,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.45,
-          "Essence": 1.25,
-          "Matter": 1.77,
-          "Substance": 1.63
+          "Spirit": 0.54,
+          "Essence": 1.45,
+          "Matter": 1.54,
+          "Substance": 1.34
         },
         "thermodynamicProperties": {
-          "heat": 0.2333,
-          "entropy": 0.4653,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0552,
-          "kalchm": -0.2333,
-          "monica": 0.2079
+          "heat": 0.0108,
+          "entropy": 0.1492,
+          "reactivity": 1.2914,
+          "gregsEnergy": -0.1819,
+          "kalchm": 0.4269,
+          "monica": -0.1655
         },
         "substitutions": [
           {
@@ -7768,10 +7768,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.7,
-          "Earth": 0.15000000000000002,
-          "Air": 0.1
+          "Fire": 0.1,
+          "Water": 0.4,
+          "Earth": 0.375,
+          "Air": 0.125
         },
         "astrologicalAffinities": {
           "planets": [
@@ -7788,11 +7788,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 430,
+          "fiberG": 5,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7806,18 +7806,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.09,
-          "Essence": 1.84,
-          "Matter": 2.23,
-          "Substance": 1.94
+          "Spirit": 0.94,
+          "Essence": 1.66,
+          "Matter": 2.03,
+          "Substance": 1.65
         },
         "thermodynamicProperties": {
-          "heat": 0.175,
-          "entropy": 0.48,
-          "reactivity": 0.65,
-          "gregsEnergy": -0.137,
-          "kalchm": -0.4,
-          "monica": 0.1252
+          "heat": 0.0229,
+          "entropy": 0.1822,
+          "reactivity": 1.132,
+          "gregsEnergy": -0.1833,
+          "kalchm": 0.2275,
+          "monica": -0.1093
         },
         "substitutions": [
           {
@@ -7872,10 +7872,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.1,
+          "Water": 0.55,
+          "Earth": 0.2,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -7892,11 +7892,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
-          "fiberG": 3,
-          "sodiumMg": 470,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 6,
+          "fiberG": 4,
+          "sodiumMg": 370,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7910,18 +7910,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.29,
-          "Essence": 0.76,
-          "Matter": 0.56,
-          "Substance": 0.39
+          "Spirit": 0.23,
+          "Essence": 0.73,
+          "Matter": 0.61,
+          "Substance": 0.43
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0088,
+          "entropy": 0.0619,
+          "reactivity": 1.6853,
+          "gregsEnergy": -0.0955,
+          "kalchm": 1.1015,
+          "monica": 0.5859
         },
         "substitutions": [
           {
@@ -7998,10 +7998,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22500000000000003,
-          "Water": 0.2625,
-          "Earth": 0.35000000000000003,
-          "Air": 0.16250000000000003
+          "Fire": 0.22000000000000003,
+          "Water": 0.31,
+          "Earth": 0.35,
+          "Air": 0.12
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8019,10 +8019,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 255,
+          "sodiumMg": 274,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -8036,18 +8036,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.27,
-          "Essence": 1.6,
-          "Matter": 2.36,
-          "Substance": 2.21
+          "Spirit": 1.6,
+          "Essence": 2.2,
+          "Matter": 2.21,
+          "Substance": 2.26
         },
         "thermodynamicProperties": {
-          "heat": 0.4813,
-          "entropy": 0.425,
-          "reactivity": 0.4925,
-          "gregsEnergy": 0.272,
-          "kalchm": 0.275,
-          "monica": 0.4913
+          "heat": 0.047,
+          "entropy": 0.3007,
+          "reactivity": 1.9328,
+          "gregsEnergy": -0.5343,
+          "kalchm": 0.33,
+          "monica": -0.2493
         },
         "substitutions": [
           {
@@ -8128,10 +8128,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5,
-          "Earth": 0.10000000000000002,
-          "Air": 0.26666666666666666
+          "Fire": 0.17,
+          "Water": 0.5000000000000001,
+          "Earth": 0.11600000000000002,
+          "Air": 0.21399999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8149,11 +8149,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 28,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 3,
           "sodiumMg": 350,
-          "sugarG": 6,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -8166,18 +8166,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 2.46,
-          "Matter": 1.32,
-          "Substance": 1.06
+          "Spirit": 1.19,
+          "Essence": 2.06,
+          "Matter": 1.41,
+          "Substance": 1.4
         },
         "thermodynamicProperties": {
-          "heat": 0.3167,
-          "entropy": 0.5667,
-          "reactivity": 0.58,
-          "gregsEnergy": -0.012,
-          "kalchm": -0.0333,
-          "monica": 0.2852
+          "heat": 0.0445,
+          "entropy": 0.2067,
+          "reactivity": 3.4116,
+          "gregsEnergy": -0.6607,
+          "kalchm": 2.0965,
+          "monica": 0.2616
         },
         "substitutions": [
           {
@@ -8258,10 +8258,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5,
-          "Earth": 0.10000000000000002,
-          "Air": 0.26666666666666666
+          "Fire": 0.17,
+          "Water": 0.5000000000000001,
+          "Earth": 0.11600000000000002,
+          "Air": 0.21399999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8279,11 +8279,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 28,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 3,
           "sodiumMg": 350,
-          "sugarG": 6,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -8296,18 +8296,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 2.46,
-          "Matter": 1.32,
-          "Substance": 1.06
+          "Spirit": 1.19,
+          "Essence": 2.06,
+          "Matter": 1.41,
+          "Substance": 1.4
         },
         "thermodynamicProperties": {
-          "heat": 0.3167,
-          "entropy": 0.5667,
-          "reactivity": 0.58,
-          "gregsEnergy": -0.012,
-          "kalchm": -0.0333,
-          "monica": 0.2852
+          "heat": 0.0445,
+          "entropy": 0.2067,
+          "reactivity": 3.4116,
+          "gregsEnergy": -0.6607,
+          "kalchm": 2.0965,
+          "monica": 0.2616
         },
         "substitutions": [
           {
@@ -8374,10 +8374,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.5,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.09999999999999999,
+          "Water": 0.4625,
+          "Earth": 0.175,
+          "Air": 0.26249999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8394,12 +8394,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 7,
-          "carbsG": 29,
+          "proteinG": 8,
+          "carbsG": 28,
           "fatG": 6,
           "fiberG": 3,
-          "sodiumMg": 350,
-          "sugarG": 7,
+          "sodiumMg": 335,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -8412,18 +8412,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.32,
-          "Essence": 1.44,
-          "Matter": 0.89,
-          "Substance": 0.71
+          "Spirit": 0.66,
+          "Essence": 1.29,
+          "Matter": 1.04,
+          "Substance": 0.95
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0248,
-          "kalchm": -0.1,
-          "monica": 0.2601
+          "heat": 0.0255,
+          "entropy": 0.1609,
+          "reactivity": 2.2321,
+          "gregsEnergy": -0.3337,
+          "kalchm": 1.0642,
+          "monica": 2.4024
         },
         "substitutions": [
           {
@@ -8497,10 +8497,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3333333333333333,
-          "Water": 0.4000000000000001,
-          "Earth": 0.16666666666666666,
-          "Air": 0.10000000000000002
+          "Fire": 0.26,
+          "Water": 0.4,
+          "Earth": 0.2,
+          "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8518,9 +8518,9 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 8,
-          "carbsG": 23,
-          "fatG": 9,
-          "fiberG": 3,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 4,
           "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
@@ -8535,18 +8535,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.84,
-          "Essence": 2.44,
-          "Matter": 1.51,
-          "Substance": 1.22
+          "Spirit": 1.68,
+          "Essence": 2.41,
+          "Matter": 1.6,
+          "Substance": 1.42
         },
         "thermodynamicProperties": {
-          "heat": 0.4667,
-          "entropy": 0.4733,
-          "reactivity": 0.64,
-          "gregsEnergy": 0.1638,
-          "kalchm": 0.0333,
-          "monica": 0.3755
+          "heat": 0.0759,
+          "entropy": 0.2318,
+          "reactivity": 3.3624,
+          "gregsEnergy": -0.7034,
+          "kalchm": 5.7061,
+          "monica": 0.1201
         },
         "substitutions": [
           {
@@ -8620,10 +8620,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3333333333333333,
-          "Water": 0.4000000000000001,
-          "Earth": 0.16666666666666666,
-          "Air": 0.10000000000000002
+          "Fire": 0.26,
+          "Water": 0.4,
+          "Earth": 0.2,
+          "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8641,9 +8641,9 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 8,
-          "carbsG": 23,
-          "fatG": 9,
-          "fiberG": 3,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 4,
           "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
@@ -8658,18 +8658,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.84,
-          "Essence": 2.44,
-          "Matter": 1.51,
-          "Substance": 1.22
+          "Spirit": 1.68,
+          "Essence": 2.41,
+          "Matter": 1.6,
+          "Substance": 1.42
         },
         "thermodynamicProperties": {
-          "heat": 0.4667,
-          "entropy": 0.4733,
-          "reactivity": 0.64,
-          "gregsEnergy": 0.1638,
-          "kalchm": 0.0333,
-          "monica": 0.3755
+          "heat": 0.0759,
+          "entropy": 0.2318,
+          "reactivity": 3.3624,
+          "gregsEnergy": -0.7034,
+          "kalchm": 5.7061,
+          "monica": 0.1201
         },
         "substitutions": [
           {
@@ -8757,31 +8757,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26166666666666666,
-          "Water": 0.295,
-          "Earth": 0.23,
-          "Air": 0.21333333333333335
+          "Fire": 0.2885714285714286,
+          "Water": 0.2385714285714286,
+          "Earth": 0.2685714285714286,
+          "Air": 0.20428571428571426
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -8795,18 +8795,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.2,
-          "Essence": 4.13,
-          "Matter": 2.78,
-          "Substance": 2.79
+          "Spirit": 2.45,
+          "Essence": 2.72,
+          "Matter": 2.7,
+          "Substance": 2.52
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.4933,
-          "reactivity": 0.534,
-          "gregsEnergy": 0.2199,
-          "kalchm": 0.3867,
-          "monica": 0.504
+          "heat": 0.0813,
+          "entropy": 0.3552,
+          "reactivity": 2.2619,
+          "gregsEnergy": -0.7221,
+          "kalchm": 0.9105,
+          "monica": -3.4048
         },
         "substitutions": [
           {
@@ -9003,31 +9003,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20249999999999999,
-          "Water": 0.28500000000000003,
-          "Earth": 0.305,
-          "Air": 0.20750000000000002
+          "Fire": 0.23124999999999998,
+          "Water": 0.2999999999999999,
+          "Earth": 0.2683333333333333,
+          "Air": 0.20041666666666672
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 264,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9041,18 +9041,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 9.27,
-          "Essence": 10.83,
-          "Matter": 8.8,
-          "Substance": 7.88
+          "Spirit": 8.94,
+          "Essence": 10.36,
+          "Matter": 8.69,
+          "Substance": 8.08
         },
         "thermodynamicProperties": {
-          "heat": 0.4587,
-          "entropy": 0.461,
-          "reactivity": 0.4925,
-          "gregsEnergy": 0.2317,
-          "kalchm": 0.32,
-          "monica": 0.4887
+          "heat": 0.1028,
+          "entropy": 0.3775,
+          "reactivity": 3.1491,
+          "gregsEnergy": -1.0861,
+          "kalchm": 3405.0134,
+          "monica": 0.0424
         },
         "substitutions": [
           {
@@ -9142,32 +9142,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2571428571428572,
-          "Water": 0.3071428571428571,
-          "Earth": 0.2928571428571428,
-          "Air": 0.14285714285714285
+          "Fire": 0.27499999999999997,
+          "Water": 0.23124999999999996,
+          "Earth": 0.31875,
+          "Air": 0.17499999999999996
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 273,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 243,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -9180,18 +9180,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.28,
-          "Essence": 3.55,
-          "Matter": 3.99,
-          "Substance": 3.95
+          "Spirit": 2.83,
+          "Essence": 2.48,
+          "Matter": 2.94,
+          "Substance": 2.63
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.44,
-          "reactivity": 0.5386,
-          "gregsEnergy": 0.238,
-          "kalchm": 0.2857,
-          "monica": 0.4809
+          "heat": 0.105,
+          "entropy": 0.4218,
+          "reactivity": 1.9997,
+          "gregsEnergy": -0.7384,
+          "kalchm": 0.5962,
+          "monica": -0.714
         },
         "substitutions": [
           {
@@ -9357,32 +9357,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18555555555555558,
-          "Water": 0.32722222222222225,
-          "Earth": 0.2838888888888889,
-          "Air": 0.20333333333333334
+          "Fire": 0.20736842105263162,
+          "Water": 0.30210526315789477,
+          "Earth": 0.3268421052631578,
+          "Air": 0.1636842105263158
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 281,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 271,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -9395,18 +9395,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.15,
-          "Essence": 8.85,
-          "Matter": 9.42,
-          "Substance": 9.04
+          "Spirit": 4.99,
+          "Essence": 7.62,
+          "Matter": 7.79,
+          "Substance": 6.76
         },
         "thermodynamicProperties": {
-          "heat": 0.4292,
-          "entropy": 0.4678,
-          "reactivity": 0.5077,
-          "gregsEnergy": 0.1917,
-          "kalchm": 0.2778,
-          "monica": 0.46
+          "heat": 0.0473,
+          "entropy": 0.2747,
+          "reactivity": 1.9553,
+          "gregsEnergy": -0.4898,
+          "kalchm": 0.0045,
+          "monica": -0.0464
         },
         "substitutions": [
           {
@@ -9548,31 +9548,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2609537916971259,
-          "Water": 0.30564898338935503,
-          "Earth": 0.257518511652635,
-          "Air": 0.175878713260884
+          "Fire": 0.254699447244559,
+          "Water": 0.270809254485527,
+          "Earth": 0.28084690854526567,
+          "Air": 0.19364438972464834
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 272,
+          "sodiumMg": 258,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9586,18 +9586,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.89,
-          "Essence": 6.13,
-          "Matter": 5.97,
-          "Substance": 5.41
+          "Spirit": 4.57,
+          "Essence": 5.82,
+          "Matter": 5.77,
+          "Substance": 5.3
         },
         "thermodynamicProperties": {
-          "heat": 0.4777,
-          "entropy": 0.4673,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.2254,
-          "kalchm": 0.3518,
-          "monica": 0.4957
+          "heat": 0.0674,
+          "entropy": 0.3329,
+          "reactivity": 2.2676,
+          "gregsEnergy": -0.6875,
+          "kalchm": 0.1726,
+          "monica": -0.1726
         },
         "substitutions": [
           {
@@ -9702,31 +9702,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.33999999999999997,
-          "Water": 0.18,
-          "Earth": 0.3,
-          "Air": 0.18
+          "Fire": 0.28125000000000006,
+          "Water": 0.23125,
+          "Earth": 0.29375000000000007,
+          "Air": 0.19375000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 9,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 222,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9740,18 +9740,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.31,
-          "Essence": 3.32,
-          "Matter": 3.86,
-          "Substance": 3.47
+          "Spirit": 3.39,
+          "Essence": 3.65,
+          "Matter": 3.51,
+          "Substance": 3.26
         },
         "thermodynamicProperties": {
-          "heat": 0.58,
-          "entropy": 0.452,
-          "reactivity": 0.512,
-          "gregsEnergy": 0.3486,
-          "kalchm": 0.22,
-          "monica": 0.5054
+          "heat": 0.0933,
+          "entropy": 0.3765,
+          "reactivity": 2.4614,
+          "gregsEnergy": -0.8335,
+          "kalchm": 1.8307,
+          "monica": 0.56
         },
         "substitutions": [
           {
@@ -9810,10 +9810,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.4,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.23333333333333328,
+          "Water": 0.48333333333333334,
+          "Earth": 0.16666666666666663,
+          "Air": 0.11666666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -9830,12 +9830,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
-          "carbsG": 29,
-          "fatG": 7,
+          "proteinG": 8,
+          "carbsG": 24,
+          "fatG": 8,
           "fiberG": 3,
-          "sodiumMg": 310,
-          "sugarG": 7,
+          "sodiumMg": 343,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -9848,18 +9848,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.15,
-          "Essence": 1.35,
-          "Matter": 0.7,
-          "Substance": 0.58
+          "Spirit": 0.56,
+          "Essence": 1,
+          "Matter": 0.78,
+          "Substance": 0.9
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0752,
-          "kalchm": 0.1,
-          "monica": 0.3601
+          "heat": 0.031,
+          "entropy": 0.2018,
+          "reactivity": 2.7062,
+          "gregsEnergy": -0.5152,
+          "kalchm": 0.9646,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -9912,9 +9912,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.5,
-          "Earth": 0.1,
+          "Fire": 0.25,
+          "Water": 0.4,
+          "Earth": 0.15000000000000002,
           "Air": 0.2
         },
         "astrologicalAffinities": {
@@ -9934,9 +9934,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 7,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 3,
-          "sodiumMg": 350,
+          "sodiumMg": 310,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9950,18 +9950,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.6,
-          "Essence": 1.05,
+          "Spirit": 0.77,
+          "Essence": 1.53,
           "Matter": 0.5,
           "Substance": 0.4
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.0152,
-          "kalchm": 0,
-          "monica": 0.3061
+          "heat": 0.0648,
+          "entropy": 0.1285,
+          "reactivity": 7.9439,
+          "gregsEnergy": -0.956,
+          "kalchm": 3.1979,
+          "monica": 0.1035
         },
         "substitutions": [
           {
@@ -10065,31 +10065,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20256146358354818,
-          "Water": 0.2952673521603632,
-          "Earth": 0.2853379535223731,
-          "Air": 0.21683323073371552
+          "Fire": 0.2270491708668385,
+          "Water": 0.27121388172829053,
+          "Earth": 0.29027036281789853,
+          "Air": 0.2114665845869724
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 258,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -10103,18 +10103,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.28,
-          "Essence": 3.61,
-          "Matter": 3.71,
-          "Substance": 3.35
+          "Spirit": 2.92,
+          "Essence": 3.72,
+          "Matter": 3.48,
+          "Substance": 3.03
         },
         "thermodynamicProperties": {
-          "heat": 0.4536,
-          "entropy": 0.4726,
-          "reactivity": 0.4987,
-          "gregsEnergy": 0.2179,
-          "kalchm": 0.3388,
-          "monica": 0.4888
+          "heat": 0.0709,
+          "entropy": 0.2955,
+          "reactivity": 2.2311,
+          "gregsEnergy": -0.5885,
+          "kalchm": 1.3736,
+          "monica": 0.831
         },
         "substitutions": [
           {
@@ -10169,32 +10169,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.3,
+          "Water": 0.45,
+          "Earth": 0.05,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 6,
+          "carbsG": 26,
+          "fatG": 9,
+          "fiberG": 2,
+          "sodiumMg": 330,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -10207,18 +10207,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
-          "Essence": 0.6,
-          "Matter": 0.5,
-          "Substance": 0.4
+          "Spirit": 0.51,
+          "Essence": 0.66,
+          "Matter": 0.42,
+          "Substance": 0.44
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.071,
+          "entropy": 0.2338,
+          "reactivity": 5.531,
+          "gregsEnergy": -1.2222,
+          "kalchm": 1.114,
+          "monica": 2.0469
         },
         "substitutions": [
           {
@@ -10348,10 +10348,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23333333333333334,
-          "Water": 0.25,
-          "Earth": 0.33888888888888885,
-          "Air": 0.17777777777777778
+          "Fire": 0.2107142857142857,
+          "Water": 0.29642857142857143,
+          "Earth": 0.30357142857142855,
+          "Air": 0.18928571428571428
         },
         "astrologicalAffinities": {
           "planets": [
@@ -10369,10 +10369,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 250,
+          "fiberG": 4,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -10386,18 +10386,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.52,
-          "Essence": 5.82,
-          "Matter": 5.7,
-          "Substance": 4.94
+          "Spirit": 4.2,
+          "Essence": 5.73,
+          "Matter": 5.94,
+          "Substance": 5.54
         },
         "thermodynamicProperties": {
-          "heat": 0.4917,
-          "entropy": 0.4356,
-          "reactivity": 0.49,
-          "gregsEnergy": 0.2783,
-          "kalchm": 0.3222,
-          "monica": 0.508
+          "heat": 0.0546,
+          "entropy": 0.3216,
+          "reactivity": 2.0864,
+          "gregsEnergy": -0.6163,
+          "kalchm": 0.0176,
+          "monica": -0.0731
         },
         "substitutions": [
           {
@@ -10532,31 +10532,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20555555555555557,
-          "Water": 0.3388888888888889,
-          "Earth": 0.23888888888888887,
-          "Air": 0.21666666666666667
+          "Fire": 0.24615384615384614,
+          "Water": 0.2538461538461539,
+          "Earth": 0.28846153846153844,
+          "Air": 0.2115384615384615
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 286,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -10570,18 +10570,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.84,
-          "Essence": 6.27,
-          "Matter": 5.59,
-          "Substance": 4.61
+          "Spirit": 4.23,
+          "Essence": 4.93,
+          "Matter": 5.05,
+          "Substance": 4.58
         },
         "thermodynamicProperties": {
-          "heat": 0.4333,
-          "entropy": 0.4911,
-          "reactivity": 0.5267,
-          "gregsEnergy": 0.1746,
-          "kalchm": 0.3222,
-          "monica": 0.4665
+          "heat": 0.0766,
+          "entropy": 0.352,
+          "reactivity": 2.2227,
+          "gregsEnergy": -0.7059,
+          "kalchm": 0.3067,
+          "monica": -0.2687
         },
         "substitutions": [
           {
@@ -10696,32 +10696,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.18909090909090906,
+          "Water": 0.28363636363636363,
+          "Earth": 0.3481818181818182,
+          "Air": 0.17909090909090908
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 263,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -10734,18 +10734,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.44,
-          "Essence": 3.69,
-          "Matter": 3.83,
-          "Substance": 3.29
+          "Spirit": 2.55,
+          "Essence": 3.75,
+          "Matter": 4.66,
+          "Substance": 4.05
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0371,
+          "entropy": 0.281,
+          "reactivity": 1.4798,
+          "gregsEnergy": -0.3787,
+          "kalchm": 0.0041,
+          "monica": -0.0466
         },
         "substitutions": [
           {
@@ -10844,32 +10844,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.475,
-          "Earth": 0.27499999999999997,
-          "Air": 0.125
+          "Fire": 0.1285714285714286,
+          "Water": 0.3,
+          "Earth": 0.39999999999999997,
+          "Air": 0.17142857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 340,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 270,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -10882,18 +10882,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.54,
-          "Essence": 2.69,
-          "Matter": 3.23,
-          "Substance": 2.79
+          "Spirit": 1.36,
+          "Essence": 2.32,
+          "Matter": 3.17,
+          "Substance": 2.64
         },
         "thermodynamicProperties": {
-          "heat": 0.325,
-          "entropy": 0.44,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0786,
-          "kalchm": 0,
-          "monica": 0.3314
+          "heat": 0.023,
+          "entropy": 0.2314,
+          "reactivity": 1.125,
+          "gregsEnergy": -0.2372,
+          "kalchm": 0.0213,
+          "monica": -0.0548
         },
         "substitutions": [
           {
@@ -10984,31 +10984,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.15714285714285717,
+          "Water": 0.3214285714285714,
+          "Earth": 0.3714285714285715,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 279,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -11022,18 +11022,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.44,
-          "Essence": 2.49,
-          "Matter": 2.83,
-          "Substance": 2.49
+          "Spirit": 1.17,
+          "Essence": 2.13,
+          "Matter": 2.82,
+          "Substance": 2.42
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0207,
+          "entropy": 0.2284,
+          "reactivity": 1.1696,
+          "gregsEnergy": -0.2465,
+          "kalchm": 0.0381,
+          "monica": -0.0645
         },
         "substitutions": [
           {
@@ -11143,32 +11143,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.4,
-          "Earth": 0.27999999999999997,
-          "Air": 0.13
+          "Fire": 0.20000000000000004,
+          "Water": 0.225,
+          "Earth": 0.385,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 240,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -11181,18 +11181,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.59,
-          "Essence": 3.54,
-          "Matter": 3.93,
-          "Substance": 3.39
+          "Spirit": 2.47,
+          "Essence": 2.92,
+          "Matter": 3.94,
+          "Substance": 3.3
         },
         "thermodynamicProperties": {
-          "heat": 0.395,
-          "entropy": 0.44,
-          "reactivity": 0.554,
-          "gregsEnergy": 0.1512,
-          "kalchm": 0.14,
-          "monica": 0.4025
+          "heat": 0.0511,
+          "entropy": 0.3059,
+          "reactivity": 1.3709,
+          "gregsEnergy": -0.3682,
+          "kalchm": 0.0187,
+          "monica": -0.0675
         },
         "substitutions": [
           {
@@ -11290,31 +11290,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.15000000000000002,
+          "Water": 0.31250000000000006,
+          "Earth": 0.38125,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 275,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -11328,18 +11328,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.69,
-          "Essence": 2.79,
-          "Matter": 3.08,
-          "Substance": 2.69
+          "Spirit": 1.31,
+          "Essence": 2.32,
+          "Matter": 3.22,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0208,
+          "entropy": 0.24,
+          "reactivity": 1.1416,
+          "gregsEnergy": -0.2532,
+          "kalchm": 0.0144,
+          "monica": -0.0523
         },
         "substitutions": [
           {
@@ -11424,10 +11424,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.16666666666666666,
+          "Water": 0.35000000000000003,
+          "Earth": 0.3416666666666666,
+          "Air": 0.1416666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -11444,11 +11444,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -11462,18 +11462,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 2.19,
-          "Matter": 2.58,
-          "Substance": 2.29
+          "Spirit": 1.03,
+          "Essence": 1.98,
+          "Matter": 2.4,
+          "Substance": 2.08
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0205,
+          "entropy": 0.2113,
+          "reactivity": 1.2609,
+          "gregsEnergy": -0.246,
+          "kalchm": 0.1063,
+          "monica": -0.087
         },
         "substitutions": [
           {
@@ -11584,10 +11584,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.203,
-          "Water": 0.30500000000000005,
-          "Earth": 0.3330000000000001,
-          "Air": 0.15900000000000003
+          "Fire": 0.22999999999999998,
+          "Water": 0.23500000000000001,
+          "Earth": 0.37500000000000006,
+          "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
@@ -11604,11 +11604,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 272,
+          "sodiumMg": 244,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -11622,18 +11622,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.4,
-          "Essence": 4.51,
-          "Matter": 4.9,
-          "Substance": 4.9
+          "Spirit": 3.69,
+          "Essence": 4.47,
+          "Matter": 4.88,
+          "Substance": 4.23
         },
         "thermodynamicProperties": {
-          "heat": 0.449,
-          "entropy": 0.4304,
-          "reactivity": 0.5048,
-          "gregsEnergy": 0.2317,
-          "kalchm": 0.224,
-          "monica": 0.4599
+          "heat": 0.0664,
+          "entropy": 0.3184,
+          "reactivity": 1.8694,
+          "gregsEnergy": -0.5289,
+          "kalchm": 0.0978,
+          "monica": -0.1217
         },
         "substitutions": [
           {
@@ -11711,10 +11711,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.25000000000000006,
-          "Earth": 0.35,
-          "Air": 0.19999999999999998
+          "Fire": 0.24166666666666667,
+          "Water": 0.23333333333333328,
+          "Earth": 0.36666666666666664,
+          "Air": 0.1583333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -11731,12 +11731,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 250,
-          "sugarG": 5,
+          "sodiumMg": 243,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -11749,18 +11749,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.28,
-          "Essence": 1.8,
-          "Matter": 2.45,
-          "Substance": 2.58
+          "Spirit": 1.52,
+          "Essence": 2.11,
+          "Matter": 2.68,
+          "Substance": 2.48
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.44,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.2682,
-          "kalchm": 0.3,
-          "monica": 0.4973
+          "heat": 0.0368,
+          "entropy": 0.2941,
+          "reactivity": 1.406,
+          "gregsEnergy": -0.3768,
+          "kalchm": 0.0684,
+          "monica": -0.0999
         },
         "substitutions": [
           {
@@ -11887,31 +11887,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.33999999999999997,
-          "Earth": 0.3275,
-          "Air": 0.2075
+          "Fire": 0.22384615384615383,
+          "Water": 0.2838461538461538,
+          "Earth": 0.3092307692307692,
+          "Air": 0.18307692307692308
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 286,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 264,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -11925,18 +11925,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.43,
-          "Essence": 4.99,
-          "Matter": 4.84,
-          "Substance": 4.2
+          "Spirit": 2.72,
+          "Essence": 3.5,
+          "Matter": 4.28,
+          "Substance": 4.05
         },
         "thermodynamicProperties": {
-          "heat": 0.3925,
-          "entropy": 0.452,
-          "reactivity": 0.479,
-          "gregsEnergy": 0.176,
-          "kalchm": 0.165,
-          "monica": 0.4199
+          "heat": 0.0469,
+          "entropy": 0.3407,
+          "reactivity": 1.7195,
+          "gregsEnergy": -0.5389,
+          "kalchm": 0.0084,
+          "monica": -0.0656
         },
         "substitutions": [
           {
@@ -12048,10 +12048,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.275,
-          "Earth": 0.35,
-          "Air": 0.19999999999999998
+          "Fire": 0.2418181818181818,
+          "Water": 0.22454545454545452,
+          "Earth": 0.31818181818181823,
+          "Air": 0.2154545454545455
         },
         "astrologicalAffinities": {
           "planets": [
@@ -12070,9 +12070,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 260,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -12086,18 +12086,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.41,
-          "Essence": 3.11,
-          "Matter": 3.63,
-          "Substance": 3.24
+          "Spirit": 2.79,
+          "Essence": 3.16,
+          "Matter": 3.25,
+          "Substance": 3.25
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.44,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.2432,
-          "kalchm": 0.25,
-          "monica": 0.4723
+          "heat": 0.0723,
+          "entropy": 0.3817,
+          "reactivity": 2.2375,
+          "gregsEnergy": -0.7818,
+          "kalchm": 0.3126,
+          "monica": -0.3005
         },
         "substitutions": [
           {
@@ -12197,10 +12197,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12,
-          "Water": 0.24,
-          "Earth": 0.4499999999999999,
-          "Air": 0.18999999999999997
+          "Fire": 0.17666666666666664,
+          "Water": 0.2877777777777778,
+          "Earth": 0.3866666666666667,
+          "Air": 0.14888888888888888
         },
         "astrologicalAffinities": {
           "planets": [
@@ -12217,12 +12217,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 12,
-          "carbsG": 26,
-          "fatG": 6,
-          "fiberG": 6,
-          "sodiumMg": 246,
-          "sugarG": 5,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 265,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -12235,18 +12235,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.67,
-          "Essence": 2.36,
-          "Matter": 3.82,
-          "Substance": 3.14
+          "Spirit": 1.92,
+          "Essence": 2.84,
+          "Matter": 3.71,
+          "Substance": 3.47
         },
         "thermodynamicProperties": {
-          "heat": 0.44,
-          "entropy": 0.396,
-          "reactivity": 0.416,
-          "gregsEnergy": 0.2753,
-          "kalchm": 0.1,
-          "monica": 0.4401
+          "heat": 0.0316,
+          "entropy": 0.3024,
+          "reactivity": 1.4258,
+          "gregsEnergy": -0.3995,
+          "kalchm": 0.007,
+          "monica": -0.0565
         },
         "substitutions": [
           {
@@ -12347,10 +12347,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.23571428571428568,
-          "Earth": 0.44285714285714284,
-          "Air": 0.17142857142857143
+          "Fire": 0.17111111111111107,
+          "Water": 0.26,
+          "Earth": 0.4144444444444444,
+          "Air": 0.15444444444444444
         },
         "astrologicalAffinities": {
           "planets": [
@@ -12367,12 +12367,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 12,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 244,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 254,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -12385,18 +12385,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.69,
-          "Essence": 2.54,
-          "Matter": 3.89,
-          "Substance": 3.42
+          "Spirit": 2.09,
+          "Essence": 3.08,
+          "Matter": 4.2,
+          "Substance": 3.88
         },
         "thermodynamicProperties": {
-          "heat": 0.4571,
-          "entropy": 0.3914,
-          "reactivity": 0.4314,
-          "gregsEnergy": 0.2883,
-          "kalchm": 0.1143,
-          "monica": 0.4496
+          "heat": 0.0306,
+          "entropy": 0.3078,
+          "reactivity": 1.3633,
+          "gregsEnergy": -0.389,
+          "kalchm": 0.0019,
+          "monica": -0.0455
         },
         "substitutions": [
           {
@@ -12479,31 +12479,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22000000000000006,
-          "Water": 0.33666666666666667,
-          "Earth": 0.22166666666666668,
-          "Air": 0.22166666666666668
+          "Fire": 0.31714285714285717,
+          "Water": 0.19571428571428573,
+          "Earth": 0.29714285714285715,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 285,
+          "sodiumMg": 228,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -12517,18 +12517,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.8,
-          "Essence": 3.49,
-          "Matter": 2.89,
-          "Substance": 2.69
+          "Spirit": 2.85,
+          "Essence": 2.85,
+          "Matter": 2.5,
+          "Substance": 2.29
         },
         "thermodynamicProperties": {
-          "heat": 0.4417,
-          "entropy": 0.5,
-          "reactivity": 0.534,
-          "gregsEnergy": 0.1747,
-          "kalchm": 0.3267,
-          "monica": 0.4679
+          "heat": 0.1187,
+          "entropy": 0.3955,
+          "reactivity": 2.7689,
+          "gregsEnergy": -0.9765,
+          "kalchm": 5.9394,
+          "monica": 0.1979
         },
         "substitutions": [
           {
@@ -12638,10 +12638,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.317,
-          "Water": 0.267,
-          "Earth": 0.22799999999999998,
-          "Air": 0.18799999999999997
+          "Fire": 0.3018181818181818,
+          "Water": 0.22,
+          "Earth": 0.27090909090909093,
+          "Air": 0.2072727272727273
         },
         "astrologicalAffinities": {
           "planets": [
@@ -12658,11 +12658,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 257,
+          "sodiumMg": 238,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -12676,18 +12676,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.35,
-          "Essence": 4.51,
-          "Matter": 4.89,
-          "Substance": 4.68
+          "Spirit": 3.91,
+          "Essence": 4.03,
+          "Matter": 3.72,
+          "Substance": 3.33
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.484,
-          "reactivity": 0.5504,
-          "gregsEnergy": 0.2586,
-          "kalchm": 0.332,
-          "monica": 0.503
+          "heat": 0.1109,
+          "entropy": 0.3904,
+          "reactivity": 2.6872,
+          "gregsEnergy": -0.9382,
+          "kalchm": 7.8096,
+          "monica": 0.1699
         },
         "substitutions": [
           {
@@ -12771,32 +12771,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20833333333333334,
-          "Water": 0.31666666666666665,
-          "Earth": 0.23333333333333328,
-          "Air": 0.2416666666666666
+          "Fire": 0.2857142857142857,
+          "Water": 0.25,
+          "Earth": 0.2928571428571428,
+          "Air": 0.17142857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 277,
-          "sugarG": 6,
+          "sodiumMg": 250,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -12809,18 +12809,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.61,
-          "Essence": 2.98,
-          "Matter": 2.75,
-          "Substance": 2.75
+          "Spirit": 2.56,
+          "Essence": 2.6,
+          "Matter": 2.5,
+          "Substance": 2.41
         },
         "thermodynamicProperties": {
-          "heat": 0.4458,
-          "entropy": 0.5033,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.1866,
-          "kalchm": 0.3667,
-          "monica": 0.4847
+          "heat": 0.0981,
+          "entropy": 0.3917,
+          "reactivity": 2.4737,
+          "gregsEnergy": -0.8709,
+          "kalchm": 1.6163,
+          "monica": 0.7332
         },
         "substitutions": [
           {
@@ -12923,10 +12923,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18142857142857144,
-          "Water": 0.3814285714285714,
-          "Earth": 0.22285714285714286,
-          "Air": 0.21428571428571427
+          "Fire": 0.197,
+          "Water": 0.337,
+          "Earth": 0.29100000000000004,
+          "Air": 0.17500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -12943,11 +12943,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 303,
+          "sodiumMg": 285,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -12961,18 +12961,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.4,
-          "Essence": 4.46,
-          "Matter": 3.69,
-          "Substance": 3.31
+          "Spirit": 2.34,
+          "Essence": 3.34,
+          "Matter": 3.64,
+          "Substance": 3.27
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.4966,
-          "reactivity": 0.5377,
-          "gregsEnergy": 0.133,
-          "kalchm": 0.2371,
-          "monica": 0.4243
+          "heat": 0.0451,
+          "entropy": 0.2805,
+          "reactivity": 1.7801,
+          "gregsEnergy": -0.4542,
+          "kalchm": 0.0773,
+          "monica": -0.0997
         },
         "substitutions": [
           {
@@ -13075,10 +13075,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2916666666666667,
-          "Water": 0.27499999999999997,
-          "Earth": 0.2416666666666667,
-          "Air": 0.19166666666666668
+          "Fire": 0.35499999999999987,
+          "Water": 0.175,
+          "Earth": 0.22999999999999998,
+          "Air": 0.24000000000000005
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13095,12 +13095,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 8,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 260,
-          "sugarG": 5,
+          "sodiumMg": 220,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -13113,18 +13113,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.07,
-          "Essence": 3.91,
-          "Matter": 3.62,
-          "Substance": 3.35
+          "Spirit": 3.8,
+          "Essence": 3.2,
+          "Matter": 2.82,
+          "Substance": 2.76
         },
         "thermodynamicProperties": {
-          "heat": 0.5083,
-          "entropy": 0.48,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.2491,
-          "kalchm": 0.3667,
-          "monica": 0.5096
+          "heat": 0.164,
+          "entropy": 0.5388,
+          "reactivity": 3.495,
+          "gregsEnergy": -1.719,
+          "kalchm": 21.5301,
+          "monica": 0.1602
         },
         "substitutions": [
           {
@@ -13201,32 +13201,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.3333333333333333,
-          "Earth": 0.16666666666666666,
-          "Air": 0.2333333333333333
+          "Fire": 0.31666666666666665,
+          "Water": 0.2333333333333333,
+          "Earth": 0.225,
+          "Air": 0.225
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
           "carbsG": 27,
-          "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 283,
-          "sugarG": 6,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 243,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -13239,18 +13239,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.2,
-          "Essence": 3.08,
-          "Matter": 1.8,
-          "Substance": 1.53
+          "Spirit": 1.86,
+          "Essence": 2.38,
+          "Matter": 2.02,
+          "Substance": 2.01
         },
         "thermodynamicProperties": {
-          "heat": 0.4667,
-          "entropy": 0.5267,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1717,
-          "kalchm": 0.3,
-          "monica": 0.4587
+          "heat": 0.0708,
+          "entropy": 0.3241,
+          "reactivity": 2.6527,
+          "gregsEnergy": -0.7891,
+          "kalchm": 1.4836,
+          "monica": 0.7541
         },
         "substitutions": [
           {
@@ -13329,10 +13329,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32999999999999996,
-          "Water": 0.2675,
-          "Earth": 0.17,
-          "Air": 0.23249999999999998
+          "Fire": 0.3366666666666666,
+          "Water": 0.2283333333333333,
+          "Earth": 0.22166666666666665,
+          "Air": 0.21333333333333332
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13350,10 +13350,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 257,
+          "fiberG": 4,
+          "sodiumMg": 241,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -13367,18 +13367,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.5,
-          "Essence": 2.58,
-          "Matter": 2.27,
-          "Substance": 2.22
+          "Spirit": 2.27,
+          "Essence": 2.42,
+          "Matter": 1.85,
+          "Substance": 1.78
         },
         "thermodynamicProperties": {
-          "heat": 0.5313,
-          "entropy": 0.525,
-          "reactivity": 0.5585,
-          "gregsEnergy": 0.2381,
-          "kalchm": 0.305,
-          "monica": 0.4867
+          "heat": 0.1168,
+          "entropy": 0.3806,
+          "reactivity": 3.3526,
+          "gregsEnergy": -1.1593,
+          "kalchm": 6.2661,
+          "monica": 0.1884
         },
         "substitutions": [
           {
@@ -13469,10 +13469,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.304,
-          "Water": 0.23400000000000004,
-          "Earth": 0.196,
-          "Air": 0.26599999999999996
+          "Fire": 0.32428571428571434,
+          "Water": 0.20285714285714285,
+          "Earth": 0.24714285714285714,
+          "Air": 0.22571428571428573
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13489,12 +13489,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 28,
+          "proteinG": 9,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 244,
-          "sugarG": 6,
+          "sodiumMg": 231,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -13507,18 +13507,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.41,
-          "Essence": 3.57,
-          "Matter": 2.68,
-          "Substance": 2.55
+          "Spirit": 2.83,
+          "Essence": 2.88,
+          "Matter": 2.54,
+          "Substance": 2.45
         },
         "thermodynamicProperties": {
-          "heat": 0.535,
-          "entropy": 0.528,
-          "reactivity": 0.5228,
-          "gregsEnergy": 0.259,
-          "kalchm": 0.36,
-          "monica": 0.5116
+          "heat": 0.1111,
+          "entropy": 0.4112,
+          "reactivity": 2.8968,
+          "gregsEnergy": -1.08,
+          "kalchm": 4.1675,
+          "monica": 0.2612
         },
         "substitutions": [
           {
@@ -13591,31 +13591,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.4,
-          "Water": 0.15000000000000002,
-          "Earth": 0.25,
-          "Air": 0.2
+          "Fire": 0.26399999999999996,
+          "Water": 0.20799999999999996,
+          "Earth": 0.33599999999999997,
+          "Air": 0.19199999999999995
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 10,
-          "fiberG": 4,
-          "sodiumMg": 210,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 233,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -13629,18 +13629,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.85,
-          "Essence": 1.85,
-          "Matter": 1.53,
-          "Substance": 1.37
+          "Spirit": 1.27,
+          "Essence": 1.53,
+          "Matter": 1.82,
+          "Substance": 1.68
         },
         "thermodynamicProperties": {
-          "heat": 0.625,
-          "entropy": 0.48,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.3706,
-          "kalchm": 0.2,
-          "monica": 0.5082
+          "heat": 0.0506,
+          "entropy": 0.2995,
+          "reactivity": 1.49,
+          "gregsEnergy": -0.3957,
+          "kalchm": 0.3652,
+          "monica": -0.2636
         },
         "substitutions": [
           {
@@ -13694,9 +13694,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.15,
-          "Earth": 0.5,
+          "Fire": 0.2,
+          "Water": 0.3,
+          "Earth": 0.4,
           "Air": 0.1
         },
         "astrologicalAffinities": {
@@ -13714,11 +13714,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 13,
+          "proteinG": 11,
           "carbsG": 23,
-          "fatG": 8,
-          "fiberG": 6,
-          "sodiumMg": 210,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 270,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -13732,18 +13732,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.4,
-          "Essence": 0.8,
-          "Matter": 1.03,
-          "Substance": 0.8
+          "Spirit": 0.45,
+          "Essence": 0.9,
+          "Matter": 0.95,
+          "Substance": 0.85
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.34,
-          "reactivity": 0.44,
-          "gregsEnergy": 0.4004,
-          "kalchm": 0,
-          "monica": 0.4602
+          "heat": 0.0198,
+          "entropy": 0.1499,
+          "reactivity": 1.0288,
+          "gregsEnergy": -0.1345,
+          "kalchm": 0.7655,
+          "monica": -0.4891
         },
         "substitutions": [
           {
@@ -13798,9 +13798,9 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.275,
-          "Water": 0.125,
-          "Earth": 0.45,
-          "Air": 0.15000000000000002
+          "Water": 0.2,
+          "Earth": 0.30000000000000004,
+          "Air": 0.22499999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13817,12 +13817,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 12,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 27,
           "fatG": 8,
-          "fiberG": 6,
-          "sodiumMg": 200,
-          "sugarG": 4,
+          "fiberG": 4,
+          "sodiumMg": 230,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -13835,18 +13835,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.8,
-          "Essence": 0.78,
-          "Matter": 0.98,
-          "Substance": 0.82
+          "Spirit": 0.55,
+          "Essence": 0.82,
+          "Matter": 0.87,
+          "Substance": 0.83
         },
         "thermodynamicProperties": {
-          "heat": 0.575,
-          "entropy": 0.38,
-          "reactivity": 0.44,
-          "gregsEnergy": 0.4078,
-          "kalchm": 0.05,
-          "monica": 0.4781
+          "heat": 0.0359,
+          "entropy": 0.233,
+          "reactivity": 1.3369,
+          "gregsEnergy": -0.2756,
+          "kalchm": 0.806,
+          "monica": -0.956
         },
         "substitutions": [
           {
@@ -13944,31 +13944,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3083333333333333,
-          "Water": 0.26666666666666666,
-          "Earth": 0.26666666666666666,
-          "Air": 0.15833333333333333
+          "Fire": 0.27777777777777773,
+          "Water": 0.2833333333333333,
+          "Earth": 0.2833333333333333,
+          "Air": 0.15555555555555553
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 257,
+          "sodiumMg": 263,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -13982,18 +13982,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.4,
-          "Essence": 3.53,
-          "Matter": 3.69,
-          "Substance": 3.29
+          "Spirit": 2.83,
+          "Essence": 3.4,
+          "Matter": 3.4,
+          "Substance": 2.96
         },
         "thermodynamicProperties": {
-          "heat": 0.5208,
-          "entropy": 0.4567,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.2719,
-          "kalchm": 0.3167,
-          "monica": 0.5038
+          "heat": 0.0736,
+          "entropy": 0.3109,
+          "reactivity": 2.1016,
+          "gregsEnergy": -0.5798,
+          "kalchm": 0.7648,
+          "monica": -1.0289
         },
         "substitutions": [
           {
@@ -14075,31 +14075,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12666666666666665,
-          "Water": 0.4666666666666666,
-          "Earth": 0.25999999999999995,
-          "Air": 0.14666666666666667
+          "Fire": 0.15833333333333333,
+          "Water": 0.26666666666666666,
+          "Earth": 0.44999999999999996,
+          "Air": 0.125
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 12,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 337,
+          "fiberG": 6,
+          "sodiumMg": 257,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -14113,18 +14113,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.14,
-          "Essence": 1.94,
-          "Matter": 2.67,
-          "Substance": 2.5
+          "Spirit": 0.9,
+          "Essence": 1.63,
+          "Matter": 2.7,
+          "Substance": 2.35
         },
         "thermodynamicProperties": {
-          "heat": 0.33,
-          "entropy": 0.4547,
-          "reactivity": 0.556,
-          "gregsEnergy": 0.0772,
-          "kalchm": 0.0467,
-          "monica": 0.3449
+          "heat": 0.0148,
+          "entropy": 0.2502,
+          "reactivity": 0.9172,
+          "gregsEnergy": -0.2148,
+          "kalchm": 0.0185,
+          "monica": -0.0587
         },
         "substitutions": [
           {
@@ -14232,32 +14232,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19999999999999998,
-          "Water": 0.41250000000000003,
-          "Earth": 0.21875,
-          "Air": 0.16874999999999998
+          "Fire": 0.31727272727272726,
+          "Water": 0.3163636363636364,
+          "Earth": 0.21545454545454543,
+          "Air": 0.1509090909090909
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 315,
-          "sugarG": 5,
+          "sodiumMg": 277,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -14270,18 +14270,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.27,
-          "Essence": 4.51,
-          "Matter": 3.92,
-          "Substance": 3.61
+          "Spirit": 3.25,
+          "Essence": 3.85,
+          "Matter": 3.04,
+          "Substance": 2.87
         },
         "thermodynamicProperties": {
-          "heat": 0.3937,
-          "entropy": 0.48,
-          "reactivity": 0.5675,
-          "gregsEnergy": 0.1213,
-          "kalchm": 0.175,
-          "monica": 0.401
+          "heat": 0.0978,
+          "entropy": 0.3435,
+          "reactivity": 3.1936,
+          "gregsEnergy": -0.9993,
+          "kalchm": 13.6643,
+          "monica": 0.1197
         },
         "substitutions": [
           {
@@ -14379,31 +14379,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.15000000000000002,
+          "Water": 0.31250000000000006,
+          "Earth": 0.38125,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 275,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -14417,18 +14417,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.69,
-          "Essence": 2.79,
-          "Matter": 3.08,
-          "Substance": 2.69
+          "Spirit": 1.31,
+          "Essence": 2.32,
+          "Matter": 3.22,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0208,
+          "entropy": 0.24,
+          "reactivity": 1.1416,
+          "gregsEnergy": -0.2532,
+          "kalchm": 0.0144,
+          "monica": -0.0523
         },
         "substitutions": [
           {
@@ -14519,31 +14519,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12666666666666668,
-          "Water": 0.3666666666666667,
-          "Earth": 0.32666666666666666,
-          "Air": 0.18000000000000002
+          "Fire": 0.23857142857142857,
+          "Water": 0.21142857142857144,
+          "Earth": 0.36714285714285716,
+          "Air": 0.18285714285714283
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 297,
+          "sodiumMg": 235,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -14557,18 +14557,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.4,
-          "Essence": 2.18,
-          "Matter": 2.88,
-          "Substance": 2.65
+          "Spirit": 1.47,
+          "Essence": 1.45,
+          "Matter": 2.24,
+          "Substance": 2.17
         },
         "thermodynamicProperties": {
-          "heat": 0.38,
-          "entropy": 0.4413,
-          "reactivity": 0.496,
-          "gregsEnergy": 0.1611,
-          "kalchm": 0.1133,
-          "monica": 0.3984
+          "heat": 0.0506,
+          "entropy": 0.382,
+          "reactivity": 1.3399,
+          "gregsEnergy": -0.4612,
+          "kalchm": 0.0923,
+          "monica": -0.1445
         },
         "substitutions": [
           {
@@ -14621,32 +14621,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.22499999999999998,
+          "Water": 0.375,
+          "Earth": 0.2,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 28,
+          "proteinG": 8,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "sodiumMg": 300,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -14659,18 +14659,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
-          "Essence": 0.6,
-          "Matter": 0.5,
-          "Substance": 0.4
+          "Spirit": 0.43,
+          "Essence": 0.59,
+          "Matter": 0.51,
+          "Substance": 0.54
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0404,
+          "entropy": 0.2021,
+          "reactivity": 2.0945,
+          "gregsEnergy": -0.383,
+          "kalchm": 1.0019,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -14724,31 +14724,31 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Water": 0.4,
+          "Earth": 0.175,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 28,
+          "proteinG": 8,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "fiberG": 3,
+          "sodiumMg": 310,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -14761,18 +14761,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
-          "Essence": 0.6,
-          "Matter": 0.5,
-          "Substance": 0.4
+          "Spirit": 0.44,
+          "Essence": 0.62,
+          "Matter": 0.48,
+          "Substance": 0.55
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0445,
+          "entropy": 0.21,
+          "reactivity": 2.6423,
+          "gregsEnergy": -0.5105,
+          "kalchm": 1.0238,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -14831,10 +14831,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.45,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.3,
+          "Water": 0.4166666666666667,
+          "Earth": 0.11666666666666668,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -14852,10 +14852,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 8,
+          "carbsG": 25,
+          "fatG": 9,
           "fiberG": 3,
-          "sodiumMg": 330,
+          "sodiumMg": 317,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -14869,18 +14869,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.48,
-          "Essence": 1.87,
-          "Matter": 0.73,
-          "Substance": 0.57
+          "Spirit": 0.74,
+          "Essence": 0.99,
+          "Matter": 0.62,
+          "Substance": 0.77
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.0652,
-          "kalchm": 0.1,
-          "monica": 0.3561
+          "heat": 0.0672,
+          "entropy": 0.2739,
+          "reactivity": 4.4446,
+          "gregsEnergy": -1.1502,
+          "kalchm": 1.3033,
+          "monica": 0.9769
         },
         "substitutions": [
           {
@@ -15062,10 +15062,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23214285714285715,
-          "Water": 0.3464285714285714,
-          "Earth": 0.21428571428571433,
-          "Air": 0.2071428571428572
+          "Fire": 0.23478260869565215,
+          "Water": 0.28695652173913044,
+          "Earth": 0.2726086956521739,
+          "Air": 0.2056521739130435
         },
         "astrologicalAffinities": {
           "planets": [
@@ -15082,11 +15082,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 289,
+          "sodiumMg": 265,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -15100,18 +15100,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.39,
-          "Essence": 8.98,
-          "Matter": 7.68,
-          "Substance": 7.07
+          "Spirit": 6.38,
+          "Essence": 7.44,
+          "Matter": 7.21,
+          "Substance": 6.91
         },
         "thermodynamicProperties": {
-          "heat": 0.4429,
-          "entropy": 0.4971,
-          "reactivity": 0.5471,
-          "gregsEnergy": 0.1709,
-          "kalchm": 0.3071,
-          "monica": 0.4605
+          "heat": 0.0818,
+          "entropy": 0.3828,
+          "reactivity": 2.5717,
+          "gregsEnergy": -0.9026,
+          "kalchm": 0.4293,
+          "monica": -0.4151
         },
         "substitutions": [
           {
@@ -15241,10 +15241,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.35624999999999996,
-          "Water": 0.2625,
-          "Earth": 0.20000000000000004,
-          "Air": 0.18124999999999997
+          "Fire": 0.3192307692307692,
+          "Water": 0.23461538461538464,
+          "Earth": 0.2961538461538462,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -15261,12 +15261,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 255,
-          "sugarG": 5,
+          "sodiumMg": 244,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -15279,18 +15279,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.45,
-          "Essence": 5.46,
-          "Matter": 5.49,
-          "Substance": 5.18
+          "Spirit": 5.19,
+          "Essence": 5.43,
+          "Matter": 5.42,
+          "Substance": 5.24
         },
         "thermodynamicProperties": {
-          "heat": 0.5469,
-          "entropy": 0.4925,
-          "reactivity": 0.5712,
-          "gregsEnergy": 0.2656,
-          "kalchm": 0.2625,
-          "monica": 0.485
+          "heat": 0.0961,
+          "entropy": 0.4209,
+          "reactivity": 2.5726,
+          "gregsEnergy": -0.9867,
+          "kalchm": 0.8997,
+          "monica": -3.6289
         },
         "substitutions": [
           {
@@ -15426,32 +15426,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3111111111111111,
-          "Water": 0.2611111111111112,
-          "Earth": 0.22777777777777775,
-          "Air": 0.19999999999999998
+          "Fire": 0.2733333333333333,
+          "Water": 0.24333333333333337,
+          "Earth": 0.32,
+          "Air": 0.1633333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
-          "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 254,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 247,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -15464,18 +15464,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.85,
-          "Essence": 6.23,
-          "Matter": 5.85,
-          "Substance": 5.45
+          "Spirit": 4.71,
+          "Essence": 5.1,
+          "Matter": 5.84,
+          "Substance": 5.43
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.4889,
-          "reactivity": 0.5433,
-          "gregsEnergy": 0.2594,
-          "kalchm": 0.3556,
-          "monica": 0.5104
+          "heat": 0.0762,
+          "entropy": 0.3912,
+          "reactivity": 2.0513,
+          "gregsEnergy": -0.7264,
+          "kalchm": 0.0205,
+          "monica": -0.0911
         },
         "substitutions": [
           {
@@ -15602,22 +15602,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25384615384615383,
-          "Water": 0.31153846153846154,
-          "Earth": 0.2,
-          "Air": 0.23461538461538464
+          "Fire": 0.2874999999999999,
+          "Water": 0.25833333333333336,
+          "Earth": 0.21666666666666667,
+          "Air": 0.23750000000000004
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
@@ -15626,7 +15626,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 253,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -15640,18 +15640,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.19,
-          "Essence": 6.34,
-          "Matter": 4.89,
-          "Substance": 4.61
+          "Spirit": 5.29,
+          "Essence": 5.43,
+          "Matter": 4.28,
+          "Substance": 3.91
         },
         "thermodynamicProperties": {
-          "heat": 0.4712,
-          "entropy": 0.5138,
-          "reactivity": 0.5392,
-          "gregsEnergy": 0.1942,
-          "kalchm": 0.3692,
-          "monica": 0.4884
+          "heat": 0.1366,
+          "entropy": 0.4185,
+          "reactivity": 3.6084,
+          "gregsEnergy": -1.3735,
+          "kalchm": 629.5832,
+          "monica": 0.0591
         },
         "substitutions": [
           {
@@ -15823,31 +15823,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2615384615384615,
-          "Water": 0.3346153846153846,
-          "Earth": 0.2,
-          "Air": 0.20384615384615387
+          "Fire": 0.24599999999999994,
+          "Water": 0.26349999999999996,
+          "Earth": 0.289,
+          "Air": 0.2015
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 284,
+          "sodiumMg": 255,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -15861,18 +15861,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.24,
-          "Essence": 8.65,
-          "Matter": 7.67,
-          "Substance": 6.95
+          "Spirit": 5.88,
+          "Essence": 7.48,
+          "Matter": 7.57,
+          "Substance": 6.76
         },
         "thermodynamicProperties": {
-          "heat": 0.4635,
-          "entropy": 0.5015,
-          "reactivity": 0.5577,
-          "gregsEnergy": 0.1838,
-          "kalchm": 0.3077,
-          "monica": 0.4658
+          "heat": 0.068,
+          "entropy": 0.3302,
+          "reactivity": 2.2083,
+          "gregsEnergy": -0.6611,
+          "kalchm": 0.0624,
+          "monica": -0.1079
         },
         "substitutions": [
           {
@@ -16025,31 +16025,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25000000000000006,
-          "Water": 0.37499999999999994,
-          "Earth": 0.15714285714285717,
-          "Air": 0.21785714285714286
+          "Fire": 0.24687499999999996,
+          "Water": 0.27187500000000003,
+          "Earth": 0.2875,
+          "Air": 0.19375000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 300,
+          "fiberG": 4,
+          "sodiumMg": 259,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16063,18 +16063,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.16,
-          "Essence": 7.99,
-          "Matter": 6.53,
-          "Substance": 6.19
+          "Spirit": 5.3,
+          "Essence": 5.83,
+          "Matter": 5.72,
+          "Substance": 5.29
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.5243,
-          "reactivity": 0.575,
-          "gregsEnergy": 0.136,
-          "kalchm": 0.25,
-          "monica": 0.4294
+          "heat": 0.091,
+          "entropy": 0.3831,
+          "reactivity": 2.5003,
+          "gregsEnergy": -0.8668,
+          "kalchm": 1.3903,
+          "monica": 1.0521
         },
         "substitutions": [
           {
@@ -16190,10 +16190,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26875000000000004,
-          "Water": 0.25625,
-          "Earth": 0.29375,
-          "Air": 0.18125
+          "Fire": 0.2316666666666666,
+          "Water": 0.23916666666666667,
+          "Earth": 0.325,
+          "Air": 0.2041666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -16210,11 +16210,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 253,
+          "fiberG": 5,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16228,18 +16228,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.73,
-          "Essence": 3.61,
-          "Matter": 4.36,
-          "Substance": 3.99
+          "Spirit": 3.32,
+          "Essence": 3.32,
+          "Matter": 4.22,
+          "Substance": 3.94
         },
         "thermodynamicProperties": {
-          "heat": 0.5063,
-          "entropy": 0.455,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.272,
-          "kalchm": 0.3625,
-          "monica": 0.5175
+          "heat": 0.0738,
+          "entropy": 0.4056,
+          "reactivity": 1.8261,
+          "gregsEnergy": -0.6669,
+          "kalchm": 0.0299,
+          "monica": -0.1041
         },
         "substitutions": [
           {
@@ -16325,31 +16325,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.4,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.16,
+          "Water": 0.33,
+          "Earth": 0.37,
+          "Air": 0.14000000000000004
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fiberG": 5,
+          "sodiumMg": 282,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -16363,18 +16363,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.65,
-          "Essence": 2.33,
-          "Matter": 2.77,
-          "Substance": 2.5
+          "Spirit": 1.35,
+          "Essence": 2.22,
+          "Matter": 2.61,
+          "Substance": 2.21
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1424,
-          "kalchm": 0.2,
-          "monica": 0.417
+          "heat": 0.0298,
+          "entropy": 0.2208,
+          "reactivity": 1.3275,
+          "gregsEnergy": -0.2633,
+          "kalchm": 0.1248,
+          "monica": -0.0953
         },
         "substitutions": [
           {
@@ -16470,10 +16470,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3142857142857143,
-          "Water": 0.24999999999999997,
-          "Earth": 0.22857142857142856,
-          "Air": 0.2071428571428571
+          "Fire": 0.3055555555555556,
+          "Water": 0.2444444444444444,
+          "Earth": 0.26666666666666666,
+          "Air": 0.18333333333333332
         },
         "astrologicalAffinities": {
           "planets": [
@@ -16490,11 +16490,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 250,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16508,18 +16508,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4,
-          "Essence": 3.93,
-          "Matter": 3.37,
-          "Substance": 3.18
+          "Spirit": 3.5,
+          "Essence": 3.52,
+          "Matter": 3.02,
+          "Substance": 2.8
         },
         "thermodynamicProperties": {
-          "heat": 0.5321,
-          "entropy": 0.4914,
-          "reactivity": 0.5386,
-          "gregsEnergy": 0.2674,
-          "kalchm": 0.3714,
-          "monica": 0.5184
+          "heat": 0.1226,
+          "entropy": 0.4066,
+          "reactivity": 3.0241,
+          "gregsEnergy": -1.1071,
+          "kalchm": 13.3784,
+          "monica": 0.1412
         },
         "substitutions": [
           {
@@ -16623,31 +16623,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2857142857142857,
-          "Water": 0.2642857142857143,
-          "Earth": 0.24285714285714285,
-          "Air": 0.20714285714285716
+          "Fire": 0.255,
+          "Water": 0.215,
+          "Earth": 0.33999999999999997,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 256,
+          "fiberG": 5,
+          "sodiumMg": 236,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16661,18 +16661,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.1,
-          "Essence": 4.38,
-          "Matter": 4.05,
-          "Substance": 3.7
+          "Spirit": 3.45,
+          "Essence": 3.64,
+          "Matter": 4.04,
+          "Substance": 3.66
         },
         "thermodynamicProperties": {
-          "heat": 0.5107,
-          "entropy": 0.4857,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2533,
-          "kalchm": 0.4,
-          "monica": 0.5213
+          "heat": 0.0819,
+          "entropy": 0.3745,
+          "reactivity": 2.017,
+          "gregsEnergy": -0.6735,
+          "kalchm": 0.2431,
+          "monica": -0.2361
         },
         "substitutions": [
           {
@@ -16815,32 +16815,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23181818181818184,
-          "Water": 0.3181818181818182,
-          "Earth": 0.2727272727272727,
-          "Air": 0.17727272727272728
+          "Fire": 0.24062500000000003,
+          "Water": 0.22812499999999997,
+          "Earth": 0.37500000000000006,
+          "Air": 0.15625000000000006
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 277,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 241,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -16853,18 +16853,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.02,
-          "Essence": 6.06,
-          "Matter": 6.49,
-          "Substance": 6.35
+          "Spirit": 4.64,
+          "Essence": 5.38,
+          "Matter": 6.65,
+          "Substance": 5.85
         },
         "thermodynamicProperties": {
-          "heat": 0.4568,
-          "entropy": 0.4618,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.212,
-          "kalchm": 0.3182,
-          "monica": 0.4803
+          "heat": 0.0621,
+          "entropy": 0.3498,
+          "reactivity": 1.7189,
+          "gregsEnergy": -0.5392,
+          "kalchm": 0.0012,
+          "monica": -0.0466
         },
         "substitutions": [
           {
@@ -17008,32 +17008,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24,
-          "Water": 0.315,
-          "Earth": 0.26499999999999996,
-          "Air": 0.17999999999999997
+          "Fire": 0.24374999999999997,
+          "Water": 0.20312499999999994,
+          "Earth": 0.39062499999999994,
+          "Air": 0.1625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 276,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 231,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -17046,18 +17046,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.97,
-          "Essence": 5.66,
-          "Matter": 6.39,
-          "Substance": 6.25
+          "Spirit": 4.6,
+          "Essence": 4.87,
+          "Matter": 6.61,
+          "Substance": 5.82
         },
         "thermodynamicProperties": {
-          "heat": 0.4625,
-          "entropy": 0.466,
-          "reactivity": 0.533,
-          "gregsEnergy": 0.2141,
-          "kalchm": 0.34,
-          "monica": 0.4876
+          "heat": 0.0651,
+          "entropy": 0.3781,
+          "reactivity": 1.6094,
+          "gregsEnergy": -0.5434,
+          "kalchm": 0.0003,
+          "monica": -0.0416
         },
         "substitutions": [
           {
@@ -17192,32 +17192,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20625000000000002,
-          "Water": 0.28125,
-          "Earth": 0.275,
-          "Air": 0.23750000000000002
+          "Fire": 0.225,
+          "Water": 0.27857142857142864,
+          "Earth": 0.28928571428571426,
+          "Air": 0.2071428571428571
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 263,
-          "sugarG": 6,
+          "sodiumMg": 261,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -17230,18 +17230,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.61,
-          "Essence": 5.26,
-          "Matter": 4.92,
-          "Substance": 4.46
+          "Spirit": 4.09,
+          "Essence": 5.25,
+          "Matter": 5.2,
+          "Substance": 4.8
         },
         "thermodynamicProperties": {
-          "heat": 0.4625,
-          "entropy": 0.485,
-          "reactivity": 0.4925,
-          "gregsEnergy": 0.2236,
-          "kalchm": 0.3875,
-          "monica": 0.5057
+          "heat": 0.0653,
+          "entropy": 0.3284,
+          "reactivity": 2.2402,
+          "gregsEnergy": -0.6703,
+          "kalchm": 0.1948,
+          "monica": -0.1829
         },
         "substitutions": [
           {
@@ -17393,10 +17393,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22142857142857145,
-          "Water": 0.3535714285714286,
-          "Earth": 0.21071428571428574,
-          "Air": 0.21428571428571425
+          "Fire": 0.2444444444444444,
+          "Water": 0.29722222222222217,
+          "Earth": 0.26500000000000007,
+          "Air": 0.19333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -17413,11 +17413,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 291,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17431,18 +17431,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.53,
-          "Essence": 6.96,
-          "Matter": 5.73,
-          "Substance": 5.55
+          "Spirit": 5.07,
+          "Essence": 5.45,
+          "Matter": 5.67,
+          "Substance": 5.26
         },
         "thermodynamicProperties": {
-          "heat": 0.4339,
-          "entropy": 0.5014,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1606,
-          "kalchm": 0.2929,
-          "monica": 0.4521
+          "heat": 0.0877,
+          "entropy": 0.3918,
+          "reactivity": 2.3637,
+          "gregsEnergy": -0.8383,
+          "kalchm": 0.3331,
+          "monica": -0.3226
         },
         "substitutions": [
           {
@@ -17614,31 +17614,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1542857142857143,
-          "Water": 0.3871428571428572,
-          "Earth": 0.2492857142857143,
-          "Air": 0.2092857142857143
+          "Fire": 0.21571428571428578,
+          "Water": 0.25952380952380955,
+          "Earth": 0.31285714285714283,
+          "Air": 0.2119047619047619
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 305,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17652,18 +17652,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.91,
-          "Essence": 8.57,
-          "Matter": 8.42,
-          "Substance": 7.82
+          "Spirit": 5.17,
+          "Essence": 7.24,
+          "Matter": 7.73,
+          "Substance": 7.18
         },
         "thermodynamicProperties": {
-          "heat": 0.3836,
-          "entropy": 0.484,
-          "reactivity": 0.5249,
-          "gregsEnergy": 0.1295,
-          "kalchm": 0.2257,
-          "monica": 0.4195
+          "heat": 0.0509,
+          "entropy": 0.3244,
+          "reactivity": 2.0229,
+          "gregsEnergy": -0.6054,
+          "kalchm": 0.0008,
+          "monica": -0.042
         },
         "substitutions": [
           {
@@ -17829,10 +17829,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3470588235294117,
-          "Water": 0.24117647058823533,
-          "Earth": 0.24117647058823538,
-          "Air": 0.17058823529411768
+          "Fire": 0.35944444444444446,
+          "Water": 0.1877777777777778,
+          "Earth": 0.2822222222222222,
+          "Air": 0.1705555555555556
         },
         "astrologicalAffinities": {
           "planets": [
@@ -17853,7 +17853,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 246,
+          "sodiumMg": 225,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17867,18 +17867,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.59,
-          "Essence": 7.71,
-          "Matter": 8.45,
-          "Substance": 8.6
+          "Spirit": 8.01,
+          "Essence": 7.13,
+          "Matter": 6.38,
+          "Substance": 6.24
         },
         "thermodynamicProperties": {
-          "heat": 0.5529,
-          "entropy": 0.4718,
-          "reactivity": 0.5529,
-          "gregsEnergy": 0.292,
-          "kalchm": 0.3059,
-          "monica": 0.5086
+          "heat": 0.1546,
+          "entropy": 0.5283,
+          "reactivity": 3.4725,
+          "gregsEnergy": -1.68,
+          "kalchm": 1674.6229,
+          "monica": 0.0652
         },
         "substitutions": [
           {
@@ -18050,31 +18050,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29,
-          "Water": 0.32333333333333336,
-          "Earth": 0.21666666666666667,
-          "Air": 0.17
+          "Fire": 0.2699999999999999,
+          "Water": 0.27249999999999996,
+          "Earth": 0.27499999999999997,
+          "Air": 0.18250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 279,
+          "sodiumMg": 259,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -18088,18 +18088,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.3,
-          "Essence": 8.86,
-          "Matter": 9.82,
-          "Substance": 9.52
+          "Spirit": 6.34,
+          "Essence": 8.2,
+          "Matter": 8.52,
+          "Substance": 8.15
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.4813,
-          "reactivity": 0.568,
-          "gregsEnergy": 0.2099,
-          "kalchm": 0.2733,
-          "monica": 0.4659
+          "heat": 0.0614,
+          "entropy": 0.3579,
+          "reactivity": 2.25,
+          "gregsEnergy": -0.7439,
+          "kalchm": 0.0017,
+          "monica": -0.0518
         },
         "substitutions": [
           {
@@ -18318,10 +18318,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2863636363636363,
-          "Water": 0.26818181818181813,
-          "Earth": 0.21045454545454548,
-          "Air": 0.235
+          "Fire": 0.2811538461538461,
+          "Water": 0.2361538461538461,
+          "Earth": 0.24807692307692308,
+          "Air": 0.23461538461538461
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18338,11 +18338,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 257,
+          "sodiumMg": 244,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -18356,18 +18356,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 10.94,
-          "Essence": 9.7,
-          "Matter": 10.14,
-          "Substance": 10.07
+          "Spirit": 9.97,
+          "Essence": 8.93,
+          "Matter": 8.26,
+          "Substance": 8.26
         },
         "thermodynamicProperties": {
-          "heat": 0.5091,
-          "entropy": 0.5098,
-          "reactivity": 0.5327,
-          "gregsEnergy": 0.2375,
-          "kalchm": 0.3909,
-          "monica": 0.5123
+          "heat": 0.1453,
+          "entropy": 0.537,
+          "reactivity": 3.42,
+          "gregsEnergy": -1.6914,
+          "kalchm": 1993.3514,
+          "monica": 0.0651
         },
         "substitutions": [
           {
@@ -18476,10 +18476,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17857142857142858,
-          "Water": 0.42142857142857143,
-          "Earth": 0.2714285714285714,
-          "Air": 0.12857142857142856
+          "Fire": 0.17272727272727273,
+          "Water": 0.35454545454545455,
+          "Earth": 0.30000000000000004,
+          "Air": 0.17272727272727273
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18496,12 +18496,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 319,
-          "sugarG": 4,
+          "sodiumMg": 292,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -18514,18 +18514,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.97,
-          "Essence": 4.14,
-          "Matter": 4,
-          "Substance": 3.2
+          "Spirit": 2.59,
+          "Essence": 3.88,
+          "Matter": 3.96,
+          "Substance": 3.44
         },
         "thermodynamicProperties": {
-          "heat": 0.3786,
-          "entropy": 0.4429,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1306,
-          "kalchm": 0.1143,
-          "monica": 0.3865
+          "heat": 0.046,
+          "entropy": 0.2578,
+          "reactivity": 1.8615,
+          "gregsEnergy": -0.4339,
+          "kalchm": 0.1388,
+          "monica": -0.118
         },
         "substitutions": [
           {
@@ -18710,10 +18710,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19444444444444442,
-          "Water": 0.4138888888888888,
-          "Earth": 0.25611111111111107,
-          "Air": 0.13555555555555557
+          "Fire": 0.21739130434782608,
+          "Water": 0.35,
+          "Earth": 0.29782608695652174,
+          "Air": 0.13478260869565217
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18732,9 +18732,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 24,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 316,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -18748,18 +18748,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.89,
-          "Essence": 9.25,
-          "Matter": 9.56,
-          "Substance": 8.43
+          "Spirit": 5,
+          "Essence": 7.38,
+          "Matter": 8.44,
+          "Substance": 7.8
         },
         "thermodynamicProperties": {
-          "heat": 0.3903,
-          "entropy": 0.4518,
-          "reactivity": 0.565,
-          "gregsEnergy": 0.135,
-          "kalchm": 0.16,
-          "monica": 0.402
+          "heat": 0.0421,
+          "entropy": 0.3168,
+          "reactivity": 1.8401,
+          "gregsEnergy": -0.5408,
+          "kalchm": 0,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -18889,10 +18889,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18888888888888888,
-          "Water": 0.4,
-          "Earth": 0.24444444444444446,
-          "Air": 0.16666666666666666
+          "Fire": 0.19230769230769232,
+          "Water": 0.3461538461538461,
+          "Earth": 0.29230769230769227,
+          "Air": 0.16923076923076927
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18913,7 +18913,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 310,
+          "sodiumMg": 288,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -18927,18 +18927,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.62,
-          "Essence": 4.76,
-          "Matter": 5.41,
-          "Substance": 4.89
+          "Spirit": 3.41,
+          "Essence": 4.84,
+          "Matter": 5.04,
+          "Substance": 4.77
         },
         "thermodynamicProperties": {
-          "heat": 0.3944,
-          "entropy": 0.4689,
-          "reactivity": 0.5533,
-          "gregsEnergy": 0.135,
-          "kalchm": 0.2,
-          "monica": 0.414
+          "heat": 0.0488,
+          "entropy": 0.3113,
+          "reactivity": 2.0396,
+          "gregsEnergy": -0.5862,
+          "kalchm": 0.0226,
+          "monica": -0.0758
         },
         "substitutions": [
           {
@@ -19073,10 +19073,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666665,
-          "Water": 0.39999999999999997,
-          "Earth": 0.2041666666666667,
-          "Air": 0.1791666666666667
+          "Fire": 0.18866666666666665,
+          "Water": 0.34466666666666673,
+          "Earth": 0.2486666666666667,
+          "Air": 0.21800000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19093,11 +19093,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 310,
+          "sodiumMg": 288,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -19111,18 +19111,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.04,
-          "Essence": 6.26,
-          "Matter": 5.73,
-          "Substance": 5.28
+          "Spirit": 3.56,
+          "Essence": 4.95,
+          "Matter": 4.67,
+          "Substance": 4.44
         },
         "thermodynamicProperties": {
-          "heat": 0.4083,
-          "entropy": 0.49,
-          "reactivity": 0.57,
-          "gregsEnergy": 0.129,
-          "kalchm": 0.2,
-          "monica": 0.4116
+          "heat": 0.0575,
+          "entropy": 0.3113,
+          "reactivity": 2.3598,
+          "gregsEnergy": -0.6771,
+          "kalchm": 0.252,
+          "monica": -0.2082
         },
         "substitutions": [
           {
@@ -19246,32 +19246,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28,
-          "Water": 0.34444444444444444,
-          "Earth": 0.19444444444444445,
-          "Air": 0.1811111111111111
+          "Fire": 0.2708333333333333,
+          "Water": 0.24583333333333332,
+          "Earth": 0.32499999999999996,
+          "Air": 0.1583333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 288,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 248,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -19284,18 +19284,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.5,
-          "Essence": 5.44,
-          "Matter": 5.37,
-          "Substance": 5.22
+          "Spirit": 3.91,
+          "Essence": 4.21,
+          "Matter": 4.83,
+          "Substance": 4.57
         },
         "thermodynamicProperties": {
-          "heat": 0.4678,
-          "entropy": 0.4947,
-          "reactivity": 0.5747,
-          "gregsEnergy": 0.1835,
-          "kalchm": 0.2511,
-          "monica": 0.4487
+          "heat": 0.0747,
+          "entropy": 0.3927,
+          "reactivity": 2.0342,
+          "gregsEnergy": -0.7241,
+          "kalchm": 0.0421,
+          "monica": -0.1124
         },
         "substitutions": [
           {
@@ -19408,10 +19408,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19285714285714284,
-          "Water": 0.4357142857142856,
-          "Earth": 0.19999999999999998,
-          "Air": 0.17142857142857143
+          "Fire": 0.2136363636363636,
+          "Water": 0.3136363636363636,
+          "Earth": 0.3090909090909091,
+          "Air": 0.16363636363636364
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19428,12 +19428,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 324,
-          "sugarG": 5,
+          "sodiumMg": 275,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -19446,18 +19446,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.99,
-          "Essence": 4.05,
-          "Matter": 4.17,
-          "Substance": 3.89
+          "Spirit": 3.52,
+          "Essence": 4.1,
+          "Matter": 4.14,
+          "Substance": 3.92
         },
         "thermodynamicProperties": {
-          "heat": 0.3786,
-          "entropy": 0.4886,
-          "reactivity": 0.5771,
-          "gregsEnergy": 0.0966,
-          "kalchm": 0.1286,
-          "monica": 0.3772
+          "heat": 0.0742,
+          "entropy": 0.3543,
+          "reactivity": 2.2601,
+          "gregsEnergy": -0.7266,
+          "kalchm": 0.3599,
+          "monica": -0.3146
         },
         "substitutions": [
           {
@@ -19525,32 +19525,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3666666666666667,
-          "Water": 0.26666666666666666,
-          "Earth": 0.19999999999999998,
-          "Air": 0.16666666666666666
+          "Fire": 0.3,
+          "Water": 0.175,
+          "Earth": 0.375,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 257,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 220,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -19563,18 +19563,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.5,
-          "Essence": 1.48,
-          "Matter": 1.92,
-          "Substance": 1.9
+          "Spirit": 1.4,
+          "Essence": 1.35,
+          "Matter": 1.67,
+          "Substance": 1.52
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.4867,
-          "reactivity": 0.58,
-          "gregsEnergy": 0.2677,
-          "kalchm": 0.2333,
-          "monica": 0.4771
+          "heat": 0.0747,
+          "entropy": 0.3439,
+          "reactivity": 1.4911,
+          "gregsEnergy": -0.4381,
+          "kalchm": 0.5397,
+          "monica": -0.4764
         },
         "substitutions": [
           {
@@ -19698,10 +19698,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19999999999999998,
-          "Water": 0.40714285714285714,
-          "Earth": 0.17142857142857146,
-          "Air": 0.22142857142857145
+          "Fire": 0.22307692307692306,
+          "Water": 0.3115384615384616,
+          "Earth": 0.2769230769230769,
+          "Air": 0.18846153846153849
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19718,11 +19718,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 313,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 275,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -19736,18 +19736,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.19,
-          "Essence": 5.59,
-          "Matter": 4.58,
-          "Substance": 4.22
+          "Spirit": 3.59,
+          "Essence": 4.97,
+          "Matter": 4.8,
+          "Substance": 4.58
         },
         "thermodynamicProperties": {
-          "heat": 0.3964,
-          "entropy": 0.52,
-          "reactivity": 0.5643,
-          "gregsEnergy": 0.103,
-          "kalchm": 0.1857,
-          "monica": 0.3969
+          "heat": 0.0565,
+          "entropy": 0.3164,
+          "reactivity": 2.2792,
+          "gregsEnergy": -0.6646,
+          "kalchm": 0.1435,
+          "monica": -0.1502
         },
         "substitutions": [
           {
@@ -19902,31 +19902,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28076923076923077,
-          "Water": 0.24615384615384617,
-          "Earth": 0.3,
-          "Air": 0.17307692307692307
+          "Fire": 0.3,
+          "Water": 0.18888888888888888,
+          "Earth": 0.29555555555555546,
+          "Air": 0.2155555555555556
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "New Moon"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 248,
+          "sodiumMg": 226,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -19940,18 +19940,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.3,
-          "Essence": 6.72,
-          "Matter": 7.12,
-          "Substance": 7.14
+          "Spirit": 5.76,
+          "Essence": 5.32,
+          "Matter": 5.49,
+          "Substance": 5.1
         },
         "thermodynamicProperties": {
-          "heat": 0.5173,
-          "entropy": 0.4492,
-          "reactivity": 0.5162,
-          "gregsEnergy": 0.2854,
-          "kalchm": 0.3385,
-          "monica": 0.5157
+          "heat": 0.1206,
+          "entropy": 0.4651,
+          "reactivity": 2.6189,
+          "gregsEnergy": -1.0974,
+          "kalchm": 3.7413,
+          "monica": 0.3176
         },
         "substitutions": [
           {
@@ -20050,31 +20050,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20833333333333334,
-          "Water": 0.3666666666666667,
-          "Earth": 0.2333333333333333,
-          "Air": 0.19166666666666668
+          "Fire": 0.21250000000000002,
+          "Water": 0.23125,
+          "Earth": 0.34375,
+          "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 297,
+          "fiberG": 5,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20088,18 +20088,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.72,
-          "Essence": 4.01,
-          "Matter": 3.85,
-          "Substance": 3.49
+          "Spirit": 2.62,
+          "Essence": 3.25,
+          "Matter": 3.29,
+          "Substance": 2.79
         },
         "thermodynamicProperties": {
-          "heat": 0.4208,
-          "entropy": 0.4833,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1574,
-          "kalchm": 0.2667,
-          "monica": 0.443
+          "heat": 0.0675,
+          "entropy": 0.2911,
+          "reactivity": 1.9202,
+          "gregsEnergy": -0.4916,
+          "kalchm": 0.6528,
+          "monica": -0.6002
         },
         "substitutions": [
           {
@@ -20258,10 +20258,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23500000000000001,
-          "Water": 0.365,
-          "Earth": 0.19,
-          "Air": 0.21000000000000002
+          "Fire": 0.24411764705882355,
+          "Water": 0.2982352941176471,
+          "Earth": 0.24882352941176467,
+          "Air": 0.2088235294117647
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20278,11 +20278,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 296,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20296,18 +20296,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.92,
-          "Essence": 6.77,
-          "Matter": 6.91,
-          "Substance": 6.43
+          "Spirit": 5.46,
+          "Essence": 6.48,
+          "Matter": 5.97,
+          "Substance": 5.77
         },
         "thermodynamicProperties": {
-          "heat": 0.435,
-          "entropy": 0.508,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1505,
-          "kalchm": 0.27,
-          "monica": 0.4412
+          "heat": 0.083,
+          "entropy": 0.3742,
+          "reactivity": 2.7224,
+          "gregsEnergy": -0.9357,
+          "kalchm": 1.8177,
+          "monica": 0.5752
         },
         "substitutions": [
           {
@@ -20421,10 +20421,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3357142857142857,
-          "Water": 0.22857142857142862,
-          "Earth": 0.20714285714285716,
-          "Air": 0.2285714285714286
+          "Fire": 0.35909090909090907,
+          "Water": 0.15909090909090906,
+          "Earth": 0.2772727272727273,
+          "Air": 0.20454545454545456
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20441,11 +20441,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 241,
+          "sodiumMg": 214,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20459,18 +20459,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.32,
-          "Essence": 5.23,
-          "Matter": 3.72,
-          "Substance": 3.26
+          "Spirit": 4.7,
+          "Essence": 4.29,
+          "Matter": 3.93,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
-          "heat": 0.5536,
-          "entropy": 0.5086,
-          "reactivity": 0.5386,
-          "gregsEnergy": 0.2797,
-          "kalchm": 0.3286,
-          "monica": 0.5105
+          "heat": 0.1393,
+          "entropy": 0.4868,
+          "reactivity": 3.1017,
+          "gregsEnergy": -1.3705,
+          "kalchm": 23.0851,
+          "monica": 0.1408
         },
         "substitutions": [
           {
@@ -20567,31 +20567,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15578452980976934,
-          "Water": 0.3660198310404152,
-          "Earth": 0.25752908973985505,
-          "Air": 0.2206665494099606
+          "Fire": 0.23381146358354818,
+          "Water": 0.2765173521603632,
+          "Earth": 0.29158795352237316,
+          "Air": 0.19808323073371553
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 296,
+          "sodiumMg": 261,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20605,18 +20605,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.66,
-          "Essence": 3.45,
-          "Matter": 3.34,
-          "Substance": 3.02
+          "Spirit": 2.43,
+          "Essence": 3.04,
+          "Matter": 2.95,
+          "Substance": 2.7
         },
         "thermodynamicProperties": {
-          "heat": 0.3949,
-          "entropy": 0.4853,
-          "reactivity": 0.5131,
-          "gregsEnergy": 0.1459,
-          "kalchm": 0.2529,
-          "monica": 0.4342
+          "heat": 0.0666,
+          "entropy": 0.309,
+          "reactivity": 2.1514,
+          "gregsEnergy": -0.5981,
+          "kalchm": 0.715,
+          "monica": -0.8287
         },
         "substitutions": [
           {
@@ -20795,10 +20795,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2923076923076923,
-          "Water": 0.3038461538461538,
-          "Earth": 0.1692307692307692,
-          "Air": 0.23461538461538461
+          "Fire": 0.24650000000000002,
+          "Water": 0.27599999999999997,
+          "Earth": 0.2675,
+          "Air": 0.20999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20815,12 +20815,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 272,
-          "sugarG": 6,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 260,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -20833,18 +20833,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 8.7,
-          "Essence": 8.62,
-          "Matter": 6.52,
-          "Substance": 6.07
+          "Spirit": 6.96,
+          "Essence": 7.44,
+          "Matter": 7.08,
+          "Substance": 6.41
         },
         "thermodynamicProperties": {
-          "heat": 0.4942,
-          "entropy": 0.5262,
-          "reactivity": 0.5577,
-          "gregsEnergy": 0.2007,
-          "kalchm": 0.3077,
-          "monica": 0.4726
+          "heat": 0.1032,
+          "entropy": 0.395,
+          "reactivity": 2.6871,
+          "gregsEnergy": -0.9583,
+          "kalchm": 14.4168,
+          "monica": 0.1337
         },
         "substitutions": [
           {
@@ -21039,31 +21039,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20526315789473687,
-          "Water": 0.3684210526315789,
-          "Earth": 0.21842105263157896,
-          "Air": 0.20789473684210527
+          "Fire": 0.206,
+          "Water": 0.27399999999999997,
+          "Earth": 0.296,
+          "Air": 0.22400000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 297,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21077,18 +21077,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.51,
-          "Essence": 9.39,
-          "Matter": 10.19,
-          "Substance": 9.96
+          "Spirit": 7.23,
+          "Essence": 9.04,
+          "Matter": 8.5,
+          "Substance": 8.06
         },
         "thermodynamicProperties": {
-          "heat": 0.4184,
-          "entropy": 0.4958,
-          "reactivity": 0.5442,
-          "gregsEnergy": 0.1486,
-          "kalchm": 0.2632,
-          "monica": 0.4384
+          "heat": 0.0751,
+          "entropy": 0.3577,
+          "reactivity": 2.5737,
+          "gregsEnergy": -0.8456,
+          "kalchm": 0.4469,
+          "monica": -0.4079
         },
         "substitutions": [
           {
@@ -21249,31 +21249,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.30454545454545445,
-          "Water": 0.3090909090909091,
-          "Earth": 0.20909090909090908,
-          "Air": 0.17727272727272728
+          "Fire": 0.2710526315789473,
+          "Water": 0.26052631578947366,
+          "Earth": 0.3,
+          "Air": 0.1684210526315789
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 274,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21287,18 +21287,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.81,
-          "Essence": 7.98,
-          "Matter": 6.32,
-          "Substance": 5.6
+          "Spirit": 6.07,
+          "Essence": 7.08,
+          "Matter": 7.28,
+          "Substance": 6.5
         },
         "thermodynamicProperties": {
-          "heat": 0.4977,
-          "entropy": 0.4873,
-          "reactivity": 0.5682,
-          "gregsEnergy": 0.2208,
-          "kalchm": 0.2727,
-          "monica": 0.4701
+          "heat": 0.0792,
+          "entropy": 0.3557,
+          "reactivity": 2.252,
+          "gregsEnergy": -0.7219,
+          "kalchm": 0.1629,
+          "monica": -0.1767
         },
         "substitutions": [
           {
@@ -21416,31 +21416,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2444444444444444,
-          "Water": 0.29999999999999993,
-          "Earth": 0.2833333333333333,
-          "Air": 0.17222222222222222
+          "Fire": 0.2541666666666667,
+          "Water": 0.21666666666666665,
+          "Earth": 0.3208333333333333,
+          "Air": 0.20833333333333337
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 270,
+          "fiberG": 5,
+          "sodiumMg": 237,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21454,18 +21454,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.3,
-          "Essence": 4.83,
-          "Matter": 5.79,
-          "Substance": 5.83
+          "Spirit": 3.86,
+          "Essence": 4.5,
+          "Matter": 4.59,
+          "Substance": 4.13
         },
         "thermodynamicProperties": {
-          "heat": 0.4722,
-          "entropy": 0.4556,
-          "reactivity": 0.5267,
-          "gregsEnergy": 0.2322,
-          "kalchm": 0.3333,
-          "monica": 0.4929
+          "heat": 0.0767,
+          "entropy": 0.3459,
+          "reactivity": 2.1712,
+          "gregsEnergy": -0.6744,
+          "kalchm": 0.4189,
+          "monica": -0.357
         },
         "substitutions": [
           {
@@ -21596,10 +21596,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2222222222222222,
-          "Water": 0.27777777777777785,
-          "Earth": 0.3111111111111111,
-          "Air": 0.1888888888888889
+          "Fire": 0.21642857142857144,
+          "Water": 0.2657142857142857,
+          "Earth": 0.3121428571428571,
+          "Air": 0.2057142857142857
         },
         "astrologicalAffinities": {
           "planets": [
@@ -21620,7 +21620,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 261,
+          "sodiumMg": 256,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21634,18 +21634,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.8,
-          "Essence": 5.46,
-          "Matter": 5.94,
-          "Substance": 5.68
+          "Spirit": 3.71,
+          "Essence": 4.64,
+          "Matter": 5.36,
+          "Substance": 4.75
         },
         "thermodynamicProperties": {
-          "heat": 0.4722,
-          "entropy": 0.4511,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.2467,
-          "kalchm": 0.3222,
-          "monica": 0.4953
+          "heat": 0.0572,
+          "entropy": 0.3255,
+          "reactivity": 1.8032,
+          "gregsEnergy": -0.5296,
+          "kalchm": 0.0121,
+          "monica": -0.0665
         },
         "substitutions": [
           {
@@ -21776,10 +21776,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20625,
-          "Water": 0.28750000000000003,
-          "Earth": 0.3125,
-          "Air": 0.19374999999999998
+          "Fire": 0.2153846153846154,
+          "Water": 0.25384615384615383,
+          "Earth": 0.3015384615384616,
+          "Air": 0.22923076923076927
         },
         "astrologicalAffinities": {
           "planets": [
@@ -21797,10 +21797,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 265,
+          "carbsG": 27,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21814,18 +21814,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.62,
-          "Essence": 5,
-          "Matter": 5.29,
-          "Substance": 5.21
+          "Spirit": 3.86,
+          "Essence": 4.4,
+          "Matter": 4.83,
+          "Substance": 4.34
         },
         "thermodynamicProperties": {
-          "heat": 0.4594,
-          "entropy": 0.4525,
-          "reactivity": 0.4963,
-          "gregsEnergy": 0.2348,
-          "kalchm": 0.3,
-          "monica": 0.4839
+          "heat": 0.0725,
+          "entropy": 0.3533,
+          "reactivity": 2.0225,
+          "gregsEnergy": -0.6421,
+          "kalchm": 0.106,
+          "monica": -0.1415
         },
         "substitutions": [
           {
@@ -21906,10 +21906,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24,
-          "Water": 0.26,
-          "Earth": 0.3,
-          "Air": 0.2
+          "Fire": 0.25,
+          "Water": 0.225,
+          "Earth": 0.275,
+          "Air": 0.25
         },
         "astrologicalAffinities": {
           "planets": [
@@ -21926,12 +21926,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 254,
-          "sugarG": 5,
+          "sodiumMg": 240,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -21944,18 +21944,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 2.55,
-          "Matter": 2.27,
-          "Substance": 2.23
+          "Spirit": 1.99,
+          "Essence": 1.89,
+          "Matter": 1.81,
+          "Substance": 1.67
         },
         "thermodynamicProperties": {
-          "heat": 0.49,
-          "entropy": 0.46,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.26,
-          "kalchm": 0.38,
-          "monica": 0.518
+          "heat": 0.1074,
+          "entropy": 0.3897,
+          "reactivity": 2.4146,
+          "gregsEnergy": -0.8335,
+          "kalchm": 1.9006,
+          "monica": 0.5376
         },
         "substitutions": [
           {
@@ -22053,10 +22053,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18833333333333332,
-          "Water": 0.37833333333333335,
-          "Earth": 0.19666666666666668,
-          "Air": 0.23666666666666666
+          "Fire": 0.18125000000000002,
+          "Water": 0.34375,
+          "Earth": 0.30625,
+          "Air": 0.16875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -22073,12 +22073,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 301,
-          "sugarG": 6,
+          "sodiumMg": 288,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -22091,18 +22091,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.68,
-          "Essence": 4.03,
-          "Matter": 3.15,
-          "Substance": 2.77
+          "Spirit": 2.44,
+          "Essence": 3.47,
+          "Matter": 3.1,
+          "Substance": 2.9
         },
         "thermodynamicProperties": {
-          "heat": 0.405,
-          "entropy": 0.516,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.1264,
-          "kalchm": 0.2433,
-          "monica": 0.4235
+          "heat": 0.0566,
+          "entropy": 0.2767,
+          "reactivity": 2.2912,
+          "gregsEnergy": -0.5775,
+          "kalchm": 0.9036,
+          "monica": -2.4863
         },
         "substitutions": [
           {
@@ -22298,22 +22298,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2573684210526316,
-          "Water": 0.2984210526315789,
-          "Earth": 0.2542105263157895,
-          "Air": 0.18999999999999997
+          "Fire": 0.2713043478260869,
+          "Water": 0.23869565217391306,
+          "Earth": 0.28086956521739126,
+          "Air": 0.2091304347826087
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -22322,7 +22322,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 269,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -22336,18 +22336,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 9.26,
-          "Essence": 8.84,
-          "Matter": 9.65,
-          "Substance": 8.93
+          "Spirit": 8,
+          "Essence": 8.07,
+          "Matter": 8.04,
+          "Substance": 7.54
         },
         "thermodynamicProperties": {
-          "heat": 0.4795,
-          "entropy": 0.4743,
-          "reactivity": 0.5335,
-          "gregsEnergy": 0.2265,
-          "kalchm": 0.38,
-          "monica": 0.5046
+          "heat": 0.1078,
+          "entropy": 0.4374,
+          "reactivity": 2.6886,
+          "gregsEnergy": -1.0683,
+          "kalchm": 4.4622,
+          "monica": 0.2657
         },
         "substitutions": [
           {
@@ -22446,32 +22446,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1642857142857143,
-          "Water": 0.3928571428571428,
-          "Earth": 0.23571428571428574,
-          "Air": 0.20714285714285716
+          "Fire": 0.23750000000000004,
+          "Water": 0.24375,
+          "Earth": 0.37499999999999994,
+          "Air": 0.14375000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 307,
-          "sugarG": 5,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 248,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -22484,18 +22484,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.4,
-          "Essence": 3.11,
+          "Spirit": 2.58,
+          "Essence": 2.88,
           "Matter": 3.48,
-          "Substance": 3.31
+          "Substance": 3.1
         },
         "thermodynamicProperties": {
-          "heat": 0.3857,
-          "entropy": 0.4886,
-          "reactivity": 0.5343,
-          "gregsEnergy": 0.1246,
-          "kalchm": 0.2143,
-          "monica": 0.4141
+          "heat": 0.0642,
+          "entropy": 0.3356,
+          "reactivity": 1.6619,
+          "gregsEnergy": -0.4934,
+          "kalchm": 0.0949,
+          "monica": -0.1261
         },
         "substitutions": [
           {
@@ -22595,10 +22595,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3071428571428571,
-          "Water": 0.2285714285714286,
-          "Earth": 0.2928571428571428,
-          "Air": 0.17142857142857143
+          "Fire": 0.36666666666666664,
+          "Water": 0.17222222222222225,
+          "Earth": 0.27222222222222225,
+          "Air": 0.18888888888888888
         },
         "astrologicalAffinities": {
           "planets": [
@@ -22616,10 +22616,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 241,
+          "sodiumMg": 219,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -22633,18 +22633,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.7,
-          "Essence": 3.38,
-          "Matter": 4.17,
-          "Substance": 3.9
+          "Spirit": 4.07,
+          "Essence": 3.44,
+          "Matter": 3.39,
+          "Substance": 3.31
         },
         "thermodynamicProperties": {
-          "heat": 0.5393,
-          "entropy": 0.4514,
-          "reactivity": 0.5214,
-          "gregsEnergy": 0.3039,
-          "kalchm": 0.3,
-          "monica": 0.5116
+          "heat": 0.1439,
+          "entropy": 0.5233,
+          "reactivity": 2.9492,
+          "gregsEnergy": -1.3994,
+          "kalchm": 6.4388,
+          "monica": 0.2548
         },
         "substitutions": [
           {
@@ -22787,22 +22787,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24583333333333332,
-          "Water": 0.2916666666666667,
-          "Earth": 0.26666666666666666,
-          "Air": 0.19583333333333333
+          "Fire": 0.25625,
+          "Water": 0.25625,
+          "Earth": 0.28875,
+          "Air": 0.19875
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -22811,7 +22811,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 267,
+          "sodiumMg": 253,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -22825,18 +22825,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.9,
-          "Essence": 6.07,
-          "Matter": 5.58,
-          "Substance": 5.43
+          "Spirit": 5.37,
+          "Essence": 5.99,
+          "Matter": 5.83,
+          "Substance": 5.39
         },
         "thermodynamicProperties": {
-          "heat": 0.4771,
-          "entropy": 0.4717,
-          "reactivity": 0.5225,
-          "gregsEnergy": 0.2306,
-          "kalchm": 0.3833,
-          "monica": 0.5072
+          "heat": 0.0897,
+          "entropy": 0.3793,
+          "reactivity": 2.5091,
+          "gregsEnergy": -0.8621,
+          "kalchm": 1.4779,
+          "monica": 0.8796
         },
         "substitutions": [
           {
@@ -22935,32 +22935,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2285714285714286,
-          "Water": 0.32142857142857145,
-          "Earth": 0.2642857142857143,
-          "Air": 0.18571428571428572
+          "Fire": 0.2833333333333334,
+          "Water": 0.2833333333333333,
+          "Earth": 0.2888888888888889,
+          "Air": 0.14444444444444446
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 24,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 279,
-          "sugarG": 5,
+          "sodiumMg": 263,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -22973,18 +22973,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3,
-          "Essence": 3.98,
-          "Matter": 3.11,
-          "Substance": 2.96
+          "Spirit": 2.9,
+          "Essence": 3.7,
+          "Matter": 3.53,
+          "Substance": 3.14
         },
         "thermodynamicProperties": {
-          "heat": 0.4536,
-          "entropy": 0.4686,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2052,
-          "kalchm": 0.3286,
-          "monica": 0.4807
+          "heat": 0.0691,
+          "entropy": 0.3018,
+          "reactivity": 2.2039,
+          "gregsEnergy": -0.596,
+          "kalchm": 0.8898,
+          "monica": -2.3162
         },
         "substitutions": [
           {
@@ -23121,32 +23121,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2808333333333333,
-          "Water": 0.2725,
-          "Earth": 0.23166666666666666,
-          "Air": 0.21499999999999997
+          "Fire": 0.27285714285714285,
+          "Water": 0.28,
+          "Earth": 0.2071428571428572,
+          "Air": 0.24000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 259,
-          "sugarG": 5,
+          "sodiumMg": 262,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -23159,18 +23159,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.33,
-          "Essence": 6.06,
-          "Matter": 5.13,
-          "Substance": 5.02
+          "Spirit": 4.98,
+          "Essence": 5.51,
+          "Matter": 4.72,
+          "Substance": 4.27
         },
         "thermodynamicProperties": {
-          "heat": 0.5042,
-          "entropy": 0.4933,
-          "reactivity": 0.532,
-          "gregsEnergy": 0.2418,
-          "kalchm": 0.3933,
-          "monica": 0.5147
+          "heat": 0.1073,
+          "entropy": 0.3758,
+          "reactivity": 3.0319,
+          "gregsEnergy": -1.0321,
+          "kalchm": 48.1964,
+          "monica": 0.0878
         },
         "substitutions": [
           {
@@ -23285,31 +23285,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18333333333333335,
-          "Water": 0.4000000000000001,
-          "Earth": 0.25,
-          "Air": 0.16666666666666666
+          "Fire": 0.19,
+          "Water": 0.25000000000000006,
+          "Earth": 0.38,
+          "Air": 0.18000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fiberG": 5,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -23324,17 +23324,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.6,
-          "Essence": 3.66,
-          "Matter": 4.36,
-          "Substance": 3.91
+          "Essence": 3.12,
+          "Matter": 4.22,
+          "Substance": 3.67
         },
         "thermodynamicProperties": {
-          "heat": 0.3917,
-          "entropy": 0.4667,
-          "reactivity": 0.55,
-          "gregsEnergy": 0.135,
-          "kalchm": 0.2,
-          "monica": 0.414
+          "heat": 0.0486,
+          "entropy": 0.3195,
+          "reactivity": 1.4222,
+          "gregsEnergy": -0.4058,
+          "kalchm": 0.0081,
+          "monica": -0.0592
         },
         "substitutions": [
           {
@@ -23454,10 +23454,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.34285714285714286,
-          "Water": 0.23571428571428574,
-          "Earth": 0.20714285714285713,
-          "Air": 0.21428571428571425
+          "Fire": 0.31923076923076926,
+          "Water": 0.24230769230769236,
+          "Earth": 0.26153846153846155,
+          "Air": 0.1769230769230769
         },
         "astrologicalAffinities": {
           "planets": [
@@ -23474,11 +23474,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 244,
+          "sodiumMg": 247,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -23492,18 +23492,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.55,
-          "Essence": 5.41,
-          "Matter": 4.4,
-          "Substance": 3.77
+          "Spirit": 4.96,
+          "Essence": 4.52,
+          "Matter": 4.36,
+          "Substance": 4.26
         },
         "thermodynamicProperties": {
-          "heat": 0.5536,
-          "entropy": 0.5029,
-          "reactivity": 0.5471,
-          "gregsEnergy": 0.2785,
-          "kalchm": 0.3143,
-          "monica": 0.5057
+          "heat": 0.1293,
+          "entropy": 0.487,
+          "reactivity": 2.967,
+          "gregsEnergy": -1.3156,
+          "kalchm": 8.7371,
+          "monica": 0.2046
         },
         "substitutions": [
           {
@@ -23566,30 +23566,30 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2,
-          "Water": 0.4,
-          "Earth": 0.25,
+          "Water": 0.25,
+          "Earth": 0.4,
           "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fiberG": 5,
+          "sodiumMg": 250,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -23603,18 +23603,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.65,
-          "Essence": 1.13,
-          "Matter": 1.77,
-          "Substance": 1.7
+          "Spirit": 0.7,
+          "Essence": 1.15,
+          "Matter": 1.29,
+          "Substance": 1.13
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1424,
-          "kalchm": 0.2,
-          "monica": 0.417
+          "heat": 0.0278,
+          "entropy": 0.1916,
+          "reactivity": 1.1255,
+          "gregsEnergy": -0.1879,
+          "kalchm": 0.5738,
+          "monica": -0.3005
         },
         "substitutions": [
           {
@@ -23703,32 +23703,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.22999999999999998,
-          "Air": 0.26999999999999996
+          "Fire": 0.26875000000000004,
+          "Water": 0.31250000000000006,
+          "Earth": 0.23125,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 28,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "sodiumMg": 275,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -23741,18 +23741,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.43,
-          "Essence": 2.99,
-          "Matter": 2.6,
-          "Substance": 2.44
+          "Spirit": 2.59,
+          "Essence": 2.56,
+          "Matter": 2.3,
+          "Substance": 2.17
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.516,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.242,
-          "kalchm": 0.46,
-          "monica": 0.5348
+          "heat": 0.1126,
+          "entropy": 0.3947,
+          "reactivity": 2.8367,
+          "gregsEnergy": -1.007,
+          "kalchm": 3.5764,
+          "monica": 0.2786
         },
         "substitutions": [
           {
@@ -23842,10 +23842,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666665,
-          "Water": 0.3666666666666667,
-          "Earth": 0.18333333333333335,
-          "Air": 0.23333333333333336
+          "Fire": 0.25625000000000003,
+          "Water": 0.3375,
+          "Earth": 0.2125,
+          "Air": 0.19375
         },
         "astrologicalAffinities": {
           "planets": [
@@ -23863,11 +23863,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 297,
-          "sugarG": 6,
+          "fiberG": 4,
+          "sodiumMg": 285,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -23880,18 +23880,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.86,
-          "Essence": 3.38,
-          "Matter": 2.87,
-          "Substance": 2.71
+          "Spirit": 2.26,
+          "Essence": 2.99,
+          "Matter": 2.63,
+          "Substance": 2.58
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.52,
-          "reactivity": 0.55,
-          "gregsEnergy": 0.139,
-          "kalchm": 0.2667,
-          "monica": 0.4356
+          "heat": 0.0647,
+          "entropy": 0.3117,
+          "reactivity": 2.5893,
+          "gregsEnergy": -0.7425,
+          "kalchm": 1.1378,
+          "monica": 2.2212
         },
         "substitutions": [
           {
@@ -23995,10 +23995,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2457142857142857,
-          "Water": 0.3314285714285714,
-          "Earth": 0.2042857142857143,
-          "Air": 0.21857142857142856
+          "Fire": 0.194,
+          "Water": 0.30500000000000005,
+          "Earth": 0.29300000000000004,
+          "Air": 0.20799999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -24015,11 +24015,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 283,
+          "sodiumMg": 272,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -24033,18 +24033,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.81,
-          "Essence": 3.74,
-          "Matter": 3.19,
-          "Substance": 2.96
+          "Spirit": 2.32,
+          "Essence": 3.07,
+          "Matter": 3.69,
+          "Substance": 3.33
         },
         "thermodynamicProperties": {
-          "heat": 0.4571,
-          "entropy": 0.5057,
-          "reactivity": 0.5463,
-          "gregsEnergy": 0.1808,
-          "kalchm": 0.3371,
-          "monica": 0.4734
+          "heat": 0.0457,
+          "entropy": 0.3057,
+          "reactivity": 1.6433,
+          "gregsEnergy": -0.4568,
+          "kalchm": 0.0325,
+          "monica": -0.0811
         },
         "substitutions": [
           {
@@ -24121,31 +24121,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20999999999999996,
-          "Water": 0.31999999999999995,
-          "Earth": 0.2799999999999999,
-          "Air": 0.18999999999999995
+          "Fire": 0.26666666666666666,
+          "Water": 0.2333333333333333,
+          "Earth": 0.3166666666666667,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 278,
+          "fiberG": 5,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -24159,18 +24159,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.3,
-          "Essence": 3.13,
-          "Matter": 2.82,
-          "Substance": 2.63
+          "Spirit": 1.91,
+          "Essence": 2.17,
+          "Matter": 2.32,
+          "Substance": 2.13
         },
         "thermodynamicProperties": {
-          "heat": 0.445,
-          "entropy": 0.464,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.2046,
-          "kalchm": 0.3,
-          "monica": 0.4718
+          "heat": 0.0688,
+          "entropy": 0.3263,
+          "reactivity": 1.8776,
+          "gregsEnergy": -0.544,
+          "kalchm": 0.5242,
+          "monica": -0.4486
         },
         "substitutions": [
           {
@@ -24277,10 +24277,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32,
-          "Water": 0.19500000000000003,
-          "Earth": 0.18000000000000002,
-          "Air": 0.305
+          "Fire": 0.28818181818181815,
+          "Water": 0.19727272727272727,
+          "Earth": 0.2409090909090909,
+          "Air": 0.2736363636363637
         },
         "astrologicalAffinities": {
           "planets": [
@@ -24297,12 +24297,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 29,
-          "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 228,
-          "sugarG": 7,
+          "proteinG": 9,
+          "carbsG": 28,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 229,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -24315,18 +24315,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5,
-          "Essence": 4.67,
-          "Matter": 2.6,
-          "Substance": 2.41
+          "Spirit": 3.55,
+          "Essence": 3.16,
+          "Matter": 2.92,
+          "Substance": 2.88
         },
         "thermodynamicProperties": {
-          "heat": 0.5625,
-          "entropy": 0.55,
-          "reactivity": 0.509,
-          "gregsEnergy": 0.2825,
-          "kalchm": 0.25,
-          "monica": 0.488
+          "heat": 0.1356,
+          "entropy": 0.4956,
+          "reactivity": 3.1106,
+          "gregsEnergy": -1.4059,
+          "kalchm": 7.0852,
+          "monica": 0.2308
         },
         "substitutions": [
           {
@@ -24424,31 +24424,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22857142857142856,
-          "Water": 0.29285714285714287,
-          "Earth": 0.2928571428571428,
-          "Air": 0.18571428571428572
+          "Fire": 0.21666666666666667,
+          "Water": 0.25555555555555554,
+          "Earth": 0.35222222222222227,
+          "Air": 0.17555555555555558
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 267,
+          "fiberG": 5,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -24462,18 +24462,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.01,
-          "Essence": 3.67,
-          "Matter": 3.73,
-          "Substance": 4
+          "Spirit": 2.65,
+          "Essence": 3.13,
+          "Matter": 3.56,
+          "Substance": 3.25
         },
         "thermodynamicProperties": {
-          "heat": 0.4679,
-          "entropy": 0.4571,
-          "reactivity": 0.5129,
-          "gregsEnergy": 0.2335,
-          "kalchm": 0.3286,
-          "monica": 0.492
+          "heat": 0.0615,
+          "entropy": 0.3316,
+          "reactivity": 1.7984,
+          "gregsEnergy": -0.5349,
+          "kalchm": 0.1111,
+          "monica": -0.1354
         },
         "substitutions": [
           {
@@ -24583,10 +24583,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17500000000000002,
-          "Water": 0.41500000000000004,
-          "Earth": 0.21999999999999997,
-          "Air": 0.19
+          "Fire": 0.1772727272727273,
+          "Water": 0.33636363636363636,
+          "Earth": 0.28363636363636363,
+          "Air": 0.20272727272727273
         },
         "astrologicalAffinities": {
           "planets": [
@@ -24603,11 +24603,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 316,
+          "sodiumMg": 285,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -24621,18 +24621,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.21,
-          "Essence": 4.27,
-          "Matter": 5.06,
-          "Substance": 4.94
+          "Spirit": 2.62,
+          "Essence": 4.12,
+          "Matter": 4.42,
+          "Substance": 4.06
         },
         "thermodynamicProperties": {
-          "heat": 0.38,
-          "entropy": 0.488,
-          "reactivity": 0.554,
-          "gregsEnergy": 0.1096,
-          "kalchm": 0.17,
-          "monica": 0.3948
+          "heat": 0.0383,
+          "entropy": 0.2791,
+          "reactivity": 1.8309,
+          "gregsEnergy": -0.4728,
+          "kalchm": 0.0202,
+          "monica": -0.0662
         },
         "substitutions": [
           {
@@ -24736,32 +24736,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2785714285714286,
-          "Water": 0.28571428571428575,
-          "Earth": 0.2,
-          "Air": 0.2357142857142857
+          "Fire": 0.29375,
+          "Water": 0.25625,
+          "Earth": 0.24625000000000002,
+          "Air": 0.20375
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 264,
-          "sugarG": 6,
+          "sodiumMg": 253,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -24774,18 +24774,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.2,
-          "Essence": 3.99,
-          "Matter": 3.44,
-          "Substance": 3.23
+          "Spirit": 3.54,
+          "Essence": 3.5,
+          "Matter": 3.14,
+          "Substance": 2.89
         },
         "thermodynamicProperties": {
-          "heat": 0.4964,
-          "entropy": 0.5143,
-          "reactivity": 0.5386,
-          "gregsEnergy": 0.2194,
-          "kalchm": 0.3714,
-          "monica": 0.4992
+          "heat": 0.1204,
+          "entropy": 0.4119,
+          "reactivity": 2.9064,
+          "gregsEnergy": -1.0766,
+          "kalchm": 9.0231,
+          "monica": 0.1684
         },
         "substitutions": [
           {
@@ -24844,31 +24844,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20000000000000004,
-          "Water": 0.5000000000000001,
-          "Earth": 0.20000000000000004,
+          "Fire": 0.19999999999999998,
+          "Water": 0.3333333333333333,
+          "Earth": 0.3666666666666667,
           "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 11,
           "carbsG": 23,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 350,
+          "fiberG": 5,
+          "sodiumMg": 283,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -24882,18 +24882,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 1.28,
-          "Matter": 1.47,
-          "Substance": 1.43
+          "Spirit": 0.71,
+          "Essence": 1.23,
+          "Matter": 1.11,
+          "Substance": 1
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.46,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.0648,
-          "kalchm": 0,
-          "monica": 0.3259
+          "heat": 0.0317,
+          "entropy": 0.1682,
+          "reactivity": 1.4575,
+          "gregsEnergy": -0.2134,
+          "kalchm": 0.9009,
+          "monica": -1.4027
         },
         "substitutions": [
           {
@@ -24986,10 +24986,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20714285714285716,
-          "Water": 0.33571428571428574,
-          "Earth": 0.2357142857142857,
-          "Air": 0.2214285714285714
+          "Fire": 0.23500000000000001,
+          "Water": 0.27749999999999997,
+          "Earth": 0.25,
+          "Air": 0.2375
         },
         "astrologicalAffinities": {
           "planets": [
@@ -25008,10 +25008,10 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 27,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 284,
-          "sugarG": 5,
+          "sodiumMg": 261,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -25024,18 +25024,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.24,
-          "Essence": 3.57,
-          "Matter": 3.15,
-          "Substance": 2.9
+          "Spirit": 2.54,
+          "Essence": 2.74,
+          "Matter": 2.33,
+          "Substance": 2.31
         },
         "thermodynamicProperties": {
-          "heat": 0.4357,
-          "entropy": 0.4943,
-          "reactivity": 0.5257,
-          "gregsEnergy": 0.1758,
-          "kalchm": 0.3286,
-          "monica": 0.4689
+          "heat": 0.0981,
+          "entropy": 0.3798,
+          "reactivity": 2.9271,
+          "gregsEnergy": -1.0136,
+          "kalchm": 3.4028,
+          "monica": 0.2828
         },
         "substitutions": [
           {
@@ -25135,31 +25135,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.225,
-          "Water": 0.31875,
-          "Earth": 0.25625,
-          "Air": 0.2
+          "Fire": 0.26111111111111107,
+          "Water": 0.24444444444444446,
+          "Earth": 0.31666666666666665,
+          "Air": 0.17777777777777778
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 278,
+          "fiberG": 5,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -25173,18 +25173,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.62,
-          "Essence": 4.14,
-          "Matter": 4.37,
-          "Substance": 4.42
+          "Spirit": 2.83,
+          "Essence": 3.17,
+          "Matter": 3.94,
+          "Substance": 3.6
         },
         "thermodynamicProperties": {
-          "heat": 0.4531,
-          "entropy": 0.4775,
-          "reactivity": 0.5262,
-          "gregsEnergy": 0.2018,
-          "kalchm": 0.35,
-          "monica": 0.4857
+          "heat": 0.0616,
+          "entropy": 0.358,
+          "reactivity": 1.7207,
+          "gregsEnergy": -0.5544,
+          "kalchm": 0.033,
+          "monica": -0.0945
         },
         "substitutions": [
           {
@@ -25287,10 +25287,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2071428571428571,
-          "Water": 0.2642857142857143,
-          "Earth": 0.33571428571428574,
-          "Air": 0.19285714285714284
+          "Fire": 0.205,
+          "Water": 0.27,
+          "Earth": 0.36,
+          "Air": 0.16499999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -25308,11 +25308,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 256,
-          "sugarG": 5,
+          "sodiumMg": 258,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -25325,18 +25325,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.89,
-          "Essence": 3.97,
-          "Matter": 4.15,
-          "Substance": 3.93
+          "Spirit": 2.56,
+          "Essence": 3.31,
+          "Matter": 4.17,
+          "Substance": 3.73
         },
         "thermodynamicProperties": {
-          "heat": 0.4714,
-          "entropy": 0.4429,
-          "reactivity": 0.4829,
-          "gregsEnergy": 0.2575,
-          "kalchm": 0.3,
-          "monica": 0.493
+          "heat": 0.0458,
+          "entropy": 0.3122,
+          "reactivity": 1.5382,
+          "gregsEnergy": -0.4345,
+          "kalchm": 0.0112,
+          "monica": -0.0629
         },
         "substitutions": [
           {
@@ -25450,10 +25450,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2785714285714286,
-          "Water": 0.3071428571428571,
-          "Earth": 0.23571428571428574,
-          "Air": 0.17857142857142858
+          "Fire": 0.25909090909090915,
+          "Water": 0.31818181818181823,
+          "Earth": 0.23636363636363636,
+          "Air": 0.18636363636363634
         },
         "astrologicalAffinities": {
           "planets": [
@@ -25471,10 +25471,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 273,
+          "sodiumMg": 277,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -25488,18 +25488,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.34,
-          "Essence": 4.91,
-          "Matter": 4.19,
-          "Substance": 3.49
+          "Spirit": 3.19,
+          "Essence": 4.04,
+          "Matter": 3.86,
+          "Substance": 3.63
         },
         "thermodynamicProperties": {
-          "heat": 0.4857,
-          "entropy": 0.4771,
-          "reactivity": 0.5514,
-          "gregsEnergy": 0.2226,
-          "kalchm": 0.3286,
-          "monica": 0.4876
+          "heat": 0.068,
+          "entropy": 0.3281,
+          "reactivity": 2.3765,
+          "gregsEnergy": -0.7118,
+          "kalchm": 0.5757,
+          "monica": -0.5424
         },
         "substitutions": [
           {
@@ -25588,9 +25588,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.275,
-          "Water": 0.325,
-          "Earth": 0.19999999999999998,
+          "Fire": 0.20625,
+          "Water": 0.34375,
+          "Earth": 0.25,
           "Air": 0.19999999999999998
         },
         "astrologicalAffinities": {
@@ -25608,11 +25608,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 280,
+          "sodiumMg": 288,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -25626,18 +25626,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.35,
-          "Essence": 3.01,
-          "Matter": 2.69,
-          "Substance": 2.4
+          "Spirit": 2.16,
+          "Essence": 3.22,
+          "Matter": 2.96,
+          "Substance": 2.85
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.5,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.195,
-          "kalchm": 0.3,
-          "monica": 0.468
+          "heat": 0.0488,
+          "entropy": 0.2805,
+          "reactivity": 2.2668,
+          "gregsEnergy": -0.5871,
+          "kalchm": 0.4639,
+          "monica": -0.3372
         },
         "substitutions": [
           {
@@ -25714,31 +25714,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3125,
-          "Water": 0.375,
-          "Earth": 0.2,
-          "Air": 0.11249999999999999
+          "Fire": 0.2833333333333333,
+          "Water": 0.2833333333333334,
+          "Earth": 0.30833333333333335,
+          "Air": 0.12500000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 23,
-          "fatG": 9,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 300,
+          "sodiumMg": 263,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -25752,18 +25752,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.24,
-          "Essence": 2.37,
-          "Matter": 2.58,
-          "Substance": 2.29
+          "Spirit": 2.13,
+          "Essence": 2.25,
+          "Matter": 2.31,
+          "Substance": 1.95
         },
         "thermodynamicProperties": {
-          "heat": 0.4688,
-          "entropy": 0.465,
-          "reactivity": 0.6125,
-          "gregsEnergy": 0.184,
-          "kalchm": 0.125,
-          "monica": 0.4111
+          "heat": 0.0884,
+          "entropy": 0.3178,
+          "reactivity": 1.9806,
+          "gregsEnergy": -0.5411,
+          "kalchm": 1.22,
+          "monica": 1.3739
         },
         "substitutions": [
           {
@@ -25846,31 +25846,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23571428571428574,
-          "Water": 0.34285714285714286,
-          "Earth": 0.2571428571428572,
+          "Fire": 0.34285714285714286,
+          "Water": 0.2642857142857143,
+          "Earth": 0.2285714285714286,
           "Air": 0.1642857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 8,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 287,
+          "sodiumMg": 256,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -25884,18 +25884,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.84,
-          "Essence": 3.05,
-          "Matter": 2.38,
-          "Substance": 1.89
+          "Spirit": 3.08,
+          "Essence": 2.73,
+          "Matter": 2.14,
+          "Substance": 1.97
         },
         "thermodynamicProperties": {
-          "heat": 0.4464,
-          "entropy": 0.4629,
-          "reactivity": 0.5471,
-          "gregsEnergy": 0.1931,
-          "kalchm": 0.3,
-          "monica": 0.4672
+          "heat": 0.1709,
+          "entropy": 0.4698,
+          "reactivity": 3.7494,
+          "gregsEnergy": -1.5906,
+          "kalchm": 25.6021,
+          "monica": 0.1308
         },
         "substitutions": [
           {
@@ -26086,10 +26086,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22857142857142856,
-          "Water": 0.3999999999999999,
-          "Earth": 0.18214285714285713,
-          "Air": 0.18928571428571428
+          "Fire": 0.2636363636363636,
+          "Water": 0.28863636363636364,
+          "Earth": 0.2636363636363636,
+          "Air": 0.1840909090909091
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26106,11 +26106,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 310,
+          "fiberG": 4,
+          "sodiumMg": 265,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26124,18 +26124,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.36,
-          "Essence": 9.7,
-          "Matter": 8.66,
-          "Substance": 7.65
+          "Spirit": 6.69,
+          "Essence": 7.79,
+          "Matter": 7.72,
+          "Substance": 7.2
         },
         "thermodynamicProperties": {
-          "heat": 0.4143,
-          "entropy": 0.5029,
-          "reactivity": 0.5771,
-          "gregsEnergy": 0.1241,
-          "kalchm": 0.2,
-          "monica": 0.4096
+          "heat": 0.0815,
+          "entropy": 0.3748,
+          "reactivity": 2.4705,
+          "gregsEnergy": -0.8444,
+          "kalchm": 0.2767,
+          "monica": -0.266
         },
         "substitutions": [
           {
@@ -26273,10 +26273,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.39299999999999996,
-          "Water": 0.181,
-          "Earth": 0.227,
-          "Air": 0.19899999999999998
+          "Fire": 0.34615384615384615,
+          "Water": 0.19230769230769232,
+          "Earth": 0.2692307692307693,
+          "Air": 0.19230769230769232
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26293,11 +26293,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 10,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 222,
+          "sodiumMg": 227,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26311,18 +26311,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.19,
-          "Essence": 4.92,
+          "Spirit": 5.45,
+          "Essence": 5.06,
           "Matter": 4.86,
-          "Substance": 4.76
+          "Substance": 4.9
         },
         "thermodynamicProperties": {
-          "heat": 0.606,
-          "entropy": 0.4888,
-          "reactivity": 0.5444,
-          "gregsEnergy": 0.3399,
-          "kalchm": 0.214,
-          "monica": 0.5002
+          "heat": 0.1246,
+          "entropy": 0.4998,
+          "reactivity": 3.0222,
+          "gregsEnergy": -1.386,
+          "kalchm": 7.2003,
+          "monica": 0.2323
         },
         "substitutions": [
           {
@@ -26459,31 +26459,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2318181818181818,
-          "Water": 0.3045454545454546,
-          "Earth": 0.2590909090909091,
-          "Air": 0.20454545454545459
+          "Fire": 0.23461538461538453,
+          "Water": 0.2423076923076923,
+          "Earth": 0.3115384615384615,
+          "Air": 0.21153846153846154
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 272,
+          "sodiumMg": 247,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26497,18 +26497,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.96,
-          "Essence": 6.38,
-          "Matter": 6.49,
-          "Substance": 6.26
+          "Spirit": 4.41,
+          "Essence": 4.82,
+          "Matter": 5.64,
+          "Substance": 5.32
         },
         "thermodynamicProperties": {
-          "heat": 0.4636,
-          "entropy": 0.4782,
-          "reactivity": 0.5218,
-          "gregsEnergy": 0.2141,
-          "kalchm": 0.3727,
-          "monica": 0.4975
+          "heat": 0.0712,
+          "entropy": 0.3945,
+          "reactivity": 2.0085,
+          "gregsEnergy": -0.721,
+          "kalchm": 0.0108,
+          "monica": -0.0793
         },
         "substitutions": [
           {
@@ -26648,10 +26648,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3625,
-          "Water": 0.20625000000000002,
-          "Earth": 0.24375000000000005,
-          "Air": 0.18750000000000003
+          "Fire": 0.309375,
+          "Water": 0.25625000000000003,
+          "Earth": 0.259375,
+          "Air": 0.17500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26669,10 +26669,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 233,
+          "sodiumMg": 253,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26686,18 +26686,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.96,
-          "Essence": 5.98,
-          "Matter": 4.97,
-          "Substance": 4.48
+          "Spirit": 5.57,
+          "Essence": 5.62,
+          "Matter": 5.27,
+          "Substance": 5.09
         },
         "thermodynamicProperties": {
-          "heat": 0.5781,
-          "entropy": 0.4775,
-          "reactivity": 0.5413,
-          "gregsEnergy": 0.3196,
-          "kalchm": 0.275,
-          "monica": 0.5103
+          "heat": 0.112,
+          "entropy": 0.4386,
+          "reactivity": 2.9015,
+          "gregsEnergy": -1.1607,
+          "kalchm": 9.2639,
+          "monica": 0.1797
         },
         "substitutions": [
           {
@@ -26857,10 +26857,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3791666666666667,
-          "Water": 0.2,
-          "Earth": 0.22500000000000006,
-          "Air": 0.19583333333333336
+          "Fire": 0.37368421052631573,
+          "Water": 0.18421052631578944,
+          "Earth": 0.25368421052631573,
+          "Air": 0.18842105263157893
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26877,11 +26877,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 10,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 230,
+          "sodiumMg": 224,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26895,18 +26895,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 8.32,
-          "Essence": 7.55,
-          "Matter": 6.74,
-          "Substance": 6.15
+          "Spirit": 7.64,
+          "Essence": 6.69,
+          "Matter": 6.12,
+          "Substance": 5.75
         },
         "thermodynamicProperties": {
-          "heat": 0.5896,
-          "entropy": 0.4883,
-          "reactivity": 0.5475,
-          "gregsEnergy": 0.3223,
-          "kalchm": 0.2417,
-          "monica": 0.5014
+          "heat": 0.1589,
+          "entropy": 0.522,
+          "reactivity": 3.3576,
+          "gregsEnergy": -1.5936,
+          "kalchm": 1218.7796,
+          "monica": 0.0668
         },
         "substitutions": [
           {
@@ -26974,10 +26974,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.6,
-          "Earth": 0.16666666666666666,
-          "Air": 0.13333333333333333
+          "Fire": 0.1125,
+          "Water": 0.38749999999999996,
+          "Earth": 0.3125,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26994,12 +26994,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 390,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 305,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -27012,18 +27012,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.66,
-          "Essence": 1.22,
-          "Matter": 1.7,
-          "Substance": 1.52
+          "Spirit": 0.57,
+          "Essence": 1.1,
+          "Matter": 1.34,
+          "Substance": 1.11
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.4867,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0518,
-          "kalchm": -0.2,
-          "monica": 0.2193
+          "heat": 0.0171,
+          "entropy": 0.1628,
+          "reactivity": 1.0858,
+          "gregsEnergy": -0.1596,
+          "kalchm": 0.485,
+          "monica": -0.2031
         },
         "substitutions": [
           {
@@ -27112,10 +27112,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20833333333333334,
-          "Water": 0.35000000000000003,
-          "Earth": 0.25,
-          "Air": 0.19166666666666668
+          "Fire": 0.2785714285714286,
+          "Water": 0.30000000000000004,
+          "Earth": 0.23571428571428574,
+          "Air": 0.18571428571428572
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27136,7 +27136,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 290,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -27150,18 +27150,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.21,
-          "Essence": 2.41,
-          "Matter": 3,
-          "Substance": 2.89
+          "Spirit": 2.11,
+          "Essence": 2.27,
+          "Matter": 2.03,
+          "Substance": 1.7
         },
         "thermodynamicProperties": {
-          "heat": 0.4292,
-          "entropy": 0.4767,
-          "reactivity": 0.535,
-          "gregsEnergy": 0.1742,
-          "kalchm": 0.3,
-          "monica": 0.4597
+          "heat": 0.1003,
+          "entropy": 0.3188,
+          "reactivity": 2.4734,
+          "gregsEnergy": -0.6882,
+          "kalchm": 2.9953,
+          "monica": 0.2536
         },
         "substitutions": [
           {
@@ -27269,10 +27269,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3181818181818182,
-          "Water": 0.2727272727272727,
-          "Earth": 0.23,
-          "Air": 0.17909090909090908
+          "Fire": 0.30727272727272725,
+          "Water": 0.2563636363636364,
+          "Earth": 0.2227272727272727,
+          "Air": 0.21363636363636365
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27290,10 +27290,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 259,
+          "sodiumMg": 253,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -27307,18 +27307,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.2,
-          "Essence": 5.34,
-          "Matter": 4.78,
-          "Substance": 4.59
+          "Spirit": 4.14,
+          "Essence": 4.3,
+          "Matter": 3.86,
+          "Substance": 3.79
         },
         "thermodynamicProperties": {
-          "heat": 0.5227,
-          "entropy": 0.4796,
-          "reactivity": 0.5545,
-          "gregsEnergy": 0.2568,
-          "kalchm": 0.3182,
-          "monica": 0.4982
+          "heat": 0.1078,
+          "entropy": 0.424,
+          "reactivity": 3.0116,
+          "gregsEnergy": -1.1691,
+          "kalchm": 6.6226,
+          "monica": 0.2053
         },
         "substitutions": [
           {
@@ -27407,10 +27407,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2928571428571428,
-          "Water": 0.29285714285714287,
-          "Earth": 0.17142857142857143,
-          "Air": 0.24285714285714285
+          "Fire": 0.15375,
+          "Water": 0.36500000000000005,
+          "Earth": 0.24374999999999997,
+          "Air": 0.23750000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27427,11 +27427,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 27,
-          "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 267,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 296,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -27445,18 +27445,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.94,
-          "Essence": 3.76,
-          "Matter": 2.3,
-          "Substance": 2.07
+          "Spirit": 1.94,
+          "Essence": 2.89,
+          "Matter": 2.75,
+          "Substance": 2.5
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5286,
-          "reactivity": 0.5514,
-          "gregsEnergy": 0.2085,
-          "kalchm": 0.3286,
-          "monica": 0.482
+          "heat": 0.0469,
+          "entropy": 0.2585,
+          "reactivity": 2.073,
+          "gregsEnergy": -0.489,
+          "kalchm": 0.4868,
+          "monica": -0.3277
         },
         "substitutions": [
           {
@@ -27527,10 +27527,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.35000000000000003,
-          "Water": 0.25000000000000006,
-          "Earth": 0.17500000000000002,
-          "Air": 0.22500000000000003
+          "Fire": 0.32,
+          "Water": 0.28,
+          "Earth": 0.19,
+          "Air": 0.21000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27548,10 +27548,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 250,
+          "fiberG": 4,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -27565,18 +27565,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.01,
-          "Essence": 2.16,
-          "Matter": 1.25,
-          "Substance": 1.44
+          "Spirit": 1.73,
+          "Essence": 1.69,
+          "Matter": 1.35,
+          "Substance": 1.5
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.52,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.2588,
-          "kalchm": 0.3,
-          "monica": 0.4935
+          "heat": 0.1136,
+          "entropy": 0.4374,
+          "reactivity": 3.5098,
+          "gregsEnergy": -1.4218,
+          "kalchm": 2.2744,
+          "monica": 0.493
         },
         "substitutions": [
           {
@@ -27653,10 +27653,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3875,
-          "Water": 0.15000000000000002,
-          "Earth": 0.22499999999999998,
-          "Air": 0.2375
+          "Fire": 0.37500000000000006,
+          "Water": 0.175,
+          "Earth": 0.275,
+          "Air": 0.17500000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27673,12 +27673,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 10,
           "fiberG": 4,
-          "sodiumMg": 210,
-          "sugarG": 6,
+          "sodiumMg": 220,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -27691,18 +27691,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.79,
-          "Essence": 2.55,
-          "Matter": 1.77,
-          "Substance": 1.74
+          "Spirit": 2.7,
+          "Essence": 2.42,
+          "Matter": 1.96,
+          "Substance": 1.97
         },
         "thermodynamicProperties": {
-          "heat": 0.6188,
-          "entropy": 0.505,
-          "reactivity": 0.5225,
-          "gregsEnergy": 0.3549,
-          "kalchm": 0.225,
-          "monica": 0.5095
+          "heat": 0.1527,
+          "entropy": 0.4862,
+          "reactivity": 3.4491,
+          "gregsEnergy": -1.5242,
+          "kalchm": 8.7216,
+          "monica": 0.204
         },
         "substitutions": [
           {
@@ -27773,10 +27773,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.35000000000000003,
-          "Earth": 0.175,
-          "Air": 0.17500000000000002
+          "Fire": 0.27,
+          "Water": 0.36,
+          "Earth": 0.21999999999999997,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27795,10 +27795,10 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 8,
           "carbsG": 25,
-          "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 290,
-          "sugarG": 5,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 294,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -27811,18 +27811,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.99,
-          "Essence": 2.19,
-          "Matter": 1.69,
-          "Substance": 1.59
+          "Spirit": 1.83,
+          "Essence": 2.14,
+          "Matter": 1.95,
+          "Substance": 1.69
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.5,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.18,
-          "kalchm": 0.2,
-          "monica": 0.432
+          "heat": 0.0807,
+          "entropy": 0.2889,
+          "reactivity": 2.338,
+          "gregsEnergy": -0.5947,
+          "kalchm": 1.7245,
+          "monica": 0.4668
         },
         "substitutions": [
           {
@@ -27922,32 +27922,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.245,
-          "Water": 0.30333333333333334,
-          "Earth": 0.1716666666666667,
-          "Air": 0.28
+          "Fire": 0.29625,
+          "Water": 0.22750000000000004,
+          "Earth": 0.25375000000000003,
+          "Air": 0.22250000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 271,
-          "sugarG": 6,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 241,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -27960,18 +27960,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.17,
-          "Essence": 3.85,
-          "Matter": 2.74,
-          "Substance": 2.61
+          "Spirit": 3.08,
+          "Essence": 2.65,
+          "Matter": 2.47,
+          "Substance": 2.35
         },
         "thermodynamicProperties": {
-          "heat": 0.4708,
-          "entropy": 0.5433,
-          "reactivity": 0.529,
-          "gregsEnergy": 0.1834,
-          "kalchm": 0.3333,
-          "monica": 0.4733
+          "heat": 0.1433,
+          "entropy": 0.4828,
+          "reactivity": 2.9951,
+          "gregsEnergy": -1.3026,
+          "kalchm": 6.0865,
+          "monica": 0.2408
         },
         "substitutions": [
           {
@@ -28070,10 +28070,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26625,
-          "Water": 0.32875000000000004,
-          "Earth": 0.22500000000000003,
-          "Air": 0.18000000000000002
+          "Fire": 0.22777777777777777,
+          "Water": 0.3222222222222222,
+          "Earth": 0.29999999999999993,
+          "Air": 0.14999999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28090,12 +28090,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 282,
-          "sugarG": 5,
+          "sodiumMg": 279,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -28108,18 +28108,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.21,
-          "Essence": 4.12,
-          "Matter": 3.55,
-          "Substance": 3.43
+          "Spirit": 2.33,
+          "Essence": 4.03,
+          "Matter": 4.42,
+          "Substance": 4.23
         },
         "thermodynamicProperties": {
-          "heat": 0.4688,
-          "entropy": 0.482,
-          "reactivity": 0.557,
-          "gregsEnergy": 0.2003,
-          "kalchm": 0.31,
-          "monica": 0.4731
+          "heat": 0.0303,
+          "entropy": 0.2843,
+          "reactivity": 1.7838,
+          "gregsEnergy": -0.4768,
+          "kalchm": 0.0062,
+          "monica": -0.0526
         },
         "substitutions": [
           {
@@ -28288,10 +28288,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23214285714285712,
-          "Water": 0.3571428571428571,
-          "Earth": 0.1678571428571429,
-          "Air": 0.24285714285714285
+          "Fire": 0.20789473684210527,
+          "Water": 0.3105263157894737,
+          "Earth": 0.24999999999999994,
+          "Air": 0.23157894736842108
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28308,12 +28308,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 27,
-          "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 293,
-          "sugarG": 6,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 274,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -28326,18 +28326,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.48,
-          "Essence": 8.36,
-          "Matter": 6.23,
-          "Substance": 6.02
+          "Spirit": 5.59,
+          "Essence": 7.31,
+          "Matter": 6.36,
+          "Substance": 6.25
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.53,
-          "reactivity": 0.5536,
-          "gregsEnergy": 0.1441,
-          "kalchm": 0.2857,
-          "monica": 0.4434
+          "heat": 0.0729,
+          "entropy": 0.3477,
+          "reactivity": 2.8367,
+          "gregsEnergy": -0.9133,
+          "kalchm": 2.5647,
+          "monica": 0.3418
         },
         "substitutions": [
           {
@@ -28425,10 +28425,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26999999999999996,
-          "Water": 0.31999999999999995,
-          "Earth": 0.16,
-          "Air": 0.25
+          "Fire": 0.24285714285714285,
+          "Water": 0.27142857142857146,
+          "Earth": 0.25,
+          "Air": 0.2357142857142857
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28445,11 +28445,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
-          "carbsG": 28,
+          "proteinG": 9,
+          "carbsG": 27,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 278,
+          "fiberG": 4,
+          "sodiumMg": 259,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -28463,18 +28463,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.63,
-          "Essence": 2.61,
-          "Matter": 2.75,
-          "Substance": 2.77
+          "Spirit": 2.04,
+          "Essence": 2.1,
+          "Matter": 2.06,
+          "Substance": 2.07
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.536,
-          "reactivity": 0.554,
-          "gregsEnergy": 0.1781,
-          "kalchm": 0.32,
-          "monica": 0.4672
+          "heat": 0.0865,
+          "entropy": 0.3906,
+          "reactivity": 2.4446,
+          "gregsEnergy": -0.8685,
+          "kalchm": 1.0178,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -28534,10 +28534,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.07500000000000001,
-          "Water": 0.5750000000000001,
-          "Earth": 0.225,
-          "Air": 0.12500000000000003
+          "Fire": 0.05,
+          "Water": 0.65,
+          "Earth": 0.1,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28554,12 +28554,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 7,
+          "carbsG": 26,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 380,
-          "sugarG": 4,
+          "fiberG": 3,
+          "sodiumMg": 410,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -28572,18 +28572,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.57,
-          "Essence": 1.31,
-          "Matter": 0.96,
-          "Substance": 0.74
+          "Spirit": 0.49,
+          "Essence": 1.41,
+          "Matter": 0.91,
+          "Substance": 0.84
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.59,
-          "gregsEnergy": -0.0214,
-          "kalchm": -0.15,
-          "monica": 0.2464
+          "heat": 0.0144,
+          "entropy": 0.1048,
+          "reactivity": 3.3318,
+          "gregsEnergy": -0.335,
+          "kalchm": 1.4437,
+          "monica": 0.2738
         },
         "substitutions": [
           {
@@ -28660,10 +28660,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.4,
+          "Fire": 0.31999999999999995,
           "Water": 0.25,
-          "Earth": 0.15000000000000002,
-          "Air": 0.2
+          "Earth": 0.24000000000000005,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28680,10 +28680,10 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 10,
-          "fiberG": 3,
+          "fatG": 9,
+          "fiberG": 4,
           "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
@@ -28698,18 +28698,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.43,
-          "Essence": 2.4,
-          "Matter": 1.75,
+          "Spirit": 1.59,
+          "Essence": 1.59,
+          "Matter": 1.46,
           "Substance": 1.46
         },
         "thermodynamicProperties": {
-          "heat": 0.575,
-          "entropy": 0.52,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.2682,
-          "kalchm": 0.2,
-          "monica": 0.4673
+          "heat": 0.0977,
+          "entropy": 0.3829,
+          "reactivity": 2.5567,
+          "gregsEnergy": -0.8813,
+          "kalchm": 1.4472,
+          "monica": 0.9325
         },
         "substitutions": [
           {
@@ -28798,10 +28798,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.25833333333333336,
-          "Earth": 0.2416666666666666,
-          "Air": 0.19999999999999996
+          "Fire": 0.36875,
+          "Water": 0.225,
+          "Earth": 0.2375,
+          "Air": 0.16875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28819,10 +28819,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 253,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -28836,18 +28836,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.74,
-          "Essence": 3.63,
-          "Matter": 2.82,
-          "Substance": 2.46
+          "Spirit": 3.46,
+          "Essence": 3.43,
+          "Matter": 3.05,
+          "Substance": 2.83
         },
         "thermodynamicProperties": {
-          "heat": 0.5208,
-          "entropy": 0.4833,
-          "reactivity": 0.535,
-          "gregsEnergy": 0.2622,
-          "kalchm": 0.3833,
-          "monica": 0.5199
+          "heat": 0.1225,
+          "entropy": 0.418,
+          "reactivity": 2.9572,
+          "gregsEnergy": -1.1135,
+          "kalchm": 8.8225,
+          "monica": 0.1729
         },
         "substitutions": [
           {
@@ -28939,32 +28939,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11000000000000001,
-          "Water": 0.38999999999999996,
-          "Earth": 0.35,
-          "Air": 0.15
+          "Fire": 0.14166666666666664,
+          "Water": 0.3166666666666667,
+          "Earth": 0.3666666666666667,
+          "Air": 0.17499999999999996
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 306,
-          "sugarG": 4,
+          "sodiumMg": 277,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -28977,18 +28977,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.82,
-          "Essence": 2.76,
-          "Matter": 3.39,
-          "Substance": 2.93
+          "Spirit": 1.68,
+          "Essence": 2.27,
+          "Matter": 2.96,
+          "Substance": 2.56
         },
         "thermodynamicProperties": {
-          "heat": 0.36,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.15,
-          "kalchm": 0.02,
-          "monica": 0.366
+          "heat": 0.038,
+          "entropy": 0.2696,
+          "reactivity": 1.3265,
+          "gregsEnergy": -0.3196,
+          "kalchm": 0.0558,
+          "monica": -0.0835
         },
         "substitutions": [
           {
@@ -29078,10 +29078,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.34374999999999994,
-          "Water": 0.22500000000000003,
-          "Earth": 0.20000000000000004,
-          "Air": 0.23124999999999996
+          "Fire": 0.36,
+          "Water": 0.24000000000000002,
+          "Earth": 0.17500000000000002,
+          "Air": 0.225
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29101,8 +29101,8 @@ export const cuisine: Cuisine = {
           "proteinG": 8,
           "carbsG": 27,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 240,
+          "fiberG": 3,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -29116,18 +29116,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.04,
-          "Essence": 4.33,
-          "Matter": 2.17,
-          "Substance": 2.08
+          "Spirit": 3.73,
+          "Essence": 3.12,
+          "Matter": 2.12,
+          "Substance": 2.28
         },
         "thermodynamicProperties": {
-          "heat": 0.5594,
-          "entropy": 0.5125,
-          "reactivity": 0.5413,
-          "gregsEnergy": 0.282,
-          "kalchm": 0.3125,
-          "monica": 0.5066
+          "heat": 0.2109,
+          "entropy": 0.6033,
+          "reactivity": 5.5218,
+          "gregsEnergy": -3.1202,
+          "kalchm": 146.6604,
+          "monica": 0.1133
         },
         "substitutions": [
           {
@@ -29240,31 +29240,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.30500000000000005,
-          "Water": 0.29500000000000004,
-          "Earth": 0.24,
-          "Air": 0.15999999999999998
+          "Fire": 0.2958333333333333,
+          "Water": 0.25000000000000006,
+          "Earth": 0.30416666666666664,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 250,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -29278,18 +29278,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.15,
-          "Essence": 5.75,
-          "Matter": 4.99,
-          "Substance": 4.46
+          "Spirit": 4.21,
+          "Essence": 4.71,
+          "Matter": 4.55,
+          "Substance": 3.93
         },
         "thermodynamicProperties": {
-          "heat": 0.505,
-          "entropy": 0.468,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.2429,
-          "kalchm": 0.3,
-          "monica": 0.4872
+          "heat": 0.0923,
+          "entropy": 0.3455,
+          "reactivity": 2.3565,
+          "gregsEnergy": -0.7219,
+          "kalchm": 2.9393,
+          "monica": 0.2841
         },
         "substitutions": [
           {
@@ -29372,10 +29372,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3814285714285714,
-          "Water": 0.15285714285714286,
-          "Earth": 0.22571428571428573,
-          "Air": 0.23999999999999996
+          "Fire": 0.3742857142857143,
+          "Water": 0.12428571428571432,
+          "Earth": 0.23285714285714287,
+          "Air": 0.2685714285714286
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29393,10 +29393,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 10,
+          "carbsG": 28,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 211,
+          "sodiumMg": 200,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -29410,18 +29410,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.23,
-          "Essence": 3.09,
-          "Matter": 2.48,
-          "Substance": 2.55
+          "Spirit": 3.18,
+          "Essence": 2.47,
+          "Matter": 2.05,
+          "Substance": 1.96
         },
         "thermodynamicProperties": {
-          "heat": 0.6143,
-          "entropy": 0.5057,
-          "reactivity": 0.5206,
-          "gregsEnergy": 0.351,
-          "kalchm": 0.2371,
-          "monica": 0.5115
+          "heat": 0.2031,
+          "entropy": 0.5956,
+          "reactivity": 3.8919,
+          "gregsEnergy": -2.1148,
+          "kalchm": 22.6862,
+          "monica": 0.1741
         },
         "substitutions": [
           {
@@ -29504,10 +29504,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31666666666666665,
-          "Water": 0.23333333333333336,
-          "Earth": 0.21666666666666667,
-          "Air": 0.2333333333333333
+          "Fire": 0.3357142857142857,
+          "Water": 0.20714285714285716,
+          "Earth": 0.22142857142857147,
+          "Air": 0.23571428571428574
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29528,7 +29528,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 243,
+          "sodiumMg": 233,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -29542,18 +29542,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.18,
-          "Essence": 2.77,
-          "Matter": 2.45,
-          "Substance": 2.39
+          "Spirit": 2.63,
+          "Essence": 2.26,
+          "Matter": 1.89,
+          "Substance": 1.86
         },
         "thermodynamicProperties": {
-          "heat": 0.5417,
-          "entropy": 0.5067,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2731,
-          "kalchm": 0.3667,
-          "monica": 0.5192
+          "heat": 0.1578,
+          "entropy": 0.503,
+          "reactivity": 3.5206,
+          "gregsEnergy": -1.6131,
+          "kalchm": 7.6026,
+          "monica": 0.2259
         },
         "substitutions": [
           {
@@ -29703,10 +29703,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31875000000000003,
-          "Water": 0.2,
-          "Earth": 0.28750000000000003,
-          "Air": 0.19375000000000003
+          "Fire": 0.3541176470588235,
+          "Water": 0.1323529411764706,
+          "Earth": 0.29411764705882354,
+          "Air": 0.21941176470588242
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29724,10 +29724,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 230,
+          "sodiumMg": 203,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -29741,18 +29741,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.81,
-          "Essence": 6.02,
-          "Matter": 6.39,
-          "Substance": 5.57
+          "Spirit": 6.27,
+          "Essence": 4.99,
+          "Matter": 5.21,
+          "Substance": 4.76
         },
         "thermodynamicProperties": {
-          "heat": 0.5594,
-          "entropy": 0.4625,
-          "reactivity": 0.5112,
-          "gregsEnergy": 0.323,
-          "kalchm": 0.2875,
-          "monica": 0.5154
+          "heat": 0.1619,
+          "entropy": 0.5503,
+          "reactivity": 2.8738,
+          "gregsEnergy": -1.4196,
+          "kalchm": 33.2855,
+          "monica": 0.1409
         },
         "substitutions": [
           {
@@ -29854,10 +29854,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.45,
-          "Water": 0.11666666666666668,
-          "Earth": 0.25000000000000006,
-          "Air": 0.18333333333333335
+          "Fire": 0.43899999999999995,
+          "Water": 0.088,
+          "Earth": 0.29799999999999993,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29875,10 +29875,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 10,
           "fiberG": 4,
-          "sodiumMg": 197,
+          "sodiumMg": 185,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -29892,18 +29892,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.51,
-          "Essence": 3.37,
-          "Matter": 3.51,
-          "Substance": 3.35
+          "Spirit": 4.14,
+          "Essence": 2.74,
+          "Matter": 2.73,
+          "Substance": 2.67
         },
         "thermodynamicProperties": {
-          "heat": 0.6667,
-          "entropy": 0.4733,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.4111,
-          "kalchm": 0.1,
-          "monica": 0.4944
+          "heat": 0.2289,
+          "entropy": 0.7142,
+          "reactivity": 3.4909,
+          "gregsEnergy": -2.2643,
+          "kalchm": 26.5649,
+          "monica": 0.1978
         },
         "substitutions": [
           {
@@ -29975,10 +29975,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.34,
+          "Fire": 0.32,
           "Water": 0.16,
-          "Earth": 0.26,
-          "Air": 0.24
+          "Earth": 0.29399999999999993,
+          "Air": 0.22600000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -30000,7 +30000,7 @@ export const cuisine: Cuisine = {
           "fatG": 9,
           "fiberG": 4,
           "sodiumMg": 214,
-          "sugarG": 6,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -30013,18 +30013,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.46,
-          "Essence": 1.72,
-          "Matter": 1.96,
-          "Substance": 2.05
+          "Spirit": 1.85,
+          "Essence": 1.63,
+          "Matter": 1.68,
+          "Substance": 1.58
         },
         "thermodynamicProperties": {
-          "heat": 0.59,
-          "entropy": 0.492,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.344,
-          "kalchm": 0.3,
-          "monica": 0.5276
+          "heat": 0.1136,
+          "entropy": 0.4286,
+          "reactivity": 2.2468,
+          "gregsEnergy": -0.8494,
+          "kalchm": 1.4052,
+          "monica": 1.1113
         },
         "substitutions": [
           {
@@ -30115,9 +30115,9 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.375,
-          "Water": 0.20000000000000004,
-          "Earth": 0.20000000000000004,
-          "Air": 0.225
+          "Water": 0.20625,
+          "Earth": 0.25000000000000006,
+          "Air": 0.16874999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -30134,11 +30134,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 10,
           "fiberG": 4,
-          "sodiumMg": 230,
+          "sodiumMg": 233,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -30152,18 +30152,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.05,
-          "Essence": 3.7,
-          "Matter": 2.63,
-          "Substance": 2.6
+          "Spirit": 3.52,
+          "Essence": 3.13,
+          "Matter": 2.95,
+          "Substance": 2.83
         },
         "thermodynamicProperties": {
-          "heat": 0.5875,
-          "entropy": 0.51,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.3095,
-          "kalchm": 0.25,
-          "monica": 0.4988
+          "heat": 0.1378,
+          "entropy": 0.4814,
+          "reactivity": 2.9695,
+          "gregsEnergy": -1.2918,
+          "kalchm": 6.4618,
+          "monica": 0.2331
         },
         "substitutions": [
           {
@@ -30240,10 +30240,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3666666666666667,
-          "Water": 0.2333333333333333,
-          "Earth": 0.16666666666666666,
-          "Air": 0.2333333333333333
+          "Fire": 0.31599999999999995,
+          "Water": 0.28400000000000003,
+          "Earth": 0.15599999999999997,
+          "Air": 0.244
         },
         "astrologicalAffinities": {
           "planets": [
@@ -30260,11 +30260,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 7,
           "carbsG": 27,
           "fatG": 9,
           "fiberG": 3,
-          "sodiumMg": 243,
+          "sodiumMg": 264,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -30279,17 +30279,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.25,
-          "Essence": 2.21,
-          "Matter": 1.72,
-          "Substance": 1.52
+          "Essence": 2.22,
+          "Matter": 1.63,
+          "Substance": 1.6
         },
         "thermodynamicProperties": {
-          "heat": 0.5667,
-          "entropy": 0.5267,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.2717,
-          "kalchm": 0.2667,
-          "monica": 0.4887
+          "heat": 0.1372,
+          "entropy": 0.4228,
+          "reactivity": 4.01,
+          "gregsEnergy": -1.5583,
+          "kalchm": 7.7421,
+          "monica": 0.1899
         },
         "substitutions": [
           {
@@ -30384,10 +30384,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.325,
-          "Water": 0.21666666666666665,
-          "Earth": 0.2333333333333333,
-          "Air": 0.225
+          "Fire": 0.29222222222222227,
+          "Water": 0.2577777777777778,
+          "Earth": 0.18333333333333332,
+          "Air": 0.26666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -30404,12 +30404,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 27,
+          "proteinG": 8,
+          "carbsG": 28,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 237,
-          "sugarG": 5,
+          "fiberG": 3,
+          "sodiumMg": 253,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -30422,18 +30422,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.88,
-          "Essence": 4.05,
-          "Matter": 3.25,
-          "Substance": 3.1
+          "Spirit": 3.38,
+          "Essence": 3.38,
+          "Matter": 2.48,
+          "Substance": 2.63
         },
         "thermodynamicProperties": {
-          "heat": 0.5542,
-          "entropy": 0.4967,
-          "reactivity": 0.525,
-          "gregsEnergy": 0.2934,
-          "kalchm": 0.35,
-          "monica": 0.5224
+          "heat": 0.1361,
+          "entropy": 0.4659,
+          "reactivity": 4.2277,
+          "gregsEnergy": -1.8336,
+          "kalchm": 31.0995,
+          "monica": 0.1262
         },
         "substitutions": [
           {
@@ -30493,31 +30493,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.55,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.17500000000000002,
+          "Water": 0.15000000000000005,
+          "Earth": 0.5750000000000001,
+          "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 370,
+          "proteinG": 14,
+          "carbsG": 23,
+          "fatG": 7,
+          "fiberG": 7,
+          "sodiumMg": 210,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -30531,18 +30531,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.35,
-          "Essence": 0.88,
-          "Matter": 1.44,
-          "Substance": 1.29
+          "Spirit": 0.54,
+          "Essence": 0.59,
+          "Matter": 1.15,
+          "Substance": 0.93
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0076,
-          "kalchm": -0.1,
-          "monica": 0.267
+          "heat": 0.0264,
+          "entropy": 0.197,
+          "reactivity": 0.5269,
+          "gregsEnergy": -0.0774,
+          "kalchm": 0.4784,
+          "monica": -0.1993
         },
         "substitutions": [
           {
@@ -30617,31 +30617,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12000000000000002,
-          "Water": 0.44000000000000006,
-          "Earth": 0.28,
-          "Air": 0.16
+          "Fire": 0.1,
+          "Water": 0.375,
+          "Earth": 0.375,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 326,
+          "fiberG": 5,
+          "sodiumMg": 300,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -30655,18 +30655,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.13,
-          "Essence": 2.05,
-          "Matter": 2.47,
-          "Substance": 2.19
+          "Spirit": 0.78,
+          "Essence": 1.63,
+          "Matter": 2.15,
+          "Substance": 1.77
         },
         "thermodynamicProperties": {
-          "heat": 0.34,
-          "entropy": 0.452,
-          "reactivity": 0.536,
-          "gregsEnergy": 0.0977,
-          "kalchm": 0.06,
-          "monica": 0.3571
+          "heat": 0.0149,
+          "entropy": 0.1839,
+          "reactivity": 1.0307,
+          "gregsEnergy": -0.1747,
+          "kalchm": 0.1282,
+          "monica": -0.0825
         },
         "substitutions": [
           {
@@ -30726,31 +30726,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666667,
-          "Water": 0.46666666666666673,
-          "Earth": 0.3333333333333333,
-          "Air": 0.13333333333333333
+          "Fire": 0.06666666666666668,
+          "Water": 0.4,
+          "Earth": 0.4,
+          "Air": 0.13333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 6,
           "fiberG": 5,
-          "sodiumMg": 337,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -30764,18 +30764,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.2,
+          "Spirit": 0.28,
           "Essence": 0.78,
-          "Matter": 1.59,
-          "Substance": 1.39
+          "Matter": 1.2,
+          "Substance": 0.92
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.42,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.0816,
-          "kalchm": -0.1,
-          "monica": 0.3026
+          "heat": 0.0056,
+          "entropy": 0.1225,
+          "reactivity": 0.6701,
+          "gregsEnergy": -0.0765,
+          "kalchm": 0.5004,
+          "monica": -0.1648
         },
         "substitutions": [
           {
@@ -30836,31 +30836,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666667,
-          "Water": 0.46666666666666673,
-          "Earth": 0.3333333333333333,
-          "Air": 0.13333333333333333
+          "Fire": 0.06666666666666668,
+          "Water": 0.4,
+          "Earth": 0.4,
+          "Air": 0.13333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 6,
           "fiberG": 5,
-          "sodiumMg": 337,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -30874,18 +30874,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.2,
+          "Spirit": 0.28,
           "Essence": 0.78,
-          "Matter": 1.59,
-          "Substance": 1.39
+          "Matter": 1.2,
+          "Substance": 0.92
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.42,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.0816,
-          "kalchm": -0.1,
-          "monica": 0.3026
+          "heat": 0.0056,
+          "entropy": 0.1225,
+          "reactivity": 0.6701,
+          "gregsEnergy": -0.0765,
+          "kalchm": 0.5004,
+          "monica": -0.1648
         },
         "substitutions": [
           {
@@ -31013,10 +31013,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23571428571428574,
-          "Water": 0.2642857142857143,
-          "Earth": 0.2928571428571428,
-          "Air": 0.20714285714285713
+          "Fire": 0.19142857142857142,
+          "Water": 0.2728571428571429,
+          "Earth": 0.32857142857142857,
+          "Air": 0.20714285714285716
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31033,11 +31033,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 256,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 259,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31051,18 +31051,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.39,
-          "Essence": 4.72,
-          "Matter": 4.42,
-          "Substance": 3.94
+          "Spirit": 3.18,
+          "Essence": 4,
+          "Matter": 5.07,
+          "Substance": 4.65
         },
         "thermodynamicProperties": {
-          "heat": 0.4857,
-          "entropy": 0.4657,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.2529,
-          "kalchm": 0.3857,
-          "monica": 0.5169
+          "heat": 0.0481,
+          "entropy": 0.3401,
+          "reactivity": 1.6431,
+          "gregsEnergy": -0.5108,
+          "kalchm": 0.0021,
+          "monica": -0.0504
         },
         "substitutions": [
           {
@@ -31177,31 +31177,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.42142857142857143,
-          "Water": 0.17142857142857146,
-          "Earth": 0.2285714285714286,
-          "Air": 0.17857142857142858
+          "Fire": 0.30000000000000004,
+          "Water": 0.19999999999999998,
+          "Earth": 0.30454545454545456,
+          "Air": 0.19545454545454544
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 10,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 219,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31215,18 +31215,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.43,
-          "Essence": 4.48,
-          "Matter": 4.51,
-          "Substance": 4.03
+          "Spirit": 4.72,
+          "Essence": 4.46,
+          "Matter": 4.5,
+          "Substance": 4.02
         },
         "thermodynamicProperties": {
-          "heat": 0.625,
-          "entropy": 0.48,
-          "reactivity": 0.5557,
-          "gregsEnergy": 0.3583,
-          "kalchm": 0.1571,
-          "monica": 0.4904
+          "heat": 0.1195,
+          "entropy": 0.4305,
+          "reactivity": 2.5342,
+          "gregsEnergy": -0.9716,
+          "kalchm": 5.112,
+          "monica": 0.235
         },
         "substitutions": [
           {
@@ -31354,31 +31354,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22777777777777775,
-          "Water": 0.3055555555555556,
-          "Earth": 0.2833333333333334,
-          "Air": 0.18333333333333335
+          "Fire": 0.24615384615384617,
+          "Water": 0.2384615384615385,
+          "Earth": 0.3153846153846154,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 272,
+          "fiberG": 5,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31392,18 +31392,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.78,
-          "Essence": 4.3,
-          "Matter": 5.68,
-          "Substance": 5.23
+          "Spirit": 3.57,
+          "Essence": 3.93,
+          "Matter": 4.95,
+          "Substance": 4.38
         },
         "thermodynamicProperties": {
-          "heat": 0.4611,
-          "entropy": 0.46,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.2219,
-          "kalchm": 0.3222,
-          "monica": 0.4854
+          "heat": 0.0652,
+          "entropy": 0.3599,
+          "reactivity": 1.7144,
+          "gregsEnergy": -0.5518,
+          "kalchm": 0.0115,
+          "monica": -0.0721
         },
         "substitutions": [
           {
@@ -31505,10 +31505,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17857142857142858,
-          "Water": 0.29285714285714287,
-          "Earth": 0.25,
-          "Air": 0.2785714285714285
+          "Fire": 0.165,
+          "Water": 0.315,
+          "Earth": 0.282,
+          "Air": 0.238
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31526,10 +31526,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 28,
+          "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 267,
+          "sodiumMg": 276,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -31543,18 +31543,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.51,
-          "Essence": 4.13,
-          "Matter": 3.27,
-          "Substance": 3.04
+          "Spirit": 2.3,
+          "Essence": 3.71,
+          "Matter": 3.29,
+          "Substance": 3.08
         },
         "thermodynamicProperties": {
-          "heat": 0.4429,
-          "entropy": 0.5114,
-          "reactivity": 0.4829,
-          "gregsEnergy": 0.1959,
-          "kalchm": 0.3571,
-          "monica": 0.4855
+          "heat": 0.0446,
+          "entropy": 0.2575,
+          "reactivity": 2.2512,
+          "gregsEnergy": -0.535,
+          "kalchm": 0.5471,
+          "monica": -0.394
         },
         "substitutions": [
           {
@@ -31670,32 +31670,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22857142857142856,
-          "Water": 0.3714285714285714,
-          "Earth": 0.2357142857142857,
-          "Air": 0.16428571428571428
+          "Fire": 0.26833333333333337,
+          "Water": 0.20249999999999999,
+          "Earth": 0.3608333333333333,
+          "Air": 0.16833333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 299,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 231,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -31708,18 +31708,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.52,
-          "Essence": 4.66,
-          "Matter": 5.05,
-          "Substance": 4.65
+          "Spirit": 3.25,
+          "Essence": 3.93,
+          "Matter": 4.78,
+          "Substance": 4.3
         },
         "thermodynamicProperties": {
-          "heat": 0.4286,
-          "entropy": 0.4714,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1646,
-          "kalchm": 0.2571,
-          "monica": 0.443
+          "heat": 0.0563,
+          "entropy": 0.339,
+          "reactivity": 1.6891,
+          "gregsEnergy": -0.5163,
+          "kalchm": 0.0107,
+          "monica": -0.0674
         },
         "substitutions": [
           {
@@ -31829,10 +31829,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.2785714285714286,
-          "Earth": 0.24285714285714285,
-          "Air": 0.17857142857142855
+          "Fire": 0.32499999999999996,
+          "Water": 0.202,
+          "Earth": 0.275,
+          "Air": 0.198
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31850,10 +31850,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 261,
+          "sodiumMg": 231,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31867,18 +31867,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.36,
-          "Essence": 4.43,
-          "Matter": 4.6,
-          "Substance": 4.2
+          "Spirit": 3.49,
+          "Essence": 3.61,
+          "Matter": 3.75,
+          "Substance": 3.53
         },
         "thermodynamicProperties": {
-          "heat": 0.5107,
-          "entropy": 0.4743,
-          "reactivity": 0.5471,
-          "gregsEnergy": 0.2512,
-          "kalchm": 0.3429,
-          "monica": 0.5033
+          "heat": 0.0919,
+          "entropy": 0.4036,
+          "reactivity": 2.3369,
+          "gregsEnergy": -0.8512,
+          "kalchm": 0.6619,
+          "monica": -0.8827
         },
         "substitutions": [
           {
@@ -31988,31 +31988,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21875000000000003,
-          "Water": 0.3,
-          "Earth": 0.225,
-          "Air": 0.25625000000000003
+          "Fire": 0.265,
+          "Water": 0.20500000000000002,
+          "Earth": 0.26200000000000007,
+          "Air": 0.268
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Mercury",
+            "Uranus"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Gemini",
+            "Aquarius"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Last Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 232,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -32026,18 +32026,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.42,
-          "Essence": 4.18,
-          "Matter": 4.24,
-          "Substance": 4.13
+          "Spirit": 3.42,
+          "Essence": 3.43,
+          "Matter": 3.27,
+          "Substance": 3.05
         },
         "thermodynamicProperties": {
-          "heat": 0.4594,
-          "entropy": 0.5125,
-          "reactivity": 0.5112,
-          "gregsEnergy": 0.1974,
-          "kalchm": 0.3875,
-          "monica": 0.4952
+          "heat": 0.107,
+          "entropy": 0.4116,
+          "reactivity": 2.6411,
+          "gregsEnergy": -0.98,
+          "kalchm": 3.1823,
+          "monica": 0.3205
         },
         "substitutions": [
           {
@@ -32179,32 +32179,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15454545454545457,
-          "Water": 0.38181818181818183,
-          "Earth": 0.3090909090909091,
-          "Air": 0.15454545454545454
+          "Fire": 0.20000000000000004,
+          "Water": 0.2733333333333334,
+          "Earth": 0.3433333333333333,
+          "Air": 0.1833333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 303,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 259,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -32217,18 +32217,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.96,
-          "Essence": 6.6,
-          "Matter": 7.41,
-          "Substance": 7
+          "Spirit": 3.85,
+          "Essence": 5.21,
+          "Matter": 6.12,
+          "Substance": 5.28
         },
         "thermodynamicProperties": {
-          "heat": 0.3864,
-          "entropy": 0.4382,
-          "reactivity": 0.5218,
-          "gregsEnergy": 0.1577,
-          "kalchm": 0.1182,
-          "monica": 0.3985
+          "heat": 0.049,
+          "entropy": 0.2997,
+          "reactivity": 1.6755,
+          "gregsEnergy": -0.4531,
+          "kalchm": 0.0023,
+          "monica": -0.0445
         },
         "substitutions": [
           {
@@ -32368,31 +32368,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24999999999999997,
-          "Water": 0.31153846153846154,
-          "Earth": 0.26769230769230773,
-          "Air": 0.17076923076923078
+          "Fire": 0.27375000000000005,
+          "Water": 0.22937500000000002,
+          "Earth": 0.296875,
+          "Air": 0.20000000000000007
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 242,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32406,18 +32406,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.59,
-          "Essence": 6.8,
-          "Matter": 7.65,
-          "Substance": 7.44
+          "Spirit": 5.06,
+          "Essence": 5.85,
+          "Matter": 6.59,
+          "Substance": 6.03
         },
         "thermodynamicProperties": {
-          "heat": 0.4692,
-          "entropy": 0.4612,
-          "reactivity": 0.5369,
-          "gregsEnergy": 0.2216,
-          "kalchm": 0.3415,
-          "monica": 0.4911
+          "heat": 0.0697,
+          "entropy": 0.3692,
+          "reactivity": 2.0316,
+          "gregsEnergy": -0.6805,
+          "kalchm": 0.0089,
+          "monica": -0.0709
         },
         "substitutions": [
           {
@@ -32558,31 +32558,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2307692307692307,
-          "Water": 0.3230769230769231,
-          "Earth": 0.2715384615384615,
-          "Air": 0.17461538461538462
+          "Fire": 0.258125,
+          "Water": 0.23875,
+          "Earth": 0.3,
+          "Air": 0.20312500000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 279,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32596,18 +32596,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.44,
-          "Essence": 6.85,
-          "Matter": 7.63,
-          "Substance": 7.44
+          "Spirit": 4.91,
+          "Essence": 5.9,
+          "Matter": 6.57,
+          "Substance": 6.03
         },
         "thermodynamicProperties": {
-          "heat": 0.4538,
-          "entropy": 0.4612,
-          "reactivity": 0.5323,
-          "gregsEnergy": 0.2083,
-          "kalchm": 0.3108,
-          "monica": 0.4766
+          "heat": 0.0653,
+          "entropy": 0.358,
+          "reactivity": 2.0222,
+          "gregsEnergy": -0.6586,
+          "kalchm": 0.0073,
+          "monica": -0.0662
         },
         "substitutions": [
           {
@@ -32730,31 +32730,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23700000000000002,
-          "Water": 0.36200000000000004,
-          "Earth": 0.21300000000000002,
-          "Air": 0.188
+          "Fire": 0.2823076923076923,
+          "Water": 0.25923076923076926,
+          "Earth": 0.2561538461538461,
+          "Air": 0.2023076923076923
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 295,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32768,18 +32768,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.79,
-          "Essence": 5.64,
-          "Matter": 5.85,
-          "Substance": 5.43
+          "Spirit": 4.36,
+          "Essence": 4.4,
+          "Matter": 4.33,
+          "Substance": 3.99
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.49,
-          "reactivity": 0.5594,
-          "gregsEnergy": 0.1634,
-          "kalchm": 0.276,
-          "monica": 0.4482
+          "heat": 0.1057,
+          "entropy": 0.4101,
+          "reactivity": 2.5901,
+          "gregsEnergy": -0.9564,
+          "kalchm": 2.9206,
+          "monica": 0.3445
         },
         "substitutions": [
           {
@@ -32908,10 +32908,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18999999999999997,
-          "Water": 0.38999999999999996,
-          "Earth": 0.22999999999999998,
-          "Air": 0.18999999999999995
+          "Fire": 0.2035714285714286,
+          "Water": 0.33571428571428574,
+          "Earth": 0.2692857142857143,
+          "Air": 0.19142857142857145
         },
         "astrologicalAffinities": {
           "planets": [
@@ -32928,11 +32928,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 306,
+          "sodiumMg": 284,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32946,18 +32946,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.6,
-          "Essence": 4.87,
-          "Matter": 5.15,
-          "Substance": 4.98
+          "Spirit": 3.48,
+          "Essence": 5.02,
+          "Matter": 4.49,
+          "Substance": 4.16
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.484,
-          "reactivity": 0.548,
-          "gregsEnergy": 0.1348,
-          "kalchm": 0.22,
-          "monica": 0.4199
+          "heat": 0.0581,
+          "entropy": 0.2883,
+          "reactivity": 2.4197,
+          "gregsEnergy": -0.6395,
+          "kalchm": 0.7911,
+          "monica": -1.1278
         },
         "substitutions": [
           {
@@ -33029,10 +33029,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2833333333333333,
-          "Water": 0.20000000000000004,
-          "Earth": 0.3333333333333333,
-          "Air": 0.18333333333333335
+          "Fire": 0.33333333333333337,
+          "Water": 0.13333333333333336,
+          "Earth": 0.4,
+          "Air": 0.13333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33049,12 +33049,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 230,
-          "sugarG": 5,
+          "sodiumMg": 203,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -33067,18 +33067,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.46,
-          "Essence": 1.62,
-          "Matter": 2.18,
-          "Substance": 2.05
+          "Spirit": 1.52,
+          "Essence": 1.65,
+          "Matter": 1.78,
+          "Substance": 1.52
         },
         "thermodynamicProperties": {
-          "heat": 0.5417,
-          "entropy": 0.44,
-          "reactivity": 0.49,
-          "gregsEnergy": 0.3261,
-          "kalchm": 0.2667,
-          "monica": 0.5104
+          "heat": 0.0768,
+          "entropy": 0.3024,
+          "reactivity": 1.576,
+          "gregsEnergy": -0.3998,
+          "kalchm": 0.8187,
+          "monica": -1.2681
         },
         "substitutions": [
           {
@@ -33172,10 +33172,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.375,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.1357142857142857,
+          "Water": 0.35714285714285715,
+          "Earth": 0.2814285714285714,
+          "Air": 0.22571428571428573
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33193,11 +33193,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 28,
+          "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 300,
-          "sugarG": 6,
+          "sodiumMg": 293,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -33210,18 +33210,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.81,
-          "Essence": 2.3,
-          "Matter": 2.54,
-          "Substance": 2.39
+          "Spirit": 1.57,
+          "Essence": 2.52,
+          "Matter": 2.37,
+          "Substance": 2.23
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.125,
-          "kalchm": 0.25,
-          "monica": 0.425
+          "heat": 0.039,
+          "entropy": 0.2456,
+          "reactivity": 1.9893,
+          "gregsEnergy": -0.4496,
+          "kalchm": 0.451,
+          "monica": -0.2839
         },
         "substitutions": [
           {
@@ -33326,10 +33326,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17777777777777776,
-          "Water": 0.3777777777777778,
-          "Earth": 0.20555555555555557,
-          "Air": 0.23888888888888887
+          "Fire": 0.18666666666666665,
+          "Water": 0.2911111111111111,
+          "Earth": 0.25777777777777783,
+          "Air": 0.2644444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33346,11 +33346,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 28,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 301,
+          "sodiumMg": 266,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -33364,18 +33364,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.26,
-          "Essence": 3.97,
-          "Matter": 3.96,
-          "Substance": 3.85
+          "Spirit": 2.62,
+          "Essence": 3.37,
+          "Matter": 3.01,
+          "Substance": 2.89
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.5133,
-          "reactivity": 0.5333,
-          "gregsEnergy": 0.1263,
-          "kalchm": 0.2444,
-          "monica": 0.4238
+          "heat": 0.0679,
+          "entropy": 0.3191,
+          "reactivity": 2.5063,
+          "gregsEnergy": -0.732,
+          "kalchm": 1.2635,
+          "monica": 1.2487
         },
         "substitutions": [
           {
@@ -33446,31 +33446,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18750000000000003,
-          "Water": 0.38750000000000007,
-          "Earth": 0.26250000000000007,
-          "Air": 0.16250000000000003
+          "Fire": 0.31,
+          "Water": 0.22000000000000003,
+          "Earth": 0.31,
+          "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 305,
+          "sodiumMg": 238,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -33484,18 +33484,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.27,
-          "Essence": 2.11,
-          "Matter": 2.34,
-          "Substance": 2.18
+          "Spirit": 1.45,
+          "Essence": 1.95,
+          "Matter": 1.84,
+          "Substance": 1.66
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.46,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1493,
-          "kalchm": 0.2,
-          "monica": 0.4197
+          "heat": 0.0583,
+          "entropy": 0.2668,
+          "reactivity": 1.9104,
+          "gregsEnergy": -0.4514,
+          "kalchm": 0.8849,
+          "monica": -1.9325
         },
         "substitutions": [
           {
@@ -33597,31 +33597,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.2416666666666667,
-          "Earth": 0.3083333333333333,
-          "Air": 0.18333333333333335
+          "Fire": 0.29999999999999993,
+          "Water": 0.18333333333333335,
+          "Earth": 0.2944444444444445,
+          "Air": 0.2222222222222222
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "New Moon"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 247,
+          "sodiumMg": 223,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -33635,18 +33635,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.97,
-          "Essence": 4.05,
-          "Matter": 3.56,
-          "Substance": 3.04
+          "Spirit": 3.71,
+          "Essence": 3.71,
+          "Matter": 3.55,
+          "Substance": 3.12
         },
         "thermodynamicProperties": {
-          "heat": 0.5125,
-          "entropy": 0.45,
-          "reactivity": 0.505,
-          "gregsEnergy": 0.2852,
-          "kalchm": 0.35,
-          "monica": 0.5191
+          "heat": 0.1128,
+          "entropy": 0.3948,
+          "reactivity": 2.5329,
+          "gregsEnergy": -0.8871,
+          "kalchm": 5.3664,
+          "monica": 0.2085
         },
         "substitutions": [
           {
@@ -33748,31 +33748,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.2416666666666667,
-          "Earth": 0.3083333333333333,
-          "Air": 0.18333333333333335
+          "Fire": 0.29999999999999993,
+          "Water": 0.18333333333333335,
+          "Earth": 0.2944444444444445,
+          "Air": 0.2222222222222222
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "New Moon"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 247,
+          "sodiumMg": 223,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -33786,18 +33786,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.97,
-          "Essence": 4.05,
-          "Matter": 3.56,
-          "Substance": 3.04
+          "Spirit": 3.71,
+          "Essence": 3.71,
+          "Matter": 3.55,
+          "Substance": 3.12
         },
         "thermodynamicProperties": {
-          "heat": 0.5125,
-          "entropy": 0.45,
-          "reactivity": 0.505,
-          "gregsEnergy": 0.2852,
-          "kalchm": 0.35,
-          "monica": 0.5191
+          "heat": 0.1128,
+          "entropy": 0.3948,
+          "reactivity": 2.5329,
+          "gregsEnergy": -0.8871,
+          "kalchm": 5.3664,
+          "monica": 0.2085
         },
         "substitutions": [
           {
@@ -33915,10 +33915,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21818181818181817,
-          "Water": 0.2772727272727273,
-          "Earth": 0.3227272727272727,
-          "Air": 0.18181818181818182
+          "Fire": 0.25416666666666665,
+          "Water": 0.2625,
+          "Earth": 0.2808333333333334,
+          "Air": 0.20249999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33935,11 +33935,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 25,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 261,
+          "fiberG": 4,
+          "sodiumMg": 255,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -33953,18 +33953,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.77,
-          "Essence": 5.06,
-          "Matter": 4.69,
-          "Substance": 4.21
+          "Spirit": 4.4,
+          "Essence": 4.75,
+          "Matter": 4.22,
+          "Substance": 3.76
         },
         "thermodynamicProperties": {
-          "heat": 0.4705,
-          "entropy": 0.4436,
-          "reactivity": 0.4973,
-          "gregsEnergy": 0.2499,
-          "kalchm": 0.3,
-          "monica": 0.49
+          "heat": 0.107,
+          "entropy": 0.3713,
+          "reactivity": 2.776,
+          "gregsEnergy": -0.9237,
+          "kalchm": 17.5373,
+          "monica": 0.1162
         },
         "substitutions": [
           {
@@ -34025,10 +34025,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.08333333333333333,
+          "Water": 0.5166666666666667,
+          "Earth": 0.2833333333333333,
+          "Air": 0.11666666666666668
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34045,11 +34045,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
-          "fiberG": 3,
-          "sodiumMg": 470,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 6,
+          "fiberG": 4,
+          "sodiumMg": 357,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34063,18 +34063,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.54,
-          "Essence": 1.06,
-          "Matter": 0.81,
-          "Substance": 0.59
+          "Spirit": 0.29,
+          "Essence": 0.96,
+          "Matter": 1.06,
+          "Substance": 0.89
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0062,
+          "entropy": 0.1128,
+          "reactivity": 1.1556,
+          "gregsEnergy": -0.1241,
+          "kalchm": 0.7003,
+          "monica": -0.3014
         },
         "substitutions": [
           {
@@ -34157,10 +34157,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.4,
-          "Earth": 0.30000000000000004,
-          "Air": 0.15
+          "Fire": 0.19166666666666668,
+          "Water": 0.3416666666666666,
+          "Earth": 0.3333333333333333,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34178,10 +34178,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fiberG": 5,
+          "sodiumMg": 287,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34195,18 +34195,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.14,
-          "Essence": 2.39,
-          "Matter": 2.14,
-          "Substance": 1.75
+          "Spirit": 1.95,
+          "Essence": 2.23,
+          "Matter": 2.42,
+          "Substance": 2.04
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.44,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.1418,
-          "kalchm": 0.1,
-          "monica": 0.3867
+          "heat": 0.0683,
+          "entropy": 0.2828,
+          "reactivity": 1.7291,
+          "gregsEnergy": -0.4207,
+          "kalchm": 0.6051,
+          "monica": -0.4843
         },
         "substitutions": [
           {
@@ -34277,32 +34277,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.4,
-          "Water": 0.35,
-          "Earth": 0.2,
-          "Air": 0.05
+          "Fire": 0.22500000000000003,
+          "Water": 0.46249999999999997,
+          "Earth": 0.1375,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 22,
-          "fatG": 10,
-          "fiberG": 4,
-          "sodiumMg": 290,
-          "sugarG": 3,
+          "proteinG": 7,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 3,
+          "sodiumMg": 335,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -34315,18 +34315,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.2,
-          "Essence": 1.7,
-          "Matter": 1.7,
-          "Substance": 1.45
+          "Spirit": 1.01,
+          "Essence": 1.87,
+          "Matter": 1.65,
+          "Substance": 1.5
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.44,
-          "reactivity": 0.65,
-          "gregsEnergy": 0.239,
-          "kalchm": 0,
-          "monica": 0.3956
+          "heat": 0.0319,
+          "entropy": 0.1974,
+          "reactivity": 2.2103,
+          "gregsEnergy": -0.4045,
+          "kalchm": 0.7758,
+          "monica": -0.7209
         },
         "substitutions": [
           {
@@ -34397,31 +34397,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31666666666666665,
-          "Water": 0.31666666666666665,
-          "Earth": 0.21666666666666667,
-          "Air": 0.15
+          "Fire": 0.36250000000000004,
+          "Water": 0.35000000000000003,
+          "Earth": 0.18750000000000003,
+          "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 25,
+          "carbsG": 23,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 277,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34435,18 +34435,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.25,
-          "Essence": 2.01,
-          "Matter": 1.92,
-          "Substance": 1.67
+          "Spirit": 1.49,
+          "Essence": 2.16,
+          "Matter": 1.94,
+          "Substance": 1.71
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.4733,
-          "reactivity": 0.58,
-          "gregsEnergy": 0.2255,
-          "kalchm": 0.2333,
-          "monica": 0.4602
+          "heat": 0.0566,
+          "entropy": 0.2458,
+          "reactivity": 2.2256,
+          "gregsEnergy": -0.4904,
+          "kalchm": 1.0561,
+          "monica": 4.037
         },
         "substitutions": [
           {
@@ -34517,10 +34517,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.04999999999999999,
-          "Water": 0.5499999999999999,
-          "Earth": 0.29999999999999993,
-          "Air": 0.09999999999999998
+          "Fire": 0.13333333333333333,
+          "Water": 0.4833333333333334,
+          "Earth": 0.15000000000000002,
+          "Air": 0.2333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34537,12 +34537,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 370,
-          "sugarG": 3,
+          "proteinG": 7,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 3,
+          "sodiumMg": 343,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -34555,18 +34555,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.89,
-          "Essence": 1.56,
-          "Matter": 1.46,
-          "Substance": 1.09
+          "Spirit": 1.02,
+          "Essence": 1.63,
+          "Matter": 1.25,
+          "Substance": 1.07
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.42,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0148,
-          "kalchm": -0.2,
-          "monica": 0.2459
+          "heat": 0.0456,
+          "entropy": 0.1829,
+          "reactivity": 2.6265,
+          "gregsEnergy": -0.4348,
+          "kalchm": 1.5924,
+          "monica": 0.3558
         },
         "substitutions": [
           {
@@ -34661,10 +34661,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18333333333333335,
-          "Water": 0.3333333333333333,
+          "Fire": 0.20714285714285716,
+          "Water": 0.32142857142857145,
           "Earth": 0.35000000000000003,
-          "Air": 0.13333333333333333
+          "Air": 0.12142857142857143
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34685,7 +34685,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 283,
+          "sodiumMg": 279,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34699,18 +34699,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.35,
-          "Essence": 3.83,
-          "Matter": 3.31,
-          "Substance": 3.56
+          "Spirit": 2.08,
+          "Essence": 3.37,
+          "Matter": 3.42,
+          "Substance": 3.31
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.4133,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.2142,
-          "kalchm": 0.1333,
-          "monica": 0.4257
+          "heat": 0.0368,
+          "entropy": 0.2755,
+          "reactivity": 1.8856,
+          "gregsEnergy": -0.4827,
+          "kalchm": 0.0781,
+          "monica": -0.1004
         },
         "substitutions": [
           {
@@ -34821,10 +34821,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21874999999999997,
-          "Water": 0.26875,
-          "Earth": 0.30624999999999997,
-          "Air": 0.20625
+          "Fire": 0.24500000000000002,
+          "Water": 0.24500000000000002,
+          "Earth": 0.29700000000000004,
+          "Air": 0.213
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34841,11 +34841,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 258,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -34859,18 +34859,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4,
-          "Essence": 4.33,
-          "Matter": 3.63,
-          "Substance": 3.15
+          "Spirit": 3.31,
+          "Essence": 3.69,
+          "Matter": 3.73,
+          "Substance": 3.3
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.46,
-          "reactivity": 0.4925,
-          "gregsEnergy": 0.2484,
-          "kalchm": 0.35,
-          "monica": 0.5044
+          "heat": 0.0837,
+          "entropy": 0.3463,
+          "reactivity": 2.197,
+          "gregsEnergy": -0.6771,
+          "kalchm": 0.9319,
+          "monica": -4.3697
         },
         "substitutions": [
           {
@@ -34973,10 +34973,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17857142857142855,
-          "Water": 0.3357142857142857,
-          "Earth": 0.35,
-          "Air": 0.1357142857142857
+          "Fire": 0.2,
+          "Water": 0.32499999999999996,
+          "Earth": 0.35000000000000003,
+          "Air": 0.125
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34997,7 +34997,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 284,
+          "sodiumMg": 280,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -35011,18 +35011,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.65,
-          "Essence": 4.35,
-          "Matter": 3.76,
-          "Substance": 3.96
+          "Spirit": 2.38,
+          "Essence": 3.89,
+          "Matter": 3.88,
+          "Substance": 3.71
         },
         "thermodynamicProperties": {
-          "heat": 0.4214,
-          "entropy": 0.4143,
-          "reactivity": 0.5086,
-          "gregsEnergy": 0.2107,
-          "kalchm": 0.1286,
-          "monica": 0.4229
+          "heat": 0.0378,
+          "entropy": 0.2732,
+          "reactivity": 1.9405,
+          "gregsEnergy": -0.4923,
+          "kalchm": 0.0622,
+          "monica": -0.0913
         },
         "substitutions": [
           {
@@ -35140,10 +35140,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20625000000000002,
-          "Water": 0.25,
-          "Earth": 0.375,
-          "Air": 0.16874999999999998
+          "Fire": 0.22272727272727275,
+          "Water": 0.23636363636363636,
+          "Earth": 0.3590909090909091,
+          "Air": 0.18181818181818182
         },
         "astrologicalAffinities": {
           "planets": [
@@ -35160,11 +35160,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -35178,18 +35178,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.38,
-          "Essence": 5.6,
-          "Matter": 4.75,
-          "Substance": 4.47
+          "Spirit": 4.03,
+          "Essence": 4.33,
+          "Matter": 4.98,
+          "Substance": 4.77
         },
         "thermodynamicProperties": {
-          "heat": 0.4781,
-          "entropy": 0.4175,
-          "reactivity": 0.4738,
-          "gregsEnergy": 0.2803,
-          "kalchm": 0.25,
-          "monica": 0.4871
+          "heat": 0.0738,
+          "entropy": 0.3983,
+          "reactivity": 2.0305,
+          "gregsEnergy": -0.7349,
+          "kalchm": 0.0307,
+          "monica": -0.1039
         },
         "substitutions": [
           {
@@ -35308,10 +35308,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21111111111111114,
-          "Water": 0.2888888888888889,
-          "Earth": 0.3444444444444444,
-          "Air": 0.15555555555555556
+          "Fire": 0.24090909090909085,
+          "Water": 0.2727272727272727,
+          "Earth": 0.33636363636363636,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -35332,7 +35332,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 266,
+          "sodiumMg": 259,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -35346,18 +35346,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.27,
-          "Essence": 4.71,
-          "Matter": 4.45,
-          "Substance": 4.19
+          "Spirit": 4.17,
+          "Essence": 4.61,
+          "Matter": 4.64,
+          "Substance": 4.47
         },
         "thermodynamicProperties": {
-          "heat": 0.4611,
-          "entropy": 0.4244,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.2489,
-          "kalchm": 0.2333,
-          "monica": 0.4696
+          "heat": 0.0832,
+          "entropy": 0.3853,
+          "reactivity": 2.3735,
+          "gregsEnergy": -0.8312,
+          "kalchm": 0.4427,
+          "monica": -0.4298
         },
         "substitutions": [
           {
@@ -35451,31 +35451,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.244,
-          "Water": 0.304,
-          "Earth": 0.246,
-          "Air": 0.20600000000000002
+          "Fire": 0.2775,
+          "Water": 0.25875,
+          "Earth": 0.29125,
+          "Air": 0.17250000000000001
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 272,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -35489,18 +35489,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3,
-          "Essence": 3.78,
-          "Matter": 3.17,
-          "Substance": 2.92
+          "Spirit": 2.5,
+          "Essence": 3.1,
+          "Matter": 2.92,
+          "Substance": 2.67
         },
         "thermodynamicProperties": {
-          "heat": 0.47,
-          "entropy": 0.484,
-          "reactivity": 0.5288,
-          "gregsEnergy": 0.2141,
-          "kalchm": 0.392,
-          "monica": 0.5032
+          "heat": 0.0714,
+          "entropy": 0.3124,
+          "reactivity": 2.2462,
+          "gregsEnergy": -0.6303,
+          "kalchm": 1.048,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -35605,31 +35605,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3083333333333333,
-          "Water": 0.26666666666666666,
-          "Earth": 0.26666666666666666,
-          "Air": 0.1583333333333333
+          "Fire": 0.24,
+          "Water": 0.27999999999999997,
+          "Earth": 0.315,
+          "Air": 0.165
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 257,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 262,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -35643,18 +35643,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.5,
-          "Essence": 3.91,
-          "Matter": 3.78,
-          "Substance": 3.46
+          "Spirit": 2.95,
+          "Essence": 4.34,
+          "Matter": 3.66,
+          "Substance": 3.31
         },
         "thermodynamicProperties": {
-          "heat": 0.5208,
-          "entropy": 0.4567,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.2719,
-          "kalchm": 0.3167,
-          "monica": 0.5038
+          "heat": 0.0601,
+          "entropy": 0.2673,
+          "reactivity": 2.4466,
+          "gregsEnergy": -0.5937,
+          "kalchm": 2.3427,
+          "monica": 0.2851
         },
         "substitutions": [
           {
@@ -35780,10 +35780,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23363636363636367,
-          "Water": 0.27909090909090906,
-          "Earth": 0.28454545454545455,
-          "Air": 0.20272727272727273
+          "Fire": 0.2515384615384615,
+          "Water": 0.23615384615384613,
+          "Earth": 0.31,
+          "Air": 0.2023076923076923
         },
         "astrologicalAffinities": {
           "planets": [
@@ -35800,11 +35800,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 262,
+          "sodiumMg": 244,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -35818,18 +35818,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.87,
-          "Essence": 5.66,
-          "Matter": 5.59,
-          "Substance": 5.17
+          "Spirit": 4.06,
+          "Essence": 4.86,
+          "Matter": 5.41,
+          "Substance": 4.84
         },
         "thermodynamicProperties": {
-          "heat": 0.4773,
-          "entropy": 0.4673,
-          "reactivity": 0.5076,
-          "gregsEnergy": 0.2401,
-          "kalchm": 0.3727,
-          "monica": 0.5079
+          "heat": 0.0658,
+          "entropy": 0.342,
+          "reactivity": 1.9466,
+          "gregsEnergy": -0.6,
+          "kalchm": 0.0336,
+          "monica": -0.0908
         },
         "substitutions": [
           {
@@ -35911,10 +35911,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2333333333333333,
-          "Water": 0.2833333333333334,
-          "Earth": 0.38333333333333336,
-          "Air": 0.09999999999999999
+          "Fire": 0.2416666666666667,
+          "Water": 0.225,
+          "Earth": 0.35000000000000003,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -35931,12 +35931,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 263,
-          "sugarG": 4,
+          "sodiumMg": 240,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -35949,18 +35949,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.55,
-          "Essence": 1.88,
-          "Matter": 2,
-          "Substance": 1.62
+          "Spirit": 1.77,
+          "Essence": 2.24,
+          "Matter": 2.72,
+          "Substance": 2.45
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.3867,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.2778,
-          "kalchm": 0.1667,
-          "monica": 0.4611
+          "heat": 0.0478,
+          "entropy": 0.3012,
+          "reactivity": 1.5168,
+          "gregsEnergy": -0.409,
+          "kalchm": 0.1225,
+          "monica": -0.1284
         },
         "substitutions": [
           {
@@ -36049,10 +36049,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26,
-          "Water": 0.246,
-          "Earth": 0.374,
-          "Air": 0.12
+          "Fire": 0.24285714285714285,
+          "Water": 0.22142857142857142,
+          "Earth": 0.36428571428571427,
+          "Air": 0.17142857142857143
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36069,12 +36069,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 248,
-          "sugarG": 4,
+          "sodiumMg": 239,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -36087,18 +36087,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.13,
-          "Essence": 2.38,
-          "Matter": 2.48,
-          "Substance": 2.09
+          "Spirit": 2.12,
+          "Essence": 2.79,
+          "Matter": 3.42,
+          "Substance": 3.15
         },
         "thermodynamicProperties": {
-          "heat": 0.507,
-          "entropy": 0.3984,
-          "reactivity": 0.5036,
-          "gregsEnergy": 0.3064,
-          "kalchm": 0.232,
-          "monica": 0.4922
+          "heat": 0.0445,
+          "entropy": 0.3141,
+          "reactivity": 1.5599,
+          "gregsEnergy": -0.4455,
+          "kalchm": 0.0346,
+          "monica": -0.0849
         },
         "substitutions": [
           {
@@ -36166,10 +36166,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.225,
-          "Water": 0.22499999999999998,
-          "Earth": 0.35,
-          "Air": 0.2
+          "Fire": 0.15,
+          "Water": 0.3,
+          "Earth": 0.375,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36186,11 +36186,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 240,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -36204,18 +36204,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.8,
-          "Essence": 1.55,
-          "Matter": 1.88,
-          "Substance": 1.65
+          "Spirit": 0.68,
+          "Essence": 1.29,
+          "Matter": 1.74,
+          "Substance": 1.6
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.44,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.2932,
-          "kalchm": 0.3,
-          "monica": 0.5073
+          "heat": 0.0161,
+          "entropy": 0.224,
+          "reactivity": 1.0797,
+          "gregsEnergy": -0.2258,
+          "kalchm": 0.1921,
+          "monica": -0.1267
         },
         "substitutions": [
           {
@@ -36270,32 +36270,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16499999999999998,
-          "Water": 0.365,
-          "Earth": 0.35,
-          "Air": 0.12
+          "Fire": 0.15,
+          "Water": 0.4,
+          "Earth": 0.4,
+          "Air": 0.05
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 22,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 296,
-          "sugarG": 4,
+          "sodiumMg": 310,
+          "sugarG": 3,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -36308,18 +36308,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.38,
-          "Essence": 0.86,
-          "Matter": 0.7,
-          "Substance": 0.64
+          "Spirit": 0.45,
+          "Essence": 1,
+          "Matter": 0.9,
+          "Substance": 0.8
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.408,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.1887,
-          "kalchm": 0.07,
-          "monica": 0.3965
+          "heat": 0.0179,
+          "entropy": 0.119,
+          "reactivity": 1.1997,
+          "gregsEnergy": -0.1249,
+          "kalchm": 0.9176,
+          "monica": -1.2108
         },
         "substitutions": [
           {
@@ -36418,32 +36418,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21333333333333335,
-          "Water": 0.33666666666666667,
-          "Earth": 0.25,
-          "Air": 0.20000000000000004
+          "Fire": 0.22777777777777775,
+          "Water": 0.25222222222222224,
+          "Earth": 0.27444444444444444,
+          "Air": 0.2455555555555556
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 285,
-          "sugarG": 5,
+          "sodiumMg": 251,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -36456,18 +36456,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.02,
-          "Essence": 3.69,
-          "Matter": 2.85,
-          "Substance": 2.6
+          "Spirit": 2.4,
+          "Essence": 2.82,
+          "Matter": 2.91,
+          "Substance": 2.76
         },
         "thermodynamicProperties": {
-          "heat": 0.4383,
-          "entropy": 0.48,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.1839,
-          "kalchm": 0.3267,
-          "monica": 0.4716
+          "heat": 0.0677,
+          "entropy": 0.3446,
+          "reactivity": 2.1207,
+          "gregsEnergy": -0.6631,
+          "kalchm": 0.4125,
+          "monica": -0.3531
         },
         "substitutions": [
           {
@@ -36546,10 +36546,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27999999999999997,
-          "Water": 0.19,
-          "Earth": 0.33,
-          "Air": 0.2
+          "Fire": 0.27166666666666667,
+          "Water": 0.2283333333333333,
+          "Earth": 0.2833333333333333,
+          "Air": 0.21666666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36566,11 +36566,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 27,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 226,
+          "fiberG": 4,
+          "sodiumMg": 241,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -36584,18 +36584,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.48,
-          "Essence": 2.73,
-          "Matter": 2.87,
-          "Substance": 2.5
+          "Spirit": 2.01,
+          "Essence": 2.19,
+          "Matter": 2.17,
+          "Substance": 2.01
         },
         "thermodynamicProperties": {
-          "heat": 0.545,
-          "entropy": 0.448,
-          "reactivity": 0.482,
-          "gregsEnergy": 0.3291,
-          "kalchm": 0.28,
-          "monica": 0.5156
+          "heat": 0.0816,
+          "entropy": 0.3455,
+          "reactivity": 2.1681,
+          "gregsEnergy": -0.6675,
+          "kalchm": 1.0362,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -36670,10 +36670,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26999999999999996,
-          "Water": 0.26999999999999996,
-          "Earth": 0.27999999999999997,
-          "Air": 0.18
+          "Fire": 0.27999999999999997,
+          "Water": 0.25,
+          "Earth": 0.31,
+          "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36690,12 +36690,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 258,
-          "sugarG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -36708,18 +36708,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.84,
-          "Essence": 1.95,
-          "Matter": 2.35,
-          "Substance": 2.22
+          "Spirit": 1.55,
+          "Essence": 1.67,
+          "Matter": 1.76,
+          "Substance": 1.76
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.46,
-          "reactivity": 0.524,
-          "gregsEnergy": 0.259,
-          "kalchm": 0.36,
-          "monica": 0.5116
+          "heat": 0.071,
+          "entropy": 0.352,
+          "reactivity": 1.9733,
+          "gregsEnergy": -0.6236,
+          "kalchm": 0.635,
+          "monica": -0.6959
         },
         "substitutions": [
           {
@@ -36788,31 +36788,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.275,
-          "Water": 0.30000000000000004,
-          "Earth": 0.22500000000000003,
-          "Air": 0.2
+          "Fire": 0.3,
+          "Water": 0.2375,
+          "Earth": 0.2875,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -36826,18 +36826,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.69,
-          "Essence": 1.45,
-          "Matter": 1.57,
-          "Substance": 1.62
+          "Spirit": 1.35,
+          "Essence": 1.07,
+          "Matter": 1.06,
+          "Substance": 1.1
         },
         "thermodynamicProperties": {
-          "heat": 0.4875,
-          "entropy": 0.49,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.2204,
-          "kalchm": 0.35,
-          "monica": 0.4932
+          "heat": 0.1238,
+          "entropy": 0.4473,
+          "reactivity": 2.3981,
+          "gregsEnergy": -0.9489,
+          "kalchm": 1.3647,
+          "monica": 1.2725
         },
         "substitutions": [
           {
@@ -36941,31 +36941,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.35,
-          "Earth": 0.2899999999999999,
+          "Fire": 0.17,
+          "Water": 0.2899999999999999,
+          "Earth": 0.37,
           "Air": 0.17
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 290,
+          "fiberG": 5,
+          "sodiumMg": 266,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -36979,18 +36979,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.7,
-          "Essence": 3.65,
-          "Matter": 3.92,
-          "Substance": 3.7
+          "Spirit": 2.37,
+          "Essence": 3.61,
+          "Matter": 4.16,
+          "Substance": 3.74
         },
         "thermodynamicProperties": {
-          "heat": 0.42,
-          "entropy": 0.452,
-          "reactivity": 0.524,
-          "gregsEnergy": 0.1832,
-          "kalchm": 0.22,
-          "monica": 0.4393
+          "heat": 0.0371,
+          "entropy": 0.2767,
+          "reactivity": 1.5973,
+          "gregsEnergy": -0.4049,
+          "kalchm": 0.0152,
+          "monica": -0.0605
         },
         "substitutions": [
           {
@@ -37071,10 +37071,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2560000000000001,
-          "Water": 0.25200000000000006,
-          "Earth": 0.36400000000000005,
-          "Air": 0.12800000000000003
+          "Fire": 0.2416666666666666,
+          "Water": 0.24999999999999997,
+          "Earth": 0.35,
+          "Air": 0.15833333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37092,10 +37092,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 251,
+          "sodiumMg": 250,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -37109,18 +37109,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.05,
-          "Essence": 2.07,
-          "Matter": 2.24,
-          "Substance": 2.19
+          "Spirit": 1.57,
+          "Essence": 2.06,
+          "Matter": 2.35,
+          "Substance": 2.17
         },
         "thermodynamicProperties": {
-          "heat": 0.502,
-          "entropy": 0.4056,
-          "reactivity": 0.5048,
-          "gregsEnergy": 0.2973,
-          "kalchm": 0.256,
-          "monica": 0.4957
+          "heat": 0.0469,
+          "entropy": 0.2891,
+          "reactivity": 1.5862,
+          "gregsEnergy": -0.4118,
+          "kalchm": 0.2249,
+          "monica": -0.174
         },
         "substitutions": [
           {
@@ -37201,10 +37201,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27,
-          "Water": 0.26,
-          "Earth": 0.32,
-          "Air": 0.15
+          "Fire": 0.25833333333333336,
+          "Water": 0.23333333333333336,
+          "Earth": 0.32499999999999996,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37222,11 +37222,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 254,
-          "sugarG": 4,
+          "sodiumMg": 243,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -37239,18 +37239,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 2.6,
-          "Matter": 2.4,
-          "Substance": 2.45
+          "Spirit": 1.72,
+          "Essence": 2.11,
+          "Matter": 2.25,
+          "Substance": 2.07
         },
         "thermodynamicProperties": {
-          "heat": 0.505,
-          "entropy": 0.432,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.2812,
-          "kalchm": 0.3,
-          "monica": 0.5025
+          "heat": 0.0588,
+          "entropy": 0.3036,
+          "reactivity": 1.7872,
+          "gregsEnergy": -0.4837,
+          "kalchm": 0.4394,
+          "monica": -0.3291
         },
         "substitutions": [
           {
@@ -37331,10 +37331,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2560000000000001,
-          "Water": 0.25200000000000006,
-          "Earth": 0.36400000000000005,
-          "Air": 0.12800000000000003
+          "Fire": 0.2416666666666666,
+          "Water": 0.24999999999999997,
+          "Earth": 0.35,
+          "Air": 0.15833333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37352,10 +37352,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 251,
+          "sodiumMg": 250,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -37369,18 +37369,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.05,
-          "Essence": 2.07,
-          "Matter": 2.24,
-          "Substance": 2.19
+          "Spirit": 1.57,
+          "Essence": 2.06,
+          "Matter": 2.35,
+          "Substance": 2.17
         },
         "thermodynamicProperties": {
-          "heat": 0.502,
-          "entropy": 0.4056,
-          "reactivity": 0.5048,
-          "gregsEnergy": 0.2973,
-          "kalchm": 0.256,
-          "monica": 0.4957
+          "heat": 0.0469,
+          "entropy": 0.2891,
+          "reactivity": 1.5862,
+          "gregsEnergy": -0.4118,
+          "kalchm": 0.2249,
+          "monica": -0.174
         },
         "substitutions": [
           {
@@ -37461,10 +37461,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27,
-          "Water": 0.26,
-          "Earth": 0.32,
-          "Air": 0.15
+          "Fire": 0.25833333333333336,
+          "Water": 0.23333333333333336,
+          "Earth": 0.32499999999999996,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37482,11 +37482,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 254,
-          "sugarG": 4,
+          "sodiumMg": 243,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -37499,18 +37499,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 2.6,
-          "Matter": 2.4,
-          "Substance": 2.45
+          "Spirit": 1.72,
+          "Essence": 2.11,
+          "Matter": 2.25,
+          "Substance": 2.07
         },
         "thermodynamicProperties": {
-          "heat": 0.505,
-          "entropy": 0.432,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.2812,
-          "kalchm": 0.3,
-          "monica": 0.5025
+          "heat": 0.0588,
+          "entropy": 0.3036,
+          "reactivity": 1.7872,
+          "gregsEnergy": -0.4837,
+          "kalchm": 0.4394,
+          "monica": -0.3291
         },
         "substitutions": [
           {
@@ -37603,32 +37603,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29,
-          "Water": 0.26,
-          "Earth": 0.26,
-          "Air": 0.19
+          "Fire": 0.3,
+          "Water": 0.22142857142857145,
+          "Earth": 0.32142857142857145,
+          "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 254,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 5,
+          "sodiumMg": 239,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -37641,18 +37641,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.42,
-          "Essence": 3.63,
-          "Matter": 2.77,
-          "Substance": 2.36
+          "Spirit": 2.73,
+          "Essence": 2.96,
+          "Matter": 3.14,
+          "Substance": 2.79
         },
         "thermodynamicProperties": {
-          "heat": 0.515,
-          "entropy": 0.472,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2648,
-          "kalchm": 0.38,
-          "monica": 0.5199
+          "heat": 0.082,
+          "entropy": 0.3479,
+          "reactivity": 2.0166,
+          "gregsEnergy": -0.6196,
+          "kalchm": 0.6056,
+          "monica": -0.6126
         },
         "substitutions": [
           {
@@ -37727,31 +37727,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15200000000000002,
-          "Water": 0.398,
-          "Earth": 0.304,
-          "Air": 0.146
+          "Fire": 0.19,
+          "Water": 0.32,
+          "Earth": 0.37,
+          "Air": 0.12
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 309,
+          "fiberG": 5,
+          "sodiumMg": 278,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -37765,18 +37765,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.05,
-          "Essence": 1.47,
-          "Matter": 2.38,
-          "Substance": 2.1
+          "Spirit": 1.3,
+          "Essence": 2.28,
+          "Matter": 2.46,
+          "Substance": 2.26
         },
         "thermodynamicProperties": {
-          "heat": 0.377,
-          "entropy": 0.4368,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.1455,
-          "kalchm": 0.096,
-          "monica": 0.387
+          "heat": 0.0283,
+          "entropy": 0.2323,
+          "reactivity": 1.5169,
+          "gregsEnergy": -0.324,
+          "kalchm": 0.1593,
+          "monica": -0.1163
         },
         "substitutions": [
           {
@@ -37891,32 +37891,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26,
-          "Water": 0.38,
-          "Earth": 0.22600000000000003,
-          "Air": 0.13399999999999998
+          "Fire": 0.2636363636363636,
+          "Water": 0.2090909090909091,
+          "Earth": 0.34545454545454546,
+          "Air": 0.18181818181818185
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 302,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 234,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -37929,18 +37929,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.89,
-          "Essence": 4.44,
-          "Matter": 4.04,
-          "Substance": 3.54
+          "Spirit": 3.54,
+          "Essence": 3.66,
+          "Matter": 4.11,
+          "Substance": 3.73
         },
         "thermodynamicProperties": {
-          "heat": 0.44,
-          "entropy": 0.4632,
-          "reactivity": 0.584,
-          "gregsEnergy": 0.1695,
-          "kalchm": 0.22,
-          "monica": 0.4338
+          "heat": 0.0842,
+          "entropy": 0.3831,
+          "reactivity": 2.0143,
+          "gregsEnergy": -0.6875,
+          "kalchm": 0.2241,
+          "monica": -0.2282
         },
         "substitutions": [
           {
@@ -38026,31 +38026,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20000000000000004,
-          "Water": 0.36666666666666664,
-          "Earth": 0.26666666666666666,
-          "Air": 0.16666666666666666
+          "Fire": 0.25714285714285706,
+          "Water": 0.24285714285714283,
+          "Earth": 0.32857142857142857,
+          "Air": 0.17142857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 297,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 247,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -38064,18 +38064,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.45,
-          "Essence": 3.09,
-          "Matter": 3.44,
-          "Substance": 3.47
+          "Spirit": 2.44,
+          "Essence": 2.7,
+          "Matter": 2.83,
+          "Substance": 2.42
         },
         "thermodynamicProperties": {
-          "heat": 0.4167,
-          "entropy": 0.46,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.1683,
-          "kalchm": 0.2333,
-          "monica": 0.4373
+          "heat": 0.0797,
+          "entropy": 0.3198,
+          "reactivity": 1.93,
+          "gregsEnergy": -0.5376,
+          "kalchm": 0.799,
+          "monica": -1.2412
         },
         "substitutions": [
           {
@@ -38204,31 +38204,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2466666666666667,
-          "Water": 0.28,
-          "Earth": 0.25333333333333335,
-          "Air": 0.21999999999999997
+          "Fire": 0.25583333333333336,
+          "Water": 0.2225,
+          "Earth": 0.33583333333333326,
+          "Air": 0.18583333333333332
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 27,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 262,
+          "fiberG": 5,
+          "sodiumMg": 239,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -38242,18 +38242,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.27,
-          "Essence": 5.51,
-          "Matter": 5.14,
-          "Substance": 4.87
+          "Spirit": 4.01,
+          "Essence": 4.33,
+          "Matter": 4.97,
+          "Substance": 4.43
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.4867,
-          "reactivity": 0.516,
-          "gregsEnergy": 0.2322,
-          "kalchm": 0.4333,
-          "monica": 0.5229
+          "heat": 0.0771,
+          "entropy": 0.3684,
+          "reactivity": 1.9396,
+          "gregsEnergy": -0.6375,
+          "kalchm": 0.0708,
+          "monica": -0.1241
         },
         "substitutions": [
           {
@@ -38350,10 +38350,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29999999999999993,
-          "Water": 0.26111111111111107,
-          "Earth": 0.22777777777777777,
-          "Air": 0.21111111111111108
+          "Fire": 0.3277777777777777,
+          "Water": 0.22777777777777775,
+          "Earth": 0.2411111111111111,
+          "Air": 0.20333333333333334
         },
         "astrologicalAffinities": {
           "planets": [
@@ -38370,11 +38370,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 254,
+          "sodiumMg": 241,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -38388,18 +38388,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.69,
-          "Essence": 3.88,
-          "Matter": 3.36,
-          "Substance": 3.26
+          "Spirit": 3.71,
+          "Essence": 3.42,
+          "Matter": 2.95,
+          "Substance": 2.83
         },
         "thermodynamicProperties": {
-          "heat": 0.5194,
-          "entropy": 0.4933,
-          "reactivity": 0.5367,
-          "gregsEnergy": 0.2546,
-          "kalchm": 0.3778,
-          "monica": 0.5152
+          "heat": 0.1423,
+          "entropy": 0.4687,
+          "reactivity": 3.3064,
+          "gregsEnergy": -1.4074,
+          "kalchm": 18.8025,
+          "monica": 0.1451
         },
         "substitutions": [
           {
@@ -38499,31 +38499,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3083333333333333,
-          "Water": 0.3,
-          "Earth": 0.2333333333333333,
-          "Air": 0.1583333333333333
+          "Fire": 0.27499999999999997,
+          "Water": 0.26249999999999996,
+          "Earth": 0.30624999999999997,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 255,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -38537,18 +38537,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.37,
-          "Essence": 3.76,
-          "Matter": 3.79,
-          "Substance": 3.41
+          "Spirit": 2.83,
+          "Essence": 3.72,
+          "Matter": 3.52,
+          "Substance": 3.15
         },
         "thermodynamicProperties": {
-          "heat": 0.5042,
-          "entropy": 0.47,
-          "reactivity": 0.565,
-          "gregsEnergy": 0.2387,
-          "kalchm": 0.2833,
-          "monica": 0.4805
+          "heat": 0.0654,
+          "entropy": 0.2957,
+          "reactivity": 2.1816,
+          "gregsEnergy": -0.5797,
+          "kalchm": 0.8081,
+          "monica": -1.2471
         },
         "substitutions": [
           {
@@ -38649,31 +38649,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2333333333333333,
-          "Water": 0.34166666666666673,
-          "Earth": 0.22499999999999998,
-          "Air": 0.20000000000000004
+          "Fire": 0.3525,
+          "Water": 0.185,
+          "Earth": 0.27875,
+          "Air": 0.18374999999999997
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 287,
+          "sodiumMg": 224,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -38687,18 +38687,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.64,
-          "Essence": 4.3,
-          "Matter": 3.71,
-          "Substance": 3.36
+          "Spirit": 3.29,
+          "Essence": 3.25,
+          "Matter": 3.07,
+          "Substance": 2.85
         },
         "thermodynamicProperties": {
-          "heat": 0.4458,
-          "entropy": 0.49,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1787,
-          "kalchm": 0.3167,
-          "monica": 0.4665
+          "heat": 0.1136,
+          "entropy": 0.4151,
+          "reactivity": 2.6486,
+          "gregsEnergy": -0.9859,
+          "kalchm": 3.7443,
+          "monica": 0.282
         },
         "substitutions": [
           {
@@ -38846,32 +38846,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25909090909090904,
-          "Water": 0.3727272727272728,
-          "Earth": 0.20000000000000007,
-          "Air": 0.16818181818181818
+          "Fire": 0.30124999999999996,
+          "Water": 0.264375,
+          "Earth": 0.27687500000000004,
+          "Air": 0.1575
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 299,
-          "sugarG": 5,
+          "sodiumMg": 256,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -38884,18 +38884,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.63,
-          "Essence": 6.77,
-          "Matter": 6.76,
-          "Substance": 6.2
+          "Spirit": 4.85,
+          "Essence": 4.94,
+          "Matter": 5.14,
+          "Substance": 4.91
         },
         "thermodynamicProperties": {
-          "heat": 0.4432,
-          "entropy": 0.4873,
-          "reactivity": 0.5791,
-          "gregsEnergy": 0.161,
-          "kalchm": 0.2364,
-          "monica": 0.4353
+          "heat": 0.0959,
+          "entropy": 0.4232,
+          "reactivity": 2.4613,
+          "gregsEnergy": -0.9458,
+          "kalchm": 0.5073,
+          "monica": -0.5662
         },
         "substitutions": [
           {
@@ -38996,32 +38996,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.44999999999999996,
-          "Earth": 0.24999999999999997,
-          "Air": 0.125
+          "Fire": 0.27199999999999996,
+          "Water": 0.268,
+          "Earth": 0.2879999999999999,
+          "Air": 0.17199999999999996
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 24,
-          "fatG": 7,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 330,
-          "sugarG": 4,
+          "sodiumMg": 257,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -39034,18 +39034,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.57,
-          "Essence": 3.59,
-          "Matter": 3.68,
-          "Substance": 3.17
+          "Spirit": 2.32,
+          "Essence": 2.54,
+          "Matter": 2.82,
+          "Substance": 2.6
         },
         "thermodynamicProperties": {
-          "heat": 0.3625,
-          "entropy": 0.45,
-          "reactivity": 0.575,
-          "gregsEnergy": 0.1038,
-          "kalchm": 0.1,
-          "monica": 0.3715
+          "heat": 0.0723,
+          "entropy": 0.3499,
+          "reactivity": 1.9431,
+          "gregsEnergy": -0.6076,
+          "kalchm": 0.337,
+          "monica": -0.2875
         },
         "substitutions": [
           {
@@ -39134,31 +39134,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2642857142857143,
-          "Water": 0.31428571428571433,
-          "Earth": 0.2571428571428572,
-          "Air": 0.16428571428571428
+          "Fire": 0.3,
+          "Water": 0.2625,
+          "Earth": 0.29374999999999996,
+          "Air": 0.14375000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 8,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 276,
+          "sodiumMg": 255,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -39172,18 +39172,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.14,
-          "Essence": 3.49,
-          "Matter": 3.19,
-          "Substance": 2.89
+          "Spirit": 3.04,
+          "Essence": 3.03,
+          "Matter": 3.15,
+          "Substance": 2.71
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.4629,
-          "reactivity": 0.5471,
-          "gregsEnergy": 0.2217,
-          "kalchm": 0.3286,
-          "monica": 0.4873
+          "heat": 0.1015,
+          "entropy": 0.3679,
+          "reactivity": 2.1878,
+          "gregsEnergy": -0.7035,
+          "kalchm": 1.5264,
+          "monica": 0.7604
         },
         "substitutions": [
           {
@@ -39266,10 +39266,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15999999999999998,
-          "Water": 0.44000000000000006,
-          "Earth": 0.18,
-          "Air": 0.22000000000000003
+          "Fire": 0.1571428571428571,
+          "Water": 0.35,
+          "Earth": 0.2785714285714286,
+          "Air": 0.21428571428571433
         },
         "astrologicalAffinities": {
           "planets": [
@@ -39286,11 +39286,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 326,
+          "fiberG": 4,
+          "sodiumMg": 290,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39304,18 +39304,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.71,
-          "Essence": 2.21,
-          "Matter": 2.89,
-          "Substance": 3.17
+          "Spirit": 1.38,
+          "Essence": 2.17,
+          "Matter": 2.09,
+          "Substance": 2.21
         },
         "thermodynamicProperties": {
-          "heat": 0.36,
-          "entropy": 0.516,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.071,
-          "kalchm": 0.12,
-          "monica": 0.3644
+          "heat": 0.0361,
+          "entropy": 0.287,
+          "reactivity": 2.0838,
+          "gregsEnergy": -0.562,
+          "kalchm": 0.3111,
+          "monica": -0.231
         },
         "substitutions": [
           {
@@ -39475,31 +39475,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23749999999999996,
-          "Water": 0.3374999999999999,
-          "Earth": 0.2125,
-          "Air": 0.2125
+          "Fire": 0.2758823529411764,
+          "Water": 0.25470588235294117,
+          "Earth": 0.29588235294117643,
+          "Air": 0.17352941176470588
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 285,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39513,18 +39513,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.9,
-          "Essence": 7.63,
-          "Matter": 7.05,
-          "Substance": 7.01
+          "Spirit": 6.21,
+          "Essence": 6.62,
+          "Matter": 6.39,
+          "Substance": 6.08
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.5,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1775,
-          "kalchm": 0.325,
-          "monica": 0.4685
+          "heat": 0.0984,
+          "entropy": 0.4113,
+          "reactivity": 2.6739,
+          "gregsEnergy": -1.0014,
+          "kalchm": 2.7919,
+          "monica": 0.3648
         },
         "substitutions": [
           {
@@ -39694,32 +39694,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23625,
-          "Water": 0.30437499999999995,
-          "Earth": 0.29562499999999997,
-          "Air": 0.16375000000000003
+          "Fire": 0.24749999999999997,
+          "Water": 0.26,
+          "Earth": 0.30900000000000005,
+          "Air": 0.18350000000000005
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 272,
-          "sugarG": 4,
+          "sodiumMg": 254,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -39732,18 +39732,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.36,
-          "Essence": 9.18,
-          "Matter": 9.77,
-          "Substance": 9.13
+          "Spirit": 5.97,
+          "Essence": 7.61,
+          "Matter": 8.52,
+          "Substance": 7.82
         },
         "thermodynamicProperties": {
-          "heat": 0.4659,
-          "entropy": 0.4473,
-          "reactivity": 0.5244,
-          "gregsEnergy": 0.2313,
-          "kalchm": 0.3,
-          "monica": 0.4825
+          "heat": 0.0585,
+          "entropy": 0.3474,
+          "reactivity": 1.9867,
+          "gregsEnergy": -0.6318,
+          "kalchm": 0.0003,
+          "monica": -0.0392
         },
         "substitutions": [
           {
@@ -39832,10 +39832,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5166666666666667,
-          "Earth": 0.16666666666666666,
-          "Air": 0.18333333333333332
+          "Fire": 0.15000000000000002,
+          "Water": 0.35624999999999996,
+          "Earth": 0.28125,
+          "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -39852,11 +39852,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 357,
+          "fiberG": 4,
+          "sodiumMg": 293,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39870,18 +39870,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.78,
-          "Essence": 2.64,
-          "Matter": 3.18,
-          "Substance": 3.33
+          "Spirit": 1.52,
+          "Essence": 2.48,
+          "Matter": 2.42,
+          "Substance": 2.35
         },
         "thermodynamicProperties": {
-          "heat": 0.3083,
-          "entropy": 0.5067,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0093,
-          "kalchm": -0.0333,
-          "monica": 0.2937
+          "heat": 0.0356,
+          "entropy": 0.2577,
+          "reactivity": 1.943,
+          "gregsEnergy": -0.4651,
+          "kalchm": 0.2843,
+          "monica": -0.1903
         },
         "substitutions": [
           {
@@ -39996,22 +39996,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28750000000000003,
-          "Water": 0.275,
-          "Earth": 0.24999999999999997,
-          "Air": 0.1875
+          "Fire": 0.2791666666666667,
+          "Water": 0.23750000000000002,
+          "Earth": 0.28750000000000003,
+          "Air": 0.1958333333333334
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -40020,7 +40020,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 260,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40034,18 +40034,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.72,
-          "Essence": 4.6,
-          "Matter": 4.47,
-          "Substance": 4.68
+          "Spirit": 4.23,
+          "Essence": 4.31,
+          "Matter": 4.32,
+          "Substance": 4.35
         },
         "thermodynamicProperties": {
-          "heat": 0.5062,
-          "entropy": 0.475,
-          "reactivity": 0.5375,
-          "gregsEnergy": 0.2509,
-          "kalchm": 0.375,
-          "monica": 0.5129
+          "heat": 0.0957,
+          "entropy": 0.4406,
+          "reactivity": 2.6174,
+          "gregsEnergy": -1.0576,
+          "kalchm": 0.7266,
+          "monica": -1.2651
         },
         "substitutions": [
           {
@@ -40205,10 +40205,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25625,
-          "Water": 0.26875,
-          "Earth": 0.29999999999999993,
-          "Air": 0.175
+          "Fire": 0.27368421052631575,
+          "Water": 0.2210526315789474,
+          "Earth": 0.3352631578947369,
+          "Air": 0.17
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40228,8 +40228,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 258,
+          "fiberG": 5,
+          "sodiumMg": 238,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40243,18 +40243,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.96,
-          "Essence": 7.02,
-          "Matter": 6.91,
-          "Substance": 6.73
+          "Spirit": 5.81,
+          "Essence": 6.48,
+          "Matter": 7.3,
+          "Substance": 6.56
         },
         "thermodynamicProperties": {
-          "heat": 0.4938,
-          "entropy": 0.45,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.2621,
-          "kalchm": 0.35,
-          "monica": 0.5098
+          "heat": 0.0762,
+          "entropy": 0.3741,
+          "reactivity": 2.0401,
+          "gregsEnergy": -0.687,
+          "kalchm": 0.0109,
+          "monica": -0.0745
         },
         "substitutions": [
           {
@@ -40353,31 +40353,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13999999999999999,
-          "Water": 0.3785714285714286,
-          "Earth": 0.30428571428571427,
-          "Air": 0.17714285714285713
+          "Fire": 0.16111111111111112,
+          "Water": 0.2777777777777778,
+          "Earth": 0.38555555555555554,
+          "Air": 0.17555555555555558
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 301,
+          "fiberG": 5,
+          "sodiumMg": 261,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40391,18 +40391,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.44,
-          "Essence": 3.66,
-          "Matter": 3.92,
-          "Substance": 3.98
+          "Spirit": 2,
+          "Essence": 3,
+          "Matter": 3.75,
+          "Substance": 3.33
         },
         "thermodynamicProperties": {
-          "heat": 0.3807,
-          "entropy": 0.4491,
-          "reactivity": 0.5111,
-          "gregsEnergy": 0.1512,
-          "kalchm": 0.1343,
-          "monica": 0.4008
+          "heat": 0.0338,
+          "entropy": 0.2756,
+          "reactivity": 1.4163,
+          "gregsEnergy": -0.3565,
+          "kalchm": 0.0138,
+          "monica": -0.0588
         },
         "substitutions": [
           {
@@ -40507,32 +40507,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1625,
-          "Water": 0.39375,
-          "Earth": 0.29750000000000004,
-          "Air": 0.14625
+          "Fire": 0.23499999999999996,
+          "Water": 0.29500000000000004,
+          "Earth": 0.29999999999999993,
+          "Air": 0.16999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
-          "fatG": 7,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 308,
-          "sugarG": 4,
+          "sodiumMg": 268,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -40545,18 +40545,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.5,
-          "Essence": 3.83,
-          "Matter": 5.37,
-          "Substance": 5.39
+          "Spirit": 2.36,
+          "Essence": 3.28,
+          "Matter": 4.06,
+          "Substance": 3.83
         },
         "thermodynamicProperties": {
-          "heat": 0.3844,
-          "entropy": 0.4395,
-          "reactivity": 0.5337,
-          "gregsEnergy": 0.1498,
-          "kalchm": 0.1175,
-          "monica": 0.3952
+          "heat": 0.0395,
+          "entropy": 0.3228,
+          "reactivity": 1.6396,
+          "gregsEnergy": -0.4897,
+          "kalchm": 0.0074,
+          "monica": -0.0609
         },
         "substitutions": [
           {
@@ -40657,10 +40657,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.325,
-          "Earth": 0.325,
-          "Air": 0.18333333333333335
+          "Fire": 0.2,
+          "Water": 0.2,
+          "Earth": 0.4,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40677,11 +40677,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 280,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40695,18 +40695,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.67,
-          "Essence": 3.33,
-          "Matter": 3.82,
-          "Substance": 3.79
+          "Spirit": 2.21,
+          "Essence": 2.58,
+          "Matter": 3.58,
+          "Substance": 3.07
         },
         "thermodynamicProperties": {
-          "heat": 0.4208,
-          "entropy": 0.4433,
-          "reactivity": 0.495,
-          "gregsEnergy": 0.2014,
-          "kalchm": 0.2,
-          "monica": 0.4406
+          "heat": 0.0489,
+          "entropy": 0.3149,
+          "reactivity": 1.3311,
+          "gregsEnergy": -0.3702,
+          "kalchm": 0.0221,
+          "monica": -0.073
         },
         "substitutions": [
           {
@@ -40806,31 +40806,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24375000000000002,
-          "Water": 0.30000000000000004,
-          "Earth": 0.26250000000000007,
-          "Air": 0.19375000000000003
+          "Fire": 0.29999999999999993,
+          "Water": 0.23124999999999998,
+          "Earth": 0.30000000000000004,
+          "Air": 0.16875
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40844,18 +40844,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.62,
-          "Essence": 4.16,
-          "Matter": 4.37,
-          "Substance": 4.42
+          "Spirit": 2.88,
+          "Essence": 3.29,
+          "Matter": 3.85,
+          "Substance": 3.5
         },
         "thermodynamicProperties": {
-          "heat": 0.4719,
-          "entropy": 0.4725,
-          "reactivity": 0.5262,
-          "gregsEnergy": 0.2233,
-          "kalchm": 0.375,
-          "monica": 0.5018
+          "heat": 0.0652,
+          "entropy": 0.3511,
+          "reactivity": 1.8314,
+          "gregsEnergy": -0.5778,
+          "kalchm": 0.0735,
+          "monica": -0.1209
         },
         "substitutions": [
           {
@@ -40955,31 +40955,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2833333333333333,
-          "Water": 0.30833333333333335,
-          "Earth": 0.25833333333333336,
-          "Air": 0.15
+          "Fire": 0.2875,
+          "Water": 0.2125,
+          "Earth": 0.3375,
+          "Air": 0.1625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 273,
+          "fiberG": 5,
+          "sodiumMg": 235,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -40993,18 +40993,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.45,
-          "Essence": 4.11,
-          "Matter": 3.92,
-          "Substance": 3.88
+          "Spirit": 2.9,
+          "Essence": 3.13,
+          "Matter": 3.52,
+          "Substance": 3.11
         },
         "thermodynamicProperties": {
-          "heat": 0.4875,
-          "entropy": 0.4567,
-          "reactivity": 0.555,
-          "gregsEnergy": 0.234,
-          "kalchm": 0.3,
-          "monica": 0.4836
+          "heat": 0.0774,
+          "entropy": 0.3509,
+          "reactivity": 1.8839,
+          "gregsEnergy": -0.5836,
+          "kalchm": 0.2727,
+          "monica": -0.2384
         },
         "substitutions": [
           {
@@ -41085,32 +41085,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26250000000000007,
-          "Water": 0.325,
-          "Earth": 0.22500000000000003,
-          "Air": 0.18750000000000003
+          "Fire": 0.3416666666666666,
+          "Water": 0.24166666666666667,
+          "Earth": 0.275,
+          "Air": 0.1416666666666667
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 26,
-          "fatG": 8,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 280,
-          "sugarG": 5,
+          "sodiumMg": 247,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41123,18 +41123,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.35,
-          "Essence": 2.73,
-          "Matter": 2.67,
-          "Substance": 2.48
+          "Spirit": 2.53,
+          "Essence": 3,
+          "Matter": 2.79,
+          "Substance": 2.56
         },
         "thermodynamicProperties": {
-          "heat": 0.4688,
-          "entropy": 0.485,
-          "reactivity": 0.5525,
-          "gregsEnergy": 0.2008,
-          "kalchm": 0.325,
-          "monica": 0.4778
+          "heat": 0.0803,
+          "entropy": 0.3291,
+          "reactivity": 2.3578,
+          "gregsEnergy": -0.6957,
+          "kalchm": 1.4552,
+          "monica": 0.7866
         },
         "substitutions": [
           {
@@ -41212,10 +41212,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12666666666666665,
-          "Water": 0.5166666666666666,
-          "Earth": 0.18333333333333332,
-          "Air": 0.1733333333333333
+          "Fire": 0.26999999999999996,
+          "Water": 0.35,
+          "Earth": 0.24999999999999994,
+          "Air": 0.13
         },
         "astrologicalAffinities": {
           "planets": [
@@ -41232,12 +41232,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 357,
-          "sugarG": 5,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 290,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41250,18 +41250,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.53,
-          "Essence": 2.58,
-          "Matter": 2.22,
-          "Substance": 2.03
+          "Spirit": 1.96,
+          "Essence": 2.65,
+          "Matter": 2.39,
+          "Substance": 2.34
         },
         "thermodynamicProperties": {
-          "heat": 0.305,
-          "entropy": 0.496,
-          "reactivity": 0.586,
-          "gregsEnergy": 0.0143,
-          "kalchm": -0.0333,
-          "monica": 0.2957
+          "heat": 0.0595,
+          "entropy": 0.2957,
+          "reactivity": 2.3749,
+          "gregsEnergy": -0.6428,
+          "kalchm": 0.8435,
+          "monica": -1.5903
         },
         "substitutions": [
           {
@@ -41336,10 +41336,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2875,
-          "Water": 0.1875,
-          "Earth": 0.3375,
-          "Air": 0.1875
+          "Fire": 0.31,
+          "Water": 0.22999999999999998,
+          "Earth": 0.33999999999999997,
+          "Air": 0.12000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -41357,11 +41357,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 225,
-          "sugarG": 5,
+          "sodiumMg": 242,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41374,18 +41374,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.9,
-          "Essence": 1.57,
-          "Matter": 1.94,
-          "Substance": 1.78
+          "Spirit": 1.76,
+          "Essence": 2.1,
+          "Matter": 2.18,
+          "Substance": 2.05
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.44,
-          "reactivity": 0.485,
-          "gregsEnergy": 0.3366,
-          "kalchm": 0.25,
-          "monica": 0.5096
+          "heat": 0.0648,
+          "entropy": 0.315,
+          "reactivity": 1.8697,
+          "gregsEnergy": -0.5242,
+          "kalchm": 0.5393,
+          "monica": -0.4541
         },
         "substitutions": [
           {
@@ -41460,10 +41460,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2875,
-          "Water": 0.1875,
-          "Earth": 0.3375,
-          "Air": 0.1875
+          "Fire": 0.31,
+          "Water": 0.22999999999999998,
+          "Earth": 0.33999999999999997,
+          "Air": 0.12000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -41481,11 +41481,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 225,
-          "sugarG": 5,
+          "sodiumMg": 242,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41498,18 +41498,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.9,
-          "Essence": 1.57,
-          "Matter": 1.94,
-          "Substance": 1.78
+          "Spirit": 1.76,
+          "Essence": 2.1,
+          "Matter": 2.18,
+          "Substance": 2.05
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.44,
-          "reactivity": 0.485,
-          "gregsEnergy": 0.3366,
-          "kalchm": 0.25,
-          "monica": 0.5096
+          "heat": 0.0648,
+          "entropy": 0.315,
+          "reactivity": 1.8697,
+          "gregsEnergy": -0.5242,
+          "kalchm": 0.5393,
+          "monica": -0.4541
         },
         "substitutions": [
           {
@@ -41575,31 +41575,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18333333333333335,
-          "Water": 0.31666666666666665,
-          "Earth": 0.21666666666666665,
-          "Air": 0.2833333333333333
+          "Fire": 0.325,
+          "Water": 0.17500000000000002,
+          "Earth": 0.2625,
+          "Air": 0.2375
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 29,
-          "fatG": 7,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 277,
+          "sodiumMg": 220,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -41613,18 +41613,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.7,
-          "Essence": 1.48,
-          "Matter": 1.09,
-          "Substance": 0.93
+          "Spirit": 2.15,
+          "Essence": 1.45,
+          "Matter": 1,
+          "Substance": 1.04
         },
         "thermodynamicProperties": {
-          "heat": 0.4333,
-          "entropy": 0.5267,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.17,
-          "kalchm": 0.3,
-          "monica": 0.458
+          "heat": 0.2726,
+          "entropy": 0.7036,
+          "reactivity": 5.0186,
+          "gregsEnergy": -3.2584,
+          "kalchm": 8.5312,
+          "monica": 0.3029
         },
         "substitutions": [
           {
@@ -41681,32 +41681,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.225,
+          "Water": 0.22499999999999998,
+          "Earth": 0.4,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 28,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "fiberG": 5,
+          "sodiumMg": 240,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41719,18 +41719,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
-          "Essence": 0.6,
-          "Matter": 0.5,
-          "Substance": 0.4
+          "Spirit": 0.39,
+          "Essence": 0.42,
+          "Matter": 0.69,
+          "Substance": 0.63
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0321,
+          "entropy": 0.2067,
+          "reactivity": 0.7147,
+          "gregsEnergy": -0.1157,
+          "kalchm": 0.8316,
+          "monica": -0.8776
         },
         "substitutions": [
           {
@@ -41797,10 +41797,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.04999999999999999,
-          "Water": 0.5499999999999999,
-          "Earth": 0.29999999999999993,
-          "Air": 0.09999999999999998
+          "Fire": 0.15000000000000002,
+          "Water": 0.425,
+          "Earth": 0.2875,
+          "Air": 0.1375
         },
         "astrologicalAffinities": {
           "planets": [
@@ -41817,12 +41817,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
-          "carbsG": 23,
-          "fatG": 6,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 370,
-          "sugarG": 3,
+          "sodiumMg": 320,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41835,18 +41835,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.64,
-          "Essence": 1.26,
-          "Matter": 1.21,
-          "Substance": 0.89
+          "Spirit": 0.58,
+          "Essence": 1.18,
+          "Matter": 1.31,
+          "Substance": 1.14
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.42,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0148,
-          "kalchm": -0.2,
-          "monica": 0.2459
+          "heat": 0.0179,
+          "entropy": 0.1636,
+          "reactivity": 1.2737,
+          "gregsEnergy": -0.1904,
+          "kalchm": 0.5359,
+          "monica": -0.2397
         },
         "substitutions": [
           {
@@ -41893,32 +41893,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.2,
+          "Water": 0.2,
+          "Earth": 0.4,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 11,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 230,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -41931,18 +41931,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.25,
-          "Essence": 0.3,
-          "Matter": 0.25,
-          "Substance": 0.2
+          "Spirit": 0.2,
+          "Essence": 0.2,
+          "Matter": 0.34,
+          "Substance": 0.3
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0297,
+          "entropy": 0.1616,
+          "reactivity": 0.5296,
+          "gregsEnergy": -0.0558,
+          "kalchm": 1.0879,
+          "monica": 1.2513
         },
         "substitutions": [
           {
@@ -42040,10 +42040,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14999999999999997,
-          "Water": 0.42499999999999993,
-          "Earth": 0.19999999999999996,
-          "Air": 0.22499999999999998
+          "Fire": 0.17555555555555555,
+          "Water": 0.38,
+          "Earth": 0.25,
+          "Air": 0.19444444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -42060,11 +42060,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 320,
+          "sodiumMg": 302,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -42078,18 +42078,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.18,
-          "Essence": 2.59,
-          "Matter": 2.76,
-          "Substance": 2.7
+          "Spirit": 1.65,
+          "Essence": 2.52,
+          "Matter": 2.61,
+          "Substance": 2.51
         },
         "thermodynamicProperties": {
-          "heat": 0.3625,
-          "entropy": 0.51,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.0845,
-          "kalchm": 0.15,
-          "monica": 0.3788
+          "heat": 0.0384,
+          "entropy": 0.274,
+          "reactivity": 1.9055,
+          "gregsEnergy": -0.4837,
+          "kalchm": 0.1904,
+          "monica": -0.153
         },
         "substitutions": [
           {
@@ -42193,10 +42193,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29714285714285715,
-          "Water": 0.2957142857142857,
-          "Earth": 0.23285714285714287,
-          "Air": 0.1742857142857143
+          "Fire": 0.3277777777777778,
+          "Water": 0.24444444444444446,
+          "Earth": 0.2833333333333333,
+          "Air": 0.14444444444444443
         },
         "astrologicalAffinities": {
           "planets": [
@@ -42213,12 +42213,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
-          "carbsG": 25,
+          "proteinG": 9,
+          "carbsG": 24,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 268,
-          "sugarG": 5,
+          "sodiumMg": 248,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -42231,18 +42231,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.32,
-          "Essence": 4.61,
-          "Matter": 4.3,
-          "Substance": 3.78
+          "Spirit": 3.94,
+          "Essence": 3.85,
+          "Matter": 3.71,
+          "Substance": 3.37
         },
         "thermodynamicProperties": {
-          "heat": 0.5007,
-          "entropy": 0.4766,
-          "reactivity": 0.5557,
-          "gregsEnergy": 0.2359,
-          "kalchm": 0.3143,
-          "monica": 0.4886
+          "heat": 0.1161,
+          "entropy": 0.4129,
+          "reactivity": 2.6269,
+          "gregsEnergy": -0.9685,
+          "kalchm": 5.1261,
+          "monica": 0.2256
         },
         "substitutions": [
           {
@@ -42320,10 +42320,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.43,
-          "Earth": 0.16,
-          "Air": 0.22000000000000003
+          "Fire": 0.18333333333333335,
+          "Water": 0.39166666666666666,
+          "Earth": 0.24166666666666667,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -42340,11 +42340,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 322,
+          "fiberG": 4,
+          "sodiumMg": 307,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -42358,18 +42358,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.04,
-          "Essence": 2.99,
-          "Matter": 2.43,
-          "Substance": 2.27
+          "Spirit": 1.19,
+          "Essence": 2.19,
+          "Matter": 2.05,
+          "Substance": 1.88
         },
         "thermodynamicProperties": {
-          "heat": 0.38,
-          "entropy": 0.524,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.0803,
-          "kalchm": 0.14,
-          "monica": 0.3741
+          "heat": 0.0301,
+          "entropy": 0.2113,
+          "reactivity": 1.8979,
+          "gregsEnergy": -0.3709,
+          "kalchm": 0.4797,
+          "monica": -0.266
         },
         "substitutions": [
           {
@@ -42515,32 +42515,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2833333333333333,
-          "Water": 0.27777777777777773,
-          "Earth": 0.2666666666666666,
-          "Air": 0.17222222222222222
+          "Fire": 0.29062499999999997,
+          "Water": 0.24062499999999998,
+          "Earth": 0.30937499999999996,
+          "Air": 0.15937500000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 261,
-          "sugarG": 5,
+          "sodiumMg": 246,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -42553,18 +42553,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.44,
-          "Essence": 6.52,
-          "Matter": 6.36,
-          "Substance": 5.56
+          "Spirit": 5.31,
+          "Essence": 6.15,
+          "Matter": 6.34,
+          "Substance": 5.68
         },
         "thermodynamicProperties": {
-          "heat": 0.5028,
-          "entropy": 0.4622,
-          "reactivity": 0.5367,
-          "gregsEnergy": 0.2547,
-          "kalchm": 0.3444,
-          "monica": 0.5052
+          "heat": 0.0793,
+          "entropy": 0.3562,
+          "reactivity": 2.2266,
+          "gregsEnergy": -0.7138,
+          "kalchm": 0.2147,
+          "monica": -0.2084
         },
         "substitutions": [
           {
@@ -42717,31 +42717,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.4444444444444444,
-          "Earth": 0.27777777777777785,
-          "Air": 0.1111111111111111
+          "Fire": 0.1852941176470588,
+          "Water": 0.3323529411764705,
+          "Earth": 0.34117647058823525,
+          "Air": 0.14117647058823532
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 328,
+          "fiberG": 5,
+          "sodiumMg": 283,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -42755,18 +42755,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.8,
-          "Essence": 5.76,
-          "Matter": 6.93,
-          "Substance": 5.91
+          "Spirit": 3.65,
+          "Essence": 5.34,
+          "Matter": 6.25,
+          "Substance": 5.52
         },
         "thermodynamicProperties": {
-          "heat": 0.3611,
-          "entropy": 0.4333,
-          "reactivity": 0.5667,
-          "gregsEnergy": 0.1155,
-          "kalchm": 0.0556,
-          "monica": 0.3629
+          "heat": 0.0416,
+          "entropy": 0.2915,
+          "reactivity": 1.6682,
+          "gregsEnergy": -0.4448,
+          "kalchm": 0.0007,
+          "monica": -0.0367
         },
         "substitutions": [
           {
@@ -42869,10 +42869,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18000000000000005,
-          "Water": 0.36000000000000004,
-          "Earth": 0.30000000000000004,
-          "Air": 0.16000000000000003
+          "Fire": 0.23888888888888893,
+          "Water": 0.3111111111111111,
+          "Earth": 0.2777777777777778,
+          "Air": 0.1722222222222222
         },
         "astrologicalAffinities": {
           "planets": [
@@ -42889,12 +42889,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 294,
-          "sugarG": 4,
+          "sodiumMg": 274,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -42907,18 +42907,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.94,
-          "Essence": 4.26,
-          "Matter": 3.79,
-          "Substance": 3.14
+          "Spirit": 3.09,
+          "Essence": 3.3,
+          "Matter": 3.47,
+          "Substance": 3.22
         },
         "thermodynamicProperties": {
-          "heat": 0.41,
-          "entropy": 0.444,
-          "reactivity": 0.524,
-          "gregsEnergy": 0.1773,
-          "kalchm": 0.18,
-          "monica": 0.4249
+          "heat": 0.0831,
+          "entropy": 0.3694,
+          "reactivity": 2.2063,
+          "gregsEnergy": -0.7319,
+          "kalchm": 0.5186,
+          "monica": -0.5052
         },
         "substitutions": [
           {
@@ -43010,10 +43010,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.2333333333333333,
-          "Earth": 0.3666666666666667,
-          "Air": 0.13333333333333333
+          "Fire": 0.2285714285714286,
+          "Water": 0.28571428571428575,
+          "Earth": 0.35000000000000003,
+          "Air": 0.13571428571428573
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43030,11 +43030,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 243,
+          "sodiumMg": 264,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -43048,18 +43048,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.55,
-          "Essence": 2.75,
-          "Matter": 2.78,
-          "Substance": 2.25
+          "Spirit": 2.19,
+          "Essence": 2.52,
+          "Matter": 3.23,
+          "Substance": 2.84
         },
         "thermodynamicProperties": {
-          "heat": 0.5167,
-          "entropy": 0.4067,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.3134,
-          "kalchm": 0.2333,
-          "monica": 0.4953
+          "heat": 0.0553,
+          "entropy": 0.3171,
+          "reactivity": 1.5109,
+          "gregsEnergy": -0.4239,
+          "kalchm": 0.0668,
+          "monica": -0.1037
         },
         "substitutions": [
           {
@@ -43145,10 +43145,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2375,
-          "Water": 0.325,
-          "Earth": 0.25,
-          "Air": 0.1875
+          "Fire": 0.2714285714285714,
+          "Water": 0.30714285714285716,
+          "Earth": 0.2714285714285714,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43166,11 +43166,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 280,
-          "sugarG": 5,
+          "sodiumMg": 273,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -43183,18 +43183,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.15,
-          "Essence": 2.58,
-          "Matter": 2.87,
-          "Substance": 2.85
+          "Spirit": 2.39,
+          "Essence": 2.88,
+          "Matter": 2.96,
+          "Substance": 2.64
         },
         "thermodynamicProperties": {
-          "heat": 0.4562,
-          "entropy": 0.475,
-          "reactivity": 0.5375,
-          "gregsEnergy": 0.2009,
-          "kalchm": 0.35,
-          "monica": 0.4854
+          "heat": 0.0682,
+          "entropy": 0.3102,
+          "reactivity": 2.027,
+          "gregsEnergy": -0.5605,
+          "kalchm": 0.524,
+          "monica": -0.4278
         },
         "substitutions": [
           {
@@ -43305,31 +43305,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.35000000000000003,
-          "Earth": 0.26666666666666666,
-          "Air": 0.11666666666666665
+          "Fire": 0.2318181818181818,
+          "Water": 0.29545454545454547,
+          "Earth": 0.3227272727272727,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 290,
+          "fiberG": 5,
+          "sodiumMg": 268,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -43343,18 +43343,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.49,
-          "Essence": 3.97,
-          "Matter": 4.41,
-          "Substance": 3.74
+          "Spirit": 3.18,
+          "Essence": 3.66,
+          "Matter": 4.38,
+          "Substance": 3.79
         },
         "thermodynamicProperties": {
-          "heat": 0.4583,
-          "entropy": 0.44,
-          "reactivity": 0.57,
-          "gregsEnergy": 0.2075,
-          "kalchm": 0.2333,
-          "monica": 0.453
+          "heat": 0.0641,
+          "entropy": 0.3275,
+          "reactivity": 1.7199,
+          "gregsEnergy": -0.4992,
+          "kalchm": 0.0454,
+          "monica": -0.0939
         },
         "substitutions": [
           {
@@ -43440,31 +43440,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26166666666666666,
-          "Water": 0.295,
-          "Earth": 0.23,
-          "Air": 0.21333333333333335
+          "Fire": 0.2885714285714286,
+          "Water": 0.2385714285714286,
+          "Earth": 0.2685714285714286,
+          "Air": 0.20428571428571426
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43478,18 +43478,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.2,
-          "Essence": 4.13,
-          "Matter": 2.78,
-          "Substance": 2.79
+          "Spirit": 2.45,
+          "Essence": 2.72,
+          "Matter": 2.7,
+          "Substance": 2.52
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.4933,
-          "reactivity": 0.534,
-          "gregsEnergy": 0.2199,
-          "kalchm": 0.3867,
-          "monica": 0.504
+          "heat": 0.0813,
+          "entropy": 0.3552,
+          "reactivity": 2.2619,
+          "gregsEnergy": -0.7221,
+          "kalchm": 0.9105,
+          "monica": -3.4048
         },
         "substitutions": [
           {
@@ -43575,31 +43575,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26166666666666666,
-          "Water": 0.295,
-          "Earth": 0.23,
-          "Air": 0.21333333333333335
+          "Fire": 0.2885714285714286,
+          "Water": 0.2385714285714286,
+          "Earth": 0.2685714285714286,
+          "Air": 0.20428571428571426
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43613,18 +43613,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.2,
-          "Essence": 4.13,
-          "Matter": 2.78,
-          "Substance": 2.79
+          "Spirit": 2.45,
+          "Essence": 2.72,
+          "Matter": 2.7,
+          "Substance": 2.52
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.4933,
-          "reactivity": 0.534,
-          "gregsEnergy": 0.2199,
-          "kalchm": 0.3867,
-          "monica": 0.504
+          "heat": 0.0813,
+          "entropy": 0.3552,
+          "reactivity": 2.2619,
+          "gregsEnergy": -0.7221,
+          "kalchm": 0.9105,
+          "monica": -3.4048
         },
         "substitutions": [
           {
@@ -43786,10 +43786,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29090909090909095,
-          "Water": 0.2590909090909091,
-          "Earth": 0.3045454545454545,
-          "Air": 0.14545454545454545
+          "Fire": 0.2666666666666666,
+          "Water": 0.23888888888888887,
+          "Earth": 0.315,
+          "Air": 0.1794444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43807,11 +43807,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 254,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -43824,18 +43824,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.9,
-          "Essence": 6.76,
-          "Matter": 7.25,
-          "Substance": 6.33
+          "Spirit": 5.31,
+          "Essence": 6.05,
+          "Matter": 6.81,
+          "Substance": 6.21
         },
         "thermodynamicProperties": {
-          "heat": 0.5159,
-          "entropy": 0.4364,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2846,
-          "kalchm": 0.2909,
-          "monica": 0.5011
+          "heat": 0.0721,
+          "entropy": 0.3716,
+          "reactivity": 2.0392,
+          "gregsEnergy": -0.6857,
+          "kalchm": 0.0096,
+          "monica": -0.0724
         },
         "substitutions": [
           {
@@ -43991,31 +43991,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27307692307692305,
-          "Water": 0.3384615384615384,
-          "Earth": 0.18846153846153846,
-          "Air": 0.19999999999999998
+          "Fire": 0.31176470588235294,
+          "Water": 0.20882352941176474,
+          "Earth": 0.2911764705882353,
+          "Air": 0.1882352941176471
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 285,
+          "sodiumMg": 234,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44029,18 +44029,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.46,
-          "Essence": 7.6,
-          "Matter": 6.02,
-          "Substance": 5.83
+          "Spirit": 5.97,
+          "Essence": 5.87,
+          "Matter": 6.04,
+          "Substance": 5.74
         },
         "thermodynamicProperties": {
-          "heat": 0.4673,
-          "entropy": 0.5046,
-          "reactivity": 0.5669,
-          "gregsEnergy": 0.1812,
-          "kalchm": 0.2769,
-          "monica": 0.4556
+          "heat": 0.1063,
+          "entropy": 0.4462,
+          "reactivity": 2.5751,
+          "gregsEnergy": -1.0428,
+          "kalchm": 1.1772,
+          "monica": 2.4822
         },
         "substitutions": [
           {
@@ -44171,10 +44171,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2666666666666667,
-          "Water": 0.2888888888888889,
-          "Earth": 0.21666666666666667,
-          "Air": 0.2277777777777778
+          "Fire": 0.24999999999999997,
+          "Water": 0.2923076923076923,
+          "Earth": 0.2615384615384615,
+          "Air": 0.19615384615384615
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44191,11 +44191,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 266,
+          "sodiumMg": 267,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44209,18 +44209,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.05,
-          "Essence": 6.33,
-          "Matter": 5.43,
-          "Substance": 5.24
+          "Spirit": 5.28,
+          "Essence": 6.5,
+          "Matter": 5.29,
+          "Substance": 5.39
         },
         "thermodynamicProperties": {
-          "heat": 0.4889,
-          "entropy": 0.5044,
-          "reactivity": 0.5333,
-          "gregsEnergy": 0.2199,
-          "kalchm": 0.3889,
-          "monica": 0.5046
+          "heat": 0.0869,
+          "entropy": 0.3743,
+          "reactivity": 3.2241,
+          "gregsEnergy": -1.1199,
+          "kalchm": 21.3354,
+          "monica": 0.1135
         },
         "substitutions": [
           {
@@ -44302,10 +44302,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32499999999999996,
-          "Water": 0.225,
-          "Earth": 0.225,
-          "Air": 0.22500000000000003
+          "Fire": 0.41999999999999993,
+          "Water": 0.17,
+          "Earth": 0.23000000000000004,
+          "Air": 0.18
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44323,10 +44323,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 9,
+          "carbsG": 25,
+          "fatG": 10,
           "fiberG": 4,
-          "sodiumMg": 240,
+          "sodiumMg": 218,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44340,18 +44340,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.41,
-          "Essence": 2.47,
-          "Matter": 2.33,
-          "Substance": 2.23
+          "Spirit": 2.66,
+          "Essence": 2.16,
+          "Matter": 1.8,
+          "Substance": 1.78
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.5,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.285,
-          "kalchm": 0.35,
-          "monica": 0.519
+          "heat": 0.1816,
+          "entropy": 0.5499,
+          "reactivity": 3.6757,
+          "gregsEnergy": -1.8396,
+          "kalchm": 8.8586,
+          "monica": 0.2294
         },
         "substitutions": [
           {
@@ -44458,10 +44458,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27125,
-          "Water": 0.2525,
-          "Earth": 0.26625000000000004,
-          "Air": 0.21000000000000002
+          "Fire": 0.31333333333333335,
+          "Water": 0.19111111111111115,
+          "Earth": 0.28111111111111114,
+          "Air": 0.2144444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44480,9 +44480,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 251,
+          "sodiumMg": 226,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44496,18 +44496,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.31,
-          "Essence": 4.72,
-          "Matter": 4.18,
-          "Substance": 4.3
+          "Spirit": 3.57,
+          "Essence": 3.26,
+          "Matter": 3.19,
+          "Substance": 2.98
         },
         "thermodynamicProperties": {
-          "heat": 0.5094,
-          "entropy": 0.4775,
-          "reactivity": 0.5142,
-          "gregsEnergy": 0.2639,
-          "kalchm": 0.42,
-          "monica": 0.5316
+          "heat": 0.1255,
+          "entropy": 0.4543,
+          "reactivity": 2.6919,
+          "gregsEnergy": -1.0975,
+          "kalchm": 4.2253,
+          "monica": 0.2829
         },
         "substitutions": [
           {
@@ -44593,10 +44593,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22499999999999998,
-          "Water": 0.4,
-          "Earth": 0.2,
-          "Air": 0.175
+          "Fire": 0.23333333333333336,
+          "Water": 0.39166666666666666,
+          "Earth": 0.18333333333333335,
+          "Air": 0.19166666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44614,10 +44614,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 8,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fiberG": 3,
+          "sodiumMg": 307,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44631,18 +44631,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.64,
-          "Essence": 3.16,
-          "Matter": 2.39,
-          "Substance": 1.92
+          "Spirit": 2.31,
+          "Essence": 3.08,
+          "Matter": 2.38,
+          "Substance": 2.13
         },
         "thermodynamicProperties": {
-          "heat": 0.4125,
-          "entropy": 0.49,
-          "reactivity": 0.575,
-          "gregsEnergy": 0.1307,
-          "kalchm": 0.2,
-          "monica": 0.4123
+          "heat": 0.0772,
+          "entropy": 0.2736,
+          "reactivity": 2.9836,
+          "gregsEnergy": -0.7391,
+          "kalchm": 5.6102,
+          "monica": 0.1436
         },
         "substitutions": [
           {
@@ -44747,10 +44747,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2214285714285714,
-          "Water": 0.2285714285714286,
-          "Earth": 0.3142857142857142,
-          "Air": 0.2357142857142857
+          "Fire": 0.21300000000000002,
+          "Water": 0.24199999999999994,
+          "Earth": 0.34199999999999997,
+          "Air": 0.203
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44768,11 +44768,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 241,
-          "sugarG": 6,
+          "sodiumMg": 247,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -44785,18 +44785,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.49,
-          "Essence": 3.65,
-          "Matter": 4.3,
-          "Substance": 3.98
+          "Spirit": 2.96,
+          "Essence": 3.85,
+          "Matter": 4.49,
+          "Substance": 4.06
         },
         "thermodynamicProperties": {
-          "heat": 0.4964,
-          "entropy": 0.4686,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.2762,
-          "kalchm": 0.3714,
-          "monica": 0.5219
+          "heat": 0.0506,
+          "entropy": 0.3181,
+          "reactivity": 1.7223,
+          "gregsEnergy": -0.4972,
+          "kalchm": 0.0178,
+          "monica": -0.0717
         },
         "substitutions": [
           {
@@ -44937,32 +44937,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.5666666666666667,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.2393333333333333,
+          "Water": 0.25733333333333336,
+          "Earth": 0.3159999999999999,
+          "Air": 0.18733333333333332
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 377,
-          "sugarG": 4,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 253,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -44975,18 +44975,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.34,
-          "Essence": 4.79,
-          "Matter": 4.93,
-          "Substance": 4.19
+          "Spirit": 3.39,
+          "Essence": 3.89,
+          "Matter": 4.8,
+          "Substance": 4.37
         },
         "thermodynamicProperties": {
-          "heat": 0.2667,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": -0.0173,
-          "kalchm": -0.1333,
-          "monica": 0.2531
+          "heat": 0.0605,
+          "entropy": 0.3576,
+          "reactivity": 1.7529,
+          "gregsEnergy": -0.5663,
+          "kalchm": 0.0106,
+          "monica": -0.0711
         },
         "substitutions": [
           {
@@ -45083,31 +45083,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.15714285714285717,
+          "Water": 0.3142857142857143,
+          "Earth": 0.3785714285714286,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 276,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -45121,18 +45121,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.69,
-          "Essence": 2.79,
-          "Matter": 3.08,
-          "Substance": 2.69
+          "Spirit": 1.42,
+          "Essence": 2.4,
+          "Matter": 3.09,
+          "Substance": 2.63
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0254,
+          "entropy": 0.2349,
+          "reactivity": 1.2334,
+          "gregsEnergy": -0.2643,
+          "kalchm": 0.0324,
+          "monica": -0.0625
         },
         "substitutions": [
           {
@@ -45229,10 +45229,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11666666666666665,
-          "Water": 0.5166666666666667,
-          "Earth": 0.26666666666666666,
-          "Air": 0.10000000000000002
+          "Fire": 0.13749999999999998,
+          "Water": 0.43125,
+          "Earth": 0.3125,
+          "Air": 0.11875000000000001
         },
         "astrologicalAffinities": {
           "planets": [
@@ -45249,11 +45249,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 357,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 323,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -45267,18 +45267,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.49,
-          "Essence": 2.64,
-          "Matter": 3.26,
-          "Substance": 2.74
+          "Spirit": 1.27,
+          "Essence": 2.92,
+          "Matter": 3.23,
+          "Substance": 2.87
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4333,
-          "reactivity": 0.58,
-          "gregsEnergy": 0.0487,
-          "kalchm": -0.0667,
-          "monica": 0.2995
+          "heat": 0.0167,
+          "entropy": 0.208,
+          "reactivity": 1.4818,
+          "gregsEnergy": -0.2914,
+          "kalchm": 0.034,
+          "monica": -0.0582
         },
         "substitutions": [
           {
@@ -45375,31 +45375,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.17500000000000004,
+          "Water": 0.31250000000000006,
+          "Earth": 0.35625,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fiberG": 5,
+          "sodiumMg": 275,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -45413,18 +45413,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.69,
-          "Essence": 2.79,
-          "Matter": 3.08,
-          "Substance": 2.69
+          "Spirit": 1.52,
+          "Essence": 2.8,
+          "Matter": 3.41,
+          "Substance": 2.96
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0234,
+          "entropy": 0.2352,
+          "reactivity": 1.344,
+          "gregsEnergy": -0.2926,
+          "kalchm": 0.0207,
+          "monica": -0.0561
         },
         "substitutions": [
           {
@@ -45511,31 +45511,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29,
-          "Water": 0.29,
-          "Earth": 0.2,
-          "Air": 0.22000000000000003
+          "Fire": 0.23571428571428574,
+          "Water": 0.25,
+          "Earth": 0.31428571428571433,
+          "Air": 0.19999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 266,
+          "fiberG": 5,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -45549,18 +45549,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.5,
-          "Essence": 2.83,
-          "Matter": 2.59,
-          "Substance": 2.44
+          "Spirit": 2.32,
+          "Essence": 2.6,
+          "Matter": 2.51,
+          "Substance": 2.21
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.508,
-          "reactivity": 0.548,
-          "gregsEnergy": 0.2216,
-          "kalchm": 0.34,
-          "monica": 0.4906
+          "heat": 0.0832,
+          "entropy": 0.3218,
+          "reactivity": 2.1544,
+          "gregsEnergy": -0.6101,
+          "kalchm": 1.454,
+          "monica": 0.7566
         },
         "substitutions": [
           {
@@ -45637,10 +45637,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.165,
-          "Water": 0.35000000000000003,
-          "Earth": 0.375,
-          "Air": 0.11
+          "Fire": 0.19999999999999998,
+          "Water": 0.3333333333333333,
+          "Earth": 0.3333333333333333,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -45657,11 +45657,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 11,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 290,
+          "sodiumMg": 283,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -45675,18 +45675,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.23,
-          "Essence": 2.45,
-          "Matter": 2.13,
-          "Substance": 1.7
+          "Spirit": 1.37,
+          "Essence": 2.46,
+          "Matter": 2.58,
+          "Substance": 2.6
         },
         "thermodynamicProperties": {
-          "heat": 0.4075,
-          "entropy": 0.394,
-          "reactivity": 0.509,
-          "gregsEnergy": 0.207,
-          "kalchm": 0.05,
-          "monica": 0.3978
+          "heat": 0.0269,
+          "entropy": 0.267,
+          "reactivity": 1.7505,
+          "gregsEnergy": -0.4404,
+          "kalchm": 0.1019,
+          "monica": -0.1102
         },
         "substitutions": [
           {
@@ -45745,10 +45745,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.35,
-          "Earth": 0.35,
-          "Air": 0.15
+          "Fire": 0.11666666666666665,
+          "Water": 0.25,
+          "Earth": 0.45,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -45765,12 +45765,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 290,
-          "sugarG": 4,
+          "proteinG": 12,
+          "carbsG": 26,
+          "fatG": 6,
+          "fiberG": 6,
+          "sodiumMg": 250,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -45783,18 +45783,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.52,
-          "Essence": 0.7,
-          "Matter": 1.4,
-          "Substance": 1.25
+          "Spirit": 0.3,
+          "Essence": 0.44,
+          "Matter": 1.72,
+          "Substance": 1.53
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.005,
+          "entropy": 0.303,
+          "reactivity": 0.5806,
+          "gregsEnergy": -0.171,
+          "kalchm": 0.0997,
+          "monica": -0.1277
         },
         "substitutions": [
           {
@@ -45892,32 +45892,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26875,
-          "Water": 0.325,
-          "Earth": 0.21250000000000002,
-          "Air": 0.19375
+          "Fire": 0.2944444444444444,
+          "Water": 0.22777777777777777,
+          "Earth": 0.3166666666666666,
+          "Air": 0.16111111111111112
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 280,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 5,
+          "sodiumMg": 241,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -45930,18 +45930,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.62,
-          "Essence": 3.74,
-          "Matter": 3.29,
-          "Substance": 3.05
+          "Spirit": 3.16,
+          "Essence": 3.38,
+          "Matter": 3.25,
+          "Substance": 2.81
         },
         "thermodynamicProperties": {
-          "heat": 0.4719,
-          "entropy": 0.4925,
-          "reactivity": 0.5563,
-          "gregsEnergy": 0.1979,
-          "kalchm": 0.3125,
-          "monica": 0.4729
+          "heat": 0.0979,
+          "entropy": 0.3496,
+          "reactivity": 2.3167,
+          "gregsEnergy": -0.712,
+          "kalchm": 2.7686,
+          "monica": 0.3018
         },
         "substitutions": [
           {
@@ -46038,10 +46038,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1325,
-          "Water": 0.345,
-          "Earth": 0.385,
-          "Air": 0.1375
+          "Fire": 0.18714285714285714,
+          "Water": 0.2671428571428572,
+          "Earth": 0.35714285714285715,
+          "Air": 0.18857142857142858
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46058,12 +46058,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 11,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 288,
-          "sugarG": 4,
+          "sodiumMg": 257,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -46076,18 +46076,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.44,
-          "Essence": 1.95,
-          "Matter": 3.08,
-          "Substance": 2.63
+          "Spirit": 1.77,
+          "Essence": 2.45,
+          "Matter": 2.99,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
-          "heat": 0.3938,
-          "entropy": 0.401,
-          "reactivity": 0.4865,
-          "gregsEnergy": 0.1987,
-          "kalchm": 0.04,
-          "monica": 0.3915
+          "heat": 0.0391,
+          "entropy": 0.2927,
+          "reactivity": 1.5031,
+          "gregsEnergy": -0.4009,
+          "kalchm": 0.0578,
+          "monica": -0.0936
         },
         "substitutions": [
           {
@@ -46211,10 +46211,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1743559583811979,
-          "Water": 0.2874484024689865,
-          "Earth": 0.347529089739855,
-          "Air": 0.19066654940996058
+          "Fire": 0.21619166989756805,
+          "Water": 0.21554913979099277,
+          "Earth": 0.3932848944753065,
+          "Air": 0.17497429583613264
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46231,11 +46231,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 265,
+          "sodiumMg": 236,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -46249,18 +46249,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.79,
-          "Essence": 4.29,
-          "Matter": 4.98,
-          "Substance": 4.45
+          "Spirit": 2.48,
+          "Essence": 2.95,
+          "Matter": 4.54,
+          "Substance": 3.9
         },
         "thermodynamicProperties": {
-          "heat": 0.4435,
-          "entropy": 0.4373,
-          "reactivity": 0.4771,
-          "gregsEnergy": 0.2349,
-          "kalchm": 0.23,
-          "monica": 0.463
+          "heat": 0.0418,
+          "entropy": 0.3268,
+          "reactivity": 1.2403,
+          "gregsEnergy": -0.3636,
+          "kalchm": 0.0012,
+          "monica": -0.0436
         },
         "substitutions": [
           {
@@ -46319,10 +46319,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.35,
-          "Earth": 0.35,
-          "Air": 0.15
+          "Fire": 0.1,
+          "Water": 0.2,
+          "Earth": 0.49999999999999994,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46339,12 +46339,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 290,
-          "sugarG": 4,
+          "proteinG": 13,
+          "carbsG": 26,
+          "fatG": 6,
+          "fiberG": 6,
+          "sodiumMg": 230,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -46357,18 +46357,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.3,
-          "Essence": 0.55,
-          "Matter": 2,
-          "Substance": 1.85
+          "Spirit": 0.42,
+          "Essence": 0.51,
+          "Matter": 1.23,
+          "Substance": 1.02
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.0139,
+          "entropy": 0.2128,
+          "reactivity": 0.5235,
+          "gregsEnergy": -0.0975,
+          "kalchm": 0.3743,
+          "monica": -0.1895
         },
         "substitutions": [
           {
@@ -46462,10 +46462,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12999999999999998,
-          "Water": 0.3,
-          "Earth": 0.34500000000000003,
-          "Air": 0.225
+          "Fire": 0.18000000000000002,
+          "Water": 0.28625,
+          "Earth": 0.34375000000000006,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46483,10 +46483,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 265,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -46500,18 +46500,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.05,
-          "Essence": 3.08,
-          "Matter": 3.48,
-          "Substance": 3.14
+          "Spirit": 2.04,
+          "Essence": 3.09,
+          "Matter": 3.43,
+          "Substance": 3.29
         },
         "thermodynamicProperties": {
-          "heat": 0.415,
-          "entropy": 0.452,
-          "reactivity": 0.458,
-          "gregsEnergy": 0.208,
-          "kalchm": 0.21,
-          "monica": 0.4462
+          "heat": 0.0371,
+          "entropy": 0.2945,
+          "reactivity": 1.7333,
+          "gregsEnergy": -0.4733,
+          "kalchm": 0.0405,
+          "monica": -0.0852
         },
         "substitutions": [
           {
@@ -46648,10 +46648,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1416666666666667,
-          "Water": 0.225,
-          "Earth": 0.4583333333333333,
-          "Air": 0.17500000000000002
+          "Fire": 0.21933333333333335,
+          "Water": 0.24933333333333327,
+          "Earth": 0.36866666666666664,
+          "Air": 0.16266666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46668,12 +46668,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 12,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 240,
-          "sugarG": 5,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -46686,18 +46686,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.07,
-          "Essence": 4.36,
-          "Matter": 5.85,
-          "Substance": 4.74
+          "Spirit": 3.42,
+          "Essence": 4.52,
+          "Matter": 5.82,
+          "Substance": 5.44
         },
         "thermodynamicProperties": {
-          "heat": 0.4583,
-          "entropy": 0.3867,
-          "reactivity": 0.42,
-          "gregsEnergy": 0.2959,
-          "kalchm": 0.0833,
-          "monica": 0.4434
+          "heat": 0.0428,
+          "entropy": 0.3445,
+          "reactivity": 1.6151,
+          "gregsEnergy": -0.5135,
+          "kalchm": 0.0002,
+          "monica": -0.0373
         },
         "substitutions": [
           {
@@ -46806,10 +46806,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.6,
-          "Earth": 0.17500000000000002,
-          "Air": 0.125
+          "Fire": 0.13,
+          "Water": 0.33999999999999997,
+          "Earth": 0.3399999999999999,
+          "Air": 0.18999999999999995
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46826,12 +46826,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 390,
-          "sugarG": 4,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 286,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -46844,18 +46844,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.98,
-          "Essence": 3.55,
-          "Matter": 3.64,
-          "Substance": 3.08
+          "Spirit": 1.63,
+          "Essence": 2.97,
+          "Matter": 3.73,
+          "Substance": 3.12
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.48,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0476,
-          "kalchm": -0.2,
-          "monica": 0.221
+          "heat": 0.0234,
+          "entropy": 0.2285,
+          "reactivity": 1.2907,
+          "gregsEnergy": -0.2715,
+          "kalchm": 0.0119,
+          "monica": -0.0475
         },
         "substitutions": [
           {
@@ -46952,10 +46952,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.6000000000000001,
-          "Earth": 0.175,
-          "Air": 0.125
+          "Fire": 0.1375,
+          "Water": 0.38125000000000003,
+          "Earth": 0.3375,
+          "Air": 0.14375
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46972,11 +46972,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 390,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 303,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -46990,18 +46990,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.48,
-          "Essence": 2.95,
+          "Spirit": 1.21,
+          "Essence": 2.58,
           "Matter": 3.14,
-          "Substance": 2.68
+          "Substance": 2.61
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.48,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0476,
-          "kalchm": -0.2,
-          "monica": 0.221
+          "heat": 0.0175,
+          "entropy": 0.2006,
+          "reactivity": 1.2501,
+          "gregsEnergy": -0.2332,
+          "kalchm": 0.0327,
+          "monica": -0.0545
         },
         "substitutions": [
           {
@@ -47123,31 +47123,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12777777777777777,
-          "Water": 0.42777777777777776,
-          "Earth": 0.26666666666666666,
-          "Air": 0.17777777777777778
+          "Fire": 0.17272727272727273,
+          "Water": 0.31363636363636366,
+          "Earth": 0.3227272727272727,
+          "Air": 0.19090909090909092
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 321,
+          "fiberG": 5,
+          "sodiumMg": 275,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -47161,18 +47161,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.11,
-          "Essence": 4.5,
-          "Matter": 5.56,
-          "Substance": 4.93
+          "Spirit": 2.41,
+          "Essence": 3.94,
+          "Matter": 4.43,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.4644,
-          "reactivity": 0.5333,
-          "gregsEnergy": 0.1023,
-          "kalchm": 0.1111,
-          "monica": 0.3742
+          "heat": 0.0347,
+          "entropy": 0.2476,
+          "reactivity": 1.5809,
+          "gregsEnergy": -0.3568,
+          "kalchm": 0.017,
+          "monica": -0.0554
         },
         "substitutions": [
           {
@@ -47269,10 +47269,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.6000000000000001,
-          "Earth": 0.175,
-          "Air": 0.125
+          "Fire": 0.1375,
+          "Water": 0.38125000000000003,
+          "Earth": 0.3375,
+          "Air": 0.14375
         },
         "astrologicalAffinities": {
           "planets": [
@@ -47289,11 +47289,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 390,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 303,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -47307,18 +47307,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.48,
-          "Essence": 2.95,
+          "Spirit": 1.21,
+          "Essence": 2.58,
           "Matter": 3.14,
-          "Substance": 2.68
+          "Substance": 2.61
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.48,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0476,
-          "kalchm": -0.2,
-          "monica": 0.221
+          "heat": 0.0175,
+          "entropy": 0.2006,
+          "reactivity": 1.2501,
+          "gregsEnergy": -0.2332,
+          "kalchm": 0.0327,
+          "monica": -0.0545
         },
         "substitutions": [
           {
@@ -47391,31 +47391,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.304098341733677,
-          "Water": 0.31242776345658113,
+          "Fire": 0.3840983417336771,
+          "Water": 0.2324277634565811,
           "Earth": 0.23654072563579703,
           "Air": 0.14693316917394483
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 24,
-          "fatG": 9,
+          "fatG": 10,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 243,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -47429,18 +47429,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.97,
-          "Essence": 2.68,
-          "Matter": 2.02,
-          "Substance": 1.78
+          "Spirit": 2.04,
+          "Essence": 2.64,
+          "Matter": 1.97,
+          "Substance": 1.77
         },
         "thermodynamicProperties": {
-          "heat": 0.4958,
-          "entropy": 0.4642,
-          "reactivity": 0.5699,
-          "gregsEnergy": 0.2313,
-          "kalchm": 0.2669,
-          "monica": 0.4726
+          "heat": 0.088,
+          "entropy": 0.2893,
+          "reactivity": 2.9755,
+          "gregsEnergy": -0.7729,
+          "kalchm": 5.317,
+          "monica": 0.1555
         },
         "substitutions": [
           {
@@ -47501,32 +47501,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.13333333333333333,
+          "Water": 0.3833333333333333,
+          "Earth": 0.3333333333333333,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 303,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -47539,18 +47539,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.61,
+          "Essence": 1.01,
+          "Matter": 1.16,
+          "Substance": 1.18
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0219,
+          "entropy": 0.2166,
+          "reactivity": 1.3326,
+          "gregsEnergy": -0.2667,
+          "kalchm": 0.5174,
+          "monica": -0.3037
         },
         "substitutions": [
           {
@@ -47613,31 +47613,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.13333333333333336,
+          "Water": 0.35,
+          "Earth": 0.2733333333333334,
+          "Air": 0.24333333333333337
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 250,
+          "sodiumMg": 290,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -47651,18 +47651,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.72,
+          "Essence": 1.01,
+          "Matter": 1,
+          "Substance": 1.05
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0348,
+          "entropy": 0.2448,
+          "reactivity": 1.7519,
+          "gregsEnergy": -0.3942,
+          "kalchm": 0.7575,
+          "monica": -0.8101
         },
         "substitutions": [
           {
@@ -47725,32 +47725,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.13333333333333333,
+          "Water": 0.3,
+          "Earth": 0.39999999999999997,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 270,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -47763,18 +47763,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.63,
+          "Essence": 0.89,
+          "Matter": 1.22,
+          "Substance": 1.18
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.024,
+          "entropy": 0.2324,
+          "reactivity": 1.0353,
+          "gregsEnergy": -0.2166,
+          "kalchm": 0.4349,
+          "monica": -0.2512
         },
         "substitutions": [
           {
@@ -47837,32 +47837,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.13333333333333333,
+          "Water": 0.3,
+          "Earth": 0.39999999999999997,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 270,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -47875,18 +47875,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.63,
+          "Essence": 0.89,
+          "Matter": 1.22,
+          "Substance": 1.18
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.024,
+          "entropy": 0.2324,
+          "reactivity": 1.0353,
+          "gregsEnergy": -0.2166,
+          "kalchm": 0.4349,
+          "monica": -0.2512
         },
         "substitutions": [
           {
@@ -47949,9 +47949,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.35,
-          "Earth": 0.35,
+          "Fire": 0.13333333333333333,
+          "Water": 0.35000000000000003,
+          "Earth": 0.3666666666666667,
           "Air": 0.15
         },
         "astrologicalAffinities": {
@@ -47969,7 +47969,7 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
@@ -47987,18 +47987,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.05,
-          "Essence": 1.08,
-          "Matter": 1.05,
-          "Substance": 0.85
+          "Spirit": 0.61,
+          "Essence": 0.96,
+          "Matter": 1.19,
+          "Substance": 1.19
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.022,
+          "entropy": 0.2225,
+          "reactivity": 1.1854,
+          "gregsEnergy": -0.2417,
+          "kalchm": 0.4701,
+          "monica": -0.2702
         },
         "substitutions": [
           {
@@ -48063,10 +48063,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.7000000000000001,
-          "Water": 0,
-          "Earth": 0.20000000000000004,
-          "Air": 0.10000000000000002
+          "Fire": 0.33333333333333337,
+          "Water": 0.23333333333333336,
+          "Earth": 0.3,
+          "Air": 0.13333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
@@ -48083,11 +48083,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 23,
-          "fatG": 13,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 150,
+          "sodiumMg": 243,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -48101,18 +48101,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.4,
-          "Essence": 1.3,
-          "Matter": 0.58,
-          "Substance": 0.5
+          "Spirit": 1.39,
+          "Essence": 1.42,
+          "Matter": 0.89,
+          "Substance": 0.94
         },
         "thermodynamicProperties": {
-          "heat": 0.85,
-          "entropy": 0.46,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.5648,
-          "kalchm": -0.4,
-          "monica": 0.4059
+          "heat": 0.1332,
+          "entropy": 0.3642,
+          "reactivity": 3.5417,
+          "gregsEnergy": -1.1568,
+          "kalchm": 3.0573,
+          "monica": 0.2923
         },
         "substitutions": [
           {
@@ -48180,8 +48180,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.15,
-          "Water": 0.35,
-          "Earth": 0.35,
+          "Water": 0.35000000000000003,
+          "Earth": 0.35000000000000003,
           "Air": 0.15
         },
         "astrologicalAffinities": {
@@ -48217,18 +48217,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.9,
-          "Essence": 1.1,
-          "Matter": 1.2,
-          "Substance": 0.95
+          "Spirit": 0.89,
+          "Essence": 1.22,
+          "Matter": 1.51,
+          "Substance": 1.39
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.033,
+          "entropy": 0.2354,
+          "reactivity": 1.2661,
+          "gregsEnergy": -0.265,
+          "kalchm": 0.3902,
+          "monica": -0.2224
         },
         "substitutions": [
           {
@@ -48293,10 +48293,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.7,
-          "Water": 0,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.3333333333333333,
+          "Water": 0.2333333333333333,
+          "Earth": 0.26666666666666666,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -48313,11 +48313,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 13,
-          "fiberG": 3,
-          "sodiumMg": 150,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -48331,18 +48331,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.35,
-          "Essence": 0.95,
-          "Matter": 0.65,
-          "Substance": 0.6
+          "Spirit": 1.34,
+          "Essence": 1.07,
+          "Matter": 0.96,
+          "Substance": 1.04
         },
         "thermodynamicProperties": {
-          "heat": 0.85,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.5152,
-          "kalchm": -0.4,
-          "monica": 0.3861
+          "heat": 0.1366,
+          "entropy": 0.4712,
+          "reactivity": 2.8015,
+          "gregsEnergy": -1.1835,
+          "kalchm": 1.5888,
+          "monica": 0.9125
         },
         "substitutions": [
           {
@@ -48412,32 +48412,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.13333333333333336,
+          "Water": 0.33333333333333337,
+          "Earth": 0.4,
+          "Air": 0.13333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 283,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -48450,18 +48450,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.59,
+          "Essence": 0.92,
+          "Matter": 1.25,
+          "Substance": 1.22
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0202,
+          "entropy": 0.2221,
+          "reactivity": 1.0393,
+          "gregsEnergy": -0.2106,
+          "kalchm": 0.4027,
+          "monica": -0.2228
         },
         "substitutions": [
           {
@@ -48533,10 +48533,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5333333333333333,
-          "Earth": 0.20000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.12,
+          "Water": 0.38,
+          "Earth": 0.36,
+          "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -48553,11 +48553,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 24,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 363,
+          "fatG": 6,
+          "fiberG": 5,
+          "sodiumMg": 302,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -48571,18 +48571,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.94,
-          "Essence": 1.89,
-          "Matter": 2.33,
-          "Substance": 2.09
+          "Spirit": 0.73,
+          "Essence": 1.73,
+          "Matter": 2.16,
+          "Substance": 1.83
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": 0.016,
-          "kalchm": -0.0667,
-          "monica": 0.2864
+          "heat": 0.0126,
+          "entropy": 0.1827,
+          "reactivity": 1.1107,
+          "gregsEnergy": -0.1903,
+          "kalchm": 0.1286,
+          "monica": -0.0835
         },
         "substitutions": [
           {
@@ -48648,31 +48648,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.55,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.07500000000000001,
+          "Water": 0.35000000000000003,
+          "Earth": 0.42500000000000004,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 370,
+          "fiberG": 5,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -48686,18 +48686,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.6,
-          "Essence": 1.18,
-          "Matter": 1.69,
-          "Substance": 1.49
+          "Spirit": 0.42,
+          "Essence": 0.95,
+          "Matter": 1.61,
+          "Substance": 1.26
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0076,
-          "kalchm": -0.1,
-          "monica": 0.267
+          "heat": 0.0081,
+          "entropy": 0.1611,
+          "reactivity": 0.6803,
+          "gregsEnergy": -0.1015,
+          "kalchm": 0.2297,
+          "monica": -0.1015
         },
         "substitutions": [
           {
@@ -48801,32 +48801,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3333333333333333,
-          "Water": 0.18333333333333332,
-          "Earth": 0.30000000000000004,
-          "Air": 0.18333333333333332
+          "Fire": 0.3166666666666667,
+          "Water": 0.2222222222222222,
+          "Earth": 0.3222222222222222,
+          "Air": 0.1388888888888889
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 26,
+          "carbsG": 24,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 223,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 239,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -48839,18 +48839,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.56,
-          "Essence": 3.53,
-          "Matter": 3.98,
-          "Substance": 3.55
+          "Spirit": 3.82,
+          "Essence": 4.22,
+          "Matter": 4.02,
+          "Substance": 3.74
         },
         "thermodynamicProperties": {
-          "heat": 0.575,
-          "entropy": 0.4533,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.3438,
-          "kalchm": 0.2333,
-          "monica": 0.5075
+          "heat": 0.0916,
+          "entropy": 0.3719,
+          "reactivity": 2.4692,
+          "gregsEnergy": -0.8267,
+          "kalchm": 1.9533,
+          "monica": 0.5001
         },
         "substitutions": [
           {
@@ -48980,10 +48980,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.33333333333333337,
-          "Water": 0.2277777777777778,
-          "Earth": 0.2222222222222222,
-          "Air": 0.21666666666666665
+          "Fire": 0.3125,
+          "Water": 0.1958333333333333,
+          "Earth": 0.29166666666666663,
+          "Air": 0.19999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -49000,11 +49000,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 241,
+          "sodiumMg": 228,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -49018,18 +49018,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.81,
-          "Essence": 5.7,
-          "Matter": 5.38,
-          "Substance": 5.15
+          "Spirit": 4.57,
+          "Essence": 4.71,
+          "Matter": 4.43,
+          "Substance": 4.18
         },
         "thermodynamicProperties": {
-          "heat": 0.5528,
-          "entropy": 0.4978,
-          "reactivity": 0.5367,
-          "gregsEnergy": 0.2856,
-          "kalchm": 0.3333,
-          "monica": 0.5142
+          "heat": 0.1069,
+          "entropy": 0.4153,
+          "reactivity": 2.7235,
+          "gregsEnergy": -1.0242,
+          "kalchm": 5.3169,
+          "monica": 0.2251
         },
         "substitutions": [
           {
@@ -49118,32 +49118,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27999999999999997,
-          "Water": 0.26,
-          "Earth": 0.3,
-          "Air": 0.16
+          "Fire": 0.3416666666666666,
+          "Water": 0.13333333333333333,
+          "Earth": 0.3333333333333333,
+          "Air": 0.19166666666666665
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "New Moon"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 254,
-          "sugarG": 4,
+          "carbsG": 26,
+          "fatG": 9,
+          "fiberG": 5,
+          "sodiumMg": 203,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -49156,18 +49156,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.36,
-          "Essence": 2.77,
-          "Matter": 3.08,
-          "Substance": 2.8
+          "Spirit": 2.65,
+          "Essence": 2.33,
+          "Matter": 2.58,
+          "Substance": 2.28
         },
         "thermodynamicProperties": {
-          "heat": 0.51,
-          "entropy": 0.444,
-          "reactivity": 0.524,
-          "gregsEnergy": 0.2773,
-          "kalchm": 0.32,
-          "monica": 0.5069
+          "heat": 0.1159,
+          "entropy": 0.4281,
+          "reactivity": 2.0997,
+          "gregsEnergy": -0.7829,
+          "kalchm": 1.2574,
+          "monica": 1.6278
         },
         "substitutions": [
           {
@@ -49226,10 +49226,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.35,
-          "Earth": 0.35,
-          "Air": 0.15
+          "Fire": 0.11666666666666665,
+          "Water": 0.25,
+          "Earth": 0.45,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -49246,12 +49246,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 290,
-          "sugarG": 4,
+          "proteinG": 12,
+          "carbsG": 26,
+          "fatG": 6,
+          "fiberG": 6,
+          "sodiumMg": 250,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -49264,18 +49264,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.52,
-          "Essence": 0.7,
-          "Matter": 1.4,
-          "Substance": 1.25
+          "Spirit": 0.3,
+          "Essence": 0.44,
+          "Matter": 1.72,
+          "Substance": 1.53
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.005,
+          "entropy": 0.303,
+          "reactivity": 0.5806,
+          "gregsEnergy": -0.171,
+          "kalchm": 0.0997,
+          "monica": -0.1277
         },
         "substitutions": [
           {
@@ -49334,10 +49334,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.35,
-          "Earth": 0.35,
-          "Air": 0.15
+          "Fire": 0.11666666666666665,
+          "Water": 0.25,
+          "Earth": 0.45,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -49354,12 +49354,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 290,
-          "sugarG": 4,
+          "proteinG": 12,
+          "carbsG": 26,
+          "fatG": 6,
+          "fiberG": 6,
+          "sodiumMg": 250,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -49372,18 +49372,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.52,
-          "Essence": 0.7,
-          "Matter": 1.4,
-          "Substance": 1.25
+          "Spirit": 0.3,
+          "Essence": 0.44,
+          "Matter": 1.72,
+          "Substance": 1.53
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.005,
+          "entropy": 0.303,
+          "reactivity": 0.5806,
+          "gregsEnergy": -0.171,
+          "kalchm": 0.0997,
+          "monica": -0.1277
         },
         "substitutions": [
           {
@@ -49470,31 +49470,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.4,
-          "Earth": 0.32,
-          "Air": 0.13
+          "Fire": 0.1571428571428572,
+          "Water": 0.32857142857142857,
+          "Earth": 0.3714285714285714,
+          "Air": 0.14285714285714288
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 310,
+          "sodiumMg": 281,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -49508,18 +49508,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.31,
-          "Essence": 2.44,
-          "Matter": 3.39,
-          "Substance": 3.04
+          "Spirit": 1.17,
+          "Essence": 1.96,
+          "Matter": 2.83,
+          "Substance": 2.61
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.424,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.1503,
-          "kalchm": 0.06,
-          "monica": 0.3781
+          "heat": 0.0205,
+          "entropy": 0.2729,
+          "reactivity": 1.188,
+          "gregsEnergy": -0.3037,
+          "kalchm": 0.0193,
+          "monica": -0.0648
         },
         "substitutions": [
           {
@@ -49631,10 +49631,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22999999999999998,
-          "Water": 0.33999999999999997,
-          "Earth": 0.193,
-          "Air": 0.23699999999999996
+          "Fire": 0.22454545454545458,
+          "Water": 0.3563636363636363,
+          "Earth": 0.19545454545454546,
+          "Air": 0.22363636363636363
         },
         "astrologicalAffinities": {
           "planets": [
@@ -49655,8 +49655,8 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 286,
-          "sugarG": 6,
+          "sodiumMg": 293,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -49669,18 +49669,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.53,
-          "Essence": 5.64,
-          "Matter": 3.33,
-          "Substance": 3.64
+          "Spirit": 3.83,
+          "Essence": 5.13,
+          "Matter": 3.25,
+          "Substance": 3.72
         },
         "thermodynamicProperties": {
-          "heat": 0.445,
-          "entropy": 0.5176,
-          "reactivity": 0.542,
-          "gregsEnergy": 0.1645,
-          "kalchm": 0.32,
-          "monica": 0.4618
+          "heat": 0.0888,
+          "entropy": 0.3586,
+          "reactivity": 4.6374,
+          "gregsEnergy": -1.5742,
+          "kalchm": 123.1722,
+          "monica": 0.0705
         },
         "substitutions": [
           {
@@ -49813,31 +49813,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21428571428571427,
-          "Water": 0.4142857142857143,
-          "Earth": 0.21428571428571427,
-          "Air": 0.15714285714285717
+          "Fire": 0.18461538461538465,
+          "Water": 0.3038461538461539,
+          "Earth": 0.35769230769230764,
+          "Air": 0.15384615384615385
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 316,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 272,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -49851,18 +49851,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.49,
-          "Essence": 4.97,
-          "Matter": 5.52,
-          "Substance": 4.93
+          "Spirit": 2.67,
+          "Essence": 4.31,
+          "Matter": 5.35,
+          "Substance": 4.56
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.4771,
-          "reactivity": 0.5771,
-          "gregsEnergy": 0.1247,
-          "kalchm": 0.1714,
-          "monica": 0.4013
+          "heat": 0.0317,
+          "entropy": 0.2626,
+          "reactivity": 1.4319,
+          "gregsEnergy": -0.3444,
+          "kalchm": 0.0009,
+          "monica": -0.0343
         },
         "substitutions": [
           {
@@ -49993,10 +49993,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11875,
-          "Water": 0.38125000000000003,
-          "Earth": 0.25625000000000003,
-          "Air": 0.24375
+          "Fire": 0.18571428571428572,
+          "Water": 0.3821428571428571,
+          "Earth": 0.23,
+          "Air": 0.20214285714285718
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50013,12 +50013,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 6,
+          "proteinG": 8,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 4,
           "sodiumMg": 303,
-          "sugarG": 6,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -50031,18 +50031,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.17,
-          "Essence": 5.06,
-          "Matter": 4.18,
-          "Substance": 3.88
+          "Spirit": 3.5,
+          "Essence": 4.96,
+          "Matter": 3.9,
+          "Substance": 3.74
         },
         "thermodynamicProperties": {
-          "heat": 0.3687,
-          "entropy": 0.495,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.1212,
-          "kalchm": 0.225,
-          "monica": 0.416
+          "heat": 0.0683,
+          "entropy": 0.2933,
+          "reactivity": 2.9935,
+          "gregsEnergy": -0.8097,
+          "kalchm": 8.0563,
+          "monica": 0.1296
         },
         "substitutions": [
           {
@@ -50189,10 +50189,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3054224391283373,
-          "Water": 0.27016452440637734,
-          "Earth": 0.24097720216761423,
-          "Air": 0.18343583429767107
+          "Fire": 0.28565573179177406,
+          "Water": 0.2788836760801816,
+          "Earth": 0.2520439767611866,
+          "Air": 0.18341661536685772
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50211,9 +50211,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 258,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -50227,18 +50227,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.87,
-          "Essence": 9.3,
-          "Matter": 6.13,
-          "Substance": 5.55
+          "Spirit": 5.39,
+          "Essence": 7.24,
+          "Matter": 6.15,
+          "Substance": 5.92
         },
         "thermodynamicProperties": {
-          "heat": 0.5176,
-          "entropy": 0.477,
-          "reactivity": 0.5454,
-          "gregsEnergy": 0.2574,
-          "kalchm": 0.3488,
-          "monica": 0.5076
+          "heat": 0.0727,
+          "entropy": 0.3314,
+          "reactivity": 2.8475,
+          "gregsEnergy": -0.8709,
+          "kalchm": 5.5468,
+          "monica": 0.1785
         },
         "substitutions": [
           {
@@ -50305,10 +50305,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.4000000000000001,
-          "Earth": 0.2333333333333333,
-          "Air": 0.23333333333333336
+          "Fire": 0.15000000000000002,
+          "Water": 0.325,
+          "Earth": 0.3,
+          "Air": 0.225
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50325,12 +50325,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 310,
-          "sugarG": 6,
+          "sodiumMg": 280,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -50343,18 +50343,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.05,
-          "Essence": 1.2,
-          "Matter": 1.56,
-          "Substance": 1.45
+          "Spirit": 1.08,
+          "Essence": 1.15,
+          "Matter": 1.18,
+          "Substance": 0.99
         },
         "thermodynamicProperties": {
-          "heat": 0.3667,
-          "entropy": 0.5,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.1067,
-          "kalchm": 0.2,
-          "monica": 0.4027
+          "heat": 0.0684,
+          "entropy": 0.2542,
+          "reactivity": 1.6653,
+          "gregsEnergy": -0.3549,
+          "kalchm": 1.0602,
+          "monica": 3.646
         },
         "substitutions": [
           {
@@ -50434,32 +50434,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.202,
-          "Water": 0.34400000000000003,
-          "Earth": 0.268,
-          "Air": 0.186
+          "Fire": 0.21833333333333335,
+          "Water": 0.19499999999999998,
+          "Earth": 0.42333333333333334,
+          "Air": 0.16333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 288,
-          "sugarG": 5,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 228,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -50473,17 +50473,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.75,
-          "Essence": 2.56,
-          "Matter": 3.44,
-          "Substance": 3.4
+          "Essence": 2.44,
+          "Matter": 2.7,
+          "Substance": 2.42
         },
         "thermodynamicProperties": {
-          "heat": 0.429,
-          "entropy": 0.4672,
-          "reactivity": 0.5276,
-          "gregsEnergy": 0.1825,
-          "kalchm": 0.276,
-          "monica": 0.4558
+          "heat": 0.0447,
+          "entropy": 0.2712,
+          "reactivity": 1.5361,
+          "gregsEnergy": -0.3719,
+          "kalchm": 0.1892,
+          "monica": -0.1454
         },
         "substitutions": [
           {
@@ -50638,10 +50638,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20538461538461542,
-          "Water": 0.3515384615384616,
-          "Earth": 0.21384615384615382,
-          "Air": 0.22923076923076918
+          "Fire": 0.21777777777777776,
+          "Water": 0.32055555555555554,
+          "Earth": 0.25277777777777777,
+          "Air": 0.20888888888888893
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50658,11 +50658,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 27,
-          "fatG": 7,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 291,
+          "sodiumMg": 278,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -50676,18 +50676,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.46,
-          "Essence": 7.2,
-          "Matter": 6.34,
-          "Substance": 5.91
+          "Spirit": 5.13,
+          "Essence": 6.55,
+          "Matter": 6.16,
+          "Substance": 5.63
         },
         "thermodynamicProperties": {
-          "heat": 0.4269,
-          "entropy": 0.5062,
-          "reactivity": 0.5342,
-          "gregsEnergy": 0.1565,
-          "kalchm": 0.2969,
-          "monica": 0.4517
+          "heat": 0.0721,
+          "entropy": 0.3293,
+          "reactivity": 2.4587,
+          "gregsEnergy": -0.7376,
+          "kalchm": 0.7945,
+          "monica": -1.304
         },
         "substitutions": [
           {
@@ -50784,10 +50784,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2928571428571428,
-          "Water": 0.1928571428571429,
-          "Earth": 0.32142857142857145,
-          "Air": 0.19285714285714284
+          "Fire": 0.2588888888888889,
+          "Water": 0.18000000000000005,
+          "Earth": 0.308888888888889,
+          "Air": 0.2522222222222222
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50805,11 +50805,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 9,
-          "fiberG": 5,
-          "sodiumMg": 227,
-          "sugarG": 5,
+          "carbsG": 28,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 222,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -50822,18 +50822,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.76,
-          "Essence": 2.99,
-          "Matter": 3.45,
-          "Substance": 3.23
+          "Spirit": 2.67,
+          "Essence": 2.64,
+          "Matter": 3.04,
+          "Substance": 2.74
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.4486,
-          "reactivity": 0.4914,
-          "gregsEnergy": 0.3296,
-          "kalchm": 0.2714,
-          "monica": 0.5133
+          "heat": 0.0857,
+          "entropy": 0.388,
+          "reactivity": 1.9411,
+          "gregsEnergy": -0.6675,
+          "kalchm": 0.3841,
+          "monica": -0.3594
         },
         "substitutions": [
           {
@@ -50954,10 +50954,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.307,
-          "Water": 0.207,
-          "Earth": 0.288,
-          "Air": 0.19799999999999995
+          "Fire": 0.322,
+          "Water": 0.177,
+          "Earth": 0.29300000000000004,
+          "Air": 0.20799999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50978,7 +50978,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 233,
+          "sodiumMg": 221,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -50992,18 +50992,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.3,
-          "Essence": 4.85,
-          "Matter": 4.65,
-          "Substance": 4.4
+          "Spirit": 4.61,
+          "Essence": 4.28,
+          "Matter": 4.28,
+          "Substance": 3.92
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.464,
-          "reactivity": 0.5084,
-          "gregsEnergy": 0.3141,
-          "kalchm": 0.31,
-          "monica": 0.5186
+          "heat": 0.1233,
+          "entropy": 0.4509,
+          "reactivity": 2.6355,
+          "gregsEnergy": -1.065,
+          "kalchm": 5.4198,
+          "monica": 0.2391
         },
         "substitutions": [
           {
@@ -51123,32 +51123,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.198,
-          "Water": 0.317,
-          "Earth": 0.29100000000000004,
-          "Air": 0.194
+          "Fire": 0.2136363636363636,
+          "Water": 0.3,
+          "Earth": 0.3363636363636363,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 277,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 270,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -51161,18 +51161,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.12,
-          "Essence": 5.37,
-          "Matter": 4.74,
-          "Substance": 4.15
+          "Spirit": 3.71,
+          "Essence": 4.98,
+          "Matter": 5,
+          "Substance": 4.49
         },
         "thermodynamicProperties": {
-          "heat": 0.4405,
-          "entropy": 0.4612,
-          "reactivity": 0.509,
-          "gregsEnergy": 0.2057,
-          "kalchm": 0.284,
-          "monica": 0.4675
+          "heat": 0.0593,
+          "entropy": 0.3016,
+          "reactivity": 2.0677,
+          "gregsEnergy": -0.5643,
+          "kalchm": 0.1449,
+          "monica": -0.1413
         },
         "substitutions": [
           {
@@ -51282,10 +51282,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.38,
-          "Earth": 0.29,
-          "Air": 0.13999999999999999
+          "Fire": 0.29,
+          "Water": 0.31000000000000005,
+          "Earth": 0.275,
+          "Air": 0.12500000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -51304,9 +51304,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 24,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 302,
+          "sodiumMg": 274,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -51320,18 +51320,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.91,
-          "Essence": 3.97,
+          "Spirit": 3.02,
+          "Essence": 3.37,
           "Matter": 3.36,
-          "Substance": 2.76
+          "Substance": 3.07
         },
         "thermodynamicProperties": {
-          "heat": 0.405,
-          "entropy": 0.44,
-          "reactivity": 0.542,
-          "gregsEnergy": 0.1665,
-          "kalchm": 0.16,
-          "monica": 0.4146
+          "heat": 0.0833,
+          "entropy": 0.3484,
+          "reactivity": 2.2779,
+          "gregsEnergy": -0.7104,
+          "kalchm": 0.9199,
+          "monica": -3.7353
         },
         "substitutions": [
           {
@@ -51392,22 +51392,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.32499999999999996,
-          "Earth": 0.32499999999999996,
-          "Air": 0.175
+          "Fire": 0.15000000000000002,
+          "Water": 0.4,
+          "Earth": 0.3,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -51415,9 +51415,9 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 280,
-          "sugarG": 5,
+          "fiberG": 4,
+          "sodiumMg": 310,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -51430,18 +51430,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.78,
-          "Essence": 1.4,
-          "Matter": 1.35,
-          "Substance": 1.2
+          "Spirit": 0.6,
+          "Essence": 1.15,
+          "Matter": 1.31,
+          "Substance": 1.21
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.44,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.205,
-          "kalchm": 0.2,
-          "monica": 0.442
+          "heat": 0.0187,
+          "entropy": 0.1872,
+          "reactivity": 1.293,
+          "gregsEnergy": -0.2233,
+          "kalchm": 0.4818,
+          "monica": -0.2365
         },
         "substitutions": [
           {
@@ -51530,10 +51530,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32999999999999996,
-          "Water": 0.26,
-          "Earth": 0.26,
-          "Air": 0.15
+          "Fire": 0.32857142857142857,
+          "Water": 0.24285714285714288,
+          "Earth": 0.24999999999999997,
+          "Air": 0.17857142857142858
         },
         "astrologicalAffinities": {
           "planets": [
@@ -51554,8 +51554,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 254,
-          "sugarG": 4,
+          "sodiumMg": 247,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -51568,18 +51568,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.84,
-          "Essence": 3.34,
-          "Matter": 2.91,
-          "Substance": 2.59
+          "Spirit": 2.88,
+          "Essence": 3.25,
+          "Matter": 2.88,
+          "Substance": 2.64
         },
         "thermodynamicProperties": {
-          "heat": 0.535,
-          "entropy": 0.456,
-          "reactivity": 0.554,
-          "gregsEnergy": 0.2824,
-          "kalchm": 0.3,
-          "monica": 0.503
+          "heat": 0.0943,
+          "entropy": 0.3512,
+          "reactivity": 2.6565,
+          "gregsEnergy": -0.8387,
+          "kalchm": 3.5529,
+          "monica": 0.249
         },
         "substitutions": [
           {
@@ -51637,32 +51637,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.10000000000000002,
+          "Water": 0.5000000000000001,
+          "Earth": 0.30000000000000004,
+          "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
+          "proteinG": 10,
+          "carbsG": 23,
+          "fatG": 6,
           "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "sodiumMg": 350,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -51675,18 +51675,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
+          "Spirit": 0.35,
           "Essence": 0.6,
-          "Matter": 0.5,
-          "Substance": 0.4
+          "Matter": 0.61,
+          "Substance": 0.56
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0186,
+          "entropy": 0.1129,
+          "reactivity": 1.2874,
+          "gregsEnergy": -0.1268,
+          "kalchm": 0.9534,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -51794,12 +51794,12 @@ export const cuisine: Cuisine = {
           "Substance": 1.3
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.48,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.1418,
-          "kalchm": 0.2,
-          "monica": 0.4167
+          "heat": 0.0503,
+          "entropy": 0.2329,
+          "reactivity": 2.2853,
+          "gregsEnergy": -0.482,
+          "kalchm": 1.0739,
+          "monica": 2.958
         },
         "substitutions": [
           {
@@ -51865,10 +51865,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.16666666666666666,
+          "Water": 0.5,
+          "Earth": 0.15000000000000002,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -51886,11 +51886,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 470,
-          "sugarG": 4,
+          "sodiumMg": 350,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -51903,18 +51903,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.54,
-          "Essence": 1.06,
-          "Matter": 0.81,
-          "Substance": 0.59
+          "Spirit": 0.5,
+          "Essence": 1.03,
+          "Matter": 0.77,
+          "Substance": 0.72
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0247,
+          "entropy": 0.1382,
+          "reactivity": 2.5292,
+          "gregsEnergy": -0.3249,
+          "kalchm": 1.1294,
+          "monica": 1.0558
         },
         "substitutions": [
           {
@@ -51992,10 +51992,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.4,
-          "Earth": 0.225,
-          "Air": 0.125
+          "Fire": 0.20833333333333331,
+          "Water": 0.37499999999999994,
+          "Earth": 0.3,
+          "Air": 0.11666666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52012,11 +52012,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 310,
+          "sodiumMg": 300,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -52030,18 +52030,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.74,
-          "Essence": 2.32,
-          "Matter": 2.78,
-          "Substance": 2.59
+          "Spirit": 1.52,
+          "Essence": 2.33,
+          "Matter": 2.5,
+          "Substance": 2.32
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.46,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.1536,
-          "kalchm": 0.2,
-          "monica": 0.4214
+          "heat": 0.0373,
+          "entropy": 0.2557,
+          "reactivity": 1.6989,
+          "gregsEnergy": -0.3971,
+          "kalchm": 0.1948,
+          "monica": -0.1429
         },
         "substitutions": [
           {
@@ -52167,10 +52167,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24700000000000003,
-          "Water": 0.28700000000000003,
-          "Earth": 0.20800000000000002,
-          "Air": 0.258
+          "Fire": 0.23083333333333333,
+          "Water": 0.2933333333333334,
+          "Earth": 0.2125,
+          "Air": 0.26333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52191,7 +52191,7 @@ export const cuisine: Cuisine = {
           "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 265,
+          "sodiumMg": 267,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -52205,18 +52205,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.81,
-          "Essence": 5.84,
-          "Matter": 3.73,
-          "Substance": 3.47
+          "Spirit": 4.06,
+          "Essence": 4.87,
+          "Matter": 4.07,
+          "Substance": 3.82
         },
         "thermodynamicProperties": {
-          "heat": 0.48,
-          "entropy": 0.52,
-          "reactivity": 0.5204,
-          "gregsEnergy": 0.2094,
-          "kalchm": 0.41,
-          "monica": 0.5068
+          "heat": 0.0903,
+          "entropy": 0.3497,
+          "reactivity": 2.999,
+          "gregsEnergy": -0.9583,
+          "kalchm": 13.0122,
+          "monica": 0.1245
         },
         "substitutions": [
           {
@@ -52367,10 +52367,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23500000000000001,
-          "Water": 0.3449999999999999,
-          "Earth": 0.255,
-          "Air": 0.16500000000000004
+          "Fire": 0.18437500000000004,
+          "Water": 0.353125,
+          "Earth": 0.29687499999999994,
+          "Air": 0.165625
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52389,9 +52389,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 288,
+          "sodiumMg": 291,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -52405,18 +52405,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.34,
-          "Essence": 6.89,
-          "Matter": 5.92,
-          "Substance": 4.86
+          "Spirit": 4.37,
+          "Essence": 6.58,
+          "Matter": 6.39,
+          "Substance": 5.7
         },
         "thermodynamicProperties": {
-          "heat": 0.445,
-          "entropy": 0.464,
-          "reactivity": 0.548,
-          "gregsEnergy": 0.1907,
-          "kalchm": 0.3,
-          "monica": 0.4663
+          "heat": 0.0504,
+          "entropy": 0.2784,
+          "reactivity": 2.1262,
+          "gregsEnergy": -0.5416,
+          "kalchm": 0.0534,
+          "monica": -0.0869
         },
         "substitutions": [
           {
@@ -52545,10 +52545,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18125,
-          "Water": 0.2875,
-          "Earth": 0.3375,
-          "Air": 0.19375
+          "Fire": 0.266923076923077,
+          "Water": 0.2561538461538462,
+          "Earth": 0.30615384615384617,
+          "Air": 0.17076923076923076
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52566,10 +52566,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 265,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -52583,18 +52583,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.94,
-          "Essence": 5.92,
-          "Matter": 5.43,
-          "Substance": 5.05
+          "Spirit": 4.21,
+          "Essence": 5.14,
+          "Matter": 5.51,
+          "Substance": 5.02
         },
         "thermodynamicProperties": {
-          "heat": 0.4469,
-          "entropy": 0.4425,
-          "reactivity": 0.4813,
-          "gregsEnergy": 0.2339,
-          "kalchm": 0.25,
-          "monica": 0.4686
+          "heat": 0.0661,
+          "entropy": 0.3422,
+          "reactivity": 2.0548,
+          "gregsEnergy": -0.6371,
+          "kalchm": 0.048,
+          "monica": -0.1021
         },
         "substitutions": [
           {
@@ -52728,10 +52728,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28300000000000003,
-          "Water": 0.24000000000000005,
-          "Earth": 0.253,
-          "Air": 0.22400000000000003
+          "Fire": 0.3246666666666666,
+          "Water": 0.19000000000000003,
+          "Earth": 0.26666666666666666,
+          "Air": 0.21866666666666668
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52750,9 +52750,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 27,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 246,
+          "sodiumMg": 226,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -52766,18 +52766,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.88,
-          "Essence": 5.47,
-          "Matter": 4.47,
-          "Substance": 4.22
+          "Spirit": 5.5,
+          "Essence": 4.85,
+          "Matter": 4.59,
+          "Substance": 4.4
         },
         "thermodynamicProperties": {
-          "heat": 0.5215,
-          "entropy": 0.4884,
-          "reactivity": 0.5138,
-          "gregsEnergy": 0.2706,
-          "kalchm": 0.428,
-          "monica": 0.5366
+          "heat": 0.1441,
+          "entropy": 0.5081,
+          "reactivity": 3.1085,
+          "gregsEnergy": -1.4353,
+          "kalchm": 33.8011,
+          "monica": 0.1312
         },
         "substitutions": [
           {
@@ -52929,10 +52929,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27222222222222225,
-          "Water": 0.2777777777777778,
-          "Earth": 0.27777777777777785,
-          "Air": 0.1722222222222222
+          "Fire": 0.24411764705882355,
+          "Water": 0.2794117647058824,
+          "Earth": 0.31764705882352945,
+          "Air": 0.15882352941176478
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52949,12 +52949,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 261,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 262,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -52967,18 +52967,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.46,
-          "Essence": 6.03,
-          "Matter": 6.15,
-          "Substance": 5.42
+          "Spirit": 4.9,
+          "Essence": 5.2,
+          "Matter": 6.14,
+          "Substance": 5.58
         },
         "thermodynamicProperties": {
-          "heat": 0.4972,
-          "entropy": 0.4578,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2546,
-          "kalchm": 0.3444,
-          "monica": 0.5052
+          "heat": 0.077,
+          "entropy": 0.3876,
+          "reactivity": 1.9747,
+          "gregsEnergy": -0.6884,
+          "kalchm": 0.0126,
+          "monica": -0.0797
         },
         "substitutions": [
           {
@@ -53128,10 +53128,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3054224391283373,
-          "Water": 0.27016452440637734,
-          "Earth": 0.24097720216761423,
-          "Air": 0.18343583429767107
+          "Fire": 0.28565573179177406,
+          "Water": 0.27888367608018166,
+          "Earth": 0.25204397676118656,
+          "Air": 0.18341661536685777
         },
         "astrologicalAffinities": {
           "planets": [
@@ -53150,9 +53150,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 258,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -53166,18 +53166,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.87,
-          "Essence": 9.3,
-          "Matter": 6.13,
-          "Substance": 5.55
+          "Spirit": 5.39,
+          "Essence": 7.24,
+          "Matter": 6.15,
+          "Substance": 5.92
         },
         "thermodynamicProperties": {
-          "heat": 0.5176,
-          "entropy": 0.477,
-          "reactivity": 0.5454,
-          "gregsEnergy": 0.2574,
-          "kalchm": 0.3488,
-          "monica": 0.5076
+          "heat": 0.0727,
+          "entropy": 0.3314,
+          "reactivity": 2.8475,
+          "gregsEnergy": -0.8709,
+          "kalchm": 5.5468,
+          "monica": 0.1785
         },
         "substitutions": [
           {
@@ -53400,10 +53400,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26250000000000007,
-          "Water": 0.305,
-          "Earth": 0.2465,
-          "Air": 0.18600000000000003
+          "Fire": 0.25967212788511673,
+          "Water": 0.29662547645803117,
+          "Earth": 0.2625070216613443,
+          "Air": 0.18119537399550775
         },
         "astrologicalAffinities": {
           "planets": [
@@ -53421,10 +53421,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 272,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -53438,18 +53438,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 10.47,
-          "Essence": 11.28,
-          "Matter": 10.91,
-          "Substance": 9.83
+          "Spirit": 8.8,
+          "Essence": 10.08,
+          "Matter": 10.09,
+          "Substance": 9.33
         },
         "thermodynamicProperties": {
-          "heat": 0.4788,
-          "entropy": 0.4758,
-          "reactivity": 0.5405,
-          "gregsEnergy": 0.2216,
-          "kalchm": 0.365,
-          "monica": 0.4981
+          "heat": 0.0848,
+          "entropy": 0.383,
+          "reactivity": 2.4846,
+          "gregsEnergy": -0.8669,
+          "kalchm": 0.177,
+          "monica": -0.2015
         },
         "substitutions": [
           {
@@ -53556,10 +53556,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22999999999999998,
-          "Water": 0.3522222222222222,
-          "Earth": 0.20333333333333337,
-          "Air": 0.21444444444444444
+          "Fire": 0.25222222222222224,
+          "Water": 0.33555555555555555,
+          "Earth": 0.24777777777777782,
+          "Air": 0.16444444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -53576,12 +53576,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 291,
-          "sugarG": 5,
+          "sodiumMg": 284,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -53594,18 +53594,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.89,
-          "Essence": 5.24,
-          "Matter": 4.53,
-          "Substance": 4.12
+          "Spirit": 2.73,
+          "Essence": 3.81,
+          "Matter": 3.79,
+          "Substance": 3.47
         },
         "thermodynamicProperties": {
-          "heat": 0.4389,
-          "entropy": 0.5044,
-          "reactivity": 0.5493,
-          "gregsEnergy": 0.1618,
-          "kalchm": 0.2956,
-          "monica": 0.4534
+          "heat": 0.0538,
+          "entropy": 0.2924,
+          "reactivity": 2.0985,
+          "gregsEnergy": -0.5599,
+          "kalchm": 0.2168,
+          "monica": -0.1745
         },
         "substitutions": [
           {
@@ -53674,8 +53674,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.32499999999999996,
-          "Water": 0.275,
-          "Earth": 0.19999999999999998,
+          "Water": 0.2,
+          "Earth": 0.275,
           "Air": 0.2
         },
         "astrologicalAffinities": {
@@ -53693,11 +53693,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 260,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -53711,18 +53711,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.4,
-          "Essence": 1.63,
-          "Matter": 2.27,
-          "Substance": 2.35
+          "Spirit": 1.45,
+          "Essence": 1.65,
+          "Matter": 1.79,
+          "Substance": 1.78
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.5,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.245,
-          "kalchm": 0.3,
-          "monica": 0.488
+          "heat": 0.0635,
+          "entropy": 0.3534,
+          "reactivity": 1.9181,
+          "gregsEnergy": -0.6143,
+          "kalchm": 0.4949,
+          "monica": -0.4553
         },
         "substitutions": [
           {
@@ -53803,10 +53803,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15999999999999998,
-          "Water": 0.3799999999999999,
-          "Earth": 0.27999999999999997,
-          "Air": 0.17999999999999997
+          "Fire": 0.15833333333333333,
+          "Water": 0.3583333333333334,
+          "Earth": 0.31666666666666665,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -53823,11 +53823,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 302,
+          "fiberG": 5,
+          "sodiumMg": 293,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -53841,18 +53841,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.82,
-          "Essence": 2.22,
-          "Matter": 2.24,
-          "Substance": 2
+          "Spirit": 1.7,
+          "Essence": 2.11,
+          "Matter": 2.42,
+          "Substance": 2.17
         },
         "thermodynamicProperties": {
-          "heat": 0.39,
-          "entropy": 0.46,
-          "reactivity": 0.524,
-          "gregsEnergy": 0.149,
-          "kalchm": 0.18,
-          "monica": 0.4136
+          "heat": 0.0513,
+          "entropy": 0.2824,
+          "reactivity": 1.6333,
+          "gregsEnergy": -0.41,
+          "kalchm": 0.2612,
+          "monica": -0.187
         },
         "substitutions": [
           {
@@ -53995,31 +53995,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27692307692307694,
-          "Water": 0.2769230769230769,
-          "Earth": 0.2384615384615385,
-          "Air": 0.20769230769230768
+          "Fire": 0.25312500000000004,
+          "Water": 0.24062499999999998,
+          "Earth": 0.31875,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 261,
+          "fiberG": 5,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -54033,18 +54033,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.63,
-          "Essence": 5.47,
-          "Matter": 6.96,
-          "Substance": 6.84
+          "Spirit": 5.4,
+          "Essence": 5.02,
+          "Matter": 6.18,
+          "Substance": 5.82
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.4877,
-          "reactivity": 0.5323,
-          "gregsEnergy": 0.2404,
-          "kalchm": 0.3923,
-          "monica": 0.5138
+          "heat": 0.0926,
+          "entropy": 0.4565,
+          "reactivity": 2.0929,
+          "gregsEnergy": -0.8629,
+          "kalchm": 0.0136,
+          "monica": -0.0959
         },
         "substitutions": [
           {
@@ -54116,8 +54116,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.325,
-          "Water": 0.27499999999999997,
-          "Earth": 0.2,
+          "Water": 0.2,
+          "Earth": 0.27499999999999997,
           "Air": 0.2
         },
         "astrologicalAffinities": {
@@ -54135,11 +54135,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 260,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -54153,18 +54153,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.4,
-          "Essence": 1.63,
-          "Matter": 2.27,
-          "Substance": 2.35
+          "Spirit": 1.45,
+          "Essence": 1.65,
+          "Matter": 1.79,
+          "Substance": 1.78
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.5,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.245,
-          "kalchm": 0.3,
-          "monica": 0.488
+          "heat": 0.0635,
+          "entropy": 0.3534,
+          "reactivity": 1.9181,
+          "gregsEnergy": -0.6143,
+          "kalchm": 0.4949,
+          "monica": -0.4553
         },
         "substitutions": [
           {
@@ -54272,32 +54272,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21444444444444447,
-          "Water": 0.3022222222222222,
-          "Earth": 0.23111111111111113,
-          "Air": 0.2522222222222222
+          "Fire": 0.25999999999999995,
+          "Water": 0.24500000000000002,
+          "Earth": 0.28500000000000003,
+          "Air": 0.21000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 28,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 271,
-          "sugarG": 6,
+          "sodiumMg": 248,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -54310,18 +54310,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.62,
-          "Essence": 4.06,
-          "Matter": 4.04,
-          "Substance": 3.97
+          "Spirit": 3.29,
+          "Essence": 3.91,
+          "Matter": 4.14,
+          "Substance": 4.01
         },
         "thermodynamicProperties": {
-          "heat": 0.4561,
-          "entropy": 0.5084,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.1968,
-          "kalchm": 0.3911,
-          "monica": 0.496
+          "heat": 0.0665,
+          "entropy": 0.367,
+          "reactivity": 2.1636,
+          "gregsEnergy": -0.7275,
+          "kalchm": 0.1107,
+          "monica": -0.1528
         },
         "substitutions": [
           {
@@ -54458,31 +54458,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.295,
-          "Water": 0.23500000000000001,
-          "Earth": 0.2799999999999999,
-          "Air": 0.18999999999999995
+          "Fire": 0.2178571428571429,
+          "Water": 0.25000000000000006,
+          "Earth": 0.3442857142857143,
+          "Air": 0.18785714285714286
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 244,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -54496,18 +54496,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.94,
-          "Essence": 5.28,
-          "Matter": 5.8,
-          "Substance": 5.34
+          "Spirit": 3.87,
+          "Essence": 4.64,
+          "Matter": 5.64,
+          "Substance": 5.07
         },
         "thermodynamicProperties": {
-          "heat": 0.53,
-          "entropy": 0.464,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.2896,
-          "kalchm": 0.35,
-          "monica": 0.5208
+          "heat": 0.0577,
+          "entropy": 0.3447,
+          "reactivity": 1.7412,
+          "gregsEnergy": -0.5425,
+          "kalchm": 0.0036,
+          "monica": -0.0554
         },
         "substitutions": [
           {
@@ -54588,31 +54588,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3333333333333333,
-          "Water": 0.2333333333333333,
-          "Earth": 0.2333333333333333,
-          "Air": 0.19999999999999998
+          "Fire": 0.2583333333333333,
+          "Water": 0.2583333333333333,
+          "Earth": 0.2916666666666667,
+          "Air": 0.19166666666666665
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 243,
+          "sodiumMg": 253,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -54626,18 +54626,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.83,
-          "Essence": 2.35,
-          "Matter": 2.55,
-          "Substance": 2.3
+          "Spirit": 1.62,
+          "Essence": 1.89,
+          "Matter": 2.43,
+          "Substance": 2.33
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.4867,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.2872,
-          "kalchm": 0.3333,
-          "monica": 0.5149
+          "heat": 0.0493,
+          "entropy": 0.3439,
+          "reactivity": 1.5924,
+          "gregsEnergy": -0.4984,
+          "kalchm": 0.1172,
+          "monica": -0.146
         },
         "substitutions": [
           {
@@ -54750,31 +54750,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2444444444444444,
-          "Water": 0.2777777777777778,
-          "Earth": 0.27222222222222225,
-          "Air": 0.20555555555555557
+          "Fire": 0.23500000000000001,
+          "Water": 0.26,
+          "Earth": 0.32700000000000007,
+          "Air": 0.178
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 261,
+          "fiberG": 5,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -54788,18 +54788,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.58,
-          "Essence": 4.38,
-          "Matter": 4.85,
-          "Substance": 4.5
+          "Spirit": 3.26,
+          "Essence": 4.13,
+          "Matter": 4.3,
+          "Substance": 3.95
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.4733,
-          "reactivity": 0.5133,
-          "gregsEnergy": 0.2404,
-          "kalchm": 0.4,
-          "monica": 0.5162
+          "heat": 0.0618,
+          "entropy": 0.3237,
+          "reactivity": 2.0291,
+          "gregsEnergy": -0.595,
+          "kalchm": 0.1369,
+          "monica": -0.1475
         },
         "substitutions": [
           {
@@ -54908,10 +54908,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2875,
-          "Water": 0.42500000000000004,
-          "Earth": 0.17500000000000002,
-          "Air": 0.11249999999999999
+          "Fire": 0.255,
+          "Water": 0.305,
+          "Earth": 0.2799999999999999,
+          "Air": 0.15999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -54928,11 +54928,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 23,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 320,
+          "fiberG": 4,
+          "sodiumMg": 272,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -54946,18 +54946,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.23,
-          "Essence": 3.85,
-          "Matter": 2.97,
-          "Substance": 2.33
+          "Spirit": 3.35,
+          "Essence": 3.5,
+          "Matter": 3.35,
+          "Substance": 2.88
         },
         "thermodynamicProperties": {
-          "heat": 0.4312,
-          "entropy": 0.475,
-          "reactivity": 0.6275,
-          "gregsEnergy": 0.1331,
-          "kalchm": 0.075,
-          "monica": 0.3757
+          "heat": 0.1029,
+          "entropy": 0.3547,
+          "reactivity": 2.4247,
+          "gregsEnergy": -0.7572,
+          "kalchm": 3.8123,
+          "monica": 0.2333
         },
         "substitutions": [
           {
@@ -55102,10 +55102,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2611111111111111,
-          "Water": 0.2555555555555556,
-          "Earth": 0.34444444444444444,
-          "Air": 0.1388888888888889
+          "Fire": 0.23666666666666666,
+          "Water": 0.25,
+          "Earth": 0.36666666666666664,
+          "Air": 0.14666666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -55122,11 +55122,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 252,
+          "sodiumMg": 250,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -55140,18 +55140,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.45,
-          "Essence": 6.52,
-          "Matter": 6.07,
-          "Substance": 5.53
+          "Spirit": 5,
+          "Essence": 6.05,
+          "Matter": 6.62,
+          "Substance": 5.85
         },
         "thermodynamicProperties": {
-          "heat": 0.5028,
-          "entropy": 0.4178,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.2897,
-          "kalchm": 0.2778,
-          "monica": 0.4992
+          "heat": 0.0674,
+          "entropy": 0.3359,
+          "reactivity": 1.966,
+          "gregsEnergy": -0.593,
+          "kalchm": 0.0201,
+          "monica": -0.0772
         },
         "substitutions": [
           {
@@ -55286,9 +55286,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22000000000000003,
-          "Water": 0.29,
-          "Earth": 0.29000000000000004,
+          "Fire": 0.24642857142857147,
+          "Water": 0.20357142857142857,
+          "Earth": 0.35,
           "Air": 0.2
         },
         "astrologicalAffinities": {
@@ -55306,11 +55306,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 266,
+          "fiberG": 5,
+          "sodiumMg": 231,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -55324,18 +55324,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.22,
-          "Essence": 5.87,
-          "Matter": 6.39,
-          "Substance": 5.94
+          "Spirit": 4.8,
+          "Essence": 4.92,
+          "Matter": 5.76,
+          "Substance": 5.08
         },
         "thermodynamicProperties": {
-          "heat": 0.465,
-          "entropy": 0.464,
-          "reactivity": 0.506,
-          "gregsEnergy": 0.2302,
-          "kalchm": 0.34,
-          "monica": 0.4941
+          "heat": 0.0847,
+          "entropy": 0.3879,
+          "reactivity": 1.9606,
+          "gregsEnergy": -0.6758,
+          "kalchm": 0.0511,
+          "monica": -0.1159
         },
         "substitutions": [
           {
@@ -55433,32 +55433,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18000000000000002,
-          "Water": 0.35,
-          "Earth": 0.30999999999999994,
-          "Air": 0.16
+          "Fire": 0.22777777777777775,
+          "Water": 0.22777777777777775,
+          "Earth": 0.35000000000000003,
+          "Air": 0.19444444444444445
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 290,
-          "sugarG": 4,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 241,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -55471,18 +55471,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.72,
-          "Essence": 3.78,
-          "Matter": 3.27,
-          "Substance": 3.13
+          "Spirit": 2.6,
+          "Essence": 3,
+          "Matter": 3.35,
+          "Substance": 2.95
         },
         "thermodynamicProperties": {
-          "heat": 0.415,
-          "entropy": 0.44,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.1871,
-          "kalchm": 0.18,
-          "monica": 0.4288
+          "heat": 0.0671,
+          "entropy": 0.324,
+          "reactivity": 1.7972,
+          "gregsEnergy": -0.5152,
+          "kalchm": 0.232,
+          "monica": -0.1962
         },
         "substitutions": [
           {
@@ -55633,31 +55633,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.176923076923077,
-          "Water": 0.3269230769230769,
-          "Earth": 0.29615384615384616,
-          "Air": 0.2
+          "Fire": 0.2088235294117647,
+          "Water": 0.2970588235294117,
+          "Earth": 0.3023529411764706,
+          "Air": 0.191764705882353
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 281,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -55671,18 +55671,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.86,
-          "Essence": 6.9,
-          "Matter": 5.95,
-          "Substance": 5.28
+          "Spirit": 4.66,
+          "Essence": 6.09,
+          "Matter": 5.85,
+          "Substance": 5.31
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.4615,
-          "reactivity": 0.5023,
-          "gregsEnergy": 0.1932,
-          "kalchm": 0.2538,
-          "monica": 0.4534
+          "heat": 0.0669,
+          "entropy": 0.3179,
+          "reactivity": 2.3029,
+          "gregsEnergy": -0.6653,
+          "kalchm": 0.3588,
+          "monica": -0.2819
         },
         "substitutions": [
           {
@@ -55868,31 +55868,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14666666666666667,
-          "Water": 0.39999999999999997,
-          "Earth": 0.2633333333333334,
-          "Air": 0.19000000000000003
+          "Fire": 0.21045454545454542,
+          "Water": 0.2804545454545455,
+          "Earth": 0.31363636363636355,
+          "Air": 0.19545454545454544
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -55906,18 +55906,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.37,
-          "Essence": 10.21,
-          "Matter": 9.36,
-          "Substance": 8.3
+          "Spirit": 5.36,
+          "Essence": 6.6,
+          "Matter": 7.89,
+          "Substance": 7.09
         },
         "thermodynamicProperties": {
-          "heat": 0.3733,
-          "entropy": 0.4707,
-          "reactivity": 0.528,
-          "gregsEnergy": 0.1248,
-          "kalchm": 0.1733,
-          "monica": 0.4019
+          "heat": 0.0575,
+          "entropy": 0.3476,
+          "reactivity": 1.8235,
+          "gregsEnergy": -0.5763,
+          "kalchm": 0.0002,
+          "monica": -0.0371
         },
         "substitutions": [
           {
@@ -55991,31 +55991,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2375,
-          "Water": 0.4375,
-          "Earth": 0.2125,
-          "Air": 0.11249999999999999
+          "Fire": 0.25,
+          "Water": 0.30999999999999994,
+          "Earth": 0.33,
+          "Air": 0.10999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 23,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 325,
+          "fiberG": 5,
+          "sodiumMg": 274,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -56029,18 +56029,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.54,
-          "Essence": 2.17,
-          "Matter": 2.13,
-          "Substance": 1.99
+          "Spirit": 1.36,
+          "Essence": 1.65,
+          "Matter": 1.88,
+          "Substance": 1.57
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.46,
-          "reactivity": 0.605,
-          "gregsEnergy": 0.1217,
-          "kalchm": 0.125,
-          "monica": 0.3862
+          "heat": 0.0559,
+          "entropy": 0.2524,
+          "reactivity": 1.4757,
+          "gregsEnergy": -0.3166,
+          "kalchm": 0.5218,
+          "monica": -0.3298
         },
         "substitutions": [
           {
@@ -56147,10 +56147,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666665,
-          "Water": 0.4,
-          "Earth": 0.18333333333333332,
-          "Air": 0.2
+          "Fire": 0.23125,
+          "Water": 0.31875000000000003,
+          "Earth": 0.25250000000000006,
+          "Air": 0.1975
         },
         "astrologicalAffinities": {
           "planets": [
@@ -56167,11 +56167,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 310,
+          "fiberG": 4,
+          "sodiumMg": 278,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -56185,18 +56185,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.3,
-          "Essence": 3.86,
-          "Matter": 3.29,
-          "Substance": 3.16
+          "Spirit": 2.69,
+          "Essence": 3.25,
+          "Matter": 2.99,
+          "Substance": 2.95
         },
         "thermodynamicProperties": {
-          "heat": 0.4083,
-          "entropy": 0.5067,
-          "reactivity": 0.57,
-          "gregsEnergy": 0.1195,
-          "kalchm": 0.2,
-          "monica": 0.4078
+          "heat": 0.0735,
+          "entropy": 0.3455,
+          "reactivity": 2.5391,
+          "gregsEnergy": -0.8039,
+          "kalchm": 1.0267,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -56275,32 +56275,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.5,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.31666666666666665,
+          "Water": 0.2166666666666667,
+          "Earth": 0.3,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 7,
-          "carbsG": 29,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 350,
-          "sugarG": 7,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 237,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -56313,18 +56313,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.55,
-          "Essence": 1.81,
-          "Matter": 1.47,
-          "Substance": 1.17
+          "Spirit": 2.28,
+          "Essence": 1.64,
+          "Matter": 1.59,
+          "Substance": 1.65
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0248,
-          "kalchm": -0.1,
-          "monica": 0.2601
+          "heat": 0.1712,
+          "entropy": 0.5734,
+          "reactivity": 3.0194,
+          "gregsEnergy": -1.5601,
+          "kalchm": 3.0858,
+          "monica": 0.4585
         },
         "substitutions": [
           {
@@ -56421,32 +56421,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3375,
-          "Water": 0.18749999999999997,
-          "Earth": 0.2625,
-          "Air": 0.21250000000000002
+          "Fire": 0.2583333333333333,
+          "Water": 0.20833333333333334,
+          "Earth": 0.2916666666666667,
+          "Air": 0.2416666666666667
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 9,
+          "carbsG": 27,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 225,
-          "sugarG": 5,
+          "sodiumMg": 233,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -56459,18 +56459,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.66,
-          "Essence": 2.27,
-          "Matter": 3.06,
-          "Substance": 2.9
+          "Spirit": 2.45,
+          "Essence": 2.33,
+          "Matter": 2.82,
+          "Substance": 2.68
         },
         "thermodynamicProperties": {
-          "heat": 0.575,
-          "entropy": 0.48,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.3278,
-          "kalchm": 0.3,
-          "monica": 0.5211
+          "heat": 0.0826,
+          "entropy": 0.4169,
+          "reactivity": 1.9398,
+          "gregsEnergy": -0.7262,
+          "kalchm": 0.2468,
+          "monica": -0.2676
         },
         "substitutions": [
           {
@@ -56560,10 +56560,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.3,
-          "Air": 0.20000000000000004
+          "Fire": 0.19999999999999998,
+          "Water": 0.24166666666666667,
+          "Earth": 0.35833333333333334,
+          "Air": 0.19999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -56582,9 +56582,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 247,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -56598,18 +56598,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.15,
-          "Essence": 3.1,
-          "Matter": 2.58,
-          "Substance": 2.13
+          "Spirit": 1.58,
+          "Essence": 2.42,
+          "Matter": 2.85,
+          "Substance": 2.57
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.46,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.27,
-          "kalchm": 0.4,
-          "monica": 0.528
+          "heat": 0.034,
+          "entropy": 0.2665,
+          "reactivity": 1.4666,
+          "gregsEnergy": -0.3568,
+          "kalchm": 0.0781,
+          "monica": -0.0954
         },
         "substitutions": [
           {
@@ -56695,31 +56695,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.30000000000000004,
-          "Earth": 0.15000000000000002,
-          "Air": 0.25
+          "Fire": 0.19166666666666668,
+          "Water": 0.27499999999999997,
+          "Earth": 0.3,
+          "Air": 0.2333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 7,
-          "carbsG": 28,
-          "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 270,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 260,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -56733,18 +56733,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.06,
-          "Essence": 2.55,
-          "Matter": 1.75,
-          "Substance": 1.56
+          "Spirit": 1.8,
+          "Essence": 2.24,
+          "Matter": 2.38,
+          "Substance": 2.44
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.54,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1976,
-          "kalchm": 0.3,
-          "monica": 0.469
+          "heat": 0.0529,
+          "entropy": 0.344,
+          "reactivity": 2.0018,
+          "gregsEnergy": -0.6358,
+          "kalchm": 0.2527,
+          "monica": -0.2309
         },
         "substitutions": [
           {
@@ -56824,10 +56824,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22000000000000003,
-          "Water": 0.2625,
-          "Earth": 0.3375,
-          "Air": 0.18
+          "Fire": 0.2,
+          "Water": 0.27499999999999997,
+          "Earth": 0.275,
+          "Air": 0.25
         },
         "astrologicalAffinities": {
           "planets": [
@@ -56844,12 +56844,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 255,
-          "sugarG": 5,
+          "proteinG": 9,
+          "carbsG": 28,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 260,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -56862,18 +56862,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.41,
-          "Essence": 2.1,
-          "Matter": 2.27,
-          "Substance": 2.18
+          "Spirit": 1.46,
+          "Essence": 1.57,
+          "Matter": 2.12,
+          "Substance": 2.22
         },
         "thermodynamicProperties": {
-          "heat": 0.4788,
-          "entropy": 0.437,
-          "reactivity": 0.4895,
-          "gregsEnergy": 0.2649,
-          "kalchm": 0.3,
-          "monica": 0.496
+          "heat": 0.0482,
+          "entropy": 0.3984,
+          "reactivity": 1.6916,
+          "gregsEnergy": -0.6257,
+          "kalchm": 0.1221,
+          "monica": -0.1759
         },
         "substitutions": [
           {
@@ -56984,10 +56984,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.38125,
-          "Water": 0.25,
-          "Earth": 0.1875,
-          "Air": 0.18125
+          "Fire": 0.3027272727272727,
+          "Water": 0.2563636363636364,
+          "Earth": 0.25000000000000006,
+          "Air": 0.19090909090909094
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57004,11 +57004,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 10,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 250,
+          "sodiumMg": 253,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -57022,18 +57022,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.22,
-          "Essence": 4.4,
-          "Matter": 4.26,
-          "Substance": 3.84
+          "Spirit": 4.47,
+          "Essence": 4.51,
+          "Matter": 4.02,
+          "Substance": 3.59
         },
         "thermodynamicProperties": {
-          "heat": 0.5656,
-          "entropy": 0.4975,
-          "reactivity": 0.5787,
-          "gregsEnergy": 0.2777,
-          "kalchm": 0.2375,
-          "monica": 0.4823
+          "heat": 0.1222,
+          "entropy": 0.4041,
+          "reactivity": 2.9289,
+          "gregsEnergy": -1.0614,
+          "kalchm": 27.2542,
+          "monica": 0.1096
         },
         "substitutions": [
           {
@@ -57115,32 +57115,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.30000000000000004,
-          "Earth": 0.15000000000000002,
-          "Air": 0.25
+          "Fire": 0.35,
+          "Water": 0.16666666666666663,
+          "Earth": 0.2833333333333333,
+          "Air": 0.19999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 7,
-          "carbsG": 28,
+          "proteinG": 9,
+          "carbsG": 26,
           "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 270,
-          "sugarG": 6,
+          "fiberG": 4,
+          "sodiumMg": 217,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -57153,18 +57153,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.51,
-          "Essence": 2,
-          "Matter": 1.85,
-          "Substance": 1.84
+          "Spirit": 2.41,
+          "Essence": 1.8,
+          "Matter": 2,
+          "Substance": 2.15
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.54,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1976,
-          "kalchm": 0.3,
-          "monica": 0.469
+          "heat": 0.1361,
+          "entropy": 0.5865,
+          "reactivity": 2.6586,
+          "gregsEnergy": -1.423,
+          "kalchm": 1.157,
+          "monica": 3.6704
         },
         "substitutions": [
           {
@@ -57278,10 +57278,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2588114635835482,
-          "Water": 0.2952673521603632,
-          "Earth": 0.26658795352237313,
-          "Air": 0.17933323073371552
+          "Fire": 0.24672130096315392,
+          "Water": 0.3180154241425451,
+          "Earth": 0.23696706979766502,
+          "Air": 0.198296205096636
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57299,10 +57299,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 277,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -57316,18 +57316,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.6,
-          "Essence": 5.16,
-          "Matter": 4.3,
-          "Substance": 3.65
+          "Spirit": 3.28,
+          "Essence": 5.08,
+          "Matter": 4.26,
+          "Substance": 3.74
         },
         "thermodynamicProperties": {
-          "heat": 0.4818,
-          "entropy": 0.4651,
-          "reactivity": 0.5324,
-          "gregsEnergy": 0.2342,
-          "kalchm": 0.3587,
-          "monica": 0.5013
+          "heat": 0.0565,
+          "entropy": 0.2538,
+          "reactivity": 2.5097,
+          "gregsEnergy": -0.5803,
+          "kalchm": 2.8447,
+          "monica": 0.2212
         },
         "substitutions": [
           {
@@ -57445,32 +57445,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3784152847780642,
-          "Water": 0.25202313621381756,
-          "Earth": 0.20545060469649748,
-          "Air": 0.1641109743116207
+          "Fire": 0.2920491708668385,
+          "Water": 0.22621388172829054,
+          "Earth": 0.3032703628178985,
+          "Air": 0.17846658458697243
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 10,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 251,
-          "sugarG": 4,
+          "sodiumMg": 240,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -57483,18 +57483,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.43,
-          "Essence": 4.83,
-          "Matter": 3.7,
-          "Substance": 3.17
+          "Spirit": 4.1,
+          "Essence": 4.37,
+          "Matter": 4.08,
+          "Substance": 3.55
         },
         "thermodynamicProperties": {
-          "heat": 0.5632,
-          "entropy": 0.4835,
-          "reactivity": 0.5783,
-          "gregsEnergy": 0.2836,
-          "kalchm": 0.2391,
-          "monica": 0.4852
+          "heat": 0.1046,
+          "entropy": 0.3662,
+          "reactivity": 2.5336,
+          "gregsEnergy": -0.8233,
+          "kalchm": 7.3538,
+          "monica": 0.1629
         },
         "substitutions": [
           {
@@ -57599,10 +57599,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.36,
-          "Water": 0.26000000000000006,
-          "Earth": 0.16,
-          "Air": 0.21999999999999997
+          "Fire": 0.32125,
+          "Water": 0.16,
+          "Earth": 0.26625,
+          "Air": 0.2525
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57619,12 +57619,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 7,
-          "carbsG": 27,
+          "proteinG": 9,
+          "carbsG": 28,
           "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 254,
-          "sugarG": 5,
+          "fiberG": 4,
+          "sodiumMg": 214,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -57637,18 +57637,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.8,
-          "Essence": 3.3,
-          "Matter": 3,
-          "Substance": 3
+          "Spirit": 3.22,
+          "Essence": 2.83,
+          "Matter": 2.58,
+          "Substance": 2.5
         },
         "thermodynamicProperties": {
-          "heat": 0.55,
-          "entropy": 0.524,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.2503,
-          "kalchm": 0.26,
-          "monica": 0.4781
+          "heat": 0.142,
+          "entropy": 0.4928,
+          "reactivity": 3.0637,
+          "gregsEnergy": -1.3678,
+          "kalchm": 7.1949,
+          "monica": 0.2262
         },
         "substitutions": [
           {
@@ -57738,31 +57738,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.2916666666666667,
-          "Earth": 0.225,
-          "Air": 0.21666666666666667
+          "Fire": 0.28125,
+          "Water": 0.275,
+          "Earth": 0.2275,
+          "Air": 0.21625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 8,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 267,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -57776,18 +57776,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.55,
-          "Essence": 3.31,
-          "Matter": 2.44,
-          "Substance": 2.27
+          "Spirit": 3.39,
+          "Essence": 3.52,
+          "Matter": 2.85,
+          "Substance": 2.7
         },
         "thermodynamicProperties": {
-          "heat": 0.4875,
-          "entropy": 0.4967,
-          "reactivity": 0.535,
-          "gregsEnergy": 0.2218,
-          "kalchm": 0.3833,
-          "monica": 0.5037
+          "heat": 0.1208,
+          "entropy": 0.4003,
+          "reactivity": 3.3126,
+          "gregsEnergy": -1.2054,
+          "kalchm": 18.2061,
+          "monica": 0.1254
         },
         "substitutions": [
           {
@@ -57850,31 +57850,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.55,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.06666666666666668,
+          "Water": 0.38333333333333336,
+          "Earth": 0.43333333333333335,
+          "Air": 0.11666666666666668
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 12,
+          "carbsG": 24,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 370,
+          "fiberG": 5,
+          "sodiumMg": 303,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -57888,18 +57888,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.35,
-          "Essence": 0.88,
-          "Matter": 1.44,
-          "Substance": 1.29
+          "Spirit": 0.26,
+          "Essence": 0.75,
+          "Matter": 1.25,
+          "Substance": 0.95
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0076,
-          "kalchm": -0.1,
-          "monica": 0.267
+          "heat": 0.0048,
+          "entropy": 0.1246,
+          "reactivity": 0.5991,
+          "gregsEnergy": -0.0698,
+          "kalchm": 0.451,
+          "monica": -0.1464
         },
         "substitutions": [
           {
@@ -57969,10 +57969,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.25,
-          "Earth": 0.4,
-          "Air": 0.15000000000000002
+          "Fire": 0.17500000000000002,
+          "Water": 0.2875,
+          "Earth": 0.42500000000000004,
+          "Air": 0.11249999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57990,10 +57990,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 11,
-          "carbsG": 25,
+          "carbsG": 23,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 265,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -58007,18 +58007,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.11,
-          "Essence": 1.22,
-          "Matter": 1.93,
-          "Substance": 1.75
+          "Spirit": 0.99,
+          "Essence": 1.4,
+          "Matter": 1.75,
+          "Substance": 1.63
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.4,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.287,
-          "kalchm": 0.2,
-          "monica": 0.4748
+          "heat": 0.0322,
+          "entropy": 0.2467,
+          "reactivity": 1.2098,
+          "gregsEnergy": -0.2663,
+          "kalchm": 0.2686,
+          "monica": -0.1674
         },
         "substitutions": [
           {
@@ -58105,32 +58105,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.425,
-          "Earth": 0.325,
-          "Air": 0.15000000000000002
+          "Fire": 0.21166666666666667,
+          "Water": 0.28,
+          "Earth": 0.30333333333333334,
+          "Air": 0.205
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 320,
-          "sugarG": 4,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 262,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -58143,18 +58143,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.2,
-          "Essence": 2.23,
-          "Matter": 3.04,
-          "Substance": 2.64
+          "Spirit": 1.55,
+          "Essence": 2.11,
+          "Matter": 2.43,
+          "Substance": 2.09
         },
         "thermodynamicProperties": {
-          "heat": 0.3375,
-          "entropy": 0.43,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.1161,
-          "kalchm": 0,
-          "monica": 0.3464
+          "heat": 0.0445,
+          "entropy": 0.2612,
+          "reactivity": 1.5243,
+          "gregsEnergy": -0.3537,
+          "kalchm": 0.2361,
+          "monica": -0.1608
         },
         "substitutions": [
           {
@@ -58236,8 +58236,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.12000000000000002,
-          "Water": 0.4,
-          "Earth": 0.26,
+          "Water": 0.36,
+          "Earth": 0.3,
           "Air": 0.22000000000000003
         },
         "astrologicalAffinities": {
@@ -58255,11 +58255,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 27,
           "fatG": 6,
           "fiberG": 4,
-          "sodiumMg": 310,
+          "sodiumMg": 294,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -58273,18 +58273,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.48,
+          "Spirit": 1.56,
           "Essence": 2.28,
-          "Matter": 2.69,
-          "Substance": 2.42
+          "Matter": 2.3,
+          "Substance": 1.95
         },
         "thermodynamicProperties": {
-          "heat": 0.36,
-          "entropy": 0.484,
-          "reactivity": 0.512,
-          "gregsEnergy": 0.1122,
-          "kalchm": 0.18,
-          "monica": 0.3989
+          "heat": 0.0446,
+          "entropy": 0.2294,
+          "reactivity": 1.72,
+          "gregsEnergy": -0.35,
+          "kalchm": 0.5246,
+          "monica": -0.3154
         },
         "substitutions": [
           {
@@ -58383,18 +58383,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.2,
-          "Essence": 0.78,
-          "Matter": 1.59,
-          "Substance": 1.39
+          "Spirit": 0.28,
+          "Essence": 0.88,
+          "Matter": 1.12,
+          "Substance": 0.9
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.42,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.0816,
-          "kalchm": -0.1,
-          "monica": 0.3026
+          "heat": 0.0056,
+          "entropy": 0.1162,
+          "reactivity": 0.9009,
+          "gregsEnergy": -0.099,
+          "kalchm": 0.6059,
+          "monica": -0.2193
         },
         "substitutions": [
           {
@@ -58455,10 +58455,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.55,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.10000000000000002,
+          "Water": 0.39999999999999997,
+          "Earth": 0.3666666666666667,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -58475,11 +58475,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 370,
+          "fiberG": 5,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -58493,18 +58493,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.35,
-          "Essence": 0.88,
-          "Matter": 1.44,
-          "Substance": 1.29
+          "Spirit": 0.34,
+          "Essence": 0.81,
+          "Matter": 1.13,
+          "Substance": 0.88
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0076,
-          "kalchm": -0.1,
-          "monica": 0.267
+          "heat": 0.0091,
+          "entropy": 0.1253,
+          "reactivity": 0.774,
+          "gregsEnergy": -0.0879,
+          "kalchm": 0.5694,
+          "monica": -0.2016
         },
         "substitutions": [
           {
@@ -58565,10 +58565,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.55,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.10000000000000002,
+          "Water": 0.39999999999999997,
+          "Earth": 0.3666666666666667,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -58585,11 +58585,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 370,
+          "fiberG": 5,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -58603,18 +58603,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.35,
-          "Essence": 0.88,
-          "Matter": 1.44,
-          "Substance": 1.29
+          "Spirit": 0.34,
+          "Essence": 0.81,
+          "Matter": 1.13,
+          "Substance": 0.88
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": -0.0076,
-          "kalchm": -0.1,
-          "monica": 0.267
+          "heat": 0.0091,
+          "entropy": 0.1253,
+          "reactivity": 0.774,
+          "gregsEnergy": -0.0879,
+          "kalchm": 0.5694,
+          "monica": -0.2016
         },
         "substitutions": [
           {
@@ -58724,10 +58724,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28124999999999994,
-          "Water": 0.26874999999999993,
-          "Earth": 0.31875,
-          "Air": 0.13124999999999998
+          "Fire": 0.27999999999999997,
+          "Water": 0.24499999999999997,
+          "Earth": 0.325,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -58745,10 +58745,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 258,
+          "sodiumMg": 248,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -58762,18 +58762,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.73,
-          "Essence": 4.31,
-          "Matter": 5.29,
-          "Substance": 5.24
+          "Spirit": 3.69,
+          "Essence": 4.21,
+          "Matter": 4.38,
+          "Substance": 4.03
         },
         "thermodynamicProperties": {
-          "heat": 0.5062,
-          "entropy": 0.425,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.2809,
-          "kalchm": 0.2625,
-          "monica": 0.4911
+          "heat": 0.077,
+          "entropy": 0.357,
+          "reactivity": 2.1567,
+          "gregsEnergy": -0.6931,
+          "kalchm": 0.2962,
+          "monica": -0.2641
         },
         "substitutions": [
           {
@@ -58901,32 +58901,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.3909090909090909,
-          "Earth": 0.25000000000000006,
-          "Air": 0.15909090909090912
+          "Fire": 0.22083333333333333,
+          "Water": 0.2833333333333333,
+          "Earth": 0.32333333333333336,
+          "Air": 0.17250000000000001
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 306,
-          "sugarG": 4,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 263,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -58939,18 +58939,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.98,
-          "Essence": 5.31,
-          "Matter": 6.81,
-          "Substance": 6.32
+          "Spirit": 3.8,
+          "Essence": 5.12,
+          "Matter": 5.53,
+          "Substance": 4.76
         },
         "thermodynamicProperties": {
-          "heat": 0.4045,
-          "entropy": 0.4636,
-          "reactivity": 0.5545,
-          "gregsEnergy": 0.1474,
-          "kalchm": 0.2182,
-          "monica": 0.4244
+          "heat": 0.0553,
+          "entropy": 0.2934,
+          "reactivity": 1.8525,
+          "gregsEnergy": -0.4882,
+          "kalchm": 0.0318,
+          "monica": -0.0764
         },
         "substitutions": [
           {
@@ -59051,10 +59051,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666667,
-          "Water": 0.43333333333333335,
-          "Earth": 0.26666666666666666,
-          "Air": 0.23333333333333336
+          "Fire": 0.12500000000000003,
+          "Water": 0.34375000000000006,
+          "Earth": 0.31500000000000006,
+          "Air": 0.21625
         },
         "astrologicalAffinities": {
           "planets": [
@@ -59071,12 +59071,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 27,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 323,
-          "sugarG": 6,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 288,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -59089,18 +59089,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.05,
-          "Essence": 2.68,
-          "Matter": 2.84,
-          "Substance": 2.47
+          "Spirit": 1.7,
+          "Essence": 2.72,
+          "Matter": 2.83,
+          "Substance": 2.5
         },
         "thermodynamicProperties": {
-          "heat": 0.3167,
-          "entropy": 0.4867,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.0733,
-          "kalchm": 0.1,
-          "monica": 0.3593
+          "heat": 0.0365,
+          "entropy": 0.2387,
+          "reactivity": 1.6903,
+          "gregsEnergy": -0.367,
+          "kalchm": 0.1997,
+          "monica": -0.1348
         },
         "substitutions": [
           {
@@ -59215,32 +59215,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15333333333333335,
-          "Water": 0.39444444444444443,
-          "Earth": 0.3166666666666666,
-          "Air": 0.13555555555555554
+          "Fire": 0.17500000000000002,
+          "Water": 0.30416666666666664,
+          "Earth": 0.3541666666666667,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 308,
-          "sugarG": 4,
+          "sodiumMg": 272,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -59253,18 +59253,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.21,
-          "Essence": 4.36,
-          "Matter": 5.94,
-          "Substance": 5.41
+          "Spirit": 2.43,
+          "Essence": 3.84,
+          "Matter": 5.22,
+          "Substance": 4.72
         },
         "thermodynamicProperties": {
-          "heat": 0.3794,
-          "entropy": 0.4276,
-          "reactivity": 0.5287,
-          "gregsEnergy": 0.1533,
-          "kalchm": 0.0778,
-          "monica": 0.3847
+          "heat": 0.0278,
+          "entropy": 0.299,
+          "reactivity": 1.3865,
+          "gregsEnergy": -0.3868,
+          "kalchm": 0.0002,
+          "monica": -0.0328
         },
         "substitutions": [
           {
@@ -59392,32 +59392,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.3388888888888889,
-          "Earth": 0.2722222222222222,
-          "Air": 0.18888888888888888
+          "Fire": 0.2678571428571429,
+          "Water": 0.2571428571428571,
+          "Earth": 0.31071428571428567,
+          "Air": 0.1642857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 7,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 286,
-          "sugarG": 5,
+          "sodiumMg": 253,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -59430,18 +59430,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.56,
-          "Essence": 5.85,
-          "Matter": 5.1,
-          "Substance": 4.3
+          "Spirit": 4.77,
+          "Essence": 5.41,
+          "Matter": 5.47,
+          "Substance": 4.89
         },
         "thermodynamicProperties": {
-          "heat": 0.4306,
-          "entropy": 0.4667,
-          "reactivity": 0.5233,
-          "gregsEnergy": 0.1864,
-          "kalchm": 0.2778,
-          "monica": 0.4579
+          "heat": 0.0838,
+          "entropy": 0.3568,
+          "reactivity": 2.2772,
+          "gregsEnergy": -0.7288,
+          "kalchm": 0.6246,
+          "monica": -0.68
         },
         "substitutions": [
           {
@@ -59575,32 +59575,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.37500000000000006,
-          "Earth": 0.265,
-          "Air": 0.16999999999999998
+          "Fire": 0.26071428571428573,
+          "Water": 0.2892857142857143,
+          "Earth": 0.31071428571428567,
+          "Air": 0.1392857142857143
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 7,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 300,
-          "sugarG": 5,
+          "sodiumMg": 266,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -59613,18 +59613,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.62,
-          "Essence": 6.28,
-          "Matter": 5.41,
-          "Substance": 4.5
+          "Spirit": 4.82,
+          "Essence": 5.88,
+          "Matter": 5.81,
+          "Substance": 5.07
         },
         "thermodynamicProperties": {
-          "heat": 0.4075,
-          "entropy": 0.462,
-          "reactivity": 0.539,
-          "gregsEnergy": 0.1585,
-          "kalchm": 0.22,
-          "monica": 0.4294
+          "heat": 0.0761,
+          "entropy": 0.3246,
+          "reactivity": 2.2337,
+          "gregsEnergy": -0.6489,
+          "kalchm": 0.6338,
+          "monica": -0.637
         },
         "substitutions": [
           {
@@ -59704,31 +59704,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.3333333333333333,
-          "Earth": 0.3,
-          "Air": 0.20000000000000004
+          "Fire": 0.20833333333333334,
+          "Water": 0.275,
+          "Earth": 0.3083333333333333,
+          "Air": 0.20833333333333334
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 283,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -59742,18 +59742,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.5,
-          "Essence": 2.06,
-          "Matter": 1.97,
-          "Substance": 1.62
+          "Spirit": 1.46,
+          "Essence": 1.84,
+          "Matter": 2.08,
+          "Substance": 1.83
         },
         "thermodynamicProperties": {
-          "heat": 0.4167,
-          "entropy": 0.46,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.1867,
-          "kalchm": 0.2333,
-          "monica": 0.4447
+          "heat": 0.0508,
+          "entropy": 0.2745,
+          "reactivity": 1.5828,
+          "gregsEnergy": -0.3837,
+          "kalchm": 0.3849,
+          "monica": -0.2539
         },
         "substitutions": [
           {
@@ -59808,31 +59808,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.35,
+          "Fire": 0.1,
+          "Water": 0.45,
           "Earth": 0.35,
-          "Air": 0.15
+          "Air": 0.1
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
+          "carbsG": 23,
+          "fatG": 6,
           "fiberG": 5,
-          "sodiumMg": 290,
+          "sodiumMg": 330,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -59846,18 +59846,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.6,
+          "Spirit": 0.4,
           "Essence": 0.85,
-          "Matter": 0.7,
-          "Substance": 0.6
+          "Matter": 0.86,
+          "Substance": 0.8
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.19,
-          "kalchm": 0.1,
-          "monica": 0.406
+          "heat": 0.0146,
+          "entropy": 0.1302,
+          "reactivity": 1.1919,
+          "gregsEnergy": -0.1405,
+          "kalchm": 0.8217,
+          "monica": -0.6003
         },
         "substitutions": [
           {
@@ -59978,32 +59978,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20631146358354818,
-          "Water": 0.3702673521603632,
-          "Earth": 0.26033795352237316,
-          "Air": 0.1630832307337155
+          "Fire": 0.303114746820645,
+          "Water": 0.2109337551756081,
+          "Earth": 0.2786695098599219,
+          "Air": 0.20728198814382498
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 298,
-          "sugarG": 4,
+          "sodiumMg": 234,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -60016,18 +60016,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.7,
-          "Essence": 5.26,
-          "Matter": 4.98,
-          "Substance": 4.44
+          "Spirit": 4.07,
+          "Essence": 4.29,
+          "Matter": 4.36,
+          "Substance": 3.93
         },
         "thermodynamicProperties": {
-          "heat": 0.418,
-          "entropy": 0.4611,
-          "reactivity": 0.5459,
-          "gregsEnergy": 0.1663,
-          "kalchm": 0.2388,
-          "monica": 0.4382
+          "heat": 0.0945,
+          "entropy": 0.3848,
+          "reactivity": 2.3513,
+          "gregsEnergy": -0.8103,
+          "kalchm": 1.1754,
+          "monica": 2.1325
         },
         "substitutions": [
           {
@@ -60111,31 +60111,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2833333333333333,
-          "Water": 0.3,
-          "Earth": 0.26666666666666666,
-          "Air": 0.15
+          "Fire": 0.35333333333333333,
+          "Water": 0.11333333333333334,
+          "Earth": 0.39666666666666667,
+          "Air": 0.13666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 270,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 9,
+          "fiberG": 5,
+          "sodiumMg": 195,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -60149,18 +60149,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.2,
-          "Essence": 2.58,
-          "Matter": 2.97,
-          "Substance": 2.7
+          "Spirit": 2.36,
+          "Essence": 2.21,
+          "Matter": 2.69,
+          "Substance": 2.33
         },
         "thermodynamicProperties": {
-          "heat": 0.4917,
-          "entropy": 0.4533,
-          "reactivity": 0.55,
-          "gregsEnergy": 0.2424,
-          "kalchm": 0.3,
-          "monica": 0.487
+          "heat": 0.0918,
+          "entropy": 0.3807,
+          "reactivity": 1.6834,
+          "gregsEnergy": -0.5491,
+          "kalchm": 0.4258,
+          "monica": -0.382
         },
         "substitutions": [
           {
@@ -60253,10 +60253,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.20000000000000004,
-          "Earth": 0.3666666666666667,
-          "Air": 0.18333333333333335
+          "Fire": 0.2814285714285714,
+          "Water": 0.21857142857142858,
+          "Earth": 0.3471428571428571,
+          "Air": 0.15285714285714286
         },
         "astrologicalAffinities": {
           "planets": [
@@ -60273,12 +60273,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 11,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 230,
-          "sugarG": 5,
+          "sodiumMg": 237,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -60291,18 +60291,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.6,
-          "Essence": 3.4,
-          "Matter": 2.7,
-          "Substance": 2.3
+          "Spirit": 2.37,
+          "Essence": 2.64,
+          "Matter": 2.98,
+          "Substance": 2.68
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.4267,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.3245,
-          "kalchm": 0.2667,
-          "monica": 0.5098
+          "heat": 0.07,
+          "entropy": 0.3372,
+          "reactivity": 1.7994,
+          "gregsEnergy": -0.5367,
+          "kalchm": 0.2758,
+          "monica": -0.2316
         },
         "substitutions": [
           {
@@ -60392,10 +60392,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.25,
-          "Earth": 0.3625,
-          "Air": 0.2375
+          "Fire": 0.18666666666666668,
+          "Water": 0.2383333333333333,
+          "Earth": 0.3633333333333333,
+          "Air": 0.21166666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -60413,11 +60413,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "sodiumMg": 245,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -60430,18 +60430,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.8,
-          "Essence": 2.98,
-          "Matter": 2.67,
-          "Substance": 2.5
+          "Spirit": 1.62,
+          "Essence": 2.3,
+          "Matter": 2.85,
+          "Substance": 2.71
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.45,
-          "reactivity": 0.44,
-          "gregsEnergy": 0.252,
-          "kalchm": 0.275,
-          "monica": 0.4833
+          "heat": 0.0353,
+          "entropy": 0.3037,
+          "reactivity": 1.491,
+          "gregsEnergy": -0.4175,
+          "kalchm": 0.0503,
+          "monica": -0.0937
         },
         "substitutions": [
           {
@@ -60515,32 +60515,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.375,
-          "Water": 0.225,
-          "Earth": 0.19999999999999998,
-          "Air": 0.2
+          "Fire": 0.3,
+          "Water": 0.16,
+          "Earth": 0.3,
+          "Air": 0.24
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 26,
-          "fatG": 10,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 240,
-          "sugarG": 5,
+          "sodiumMg": 214,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -60553,18 +60553,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.2,
-          "Essence": 1.8,
-          "Matter": 2.07,
-          "Substance": 2.08
+          "Spirit": 1.82,
+          "Essence": 1.61,
+          "Matter": 1.7,
+          "Substance": 1.59
         },
         "thermodynamicProperties": {
-          "heat": 0.575,
-          "entropy": 0.5,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.295,
-          "kalchm": 0.25,
-          "monica": 0.493
+          "heat": 0.1085,
+          "entropy": 0.4213,
+          "reactivity": 2.1515,
+          "gregsEnergy": -0.7979,
+          "kalchm": 1.2426,
+          "monica": 1.7075
         },
         "substitutions": [
           {
@@ -60719,10 +60719,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27499999999999997,
-          "Water": 0.345,
-          "Earth": 0.215,
-          "Air": 0.16499999999999995
+          "Fire": 0.25625,
+          "Water": 0.284375,
+          "Earth": 0.2812499999999999,
+          "Air": 0.17812499999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -60739,12 +60739,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 288,
-          "sugarG": 4,
+          "sodiumMg": 264,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -60757,18 +60757,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.18,
-          "Essence": 6.94,
-          "Matter": 6.6,
-          "Substance": 5.71
+          "Spirit": 5.62,
+          "Essence": 6.38,
+          "Matter": 6.56,
+          "Substance": 5.7
         },
         "thermodynamicProperties": {
-          "heat": 0.465,
-          "entropy": 0.48,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.1904,
-          "kalchm": 0.26,
-          "monica": 0.4542
+          "heat": 0.0842,
+          "entropy": 0.3518,
+          "reactivity": 2.2425,
+          "gregsEnergy": -0.7047,
+          "kalchm": 0.4796,
+          "monica": -0.4277
         },
         "substitutions": [
           {
@@ -60898,10 +60898,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28125,
-          "Water": 0.3625,
-          "Earth": 0.1875,
-          "Air": 0.16875
+          "Fire": 0.2653846153846154,
+          "Water": 0.32307692307692304,
+          "Earth": 0.25384615384615383,
+          "Air": 0.1576923076923077
         },
         "astrologicalAffinities": {
           "planets": [
@@ -60918,12 +60918,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 295,
-          "sugarG": 5,
+          "sodiumMg": 279,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -60936,18 +60936,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.05,
-          "Essence": 5.53,
-          "Matter": 4.5,
-          "Substance": 3.86
+          "Spirit": 4.77,
+          "Essence": 5.56,
+          "Matter": 5.07,
+          "Substance": 4.45
         },
         "thermodynamicProperties": {
-          "heat": 0.4594,
-          "entropy": 0.4925,
-          "reactivity": 0.5863,
-          "gregsEnergy": 0.1706,
-          "kalchm": 0.2125,
-          "monica": 0.432
+          "heat": 0.0913,
+          "entropy": 0.3396,
+          "reactivity": 2.5992,
+          "gregsEnergy": -0.7914,
+          "kalchm": 8.3091,
+          "monica": 0.1438
         },
         "substitutions": [
           {
@@ -61058,31 +61058,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.325,
-          "Earth": 0.22499999999999998,
-          "Air": 0.25
+          "Fire": 0.2611111111111111,
+          "Water": 0.2333333333333334,
+          "Earth": 0.27222222222222225,
+          "Air": 0.2333333333333334
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 7,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 280,
+          "sodiumMg": 243,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -61096,18 +61096,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.66,
-          "Essence": 3.55,
-          "Matter": 3,
-          "Substance": 2.77
+          "Spirit": 2.26,
+          "Essence": 2.42,
+          "Matter": 2.75,
+          "Substance": 2.79
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.51,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.1749,
-          "kalchm": 0.35,
-          "monica": 0.475
+          "heat": 0.0684,
+          "entropy": 0.404,
+          "reactivity": 2.072,
+          "gregsEnergy": -0.7687,
+          "kalchm": 0.1895,
+          "monica": -0.223
         },
         "substitutions": [
           {
@@ -61192,10 +61192,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.5,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.21428571428571427,
+          "Water": 0.39999999999999997,
+          "Earth": 0.19285714285714287,
+          "Air": 0.19285714285714284
         },
         "astrologicalAffinities": {
           "planets": [
@@ -61212,11 +61212,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
+          "proteinG": 8,
           "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 350,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 310,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -61230,18 +61230,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.28,
-          "Essence": 2.97,
-          "Matter": 1.68,
-          "Substance": 1.37
+          "Spirit": 1.59,
+          "Essence": 2.52,
+          "Matter": 1.81,
+          "Substance": 1.9
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.0152,
-          "kalchm": 0,
-          "monica": 0.3061
+          "heat": 0.0523,
+          "entropy": 0.2567,
+          "reactivity": 3.1738,
+          "gregsEnergy": -0.7625,
+          "kalchm": 2.1663,
+          "monica": 0.3108
         },
         "substitutions": [
           {
@@ -61324,10 +61324,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.45,
-          "Earth": 0.15000000000000002,
-          "Air": 0.2
+          "Fire": 0.21666666666666665,
+          "Water": 0.4166666666666667,
+          "Earth": 0.18333333333333335,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -61344,11 +61344,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
+          "proteinG": 8,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 3,
-          "sodiumMg": 330,
+          "sodiumMg": 317,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -61362,18 +61362,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.27,
-          "Essence": 3.08,
-          "Matter": 1.75,
-          "Substance": 1.45
+          "Spirit": 2.09,
+          "Essence": 3.09,
+          "Matter": 1.79,
+          "Substance": 1.78
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.52,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0682,
-          "kalchm": 0.1,
-          "monica": 0.3573
+          "heat": 0.0797,
+          "entropy": 0.2536,
+          "reactivity": 4.4526,
+          "gregsEnergy": -1.0497,
+          "kalchm": 19.263,
+          "monica": 0.0797
         },
         "substitutions": [
           {
@@ -61446,10 +61446,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.45,
-          "Earth": 0.2,
-          "Air": 0.15000000000000002
+          "Fire": 0.22000000000000003,
+          "Water": 0.38,
+          "Earth": 0.25,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -61466,11 +61466,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 330,
+          "sodiumMg": 302,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -61484,18 +61484,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.3,
-          "Essence": 1.98,
-          "Matter": 1.35,
-          "Substance": 1.05
+          "Spirit": 1.06,
+          "Essence": 1.71,
+          "Matter": 1.55,
+          "Substance": 1.64
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.48,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0918,
-          "kalchm": 0.1,
-          "monica": 0.3667
+          "heat": 0.0363,
+          "entropy": 0.2567,
+          "reactivity": 2.1459,
+          "gregsEnergy": -0.5145,
+          "kalchm": 0.5996,
+          "monica": -0.4687
         },
         "substitutions": [
           {
@@ -61576,10 +61576,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.275,
-          "Water": 0.22499999999999998,
-          "Earth": 0.35,
-          "Air": 0.15000000000000002
+          "Fire": 0.15833333333333335,
+          "Water": 0.28333333333333327,
+          "Earth": 0.33,
+          "Air": 0.22833333333333336
         },
         "astrologicalAffinities": {
           "planets": [
@@ -61597,11 +61597,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 8,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 240,
-          "sugarG": 4,
+          "sodiumMg": 263,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -61614,18 +61614,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.57,
-          "Essence": 2.48,
-          "Matter": 2.03,
-          "Substance": 1.6
+          "Spirit": 1.28,
+          "Essence": 1.91,
+          "Matter": 1.92,
+          "Substance": 1.72
         },
         "thermodynamicProperties": {
-          "heat": 0.525,
-          "entropy": 0.42,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.315,
-          "kalchm": 0.25,
-          "monica": 0.501
+          "heat": 0.0407,
+          "entropy": 0.2367,
+          "reactivity": 1.6597,
+          "gregsEnergy": -0.3522,
+          "kalchm": 0.5308,
+          "monica": -0.335
         },
         "substitutions": [
           {
@@ -61800,32 +61800,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.4714285714285715,
-          "Earth": 0.27142857142857146,
-          "Air": 0.15714285714285717
+          "Fire": 0.1928571428571429,
+          "Water": 0.24285714285714288,
+          "Earth": 0.34047619047619043,
+          "Air": 0.22380952380952382
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 339,
-          "sugarG": 4,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 247,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -61838,18 +61838,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.84,
-          "Essence": 7.22,
-          "Matter": 7.35,
-          "Substance": 6.37
+          "Spirit": 4.58,
+          "Essence": 5.52,
+          "Matter": 6.88,
+          "Substance": 6.07
         },
         "thermodynamicProperties": {
-          "heat": 0.3143,
-          "entropy": 0.4543,
-          "reactivity": 0.5429,
-          "gregsEnergy": 0.0677,
-          "kalchm": 0.0143,
-          "monica": 0.3314
+          "heat": 0.0565,
+          "entropy": 0.3435,
+          "reactivity": 1.6963,
+          "gregsEnergy": -0.5262,
+          "kalchm": 0.0004,
+          "monica": -0.0396
         },
         "substitutions": [
           {
@@ -61991,10 +61991,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.5,
-          "Earth": 0.22499999999999998,
-          "Air": 0.15
+          "Fire": 0.19428571428571428,
+          "Water": 0.33785714285714286,
+          "Earth": 0.31928571428571423,
+          "Air": 0.14857142857142855
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62011,11 +62011,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 350,
+          "fiberG": 5,
+          "sodiumMg": 285,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -62029,18 +62029,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.34,
-          "Essence": 5.04,
-          "Matter": 5.38,
-          "Substance": 4.64
+          "Spirit": 2.93,
+          "Essence": 4.5,
+          "Matter": 5.44,
+          "Substance": 4.98
         },
         "thermodynamicProperties": {
-          "heat": 0.3125,
-          "entropy": 0.47,
-          "reactivity": 0.575,
-          "gregsEnergy": 0.0423,
-          "kalchm": 0,
-          "monica": 0.3169
+          "heat": 0.0349,
+          "entropy": 0.2978,
+          "reactivity": 1.6223,
+          "gregsEnergy": -0.4483,
+          "kalchm": 0.0007,
+          "monica": -0.038
         },
         "substitutions": [
           {
@@ -62113,31 +62113,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.3,
-          "Earth": 0.5,
-          "Air": 0.2
+          "Fire": 0.2,
+          "Water": 0.37,
+          "Earth": 0.22000000000000003,
+          "Air": 0.21000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
+          "proteinG": 8,
           "carbsG": 26,
-          "fatG": 5,
-          "fiberG": 6,
-          "sodiumMg": 270,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 298,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -62151,18 +62151,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.2,
-          "Essence": 1.9,
-          "Matter": 1.4,
-          "Substance": 1.15
+          "Spirit": 1.02,
+          "Essence": 1.44,
+          "Matter": 1.32,
+          "Substance": 1.39
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.38,
-          "reactivity": 0.38,
-          "gregsEnergy": 0.2056,
-          "kalchm": -0.1,
-          "monica": 0.3522
+          "heat": 0.0441,
+          "entropy": 0.2724,
+          "reactivity": 2.2209,
+          "gregsEnergy": -0.5608,
+          "kalchm": 0.7566,
+          "monica": -0.9053
         },
         "substitutions": [
           {
@@ -62241,10 +62241,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3333333333333333,
-          "Water": 0.19999999999999998,
-          "Earth": 0.3,
-          "Air": 0.16666666666666666
+          "Fire": 0.3283333333333333,
+          "Water": 0.205,
+          "Earth": 0.32,
+          "Air": 0.14666666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62262,11 +62262,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 230,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 232,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -62279,18 +62279,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.91,
-          "Essence": 2.15,
-          "Matter": 2.73,
-          "Substance": 2.5
+          "Spirit": 1.96,
+          "Essence": 2.1,
+          "Matter": 2.3,
+          "Substance": 2.14
         },
         "thermodynamicProperties": {
-          "heat": 0.5667,
-          "entropy": 0.4467,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.3344,
-          "kalchm": 0.2333,
-          "monica": 0.5037
+          "heat": 0.0759,
+          "entropy": 0.3525,
+          "reactivity": 1.8942,
+          "gregsEnergy": -0.5918,
+          "kalchm": 0.5134,
+          "monica": -0.4686
         },
         "substitutions": [
           {
@@ -62356,10 +62356,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.4,
-          "Earth": 0.1,
-          "Air": 0.3
+          "Fire": 0.2625,
+          "Water": 0.375,
+          "Earth": 0.2,
+          "Air": 0.16250000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62376,12 +62376,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 29,
-          "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 310,
-          "sugarG": 7,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 300,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -62394,18 +62394,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.4,
-          "Essence": 1.65,
-          "Matter": 0.95,
-          "Substance": 0.78
+          "Spirit": 0.89,
+          "Essence": 1.2,
+          "Matter": 1.01,
+          "Substance": 1.11
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.58,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0752,
-          "kalchm": 0.1,
-          "monica": 0.3601
+          "heat": 0.0523,
+          "entropy": 0.2733,
+          "reactivity": 2.5272,
+          "gregsEnergy": -0.6383,
+          "kalchm": 0.9892,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -62466,10 +62466,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.52,
-          "Earth": 0.22,
-          "Air": 0.16
+          "Fire": 0.16666666666666666,
+          "Water": 0.42333333333333334,
+          "Earth": 0.25666666666666665,
+          "Air": 0.15333333333333332
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62486,11 +62486,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 358,
+          "sodiumMg": 319,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -62504,18 +62504,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.6,
-          "Essence": 0.94,
-          "Matter": 0.77,
-          "Substance": 0.69
+          "Spirit": 0.46,
+          "Essence": 0.9,
+          "Matter": 0.88,
+          "Substance": 0.91
         },
         "thermodynamicProperties": {
-          "heat": 0.29,
-          "entropy": 0.476,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.0177,
-          "kalchm": -0.04,
-          "monica": 0.2951
+          "heat": 0.0193,
+          "entropy": 0.1803,
+          "reactivity": 1.61,
+          "gregsEnergy": -0.271,
+          "kalchm": 0.7759,
+          "monica": -0.6633
         },
         "substitutions": [
           {
@@ -62574,32 +62574,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18,
-          "Water": 0.38,
-          "Earth": 0.35,
-          "Air": 0.09
+          "Fire": 0.2333333333333333,
+          "Water": 0.3333333333333333,
+          "Earth": 0.3333333333333333,
+          "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 23,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 302,
-          "sugarG": 3,
+          "sodiumMg": 283,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -62612,18 +62612,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.6,
-          "Essence": 0.91,
-          "Matter": 0.8,
-          "Substance": 0.69
+          "Spirit": 0.63,
+          "Essence": 1.22,
+          "Matter": 1.25,
+          "Substance": 1.2
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.396,
-          "reactivity": 0.536,
-          "gregsEnergy": 0.1877,
-          "kalchm": 0.04,
-          "monica": 0.3871
+          "heat": 0.0229,
+          "entropy": 0.1933,
+          "reactivity": 1.3965,
+          "gregsEnergy": -0.2469,
+          "kalchm": 0.5791,
+          "monica": -0.3237
         },
         "substitutions": [
           {
@@ -62701,10 +62701,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666668,
-          "Water": 0.46666666666666673,
-          "Earth": 0.33333333333333337,
-          "Air": 0.13333333333333336
+          "Fire": 0.15833333333333333,
+          "Water": 0.4083333333333334,
+          "Earth": 0.2916666666666667,
+          "Air": 0.14166666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62721,11 +62721,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 337,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 313,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -62739,18 +62739,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.95,
-          "Essence": 1.68,
-          "Matter": 2.34,
-          "Substance": 1.99
+          "Spirit": 0.91,
+          "Essence": 1.72,
+          "Matter": 1.96,
+          "Substance": 1.77
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.42,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.0816,
-          "kalchm": -0.1,
-          "monica": 0.3026
+          "heat": 0.0216,
+          "entropy": 0.2088,
+          "reactivity": 1.4066,
+          "gregsEnergy": -0.2722,
+          "kalchm": 0.227,
+          "monica": -0.1305
         },
         "substitutions": [
           {
@@ -62887,10 +62887,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22499999999999998,
-          "Water": 0.245,
-          "Earth": 0.38666666666666666,
-          "Air": 0.1433333333333333
+          "Fire": 0.26266666666666666,
+          "Water": 0.22933333333333333,
+          "Earth": 0.33199999999999996,
+          "Air": 0.17600000000000005
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62907,12 +62907,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 248,
-          "sugarG": 4,
+          "sodiumMg": 242,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -62925,18 +62925,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.68,
-          "Essence": 4.52,
-          "Matter": 5.52,
-          "Substance": 4.59
+          "Spirit": 3.84,
+          "Essence": 4.16,
+          "Matter": 5.11,
+          "Substance": 4.65
         },
         "thermodynamicProperties": {
-          "heat": 0.49,
-          "entropy": 0.4027,
-          "reactivity": 0.482,
-          "gregsEnergy": 0.2959,
-          "kalchm": 0.2267,
-          "monica": 0.4864
+          "heat": 0.069,
+          "entropy": 0.3773,
+          "reactivity": 1.8175,
+          "gregsEnergy": -0.6168,
+          "kalchm": 0.0125,
+          "monica": -0.0774
         },
         "substitutions": [
           {
@@ -63062,10 +63062,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14599999999999996,
-          "Water": 0.21799999999999997,
-          "Earth": 0.472,
-          "Air": 0.16399999999999998
+          "Fire": 0.21307692307692308,
+          "Water": 0.2407692307692308,
+          "Earth": 0.4053846153846153,
+          "Air": 0.14076923076923076
         },
         "astrologicalAffinities": {
           "planets": [
@@ -63082,11 +63082,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 237,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 246,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -63100,18 +63100,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.6,
-          "Essence": 3.78,
-          "Matter": 5.08,
-          "Substance": 4.1
+          "Spirit": 2.91,
+          "Essence": 4.01,
+          "Matter": 5.5,
+          "Substance": 5.06
         },
         "thermodynamicProperties": {
-          "heat": 0.464,
-          "entropy": 0.3768,
-          "reactivity": 0.4184,
-          "gregsEnergy": 0.3063,
-          "kalchm": 0.056,
-          "monica": 0.4393
+          "heat": 0.0361,
+          "entropy": 0.331,
+          "reactivity": 1.4416,
+          "gregsEnergy": -0.441,
+          "kalchm": 0.0001,
+          "monica": -0.0332
         },
         "substitutions": [
           {
@@ -63236,32 +63236,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11249999999999999,
-          "Water": 0.44000000000000006,
-          "Earth": 0.29375,
-          "Air": 0.15375
+          "Fire": 0.16076923076923075,
+          "Water": 0.2992307692307693,
+          "Earth": 0.36769230769230765,
+          "Air": 0.1723076923076923
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 326,
-          "sugarG": 4,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 270,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -63274,18 +63274,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.22,
-          "Essence": 4.15,
-          "Matter": 5.69,
-          "Substance": 5.07
+          "Spirit": 2.41,
+          "Essence": 3.69,
+          "Matter": 5.07,
+          "Substance": 4.48
         },
         "thermodynamicProperties": {
-          "heat": 0.3362,
-          "entropy": 0.444,
-          "reactivity": 0.5315,
-          "gregsEnergy": 0.1002,
-          "kalchm": 0.0325,
-          "monica": 0.3498
+          "heat": 0.0294,
+          "entropy": 0.2918,
+          "reactivity": 1.3406,
+          "gregsEnergy": -0.3618,
+          "kalchm": 0.0003,
+          "monica": -0.0333
         },
         "substitutions": [
           {
@@ -63398,10 +63398,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1375,
-          "Water": 0.3425000000000001,
-          "Earth": 0.38,
-          "Air": 0.14000000000000004
+          "Fire": 0.2736363636363637,
+          "Water": 0.19727272727272724,
+          "Earth": 0.3090909090909091,
+          "Air": 0.21999999999999995
         },
         "astrologicalAffinities": {
           "planets": [
@@ -63418,12 +63418,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 24,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 287,
-          "sugarG": 4,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 229,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -63436,18 +63436,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.19,
-          "Essence": 3.23,
-          "Matter": 4.17,
-          "Substance": 3.54
+          "Spirit": 3,
+          "Essence": 3.06,
+          "Matter": 3.47,
+          "Substance": 3.36
         },
         "thermodynamicProperties": {
-          "heat": 0.3975,
-          "entropy": 0.404,
-          "reactivity": 0.488,
-          "gregsEnergy": 0.2003,
-          "kalchm": 0.055,
-          "monica": 0.3966
+          "heat": 0.0805,
+          "entropy": 0.4123,
+          "reactivity": 2.0877,
+          "gregsEnergy": -0.7802,
+          "kalchm": 0.188,
+          "monica": -0.2236
         },
         "substitutions": [
           {
@@ -63530,10 +63530,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.3,
-          "Earth": 0.35,
-          "Air": 0.2
+          "Fire": 0.20833333333333334,
+          "Water": 0.2416666666666667,
+          "Earth": 0.40833333333333327,
+          "Air": 0.1416666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -63550,12 +63550,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 270,
-          "sugarG": 5,
+          "sodiumMg": 247,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -63568,18 +63568,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.31,
-          "Essence": 1.87,
-          "Matter": 2.58,
-          "Substance": 2.35
+          "Spirit": 1.2,
+          "Essence": 1.55,
+          "Matter": 2.47,
+          "Substance": 2.21
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.44,
-          "reactivity": 0.47,
-          "gregsEnergy": 0.2182,
-          "kalchm": 0.2,
-          "monica": 0.4473
+          "heat": 0.0301,
+          "entropy": 0.2929,
+          "reactivity": 1.068,
+          "gregsEnergy": -0.2827,
+          "kalchm": 0.0456,
+          "monica": -0.0857
         },
         "substitutions": [
           {
@@ -63687,10 +63687,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.42499999999999993,
-          "Earth": 0.22499999999999998,
-          "Air": 0.2
+          "Fire": 0.19,
+          "Water": 0.37500000000000006,
+          "Earth": 0.27999999999999997,
+          "Air": 0.155
         },
         "astrologicalAffinities": {
           "planets": [
@@ -63707,12 +63707,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 320,
-          "sugarG": 5,
+          "sodiumMg": 300,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -63725,18 +63725,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.95,
-          "Essence": 3.68,
-          "Matter": 3.22,
-          "Substance": 2.81
+          "Spirit": 1.91,
+          "Essence": 3.19,
+          "Matter": 3.11,
+          "Substance": 2.86
         },
         "thermodynamicProperties": {
-          "heat": 0.3625,
-          "entropy": 0.49,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.0954,
-          "kalchm": 0.15,
-          "monica": 0.3832
+          "heat": 0.0371,
+          "entropy": 0.2458,
+          "reactivity": 1.9322,
+          "gregsEnergy": -0.4378,
+          "kalchm": 0.2024,
+          "monica": -0.1418
         },
         "substitutions": [
           {
@@ -63826,10 +63826,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.5,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.175,
+          "Water": 0.33333333333333337,
+          "Earth": 0.33333333333333326,
+          "Air": 0.1583333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -63846,11 +63846,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 350,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 283,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -63864,18 +63864,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.55,
-          "Essence": 2.23,
-          "Matter": 2.82,
-          "Substance": 2.55
+          "Spirit": 1.68,
+          "Essence": 2.02,
+          "Matter": 2.57,
+          "Substance": 2.49
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0424,
-          "kalchm": 0,
-          "monica": 0.317
+          "heat": 0.0457,
+          "entropy": 0.3285,
+          "reactivity": 1.5742,
+          "gregsEnergy": -0.4715,
+          "kalchm": 0.0902,
+          "monica": -0.1245
         },
         "substitutions": [
           {
@@ -64000,10 +64000,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.08000000000000002,
-          "Water": 0.5880000000000001,
-          "Earth": 0.18800000000000003,
-          "Air": 0.14400000000000002
+          "Fire": 0.15416666666666662,
+          "Water": 0.44999999999999996,
+          "Earth": 0.22499999999999995,
+          "Air": 0.17083333333333328
         },
         "astrologicalAffinities": {
           "planets": [
@@ -64021,11 +64021,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 6,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 385,
-          "sugarG": 4,
+          "sodiumMg": 330,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -64038,18 +64038,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.71,
-          "Essence": 4.5,
-          "Matter": 3.99,
-          "Substance": 3.52
+          "Spirit": 2.56,
+          "Essence": 4.78,
+          "Matter": 3.8,
+          "Substance": 3.57
         },
         "thermodynamicProperties": {
-          "heat": 0.246,
-          "entropy": 0.4824,
-          "reactivity": 0.6008,
-          "gregsEnergy": -0.0438,
-          "kalchm": -0.176,
-          "monica": 0.2297
+          "heat": 0.0389,
+          "entropy": 0.2259,
+          "reactivity": 2.6173,
+          "gregsEnergy": -0.5524,
+          "kalchm": 1.3078,
+          "monica": 0.7865
         },
         "substitutions": [
           {
@@ -64138,31 +64138,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.4466666666666667,
-          "Earth": 0.27999999999999997,
-          "Air": 0.17333333333333334
+          "Fire": 0.2,
+          "Water": 0.24285714285714285,
+          "Earth": 0.34285714285714286,
+          "Air": 0.21428571428571427
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 329,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 247,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -64176,18 +64176,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.26,
-          "Essence": 2,
-          "Matter": 2.42,
-          "Substance": 2.28
+          "Spirit": 1.75,
+          "Essence": 1.5,
+          "Matter": 2.19,
+          "Substance": 2.12
         },
         "thermodynamicProperties": {
-          "heat": 0.3267,
-          "entropy": 0.4573,
-          "reactivity": 0.528,
-          "gregsEnergy": 0.0852,
-          "kalchm": 0.0467,
-          "monica": 0.3481
+          "heat": 0.071,
+          "entropy": 0.4181,
+          "reactivity": 1.5512,
+          "gregsEnergy": -0.5775,
+          "kalchm": 0.1787,
+          "monica": -0.2162
         },
         "substitutions": [
           {
@@ -64320,32 +64320,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.38,
-          "Earth": 0.36,
-          "Air": 0.15999999999999998
+          "Fire": 0.17428571428571432,
+          "Water": 0.2921428571428571,
+          "Earth": 0.35928571428571426,
+          "Air": 0.17428571428571427
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 302,
-          "sugarG": 4,
+          "sodiumMg": 267,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -64358,18 +64358,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.94,
-          "Essence": 4.42,
-          "Matter": 5.64,
-          "Substance": 5
+          "Spirit": 2.55,
+          "Essence": 3.55,
+          "Matter": 5.07,
+          "Substance": 4.68
         },
         "thermodynamicProperties": {
-          "heat": 0.36,
-          "entropy": 0.42,
-          "reactivity": 0.488,
-          "gregsEnergy": 0.155,
-          "kalchm": 0.02,
-          "monica": 0.368
+          "heat": 0.0327,
+          "entropy": 0.3312,
+          "reactivity": 1.3961,
+          "gregsEnergy": -0.4296,
+          "kalchm": 0.0002,
+          "monica": -0.0361
         },
         "substitutions": [
           {
@@ -64482,32 +64482,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.4,
-          "Earth": 0.325,
-          "Air": 0.15
+          "Fire": 0.19,
+          "Water": 0.275,
+          "Earth": 0.35,
+          "Air": 0.185
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 310,
-          "sugarG": 4,
+          "sodiumMg": 260,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -64520,18 +64520,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.29,
-          "Essence": 3.27,
-          "Matter": 4.14,
-          "Substance": 3.55
+          "Spirit": 2.23,
+          "Essence": 2.91,
+          "Matter": 3.84,
+          "Substance": 3.42
         },
         "thermodynamicProperties": {
-          "heat": 0.3625,
-          "entropy": 0.43,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.141,
-          "kalchm": 0.05,
-          "monica": 0.3714
+          "heat": 0.0415,
+          "entropy": 0.3078,
+          "reactivity": 1.4401,
+          "gregsEnergy": -0.4017,
+          "kalchm": 0.0114,
+          "monica": -0.0623
         },
         "substitutions": [
           {
@@ -64634,10 +64634,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.156,
-          "Water": 0.26,
-          "Earth": 0.406,
-          "Air": 0.178
+          "Fire": 0.19333333333333333,
+          "Water": 0.2822222222222222,
+          "Earth": 0.3811111111111111,
+          "Air": 0.14333333333333334
         },
         "astrologicalAffinities": {
           "planets": [
@@ -64655,11 +64655,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 11,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 254,
-          "sugarG": 5,
+          "sodiumMg": 263,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -64672,18 +64672,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.08,
-          "Essence": 2.59,
-          "Matter": 3.3,
-          "Substance": 2.77
+          "Spirit": 1.94,
+          "Essence": 3.07,
+          "Matter": 3.78,
+          "Substance": 3.59
         },
         "thermodynamicProperties": {
-          "heat": 0.448,
-          "entropy": 0.4088,
-          "reactivity": 0.4496,
-          "gregsEnergy": 0.2642,
-          "kalchm": 0.168,
-          "monica": 0.4561
+          "heat": 0.0301,
+          "entropy": 0.296,
+          "reactivity": 1.514,
+          "gregsEnergy": -0.4181,
+          "kalchm": 0.0076,
+          "monica": -0.0566
         },
         "substitutions": [
           {
@@ -64784,32 +64784,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.38,
-          "Earth": 0.33,
-          "Air": 0.165
+          "Fire": 0.19875,
+          "Water": 0.27625000000000005,
+          "Earth": 0.3375,
+          "Air": 0.18749999999999997
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 302,
-          "sugarG": 4,
+          "sodiumMg": 261,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -64822,18 +64822,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.79,
-          "Essence": 2.68,
-          "Matter": 3.59,
-          "Substance": 3.19
+          "Spirit": 1.74,
+          "Essence": 2.15,
+          "Matter": 2.76,
+          "Substance": 2.69
         },
         "thermodynamicProperties": {
-          "heat": 0.3725,
-          "entropy": 0.434,
-          "reactivity": 0.503,
-          "gregsEnergy": 0.1542,
-          "kalchm": 0.08,
-          "monica": 0.3857
+          "heat": 0.0435,
+          "entropy": 0.3388,
+          "reactivity": 1.5673,
+          "gregsEnergy": -0.4876,
+          "kalchm": 0.0576,
+          "monica": -0.109
         },
         "substitutions": [
           {
@@ -64905,32 +64905,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.4,
-          "Earth": 0.3,
-          "Air": 0.2
+          "Fire": 0.2125,
+          "Water": 0.2875,
+          "Earth": 0.35,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 310,
-          "sugarG": 5,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 265,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -64943,18 +64943,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1,
-          "Essence": 1.45,
-          "Matter": 1.4,
-          "Substance": 1.2
+          "Spirit": 0.94,
+          "Essence": 1.17,
+          "Matter": 1.43,
+          "Substance": 1.43
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.46,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.12,
-          "kalchm": 0.1,
-          "monica": 0.378
+          "heat": 0.04,
+          "entropy": 0.2859,
+          "reactivity": 1.4038,
+          "gregsEnergy": -0.3613,
+          "kalchm": 0.4076,
+          "monica": -0.2867
         },
         "substitutions": [
           {
@@ -65031,31 +65031,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.375,
-          "Earth": 0.35,
-          "Air": 0.1
+          "Fire": 0.2,
+          "Water": 0.25999999999999995,
+          "Earth": 0.3999999999999999,
+          "Air": 0.13999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 23,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 300,
+          "sodiumMg": 254,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -65069,18 +65069,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.95,
-          "Essence": 1.58,
-          "Matter": 2.45,
-          "Substance": 2.15
+          "Spirit": 0.92,
+          "Essence": 1.46,
+          "Matter": 2.12,
+          "Substance": 1.93
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.4,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.188,
-          "kalchm": 0.05,
-          "monica": 0.3902
+          "heat": 0.0223,
+          "entropy": 0.2576,
+          "reactivity": 1.0755,
+          "gregsEnergy": -0.2548,
+          "kalchm": 0.092,
+          "monica": -0.0993
         },
         "substitutions": [
           {
@@ -65192,10 +65192,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.09999999999999999,
-          "Water": 0.29,
-          "Earth": 0.44000000000000006,
-          "Air": 0.17
+          "Fire": 0.1681818181818182,
+          "Water": 0.2909090909090909,
+          "Earth": 0.3954545454545455,
+          "Air": 0.14545454545454548
         },
         "astrologicalAffinities": {
           "planets": [
@@ -65212,12 +65212,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 6,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
           "sodiumMg": 266,
-          "sugarG": 5,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -65230,18 +65230,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.11,
-          "Essence": 3.61,
-          "Matter": 4.28,
-          "Substance": 3.64
+          "Spirit": 2.08,
+          "Essence": 3.33,
+          "Matter": 4.56,
+          "Substance": 4.22
         },
         "thermodynamicProperties": {
-          "heat": 0.405,
-          "entropy": 0.392,
-          "reactivity": 0.434,
-          "gregsEnergy": 0.2349,
-          "kalchm": 0.04,
-          "monica": 0.406
+          "heat": 0.026,
+          "entropy": 0.3016,
+          "reactivity": 1.3584,
+          "gregsEnergy": -0.3837,
+          "kalchm": 0.0006,
+          "monica": -0.0381
         },
         "substitutions": [
           {
@@ -65376,31 +65376,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11333333333333334,
-          "Water": 0.3933333333333333,
-          "Earth": 0.32,
-          "Air": 0.17333333333333334
+          "Fire": 0.19538461538461538,
+          "Water": 0.2992307692307692,
+          "Earth": 0.336923076923077,
+          "Air": 0.1684615384615385
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 307,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -65414,18 +65414,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.1,
-          "Essence": 4.34,
-          "Matter": 4.55,
-          "Substance": 3.75
+          "Spirit": 3,
+          "Essence": 4.36,
+          "Matter": 5,
+          "Substance": 4.63
         },
         "thermodynamicProperties": {
-          "heat": 0.36,
-          "entropy": 0.4413,
-          "reactivity": 0.504,
-          "gregsEnergy": 0.1376,
-          "kalchm": 0.0733,
-          "monica": 0.377
+          "heat": 0.0413,
+          "entropy": 0.3053,
+          "reactivity": 1.7415,
+          "gregsEnergy": -0.4903,
+          "kalchm": 0.0044,
+          "monica": -0.0519
         },
         "substitutions": [
           {
@@ -65524,10 +65524,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.18333333333333335,
-          "Earth": 0.5,
-          "Air": 0.16666666666666666
+          "Fire": 0.19875000000000004,
+          "Water": 0.24875,
+          "Earth": 0.3975,
+          "Air": 0.155
         },
         "astrologicalAffinities": {
           "planets": [
@@ -65544,12 +65544,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 223,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -65562,18 +65562,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.85,
-          "Essence": 2.53,
-          "Matter": 3.61,
-          "Substance": 3
+          "Spirit": 1.93,
+          "Essence": 2.61,
+          "Matter": 3.51,
+          "Substance": 3.24
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.3667,
-          "reactivity": 0.4,
-          "gregsEnergy": 0.3366,
-          "kalchm": 0,
-          "monica": 0.4346
+          "heat": 0.0365,
+          "entropy": 0.312,
+          "reactivity": 1.3859,
+          "gregsEnergy": -0.396,
+          "kalchm": 0.0118,
+          "monica": -0.0644
         },
         "substitutions": [
           {
@@ -65674,10 +65674,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.27499999999999997,
-          "Earth": 0.4083333333333334,
-          "Air": 0.16666666666666666
+          "Fire": 0.19444444444444445,
+          "Water": 0.23333333333333334,
+          "Earth": 0.4166666666666667,
+          "Air": 0.15555555555555556
         },
         "astrologicalAffinities": {
           "planets": [
@@ -65698,8 +65698,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 260,
-          "sugarG": 5,
+          "sodiumMg": 243,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -65712,18 +65712,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.8,
-          "Essence": 2.99,
-          "Matter": 4.36,
-          "Substance": 3.97
+          "Spirit": 1.88,
+          "Essence": 2.8,
+          "Matter": 4.02,
+          "Substance": 3.64
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.4033,
-          "reactivity": 0.455,
-          "gregsEnergy": 0.254,
-          "kalchm": 0.1333,
-          "monica": 0.4416
+          "heat": 0.0281,
+          "entropy": 0.3019,
+          "reactivity": 1.2569,
+          "gregsEnergy": -0.3513,
+          "kalchm": 0.002,
+          "monica": -0.045
         },
         "substitutions": [
           {
@@ -65830,10 +65830,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14333333333333334,
-          "Water": 0.18666666666666665,
-          "Earth": 0.5066666666666667,
-          "Air": 0.16333333333333336
+          "Fire": 0.20900000000000002,
+          "Water": 0.219,
+          "Earth": 0.393,
+          "Air": 0.179
         },
         "astrologicalAffinities": {
           "planets": [
@@ -65850,12 +65850,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 225,
-          "sugarG": 4,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 238,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -65868,18 +65868,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.1,
-          "Essence": 2.45,
-          "Matter": 3.52,
-          "Substance": 2.89
+          "Spirit": 2.2,
+          "Essence": 2.67,
+          "Matter": 3.85,
+          "Substance": 3.54
         },
         "thermodynamicProperties": {
-          "heat": 0.4783,
-          "entropy": 0.3627,
-          "reactivity": 0.398,
-          "gregsEnergy": 0.3339,
-          "kalchm": -0.0133,
-          "monica": 0.4296
+          "heat": 0.0415,
+          "entropy": 0.343,
+          "reactivity": 1.3678,
+          "gregsEnergy": -0.4277,
+          "kalchm": 0.005,
+          "monica": -0.059
         },
         "substitutions": [
           {
@@ -66008,10 +66008,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2416666666666666,
-          "Water": 0.29166666666666663,
-          "Earth": 0.31666666666666665,
-          "Air": 0.15
+          "Fire": 0.2614285714285714,
+          "Water": 0.2514285714285714,
+          "Earth": 0.30714285714285716,
+          "Air": 0.18000000000000005
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66031,9 +66031,9 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 267,
-          "sugarG": 4,
+          "fiberG": 4,
+          "sodiumMg": 251,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -66046,18 +66046,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.84,
-          "Essence": 4.97,
-          "Matter": 5.1,
-          "Substance": 4.19
+          "Spirit": 4.16,
+          "Essence": 4.81,
+          "Matter": 4.86,
+          "Substance": 4.42
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.4333,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.2497,
-          "kalchm": 0.2833,
-          "monica": 0.4849
+          "heat": 0.079,
+          "entropy": 0.3531,
+          "reactivity": 2.2526,
+          "gregsEnergy": -0.7164,
+          "kalchm": 0.4642,
+          "monica": -0.4144
         },
         "substitutions": [
           {
@@ -66169,10 +66169,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.09999999999999999,
-          "Water": 0.29,
-          "Earth": 0.44000000000000006,
-          "Air": 0.17
+          "Fire": 0.1681818181818182,
+          "Water": 0.2909090909090909,
+          "Earth": 0.3954545454545455,
+          "Air": 0.14545454545454548
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66189,12 +66189,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 6,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
           "sodiumMg": 266,
-          "sugarG": 5,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -66207,18 +66207,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.11,
-          "Essence": 3.61,
-          "Matter": 4.28,
-          "Substance": 3.64
+          "Spirit": 2.08,
+          "Essence": 3.33,
+          "Matter": 4.56,
+          "Substance": 4.22
         },
         "thermodynamicProperties": {
-          "heat": 0.405,
-          "entropy": 0.392,
-          "reactivity": 0.434,
-          "gregsEnergy": 0.2349,
-          "kalchm": 0.04,
-          "monica": 0.406
+          "heat": 0.026,
+          "entropy": 0.3016,
+          "reactivity": 1.3584,
+          "gregsEnergy": -0.3837,
+          "kalchm": 0.0006,
+          "monica": -0.0381
         },
         "substitutions": [
           {
@@ -66353,31 +66353,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11333333333333334,
-          "Water": 0.3933333333333333,
-          "Earth": 0.32,
-          "Air": 0.17333333333333334
+          "Fire": 0.19538461538461538,
+          "Water": 0.2992307692307692,
+          "Earth": 0.336923076923077,
+          "Air": 0.1684615384615385
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 307,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -66391,18 +66391,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.1,
-          "Essence": 4.34,
-          "Matter": 4.55,
-          "Substance": 3.75
+          "Spirit": 3,
+          "Essence": 4.36,
+          "Matter": 5,
+          "Substance": 4.63
         },
         "thermodynamicProperties": {
-          "heat": 0.36,
-          "entropy": 0.4413,
-          "reactivity": 0.504,
-          "gregsEnergy": 0.1376,
-          "kalchm": 0.0733,
-          "monica": 0.377
+          "heat": 0.0413,
+          "entropy": 0.3053,
+          "reactivity": 1.7415,
+          "gregsEnergy": -0.4903,
+          "kalchm": 0.0044,
+          "monica": -0.0519
         },
         "substitutions": [
           {
@@ -66501,10 +66501,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.18333333333333335,
-          "Earth": 0.5,
-          "Air": 0.16666666666666666
+          "Fire": 0.19875000000000004,
+          "Water": 0.24875,
+          "Earth": 0.3975,
+          "Air": 0.155
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66521,12 +66521,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 223,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -66539,18 +66539,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.85,
-          "Essence": 2.53,
-          "Matter": 3.61,
-          "Substance": 3
+          "Spirit": 1.93,
+          "Essence": 2.61,
+          "Matter": 3.51,
+          "Substance": 3.24
         },
         "thermodynamicProperties": {
-          "heat": 0.4833,
-          "entropy": 0.3667,
-          "reactivity": 0.4,
-          "gregsEnergy": 0.3366,
-          "kalchm": 0,
-          "monica": 0.4346
+          "heat": 0.0365,
+          "entropy": 0.312,
+          "reactivity": 1.3859,
+          "gregsEnergy": -0.396,
+          "kalchm": 0.0118,
+          "monica": -0.0644
         },
         "substitutions": [
           {
@@ -66651,10 +66651,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.27499999999999997,
-          "Earth": 0.4083333333333334,
-          "Air": 0.16666666666666666
+          "Fire": 0.19444444444444445,
+          "Water": 0.23333333333333334,
+          "Earth": 0.4166666666666667,
+          "Air": 0.15555555555555556
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66675,8 +66675,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 260,
-          "sugarG": 5,
+          "sodiumMg": 243,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -66689,18 +66689,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.8,
-          "Essence": 2.99,
-          "Matter": 4.36,
-          "Substance": 3.97
+          "Spirit": 1.88,
+          "Essence": 2.8,
+          "Matter": 4.02,
+          "Substance": 3.64
         },
         "thermodynamicProperties": {
-          "heat": 0.4375,
-          "entropy": 0.4033,
-          "reactivity": 0.455,
-          "gregsEnergy": 0.254,
-          "kalchm": 0.1333,
-          "monica": 0.4416
+          "heat": 0.0281,
+          "entropy": 0.3019,
+          "reactivity": 1.2569,
+          "gregsEnergy": -0.3513,
+          "kalchm": 0.002,
+          "monica": -0.045
         },
         "substitutions": [
           {
@@ -66807,10 +66807,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14333333333333334,
-          "Water": 0.18666666666666665,
-          "Earth": 0.5066666666666667,
-          "Air": 0.16333333333333336
+          "Fire": 0.20900000000000002,
+          "Water": 0.219,
+          "Earth": 0.393,
+          "Air": 0.179
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66827,12 +66827,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 225,
-          "sugarG": 4,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 238,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -66845,18 +66845,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.1,
-          "Essence": 2.45,
-          "Matter": 3.52,
-          "Substance": 2.89
+          "Spirit": 2.2,
+          "Essence": 2.67,
+          "Matter": 3.85,
+          "Substance": 3.54
         },
         "thermodynamicProperties": {
-          "heat": 0.4783,
-          "entropy": 0.3627,
-          "reactivity": 0.398,
-          "gregsEnergy": 0.3339,
-          "kalchm": -0.0133,
-          "monica": 0.4296
+          "heat": 0.0415,
+          "entropy": 0.343,
+          "reactivity": 1.3678,
+          "gregsEnergy": -0.4277,
+          "kalchm": 0.005,
+          "monica": -0.059
         },
         "substitutions": [
           {
@@ -66985,10 +66985,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2416666666666666,
-          "Water": 0.29166666666666663,
-          "Earth": 0.31666666666666665,
-          "Air": 0.15
+          "Fire": 0.2614285714285714,
+          "Water": 0.2514285714285714,
+          "Earth": 0.30714285714285716,
+          "Air": 0.18000000000000005
         },
         "astrologicalAffinities": {
           "planets": [
@@ -67008,9 +67008,9 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 267,
-          "sugarG": 4,
+          "fiberG": 4,
+          "sodiumMg": 251,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -67023,18 +67023,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.84,
-          "Essence": 4.97,
-          "Matter": 5.1,
-          "Substance": 4.19
+          "Spirit": 4.16,
+          "Essence": 4.81,
+          "Matter": 4.86,
+          "Substance": 4.42
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.4333,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.2497,
-          "kalchm": 0.2833,
-          "monica": 0.4849
+          "heat": 0.079,
+          "entropy": 0.3531,
+          "reactivity": 2.2526,
+          "gregsEnergy": -0.7164,
+          "kalchm": 0.4642,
+          "monica": -0.4144
         },
         "substitutions": [
           {
@@ -67165,10 +67165,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.32,
-          "Earth": 0.33666666666666667,
-          "Air": 0.21
+          "Fire": 0.21461538461538465,
+          "Water": 0.24307692307692308,
+          "Earth": 0.35384615384615387,
+          "Air": 0.18846153846153849
         },
         "astrologicalAffinities": {
           "planets": [
@@ -67187,9 +67187,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 278,
+          "sodiumMg": 247,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -67203,18 +67203,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.89,
-          "Essence": 3.64,
-          "Matter": 4.44,
-          "Substance": 4.13
+          "Spirit": 2.84,
+          "Essence": 3.17,
+          "Matter": 4.38,
+          "Substance": 4.09
         },
         "thermodynamicProperties": {
-          "heat": 0.4067,
-          "entropy": 0.4493,
-          "reactivity": 0.472,
-          "gregsEnergy": 0.1946,
-          "kalchm": 0.1867,
-          "monica": 0.4338
+          "heat": 0.0525,
+          "entropy": 0.3748,
+          "reactivity": 1.5611,
+          "gregsEnergy": -0.5325,
+          "kalchm": 0.0037,
+          "monica": -0.0609
         },
         "substitutions": [
           {
@@ -67327,10 +67327,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.08571428571428572,
-          "Water": 0.35714285714285715,
-          "Earth": 0.39999999999999997,
-          "Air": 0.1571428571428571
+          "Fire": 0.13545454545454547,
+          "Water": 0.32181818181818184,
+          "Earth": 0.34363636363636363,
+          "Air": 0.1990909090909091
         },
         "astrologicalAffinities": {
           "planets": [
@@ -67347,12 +67347,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 25,
-          "fatG": 6,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 293,
-          "sugarG": 4,
+          "sodiumMg": 279,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -67365,18 +67365,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.92,
-          "Essence": 3.66,
-          "Matter": 5.03,
-          "Substance": 4.29
+          "Spirit": 1.88,
+          "Essence": 2.97,
+          "Matter": 4.03,
+          "Substance": 3.51
         },
         "thermodynamicProperties": {
-          "heat": 0.3643,
-          "entropy": 0.4029,
-          "reactivity": 0.4657,
-          "gregsEnergy": 0.1767,
-          "kalchm": -0.0143,
-          "monica": 0.3664
+          "heat": 0.0275,
+          "entropy": 0.2708,
+          "reactivity": 1.2984,
+          "gregsEnergy": -0.3242,
+          "kalchm": 0.0037,
+          "monica": -0.0446
         },
         "substitutions": [
           {
@@ -67507,10 +67507,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14,
-          "Water": 0.352,
-          "Earth": 0.28200000000000003,
-          "Air": 0.22599999999999998
+          "Fire": 0.19214285714285717,
+          "Water": 0.315,
+          "Earth": 0.2785714285714285,
+          "Air": 0.21428571428571433
         },
         "astrologicalAffinities": {
           "planets": [
@@ -67528,10 +67528,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 291,
+          "sodiumMg": 276,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -67545,18 +67545,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.48,
-          "Essence": 6.19,
-          "Matter": 4.99,
-          "Substance": 4.36
+          "Spirit": 2.9,
+          "Essence": 3.9,
+          "Matter": 4.33,
+          "Substance": 4.17
         },
         "thermodynamicProperties": {
-          "heat": 0.394,
-          "entropy": 0.4776,
-          "reactivity": 0.4952,
-          "gregsEnergy": 0.1575,
-          "kalchm": 0.232,
-          "monica": 0.4326
+          "heat": 0.0484,
+          "entropy": 0.3324,
+          "reactivity": 1.9394,
+          "gregsEnergy": -0.5963,
+          "kalchm": 0.0201,
+          "monica": -0.0787
         },
         "substitutions": [
           {
@@ -67681,22 +67681,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.3466666666666666,
-          "Earth": 0.3022222222222222,
-          "Air": 0.18444444444444447
+          "Fire": 0.18384615384615385,
+          "Water": 0.2969230769230769,
+          "Earth": 0.3038461538461539,
+          "Air": 0.21538461538461537
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -67705,7 +67705,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 289,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -67719,18 +67719,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.23,
-          "Essence": 5.53,
-          "Matter": 4.94,
-          "Substance": 4.24
+          "Spirit": 2.64,
+          "Essence": 3.5,
+          "Matter": 4.2,
+          "Substance": 3.95
         },
         "thermodynamicProperties": {
-          "heat": 0.41,
-          "entropy": 0.4529,
-          "reactivity": 0.508,
-          "gregsEnergy": 0.1799,
-          "kalchm": 0.2022,
-          "monica": 0.4326
+          "heat": 0.0451,
+          "entropy": 0.3288,
+          "reactivity": 1.725,
+          "gregsEnergy": -0.522,
+          "kalchm": 0.011,
+          "monica": -0.0671
         },
         "substitutions": [
           {
@@ -67803,32 +67803,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.225,
+          "Water": 0.3,
+          "Earth": 0.325,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 28,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "fiberG": 5,
+          "sodiumMg": 270,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -67841,18 +67841,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1,
-          "Essence": 1.2,
-          "Matter": 1,
-          "Substance": 0.8
+          "Spirit": 0.97,
+          "Essence": 1.21,
+          "Matter": 1.38,
+          "Substance": 1.4
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0437,
+          "entropy": 0.2877,
+          "reactivity": 1.5576,
+          "gregsEnergy": -0.4045,
+          "kalchm": 0.4895,
+          "monica": -0.3635
         },
         "substitutions": [
           {
@@ -67983,10 +67983,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21999999999999997,
-          "Water": 0.26,
-          "Earth": 0.36,
-          "Air": 0.16
+          "Fire": 0.24642857142857144,
+          "Water": 0.21071428571428572,
+          "Earth": 0.34285714285714286,
+          "Air": 0.20000000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68004,11 +68004,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 254,
-          "sugarG": 4,
+          "sodiumMg": 234,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -68021,18 +68021,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.74,
-          "Essence": 4.82,
-          "Matter": 5.12,
-          "Substance": 4.4
+          "Spirit": 3.88,
+          "Essence": 3.91,
+          "Matter": 4.93,
+          "Substance": 4.52
         },
         "thermodynamicProperties": {
-          "heat": 0.48,
-          "entropy": 0.42,
-          "reactivity": 0.488,
-          "gregsEnergy": 0.275,
-          "kalchm": 0.26,
-          "monica": 0.488
+          "heat": 0.0759,
+          "entropy": 0.4033,
+          "reactivity": 1.8314,
+          "gregsEnergy": -0.6627,
+          "kalchm": 0.0167,
+          "monica": -0.0884
         },
         "substitutions": [
           {
@@ -68101,10 +68101,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.52,
-          "Earth": 0.22,
-          "Air": 0.16
+          "Fire": 0.25,
+          "Water": 0.32500000000000007,
+          "Earth": 0.2125,
+          "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68122,11 +68122,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 6,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 358,
-          "sugarG": 4,
+          "sodiumMg": 280,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -68139,18 +68139,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.85,
-          "Essence": 1.24,
-          "Matter": 1.02,
-          "Substance": 0.89
+          "Spirit": 1.12,
+          "Essence": 1.36,
+          "Matter": 1.09,
+          "Substance": 1.18
         },
         "thermodynamicProperties": {
-          "heat": 0.29,
-          "entropy": 0.476,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.0177,
-          "kalchm": -0.04,
-          "monica": 0.2951
+          "heat": 0.0686,
+          "entropy": 0.3086,
+          "reactivity": 2.7761,
+          "gregsEnergy": -0.7881,
+          "kalchm": 1.2916,
+          "monica": 1.1095
         },
         "substitutions": [
           {
@@ -68276,31 +68276,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26142857142857145,
-          "Water": 0.3114285714285714,
-          "Earth": 0.27714285714285714,
-          "Air": 0.15
+          "Fire": 0.2807692307692307,
+          "Water": 0.26692307692307693,
+          "Earth": 0.3053846153846154,
+          "Air": 0.14692307692307693
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 257,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -68314,18 +68314,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.69,
-          "Essence": 4.69,
-          "Matter": 4.48,
-          "Substance": 3.78
+          "Spirit": 3.57,
+          "Essence": 4.17,
+          "Matter": 4.45,
+          "Substance": 4.29
         },
         "thermodynamicProperties": {
-          "heat": 0.475,
-          "entropy": 0.4491,
-          "reactivity": 0.5437,
-          "gregsEnergy": 0.2308,
-          "kalchm": 0.3,
-          "monica": 0.4823
+          "heat": 0.069,
+          "entropy": 0.3698,
+          "reactivity": 2.154,
+          "gregsEnergy": -0.7276,
+          "kalchm": 0.0913,
+          "monica": -0.1411
         },
         "substitutions": [
           {
@@ -68444,10 +68444,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.3,
-          "Earth": 0.4166666666666667,
-          "Air": 0.18333333333333335
+          "Fire": 0.17416666666666666,
+          "Water": 0.24916666666666665,
+          "Earth": 0.38999999999999996,
+          "Air": 0.18666666666666668
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68466,9 +68466,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 11,
           "carbsG": 26,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -68482,18 +68482,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.53,
-          "Essence": 4,
-          "Matter": 5.07,
-          "Substance": 4.35
+          "Spirit": 2.26,
+          "Essence": 2.84,
+          "Matter": 4.49,
+          "Substance": 3.98
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.4067,
-          "reactivity": 0.44,
-          "gregsEnergy": 0.2211,
-          "kalchm": 0.0667,
-          "monica": 0.4084
+          "heat": 0.0349,
+          "entropy": 0.3309,
+          "reactivity": 1.2237,
+          "gregsEnergy": -0.37,
+          "kalchm": 0.0006,
+          "monica": -0.0408
         },
         "substitutions": [
           {
@@ -68586,10 +68586,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.39999999999999997,
-          "Earth": 0.26333333333333336,
-          "Air": 0.17
+          "Fire": 0.1875,
+          "Water": 0.35625,
+          "Earth": 0.3125,
+          "Air": 0.14375000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68606,12 +68606,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 293,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -68624,18 +68624,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.19,
-          "Essence": 3.44,
-          "Matter": 3.26,
-          "Substance": 2.8
+          "Spirit": 1.38,
+          "Essence": 2.58,
+          "Matter": 2.91,
+          "Substance": 2.68
         },
         "thermodynamicProperties": {
-          "heat": 0.3833,
-          "entropy": 0.4627,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.1334,
-          "kalchm": 0.1733,
-          "monica": 0.4053
+          "heat": 0.024,
+          "entropy": 0.241,
+          "reactivity": 1.5336,
+          "gregsEnergy": -0.3456,
+          "kalchm": 0.0572,
+          "monica": -0.0788
         },
         "substitutions": [
           {
@@ -68729,10 +68729,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20000000000000004,
-          "Water": 0.39999999999999997,
-          "Earth": 0.26333333333333336,
-          "Air": 0.1366666666666667
+          "Fire": 0.1875,
+          "Water": 0.35,
+          "Earth": 0.31875000000000003,
+          "Air": 0.14375000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68749,11 +68749,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fiberG": 5,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -68767,18 +68767,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.79,
-          "Essence": 3.5,
-          "Matter": 3.36,
-          "Substance": 2.84
+          "Spirit": 1.38,
+          "Essence": 2.55,
+          "Matter": 2.92,
+          "Substance": 2.69
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.4493,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1484,
-          "kalchm": 0.1733,
-          "monica": 0.4113
+          "heat": 0.0241,
+          "entropy": 0.244,
+          "reactivity": 1.5083,
+          "gregsEnergy": -0.344,
+          "kalchm": 0.0519,
+          "monica": -0.0771
         },
         "substitutions": [
           {
@@ -68872,31 +68872,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.4,
-          "Earth": 0.34500000000000003,
-          "Air": 0.10500000000000001
+          "Fire": 0.18750000000000003,
+          "Water": 0.3,
+          "Earth": 0.3875,
+          "Air": 0.125
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 23,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 310,
+          "sodiumMg": 270,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -68910,18 +68910,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.39,
-          "Essence": 2.54,
-          "Matter": 3.36,
-          "Substance": 2.84
+          "Spirit": 1.32,
+          "Essence": 2.32,
+          "Matter": 3.19,
+          "Substance": 2.8
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.404,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.1609,
-          "kalchm": 0.01,
-          "monica": 0.3674
+          "heat": 0.0214,
+          "entropy": 0.2508,
+          "reactivity": 1.1803,
+          "gregsEnergy": -0.2747,
+          "kalchm": 0.0141,
+          "monica": -0.0546
         },
         "substitutions": [
           {
@@ -68978,10 +68978,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.52,
-          "Earth": 0.22,
-          "Air": 0.16
+          "Fire": 0.175,
+          "Water": 0.41000000000000003,
+          "Earth": 0.26,
+          "Air": 0.155
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68998,11 +68998,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 358,
+          "sodiumMg": 314,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -69016,18 +69016,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.35,
-          "Essence": 0.64,
-          "Matter": 0.52,
-          "Substance": 0.49
+          "Spirit": 0.31,
+          "Essence": 0.59,
+          "Matter": 0.57,
+          "Substance": 0.58
         },
         "thermodynamicProperties": {
-          "heat": 0.29,
-          "entropy": 0.476,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.0177,
-          "kalchm": -0.04,
-          "monica": 0.2951
+          "heat": 0.0193,
+          "entropy": 0.1455,
+          "reactivity": 1.4565,
+          "gregsEnergy": -0.1926,
+          "kalchm": 0.9627,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -69131,10 +69131,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13999999999999999,
-          "Water": 0.4,
-          "Earth": 0.24000000000000005,
-          "Air": 0.22000000000000003
+          "Fire": 0.20500000000000002,
+          "Water": 0.34500000000000003,
+          "Earth": 0.27999999999999997,
+          "Air": 0.16999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -69152,10 +69152,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 310,
+          "sodiumMg": 288,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -69169,18 +69169,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.05,
-          "Essence": 4.43,
-          "Matter": 3.67,
-          "Substance": 3.31
+          "Spirit": 2.02,
+          "Essence": 2.96,
+          "Matter": 3.31,
+          "Substance": 3.27
         },
         "thermodynamicProperties": {
-          "heat": 0.37,
-          "entropy": 0.492,
-          "reactivity": 0.524,
-          "gregsEnergy": 0.1122,
-          "kalchm": 0.2,
-          "monica": 0.4049
+          "heat": 0.0386,
+          "entropy": 0.3122,
+          "reactivity": 1.8408,
+          "gregsEnergy": -0.5362,
+          "kalchm": 0.0406,
+          "monica": -0.0909
         },
         "substitutions": [
           {
@@ -69260,10 +69260,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666668,
-          "Water": 0.43333333333333335,
-          "Earth": 0.36666666666666675,
-          "Air": 0.13333333333333336
+          "Fire": 0.13333333333333333,
+          "Water": 0.3833333333333333,
+          "Earth": 0.31666666666666665,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -69280,12 +69280,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 24,
-          "fatG": 6,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 323,
-          "sugarG": 4,
+          "sodiumMg": 303,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -69298,18 +69298,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.08,
-          "Essence": 2.13,
-          "Matter": 2.44,
-          "Substance": 2.1
+          "Spirit": 1.19,
+          "Essence": 1.52,
+          "Matter": 2.02,
+          "Substance": 2.05
         },
         "thermodynamicProperties": {
-          "heat": 0.3167,
-          "entropy": 0.4067,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.1133,
-          "kalchm": -0.1,
-          "monica": 0.3153
+          "heat": 0.0344,
+          "entropy": 0.3151,
+          "reactivity": 1.4875,
+          "gregsEnergy": -0.4343,
+          "kalchm": 0.1289,
+          "monica": -0.1425
         },
         "substitutions": [
           {
@@ -69410,10 +69410,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.44999999999999996,
-          "Earth": 0.26333333333333336,
-          "Air": 0.13666666666666666
+          "Fire": 0.16666666666666666,
+          "Water": 0.35,
+          "Earth": 0.3444444444444444,
+          "Air": 0.1388888888888889
         },
         "astrologicalAffinities": {
           "planets": [
@@ -69430,11 +69430,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 330,
+          "fiberG": 5,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -69448,18 +69448,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.53,
-          "Essence": 2.97,
-          "Matter": 3.58,
-          "Substance": 3.05
+          "Spirit": 1.43,
+          "Essence": 2.39,
+          "Matter": 3.08,
+          "Substance": 2.63
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.4493,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0984,
-          "kalchm": 0.0733,
-          "monica": 0.3614
+          "heat": 0.026,
+          "entropy": 0.2371,
+          "reactivity": 1.2658,
+          "gregsEnergy": -0.2741,
+          "kalchm": 0.0329,
+          "monica": -0.0634
         },
         "substitutions": [
           {
@@ -69567,10 +69567,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.3333333333333333,
-          "Earth": 0.3666666666666667,
-          "Air": 0.16666666666666666
+          "Fire": 0.20400000000000001,
+          "Water": 0.284,
+          "Earth": 0.348,
+          "Air": 0.164
         },
         "astrologicalAffinities": {
           "planets": [
@@ -69587,12 +69587,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 283,
-          "sugarG": 5,
+          "sodiumMg": 264,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -69605,18 +69605,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.19,
-          "Essence": 2.94,
-          "Matter": 3.82,
-          "Substance": 3.3
+          "Spirit": 1.93,
+          "Essence": 2.7,
+          "Matter": 3.69,
+          "Substance": 3.26
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.48,
-          "gregsEnergy": 0.1984,
-          "kalchm": 0.1,
-          "monica": 0.4094
+          "heat": 0.0345,
+          "entropy": 0.2925,
+          "reactivity": 1.3365,
+          "gregsEnergy": -0.3564,
+          "kalchm": 0.0089,
+          "monica": -0.0565
         },
         "substitutions": [
           {
@@ -69728,31 +69728,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25750000000000006,
-          "Water": 0.32,
-          "Earth": 0.28750000000000003,
-          "Air": 0.13500000000000004
+          "Fire": 0.31666666666666665,
+          "Water": 0.2333333333333333,
+          "Earth": 0.29999999999999993,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 24,
-          "fatG": 8,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 278,
+          "sodiumMg": 243,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -69766,18 +69766,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.82,
-          "Essence": 3.49,
-          "Matter": 3.6,
-          "Substance": 3.23
+          "Spirit": 3.52,
+          "Essence": 4.06,
+          "Matter": 3.75,
+          "Substance": 3.61
         },
         "thermodynamicProperties": {
-          "heat": 0.4688,
-          "entropy": 0.439,
-          "reactivity": 0.5465,
-          "gregsEnergy": 0.2289,
-          "kalchm": 0.27,
-          "monica": 0.4726
+          "heat": 0.0853,
+          "entropy": 0.367,
+          "reactivity": 2.5657,
+          "gregsEnergy": -0.8563,
+          "kalchm": 1.6952,
+          "monica": 0.6323
         },
         "substitutions": [
           {
@@ -69917,32 +69917,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26,
-          "Water": 0.36,
-          "Earth": 0.24,
-          "Air": 0.13999999999999999
+          "Fire": 0.26785714285714285,
+          "Water": 0.26785714285714285,
+          "Earth": 0.29642857142857143,
+          "Air": 0.16785714285714287
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 294,
-          "sugarG": 4,
+          "sodiumMg": 257,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -69955,18 +69955,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.19,
-          "Essence": 5.57,
-          "Matter": 4.56,
-          "Substance": 3.69
+          "Spirit": 3.79,
+          "Essence": 4.11,
+          "Matter": 4.54,
+          "Substance": 4.28
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.46,
-          "reactivity": 0.572,
-          "gregsEnergy": 0.1869,
-          "kalchm": 0.26,
-          "monica": 0.4528
+          "heat": 0.0773,
+          "entropy": 0.3861,
+          "reactivity": 2.1267,
+          "gregsEnergy": -0.7438,
+          "kalchm": 0.1072,
+          "monica": -0.1566
         },
         "substitutions": [
           {
@@ -70051,10 +70051,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.4,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.18,
+          "Water": 0.45,
+          "Earth": 0.18,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
@@ -70071,11 +70071,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
+          "proteinG": 8,
           "carbsG": 26,
-          "fatG": 9,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 310,
+          "sodiumMg": 330,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -70089,18 +70089,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.7,
-          "Essence": 2.28,
-          "Matter": 1.5,
-          "Substance": 1.2
+          "Spirit": 1.17,
+          "Essence": 1.93,
+          "Matter": 1.56,
+          "Substance": 1.46
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.1152,
-          "kalchm": 0.1,
-          "monica": 0.3761
+          "heat": 0.0421,
+          "entropy": 0.2103,
+          "reactivity": 2.476,
+          "gregsEnergy": -0.4785,
+          "kalchm": 1.2293,
+          "monica": 0.9361
         },
         "substitutions": [
           {
@@ -70199,31 +70199,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.3,
-          "Earth": 0.5,
-          "Air": 0.2
+          "Fire": 0.21874999999999997,
+          "Water": 0.3125,
+          "Earth": 0.25625000000000003,
+          "Air": 0.2125
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
+          "proteinG": 9,
           "carbsG": 26,
-          "fatG": 5,
-          "fiberG": 6,
-          "sodiumMg": 270,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 275,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -70237,18 +70237,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.2,
-          "Essence": 3.1,
-          "Matter": 2.4,
-          "Substance": 1.95
+          "Spirit": 1.98,
+          "Essence": 2.42,
+          "Matter": 2.43,
+          "Substance": 2.4
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.38,
-          "reactivity": 0.38,
-          "gregsEnergy": 0.2056,
-          "kalchm": -0.1,
-          "monica": 0.3522
+          "heat": 0.0615,
+          "entropy": 0.3328,
+          "reactivity": 2.1795,
+          "gregsEnergy": -0.6639,
+          "kalchm": 0.4642,
+          "monica": -0.3969
         },
         "substitutions": [
           {
@@ -70340,32 +70340,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Fire": 0.18333333333333335,
+          "Water": 0.3583333333333334,
+          "Earth": 0.3166666666666667,
+          "Air": 0.14166666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 293,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -70378,18 +70378,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.75,
-          "Essence": 2.1,
-          "Matter": 1.75,
-          "Substance": 1.4
+          "Spirit": 1.25,
+          "Essence": 1.92,
+          "Matter": 2.23,
+          "Substance": 1.94
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0335,
+          "entropy": 0.2311,
+          "reactivity": 1.4177,
+          "gregsEnergy": -0.2942,
+          "kalchm": 0.2138,
+          "monica": -0.1345
         },
         "substitutions": [
           {
@@ -70487,10 +70487,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.55,
-          "Earth": 0.15000000000000002,
-          "Air": 0.15000000000000002
+          "Fire": 0.1285714285714286,
+          "Water": 0.4428571428571428,
+          "Earth": 0.27142857142857146,
+          "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
           "planets": [
@@ -70507,11 +70507,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 370,
+          "fiberG": 4,
+          "sodiumMg": 327,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -70525,18 +70525,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.15,
-          "Essence": 3.03,
-          "Matter": 2.92,
-          "Substance": 2.57
+          "Spirit": 1.73,
+          "Essence": 3.56,
+          "Matter": 2.74,
+          "Substance": 2.39
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.5,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.01,
-          "kalchm": -0.1,
-          "monica": 0.266
+          "heat": 0.0329,
+          "entropy": 0.1778,
+          "reactivity": 2.3836,
+          "gregsEnergy": -0.3908,
+          "kalchm": 1.8671,
+          "monica": 0.2626
         },
         "substitutions": [
           {
@@ -70615,32 +70615,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.44999999999999996,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.18333333333333335,
+          "Water": 0.25833333333333336,
+          "Earth": 0.39166666666666666,
+          "Air": 0.1666666666666667
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 330,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 253,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -70653,18 +70653,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.3,
-          "Essence": 1.93,
-          "Matter": 2.62,
-          "Substance": 2.4
+          "Spirit": 1.02,
+          "Essence": 1.25,
+          "Matter": 2.11,
+          "Substance": 2.04
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0924,
-          "kalchm": 0.1,
-          "monica": 0.367
+          "heat": 0.0278,
+          "entropy": 0.3273,
+          "reactivity": 1.1014,
+          "gregsEnergy": -0.3327,
+          "kalchm": 0.0652,
+          "monica": -0.1106
         },
         "substitutions": [
           {
@@ -70797,31 +70797,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17500000000000002,
-          "Water": 0.4,
-          "Earth": 0.22499999999999998,
-          "Air": 0.19999999999999998
+          "Fire": 0.225,
+          "Water": 0.2535714285714286,
+          "Earth": 0.3321428571428571,
+          "Air": 0.18928571428571428
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 310,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 251,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -70835,18 +70835,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.7,
-          "Essence": 5.03,
-          "Matter": 5.02,
-          "Substance": 4.43
+          "Spirit": 2.96,
+          "Essence": 3.5,
+          "Matter": 4.72,
+          "Substance": 4.55
         },
         "thermodynamicProperties": {
-          "heat": 0.3875,
-          "entropy": 0.49,
-          "reactivity": 0.545,
-          "gregsEnergy": 0.1205,
-          "kalchm": 0.2,
-          "monica": 0.4082
+          "heat": 0.048,
+          "entropy": 0.3811,
+          "reactivity": 1.6402,
+          "gregsEnergy": -0.577,
+          "kalchm": 0.0013,
+          "monica": -0.0529
         },
         "substitutions": [
           {
@@ -70972,10 +70972,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.414,
-          "Earth": 0.22400000000000003,
-          "Air": 0.17200000000000001
+          "Fire": 0.1863636363636364,
+          "Water": 0.3654545454545454,
+          "Earth": 0.3018181818181818,
+          "Air": 0.14636363636363636
         },
         "astrologicalAffinities": {
           "planets": [
@@ -70992,12 +70992,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 316,
-          "sugarG": 5,
+          "sodiumMg": 296,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -71010,18 +71010,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.4,
-          "Essence": 4.95,
-          "Matter": 4.42,
-          "Substance": 3.82
+          "Spirit": 2.35,
+          "Essence": 3.6,
+          "Matter": 3.99,
+          "Substance": 3.66
         },
         "thermodynamicProperties": {
-          "heat": 0.388,
-          "entropy": 0.4792,
-          "reactivity": 0.5624,
-          "gregsEnergy": 0.1185,
-          "kalchm": 0.172,
-          "monica": 0.399
+          "heat": 0.0382,
+          "entropy": 0.2783,
+          "reactivity": 1.741,
+          "gregsEnergy": -0.4463,
+          "kalchm": 0.026,
+          "monica": -0.0702
         },
         "substitutions": [
           {
@@ -71112,10 +71112,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1325,
-          "Water": 0.37749999999999995,
-          "Earth": 0.36750000000000005,
-          "Air": 0.1225
+          "Fire": 0.2166666666666667,
+          "Water": 0.34166666666666673,
+          "Earth": 0.3083333333333333,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -71132,11 +71132,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 24,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 301,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 287,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -71150,18 +71150,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.56,
-          "Essence": 2.25,
-          "Matter": 2.38,
-          "Substance": 1.83
+          "Spirit": 1.98,
+          "Essence": 3.15,
+          "Matter": 2.96,
+          "Substance": 2.7
         },
         "thermodynamicProperties": {
-          "heat": 0.3775,
-          "entropy": 0.402,
-          "reactivity": 0.506,
-          "gregsEnergy": 0.1741,
-          "kalchm": 0.01,
-          "monica": 0.3726
+          "heat": 0.0431,
+          "entropy": 0.2467,
+          "reactivity": 1.9954,
+          "gregsEnergy": -0.4492,
+          "kalchm": 0.3957,
+          "monica": -0.2428
         },
         "substitutions": [
           {
@@ -71315,10 +71315,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1318181818181818,
-          "Water": 0.4318181818181818,
-          "Earth": 0.26181818181818184,
-          "Air": 0.17454545454545453
+          "Fire": 0.18235294117647058,
+          "Water": 0.34117647058823536,
+          "Earth": 0.32058823529411756,
+          "Air": 0.15588235294117653
         },
         "astrologicalAffinities": {
           "planets": [
@@ -71335,12 +71335,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 323,
-          "sugarG": 5,
+          "fiberG": 5,
+          "sodiumMg": 286,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -71353,18 +71353,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.91,
-          "Essence": 7.12,
-          "Matter": 7.05,
-          "Substance": 6.28
+          "Spirit": 3.44,
+          "Essence": 5.56,
+          "Matter": 6.84,
+          "Substance": 6.3
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.4651,
-          "reactivity": 0.5382,
-          "gregsEnergy": 0.0997,
-          "kalchm": 0.1127,
-          "monica": 0.3737
+          "heat": 0.0312,
+          "entropy": 0.3023,
+          "reactivity": 1.6112,
+          "gregsEnergy": -0.456,
+          "kalchm": 0,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -71539,31 +71539,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.33181818181818185,
-          "Water": 0.24545454545454548,
-          "Earth": 0.2545454545454545,
-          "Air": 0.16818181818181818
+          "Fire": 0.2571428571428571,
+          "Water": 0.2714285714285714,
+          "Earth": 0.3009523809523809,
+          "Air": 0.1704761904761905
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 248,
+          "sodiumMg": 259,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -71577,18 +71577,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.57,
-          "Essence": 8.16,
-          "Matter": 8.1,
-          "Substance": 7.1
+          "Spirit": 6.46,
+          "Essence": 7.78,
+          "Matter": 8.77,
+          "Substance": 7.95
         },
         "thermodynamicProperties": {
-          "heat": 0.5432,
-          "entropy": 0.4655,
-          "reactivity": 0.5464,
-          "gregsEnergy": 0.2889,
-          "kalchm": 0.3273,
-          "monica": 0.5137
+          "heat": 0.0656,
+          "entropy": 0.3582,
+          "reactivity": 2.013,
+          "gregsEnergy": -0.6555,
+          "kalchm": 0.0005,
+          "monica": -0.0428
         },
         "substitutions": [
           {
@@ -71756,32 +71756,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29,
-          "Water": 0.3614285714285715,
-          "Earth": 0.24999999999999997,
-          "Air": 0.09857142857142856
+          "Fire": 0.26666666666666666,
+          "Water": 0.25,
+          "Earth": 0.35000000000000003,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 295,
-          "sugarG": 3,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -71794,18 +71794,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.34,
-          "Essence": 6.69,
-          "Matter": 7.28,
-          "Substance": 6.28
+          "Spirit": 5.44,
+          "Essence": 6.55,
+          "Matter": 7.47,
+          "Substance": 6.73
         },
         "thermodynamicProperties": {
-          "heat": 0.4643,
-          "entropy": 0.4394,
-          "reactivity": 0.5909,
-          "gregsEnergy": 0.2047,
-          "kalchm": 0.1971,
-          "monica": 0.441
+          "heat": 0.0643,
+          "entropy": 0.3508,
+          "reactivity": 1.9286,
+          "gregsEnergy": -0.6122,
+          "kalchm": 0.0018,
+          "monica": -0.0502
         },
         "substitutions": [
           {
@@ -71912,10 +71912,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.3333333333333333,
-          "Earth": 0.3666666666666667,
-          "Air": 0.16666666666666666
+          "Fire": 0.20400000000000001,
+          "Water": 0.284,
+          "Earth": 0.348,
+          "Air": 0.164
         },
         "astrologicalAffinities": {
           "planets": [
@@ -71932,12 +71932,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 283,
-          "sugarG": 5,
+          "sodiumMg": 264,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -71950,18 +71950,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.19,
-          "Essence": 2.94,
-          "Matter": 3.82,
-          "Substance": 3.3
+          "Spirit": 1.93,
+          "Essence": 2.7,
+          "Matter": 3.69,
+          "Substance": 3.26
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.42,
-          "reactivity": 0.48,
-          "gregsEnergy": 0.1984,
-          "kalchm": 0.1,
-          "monica": 0.4094
+          "heat": 0.0345,
+          "entropy": 0.2925,
+          "reactivity": 1.3365,
+          "gregsEnergy": -0.3564,
+          "kalchm": 0.0089,
+          "monica": -0.0565
         },
         "substitutions": [
           {
@@ -72028,31 +72028,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.4066666666666667,
-          "Earth": 0.36000000000000004,
-          "Air": 0.13333333333333333
+          "Fire": 0.0625,
+          "Water": 0.3875,
+          "Earth": 0.43750000000000006,
+          "Air": 0.11250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 24,
+          "proteinG": 12,
+          "carbsG": 23,
           "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 313,
+          "fiberG": 6,
+          "sodiumMg": 305,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72066,18 +72066,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.48,
-          "Essence": 0.98,
-          "Matter": 1.91,
-          "Substance": 1.59
+          "Spirit": 0.43,
+          "Essence": 1.33,
+          "Matter": 1.95,
+          "Substance": 1.62
         },
         "thermodynamicProperties": {
-          "heat": 0.3467,
-          "entropy": 0.4093,
-          "reactivity": 0.504,
-          "gregsEnergy": 0.1404,
-          "kalchm": -0.0333,
-          "monica": 0.3462
+          "heat": 0.0055,
+          "entropy": 0.1677,
+          "reactivity": 0.8324,
+          "gregsEnergy": -0.1341,
+          "kalchm": 0.1265,
+          "monica": -0.0779
         },
         "substitutions": [
           {
@@ -72159,10 +72159,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.3,
-          "Earth": 0.3666666666666667,
-          "Air": 0.16666666666666666
+          "Fire": 0.14,
+          "Water": 0.3066666666666667,
+          "Earth": 0.37166666666666665,
+          "Air": 0.18166666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72183,7 +72183,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 273,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -72197,18 +72197,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.29,
-          "Essence": 1.84,
-          "Matter": 2.72,
-          "Substance": 2.4
+          "Spirit": 1.03,
+          "Essence": 1.85,
+          "Matter": 2.44,
+          "Substance": 2.05
         },
         "thermodynamicProperties": {
-          "heat": 0.4333,
-          "entropy": 0.42,
-          "reactivity": 0.48,
-          "gregsEnergy": 0.2317,
-          "kalchm": 0.1667,
-          "monica": 0.4427
+          "heat": 0.0208,
+          "entropy": 0.2154,
+          "reactivity": 1.1173,
+          "gregsEnergy": -0.2198,
+          "kalchm": 0.0838,
+          "monica": -0.0793
         },
         "substitutions": [
           {
@@ -72297,31 +72297,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.44999999999999996,
-          "Earth": 0.25,
-          "Air": 0.15000000000000002
+          "Fire": 0.15833333333333335,
+          "Water": 0.2833333333333333,
+          "Earth": 0.4,
+          "Air": 0.15833333333333338
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 330,
+          "fiberG": 5,
+          "sodiumMg": 263,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72335,18 +72335,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.55,
-          "Essence": 2.23,
-          "Matter": 2.87,
-          "Substance": 2.6
+          "Spirit": 1.31,
+          "Essence": 1.91,
+          "Matter": 2.76,
+          "Substance": 2.46
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.46,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0924,
-          "kalchm": 0.1,
-          "monica": 0.367
+          "heat": 0.0274,
+          "entropy": 0.2728,
+          "reactivity": 1.1563,
+          "gregsEnergy": -0.288,
+          "kalchm": 0.0325,
+          "monica": -0.0727
         },
         "substitutions": [
           {
@@ -72435,10 +72435,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666667,
-          "Water": 0.64,
-          "Earth": 0.17333333333333334,
-          "Air": 0.12
+          "Fire": 0.12857142857142856,
+          "Water": 0.4357142857142858,
+          "Earth": 0.3214285714285714,
+          "Air": 0.11428571428571427
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72455,11 +72455,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 406,
+          "proteinG": 10,
+          "carbsG": 23,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 324,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72473,18 +72473,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 2.18,
-          "Matter": 2.5,
-          "Substance": 2.23
+          "Spirit": 0.96,
+          "Essence": 2.27,
+          "Matter": 2.6,
+          "Substance": 2.4
         },
         "thermodynamicProperties": {
-          "heat": 0.2133,
-          "entropy": 0.4787,
-          "reactivity": 0.624,
-          "gregsEnergy": -0.0854,
-          "kalchm": -0.28,
-          "monica": 0.1818
+          "heat": 0.0142,
+          "entropy": 0.2119,
+          "reactivity": 1.4123,
+          "gregsEnergy": -0.2852,
+          "kalchm": 0.0631,
+          "monica": -0.0731
         },
         "substitutions": [
           {
@@ -72595,10 +72595,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1125,
-          "Water": 0.5175,
-          "Earth": 0.255,
-          "Air": 0.11499999999999999
+          "Fire": 0.18181818181818182,
+          "Water": 0.3590909090909091,
+          "Earth": 0.309090909090909,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72615,11 +72615,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 23,
-          "fatG": 6,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 357,
+          "sodiumMg": 294,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72633,18 +72633,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.09,
-          "Essence": 3.58,
-          "Matter": 4.03,
-          "Substance": 3.43
+          "Spirit": 2.19,
+          "Essence": 3.9,
+          "Matter": 4.26,
+          "Substance": 3.98
         },
         "thermodynamicProperties": {
-          "heat": 0.2975,
-          "entropy": 0.444,
-          "reactivity": 0.578,
-          "gregsEnergy": 0.0409,
-          "kalchm": -0.045,
-          "monica": 0.3029
+          "heat": 0.0288,
+          "entropy": 0.2655,
+          "reactivity": 1.7259,
+          "gregsEnergy": -0.4295,
+          "kalchm": 0.0096,
+          "monica": -0.0536
         },
         "substitutions": [
           {
@@ -72737,31 +72737,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.56,
-          "Earth": 0.21000000000000002,
-          "Air": 0.13
+          "Fire": 0.16874999999999998,
+          "Water": 0.33749999999999997,
+          "Earth": 0.36874999999999997,
+          "Air": 0.125
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 11,
           "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 374,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 285,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72775,18 +72775,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.65,
-          "Essence": 2.32,
-          "Matter": 2.69,
-          "Substance": 2.44
+          "Spirit": 1.31,
+          "Essence": 2.23,
+          "Matter": 2.98,
+          "Substance": 2.83
         },
         "thermodynamicProperties": {
-          "heat": 0.27,
-          "entropy": 0.468,
-          "reactivity": 0.596,
-          "gregsEnergy": -0.0089,
-          "kalchm": -0.12,
-          "monica": 0.2604
+          "heat": 0.0222,
+          "entropy": 0.2791,
+          "reactivity": 1.3247,
+          "gregsEnergy": -0.3476,
+          "kalchm": 0.0173,
+          "monica": -0.0647
         },
         "substitutions": [
           {
@@ -72909,10 +72909,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14444444444444446,
-          "Water": 0.4555555555555556,
-          "Earth": 0.2511111111111111,
-          "Air": 0.1488888888888889
+          "Fire": 0.16923076923076924,
+          "Water": 0.35384615384615387,
+          "Earth": 0.3423076923076923,
+          "Air": 0.1346153846153846
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72929,11 +72929,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 332,
+          "fiberG": 5,
+          "sodiumMg": 292,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72947,18 +72947,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.8,
-          "Essence": 4.95,
-          "Matter": 5.89,
-          "Substance": 5.41
+          "Spirit": 2.22,
+          "Essence": 3.97,
+          "Matter": 5.11,
+          "Substance": 4.68
         },
         "thermodynamicProperties": {
-          "heat": 0.3444,
-          "entropy": 0.4591,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0873,
-          "kalchm": 0.0867,
-          "monica": 0.3609
+          "heat": 0.0233,
+          "entropy": 0.2812,
+          "reactivity": 1.4385,
+          "gregsEnergy": -0.3813,
+          "kalchm": 0.0002,
+          "monica": -0.0311
         },
         "substitutions": [
           {
@@ -73042,10 +73042,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17500000000000002,
-          "Water": 0.42500000000000004,
-          "Earth": 0.22499999999999998,
-          "Air": 0.17500000000000002
+          "Fire": 0.2357142857142857,
+          "Water": 0.29999999999999993,
+          "Earth": 0.2857142857142857,
+          "Air": 0.17857142857142858
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73062,11 +73062,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 320,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -73080,18 +73080,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2,
-          "Essence": 2.81,
-          "Matter": 2.52,
-          "Substance": 2.23
+          "Spirit": 1.49,
+          "Essence": 1.8,
+          "Matter": 2.03,
+          "Substance": 2.01
         },
         "thermodynamicProperties": {
-          "heat": 0.375,
-          "entropy": 0.48,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1062,
-          "kalchm": 0.15,
-          "monica": 0.3875
+          "heat": 0.0522,
+          "entropy": 0.3255,
+          "reactivity": 1.8047,
+          "gregsEnergy": -0.5353,
+          "kalchm": 0.3047,
+          "monica": -0.2496
         },
         "substitutions": [
           {
@@ -73172,10 +73172,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666667,
-          "Water": 0.38333333333333336,
-          "Earth": 0.18333333333333335,
-          "Air": 0.21666666666666667
+          "Fire": 0.27,
+          "Water": 0.38,
+          "Earth": 0.19,
+          "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73193,11 +73193,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 8,
-          "carbsG": 27,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 303,
-          "sugarG": 5,
+          "fiberG": 4,
+          "sodiumMg": 302,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -73210,18 +73210,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.1,
-          "Essence": 2.9,
-          "Matter": 1.78,
-          "Substance": 1.43
+          "Spirit": 1.76,
+          "Essence": 3.02,
+          "Matter": 1.76,
+          "Substance": 1.6
         },
         "thermodynamicProperties": {
-          "heat": 0.4167,
-          "entropy": 0.5133,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1293,
-          "kalchm": 0.2333,
-          "monica": 0.4217
+          "heat": 0.0627,
+          "entropy": 0.2011,
+          "reactivity": 3.9503,
+          "gregsEnergy": -0.7317,
+          "kalchm": 13.2748,
+          "monica": 0.0716
         },
         "substitutions": [
           {
@@ -73315,10 +73315,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.115,
-          "Water": 0.4575,
-          "Earth": 0.32499999999999996,
-          "Air": 0.10250000000000001
+          "Fire": 0.16874999999999998,
+          "Water": 0.375,
+          "Earth": 0.34375,
+          "Air": 0.11250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73337,9 +73337,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 23,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 333,
+          "sodiumMg": 300,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73353,18 +73353,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.33,
-          "Essence": 2.64,
-          "Matter": 2.97,
-          "Substance": 2.64
+          "Spirit": 1.49,
+          "Essence": 3.34,
+          "Matter": 3.43,
+          "Substance": 3.29
         },
         "thermodynamicProperties": {
-          "heat": 0.3287,
-          "entropy": 0.411,
-          "reactivity": 0.5435,
-          "gregsEnergy": 0.1053,
-          "kalchm": -0.065,
-          "monica": 0.3226
+          "heat": 0.019,
+          "entropy": 0.2333,
+          "reactivity": 1.712,
+          "gregsEnergy": -0.3805,
+          "kalchm": 0.0295,
+          "monica": -0.0631
         },
         "substitutions": [
           {
@@ -73467,31 +73467,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10999999999999999,
-          "Water": 0.5266666666666667,
-          "Earth": 0.25,
-          "Air": 0.11333333333333333
+          "Fire": 0.20625000000000002,
+          "Water": 0.31875000000000003,
+          "Earth": 0.35625,
+          "Air": 0.11875000000000001
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 361,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 278,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73505,18 +73505,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.71,
-          "Essence": 2.67,
-          "Matter": 2.99,
-          "Substance": 2.73
+          "Spirit": 1.94,
+          "Essence": 3.44,
+          "Matter": 3.59,
+          "Substance": 3.35
         },
         "thermodynamicProperties": {
-          "heat": 0.2917,
-          "entropy": 0.4453,
-          "reactivity": 0.582,
-          "gregsEnergy": 0.0325,
-          "kalchm": -0.0533,
-          "monica": 0.297
+          "heat": 0.0305,
+          "entropy": 0.2534,
+          "reactivity": 1.7324,
+          "gregsEnergy": -0.4085,
+          "kalchm": 0.0449,
+          "monica": -0.076
         },
         "substitutions": [
           {
@@ -73588,31 +73588,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.525,
-          "Earth": 0.24000000000000002,
-          "Air": 0.11
+          "Fire": 0.28,
+          "Water": 0.29000000000000004,
+          "Earth": 0.32000000000000006,
+          "Air": 0.11000000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 23,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 360,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 266,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73626,18 +73626,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.91,
-          "Essence": 1.39,
-          "Matter": 1.96,
-          "Substance": 1.84
+          "Spirit": 1.51,
+          "Essence": 1.63,
+          "Matter": 1.74,
+          "Substance": 1.74
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.448,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0357,
-          "kalchm": -0.05,
-          "monica": 0.2993
+          "heat": 0.0694,
+          "entropy": 0.3408,
+          "reactivity": 1.918,
+          "gregsEnergy": -0.5842,
+          "kalchm": 0.6012,
+          "monica": -0.5986
         },
         "substitutions": [
           {
@@ -73735,10 +73735,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12428571428571429,
-          "Water": 0.48857142857142855,
-          "Earth": 0.2085714285714286,
-          "Air": 0.17857142857142858
+          "Fire": 0.1633333333333333,
+          "Water": 0.3688888888888889,
+          "Earth": 0.2922222222222222,
+          "Air": 0.17555555555555552
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73755,11 +73755,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 345,
+          "sodiumMg": 298,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -73773,18 +73773,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.25,
-          "Essence": 3.48,
-          "Matter": 3.64,
-          "Substance": 3.38
+          "Spirit": 1.61,
+          "Essence": 2.73,
+          "Matter": 2.95,
+          "Substance": 2.76
         },
         "thermodynamicProperties": {
-          "heat": 0.3179,
-          "entropy": 0.488,
-          "reactivity": 0.5677,
-          "gregsEnergy": 0.0409,
-          "kalchm": 0.0229,
-          "monica": 0.3232
+          "heat": 0.0304,
+          "entropy": 0.2553,
+          "reactivity": 1.6986,
+          "gregsEnergy": -0.4033,
+          "kalchm": 0.0833,
+          "monica": -0.0955
         },
         "substitutions": [
           {
@@ -73889,10 +73889,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.126,
-          "Water": 0.546,
-          "Earth": 0.18,
-          "Air": 0.148
+          "Fire": 0.195,
+          "Water": 0.385,
+          "Earth": 0.29000000000000004,
+          "Air": 0.12999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73909,11 +73909,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 368,
+          "fiberG": 4,
+          "sodiumMg": 304,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73927,18 +73927,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.07,
-          "Essence": 3.55,
-          "Matter": 3.29,
-          "Substance": 2.87
+          "Spirit": 1.98,
+          "Essence": 3.48,
+          "Matter": 3.5,
+          "Substance": 3.33
         },
         "thermodynamicProperties": {
-          "heat": 0.29,
-          "entropy": 0.4872,
-          "reactivity": 0.6032,
-          "gregsEnergy": -0.0039,
-          "kalchm": -0.092,
-          "monica": 0.2708
+          "heat": 0.032,
+          "entropy": 0.2571,
+          "reactivity": 1.9022,
+          "gregsEnergy": -0.457,
+          "kalchm": 0.0673,
+          "monica": -0.089
         },
         "substitutions": [
           {
@@ -74047,10 +74047,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12142857142857141,
-          "Water": 0.4814285714285714,
-          "Earth": 0.22428571428571428,
-          "Air": 0.17285714285714285
+          "Fire": 0.21363636363636365,
+          "Water": 0.34090909090909094,
+          "Earth": 0.26818181818181813,
+          "Air": 0.17727272727272725
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74067,11 +74067,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 6,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 343,
+          "sodiumMg": 286,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74085,18 +74085,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.99,
-          "Essence": 4.38,
+          "Spirit": 2.17,
+          "Essence": 3.19,
           "Matter": 3.8,
-          "Substance": 3.29
+          "Substance": 3.64
         },
         "thermodynamicProperties": {
-          "heat": 0.32,
-          "entropy": 0.4794,
-          "reactivity": 0.5617,
-          "gregsEnergy": 0.0507,
-          "kalchm": 0.0371,
-          "monica": 0.3314
+          "heat": 0.0365,
+          "entropy": 0.3123,
+          "reactivity": 1.7116,
+          "gregsEnergy": -0.4981,
+          "kalchm": 0.0123,
+          "monica": -0.0662
         },
         "substitutions": [
           {
@@ -74182,10 +74182,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.38,
-          "Earth": 0.255,
-          "Air": 0.21500000000000002
+          "Fire": 0.19285714285714284,
+          "Water": 0.32857142857142857,
+          "Earth": 0.3,
+          "Air": 0.17857142857142858
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74202,11 +74202,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 26,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 302,
+          "sodiumMg": 281,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74220,18 +74220,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.81,
-          "Essence": 2.66,
-          "Matter": 2.8,
-          "Substance": 2.62
+          "Spirit": 1.41,
+          "Essence": 2.11,
+          "Matter": 2.48,
+          "Substance": 2.34
         },
         "thermodynamicProperties": {
-          "heat": 0.385,
-          "entropy": 0.484,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.1343,
-          "kalchm": 0.23,
-          "monica": 0.4227
+          "heat": 0.0338,
+          "entropy": 0.2766,
+          "reactivity": 1.5647,
+          "gregsEnergy": -0.399,
+          "kalchm": 0.1128,
+          "monica": -0.1168
         },
         "substitutions": [
           {
@@ -74307,10 +74307,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.6333333333333333,
-          "Earth": 0.13333333333333333,
-          "Air": 0.10000000000000002
+          "Fire": 0.15000000000000002,
+          "Water": 0.45,
+          "Earth": 0.22000000000000003,
+          "Air": 0.18
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74327,12 +74327,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 23,
+          "proteinG": 8,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 403,
-          "sugarG": 4,
+          "fiberG": 4,
+          "sodiumMg": 330,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -74345,18 +74345,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.33,
-          "Essence": 2.35,
-          "Matter": 1.75,
-          "Substance": 1.6
+          "Spirit": 0.85,
+          "Essence": 1.95,
+          "Matter": 1.28,
+          "Substance": 1.25
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.4867,
-          "reactivity": 0.66,
-          "gregsEnergy": -0.0712,
-          "kalchm": -0.2667,
-          "monica": 0.1915
+          "heat": 0.0262,
+          "entropy": 0.1538,
+          "reactivity": 2.82,
+          "gregsEnergy": -0.4076,
+          "kalchm": 1.7669,
+          "monica": 0.2539
         },
         "substitutions": [
           {
@@ -74430,10 +74430,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.5666666666666668,
-          "Earth": 0.13333333333333333,
-          "Air": 0.16666666666666666
+          "Fire": 0.19999999999999998,
+          "Water": 0.3625,
+          "Earth": 0.2875,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74450,12 +74450,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 377,
-          "sugarG": 5,
+          "fiberG": 4,
+          "sodiumMg": 295,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -74468,18 +74468,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.94,
-          "Essence": 1.51,
-          "Matter": 1.89,
-          "Substance": 1.76
+          "Spirit": 1.02,
+          "Essence": 1.4,
+          "Matter": 1.49,
+          "Substance": 1.27
         },
         "thermodynamicProperties": {
-          "heat": 0.2833,
-          "entropy": 0.5133,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0349,
-          "kalchm": -0.1333,
-          "monica": 0.246
+          "heat": 0.0439,
+          "entropy": 0.2167,
+          "reactivity": 1.5215,
+          "gregsEnergy": -0.2858,
+          "kalchm": 0.666,
+          "monica": -0.4622
         },
         "substitutions": [
           {
@@ -74563,10 +74563,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27999999999999997,
-          "Water": 0.3175,
-          "Earth": 0.145,
-          "Air": 0.2575
+          "Fire": 0.27428571428571424,
+          "Water": 0.2885714285714286,
+          "Earth": 0.2685714285714286,
+          "Air": 0.16857142857142857
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74583,12 +74583,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 28,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 277,
-          "sugarG": 6,
+          "fiberG": 4,
+          "sodiumMg": 265,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -74601,18 +74601,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.6,
-          "Essence": 2.53,
-          "Matter": 2.07,
-          "Substance": 2.22
+          "Spirit": 1.97,
+          "Essence": 1.92,
+          "Matter": 2,
+          "Substance": 2.02
         },
         "thermodynamicProperties": {
-          "heat": 0.4812,
-          "entropy": 0.545,
-          "reactivity": 0.5585,
-          "gregsEnergy": 0.1768,
-          "kalchm": 0.29,
-          "monica": 0.4577
+          "heat": 0.089,
+          "entropy": 0.4023,
+          "reactivity": 2.2996,
+          "gregsEnergy": -0.8362,
+          "kalchm": 0.8038,
+          "monica": -1.6649
         },
         "substitutions": [
           {
@@ -74680,10 +74680,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.6000000000000001,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.20000000000000004,
+          "Water": 0.45,
+          "Earth": 0.18333333333333335,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74700,11 +74700,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 6,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 390,
+          "sodiumMg": 330,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74718,18 +74718,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.04,
-          "Essence": 1.76,
-          "Matter": 1.11,
-          "Substance": 0.81
+          "Spirit": 1.07,
+          "Essence": 1.68,
+          "Matter": 1.15,
+          "Substance": 0.89
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.54,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0848,
-          "kalchm": -0.2,
-          "monica": 0.2061
+          "heat": 0.058,
+          "entropy": 0.1671,
+          "reactivity": 2.8292,
+          "gregsEnergy": -0.4149,
+          "kalchm": 2.4277,
+          "monica": 0.1653
         },
         "substitutions": [
           {
@@ -74791,31 +74791,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.4,
-          "Earth": 0.15000000000000002,
-          "Air": 0.15000000000000002
+          "Fire": 0.3333333333333333,
+          "Water": 0.3166666666666667,
+          "Earth": 0.21666666666666667,
+          "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 25,
+          "proteinG": 8,
+          "carbsG": 24,
           "fatG": 9,
-          "fiberG": 3,
-          "sodiumMg": 310,
+          "fiberG": 4,
+          "sodiumMg": 277,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -74829,18 +74829,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.15,
-          "Essence": 1.88,
-          "Matter": 0.8,
-          "Substance": 0.68
+          "Spirit": 0.99,
+          "Essence": 1.35,
+          "Matter": 0.78,
+          "Substance": 0.8
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.5,
-          "reactivity": 0.62,
-          "gregsEnergy": 0.14,
-          "kalchm": 0.1,
-          "monica": 0.386
+          "heat": 0.0844,
+          "entropy": 0.2466,
+          "reactivity": 3.6964,
+          "gregsEnergy": -0.8271,
+          "kalchm": 2.1544,
+          "monica": 0.2915
         },
         "substitutions": [
           {
@@ -74921,10 +74921,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.475,
-          "Earth": 0.15,
-          "Air": 0.2
+          "Fire": 0.16666666666666666,
+          "Water": 0.3666666666666667,
+          "Earth": 0.25,
+          "Air": 0.21666666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74941,11 +74941,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 26,
+          "proteinG": 9,
+          "carbsG": 27,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 340,
+          "fiberG": 4,
+          "sodiumMg": 297,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74959,18 +74959,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.94,
-          "Essence": 2.31,
-          "Matter": 2.08,
-          "Substance": 1.9
+          "Spirit": 1.12,
+          "Essence": 1.7,
+          "Matter": 1.71,
+          "Substance": 1.55
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.52,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0432,
-          "kalchm": 0.05,
-          "monica": 0.3323
+          "heat": 0.0382,
+          "entropy": 0.2301,
+          "reactivity": 1.7587,
+          "gregsEnergy": -0.3665,
+          "kalchm": 0.5668,
+          "monica": -0.3671
         },
         "substitutions": [
           {
@@ -75085,32 +75085,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15833333333333333,
-          "Water": 0.4416666666666666,
-          "Earth": 0.22999999999999998,
-          "Air": 0.17
+          "Fire": 0.2090909090909091,
+          "Water": 0.27727272727272734,
+          "Earth": 0.3590909090909091,
+          "Air": 0.15454545454545457
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 327,
-          "sugarG": 5,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 261,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -75123,18 +75123,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.61,
-          "Essence": 4.02,
-          "Matter": 4.98,
-          "Substance": 4.67
+          "Spirit": 2.09,
+          "Essence": 3.5,
+          "Matter": 4.8,
+          "Substance": 4.47
         },
         "thermodynamicProperties": {
-          "heat": 0.3583,
-          "entropy": 0.476,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0917,
-          "kalchm": 0.1167,
-          "monica": 0.3717
+          "heat": 0.024,
+          "entropy": 0.3057,
+          "reactivity": 1.3805,
+          "gregsEnergy": -0.3981,
+          "kalchm": 0.0002,
+          "monica": -0.0339
         },
         "substitutions": [
           {
@@ -75205,31 +75205,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666667,
-          "Water": 0.37333333333333335,
-          "Earth": 0.4066666666666667,
-          "Air": 0.15333333333333335
+          "Fire": 0.18,
+          "Water": 0.38,
+          "Earth": 0.29,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 299,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 302,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75243,18 +75243,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.9,
-          "Essence": 1.84,
-          "Matter": 1.57,
-          "Substance": 1.34
+          "Spirit": 0.94,
+          "Essence": 1.64,
+          "Matter": 1.7,
+          "Substance": 1.72
         },
         "thermodynamicProperties": {
-          "heat": 0.3467,
-          "entropy": 0.3987,
-          "reactivity": 0.464,
-          "gregsEnergy": 0.1617,
-          "kalchm": -0.06,
-          "monica": 0.3467
+          "heat": 0.0265,
+          "entropy": 0.2423,
+          "reactivity": 1.6997,
+          "gregsEnergy": -0.3854,
+          "kalchm": 0.339,
+          "monica": -0.2096
         },
         "substitutions": [
           {
@@ -75330,31 +75330,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.125,
-          "Water": 0.525,
-          "Earth": 0.24000000000000002,
-          "Air": 0.11
+          "Fire": 0.2,
+          "Water": 0.325,
+          "Earth": 0.3375,
+          "Air": 0.1375
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 360,
+          "fiberG": 5,
+          "sodiumMg": 280,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75368,18 +75368,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.91,
-          "Essence": 1.39,
-          "Matter": 1.96,
-          "Substance": 1.84
+          "Spirit": 0.95,
+          "Essence": 1.3,
+          "Matter": 1.58,
+          "Substance": 1.48
         },
         "thermodynamicProperties": {
-          "heat": 0.3,
-          "entropy": 0.448,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0357,
-          "kalchm": -0.05,
-          "monica": 0.2993
+          "heat": 0.0354,
+          "entropy": 0.2512,
+          "reactivity": 1.3456,
+          "gregsEnergy": -0.3025,
+          "kalchm": 0.364,
+          "monica": -0.2225
         },
         "substitutions": [
           {
@@ -75467,10 +75467,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13749999999999998,
-          "Water": 0.46249999999999997,
-          "Earth": 0.24500000000000002,
-          "Air": 0.15500000000000003
+          "Fire": 0.2142857142857143,
+          "Water": 0.34285714285714286,
+          "Earth": 0.29285714285714287,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -75489,9 +75489,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 9,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 335,
+          "sodiumMg": 287,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75505,18 +75505,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.65,
-          "Essence": 2.23,
-          "Matter": 3.02,
-          "Substance": 2.89
+          "Spirit": 1.32,
+          "Essence": 1.86,
+          "Matter": 2.15,
+          "Substance": 2.14
         },
         "thermodynamicProperties": {
-          "heat": 0.3375,
-          "entropy": 0.464,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.0777,
-          "kalchm": 0.075,
-          "monica": 0.3536
+          "heat": 0.0372,
+          "entropy": 0.2961,
+          "reactivity": 1.6703,
+          "gregsEnergy": -0.4574,
+          "kalchm": 0.1732,
+          "monica": -0.1562
         },
         "substitutions": [
           {
@@ -75573,10 +75573,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
+          "Fire": 0.225,
           "Water": 0.3,
           "Earth": 0.3,
-          "Air": 0.2
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
@@ -75594,8 +75594,8 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 7,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 4,
           "sodiumMg": 270,
           "sugarG": 5,
@@ -75611,18 +75611,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
-          "Essence": 0.85,
-          "Matter": 0.95,
-          "Substance": 0.85
+          "Spirit": 0.46,
+          "Essence": 0.81,
+          "Matter": 1,
+          "Substance": 0.95
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.46,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.22,
-          "kalchm": 0.3,
-          "monica": 0.478
+          "heat": 0.021,
+          "entropy": 0.2058,
+          "reactivity": 1.1488,
+          "gregsEnergy": -0.2154,
+          "kalchm": 0.6193,
+          "monica": -0.3914
         },
         "substitutions": [
           {
@@ -75717,31 +75717,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.42000000000000004,
-          "Earth": 0.33999999999999997,
-          "Air": 0.13999999999999999
+          "Fire": 0.17500000000000002,
+          "Water": 0.28125000000000006,
+          "Earth": 0.39375000000000004,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 24,
-          "fatG": 6,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 318,
+          "sodiumMg": 263,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75755,18 +75755,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.33,
-          "Essence": 2.4,
-          "Matter": 3.53,
-          "Substance": 2.99
+          "Spirit": 1.37,
+          "Essence": 2.11,
+          "Matter": 3.28,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
-          "heat": 0.34,
-          "entropy": 0.42,
-          "reactivity": 0.512,
-          "gregsEnergy": 0.125,
-          "kalchm": -0.02,
-          "monica": 0.344
+          "heat": 0.0237,
+          "entropy": 0.2581,
+          "reactivity": 1.0391,
+          "gregsEnergy": -0.2444,
+          "kalchm": 0.0094,
+          "monica": -0.0504
         },
         "substitutions": [
           {
@@ -75861,31 +75861,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.3666666666666667,
-          "Earth": 0.31666666666666665,
-          "Air": 0.16666666666666666
+          "Fire": 0.1625,
+          "Water": 0.31250000000000006,
+          "Earth": 0.3375,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 297,
+          "sodiumMg": 275,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -75899,18 +75899,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.78,
-          "Essence": 2.42,
-          "Matter": 3.43,
-          "Substance": 2.97
+          "Spirit": 1.42,
+          "Essence": 2.29,
+          "Matter": 3.04,
+          "Substance": 2.56
         },
         "thermodynamicProperties": {
-          "heat": 0.3917,
-          "entropy": 0.44,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.1673,
-          "kalchm": 0.1333,
-          "monica": 0.4069
+          "heat": 0.0268,
+          "entropy": 0.2414,
+          "reactivity": 1.2249,
+          "gregsEnergy": -0.2688,
+          "kalchm": 0.0337,
+          "monica": -0.0647
         },
         "substitutions": [
           {
@@ -75988,32 +75988,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.6000000000000001,
-          "Earth": 0.20000000000000004,
-          "Air": 0.10000000000000002
+          "Fire": 0.1875,
+          "Water": 0.25,
+          "Earth": 0.375,
+          "Air": 0.18749999999999997
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 23,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 390,
-          "sugarG": 4,
+          "proteinG": 11,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -76026,18 +76026,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.05,
-          "Essence": 1.38,
-          "Matter": 1.92,
-          "Substance": 1.75
+          "Spirit": 1,
+          "Essence": 1.18,
+          "Matter": 1.6,
+          "Substance": 1.43
         },
         "thermodynamicProperties": {
-          "heat": 0.25,
-          "entropy": 0.46,
-          "reactivity": 0.62,
-          "gregsEnergy": -0.0352,
-          "kalchm": -0.2,
-          "monica": 0.2259
+          "heat": 0.041,
+          "entropy": 0.2687,
+          "reactivity": 1.1716,
+          "gregsEnergy": -0.2738,
+          "kalchm": 0.3436,
+          "monica": -0.2187
         },
         "substitutions": [
           {
@@ -76132,10 +76132,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666667,
-          "Water": 0.2833333333333333,
-          "Earth": 0.39999999999999997,
-          "Air": 0.10000000000000002
+          "Fire": 0.22499999999999998,
+          "Water": 0.28125,
+          "Earth": 0.33749999999999997,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76152,8 +76152,8 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
           "sodiumMg": 263,
@@ -76170,18 +76170,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.6,
-          "Essence": 2.68,
-          "Matter": 3.65,
-          "Substance": 3.2
+          "Spirit": 1.86,
+          "Essence": 2.47,
+          "Matter": 3,
+          "Substance": 2.94
         },
         "thermodynamicProperties": {
-          "heat": 0.4667,
-          "entropy": 0.38,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.2767,
-          "kalchm": 0.1333,
-          "monica": 0.4507
+          "heat": 0.0416,
+          "entropy": 0.3285,
+          "reactivity": 1.6481,
+          "gregsEnergy": -0.4998,
+          "kalchm": 0.046,
+          "monica": -0.0985
         },
         "substitutions": [
           {
@@ -76256,32 +76256,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.4666666666666666,
-          "Earth": 0.26666666666666666,
-          "Air": 0.16666666666666666
+          "Fire": 0.18,
+          "Water": 0.34,
+          "Earth": 0.35,
+          "Air": 0.13000000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 337,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 286,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -76294,18 +76294,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.05,
-          "Essence": 1.88,
-          "Matter": 2.72,
-          "Substance": 2.55
+          "Spirit": 1.35,
+          "Essence": 1.93,
+          "Matter": 2.27,
+          "Substance": 2.19
         },
         "thermodynamicProperties": {
-          "heat": 0.3167,
-          "entropy": 0.46,
-          "reactivity": 0.54,
-          "gregsEnergy": 0.0683,
-          "kalchm": 0.0333,
-          "monica": 0.3373
+          "heat": 0.0357,
+          "entropy": 0.2789,
+          "reactivity": 1.5309,
+          "gregsEnergy": -0.3912,
+          "kalchm": 0.149,
+          "monica": -0.1342
         },
         "substitutions": [
           {
@@ -76433,32 +76433,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10000000000000002,
-          "Water": 0.45,
-          "Earth": 0.30000000000000004,
-          "Air": 0.15000000000000002
+          "Fire": 0.2376923076923077,
+          "Water": 0.24307692307692308,
+          "Earth": 0.3376923076923077,
+          "Air": 0.18153846153846157
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 330,
-          "sugarG": 4,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 247,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -76471,18 +76471,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.8,
-          "Essence": 4.31,
-          "Matter": 5.19,
-          "Substance": 4.7
+          "Spirit": 3.04,
+          "Essence": 3.65,
+          "Matter": 4.51,
+          "Substance": 4.07
         },
         "thermodynamicProperties": {
-          "heat": 0.325,
-          "entropy": 0.44,
-          "reactivity": 0.53,
-          "gregsEnergy": 0.0918,
-          "kalchm": 0,
-          "monica": 0.3367
+          "heat": 0.0551,
+          "entropy": 0.3389,
+          "reactivity": 1.6714,
+          "gregsEnergy": -0.5114,
+          "kalchm": 0.0123,
+          "monica": -0.0696
         },
         "substitutions": [
           {
@@ -76595,32 +76595,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2833333333333334,
-          "Water": 0.25,
-          "Earth": 0.21666666666666665,
-          "Air": 0.25000000000000006
+          "Fire": 0.1933333333333333,
+          "Water": 0.24333333333333332,
+          "Earth": 0.38111111111111107,
+          "Air": 0.1822222222222222
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 247,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -76633,18 +76633,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.57,
-          "Essence": 3.77,
-          "Matter": 4.49,
-          "Substance": 3.98
+          "Spirit": 2.3,
+          "Essence": 2.84,
+          "Matter": 3.88,
+          "Substance": 3.4
         },
         "thermodynamicProperties": {
-          "heat": 0.5167,
-          "entropy": 0.5133,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.2498,
-          "kalchm": 0.4333,
-          "monica": 0.5299
+          "heat": 0.0446,
+          "entropy": 0.3137,
+          "reactivity": 1.3794,
+          "gregsEnergy": -0.3881,
+          "kalchm": 0.0107,
+          "monica": -0.062
         },
         "substitutions": [
           {
@@ -76737,31 +76737,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23333333333333328,
-          "Water": 0.36666666666666664,
-          "Earth": 0.2,
-          "Air": 0.2
+          "Fire": 0.23999999999999996,
+          "Water": 0.20999999999999996,
+          "Earth": 0.3774999999999999,
+          "Air": 0.1725
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 26,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 297,
+          "fiberG": 5,
+          "sodiumMg": 234,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -76775,18 +76775,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.98,
-          "Essence": 2.66,
-          "Matter": 2.62,
-          "Substance": 2.49
+          "Spirit": 1.82,
+          "Essence": 2.14,
+          "Matter": 2.64,
+          "Substance": 2.45
         },
         "thermodynamicProperties": {
-          "heat": 0.4333,
-          "entropy": 0.5,
-          "reactivity": 0.56,
-          "gregsEnergy": 0.1533,
-          "kalchm": 0.2667,
-          "monica": 0.4413
+          "heat": 0.0528,
+          "entropy": 0.3264,
+          "reactivity": 1.5404,
+          "gregsEnergy": -0.4499,
+          "kalchm": 0.13,
+          "monica": -0.1432
         },
         "substitutions": [
           {
@@ -76874,10 +76874,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.06666666666666668,
-          "Water": 0.6,
-          "Earth": 0.20000000000000007,
-          "Air": 0.13333333333333336
+          "Fire": 0.15714285714285717,
+          "Water": 0.38571428571428573,
+          "Earth": 0.3,
+          "Air": 0.1571428571428571
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76894,11 +76894,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 6,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 390,
+          "sodiumMg": 304,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -76912,18 +76912,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.34,
-          "Essence": 2.39,
-          "Matter": 2.88,
-          "Substance": 2.54
+          "Spirit": 1.52,
+          "Essence": 2.15,
+          "Matter": 2.6,
+          "Substance": 2.44
         },
         "thermodynamicProperties": {
-          "heat": 0.2333,
-          "entropy": 0.4733,
-          "reactivity": 0.6,
-          "gregsEnergy": -0.0507,
-          "kalchm": -0.2,
-          "monica": 0.2197
+          "heat": 0.0362,
+          "entropy": 0.2814,
+          "reactivity": 1.5558,
+          "gregsEnergy": -0.4016,
+          "kalchm": 0.0927,
+          "monica": -0.1085
         },
         "substitutions": [
           {
@@ -77017,10 +77017,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.34,
-          "Earth": 0.4266666666666667,
-          "Air": 0.10000000000000002
+          "Fire": 0.1625,
+          "Water": 0.23124999999999998,
+          "Earth": 0.45,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77037,11 +77037,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 23,
+          "proteinG": 12,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 286,
+          "fiberG": 6,
+          "sodiumMg": 243,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77055,18 +77055,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.53,
-          "Essence": 1.98,
-          "Matter": 3.04,
-          "Substance": 2.55
+          "Spirit": 1.38,
+          "Essence": 1.91,
+          "Matter": 3.33,
+          "Substance": 2.95
         },
         "thermodynamicProperties": {
-          "heat": 0.3967,
-          "entropy": 0.3693,
-          "reactivity": 0.484,
-          "gregsEnergy": 0.218,
-          "kalchm": -0.0333,
-          "monica": 0.3772
+          "heat": 0.0237,
+          "entropy": 0.304,
+          "reactivity": 1.005,
+          "gregsEnergy": -0.2818,
+          "kalchm": 0.004,
+          "monica": -0.0508
         },
         "substitutions": [
           {
@@ -77155,10 +77155,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.3,
-          "Earth": 0.3333333333333333,
-          "Air": 0.20000000000000004
+          "Fire": 0.2057142857142857,
+          "Water": 0.27,
+          "Earth": 0.3471428571428571,
+          "Air": 0.17714285714285713
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77176,10 +77176,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 258,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -77193,18 +77193,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.45,
-          "Essence": 1.69,
-          "Matter": 2.57,
-          "Substance": 2.39
+          "Spirit": 1.36,
+          "Essence": 1.94,
+          "Matter": 2.6,
+          "Substance": 2.56
         },
         "thermodynamicProperties": {
-          "heat": 0.4333,
-          "entropy": 0.4467,
-          "reactivity": 0.48,
-          "gregsEnergy": 0.2189,
-          "kalchm": 0.2333,
-          "monica": 0.4576
+          "heat": 0.0304,
+          "entropy": 0.3187,
+          "reactivity": 1.4177,
+          "gregsEnergy": -0.4215,
+          "kalchm": 0.0413,
+          "monica": -0.0933
         },
         "substitutions": [
           {
@@ -77347,10 +77347,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24,
-          "Water": 0.26399999999999996,
-          "Earth": 0.376,
-          "Air": 0.12000000000000002
+          "Fire": 0.23125000000000004,
+          "Water": 0.23437499999999997,
+          "Earth": 0.37812500000000004,
+          "Air": 0.15625
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77368,10 +77368,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 11,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 256,
+          "sodiumMg": 244,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77385,18 +77385,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.68,
-          "Essence": 5.36,
-          "Matter": 5.79,
-          "Substance": 4.95
+          "Spirit": 3.6,
+          "Essence": 4.6,
+          "Matter": 5.72,
+          "Substance": 5.31
         },
         "thermodynamicProperties": {
-          "heat": 0.488,
-          "entropy": 0.3976,
-          "reactivity": 0.5024,
-          "gregsEnergy": 0.2882,
-          "kalchm": 0.22,
-          "monica": 0.4813
+          "heat": 0.0484,
+          "entropy": 0.345,
+          "reactivity": 1.6793,
+          "gregsEnergy": -0.531,
+          "kalchm": 0.0007,
+          "monica": -0.0435
         },
         "substitutions": [
           {
@@ -77491,10 +77491,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21500000000000002,
-          "Water": 0.14,
-          "Earth": 0.55,
-          "Air": 0.095
+          "Fire": 0.1857142857142857,
+          "Water": 0.19285714285714284,
+          "Earth": 0.4642857142857143,
+          "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77511,12 +77511,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
-          "carbsG": 23,
-          "fatG": 8,
+          "proteinG": 12,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 6,
-          "sodiumMg": 206,
-          "sugarG": 3,
+          "sodiumMg": 227,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -77529,18 +77529,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.78,
-          "Essence": 2.02,
-          "Matter": 2.41,
-          "Substance": 1.79
+          "Spirit": 1.57,
+          "Essence": 1.94,
+          "Matter": 3.19,
+          "Substance": 2.78
         },
         "thermodynamicProperties": {
-          "heat": 0.5375,
-          "entropy": 0.318,
-          "reactivity": 0.413,
-          "gregsEnergy": 0.4062,
-          "kalchm": -0.1,
-          "monica": 0.4325
+          "heat": 0.0328,
+          "entropy": 0.3061,
+          "reactivity": 1.0524,
+          "gregsEnergy": -0.2893,
+          "kalchm": 0.0106,
+          "monica": -0.0605
         },
         "substitutions": [
           {
@@ -77644,10 +77644,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15,
-          "Water": 0.2833333333333333,
-          "Earth": 0.43333333333333335,
-          "Air": 0.13333333333333333
+          "Fire": 0.19444444444444445,
+          "Water": 0.2222222222222222,
+          "Earth": 0.4222222222222223,
+          "Air": 0.16111111111111112
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77664,11 +77664,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 263,
+          "sodiumMg": 239,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77682,18 +77682,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.84,
-          "Essence": 2.59,
-          "Matter": 3.65,
-          "Substance": 3.05
+          "Spirit": 1.98,
+          "Essence": 2.1,
+          "Matter": 3.59,
+          "Substance": 3.23
         },
         "thermodynamicProperties": {
-          "heat": 0.4333,
-          "entropy": 0.38,
-          "reactivity": 0.46,
-          "gregsEnergy": 0.2585,
-          "kalchm": 0.0667,
-          "monica": 0.4234
+          "heat": 0.0418,
+          "entropy": 0.3593,
+          "reactivity": 1.1726,
+          "gregsEnergy": -0.3795,
+          "kalchm": 0.0042,
+          "monica": -0.0591
         },
         "substitutions": [
           {
@@ -77787,32 +77787,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.39999999999999997,
-          "Earth": 0.3333333333333333,
-          "Air": 0.13333333333333333
+          "Fire": 0.175,
+          "Water": 0.225,
+          "Earth": 0.41250000000000003,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 310,
-          "sugarG": 4,
+          "sodiumMg": 240,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -77825,18 +77825,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.65,
-          "Essence": 2.43,
-          "Matter": 3.27,
-          "Substance": 2.9
+          "Spirit": 1.4,
+          "Essence": 1.57,
+          "Matter": 2.85,
+          "Substance": 2.64
         },
         "thermodynamicProperties": {
-          "heat": 0.3667,
-          "entropy": 0.42,
-          "reactivity": 0.52,
-          "gregsEnergy": 0.1483,
-          "kalchm": 0.0333,
-          "monica": 0.3693
+          "heat": 0.032,
+          "entropy": 0.3517,
+          "reactivity": 1.0815,
+          "gregsEnergy": -0.3483,
+          "kalchm": 0.0127,
+          "monica": -0.0738
         },
         "substitutions": [
           {
@@ -77957,10 +77957,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1375,
-          "Water": 0.2875,
-          "Earth": 0.45,
-          "Air": 0.125
+          "Fire": 0.1783333333333333,
+          "Water": 0.23249999999999996,
+          "Earth": 0.41916666666666663,
+          "Air": 0.17
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77977,12 +77977,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
-          "carbsG": 24,
+          "proteinG": 11,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 265,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 243,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -77995,18 +77995,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.44,
-          "Essence": 3.39,
-          "Matter": 4.55,
-          "Substance": 3.75
+          "Spirit": 2.33,
+          "Essence": 3.03,
+          "Matter": 4.8,
+          "Substance": 4.33
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.37,
-          "reactivity": 0.455,
-          "gregsEnergy": 0.2566,
-          "kalchm": 0.025,
-          "monica": 0.4101
+          "heat": 0.0324,
+          "entropy": 0.3369,
+          "reactivity": 1.2288,
+          "gregsEnergy": -0.3816,
+          "kalchm": 0.0002,
+          "monica": -0.0365
         },
         "substitutions": [
           {
@@ -78124,31 +78124,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27142857142857146,
-          "Water": 0.36,
-          "Earth": 0.23142857142857146,
-          "Air": 0.13714285714285715
+          "Fire": 0.2416666666666667,
+          "Water": 0.2708333333333333,
+          "Earth": 0.325,
+          "Air": 0.1625
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 294,
+          "fiberG": 5,
+          "sodiumMg": 258,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -78162,18 +78162,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.49,
-          "Essence": 4.16,
-          "Matter": 4.4,
-          "Substance": 3.93
+          "Spirit": 3.29,
+          "Essence": 3.71,
+          "Matter": 4.44,
+          "Substance": 3.88
         },
         "thermodynamicProperties": {
-          "heat": 0.4557,
-          "entropy": 0.4623,
-          "reactivity": 0.5789,
-          "gregsEnergy": 0.1881,
-          "kalchm": 0.2371,
-          "monica": 0.4464
+          "heat": 0.0665,
+          "entropy": 0.3394,
+          "reactivity": 1.7529,
+          "gregsEnergy": -0.5285,
+          "kalchm": 0.0452,
+          "monica": -0.0974
         },
         "substitutions": [
           {
@@ -78288,10 +78288,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20250000000000004,
-          "Water": 0.3025,
-          "Earth": 0.335,
-          "Air": 0.16000000000000003
+          "Fire": 0.2844444444444445,
+          "Water": 0.19666666666666666,
+          "Earth": 0.32888888888888884,
+          "Air": 0.19
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78309,11 +78309,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 271,
-          "sugarG": 4,
+          "sodiumMg": 229,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -78326,18 +78326,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.28,
-          "Essence": 5.1,
-          "Matter": 5.4,
-          "Substance": 4.85
+          "Spirit": 3.79,
+          "Essence": 4.71,
+          "Matter": 4.52,
+          "Substance": 4.08
         },
         "thermodynamicProperties": {
-          "heat": 0.45,
-          "entropy": 0.43,
-          "reactivity": 0.503,
-          "gregsEnergy": 0.2337,
-          "kalchm": 0.225,
-          "monica": 0.461
+          "heat": 0.0734,
+          "entropy": 0.3271,
+          "reactivity": 2.2691,
+          "gregsEnergy": -0.6687,
+          "kalchm": 0.8133,
+          "monica": -1.4261
         },
         "substitutions": [
           {
@@ -78456,32 +78456,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18333333333333332,
-          "Water": 0.3333333333333333,
-          "Earth": 0.29166666666666663,
-          "Air": 0.19166666666666665
+          "Fire": 0.21545454545454543,
+          "Water": 0.26181818181818184,
+          "Earth": 0.3572727272727272,
+          "Air": 0.1654545454545454
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 283,
-          "sugarG": 5,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 255,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -78494,18 +78494,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.3,
-          "Essence": 4.56,
-          "Matter": 5.09,
-          "Substance": 4.5
+          "Spirit": 2.84,
+          "Essence": 3.94,
+          "Matter": 4.67,
+          "Substance": 4.27
         },
         "thermodynamicProperties": {
-          "heat": 0.425,
-          "entropy": 0.46,
-          "reactivity": 0.51,
-          "gregsEnergy": 0.1904,
-          "kalchm": 0.25,
-          "monica": 0.4512
+          "heat": 0.0434,
+          "entropy": 0.3096,
+          "reactivity": 1.6604,
+          "gregsEnergy": -0.4707,
+          "kalchm": 0.0065,
+          "monica": -0.0563
         },
         "substitutions": [
           {
@@ -78626,10 +78626,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1875,
-          "Water": 0.32499999999999996,
-          "Earth": 0.32499999999999996,
-          "Air": 0.16250000000000003
+          "Fire": 0.1954545454545455,
+          "Water": 0.2818181818181818,
+          "Earth": 0.33636363636363636,
+          "Air": 0.18636363636363634
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78647,11 +78647,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 280,
-          "sugarG": 4,
+          "sodiumMg": 263,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -78664,18 +78664,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.46,
-          "Essence": 4.5,
-          "Matter": 5.85,
-          "Substance": 5.38
+          "Spirit": 3.19,
+          "Essence": 4.22,
+          "Matter": 4.57,
+          "Substance": 4.06
         },
         "thermodynamicProperties": {
-          "heat": 0.4313,
-          "entropy": 0.435,
-          "reactivity": 0.5075,
-          "gregsEnergy": 0.2105,
-          "kalchm": 0.2,
-          "monica": 0.4442
+          "heat": 0.0548,
+          "entropy": 0.302,
+          "reactivity": 1.8536,
+          "gregsEnergy": -0.505,
+          "kalchm": 0.0575,
+          "monica": -0.0954
         },
         "substitutions": [
           {
@@ -78829,10 +78829,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.41111111111111115,
-          "Earth": 0.2066666666666667,
-          "Air": 0.21555555555555558
+          "Fire": 0.1647058823529412,
+          "Water": 0.3588235294117648,
+          "Earth": 0.2870588235294117,
+          "Air": 0.1894117647058824
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78849,11 +78849,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 314,
+          "sodiumMg": 294,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -78867,18 +78867,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.9,
-          "Essence": 6.36,
-          "Matter": 6.3,
-          "Substance": 5.86
+          "Spirit": 3.19,
+          "Essence": 5.09,
+          "Matter": 5.89,
+          "Substance": 5.72
         },
         "thermodynamicProperties": {
-          "heat": 0.3778,
-          "entropy": 0.5036,
-          "reactivity": 0.5467,
-          "gregsEnergy": 0.1025,
-          "kalchm": 0.1778,
-          "monica": 0.3943
+          "heat": 0.0332,
+          "entropy": 0.3178,
+          "reactivity": 1.8082,
+          "gregsEnergy": -0.5415,
+          "kalchm": 0.0002,
+          "monica": -0.0352
         },
         "substitutions": [
           {
@@ -78989,10 +78989,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.66,
-          "Earth": 0.16,
-          "Air": 0.13
+          "Fire": 0.18000000000000002,
+          "Water": 0.42000000000000004,
+          "Earth": 0.22000000000000003,
+          "Air": 0.18
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79009,12 +79009,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 414,
-          "sugarG": 4,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 318,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -79027,18 +79027,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.14,
-          "Essence": 3.2,
-          "Matter": 2.58,
-          "Substance": 2.08
+          "Spirit": 2.26,
+          "Essence": 3.74,
+          "Matter": 2.84,
+          "Substance": 2.8
         },
         "thermodynamicProperties": {
-          "heat": 0.195,
-          "entropy": 0.488,
-          "reactivity": 0.626,
-          "gregsEnergy": -0.1105,
-          "kalchm": -0.32,
-          "monica": 0.1598
+          "heat": 0.0494,
+          "entropy": 0.2496,
+          "reactivity": 2.9023,
+          "gregsEnergy": -0.6751,
+          "kalchm": 2.5314,
+          "monica": 0.2504
         },
         "substitutions": [
           {
@@ -79160,31 +79160,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1625,
-          "Water": 0.3825,
-          "Earth": 0.30500000000000005,
-          "Air": 0.15000000000000005
+          "Fire": 0.21666666666666667,
+          "Water": 0.25416666666666665,
+          "Earth": 0.375,
+          "Air": 0.15416666666666667
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 303,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 252,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -79198,18 +79198,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3,
-          "Essence": 4.36,
-          "Matter": 4.4,
-          "Substance": 3.78
+          "Spirit": 2.34,
+          "Essence": 3.08,
+          "Matter": 4.39,
+          "Substance": 3.86
         },
         "thermodynamicProperties": {
-          "heat": 0.39,
-          "entropy": 0.438,
-          "reactivity": 0.527,
-          "gregsEnergy": 0.1592,
-          "kalchm": 0.125,
-          "monica": 0.4012
+          "heat": 0.0376,
+          "entropy": 0.3117,
+          "reactivity": 1.3211,
+          "gregsEnergy": -0.3742,
+          "kalchm": 0.0019,
+          "monica": -0.0452
         },
         "substitutions": [
           {
@@ -79328,32 +79328,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1,
-          "Water": 0.42000000000000004,
-          "Earth": 0.33999999999999997,
-          "Air": 0.14
+          "Fire": 0.18750000000000003,
+          "Water": 0.2333333333333333,
+          "Earth": 0.4041666666666666,
+          "Air": 0.17500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 24,
-          "fatG": 6,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 318,
-          "sugarG": 4,
+          "sodiumMg": 243,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -79366,18 +79366,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.4,
-          "Essence": 3.91,
-          "Matter": 5.09,
-          "Substance": 4.6
+          "Spirit": 2.3,
+          "Essence": 2.78,
+          "Matter": 4.55,
+          "Substance": 4.05
         },
         "thermodynamicProperties": {
-          "heat": 0.34,
-          "entropy": 0.42,
-          "reactivity": 0.512,
-          "gregsEnergy": 0.125,
-          "kalchm": -0.02,
-          "monica": 0.344
+          "heat": 0.0358,
+          "entropy": 0.3428,
+          "reactivity": 1.2036,
+          "gregsEnergy": -0.3767,
+          "kalchm": 0.0004,
+          "monica": -0.04
         },
         "substitutions": [
           {
@@ -79505,10 +79505,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16,
-          "Water": 0.2,
-          "Earth": 0.43,
-          "Air": 0.21000000000000002
+          "Fire": 0.24916666666666668,
+          "Water": 0.20916666666666664,
+          "Earth": 0.31166666666666665,
+          "Air": 0.23
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79525,11 +79525,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 26,
-          "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 230,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 234,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -79543,18 +79543,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.52,
-          "Essence": 4.78,
-          "Matter": 4.09,
-          "Substance": 3.3
+          "Spirit": 3.28,
+          "Essence": 3.74,
+          "Matter": 4.41,
+          "Substance": 4.08
         },
         "thermodynamicProperties": {
-          "heat": 0.48,
-          "entropy": 0.412,
-          "reactivity": 0.416,
-          "gregsEnergy": 0.3086,
-          "kalchm": 0.14,
-          "monica": 0.4654
+          "heat": 0.0642,
+          "entropy": 0.366,
+          "reactivity": 1.8638,
+          "gregsEnergy": -0.618,
+          "kalchm": 0.0317,
+          "monica": -0.0961
         },
         "substitutions": [
           {
@@ -79739,10 +79739,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.10333333333333333,
-          "Water": 0.5211111111111111,
-          "Earth": 0.22999999999999998,
-          "Air": 0.14555555555555555
+          "Fire": 0.16190476190476194,
+          "Water": 0.3785714285714286,
+          "Earth": 0.2761904761904761,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79759,12 +79759,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 6,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 358,
-          "sugarG": 4,
+          "sodiumMg": 301,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -79777,18 +79777,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.63,
-          "Essence": 7.59,
-          "Matter": 7.56,
-          "Substance": 6.77
+          "Spirit": 4.31,
+          "Essence": 7.18,
+          "Matter": 7.05,
+          "Substance": 6.53
         },
         "thermodynamicProperties": {
-          "heat": 0.2911,
-          "entropy": 0.4662,
-          "reactivity": 0.5747,
-          "gregsEnergy": 0.0232,
-          "kalchm": -0.0422,
-          "monica": 0.2966
+          "heat": 0.0399,
+          "entropy": 0.2766,
+          "reactivity": 2.1048,
+          "gregsEnergy": -0.5423,
+          "kalchm": 0.0038,
+          "monica": -0.0462
         },
         "substitutions": [
           {
@@ -79856,10 +79856,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.8,
-          "Earth": 0.1,
-          "Air": 0.1
+          "Fire": 0.20000000000000004,
+          "Water": 0.45,
+          "Earth": 0.18333333333333332,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79876,12 +79876,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
-          "carbsG": 23,
-          "fatG": 5,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 470,
-          "sugarG": 4,
+          "sodiumMg": 330,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -79894,18 +79894,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.79,
-          "Essence": 1.36,
-          "Matter": 1.06,
-          "Substance": 0.79
+          "Spirit": 0.81,
+          "Essence": 1.3,
+          "Matter": 1.04,
+          "Substance": 0.9
         },
         "thermodynamicProperties": {
-          "heat": 0.1,
-          "entropy": 0.5,
-          "reactivity": 0.68,
-          "gregsEnergy": -0.24,
-          "kalchm": -0.6,
-          "monica": 0.1
+          "heat": 0.0426,
+          "entropy": 0.1735,
+          "reactivity": 2.2895,
+          "gregsEnergy": -0.3546,
+          "kalchm": 1.2516,
+          "monica": 0.6901
         },
         "substitutions": [
           {
@@ -80100,30 +80100,30 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32500000000000007,
-          "Water": 0.265,
-          "Earth": 0.22800000000000004,
-          "Air": 0.182
+          "Fire": 0.24347826086956517,
+          "Water": 0.2652173913043479,
+          "Earth": 0.31739130434782603,
+          "Air": 0.1739130434782609
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
-          "fiberG": 4,
+          "fatG": 8,
+          "fiberG": 5,
           "sodiumMg": 256,
           "sugarG": 5,
           "vitamins": [
@@ -80138,18 +80138,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.65,
-          "Essence": 7.71,
-          "Matter": 7.96,
-          "Substance": 7.3
+          "Spirit": 6.51,
+          "Essence": 7.14,
+          "Matter": 8.22,
+          "Substance": 7.85
         },
         "thermodynamicProperties": {
-          "heat": 0.53,
-          "entropy": 0.4816,
-          "reactivity": 0.554,
-          "gregsEnergy": 0.2632,
-          "kalchm": 0.32,
-          "monica": 0.5013
+          "heat": 0.0739,
+          "entropy": 0.4095,
+          "reactivity": 2.1285,
+          "gregsEnergy": -0.7978,
+          "kalchm": 0.0007,
+          "monica": -0.0516
         },
         "substitutions": [
           {
@@ -80212,32 +80212,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25,
+          "Fire": 0.2,
           "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Earth": 0.375,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 28,
-          "fatG": 8,
-          "fiberG": 4,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
           "sodiumMg": 250,
-          "sugarG": 6,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -80250,18 +80250,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.75,
-          "Essence": 0.9,
-          "Matter": 0.75,
-          "Substance": 0.6
+          "Spirit": 0.63,
+          "Essence": 0.74,
+          "Matter": 0.93,
+          "Substance": 0.82
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.0404,
+          "entropy": 0.2164,
+          "reactivity": 1.0276,
+          "gregsEnergy": -0.182,
+          "kalchm": 0.753,
+          "monica": -0.6244
         },
         "substitutions": [
           {
@@ -80319,31 +80319,31 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.25,
-          "Water": 0.25,
-          "Earth": 0.25,
-          "Air": 0.25
+          "Water": 0.375,
+          "Earth": 0.22499999999999998,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
-          "carbsG": 28,
+          "proteinG": 8,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 6,
+          "sodiumMg": 300,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -80356,18 +80356,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.5,
-          "Essence": 0.6,
-          "Matter": 0.5,
-          "Substance": 0.4
+          "Spirit": 0.73,
+          "Essence": 0.52,
+          "Matter": 0.54,
+          "Substance": 0.68
         },
         "thermodynamicProperties": {
-          "heat": 0.5,
-          "entropy": 0.5,
-          "reactivity": 0.5,
-          "gregsEnergy": 0.25,
-          "kalchm": 0.5,
-          "monica": 0.55
+          "heat": 0.096,
+          "entropy": 0.392,
+          "reactivity": 2.5483,
+          "gregsEnergy": -0.903,
+          "kalchm": 1.0255,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -80446,10 +80446,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.07500000000000001,
-          "Water": 0.44999999999999996,
-          "Earth": 0.30000000000000004,
-          "Air": 0.175
+          "Fire": 0.19,
+          "Water": 0.37,
+          "Earth": 0.32999999999999996,
+          "Air": 0.11000000000000001
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80467,11 +80467,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 6,
-          "fiberG": 4,
-          "sodiumMg": 330,
-          "sugarG": 5,
+          "carbsG": 23,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 298,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -80484,18 +80484,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.87,
-          "Essence": 1.4,
-          "Matter": 1.9,
-          "Substance": 1.79
+          "Spirit": 1.08,
+          "Essence": 1.82,
+          "Matter": 1.93,
+          "Substance": 1.99
         },
         "thermodynamicProperties": {
-          "heat": 0.3125,
-          "entropy": 0.45,
-          "reactivity": 0.515,
-          "gregsEnergy": 0.0807,
-          "kalchm": 0,
-          "monica": 0.3323
+          "heat": 0.028,
+          "entropy": 0.2613,
+          "reactivity": 1.6885,
+          "gregsEnergy": -0.4132,
+          "kalchm": 0.231,
+          "monica": -0.167
         },
         "substitutions": [
           {
@@ -80563,10 +80563,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18,
-          "Water": 0.38,
-          "Earth": 0.35,
-          "Air": 0.09
+          "Fire": 0.23750000000000002,
+          "Water": 0.35,
+          "Earth": 0.32499999999999996,
+          "Air": 0.0875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80585,9 +80585,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 23,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 302,
+          "sodiumMg": 290,
           "sugarG": 3,
           "vitamins": [
             "Vitamin A",
@@ -80601,18 +80601,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.85,
-          "Essence": 1.21,
-          "Matter": 1.05,
-          "Substance": 0.89
+          "Spirit": 0.93,
+          "Essence": 1.97,
+          "Matter": 1.8,
+          "Substance": 1.69
         },
         "thermodynamicProperties": {
-          "heat": 0.4,
-          "entropy": 0.396,
-          "reactivity": 0.536,
-          "gregsEnergy": 0.1877,
-          "kalchm": 0.04,
-          "monica": 0.3871
+          "heat": 0.0238,
+          "entropy": 0.1916,
+          "reactivity": 1.7248,
+          "gregsEnergy": -0.3066,
+          "kalchm": 0.5084,
+          "monica": -0.2628
         },
         "substitutions": [
           {
@@ -80717,10 +80717,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14333333333333334,
-          "Water": 0.38666666666666666,
-          "Earth": 0.3733333333333333,
-          "Air": 0.09666666666666666
+          "Fire": 0.20000000000000004,
+          "Water": 0.3388888888888889,
+          "Earth": 0.3277777777777778,
+          "Air": 0.13333333333333336
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80737,12 +80737,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 23,
+          "proteinG": 10,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 305,
-          "sugarG": 3,
+          "sodiumMg": 286,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -80755,18 +80755,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.78,
-          "Essence": 2.45,
-          "Matter": 3.23,
-          "Substance": 2.64
+          "Spirit": 2.04,
+          "Essence": 3.07,
+          "Matter": 3.53,
+          "Substance": 3.45
         },
         "thermodynamicProperties": {
-          "heat": 0.3783,
-          "entropy": 0.3893,
-          "reactivity": 0.518,
-          "gregsEnergy": 0.1766,
-          "kalchm": -0.02,
-          "monica": 0.3646
+          "heat": 0.0357,
+          "entropy": 0.3053,
+          "reactivity": 1.7243,
+          "gregsEnergy": -0.4908,
+          "kalchm": 0.0218,
+          "monica": -0.0744
         },
         "substitutions": [
           {
@@ -80829,32 +80829,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0,
-          "Water": 0.3,
-          "Earth": 0.5,
-          "Air": 0.2
+          "Fire": 0.13333333333333333,
+          "Water": 0.35000000000000003,
+          "Earth": 0.26666666666666666,
+          "Air": 0.25
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 13,
-          "carbsG": 26,
-          "fatG": 5,
-          "fiberG": 6,
-          "sodiumMg": 270,
-          "sugarG": 5,
+          "proteinG": 9,
+          "carbsG": 28,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 290,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -80867,18 +80867,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.7,
-          "Essence": 1.3,
-          "Matter": 0.9,
-          "Substance": 0.75
+          "Spirit": 0.54,
+          "Essence": 0.79,
+          "Matter": 0.88,
+          "Substance": 0.86
         },
         "thermodynamicProperties": {
-          "heat": 0.35,
-          "entropy": 0.38,
-          "reactivity": 0.38,
-          "gregsEnergy": 0.2056,
-          "kalchm": -0.1,
-          "monica": 0.3522
+          "heat": 0.0268,
+          "entropy": 0.2126,
+          "reactivity": 1.4132,
+          "gregsEnergy": -0.2736,
+          "kalchm": 0.7582,
+          "monica": -0.6994
         },
         "substitutions": [
           {
@@ -80979,10 +80979,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.66,
-          "Earth": 0.16,
-          "Air": 0.13
+          "Fire": 0.18749999999999997,
+          "Water": 0.3775,
+          "Earth": 0.29000000000000004,
+          "Air": 0.145
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80999,11 +80999,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 7,
+          "proteinG": 9,
           "carbsG": 24,
-          "fatG": 6,
-          "fiberG": 3,
-          "sodiumMg": 414,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 301,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -81017,18 +81017,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.89,
-          "Essence": 2.9,
-          "Matter": 2.33,
-          "Substance": 1.88
+          "Spirit": 1.64,
+          "Essence": 2.52,
+          "Matter": 2.74,
+          "Substance": 2.52
         },
         "thermodynamicProperties": {
-          "heat": 0.195,
-          "entropy": 0.488,
-          "reactivity": 0.626,
-          "gregsEnergy": -0.1105,
-          "kalchm": -0.32,
-          "monica": 0.1598
+          "heat": 0.0369,
+          "entropy": 0.2589,
+          "reactivity": 1.698,
+          "gregsEnergy": -0.4027,
+          "kalchm": 0.1422,
+          "monica": -0.1216
         },
         "substitutions": [
           {
@@ -81129,10 +81129,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.11249999999999999,
-          "Water": 0.5375,
-          "Earth": 0.195,
-          "Air": 0.15500000000000003
+          "Fire": 0.1875,
+          "Water": 0.41875000000000007,
+          "Earth": 0.2625,
+          "Air": 0.13124999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -81149,11 +81149,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 6,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 365,
+          "sodiumMg": 318,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -81167,18 +81167,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.33,
-          "Essence": 3.54,
-          "Matter": 2.68,
-          "Substance": 2.23
+          "Spirit": 1.68,
+          "Essence": 2.96,
+          "Matter": 3.04,
+          "Substance": 2.84
         },
         "thermodynamicProperties": {
-          "heat": 0.2875,
-          "entropy": 0.484,
-          "reactivity": 0.59,
-          "gregsEnergy": 0.0019,
-          "kalchm": -0.075,
-          "monica": 0.2783
+          "heat": 0.0307,
+          "entropy": 0.2451,
+          "reactivity": 1.8225,
+          "gregsEnergy": -0.416,
+          "kalchm": 0.1043,
+          "monica": -0.101
         },
         "substitutions": [
           {

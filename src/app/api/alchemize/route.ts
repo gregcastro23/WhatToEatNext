@@ -13,6 +13,11 @@
  * - enhanced: true to use full enhanced calculation, false for legacy (defaults to true)
  */
 import { NextResponse } from "next/server";
+import {
+  calculateThermodynamics,
+  calculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import { rateLimit } from "@/lib/rateLimit";
 import { AlchemizeQuerySchema } from "@/lib/validation/railway";
 import { calculateComprehensiveAspects, type PlanetaryPositionData } from "@/utils/aspectCalculator";
@@ -104,7 +109,8 @@ export async function GET(request: Request) {
     const dominantElement = Object.entries(elementCounts).sort(([, a], [, b]) => b - a)[0][0];
     const dominantModality = Object.entries(modalityCounts).sort(([, a], [, b]) => b - a)[0][0];
 
-    const spirit    = alch.Spirit   / total;
+    // Material vocabulary: the ESMS axes as proportions (Spirit is surfaced as
+    // part of the alchemical block above, not needed here).
     const essence   = alch.Essence  / total;
     const matter    = alch.Matter   / total;
     const substance = alch.Substance / total;
@@ -145,14 +151,35 @@ export async function GET(request: Request) {
       },
       dominantElement,
       dominantModality,
-      thermodynamic: {
-        heat:         Math.round(spirit * 10 * 100) / 100,
-        entropy:      Math.round((1 - Math.max(...Object.values(elementCounts).map((v) => v / elTotal))) * 100) / 100,
-        reactivity:   Math.round(spirit    * 100) / 100,
-        conductivity: Math.round(essence   * 100) / 100,
-        stability:    Math.round(matter    * 100) / 100,
-        density:      Math.round(substance * 100) / 100,
-      },
+      // §17c: heat/entropy/reactivity are now the CANONICAL engine values from
+      // data/unified — previously they were normalized-ESMS relabels
+      // (heat = spirit×10, entropy = 1−dominant share, reactivity = spirit), the
+      // only live heat/entropy divergence in the repo. gregsEnergy/kalchm/monica
+      // added (additive). conductivity/stability/density are the ESMS axes as
+      // proportions — a distinct material vocabulary, not thermodynamic — and are
+      // retained unchanged. Every value is finite by the totality contract.
+      thermodynamic: (() => {
+        const t = calculateThermodynamics(alch, {
+          Fire:  elementCounts.Fire  / elTotal,
+          Water: elementCounts.Water / elTotal,
+          Air:   elementCounts.Air   / elTotal,
+          Earth: elementCounts.Earth / elTotal,
+        });
+        const kalchm = calculateKalchm(alch);
+        const monica = calculateMonica(t.gregsEnergy, t.reactivity, kalchm);
+        const r = (v: number) => Math.round(v * 10000) / 10000;
+        return {
+          heat:         r(t.heat),
+          entropy:      r(t.entropy),
+          reactivity:   r(t.reactivity),
+          gregsEnergy:  r(t.gregsEnergy),
+          kalchm:       r(kalchm),
+          monica:       r(monica),
+          conductivity: Math.round(essence   * 100) / 100,
+          stability:    Math.round(matter    * 100) / 100,
+          density:      Math.round(substance * 100) / 100,
+        };
+      })(),
     });
   } catch (error) {
     console.error("[alchemize] Error:", error);

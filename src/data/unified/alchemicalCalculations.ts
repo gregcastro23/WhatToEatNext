@@ -38,27 +38,61 @@ export interface AlchemicalIngredient {
   cookingMethods?: string[];
 }
 
-// ===== CORE CALCULATION FUNCTIONS =====;
+// ===== CANONICAL THERMODYNAMIC ENGINE (§17c) =====;
+//
+// This module is the single source of truth for the six thermodynamic
+// quantities. Every live surface converges here — see
+// docs/physics/SYNTHESIS_MODEL.md §14/§17c.
+//
+// TOTALITY CONTRACT: none of these functions ever returns NaN, null, or a
+// non-finite value, for ANY input. Degenerate input resolves to a documented,
+// meaningful constant:
+//   heat / entropy / reactivity / gregsEnergy → 0   (true value: numerator is 0)
+//   kalchm                                    → 1.0 (DEFAULT_KALCHM, equilibrium)
+//   monica                                    → φ   (MONICA_EQUILIBRIUM, the
+//                                                    harmonic ideal — kalchm=1 is
+//                                                    perfect balance, not "dead")
+// The two floors below are the only tunable knobs.
+
+/** Floor applied to each ESMS axis before exponentiation, so 0^0 / division by
+ *  zero cannot occur. Load-bearing for sparse/single-body charts (§18). */
+export const KALCHM_EPSILON = 0.01;
+
+/** Half-width of the monica degenerate band. When |ln(kalchm)| < this, kalchm is
+ *  treated as the equilibrium point (perfect balance) and monica returns
+ *  MONICA_EQUILIBRIUM instead of diverging toward ±∞. */
+export const MONICA_LN_EPSILON = 0.05;
+
+/** The harmonic-ideal monica (golden ratio). Returned for a perfectly balanced
+ *  (degenerate) alchemical state. See §17c. */
+export const MONICA_EQUILIBRIUM = 1.618;
+
+/** Floor applied to squared denominators in the thermodynamic ratios. */
+const THERMO_DEN_FLOOR = 0.01;
 
 /**
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
+ *
+ * TOTAL: always finite and > 0. Each axis is floored at KALCHM_EPSILON, so an
+ * all-zero input yields exactly 1.0 (the equilibrium value).
  */
 export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance } = alchemicalProps;
 
-  // Handle edge cases where values might be 0
-  const safespirit = Math.max(Spirit, 0.01);
-  const safeessence = Math.max(Essence, 0.01);
-  const safematter = Math.max(Matter, 0.01);
-  const safesubstance = Math.max(Substance, 0.01);
+  // Floor each axis so 0^0 and division-by-zero cannot occur.
+  const safespirit = Math.max(Spirit, KALCHM_EPSILON);
+  const safeessence = Math.max(Essence, KALCHM_EPSILON);
+  const safematter = Math.max(Matter, KALCHM_EPSILON);
+  const safesubstance = Math.max(Substance, KALCHM_EPSILON);
 
   const numerator =
     Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
   const denominator =
     Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
 
-  return numerator / denominator;
+  const kalchm = numerator / denominator;
+  return Number.isFinite(kalchm) && kalchm > 0 ? kalchm : 1.0;
 }
 
 /**
@@ -77,7 +111,7 @@ export function calculateThermodynamics(
     Substance + Essence + Matter + Water + Air + Earth,
     2,
   );
-  const heat = heatNum / Math.max(heatDen, 0.01);
+  const heat = heatNum / Math.max(heatDen, THERMO_DEN_FLOOR);
 
   // Entropy calculation
   const entropyNum =
@@ -86,7 +120,7 @@ export function calculateThermodynamics(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
-  const entropy = entropyNum / Math.max(entropyDen, 0.01);
+  const entropy = entropyNum / Math.max(entropyDen, THERMO_DEN_FLOOR);
 
   // Reactivity calculation
   const reactivityNum =
@@ -97,27 +131,47 @@ export function calculateThermodynamics(
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
   const reactivityDen = Math.pow(Matter + Earth, 2);
-  const reactivity = reactivityNum / Math.max(reactivityDen, 0.01);
+  const reactivity = reactivityNum / Math.max(reactivityDen, THERMO_DEN_FLOOR);
 
-  // Greg's Energy
+  // Greg's Energy — never clamped; may be negative (a real, meaningful sign).
   const gregsEnergy = heat - entropy * reactivity;
 
-  return { heat, entropy, reactivity, gregsEnergy };
+  // Every value is finite by construction (floored denominators, finite
+  // numerators). The guard is a belt-and-braces backstop for the totality
+  // contract, not a reachable branch.
+  return {
+    heat: Number.isFinite(heat) ? heat : 0,
+    entropy: Number.isFinite(entropy) ? entropy : 0,
+    reactivity: Number.isFinite(reactivity) ? reactivity : 0,
+    gregsEnergy: Number.isFinite(gregsEnergy) ? gregsEnergy : 0,
+  };
 }
 
 /**
  * Calculate Monica constant (M) - Dynamic scaling factor
  * Formula: M = -Greg's Energy / (Reactivity * ln(Kalchm))
+ *
+ * TOTAL: always finite, never NaN/null (§17c). At the equilibrium point
+ * (kalchm ≈ 1, where ln → 0 and the raw formula diverges) monica is the perfect-
+ * balance case and returns MONICA_EQUILIBRIUM (φ). The MONICA_LN_EPSILON band
+ * both removes the NaN and bounds the near-1 blowup; real charts (kalchm far
+ * from 1) are unaffected.
  */
 export function calculateMonica(
   gregsEnergy: number,
   reactivity: number,
   kalchm: number,
 ): number {
-  if (kalchm <= 0) return NaN;
+  if (!Number.isFinite(kalchm) || kalchm <= 0) return MONICA_EQUILIBRIUM;
   const lnKalchm = Math.log(kalchm);
-  if (lnKalchm === 0) return NaN;
-  return -gregsEnergy / (reactivity * lnKalchm);
+  // Degenerate/equilibrium band: perfectly balanced state, monica is φ.
+  if (Math.abs(lnKalchm) < MONICA_LN_EPSILON) return MONICA_EQUILIBRIUM;
+  const safeReactivity =
+    Math.abs(reactivity) < KALCHM_EPSILON
+      ? Math.sign(reactivity || 1) * KALCHM_EPSILON
+      : reactivity;
+  const monica = -gregsEnergy / (safeReactivity * lnKalchm);
+  return Number.isFinite(monica) ? monica : MONICA_EQUILIBRIUM;
 }
 
 /**
