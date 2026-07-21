@@ -439,7 +439,7 @@ export function alchemize(
     Substance + Essence + Matter + Water + Air + Earth,
     2,
   );
-  const heat = heatNum / (heatDen || 1); // Avoid division by zero
+  const heat = heatNum / Math.max(heatDen, 0.01); // canonical floor (§17c)
   // Entropy
   const entropyNum =
     Math.pow(Spirit, 2) +
@@ -447,15 +447,15 @@ export function alchemize(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
-  const entropy = entropyNum / (entropyDen || 1);
-  // Reactivity (Dignity Table formula: (Σ / #Matter) + Earth²)
+  const entropy = entropyNum / Math.max(entropyDen, 0.01);
+  // Reactivity — CANONICAL form (§17c): reactivityNum / (Matter + Earth)².
   //
-  // Earth² is an ABSOLUTE INERTIA FLOOR added OUTSIDE the fraction.
-  // No matter how volatile Spirit/Substance/Essence become, a high Earth count
-  // always provides a minimum Reactivity baseline — the "Grounding Constant."
-  //
-  // Matter is the SOLE denominator (not Matter+Earth). The Ascendant contributes
-  // Matter=1 ensuring this is always non-zero in any chart with an Ascendant.
+  // This previously used the divergent `(Σ / Matter) + Earth²` form, which read
+  // 9.09 on the shared probe against the canonical 2.05 and grew without bound as
+  // Earth rose (Earth had moved from the denominator to an additive term). The
+  // (Matter + Earth)² denominator keeps Earth grounding reactivity, matches every
+  // other live engine, and the 0.01 floor preserves the non-zero baseline the old
+  // comment relied on the Ascendant's Matter for. See SYNTHESIS_MODEL.md §14a.
   const reactivityNum =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
@@ -463,7 +463,8 @@ export function alchemize(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
-  const reactivity = (reactivityNum / (Matter || 1)) + Math.pow(Earth, 2);
+  const reactivity =
+    reactivityNum / Math.max(Math.pow(Matter + Earth, 2), 0.01);
   // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
   // Kalchm (K_alchm). Clamp ESMS bases to a tiny positive epsilon first: a
@@ -740,14 +741,14 @@ export function alchemizeDetailed(
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
   const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
-  const heat = heatNum / (heatDen || 1);
+  const heat = heatNum / Math.max(heatDen, 0.01);
   const entropyNum =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Fire, 2) +
     Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
-  const entropy = entropyNum / (entropyDen || 1);
+  const entropy = entropyNum / Math.max(entropyDen, 0.01);
   const reactivityNum =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
@@ -755,7 +756,9 @@ export function alchemizeDetailed(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
-  const reactivity = reactivityNum / (Matter || 1) + Math.pow(Earth, 2);
+  // Canonical (Matter + Earth)² form — see the alchemize() site above and §14a.
+  const reactivity =
+    reactivityNum / Math.max(Math.pow(Matter + Earth, 2), 0.01);
   const gregsEnergy = heat - entropy * reactivity;
   // Clamp ESMS bases to epsilon before pow/ratio so a negative base can't make
   // kalchm NaN (mirrors alchemize()); x^x → 1 as x → 0 so valid inputs are unaffected.

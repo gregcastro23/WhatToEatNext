@@ -50,6 +50,12 @@ const POSITIONS: Record<string, PlanetaryPosition> = Object.fromEntries(
   ]),
 );
 
+// A FIXED date is required: alchemize's ESMS is sect-dependent (bodies swap axes
+// diurnal↔nocturnal, §1a), and sect is derived from the date, so `new Date()`
+// makes this test drift by season. This timestamp is diurnal, matching the
+// `diurnal: true` passed to the canonical engine below.
+const FIXED_DATE = new Date("2026-07-20T12:00:00Z");
+
 /** Normalize an ESMS quadruple to proportions so the two engines are comparable. */
 function proportions(e: {
   Spirit: number;
@@ -68,7 +74,7 @@ function proportions(e: {
 
 describe("ESMS engine characterization (pre-reconciliation golden master)", () => {
   it("both engines produce a four-axis ESMS result for the same chart", () => {
-    const real: StandardizedAlchemicalResult = alchemize(POSITIONS);
+    const real: StandardizedAlchemicalResult = alchemize(POSITIONS, null, FIXED_DATE);
     const canonical = calculateEnhancedAlchemicalFromPlanets(SIGNS, true);
 
     for (const axis of ["Spirit", "Essence", "Matter", "Substance"] as const) {
@@ -87,7 +93,7 @@ describe("ESMS engine characterization (pre-reconciliation golden master)", () =
    * word "pre-reconciliation" from the golden below.
    */
   it("the two engines currently DISAGREE on ESMS proportions", () => {
-    const real = proportions(alchemize(POSITIONS).esms);
+    const real = proportions(alchemize(POSITIONS, null, FIXED_DATE).esms);
     const canonical = proportions(
       calculateEnhancedAlchemicalFromPlanets(SIGNS, true),
     );
@@ -95,7 +101,7 @@ describe("ESMS engine characterization (pre-reconciliation golden master)", () =
   });
 
   it("pins the production (alchemize) ESMS proportions [GOLDEN]", () => {
-    const real = proportions(alchemize(POSITIONS).esms);
+    const real = proportions(alchemize(POSITIONS, null, FIXED_DATE).esms);
     // eslint-disable-next-line no-console
     console.log("alchemize proportions:", JSON.stringify(real));
     expect(real).toEqual(GOLDEN_REAL);
@@ -111,18 +117,19 @@ describe("ESMS engine characterization (pre-reconciliation golden master)", () =
   });
 });
 
-// GOLDEN — captured 2026-07-20, PRE-reconciliation. A snapshot of current
-// behaviour, not a claim of correctness. The gulf here is not merely the dignity
-// scale (±0.15 vs ±0.10): `alchemize` sums a sect-INVARIANT 0/1 ESMS table while
-// the canonical engine applies sect-dependent base ESMS, so Matter reads 0.47 in
-// one and 0.09 in the other on the identical chart. That is the §14a defect,
-// pinned. When `alchemize` delegates to the canonical path these two sets
-// converge; update both golden values in that same commit.
+// GOLDEN — captured 2026-07-21 at FIXED_DATE, PRE-reconciliation. A snapshot of
+// current behaviour, not a claim of correctness. Both engines are sect-dependent
+// (the earlier note that alchemize used a "sect-invariant" table was wrong —
+// verified: its ESMS shifts diurnal↔nocturnal, so a fixed date is required for
+// determinism). The engines still DIVERGE because they apply different dignity
+// scales (alchemize's local ±0.15 vs the canonical +10/+7). When alchemize
+// delegates to the canonical path these two sets converge; update both golden
+// values in that same commit.
 const GOLDEN_REAL: Record<string, number> = {
-  Spirit: 0.1739,
-  Essence: 0.1379,
-  Matter: 0.472,
-  Substance: 0.2161,
+  Spirit: 0.3055,
+  Essence: 0.3892,
+  Matter: 0.1899,
+  Substance: 0.1153,
 };
 const GOLDEN_CANONICAL: Record<string, number> = {
   Spirit: 0.3188,
