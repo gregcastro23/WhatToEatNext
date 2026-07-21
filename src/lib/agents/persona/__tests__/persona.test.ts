@@ -89,7 +89,11 @@ describe('Philosopher\'s Stone Agent Pipeline', () => {
       }
     }
 
-    expect(agent.consciousness.monicaConstant).toBeGreaterThanOrEqual(0)
+    // §18 — a real thermodynamic monica is signed and lives on roughly [-4, 4]
+    // (measured: 224/224 single-body cases in [-3.97, 3.90]). The old [0, 10]
+    // bound described the longitude average this replaced, not a monica.
+    expect(Number.isFinite(agent.consciousness.monicaConstant)).toBe(true)
+    expect(agent.consciousness.monicaConstant).toBeGreaterThanOrEqual(-10)
     expect(agent.consciousness.monicaConstant).toBeLessThanOrEqual(10)
 
     const stats = deriveSacredStats(agent)

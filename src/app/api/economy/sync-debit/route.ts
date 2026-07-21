@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -165,7 +166,16 @@ export async function POST(req: NextRequest) {
         (ap.monicaCreationStory as string | undefined) ||
         null;
       const dominantElementCandidate = (ap.dominantElement as string | undefined) ?? null;
-      const monicaCandidate = (ap.monicaConstant as number | string | undefined) ?? null;
+
+      // §18e/§18h — WTEN owns the monica. It is computed here from the agent's
+      // OWN name, never taken from the AlchmAgentsETH payload: the old
+      // `COALESCE(payload.monicaConstant, ...)` is how 3600 rows came to hold
+      // round (0,1) sentinels that were never a thermodynamic monica at all.
+      // A name that is not a single-body placement yields null, which the
+      // COALESCE below reads as "leave the stored value alone".
+      const agentName = (ap.name as string | undefined) ?? null;
+      const resolvedMonica = agentName ? agentMonicaFromName(agentName) : null;
+      const monicaCandidate = resolvedMonica?.combined ?? null;
       const hasNatalChart =
         ap.natalChart && typeof ap.natalChart === "object" && Object.keys(ap.natalChart).length > 0;
       const hasNatalPositions = Array.isArray(ap.natalPositions) && (ap.natalPositions as unknown[]).length > 0;
@@ -180,6 +190,8 @@ export async function POST(req: NextRequest) {
            natal_positions  = CASE WHEN $5::boolean THEN $6::jsonb ELSE natal_positions END,
            dominant_element = COALESCE($7, dominant_element),
            monica_constant  = COALESCE($8::numeric, monica_constant),
+           monica_diurnal   = COALESCE($11::numeric, monica_diurnal),
+           monica_nocturnal = COALESCE($12::numeric, monica_nocturnal),
            birth_data       = CASE WHEN $9::boolean THEN $10::jsonb ELSE birth_data END,
            updated_at       = now()
          WHERE user_id = $1`,
@@ -198,6 +210,8 @@ export async function POST(req: NextRequest) {
             time: ap.birthTime ?? null,
             location: ap.birthLocation ?? null,
           }),
+          resolvedMonica?.diurnal ?? null,
+          resolvedMonica?.nocturnal ?? null,
         ]
       );
     }
