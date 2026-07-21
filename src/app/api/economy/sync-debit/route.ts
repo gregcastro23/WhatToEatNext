@@ -192,6 +192,7 @@ export async function POST(req: NextRequest) {
            monica_constant  = COALESCE($8::numeric, monica_constant),
            monica_diurnal   = COALESCE($11::numeric, monica_diurnal),
            monica_nocturnal = COALESCE($12::numeric, monica_nocturnal),
+           monica_method    = COALESCE($13, monica_method),
            birth_data       = CASE WHEN $9::boolean THEN $10::jsonb ELSE birth_data END,
            updated_at       = now()
          WHERE user_id = $1`,
@@ -212,6 +213,10 @@ export async function POST(req: NextRequest) {
           }),
           resolvedMonica?.diurnal ?? null,
           resolvedMonica?.nocturnal ?? null,
+          // agentMonicaFromName only resolves single-body placements (it
+          // returns null for phase agents), so a resolved value is always
+          // this method — see §18j.
+          resolvedMonica ? "single-body" : null,
         ]
       );
     }

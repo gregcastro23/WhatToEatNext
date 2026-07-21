@@ -212,8 +212,8 @@ export async function POST(request: NextRequest) {
 
         await executeQuery(
           `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, dominant_element, created_at, updated_at
-           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, now(), now())`,
+             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, monica_method, dominant_element, created_at, updated_at
+           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, now(), now())`,
           [
             agentId,
             name,
@@ -222,6 +222,11 @@ export async function POST(request: NextRequest) {
             JSON.stringify(formattedChart),
             JSON.stringify(formattedChart.planets || {}),
             monicaConstant,
+            // §18j — this agent has a real birth chart, so monica_constant is
+            // built by the full-chart engine (alchemize()), not the single-body
+            // or two-body construction. monica_diurnal/nocturnal are left NULL
+            // here pending the both-sects reversal tracked separately.
+            "full-chart",
             dominantElement
           ]
         );

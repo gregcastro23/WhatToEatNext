@@ -5,7 +5,11 @@
  * are round (0,1) sentinels (0.50 x1330, 0.55 x556, ...) that the sync-debit
  * COALESCE let in from upstream; the rest hold a longitude average. This writes
  * the real §18c value, computed from each agent's own name, to
- * monica_diurnal / monica_nocturnal / monica_constant.
+ * monica_diurnal / monica_nocturnal / monica_constant / monica_method.
+ * monica_method is stamped 'single-body' — single-body, two-body (phase) and
+ * full-chart (person) agents build monica from different constructions, so
+ * nothing downstream can compare values across populations without knowing
+ * which one produced a given row (§18j).
  *
  * DRY RUN BY DEFAULT — computes everything, prints the report, writes nothing.
  * Pass --write to commit, inside one transaction.
@@ -44,11 +48,11 @@ await client.connect();
 const cols = await client.query<{ column_name: string }>(
   `SELECT column_name FROM information_schema.columns
     WHERE table_name = 'user_profiles'
-      AND column_name IN ('monica_diurnal', 'monica_nocturnal')`,
+      AND column_name IN ('monica_diurnal', 'monica_nocturnal', 'monica_method')`,
 );
-if (cols.rowCount !== 2) {
+if (cols.rowCount !== 3) {
   const msg =
-    `monica_diurnal / monica_nocturnal missing (found ${cols.rowCount} of 2). ` +
+    `monica_diurnal / monica_nocturnal / monica_method missing (found ${cols.rowCount} of 3). ` +
     `Apply database/init/70-agent-monica-sects.sql first.`;
   if (WRITE) {
     console.error(`FATAL: ${msg}`);
@@ -177,6 +181,7 @@ try {
        monica_diurnal   = v.diurnal,
        monica_nocturnal = v.nocturnal,
        monica_constant  = v.combined,
+       monica_method    = 'single-body',
        updated_at       = now()
      FROM (
        SELECT * FROM unnest(
@@ -202,13 +207,14 @@ try {
 
 // --------------------------------------------------------------- verify ----
 const check = await client.query<{
-  n: string; non_finite: string; nulls: string; mn: string; mx: string;
+  n: string; non_finite: string; nulls: string; wrong_method: string; mn: string; mx: string;
 }>(
   `SELECT count(*)                                                        AS n,
           count(*) FILTER (WHERE NOT (monica_constant > -1e9
                                   AND monica_constant <  1e9))            AS non_finite,
           count(*) FILTER (WHERE monica_diurnal IS NULL
                               OR monica_nocturnal IS NULL)                AS nulls,
+          count(*) FILTER (WHERE monica_method IS DISTINCT FROM 'single-body') AS wrong_method,
           min(monica_constant)::text                                      AS mn,
           max(monica_constant)::text                                      AS mx
      FROM user_profiles up JOIN users u ON u.id = up.user_id
