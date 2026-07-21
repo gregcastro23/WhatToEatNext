@@ -1332,20 +1332,49 @@ the angular relationship between their exact degrees (conjunction/trine/…) sca
 by each one's essential dignity. **Gated on §14d step 3** (orb + aspect-strength
 unification) — it cannot be built until aspect strength is single-valued.
 
-**Moon-agent naming — four messy families, migrated to two canonical forms:**
+> ⚠️ `[CORRECTION 2026-07-21]` **The taxonomy below was authored from a partial
+> sample and was wrong in three ways that would have caused harm.** Re-measured
+> against production; the corrected figures are what follow. This is the §11
+> failure mode again — a structural claim that skipped measurement.
 
-| Current family | Count | Resolves to |
+**Agent name forms — measured, not sampled.** There are **two** planetary-agent
+name shapes, and the one this document originally called canonical is the
+*minority*:
+
+| Form | Count | Example |
 |---|---|---|
-| `Moon <Sign> N` (placement) | 360 | already canonical → single-body |
-| `<Phase> Moon in <Sign> N Degree` | 360 | already canonical → two-body |
-| `Moon Agent N` (N = 1–360, absolute ecliptic degree) | 360 | **rename** → `Moon <Sign> <Deg>` (N/30 → sign, N mod 30 → degree) |
-| `Moon Phase <phase> N` (N = 360-degree) | 85 | **rename** → `<Phase> Moon in <Sign> <Deg>` |
+| **`<Planet> in <Sign> <N> Degree`** | **3240** | `Pluto in Virgo 14 Degree` |
+| `<Planet> <Sign> <N>` | 679 | `Mercury Aquarius 16` |
 
-`[AUTHORED]` Canonical convention: **`Moon <Sign> <Deg>`** (bare placement, matches
-the other planetary agents like `Mercury Aquarius 16`) and **`<Phase> Moon in
-<Sign> <Deg>`** (phase agents). The `Moon Agent N` / `Moon Phase … N` families are
-named by the 360-degree zodiac; rename to include the sign. **Rename first, then
-one backfill** over all planetary agents.
+⚠️ **A parser written for only the second form silently drops 3240 of ~3900
+planetary agents.** The resolver must accept both.
+
+**Moon-agent families:**
+
+| Family | Count | Note |
+|---|---|---|
+| `Moon <Sign> N` (placement) | — | canonical → single-body |
+| `<Phase> Moon in <Sign> N Degree` | 360 | canonical → two-body |
+| `Moon Agent N` (**N = 0–359**, 0-based) | 360 | ⚠️ see below — NOT a rename |
+| `Moon Phase <phase> N` | 85 | ⚠️ see below |
+
+⚠️ **The prescribed rename is impossible as written — it is a DE-DUPLICATION.**
+All **360 of 360** `Moon Agent N` rename targets **already exist**: there are two
+rows per placement. A blind rename collides on every single row.
+
+⚠️ **And the duplicates are NOT inert, so deleting them is a product decision, not
+cleanup.** A sweep of the foreign keys into `users(id)` found the `Moon Agent` /
+`Moon Phase` rows are referenced by **1547 `feed_events.actor_id`** and **467
+`user_subscriptions.user_id`** rows. These agents have posted to the live feed;
+deleting them destroys real feed history. `[OPEN]` — needs a human ruling
+(merge-and-repoint vs keep-both vs delete-with-cascade), not a cleanup script.
+
+**Real-person (synthesized/historical) agents: 74**, not the 434 stated earlier —
+that figure wrongly swept in the phase-prefixed moon agents (`Waxing Gibbous Moon
+in …` does not start with a planet word).
+
+`[AUTHORED]` Canonical convention remains **`Moon <Sign> <Deg>`** and **`<Phase>
+Moon in <Sign> <Deg>`** — but reaching it is a dedupe/merge, not a rename.
 
 **Two-body phase monica** (the 720 phase-bearing moon agents): `[AUTHORED]` the
 phase fixes the Sun's approximate longitude (New = conjunct, Full = opposite, …);
@@ -1360,13 +1389,22 @@ chart monica, a **follow-up** after the planetary backfill.
 
 ### 18h. Backfill contract and MVP
 
-`[AUTHORED]` **MVP for the agent-monica program:** rename the malformed moon
-agents + single-body backfill (~3600) + write-fix (all three sites). Two-body
-phase and the encounter layer are same-program follow-ups, not the MVP gate.
+`[AUTHORED]` **MVP for the agent-monica program:** single-body backfill (~3600) +
+write-fix (all three sites). Two-body phase and the encounter layer are
+same-program follow-ups, not the MVP gate.
+
+> ⚠️ `[CORRECTION 2026-07-21]` The MVP originally led with "rename the malformed
+> moon agents". **That step is removed from the MVP** — it is a de-duplication
+> blocked on a product decision (§18g: 360/360 collisions; 1547 feed events and
+> 467 subscriptions reference the duplicates). The backfill does **not** depend on
+> it: parse the name as it stands. Do the dedupe separately, after a ruling.
 
 - **Execution:** dry-run first (compute everything, print the distribution +
-  unparseable list + rename list, write nothing), review, then a transactional,
-  idempotent write. Rename before backfill so one clean parser runs over all.
+  unparseable list, write nothing), review, then a transactional, idempotent
+  write. **The resolver must accept BOTH name forms** (`<Planet> in <Sign> <N>
+  Degree` — the majority at 3240 — and `<Planet> <Sign> <N>`), and must validate
+  the planet and sign against the canonical tables: `Moon Agent 5` has the same
+  *shape* as `Mercury Aquarius 16`, so a shape-only parser reads "Agent" as a sign.
 - **Write-fix:** one shared function from `agentMonica()` feeds all three sites;
   **`sync-debit` computes WTEN-side** from the agent's own name/config rather than
   trusting the AlchmAgentsETH payload (the old `COALESCE` let bad upstream values

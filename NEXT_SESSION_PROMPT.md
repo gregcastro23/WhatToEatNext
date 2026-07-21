@@ -48,19 +48,25 @@ from the NAME, not a chart.
 (nullable, idempotent). Run the `ALTER TABLE` against prod, confirm the columns.
 `monica_constant` becomes their average (`combined`).
 
-### 2. Rename malformed moon agents → canonical, THEN one backfill
-Four moon families today; migrate to **two** canonical forms:
-- `Moon <Sign> <Deg>` (bare placement, like `Mercury Aquarius 16`) → single-body.
-- `<Phase> Moon in <Sign> <Deg>` (phase agents) → two-body.
+### 2. ⚠️ DO NOT RENAME — it's a blocked de-duplication (corrected 2026-07-21)
+An earlier draft of this file told you to rename `Moon Agent N` → `Moon <Sign>
+<Deg>`. **Verified against production: all 360 of 360 targets already exist** —
+there are two rows per placement, so a blind rename collides on every row. And the
+duplicates are **not inert**: **1547 `feed_events` + 467 `user_subscriptions`**
+reference them, so deleting destroys live feed history.
 
-Rename these onto the canonical forms (the `N` is the absolute ecliptic degree,
-1–360 → `N/30` sign, `N mod 30` degree):
-- `Moon Agent N` (360) → `Moon <Sign> <Deg>`
-- `Moon Phase <phase> N` (85) → `<Phase> Moon in <Sign> <Deg>`
+**This is a product decision, not cleanup** — merge-and-repoint vs keep-both vs
+delete-with-cascade. Get a ruling first. **The backfill does not depend on it.**
 
 ### 3. Backfill ~3600 planetary agents (dry-run first)
-- Parse planet/sign/degree from the name (tolerant regex), call `agentMonica`,
-  write all three columns.
+- ⚠️ **The resolver must accept BOTH name forms** — the majority form is
+  `<Planet> in <Sign> <N> Degree` (**3240 rows**, e.g. `Pluto in Virgo 14 Degree`);
+  `<Planet> <Sign> <N>` (`Mercury Aquarius 16`) is only **679**. A parser built for
+  the second form alone silently drops 3240 agents.
+- ⚠️ **Validate planet and sign against the canonical tables, not just shape** —
+  `Moon Agent 5` has the same shape as `Mercury Aquarius 16`, so a shape-only
+  regex reads "Agent" as a sign.
+- Then call `agentMonica`, write all three columns.
 - **Dry-run**: compute everything, print the distribution + unparseable list +
   rename list, write NOTHING. Review, then a transactional, idempotent write.
 - Unparseable rows: skip + log + leave NULL (don't guess).
@@ -94,7 +100,7 @@ Remove obvious test/non-agent rows — `Alchemical Chef`, `Pa Prod Smoke …`,
   dignity** — the angular relationship between two agents' degrees scaled by each
   one's dignity. ⚠️ **Gated on §14d step 3** (orb + aspect-strength unification) —
   can't build until aspect strength is single-valued.
-- **Synthesized/historical agents** (434 real people — Poe, Mozart, Cicero…): a
+- **Synthesized/historical agents** (74 real people — Poe, Mozart, Cicero…): a
   **full-chart** monica (71 have charts; 363 need charts computed first).
 
 ## Lower-priority / opportunistic
