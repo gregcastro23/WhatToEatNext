@@ -21,7 +21,6 @@ import {
   Archive,
 } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
-import type { ChangeEvent, KeyboardEvent } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -40,6 +39,7 @@ import {
   deriveStatsFromChart,
   calculateAverage,
 } from '@/lib/sacred-7-stats'
+import type { ChangeEvent, KeyboardEvent } from 'react'
 
 interface AgentCreationData {
   name: string

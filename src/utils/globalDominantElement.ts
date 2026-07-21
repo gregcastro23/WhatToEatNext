@@ -13,11 +13,8 @@ type ElementalProfileFn = (props: Record<string, number>) => {
 };
 
 declare global {
-  // eslint-disable-next-line no-var
   var getDominantElement: DominantElementFn | undefined;
-  // eslint-disable-next-line no-var
   var getElementalCharacteristics: ElementalCharacteristicsFn | undefined;
-  // eslint-disable-next-line no-var
   var getElementalProfile: ElementalProfileFn | undefined;
 }
 

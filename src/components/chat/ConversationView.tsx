@@ -33,9 +33,15 @@ export function ConversationView({
   const viewerId = convo.viewerId;
   const [reportTarget, setReportTarget] = useState<ChatMessage | null>(null);
 
+  // Mark the thread read whenever new messages arrive. Hoisting the two values
+  // the effect actually depends on keeps the dependency list exact (rather than
+  // depending on the whole `convo` object, which is a fresh reference each render
+  // and would re-fire markRead on every render).
+  const markRead = convo.markRead;
+  const messageCount = convo.messages.length;
   useEffect(() => {
-    void convo.markRead();
-  }, [convo.markRead, convo.messages.length]);
+    void markRead();
+  }, [markRead, messageCount]);
 
   const renderMenu = (message: ChatMessage) => {
     if (message.pending || message.deletedAt) return null;
