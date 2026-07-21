@@ -19,15 +19,14 @@ describe("Physics Module Calculations", () => {
     });
 
     it("should use fallback metrics when metric is undefined and fallbackKey is provided", () => {
-      // For reactivity: mean = 10, stdDev = 4
-      // value = 12 -> z-score = (12 - 10) / 4 = 0.5
-      // projected = 0.5 + 0.5 * 0.15 = 0.575
-      expect(projectZScoreTarget(12, undefined, "reactivity")).toBeCloseTo(0.575, 4);
+      // §17c-recalibrated priors (canonical engine distribution).
+      // reactivity: mean = 6.54, stdDev = 6.91
+      // value = 12 -> z = (12 - 6.54) / 6.91 = 0.7902 -> 0.5 + 0.7902*0.15 = 0.6185
+      expect(projectZScoreTarget(12, undefined, "reactivity")).toBeCloseTo(0.6185, 4);
 
-      // For heat: mean = 0.08, stdDev = 0.03
-      // value = 0.11 -> z-score = (0.11 - 0.08) / 0.03 = 1.0
-      // projected = 0.5 + 1.0 * 0.15 = 0.65
-      expect(projectZScoreTarget(0.11, undefined, "heat")).toBeCloseTo(0.65, 4);
+      // heat: mean = 0.067, stdDev = 0.037
+      // value = 0.11 -> z = (0.11 - 0.067) / 0.037 = 1.1622 -> 0.5 + 1.1622*0.15 = 0.6743
+      expect(projectZScoreTarget(0.11, undefined, "heat")).toBeCloseTo(0.6743, 4);
     });
 
     it("should clamp values to [0.1, 0.9] when no metric or fallback key is available", () => {
@@ -39,11 +38,15 @@ describe("Physics Module Calculations", () => {
 
   describe("sigmoidCompatibility", () => {
     it("should return 1.0 for a perfect match (diff = 0)", () => {
-      // userState.entropy = 0.5 -> projected = 0.875
-      // itemState.entropy = 0.875 -> diff = 0
+      // entropyCompatibility = sigmoid(projected(user.entropy), item.entropy). A
+      // perfect match is item.entropy === projected(user.entropy). Compute the
+      // projection dynamically so this survives the §17c prior recalibration
+      // (the old form hard-coded 0.875, which only held under the pre-recon prior).
+      const userEntropy = 0.30;
+      const itemEntropy = projectZScoreTarget(userEntropy, undefined, "entropy");
       const thermoResult = calculateThermodynamicCompatibility(
-        { heat: 0.08, entropy: 0.5, reactivity: 10.0, gregsEnergy: 0 },
-        { heat: 0.5, entropy: 0.875, reactivity: 0.5, gregsEnergy: 0 }
+        { heat: 0.08, entropy: userEntropy, reactivity: 6.54, gregsEnergy: 0 },
+        { heat: 0.5, entropy: itemEntropy, reactivity: 0.5, gregsEnergy: 0 }
       );
       expect(thermoResult.entropyCompatibility).toBeCloseTo(1.0, 4);
     });
