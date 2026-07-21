@@ -12,6 +12,7 @@ jest.mock("next/server", () => ({
 }));
 
 import { withTransaction } from "@/lib/database";
+import { agentMonica } from "@/utils/agentMonica";
 import { POST } from "../route";
 
 jest.mock("@/lib/database", () => ({
@@ -181,5 +182,87 @@ describe("POST /api/internal/agent-sync", () => {
       expect.stringContaining("INSERT INTO user_profiles"),
       expect.any(Array)
     );
+  });
+
+  // §18j — the 4th write path. This endpoint used to trust `monicaConstant`
+  // straight from the sync payload (PA's own legacy, disconnected, unsigned
+  // formula) via a bare parseFloat. It now computes it server-side from the
+  // agent's own name, the same way sync-debit and agents/unified do — WTEN
+  // owns the truth regardless of what the payload claims.
+  describe("monica is computed server-side, not trusted from the payload", () => {
+    function captureUserProfilesParams(mockClient: { query: jest.Mock }): unknown[] {
+      const call = mockClient.query.mock.calls.find(([sql]: [string]) =>
+        sql.includes("INSERT INTO user_profiles")
+      );
+      if (!call) throw new Error("INSERT INTO user_profiles was never called");
+      return call[1];
+    }
+
+    it("ignores an untrusted monicaConstant and writes the real single-body value instead", async () => {
+      const mockClient = {
+        query: jest.fn().mockImplementation((queryStr: string) => {
+          if (queryStr.includes("SELECT id FROM users")) {
+            return Promise.resolve({ rows: [] }); // new user
+          }
+          return Promise.resolve({ rowCount: 1, rows: [] });
+        }),
+      };
+      (withTransaction as jest.Mock).mockImplementation(async (callback) => {
+        await callback(mockClient);
+      });
+
+      // A resolvable single-body placement, canonical name form.
+      const body = {
+        email: "jupiter-leo-2@agentic.alchm.kitchen",
+        displayName: "Jupiter Leo 2",
+        // A hostile/stale value from PA's own legacy formula — must NOT
+        // survive into the stored row.
+        monicaConstant: "999.999",
+      };
+
+      const res = await POST(makeRequest(body, { "X-Sync-Secret": mockSyncSecret }));
+      expect((await res.json()).ok).toBe(true);
+
+      const params = captureUserProfilesParams(mockClient);
+      const expected = agentMonica("Jupiter", "Leo", 2);
+
+      // monica_constant (index 6): the real computed value, not the payload's.
+      expect(params[6]).not.toBe("999.999");
+      expect(params[6]).toBeCloseTo(expected.combined, 10);
+      // monica_diurnal / monica_nocturnal (indices 7, 8).
+      expect(params[7]).toBeCloseTo(expected.diurnal, 10);
+      expect(params[8]).toBeCloseTo(expected.nocturnal, 10);
+      // monica_method (index 9).
+      expect(params[9]).toBe("single-body");
+    });
+
+    it("stores null (not the payload value) for a name that isn't a placement", async () => {
+      const mockClient = {
+        query: jest.fn().mockImplementation((queryStr: string) => {
+          if (queryStr.includes("SELECT id FROM users")) {
+            return Promise.resolve({ rows: [] });
+          }
+          return Promise.resolve({ rowCount: 1, rows: [] });
+        }),
+      };
+      (withTransaction as jest.Mock).mockImplementation(async (callback) => {
+        await callback(mockClient);
+      });
+
+      const body = {
+        email: "hildegard@agentic.alchm.kitchen",
+        displayName: "Hildegard of Bingen", // a real person, not a placement
+        monicaConstant: "1.618033", // must not pass through either
+      };
+
+      const res = await POST(makeRequest(body, { "X-Sync-Secret": mockSyncSecret }));
+      expect((await res.json()).ok).toBe(true);
+
+      const params = captureUserProfilesParams(mockClient);
+      expect(params[6]).toBeNull(); // monica_constant
+      expect(params[7]).toBeNull(); // monica_diurnal
+      expect(params[8]).toBeNull(); // monica_nocturnal
+      expect(params[9]).toBeNull(); // monica_method
+    });
   });
 });

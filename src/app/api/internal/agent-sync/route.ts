@@ -11,6 +11,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { withTransaction } from "@/lib/database";
+import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -111,9 +112,17 @@ export async function POST(req: NextRequest) {
     }
 
     const resolvedName = displayName?.trim() || email.split("@")[0];
-    const parsedMonicaConstant = monicaConstant !== undefined && monicaConstant !== null && monicaConstant !== ""
-      ? parseFloat(String(monicaConstant))
-      : null;
+    // §18j — WTEN computes its own monica from the agent's own name, the same
+    // way sync-debit and agents/unified do. This endpoint used to trust
+    // `monicaConstant` straight from the sync payload (PA's own legacy,
+    // unsigned, disconnected formula) via a bare parseFloat with no
+    // validation — a fourth write path the original three-site §18e fix
+    // missed. `agentMonicaFromName` only resolves single-body placements and
+    // returns null for anything else (a phase agent, a person), which the
+    // COALESCE below reads as "leave the stored value alone."
+    void monicaConstant; // intentionally ignored — see comment above
+    const resolvedMonica = agentMonicaFromName(resolvedName);
+    const parsedMonicaConstant = resolvedMonica?.combined ?? null;
 
     const userProfilePayload = {
       email,
@@ -153,8 +162,8 @@ export async function POST(req: NextRequest) {
         // Upsert user profile
         await client.query(
           `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, dominant_element
-           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, monica_diurnal, monica_nocturnal, monica_method, dominant_element
+           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
            ON CONFLICT (user_id) DO UPDATE SET
              name = COALESCE(EXCLUDED.name, user_profiles.name),
              bio = COALESCE(EXCLUDED.bio, user_profiles.bio),
@@ -162,6 +171,9 @@ export async function POST(req: NextRequest) {
              natal_chart = COALESCE(EXCLUDED.natal_chart, user_profiles.natal_chart),
              natal_positions = COALESCE(EXCLUDED.natal_positions, user_profiles.natal_positions),
              monica_constant = COALESCE(EXCLUDED.monica_constant, user_profiles.monica_constant),
+             monica_diurnal = COALESCE(EXCLUDED.monica_diurnal, user_profiles.monica_diurnal),
+             monica_nocturnal = COALESCE(EXCLUDED.monica_nocturnal, user_profiles.monica_nocturnal),
+             monica_method = COALESCE(EXCLUDED.monica_method, user_profiles.monica_method),
              dominant_element = COALESCE(EXCLUDED.dominant_element, user_profiles.dominant_element),
              updated_at = now()`,
           [
@@ -172,6 +184,9 @@ export async function POST(req: NextRequest) {
             natalChart ? JSON.stringify(natalChart) : null,
             natalPositions ? JSON.stringify(natalPositions) : null,
             parsedMonicaConstant,
+            resolvedMonica?.diurnal ?? null,
+            resolvedMonica?.nocturnal ?? null,
+            resolvedMonica ? "single-body" : null,
             dominantElement || null
           ]
         );
@@ -198,8 +213,8 @@ export async function POST(req: NextRequest) {
 
         await client.query(
           `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, dominant_element
-           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, monica_diurnal, monica_nocturnal, monica_method, dominant_element
+           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
           [
             wtenUserId,
             resolvedName,
@@ -208,6 +223,9 @@ export async function POST(req: NextRequest) {
             natalChart ? JSON.stringify(natalChart) : null,
             natalPositions ? JSON.stringify(natalPositions) : null,
             parsedMonicaConstant,
+            resolvedMonica?.diurnal ?? null,
+            resolvedMonica?.nocturnal ?? null,
+            resolvedMonica ? "single-body" : null,
             dominantElement || null
           ]
         );
