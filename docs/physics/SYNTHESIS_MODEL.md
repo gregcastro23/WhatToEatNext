@@ -749,8 +749,31 @@ thermodynamic content whatsoever — and **the API route writes it to the user
 profile**. `recipeBuilding.ts:202` returns an `(Air+Fire)/(Water+Earth)` ratio
 under the same name.
 
-This is stored data, not just a display defect. It needs auditing before any
-monica-consuming feature is trusted. `[OPEN]`
+This is stored data, not just a display defect.
+
+**AUDIT DONE — production DB, 2026-07-20 (read-only).** The DB reality differs
+from the code catalogue, which is why it needed measuring:
+
+- **4775 user_profiles; 3672 carry a monica value, and ALL 3672 are agents
+  (`is_agent=true`). Zero of the 13 human profiles have one.** No real user data
+  is affected — this is entirely an agent-attribute defect.
+- The stored values split into **two distinct fake populations**:
+  - **71 agents with a real natal chart** → the longitude-average formula, values
+    in **~4–6** (5.67, 4.82, 5.12…). These are the `:173` / `:199` code path.
+  - **3600 agents with an EMPTY natal chart (`[]`)** → round values in **(0,1)**
+    (`0.50 ×1330`, `0.55 ×556`, `0.80 ×260`, `0.30 ×209`…), only 71 distinct.
+    The longitude formula yields 0 for an empty chart, so these did **not** come
+    from `:173` — they arrive from a bulk agent-sync / `economy/sync-debit`
+    (`monica_constant = COALESCE($8::numeric, …)`) path carrying an upstream
+    value, most likely from AlchmAgentsETH. **The code audit caught the minority
+    source (71/3671); the dominant 3600 came from elsewhere.**
+- **Neither population is a real thermodynamic monica** (which would cluster near
+  φ≈1.618 via kalchm/reactivity). Readers are display-only:
+  `commensal/companions` (social), `admin/users`, `feed`.
+
+`[OPEN]` decision (§17e): fix the write(s) and decide backfill. Lower stakes than
+feared (agent-only, no humans), but the real fix target is the **sync/bulk**
+path, not only the two code sites originally flagged.
 
 ### 14d. What this means for the work in this document
 
@@ -1150,8 +1173,10 @@ wiring.
 ### 17e. Persisted-data and production hazards
 
 - **Persisted "monica" (`api/agents/unified/route.ts:173`, longitude average):**
-  **audit stored data first** — how many profiles carry it, what reads it — then
-  fix the write, then decide backfill.
+  **audit DONE** (§14c-ter) — 3672 rows, all agents, 0 humans; two fake
+  populations (71 formula-derived ~4–6, 3600 sync-derived round (0,1)). Real fix
+  target is the bulk/sync path, not only `:173`/`:199`. Fix write + decide
+  backfill still `[OPEN]` — low stakes (agent-only, display-only readers).
 - **Small data bugs: verified already correct, no action.** Uranus detriment
   reads Leo in both tables; every Saturn period constant is 29.46y. Recorded here
   so they are not re-catalogued as open.
