@@ -944,9 +944,24 @@ same idea**, not one lineage — no shared identifiers, incompatible scale famil
 **Consequence:** AAE's `lib/alchm-fbd/dignityScales.ts` `+10/+7` scale is **not a
 second witness** to WTEN's — it is a verbatim copy of the pre-cleanup file.
 Replication, not corroboration. The only cross-repo agreement on the ESMS dignity
-scale is one source counted twice. And any fix to AAE's character-vector code
-leaves the **byte-identical live-or-not code in PA** untouched (PA liveness under
-measurement as of this writing).
+scale is one source counted twice.
+
+**PA liveness — measured 2026-07-20, PARTIALLY LIVE (unlike AAE, which was
+wholly dead):** PA's presentation surfaces are dead exactly as AAE's are
+(`/api/sign-vectors` 0 callers; `sign-vector-graphic.tsx` imported but never
+rendered; `character-vector-dashboard.tsx` only in the nav-pruned demo page —
+PA's own `docs/SITE_AUDIT_2026-06-11.md:161` lists it under "Demo-ware pruned
+from nav"). **But `lib/astrological-character-vectors.ts` is LIVE** — a
+build-time dependency of the globally-mounted Monica chat:
+`app/layout.tsx:91` → `providers.tsx:24` `<MonicaChatBubble>` →
+`fetch('/api/monica-agent')` → `monica-response-handler.ts:14` imports
+`SignCharacterVector` (used 4×, e.g. `compareCharacterVectors:128`).
+**Runtime nuance:** the *calculator never executes* on the Monica path — only the
+**type** is exercised as a data shape (`CharacterVectorCalculator.` grep in the
+handler is empty). So the defects (§16c) do not reach Monica output, but **a
+file-delete or type-rename in AAE would break PA's Monica build.** Fix must treat
+the core file's public type as a cross-repo contract. Persistence: none in PA
+either.
 
 ### 16b. Is AAE shipping element-derived ESMS? No — but the derivation exists
 
@@ -1082,3 +1097,104 @@ real code (some carrying their own physics definitions, inflating §14's counts)
 A per-file importer audit is running; **disposition is per-file on the audit
 result**, not a blanket delete — any copy that has diverged from its original
 gets handled individually.
+
+---
+
+## 17. Execution plan — §14d and beyond
+
+`[AUTHORED 2026-07-20]` The rulings that turn §14d into concrete work, from a
+second round of twenty questions. Ordered by dependency.
+
+### 17a. §14d step 2 — reconcile the two ESMS engines
+
+- **Canonical = `planetaryAlchemyMapping`** (holds `PLANETARY_ALCHEMY` + the
+  +10/+7 dignity via `getDignityScore`). **`RealAlchemizeService.alchemize`
+  delegates to it**, keeping its 22 importers but computing the right numbers.
+- **Method: characterization tests FIRST.** Pin every engine's current output on
+  fixed charts, then reconcile, then read the diff. Done for the two ESMS
+  engines: `src/__tests__/services/esmsEngineCharacterization.test.ts` pins the
+  divergence (same chart → Matter 0.472 vs 0.091, because `alchemize` sums a
+  sect-invariant 0/1 table while the canonical path applies sect). When
+  `alchemize` delegates, those golden values converge — that is the signal.
+- **Blast radius: ship it.** Correctness over continuity — the current numbers
+  are wrong. Downstream (recommendations, economy, profiles) reflects the
+  corrected engine. (Measure the per-consumer delta where cheap, but do not gate
+  on it.)
+
+### 17b. §14d step 3 — orb, aspect strength, reactivity
+
+- **Orb: traditional Ptolemaic majors** — conjunction/opposition 8°, trine/square
+  7–8°, sextile 6°, tighter minors. `alchm-quantities/route.ts`'s moiety model
+  (Sun–Moon conjunction 13.5°) **folds into this one table** — it was admitting
+  aspects nothing else considered real.
+- **Aspect strength: `[0,1]`, linear falloff** — `strength = 1 − |orb|/maxOrb`.
+  The 0–2 and 0–10 ranges rescale into it.
+- **Reactivity: `(Matter + Earth)²`** — the majority form (five live modules);
+  fix `RealAlchemizeService`'s `(Σ/M) + Earth²` to match. Fold into the
+  thermodynamic module below.
+
+### 17c. The thermodynamic layer — one canonical module
+
+Define heat / entropy / reactivity / gregsEnergy / kalchm / monica **once**, with
+characterization tests **and a pinned degenerate-case contract** (today the same
+undefined input returns `1.0` / `NaN` / `0` / `null` across modules), and route
+every live site through it. The heat 66× spread is fixed here, not separately.
+
+### 17d. The per-aspect magnitude constant
+
+**Author it from the synthesis pool** (and Web structure), not by picking among
+the three legacy values (2:1 / 1:1.6 / 1:1). Downstream of 17b — a constant
+calibrated against disagreeing orb/strength is fitting to noise. Blocks grid
+wiring.
+
+### 17e. Persisted-data and production hazards
+
+- **Persisted "monica" (`api/agents/unified/route.ts:173`, longitude average):**
+  **audit stored data first** — how many profiles carry it, what reads it — then
+  fix the write, then decide backfill.
+- **Small data bugs: verified already correct, no action.** Uranus detriment
+  reads Leo in both tables; every Saturn period constant is 29.46y. Recorded here
+  so they are not re-catalogued as open.
+- **Dignity-strength inversion: FIXED** (`25309a99`) — `getPlanetaryDignityInfo`
+  now returns Domicile 2.0 / Exaltation 1.0. Behavioural (PlanetInfoModal bar,
+  `dignityEffects`); `alchemize` has its own local dignity table and was
+  unaffected — that table dies in 17a.
+
+### 17f. Model cutover (v2) — after the engine is single-valued
+
+Uranus sect inversion (day = Matter), Moon carrying both axes in both sects, and
+peregrine planets ceasing to be neutral (−2.8% on chart total) land as **one
+cutover with one backfill, after 17a** — applying them while two engines still
+disagree means backfilling twice.
+
+### 17g. The invariant, and the remaining grid inputs
+
+- **Re-derive `Σparts + residual === total` as part of 17a** — it must hold on the
+  unified engine regardless.
+- **Trine/square ESMS (from the synthesis pool) and pair polarity** are
+  grid-wiring inputs; they wait for 17b/17d, same as the grids.
+
+### 17h. Sign vector / modality — after §14d
+
+Pure `modalityOf(sign)` lookup + `alchmWeight`-weighted cardinal/fixed/mutable
+aggregation, feeding **method recommendation only**, as a recommendation input.
+Built after the engine is single-valued so it imports canonical weights/orb/
+strength rather than adding a 13th competing table. The cardinal/fixed/mutable →
+cooking-method mapping is `[OPEN]` (author + derive + compare).
+
+### 17i. Cross-repo character-vector fixes — fix compute, freeze the type
+
+AAE's ascendant conversion + three correctness bugs (§16c) are in the
+**computation**, not the `SignCharacterVector` type. PA's Monica build depends on
+that type (§16a), so keep its shape identical across repos while fixing the math.
+Gated behind §14d (the stack imports weights/orb that must be canonical first).
+
+### 17j. Cleanup, in flight
+
+- **Underscore-key rot: full WTEN sweep**, fix live sites, delete dead ones, add
+  a lint ratchet; PA later. (`safeAstrology.ts:449` is dead — deletes with its
+  function; but per the ruling, first check whether `countElements`'s intent is
+  worth reviving over the live duplicate in `astrology/validation.ts`.)
+- **Duplicate `" 2."` files:** per-file disposition on the running audit.
+- **PR #627:** keep accumulating the reconciliation work on the branch; do not
+  merge piecemeal.
