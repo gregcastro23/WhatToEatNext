@@ -1329,15 +1329,24 @@ export function getPlanetaryDignityInfo(
     const rules = rulerships[planet] || [];
     return rules.map((sign) => signs[oppositeSignIndexes[sign]]);
   };
-  // Check each dignity type - Updated values to match the original algorithm
+  // Dignity strength, magnitude-ordered to match the canonical +10/+7/-7/-10
+  // scale (DIGNITY_ESMS_SCALE): Domicile pairs with Fall at the strongest
+  // magnitude, Exaltation with Detriment one step weaker. The previous values
+  // inverted the two positives (Domicile 1.0 < Exaltation 2.0), which read
+  // Exaltation as the more powerful state — see SYNTHESIS_MODEL.md §3a/§16f.
+  // This field is read live — PlanetInfoModal's strength bar (width
+  // |strength|*25%, via getPlanetInfo → planetInfoUtils:96) and the dignityEffects
+  // accumulator at astrologyUtils:1149 — so the correction is behavioural, not
+  // cosmetic. (celestialCalculations has its own local jupiterDignities table and
+  // is unaffected.)
   if (rulerships[planetLower] && rulerships[planetLower].includes(signLower)) {
-    return { type: "Domicile", strength: 1.0 }; // Original, value: 1
+    return { type: "Domicile", strength: 2.0 };
   } else if (exaltations[planetLower] === signLower) {
-    return { type: "Exaltation", strength: 2.0 }; // Original, value: 2
+    return { type: "Exaltation", strength: 1.0 };
   } else if (getDetriments(planetLower).includes(signLower)) {
-    return { type: "Detriment", strength: -1.0 }; // Original value: -1
+    return { type: "Detriment", strength: -1.0 };
   } else if (falls[planetLower] === signLower) {
-    return { type: "Fall", strength: -2.0 }; // Original value: -2
+    return { type: "Fall", strength: -2.0 };
   } else {
     return { type: "Neutral", strength: 0 };
   }
