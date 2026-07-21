@@ -10,3 +10,21 @@
 
 ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS monica_diurnal NUMERIC(12,6);
 ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS monica_nocturnal NUMERIC(12,6);
+
+-- §18j (24-ruling disambiguation, 2026-07-21): a single-body agent, a two-body
+-- phase agent, and a full-chart person agent build monica_constant from three
+-- DIFFERENT constructions (one sect-resolved ESMS axis + a mass-4 vessel; two
+-- sect-resolved axes + one shared vessel; the full canonical engine with
+-- aspects). They share a column, so nothing can compare them as the same
+-- quantity without knowing which one produced a given row. This records which.
+ALTER TABLE user_profiles ADD COLUMN IF NOT EXISTS monica_method TEXT;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'monica_method_known'
+  ) THEN
+    ALTER TABLE user_profiles ADD CONSTRAINT monica_method_known
+      CHECK (monica_method IS NULL OR monica_method IN ('single-body', 'two-body', 'full-chart'));
+  END IF;
+END $$;

@@ -30,6 +30,7 @@ import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { Slider } from '@/components/ui/slider'
 import { Textarea } from '@/components/ui/textarea'
+import { MONICA_EQUILIBRIUM } from '@/data/unified/alchemicalCalculations'
 import { downloadManifest, downloadIgnitionBundle } from '@/lib/agents/ignition-bundle-generator'
 import { calculateAllPlanets } from '@/lib/enhanced-astronomical-calculator'
 import type { EnhancedBirthInfo } from '@/lib/enhanced-astronomical-calculator'
@@ -196,7 +197,15 @@ export default function ModernPhilosophersStone() {
       const venusLongitude = chartResult.planets.Venus?.longitude || 180
       const marsLongitude = chartResult.planets.Mars?.longitude || 180
       const ascLongitude = chartResult.ascendant.longitude
-      const monicaConstant = ((sunLongitude + moonLongitude + ascLongitude) / 3 / 360) * 10
+
+      // §18e — this preview no longer fabricates a monica. The old
+      // ((sun + moon + asc) / 3 / 360) * 10 was a longitude average wearing the
+      // name; a real monica needs the canonical thermodynamic engine, which is
+      // server-only (RealAlchemizeService imports `fs`). Rather than fork a
+      // seventh engine into the client bundle, the preview seeds from the
+      // canonical equilibrium constant and the AUTHORITATIVE value is the one
+      // /api/agents/unified computes and returns when the agent is forged.
+      const monicaConstant = MONICA_EQUILIBRIUM
 
       const derivedStats = deriveStatsFromChart({
         monicaConstant,
@@ -216,7 +225,7 @@ export default function ModernPhilosophersStone() {
       }))
 
       addMonicaMessage(
-        `Beautiful! Chart calculated: Sun in ${chartResult.planets.Sun.sign}, Moon in ${chartResult.planets.Moon.sign}, Ascendant in ${chartResult.ascendant.sign}. Monica Constant: ${monicaConstant.toFixed(2)}. I've derived initial stats from the chart - you can adjust them in Step 3!`
+        `Beautiful! Chart calculated: Sun in ${chartResult.planets.Sun.sign}, Moon in ${chartResult.planets.Moon.sign}, Ascendant in ${chartResult.ascendant.sign}. Your Monica Constant is computed when the agent is forged. I've derived initial stats from the chart - you can adjust them in Step 3!`
       )
     } catch (error) {
       console.error('Chart calculation error:', error)

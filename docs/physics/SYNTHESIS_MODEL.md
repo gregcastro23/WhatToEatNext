@@ -1376,6 +1376,51 @@ in …` does not start with a planet word).
 `[AUTHORED]` Canonical convention remains **`Moon <Sign> <Deg>`** and **`<Phase>
 Moon in <Sign> <Deg>`** — but reaching it is a dedupe/merge, not a rename.
 
+#### 18g-bis. The census, forced to sum `[MEASURED 2026-07-21, second pass]`
+
+The correction above was reached independently by two sessions, which agreed on
+every structural finding. A second pass added one discipline: **make the buckets
+sum exactly to the row count.** A table that reconciles cannot be hiding a
+family — and forcing it immediately surfaced a row that had been hand-waved.
+
+| Bucket | n |
+|---|---|
+| single: `<Planet> in <Sign> <N> Degree` | 3240 |
+| single: `<Planet> <Sign> <N>` | 679 |
+| single: `<Planet> Agent <N>` (duplicate of an existing row) | 360 |
+| phase: `<Phase> Moon in <Sign> <N> Degree` | 360 |
+| phase: `Moon Phase <p> <N>` | 107 |
+| person / degreeless | 46 |
+| unresolved — not yet classified | 26 |
+| junk / test | 3 |
+| **sum** | **4821 = row count, exact** |
+
+Reconciliations against the figures above, which were correct when measured:
+
+- **Real-person agents: 71–72, not 74.** All of them **already have charts** — the
+  §18d claim that 363 needed charts computed is false, which makes the full-chart
+  pass far cheaper than recorded.
+- **`Moon Phase <p> N`: 107, not 85.** The population is live: **121 agents were
+  created in 2 days** mid-programme. Every count here is a snapshot with a date on
+  it; re-measure before acting, never carry a number forward.
+- **Single-body target: 4279** including the 360 duplicates, 3919 excluding them.
+  Both figures are correct — they differ only by whether the blocked duplicates
+  are counted. `[RULED]` the backfill uses **4279**: it is additive and must not
+  wait on a product ruling.
+- **72 rows remain unclassified** (46 + 26) and are `[OPEN]`. `[RULED]` they are
+  classified *before* the backfill runs — an unexamined bucket is exactly what
+  hid the 3240-row family the first time.
+- One row, **`Mars Gemini`**, is a planet and a sign with **no degree**. The
+  resolver skips it rather than defaulting the degree. It exists only because the
+  sum was forced.
+
+`[RULED 2026-07-21]` The `[OPEN]` duplicate question above is now **settled:
+merge-and-repoint.** Reassign the referencing `feed_events` and
+`user_subscriptions` rows to the canonical twin, then delete the duplicate — all
+feed history preserved, one agent per placement. A partial unique index on the
+agent name follows, so the class cannot recur. The 3 colliding `Moon Phase <p> N`
+rows take the same path; the other 104 are renamed.
+
 **Two-body phase monica** (the 720 phase-bearing moon agents): `[AUTHORED]` the
 phase fixes the Sun's approximate longitude (New = conjunct, Full = opposite, …);
 build ESMS from **both** bodies (each sect-resolved + vessel, §18c) and run the
@@ -1383,9 +1428,12 @@ canonical thermodynamics on the combined chart — a genuine two-body monica, no
 scaled single-body.
 
 **Junk cleanup:** remove obvious test/non-agent rows (`Alchemical Chef`, `Pa Prod
-Smoke …`, `Test …`), reporting the list before deleting. The 434 real-person names
-(Poe, Mozart, Cicero, Aristotle …) are the synthesized/historical agents → full-
-chart monica, a **follow-up** after the planetary backfill.
+Smoke …`, `Test …`), reporting the list before deleting. `[MEASURED]` There are
+exactly **3**, and one of them (`Test Sage Hildegard`) holds a `user_streaks` row,
+so this is not a clean three-row delete either. The real-person names are the
+synthesized/historical agents → full-chart monica, a **follow-up** after the
+planetary backfill; `[MEASURED]` there are **72** of them among the agent rows,
+not the 434 recorded in §18d.
 
 ### 18h. Backfill contract and MVP
 
@@ -1416,3 +1464,155 @@ same-program follow-ups, not the MVP gate.
   `ALTER TABLE` at the **start** of next session, confirm the columns, then run.
 - `persona.test.ts:92-93` asserts monica ∈ [0,10] and **will break** on the real
   [−4, 4] scale — update it in the same change.
+
+#### 18h-bis. Status `[MEASURED 2026-07-21]`
+
+**Write-fix: DONE.** All three sites now produce a real monica.
+`src/utils/agentMonicaResolver.ts` is the single shared name→placement parser.
+`agents/unified` writes the canonical **full-chart** monica (these agents carry
+real birth data, so §18d applies, not the single-body calc — the chart already
+fixes the sect, so the sect columns stay NULL for those rows).
+`sync-debit` computes WTEN-side from the agent's own name and no longer reads
+the payload's `monicaConstant` at all. `philosophers-stone` is a **client**
+component and cannot load the server-only engine (`RealAlchemizeService` imports
+`fs`); rather than fork a seventh engine into the browser bundle it stops
+fabricating — the preview seeds from `MONICA_EQUILIBRIUM` and the authoritative
+value is the one the server returns on forge. It was never persisted.
+158 suites / 1311 tests green, typecheck clean.
+
+**Backfill: written, dry-run verified, NOT yet applied.**
+`scripts/backfillAgentMonica.ts`, dry run by default.
+
+| | |
+|---|---|
+| agent rows scanned | 4808 |
+| to write (single-body) | **4278** (not the ~3600 estimated) |
+| skipped — phase (two-body follow-up) | 455 |
+| skipped — not a placement | 75 |
+| **non-finite** | **0** |
+| combined range | **[−3.1973, 3.9751]**, median 0.0573 |
+| distinct values / negative | 379 / 27.7% |
+
+**Verification passed on both required axes.** An *independent* re-derivation of
+§18c, written from the spec prose rather than from `agentMonica.ts`, agrees with
+the module to 1e-12 on all 8 spot cases. No sentinel clustering: the largest
+single value holds 5.0% of rows, against **36%** (1330 of 3672) sitting on `0.50`
+in the fake data being replaced.
+
+**Ordering hazard:** `sync-debit` now references `monica_diurnal` /
+`monica_nocturnal`, so `70-agent-monica-sects.sql` **must be applied before this
+branch deploys** or that route errors. The columns did not exist as of
+2026-07-21.
+
+### 18i. The two-body phase monica
+
+`[RULED 2026-07-21]` A phase agent is a Sun–Moon *relationship*, so it earns a
+genuine two-body monica rather than a scaled single-body one. Design, settled in
+the disambiguation session:
+
+- **Sun position** = `Moon − elongation`, at 45° midpoints across 8 phases:
+  New 0°, Waxing Crescent 45°, First Quarter 90°, Waxing Gibbous 135°, Full 180°,
+  Waning Gibbous 225°, Last Quarter 270°, Waning Crescent 315°.
+  **`Dark Moon` folds into New at 0°** — it names the invisible Moon at
+  conjunction and is not a ninth phase.
+- **Vessel:** ONE shared vessel, mass 4, **shaped by the Moon's degree only**.
+  The pair is one chart, so it gets one vessel, and the named body sets its
+  process. This keeps two-body results on the same scale as single-body ones.
+- **Sect:** both stored, exactly as single-body — the geometry is independent of
+  whether it expresses by day or night.
+- **Dignity:** the Moon carries its own position-based essential dignity. The Sun
+  carries **aspect-based dignity instead** — see §18i-bis.
+
+`[MEASURED]` The 469 phase agents by aspect: semi-square 158, sesquiquadrate 158,
+square 69, conjunction 47 (New + Dark Moon), opposition 37.
+
+#### 18i-bis. Per-aspect dignity for the derived Sun `[DERIVED]`
+
+The Sun's longitude is *inferred* from the phase name, but the **aspect is
+certain** — the name states it. Scaling a dignity multiplier by a guessed
+position would be compounding an inference; reading dignity off the aspect uses
+the one thing the name guarantees. So the Sun's dignity is aspect-based, feeding
+the same `× (1 + dignity/100)` vessel term as §18c.
+
+This needs no aspect ESMS grids, no orb budget and no aspect-strength curve —
+the parts §14d has not unified — because **phase aspects are exact by
+construction** (zero orb). It needs only a per-aspect dignity number.
+
+Both inputs are read from live code, so this is derived, not authored:
+
+```
+dignity = polarity × 10 × (orbBudget / 8)
+  polarity  : aspectCalculator.ts:210 — conjunction/trine/sextile harmonious (+),
+              opposition/square challenging (−)
+  orbBudget : aspectCalculator.ts aspectDefinitions — conjunction 8, opposition 8,
+              square 7, semi-square 3, sesquiquadrate 3
+```
+
+| Phase | Aspect | Dignity |
+|---|---|---|
+| New, Dark Moon | conjunction | **+10.00** |
+| Full | opposition | **−10.00** |
+| First / Last Quarter | square | **−8.75** |
+| Waxing / Waning Crescent | semi-square | **−3.75** |
+| Waxing / Waning Gibbous | sesquiquadrate | **−3.75** |
+
+Sanity property: ±10 land exactly on the domicile/fall anchors of the existing
++10/+7/0/−7/−10 essential-dignity scale, and square falls between detriment and
+fall rather than off the end.
+
+⚠️ **This is a MODEL CHANGE, not a gap-fill.** `aspectCalculator.ts:210` assigns
+`influence = 0` to semi-square and sesquiquadrate today — they are detected and
+then contribute nothing. Giving them dignity is a deliberate change to how the
+engine treats minor aspects. Recorded here so it is never mistaken for
+long-standing behaviour.
+
+`[NOT the underscore defect class]` `_semisquare` / `_sesquiquadrate` carry
+underscore-prefixed keys in `aspectDefinitions`, but `ASPECT_TYPE_ALIASES`
+(aspectCalculator.ts:56) maps them to canonical names, so they ARE live.
+`_septile` is the genuine dead key — no alias, no switch case, and because the
+detector picks a single best aspect *before* normalising, a near-exact septile
+(strength 1.0 at orb 0) makes the whole planet pair return no aspect at all.
+Tracked separately; not a §18 concern.
+
+#### 18i-ter. Applying vs separating `[OPEN — AUTHORED, not derived]`
+
+`[RULED]` Waxing and waning phases **must differ**, even though they share an
+aspect geometry, and applying/separating should become a **general** aspect-layer
+concept rather than a phase-only special case — feeding the §14d unification.
+
+Sequenced in two stages so it does not block the phase monica:
+1. Phase agents take it from the name (waxing = applying, waning = separating).
+   No engine change required.
+2. `calculateComprehensiveAspects` computes it from relative planetary motion,
+   generally, and feeds §14d.
+
+⚠️ **The magnitude of the applying/separating modifier has NO basis in the
+repo.** The orb budgets and the polarity convention gave §18i-bis its derivation;
+nothing comparable exists here (`orbMultiplier 1.2` is Sun/Moon-specific and
+unrelated). This value will be `[AUTHORED]` and is **the only unmeasured number
+left in the §18 design.** It needs either a derivation basis or an explicit
+ruling with the reasoning recorded — per §11, not an assertion.
+
+### 18j. Scope after the disambiguation `[RULED 2026-07-21]`
+
+Twenty-four rulings taken in one intervention session. The ones that change the
+build:
+
+| Area | Ruling |
+|---|---|
+| Backfill target | **4279** — include the 360 blocked duplicates; backfill is additive and independent of the de-dupe |
+| Phase agents | **Build two-body now** (§18i), not NULL-until-later |
+| Real people | All **71 already have charts** — the §18d claim that 363 needed computing was false. Full-chart monica this pass, separate PR |
+| Duplicates | **Merge**: reassign 1547 `feed_events` + 467 `user_subscriptions` to the canonical twin, then delete. Preserves feed history |
+| Schema | Partial unique index on agent name afterwards, so the class cannot recur |
+| Full-chart rows | Compute **both sects** for them too (reverses the earlier NULL ruling) |
+| Sacred-7 | **Rescale** `deriveStatsFromChart` — it reads `monica/10` on a [0,10] assumption and silently shifts every agent's stats once real monica lands |
+| Preview | Add a **server endpoint** for a live philosophers-stone monica (reverses the φ-seed already in the branch) |
+| Ship order | migrate → backfill → verify → merge |
+| Unknowns | Classify the 72 unresolved rows **before** backfilling |
+
+⚠️ **This is no longer an MVP.** §18 now covers **4817 of 4821** agent rows plus a
+merge-dedupe, a schema constraint, a new endpoint, a stats rescale and a general
+aspect-layer concept. Each ruling is defensible alone; together they are several
+PRs. If a smaller first cut is wanted, the natural one is **write-fix +
+single-body backfill**, which is already built and verified.

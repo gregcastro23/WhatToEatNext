@@ -6,6 +6,7 @@ import { executeQuery } from "@/lib/database";
 import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { calculateNatalChart } from "@/services/natalChartService";
+import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import type { NextRequest} from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -168,9 +169,23 @@ export async function POST(request: NextRequest) {
         const ascIdx = SIGN_ORDER.indexOf(serverChart.ascendant);
         formattedChart.ascendant = ascIdx >= 0 ? ascIdx * 30 : 0;
 
-        const sunLong = serverChart.planets.find(p => p.name === 'Sun')?.position || 0;
-        const moonLong = serverChart.planets.find(p => p.name === 'Moon')?.position || 0;
-        const monicaConstant = ((sunLong + moonLong + formattedChart.ascendant) / 3 / 360) * 10;
+        // §18e — a real thermodynamic monica from the whole chart, via the
+        // canonical engine. This replaces a longitude average
+        // (((sun + moon + asc) / 3 / 360) * 10), which shared nothing with the
+        // monica formula but its name. Agents created here carry real birth
+        // data, so they get the FULL-CHART monica of §18d, not the single-body
+        // calc; the chart already fixes the sect, so the monica_diurnal /
+        // monica_nocturnal columns stay NULL for these rows.
+        const chartPositions: Record<string, PlanetaryPosition> = {};
+        serverChart.planets.forEach((p) => {
+          chartPositions[p.name] = {
+            sign: String(p.sign).toLowerCase(),
+            degree: p.position % 30,
+            minute: 0,
+            exactLongitude: p.position,
+          };
+        });
+        const monicaConstant = alchemize(chartPositions).monica;
 
         const agentId = randomUUID();
         const email = `agent-${name.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${randomUUID().slice(0, 8)}@agentic.alchm.kitchen`;
@@ -197,8 +212,8 @@ export async function POST(request: NextRequest) {
 
         await executeQuery(
           `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, dominant_element, created_at, updated_at
-           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, now(), now())`,
+             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, monica_method, dominant_element, created_at, updated_at
+           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, now(), now())`,
           [
             agentId,
             name,
@@ -207,6 +222,11 @@ export async function POST(request: NextRequest) {
             JSON.stringify(formattedChart),
             JSON.stringify(formattedChart.planets || {}),
             monicaConstant,
+            // §18j — this agent has a real birth chart, so monica_constant is
+            // built by the full-chart engine (alchemize()), not the single-body
+            // or two-body construction. monica_diurnal/nocturnal are left NULL
+            // here pending the both-sects reversal tracked separately.
+            "full-chart",
             dominantElement
           ]
         );
