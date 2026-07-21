@@ -139,7 +139,7 @@ export function calculateGregsEnergy(
       Substance + Essence + Matter + Water + Air + Earth,
       2,
     );
-    const heat = heatDen > 0 ? heatNum / heatDen : 0;
+    const heat = heatNum / Math.max(heatDen, 0.01);
 
     // Entropy calculation (disorder in planetary system)
     const entropyNum =
@@ -148,7 +148,7 @@ export function calculateGregsEnergy(
       Math.pow(Fire, 2) +
       Math.pow(Air, 2);
     const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
-    const entropy = entropyDen > 0 ? entropyNum / entropyDen : 0;
+    const entropy = entropyNum / Math.max(entropyDen, 0.01);
 
     // Reactivity calculation (chemical potential for transformation)
     const reactivityNum =
@@ -158,25 +158,24 @@ export function calculateGregsEnergy(
       Math.pow(Fire, 2) +
       Math.pow(Air, 2) +
       Math.pow(Water, 2);
+    // Canonical reactivity (§17c): denominator floored at 0.01 (same guard the
+    // old "soft cap at 10" was approximating for high-Fire methods where
+    // Matter + Earth → 0), single-valued with data/unified.
     const reactivityDen = Math.pow(Matter + Earth, 2);
-    // Soft cap at 10 to prevent gregsEnergy blow-up when Matter + Earth → 0
-    // (high-Fire cooking methods like stir-fry can drive Earth elemental near zero,
-    // sending reactivity into the thousands and producing nonsensical gregsEnergy)
-    const reactivity = Math.min(
-      reactivityDen > 0 ? reactivityNum / reactivityDen : 0,
-      10,
-    );
+    const reactivity = reactivityNum / Math.max(reactivityDen, 0.01);
 
-    // Greg's Energy (free energy metric)
-    // Note: Greg's Energy can be negative (heat - entropy * reactivity)
-    // Do NOT clamp to [0, 1] as negative values are meaningful
+    // Greg's Energy (free energy metric). Can be negative — never clamped.
     const gregsEnergy = heat - entropy * reactivity;
 
+    // §17c: the [0,1] output clamp is dropped. It discarded real magnitude (the
+    // homepage saw reactivity 1.0 for a true 2.05) and was one of the divergent
+    // behaviours the reconciliation removes. Values are surfaced raw and are
+    // finite by construction (floored denominators).
     return {
-      heat: Math.max(0, Math.min(1, heat)),
-      entropy: Math.max(0, Math.min(1, entropy)),
-      reactivity: Math.max(0, Math.min(1, reactivity)),
-      gregsEnergy, // Allow negative values - do not clamp
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy,
     };
   } catch (error) {
     logger.error("Error calculating Gregs energy:", {
