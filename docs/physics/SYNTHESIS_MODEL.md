@@ -1223,3 +1223,93 @@ Gated behind §14d (the stack imports weights/orb that must be canonical first).
 - **Duplicate `" 2."` files:** per-file disposition on the running audit.
 - **PR #627:** keep accumulating the reconciliation work on the branch; do not
   merge piecemeal.
+
+---
+
+## 18. Monica for agents — planetary, synthesized, moon-phase
+
+`[AUTHORED 2026-07-20]` Resolves the §14c-ter / §17e persisted-monica defect with
+a real computation rather than a null-out. Every claim below is measured; the
+scripts are recorded inline.
+
+### 18a. The reframing
+
+Planetary agents (a single planet at a position, e.g. "Aries Sun 1 Degree", 4275
+of them) were first slated to have **no** monica. Reversed: **if we can compute a
+real thermodynamic monica for that exact configuration, it is useful** — an agent
+*is* its configuration. The audit (§14c-ter) confirmed this touches **only agents,
+never the 13 humans**, so the whole exercise is safe.
+
+### 18b. Single-body monica is computable — but only sect-resolved and grounded
+
+`[RESEARCH]` A lone planet zeroes most ESMS axes, which breaks the monica formula
+two ways. Measured:
+
+- **Raw 0/1 synthesis table → NaN for 8 of 10 planets.** `kalchm =
+  (Sˢ·Eᵉ)/(Mᵐ·Suˢᵘ)` collapses to **exactly 1** for any planet with symmetric
+  ESMS (Moon has Essence=Matter=1), so `monica` divides by `ln(1)=0`.
+- **Sect-resolved ESMS fixes the symmetry** — each planet contributes a *single*
+  axis per sect (Moon day=Essence, night=Matter; `PLANETARY_SECTARIAN_ESMS`), so
+  kalchm≠1. Bare, that is 34/40 finite but with pathological magnitude (±4000).
+- **A grounding vessel makes it 40/40 finite and tame** (~[−1, 1]). This is the
+  Ascendant "Physical Vessel" the engine already injects to stop reactivity's
+  `(Matter+Earth)²` denominator collapsing on sparse charts.
+
+### 18c. The vessel — process-shaped, dignity-scaled
+
+`[AUTHORED]` The flat `{1,1,1,1}` vessel (§7) is a placeholder. The enhanced
+vessel:
+
+```
+vessel = normalize( max(0, 1 + pillarEffect(degree)) , mass = 4 ) × (1 + dignity/100)
+   pillarEffect(degree) : the ESMS ±1 signature of the alchemical process at that
+                          degree, ALCHEMICAL_PILLARS[((degree−1) mod 14)] (§7a)
+   dignity              : the planet's own essential dignity at its exact degree,
+                          +10/+7/−7/−10 (§3), NOT an external ascendant
+   normalize to mass 4  : equal vessel mass per process (= the {1,1,1,1} baseline),
+                          only the SHAPE varies by degree
+```
+
+`agentESMS = planetSectESMS + vessel`, elements from the sign, then the canonical
+`calculateThermodynamics / calculateKalchm / calculateMonica`.
+
+**Measured over every planet-axis × 4 elements × 14 processes (224 cases):**
+
+| | result |
+|---|---|
+| Finite | **224/224** |
+| Range | **[−3.97, 3.90]** — same scale as full-chart monica |
+| Degree resolution | **7 distinct bands** (the 14 processes collapse to 7 ESMS patterns; Solution ≡ Calcination) |
+| Dignity sensitivity | Sun/Leo domicile **0.656** vs peregrine **0.905** — real, bounded |
+
+Two dead ends ruled out by measurement, recorded so they are not retried:
+*flat dignity-scaling* moves only the 4 dignified signs by ±0.1 (arguably
+backwards); *normalizing the vessel to unit sum* under-grounds it (vessel ≈0.25
+vs planet 1.0) and blows magnitude back to ±60. Mass-4 normalization is the one
+that holds.
+
+### 18d. What each agent population gets
+
+| Population | Count | Monica |
+|---|---|---|
+| Planetary ("Planet Sign N°") | 4275 | single-body (§18c), **both sects** |
+| Synthesized / historical | 434 (71 have charts) | **full-chart** monica; the 363 chartless get a chart computed from birth data first |
+| Moon-phase ("Waxing Gibbous Moon in …") | 53 | **phase-weighted** — a two-body Moon + implied-Sun-angle monica (a phase *is* a Sun–Moon relationship) |
+
+### 18e. Schema and writes
+
+- **Two new columns: `monica_diurnal`, `monica_nocturnal`** (a position expresses
+  differently by sect — both are first-class). `monica_constant` is
+  **repurposed as their average** so existing readers (commensal, admin, feed)
+  keep working.
+- **One shared function**, called from all three current write sites
+  (`agents/unified:173`, `philosophers-stone:199`, `economy/sync-debit`), kills
+  the divergence at the source.
+
+### 18f. Rollout — gated on §17c
+
+`[AUTHORED]` **Build on the §17c canonical thermodynamic module, not before** —
+the monica formula is exactly what §17c consolidates, and building first would
+fork it. Order once §17c lands: pure tested calc → wire the three writes → backfill
+the ~4275 planetary + 434 synthesized rows. Low stakes throughout (agent-only,
+display-only readers), no human data touched.
