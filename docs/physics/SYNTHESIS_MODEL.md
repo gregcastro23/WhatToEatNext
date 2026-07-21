@@ -1313,3 +1313,68 @@ the monica formula is exactly what §17c consolidates, and building first would
 fork it. Order once §17c lands: pure tested calc → wire the three writes → backfill
 the ~4275 planetary + 434 synthesized rows. Low stakes throughout (agent-only,
 display-only readers), no human data touched.
+
+### 18g. Agent taxonomy, naming, and the encounter layer
+
+`[AUTHORED 2026-07-21]` Rulings from a second question round, sharpening §18 for
+the backfill.
+
+**Planetary agents have NO birthchart — and that is correct, not a gap.** `[USER]`
+A planetary agent *is* a single placement, agentified (planet + sign + degree). A
+planetary body should not have a natal chart; the 3600 empty `natal_chart` `[]`
+rows are right. Its config is read **from the name**, not a chart. Its monica is
+the single-body §18c calc.
+
+**What a planetary agent DOES have is dignity rules for the planets it
+encounters.** `[USER]` This is a relational layer, distinct from the single-body
+monica: when two agents meet, the interaction is **aspect-modulated dignity** —
+the angular relationship between their exact degrees (conjunction/trine/…) scaled
+by each one's essential dignity. **Gated on §14d step 3** (orb + aspect-strength
+unification) — it cannot be built until aspect strength is single-valued.
+
+**Moon-agent naming — four messy families, migrated to two canonical forms:**
+
+| Current family | Count | Resolves to |
+|---|---|---|
+| `Moon <Sign> N` (placement) | 360 | already canonical → single-body |
+| `<Phase> Moon in <Sign> N Degree` | 360 | already canonical → two-body |
+| `Moon Agent N` (N = 1–360, absolute ecliptic degree) | 360 | **rename** → `Moon <Sign> <Deg>` (N/30 → sign, N mod 30 → degree) |
+| `Moon Phase <phase> N` (N = 360-degree) | 85 | **rename** → `<Phase> Moon in <Sign> <Deg>` |
+
+`[AUTHORED]` Canonical convention: **`Moon <Sign> <Deg>`** (bare placement, matches
+the other planetary agents like `Mercury Aquarius 16`) and **`<Phase> Moon in
+<Sign> <Deg>`** (phase agents). The `Moon Agent N` / `Moon Phase … N` families are
+named by the 360-degree zodiac; rename to include the sign. **Rename first, then
+one backfill** over all planetary agents.
+
+**Two-body phase monica** (the 720 phase-bearing moon agents): `[AUTHORED]` the
+phase fixes the Sun's approximate longitude (New = conjunct, Full = opposite, …);
+build ESMS from **both** bodies (each sect-resolved + vessel, §18c) and run the
+canonical thermodynamics on the combined chart — a genuine two-body monica, not a
+scaled single-body.
+
+**Junk cleanup:** remove obvious test/non-agent rows (`Alchemical Chef`, `Pa Prod
+Smoke …`, `Test …`), reporting the list before deleting. The 434 real-person names
+(Poe, Mozart, Cicero, Aristotle …) are the synthesized/historical agents → full-
+chart monica, a **follow-up** after the planetary backfill.
+
+### 18h. Backfill contract and MVP
+
+`[AUTHORED]` **MVP for the agent-monica program:** rename the malformed moon
+agents + single-body backfill (~3600) + write-fix (all three sites). Two-body
+phase and the encounter layer are same-program follow-ups, not the MVP gate.
+
+- **Execution:** dry-run first (compute everything, print the distribution +
+  unparseable list + rename list, write nothing), review, then a transactional,
+  idempotent write. Rename before backfill so one clean parser runs over all.
+- **Write-fix:** one shared function from `agentMonica()` feeds all three sites;
+  **`sync-debit` computes WTEN-side** from the agent's own name/config rather than
+  trusting the AlchmAgentsETH payload (the old `COALESCE` let bad upstream values
+  in). WTEN owns the truth.
+- **Verify:** 0 non-finite; sane distribution (~[−4, 4], no sentinel clustering);
+  every parseable agent has all three columns non-NULL; spot-check 5–10 known
+  agents against a hand-computed `agentMonica`. Report before/after.
+- **Schema:** `database/init/70-agent-monica-sects.sql` (staged) — apply the
+  `ALTER TABLE` at the **start** of next session, confirm the columns, then run.
+- `persona.test.ts:92-93` asserts monica ∈ [0,10] and **will break** on the real
+  [−4, 4] scale — update it in the same change.
