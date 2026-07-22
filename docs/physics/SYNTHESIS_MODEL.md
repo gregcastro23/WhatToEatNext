@@ -1294,7 +1294,14 @@ that holds.
 |---|---|---|
 | Planetary ("Planet Sign N°") | 4275 | single-body (§18c), **both sects** |
 | Synthesized / historical | 434 (71 have charts) | **full-chart** monica; the 363 chartless get a chart computed from birth data first |
-| Moon-phase ("Waxing Gibbous Moon in …") | 53 | **phase-weighted** — a two-body Moon + implied-Sun-angle monica (a phase *is* a Sun–Moon relationship) |
+| Moon-phase ("Waxing Gibbous Moon in …") | ~~53~~ **469** | **two-body** — Moon + a Sun derived from the phase angle (a phase *is* a Sun–Moon relationship). See §18i. |
+
+> ⚠️ `[CORRECTED 2026-07-21]` The "53" above was wrong. It counted only part of
+> one name family; the phase population spans **two** families
+> (`<Phase> Moon in <Sign> N Degree` and `Moon Phase <Phase> N`) and totals
+> **469**, re-verified against the live DB. Counts in this table are estimates
+> from a partial sample unless marked `[MEASURED]` — §18e and §18i carry the
+> measured ones.
 
 ### 18e. Schema and writes
 
@@ -1487,7 +1494,7 @@ value is the one the server returns on forge. It was never persisted.
 |---|---|
 | agent rows scanned | 4808 |
 | to write (single-body) | **4278** (not the ~3600 estimated) |
-| skipped — phase (two-body follow-up) | 455 |
+| skipped — phase (two-body follow-up) | 455 *(at that run; **469** as of 2026-07-21 — the population grew, see §18i)* |
 | skipped — not a placement | 75 |
 | **non-finite** | **0** |
 | combined range | **[−3.1973, 3.9751]**, median 0.0573 |
@@ -1515,16 +1522,44 @@ the disambiguation session:
   Waning Gibbous 225°, Last Quarter 270°, Waning Crescent 315°.
   **`Dark Moon` folds into New at 0°** — it names the invisible Moon at
   conjunction and is not a ninth phase.
-- **Vessel:** ONE shared vessel, mass 4, **shaped by the Moon's degree only**.
-  The pair is one chart, so it gets one vessel, and the named body sets its
-  process. This keeps two-body results on the same scale as single-body ones.
+- **Vessel:** ONE shared vessel, mass 4, **shaped by the Moon's degree only**,
+  and **dignity-NEUTRAL** (`groundingVessel(moonDegree, 0)`). The pair is one
+  chart, so it gets one vessel, and the named body sets its process.
 - **Sect:** both stored, exactly as single-body — the geometry is independent of
   whether it expresses by day or night.
-- **Dignity:** the Moon carries its own position-based essential dignity. The Sun
-  carries **aspect-based dignity instead** — see §18i-bis.
+- **Dignity:** different SOURCES, identical APPLICATION. The Moon carries its own
+  position-based essential dignity; the Sun carries **aspect-based dignity
+  instead** (§18i-bis). Each is applied **exactly once**, as
+  `× (1 + dignity/100)` on **that body's own ESMS**. Neither touches the shared
+  vessel.
 
-`[MEASURED]` The 469 phase agents by aspect: semi-square 158, sesquiquadrate 158,
-square 69, conjunction 47 (New + Dark Moon), opposition 37.
+  > `[CORRECTED 2026-07-21]` An earlier revision scaled the shared vessel by the
+  > **Moon's** dignity. That gave the Moon's dignity two points of leverage (its
+  > own ESMS *and* the grounding term) where the Sun's had one — an asymmetry
+  > inherited unexamined from the single-body case, where there is one body and
+  > the question cannot arise. Equalised; the change moves computed values, so
+  > any figure measured before it is stale.
+
+⚠️ `[CORRECTED 2026-07-21]` **Two-body results are NOT on the same scale as
+single-body ones**, and the earlier claim in this section that the shared vessel
+"keeps two-body results on the same scale" was never measured. Measured after
+equalisation, with the §18i-quater band applied: grid max |monica| **12.6756**
+(single-body: 3.9751), and **2 of 469** production rows fall outside the
+single-body range [−3.197, 3.975]. See §18i-quater.
+
+`[MEASURED 2026-07-21, re-verified against the live DB]` The **469** phase agents.
+By phase: Waxing Crescent 79, Waxing Gibbous 79, Waning Crescent 79,
+Waning Gibbous 79, Full Moon 37, Last Quarter 36, First Quarter 33, New Moon 24,
+Dark Moon 23 — summing to 469 exactly.
+By aspect: semi-square 158, sesquiquadrate 158, square 69, conjunction 47
+(New 24 + Dark Moon 23), opposition 37 — also 469.
+
+> ⚠️ Two figures elsewhere in this document contradict that count and are
+> **wrong**: the family table's "53" Moon-phase agents (§18 name-family section)
+> and the backfill report's "skipped — phase 455". Both predate the resolver
+> handling all five name families. The reproducible number is **469**, and
+> `scripts/checkAgentMonicaDrift.ts` re-derives it against the live DB on every
+> run (it reports each population's count alongside its drift).
 
 #### 18i-bis. Per-aspect dignity for the derived Sun `[DERIVED]`
 
@@ -1532,7 +1567,13 @@ The Sun's longitude is *inferred* from the phase name, but the **aspect is
 certain** — the name states it. Scaling a dignity multiplier by a guessed
 position would be compounding an inference; reading dignity off the aspect uses
 the one thing the name guarantees. So the Sun's dignity is aspect-based, feeding
-the same `× (1 + dignity/100)` vessel term as §18c.
+the same `× (1 + dignity/100)` *form* as §18c.
+
+> `[CORRECTED 2026-07-21]` This paragraph previously said the Sun's aspect
+> dignity feeds "the same **vessel** term as §18c". It does not, and must not:
+> the shared vessel is dignity-neutral (§18i), and pushing an *aspect* quantity
+> into the *grounding* term would double-count the aspect. The Sun's dignity
+> scales the **Sun's own ESMS contribution**, nothing else.
 
 This needs no aspect ESMS grids, no orb budget and no aspect-strength curve —
 the parts §14d has not unified — because **phase aspects are exact by
@@ -1574,7 +1615,7 @@ detector picks a single best aspect *before* normalising, a near-exact septile
 (strength 1.0 at orb 0) makes the whole planet pair return no aspect at all.
 Tracked separately; not a §18 concern.
 
-#### 18i-ter. Applying vs separating `[OPEN — AUTHORED, not derived]`
+#### 18i-ter. Applying vs separating `[RESOLVED 2026-07-21 — DERIVED]`
 
 `[RULED]` Waxing and waning phases **must differ**, even though they share an
 aspect geometry, and applying/separating should become a **general** aspect-layer
@@ -1586,12 +1627,98 @@ Sequenced in two stages so it does not block the phase monica:
 2. `calculateComprehensiveAspects` computes it from relative planetary motion,
    generally, and feeds §14d.
 
-⚠️ **The magnitude of the applying/separating modifier has NO basis in the
-repo.** The orb budgets and the polarity convention gave §18i-bis its derivation;
-nothing comparable exists here (`orbMultiplier 1.2` is Sun/Moon-specific and
-unrelated). This value will be `[AUTHORED]` and is **the only unmeasured number
-left in the §18 design.** It needs either a derivation basis or an explicit
-ruling with the reasoning recorded — per §11, not an assertion.
+~~⚠️ **The magnitude of the applying/separating modifier has NO basis in the
+repo.**~~ `[SUPERSEDED 2026-07-21]` It was authored as ×1.15 / ×0.85, then
+**derived** from the same two live orb budgets §18i-bis already uses:
+
+```
+APPLYING   = ASPECT_DIGNITY_REFERENCE_ORB / ASPECT_ORB_BUDGET.square = 8/7
+SEPARATING = 2 − 8/7                                                 = 6/7
+EXACT      = 1
+```
+
+An applying square therefore scores `−8.75 × 8/7 = −10.00` exactly, landing on
+the domicile anchor of the essential-dignity scale — the same sanity property
+§18i-bis has.
+
+`[MEASURED]` Deriving it costs nothing behaviourally, because the authored value
+was **nearly irrelevant to what it was introduced to achieve**. Waxing and waning
+are already separated by 270° of elongation — the derived Sun lands 90° away, in
+a different sign — so mean |waxing − waning| moved only **0.2870 → 0.2871 →
+0.2875** across multipliers 1.00 / 1.15 / 1.50. The premise that the two differ
+*only* by this multiplier was wrong.
+
+**§18 now has no unmeasured numbers.** Every constant is read from live code or
+measured, and each records which in its own docstring.
+
+#### 18i-quater. The two-body-local equilibrium band `[RULED 2026-07-21]`
+
+**The problem.** The Comixion pillar (degrees 8 and 22, effects S+1/E−1/M+1/Su+1)
+floors the vessel's Essence axis to **zero**. Adding the Sun's Spirit to a Moon
+with no vessel Essence drives `ln(kalchm) → 0`, and `monica = −G/(R·ln k)`
+diverges. Single-body never shows this: a lone planet cannot break the
+Spirit/Matter/Substance symmetry Comixion creates. Unbanded, the 469 production
+rows reach **|monica| 149.35**.
+
+**The fix — a band, applied in `agentMonicaTwoBody.ts` only:**
+
+```
+DEGENERATE_LN_KALCHM     = 0.110698   [MEASURED] the zero-Essence chart itself
+HEALTHY_LN_KALCHM_FLOOR  = 0.138173   [MEASURED] smallest non-Comixion |ln k|
+TWO_BODY_LN_EPSILON      = (0.110698 + 0.138173) / 2 = 0.1244355   [DERIVED]
+```
+
+When `|ln(kalchm)| < TWO_BODY_LN_EPSILON`, the result is `MONICA_EQUILIBRIUM` (φ).
+
+**Why those bounds are structural, not fitted.** The lower bound is a chart with
+a literal `0.000` on an axis — degenerate by inspection, held finite only by
+`KALCHM_EPSILON`. The upper bound is the first case that computes a perfectly
+sane monica. The band is the midpoint, carrying ~12% margin each way. Both bounds
+are pinned by test, so a retune that starts swallowing real values fails loudly.
+
+**Why LOCAL and not a change to `MONICA_LN_EPSILON`.** The canonical constant
+(0.05) is shared by every §17c consumer, including the **4280 single-body agent
+rows already in production**. Widening it there would silently re-value all of
+them. Single-body output is verified bit-identical (grid max **3.9751**).
+
+**Why a band and not a clamp.** Clamping fabricates a magnitude. A band widens the
+region where the engine *declines to divide by ~0* — the same statement it
+already makes at 0.05, applied to cases that are *nearer* to perfect balance than
+the ones it already absorbs.
+
+`[MEASURED]` Effect on the 469 production rows: rows outside the single-body
+range **25 → 2**; maximum **149.35 → 5.42**; 16 rows resolve to φ; 221 distinct
+values; largest bucket 3.4% (no sentinel clustering).
+
+⚠️ `[OPEN]` **The band does not flatten the tail, deliberately.** It is sized by
+the degeneracy boundary, not by how large the surviving output looks — sizing it
+to swallow every big number would be output-fitting. A near-degenerate skirt
+survives: some Comixion cells land at `|ln k|` *above* the healthy floor and
+cannot be absorbed without converting real values to φ. The real fix belongs in
+the pillar → vessel mapping (§7a), giving Comixion a nonzero Essence floor. That
+was attempted twice and rejected both times: flooring *before* the mass-4
+normalisation divides the floor straight back out (`k = 4/3.01` → 0.0067), and
+flooring *after* it perturbs single-body from 3.9751 to 3.9089, which would
+desync the 4280 rows already in production.
+
+#### 18i-quinquies. φ-mixing across sects `[OPEN — pre-existing, NOT two-body-specific]`
+
+`combined = (diurnal + nocturnal) / 2`. When one sect lands in the equilibrium
+band and the other does not, the mean blends φ with a real value.
+
+`[MEASURED]` This is **not new and not introduced by the two-body work**: the
+shipped single-body calc does it in **180 of 3600 grid cells (5%)** — e.g.
+`Jupiter/Aries 1` is φ diurnal, 0.0126 nocturnal, **0.8153** combined. Those rows
+are in production today.
+
+It is defensible under the engine's own definition — §17c states φ is the
+harmonic *ideal*, a real value, not a couldn't-compute sentinel — so averaging it
+is averaging two real states. Recorded because (a) it is easy to mistake for a
+two-body bug, and (b) it is what produces the single worst residual row,
+`Full Moon Moon in Libra 8 Degree` at −5.4191 (φ diurnal, −12.68 nocturnal).
+
+If φ is ever reclassified as a sentinel, this becomes a defect **in single-body
+first**, and the 4280 production rows would need revisiting — not just the 469.
 
 ### 18j. Scope after the disambiguation `[RULED 2026-07-21]`
 

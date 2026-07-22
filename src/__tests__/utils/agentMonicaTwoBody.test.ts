@@ -7,24 +7,33 @@
  * read off `aspectCalculator.ts` and must not drift from it), and the loud
  * failure on an unclassifiable phase.
  */
-import { MONICA_EQUILIBRIUM } from "@/data/unified/alchemicalCalculations";
+import {
+  MONICA_EQUILIBRIUM,
+  MONICA_LN_EPSILON,
+} from "@/data/unified/alchemicalCalculations";
+import { groundingVessel } from "@/utils/agentMonica";
 import {
   APPLYING_DIGNITY_MULTIPLIER,
   ASPECT_DIGNITY,
   ASPECT_DIGNITY_REFERENCE_ORB,
   ASPECT_ORB_BUDGET,
   ASPECT_POLARITY,
+  DEGENERATE_LN_KALCHM,
   EXACT_DIGNITY_MULTIPLIER,
+  HEALTHY_LN_KALCHM_FLOOR,
   MOTION_DIGNITY_MULTIPLIER,
   PHASE_GEOMETRY,
   SEPARATING_DIGNITY_MULTIPLIER,
+  TWO_BODY_LN_EPSILON,
   UnknownMoonPhaseError,
+  VESSEL_DIGNITY_NEUTRAL,
   derivedSunPosition,
   normalizeMoonPhase,
   phaseGeometry,
   sunAspectDignity,
   twoBodyMonica,
   twoBodyMonicaForSect,
+  twoBodyState,
   type MoonPhaseKey,
 } from "@/utils/agentMonicaTwoBody";
 import {
@@ -336,20 +345,19 @@ describe("twoBodyMonica — the totality contract", () => {
   });
 
   // The Comixion pillar (Essence effect −1, so the vessel's Essence axis is 0)
-  // sits at degrees 8 and 22. There, with both bodies down-weighted by
-  // alchmWeight, the vessel dominates and ln(kalchm) lands just OUTSIDE
-  // MONICA_LN_EPSILON (0.05), so −G/(R·ln k) amplifies without the equilibrium
-  // guard ever tripping. 18 of 469 production rows are affected.
+  // sits at degrees 8 and 22. There, ln(kalchm) lands near 0 and −G/(R·ln k)
+  // amplifies. TWO_BODY_LN_EPSILON absorbs the degenerate core of that; a skirt
+  // survives, because some Comixion cells land at |ln k| ABOVE the healthy floor
+  // and cannot be absorbed without converting real values to φ.
   //
   // ⚠️ OPEN, deliberately pinned rather than clamped: flooring the vessel at
   // KALCHM_EPSILON does NOT fix this — tried both before normalisation (the
   // mass-4 rescale divides the floor straight back down to 0.0067) and after
-  // (max moved 21.45 → 21.78, and it perturbed single-body away from the
-  // already-backfilled production values). The proximate driver is the
-  // alchmWeight-to-vessel-mass ratio, not the zero axis itself.
+  // (it perturbed single-body away from the already-backfilled production
+  // values). The real fix is in the pillar → vessel mapping (§7a).
   //
-  // These assertions therefore describe the CURRENT measured behaviour so a
-  // change to it is caught, not a bound we wish were true.
+  // These assertions describe the CURRENT measured behaviour so a change to it
+  // is caught, not a bound we wish were true.
   it("confines the amplified tail to the two Comixion degrees", () => {
     const outlierDegrees = new Set<number>();
     let maxOutsideComixion = 0;
@@ -376,9 +384,106 @@ describe("twoBodyMonica — the totality contract", () => {
     expect([...outlierDegrees].sort((a, b) => a - b)).toEqual([8, 22]);
     // Everywhere else is comfortably INSIDE the single-body envelope (3.9751).
     expect(maxOutsideComixion).toBeLessThan(2);
-    // The tail is bounded, not divergent — nowhere near the ±60 of an
-    // ungrounded pair that §18c warns about.
-    expect(maxOverall).toBeLessThan(25);
+    // Bounded, and materially tighter than the 21.45 of the pre-band build.
+    expect(maxOverall).toBeLessThan(13);
+  });
+
+  // ── the band itself ──────────────────────────────────────────────────────
+  // TWO_BODY_LN_EPSILON is derived from two MEASURED bounds. These pin both, so
+  // that a retune which starts swallowing real values fails loudly rather than
+  // quietly flattening the distribution.
+  describe("TWO_BODY_LN_EPSILON — the two-body-local equilibrium band", () => {
+    /** Every grid cell's |ln kalchm|, partitioned by the STRUCTURAL cause. */
+    const cells = (() => {
+      const out: { degree: number; absLnK: number }[] = [];
+      for (const phase of ALL_PHASES)
+        for (const sign of SIGNS)
+          for (let degree = 0; degree < 30; degree++)
+            for (const sect of ["diurnal", "nocturnal"] as const) {
+              const s = twoBodyState(phase, sign, degree, sect);
+              out.push({ degree, absLnK: Math.abs(s.lnKalchm as number) });
+            }
+      return out;
+    })();
+    const isComixion = (d: number) => d === 8 || d === 22;
+
+    it("sits strictly between the two measured bounds", () => {
+      expect(TWO_BODY_LN_EPSILON).toBeGreaterThan(DEGENERATE_LN_KALCHM);
+      expect(TWO_BODY_LN_EPSILON).toBeLessThan(HEALTHY_LN_KALCHM_FLOOR);
+    });
+
+    it("[MEASURED] the degenerate bound really is the zero-Essence chart", () => {
+      // Comixion nocturnal: the vessel's Essence axis is exactly 0.
+      const s = twoBodyState("waxing gibbous", "Leo", 8, "nocturnal");
+      expect(s.esms?.Essence).toBe(0);
+      expect(Math.abs(s.lnKalchm as number)).toBeCloseTo(DEGENERATE_LN_KALCHM, 6);
+    });
+
+    it("[MEASURED] the healthy floor really is the smallest non-Comixion |ln k|", () => {
+      const floor = Math.min(
+        ...cells.filter((c) => !isComixion(c.degree)).map((c) => c.absLnK),
+      );
+      expect(floor).toBeCloseTo(HEALTHY_LN_KALCHM_FLOOR, 6);
+    });
+
+    it("absorbs with ZERO collateral — no healthy cell is converted to φ", () => {
+      const collateral = cells.filter(
+        (c) => !isComixion(c.degree) && c.absLnK < TWO_BODY_LN_EPSILON,
+      );
+      expect(collateral).toEqual([]);
+    });
+
+    it("does absorb a real share of the degenerate cases", () => {
+      const tail = cells.filter((c) => isComixion(c.degree));
+      const absorbed = tail.filter((c) => c.absLnK < TWO_BODY_LN_EPSILON);
+      // Measured 304/384. Pinned as a floor so a silent narrowing is caught.
+      expect(absorbed.length).toBeGreaterThanOrEqual(304);
+      expect(absorbed.length).toBeLessThan(tail.length); // the skirt is real
+    });
+
+    it("leaves the canonical engine's own band untouched", () => {
+      // The whole point of a LOCAL band: the shared §17c constant is unchanged,
+      // so the 4280 single-body rows in production keep their values.
+      expect(MONICA_LN_EPSILON).toBe(0.05);
+      expect(TWO_BODY_LN_EPSILON).toBeGreaterThan(MONICA_LN_EPSILON);
+    });
+  });
+
+  // ── the equalisation ─────────────────────────────────────────────────────
+  describe("dignity is applied exactly once per body", () => {
+    // Degree 4 is chosen because its vessel has a NONZERO Substance axis
+    // (1.333). Degree 5's is 0, which would make both assertions below compare
+    // 0 to 0 and pass vacuously — the same circular-test shape already caught
+    // once in this file.
+    const DEG = 4;
+    const BARE = groundingVessel(DEG, VESSEL_DIGNITY_NEUTRAL);
+
+    it("uses a degree whose vessel Substance is non-vacuous", () => {
+      expect(BARE.Substance).toBeGreaterThan(0.5);
+    });
+
+    it("builds the shared vessel dignity-NEUTRAL", () => {
+      expect(VESSEL_DIGNITY_NEUTRAL).toBe(0);
+      // Substance comes ONLY from the vessel here: in the diurnal table the Sun
+      // is Spirit and the Moon is Essence, so this axis isolates the vessel.
+      const s = twoBodyState("new", "Cancer", DEG, "diurnal"); // Moon domicile +10
+      const scaled = groundingVessel(DEG, 10); // what a Moon-scaled vessel would be
+      expect(scaled.Substance).not.toBeCloseTo(BARE.Substance, 6); // guard: they differ
+      expect(s.esms?.Substance).toBeCloseTo(BARE.Substance, 12);
+      expect(s.esms?.Substance).not.toBeCloseTo(scaled.Substance, 6);
+    });
+
+    it("gives the Moon's dignity no more leverage than the Sun's", () => {
+      // Cancer = Moon domicile (+10), Capricorn = Moon detriment (−7). If the
+      // Moon's dignity still scaled the shared vessel, the vessel-only axis
+      // (Substance) would move between them. It must not.
+      const dom = twoBodyState("new", "Cancer", DEG, "diurnal");
+      const det = twoBodyState("new", "Capricorn", DEG, "diurnal");
+      expect(dom.esms?.Substance).toBeGreaterThan(0.5); // non-vacuity
+      expect(dom.esms?.Substance).toBeCloseTo(det.esms?.Substance as number, 12);
+      // …while the Moon's own axis DOES still respond to its dignity.
+      expect(dom.esms?.Essence).not.toBeCloseTo(det.esms?.Essence as number, 6);
+    });
   });
 
   it("returns φ, never NaN and never 0, for degenerate positions", () => {

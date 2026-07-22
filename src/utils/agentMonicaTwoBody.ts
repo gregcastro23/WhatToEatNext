@@ -5,7 +5,10 @@
  * A phase agent ("First Quarter Moon in Cancer 0 Degree", "Moon Phase Dark Moon
  * 153") is not a placement. A phase is a Sun–Moon *relationship*, so it earns a
  * genuine two-body calculation rather than a scaled single-body one. 469 agent
- * rows are in this family; they carry NULL monica until this lands.
+ * rows are in this family. Until this lands they carry NULL in
+ * `monica_diurnal` / `monica_nocturnal` (the single-body backfill skipped them)
+ * and the OLD FAKE `monica_constant` of 0.5 — not NULL. That fake sentinel is
+ * what this replaces.
  *
  * ── The construction ────────────────────────────────────────────────────────
  *
@@ -17,17 +20,30 @@
  *  2. **ONE shared grounding vessel, mass 4, shaped by the MOON's degree only.**
  *     Not one vessel per body: the pair is one chart, so it gets one vessel, and
  *     the NAMED body (the Moon) sets its process. Built by the very same
- *     `groundingVessel()` the single-body calc uses (§18c), so a two-body result
- *     lands on the same scale as a single-body one.
+ *     `groundingVessel()` the single-body calc uses (§18c) — one construction,
+ *     not a fork (the §17c lesson).
  *
- *     ► VESSEL-DIGNITY DECISION `[RULED here]`: the shared vessel is scaled by
- *       the **MOON's** essential dignity, `× (1 + moonDignity/100)`. The Moon is
- *       the body that shapes the vessel (its degree picks the process), so it is
- *       the body that strengthens or weakens it; and the Moon's dignity is the
- *       only *position-based* dignity in this chart that is actually stated by
- *       the name. The Sun's dignity is aspect-based (below) and is applied to
- *       the Sun's own ESMS contribution, never to the shared vessel — mixing an
- *       aspect quantity into the grounding term would double-count the aspect.
+ *     ⚠️ Sharing the vessel does NOT put the two scales on top of each other.
+ *     An earlier version of this note claimed it "lands on the same scale as a
+ *     single-body one"; that was never measured and is false. See the measured
+ *     behaviour section: the two-body grid reaches 12.6756 where single-body
+ *     reaches 3.9751.
+ *
+ *     ► VESSEL-DIGNITY DECISION `[RULED 2026-07-21, revised]`: the shared vessel
+ *       is **dignity-NEUTRAL** — `groundingVessel(moonDegree, 0)`. The Moon
+ *       still shapes it (its degree picks the process); it no longer scales it.
+ *
+ *       An earlier revision scaled the shared vessel by the Moon's dignity. That
+ *       gave the Moon's dignity **two** points of leverage on the result (its own
+ *       ESMS *and* the grounding term) while the Sun's had one — an asymmetry
+ *       that was never argued for, only inherited from the single-body case
+ *       where there is exactly one body and the question cannot arise. Equalised:
+ *       **each body's dignity is applied exactly once, to that body's own ESMS.**
+ *       The vessel grounds the pair rather than taking a side.
+ *
+ *       This also keeps the aspect quantity out of the grounding term, which the
+ *       previous note already required — now by construction rather than by an
+ *       asymmetric exception.
  *
  *  3. **Both sects are returned**, exactly as single-body. NOTE: the Sun is
  *     Spirit in BOTH sects (PLANETARY_SECTARIAN_ESMS), so for a phase agent
@@ -41,13 +57,17 @@
  *     planet and must never be transcribed between. This module uses the
  *     orbital-period one.
  *
- *  5. **Dignity — the two bodies are treated DIFFERENTLY, deliberately:**
+ *  5. **Dignity — the two bodies SOURCE it differently, but APPLY it identically.**
  *       • Moon → POSITION-based: its own essential dignity at its own sign,
  *         the +10/+7/0/−7/−10 scale (`getDignityScore`).
  *       • Sun  → ASPECT-based, NOT position-based. Its longitude is *inferred*
  *         from the phase name, but the *aspect* is stated by the name with
  *         certainty. Scaling by a guessed position would compound an inference;
  *         reading dignity off the aspect uses the one thing the name guarantees.
+ *
+ *     Different SOURCES, identical APPLICATION: each is a ±10-scale number and
+ *     each multiplies exactly one thing, `× (1 + dignity/100)` on its own body's
+ *     ESMS. Neither touches the shared vessel (see 2).
  *
  * ── Provenance of the numbers ───────────────────────────────────────────────
  *
@@ -76,12 +96,13 @@
  * `semisquare` / `sesquisquare` — this is NOT the dead-underscore-key defect
  * class; they are live.)
  *
- * `[AUTHORED]` **The applying/separating multiplier** — ×1.15 applying, ×0.85
- * separating, ×1.0 exact — is the ONE unmeasured number in the design (§18i-ter).
- * Waxing and waning phases must differ even though they share an aspect
- * geometry, and nothing in the repo supplies a magnitude for that difference.
- * It multiplies the SUN's aspect dignity only, and is exported as a named
- * constant pair so it is trivially tunable when §14d supplies a basis.
+ * `[DERIVED]` **The applying/separating multiplier** — 8/7 applying, 6/7
+ * separating, 1 exact (§18i-ter). Read from the same two live orb budgets
+ * §18i-bis uses, so an applying square scores exactly −10.00, the domicile
+ * anchor. It replaced an authored ×1.15/×0.85 pair; see the constant's own note
+ * for the measurement showing the authored value barely mattered. **§18 now has
+ * no unmeasured numbers** — every constant here is read from live code or
+ * measured, and each records which.
  *
  * ── Contract ────────────────────────────────────────────────────────────────
  *
@@ -96,38 +117,62 @@
  *
  * ── Measured behaviour ──────────────────────────────────────────────────────
  *
- * `[MEASURED 2026-07-21]` Over the full grid (8 phases × 12 signs × 30 degrees =
- * 2880): **2880/2880 finite**, median |monica| 0.25, p90 1.56.
+ * All figures below are `[MEASURED 2026-07-21]` **after** the dignity
+ * equalisation and **with** TWO_BODY_LN_EPSILON applied. Both changed the
+ * numbers, so any earlier figure quoted elsewhere is stale by construction.
  *
- * ⚠️ **There is a heavy tail, and it is entirely one pillar.** Every one of the
- * 133 cases with |monica| > 4 sits at **degree 8 or 22 — the Comixion process**
- * (`ALCHEMICAL_PILLARS[7]`, effects S+1/E−1/M+1/Su+1), whose vessel floors
- * Essence to **zero**: `{2,0,2,2} → mass-4 → {1.33, 0, 1.33, 1.33}`. With no
- * vessel Essence, the ESMS lands just outside the MONICA_LN_EPSILON equilibrium
- * band, `ln(kalchm) → 0⁺`, and `−G/(R·ln K)` grows; max |monica| 21.4.
- * **Excluding degrees 8 and 22, max |monica| is 3.857** — exactly the
- * single-body / full-chart scale of [−3.97, 3.90] (§18c).
+ * **Full grid** (8 phases × 12 signs × 30 degrees × 2 sects = 5760):
+ * 5760/5760 finite · median |monica| 0.2244 · p90 1.2434 · **max 12.6756** ·
+ * 304 cells (5.3%) resolve to φ via the local band.
  *
- * This is the canonical engine's documented band-edge behaviour, not a fork and
- * not a defect of this module: the values are finite, signed and real. It is
- * recorded (and pinned by a test) rather than clamped, because widening
- * MONICA_LN_EPSILON would retune the shared §17c engine for every consumer.
- * Single-body does not show it because a lone planet cannot break the
- * Spirit/Matter/Substance symmetry Comixion creates; adding the Sun's Spirit
- * does. `[OPEN]` if the tail is later judged unacceptable, the fix belongs in
- * the pillar → vessel mapping (§7a), not here.
+ * **All 469 production phase agents**: 0 unrecognised phase strings, 0
+ * non-finite, **range [−5.4191, 1.8004]**, 221 distinct values, 16 φ.
  *
- * `[MEASURED 2026-07-21]` Against all **469** production phase agents: 0
- * unrecognised phase strings, 0 non-finite, range [−19.74, 13.54], median
- * 0.1775, 234 distinct values, largest bucket 1.5% (no sentinel clustering).
+ * ⚠️ **The residual tail is one pillar, and it is not fully absorbed.**
+ * Comixion (degrees 8 and 22, `ALCHEMICAL_PILLARS[7]`, S+1/E−1/M+1/Su+1) floors
+ * vessel Essence to **zero**. Adding the Sun's Spirit to a Moon with no vessel
+ * Essence drives `ln(kalchm) → 0`, and `−G/(R·ln K)` grows. The local band
+ * absorbs the degenerate core, cutting production rows outside the single-body
+ * range from **25 to 2** and the maximum from **149.35 to 5.42** — but a skirt
+ * survives, because some Comixion cells land at `|ln k|` ABOVE the healthy floor
+ * and cannot be absorbed without converting real values to φ.
+ *
+ * **Exactly two production rows fall outside the single-body range**
+ * ([−3.197, 3.975]), both on Comixion degrees:
+ *   • `Full Moon Moon in Libra 8 Degree` at **−5.4191**
+ *   • `Waxing Crescent Moon in Taurus 22 Degree` at **−3.2711** (2.3% below the
+ *     single-body floor — marginal, but counted rather than rounded away)
+ * The first is a φ-MIXED row: its diurnal chart is degenerate and returns φ, its
+ * nocturnal chart is healthy and returns −12.68, and `combined` is their mean.
+ * Finite, signed, real — recorded and pinned, not clamped.
+ *
+ * ⚠️ Counting note: an earlier pass reported ONE such row because it filtered on
+ * `|monica| > 4`. The single-body range is ASYMMETRIC, so a magnitude threshold
+ * is not the same test as the range test and silently missed −3.2711.
+ *
+ * ► φ-MIXING IS NOT NEW AND NOT TWO-BODY-SPECIFIC. `[MEASURED]` The shipped
+ *   single-body calc does the same thing in **180 of 3600 cells (5%)** — e.g.
+ *   `Jupiter/Aries 1` is φ diurnal, 0.0126 nocturnal, 0.8153 combined. Those
+ *   rows are in production today. It is defensible under the engine's own
+ *   definition (§17c: φ is the harmonic *ideal*, a real value, not a
+ *   couldn't-compute sentinel), so averaging it is averaging two real states.
+ *   Flagged here because it is easy to mistake for a bug introduced by this
+ *   module, and because it is what makes the last row hard to remove.
+ *
+ * `[OPEN]` To flatten the residual, the fix belongs in the pillar → vessel
+ * mapping (§7a) — giving Comixion a nonzero Essence floor — NOT in a wider band
+ * and NOT in an output clamp. That was attempted twice and rejected both times:
+ * flooring before mass-4 normalisation divides the floor back out, and flooring
+ * after it perturbs single-body from 3.9751 to 3.9089, which would desync the
+ * 4280 rows already in production.
  */
+import { PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
 import {
   MONICA_EQUILIBRIUM,
   calculateKalchm,
   calculateMonica,
   calculateThermodynamics,
 } from "@/data/unified/alchemicalCalculations";
-import { PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
 import type { AlchemicalProperties } from "@/types/celestial";
 import {
   groundingVessel,
@@ -142,7 +187,7 @@ import {
 } from "@/utils/planetaryAlchemyMapping";
 
 /** Zodiac signs in ecliptic order — index × 30 is the sign's start longitude. */
-const SIGNS = Object.keys(ZODIAC_ELEMENTS) as (keyof typeof ZODIAC_ELEMENTS)[];
+const SIGNS = Object.keys(ZODIAC_ELEMENTS) as Array<keyof typeof ZODIAC_ELEMENTS>;
 
 const DEGREES_PER_SIGN = 30;
 const FULL_CIRCLE = 360;
@@ -449,6 +494,72 @@ function alchmWeightOf(planet: string): number {
  */
 export const ELEMENTAL_MASS = 1;
 
+/**
+ * The dignity scale passed to the SHARED grounding vessel: none. The vessel
+ * grounds the pair, it does not take a side — each body's dignity is applied
+ * exactly once, to that body's own ESMS. Named rather than a bare `0` so the
+ * equalisation is greppable and cannot be silently un-done.
+ */
+export const VESSEL_DIGNITY_NEUTRAL = 0;
+
+/**
+ * `[MEASURED 2026-07-21]` `|ln kalchm|` of the **exactly-degenerate** two-body
+ * chart: Comixion (degree 8/22), nocturnal, where the vessel's Essence is
+ * literally `0.000` and only `KALCHM_EPSILON` keeps `calculateKalchm` finite.
+ *
+ *     nocturnal deg 8/22 → S 1.824  E 0.000  M 1.618  Su 1.333   ln k = −0.110698
+ *
+ * A chart with a hard zero on an axis is degenerate by inspection, not by
+ * threshold. This is the LOWER bound on the band: any width at or below it
+ * leaves a genuinely degenerate chart being divided by ~0.
+ */
+export const DEGENERATE_LN_KALCHM = 0.110698;
+
+/**
+ * `[MEASURED 2026-07-21]` The smallest `|ln kalchm|` produced by any NON-Comixion
+ * cell across the full 8×12×30×2 grid — the healthiest-case floor. This is the
+ * UPPER bound on the band: at or above it, the band starts converting cases that
+ * computed a perfectly sane monica into φ.
+ */
+export const HEALTHY_LN_KALCHM_FLOOR = 0.138173;
+
+/**
+ * `[DERIVED]` The two-body-local half-width of the monica equilibrium band, on
+ * `|ln(kalchm)|` — the midpoint of the two measured bounds above, so it carries
+ * the maximum available margin on both sides (~12% each way).
+ *
+ * ── Why local, and not a change to MONICA_LN_EPSILON ────────────────────────
+ * The canonical `MONICA_LN_EPSILON` (0.05) is shared by every consumer of the
+ * §17c engine, including the **4280 single-body agent rows already written to
+ * production**. Widening it there would silently re-value all of them and every
+ * full-chart caller besides. This band is applied in this module only; the
+ * canonical engine is untouched and single-body output is bit-identical
+ * (grid max 3.9751, regression-pinned).
+ *
+ * ── Why a wider band is the right shape of fix ──────────────────────────────
+ * The two-body tail is not a scatter of unlucky inputs — it is one pillar.
+ * Comixion (degrees 8 and 22) floors vessel Essence to zero, and adding the
+ * Sun's Spirit to a Moon that has no vessel Essence lands the pair just OUTSIDE
+ * the canonical band, where `ln(kalchm) → 0⁺` makes `−G/(R·ln K)` diverge. Those
+ * cases are *nearer* to perfect balance than the ones the canonical band already
+ * absorbs, so returning φ for them is the same statement the engine already
+ * makes, not a new one. Clamping the output instead would fabricate a magnitude;
+ * this widens the region where the engine declines to divide by ~0.
+ *
+ * ── What it does NOT do `[MEASURED]` ────────────────────────────────────────
+ * It does not flatten the tail, and this is deliberate. The band is set by the
+ * degeneracy boundary, not by how large the surviving output looks — sizing it
+ * to swallow every big number would be output-fitting. A near-degenerate skirt
+ * survives with |monica| above the single-body scale. Those values are finite,
+ * signed and real; they are the honest reading of a nearly-balanced two-body
+ * chart. The residual is quantified in the module docstring and pinned by test.
+ *
+ * `agentMonicaTwoBody.test.ts` pins BOTH bounds and the zero-collateral property,
+ * so a future retune that widens this into real values fails loudly.
+ */
+export const TWO_BODY_LN_EPSILON =
+  (DEGENERATE_LN_KALCHM + HEALTHY_LN_KALCHM_FLOOR) / 2; // 0.1244355
+
 /** A body's sect-resolved, alchm-weighted, dignity-scaled ESMS contribution. */
 function bodyContribution(
   planet: "Sun" | "Moon",
@@ -466,19 +577,57 @@ function bodyContribution(
 }
 
 /**
- * The two-body phase monica for one sect. Always finite.
+ * Every intermediate of the two-body calc, for one sect. `twoBodyMonicaForSect`
+ * is a one-line wrapper over this.
+ *
+ * Exposed so tests and measurement scripts can read the real `kalchm` /
+ * `gregsEnergy` / `reactivity` this module actually used, instead of
+ * reconstructing the ESMS from the exported parts. A reconstruction is a second
+ * copy of the formula, and §17c is the record of what happens when copies drift.
+ */
+export interface TwoBodyState {
+  /** null when the input was degenerate and no chart could be built. */
+  esms: ESMS | null;
+  elemental: { Fire: number; Water: number; Air: number; Earth: number } | null;
+  kalchm: number | null;
+  /** `Math.log(kalchm)` — the quantity the equilibrium band is measured on. */
+  lnKalchm: number | null;
+  gregsEnergy: number | null;
+  reactivity: number | null;
+  /** Always finite. */
+  monica: number;
+  /** The local equilibrium band absorbed this case (§18i-quater). */
+  equilibrium: boolean;
+  /** The input could not be placed at all; monica is φ by the totality contract. */
+  degenerate: boolean;
+}
+
+const DEGENERATE_STATE: TwoBodyState = {
+  esms: null,
+  elemental: null,
+  kalchm: null,
+  lnKalchm: null,
+  gregsEnergy: null,
+  reactivity: null,
+  monica: MONICA_EQUILIBRIUM,
+  equilibrium: false,
+  degenerate: true,
+};
+
+/**
+ * The two-body phase monica for one sect, with every intermediate. Always finite.
  *
  * @param rawPhase  phase as it appears in the agent name ("First Quarter",
  *                  "Dark Moon", "waxing_gibbous"). Unrecognised → throws.
  * @param moonSign  the Moon's sign (the sign the agent is named for).
  * @param moonDegree the Moon's degree within that sign.
  */
-export function twoBodyMonicaForSect(
+export function twoBodyState(
   rawPhase: string,
   moonSign: string,
   moonDegree: number,
   sect: Sect,
-): number {
+): TwoBodyState {
   // Throws on an unrecognised phase — deliberately, before any defaulting.
   const geometry = phaseGeometry(rawPhase);
 
@@ -486,13 +635,13 @@ export function twoBodyMonicaForSect(
   if (!moonSignKey || !Number.isFinite(moonDegree)) {
     // Degenerate input: the pair cannot be placed at all. The canonical
     // totality constant, never NaN and never a 0 sentinel.
-    return MONICA_EQUILIBRIUM;
+    return DEGENERATE_STATE;
   }
 
   const sun = derivedSunPosition(rawPhase, moonSignKey, moonDegree);
-  if (!sun) return MONICA_EQUILIBRIUM;
+  if (!sun) return DEGENERATE_STATE;
   const sunSignKey = toSignKey(sun.sign);
-  if (!sunSignKey) return MONICA_EQUILIBRIUM;
+  if (!sunSignKey) return DEGENERATE_STATE;
 
   // Moon: position-based essential dignity at its own sign.
   const moonDignity = getDignityScore("Moon", moonSignKey).esmsScale;
@@ -504,9 +653,12 @@ export function twoBodyMonicaForSect(
   const moonEsms = bodyContribution("Moon", sect, moonDignity);
   const sunEsms = bodyContribution("Sun", sect, sunDignity);
 
-  // ONE shared vessel, mass 4, shaped by the MOON's degree and scaled by the
-  // MOON's dignity (see the vessel-dignity decision in the module docstring).
-  const vessel = groundingVessel(moonDegree, moonDignity);
+  // ONE shared vessel, mass 4, SHAPED by the Moon's degree and scaled by
+  // nobody's dignity. Each body's dignity has already been applied exactly once,
+  // to its own ESMS above; scaling the shared vessel too would give whichever
+  // body it belonged to a second point of leverage. See the vessel-dignity
+  // decision in the module docstring.
+  const vessel = groundingVessel(moonDegree, VESSEL_DIGNITY_NEUTRAL);
 
   const esms: ESMS = {
     Spirit: moonEsms.Spirit + sunEsms.Spirit + vessel.Spirit,
@@ -532,8 +684,44 @@ export function twoBodyMonicaForSect(
 
   const t = calculateThermodynamics(esms as AlchemicalProperties, elementalProps);
   const kalchm = calculateKalchm(esms as AlchemicalProperties);
-  const monica = calculateMonica(t.gregsEnergy, t.reactivity, kalchm);
-  return Number.isFinite(monica) ? monica : MONICA_EQUILIBRIUM;
+  const lnKalchm = Math.log(kalchm);
+
+  // ── the two-body-local equilibrium band (§18i-quater) ────────────────────
+  // Wider than the canonical MONICA_LN_EPSILON, and applied ONLY here. See the
+  // constant's own note for why it is local and how the width was measured.
+  const inBand =
+    !Number.isFinite(kalchm) ||
+    kalchm <= 0 ||
+    Math.abs(lnKalchm) < TWO_BODY_LN_EPSILON;
+
+  const monica = inBand
+    ? MONICA_EQUILIBRIUM
+    : calculateMonica(t.gregsEnergy, t.reactivity, kalchm);
+
+  return {
+    esms,
+    elemental: elementalProps,
+    kalchm,
+    lnKalchm,
+    gregsEnergy: t.gregsEnergy,
+    reactivity: t.reactivity,
+    monica: Number.isFinite(monica) ? monica : MONICA_EQUILIBRIUM,
+    equilibrium: inBand,
+    degenerate: false,
+  };
+}
+
+/**
+ * The two-body phase monica for one sect. Always finite. Thin wrapper over
+ * `twoBodyState` — there is exactly one construction.
+ */
+export function twoBodyMonicaForSect(
+  rawPhase: string,
+  moonSign: string,
+  moonDegree: number,
+  sect: Sect,
+): number {
+  return twoBodyState(rawPhase, moonSign, moonDegree, sect).monica;
 }
 
 /**
