@@ -359,10 +359,7 @@ export async function getUserIdFromRequest(
     );
   }
 
-  // Fallback to query param (for development/testing)
-  const { searchParams } = new URL(request.url);
-  const queryUserId = searchParams.get("userId");
-  return queryUserId;
+  return null;
 }
 
 /**
