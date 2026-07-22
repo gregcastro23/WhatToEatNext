@@ -26,17 +26,12 @@ export const runtime = "nodejs";
  * - date: ISO date string (YYYY-MM-DD) — if provided, returns only that day's entries
  * - startDate: ISO date string — range start (inclusive)
  * - endDate:   ISO date string — range end (inclusive)
- * - userId:    override (falls back to auth session)
  */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
 
-    // Prefer session auth, fall back to explicit userId param for backwards compat
-    let userId = await getUserIdFromRequest(request);
-    if (!userId) {
-      userId = searchParams.get("userId");
-    }
+    const userId = await getUserIdFromRequest(request);
 
     if (!userId) {
       return NextResponse.json(
@@ -97,12 +92,11 @@ export async function GET(request: NextRequest) {
  * POST /api/food-diary
  * Create a new food diary entry for the authenticated user.
  *
- * Body: CreateFoodDiaryEntryInput (with optional userId override)
+ * Body: CreateFoodDiaryEntryInput
  */
 export async function POST(request: NextRequest) {
   try {
-    // Prefer session auth, fall back to body userId for backwards compat
-    let userId = await getUserIdFromRequest(request);
+    const userId = await getUserIdFromRequest(request);
 
     const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "food-diary-post", identifier: userId ?? undefined });
     if (!rl.allowed) return rl.response!;
@@ -127,10 +121,6 @@ export async function POST(request: NextRequest) {
     }
     
     const inputData = parsedBody.data;
-
-    if (!userId) {
-      userId = inputData.userId ?? null;
-    }
 
     if (!userId) {
       return NextResponse.json(

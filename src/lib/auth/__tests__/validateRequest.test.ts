@@ -130,4 +130,16 @@ describe("validateRequest: getUserIdFromRequest", () => {
     const userId = await getUserIdFromRequest(mockReq);
     expect(userId).toBeNull();
   });
+
+  it("SECURITY REGRESSION: must NOT trust a ?userId= query param as identity when there is no session, token, or agents-bridge cookie", async () => {
+    auth.mockResolvedValue(null);
+    const spoofedReq = new (jest.requireMock("next/server").NextRequest)(
+      "http://localhost:3000/api/test?userId=00000000-0000-4000-8000-000000000000",
+    );
+
+    const userId = await getUserIdFromRequest(spoofedReq);
+
+    expect(userId).toBeNull();
+    expect(userDb.getUserById).not.toHaveBeenCalled();
+  });
 });
