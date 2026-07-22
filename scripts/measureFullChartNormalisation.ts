@@ -1,18 +1,26 @@
 /**
- * §18n — would mass-normalising a full chart to the SINGLE-BODY reference put it
- * on a usable scale, or just move the bucket?
+ * §18o — the measurement that REJECTED mass-normalising full-chart to the
+ * single-body reference. Kept as the evidence, not as a live proposal.
  *
- * READ-ONLY, no writes. This is the measurement the full-chart ruling depends on.
- *
+ * READ-ONLY, no writes.
  *   railway run --service Postgres -- bun scripts/measureFullChartNormalisation.ts
  *
- * Ruled 2026-07-22: reference mass = the single-body construction's own total
- * ESMS (planet sect-ESMS + mass-4 dignity-scaled vessel), so the two
- * constructions become dimensionally comparable rather than merely rescaled.
- * That reference is MEASURED here rather than derived, then applied.
+ * ⚠️ OUTCOME: normalisation was RULED AGAINST. It puts the 71 charts inside the
+ * single-body range, but that comparability has NO consumer (nothing in src/
+ * compares agent monica across populations) and it COSTS separation — at equal
+ * relative resolution the largest bucket goes 16.9% raw -> 31.0% normalised.
  *
- * Both sects are computed for every chart: none of these 71 rows carries birth
- * data, so there is no birth moment to resolve a single sect from (§18n).
+ * The deeper reason is §18o: planetary-body agents and chart-bearing agents are
+ * DIFFERENT KINDS OF OBJECT, not one quantity at two scales. IQR/|median| is
+ * 6.815 single-body vs 0.176 full-chart — a 39x difference in SCALE-FREE spread,
+ * which no change of units can be responsible for.
+ *
+ * Run it to re-derive those numbers; do not run it expecting a value to write.
+ *
+ * ⚠️ METRIC TRAP, preserved deliberately: the separation section uses a RELATIVE
+ * bucket (span/100). An earlier absolute 0.01 bucket flattered single-body ~40x
+ * and pointed at the opposite conclusion. Never compare dispersion across
+ * populations with an absolute width.
  */
 import { Client } from "pg";
 
