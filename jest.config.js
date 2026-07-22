@@ -84,12 +84,14 @@ const config = {
   // Cache configuration for memory efficiency
   cacheDirectory: "<rootDir>/.jest-cache",
 
-  // Test environment options for memory management
   testEnvironmentOptions: {
     url: "http://localhost",
-    // Limit DOM memory usage
-    resources: "usable",
-    runScripts: "dangerously",
+    // `resources: "usable"` and `runScripts: "dangerously"` were removed. The
+    // comment here claimed they limited DOM memory usage; they do the opposite.
+    // `resources: "usable"` makes jsdom fetch real external subresources during
+    // unit tests (jest's default is not to), and `runScripts: "dangerously"` was
+    // a no-op — @jest/environment-jsdom-abstract hardcodes that value before
+    // spreading these options. No test depended on either.
     pretendToBeVisual: false,
   },
 

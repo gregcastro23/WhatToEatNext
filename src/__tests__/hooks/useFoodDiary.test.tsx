@@ -233,13 +233,17 @@ describe("useFoodDiary hook", () => {
       await waitForWeeklySummaryToLoad(result);
       const initialDate = new Date(result.current.selectedDate);
 
-      act(() => {
+      // Async act: changing the date re-runs the `loadData` effect (the hook
+      // loads "on mount and when date changes"), so a synchronous act() would
+      // return before that reload's setState lands — firing an act warning
+      // after the test ended.
+      await act(async () => {
         result.current.goToPreviousDay();
       });
 
       const prevDate = new Date(initialDate);
       prevDate.setDate(prevDate.getDate() - 1);
-      
+
       expect(result.current.selectedDate.toDateString()).toBe(prevDate.toDateString());
     });
 
@@ -248,13 +252,14 @@ describe("useFoodDiary hook", () => {
       await waitForWeeklySummaryToLoad(result);
       const initialDate = new Date(result.current.selectedDate);
 
-      act(() => {
+      // Async act — see the note in "goes to previous day".
+      await act(async () => {
         result.current.goToNextDay();
       });
 
       const nextDate = new Date(initialDate);
       nextDate.setDate(nextDate.getDate() + 1);
-      
+
       expect(result.current.selectedDate.toDateString()).toBe(nextDate.toDateString());
     });
   });
