@@ -1232,6 +1232,38 @@ Gated behind §14d (the stack imports weights/orb that must be canonical first).
 a real computation rather than a null-out. Every claim below is measured; the
 scripts are recorded inline.
 
+> ### STATUS `[MEASURED 2026-07-22]` — read this before the sections below
+>
+> §18 is **shipped for both computable populations**. Production, verified by
+> `scripts/checkAgentMonicaDrift.ts` (0 drifted / 0 missing / 0 wrong-method):
+>
+> | population | count | `monica_method` | state |
+> |---|---|---|---|
+> | single-body placements | **4281** | `single-body` | ✅ shipped (PR #628) |
+> | two-body Moon phases | **469** | `two-body` | ✅ shipped (PR #630) |
+> | not a placement (people, junk) | **72** | `NULL` | left NULL, never guessed |
+> | **total** | **4822** | | sums exactly to the agent row count |
+>
+> **§18 now has no unmeasured numbers** — every constant is read from live code
+> or measured, and each records which (§18i-ter closed the last one).
+>
+> **The governing principle, ruled 2026-07-22 — read §18o before touching any
+> monica code:** the three agent kinds are **different OBJECTS**, not one quantity
+> at three scales. A planetary agent is one planet at one degree; a phase agent is
+> a Sun–Moon relationship; a historical agent is a whole natal chart. Each keeps
+> its **own natural scale**, gets its **own column**, and takes a
+> **per-population** display mapping (§18p). There is no cross-construction
+> normalisation, and no consumer that needs one.
+>
+> ⚠️ **Sections below predate this and contain superseded plans.** Where a section
+> and this header disagree, the header is measured and the section is not. The
+> known corrections are flagged inline; the load-bearing ones are:
+> **§18m** (monica has no fixed scale across body counts), **§18n** (the
+> "full-chart for the 71 real people" ruling has no valid subject and is
+> triple-blocked), **§18o** (the three kinds are different objects — this
+> REVERSES the mass-normalisation §18m originally proposed) and **§18p**
+> (Sacred-7 takes `tanh(monica / s_p)`, per population).
+
 ### 18a. The reframing
 
 Planetary agents (a single planet at a position, e.g. "Aries Sun 1 Degree", 4275
@@ -1278,9 +1310,16 @@ vessel = normalize( max(0, 1 + pillarEffect(degree)) , mass = 4 ) × (1 + dignit
 | | result |
 |---|---|
 | Finite | **224/224** |
-| Range | **[−3.97, 3.90]** — same scale as full-chart monica |
+| Range | **[−3.97, 3.90]** ⚠️ **NOT** the same scale as full-chart monica — see §18m |
 | Degree resolution | **7 distinct bands** (the 14 processes collapse to 7 ESMS patterns; Solution ≡ Calcination) |
 | Dignity sensitivity | Sun/Leo domicile **0.656** vs peregrine **0.905** — real, bounded |
+
+> ⚠️ `[CORRECTED 2026-07-22]` This row previously read "same scale as full-chart
+> monica". That was never measured and is **false in the opposite direction from
+> the one later assumed**: full-chart monica is ~12–43× *smaller*, not larger.
+> monica has no fixed scale across body counts — see §18m, where it is measured.
+> It is a property of the formula, not a bug, and it decides what may be written
+> into `monica_constant`.
 
 Two dead ends ruled out by measurement, recorded so they are not retried:
 *flat dignity-scaling* moves only the 4 dignified signs by ±0.1 (arguably
@@ -1292,9 +1331,14 @@ that holds.
 
 | Population | Count | Monica |
 |---|---|---|
-| Planetary ("Planet Sign N°") | 4275 | single-body (§18c), **both sects** |
-| Synthesized / historical | 434 (71 have charts) | **full-chart** monica; the 363 chartless get a chart computed from birth data first |
-| Moon-phase ("Waxing Gibbous Moon in …") | ~~53~~ **469** | **two-body** — Moon + a Sun derived from the phase angle (a phase *is* a Sun–Moon relationship). See §18i. |
+| Planetary ("Planet Sign N°") | ~~4275~~ **4281** `[MEASURED 2026-07-22]` | single-body (§18c), **both sects** — ✅ SHIPPED, `monica_method='single-body'` |
+| Synthesized / historical | 434 (71 have charts) | **full-chart** monica — ⛔ **BLOCKED**, and the plan below is wrong; see §18n |
+| Moon-phase ("Waxing Gibbous Moon in …") | ~~53~~ **469** | **two-body** — Moon + a Sun derived from the phase angle (a phase *is* a Sun–Moon relationship). ✅ SHIPPED, `monica_method='two-body'`. See §18i. |
+| Not a placement (people, junk) | **72** | none — left NULL, never guessed |
+
+`[MEASURED 2026-07-22]` The three populations sum exactly: **4281 + 469 + 72 =
+4822**, the full agent row count. `scripts/checkAgentMonicaDrift.ts` re-derives
+this on every run and reports 0 drifted / 0 missing / 0 wrong-method.
 
 > ⚠️ `[CORRECTED 2026-07-21]` The "53" above was wrong. It counted only part of
 > one name family; the phase population spans **two** families
@@ -1728,8 +1772,8 @@ build:
 | Area | Ruling |
 |---|---|
 | Backfill target | **4279** — include the 360 blocked duplicates; backfill is additive and independent of the de-dupe |
-| Phase agents | **Build two-body now** (§18i), not NULL-until-later |
-| Real people | All **71 already have charts** — the §18d claim that 363 needed computing was false. Full-chart monica this pass, separate PR |
+| Phase agents | **Build two-body now** (§18i), not NULL-until-later — ✅ SHIPPED |
+| Real people | ⛔ **SUPERSEDED — this ruling's subject does not exist.** See §18n. |
 | Duplicates | **Merge**: reassign 1547 `feed_events` + 467 `user_subscriptions` to the canonical twin, then delete. Preserves feed history |
 | Schema | Partial unique index on agent name afterwards, so the class cannot recur |
 | Full-chart rows | Compute **both sects** for them too (reverses the earlier NULL ruling) |
@@ -1738,8 +1782,277 @@ build:
 | Ship order | migrate → backfill → verify → merge |
 | Unknowns | Classify the 72 unresolved rows **before** backfilling |
 
-⚠️ **This is no longer an MVP.** §18 now covers **4817 of 4821** agent rows plus a
+⚠️ `[SUPERSEDED — see the status header at the top of §18 for measured counts]`
+**This is no longer an MVP.** §18 was scoped at **4817 of 4821** agent rows plus a
 merge-dedupe, a schema constraint, a new endpoint, a stats rescale and a general
 aspect-layer concept. Each ruling is defensible alone; together they are several
 PRs. If a smaller first cut is wanted, the natural one is **write-fix +
 single-body backfill**, which is already built and verified.
+
+### 18m. Monica has no fixed scale across body counts `[MEASURED 2026-07-22]`
+
+The single `monica_constant` column is fed by **three constructions with
+different body counts** — single-body (1), two-body phase (2), full-chart (~10).
+Whether those numbers are comparable is not a matter of taste; it is measurable.
+They are not.
+
+Measured by scaling an ESMS vector uniformly (what adding bodies does to first
+order — every axis grows), pinned by `src/__tests__/monicaScaleInvariance.test.ts`:
+
+| scale k | heat | entropy | reactivity | gregsEnergy | **ln K** | **monica** |
+|---|---|---|---|---|---|---|
+| 1 | 0.1324 | 0.2583 | 6.326 | −1.5018 | **2.89** | **0.08210** |
+| 2 | 0.1447 | 0.2762 | 6.724 | −1.7127 | 8.69 | 0.02930 |
+| 5 | 0.1552 | 0.2921 | 7.040 | −1.9017 | 31.36 | 0.00861 |
+| 10 | 0.1593 | 0.2985 | 7.161 | −1.9780 | 77.27 | 0.00358 |
+| 40 | 0.1627 | 0.3036 | 7.256 | −2.0403 | **425.52** | **0.00066** |
+
+**Four quantities SATURATE.** heat, entropy, reactivity and gregsEnergy each
+drift 15–36% across a 40× scaling and are visibly converging to an asymptote.
+They stay broadly comparable across body counts.
+
+**`ln(kalchm)` does not.** It grows **147×** over the same sweep, monotonically
+and without a fixed point — because `K = (S^S · E^E) / (M^M · Su^Su)` raises the
+*exponents* along with the bases.
+
+**So monica collapses**, by two orders of magnitude, and `monica = −G/(R·ln K)`
+holds exactly at every scale: the collapse is `ln K` alone. This is the mechanism
+behind the measured **~12–43× gap** between full-chart and single-body monica.
+
+> ⚠️ **A wrong version of this was nearly written into this spec.** The claim
+> handed over was "gregsEnergy / reactivity / heat / entropy are *exactly*
+> scale-invariant (byte-identical across a 40× scaling) while monica is not."
+> Measured: **none of the six is invariant.** The real distinction is
+> *saturating* vs *unbounded*, and the correction only surfaced because the
+> assertion was written as a test before being written as prose. See §11.
+
+**Consequences, which are the point of measuring this:**
+
+1. **Do NOT write a full-chart monica into `monica_constant`** — it belongs in
+   its own column (§18o). `[MEASURED 2026-07-22]` Computed over all **71**
+   chart-bearing agents: range **[0.006769, 0.028091]**, median **0.013874**,
+   span 0.0213 — against a single-body span of 7.172.
+2. **`monica_method` is necessary but NOT sufficient.** A discriminator lets a
+   reader tell the constructions apart; it does not stop one from ranking,
+   averaging or thresholding across them. Any cross-population comparison of
+   `monica_constant` is a category error regardless of the column.
+3. **The scale-robust quantities are the saturating four.** If a single
+   comparable agent-identity scalar is ever wanted, derive it from those — not
+   from `−G/(R·ln K)`. §18o argues that no such scalar is actually needed.
+4. **The "~200×" figure in earlier session notes — resolved.** It was reported as
+   "full-chart monica is ~200× LARGER than single-body", then rebutted as "no
+   code path, doc or DB value produces it". **Both were wrong.** `[MEASURED]`
+   The ratio that really exists is `|stored / computed|` over the same 71 rows:
+   **median 334×, max 709×** — i.e. the *fabricated literals already in the
+   column* are ~334× larger than what the engine computes for the same chart
+   (Einstein: stored **6.15**, computed **0.0151**). The figure was real; it was
+   attributed to an engine-vs-engine scale gap when it is actually a
+   fake-vs-real-value gap. This is why "no path produces it" was also wrong —
+   the DB produces it.
+
+~~`[OPEN]` Whether to mass-normalise full-chart ESMS to the single-body
+reference…~~ **`[RESOLVED 2026-07-22 — REJECTED]`. See §18o.**
+
+### 18n. Full-chart monica — the ruling's subject does not exist `[MEASURED 2026-07-22]`
+
+§18d and §18j both plan "full-chart monica for the 71 real people". Measured
+against the live production DB, **every clause of that is wrong**:
+
+| claim | measured |
+|---|---|
+| 71 real *people* need a monica | **13 humans exist in prod, and 0 hold a monica.** None needs one — no real-user data is involved at all |
+| 434 synthesized/historical, 363 need charts computing | **71 agents have a chart**, and they are the same 71 that hold a value |
+| the work is *creating* 71 values | the work is *replacing* **71** fabricated ones, range **[0.817, 6.820]**, all with `monica_method IS NULL` |
+
+The "71 real people" are **historical-figure AGENTS** (Einstein, Aristotle, …),
+not users. They already carry hand-authored literals — Einstein reads **6.15**
+where the engine computes **0.018**.
+
+> ⚠️ An investigation handed this over as "~431 fabricated values". **That is also
+> wrong; it is 71.** Re-measured directly: `monica_method IS NULL AND
+> monica_constant IS NOT NULL` over `is_agent` rows → 71. The 72 non-placement
+> rows in the drift check are these 71 plus one row carrying no monica. Two
+> successive hand-offs each mis-stated this population — quote the query, not the
+> summary.
+
+**THREE independent blockers, all must clear before any full-chart backfill:**
+
+1. **Scale (§18m).** All **71** charts compute to **[0.006769, 0.028091]**, with
+   **45 of 71 inside one 0.01-wide bucket**. Writing that raw collapses every
+   persona into one value and zeroes their Sacred-7 stats. The mass-normalisation
+   question is a unit convention and is unresolved.
+2. **Sect was wrong at the source.** `agents/unified` called
+   `alchemize(chartPositions)` with no date and no sect, so sect resolved from
+   `isCurrentSkyDiurnal()` at a **hardcoded New York observer** *at agent-creation
+   time* — a natal chart inherited "is it daytime in New York right now".
+   Sect drives the whole day/night ESMS split, so the value was not a function of
+   the chart: the same agent created twelve hours apart produced two different
+   monicas. **Fixed for new writes** (`isDiurnalAt(date, lat, lon)` +
+   `alchemize(..., {diurnal})`, PR #633), but every full-chart value computed
+   before that fix is unreliable independently of the scale question.
+
+3. **`[MEASURED 2026-07-22]` NONE of the 71 has usable birth data.** Every one
+   has `natal_positions` (all 71 parse, ≥5 planets, 0 unusable) but **0 of 71**
+   carry a `birth_data` moment + latitude/longitude. So blocker 2 cannot simply
+   be *applied* to them: there is no birth moment or birthplace to resolve sect
+   from. Any full-chart backfill of these rows must first source birth data, or
+   explicitly rule what sect a chart with no birth moment gets — and record that
+   as a modelling decision, not a default.
+
+**Therefore:** full-chart monica is **not** "a separate PR after two-body". It is
+blocked on a modelling decision (§18m), on sourcing birth data that does not
+exist, and it was — until 2026-07-22 — computed from a sect that did not belong
+to the chart. Re-scope before scheduling it.
+
+`[MEASURED]` Reproduce all of the above with `scripts/measureFullChartScale.ts`
+(read-only, no writes):
+
+```
+railway run --service Postgres -- bun scripts/measureFullChartScale.ts
+```
+
+### 18o. The three agent kinds are different OBJECTS, not one quantity at three scales `[RULED 2026-07-22]`
+
+> *"Applying the same rules to both is hogwash."*
+
+§18m established that monica has no fixed scale across body counts, and the first
+response was to hunt for a common scale — mass-normalise full-chart ESMS to the
+single-body reference so the numbers could be compared. **That was the wrong
+move, and it is rejected.** The populations do not disagree about scale; they
+disagree about *what they are*.
+
+| kind | what it IS | what its monica ANSWERS |
+|---|---|---|
+| planetary body | one planet at one degree | what is this body doing at this position |
+| Moon phase | a Sun–Moon *relationship* | what is this angular relationship doing |
+| historical agent | a whole natal chart | what is this entire chart doing |
+
+A lone planet and a ten-body chart are not two samples of one quantity. Putting
+them on one axis is a category error that no amount of rescaling fixes.
+
+**`[MEASURED 2026-07-22]` Three findings, each independently sufficient:**
+
+**1. The populations differ in KIND, not scale.** Relative spread —
+`IQR / |median|`, which is scale-free by construction:
+
+| population | IQR/\|median\| |
+|---|---|
+| single-body | **6.815** |
+| full-chart | **0.176** |
+
+A 39× difference in *relative* dispersion cannot be a units problem. 71 real
+natal charts (ten bodies spread round the zodiac) are genuinely more alike than
+3600 single-planet placements are. **Normalisation cannot manufacture dispersion
+that is not in the population.**
+
+**2. Normalisation has NO CONSUMER.** Audited every reader of `monica_constant`
+in `src/`: **nothing ranks, averages or compares agent monica across
+populations.** The two `.sort()` hits are recipe `monicaScore` and *ingredient*
+monica — different quantities. The one threshold consumer,
+`monica/compatibility.ts`, branches on **sign only** (`> 0` / `< 0` / `== 0`),
+which is scale-free and unaffected. The comparability normalisation buys is
+bought for nobody.
+
+**3. Normalisation COSTS separation.** At equal relative resolution (span/100)
+the largest bucket goes **16.9% raw → 31.0% normalised**. It compresses.
+
+> ⚠️ **A metric trap, recorded because it caught the author of §18m.** The first
+> separation measurement used a fixed 0.01-wide bucket. That is *scale-dependent*
+> — 0.01 is 5.5% of the normalised span but 0.14% of the single-body span,
+> flattering single-body by ~40× and appearing to justify normalising. The
+> conclusion reversed once the metric was made relative. **Never compare
+> dispersion between populations with an absolute bucket width** — that is §18m's
+> own lesson applied to §18m's own analysis.
+
+**RULED:**
+
+- **Each construction keeps its own natural scale.** Write the **raw** computed
+  value into that construction's own column. No cross-construction normalisation.
+- **`monica_constant` is SINGLE-BODY ONLY.** `monica_two_body` and
+  `monica_full_chart` hold the others. A reader wanting a different construction
+  must ask for it by name.
+- **Display mapping is PER-POPULATION**, not global — see §18p.
+- Both sects are still computed for chartless charts (§18n blocker 3). That
+  ruling survives: it depends on no cross-population assumption.
+
+### 18p. Sacred-7 takes a per-population mapping `[MEASURED 2026-07-22]`
+
+`sacred-7-stats.ts` mixes monica into seven stats as `monica/10`, assuming input
+in `[0,10]`. Measured against every backfilled agent, that assumption is wrong in
+the **opposite direction from the one assumed**:
+
+- real input is **[−5.4191, 6.8200]**
+- **24.6%** of values are **NEGATIVE** (1185 of 4821) — never anticipated
+- the span is **122.4%** of the assumed range
+
+So monica does not *under*-drive the stats — it **over**-drives them.
+`kineticAlignment` (coefficient 50) swings **61.2 points** on a 0–100 stat, and
+clamps once its other ~45 points of terms land. A clamped stat is one the chart
+can no longer influence.
+
+**Candidate mappings, scored on the same data by IQR** — the information-carrying
+measure, since a mapping that squashes everyone into a band makes the stat
+useless whatever its range:
+
+| mapping | IQR | outside [0,1] |
+|---|---|---|
+| current `monica/10` | 0.0479 | **1185** |
+| linear `[min,max] → [0,1]` | 0.0392 | 0 |
+| linear signed, `0 → 0.5` | 0.0351 | 0 |
+| **`tanh(monica)`** | **0.2229** | 0 |
+
+tanh wins by **4.6×** and is the principled form: monica is unbounded and signed,
+so a bounded stat needs a *squashing* function, not a linear rescale that one
+outlier redefines. Both linear options are destroyed by the extremes compressing
+the bulk.
+
+**But a GLOBAL tanh annihilates the smallest-scale population.** Scaling each
+population by its own spread `s_p` (its `|p75|`) instead:
+
+| population | n | own `s_p` | global tanh IQR | **per-population IQR** | gain |
+|---|---|---|---|---|---|
+| single-body | 4281 | 0.528 | 0.2891 | 0.3272 | 1.1× |
+| two-body | 469 | 0.814 | 0.3826 | 0.3304 | 0.9× |
+| full-chart | 71 | 5.230 | **0.0001** | **0.1253** | **1550×** |
+
+Under one global mapping **all 71 historical agents collapse to the same stat
+value** (IQR 0.0001). Single-body and two-body barely notice, because they happen
+to sit on similar scales — it is specifically the chart-bearing agents that a
+shared mapping destroys. With the *real* computed full-chart values (~0.014
+rather than the fabricated ~5.2) it is worse still: every one maps to
+`tanh(0.014 / 0.626) ≈ 0.022`, identical to four decimals.
+
+**RULED: `tanh(monica / s_p)`**, where `s_p` is the population's own scale.
+Bounded, signed, and each population resolved against itself — which is the only
+comparison anything in the codebase makes.
+
+**`s_p` = that population's `|max| / 2`** — `single-body` 1.9875, `two-body`
+2.7095 — so the most extreme agent maps to `tanh(2) ≈ 0.964`, near the top of the
+range but not saturated.
+
+⚠️ `[MEASURED]` **Two tighter scales were tried and rejected.**
+
+*`|p75|` (0.5278) scores a far better IQR — 0.327 vs 0.103 — but SATURATES the
+tails:* it pushes **464 single-body agents (10.8%)** past 0.99 or under 0.01,
+where they all render an identical maxed-out stat. `max/2` saturates **zero**, at
+the cost of 12% fewer distinct values (241 vs 269). A visibly pinned stat for a
+tenth of the population is worse than slightly coarser resolution for all of it.
+
+*`|p95|` looked like the sweet spot until it was read carefully: it measures
+**exactly 1.6180 for BOTH single-body and two-body**. That is **φ**
+(`MONICA_EQUILIBRIUM`) — the degenerate-case sentinel piling up — not a feature
+of either distribution. Scaling by it would be reading a sentinel as data.*
+
+Implemented as `normalizeMonicaForStats()` in `src/lib/sacred-7-stats.ts`, which
+replaces `monica / 10` at all seven monica call sites. Shape is preserved:
+**0.5 at monica = 0**, so a coefficient still reads as "up to N points of bonus".
+`full-chart` has no scale yet — those values are not in production (§18n), so a
+placeholder would be the unmeasured constant §11 exists to prevent; it falls back
+to single-body and must be revisited.
+
+⚠️ `clamp()` in that module ROUNDS, so a stat reaching the integer 100 is the top
+of its scale, not a truncation. The failure mode to test for is information loss
+(many monicas squashed onto one output), not the boundary value —
+`src/__tests__/sacred7MonicaMapping.test.ts` asserts the former.
+
+`[MEASURED]` Reproduce with `scripts/measureSacred7Distributions.ts` (read-only).
