@@ -239,8 +239,88 @@ export const SACRED_STATS_METADATA: StatMetadata[] = [
  * Calculate Sacred Stats from birth chart positions
  * This is the canonical derivation from astrological data
  */
+/**
+ * The three monica constructions are DIFFERENT KINDS OF OBJECT, not one quantity
+ * at three scales (§18o). A planetary agent is one planet at one degree; a phase
+ * agent is a Sun–Moon relationship; a historical agent is a whole natal chart.
+ * They therefore get their own display scales here rather than a shared one.
+ */
+export type MonicaMethod = 'single-body' | 'two-body' | 'full-chart'
+
+/**
+ * `[MEASURED 2026-07-22]` Each population's own tanh scale, set to
+ * **half that population's observed |max|**, so its most extreme agent maps to
+ * `tanh(2) ≈ 0.964` — near the top of the range but *not* saturated.
+ *
+ * ⚠️ Why per-population and not one global scale: a single shared scale
+ * ANNIHILATES the smallest-scale population. Measured IQR of the mapped stat —
+ *
+ *     population    global tanh   per-population   gain
+ *     single-body      0.2891         0.3272       1.1x
+ *     two-body         0.3826         0.3304       0.9x
+ *     full-chart       0.0001         0.1253       1550x
+ *
+ * — i.e. under one global mapping all 71 historical agents collapse onto the
+ * same stat value. It is specifically the chart-bearing agents a shared mapping
+ * destroys.
+ *
+ * ⚠️ Why max/2 and NOT the tighter |p75|, which scores a better IQR (0.327 vs
+ * 0.103): |p75| SATURATES the tails. Measured on single-body, |p75| = 0.5278
+ * pushes **464 agents (10.8%)** past 0.99 or under 0.01, where they all render
+ * an identical maxed-out stat. max/2 saturates **0**, at the cost of 12% fewer
+ * distinct values (241 vs 269). A visibly pinned stat for a tenth of the
+ * population is worse than slightly coarser resolution for all of it.
+ *
+ * ⚠️ Why NOT |p95|, which looked like the sweet spot: it measures **1.6180 for
+ * BOTH single-body and two-body** — that is φ (`MONICA_EQUILIBRIUM`), the
+ * degenerate-case sentinel piling up, not a feature of either distribution.
+ * Scaling by it would be reading a sentinel as data.
+ *
+ * `full-chart` is deliberately ABSENT: those values are not in production yet
+ * (§18n is triple-blocked), so its real spread is unmeasured. Authoring a
+ * placeholder is exactly the unmeasured constant §11 exists to prevent. Callers
+ * passing 'full-chart' fall back to single-body and must be revisited when
+ * §18n lands.
+ */
+const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
+  'single-body': 1.9875, // |max| 3.9751 / 2
+  'two-body': 2.7095, // |max| 5.4191 / 2
+}
+
+const DEFAULT_MONICA_SCALE = MONICA_POPULATION_SCALE['single-body'] as number
+
+/**
+ * Map a monica onto [0,1] for display, scaled by its own population (§18p).
+ *
+ * Replaces `monica / 10`, which assumed monica lived in [0,10]. Measured, the
+ * real input is **[−5.4191, 6.8200]** with **24.6% negative** — so the old form
+ * both over-drove the stats (122.4% of the assumed span, enough to clamp
+ * `kineticAlignment`) and had no defined behaviour for negatives.
+ *
+ * `tanh` is used rather than a linear rescale because monica is unbounded and
+ * signed: a bounded stat needs a squashing function, not a rescale that one
+ * outlier redefines. Measured IQR (spread of the mapped value — higher means the
+ * stat still tells agents apart): tanh **0.2229** vs ≤0.0479 for every linear
+ * option tried.
+ *
+ * Shape is preserved from the original: 0 at strongly negative monica, 1 at
+ * strongly positive, and exactly **0.5 at monica = 0**, so a coefficient still
+ * reads as "up to N points of bonus".
+ */
+export function normalizeMonicaForStats(
+  monicaConstant: number,
+  method: MonicaMethod = 'single-body',
+): number {
+  if (!Number.isFinite(monicaConstant)) return 0.5
+  const scale = MONICA_POPULATION_SCALE[method] ?? DEFAULT_MONICA_SCALE
+  return (Math.tanh(monicaConstant / scale) + 1) / 2
+}
+
 export function deriveStatsFromChart(chartData: {
   monicaConstant: number
+  /** Which construction produced `monicaConstant` (§18o). Defaults to
+   *  single-body, which is what `monica_constant` holds. */
+  monicaMethod?: MonicaMethod
   sunLongitude: number
   moonLongitude: number
   mercuryLongitude: number
@@ -250,6 +330,7 @@ export function deriveStatsFromChart(chartData: {
 }): Sacred7Stats {
   const {
     monicaConstant,
+    monicaMethod = 'single-body',
     sunLongitude,
     moonLongitude,
     mercuryLongitude,
@@ -258,23 +339,26 @@ export function deriveStatsFromChart(chartData: {
     ascendantLongitude,
   } = chartData
 
+  /** monica in [0,1], scaled by its own population. Was `monicaConstant / 10`. */
+  const m = normalizeMonicaForStats(monicaConstant, monicaMethod)
+
   // Base value is 50, planetary positions add 0-30
   // Monica Constant adds additional power
   return {
     // Sacred 7
     power: clamp(
-      50 + (sunLongitude / 360) * 20 + (monicaConstant / 10) * 25 + (marsLongitude / 360) * 10,
+      50 + (sunLongitude / 360) * 20 + m * 25 + (marsLongitude / 360) * 10,
       0,
       100
     ),
     resonance: clamp(50 + (moonLongitude / 360) * 20 + (venusLongitude / 360) * 15, 0, 100),
     wisdom: clamp(
-      50 + (mercuryLongitude / 360) * 15 + (moonLongitude / 360) * 10 + (monicaConstant / 10) * 10,
+      50 + (mercuryLongitude / 360) * 15 + (moonLongitude / 360) * 10 + m * 10,
       0,
       100
     ),
     charisma: clamp(
-      50 + (venusLongitude / 360) * 20 + (sunLongitude / 360) * 10 + (monicaConstant / 10) * 5,
+      50 + (venusLongitude / 360) * 20 + (sunLongitude / 360) * 10 + m * 5,
       0,
       100
     ),
@@ -291,12 +375,12 @@ export function deriveStatsFromChart(chartData: {
     ),
 
     // Planetary 12
-    solarAgency: clamp(50 + (sunLongitude / 360) * 30 + (monicaConstant / 10) * 20, 0, 100),
+    solarAgency: clamp(50 + (sunLongitude / 360) * 30 + m * 20, 0, 100),
     lunarReceptivity: clamp(50 + (moonLongitude / 360) * 30, 0, 100),
     mercurialVelocity: clamp(50 + (mercuryLongitude / 360) * 30, 0, 100),
     venusianCoherence: clamp(50 + (venusLongitude / 360) * 30, 0, 100),
     martialImpetus: clamp(50 + (marsLongitude / 360) * 30, 0, 100),
-    jovianExpansion: clamp(50 + (monicaConstant / 10) * 30, 0, 100),
+    jovianExpansion: clamp(50 + m * 30, 0, 100),
     saturnianStructure: clamp(50 + (ascendantLongitude / 360) * 30, 0, 100),
     chironicAdaptation: clamp(
       50 + (mercuryLongitude / 360) * 15 + (moonLongitude / 360) * 15,
@@ -310,11 +394,11 @@ export function deriveStatsFromChart(chartData: {
       100
     ),
     plutonicIntegration: clamp(
-      50 + (ascendantLongitude / 360) * 15 + (monicaConstant / 10) * 15,
+      50 + (ascendantLongitude / 360) * 15 + m * 15,
       0,
       100
     ),
-    kineticAlignment: clamp(50 + monicaConstant * 5, 0, 100),
+    kineticAlignment: clamp(50 + m * 50, 0, 100),
   }
 }
 

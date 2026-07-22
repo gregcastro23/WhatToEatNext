@@ -2022,8 +2022,37 @@ shared mapping destroys. With the *real* computed full-chart values (~0.014
 rather than the fabricated ~5.2) it is worse still: every one maps to
 `tanh(0.014 / 0.626) ≈ 0.022`, identical to four decimals.
 
-**RULED: `tanh(monica / s_p)`**, where `s_p` is the population's own
-characteristic spread. Bounded, signed, clamp-free, and each population resolved
-against itself — which is the only comparison anything in the codebase makes.
+**RULED: `tanh(monica / s_p)`**, where `s_p` is the population's own scale.
+Bounded, signed, and each population resolved against itself — which is the only
+comparison anything in the codebase makes.
+
+**`s_p` = that population's `|max| / 2`** — `single-body` 1.9875, `two-body`
+2.7095 — so the most extreme agent maps to `tanh(2) ≈ 0.964`, near the top of the
+range but not saturated.
+
+⚠️ `[MEASURED]` **Two tighter scales were tried and rejected.**
+
+*`|p75|` (0.5278) scores a far better IQR — 0.327 vs 0.103 — but SATURATES the
+tails:* it pushes **464 single-body agents (10.8%)** past 0.99 or under 0.01,
+where they all render an identical maxed-out stat. `max/2` saturates **zero**, at
+the cost of 12% fewer distinct values (241 vs 269). A visibly pinned stat for a
+tenth of the population is worse than slightly coarser resolution for all of it.
+
+*`|p95|` looked like the sweet spot until it was read carefully: it measures
+**exactly 1.6180 for BOTH single-body and two-body**. That is **φ**
+(`MONICA_EQUILIBRIUM`) — the degenerate-case sentinel piling up — not a feature
+of either distribution. Scaling by it would be reading a sentinel as data.*
+
+Implemented as `normalizeMonicaForStats()` in `src/lib/sacred-7-stats.ts`, which
+replaces `monica / 10` at all seven monica call sites. Shape is preserved:
+**0.5 at monica = 0**, so a coefficient still reads as "up to N points of bonus".
+`full-chart` has no scale yet — those values are not in production (§18n), so a
+placeholder would be the unmeasured constant §11 exists to prevent; it falls back
+to single-body and must be revisited.
+
+⚠️ `clamp()` in that module ROUNDS, so a stat reaching the integer 100 is the top
+of its scale, not a truncation. The failure mode to test for is information loss
+(many monicas squashed onto one output), not the boundary value —
+`src/__tests__/sacred7MonicaMapping.test.ts` asserts the former.
 
 `[MEASURED]` Reproduce with `scripts/measureSacred7Distributions.ts` (read-only).
