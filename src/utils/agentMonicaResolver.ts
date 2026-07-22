@@ -29,6 +29,7 @@
  * parser reads "Agent" as a sign.
  */
 import { agentMonica, type AgentMonica } from "@/utils/agentMonica";
+import { twoBodyMonica } from "@/utils/agentMonicaTwoBody";
 import {
   PLANETARY_SECTARIAN_ESMS,
   ZODIAC_ELEMENTS,
@@ -57,10 +58,11 @@ function fromAbsoluteDegree(n: number): { sign: string; degree: number } {
 
 export interface AgentPlacement {
   /**
-   * `single` — one body at one position; gets the §18c single-body monica.
-   * `phase`  — a Moon phase, which is a Sun–Moon *relationship*; a genuine
-   *            two-body monica is a §18 follow-up, so these are parsed and
-   *            identified but deliberately NOT given a single-body value.
+   * `single` — one body at one position; gets the §18c single-body monica via
+   *            `agentMonicaFromName`.
+   * `phase`  — a Moon phase, which is a Sun–Moon *relationship*; it gets the
+   *            §18i genuine two-body monica via `twoBodyMonicaFromName`, and is
+   *            deliberately NEVER given a single-body value.
    */
   kind: "single" | "phase";
   planet: string;
@@ -158,4 +160,26 @@ export function agentMonicaFromName(name: string): AgentMonica | null {
   const placement = parseAgentPlacement(name);
   if (!placement || placement.kind !== "single") return null;
   return agentMonica(placement.planet, placement.sign, placement.degree);
+}
+
+/**
+ * The real TWO-BODY monica for a named Moon-phase agent (§18i), or null when the
+ * name is not a phase agent (a single-body placement, a person, an unparseable
+ * row). The mirror of `agentMonicaFromName`, which returns null for exactly the
+ * rows this one serves — between them they cover every parseable agent name.
+ *
+ * Callers must treat null as "not a phase agent — leave it to the single-body
+ * path", never as zero.
+ *
+ * ⚠️ A name that IS a phase agent but whose phase cannot be classified THROWS
+ * `UnknownMoonPhaseError` rather than returning null. The two outcomes mean
+ * different things — null is "not my population", the throw is "my population,
+ * unclassified" — and collapsing the second into the first would silently drop
+ * rows from the backfill. A backfill that wants to survive one bad row catches
+ * it and reports; it must not default the phase.
+ */
+export function twoBodyMonicaFromName(name: string): AgentMonica | null {
+  const placement = parseAgentPlacement(name);
+  if (!placement || placement.kind !== "phase") return null;
+  return twoBodyMonica(placement.phase ?? "", placement.sign, placement.degree);
 }
