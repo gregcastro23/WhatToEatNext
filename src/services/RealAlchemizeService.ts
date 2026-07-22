@@ -267,12 +267,17 @@ function getPlanetaryDignity(planet: string, sign: string): number {
  * @param planetaryPositions - CURRENT planetary positions
  * @param historicalPositions - PREVIOUS planetary positions (for momentum calculation)
  * @param date - The moment being calculated
+ * @param options.diurnal - Override the computed sect. Sect is otherwise derived
+ *   from `date` at the site's NEW YORK reference observer, which is right for
+ *   the live sky and WRONG for a natal chart: a birth chart's sect belongs to
+ *   the birth moment at the BIRTHPLACE. Natal callers should compute it with
+ *   `isDiurnalAt(birthMoment, lat, lon)` and pass it here.
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
   historicalPositions: Record<string, PlanetaryPosition> | null = null,
   date: Date = new Date(),
-  options: { incomingDegraded?: DegradedInfo | null } = {},
+  options: { incomingDegraded?: DegradedInfo | null; diurnal?: boolean } = {},
 ): StandardizedAlchemicalResult {
   // Initialize totals
   const totals = {
@@ -304,11 +309,15 @@ export function alchemize(
     Ascendant: { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 },
   };
   // Determine sect (diurnal / nocturnal) for the moment being calculated.
-  // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
   // Using the provided `date` parameter ensures historical/forecast
   // calculations use the correct sect for that point in time.
-  const diurnal = isCurrentSkyDiurnal(date);
-  
+  //
+  // `options.diurnal` overrides it entirely. Required for NATAL charts: the
+  // default resolves sect at the site's New York reference observer, so a
+  // birth chart would otherwise inherit the sect of whoever's sky it was
+  // computed under rather than its own. See the @param note above.
+  const diurnal = options.diurnal ?? isCurrentSkyDiurnal(date);
+
   // Momentum Tracking
   const planetaryMomentum: Record<string, number> = {};
   // Elemental blending weights:

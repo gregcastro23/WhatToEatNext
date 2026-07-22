@@ -256,6 +256,34 @@ function calculateLunarNodesInternal(date: Date): {
 export const NEW_YORK_OBSERVER = { latitude: 40.7128, longitude: -74.006 } as const;
 
 /**
+ * Diurnal/nocturnal sect at an ARBITRARY moment and place — the Sun's true
+ * altitude above that observer's horizon.
+ *
+ * This is the primitive the other sect helpers are built from. Use it directly
+ * whenever the moment and the place are both known — above all for **natal
+ * charts**, where sect must be evaluated at the birth time and birthplace.
+ * Getting either wrong flips the entire day/night ESMS split (day →
+ * Spirit/Essence, night → Matter/Substance) and therefore the whole chart.
+ *
+ * Degrades to the UTC-hour heuristic only if astronomy-engine throws.
+ */
+export function isDiurnalAt(
+  date: Date,
+  latitude: number,
+  longitude: number,
+): boolean {
+  try {
+    const observer = new Astronomy.Observer(latitude, longitude, 0);
+    const equ = Astronomy.Equator(Astronomy.Body.Sun, date, observer, true, true);
+    const hor = Astronomy.Horizon(date, observer, equ.ra, equ.dec, "normal");
+    return hor.altitude > 0;
+  } catch {
+    const hour = date.getUTCHours();
+    return hour >= 6 && hour < 18;
+  }
+}
+
+/**
  * Diurnal/nocturnal sect for the *current sky*, observed from New York.
  *
  * Sect drives the entire day/night ESMS split (day → Spirit/Essence, night →
@@ -265,23 +293,16 @@ export const NEW_YORK_OBSERVER = { latitude: 40.7128, longitude: -74.006 } as co
  * This computes the Sun's true altitude at NY for `date`; if astronomy-engine
  * throws (it shouldn't at this latitude) it degrades to the UTC-hour heuristic.
  *
- * Use this for any "now"/live-sky sect; keep `isSectDiurnal(birthDate)` for natal
- * charts, which should be evaluated at the birthplace, not New York.
+ * Use this for any "now"/live-sky sect. For a natal chart use
+ * {@link isDiurnalAt} with the birth moment AND the birthplace — New York is
+ * the site's reference observer, not the subject's.
  */
 export function isCurrentSkyDiurnal(date: Date = new Date()): boolean {
-  try {
-    const observer = new Astronomy.Observer(
-      NEW_YORK_OBSERVER.latitude,
-      NEW_YORK_OBSERVER.longitude,
-      0,
-    );
-    const equ = Astronomy.Equator(Astronomy.Body.Sun, date, observer, true, true);
-    const hor = Astronomy.Horizon(date, observer, equ.ra, equ.dec, "normal");
-    return hor.altitude > 0;
-  } catch {
-    const hour = date.getUTCHours();
-    return hour >= 6 && hour < 18;
-  }
+  return isDiurnalAt(
+    date,
+    NEW_YORK_OBSERVER.latitude,
+    NEW_YORK_OBSERVER.longitude,
+  );
 }
 
 /**

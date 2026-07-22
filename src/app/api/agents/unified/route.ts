@@ -7,6 +7,7 @@ import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
+import { isDiurnalAt } from "@/utils/astrology/positions";
 import type { NextRequest} from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -174,7 +175,7 @@ export async function POST(request: NextRequest) {
         // (((sun + moon + asc) / 3 / 360) * 10), which shared nothing with the
         // monica formula but its name. Agents created here carry real birth
         // data, so they get the FULL-CHART monica of §18d, not the single-body
-        // calc; the chart already fixes the sect, so the monica_diurnal /
+        // calc; the chart fixes the sect, so the monica_diurnal /
         // monica_nocturnal columns stay NULL for these rows.
         const chartPositions: Record<string, PlanetaryPosition> = {};
         serverChart.planets.forEach((p) => {
@@ -185,7 +186,19 @@ export async function POST(request: NextRequest) {
             exactLongitude: p.position,
           };
         });
-        const monicaConstant = alchemize(chartPositions).monica;
+
+        // ⚠️ Sect MUST come from the birth moment at the BIRTHPLACE.
+        // This previously called `alchemize(chartPositions)` with neither, so
+        // `date` defaulted to `new Date()` and sect was resolved at the site's
+        // New York reference observer — i.e. a natal chart inherited "is it
+        // daytime in New York right now, as this agent is being created".
+        // Sect drives the whole day/night ESMS split, so the chart was not a
+        // function of the chart at all: creating the same agent twelve hours
+        // apart produced two different monicas.
+        const birthMoment = new Date(birthData.dateTime);
+        const monicaConstant = alchemize(chartPositions, null, birthMoment, {
+          diurnal: isDiurnalAt(birthMoment, latitude, longitude),
+        }).monica;
 
         const agentId = randomUUID();
         const email = `agent-${name.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${randomUUID().slice(0, 8)}@agentic.alchm.kitchen`;
