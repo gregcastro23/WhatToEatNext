@@ -22,6 +22,22 @@ import type { NextRequest} from "next/server";
  *     idempotencyKey: string
  *   }
  */
+/**
+ * Sources that are once-per-user-per-UTC-day BY DEFINITION, and therefore get
+ * the semantic daily guard in §3b plus the chart requirement in §2b.
+ *
+ * `agents_yield` is also the value `source` defaults to when a caller omits it,
+ * so an omitted source lands here too — deliberately, since that is exactly what
+ * Planetary Agents' push does.
+ *
+ * Everything else routed through this endpoint (transit_attunement / Sky Drops,
+ * and the rest) is legitimately multi-per-day and must NOT be day-capped.
+ */
+const DAILY_YIELD_SOURCES: ReadonlySet<string> = new Set([
+  "agents_yield",
+  "daily_yield",
+]);
+
 interface SyncCreditBody {
   userEmail: string;
   amounts: {
@@ -68,7 +84,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Look up user ID by email — auto-provision agentic users
+    // `source` defaults to agents_yield when the caller omits it, so the
+    // resolved value — not the raw field — decides which rules apply below.
+    const resolvedSource = source || "agents_yield";
+    const isDailyYield = DAILY_YIELD_SOURCES.has(resolvedSource);
+
+    // 2. Look up user ID by email.
     let userResult = await executeQuery<{ id: string }>(
       "SELECT id FROM users WHERE email = $1 LIMIT 1",
       [userEmail]
@@ -83,7 +104,26 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Auto-provision agentic user
+      // A daily-yield credit must never CREATE the account it pays. Auto-
+      // provisioning here minted paid, chart-less users for any unrecognised
+      // @agentic.alchm.kitchen address — which is how two 2026-07-19 smoke-test
+      // vessels ended up drawing daily yield. Identity creation belongs to the
+      // agent-creation path (which builds a chart); this endpoint only credits
+      // identities that already exist.
+      if (isDailyYield) {
+        return NextResponse.json(
+          {
+            ok: false,
+            reason: "user_not_found",
+            error: "user_not_found",
+            message:
+              "Daily yield cannot auto-provision an account. Create the agent first.",
+          },
+          { status: 404 }
+        );
+      }
+
+      // Auto-provision agentic user (non-yield sources only)
       userResult = await executeQuery<{ id: string }>(
         `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, profile, preferences, login_count, created_at, updated_at)
          VALUES ($1, 'AGENT_NO_LOGIN', 'ALCHEMIST'::user_role, true, true, true, $2, '{}'::jsonb, 0, now(), now())
@@ -94,6 +134,30 @@ export async function POST(req: NextRequest) {
     }
 
     const userId = userResult.rows[0].id;
+
+    // 2b. Daily yield requires a chart — the SAME eligibility predicate the
+    // in-repo cron uses (agentDailyYield.ts: non-empty `natal_positions`). Two
+    // producers paying the same population must agree on who that population
+    // is, or the one with the looser rule silently defines it.
+    if (isDailyYield) {
+      const chart = await executeQuery<{ ok: boolean }>(
+        `SELECT (up.natal_positions IS NOT NULL
+                 AND up.natal_positions::text NOT IN ('[]', 'null', '{}')) AS ok
+           FROM user_profiles up WHERE up.user_id = $1 LIMIT 1`,
+        [userId]
+      );
+      if (!chart.rows[0]?.ok) {
+        return NextResponse.json(
+          {
+            ok: false,
+            reason: "no_chart",
+            message:
+              "Daily yield requires a natal chart (matches the agents-daily-yield cron predicate).",
+          },
+          { status: 422 }
+        );
+      }
+    }
 
     // 3. Idempotency pre-check. creditMultipleTokens stores per-axis keys suffixed
     // with the token type (`<key>:Spirit` …), so probing the raw key alone would
@@ -119,6 +183,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 3b. SEMANTIC daily guard — the one that actually stops the double-credit.
+    //
+    // Key-based idempotency cannot catch this class of duplicate. Two producers
+    // pay the same daily yield under structurally non-colliding namespaces:
+    //   in-repo cron   DailyYieldService.ts:330  `daily:agents:<uuid>:<date>`
+    //   this endpoint  caller-supplied           `agentic:yield:<email>:<date>`
+    // Different strings for the same economic event, so §3 above can never
+    // return 409 no matter how many key variants it probes. Measured
+    // 2026-07-19..21: 30 agents/day paid twice, ~240 tokens/day of excess.
+    //
+    // Daily yield is once-per-user-per-UTC-day BY DEFINITION, so check that
+    // invariant directly instead of trying to make the key strings agree. This
+    // is deliberately scoped to the daily-yield sources — transit attunement,
+    // Sky Drops and the other sync sources are legitimately multi-per-day.
+    if (isDailyYield) {
+      const sameDay = await executeQuery<{ id: string }>(
+        `SELECT id FROM token_transactions
+          WHERE user_id = $1
+            AND source_type = $2
+            AND (created_at AT TIME ZONE 'UTC')::date = (now() AT TIME ZONE 'UTC')::date
+          LIMIT 1`,
+        [userId, resolvedSource]
+      );
+      if (sameDay.rows.length > 0) {
+        return NextResponse.json(
+          {
+            ok: false,
+            reason: "already_applied",
+            message: `${resolvedSource} already credited for this UTC day`,
+          },
+          { status: 409 }
+        );
+      }
+    }
+
     // 4. Transform amounts to Credit array
     const credits: Array<{ tokenType: TokenType; amount: number }> = [
       { tokenType: "Spirit" as const, amount: Math.max(0, Number(amounts.spirit) || 0) },
@@ -127,14 +226,16 @@ export async function POST(req: NextRequest) {
       { tokenType: "Substance" as const, amount: Math.max(0, Number(amounts.substance) || 0) },
     ].filter(c => c.amount > 0);
 
-    // 5. Apply credits
+    // 5. Apply credits. `resolvedSource` (not a third copy of the `source ||
+    // "agents_yield"` fallback) — the value that was GUARDED above must be the
+    // value that is WRITTEN, or a future edit to one can silently desync them.
     const result = await tokenEconomy.creditMultipleTokens(
       userId,
       credits,
-      source || "agents_yield",
+      resolvedSource,
       {
         idempotencyKey,
-        description: `Sync: ${source || 'agents_yield'}`,
+        description: `Sync: ${resolvedSource}`,
       }
     );
 
@@ -143,6 +244,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { ok: false, reason: "already_applied" },
         { status: 409 }
+      );
+    }
+
+    // 5a. Stamp the daily-claim timestamp, so the guard works in BOTH
+    // directions. §3b stops this endpoint double-paying after the cron; this
+    // stops the CRON double-paying after this endpoint, by reusing the check it
+    // already performs (`tokenEconomy.hasClaimedToday`, which reads
+    // last_daily_claim_agents_at). Without it the fix would be one-sided and
+    // hold only by scheduling luck — the cron fires at 00:30 UTC and PA has so
+    // far trickled in later, but nothing guarantees that ordering.
+    if (isDailyYield) {
+      await tokenEconomy.updateDailyClaimTimestamp(
+        userId,
+        resolvedSource === "agents_yield" ? "agents" : "main",
       );
     }
 
