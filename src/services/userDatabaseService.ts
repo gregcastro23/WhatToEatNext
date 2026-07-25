@@ -65,6 +65,36 @@ const parseJsonColumn = <T>(value: string | T | null | undefined, fallback: T): 
   return value ?? fallback;
 };
 
+/**
+ * The write-side counterpart of `parseJsonColumn`: serialise a JSONB value, or
+ * return SQL NULL when there is nothing to store.
+ *
+ * ⚠️ Use this instead of `JSON.stringify(x || {})`. That idiom writes the literal
+ * `'{}'`, which is NON-NULL, so the column says "a chart is present" while holding
+ * nothing. Measured in production: `natal_chart` is non-null but empty in 4940 of
+ * 5015 rows, and `birth_data` in 1421 of 1425.
+ *
+ * Every reader was audited before this change and NONE is fooled — they either
+ * guard on `.planets` or come through the `Object.keys(x).length > 0 ? x : undefined`
+ * normalisation further down this file. So this is not a bug fix; it is making the
+ * stored value mean what it says, which is the standard the rest of this codebase
+ * is held to. Readers behave identically on NULL: `parseJsonColumn` and the route
+ * handlers' `parseJsonField` both test `!value`, which is true for null and for
+ * `undefined` alike.
+ *
+ * An empty object is treated as absent deliberately. `{}` is the shape the old
+ * idiom produced, and a caller passing it means "I have no chart", not "I have an
+ * empty one".
+ */
+export const jsonbOrNull = (value: unknown): string | null => {
+  if (value === null || value === undefined) return null;
+  if (Array.isArray(value)) return value.length > 0 ? JSON.stringify(value) : null;
+  if (typeof value === "object") {
+    return Object.keys(value as object).length > 0 ? JSON.stringify(value) : null;
+  }
+  return JSON.stringify(value);
+};
+
 class UserDatabaseService {
   // In-memory fallback storage
   private users: Map<string, UserWithProfile> = new Map();
@@ -175,8 +205,8 @@ class UserDatabaseService {
               userId,
               data.name,
               JSON.stringify(data.profile?.dietaryPreferences || {}),
-              JSON.stringify(data.profile?.birthData || {}),
-              JSON.stringify(data.profile?.natalChart || {}),
+              jsonbOrNull(data.profile?.birthData),
+              jsonbOrNull(data.profile?.natalChart),
               JSON.stringify(data.profile?.groupMembers || []),
               JSON.stringify(data.profile?.diningGroups || []),
             ],
@@ -498,8 +528,8 @@ class UserDatabaseService {
               [
                 userId,
                 updatedProfile.name || "",
-                JSON.stringify(updatedProfile.birthData || {}),
-                JSON.stringify(updatedProfile.natalChart || {}),
+                jsonbOrNull(updatedProfile.birthData),
+                jsonbOrNull(updatedProfile.natalChart),
                 JSON.stringify(updatedProfile.dietaryPreferences || {}),
                 JSON.stringify(updatedProfile.groupMembers || []),
                 JSON.stringify(updatedProfile.diningGroups || []),
@@ -522,8 +552,8 @@ class UserDatabaseService {
               [
                 userId,
                 updatedProfile.name || "",
-                JSON.stringify(updatedProfile.birthData || {}),
-                JSON.stringify(updatedProfile.natalChart || {}),
+                jsonbOrNull(updatedProfile.birthData),
+                jsonbOrNull(updatedProfile.natalChart),
                 JSON.stringify(updatedProfile.groupMembers || []),
                 JSON.stringify(updatedProfile.diningGroups || []),
                 onboardingComplete,

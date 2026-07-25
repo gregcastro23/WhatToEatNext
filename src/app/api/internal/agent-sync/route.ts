@@ -12,6 +12,10 @@ import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { withTransaction } from "@/lib/database";
 import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
+import { jsonbOrNull } from "@/services/userDatabaseService";
+
+/** `{}` and `[]` mean "absent" here, exactly as jsonbOrNull treats them. */
+const nonEmpty = <T,>(v: T): T | undefined => (jsonbOrNull(v) === null ? undefined : v);
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -129,8 +133,10 @@ export async function POST(req: NextRequest) {
       isAgent: true,
       name: resolvedName,
       bio: bio || undefined,
-      birthData: birthData || undefined,
-      natalChart: natalChart || undefined,
+      // Same emptiness rule as the columns below: `x || undefined` keeps a
+      // truthy '{}', which would merge an empty chart into users.profile.
+      birthData: nonEmpty(birthData),
+      natalChart: nonEmpty(natalChart),
     };
 
     let wtenUserId = "";
@@ -180,9 +186,14 @@ export async function POST(req: NextRequest) {
             wtenUserId,
             resolvedName,
             bio || null,
-            birthData ? JSON.stringify(birthData) : null,
-            natalChart ? JSON.stringify(natalChart) : null,
-            natalPositions ? JSON.stringify(natalPositions) : null,
+            // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
+            // truthy, so the old guard wrote '{}' for a caller that has no chart.
+            // Where this statement COALESCEs onto the stored value, a non-null
+            // '{}' WINS that COALESCE and overwrites a real stored chart with an
+            // empty one. NULL correctly leaves the stored value alone.
+            jsonbOrNull(birthData),
+            jsonbOrNull(natalChart),
+            jsonbOrNull(natalPositions),
             parsedMonicaConstant,
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
@@ -219,9 +230,14 @@ export async function POST(req: NextRequest) {
             wtenUserId,
             resolvedName,
             bio || null,
-            birthData ? JSON.stringify(birthData) : null,
-            natalChart ? JSON.stringify(natalChart) : null,
-            natalPositions ? JSON.stringify(natalPositions) : null,
+            // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
+            // truthy, so the old guard wrote '{}' for a caller that has no chart.
+            // Where this statement COALESCEs onto the stored value, a non-null
+            // '{}' WINS that COALESCE and overwrites a real stored chart with an
+            // empty one. NULL correctly leaves the stored value alone.
+            jsonbOrNull(birthData),
+            jsonbOrNull(natalChart),
+            jsonbOrNull(natalPositions),
             parsedMonicaConstant,
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
