@@ -26,7 +26,14 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
     let queryResult;
     if (isUuid) {
       queryResult = await executeQuery<any>(
-        `SELECT u.id AS user_id, u.email, u.profile, up.name, up.bio, up.birth_data, up.natal_chart, up.monica_constant, up.dominant_element
+        // §18o: monica_constant is single-body ONLY now. COALESCE across the
+        // per-construction columns so two-body/full-chart agents (584 rows)
+        // still surface their real value here instead of falling through to
+        // the hardcoded 3.5 fallback below — a fabricated number is exactly
+        // what this whole line of work exists to eliminate.
+        `SELECT u.id AS user_id, u.email, u.profile, up.name, up.bio, up.birth_data, up.natal_chart,
+                COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) AS monica_constant,
+                up.dominant_element
          FROM users u
          JOIN user_profiles up ON up.user_id = u.id
          WHERE u.id = $1::uuid AND u.is_agent = true LIMIT 1`,
@@ -34,7 +41,9 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
       )
     } else {
       queryResult = await executeQuery<any>(
-        `SELECT u.id AS user_id, u.email, u.profile, up.name, up.bio, up.birth_data, up.natal_chart, up.monica_constant, up.dominant_element
+        `SELECT u.id AS user_id, u.email, u.profile, up.name, up.bio, up.birth_data, up.natal_chart,
+                COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) AS monica_constant,
+                up.dominant_element
          FROM users u
          JOIN user_profiles up ON up.user_id = u.id
          WHERE (u.email = $1 OR up.name ILIKE $2) AND u.is_agent = true LIMIT 1`,
