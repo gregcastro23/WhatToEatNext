@@ -90,7 +90,9 @@ export const jsonbOrNull = (value: unknown): string | null => {
   if (value === null || value === undefined) return null;
   if (Array.isArray(value)) return value.length > 0 ? JSON.stringify(value) : null;
   if (typeof value === "object") {
-    return Object.keys(value as object).length > 0 ? JSON.stringify(value) : null;
+    // No `as object` needed — `typeof value === "object"` narrows unknown to
+    // `object | null`, and null was already returned above.
+    return Object.keys(value).length > 0 ? JSON.stringify(value) : null;
   }
   return JSON.stringify(value);
 };
