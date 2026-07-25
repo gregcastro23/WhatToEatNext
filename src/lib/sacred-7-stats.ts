@@ -276,15 +276,21 @@ export type MonicaMethod = 'single-body' | 'two-body' | 'full-chart'
  * degenerate-case sentinel piling up, not a feature of either distribution.
  * Scaling by it would be reading a sentinel as data.
  *
- * `full-chart` is deliberately ABSENT: those values are not in production yet
- * (§18n is triple-blocked), so its real spread is unmeasured. Authoring a
- * placeholder is exactly the unmeasured constant §11 exists to prevent. Callers
- * passing 'full-chart' fall back to single-body and must be revisited when
- * §18n lands.
+ * `full-chart` is now MEASURED too. It was absent while those values were not in
+ * production; they are (71 rows), so the placeholder objection no longer applies.
+ *
+ * Its scale is ~118x smaller than single-body's, which is not a rounding
+ * difference — it is the §18o point that these are different OBJECTS, not one
+ * quantity at three scales. Leaving full-chart to fall back to single-body's
+ * 1.9875 mapped the entire measured range [0.0018, 0.0337] into
+ * **[0.5004, 0.5085]** — a 0.008-wide band out of [0,1], so all 71 agents
+ * received a visually identical Sacred-7 contribution. That is a silently
+ * wrong number in a user-visible display, not a harmless default.
  */
 const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
   'single-body': 1.9875, // |max| 3.9751 / 2
   'two-body': 2.7095, // |max| 5.4191 / 2
+  'full-chart': 0.016851, // |max| 0.033702 / 2  [MEASURED 2026-07-24, n=71]
 }
 
 const DEFAULT_MONICA_SCALE = MONICA_POPULATION_SCALE['single-body'] as number
@@ -308,16 +314,22 @@ const DEFAULT_MONICA_SCALE = MONICA_POPULATION_SCALE['single-body'] as number
  * reads as "up to N points of bonus".
  */
 export function normalizeMonicaForStats(
-  monicaConstant: number,
+  monicaConstant: number | null,
   method: MonicaMethod = 'single-body',
 ): number {
-  if (!Number.isFinite(monicaConstant)) return 0.5
+  // null = the agent genuinely has no monica yet (unclassified new arrival, or a
+  // chart with too few bodies). It maps to the same neutral 0.5 as a non-finite
+  // value. It must NOT be coerced to 0 first: 0 is a real monica for 284
+  // single-body agents, and tanh(0/scale) is also 0.5 — so the two would look
+  // identical here while meaning completely different things upstream.
+  if (monicaConstant === null || !Number.isFinite(monicaConstant)) return 0.5
   const scale = MONICA_POPULATION_SCALE[method] ?? DEFAULT_MONICA_SCALE
   return (Math.tanh(monicaConstant / scale) + 1) / 2
 }
 
 export function deriveStatsFromChart(chartData: {
-  monicaConstant: number
+  /** null when the agent has no monica yet — see normalizeMonicaForStats. */
+  monicaConstant: number | null
   /** Which construction produced `monicaConstant` (§18o). Defaults to
    *  single-body, which is what `monica_constant` holds. */
   monicaMethod?: MonicaMethod

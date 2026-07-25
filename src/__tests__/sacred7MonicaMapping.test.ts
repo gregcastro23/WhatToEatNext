@@ -63,19 +63,49 @@ describe("normalizeMonicaForStats", () => {
     );
   });
 
-  it("falls back to the single-body scale for an unmeasured population", () => {
-    // full-chart values are not in production yet, so no scale is authored for
-    // them — §11: do not invent a constant. It must degrade, not throw.
-    expect(normalizeMonicaForStats(1, "full-chart")).toBeCloseTo(
+  it("gives full-chart its OWN measured scale, not single-body's", () => {
+    // This test previously asserted the OPPOSITE — that full-chart fell back to
+    // single-body — because those values were not yet in production and §11
+    // forbids inventing a constant. They are now in production (n=71) and the
+    // scale is measured, so the fallback it pinned is gone on purpose.
+    expect(normalizeMonicaForStats(1, "full-chart")).not.toBeCloseTo(
       normalizeMonicaForStats(1, "single-body"),
-      12,
+      6,
     );
+  });
+
+  it("spreads the real full-chart range instead of flattening it to ~0.50", () => {
+    // The measured production range. Under single-body's 1.9875 these all mapped
+    // into a 0.008-wide band, making 71 agents indistinguishable in the UI.
+    const lo = normalizeMonicaForStats(0.0018, "full-chart");
+    const hi = normalizeMonicaForStats(0.033702, "full-chart");
+    expect(hi - lo).toBeGreaterThan(0.3);
+
+    // Control: prove the old behaviour really was degenerate, so this test
+    // cannot quietly pass for the wrong reason.
+    const loOld = normalizeMonicaForStats(0.0018, "single-body");
+    const hiOld = normalizeMonicaForStats(0.033702, "single-body");
+    expect(hiOld - loOld).toBeLessThan(0.01);
   });
 
   it("returns the neutral 0.5 for non-finite input, never NaN", () => {
     for (const v of [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]) {
       expect(normalizeMonicaForStats(v, "single-body")).toBe(0.5);
     }
+  });
+
+  it("maps a NULL monica to the neutral 0.5 — and NOT via a coercion to 0", () => {
+    // An agent with no monica yet (unclassified new arrival) must not be given a
+    // number. 0 would ALSO map to 0.5 here, so this assertion alone is weak —
+    // the guard below is what makes it meaningful.
+    expect(normalizeMonicaForStats(null, "single-body")).toBe(0.5);
+
+    // Guard: 0 is a real monica for 284 single-body agents. Confirm that a real
+    // 0 and a null are treated as the same NUMBER here only because tanh(0)=0,
+    // not because null was silently coerced — the distinction has to survive
+    // upstream, where the type is `number | null`.
+    expect(normalizeMonicaForStats(0, "single-body")).toBe(0.5);
+    expect(Object.is(normalizeMonicaForStats(null, "two-body"), 0.5)).toBe(true);
   });
 });
 

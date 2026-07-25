@@ -356,7 +356,19 @@ export interface CraftedAgent {
   // Crafted Consciousness
   consciousness: {
     natalChart: NatalChart
-    monicaConstant: number
+    /**
+     * The agent's real thermodynamic monica, or null when it genuinely has none
+     * yet — a newly-arrived agent the backfill has not classified, or one whose
+     * chart has too few resolvable bodies.
+     *
+     * NULLABLE ON PURPOSE. It used to be `number`, which forced every read path
+     * to invent a value when the column was NULL; one of them invented 3.5 and
+     * served it to 584 agents. `null` is the honest answer, and 0 is NOT a
+     * substitute for it — 0 is a real, algebraically-proven monica for 284
+     * single-body agents, so collapsing unknown into 0 makes the two
+     * indistinguishable.
+     */
+    monicaConstant: number | null
     level?: ConsciousnessLevel
     metrics?: ConsciousnessMetrics
     strength?: string
