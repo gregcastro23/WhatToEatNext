@@ -72,7 +72,19 @@ export async function findAgent(agentId: string): Promise<CraftedAgent | undefin
         },
         consciousness: {
           natalChart: chart,
-          monicaConstant: row.monica_constant ? parseFloat(row.monica_constant) : 3.5,
+          // No `: 3.5` fallback, and no `? :` truthiness test.
+          //
+          // The truthiness test was wrong twice over. It fabricated 3.5 whenever
+          // the COALESCE above found nothing — which is still the case for the
+          // ~123 agents that arrive faster than the backfill classifies them —
+          // and it would ALSO have fabricated 3.5 for the 284 agents whose real
+          // monica is exactly 0, had pg not happened to hand NUMERIC back as the
+          // truthy string "0.000000". That second bug was live and invisible,
+          // waiting for someone to switch the column to double precision.
+          monicaConstant:
+            row.monica_constant === null || row.monica_constant === undefined
+              ? null
+              : parseFloat(row.monica_constant),
           dominantElement: row.dominant_element || 'Fire',
           dominantModality: 'Mutable',
           signature: `DYNAMIC-AGENT-${row.user_id}`

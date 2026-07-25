@@ -41,7 +41,10 @@ export function deriveSacredStats(agent: CraftedAgent): Sacred7Stats {
   const ascendant = agent.consciousness?.natalChart?.ascendant ?? 0
 
   return deriveStatsFromChart({
-    monicaConstant: agent.consciousness?.monicaConstant ?? 0,
+    // `?? null`, never `?? 0`. 0 is a real, algebraically-proven monica for 284
+    // single-body agents, so defaulting to it made "this agent has no monica"
+    // and "this agent's monica is zero" the same value.
+    monicaConstant: agent.consciousness?.monicaConstant ?? null,
     sunLongitude: planetLongitude(planets, 'Sun', 120),
     moonLongitude: planetLongitude(planets, 'Moon', 90),
     mercuryLongitude: planetLongitude(planets, 'Mercury', 150),
