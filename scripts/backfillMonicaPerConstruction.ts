@@ -252,9 +252,16 @@ console.log(`\nsnapshotting to ${snapshot}, then migrating in one transaction...
 await client.query("BEGIN");
 try {
   await client.query(
+    // ⚠️ ALL SEVEN value columns. This SELECT captured only the pre-§18o set
+    // (constant/diurnal/nocturnal/method) until 2026-07-25, which made every
+    // snapshot it took unable to restore the 623 two-body and 71 full-chart rows
+    // — the exact populations this script rewrites. It looked fine: right row
+    // count, joinable on user_id, monica_constant matching.
     `CREATE TABLE ${snapshot} AS
-       SELECT up.user_id, up.name, up.monica_constant, up.monica_diurnal,
-              up.monica_nocturnal, up.monica_method, now() AS snapshotted_at
+       SELECT up.user_id, up.name,
+              up.monica_constant, up.monica_single, up.monica_two_body,
+              up.monica_full_chart, up.monica_diurnal, up.monica_nocturnal,
+              up.monica_method, now() AS snapshotted_at
          FROM user_profiles up JOIN users u ON u.id = up.user_id
         WHERE u.is_agent`,
   );
@@ -340,6 +347,7 @@ const check = await client.query<Record<string, string>>(
 console.log("\npost-write verification (monica_constant must be 0 for two-body/full-chart):");
 console.table(check.rows);
 console.log(`\nTo reverse: restore from ${snapshot} (it holds the pre-migration`);
-console.log(`monica_constant/diurnal/nocturnal/method for every agent row).`);
+console.log(`monica_constant/single/two_body/full_chart/diurnal/nocturnal/method`);
+console.log(`for every agent row — all seven value columns).`);
 
 await client.end();
