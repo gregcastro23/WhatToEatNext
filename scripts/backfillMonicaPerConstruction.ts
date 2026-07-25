@@ -104,10 +104,18 @@ const unaccounted: string[] = [];
 // were sitting at NULL when this was written). Recomputing also makes the script
 // self-sufficient and idempotent: it does not care what is currently stored, so
 // it picks up new agents instead of skipping them.
+//
+// ⚠️ "New arrival" MUST mean `monica_method IS NULL` — a row this script has
+// never classified. It must NOT mean `monica_constant IS NULL`: §18o
+// deliberately NULLs monica_constant on every two-body row, so that test counts
+// all 619 of them as new on every single run, forever. It reported 636 when the
+// true number was 125, which is exactly the kind of number a later session
+// quotes back as fact.
 let newlyComputed = 0;
 
 for (const r of rows) {
   const stored = r.monica_constant === null ? null : Number(r.monica_constant);
+  const neverClassified = r.monica_method === null;
   const placement = parseAgentPlacement(r.name);
 
   if (placement?.kind === "single") {
@@ -116,7 +124,7 @@ for (const r of rows) {
       unaccounted.push(`${r.name}  (parsed single, but no monica computable)`);
       continue;
     }
-    if (stored === null) newlyComputed++;
+    if (neverClassified) newlyComputed++;
     single.push({ user_id: r.user_id, name: r.name, value: m.combined, diurnal: m.diurnal, nocturnal: m.nocturnal });
     continue;
   }
@@ -133,7 +141,7 @@ for (const r of rows) {
       unaccounted.push(`${r.name}  (parsed phase, but no monica computable)`);
       continue;
     }
-    if (stored === null) newlyComputed++;
+    if (neverClassified) newlyComputed++;
     twoBody.push({ user_id: r.user_id, name: r.name, value: m.combined, diurnal: m.diurnal, nocturnal: m.nocturnal });
     continue;
   }
@@ -141,6 +149,7 @@ for (const r of rows) {
   // Not a placement at all: a chart-bearing agent, if it has a usable chart.
   const m = fullChartMonica(r.natal_positions);
   if (m) {
+    if (neverClassified) newlyComputed++;
     fullChart.push({
       user_id: r.user_id,
       name: r.name,
