@@ -518,7 +518,9 @@ export const VESSEL_DIGNITY_NEUTRAL = 0;
  * threshold. This is the LOWER bound on the band: any width at or below it
  * leaves a genuinely degenerate chart being divided by ~0.
  */
-export const DEGENERATE_LN_KALCHM = 0.110698;
+// REMOVED: DEGENERATE_LN_KALCHM was 0.110698. Measured WITH the kalchm epsilon
+// floor; with kalchm exact the same chart gives 0.06464620715111077. It existed
+// only to derive TWO_BODY_LN_EPSILON, which is itself removed — see below.
 
 /**
  * `[MEASURED 2026-07-21]` The smallest `|ln kalchm|` produced by any NON-Comixion
@@ -526,7 +528,9 @@ export const DEGENERATE_LN_KALCHM = 0.110698;
  * UPPER bound on the band: at or above it, the band starts converting cases that
  * computed a perfectly sane monica into φ.
  */
-export const HEALTHY_LN_KALCHM_FLOOR = 0.138173;
+// REMOVED: HEALTHY_LN_KALCHM_FLOOR was 0.138173. Also floor-dependent; the
+// non-degenerate minimum is now 0.0921214, BELOW the old degenerate bound, which
+// is precisely why a threshold can no longer separate the two sets.
 
 /**
  * `[DERIVED]` The two-body-local half-width of the monica equilibrium band, on
@@ -559,11 +563,36 @@ export const HEALTHY_LN_KALCHM_FLOOR = 0.138173;
  * signed and real; they are the honest reading of a nearly-balanced two-body
  * chart. The residual is quantified in the module docstring and pinned by test.
  *
- * `agentMonicaTwoBody.test.ts` pins BOTH bounds and the zero-collateral property,
- * so a future retune that widens this into real values fails loudly.
+ * ── ⚠️ REMOVED 2026-07-25 — the threshold was a proxy, and the proxy broke ──
+ *
+ * `TWO_BODY_LN_EPSILON` (0.1244355) and the two constants it was derived from
+ * (`DEGENERATE_LN_KALCHM` 0.110698, `HEALTHY_LN_KALCHM_FLOOR` 0.138173) are GONE.
+ * The reasoning above is preserved because it is still correct about the PHYSICS —
+ * Comixion zeroes vessel Essence, and near-perfect balance should return φ rather
+ * than divide by ~0. What was wrong was testing that condition with an
+ * |ln kalchm| threshold.
+ *
+ * The derivation depended on the degenerate and healthy |ln kalchm| sets being
+ * separable. They were separable only because `calculateKalchm` floored each axis
+ * at 0.01, which inflated degenerate charts away from healthy ones. With kalchm
+ * exact (`0**0 === 1`), the sets OVERLAP:
+ *
+ *     Comixion      n=432   |ln k| ∈ [0.0101671, 0.153707]
+ *     non-Comixion  n=6048  |ln k| ∈ [0.0921214, 4.35396]
+ *
+ * No threshold separates 0.1537 from 0.0921. Measured over all 6480 cells, the
+ * old threshold was wrong in BOTH directions: it handed φ to 286 healthy charts
+ * and missed 442 degenerate ones, getting 206 of 648 right — 32%.
+ *
+ * It is replaced by the exact structural test `esms.Essence === 0` at the point of
+ * use (see `twoBodyState`). That is the CAUSE the threshold was approximating, it
+ * has zero collateral by construction, and it needs no constant — so there is
+ * nothing left here to keep calibrated.
+ *
+ * It also corrects a latent error: the zero-Essence family is degrees
+ * [8, 10, 12, 22, 24, 26] — TWO vessel shapes — not just the [8, 22] that
+ * "Comixion" named.
  */
-export const TWO_BODY_LN_EPSILON =
-  (DEGENERATE_LN_KALCHM + HEALTHY_LN_KALCHM_FLOOR) / 2; // 0.1244355
 
 /** A body's sect-resolved, alchm-weighted, dignity-scaled ESMS contribution. */
 function bodyContribution(
@@ -691,13 +720,36 @@ export function twoBodyState(
   const kalchm = calculateKalchm(esms as AlchemicalProperties);
   const lnKalchm = Math.log(kalchm);
 
-  // ── the two-body-local equilibrium band (§18i-quater) ────────────────────
-  // Wider than the canonical MONICA_LN_EPSILON, and applied ONLY here. See the
-  // constant's own note for why it is local and how the width was measured.
-  const inBand =
-    !Number.isFinite(kalchm) ||
-    kalchm <= 0 ||
-    Math.abs(lnKalchm) < TWO_BODY_LN_EPSILON;
+  // ── degeneracy is now tested STRUCTURALLY, not by an |ln kalchm| threshold ──
+  //
+  // This used to be `Math.abs(lnKalchm) < TWO_BODY_LN_EPSILON`, a threshold
+  // derived from a gap between the degenerate and healthy |ln kalchm| sets. That
+  // gap was PARTLY AN ARTIFACT of the kalchm epsilon floor. With kalchm exact, the
+  // two sets overlap — Comixion spans [0.0102, 0.1537] and non-Comixion starts at
+  // 0.0921 — so no threshold separates them and the derivation is invalid.
+  //
+  // Measured over all 6480 cells, the old threshold was wrong in BOTH directions:
+  //     both agree                206
+  //     only the threshold bands   286   healthy charts handed phi (fabrication)
+  //     only Essence===0 bands     442   degenerate charts left unbanded
+  // It identified 206 of 648 degenerate charts — 32%.
+  //
+  // So test the CAUSE instead of a proxy for it. This module already states the
+  // principle: "a chart with a hard zero on an axis is degenerate by inspection".
+  // Essence === 0 IS that condition, it is exact, and it has zero collateral by
+  // construction — a cell is banded if and only if it is degenerate.
+  //
+  // Bonus: it removes a derived constant rather than re-deriving one, and it fixes
+  // a latent bug. The zero-Essence family is degrees [8, 10, 12, 22, 24, 26] —
+  // TWO vessel shapes — while `isComixion` in the tests only knows [8, 22].
+  //
+  // Non-degenerate monica then tops out at 2.81078, inside the single-body
+  // envelope of 3.8977. Under no band at all it reaches 9.46124, and every cell
+  // that overshoots is Essence===0 — independent confirmation of the predicate.
+  const degenerate =
+    !Number.isFinite(kalchm) || kalchm <= 0 || esms.Essence === 0;
+
+  const inBand = degenerate;
 
   const monica = inBand
     ? MONICA_EQUILIBRIUM

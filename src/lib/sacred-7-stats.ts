@@ -302,12 +302,16 @@ const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
   // |max| 3.8977146920667267 / 2  [MEASURED 2026-07-25, exhaustive grid n=7920,
   // AFTER the exact-zero kalchm fix]. Was 1.9875 from |max| 3.9751 under the floor.
   'single-body': 1.9488573460333634,
-  // ⚠️ PENDING: two-body's |max| depends on the equilibrium band, and the band's
-  // derivation no longer holds — after the kalchm fix the Comixion (degenerate)
-  // and non-Comixion sets OVERLAP in |ln kalchm| ([0.0102, 0.1537] vs
-  // [0.0921, 4.354]), so there is no gap to derive a threshold from. Left at the
-  // pre-fix value until that is resolved; it is KNOWN STALE, not verified.
-  'two-body': 2.7095, // |max| 5.4191 / 2  [STALE — see above]
+  // |max| 2.8107786459098314 / 2  [MEASURED 2026-07-25, exhaustive two-body grid
+  // n=6480, AFTER the exact-zero kalchm fix AND the switch to a structural
+  // degeneracy test]. Was 2.7095 from |max| 5.4191.
+  //
+  // The |max| nearly HALVED because the old local |ln kalchm| threshold was
+  // leaving 442 genuinely degenerate charts unbanded, and those were the ones
+  // producing the extreme values. Testing `esms.Essence === 0` instead catches all
+  // of them, so the surviving range is [-0.292735, 2.81078] — now comfortably
+  // inside the single-body envelope of 3.8977, which it previously exceeded.
+  'two-body': 1.4053893229549157,
   // ⚠️ RE-DERIVED. The first value shipped here was 0.016851, taken from
   // |max| 0.033702 / 2 across all 71 rows. That maximum was NOT a real agent's
   // monica: Carl Jung and Frida Kahlo share a byte-identical natal_positions

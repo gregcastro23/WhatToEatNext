@@ -18,13 +18,10 @@ import {
   ASPECT_DIGNITY_REFERENCE_ORB,
   ASPECT_ORB_BUDGET,
   ASPECT_POLARITY,
-  DEGENERATE_LN_KALCHM,
   EXACT_DIGNITY_MULTIPLIER,
-  HEALTHY_LN_KALCHM_FLOOR,
   MOTION_DIGNITY_MULTIPLIER,
   PHASE_GEOMETRY,
   SEPARATING_DIGNITY_MULTIPLIER,
-  TWO_BODY_LN_EPSILON,
   UnknownMoonPhaseError,
   VESSEL_DIGNITY_NEUTRAL,
   derivedSunPosition,
@@ -346,9 +343,9 @@ describe("twoBodyMonica — the totality contract", () => {
 
   // The Comixion pillar (Essence effect −1, so the vessel's Essence axis is 0)
   // sits at degrees 8 and 22. There, ln(kalchm) lands near 0 and −G/(R·ln k)
-  // amplifies. TWO_BODY_LN_EPSILON absorbs the degenerate core of that; a skirt
-  // survives, because some Comixion cells land at |ln k| ABOVE the healthy floor
-  // and cannot be absorbed without converting real values to φ.
+  // amplifies. This is now absorbed COMPLETELY by testing esms.Essence === 0
+  // directly, so no skirt survives — the old |ln kalchm| threshold left 442
+  // degenerate cells unbanded, which is where the extreme values came from.
   //
   // ⚠️ OPEN, deliberately pinned rather than clamped: flooring the vessel at
   // KALCHM_EPSILON does NOT fix this — tried both before normalisation (the
@@ -358,7 +355,7 @@ describe("twoBodyMonica — the totality contract", () => {
   //
   // These assertions describe the CURRENT measured behaviour so a change to it
   // is caught, not a bound we wish were true.
-  it("confines the amplified tail to the two Comixion degrees", () => {
+  it("has NO amplified tail left — the structural band removed it entirely", () => {
     const outlierDegrees = new Set<number>();
     let maxOutsideComixion = 0;
     let maxOverall = 0;
@@ -380,88 +377,101 @@ describe("twoBodyMonica — the totality contract", () => {
       }
     }
 
-    // Only the Comixion degrees amplify.
-    expect([...outlierDegrees].sort((a, b) => a - b)).toEqual([8, 22]);
-    // Everywhere else is comfortably INSIDE the single-body envelope (3.9751).
+    // NOTHING amplifies now. This previously asserted [8, 22] — that the two
+    // Comixion degrees exceeded |4| while everything else stayed under 2. Both
+    // halves of that were consequences of the kalchm epsilon floor: it kept 442
+    // degenerate cells OUTSIDE the old |ln kalchm| band, and those were the cells
+    // producing the amplification. Testing esms.Essence === 0 catches all of them.
+    expect([...outlierDegrees]).toEqual([]);
     expect(maxOutsideComixion).toBeLessThan(2);
-    // Bounded, and materially tighter than the 21.45 of the pre-band build.
-    expect(maxOverall).toBeLessThan(13);
+    // Was < 13 (measured 12.6756 on the pre-fix grid). Now the whole grid sits
+    // inside the single-body envelope, which it never did before.
+    expect(maxOverall).toBeLessThan(3.8977146920667267);
   });
 
-  // ── the band itself ──────────────────────────────────────────────────────
-  // TWO_BODY_LN_EPSILON is derived from two MEASURED bounds. These pin both, so
-  // that a retune which starts swallowing real values fails loudly rather than
-  // quietly flattening the distribution.
-  describe("TWO_BODY_LN_EPSILON — the two-body-local equilibrium band", () => {
-    /** Every grid cell's |ln kalchm|, partitioned by the STRUCTURAL cause. */
+  // ── degeneracy, tested by its CAUSE ──────────────────────────────────────
+  // Not an |ln kalchm| threshold: that proxy only worked while the kalchm floor
+  // kept the degenerate and healthy sets separable. These pin the predicate,
+  // its completeness, and that it does not over-absorb.
+  describe("degeneracy is tested STRUCTURALLY, not by an |ln kalchm| threshold", () => {
+    /** Every grid cell, tagged with the structural cause and its |ln kalchm|. */
     const cells = (() => {
-      const out: { degree: number; absLnK: number }[] = [];
+      const out: { degree: number; absLnK: number; essenceZero: boolean; monica: number }[] = [];
       for (const phase of ALL_PHASES)
         for (const sign of SIGNS)
           for (let degree = 0; degree < 30; degree++)
             for (const sect of ["diurnal", "nocturnal"] as const) {
               const s = twoBodyState(phase, sign, degree, sect);
-              out.push({ degree, absLnK: Math.abs(s.lnKalchm as number) });
+              out.push({
+                degree,
+                absLnK: Math.abs(s.lnKalchm as number),
+                essenceZero: s.esms?.Essence === 0,
+                monica: twoBodyMonicaForSect(phase, sign, degree, sect),
+              });
             }
       return out;
     })();
-    const isComixion = (d: number) => d === 8 || d === 22;
 
-    it("sits strictly between the two measured bounds", () => {
-      expect(TWO_BODY_LN_EPSILON).toBeGreaterThan(DEGENERATE_LN_KALCHM);
-      expect(TWO_BODY_LN_EPSILON).toBeLessThan(HEALTHY_LN_KALCHM_FLOOR);
-    });
-
-    it("[MEASURED] the degenerate bound really is the zero-Essence chart", () => {
-      // Comixion nocturnal: the vessel's Essence axis is exactly 0.
-      const s = twoBodyState("waxing gibbous", "Leo", 8, "nocturnal");
-      expect(s.esms?.Essence).toBe(0);
-      expect(Math.abs(s.lnKalchm as number)).toBeCloseTo(DEGENERATE_LN_KALCHM, 6);
-    });
-
-    it("[MEASURED] the healthy floor really is the smallest non-Comixion |ln k|", () => {
-      const floor = Math.min(
-        ...cells.filter((c) => !isComixion(c.degree)).map((c) => c.absLnK),
+    it("the zero-Essence family is SIX degrees, not the two 'Comixion' named", () => {
+      // The bug this replaces: `isComixion` was `d === 8 || d === 22`, but TWO
+      // vessel shapes have zero Essence. The band therefore missed four degrees.
+      const degrees = [...new Set(cells.filter((c) => c.essenceZero).map((c) => c.degree))].sort(
+        (a, b) => a - b,
       );
-      expect(floor).toBeCloseTo(HEALTHY_LN_KALCHM_FLOOR, 6);
+      expect(degrees).toEqual([8, 10, 12, 22, 24, 26]);
     });
 
-    it("absorbs with ZERO collateral — no healthy cell is converted to φ", () => {
-      const collateral = cells.filter(
-        (c) => !isComixion(c.degree) && c.absLnK < TWO_BODY_LN_EPSILON,
+    it("a threshold CANNOT separate degenerate from healthy any more", () => {
+      // This is why the old TWO_BODY_LN_EPSILON was removed rather than re-derived.
+      // Its derivation assumed the two sets were separable; with kalchm exact they
+      // overlap, so no single number can partition them.
+      const degen = cells.filter((c) => c.essenceZero).map((c) => c.absLnK);
+      const healthy = cells.filter((c) => !c.essenceZero).map((c) => c.absLnK);
+      expect(Math.max(...degen)).toBeGreaterThan(Math.min(...healthy));
+    });
+
+    it("EVERY zero-Essence cell returns φ — no degenerate chart is missed", () => {
+      const missed = cells.filter((c) => c.essenceZero && c.monica !== MONICA_EQUILIBRIUM);
+      expect(missed).toEqual([]);
+    });
+
+    it("the structural test itself has ZERO collateral", () => {
+      // A cell is banded by THIS module iff it is degenerate. Healthy cells may
+      // still receive φ from the CANONICAL band (the shared §17c equilibrium
+      // statement, |ln kalchm| < MONICA_LN_EPSILON) — that is the engine-wide
+      // contract applying uniformly, not a local miscalibration. Measured: 261
+      // such cells, all with |ln kalchm| genuinely below the canonical band.
+      const localCollateral = cells.filter(
+        (c) => !c.essenceZero && c.monica === MONICA_EQUILIBRIUM && c.absLnK >= MONICA_LN_EPSILON,
       );
-      expect(collateral).toEqual([]);
+      expect(localCollateral).toEqual([]);
     });
 
-    it("does absorb a real share of the degenerate cases", () => {
-      const tail = cells.filter((c) => isComixion(c.degree));
-      const absorbed = tail.filter((c) => c.absLnK < TWO_BODY_LN_EPSILON);
-      // Measured 304/384. Pinned as a floor so a silent narrowing is caught.
-      expect(absorbed.length).toBeGreaterThanOrEqual(304);
-      expect(absorbed.length).toBeLessThan(tail.length); // the skirt is real
+    it("brings the two-body range INSIDE the single-body envelope", () => {
+      // Previously two-body reached 5.4191 against a single-body 3.9751, because
+      // 442 degenerate charts went unbanded and produced the extremes.
+      const finite = cells.map((c) => c.monica).filter((m) => Number.isFinite(m));
+      expect(finite.length).toBe(cells.length);
+      const absMax = Math.max(...finite.map(Math.abs));
+      expect(absMax).toBeCloseTo(2.8107786459098314, 10);
+      expect(absMax).toBeLessThan(3.8977146920667267); // single-body envelope
     });
 
-    it("stays INDEPENDENT of the canonical engine's own band", () => {
-      // This used to assert `MONICA_LN_EPSILON === 0.05` and
-      // `TWO_BODY_LN_EPSILON > MONICA_LN_EPSILON`. Both were pinning incidental
-      // facts rather than the property that matters.
-      //
-      // The canonical band has since been DERIVED (midpoint of the measured
-      // single-body |ln kalchm| gap = 0.1324188, replacing a chosen 0.05), which
-      // made it slightly WIDER than the two-body band — so the old ordering
-      // inverted. That ordering was never meaningful: the two bands are derived
-      // from different populations by different mechanisms, so neither has to be
-      // larger.
-      //
-      // What actually matters is that they are SEPARATE constants, so a change to
-      // one cannot silently move the other's population.
-      expect(TWO_BODY_LN_EPSILON).not.toBeCloseTo(MONICA_LN_EPSILON, 6);
-
-      // And the two-body band must remain correct for ITS population — that is
-      // what the preceding tests in this block verify (zero collateral, real
-      // absorption), independent of whatever the canonical value is.
-      expect(TWO_BODY_LN_EPSILON).toBeGreaterThan(DEGENERATE_LN_KALCHM);
-      expect(TWO_BODY_LN_EPSILON).toBeLessThan(HEALTHY_LN_KALCHM_FLOOR);
+    it("still absorbs a real share of the grid (guard: not a no-op band)", () => {
+      // Derived from THIS test's own enumeration, deliberately not a hardcoded
+      // count. A literal here was briefly 909 — measured over 9 phases including
+      // "dark moon", while ALL_PHASES has 8 because Dark Moon folds into New at 0°.
+      // Same enumeration mismatch that made an earlier max-monica reading wrong.
+      const phi = cells.filter((c) => c.monica === MONICA_EQUILIBRIUM);
+      const structural = cells.filter((c) => c.essenceZero);
+      const canonicalOnly = cells.filter(
+        (c) => !c.essenceZero && c.absLnK < MONICA_LN_EPSILON,
+      );
+      // Every φ cell is explained by exactly one of the two bands.
+      expect(phi.length).toBe(structural.length + canonicalOnly.length);
+      expect(structural.length).toBeGreaterThan(0);
+      expect(canonicalOnly.length).toBeGreaterThan(0);
+      expect(phi.length).toBeLessThan(cells.length / 2); // not swallowing everything
     });
   });
 
