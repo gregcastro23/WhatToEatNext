@@ -36,7 +36,10 @@ export async function POST(request: NextRequest) {
     switch (action) {
       case "list": {
         const result = await executeQuery<any>(
-          `SELECT u.id AS user_id, u.email, up.name, up.bio, up.dominant_element, up.monica_constant
+          // §18o: monica_constant is single-body only; COALESCE the other two
+          // constructions so the list still shows a value for those agents.
+          `SELECT u.id AS user_id, u.email, up.name, up.bio, up.dominant_element,
+                  COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) AS monica_constant
            FROM users u
            JOIN user_profiles up ON up.user_id = u.id
            WHERE u.is_agent = true AND u.is_active = true

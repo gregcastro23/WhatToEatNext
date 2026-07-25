@@ -40,12 +40,14 @@ export async function GET(req: NextRequest) {
       AGENTS_CACHE_TTL_SECONDS,
       async () => {
         const result = await executeQuery<AgentRow>(
+          // §18o: monica_constant is single-body only; COALESCE the other two
+          // constructions so an agent of any kind still surfaces its real value.
           `SELECT u.id AS user_id,
                   u.email,
                   up.name,
                   up.bio,
                   up.dominant_element,
-                  up.monica_constant,
+                  COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) AS monica_constant,
                   MAX(f.created_at) AS last_action_at,
                   COUNT(f.id) AS action_count
              FROM users u
@@ -53,7 +55,8 @@ export async function GET(req: NextRequest) {
              LEFT JOIN feed_events f ON f.actor_id = u.id
             WHERE COALESCE(u.is_agent, false) = true
               AND u.is_active = true
-            GROUP BY u.id, u.email, up.name, up.bio, up.dominant_element, up.monica_constant
+            GROUP BY u.id, u.email, up.name, up.bio, up.dominant_element,
+                     up.monica_constant, up.monica_two_body, up.monica_full_chart
             ORDER BY MAX(f.created_at) DESC NULLS LAST
             LIMIT $1`,
           [limit],
