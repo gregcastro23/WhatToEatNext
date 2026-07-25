@@ -43,6 +43,33 @@ const client = new pg.Client({
 });
 await client.connect();
 
+// ── SUPERSEDED BY §18o ──────────────────────────────────────────────────────
+// Less obviously broken than backfillPhaseMonica, but broken. It sets
+// `monica_method = 'single-body'` and `monica_constant`, and NEVER sets
+// `monica_single`. The `monica_method_matches_column` CHECK requires
+// `monica_method = 'single-body' AND monica_single IS NOT NULL`, so for any row
+// whose monica_single is still NULL — i.e. every new arrival, which is exactly
+// what you would reach for this script to fix — the write is rejected.
+//
+// Refuse rather than fail mid-transaction. Dry runs still work.
+if (WRITE) {
+  const split = await client.query<{ n: string }>(
+    `SELECT count(*)::text AS n FROM information_schema.columns
+      WHERE table_name = 'user_profiles' AND column_name = 'monica_single'`,
+  );
+  if (Number(split.rows[0]?.n ?? 0) > 0) {
+    console.error(
+      "REFUSING TO WRITE: this script is superseded by §18o.\n" +
+        "  It sets monica_method='single-body' without setting monica_single,\n" +
+        "  which the monica_method_matches_column CHECK rejects.\n\n" +
+        "  Use instead:\n" +
+        "    railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write",
+    );
+    await client.end();
+    process.exit(1);
+  }
+}
+
 // Fail loudly if the migration has not been applied, rather than writing nothing
 // and reporting success.
 const cols = await client.query<{ column_name: string }>(

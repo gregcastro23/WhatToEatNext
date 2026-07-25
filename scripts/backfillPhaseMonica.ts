@@ -61,6 +61,33 @@ const client = new pg.Client({
 });
 await client.connect();
 
+// ── SUPERSEDED BY §18o ──────────────────────────────────────────────────────
+// This script writes `monica_constant = combined` together with
+// `monica_method = 'two-body'`. §18o narrowed monica_constant to SINGLE-BODY
+// ONLY and added the `monica_constant_single_body_only` CHECK, so that write is
+// now rejected by the database.
+//
+// Refuse to run rather than let the operator discover it as a constraint
+// violation halfway through a transaction. Read paths are still allowed, so a
+// dry run remains useful for comparison.
+if (WRITE) {
+  const split = await client.query<{ n: string }>(
+    `SELECT count(*)::text AS n FROM information_schema.columns
+      WHERE table_name = 'user_profiles' AND column_name = 'monica_two_body'`,
+  );
+  if (Number(split.rows[0]?.n ?? 0) > 0) {
+    console.error(
+      "REFUSING TO WRITE: this script is superseded by §18o.\n" +
+        "  It writes monica_constant for two-body rows, which the\n" +
+        "  monica_constant_single_body_only CHECK now rejects.\n\n" +
+        "  Use instead:\n" +
+        "    railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write",
+    );
+    await client.end();
+    process.exit(1);
+  }
+}
+
 const cols = await client.query<{ column_name: string }>(
   `SELECT column_name FROM information_schema.columns
     WHERE table_name = 'user_profiles'

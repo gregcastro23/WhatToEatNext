@@ -5,6 +5,7 @@
  * for Kalchm (K_alchm) and Monica Constant (M) as specified in the system requirements.
  */
 
+import { calculateMonica } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { getCachedCalculation } from "../../utils/calculationCache";
@@ -180,21 +181,33 @@ export function calculateKAlchm(
 }
 
 /**
- * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
+ * Calculate Monica Constant: M = -Greg's Energy / (Reactivity × ln(K_alchm))
+ *
+ * §14d — DELEGATES to the canonical engine. Name and signature kept so no
+ * importer changes.
+ *
+ * It previously reimplemented the formula and agreed with the canonical engine
+ * EXACTLY on healthy input (−2.705053 to the last digit), so this moves no
+ * healthy value. It differed only in failure handling, and had no totality
+ * contract at all — it could return NaN (kalchm ≤ 0, or ln(kalchm) === 0) and
+ * **-Infinity** (reactivity === 0, which it never checked).
+ *
+ * -Infinity is worse than NaN: NaN poisons comparisons visibly, while -Infinity
+ * silently wins every Math.min and sorts to the front of every list. Nothing
+ * downstream guarded for either.
+ *
+ * It also had no near-degenerate band, so at kalchm = 1.0001 it returned
+ * −18750.94 where the canonical engine returns φ — both finite, so undetectable.
+ *
+ * Pinned before and after in
+ * `src/__tests__/thermodynamicDegenerateCharacterisation.test.ts`.
  */
 export function calculateMonicaConstant(
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
 ): number {
-  // Check for valid K_alchm
-  if (K_alchm <= 0) return NaN;
-  const lnK = Math.log(K_alchm);
-
-  // Check for valid natural log
-  if (lnK === 0) return NaN;
-
-  return -gregsEnergy / (reactivity * lnK);
+  return calculateMonica(gregsEnergy, reactivity, K_alchm);
 }
 
 /**

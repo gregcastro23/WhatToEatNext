@@ -226,10 +226,19 @@ if (bad === 0) {
       `match a fresh computation (tolerance ${TOLERANCE}).`,
   );
 } else {
+  // The remedy MUST name the post-§18o script. It previously pointed at
+  // `backfillAgentMonica.ts` / `backfillPhaseMonica.ts`, and following that
+  // advice now fails: both write `monica_constant = combined` alongside
+  // `monica_method = 'two-body'|'full-chart'`, which the
+  // `monica_constant_single_body_only` CHECK rejects. A gate that reports a
+  // problem and then names the wrong fix is worse than one that stays quiet.
   console.error(
-    `\n*** ${bad} row(s) need attention. Remedy: re-run the matching backfill ` +
-      `(\`backfillAgentMonica.ts\` / \`backfillPhaseMonica.ts\`) with --write; ` +
-      `both are idempotent. ***`,
+    `\n*** ${bad} row(s) need attention. Remedy:\n` +
+      `      railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write\n` +
+      `    It is idempotent, classifies by NAME, and handles all three constructions.\n` +
+      `    Do NOT use backfillAgentMonica.ts / backfillPhaseMonica.ts — they are\n` +
+      `    pre-§18o and write monica_constant for two-body/full-chart rows, which\n` +
+      `    the monica_constant_single_body_only constraint now rejects. ***`,
   );
   process.exit(1);
 }
