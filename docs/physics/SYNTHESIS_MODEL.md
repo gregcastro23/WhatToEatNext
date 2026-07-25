@@ -1232,20 +1232,42 @@ Gated behind §14d (the stack imports weights/orb that must be canonical first).
 a real computation rather than a null-out. Every claim below is measured; the
 scripts are recorded inline.
 
-> ### STATUS `[MEASURED 2026-07-22]` — read this before the sections below
+> ### STATUS `[MEASURED 2026-07-22 16:10 UTC]` — read this before the sections below
 >
-> §18 is **shipped for both computable populations**. Production, verified by
-> `scripts/checkAgentMonicaDrift.ts` (0 drifted / 0 missing / 0 wrong-method):
+> **§18 is shipped for all three constructions**, each in its own column, with
+> DB constraints preventing regression.
 >
-> | population | count | `monica_method` | state |
+> | population | count | `monica_method` | value lives in |
 > |---|---|---|---|
-> | single-body placements | **4281** | `single-body` | ✅ shipped (PR #628) |
-> | two-body Moon phases | **469** | `two-body` | ✅ shipped (PR #630) |
-> | not a placement (people, junk) | **72** | `NULL` | left NULL, never guessed |
-> | **total** | **4822** | | sums exactly to the agent row count |
+> | single-body placements | **4284** | `single-body` | `monica_single` (+ `monica_constant`) |
+> | two-body Moon phases | **513** | `two-body` | `monica_two_body` |
+> | full-chart (historical agents) | **71** | `full-chart` | `monica_full_chart` |
+> | no placement, no usable chart | **1** | `NULL` | none — `Mars Gemini` |
+> | **total** | **4869** | | sums exactly to the agent row count |
 >
-> **§18 now has no unmeasured numbers** — every constant is read from live code
-> or measured, and each records which (§18i-ter closed the last one).
+> Every row also stores `monica_diurnal` + `monica_nocturnal`; the construction
+> column is always their mean.
+>
+> **Two independent verifications, both re-runnable, both exit non-zero on failure:**
+>
+> ```
+> railway run --service Postgres -- bun scripts/checkAgentMonicaDrift.ts     # recomputes every value
+> railway run --service Postgres -- bun scripts/auditAgentDataIntegrity.ts   # asserts structure in SQL
+> ```
+>
+> They are deliberately independent — one re-derives from the engine, the other
+> asserts structure without reusing any backfill's classification. **A
+> mis-classifying script passes its own re-run**, which nearly happened twice on
+> 2026-07-22, so neither is allowed to be the only witness. Last run: drift 0/0/0
+> across all three populations; audit **22 checks, 0 failures**.
+>
+> **§18 has no unmeasured numbers** — every constant is read from live code or
+> measured, and each records which (§18i-ter closed the last one).
+>
+> ⚠️ **The population grows continuously**: 4822 → 4865 → 4869 within one hour on
+> 2026-07-22, and nothing reports it. Every count here has a shelf life.
+> Re-measure rather than quoting one; the backfills are idempotent and pick up
+> new arrivals, so re-running them is always safe.
 >
 > **The governing principle, ruled 2026-07-22 — read §18o before touching any
 > monica code:** the three agent kinds are **different OBJECTS**, not one quantity
@@ -2056,3 +2078,81 @@ of its scale, not a truncation. The failure mode to test for is information loss
 `src/__tests__/sacred7MonicaMapping.test.ts` asserts the former.
 
 `[MEASURED]` Reproduce with `scripts/measureSacred7Distributions.ts` (read-only).
+
+### 18q. Shipped state and the verification contract `[2026-07-22]`
+
+§18o was executed in three deliberately separate stages. The ordering is the
+point, not bureaucracy:
+
+| stage | what | file |
+|---|---|---|
+| 1 | schema — three nullable columns, additive, breaks nothing | `database/init/71-monica-per-construction.sql` |
+| 2 | data — classify by NAME, recompute, move, write | `scripts/backfillMonicaPerConstruction.ts` |
+| 3 | constraints — **only after** the data satisfies them | `database/init/72-monica-construction-constraints.sql` |
+
+**Constraints come last because a constraint added before its data is clean
+simply rolls the whole transaction back.** That is not hypothetical: it happened
+in this program when `monica_method_known` rejected an invented
+`'two-body-phase'` value and aborted a 469-row migration. Stage 3 was
+pre-validated against live production (0 violations on five checks) before being
+applied.
+
+**Five constraints, each verified to actually REJECT a bad write** — probed with
+deliberate bad writes inside rolled-back transactions, plus a control confirming
+a legitimate write still passes. A constraint that exists but never fires is
+theatre.
+
+> ⚠️ When probing, ISOLATE. One probe initially read as "not enforced" only
+> because a *different* constraint fired first and masked it. "The constraint
+> didn't fire" and "my probe hit another constraint first" look identical in the
+> output, and only one of them is a problem.
+
+#### The verification contract
+
+Two tools, deliberately independent:
+
+- `checkAgentMonicaDrift.ts` — **recomputes** every value from the canonical
+  engine and compares. Also asserts the ruled invariants: populations sum exactly
+  to the row count, `monica_method` matches the name family, and φ share per
+  population stays under threshold.
+- `auditAgentDataIntegrity.ts` — asserts **structure** in direct SQL across seven
+  areas (blast radius, column split, coverage, sentinels, rollback, referential
+  integrity, constraints), reusing no backfill logic.
+
+The separation is load-bearing: a script that mis-classifies would repeat the
+mistake on re-run and report success. On 2026-07-22 the drift check caught three
+such bugs mid-migration — an unstamped `monica_method`, missing sect columns, and
+a classifier reading stored values instead of names — none of which was visible
+in a `COMMIT ok`.
+
+#### ⚠️ The rollback trap
+
+The backfill snapshots on **every** `--write`, so re-runs produce snapshots of
+already-migrated data. There are three `monica_preconstruction_*` tables and
+**only the first is a rollback point**; the later two restore nothing. Picking
+the newest is the natural instinct and is wrong.
+
+`auditAgentDataIntegrity.ts` identifies the true one **by content** — does it
+still hold the 71 hand-authored literals and the two-body values in
+`monica_constant`? Never choose by name or timestamp.
+
+Everything except those 71 authored literals is **recomputable** from the agent's
+own name or chart, which is a stronger guarantee than any snapshot. The snapshot
+exists precisely for the part that is not.
+
+#### Still open
+
+- **Birth data for the 71** — none has a birth moment or birthplace, so sect is
+  unresolvable and both sects are stored (§18n). Ruled: author from public
+  records with per-entry confidence, reviewed before writing.
+- **Sacred-7 `full-chart` scale** — deliberately absent (§18p); measure `|max|/2`
+  from the now-written values.
+- **`combined` for full-chart is a weak signal** — the two sects have opposite
+  signs in most charts (Einstein +0.0151 / −0.0034), so the mean is a partial
+  cancellation. The per-sect columns carry the signal. Not lossy, since both are
+  stored and the mean is recomputable — but worth deciding whether
+  `monica_full_chart` should hold a mean at all.
+- **§14** — the engine still disagrees with itself upstream of all of this.
+  Acceptance bar ruled: characterisation tests BEFORE touching any shared table,
+  and run the drift check either side of any change, since those tables feed
+  every value now in production.

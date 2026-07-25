@@ -85,8 +85,8 @@ const { rows } = await client.query<Row>(
     ORDER BY up.name`,
 );
 
-interface Move { user_id: string; name: string; value: number }
-interface FullChart extends Move { diurnal: number; nocturnal: number; before: number | null }
+interface Move { user_id: string; name: string; value: number; diurnal: number; nocturnal: number }
+interface FullChart extends Move { before: number | null }
 
 const single: Move[] = [];
 const twoBody: Move[] = [];
@@ -104,10 +104,18 @@ const unaccounted: string[] = [];
 // were sitting at NULL when this was written). Recomputing also makes the script
 // self-sufficient and idempotent: it does not care what is currently stored, so
 // it picks up new agents instead of skipping them.
+//
+// ⚠️ "New arrival" MUST mean `monica_method IS NULL` — a row this script has
+// never classified. It must NOT mean `monica_constant IS NULL`: §18o
+// deliberately NULLs monica_constant on every two-body row, so that test counts
+// all 619 of them as new on every single run, forever. It reported 636 when the
+// true number was 125, which is exactly the kind of number a later session
+// quotes back as fact.
 let newlyComputed = 0;
 
 for (const r of rows) {
   const stored = r.monica_constant === null ? null : Number(r.monica_constant);
+  const neverClassified = r.monica_method === null;
   const placement = parseAgentPlacement(r.name);
 
   if (placement?.kind === "single") {
@@ -116,13 +124,13 @@ for (const r of rows) {
       unaccounted.push(`${r.name}  (parsed single, but no monica computable)`);
       continue;
     }
-    if (stored === null) newlyComputed++;
-    single.push({ user_id: r.user_id, name: r.name, value: m.combined });
+    if (neverClassified) newlyComputed++;
+    single.push({ user_id: r.user_id, name: r.name, value: m.combined, diurnal: m.diurnal, nocturnal: m.nocturnal });
     continue;
   }
 
   if (placement?.kind === "phase") {
-    let m: { combined: number } | null = null;
+    let m: { combined: number; diurnal: number; nocturnal: number } | null = null;
     try {
       m = twoBodyMonicaFromName(r.name);
     } catch {
@@ -133,14 +141,15 @@ for (const r of rows) {
       unaccounted.push(`${r.name}  (parsed phase, but no monica computable)`);
       continue;
     }
-    if (stored === null) newlyComputed++;
-    twoBody.push({ user_id: r.user_id, name: r.name, value: m.combined });
+    if (neverClassified) newlyComputed++;
+    twoBody.push({ user_id: r.user_id, name: r.name, value: m.combined, diurnal: m.diurnal, nocturnal: m.nocturnal });
     continue;
   }
 
   // Not a placement at all: a chart-bearing agent, if it has a usable chart.
   const m = fullChartMonica(r.natal_positions);
   if (m) {
+    if (neverClassified) newlyComputed++;
     fullChart.push({
       user_id: r.user_id,
       name: r.name,
@@ -250,21 +259,40 @@ try {
         WHERE u.is_agent`,
   );
 
-  // 1. single-body: populate the typed column, monica_constant unchanged.
-  await client.query(
-    `UPDATE user_profiles up SET monica_single = v.val, updated_at = now()
-       FROM (SELECT * FROM unnest($1::uuid[], $2::numeric[]) AS t(user_id, val)) v
-      WHERE up.user_id = v.user_id`,
-    [single.map((m) => m.user_id), single.map((m) => m.value)],
-  );
-
-  // 2. two-body: move out of monica_constant.
+  // 1. single-body: populate the typed column AND monica_constant (which §18o
+  //    rules single-body-only, so they agree by definition), and stamp the
+  //    method. Stamping matters for NEW arrivals, whose method is still NULL —
+  //    a row carrying a value with no method violates the "method matches the
+  //    name family" invariant, and the first run of this script left 48 such rows.
   await client.query(
     `UPDATE user_profiles up
-        SET monica_two_body = v.val, monica_constant = NULL, updated_at = now()
-       FROM (SELECT * FROM unnest($1::uuid[], $2::numeric[]) AS t(user_id, val)) v
+        SET monica_single    = v.val,
+            monica_constant  = v.val,
+            monica_diurnal   = v.d,
+            monica_nocturnal = v.n,
+            monica_method    = 'single-body',
+            updated_at       = now()
+       FROM (SELECT * FROM unnest($1::uuid[], $2::numeric[], $3::numeric[], $4::numeric[])
+                    AS t(user_id, val, d, n)) v
       WHERE up.user_id = v.user_id`,
-    [twoBody.map((m) => m.user_id), twoBody.map((m) => m.value)],
+    [single.map((m) => m.user_id), single.map((m) => m.value),
+     single.map((m) => m.diurnal), single.map((m) => m.nocturnal)],
+  );
+
+  // 2. two-body: move out of monica_constant, and stamp the method.
+  await client.query(
+    `UPDATE user_profiles up
+        SET monica_two_body  = v.val,
+            monica_constant  = NULL,
+            monica_diurnal   = v.d,
+            monica_nocturnal = v.n,
+            monica_method    = 'two-body',
+            updated_at       = now()
+       FROM (SELECT * FROM unnest($1::uuid[], $2::numeric[], $3::numeric[], $4::numeric[])
+                    AS t(user_id, val, d, n)) v
+      WHERE up.user_id = v.user_id`,
+    [twoBody.map((m) => m.user_id), twoBody.map((m) => m.value),
+     twoBody.map((m) => m.diurnal), twoBody.map((m) => m.nocturnal)],
   );
 
   // 3. full-chart: computed value + both sects, and drop the authored literal.
