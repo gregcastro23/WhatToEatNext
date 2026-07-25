@@ -253,6 +253,39 @@ for (const w of wanted) {
   console.log(`  ${ok ? "OK  " : "FAIL"}  constraint ${w}`);
 }
 
+console.log("\n════ 8. APP-CODE PARITY — can the DEPLOYED app still find every agent's monica? ════");
+// §18o moved two-body and full-chart values OUT of monica_constant. Every
+// display-facing reader must therefore COALESCE across the three per-
+// construction columns, or it silently loses the value for 500+ rows — this
+// happened for real: the DB migration (this session) shipped to production
+// hours before the six application readers were updated to match, and
+// build-agent-context.ts's fallback of `monica_constant ? x : 3.5` turned every
+// one of those rows into a FABRICATED 3.5 — the exact defect class this whole
+// program exists to eliminate. Fixed in build-agent-context.ts,
+// agents/unified/route.ts, commensal/companions/route.ts,
+// community/agents/route.ts, admin/users/route.ts, userTimelineService.ts.
+//
+// This does not re-verify those six files still contain the pattern (grepping
+// application code is brittle); it verifies the INVARIANT the fix depends on:
+// COALESCE(constant, two_body, full_chart) must be non-NULL for every row with
+// a classified method. If this ever fails, at least one reader somewhere WILL
+// be showing a wrong value, even if this cannot say which file.
+await expectZero(
+  "a classified agent where COALESCE across all three columns is still NULL",
+  `SELECT count(*)::text n, min(up.name) sample
+     FROM user_profiles up JOIN users u ON u.id = up.user_id
+    WHERE u.is_agent AND up.monica_method IS NOT NULL
+      AND COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) IS NULL`,
+);
+await report(
+  "rows where BARE monica_constant is NULL but a real value exists elsewhere",
+  `SELECT count(*)::text n FROM user_profiles up JOIN users u ON u.id=up.user_id
+    WHERE u.is_agent AND up.monica_constant IS NULL
+      AND (up.monica_two_body IS NOT NULL OR up.monica_full_chart IS NOT NULL)`,
+);
+console.log(`  (context only, not a failure — this is exactly why every display reader`);
+console.log(`   must COALESCE. A nonzero count here is normal and permanent post-§18o.)`);
+
 console.log(`\n${"═".repeat(72)}`);
 console.log(failures === 0
   ? `ALL CLEAR — ${checks} checks, 0 failures. Agent monica data is internally consistent,\nfully covered, rollback-capable, and protected by DB constraints.`
