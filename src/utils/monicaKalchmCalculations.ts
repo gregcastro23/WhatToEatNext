@@ -1,5 +1,6 @@
 import { calculateKinetics } from "@/calculations/kinetics";
 import { ALCHEMICAL_PILLARS, COOKING_METHOD_PILLAR_MAPPING } from "@/constants/alchemicalPillars";
+import { calculateMonica } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
@@ -122,18 +123,32 @@ export function calculateKAlchm(
 /**
  * Calculate Monica Constant: Dynamic system constant relating energy to equilibrium
  * Formula: M = -Greg's Energy / (Reactivity × ln(K_alchm))
+ *
+ * §14d — DELEGATES to the canonical engine. The name and signature are kept so
+ * no importer changes.
+ *
+ * It previously reimplemented the formula. Measured, that reimplementation agreed
+ * with the canonical engine EXACTLY on healthy input (−2.705053 to the last
+ * digit), so this delegation moves no healthy value. It differed only in failure
+ * handling, in two ways that were both wrong:
+ *
+ *   1. It returned a hardcoded `1.0` for kalchm ≤ 0, ln(kalchm) === 0, or
+ *      reactivity === 0 — its own comment called that a "Default neutral value".
+ *      1.0 is neither neutral (monica is signed and unbounded) nor derived from
+ *      anything.
+ *   2. It had NO near-degenerate band, so at kalchm = 1.0001 — ordinary data, not
+ *      an edge case — it returned −18750.94 where the canonical engine returns φ.
+ *      Both values are finite, so nothing threw and no consumer could tell.
+ *
+ * Pinned before and after in
+ * `src/__tests__/thermodynamicDegenerateCharacterisation.test.ts`.
  */
 export function calculateMonicaConstant(
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
 ): number {
-  const lnK = Math.log(K_alchm);
-  if (K_alchm > 0 && lnK !== 0 && reactivity !== 0) {
-    return -gregsEnergy / (reactivity * lnK);
-  } else {
-    return 1.0; // Default neutral value
-  }
+  return calculateMonica(gregsEnergy, reactivity, K_alchm);
 }
 // ========== HELPER FUNCTIONS ==========
 /**

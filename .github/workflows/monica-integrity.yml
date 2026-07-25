@@ -95,13 +95,17 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkAgentMonicaDrift.ts
 
-      # A second, INDEPENDENT witness (scripts/auditAgentDataIntegrity.ts) is
-      # added here by PR #636, which is where that script lands. It is not
-      # referenced yet because it does not exist on master, and a workflow step
-      # that runs a missing file is a failure, not a gate.
-      #
-      # It matters that there are two: the drift check re-derives values from the
-      # engine, the audit asserts structure directly in SQL without reusing any
-      # backfill's classification. A mis-classifying script passes its own
-      # re-run, which nearly happened twice on 2026-07-22, so neither tool is
-      # allowed to be the only witness.
+      - name: Integrity audit (asserts structure directly in SQL)
+        # The SECOND, INDEPENDENT witness. It matters that there are two: the
+        # drift check re-derives values from the engine, while this asserts
+        # structure directly in SQL and reuses none of the backfill's
+        # classification logic.
+        #
+        # A mis-classifying script PASSES ITS OWN RE-RUN. That nearly shipped
+        # twice on 2026-07-22, which is why neither tool is allowed to be the
+        # only witness. It also identifies the true rollback snapshot BY CONTENT
+        # — there are three `monica_preconstruction_*` tables and only the first
+        # restores anything, so picking the newest by name is wrong.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/auditAgentDataIntegrity.ts
