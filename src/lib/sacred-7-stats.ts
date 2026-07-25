@@ -298,20 +298,31 @@ export type MonicaMethod = 'single-body' | 'two-body' | 'full-chart'
 // function of kalchm. Removing the epsilon floor moved every one. Re-measure with
 // scripts/remeasureAfterKalchmFix.ts (grids) and measureThreeOpenNumbers.ts
 // (full-chart, needs the DB) after any kalchm change — do not assume they hold.
-const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
-  // |max| 3.8977146920667267 / 2  [MEASURED 2026-07-25, exhaustive grid n=7920,
+// Exported for src/__tests__/monicaPopulationScaleDerivation.test.ts, which
+// re-derives the two grid-backed entries from their populations on every run.
+export const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
+  // |max| 3.8977146920667276 / 2  [MEASURED 2026-07-25, exhaustive grid n=7920,
   // AFTER the exact-zero kalchm fix]. Was 1.9875 from |max| 3.9751 under the floor.
-  'single-body': 1.9488573460333634,
-  // |max| 2.8107786459098314 / 2  [MEASURED 2026-07-25, exhaustive two-body grid
-  // n=6480, AFTER the exact-zero kalchm fix AND the switch to a structural
+  // Extremum at Neptune / Aquarius / 2° / nocturnal (monica -3.8977146920667276).
+  'single-body': 1.9488573460333638,
+  // |max| 2.810778645909833 / 2  [MEASURED 2026-07-25, exhaustive two-body grid
+  // n=5760, AFTER the exact-zero kalchm fix AND the switch to a structural
   // degeneracy test]. Was 2.7095 from |max| 5.4191.
+  // Extremum at waxing gibbous / Gemini / 20° / nocturnal, tied with three other
+  // cells (Gemini 28°, Libra 20°, Libra 28° — the vessel repeats).
+  //
+  // n is 8 phases x 12 signs x 30 degrees x 2 sects. The measuring script listed
+  // NINE phases (n=6480) because it wrote the list out by hand and included
+  // "dark moon", which is an ALIAS of new moon at elongation 0 — so 720 of those
+  // cells were duplicates. The maximum is identical either way, and the guard
+  // test asserts that (it enumerates PHASE_GEOMETRY's own keys, never a list).
   //
   // The |max| nearly HALVED because the old local |ln kalchm| threshold was
   // leaving 442 genuinely degenerate charts unbanded, and those were the ones
   // producing the extreme values. Testing `esms.Essence === 0` instead catches all
   // of them, so the surviving range is [-0.292735, 2.81078] — now comfortably
   // inside the single-body envelope of 3.8977, which it previously exceeded.
-  'two-body': 1.4053893229549157,
+  'two-body': 1.4053893229549166,
   // ⚠️ RE-DERIVED. The first value shipped here was 0.016851, taken from
   // |max| 0.033702 / 2 across all 71 rows. That maximum was NOT a real agent's
   // monica: Carl Jung and Frida Kahlo share a byte-identical natal_positions
@@ -326,7 +337,13 @@ const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
   // blob, Jung/Kahlo share another). If a real chart is authored for any of
   // them, re-run scripts/measureThreeOpenNumbers.ts and update this line —
   // do not assume it still holds.
-  'full-chart': 0.004720, // |max| 0.009441 / 2  [MEASURED 2026-07-25, n=61, clones excluded]
+  //
+  // The stated max is the exact stored value: monica_full_chart is NUMERIC(_,6),
+  // so 0.009441 is the whole number, not a rounded print of it. The scale is
+  // therefore its exact half — 0.0047205, NOT the 0.004720 that shipped first.
+  // That earlier value was a 4-dp rounding of an exact half, so it could not be
+  // reproduced from its own stated basis (off by 5e-7, relative 1e-4).
+  'full-chart': 0.0047205, // |max| 0.009441 / 2  [MEASURED 2026-07-25, n=61, clones excluded]
 }
 
 const DEFAULT_MONICA_SCALE = MONICA_POPULATION_SCALE['single-body'] as number
