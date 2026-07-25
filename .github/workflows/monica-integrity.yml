@@ -51,6 +51,23 @@ jobs:
         # which 284 agents have). Recipe-engine defaults are reported, not fatal.
         run: bun scripts/checkNoFabricatedMonicaFallback.ts
 
+      # The formula gate needs the TypeScript compiler API, so unlike the scan
+      # above it cannot run on a bare checkout.
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: No stray kalchm formula
+        # Exits non-zero on any NEW self-exponentiation (x^x) outside the canonical
+        # engine. 18 copies already exist and are allowlisted BY LOCATION with a
+        # per-file count and a reason; the list is only allowed to shrink.
+        #
+        # This is the CODE-STRUCTURE witness, distinct from the two above: the
+        # fallback scan catches a reader that invents a value, the data job catches
+        # values that drift, and this catches a second ENGINE being introduced —
+        # which produces values that are wrong from birth and drift-clean, so
+        # neither of the others can see it.
+        run: bun scripts/checkNoStrayKalchmFormula.ts
+
   # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never
   # run on a pull_request from a fork.
