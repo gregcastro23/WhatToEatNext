@@ -294,9 +294,20 @@ export type MonicaMethod = 'single-body' | 'two-body' | 'full-chart'
  * single least-trustworthy row — so audit the extremum's provenance before
  * trusting any |max|-derived scale, here or in the other two populations.
  */
+// ⚠️ ALL THREE of these shift when calculateKalchm changes, because monica is a
+// function of kalchm. Removing the epsilon floor moved every one. Re-measure with
+// scripts/remeasureAfterKalchmFix.ts (grids) and measureThreeOpenNumbers.ts
+// (full-chart, needs the DB) after any kalchm change — do not assume they hold.
 const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
-  'single-body': 1.9875, // |max| 3.9751 / 2
-  'two-body': 2.7095, // |max| 5.4191 / 2
+  // |max| 3.8977146920667267 / 2  [MEASURED 2026-07-25, exhaustive grid n=7920,
+  // AFTER the exact-zero kalchm fix]. Was 1.9875 from |max| 3.9751 under the floor.
+  'single-body': 1.9488573460333634,
+  // ⚠️ PENDING: two-body's |max| depends on the equilibrium band, and the band's
+  // derivation no longer holds — after the kalchm fix the Comixion (degenerate)
+  // and non-Comixion sets OVERLAP in |ln kalchm| ([0.0102, 0.1537] vs
+  // [0.0921, 4.354]), so there is no gap to derive a threshold from. Left at the
+  // pre-fix value until that is resolved; it is KNOWN STALE, not verified.
+  'two-body': 2.7095, // |max| 5.4191 / 2  [STALE — see above]
   // ⚠️ RE-DERIVED. The first value shipped here was 0.016851, taken from
   // |max| 0.033702 / 2 across all 71 rows. That maximum was NOT a real agent's
   // monica: Carl Jung and Frida Kahlo share a byte-identical natal_positions

@@ -104,7 +104,21 @@ describe("MONICA_LN_EPSILON is derived from a measured gap", () => {
 
   it("the epsilon is exactly the midpoint of those endpoints", () => {
     expect(MONICA_LN_EPSILON).toBeCloseTo((GAP.lo + GAP.hi) / 2, 15);
-    expect(MONICA_LN_EPSILON).toBeCloseTo(0.13241878500631321, 15);
+    // 0.10939293407637272 — was 0.13241878500631321 while calculateKalchm floored
+    // each axis at 0.01. The floor smeared the degenerate ceiling up to 0.046; with
+    // it removed a degenerate chart's kalchm is exactly 1, so the ceiling is exactly
+    // 0 and the midpoint dropped. Classification is unchanged (660, asserted below).
+    expect(MONICA_LN_EPSILON).toBeCloseTo(0.10939293407637272, 15);
+  });
+
+  it("the degenerate ceiling is EXACTLY zero, not merely small", () => {
+    // The strongest consequence of removing the floor: the degenerate set stops
+    // being an empirical cluster and becomes an exact algebraic condition.
+    // kalchm === 1 <=> ln kalchm === 0, for every chart with a zeroed axis.
+    expect(GAP.lo).toBe(0);
+    expect(GRID.filter((v) => v === 0).length).toBeGreaterThan(0);
+    // And nothing sits between 0 and the healthy floor — that IS the gap.
+    expect(GRID.filter((v) => v > 0 && v < GAP.hi).length).toBe(0);
   });
 
   it("sits strictly inside the gap, with real margin on both sides", () => {

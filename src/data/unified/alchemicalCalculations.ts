@@ -101,17 +101,32 @@ export const KALCHM_EPSILON = 0.01;
 // re-derives both endpoints and FAILS if the grid moves. So the derivation is
 // checked on every test run; it is not a comment asserting a stale measurement.
 
-/** Largest |ln(kalchm)| in the degenerate cluster. [MEASURED 2026-07-25, n=7920] */
-export const SINGLE_BODY_DEGENERATE_LN_CEILING = 0.046051701859880986;
+/**
+ * Largest |ln(kalchm)| in the degenerate cluster. [MEASURED 2026-07-25, n=7920]
+ *
+ * EXACTLY ZERO now. Before the epsilon floor was removed from `calculateKalchm`
+ * this was 0.046051701859880986 — the floor smeared the degenerate cluster across
+ * [0, 0.046] by contributing 0.954993 instead of 1 for a zeroed axis. With `0**0`
+ * left alone, a degenerate chart's kalchm is exactly 1, so |ln kalchm| is exactly
+ * 0 and the degenerate set is defined EXACTLY rather than empirically.
+ */
+export const SINGLE_BODY_DEGENERATE_LN_CEILING = 0;
 
-/** Smallest |ln(kalchm)| among non-degenerate points. [MEASURED 2026-07-25, n=7920] */
+/**
+ * Smallest |ln(kalchm)| among non-degenerate points. [MEASURED 2026-07-25, n=7920]
+ * Unchanged by the floor removal — the floor only ever touched zeroed axes.
+ */
 export const SINGLE_BODY_HEALTHY_LN_FLOOR = 0.21878586815274545;
 
 /** Half-width of the monica degenerate band. When |ln(kalchm)| < this, kalchm is
  *  treated as the equilibrium point (perfect balance) and monica returns
  *  MONICA_EQUILIBRIUM instead of diverging toward ±∞.
  *
- *  DERIVED as the midpoint of the measured gap above = 0.13241878500631321. */
+ *  DERIVED as the midpoint of the measured gap above = 0.10939293407637272.
+ *  (It was 0.13241878500631321 while the kalchm floor smeared the degenerate
+ *  ceiling up to 0.046. Removing the floor moved the ceiling to exactly 0, so the
+ *  midpoint moved down. The band still captures the SAME 660 of 7920 grid points
+ *  — the classification is unchanged, only its derivation is now exact.) */
 export const MONICA_LN_EPSILON =
   (SINGLE_BODY_DEGENERATE_LN_CEILING + SINGLE_BODY_HEALTHY_LN_FLOOR) / 2;
 
