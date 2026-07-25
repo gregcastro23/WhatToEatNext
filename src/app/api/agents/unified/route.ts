@@ -50,7 +50,12 @@ export async function POST(request: NextRequest) {
           name: row.name || row.email.split("@")[0],
           title: row.bio || "Custom Agent",
           dominantElement: row.dominant_element,
-          monicaConstant: row.monica_constant ? parseFloat(row.monica_constant) : null
+          // Explicit null test, not truthiness: a real monica of 0 (284 agents)
+          // is falsy, so `? :` would report those agents as having no monica.
+          monicaConstant:
+            row.monica_constant === null || row.monica_constant === undefined
+              ? null
+              : parseFloat(row.monica_constant)
         }));
         return NextResponse.json({ success: true, data: agents, timestamp });
       }

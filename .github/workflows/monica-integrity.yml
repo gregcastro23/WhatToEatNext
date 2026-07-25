@@ -1,0 +1,107 @@
+# Agent-monica integrity gate (§18).
+#
+# TWO jobs, because the two failure modes need different witnesses and only one
+# of them needs a database:
+#
+#   fabricated-fallback-scan   every push/PR, NO secrets. Static. Catches the
+#                              CODE defect: a reader that invents a monica.
+#   agent-monica-data          master + daily cron, needs the DB. Catches the
+#                              DATA defect: values that drift from the engine.
+#
+# Neither can substitute for the other. On 2026-07-22 an integrity audit reported
+# "ALL CLEAR — 22 checks, 0 failures" while 584 agents were being served a
+# fabricated 3.5, because the data was correct and only the readers were wrong.
+# Checking data alone cannot detect a reader pointed at the wrong column.
+
+name: Monica Integrity
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  schedule:
+    # 07:15 UTC daily. The agent population grows continuously (4822 -> 5006 in
+    # under three days) and new arrivals land unclassified, so drift appears
+    # between deploys, not only at them. A deploy-triggered check alone is blind
+    # to that.
+    - cron: "15 7 * * *"
+
+concurrency:
+  group: monica-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Static. Runs everywhere, including forks — no secrets, so nothing to leak.
+  # ---------------------------------------------------------------------------
+  fabricated-fallback-scan:
+    name: No fabricated monica fallbacks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Scan for invented monica fallbacks
+        # Exits non-zero if any reader on the AGENT monica path falls back to a
+        # numeric literal, or tests a monica for truthiness (falsy at a real 0,
+        # which 284 agents have). Recipe-engine defaults are reported, not fatal.
+        run: bun scripts/checkNoFabricatedMonicaFallback.ts
+
+  # ---------------------------------------------------------------------------
+  # Data. master + cron only: it needs production credentials, so it must never
+  # run on a pull_request from a fork.
+  # ---------------------------------------------------------------------------
+  agent-monica-data:
+    name: Agent monica drift + integrity
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/master')
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Setup safe directory
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Require the database secret
+        # FAIL, do not skip. A skipped job renders as a green check, and a green
+        # check that verified nothing is the exact failure this gate exists to
+        # prevent. If this step fails, the gate is not operational — add the
+        # DATABASE_PUBLIC_URL repository secret.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: |
+          if [ -z "$DATABASE_PUBLIC_URL" ]; then
+            echo "::error::DATABASE_PUBLIC_URL secret is not set — this gate is NOT operational."
+            echo "Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          echo "database secret present"
+
+      - name: Drift check (recomputes every value from the engine)
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAgentMonicaDrift.ts
+
+      # A second, INDEPENDENT witness (scripts/auditAgentDataIntegrity.ts) is
+      # added here by PR #636, which is where that script lands. It is not
+      # referenced yet because it does not exist on master, and a workflow step
+      # that runs a missing file is a failure, not a gate.
+      #
+      # It matters that there are two: the drift check re-derives values from the
+      # engine, the audit asserts structure directly in SQL without reusing any
+      # backfill's classification. A mis-classifying script passes its own
+      # re-run, which nearly happened twice on 2026-07-22, so neither tool is
+      # allowed to be the only witness.
