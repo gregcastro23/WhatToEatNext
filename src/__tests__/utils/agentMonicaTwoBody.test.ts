@@ -441,11 +441,27 @@ describe("twoBodyMonica — the totality contract", () => {
       expect(absorbed.length).toBeLessThan(tail.length); // the skirt is real
     });
 
-    it("leaves the canonical engine's own band untouched", () => {
-      // The whole point of a LOCAL band: the shared §17c constant is unchanged,
-      // so the 4280 single-body rows in production keep their values.
-      expect(MONICA_LN_EPSILON).toBe(0.05);
-      expect(TWO_BODY_LN_EPSILON).toBeGreaterThan(MONICA_LN_EPSILON);
+    it("stays INDEPENDENT of the canonical engine's own band", () => {
+      // This used to assert `MONICA_LN_EPSILON === 0.05` and
+      // `TWO_BODY_LN_EPSILON > MONICA_LN_EPSILON`. Both were pinning incidental
+      // facts rather than the property that matters.
+      //
+      // The canonical band has since been DERIVED (midpoint of the measured
+      // single-body |ln kalchm| gap = 0.1324188, replacing a chosen 0.05), which
+      // made it slightly WIDER than the two-body band — so the old ordering
+      // inverted. That ordering was never meaningful: the two bands are derived
+      // from different populations by different mechanisms, so neither has to be
+      // larger.
+      //
+      // What actually matters is that they are SEPARATE constants, so a change to
+      // one cannot silently move the other's population.
+      expect(TWO_BODY_LN_EPSILON).not.toBeCloseTo(MONICA_LN_EPSILON, 6);
+
+      // And the two-body band must remain correct for ITS population — that is
+      // what the preceding tests in this block verify (zero collateral, real
+      // absorption), independent of whatever the canonical value is.
+      expect(TWO_BODY_LN_EPSILON).toBeGreaterThan(DEGENERATE_LN_KALCHM);
+      expect(TWO_BODY_LN_EPSILON).toBeLessThan(HEALTHY_LN_KALCHM_FLOOR);
     });
   });
 

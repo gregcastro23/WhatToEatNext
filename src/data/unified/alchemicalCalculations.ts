@@ -52,16 +52,54 @@ export interface AlchemicalIngredient {
 //   monica                                    → φ   (MONICA_EQUILIBRIUM, the
 //                                                    harmonic ideal — kalchm=1 is
 //                                                    perfect balance, not "dead")
-// The two floors below are the only tunable knobs.
-
 /** Floor applied to each ESMS axis before exponentiation, so 0^0 / division by
  *  zero cannot occur. Load-bearing for sparse/single-body charts (§18). */
 export const KALCHM_EPSILON = 0.01;
 
+// ── The monica degenerate band, DERIVED ─────────────────────────────────────
+//
+// This was `MONICA_LN_EPSILON = 0.05`, described in this file as a "tunable
+// knob" — an unmeasured constant on the hot path, which is what §11 forbids.
+//
+// Measured exhaustively over the single-body grid (11 planets x 12 signs x 30
+// degrees x 2 sects = 7920 points, deterministic, so this is a census not a
+// sample), |ln(kalchm)| is BIMODAL with one wide clean gap:
+//
+//     degenerate cluster ends   0.046051701859880986
+//                        GAP    width 0.17273416629286448
+//     healthy values begin      0.21878586815274545
+//
+// The band belongs at the midpoint, which is the same derivation
+// `agentMonicaTwoBody` already uses for TWO_BODY_LN_EPSILON.
+//
+// ── Why change a value that classified correctly? ───────────────────────────
+//
+// 0.05 and the midpoint capture the IDENTICAL 660 of 7920 points, so this is a
+// provably zero-behaviour-change edit. The reason to make it is MARGIN: 0.05 sat
+// only 0.003948 above the degenerate ceiling, while the midpoint sits 0.086367
+// from both edges — 22x more room. A constant 0.004 from a cliff is one grid
+// tweak away from silently reclassifying agents; one at the centre is not.
+//
+// ⚠️ The endpoints are stated here rather than computed from the grid at import,
+// because the grid needs `groundingVessel` from @/utils/agentMonica, which
+// imports THIS module — enumerating it here would be a dependency cycle. The
+// enumeration lives in `src/__tests__/monicaLnEpsilonDerivation.test.ts`, which
+// re-derives both endpoints and FAILS if the grid moves. So the derivation is
+// checked on every test run; it is not a comment asserting a stale measurement.
+
+/** Largest |ln(kalchm)| in the degenerate cluster. [MEASURED 2026-07-25, n=7920] */
+export const SINGLE_BODY_DEGENERATE_LN_CEILING = 0.046051701859880986;
+
+/** Smallest |ln(kalchm)| among non-degenerate points. [MEASURED 2026-07-25, n=7920] */
+export const SINGLE_BODY_HEALTHY_LN_FLOOR = 0.21878586815274545;
+
 /** Half-width of the monica degenerate band. When |ln(kalchm)| < this, kalchm is
  *  treated as the equilibrium point (perfect balance) and monica returns
- *  MONICA_EQUILIBRIUM instead of diverging toward ±∞. */
-export const MONICA_LN_EPSILON = 0.05;
+ *  MONICA_EQUILIBRIUM instead of diverging toward ±∞.
+ *
+ *  DERIVED as the midpoint of the measured gap above = 0.13241878500631321. */
+export const MONICA_LN_EPSILON =
+  (SINGLE_BODY_DEGENERATE_LN_CEILING + SINGLE_BODY_HEALTHY_LN_FLOOR) / 2;
 
 /** The harmonic-ideal monica (golden ratio). Returned for a perfectly balanced
  *  (degenerate) alchemical state. See §17c. */
