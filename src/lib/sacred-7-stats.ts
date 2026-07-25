@@ -279,18 +279,39 @@ export type MonicaMethod = 'single-body' | 'two-body' | 'full-chart'
  * `full-chart` is now MEASURED too. It was absent while those values were not in
  * production; they are (71 rows), so the placeholder objection no longer applies.
  *
- * Its scale is ~118x smaller than single-body's, which is not a rounding
+ * Its scale is ~420x smaller than single-body's, which is not a rounding
  * difference — it is the §18o point that these are different OBJECTS, not one
  * quantity at three scales. Leaving full-chart to fall back to single-body's
- * 1.9875 mapped the entire measured range [0.0018, 0.0337] into
- * **[0.5004, 0.5085]** — a 0.008-wide band out of [0,1], so all 71 agents
+ * 1.9875 mapped the entire measured range [0.0018, 0.0094] into
+ * **[0.5005, 0.5024]** — a 0.002-wide band out of [0,1], so all 71 agents
  * received a visually identical Sacred-7 contribution. That is a silently
  * wrong number in a user-visible display, not a harmless default.
+ *
+ * ⚠️ A SCALE IS ONLY AS GOOD AS ITS MAXIMUM. The first version of this constant
+ * was derived from |max| across all 71 rows, and that maximum turned out to be a
+ * DUPLICATED chart (see the note on the 'full-chart' entry below). Deriving a
+ * constant from an extremum makes the whole population's mapping hostage to the
+ * single least-trustworthy row — so audit the extremum's provenance before
+ * trusting any |max|-derived scale, here or in the other two populations.
  */
 const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
   'single-body': 1.9875, // |max| 3.9751 / 2
   'two-body': 2.7095, // |max| 5.4191 / 2
-  'full-chart': 0.016851, // |max| 0.033702 / 2  [MEASURED 2026-07-24, n=71]
+  // ⚠️ RE-DERIVED. The first value shipped here was 0.016851, taken from
+  // |max| 0.033702 / 2 across all 71 rows. That maximum was NOT a real agent's
+  // monica: Carl Jung and Frida Kahlo share a byte-identical natal_positions
+  // blob, and it produced the only chart in the population where nocturnal
+  // (0.049297) exceeds diurnal (0.018108) with both positive. A duplicated,
+  // shape-anomalous row was setting the scale for the other 61.
+  //
+  // Re-measured over the 61 rows with their OWN distinct chart:
+  //   |max| 0.009441 / 2 = 0.004720   (3.6x smaller than the value it replaces)
+  //
+  // ⚠️ RE-DERIVE THIS when the 10 cloned charts are fixed (8 ancients share one
+  // blob, Jung/Kahlo share another). If a real chart is authored for any of
+  // them, re-run scripts/measureThreeOpenNumbers.ts and update this line —
+  // do not assume it still holds.
+  'full-chart': 0.004720, // |max| 0.009441 / 2  [MEASURED 2026-07-25, n=61, clones excluded]
 }
 
 const DEFAULT_MONICA_SCALE = MONICA_POPULATION_SCALE['single-body'] as number

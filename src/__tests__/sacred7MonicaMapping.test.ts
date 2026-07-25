@@ -75,17 +75,29 @@ describe("normalizeMonicaForStats", () => {
   });
 
   it("spreads the real full-chart range instead of flattening it to ~0.50", () => {
-    // The measured production range. Under single-body's 1.9875 these all mapped
-    // into a 0.008-wide band, making 71 agents indistinguishable in the UI.
+    // The measured range across the 61 agents with their OWN distinct chart.
+    // 0.009441 (Wangari Maathai), NOT 0.033702 — that larger value belongs to the
+    // Carl Jung / Frida Kahlo duplicated chart and is not a real agent's monica.
     const lo = normalizeMonicaForStats(0.0018, "full-chart");
-    const hi = normalizeMonicaForStats(0.033702, "full-chart");
-    expect(hi - lo).toBeGreaterThan(0.3);
+    const hi = normalizeMonicaForStats(0.009441, "full-chart");
+    expect(hi - lo).toBeGreaterThan(0.25);
 
     // Control: prove the old behaviour really was degenerate, so this test
     // cannot quietly pass for the wrong reason.
     const loOld = normalizeMonicaForStats(0.0018, "single-body");
-    const hiOld = normalizeMonicaForStats(0.033702, "single-body");
+    const hiOld = normalizeMonicaForStats(0.009441, "single-body");
     expect(hiOld - loOld).toBeLessThan(0.01);
+  });
+
+  it("saturates the duplicated-chart outlier instead of letting it set the scale", () => {
+    // 0.033702 comes from a chart shared by two different people. Under the
+    // corrected scale it saturates near 1.0, which is the right signal for an
+    // anomalous value — rather than compressing the other 61 agents to make room
+    // for it, which is what deriving the scale from it did.
+    expect(normalizeMonicaForStats(0.033702, "full-chart")).toBeGreaterThan(0.99);
+
+    // And the honest agents still occupy a usable spread below it.
+    expect(normalizeMonicaForStats(0.009441, "full-chart")).toBeLessThan(0.99);
   });
 
   it("returns the neutral 0.5 for non-finite input, never NaN", () => {
