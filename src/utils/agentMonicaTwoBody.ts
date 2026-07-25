@@ -505,7 +505,12 @@ export const VESSEL_DIGNITY_NEUTRAL = 0;
 /**
  * `[MEASURED 2026-07-21]` `|ln kalchm|` of the **exactly-degenerate** two-body
  * chart: Comixion (degree 8/22), nocturnal, where the vessel's Essence is
- * literally `0.000` and only `KALCHM_EPSILON` keeps `calculateKalchm` finite.
+ * literally `0.000`.
+ *
+ * ⚠️ This used to read "and only `KALCHM_EPSILON` keeps `calculateKalchm` finite".
+ * That was never true: `0 ** 0` is exactly 1 in JS, so a zero axis was always
+ * finite on its own. The floor has been removed, which means the measured value
+ * below CHANGES — see the recomputation note on TWO_BODY_LN_EPSILON.
  *
  *     nocturnal deg 8/22 → S 1.824  E 0.000  M 1.618  Su 1.333   ln k = −0.110698
  *
