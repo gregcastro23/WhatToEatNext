@@ -52,8 +52,22 @@ export interface AlchemicalIngredient {
 //   monica                                    → φ   (MONICA_EQUILIBRIUM, the
 //                                                    harmonic ideal — kalchm=1 is
 //                                                    perfect balance, not "dead")
-/** Floor applied to each ESMS axis before exponentiation, so 0^0 / division by
- *  zero cannot occur. Load-bearing for sparse/single-body charts (§18). */
+/**
+ * Minimum magnitude for REACTIVITY in the monica denominator, so a reactivity of
+ * 0 cannot divide. That is now its only job — see `calculateMonica` below.
+ *
+ * ⚠️ It used to ALSO floor each ESMS axis inside `calculateKalchm`, described as
+ * preventing "0^0 / division by zero". Both hazards were imaginary: `0 ** 0` is
+ * already exactly 1 in JS (the true limit), and x^x bottoms out at 0.692201, so
+ * the denominator can never be 0. The floor only cost accuracy — 0.01^0.01 =
+ * 0.954993 instead of 1, a ~4.5% understatement on the 68.2% of the single-body
+ * grid that has a zero axis. Removed; kalchm now clamps only negatives.
+ *
+ * This value is NOT derived. Unlike MONICA_LN_EPSILON there is no measured gap to
+ * place it in — reactivity has no bimodal structure to exploit, it is simply a
+ * divide-by-zero guard. Its only requirement is being small relative to real
+ * reactivities, and it is: see the sensitivity note in the monica docstring.
+ */
 export const KALCHM_EPSILON = 0.01;
 
 // ── The monica degenerate band, DERIVED ─────────────────────────────────────
@@ -87,17 +101,32 @@ export const KALCHM_EPSILON = 0.01;
 // re-derives both endpoints and FAILS if the grid moves. So the derivation is
 // checked on every test run; it is not a comment asserting a stale measurement.
 
-/** Largest |ln(kalchm)| in the degenerate cluster. [MEASURED 2026-07-25, n=7920] */
-export const SINGLE_BODY_DEGENERATE_LN_CEILING = 0.046051701859880986;
+/**
+ * Largest |ln(kalchm)| in the degenerate cluster. [MEASURED 2026-07-25, n=7920]
+ *
+ * EXACTLY ZERO now. Before the epsilon floor was removed from `calculateKalchm`
+ * this was 0.046051701859880986 — the floor smeared the degenerate cluster across
+ * [0, 0.046] by contributing 0.954993 instead of 1 for a zeroed axis. With `0**0`
+ * left alone, a degenerate chart's kalchm is exactly 1, so |ln kalchm| is exactly
+ * 0 and the degenerate set is defined EXACTLY rather than empirically.
+ */
+export const SINGLE_BODY_DEGENERATE_LN_CEILING = 0;
 
-/** Smallest |ln(kalchm)| among non-degenerate points. [MEASURED 2026-07-25, n=7920] */
+/**
+ * Smallest |ln(kalchm)| among non-degenerate points. [MEASURED 2026-07-25, n=7920]
+ * Unchanged by the floor removal — the floor only ever touched zeroed axes.
+ */
 export const SINGLE_BODY_HEALTHY_LN_FLOOR = 0.21878586815274545;
 
 /** Half-width of the monica degenerate band. When |ln(kalchm)| < this, kalchm is
  *  treated as the equilibrium point (perfect balance) and monica returns
  *  MONICA_EQUILIBRIUM instead of diverging toward ±∞.
  *
- *  DERIVED as the midpoint of the measured gap above = 0.13241878500631321. */
+ *  DERIVED as the midpoint of the measured gap above = 0.10939293407637272.
+ *  (It was 0.13241878500631321 while the kalchm floor smeared the degenerate
+ *  ceiling up to 0.046. Removing the floor moved the ceiling to exactly 0, so the
+ *  midpoint moved down. The band still captures the SAME 660 of 7920 grid points
+ *  — the classification is unchanged, only its derivation is now exact.) */
 export const MONICA_LN_EPSILON =
   (SINGLE_BODY_DEGENERATE_LN_CEILING + SINGLE_BODY_HEALTHY_LN_FLOOR) / 2;
 
@@ -112,22 +141,49 @@ const THERMO_DEN_FLOOR = 0.01;
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  *
- * TOTAL: always finite and > 0. Each axis is floored at KALCHM_EPSILON, so an
- * all-zero input yields exactly 1.0 (the equilibrium value).
+ * TOTAL: always finite and > 0. An all-zero input yields exactly 1.0.
+ *
+ * ── Why there is no longer an epsilon floor ─────────────────────────────────
+ *
+ * Each axis used to be floored at KALCHM_EPSILON = 0.01, justified in a comment
+ * as "so 0^0 and division-by-zero cannot occur". BOTH of those hazards are
+ * imaginary in JavaScript, and the floor cost real accuracy:
+ *
+ *   1. `0 ** 0 === 1` in JS — and 1 is exactly lim(x->0) x^x. The language
+ *      already returns the mathematically correct value for a zero axis. There
+ *      was nothing to protect against.
+ *   2. Division by zero is impossible: x^x has a global minimum of 0.692201 at
+ *      x = 1/e, so it never reaches 0. The denominator
+ *      (Matter^Matter * Substance^Substance) cannot be 0 for any real input.
+ *
+ * Meanwhile 0.01^0.01 = 0.954993, not 1 — so flooring a zero axis understated
+ * its contribution by ~4.5%. Measured over the exhaustive single-body grid
+ * (7920 points), the floor perturbed 4200 of them: median 2.21%, max 4.17%.
+ * 68.2% of that grid has at least one axis exactly 0, so this was not an edge
+ * case; it was the common case.
+ *
+ * ── What the guard IS for ───────────────────────────────────────────────────
+ *
+ * A NEGATIVE axis. `Math.pow(-0.5, -0.5)` is NaN — a negative base with a
+ * fractional exponent has no real value. Dignity scores can be negative, so
+ * rather than prove no construction ever yields a negative axis, clamp only
+ * negatives. They land on 0, which then yields exactly 1 like any other zero.
+ *
+ * So: exact for zero, NaN-proof for negatives, no distortion anywhere.
  */
 export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance } = alchemicalProps;
 
-  // Floor each axis so 0^0 and division-by-zero cannot occur.
-  const safespirit = Math.max(Spirit, KALCHM_EPSILON);
-  const safeessence = Math.max(Essence, KALCHM_EPSILON);
-  const safematter = Math.max(Matter, KALCHM_EPSILON);
-  const safesubstance = Math.max(Substance, KALCHM_EPSILON);
+  // Clamp NEGATIVES only — see the note above. Zero passes through untouched
+  // because 0**0 is already exactly 1.
+  const nonNeg = (x: number) => (x > 0 ? x : 0);
+  const s = nonNeg(Spirit);
+  const e = nonNeg(Essence);
+  const m = nonNeg(Matter);
+  const sub = nonNeg(Substance);
 
-  const numerator =
-    Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
-  const denominator =
-    Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
+  const numerator = Math.pow(s, s) * Math.pow(e, e);
+  const denominator = Math.pow(m, m) * Math.pow(sub, sub);
 
   const kalchm = numerator / denominator;
   return Number.isFinite(kalchm) && kalchm > 0 ? kalchm : 1.0;
