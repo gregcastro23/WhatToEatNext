@@ -39,12 +39,66 @@ export const MIN_CHART_BODIES = 5;
 /**
  * A stored `natal_positions` entry. Both shapes appear in production: some rows
  * carry an absolute `position` (ecliptic longitude), others only `sign`+`degree`.
+ *
+ * `longitude` is NOT on this contract. It is accepted on ingest only so that
+ * `normaliseNatalPositions` can strip it — see that function.
  */
 export interface NatalPositionRow {
   planet?: string;
   sign?: string;
   degree?: number;
   position?: number;
+}
+
+/**
+ * Strip the dead `longitude` key from an incoming or stored `natal_positions`
+ * blob, promoting it to `position` on the one branch where it carries meaning.
+ *
+ * ── Why the key is dead ─────────────────────────────────────────────────────
+ *
+ * `[MEASURED 2026-07-26]` `longitude` was present on **710 of 710** stored
+ * bodies across all 71 charts, and `0` was its **only distinct value**. It is a
+ * fabricated literal, not a measurement. Its origin is upstream, in the
+ * agent-authoring repo:
+ *
+ * ```ts
+ * longitude: data?.longitude ?? data?.degrees ?? 0   // extractNatalPositions
+ * ```
+ *
+ * The objects it reads carry `{ sign, degree, retrograde, house }` — neither
+ * `longitude` nor `degrees` exists on them, so the chain falls through to the
+ * literal `0` every single time.
+ *
+ * ── Why it is worse than merely useless ─────────────────────────────────────
+ *
+ * A `p.position ?? p.longitude ?? …` chain does **not** route around it, because
+ * `0` is not nullish: the chain stops at the zero and never reaches `degree`.
+ * That is how an earlier audit "found" 71 identical all-zero charts — false; the
+ * real data was in `sign` + `degree` all along (Adam Smith: Sun Gemini 25°).
+ * Sign + degree already determine longitude, so the key is redundant as well as
+ * wrong, and the canonical parser below has always ignored it.
+ *
+ * ── Why a real longitude is promoted rather than dropped ────────────────────
+ *
+ * Dropping unconditionally would mean that if the upstream fallback is ever
+ * fixed, WTEN would silently discard the better value. A non-zero finite
+ * `longitude` IS an absolute ecliptic longitude, which is exactly what
+ * `position` means here — so it is moved there, where the parser reads it.
+ * No stored row takes this branch today (all 710 are 0); it exists so that
+ * fixing the producer improves the data instead of being thrown away.
+ */
+export function normaliseNatalPositions(raw: unknown): unknown {
+  if (!Array.isArray(raw)) return raw;
+  return raw.map((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) return entry;
+    const row = entry as Record<string, unknown>;
+    if (!("longitude" in row)) return entry;
+    const { longitude, ...rest } = row;
+    const lon = Number(longitude);
+    const carriesMeaning =
+      Number.isFinite(lon) && lon !== 0 && rest.position === undefined;
+    return carriesMeaning ? { ...rest, position: lon } : rest;
+  });
 }
 
 /**

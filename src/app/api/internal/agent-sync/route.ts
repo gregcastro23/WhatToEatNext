@@ -13,6 +13,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { withTransaction } from "@/lib/database";
 import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
 import { jsonbOrNull } from "@/services/userDatabaseService";
+import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 
 /** `{}` and `[]` mean "absent" here, exactly as jsonbOrNull treats them. */
 const nonEmpty = <T,>(v: T): T | undefined => (jsonbOrNull(v) === null ? undefined : v);
@@ -126,6 +127,12 @@ export async function POST(req: NextRequest) {
     // COALESCE below reads as "leave the stored value alone."
     void monicaConstant; // intentionally ignored — see comment above
     const resolvedMonica = agentMonicaFromName(resolvedName);
+
+    // The upstream producer emits `longitude: data?.longitude ?? data?.degrees ?? 0`
+    // over objects carrying neither key, so every body arrives with a fabricated
+    // `longitude: 0`. This is the boundary that upstream crosses, so it is the
+    // boundary that strips it — see normaliseNatalPositions.
+    const cleanNatalPositions = normaliseNatalPositions(natalPositions);
     const parsedMonicaConstant = resolvedMonica?.combined ?? null;
 
     const userProfilePayload = {
@@ -193,7 +200,7 @@ export async function POST(req: NextRequest) {
             // empty one. NULL correctly leaves the stored value alone.
             jsonbOrNull(birthData),
             jsonbOrNull(natalChart),
-            jsonbOrNull(natalPositions),
+            jsonbOrNull(cleanNatalPositions),
             parsedMonicaConstant,
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
@@ -237,7 +244,7 @@ export async function POST(req: NextRequest) {
             // empty one. NULL correctly leaves the stored value alone.
             jsonbOrNull(birthData),
             jsonbOrNull(natalChart),
-            jsonbOrNull(natalPositions),
+            jsonbOrNull(cleanNatalPositions),
             parsedMonicaConstant,
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
