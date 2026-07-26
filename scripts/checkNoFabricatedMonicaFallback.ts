@@ -52,6 +52,36 @@ interface Finding {
  * needs a domain ruling per site, and failing CI on all of them today would just
  * get this check disabled. They are REPORTED, loudly, and left to the recipes
  * pass.
+ *
+ * ── Why this stops at monica and does NOT cover kalchm or the ESMS axes ──────
+ *
+ * Asked and MEASURED 2026-07-26, after the same defect class turned up on the
+ * token-rate path (`Spirit … : 0.5` and `kalchm … : 1.0` in TokensClient).
+ * Applying these exact patterns more widely across src/ yields:
+ *
+ *     monica        18 sites   (the current report)
+ *     kalchm        36 sites
+ *     ESMS axes     73 sites
+ *
+ * and the great majority of the latter two are CORRECT. They are
+ * empty-collection guards (`kalchmValues.length > 0 ? Math.min(...) : 0`), the
+ * canonical engine's own totality clamp (`Number.isFinite(kalchm) && kalchm > 0
+ * ? kalchm : 1.0` at alchemicalCalculations.ts:189 — the documented contract,
+ * not a fabrication), and weighting defaults that are genuinely configuration.
+ * `Spirit`/`Essence`/`Matter`/`Substance` are also ordinary identifiers used far
+ * beyond the ESMS axes.
+ *
+ * Adding 109 mostly-false findings to an 18-line report is exactly how the
+ * `?.` / `?:` false positives nearly killed this check before it shipped. So the
+ * scope stays monica, deliberately, and the token-rate defect is held instead by
+ * a targeted test:
+ * `src/services/__tests__/TokensClient.noFabricatedQuantities.test.ts`.
+ *
+ * If this is revisited, the tractable version is narrower than "any literal
+ * fallback": flag literals only where a quantity crosses a TRUST BOUNDARY — an
+ * unvalidated `response.json() as T`, a JSONB column read, a cross-repo payload.
+ * That is where fabrication actually enters. The interior sites above are
+ * arithmetic over values that already exist.
  */
 const AGENT_READ_PATH = /monica(_constant|_single|_two_body|_full_chart|Constant)\b/;
 

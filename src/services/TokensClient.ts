@@ -1,6 +1,10 @@
+import { calculateKalchm } from "@/data/unified/alchemicalCalculations";
 import { alchmAPI, type TokenRatesRequest } from "@/lib/api/alchm-client";
 import { _logger as logger } from "@/lib/logger";
-import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
+import {
+  getCurrentAlchemicalState,
+  type StandardizedAlchemicalResult,
+} from "@/services/RealAlchemizeService";
 import type { ElementalProperties } from "@/types/celestial";
 
 export interface TokenRatesInput {
@@ -55,32 +59,101 @@ export interface TokenRatesResult {
   }>;
 }
 
+/**
+ * Map the canonical engine's result onto the token-rate shape.
+ *
+ * ── Why this takes a TYPE and not `unknown` ─────────────────────────────────
+ *
+ * It used to take `unknown`, narrow each field with `typeof x === "number"`, and
+ * substitute a literal when the narrowing failed — `0.5` for each ESMS axis and
+ * `1.0` for kalchm. Those are fabricated quantities: downstream, an invented
+ * 0.5 is indistinguishable from a measured one. (`0.5` is also the same magic
+ * number agent registration once wrote into `monicaConstant`.)
+ *
+ * The substitutions were also unreachable. The sole caller passes
+ * `getCurrentAlchemicalState()`, whose `StandardizedAlchemicalResult` declares
+ * `esms` (all four axes), `kalchm` and `monica` as required numbers.
+ * `[MEASURED 2026-07-26]` calling it returns
+ * `esms {3.8914, 5.2642, 1.8918, 1.1930}`, `kalchm 300875.5648`,
+ * `monica 0.02208` — no branch fires.
+ *
+ * So the guards defended nothing and the literals could only ever mislead. The
+ * parameter is typed instead: absence is now impossible by construction rather
+ * than papered over at runtime.
+ *
+ * The path where absence CAN arise is the backend one, which casts an unvalidated
+ * JSON body to `TokenRatesResult`. That is handled in `calculateRates` below.
+ */
 function computeTokensFromAlchemical(
-  alchemicalResult: unknown,
+  alchemicalResult: StandardizedAlchemicalResult,
 ): TokenRatesResult {
-  const ar =
-    alchemicalResult && typeof alchemicalResult === "object"
-      ? (alchemicalResult as Record<string, unknown>)
-      : undefined;
-  const esms = ar?.esms as Record<string, unknown> | undefined;
-
-  const Spirit = typeof esms?.Spirit === "number" ? esms.Spirit : 0.5;
-  const Essence = typeof esms?.Essence === "number" ? esms.Essence : 0.5;
-  const Matter = typeof esms?.Matter === "number" ? esms.Matter : 0.5;
-  const Substance = typeof esms?.Substance === "number" ? esms.Substance : 0.5;
-
+  const { Spirit, Essence, Matter, Substance } = alchemicalResult.esms;
   return {
     Spirit,
     Essence,
     Matter,
     Substance,
-    kalchm: typeof ar?.kalchm === "number" ? ar.kalchm : 1.0,
-    // NOT `: 1.0`. The backend now returns monica === null when it has no
-    // elemental input — a planetary hour names a ruling planet, not a sign, and
-    // monica = −gregsEnergy/(reactivity · ln kalchm) needs elements. A literal
-    // here would re-invent exactly the value the server declined to invent, and
-    // 1.0 is not even the degenerate value (that is φ = 1.618).
-    monica: typeof ar?.monica === "number" ? ar.monica : null,
+    kalchm: alchemicalResult.kalchm,
+    monica: alchemicalResult.monica,
+  };
+}
+
+/** The fields a token-rate response must carry to be usable at all. */
+const REQUIRED_RATE_FIELDS = [
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+] as const;
+
+/**
+ * Validate a backend token-rate response instead of trusting the cast.
+ *
+ * `AlchmAPIClient.request` ends in `response.json() as Promise<TResponse>` — a
+ * bare assertion over an unvalidated body. If the server omits an axis, the
+ * caller holds `undefined` while the type says `number`, and it renders as one.
+ *
+ * Returns null when the body is unusable, which the caller treats exactly like a
+ * thrown request: fall through to the local engine. That is strictly better than
+ * either a fabricated literal (invents data) or a half-populated object (lies in
+ * the type) — the local path produces a real, complete answer.
+ *
+ * `monica` is deliberately NOT required. The backend returns `monica: null` by
+ * design when it has no elemental input, because monica needs elements, elements
+ * come from signs, and a planetary hour names no sign.
+ *
+ * `kalchm` is also not required, because it is RECOVERABLE: it is a function of
+ * the four ESMS axes alone, so when the axes are present it is recomputed with
+ * the canonical engine rather than defaulted. Deriving it is not inventing it.
+ */
+function validateRateResponse(value: unknown): TokenRatesResult | null {
+  if (!value || typeof value !== "object") return null;
+  const raw = value as Record<string, unknown>;
+
+  for (const field of REQUIRED_RATE_FIELDS) {
+    if (typeof raw[field] !== "number" || !Number.isFinite(raw[field])) {
+      return null;
+    }
+  }
+  const Spirit = raw.Spirit as number;
+  const Essence = raw.Essence as number;
+  const Matter = raw.Matter as number;
+  const Substance = raw.Substance as number;
+
+  return {
+    ...raw,
+    Spirit,
+    Essence,
+    Matter,
+    Substance,
+    kalchm:
+      typeof raw.kalchm === "number" && Number.isFinite(raw.kalchm)
+        ? raw.kalchm
+        : calculateKalchm({ Spirit, Essence, Matter, Substance }),
+    monica:
+      typeof raw.monica === "number" && Number.isFinite(raw.monica)
+        ? raw.monica
+        : null,
   };
 }
 
@@ -110,16 +183,29 @@ export class TokensClient {
           esms: input.esms,
         };
 
-        const result = await alchmAPI.calculateTokenRates(request);
-        // FIXME(types-only): _logger.debug takes (message, data); the extra
-        // "TokensClient" category arg shifts data and drops `result` at runtime.
-        // Preserved as-is — fix arg order in a behavior change, not this pass.
-        void (logger.debug as (...args: unknown[]) => Promise<void>)(
-          "TokensClient",
-          "Backend calculation successful",
-          result,
-        );
-        return result;
+        const raw = await alchmAPI.calculateTokenRates(request);
+        const result = validateRateResponse(raw);
+        if (!result) {
+          // A body that does not carry the four axes is unusable. Falling
+          // through to the local engine yields a real, complete answer;
+          // returning the object anyway would hand callers `undefined` typed
+          // as `number`, which renders as one.
+          void (logger.warn as (...args: unknown[]) => Promise<void>)(
+            "TokensClient",
+            "Backend token rates missing required ESMS axes, falling back to local",
+            raw,
+          );
+        } else {
+          // FIXME(types-only): _logger.debug takes (message, data); the extra
+          // "TokensClient" category arg shifts data and drops `result` at runtime.
+          // Preserved as-is — fix arg order in a behavior change, not this pass.
+          void (logger.debug as (...args: unknown[]) => Promise<void>)(
+            "TokensClient",
+            "Backend calculation successful",
+            result,
+          );
+          return result;
+        }
       } catch (error) {
         // FIXME(types-only): _logger.warn takes (message, data); the extra
         // "TokensClient" category arg shifts data and drops `error` at runtime.
