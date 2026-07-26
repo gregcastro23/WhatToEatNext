@@ -17,7 +17,11 @@ import os
 
 import pytest
 
-from backend.alchm_kitchen.main import (
+# Imports the ENGINE module, not the FastAPI app. Importing
+# backend.alchm_kitchen.main pulls in fastapi/sqlalchemy/pyswisseph and this
+# suite could not be COLLECTED at all without them — a parity gate that cannot
+# run is worse than no gate, because its absence reads as a pass.
+from backend.alchm_kitchen.thermodynamics import (
     KALCHM_EPSILON,
     MONICA_EQUILIBRIUM,
     MONICA_LN_EPSILON,

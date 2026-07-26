@@ -24,6 +24,10 @@ let queryQueue: Array<{ rows: unknown[] }>;
 let executedSql: string[];
 let creditCalls: Array<{ userId: string; source: string }>;
 let claimStamps: Array<{ userId: string; site: string }>;
+/** When true, creditMultipleTokens returns null — what it does when the DB
+ *  rejects a racing credit via uniq_daily_yield_per_user_day. Must be named
+ *  `mock*` to be referenceable from inside a jest.mock factory. */
+let mockCreditReturnsNull = false;
 
 jest.mock("@/lib/database", () => ({
   executeQuery: jest.fn(async (sql: string) => {
@@ -37,6 +41,7 @@ jest.mock("@/services/TokenEconomyService", () => ({
     creditMultipleTokens: jest.fn(
       async (userId: string, _credits: unknown, source: string) => {
         creditCalls.push({ userId, source });
+        if (mockCreditReturnsNull) return null;
         return { spirit: 1, essence: 1, matter: 1, substance: 1 };
       },
     ),
@@ -85,6 +90,7 @@ beforeEach(() => {
   executedSql = [];
   creditCalls = [];
   claimStamps = [];
+  mockCreditReturnsNull = false;
 });
 
 describe("sync-credit — semantic daily guard", () => {
@@ -241,5 +247,49 @@ describe("sync-credit — the secret still gates everything", () => {
 
     expect(res.status).toBe(401);
     expect(executedSql).toEqual([]);
+  });
+});
+
+/**
+ * The ATOMIC half of the guard.
+ *
+ * Everything above tests the application-level §3b check. That check is a
+ * check-then-act — a SELECT, then an INSERT, with nothing between them — so two
+ * concurrent requests can both pass it and both credit. It held in production
+ * only because the in-repo cron (00:30 UTC) and the external producer happened
+ * not to overlap, which the route's own comment concedes is scheduling luck.
+ *
+ * `database/init/73-daily-yield-once-per-day.sql` closes that with
+ * `uniq_daily_yield_per_user_day`, a partial unique index on
+ * (user_id, source_type, token_type, yield_day). When the application guard
+ * loses a race, the second writer gets a 23505 and the route must answer 409 —
+ * the same answer it gives for an idempotency replay, and the correct one: the
+ * day's yield IS already applied.
+ *
+ * VERIFIED against production 2026-07-26 with savepoint-isolated probes — the
+ * duplicate is rejected, and a different day, a different token axis, and the
+ * multi-per-day sources are all still allowed.
+ */
+describe("sync-credit — the DB backstop when the app guard loses a race", () => {
+  it("409s instead of 500ing when the unique index rejects a racing credit", async () => {
+    queryQueue = [FOUND_USER, HAS_CHART, NO_ROWS, NO_ROWS];
+    // creditMultipleTokens returns null on the unique violation (it classifies
+    // 23505/uniq_daily_yield_per_user_day as "already applied", not a fault).
+    mockCreditReturnsNull = true;
+
+    const res = await POST(post(YIELD_BODY));
+    expect(res.status).toBe(409);
+    expect(await res.json()).toMatchObject({ ok: false, reason: "already_applied" });
+  });
+
+  it("does not stamp a daily-claim timestamp for a credit that was rejected", async () => {
+    // Stamping after a losing race would tell the CRON the yield was paid by
+    // this endpoint when it was not, turning a prevented double-credit into a
+    // silently SKIPPED one — the opposite failure, and harder to notice.
+    queryQueue = [FOUND_USER, HAS_CHART, NO_ROWS, NO_ROWS];
+    mockCreditReturnsNull = true;
+
+    await POST(post(YIELD_BODY));
+    expect(claimStamps).toHaveLength(0);
   });
 });

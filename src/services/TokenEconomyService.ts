@@ -122,12 +122,33 @@ function rowToTransaction(row: TokenTransactionRow): TokenTransaction {
   };
 }
 
+/** Source types that are once-per-user-per-UTC-day BY DEFINITION. Only these
+ *  get a `yield_day`, and only these are covered by
+ *  `uniq_daily_yield_per_user_day`. Everything else — Sky Drops, transit
+ *  attunement — is legitimately multi-per-day and must stay unconstrained. */
+const DAILY_YIELD_SOURCES = ["agents_yield", "daily_yield"] as const;
+
+/** The same list as a SQL literal, so the writer and the partial index in
+ *  `database/init/73-daily-yield-once-per-day.sql` cannot drift apart. If they
+ *  do, rows get a yield_day the index ignores (or vice versa) and the guard
+ *  silently stops guarding. */
+const DAILY_YIELD_SOURCES_SQL = DAILY_YIELD_SOURCES.map((s) => `'${s}'`).join(
+  ", ",
+);
+
 // Single-statement credit: ensure the balance row exists, insert an immutable
 // ledger entry (idempotency-guarded), and apply the delta to the typed column —
 // all atomically. `column` is a constrained union literal (never user input),
 // so interpolating it is injection-safe. Params, in order:
 //   $1 userId  $2 tokenType  $3 amount  $4 sourceType
 //   $5 sourceId  $6 description  $7 transactionGroupId  $8 idempotencyKey
+//
+// `yield_day` is computed IN THE DATABASE from `now()`, not passed in from the
+// caller. That matters: the whole point is a day key the application cannot get
+// wrong or disagree with itself about, and two producers running in different
+// timezones (or one of them holding a stale clock) is precisely how the
+// original double-credit arose. It is NULL for every non-daily-yield source, so
+// those rows do not participate in the unique index at all.
 function creditTokensSql(
   column: "spirit" | "essence" | "matter" | "substance",
 ): string {
@@ -138,9 +159,12 @@ function creditTokensSql(
           ),
           inserted AS (
             INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key, yield_day)
             VALUES
-              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4, $5, $6, $8)
+              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4, $5, $6, $8,
+               CASE WHEN $4 IN (${DAILY_YIELD_SOURCES_SQL})
+                    THEN (now() AT TIME ZONE 'UTC')::date
+                    ELSE NULL END)
             ON CONFLICT (idempotency_key) DO NOTHING
             RETURNING id
           )
@@ -560,6 +584,27 @@ class TokenEconomyService {
         // reflects any prior claim, so return the current balance.
         return this.getBalances(userId);
       } catch (error) {
+        // A unique violation on `uniq_daily_yield_per_user_day` is not a
+        // failure — it is the atomic backstop doing its job. The application
+        // guard in sync-credit §3b is a check-then-act SELECT, so two concurrent
+        // requests can both pass it; this index is what makes the second one
+        // lose. Returning null routes it to the same 409 "already_applied" the
+        // caller already produces for an idempotency replay, which is exactly
+        // the right answer: the day's yield IS already applied.
+        //
+        // Distinguished from a genuine fault so it is not logged as an error and
+        // does not read as an incident. 23505 = unique_violation.
+        const pgError = error as { code?: string; constraint?: string };
+        if (
+          pgError?.code === "23505" &&
+          pgError?.constraint === "uniq_daily_yield_per_user_day"
+        ) {
+          _logger.info(
+            `[TokenEconomy] daily-yield double-credit prevented by the DB for user ${userId} (${sourceType}); ` +
+              "the application guard lost a race and the index caught it.",
+          );
+          return null;
+        }
         _logger.error(
           "[TokenEconomy] creditMultipleTokens failed, rolled back:",
           error,
