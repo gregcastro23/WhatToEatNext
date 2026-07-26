@@ -21,6 +21,7 @@ from backend.alchm_kitchen.main import (
     KALCHM_EPSILON,
     MONICA_EQUILIBRIUM,
     MONICA_LN_EPSILON,
+    THERMO_DEN_FLOOR,
     compute_kalchm_monica,
 )
 
@@ -152,3 +153,76 @@ def test_no_truthiness_fallback_survives_on_the_denominator():
     for m in (0.0, 0.5, 1 / math.e, 1.0, 5.0):
         for su in (0.0, 0.5, 1 / math.e, 1.0, 5.0):
             assert (m**m) * (su**su) > 0.4  # 0.6922^2 = 0.4791, comfortably clear
+
+
+# ── Thermodynamic parity ────────────────────────────────────────────────────
+#
+# Added after the kalchm work uncovered that REACTIVITY had also drifted. The
+# Python form was `(reactivity_num / (matter or 1)) + earth ** 2` — the canonical
+# expression with the parentheses lost, so Earth left the denominator and became
+# an additive term. 3.17x on a representative input, and the two forms coincide
+# only when Earth == 0 and Matter == 1, which is why it survived.
+#
+# monica = -gregsEnergy / (reactivity * ln kalchm), so an identical kalchm engine
+# is NOT sufficient for identical monica. These pin the rest.
+
+THERMO_VECTORS = GOLDEN["thermoVectors"]
+
+
+def test_thermo_vector_file_is_populated():
+    """CONTROL, same reasoning as above: a parametrised test over [] passes."""
+    assert len(THERMO_VECTORS) >= 5
+    joined = " ".join(v["name"] for v in THERMO_VECTORS).lower()
+    # The regimes that distinguish the two reactivity forms must be present, or
+    # the suite would pass against the defect it exists to catch.
+    assert "coincidence point" in joined
+    assert "earth non-zero" in joined
+    assert "floor" in joined
+
+
+def _thermo(v):
+    """Mirrors calculate_local_alchemize's thermodynamic block."""
+    s, e, m, su = v["Spirit"], v["Essence"], v["Matter"], v["Substance"]
+    f, w, a, ea = v["Fire"], v["Water"], v["Air"], v["Earth"]
+    heat = (s**2 + f**2) / max((su + e + m + w + a + ea) ** 2, THERMO_DEN_FLOOR)
+    entropy = (s**2 + su**2 + f**2 + a**2) / max((e + m + ea + w) ** 2, THERMO_DEN_FLOOR)
+    reactivity = (s**2 + su**2 + e**2 + f**2 + a**2 + w**2) / max(
+        (m + ea) ** 2, THERMO_DEN_FLOOR
+    )
+    return heat, entropy, reactivity, heat - entropy * reactivity
+
+
+@pytest.mark.parametrize("v", THERMO_VECTORS, ids=[v["name"] for v in THERMO_VECTORS])
+def test_thermodynamics_match_canonical_exactly(v):
+    heat, entropy, reactivity, gregs = _thermo(v)
+    assert heat == v["expectedHeat"], f"heat drifted for {v['name']!r}"
+    assert entropy == v["expectedEntropy"], f"entropy drifted for {v['name']!r}"
+    assert reactivity == v["expectedReactivity"], (
+        f"reactivity drifted for {v['name']!r}: {reactivity!r} vs "
+        f"{v['expectedReactivity']!r} — check for the lost-parentheses form "
+        f"(num/matter)+earth**2"
+    )
+    assert gregs == v["expectedGregsEnergy"], f"gregsEnergy drifted for {v['name']!r}"
+
+
+def test_reactivity_is_not_the_lost_parens_form():
+    """Regression guard naming the exact defect, so a re-introduction is obvious
+    rather than showing up as a mystery numeric drift."""
+    s, su, e, f, a, w, m, ea = 4, 1, 3, 2, 1.5, 1, 2, 0.5
+    num = s**2 + su**2 + e**2 + f**2 + a**2 + w**2
+    correct = num / max((m + ea) ** 2, THERMO_DEN_FLOOR)
+    lost_parens = (num / (m or 1)) + ea**2
+    assert correct == 5.32
+    assert lost_parens == 16.875
+    assert _thermo(
+        {"Spirit": s, "Essence": e, "Matter": m, "Substance": su,
+         "Fire": f, "Water": w, "Air": a, "Earth": ea}
+    )[2] == correct
+
+
+def test_denominator_guard_is_a_floor_not_a_truthiness_fallback():
+    """`(den or 1)` and `max(den, 0.01)` differ by 100x at a zero denominator,
+    in the direction of understating the quantity."""
+    num = 25.0
+    assert num / max(0.0, THERMO_DEN_FLOOR) == 2500.0
+    assert num / (0.0 or 1) == 25.0

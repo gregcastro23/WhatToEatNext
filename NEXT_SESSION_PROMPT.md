@@ -152,8 +152,13 @@ This is a product decision — merge-and-repoint / keep-both / delete-with-casca
 ## 6. Opportunistic
 
 - **3 deferred dead-exports** — re-verify live/dead *at deletion time*:
-  `core-energy-rules.ts` `GregsEnergyCalculator` (the file is LIVE — `galileo-logger`
-  uses `ANumberCalculator`, so this is a per-symbol removal),
+  `core-energy-rules.ts` `GregsEnergyCalculator` (⚠️ **CORRECTED 2026-07-26**: the
+  claim that this file is LIVE via `galileo-logger` → `ANumberCalculator` is
+  **REFUTED**. Three independent sweeps, each with a positive control, found no
+  live caller for any of its exports. This wrong rationale had already deferred
+  the file from a dead-code sweep TWICE. Its kalchm/monica now delegate to the
+  canonical engine — see §18r r2 — so the remaining question is plain dead-code
+  removal, not a per-symbol carve-out),
   `alchemicalEnergyMapping.ts` (re-exported at `src/constants/index.ts:6`),
   `UnifiedRecommendationService.ts` (imported by
   `src/services/__tests__/realPlanetaryRecommendations.test.ts` — delete both).

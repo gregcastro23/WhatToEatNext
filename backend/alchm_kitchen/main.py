@@ -504,6 +504,16 @@ MONICA_EQUILIBRIUM = 1.618
 # reactivities, which it is.
 KALCHM_EPSILON = 0.01
 
+# Floor for the heat/entropy/reactivity denominators, matching
+# THERMO_DEN_FLOOR in src/data/unified/alchemicalCalculations.ts. Unlike the
+# kalchm denominator (which cannot reach 0 because x^x >= 0.6922), these three
+# ARE genuinely reachable at 0, so a guard is required. It must be a FLOOR and
+# not the truthiness fallback `(den or 1)` this file used: `or 1` substitutes
+# 1 for a zero denominator, which is 100x smaller than the floored value and
+# therefore understates the quantity by 100x at exactly the point where it
+# matters most.
+THERMO_DEN_FLOOR = 0.01
+
 
 def compute_kalchm_monica(
     spirit: float,
@@ -740,14 +750,26 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
 
     heat_num = spirit ** 2 + fire ** 2
     heat_den = (substance + essence + matter + water + air + earth) ** 2
-    heat = heat_num / (heat_den or 1)
+    heat = heat_num / max(heat_den, THERMO_DEN_FLOOR)
 
     entropy_num = spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2
     entropy_den = (essence + matter + earth + water) ** 2
-    entropy = entropy_num / (entropy_den or 1)
+    entropy = entropy_num / max(entropy_den, THERMO_DEN_FLOOR)
 
     reactivity_num = spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2
-    reactivity = (reactivity_num / (matter or 1)) + earth ** 2
+    # Reactivity = (S² + Su² + E² + F² + A² + W²) / (Matter + Earth)²
+    #
+    # This read `(reactivity_num / (matter or 1)) + earth ** 2` — the same
+    # expression with the parentheses lost, so Earth moved out of the
+    # denominator and became an additive term. MEASURED on
+    # (S,Su,E,F,A,W,M,Ea) = (4,1,3,2,1.5,1,2,0.5): 16.875 here versus 5.320
+    # canonical, a 3.17x divergence, which propagated straight into
+    # monica = -gregsEnergy / (reactivity * ln kalchm).
+    #
+    # Not a judgement call: all NINE TypeScript implementations use
+    # (Matter + Earth)², and the two forms coincide only when Earth = 0 and
+    # Matter = 1 — which is why it survived this long.
+    reactivity = reactivity_num / max((matter + earth) ** 2, THERMO_DEN_FLOOR)
     gregs_energy = heat - entropy * reactivity
 
     kalchm, monica = compute_kalchm_monica(

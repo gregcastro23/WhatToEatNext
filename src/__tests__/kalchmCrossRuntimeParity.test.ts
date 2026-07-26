@@ -24,6 +24,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 
 import {
+  calculateThermodynamics,
   KALCHM_EPSILON,
   MONICA_EQUILIBRIUM,
   MONICA_LN_EPSILON,
@@ -53,7 +54,18 @@ const GOLDEN = JSON.parse(
 ) as {
   constants: Record<string, number>;
   vectors: GoldenVector[];
+  thermoVectors: ThermoVector[];
 };
+
+interface ThermoVector {
+  name: string;
+  Spirit: number; Essence: number; Matter: number; Substance: number;
+  Fire: number; Water: number; Air: number; Earth: number;
+  expectedHeat: number;
+  expectedEntropy: number;
+  expectedReactivity: number;
+  expectedGregsEnergy: number;
+}
 
 describe("kalchm cross-runtime parity", () => {
   // CONTROL. `it.each([])` is a silent no-op, so an empty or unreadable vector
@@ -199,5 +211,59 @@ describe("kalchm cross-runtime parity", () => {
     const unguarded = -1 / (1 * Math.log(kalchm));
     expect(Math.abs(unguarded)).toBeGreaterThan(10000);
     expect(Number.isFinite(unguarded)).toBe(true);
+  });
+});
+
+describe("thermodynamic cross-runtime parity", () => {
+  // Added after the kalchm work uncovered that REACTIVITY had drifted too. The
+  // Python form was `(reactivity_num / (matter or 1)) + earth ** 2` — canonical
+  // with the parentheses lost, so Earth left the denominator and became an
+  // additive term. Since monica = -gregsEnergy / (reactivity · ln kalchm), an
+  // identical kalchm engine is NOT sufficient for identical monica.
+  it("loaded thermo vectors covering the regimes that separate the two forms", () => {
+    expect(GOLDEN.thermoVectors.length).toBeGreaterThanOrEqual(5);
+    const joined = GOLDEN.thermoVectors.map((v) => v.name).join(" ").toLowerCase();
+    expect(joined).toContain("coincidence point");
+    expect(joined).toContain("earth non-zero");
+    expect(joined).toContain("floor");
+  });
+
+  it.each(GOLDEN.thermoVectors.map((v) => [v.name, v] as const))(
+    "reproduces %s exactly",
+    (_name, v) => {
+      const t = calculateThermodynamics(
+        { Spirit: v.Spirit, Essence: v.Essence, Matter: v.Matter, Substance: v.Substance } as never,
+        { Fire: v.Fire, Water: v.Water, Air: v.Air, Earth: v.Earth } as never,
+      );
+      expect(t.heat).toBe(v.expectedHeat);
+      expect(t.entropy).toBe(v.expectedEntropy);
+      expect(t.reactivity).toBe(v.expectedReactivity);
+      expect(t.gregsEnergy).toBe(v.expectedGregsEnergy);
+    },
+  );
+
+  it("does not use the lost-parentheses reactivity form", () => {
+    // Named explicitly so a re-introduction reads as the known defect rather
+    // than as a mystery numeric drift.
+    const [S, Su, E, F, A, W, M, Ea] = [4, 1, 3, 2, 1.5, 1, 2, 0.5];
+    const num = S ** 2 + Su ** 2 + E ** 2 + F ** 2 + A ** 2 + W ** 2;
+    const correct = num / Math.max((M + Ea) ** 2, GOLDEN.constants.THERMO_DEN_FLOOR);
+    const lostParens = num / (M || 1) + Ea ** 2;
+    expect(correct).toBe(5.32);
+    expect(lostParens).toBe(16.875);
+
+    const t = calculateThermodynamics(
+      { Spirit: S, Essence: E, Matter: M, Substance: Su } as never,
+      { Fire: F, Water: W, Air: A, Earth: Ea } as never,
+    );
+    expect(t.reactivity).toBe(correct);
+  });
+
+  it("floors the thermo denominators rather than falling back to 1", () => {
+    // `(den || 1)` and `Math.max(den, 0.01)` differ by 100x at a zero
+    // denominator, understating the quantity exactly where it matters most.
+    const num = 25;
+    expect(num / Math.max(0, GOLDEN.constants.THERMO_DEN_FLOOR)).toBe(2500);
+    expect(num / (0 || 1)).toBe(25);
   });
 });

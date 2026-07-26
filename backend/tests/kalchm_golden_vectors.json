@@ -23,7 +23,8 @@
     "MONICA_LN_EPSILON": 0.10939293407637272,
     "MONICA_EQUILIBRIUM": 1.618,
     "KALCHM_EPSILON": 0.01,
-    "X_POW_X_GLOBAL_MINIMUM": 0.6922006275556402
+    "X_POW_X_GLOBAL_MINIMUM": 0.6922006275556402,
+    "THERMO_DEN_FLOOR": 0.01
   },
   "vectors": [
     {
@@ -157,6 +158,83 @@
       "gregsEnergy": -2.0403,
       "expectedKalchm": 1728,
       "expectedMonica": 27.36923739400925
+    }
+  ],
+  "thermoVectors": [
+    {
+      "name": "healthy, Earth non-zero — where the parens loss shows",
+      "Spirit": 4,
+      "Essence": 3,
+      "Matter": 2,
+      "Substance": 1,
+      "Fire": 2,
+      "Water": 1,
+      "Air": 1.5,
+      "Earth": 0.5,
+      "expectedHeat": 0.24691358024691357,
+      "expectedEntropy": 0.5502958579881657,
+      "expectedReactivity": 5.32,
+      "expectedGregsEnergy": -2.680660384250128
+    },
+    {
+      "name": "Earth = 0, Matter = 1 — the coincidence point",
+      "Spirit": 4,
+      "Essence": 3,
+      "Matter": 1,
+      "Substance": 1,
+      "Fire": 2,
+      "Water": 1,
+      "Air": 1.5,
+      "Earth": 0,
+      "expectedHeat": 0.35555555555555557,
+      "expectedEntropy": 0.93,
+      "expectedReactivity": 33.25,
+      "expectedGregsEnergy": -30.56694444444445
+    },
+    {
+      "name": "Matter + Earth = 0 — denominator floor is load-bearing",
+      "Spirit": 4,
+      "Essence": 3,
+      "Matter": 0,
+      "Substance": 1,
+      "Fire": 2,
+      "Water": 1,
+      "Air": 1.5,
+      "Earth": 0,
+      "expectedHeat": 0.47337278106508873,
+      "expectedEntropy": 1.453125,
+      "expectedReactivity": 3325,
+      "expectedGregsEnergy": -4831.167252218935
+    },
+    {
+      "name": "all axes zero — every denominator floored",
+      "Spirit": 0,
+      "Essence": 0,
+      "Matter": 0,
+      "Substance": 0,
+      "Fire": 0,
+      "Water": 0,
+      "Air": 0,
+      "Earth": 0,
+      "expectedHeat": 0,
+      "expectedEntropy": 0,
+      "expectedReactivity": 0,
+      "expectedGregsEnergy": 0
+    },
+    {
+      "name": "real production vector",
+      "Spirit": 3.2772289332979954,
+      "Essence": 5.482048975845337,
+      "Matter": 4.3549306100522225,
+      "Substance": 2.351311954308986,
+      "Fire": 2.1,
+      "Water": 1.4,
+      "Air": 1.9,
+      "Earth": 1.2,
+      "expectedHeat": 0.05439956849681729,
+      "expectedEntropy": 0.1570283101870952,
+      "expectedReactivity": 1.8245874441960752,
+      "expectedGregsEnergy": -0.2321123146538833
     }
   ]
 }
