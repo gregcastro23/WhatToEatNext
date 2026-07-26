@@ -136,10 +136,55 @@ const DAILY_YIELD_SOURCES_SQL = DAILY_YIELD_SOURCES.map((s) => `'${s}'`).join(
   ", ",
 );
 
-// Single-statement credit: ensure the balance row exists, insert an immutable
-// ledger entry (idempotency-guarded), and apply the delta to the typed column —
-// all atomically. `column` is a constrained union literal (never user input),
-// so interpolating it is injection-safe. Params, in order:
+// Single-statement credit: insert an immutable ledger entry (idempotency-guarded)
+// and apply the delta to the typed column, atomically. `column` is a constrained
+// union literal (never user input), so interpolating it is injection-safe.
+//
+// ── Why the balance write is an UPSERT and not an UPDATE ────────────────────
+//
+// It used to be an `UPDATE token_balances … WHERE user_id = $1` preceded by an
+// `ensure_balance` CTE that INSERTed the row. That silently lost every user's
+// FIRST-EVER credit. In a data-modifying CTE, every sub-statement AND the main
+// query run against ONE snapshot taken before the statement begins, so the
+// UPDATE could not see the row `ensure_balance` had just inserted: the ledger
+// row committed, the UPDATE matched ZERO rows, and the balance never moved.
+//
+// It failed silently because `creditMultipleTokens` only assigns `last` when
+// `res.rows.length > 0`. Spirit returning nothing just left `last` null, Essence
+// then set it, and the endpoint returned 200 with a balances object.
+//
+// `[MEASURED 2026-07-26 on production]` 67 users, 521.7141 Spirit. For 67 of 67
+// the shortfall equals that user's FIRST ledger row, and all 67 are
+// auto-provisioned agents — human signup seeds `token_balances` in its own
+// statement, so the row pre-existed and the UPDATE landed. Spirit is simply the
+// first of the four axes written, so it is the only one that ever meets the
+// missing-row state; Essence/Matter/Substance always found the row and
+// reconciled EXACTLY, which is why only Spirit looked wrong.
+//
+// The upsert has no such ordering hazard: with no row it INSERTs the credited
+// amount (the other three axes default to 0), and with a row it adds the delta
+// under `ON CONFLICT`. Idempotency is preserved because `SELECT … FROM inserted`
+// yields no row when the ledger insert was suppressed, so nothing is written.
+//
+// ── Why $4 is cast to text in BOTH of its references ────────────────────────
+//
+// A bind parameter has exactly ONE deduced type. $4 is bound as the INSERT value
+// for `source_type` (character varying) and is also compared against the string
+// literals in the CASE, which deduce `text`. Left uncast, PostgreSQL refuses to
+// prepare the statement at all:
+//
+//     42P08  inconsistent types deduced for parameter $4
+//
+// and every credit throws. Casting only the comparison side does NOT fix it —
+// the INSERT target still deduces varchar. Both references must agree; text ->
+// varchar is an assignment cast, so pinning both to text is safe.
+//
+// This shipped to production once. Thirteen unit tests covered the path and all
+// passed, because they mock the database — a mock accepts SQL no database will.
+// `scripts/checkEconomySqlParses.ts` now PREPAREs every variant against a real
+// PostgreSQL in CI, which is the only thing that can catch this class.
+//
+// Params, in order:
 //   $1 userId  $2 tokenType  $3 amount  $4 sourceType
 //   $5 sourceId  $6 description  $7 transactionGroupId  $8 idempotencyKey
 //
@@ -152,27 +197,22 @@ const DAILY_YIELD_SOURCES_SQL = DAILY_YIELD_SOURCES.map((s) => `'${s}'`).join(
 function creditTokensSql(
   column: "spirit" | "essence" | "matter" | "substance",
 ): string {
-  return `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          inserted AS (
+  return `WITH inserted AS (
             INSERT INTO token_transactions
               (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key, yield_day)
             VALUES
-              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4, $5, $6, $8,
-               CASE WHEN $4 IN (${DAILY_YIELD_SOURCES_SQL})
+              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4::text, $5, $6, $8,
+               CASE WHEN $4::text IN (${DAILY_YIELD_SOURCES_SQL})
                     THEN (now() AT TIME ZONE 'UTC')::date
                     ELSE NULL END)
             ON CONFLICT (idempotency_key) DO NOTHING
             RETURNING id
           )
-          UPDATE token_balances
-          SET ${column} = ${column} + $3,
-              updated_at = now()
-          WHERE user_id = $1
-            AND EXISTS (SELECT 1 FROM inserted)
+          INSERT INTO token_balances (user_id, ${column}, updated_at)
+          SELECT $1, $3, now() FROM inserted
+          ON CONFLICT (user_id) DO UPDATE
+            SET ${column} = token_balances.${column} + EXCLUDED.${column},
+                updated_at = now()
           RETURNING *`;
 }
 

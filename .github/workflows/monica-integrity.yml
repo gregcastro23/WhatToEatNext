@@ -184,3 +184,18 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkNoFabricatedNatalFields.ts
+
+      - name: Economy SQL parses against PostgreSQL
+        # SQL is a second language here and ONLY the database can typecheck it.
+        # The credit statement once shipped in a state PostgreSQL refused to
+        # prepare at all (42P08, a bind parameter deduced as two different
+        # types) — so every credit threw. Thirteen unit tests covered that path
+        # and all thirteen passed, because they mock the database, and a mock
+        # accepts SQL no database would.
+        #
+        # PREPARE does parse + parameter-type analysis and writes NOTHING: no
+        # transaction, no rows. It also catches a misspelled column and a
+        # parameter count that has drifted from the call site.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkEconomySqlParses.ts
