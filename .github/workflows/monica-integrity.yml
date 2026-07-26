@@ -58,8 +58,10 @@ jobs:
 
       - name: No stray kalchm formula
         # Exits non-zero on any NEW self-exponentiation (x^x) outside the canonical
-        # engine. 18 copies already exist and are allowlisted BY LOCATION with a
-        # per-file count and a reason; the list is only allowed to shrink.
+        # engine. The allowlist is now at its TARGET END STATE: exactly ONE entry,
+        # the characterisation test's own restatement of the definition, which it
+        # needs in order to measure anything against it. The list may shrink; it
+        # must not grow.
         #
         # This is the CODE-STRUCTURE witness, distinct from the two above: the
         # fallback scan catches a reader that invents a value, the data job catches
@@ -126,3 +128,18 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/auditAgentDataIntegrity.ts
+
+      - name: No new cloned natal charts
+        # A THIRD data witness, watching a defect the other two cannot see: a
+        # chart REUSED as a fallback across several agents. Drift-clean by
+        # construction (the value is correctly derived from the chart it has) and
+        # structurally valid in SQL, so both existing witnesses pass on it.
+        #
+        # It is a GROWTH detector, not a unique index — two people can legitimately
+        # share a birth moment. It fails when the cloned-row count rises above the
+        # recorded baseline of 10, and also when it FALLS without KNOWN_GROUPS being
+        # updated, because a resolved clone changes the |max| population that the
+        # Sacred-7 full-chart scale is derived from.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkNoNewClonedCharts.ts

@@ -479,6 +479,106 @@ PLANET_ALCHM_PERIODS = {
 PERIOD_LOG_MIN = math.log10(0.003)
 PERIOD_LOG_MAX = math.log10(247.94)
 
+# ── The kalchm/monica engine constants, ported from TypeScript ───────────────
+#
+# This is the SECOND runtime that computes kalchm, so these must stay pinned to
+# src/data/unified/alchemicalCalculations.ts. The shared golden vectors in
+# backend/tests/test_kalchm_parity.py assert both runtimes agree bit-for-bit;
+# change a value here and that test fails.
+#
+# DERIVED, not tuned: the midpoint of a MEASURED bimodal gap in |ln kalchm| over
+# the single-body grid (11 planets x 12 signs x 30 degrees x 2 sects = 7920
+# points, a census not a sample). The degenerate cluster ends at exactly 0 and
+# the healthy values begin at 0.21878586815274545. The TS side re-derives both
+# endpoints in src/__tests__/monicaLnEpsilonDerivation.test.ts and FAILS if the
+# grid moves — update this literal in lockstep, never independently.
+MONICA_LN_EPSILON = 0.10939293407637272
+
+# The harmonic-ideal monica (golden ratio), returned for a perfectly balanced
+# (degenerate) alchemical state. monica is TOTAL: it is always finite, and this
+# engine never returns None or NaN.
+MONICA_EQUILIBRIUM = 1.618
+
+# Divide-by-zero guard for reactivity. Not derived — reactivity has no bimodal
+# structure to place it in; its only requirement is being small relative to real
+# reactivities, which it is.
+KALCHM_EPSILON = 0.01
+
+# Floor for the heat/entropy/reactivity denominators, matching
+# THERMO_DEN_FLOOR in src/data/unified/alchemicalCalculations.ts. Unlike the
+# kalchm denominator (which cannot reach 0 because x^x >= 0.6922), these three
+# ARE genuinely reachable at 0, so a guard is required. It must be a FLOOR and
+# not the truthiness fallback `(den or 1)` this file used: `or 1` substitutes
+# 1 for a zero denominator, which is 100x smaller than the floored value and
+# therefore understates the quantity by 100x at exactly the point where it
+# matters most.
+THERMO_DEN_FLOOR = 0.01
+
+
+def compute_kalchm_monica(
+    spirit: float,
+    essence: float,
+    matter: float,
+    substance: float,
+    reactivity: float,
+    gregs_energy: float,
+) -> tuple:
+    """The ONE kalchm/monica implementation in the Python runtime.
+
+    kalchm = (S^S * E^E) / (M^M * Su^Su),  monica = -gregsEnergy / (reactivity * ln kalchm)
+
+    Mirrors ``calculateKalchm`` / ``calculateMonica`` in
+    ``src/data/unified/alchemicalCalculations.ts``. Every behaviour below was
+    measured against that module over shared golden vectors; see
+    ``backend/tests/test_kalchm_parity.py``.
+
+    Three defects this replaces, each verified before removal:
+
+    1. ``(kalchm_denominator or 1)`` — a truthiness fallback. It was unreachable
+       for real input (x^x has a global minimum of 0.6922006275556402 at x=1/e,
+       so the denominator is never 0 for non-negative axes) and actively WRONG
+       for a negative one, because a complex denominator of 0+0j is falsy.
+    2. Unclamped negatives. Python's ``**`` returns a COMPLEX number for a
+       negative base with a fractional exponent — ``(-0.5) ** (-0.5)`` is
+       ``8.66e-17-1.414j`` — where JS ``Math.pow`` returns NaN. That complex
+       value then raised ``TypeError: '>' not supported between instances of
+       'complex' and 'int'``, surfacing as an HTTP 500. Clamping negatives to 0
+       makes the two runtimes agree in TYPE as well as value.
+    3. ``monica = 1.0`` — a fabricated literal, neither the equilibrium constant
+       nor an honest absence. Worse, the guard was the bare ``ln_k != 0``, which
+       excludes only the single point ln_k == 0 and does nothing about ln_k
+       merely SMALL: at kalchm = 1.00002 it returned -49999.5 where canonical
+       returns phi, a ~31000x error that is finite and plausible-looking, so it
+       survives every downstream ``isfinite`` check and reaches the database.
+    """
+    # Clamp NEGATIVES only. Zero passes through untouched because 0**0 is
+    # exactly 1 — the true limit of x^x — so a zeroed axis needs no handling.
+    def non_neg(x: float) -> float:
+        return x if x > 0 else 0.0
+
+    s = non_neg(spirit)
+    e = non_neg(essence)
+    m = non_neg(matter)
+    sub = non_neg(substance)
+
+    kalchm = ((s ** s) * (e ** e)) / ((m ** m) * (sub ** sub))
+    if not math.isfinite(kalchm) or kalchm <= 0:
+        return 1.0, MONICA_EQUILIBRIUM
+
+    # A degenerate BAND, not a bare `!= 0`. Inside it the chart is at
+    # equilibrium and monica is the golden ratio rather than a divergence.
+    ln_k = math.log(kalchm)
+    if abs(ln_k) < MONICA_LN_EPSILON:
+        return kalchm, MONICA_EQUILIBRIUM
+
+    safe_reactivity = reactivity
+    if abs(reactivity) < KALCHM_EPSILON:
+        safe_reactivity = math.copysign(KALCHM_EPSILON, reactivity if reactivity else 1.0)
+
+    monica = -gregs_energy / (safe_reactivity * ln_k)
+    # Totality: never NaN, never None, never infinite.
+    return kalchm, (monica if math.isfinite(monica) else MONICA_EQUILIBRIUM)
+
 PLANETARY_ALCHEMY = {
     "Sun": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
     "Moon": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
@@ -650,23 +750,31 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
 
     heat_num = spirit ** 2 + fire ** 2
     heat_den = (substance + essence + matter + water + air + earth) ** 2
-    heat = heat_num / (heat_den or 1)
+    heat = heat_num / max(heat_den, THERMO_DEN_FLOOR)
 
     entropy_num = spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2
     entropy_den = (essence + matter + earth + water) ** 2
-    entropy = entropy_num / (entropy_den or 1)
+    entropy = entropy_num / max(entropy_den, THERMO_DEN_FLOOR)
 
     reactivity_num = spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2
-    reactivity = (reactivity_num / (matter or 1)) + earth ** 2
+    # Reactivity = (S² + Su² + E² + F² + A² + W²) / (Matter + Earth)²
+    #
+    # This read `(reactivity_num / (matter or 1)) + earth ** 2` — the same
+    # expression with the parentheses lost, so Earth moved out of the
+    # denominator and became an additive term. MEASURED on
+    # (S,Su,E,F,A,W,M,Ea) = (4,1,3,2,1.5,1,2,0.5): 16.875 here versus 5.320
+    # canonical, a 3.17x divergence, which propagated straight into
+    # monica = -gregsEnergy / (reactivity * ln kalchm).
+    #
+    # Not a judgement call: all NINE TypeScript implementations use
+    # (Matter + Earth)², and the two forms coincide only when Earth = 0 and
+    # Matter = 1 — which is why it survived this long.
+    reactivity = reactivity_num / max((matter + earth) ** 2, THERMO_DEN_FLOOR)
     gregs_energy = heat - entropy * reactivity
 
-    kalchm_denominator = (matter ** matter) * (substance ** substance)
-    kalchm = ((spirit ** spirit) * (essence ** essence)) / (kalchm_denominator or 1)
-    monica = 1.0
-    if kalchm > 0 and math.isfinite(kalchm):
-        ln_k = math.log(kalchm)
-        if ln_k != 0 and reactivity != 0:
-            monica = -gregs_energy / (reactivity * ln_k)
+    kalchm, monica = compute_kalchm_monica(
+        spirit, essence, matter, substance, reactivity, gregs_energy
+    )
 
     element_total = max(1.0, fire + water + air + earth)
     elemental_properties = {
@@ -869,9 +977,13 @@ async def calculate_token_rates_endpoint(request: TokenRatesRequest):
     except Exception:
         pass
         
+    # kalchm 1.0 is the true degenerate value for a unit ESMS vector, and monica
+    # at that kalchm is the equilibrium constant — NOT 1.0, which was a
+    # fabricated literal. The four unit axes remain a declared convention for
+    # this rate endpoint rather than a measurement.
     return TokenRatesResult(
         Spirit=1.0, Essence=1.0, Matter=1.0, Substance=1.0,
-        kalchm=1.0, monica=1.0,
+        kalchm=1.0, monica=MONICA_EQUILIBRIUM,
         planetaryHour=planetary_hour,
         isDaytime=is_day
     )
@@ -910,8 +1022,12 @@ async def alchemize_current_moment(request: AlchemizeRequest):
             elementalProperties=result.get('elementalProperties', {}),
             thermodynamicProperties=result.get('thermodynamicProperties', {}),
             esms=result.get('esms', {}),
-            kalchm=result.get('kalchm', 0),
-            monica=result.get('monica', 0),
+            # No defaults: kalchm is > 0 by the totality contract and monica is
+            # always finite, so 0 is IMPOSSIBLE for either. A default here would
+            # turn a future upstream shape change into silent corruption
+            # instead of a loud KeyError.
+            kalchm=result['kalchm'],
+            monica=result['monica'],
             score=result.get('score', 0),
             normalized=result.get('normalized', False),
             confidence=result.get('confidence', 0),

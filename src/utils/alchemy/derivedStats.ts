@@ -1,4 +1,5 @@
 import type { IngredientCategory } from '@/data/ingredients/types';
+import { calculateKalchm as canonicalCalculateKalchm } from '@/data/unified/alchemicalCalculations';
 import type { MonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
 import type { AlchemicalProperties, AstrologicalState } from '@/types/alchemy';
 import type { Ingredient } from '@/types/ingredient';
@@ -18,23 +19,13 @@ export function getIngredientKAlchm(ingredient: Ingredient): number {
     return 1.0;
   }
 
-  const { Spirit, Essence, Matter, Substance } = alchemicalProps as { Spirit: number; Essence: number; Matter: number; Substance: number; };
-
-  // Handle edge cases where values might be 0 or null
-  const safeSpirit = Math.max(Spirit || 0, 0.01);
-  const safeEssence = Math.max(Essence || 0, 0.01);
-  const safeMatter = Math.max(Matter || 0, 0.01);
-  const safeSubstance = Math.max(Substance || 0, 0.01);
-
-  const numerator = Math.pow(safeSpirit, safeSpirit) * Math.pow(safeEssence, safeEssence);
-  const denominator = Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance);
-
-  if (denominator === 0) {
-    // Avoid division by zero, return a large number to indicate high spirit/essence
-    return 1_000_000;
-  }
-
-  return numerator / denominator;
+  // Delegates to THE canonical engine. Three things went with the local copy:
+  // the 0.01 floor (+4.7129% per zeroed axis), the `Spirit || 0` truthiness
+  // (which cannot distinguish an absent axis from a legitimate 0 — 285 agents
+  // hold exactly 0), and the `denominator === 0` branch returning 1_000_000,
+  // an invented magnitude for a condition that cannot occur: x^x bottoms out at
+  // 0.6922006275556402.
+  return canonicalCalculateKalchm(alchemicalProps);
 }
 
 /**
@@ -128,21 +119,12 @@ export function getUserTargetKAlchm(astroState: AstrologicalState): number {
         return 1.0;
     }
 
-    const { Spirit, Essence, Matter, Substance } = alchemicalProps as { Spirit: number; Essence: number; Matter: number; Substance: number; };
-
-    const safeSpirit = Math.max(Spirit || 0, 0.01);
-    const safeEssence = Math.max(Essence || 0, 0.01);
-    const safeMatter = Math.max(Matter || 0, 0.01);
-    const safeSubstance = Math.max(Substance || 0, 0.01);
-
-    const numerator = Math.pow(safeSpirit, safeSpirit) * Math.pow(safeEssence, safeEssence);
-    const denominator = Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance);
-
-    if (denominator === 0) {
-        return 0.0001;
-    }
-
-    const currentKAlchm = numerator / denominator;
+    // Delegates to THE canonical engine (second of the two copies in this file).
+    // Note this one's unreachable zero-denominator branch returned 0.0001 where
+    // the other returned 1_000_000 — the same impossible condition given two
+    // opposite invented answers, which is the clearest possible argument for a
+    // single implementation.
+    const currentKAlchm = canonicalCalculateKalchm(alchemicalProps);
 
     // Return the inverse for balance
     return 1 / currentKAlchm;

@@ -1,3 +1,4 @@
+import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import { createLogger } from "@/utils/logger";
 
@@ -249,19 +250,32 @@ export function calculateKalchm(
   matter: number,
   substance: number,
 ): number {
-  try {
-    // Kalchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
-    if (matter === 0 || substance === 0) return 0;
-    const numerator = Math.pow(spirit, spirit) * Math.pow(essence, essence);
-    const denominator =
-      Math.pow(matter, matter) * Math.pow(substance, substance);
-    return denominator > 0 ? numerator / denominator : 0;
-  } catch (error) {
-    logger.error("Error calculating Kalchm:", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return 0;
-  }
+  // Delegates to THE canonical engine. This function is the one the barrel
+  // publishes: `src/calculations/index.ts:459` does
+  // `export * from "./alchemicalCalculations"`, and the neighbouring
+  // `export * from "./core/kalchmEngine"` exports `calculateKAlchm` (capital A),
+  // a different identifier — so there is no name collision and
+  // `import { calculateKalchm } from "@/calculations"` resolved HERE.
+  //
+  // What it used to do, and why none of it was right:
+  //   `if (matter === 0 || substance === 0) return 0` — a zeroed axis is the
+  //   COMMON case (68.2% of the single-body grid), not an error. Returning 0
+  //   made ln(kalchm) −Infinity and monica non-finite, breaking totality. The
+  //   true value needs no special case at all: 0**0 is exactly 1 in JS, which is
+  //   exactly lim(x→0) x^x.
+  //   `denominator > 0 ? … : 0` — unreachable. x^x bottoms out at
+  //   0.6922006275556402, so the denominator is never 0 for non-negative axes.
+  //   The try/catch — no operation in the body can throw; Math.pow and division
+  //   are total in JS. The catch only ever disguised the two branches above.
+  //
+  // Canonical clamps negatives (Math.pow(-0.5, -0.5) is NaN) and leaves zero
+  // alone. See src/data/unified/alchemicalCalculations.ts.
+  return canonicalCalculateKalchm({
+    Spirit: spirit,
+    Essence: essence,
+    Matter: matter,
+    Substance: substance,
+  });
 }
 /**
  * Calculate the Monica constant for alchemical transformation potential

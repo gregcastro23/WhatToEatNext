@@ -29,7 +29,10 @@ import { seasonings } from "../ingredients/seasonings";
 import { spices } from "../ingredients/spices";
 import { vegetables } from "../ingredients/vegetables";
 import { vinegars } from "../ingredients/vinegars";
-import { deriveAlchemicalFromElemental } from "./alchemicalCalculations";
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  deriveAlchemicalFromElemental,
+} from "./alchemicalCalculations";
 import type { UnifiedIngredient } from "./unifiedTypes";
 
 // ===== UNIFIED INGREDIENTS SYSTEM =====;
@@ -72,16 +75,15 @@ function createFallbackDescription(name: string, category: string): string {
  * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
 function calculateKalchm(_alchemical: AlchemicalProperties): number {
-  const { Spirit, Essence, Matter, Substance } = _alchemical;
-  // Prevent division by zero or negative values
-  const safespirit = Math.max(0.001, Spirit);
-  const safeessence = Math.max(0.001, Essence);
-  const safematter = Math.max(0.001, Matter);
-  const safesubstance = Math.max(0.001, Substance);
-  return (
-    (Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence)) /
-    (Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance))
-  );
+  // Delegates to THE canonical engine. The local 0.001 floor it replaces was
+  // justified as preventing "division by zero or negative values"; neither
+  // hazard was real for zero (x^x has a global minimum of 0.6922006275556402,
+  // so the denominator is never 0) and it did not address negatives at all,
+  // since Math.max(0.001, -0.5) silently rewrites a negative axis to 0.001
+  // rather than clamping it. Its only measurable effect was inflating kalchm by
+  // 0.001^(-0.001) − 1 = +0.6932% per zeroed axis. Canonical clamps negatives
+  // to 0 and leaves zero alone.
+  return canonicalCalculateKalchm(_alchemical);
 }
 /**
  * Calculate Monica constant based on Kalchm and thermodynamic properties

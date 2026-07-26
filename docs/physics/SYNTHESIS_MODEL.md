@@ -2214,3 +2214,149 @@ exists precisely for the part that is not.
   Acceptance bar ruled: characterisation tests BEFORE touching any shared table,
   and run the drift check either side of any change, since those tables feed
   every value now in production.
+
+### 18q. The second runtime — Python was live all along `[MEASURED 2026-07-26]`
+
+§18k k7 ruled that the formula lives in "one module per runtime, enforced by an
+AST gate". The gate is a **TypeScript** AST gate, and it structurally cannot see
+a second runtime. There is one, and it serves production traffic.
+
+**Deployment, proven end to end.** `railway.json` declares
+`builder: DOCKERFILE, dockerfilePath: backend/Dockerfile`; that Dockerfile's CMD
+is `uvicorn backend.alchm_kitchen.main:app`. The Railway service **WhatToEatNext**
+is Online; `/health` returns `{"service":"alchm-backend"}`; `/openapi.json` serves
+34 routes from that module. `POST /alchemize` returned kalchm
+**121.49817994831771** for a live request, which round-trips **exactly** to the
+formula at `main.py:663`. It was not dead scaffolding.
+
+**Its kalchm was already correct.** There was no epsilon floor — Python's `0**0`
+is 1 exactly as JS's is, and `(kalchm_denominator or 1)` was unreachable for real
+input because x^x ≥ 0.6922006275556402. The defects were elsewhere:
+
+| # | Defect | Measured consequence |
+|---|---|---|
+| 1 | `monica = 1.0` at exact degeneracy | 1.0 where canonical returns φ = 1.618 |
+| 2 | Bare `ln_k != 0`, **no degenerate band** | kalchm 1.00002 → monica **−49999.5** vs φ. A **~31,000×** error that is *finite and plausible*, so it passes every downstream `isfinite` check and reaches the database |
+| 3 | Unclamped negative axis | `(-0.5) ** (-0.5)` is a **complex number** in Python where JS gives NaN. `complex or 1` is truthy so the fallback never fired; `kalchm > 0` then raised TypeError → HTTP 500 |
+| 4 | `reactivity = (num / (matter or 1)) + earth**2` | **3.17×** divergence — see below |
+| 5 | `TokenRatesResult(... kalchm=1.0, monica=1.0)` from a bare `except: pass` | fabricated ESMS tuple |
+| 6 | `result.get('kalchm', 0)` | 0 is IMPOSSIBLE for kalchm under the totality contract |
+
+**Defect 4 is the instructive one.** `reactivity` should be
+`(S² + Su² + E² + F² + A² + W²) / (Matter + Earth)²`. The Python form is that
+expression **with the parentheses lost**, so Earth left the denominator and
+became an additive term. This is not a judgement call between two candidate
+definitions: **all nine TypeScript implementations** use `(Matter + Earth)²`
+(`data/unified/alchemicalCalculations.ts:227`, `calculations/gregsEnergy.ts:164`,
+`calculations/core/alchemicalEngine.ts:258`, `services/UnifiedScoringService.ts:582`,
+`lib/core-energy-rules.ts:185`, `utils/recommendation/ingredientRecommendation.ts:1158`
+and `:1256`, `app/recipes/[recipeId]/RecipeClient.tsx:441`,
+`calculations/alchemicalCalculations.ts:191`). Measured on
+(S,Su,E,F,A,W,M,Ea) = (4,1,3,2,1.5,1,2,0.5): **16.875 vs 5.320**. The two forms
+coincide **only when Earth = 0 and Matter = 1**, which is why it survived.
+
+Python also used `(den or 1)` on the heat and entropy denominators where
+canonical floors at `THERMO_DEN_FLOOR = 0.01`. Those differ at a zero
+denominator by a factor of **100**, in the direction of understating the value.
+
+**Fixed** by one `compute_kalchm_monica`, plus aligned thermodynamic
+denominators. Both runtimes are now pinned by shared golden vectors in
+`backend/tests/kalchm_golden_vectors.json` — 12 kalchm/monica vectors and 5
+thermodynamic vectors × 4 quantities — read by
+`backend/tests/test_kalchm_parity.py` and
+`src/__tests__/kalchmCrossRuntimeParity.test.ts`. Expected values are
+**generated from canonical**, not transcribed: 9 of 12 hand-written monica values
+were wrong on the first pass, which is k10 reproducing itself exactly.
+
+#### Rulings
+
+| # | Ruling | Basis |
+|---|---|---|
+| q1 | The formula lives in one module **per runtime**, and "per runtime" must be **enumerated**, not assumed. A TypeScript gate proves nothing about Python, SQL, Rust or a notebook. | MEASURED |
+| q2 | Cross-runtime agreement must be **tested, never inferred from a shared formula**. `(-0.5) ** (-0.5)` differs between JS and Python in **TYPE**, not just value. | MEASURED |
+| q3 | ⚠️ **A near-degenerate divergence is more dangerous than a NaN.** NaN announces itself; −49999.5 is finite, plausible, and survives every `isfinite` guard to reach the database. Test the BAND, never the point. | MEASURED |
+| q4 | Where implementations disagree, **count them**. Nine-to-one with a visible mechanism (lost parentheses) settles a question that prose argument would not. | MEASURED |
+
+### 18r. Corrections to §18k `[MEASURED 2026-07-26]`
+
+Three claims this programme acted on did not survive re-measurement. Recording
+them because the reversals are the more instructive record (§18k precedent).
+
+**r1 — "`src/calculations/alchemicalCalculations.ts` is UNREACHABLE; DELETE it."
+FALSE.** Three adversarial verifiers, each with a different lens, returned
+REACHABLE at high confidence, with an empirical deletion test:
+`src/calculations/index.ts:459` does `export * from "./alchemicalCalculations"`,
+and removing the file yields exactly one
+`TS2307: Cannot find module './alchemicalCalculations'`. Worse — the neighbouring
+`export * from "./core/kalchmEngine"` exports `calculateKAlchm` (**capital A**), a
+*different identifier*, so no name collision shadowed it and
+`import { calculateKalchm } from "@/calculations"` bound to **this** file: the
+copy that returned **0** at a zeroed axis, making `ln(kalchm)` −Infinity. **The
+barrel was publicly exporting the worst implementation in the repo.** Delegated,
+not deleted. Deletion is a one-way door; delegation fixes the behaviour either
+way and is reversible.
+
+**r2 — "`src/lib/core-energy-rules.ts` is live via galileo-logger
+ANumberCalculator." FALSE.** Refuted by three independent sweeps, each with a
+positive control. It has no live callers at all. The claim had been used **twice**
+to defer the file from dead-code sweeps. Of its four alleged defects, three
+confirmed (sign destruction via `Math.abs`, a parity-based sign flip letting
+kalchm go negative, a `return NaN` violating totality); the fourth —
+`Math.log(Math.abs(k))` masking negativity — is **misdescribed**: the
+`kalchmConstant > 0` guard on the preceding line rejects a negative first, so that
+line is unreachable with a negative argument.
+
+**r3 — the persisted-value partition.** Measured by AST walk with an exact
+round-trip test at each value's own stored precision: **967 reproducible / 198
+placeholders**, not 540 / 203 / 423. The "423 unverifiable, inputs never
+persisted" population **does not exist** — those values reproduce exactly from
+ESMS stored beside them. The work item to persist their inputs is therefore
+unnecessary, the same way k13's 4940-row migration was cancelled.
+
+Also re-measured: `natal_positions` is an **empty array** (not a partial chart)
+for Mars Gemini and Moon Cancer; **285** agents hold monica_constant exactly 0,
+not 284; and the agent population moved **5028 → 5032 → 5057 within four hours**,
+which is k-level evidence for never quoting a count from a document.
+
+### 18s. The ephemeris gate — it passes, but not for the reason expected `[MEASURED 2026-07-26]`
+
+§18k k20 gated chart authoring on validating `astronomy-engine` outside its
+documented ~1700–2200 window. **Validated against JPL Horizons (DE441),
+56 body-date pairs across the 8 ancients × 7 bodies:**
+
+| | result |
+|---|---|
+| SIGN mismatches | **0 of 56** |
+| DEGREE mismatches | 4 of 56 (7.1%) |
+| worst deviation | **0.4533°** (Moon) |
+| controls (J2000, 1875) | ≤ 0.0011° |
+
+Since the ESMS vector is driven by **sign**, ancient charts are defensible at
+sign granularity. k20 is **cleared** — but two other things nearly produced a
+wrong answer, and one of them is the real blocker:
+
+1. **Horizons returns rows sorted by JD, not in TLIST order.** Zipping
+   positionally reported **26 sign mismatches** — entirely artefact. Caught only
+   because a control row mapped J2000 to 1875. Join on the echoed JD
+   (`CAL_FORMAT='JD'`), never on array position.
+2. **Calendar convention dwarfs ephemeris error by two orders of magnitude.**
+   JS `Date` is proleptic Gregorian; historical dates are quoted in the **Julian**
+   calendar. The same JD reads as May 21 (Gregorian) and May 26 (Julian) — a
+   5-day gap, which is ~4.9° of Sun and **~66° of Moon, more than two signs.**
+3. Outer-planet **body-centre** ephemerides (Horizons 499/599/699) do not exist
+   before **AD 1600**; ancient work needs the barycentres (4/5/6).
+
+**So the blocker for the 8 ancients is date ATTESTATION, not ephemeris
+accuracy.** A Sun-degree → date inversion (measured: exact round-trip,
+sub-arcsecond, at 750 BC) structurally removes hazard 2, because it never
+constructs a calendar date — but it cannot supply the year, and a 1° Sun window
+(±0.5 day) leaves the Moon spanning **14.28°**: degree unrecoverable, ~48% chance
+of straddling a sign boundary. Pairing it with an attested lunar-calendar day
+(Plato's traditional 7 Thargelion → Sun–Moon elongation) is what would pin the
+Moon.
+
+| # | Ruling |
+|---|---|
+| s1 | An external ephemeris comparison must **join on an explicit key**. Row order is not a contract, and a positional zip fails silently and spectacularly. |
+| s2 | For any pre-1582 date, state the **calendar** as explicitly as the timezone. Going longitude → JD avoids the question entirely and is preferred. |
+| s3 | Authoring a chart from a declared convention is acceptable **only if the convention is recorded as the basis**. The same guess inside a birth date reads as a fact; inside `basis=DERIVED` it reads as what it is. |

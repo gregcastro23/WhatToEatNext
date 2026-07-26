@@ -13,6 +13,7 @@ import { flavorProfiles as integrationFlavorProfiles } from "../integrations/fla
 import {
     planetaryFlavorProfiles
 } from "../planetaryFlavorProfiles";
+import { calculateKalchm as canonicalCalculateKalchm } from "./alchemicalCalculations";
 import { unifiedFlavorProfiles } from "./data/unifiedFlavorProfiles";
 import type { BaseFlavorNotes, UnifiedFlavorProfile } from "./unifiedTypes";
 
@@ -797,12 +798,12 @@ export class FlavorProfileMigration {
   private calculateKalchm(profile: UnifiedFlavorProfile): number {
     // Simplified Kalchm calculation based on elemental and alchemical properties
     if (!profile.alchemicalProperties) return 1.0; // Default if no alchemical properties
-    const { Spirit, Essence, Matter, Substance } = profile.alchemicalProperties;
-    if (Matter === 0 || Substance === 0) return 1.0; // Default neutral value
-    return (
-      (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-      (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
-    );
+    // Kalchm via THE canonical engine. The `Matter === 0 || Substance === 0`
+    // branch it replaces returned 1.0 — the DEGENERATE value — for any chart
+    // with a zeroed denominator axis. That is a misclassification, not a
+    // rounding difference: a zeroed axis is neither sufficient nor necessary for
+    // kalchm === 1, and this branch asserted it was sufficient.
+    return canonicalCalculateKalchm(profile.alchemicalProperties);
   }
   private calculateMonicaOptimization(profile: UnifiedFlavorProfile): number {
     // Estimate Monica optimization based on profile characteristics
