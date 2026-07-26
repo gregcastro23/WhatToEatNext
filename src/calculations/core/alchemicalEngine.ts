@@ -1,3 +1,4 @@
+import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
 import type {
   AstrologicalState,
   Element,
@@ -260,10 +261,15 @@ function alchemize(planetaryPositions: {
   // Greg's Energy
   const gregsEnergy = heat - entropy * reactivity;
 
-  // Kalchm (K_alchm)
-  const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
+  // Kalchm (K_alchm) via THE canonical engine. This copy had no floor and no
+  // guard at all, so it matched canonical exactly on non-negative axes and
+  // produced NaN on a negative one — which then propagated into monica below.
+  const kalchm = canonicalCalculateKalchm({
+    Spirit,
+    Essence,
+    Matter,
+    Substance,
+  });
 
   // Monica constant
   let monica = NaN;

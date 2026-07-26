@@ -3,6 +3,7 @@ import type {
     AlchemicalProperty,
     ElementalCharacter
 } from "@/constants/planetaryElements";
+import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
 import { _logger } from "@/lib/logger";
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 import { log } from "@/services/LoggingService";
@@ -2588,12 +2589,18 @@ function calculateAlchemicalProperties(
         Math.pow(Water, 2)) /
       Math.max(1, Math.pow(Matter + Earth, 2));
     const gregsEnergy = heat - entropy * reactivity;
-    // Calculate Kalchm
-    const kalchm =
-      Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0
-        ? (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-          (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
-        : 1;
+    // Kalchm via THE canonical engine. This copy had NO epsilon floor, so on
+    // all-positive axes it already agreed with canonical bit-for-bit. What it
+    // did have was an all-or-nothing guard: if ANY axis was ≤ 0 it returned 1,
+    // i.e. it reported a perfectly degenerate chart for what is usually an
+    // ordinary one. A zeroed axis is the common case, and it does not imply
+    // kalchm === 1 — of 5400 zeroed-axis grid cells, 4980 have kalchm ≠ 1.
+    const kalchm = canonicalCalculateKalchm({
+      Spirit,
+      Essence,
+      Matter,
+      Substance,
+    });
     // Calculate Monica constant
     let monica = 0;
     if (kalchm > 0) {

@@ -5,7 +5,10 @@
  * for Kalchm (K_alchm) and Monica Constant (M) as specified in the system requirements.
  */
 
-import { calculateMonica } from "@/data/unified/alchemicalCalculations";
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { getCachedCalculation } from "../../utils/calculationCache";
@@ -164,20 +167,22 @@ export function calculateKAlchm(
   Matter: number,
   Substance: number,
 ): number {
-  // Ensure all values are positive to avoid NaN in power calculations
-  const safespirit = Math.max(0.1, Spirit);
-  const safeessence = Math.max(0.1, Essence);
-  const safematter = Math.max(0.1, Matter);
-  const safesubstance = Math.max(0.1, Substance);
-
-  const numerator =
-    Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
-  const denominator =
-    Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
-
-  // Prevent division by zero
-  if (denominator === 0) return 1.0;
-  return numerator / denominator;
+  // Delegates to THE canonical engine.
+  //
+  // This copy floored every axis at 0.1, and of all the strays it was the only
+  // one that corrupted the DEGENERACY CLASSIFICATION rather than just the
+  // magnitude. A floor at eps inflates kalchm by exactly eps^(-eps) − 1 per
+  // zeroed axis — +25.8925% at 0.1 — so a truly degenerate chart (kalchm
+  // exactly 1, |ln k| exactly 0) came back with |ln k| up to 0.2303, ABOVE the
+  // measured healthy floor of 0.21878586815274545. It therefore read as a
+  // perfectly HEALTHY chart rather than an equilibrium one, and monica was
+  // computed from the divergence instead of returning φ.
+  //
+  // The floor was never needed: `Math.max(0.1, x)` was justified as avoiding
+  // NaN, but 0**0 is exactly 1 in JS and x^x has a global minimum of
+  // 0.6922006275556402, so neither NaN nor a zero denominator is reachable from
+  // a non-negative axis. Only NEGATIVES produce NaN, and canonical clamps those.
+  return canonicalCalculateKalchm({ Spirit, Essence, Matter, Substance });
 }
 
 /**

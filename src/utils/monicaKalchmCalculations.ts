@@ -1,6 +1,9 @@
 import { calculateKinetics } from "@/calculations/kinetics";
 import { ALCHEMICAL_PILLARS, COOKING_METHOD_PILLAR_MAPPING } from "@/constants/alchemicalPillars";
-import { calculateMonica } from "@/data/unified/alchemicalCalculations";
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import type { KineticMetrics } from "@/types/kinetics";
@@ -109,16 +112,22 @@ export function calculateKAlchm(
   matter: number,
   substance: number,
 ): number {
-  // Ensure positive values and handle edge cases
-  const safeSpirit = Math.max(0.01, spirit);
-  const safeEssence = Math.max(0.01, essence);
-  const safeMatter = Math.max(0.01, matter);
-  const safeSubstance = Math.max(0.01, substance);
-  const numerator =
-    Math.pow(safeSpirit, safeSpirit) * Math.pow(safeEssence, safeEssence);
-  const denominator =
-    Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance);
-  return denominator > 0 ? numerator / denominator : 1;
+  // Delegates to THE canonical engine. This was the most-used stray copy — 11
+  // files reach it, five of them React components — and it floored every axis
+  // at 0.01, inflating kalchm by exactly 0.01^(-0.01) − 1 = +4.7129% per
+  // imbalanced zeroed axis.
+  //
+  // It did NOT corrupt the degeneracy classification (unlike the 0.1 floor in
+  // core/kalchmEngine.ts): the most |ln k| it could manufacture from a
+  // degenerate chart is 2 × 0.04605170185988091 = 0.0921, still inside the
+  // MONICA_LN_EPSILON band of 0.10939293407637272. So the damage was confined
+  // to magnitude, and healthy charts were already bit-for-bit correct.
+  return canonicalCalculateKalchm({
+    Spirit: spirit,
+    Essence: essence,
+    Matter: matter,
+    Substance: substance,
+  });
 }
 /**
  * Calculate Monica Constant: Dynamic system constant relating energy to equilibrium

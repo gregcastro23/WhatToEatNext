@@ -42,54 +42,12 @@ const CANONICAL = "src/data/unified/alchemicalCalculations.ts";
  * gate exists to prevent. Delegate to the canonical engine instead.
  */
 const ALLOWLIST: Record<string, { count: number; why: string }> = {
-  // ── characterised: floor strategy measured, divergence known ──────────────
-  "src/utils/monicaKalchmCalculations.ts": {
-    count: 4,
-    why: "calculateKAlchm, floor 0.01 (+4.7129% at a zeroed axis). 8 calling files incl. 3 React components — the most-used copy in the repo.",
-  },
-  "src/calculations/core/kalchmEngine.ts": {
-    count: 4,
-    why: "calculateKAlchm, floor 0.1 (+25.8925%). Its floored |ln kalchm| of 0.2303 exceeds the healthy floor 0.2188, so a degenerate chart reads as HEALTHY. Highest-priority delegation.",
-  },
-  "src/data/unified/ingredients.ts": {
-    count: 4,
-    why: "file-local calculateKalchm, floor 0.001 (+0.6932%). One caller, same file.",
-  },
-  "src/data/unified/flavorProfileMigration.ts": {
-    count: 4,
-    why: "file-local calculateKalchm. Not a floor — returns 1.0 when Matter or Substance is 0, which at least keeps monica defined at the equilibrium value.",
-  },
-  "src/calculations/alchemicalCalculations.ts": {
-    count: 4,
-    why: "UNREACHABLE (verified: no call, no value reference, no string dispatch). Returns 0 at a zeroed axis => ln(kalchm) -Infinity => monica non-finite, a totality-contract violation. DELETE rather than delegate.",
-  },
-
-  // ── found by this gate, NOT yet characterised ─────────────────────────────
-  // ⚠️ These were missed by the earlier grep-based audits that reported "8
-  // duplicates". Each still needs its zero-axis behaviour measured before it can
-  // be delegated. Do not assume they match any of the strategies above.
-  "src/calculations/core/alchemicalEngine.ts": { count: 4, why: "not yet characterised" },
-  "src/data/unified/recipeBuilding.ts": { count: 4, why: "not yet characterised" },
-  "src/lib/core-energy-rules.ts": {
-    count: 4,
-    why: "not yet characterised. Live via galileo-logger ANumberCalculator — previously deferred from a dead-code sweep for that reason.",
-  },
-  "src/services/RealAlchemizeService.ts": {
-    count: 8,
-    why: "TWO copies. The production ESMS path — treat any change here as behaviour-affecting for live surfaces.",
-  },
-  "src/services/UnifiedScoringService.ts": { count: 4, why: "not yet characterised" },
-  "src/utils/alchemy/derivedStats.ts": { count: 8, why: "TWO copies. Not yet characterised." },
-  "src/utils/astrologyUtils.ts": {
-    count: 4,
-    why: "not yet characterised. NO floor at all (Math.pow(Spirit, Spirit) on the raw axes), so post-#642 it may already agree with canonical exactly.",
-  },
-  "src/utils/recommendation/ingredientRecommendation.ts": {
-    count: 12,
-    why: "THREE copies in one file (:1109, :1182, :1280). The worst single concentration in the repo.",
-  },
-
   // ── legitimate restatements ───────────────────────────────────────────────
+  //
+  // This is the END STATE the gate was built for: ONE entry. Every other copy
+  // has been delegated to src/data/unified/alchemicalCalculations.ts.
+  //
+  // The list may SHRINK. It must not grow.
   "src/__tests__/kalchmFloorDivergence.test.ts": {
     count: 4,
     why: "the characterisation test's own reference implementation of the DEFINITION (no floor). It must restate the formula in order to measure the others against it.",

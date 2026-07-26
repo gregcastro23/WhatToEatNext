@@ -23,6 +23,7 @@ import {
   getEnhancedIngredients,
   type EnhancedRecipeIngredient,
 } from "../../constants/alchemicalPillars";
+import { calculateKalchm as canonicalCalculateKalchm } from "./alchemicalCalculations";
 import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis,
@@ -191,12 +192,12 @@ function kalchmForCuisine(cuisine: string): number | null {
   const sig = lookupCuisineSignature(cuisine);
   if (!sig?.averageAlchemical) return null;
   const { Spirit, Essence, Matter, Substance } = sig.averageAlchemical;
-  if (Matter <= 0 || Substance <= 0) return null;
-  // K = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
-  return (
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
-    (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
-  );
+  // Kalchm via THE canonical engine. The `Matter <= 0 || Substance <= 0` bail
+  // that used to guard this returned null — i.e. "no value" — for a chart whose
+  // kalchm is perfectly well defined: a zeroed denominator axis contributes
+  // exactly 1 (0**0), it does not divide by zero. Only a NEGATIVE axis was ever
+  // a hazard, and canonical clamps those.
+  return canonicalCalculateKalchm({ Spirit, Essence, Matter, Substance });
 }
 
 function monicaProxyForCuisine(cuisine: string): number | null {

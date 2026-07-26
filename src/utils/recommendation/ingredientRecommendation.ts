@@ -1,3 +1,4 @@
+import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
 import { _logger } from "@/lib/logger";
 import type { AstrologicalState, ElementalProperties } from "@/types/alchemy";
 import type { ScoredItem } from "@/types/common";
@@ -1100,20 +1101,16 @@ function calculateKalchmResonance(
     const Substance = (Fire + Water) / 2; // Transformative elements
 
     // Avoid zero values by using minimum 0.01
-    const s = Math.max(0.01, Spirit);
-    const e = Math.max(0.01, Essence);
-    const m = Math.max(0.01, Matter);
-    const sub = Math.max(0.01, Substance);
-
-    // Calculate Kalchm with proper formula
-    const numerator = Math.pow(s, s) * Math.pow(e, e);
-    const denominator = Math.pow(m, m) * Math.pow(sub, sub);
-
-    if (denominator === 0 || !isFinite(numerator) || !isFinite(denominator)) {
-      return 0.5;
-    }
-
-    const kalchm = numerator / denominator;
+    // Kalchm via THE canonical engine (copy 1 of 3 that this file held).
+    // The 0.01 floor inflated kalchm by +4.7129% per zeroed axis, and the
+    // `denominator === 0` bail returning 0.5 was unreachable — x^x has a global
+    // minimum of 0.6922006275556402, so the denominator is never 0.
+    const kalchm = canonicalCalculateKalchm({
+      Spirit,
+      Essence,
+      Matter,
+      Substance,
+    });
 
     // Normalize to 0-1 range using logarithmic scaling
     // Higher Kalchm = higher transformation potential
@@ -1172,14 +1169,13 @@ function calculateMonicaOptimization(
 
     const gregsEnergy = heat - entropy * reactivity;
 
-    // Calculate Kalchm for Monica formula
-    const s = Math.max(0.01, Spirit);
-    const e = Math.max(0.01, Essence);
-    const m = Math.max(0.01, Matter);
-    const sub = Math.max(0.01, Substance);
-
-    const kalchm =
-      (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+    // Kalchm via THE canonical engine (copy 2 of 3 that this file held).
+    const kalchm = canonicalCalculateKalchm({
+      Spirit,
+      Essence,
+      Matter,
+      Substance,
+    });
 
     // Calculate Monica
     let monica = 1.0;
@@ -1271,13 +1267,13 @@ function calculateKineticScore(
 
     const gregsEnergy = heat - entropy * reactivity;
 
-    // Calculate Kalchm for thermodynamic completeness
-    const s = Math.max(0.01, Spirit);
-    const e = Math.max(0.01, Essence);
-    const m = Math.max(0.01, Matter);
-    const sub = Math.max(0.01, Substance);
-    const kalchm =
-      (Math.pow(s, s) * Math.pow(e, e)) / (Math.pow(m, m) * Math.pow(sub, sub));
+    // Kalchm via THE canonical engine (copy 3 of 3 that this file held).
+    const kalchm = canonicalCalculateKalchm({
+      Spirit,
+      Essence,
+      Matter,
+      Substance,
+    });
 
     // Calculate Monica
     let monica = 1.0;
