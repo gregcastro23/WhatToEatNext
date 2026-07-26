@@ -53,6 +53,41 @@ function enumerateAbsLnKalchm(): number[] {
   return out.sort((a, b) => a - b);
 }
 
+/**
+ * The same enumeration, but keeping each cell's kalchm alongside whether any ESMS
+ * axis was zero — the two facts needed to check what a zeroed axis actually
+ * implies. Kept separate from `enumerateAbsLnKalchm` so that function's contract
+ * (a sorted list of |ln k|) stays untouched.
+ */
+function enumerateCells(): { kalchm: number; hasZeroAxis: boolean }[] {
+  const out: { kalchm: number; hasZeroAxis: boolean }[] = [];
+  for (const planet of Object.keys(PLANETARY_SECTARIAN_ESMS)) {
+    const table = PLANETARY_SECTARIAN_ESMS[planet as keyof typeof PLANETARY_SECTARIAN_ESMS];
+    for (const sign of Object.keys(ZODIAC_ELEMENTS)) {
+      const dignityScale = getDignityScore(planet, sign as never).esmsScale;
+      for (let degree = 0; degree < 30; degree++) {
+        const v = groundingVessel(degree, dignityScale);
+        for (const sect of ["diurnal", "nocturnal"] as const) {
+          const base: ESMS = table ? { ...ZERO, ...table[sect] } : ZERO;
+          const esms: ESMS = {
+            Spirit: base.Spirit + v.Spirit,
+            Essence: base.Essence + v.Essence,
+            Matter: base.Matter + v.Matter,
+            Substance: base.Substance + v.Substance,
+          };
+          out.push({
+            kalchm: calculateKalchm(esms as AlchemicalProperties),
+            hasZeroAxis: [esms.Spirit, esms.Essence, esms.Matter, esms.Substance].some(
+              (x) => x === 0,
+            ),
+          });
+        }
+      }
+    }
+  }
+  return out;
+}
+
 /** The widest gap below 0.5 — the band's home. */
 function widestLowGap(sorted: number[]): { lo: number; hi: number; width: number } {
   let best = { lo: 0, hi: 0, width: 0 };
@@ -113,12 +148,44 @@ describe("MONICA_LN_EPSILON is derived from a measured gap", () => {
 
   it("the degenerate ceiling is EXACTLY zero, not merely small", () => {
     // The strongest consequence of removing the floor: the degenerate set stops
-    // being an empirical cluster and becomes an exact algebraic condition.
-    // kalchm === 1 <=> ln kalchm === 0, for every chart with a zeroed axis.
+    // being an empirical cluster and becomes an exact algebraic condition —
+    // kalchm === 1, i.e. ln kalchm === 0, i.e. numerator === denominator.
+    //
+    // ⚠️ CORRECTED 2026-07-25. This comment used to end "…for every chart with a
+    // zeroed axis", which is FALSE, and was caught by an audit in a sibling repo.
+    // A zeroed axis contributes a factor of 0**0 === 1 to one side of the ratio;
+    // it does NOT force the ratio itself to 1. Measured over this grid, a zeroed
+    // axis is NEITHER SUFFICIENT NOR NECESSARY — see the assertions below. The
+    // real condition is only S^S·E^E === M^M·Su^Su, which symmetric ESMS satisfy
+    // whether or not any axis is zero.
+    //
+    // Only the comment was wrong; every assertion here was and remains correct,
+    // because none of them ever tested the false claim. That is the hazard —
+    // a green test does not validate the prose next to it.
     expect(GAP.lo).toBe(0);
     expect(GRID.filter((v) => v === 0).length).toBeGreaterThan(0);
     // And nothing sits between 0 and the healthy floor — that IS the gap.
     expect(GRID.filter((v) => v > 0 && v < GAP.hi).length).toBe(0);
+  });
+
+  it("a zeroed axis is neither sufficient nor necessary for kalchm === 1", () => {
+    // Pins the measurement that corrected the comment above, so it cannot drift
+    // back into a plausible-sounding biconditional.
+    const cells = enumerateCells();
+    expect(cells.length).toBe(7920);
+
+    const zeroAxis = cells.filter((c) => c.hasZeroAxis);
+    const degenerate = cells.filter((c) => c.kalchm === 1);
+
+    expect(zeroAxis.length).toBe(5400);
+    expect(degenerate.length).toBe(660); // same 660 the classification test counts
+
+    // NOT SUFFICIENT: most zeroed-axis charts have a perfectly ordinary kalchm.
+    expect(zeroAxis.filter((c) => c.kalchm !== 1).length).toBe(4980);
+
+    // NOT NECESSARY: 240 charts reach kalchm === 1 with every axis non-zero.
+    expect(degenerate.filter((c) => !c.hasZeroAxis).length).toBe(240);
+    expect(degenerate.filter((c) => c.hasZeroAxis).length).toBe(420);
   });
 
   it("sits strictly inside the gap, with real margin on both sides", () => {
