@@ -23,7 +23,8 @@ export interface TokenRatesResult {
   Matter: number;
   Substance: number;
   kalchm: number;
-  monica: number;
+  /** null when the source had no elemental input — see alchm-client.ts. */
+  monica: number | null;
   // Additional backend metrics
   projections?: {
     nextHour: {
@@ -74,7 +75,12 @@ function computeTokensFromAlchemical(
     Matter,
     Substance,
     kalchm: typeof ar?.kalchm === "number" ? ar.kalchm : 1.0,
-    monica: typeof ar?.monica === "number" ? ar.monica : 1.0,
+    // NOT `: 1.0`. The backend now returns monica === null when it has no
+    // elemental input — a planetary hour names a ruling planet, not a sign, and
+    // monica = −gregsEnergy/(reactivity · ln kalchm) needs elements. A literal
+    // here would re-invent exactly the value the server declined to invent, and
+    // 1.0 is not even the degenerate value (that is φ = 1.618).
+    monica: typeof ar?.monica === "number" ? ar.monica : null,
   };
 }
 

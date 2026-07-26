@@ -36,9 +36,9 @@ from backend.alchm_kitchen.auth_middleware import get_current_user
 # imports, so the cross-runtime parity gate can import it on a bare Python —
 # a gate that cannot be collected reads as a pass.
 from backend.alchm_kitchen.thermodynamics import (
-    MONICA_EQUILIBRIUM,
     THERMO_DEN_FLOOR,
     compute_kalchm_monica,
+    planetary_hour_esms,
 )
 
 
@@ -843,7 +843,17 @@ class TokenRatesResult(BaseModel):
     Matter: float
     Substance: float
     kalchm: float
-    monica: float
+    # NULLABLE, deliberately. monica = -gregsEnergy / (reactivity * ln kalchm),
+    # and both gregsEnergy and reactivity are functions of the four ELEMENTS.
+    # Elements come from SIGNS; this endpoint is given only a planetary HOUR,
+    # which names a ruling planet and no sign. So monica is genuinely not
+    # derivable here, and null says that. Substituting a literal would invent
+    # data — which is exactly what the previous `monica=1.0` did.
+    #
+    # kalchm is a different case: it is (S^S * E^E) / (M^M * Su^Su), a function
+    # of the ESMS axes ALONE, and those the planetary hour does determine. So
+    # kalchm is real and monica is absent, which is not an inconsistency.
+    monica: Optional[float] = None
     planetaryHour: Optional[str] = None
     isDaytime: Optional[bool] = None
 
@@ -888,13 +898,27 @@ async def calculate_token_rates_endpoint(request: TokenRatesRequest):
     except Exception:
         pass
         
-    # kalchm 1.0 is the true degenerate value for a unit ESMS vector, and monica
-    # at that kalchm is the equilibrium constant — NOT 1.0, which was a
-    # fabricated literal. The four unit axes remain a declared convention for
-    # this rate endpoint rather than a measurement.
+    # The four axes are MEASURED from the resolved planetary hour, not declared.
+    # Previously they were the literals (1,1,1,1), which made kalchm 1.0 for
+    # every hour of every day — a constant wearing the shape of a computation.
+    #
+    # The construction is single-body (§18c): the ruling planet's own sectarian
+    # row plus the Ascendant grounding vessel. Without the vessel a ruler
+    # contributes to one axis, the other three are 0, and the result carries no
+    # information. With it, e.g. a diurnal Sun hour gives (2,1,1,1) -> kalchm 4.0
+    # and a nocturnal Moon hour gives (1,1,2,1) -> kalchm 0.25.
+    esms = planetary_hour_esms(planetary_hour, is_day)
+    kalchm, _ = compute_kalchm_monica(
+        esms["Spirit"], esms["Essence"], esms["Matter"], esms["Substance"],
+        # Reactivity and gregsEnergy are element-derived and unavailable here, so
+        # the monica this returns would be meaningless. It is discarded and the
+        # field is reported as null — see TokenRatesResult.monica.
+        reactivity=1.0, gregs_energy=1.0,
+    )
     return TokenRatesResult(
-        Spirit=1.0, Essence=1.0, Matter=1.0, Substance=1.0,
-        kalchm=1.0, monica=MONICA_EQUILIBRIUM,
+        Spirit=esms["Spirit"], Essence=esms["Essence"],
+        Matter=esms["Matter"], Substance=esms["Substance"],
+        kalchm=kalchm, monica=None,
         planetaryHour=planetary_hour,
         isDaytime=is_day
     )
