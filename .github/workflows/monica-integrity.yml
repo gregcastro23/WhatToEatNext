@@ -166,3 +166,36 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkNoNewClonedCharts.ts
+
+      - name: No fabricated fields on stored natal bodies
+        # A FOURTH data witness. The other three all passed while every one of the
+        # 710 stored bodies carried `longitude: 0` — a fabricated literal, since
+        # the upstream producer evaluates `data?.longitude ?? data?.degrees ?? 0`
+        # over objects that have neither key. Drift-clean (the canonical parser
+        # ignores it), structurally valid, and not a clone, so nothing else saw it.
+        #
+        # `0` is not nullish, so a `?? longitude ??` chain STOPS there and never
+        # reaches `degree` — which is how an earlier audit "found" 71 all-zero
+        # charts that were nothing of the kind.
+        #
+        # The ingest endpoints now strip the key, but the upstream provisioning
+        # scripts are run BY HAND against this database. This step is what notices
+        # if that stripping is ever removed or routed around by a new write path.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkNoFabricatedNatalFields.ts
+
+      - name: Economy SQL parses against PostgreSQL
+        # SQL is a second language here and ONLY the database can typecheck it.
+        # The credit statement once shipped in a state PostgreSQL refused to
+        # prepare at all (42P08, a bind parameter deduced as two different
+        # types) — so every credit threw. Thirteen unit tests covered that path
+        # and all thirteen passed, because they mock the database, and a mock
+        # accepts SQL no database would.
+        #
+        # PREPARE does parse + parameter-type analysis and writes NOTHING: no
+        # transaction, no rows. It also catches a misspelled column and a
+        # parameter count that has drifted from the call site.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkEconomySqlParses.ts

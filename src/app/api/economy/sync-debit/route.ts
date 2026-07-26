@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
+import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -178,7 +179,11 @@ export async function POST(req: NextRequest) {
       const monicaCandidate = resolvedMonica?.combined ?? null;
       const hasNatalChart =
         ap.natalChart && typeof ap.natalChart === "object" && Object.keys(ap.natalChart).length > 0;
-      const hasNatalPositions = Array.isArray(ap.natalPositions) && (ap.natalPositions as unknown[]).length > 0;
+      // Strip the fabricated `longitude: 0` on the way in — see
+      // normaliseNatalPositions. This endpoint is a live ingest path, so
+      // cleaning stored rows without cleaning here would let the key return.
+      const natalPositions = normaliseNatalPositions(ap.natalPositions);
+      const hasNatalPositions = Array.isArray(natalPositions) && (natalPositions as unknown[]).length > 0;
       const hasBirthData = ap.birthDate || ap.birthTime || ap.birthLocation;
 
       // COALESCE so a null/empty field in this fire never wipes a previously
@@ -202,7 +207,7 @@ export async function POST(req: NextRequest) {
           hasNatalChart,
           JSON.stringify(ap.natalChart || {}),
           hasNatalPositions,
-          JSON.stringify(ap.natalPositions || []),
+          JSON.stringify(natalPositions || []),
           dominantElementCandidate,
           monicaCandidate,
           hasBirthData,

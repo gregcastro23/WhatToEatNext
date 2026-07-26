@@ -113,3 +113,70 @@ def compute_kalchm_monica(
     monica = -gregs_energy / (safe_reactivity * ln_k)
     # Totality: never NaN, never None, never infinite.
     return kalchm, (monica if math.isfinite(monica) else MONICA_EQUILIBRIUM)
+
+
+# ── Planet -> ESMS, by sect ─────────────────────────────────────────────────
+#
+# The SECOND copy of this table in the project. The first is
+# `PLANETARY_SECTARIAN_ESMS` in src/utils/planetaryAlchemyMapping.ts, which is
+# canonical: it is what the chart engine, RealAlchemizeService and all three
+# agent-monica constructions read.
+#
+# A second copy is a divergence hazard of exactly the kind this module exists to
+# contain — a Python reactivity formula silently drifted from its TypeScript
+# original for months and was 3.17x wrong. So this copy is NOT trusted on sight:
+# backend/tests/kalchm_golden_vectors.json carries the table as generated FROM
+# the TypeScript source, and test_kalchm_parity.py asserts this dict equals it
+# entry for entry, both sects. If someone edits one side only, that test fails.
+#
+# Ascendant is not a planet. It is the GROUNDING VESSEL: without it a single
+# body contributes to at most one axis, three axes are 0, and kalchm collapses to
+# a degenerate value carrying no information. It is what makes a one-body
+# reading meaningful, and it is why it is 1 on every axis in both sects.
+PLANETARY_SECTARIAN_ESMS: dict[str, dict[str, dict[str, float]]] = {
+    "Sun":       {"diurnal": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0}},
+    "Moon":      {"diurnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 1, "Substance": 0}},
+    "Mercury":   {"diurnal": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 0, "Substance": 1}},
+    "Venus":     {"diurnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 1, "Substance": 0}},
+    "Mars":      {"diurnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 1, "Substance": 0}},
+    "Jupiter":   {"diurnal": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0}},
+    "Saturn":    {"diurnal": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 1, "Substance": 0}},
+    "Uranus":    {"diurnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 1, "Substance": 0}},
+    "Neptune":   {"diurnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 0, "Substance": 1}},
+    "Pluto":     {"diurnal": {"Spirit": 0, "Essence": 1, "Matter": 0, "Substance": 0},
+                  "nocturnal": {"Spirit": 0, "Essence": 0, "Matter": 1, "Substance": 0}},
+    "Ascendant": {"diurnal": {"Spirit": 1, "Essence": 1, "Matter": 1, "Substance": 1},
+                  "nocturnal": {"Spirit": 1, "Essence": 1, "Matter": 1, "Substance": 1}},
+}
+
+AXES = ("Spirit", "Essence", "Matter", "Substance")
+
+
+def planetary_hour_esms(ruler: str, is_daytime: bool) -> dict[str, float]:
+    """ESMS for a single ruling planet, grounded by the Ascendant vessel.
+
+    This is the SINGLE-BODY construction (§18c), the same shape the TypeScript
+    side uses for a one-placement agent: the planet's own sectarian row plus the
+    Ascendant vessel. The vessel is not decoration — drop it and Matter and
+    Substance are both 0 for most rulers, which sends the denominator to 1 and
+    makes kalchm depend on the numerator alone.
+
+    An unknown ruler returns the vessel by itself rather than raising: this feeds
+    a rate endpoint, and a KeyError there would be a 500. The vessel alone is
+    ESMS (1,1,1,1) -> kalchm 1.0, which is honestly degenerate rather than wrong.
+    """
+    sect = "diurnal" if is_daytime else "nocturnal"
+    vessel = PLANETARY_SECTARIAN_ESMS["Ascendant"][sect]
+    row = PLANETARY_SECTARIAN_ESMS.get(ruler, {}).get(sect)
+    if row is None:
+        return {a: float(vessel[a]) for a in AXES}
+    return {a: float(row[a] + vessel[a]) for a in AXES}

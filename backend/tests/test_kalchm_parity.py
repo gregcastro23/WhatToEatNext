@@ -22,10 +22,13 @@ import pytest
 # suite could not be COLLECTED at all without them — a parity gate that cannot
 # run is worse than no gate, because its absence reads as a pass.
 from backend.alchm_kitchen.thermodynamics import (
+    AXES,
     KALCHM_EPSILON,
     MONICA_EQUILIBRIUM,
     MONICA_LN_EPSILON,
+    PLANETARY_SECTARIAN_ESMS,
     THERMO_DEN_FLOOR,
+    planetary_hour_esms,
     compute_kalchm_monica,
 )
 
@@ -230,3 +233,81 @@ def test_denominator_guard_is_a_floor_not_a_truthiness_fallback():
     num = 25.0
     assert num / max(0.0, THERMO_DEN_FLOOR) == 2500.0
     assert num / (0.0 or 1) == 25.0
+
+
+# ── Planet -> ESMS table parity ─────────────────────────────────────────────
+#
+# The token-rates endpoint needs a planet -> ESMS mapping, so a SECOND copy of
+# that table now exists in Python. A second copy of anything in this project is a
+# divergence hazard: the reactivity formula below drifted from its TypeScript
+# original for months and was 3.17x wrong, and nothing in either type system
+# noticed. These pin the table the same way the formula is pinned — against a
+# contract file GENERATED from the canonical TypeScript symbol.
+
+GOLDEN_ESMS = GOLDEN["planetarySectarianEsms"]
+
+
+def test_esms_table_contract_is_populated():
+    """CONTROL. Every assertion below iterates the contract, so an empty or
+    truncated contract would make all of them pass vacuously."""
+    assert len(GOLDEN_ESMS) == 11, f"expected 10 planets + Ascendant, got {len(GOLDEN_ESMS)}"
+    assert "Ascendant" in GOLDEN_ESMS, "the grounding vessel is missing from the contract"
+    for body, sects in GOLDEN_ESMS.items():
+        assert set(sects) == {"diurnal", "nocturnal"}, f"{body} is missing a sect"
+
+
+def test_python_esms_table_matches_canonical_typescript_exactly():
+    """Entry for entry, both sects. `==` on the numbers, not approx."""
+    assert set(PLANETARY_SECTARIAN_ESMS) == set(GOLDEN_ESMS), (
+        "the Python table and the canonical TypeScript table disagree on WHICH "
+        f"bodies exist: python-only={set(PLANETARY_SECTARIAN_ESMS) - set(GOLDEN_ESMS)}, "
+        f"ts-only={set(GOLDEN_ESMS) - set(PLANETARY_SECTARIAN_ESMS)}"
+    )
+    for body, sects in GOLDEN_ESMS.items():
+        for sect, axes in sects.items():
+            for axis, value in axes.items():
+                assert PLANETARY_SECTARIAN_ESMS[body][sect][axis] == value, (
+                    f"{body}.{sect}.{axis}: python "
+                    f"{PLANETARY_SECTARIAN_ESMS[body][sect][axis]!r} vs canonical {value!r}"
+                )
+
+
+def test_the_ascendant_is_a_vessel_on_every_axis_in_both_sects():
+    """Asserting the prose. The Ascendant is not a planet — it is the grounding
+    vessel, and it is 1 on all four axes precisely so that a single body can
+    produce a non-degenerate kalchm. A green test beside that claim proves
+    nothing unless the claim is asserted."""
+    for sect in ("diurnal", "nocturnal"):
+        for axis in AXES:
+            assert PLANETARY_SECTARIAN_ESMS["Ascendant"][sect][axis] == 1
+
+
+def test_a_planetary_hour_is_never_degenerate_without_the_vessel_being_the_reason():
+    """Every real ruler must give a kalchm that carries information. If a future
+    edit drops the vessel, most rulers collapse to kalchm 1.0 and this fails."""
+    informative = 0
+    for ruler in GOLDEN_ESMS:
+        if ruler == "Ascendant":
+            continue
+        for is_day in (True, False):
+            e = planetary_hour_esms(ruler, is_day)
+            assert sum(e.values()) == 5.0, f"{ruler} lost the vessel: {e}"
+            kalchm, _ = compute_kalchm_monica(
+                e["Spirit"], e["Essence"], e["Matter"], e["Substance"], 1.0, 1.0)
+            assert math.isfinite(kalchm) and kalchm > 0
+            if kalchm != 1.0:
+                informative += 1
+    assert informative == 20, (
+        f"only {informative} of 20 planetary hours produce a non-degenerate "
+        "kalchm — the previous implementation produced 0 of 20 by returning the "
+        "literal 1.0 for every hour"
+    )
+
+
+def test_an_unknown_ruler_degrades_to_the_vessel_rather_than_raising():
+    """This feeds a rate endpoint; a KeyError there is a 500. The vessel alone is
+    (1,1,1,1) -> kalchm 1.0, which is honestly degenerate rather than invented."""
+    e = planetary_hour_esms("Nibiru", True)
+    assert e == {"Spirit": 1.0, "Essence": 1.0, "Matter": 1.0, "Substance": 1.0}
+    kalchm, _ = compute_kalchm_monica(1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+    assert kalchm == 1.0

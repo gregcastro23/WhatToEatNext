@@ -236,5 +236,161 @@
       "expectedReactivity": 1.8245874441960752,
       "expectedGregsEnergy": -0.2321123146538833
     }
-  ]
+  ],
+  "planetarySectarianEsms": {
+    "Sun": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      }
+    },
+    "Moon": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Mercury": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 1
+      }
+    },
+    "Venus": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Mars": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Jupiter": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      }
+    },
+    "Saturn": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Uranus": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Neptune": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 1
+      }
+    },
+    "Pluto": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Ascendant": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 1,
+        "Matter": 1,
+        "Substance": 1
+      },
+      "nocturnal": {
+        "Spirit": 1,
+        "Essence": 1,
+        "Matter": 1,
+        "Substance": 1
+      }
+    }
+  }
 }
