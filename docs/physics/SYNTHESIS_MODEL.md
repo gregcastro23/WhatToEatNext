@@ -1811,6 +1811,64 @@ aspect-layer concept. Each ruling is defensible alone; together they are several
 PRs. If a smaller first cut is wanted, the natural one is **write-fix +
 single-body backfill**, which is already built and verified.
 
+### 18k. Consolidated decision log `[2026-07-25]`
+
+The numbered home for the rulings, which were otherwise spread across six
+question rounds and a dozen PRs. **Each row cites the PR that measured it** — the
+PR body holds the evidence, this table holds the decision. Where a ruling was
+later reversed, both entries are kept, because the reversal is usually the more
+instructive record.
+
+#### Engine
+
+| # | Ruling | Basis | PR |
+|---|---|---|---|
+| k1 | `calculateKalchm` takes **no epsilon floor**. `0 ** 0 === 1` in JS is exactly `lim x^x`, so a zeroed axis needs no handling; only negatives are clamped, because `Math.pow(-0.5,-0.5)` is `NaN`. | MEASURED | #642 |
+| k2 | Floor divergence is an exact law: **`eps^(-eps) − 1` per zeroed axis, input-independent** (0.6932% / 4.7129% / 25.8925% at 0.001 / 0.01 / 0.1). All implementations agree **bit-for-bit** on healthy input. | MEASURED | #643 |
+| k3 | `MONICA_LN_EPSILON` is **DERIVED** as the midpoint of a measured bimodal gap, not chosen. Post-k1 the degenerate ceiling is **exactly 0**. | DERIVED | #641, #642 |
+| k4 | Two-body degeneracy tests its **cause** (`esms.Essence === 0`), not `|ln kalchm|`. The threshold was right 206 of 648 times (32%). Three constants removed rather than re-derived. | MEASURED | #642 |
+| k5 | ⚠️ **Single-body degeneracy is NOT structural.** It uses the derived `|ln k|` band; the `Essence === 0` set sits at `|ln k| ∈ [1.06, 5.55]`, far outside it. k4 applies to two-body ONLY. | MEASURED | #641 |
+| k6 | A zeroed axis is **neither sufficient nor necessary** for `kalchm === 1`. Of 5400 zeroed-axis cells, 4980 have `kalchm ≠ 1`; of 660 degenerate cells, 240 have no zeroed axis. | MEASURED | #649 |
+| k7 | The formula lives in **one module per runtime**, enforced by an AST gate whose allowlist may only shrink. Target end state: one entry, the characterisation test's own reference. | RULED | #646 |
+
+#### Constants and scales
+
+| # | Ruling | Basis | PR |
+|---|---|---|---|
+| k8 | Every Sacred-7 scale is `|max| / 2` over **its own population**. A single global mapping annihilates the full-chart population (IQR loss 1550×). | MEASURED | #637 |
+| k9 | A `|max|`-derived constant is **hostage to its least-trustworthy row** — one shipped 3.6× wrong off a duplicated chart. Audit the extremum's provenance before trusting any such constant. | MEASURED | #641 |
+| k10 | Constants must **round-trip**. All three scales were irreproducible from their own basis (copied from `toPrecision()` output). Assert `===`, not `toBeCloseTo`; emit with `String(x)`. | MEASURED | #642 |
+| k11 | Derived constants carry a **guard test that re-derives them from the population each run**, so a moved grid fails CI rather than silently invalidating a comment. | RULED | #641, #642 |
+
+#### Data and absence
+
+| # | Ruling | Basis | PR |
+|---|---|---|---|
+| k12 | No **fabricated fallbacks**. A literal substituted for an absent value invents data; a truthiness test additionally corrupts a legitimate `0` (284 agents have one). Propagate `null`. | MEASURED | #635, #637 |
+| k13 | Absent JSONB is written as **NULL, not `'{}'`**. ⚠️ The 4940-row migration was **CANCELLED** — no reader was fooled. The writer was fixed instead. | MEASURED | #645 |
+| k14 | A snapshot is a safety net **only for the columns it contains**. Both writers were pre-§18o and could not restore 623 two-body + 71 full-chart rows. Test a restore inside a rolled-back transaction. | MEASURED | #648 |
+| k15 | The three constructions are **different objects** (§18o). Never rank, average or compare across populations. | RULED | — |
+
+#### Reversed
+
+| # | Original | Replaced by | Why |
+|---|---|---|---|
+| k16 | Migrate all agent names to one convention | **ABANDONED** | Measured: terse is live and growing, verbose is frozen; 346 names collide; two name columns mean a round-trip reverts it. |
+| k17 | Normalise full-chart monica to the single-body scale | **RAW value per construction** | Normalisation had **no consumer** and cost separation (largest bucket 16.9% → 31.0%). |
+| k18 | Sign-level agents get a mean-of-siblings monica | **Delete them** (deferred) | The degree agents are strictly more specific; a 4th construction for 2 rows is not worth its band, scale and guard. |
+| k19 | Demote the 8 ancients to a coarser construction | **Author real charts** | Owner ruling 2026-07-25. ⚠️ Gated on k20. |
+| k20 | — | **Validate the ephemeris before authoring** | `astronomy-engine` returns positions for 428 BC **without erroring**, but its accuracy is documented only for ~1700–2200. It produces plausible numbers with no accuracy claim — the defect class this programme exists to remove. |
+
+#### Method
+
+| # | Ruling |
+|---|---|
+| k21 | **Measure before claiming.** Prose reasoning about this model has a poor track record; arithmetic has a good one. |
+| k22 | **A zero result is a claim needing a control test.** Multiple false all-clears came from broken searches, not clean code — unquoted globs, generic-call syntax, unsupported backreferences. |
+| k23 | **grep cannot attribute symbols.** Same-named functions in different modules are indistinguishable to it. Use the type checker. |
+| k24 | **Two independent witnesses** before trusting a prod write: the drift check re-derives values, the audit asserts structure in SQL. A mis-classifying script passes its own re-run. |
+| k25 | ⚠️ **A green test does not validate the prose beside it.** k6 was false for two days inside a passing test, because no assertion ever tested it. |
+
 ### 18m. Monica has no fixed scale across body counts `[MEASURED 2026-07-22]`
 
 The single `monica_constant` column is fed by **three constructions with
