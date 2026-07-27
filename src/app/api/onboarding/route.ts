@@ -9,6 +9,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { natalBodiesFromRawPositions, unusableChartMessage } from "@/lib/astrology/natalBodies";
 import { auth } from "@/lib/auth/auth";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
@@ -17,7 +18,7 @@ import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
-import type { NatalChart, PlanetInfo } from "@/types/natalChart";
+import type { NatalChart } from "@/types/natalChart";
 import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
 import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
@@ -189,25 +190,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const positions: Record<Planet, ZodiacSignType> = {
-      Sun: rawPositions.Sun?.sign,
-      Moon: rawPositions.Moon?.sign,
-      Mercury: rawPositions.Mercury?.sign,
-      Venus: rawPositions.Venus?.sign,
-      Mars: rawPositions.Mars?.sign,
-      Jupiter: rawPositions.Jupiter?.sign,
-      Saturn: rawPositions.Saturn?.sign,
-      Uranus: rawPositions.Uranus?.sign,
-      Neptune: rawPositions.Neptune?.sign,
-      Pluto: rawPositions.Pluto?.sign,
-      Ascendant: rawPositions.Ascendant?.sign || "aries",
-    };
-
-    const planets: PlanetInfo[] = Object.entries(positions).map(([pname, sign]) => ({
-      name: pname as Planet,
-      sign,
-      position: rawPositions[pname]?.exactLongitude ?? 0,
-    }));
+    // One shared builder, and it REFUSES rather than filling gaps in. This block
+    // used to invent an "aries" ascendant, a 0 longitude for any body the API did
+    // not price, and `undefined` signs inside a Record that forbids them — then
+    // PERSISTED the result. See src/lib/astrology/natalBodies.ts.
+    const bodies = natalBodiesFromRawPositions(rawPositions);
+    if (!bodies.ok) {
+      _logger.error(
+        "[POST /api/onboarding] unusable chart",
+        { unusable: bodies.unusable },
+      );
+      return NextResponse.json(
+        { success: false, message: unusableChartMessage(bodies.unusable) },
+        { status: 503 },
+      );
+    }
+    if (bodies.derivedLongitudes.length > 0) {
+      // Not an error: the placement is still consistent with its sign. Logged
+      // because a chart built at sign resolution is a DERIVED value, not a
+      // measured one, and that distinction should be visible.
+      _logger.warn(
+        "[POST /api/onboarding] longitude derived from sign+degree",
+        { bodies: bodies.derivedLongitudes },
+      );
+    }
+    const { positions, planets } = bodies;
 
     const natalChart: NatalChart = {
       birthData: {
