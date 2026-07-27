@@ -60,7 +60,10 @@
  */
 import pg from "pg";
 import * as queries from "../src/services/tokenEconomyQueries";
-import type { AxisColumn } from "../src/services/tokenEconomyQueries";
+import type {
+  AxisColumn,
+  TokenTypeName,
+} from "../src/services/tokenEconomyQueries";
 
 const fail = (msg: string): never => {
   console.error(`\n✗ ${msg}`);
@@ -80,6 +83,15 @@ const COLUMNS: readonly AxisColumn[] = [
   "substance",
 ];
 
+// The credit/debit builders derive their column from the token type, so they
+// are driven by the token names rather than the column names.
+const TOKEN_TYPES: readonly TokenTypeName[] = [
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+];
+
 /** Placeholder bind values. PREPARE only performs type analysis, so these are
  *  never sent to the server — they exist because the builders return their
  *  parameters alongside their SQL. */
@@ -95,22 +107,39 @@ interface Statement {
 
 const statements: Statement[] = [];
 
-for (const column of COLUMNS) {
+for (const tokenType of TOKEN_TYPES) {
   statements.push({
-    label: `credit(${column})`,
-    sql: queries.creditTokensSql(column),
+    label: `credit(${queries.columnFor(tokenType)})`,
+    sql: queries.creditTokensSql({
+      userId: UUID,
+      tokenType,
+      amount: 1,
+      sourceType: "signup_grant",
+      sourceId: null,
+      description: "probe",
+      transactionGroupId: UUID,
+      idempotencyKey: "probe",
+    }).sql,
     builder: "creditTokensSql",
   });
   statements.push({
-    label: `debit(${column})`,
-    sql: queries.debitTokensSql(column),
+    label: `debit(${queries.columnFor(tokenType)})`,
+    sql: queries.debitTokensSql({
+      userId: UUID,
+      tokenType,
+      amount: 1,
+      sourceType: "recipe_ingestion",
+      sourceId: null,
+      transactionGroupId: UUID,
+      description: "probe",
+    }).sql,
     builder: "debitTokensSql",
   });
 }
 
 statements.push({
   label: "getBalances",
-  sql: queries.getBalancesSql(),
+  sql: queries.getBalancesSql(UUID).sql,
   builder: "getBalancesSql",
 });
 
@@ -198,8 +227,14 @@ try {
   // ── Control 2: every exported builder is actually exercised ───────────────
   // Derived from the module's exports rather than a hand-kept list, so adding a
   // builder and forgetting to gate it fails here instead of passing quietly.
+  // Exported functions that are NOT SQL builders and so have nothing to
+  // PREPARE. Listed explicitly rather than filtered by a name pattern: adding
+  // an export then has to be a conscious decision here, instead of silently
+  // slipping past a `endsWith("Sql")` test.
+  const NON_BUILDER_EXPORTS = new Set(["columnFor"]);
+
   const exportedBuilders = Object.entries(queries)
-    .filter(([, v]) => typeof v === "function")
+    .filter(([k, v]) => typeof v === "function" && !NON_BUILDER_EXPORTS.has(k))
     .map(([k]) => k);
   const covered = new Set(statements.map((s) => s.builder));
   const ungated = exportedBuilders.filter((b) => !covered.has(b));
