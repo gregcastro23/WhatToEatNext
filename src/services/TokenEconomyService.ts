@@ -216,6 +216,51 @@ function creditTokensSql(
           RETURNING *`;
 }
 
+// Single-statement debit: check the balance, write the ledger entry only if the
+// funds are there, and apply the delta — atomically. Params, in order:
+//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
+//   $5 sourceId  $6 transactionGroupId  $7 description
+//
+// ── Why this one is NOT an upsert, unlike the credit above ──────────────────
+//
+// This statement also used to open with an `ensure_balance` INSERT, which was
+// inert for exactly the reason described above the credit builder: no other
+// sub-statement could see the row it created. Removing it changes nothing, and
+// leaving it in read as a safeguard that was never operating.
+//
+// It must NOT become `INSERT … ON CONFLICT DO UPDATE`. `[MEASURED 2026-07-27]`
+// against production, in a rolled-back transaction: an upsert-shaped debit of 25
+// against a user with NO balance row produces `spirit = -25.0000` — it lets
+// someone spend tokens they never had. The `check_balance` CTE is what makes this
+// fail CLOSED: with no row it selects nothing, the ledger insert selects FROM it
+// and writes nothing, the UPDATE matches nothing, and the caller reads "0 rows"
+// as insufficient balance. Verified in the same run: the guarded shape touched 0
+// rows and created no balance.
+//
+// The asymmetry is the point. A credit for a missing row SHOULD create it; a debit
+// for a missing row should refuse.
+function debitTokensSql(
+  column: "spirit" | "essence" | "matter" | "substance",
+): string {
+  return `WITH check_balance AS (
+            SELECT ${column} AS current_balance FROM token_balances WHERE user_id = $1
+          ),
+          inserted AS (
+            INSERT INTO token_transactions
+              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
+            SELECT COALESCE($6::uuid, uuid_generate_v4()), $1, $2, -$3::numeric, $4::text, $5, $7
+            FROM check_balance
+            WHERE current_balance >= $3::numeric
+            RETURNING id
+          )
+          UPDATE token_balances
+          SET ${column} = ${column} - $3::numeric,
+              updated_at = now()
+          WHERE user_id = $1
+            AND EXISTS (SELECT 1 FROM inserted)
+          RETURNING *`;
+}
+
 // ─── Service Class ────────────────────────────────────────────────────
 
 class TokenEconomyService {
@@ -232,34 +277,33 @@ class TokenEconomyService {
 
     if (db) {
       try {
+        // ONE statement, and it returns the row whether it was just created or
+        // already existed. `DO UPDATE` rather than `DO NOTHING` is what makes
+        // that true: `RETURNING` yields nothing for a conflicting row under DO
+        // NOTHING, so the ensure and the read have to be the same statement to
+        // be both atomic and readable. The SET is deliberately a no-op write of
+        // the column's own value — nothing about the row should change here.
+        //
+        // This replaces `INSERT …; SELECT …` sent as ONE string with a bind
+        // parameter, which PostgreSQL rejects outright:
+        // `[MEASURED 2026-07-27]` against production it throws
+        // `42601 cannot insert multiple commands into a prepared statement`.
+        // It was never the multi-statement support question the old comment
+        // assumed — the extended query protocol permits exactly one command per
+        // parameterised message. So EVERY balance read raised, was swallowed by
+        // the catch, and silently took the two-query fallback: correct results,
+        // an exception per call, and a "primary" path that had never once run.
         const result = await db.executeQuery(
-          `INSERT INTO token_balances (user_id)
-           VALUES ($1)
-           ON CONFLICT (user_id) DO NOTHING;
-           SELECT * FROM token_balances WHERE user_id = $1`,
+          `INSERT INTO token_balances (user_id) VALUES ($1)
+           ON CONFLICT (user_id) DO UPDATE SET updated_at = token_balances.updated_at
+           RETURNING *`,
           [userId],
         );
-        // executeQuery returns the last statement's result
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
         }
-      } catch {
-        // Fallback: separate queries if multi-statement not supported
-        try {
-          await db.executeQuery(
-            `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
-            [userId],
-          );
-          const result = await db.executeQuery(
-            `SELECT * FROM token_balances WHERE user_id = $1`,
-            [userId],
-          );
-          if (result.rows.length > 0) {
-            return rowToBalances(result.rows[0]);
-          }
-        } catch (error) {
-          _logger.error("[TokenEconomy] getBalances failed:", error);
-        }
+      } catch (error) {
+        _logger.error("[TokenEconomy] getBalances failed:", error);
       }
     }
 
@@ -377,28 +421,7 @@ class TokenEconomyService {
     if (db) {
       try {
         const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          check_balance AS (
-            SELECT ${column} AS current_balance FROM token_balances WHERE user_id = $1
-          ),
-          inserted AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT COALESCE($6::uuid, uuid_generate_v4()), $1, $2, -$3, $4, $5, $7
-            FROM check_balance
-            WHERE current_balance >= $3
-            RETURNING id
-          )
-          UPDATE token_balances
-          SET ${column} = ${column} - $3,
-              updated_at = now()
-          WHERE user_id = $1
-            AND EXISTS (SELECT 1 FROM inserted)
-          RETURNING *`,
+          debitTokensSql(column),
           [
             userId,
             tokenType,
@@ -466,11 +489,12 @@ class TokenEconomyService {
         }
 
         const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id) VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          balance_check AS (
+          // No `ensure_balance` CTE: it could not be seen by any other
+          // sub-statement (one snapshot per statement), so it never protected
+          // anything, and `balance_check` is what makes this fail CLOSED for a
+          // user with no row. See debitTokensSql for the measurement showing why
+          // an upsert would be WRONG here.
+          `WITH balance_check AS (
             SELECT * FROM token_balances WHERE user_id = $1
             AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
           ),
@@ -812,12 +836,10 @@ class TokenEconomyService {
     if (db) {
       try {
         const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          check_balance AS (
+          // No `ensure_balance` CTE — inert within the statement, and
+          // `check_balance` is what makes a transmutation fail CLOSED for a user
+          // with no balance row. See debitTokensSql.
+          `WITH check_balance AS (
             SELECT ${fromColumn} AS current_balance
             FROM token_balances
             WHERE user_id = $1
@@ -1046,11 +1068,12 @@ class TokenEconomyService {
         //    so the unique constraint on token_transactions.idempotency_key catches
         //    any concurrent duplicate that slips past the pre-check above.
         const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id) VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          balance_check AS (
+          // No `ensure_balance` CTE: it could not be seen by any other
+          // sub-statement (one snapshot per statement), so it never protected
+          // anything, and `balance_check` is what makes this fail CLOSED for a
+          // user with no row. See debitTokensSql for the measurement showing why
+          // an upsert would be WRONG here.
+          `WITH balance_check AS (
             SELECT * FROM token_balances WHERE user_id = $1
             AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
           ),

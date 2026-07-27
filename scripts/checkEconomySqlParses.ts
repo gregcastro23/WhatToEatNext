@@ -85,6 +85,48 @@ function creditSql(column: string): string {
     .replace(/\$\{column\}/g, column);
 }
 
+/**
+ * The debit statement, resolved the same way. It is a SEPARATE statement from the
+ * credit and deliberately NOT an upsert — see the comment above `debitTokensSql`
+ * for the production measurement showing an upsert-shaped debit drives a missing
+ * balance to -25.0000. Its `WITH check_balance` opening is shared with the
+ * transmutation statement, so the extractor anchors on `return \`` to stay unique.
+ */
+function debitSql(column: string): string {
+  const body = source.match(/return `WITH check_balance[\s\S]*?RETURNING \*`;/)?.[0];
+  if (!body) {
+    fail(
+      "CONTROL FAILED: could not extract the debit statement from " +
+        "TokenEconomyService.ts. If it was renamed or restructured, update this " +
+        "extractor — the gate must not pass by finding nothing.",
+    );
+  }
+  return body!
+    .replace(/^return `/, "")
+    .replace(/`;$/, "")
+    .replace(/\$\{column\}/g, column);
+}
+
+/**
+ * The balance read. Gated because it is where the OTHER un-preparable shape lived:
+ * `INSERT …; SELECT …` sent as one parameterised string, which PostgreSQL rejects
+ * with `42601 cannot insert multiple commands into a prepared statement`. Every
+ * call raised and fell through to a catch, so the "primary" path had never run.
+ */
+function getBalancesSql(): string {
+  const body = source.match(
+    /`INSERT INTO token_balances \(user_id\) VALUES \(\$1\)\s*\n\s*ON CONFLICT[\s\S]*?RETURNING \*`/,
+  )?.[0];
+  if (!body) {
+    fail(
+      "CONTROL FAILED: could not extract the getBalances statement from " +
+        "TokenEconomyService.ts. Update this extractor rather than letting the " +
+        "gate pass on nothing.",
+    );
+  }
+  return body!.replace(/^`/, "").replace(/`$/, "");
+}
+
 const client = new pg.Client({
   connectionString: url,
   ssl: { rejectUnauthorized: false },
@@ -144,15 +186,60 @@ try {
     }
   }
 
+  // Debit, one statement per axis, same reasoning as the credit above.
+  const others: Array<[string, string]> = [
+    ...COLUMNS.map((c) => [`debit(${c})`, debitSql(c)] as [string, string]),
+    ["getBalances", getBalancesSql()],
+  ];
+  for (const [label, sql] of others) {
+    // Lowercased: PREPARE folds an unquoted identifier, so a mixed-case name
+    // would not match in pg_prepared_statements and the param report would read
+    // "? params: undefined" while the statement had in fact prepared fine.
+    const name = `_gate_${label.replace(/[^a-z0-9]/gi, "_")}`.toLowerCase();
+    try {
+      await client.query(`PREPARE ${name} AS ${sql}`);
+      const meta = await client.query<{ parameter_types: string[] }>(
+        "SELECT parameter_types::text[] FROM pg_prepared_statements WHERE name = $1",
+        [name],
+      );
+      await client.query(`DEALLOCATE ${name}`);
+      console.log(
+        `✓ ${label} prepares — ${meta.rows[0]?.parameter_types.length ?? "?"} params: ` +
+          `${meta.rows[0]?.parameter_types.join(", ")}`,
+      );
+    } catch (e) {
+      failures++;
+      const err = e as { code?: string; message?: string };
+      console.error(`✗ ${label} FAILED TO PREPARE`);
+      console.error(`    ${err.code ?? ""} ${err.message ?? String(e)}`);
+      if (err.code === "42601") {
+        console.error(
+          "    The extended query protocol allows exactly ONE command per\n" +
+            "    parameterised message — `INSERT …; SELECT …` in a single string\n" +
+            "    with a bind parameter can never be prepared.",
+        );
+      }
+    }
+  }
+
+  const total = COLUMNS.length + others.length;
   if (failures > 0) {
     fail(
-      `${failures} of ${COLUMNS.length} credit statements cannot be prepared by ` +
+      `${failures} of ${total} economy statements cannot be prepared by ` +
         "PostgreSQL.\n  Unit tests cannot catch this: they mock the database, and " +
         "a mock will\n  happily accept SQL no database would.",
     );
   }
   console.log(
-    `\n✓ all ${COLUMNS.length} credit statements parse and type-check against PostgreSQL`,
+    `\n✓ all ${total} economy statements parse and type-check against PostgreSQL`,
+  );
+  // Stated so a reader does not mistake this for full coverage: the multi-axis
+  // spend/purchase CTEs (`WITH balance_check …`) and the transmutation statement
+  // are still inline template literals inside their methods, and this extractor
+  // cannot reach them. They need lifting into named builders first.
+  console.log(
+    "  NOT covered: the two spend/purchase CTEs and transmutation — still inline,\n" +
+      "  pending extraction into builders. 3 statements ungated.",
   );
 } finally {
   await client.end();
