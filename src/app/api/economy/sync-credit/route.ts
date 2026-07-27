@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
+import { DAILY_YIELD_SOURCES } from "@/services/tokenEconomyQueries";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { TokenType, TransactionSourceType } from "@/types/economy";
 import type { NextRequest} from "next/server";
@@ -33,10 +34,9 @@ import type { NextRequest} from "next/server";
  * Everything else routed through this endpoint (transit_attunement / Sky Drops,
  * and the rest) is legitimately multi-per-day and must NOT be day-capped.
  */
-const DAILY_YIELD_SOURCES: ReadonlySet<string> = new Set([
-  "agents_yield",
-  "daily_yield",
-]);
+const DAILY_YIELD_SOURCE_SET: ReadonlySet<string> = new Set(
+  DAILY_YIELD_SOURCES,
+);
 
 interface SyncCreditBody {
   userEmail: string;
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     // `source` defaults to agents_yield when the caller omits it, so the
     // resolved value — not the raw field — decides which rules apply below.
     const resolvedSource = source || "agents_yield";
-    const isDailyYield = DAILY_YIELD_SOURCES.has(resolvedSource);
+    const isDailyYield = DAILY_YIELD_SOURCE_SET.has(resolvedSource);
 
     // 2. Look up user ID by email.
     let userResult = await executeQuery<{ id: string }>(
