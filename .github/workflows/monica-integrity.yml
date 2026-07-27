@@ -199,3 +199,25 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
+
+      - name: Balances reconcile with their own ledger
+        # A FIFTH data witness, for a defect that lives in the RELATIONSHIP between
+        # two tables rather than inside either one. Every witness above passed while
+        # 521.7141 Spirit across 67 users sat in the ledger and never reached a
+        # balance: the ledger was correct, the balances were internally valid, no
+        # constraint was violated, no value drifted from an engine, no row was
+        # cloned, no field was fabricated. Nothing compared the two.
+        #
+        # The cause was `WITH ensure_balance AS (INSERT …) UPDATE token_balances …`:
+        # a data-modifying CTE gives every sub-statement ONE pre-statement snapshot,
+        # so the UPDATE could not see the row the CTE had just inserted. It failed
+        # silently because an empty RETURNING is indistinguishable from an
+        # idempotency replay at the call site.
+        #
+        # The comparison is PER USER and PER AXIS deliberately: offsetting per-user
+        # differences net to zero in a table-wide SUM, and only Spirit ever drifted
+        # (the four axes are separate statements in one transaction, so only the
+        # first met the missing-row state).
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkLedgerBalanceReconciliation.ts
