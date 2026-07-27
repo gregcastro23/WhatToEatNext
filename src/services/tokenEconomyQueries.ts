@@ -31,6 +31,21 @@
  *  the statements below injection-safe. */
 export type AxisColumn = "spirit" | "essence" | "matter" | "substance";
 
+/** The same four axes as written in `token_transactions.token_type`. Declared
+ *  here rather than imported from `@/types/economy` to keep this module free of
+ *  runtime imports; it is structurally identical to `TokenType`. */
+export type TokenTypeName = "Spirit" | "Essence" | "Matter" | "Substance";
+
+/** The balance column a token type is stored in.
+ *
+ *  The builders derive this rather than accepting a column AND a token type as
+ *  separate arguments. Two arguments that must agree can disagree: passing
+ *  `"spirit"` with `"Essence"` would write an Essence ledger row while moving
+ *  the spirit balance, and every type check would pass. One argument makes that
+ *  unrepresentable. */
+export const columnFor = (tokenType: TokenTypeName): AxisColumn =>
+  tokenType.toLowerCase() as AxisColumn;
+
 /** Amounts across all four axes, for the multi-axis statements. */
 export interface AxisAmounts {
   spirit: number;
@@ -117,12 +132,16 @@ class QueryParams {
  * silently took the two-query fallback: correct results, an exception per call,
  * and a "primary" path that had never once run.
  *
- * Params: $1 userId
  */
-export function getBalancesSql(): string {
-  return `INSERT INTO token_balances (user_id) VALUES ($1)
+export function getBalancesSql(userId: string): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(userId);
+  return {
+    sql: `INSERT INTO token_balances (user_id) VALUES (${user})
            ON CONFLICT (user_id) DO UPDATE SET updated_at = token_balances.updated_at
-           RETURNING *`;
+           RETURNING *`,
+    values: p.values,
+  };
 }
 
 // ─── Single-axis credit / debit ───────────────────────────────────────
@@ -174,40 +193,57 @@ export function getBalancesSql(): string {
 // `scripts/checkEconomySqlParses.ts` now PREPAREs every variant against a real
 // PostgreSQL in CI, which is the only thing that can catch this class.
 //
-// Params, in order:
-//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
-//   $5 sourceId  $6 description  $7 transactionGroupId  $8 idempotencyKey
-//
 // `yield_day` is computed IN THE DATABASE from `now()`, not passed in from the
 // caller. That matters: the whole point is a day key the application cannot get
 // wrong or disagree with itself about, and two producers running in different
 // timezones (or one of them holding a stale clock) is precisely how the
 // original double-credit arose. It is NULL for every non-daily-yield source, so
 // those rows do not participate in the unique index at all.
-export function creditTokensSql(column: AxisColumn): string {
-  return `WITH inserted AS (
+export function creditTokensSql(opts: {
+  userId: string;
+  tokenType: TokenTypeName;
+  amount: number;
+  sourceType: string;
+  sourceId: string | null;
+  description: string | null;
+  transactionGroupId: string | null;
+  idempotencyKey: string | null;
+}): BuiltQuery {
+  const column = columnFor(opts.tokenType);
+  const p = new QueryParams();
+
+  const user = p.add(opts.userId);
+  const tokenType = p.add(opts.tokenType);
+  const amount = p.add(opts.amount);
+  const sourceType = p.add(opts.sourceType);
+  const sourceId = p.add(opts.sourceId);
+  const description = p.add(opts.description);
+  const group = p.add(opts.transactionGroupId);
+  const idem = p.add(opts.idempotencyKey);
+
+  const sql = `WITH inserted AS (
             INSERT INTO token_transactions
               (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key, yield_day)
             VALUES
-              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4::text, $5, $6, $8,
-               CASE WHEN $4::text IN (${DAILY_YIELD_SOURCES_SQL})
+              (COALESCE(${group}::uuid, uuid_generate_v4()), ${user}, ${tokenType}, ${amount}, ${sourceType}::text, ${sourceId}, ${description}, ${idem},
+               CASE WHEN ${sourceType}::text IN (${DAILY_YIELD_SOURCES_SQL})
                     THEN (now() AT TIME ZONE 'UTC')::date
                     ELSE NULL END)
             ON CONFLICT (idempotency_key) DO NOTHING
             RETURNING id
           )
           INSERT INTO token_balances (user_id, ${column}, updated_at)
-          SELECT $1, $3, now() FROM inserted
+          SELECT ${user}, ${amount}, now() FROM inserted
           ON CONFLICT (user_id) DO UPDATE
             SET ${column} = token_balances.${column} + EXCLUDED.${column},
                 updated_at = now()
           RETURNING *`;
+
+  return { sql, values: p.values };
 }
 
 // Single-statement debit: check the balance, write the ledger entry only if the
-// funds are there, and apply the delta — atomically. Params, in order:
-//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
-//   $5 sourceId  $6 transactionGroupId  $7 description
+// funds are there, and apply the delta — atomically.
 //
 // ── Why this one is NOT an upsert, unlike the credit above ──────────────────
 //
@@ -232,24 +268,45 @@ export function creditTokensSql(column: AxisColumn): string {
 // asserts, for EVERY debit-side builder, that a debit against a user with no
 // balance row writes nothing and conjures no row. That catches a regression by
 // its effect, whichever shape the SQL is rewritten into.
-export function debitTokensSql(column: AxisColumn): string {
-  return `WITH check_balance AS (
-            SELECT ${column} AS current_balance FROM token_balances WHERE user_id = $1
+export function debitTokensSql(opts: {
+  userId: string;
+  tokenType: TokenTypeName;
+  amount: number;
+  sourceType: string;
+  sourceId: string | null;
+  transactionGroupId: string | null;
+  description: string | null;
+}): BuiltQuery {
+  const column = columnFor(opts.tokenType);
+  const p = new QueryParams();
+
+  const user = p.add(opts.userId);
+  const tokenType = p.add(opts.tokenType);
+  const amount = p.add(opts.amount);
+  const sourceType = p.add(opts.sourceType);
+  const sourceId = p.add(opts.sourceId);
+  const group = p.add(opts.transactionGroupId);
+  const description = p.add(opts.description);
+
+  const sql = `WITH check_balance AS (
+            SELECT ${column} AS current_balance FROM token_balances WHERE user_id = ${user}
           ),
           inserted AS (
             INSERT INTO token_transactions
               (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT COALESCE($6::uuid, uuid_generate_v4()), $1, $2, -$3::numeric, $4::text, $5, $7
+            SELECT COALESCE(${group}::uuid, uuid_generate_v4()), ${user}, ${tokenType}, -${amount}::numeric, ${sourceType}::text, ${sourceId}, ${description}
             FROM check_balance
-            WHERE current_balance >= $3::numeric
+            WHERE current_balance >= ${amount}::numeric
             RETURNING id
           )
           UPDATE token_balances
-          SET ${column} = ${column} - $3::numeric,
+          SET ${column} = ${column} - ${amount}::numeric,
               updated_at = now()
-          WHERE user_id = $1
+          WHERE user_id = ${user}
             AND EXISTS (SELECT 1 FROM inserted)
           RETURNING *`;
+
+  return { sql, values: p.values };
 }
 
 // ─── Multi-axis debit (spend / premium purchase) ──────────────────────

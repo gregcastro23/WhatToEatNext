@@ -10,6 +10,7 @@
 
 import { _logger } from "@/lib/logger";
 import {
+  columnFor,
   creditTokensSql,
   debitAllTokensSql,
   debitTokensSql,
@@ -146,7 +147,8 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(getBalancesSql(), [userId]);
+        const query = getBalancesSql(userId);
+        const result = await db.executeQuery(query.sql, query.values);
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
         }
@@ -188,21 +190,21 @@ class TokenEconomyService {
     }
 
     const db = await getDbModule();
-    const column = tokenType.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
 
     if (db) {
       try {
         // Single atomic statement (insert ledger row + apply delta).
-        const result = await db.executeQuery(creditTokensSql(column), [
+        const query = creditTokensSql({
           userId,
           tokenType,
           amount,
           sourceType,
-          opts?.sourceId || null,
-          opts?.description || null,
-          opts?.transactionGroupId || null,
-          opts?.idempotencyKey || null,
-        ]);
+          sourceId: opts?.sourceId || null,
+          description: opts?.description || null,
+          transactionGroupId: opts?.transactionGroupId || null,
+          idempotencyKey: opts?.idempotencyKey || null,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -226,7 +228,7 @@ class TokenEconomyService {
     }
 
     const balances = await this.getBalances(userId);
-    balances[column] += amount;
+    balances[columnFor(tokenType)] += amount;
     balances.updatedAt = new Date().toISOString();
 
     memoryTransactions.push({
@@ -263,23 +265,20 @@ class TokenEconomyService {
   ): Promise<TokenBalances | null> {
     if (amount <= 0) return null;
 
-    const column = tokenType.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
     const db = await getDbModule();
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          debitTokensSql(column),
-          [
-            userId,
-            tokenType,
-            amount,
-            sourceType,
-            opts?.sourceId || null,
-            opts?.transactionGroupId || null,
-            opts?.description || null,
-          ],
-        );
+        const query = debitTokensSql({
+          userId,
+          tokenType,
+          amount,
+          sourceType,
+          sourceId: opts?.sourceId || null,
+          transactionGroupId: opts?.transactionGroupId || null,
+          description: opts?.description || null,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -292,6 +291,7 @@ class TokenEconomyService {
     }
 
     // In-memory fallback
+    const column = columnFor(tokenType);
     const balances = await this.getBalances(userId);
     if (balances[column] < amount) return null;
 
@@ -410,24 +410,20 @@ class TokenEconomyService {
           let last: Record<string, unknown> | null = null;
           for (const { tokenType, amount } of credits) {
             if (amount <= 0) continue;
-            const column = tokenType.toLowerCase() as
-              | "spirit"
-              | "essence"
-              | "matter"
-              | "substance";
             const idemKey = opts?.idempotencyKey
               ? `${opts.idempotencyKey}:${tokenType}`
               : null;
-            const res = await client.query(creditTokensSql(column), [
+            const query = creditTokensSql({
               userId,
               tokenType,
               amount,
               sourceType,
-              opts?.sourceId || null,
-              opts?.description || null,
-              groupId,
-              idemKey,
-            ]);
+              sourceId: opts?.sourceId || null,
+              description: opts?.description || null,
+              transactionGroupId: groupId,
+              idempotencyKey: idemKey,
+            });
+            const res = await client.query(query.sql, query.values);
             if (res.rows.length > 0) last = res.rows[0];
           }
           return last;

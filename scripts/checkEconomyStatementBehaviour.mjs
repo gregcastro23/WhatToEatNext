@@ -65,22 +65,18 @@ const mkUser = async (label) => {
 /** A funded user: every axis credited to `amount`. */
 const mkFundedUser = async (label, amount = 100) => {
   const id = await mkUser(label);
-  for (const [token, column] of [
-    ["Spirit", "spirit"],
-    ["Essence", "essence"],
-    ["Matter", "matter"],
-    ["Substance", "substance"],
-  ]) {
-    await c.query(creditTokensSql(column), [
-      id,
-      token,
+  for (const tokenType of ["Spirit", "Essence", "Matter", "Substance"]) {
+    const q = creditTokensSql({
+      userId: id,
+      tokenType,
       amount,
-      "signup_grant",
-      null,
-      "probe funding",
-      randomUUID(),
-      `fund:${id}:${column}`,
-    ]);
+      sourceType: "signup_grant",
+      sourceId: null,
+      description: "probe funding",
+      transactionGroupId: randomUUID(),
+      idempotencyKey: `fund:${id}:${tokenType}`,
+    });
+    await c.query(q.sql, q.values);
   }
   return id;
 };
@@ -145,32 +141,40 @@ try {
   // ── getBalances ──────────────────────────────────────────────────────────
   console.log("\ngetBalances (single statement, insert-or-return)");
   const u = await mkUser("econ probe");
-  const first = await c.query(getBalancesSql(), [u]);
+  const getBal = getBalancesSql(u);
+  const first = await c.query(getBal.sql, getBal.values);
   first.rows.length === 1 && Number(first.rows[0].spirit) === 0
     ? ok("creates the row and RETURNS it (spirit 0)")
     : no(`returned ${first.rows.length} rows / spirit ${first.rows[0]?.spirit}`);
-  const second = await c.query(getBalancesSql(), [u]);
+  const second = await c.query(getBal.sql, getBal.values);
   second.rows.length === 1
     ? ok("second call returns the SAME row — the DO NOTHING/RETURNING gap is closed")
     : no(`re-read returned ${second.rows.length} rows`);
 
   // ── single-axis credit then debit ────────────────────────────────────────
   console.log("\ncredit then debit (single axis)");
-  await c.query(creditTokensSql("spirit"), [
-    u, "Spirit", 10, "signup_grant", null, "probe", randomUUID(), `p:${u}:1`,
-  ]);
+  const creditQ = creditTokensSql({
+    userId: u, tokenType: "Spirit", amount: 10, sourceType: "signup_grant",
+    sourceId: null, description: "probe", transactionGroupId: randomUUID(),
+    idempotencyKey: `p:${u}:1`,
+  });
+  await c.query(creditQ.sql, creditQ.values);
   (await spirit(u)) === 10 ? ok("credit of 10 applied") : no(`balance ${await spirit(u)} after credit`);
 
-  const d1 = await c.query(debitTokensSql("spirit"), [
-    u, "Spirit", 4, "recipe_ingestion", null, randomUUID(), "probe debit",
-  ]);
+  const debitQ = debitTokensSql({
+    userId: u, tokenType: "Spirit", amount: 4, sourceType: "recipe_ingestion",
+    sourceId: null, transactionGroupId: randomUUID(), description: "probe debit",
+  });
+  const d1 = await c.query(debitQ.sql, debitQ.values);
   d1.rowCount === 1 && (await spirit(u)) === 6
     ? ok("debit of 4 applied — balance 6")
     : no(`debit returned ${d1.rowCount} rows, balance ${await spirit(u)}`);
 
-  const d2 = await c.query(debitTokensSql("spirit"), [
-    u, "Spirit", 100, "recipe_ingestion", null, randomUUID(), "overdraw",
-  ]);
+  const overQ1 = debitTokensSql({
+    userId: u, tokenType: "Spirit", amount: 100, sourceType: "recipe_ingestion",
+    sourceId: null, transactionGroupId: randomUUID(), description: "overdraw",
+  });
+  const d2 = await c.query(overQ1.sql, overQ1.values);
   d2.rowCount === 0 && (await spirit(u)) === 6
     ? ok("debit of 100 REFUSED, balance untouched")
     : no(`overdraw returned ${d2.rowCount} rows, balance ${await spirit(u)}`);
@@ -352,12 +356,13 @@ try {
   // whatever shape the SQL is rewritten into.
   console.log("\ndebit-side statements must fail CLOSED for a user with NO balance row");
   const debitSideCases = [
-    ...["spirit", "essence", "matter", "substance"].map((col) => ({
-      label: `debitTokens(${col})`,
-      run: (id) => ({
-        sql: debitTokensSql(col),
-        values: [id, col[0].toUpperCase() + col.slice(1), 25, "recipe_ingestion", null, randomUUID(), "no row"],
-      }),
+    ...["Spirit", "Essence", "Matter", "Substance"].map((tokenType) => ({
+      label: `debitTokens(${tokenType})`,
+      run: (id) =>
+        debitTokensSql({
+          userId: id, tokenType, amount: 25, sourceType: "recipe_ingestion",
+          sourceId: null, transactionGroupId: randomUUID(), description: "no row",
+        }),
     })),
     {
       label: "debitAllTokens(spend)",
@@ -469,6 +474,56 @@ try {
   stripComments(renderedSpend) !== fixture("purchase")
     ? ok("control: the comparison distinguishes the two statements")
     : no("CONTROL FAILED: spend and purchase fixtures compare equal");
+
+  // ── the collector reshape changed no SQL either ──────────────────────────
+  // credit/debit/getBalances moved from hand-numbered `$1..$8` beside a
+  // hand-ordered array to the QueryParams collector. The parameters are
+  // collected in the SAME order the arrays supplied them, so the rendered SQL
+  // must be unchanged. Fixtures captured from the pre-reshape builders.
+  console.log("\ncollector reshape is semantics-free (vs pre-reshape fixtures)");
+  for (const tokenType of ["Spirit", "Essence", "Matter", "Substance"]) {
+    const col = tokenType.toLowerCase();
+    const credit = creditTokensSql({
+      userId: "u", tokenType, amount: 1, sourceType: "signup_grant",
+      sourceId: null, description: "d", transactionGroupId: "g",
+      idempotencyKey: "k",
+    }).sql;
+    const debit = debitTokensSql({
+      userId: "u", tokenType, amount: 1, sourceType: "recipe_ingestion",
+      sourceId: null, transactionGroupId: "g", description: "d",
+    }).sql;
+    stripComments(credit) === fixture(`credit.${col}`)
+      ? ok(`creditTokensSql(${tokenType}) SQL unchanged by the reshape`)
+      : no(`creditTokensSql(${tokenType}) SQL CHANGED`);
+    stripComments(debit) === fixture(`debit.${col}`)
+      ? ok(`debitTokensSql(${tokenType}) SQL unchanged by the reshape`)
+      : no(`debitTokensSql(${tokenType}) SQL CHANGED`);
+  }
+  stripComments(getBalancesSql("u").sql) === fixture("getBalances")
+    ? ok("getBalancesSql SQL unchanged by the reshape")
+    : no("getBalancesSql SQL CHANGED");
+
+  // The reshape's real payload: the values array is now produced by the
+  // builder, in binding order, rather than hand-written beside the `$n`s.
+  const credited = creditTokensSql({
+    userId: "U", tokenType: "Essence", amount: 7, sourceType: "signup_grant",
+    sourceId: "SRC", description: "DESC", transactionGroupId: "GRP",
+    idempotencyKey: "IDEM",
+  });
+  JSON.stringify(credited.values) ===
+  JSON.stringify(["U", "Essence", 7, "signup_grant", "SRC", "DESC", "GRP", "IDEM"])
+    ? ok("creditTokensSql binds values in $1..$8 order")
+    : no(`creditTokensSql values are ${JSON.stringify(credited.values)}`);
+
+  // And the column can no longer disagree with the token type, because there
+  // is only one argument to get wrong.
+  creditTokensSql({
+    userId: "U", tokenType: "Matter", amount: 1, sourceType: "signup_grant",
+    sourceId: null, description: null, transactionGroupId: null,
+    idempotencyKey: null,
+  }).sql.includes("INSERT INTO token_balances (user_id, matter, updated_at)")
+    ? ok("column is derived from the token type — they cannot desync")
+    : no("token type 'Matter' did not select the matter column");
 } finally {
   await c.query("ROLLBACK");
   await c.end();
