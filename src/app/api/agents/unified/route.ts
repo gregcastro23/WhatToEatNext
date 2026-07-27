@@ -8,6 +8,7 @@ import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { isDiurnalAt } from "@/utils/astrology/positions";
+import { natalPositionsFromChart, statesALongitude } from "@/utils/fullChartMonica";
 import type { NextRequest} from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +20,48 @@ const RATE_LIMIT = { window: 60_000, max: 20, bucket: "agents-unified" };
 interface UnifiedAgentRequest {
   action: string;
   parameters?: any;
+}
+
+/**
+ * The chart's Ascendant longitude, or null when the chart states no angle.
+ *
+ * `calculateNatalChart` carries the Ascendant in `planets` alongside the ten
+ * bodies, and in production it is a real computed angle — the pyswisseph backend
+ * returns `ascendant.exactLongitude` (`[MEASURED 2026-07-26]` 135.0341° for a
+ * 1984-09-17T12:00Z birth at 49.79N 8.12E, source `backend-pyswisseph`).
+ *
+ * This replaces `SIGN_ORDER.indexOf(serverChart.ascendant) * 30`, which looked a
+ * sign up in a Capitalised list while every sign from `normalizeSignName` is
+ * lowercase: `indexOf` was therefore ALWAYS -1 and the stored ascendant was
+ * ALWAYS 0. (Same defect class as the one already documented in
+ * `src/utils/astrology/natalAlchemy.ts` — a lowercase sign against capitalised
+ * keys, failing silently.) Even had the lookup worked it would have rounded the
+ * angle down to its sign's first degree; the exact longitude is right here.
+ *
+ * That 0 would not have been inert: `flattenNatalChart`
+ * (`src/lib/mcp/synastryTools.ts`) reads a numeric `ascendant` as an absolute
+ * longitude, so it would place a fabricated Ascendant at 0° Aries into every
+ * synastry score and transit overlay that read such a row.
+ *
+ * `[MEASURED 2026-07-26]` no production row carries one: all **71** chart-bearing
+ * agents hold a non-zero numeric ascendant, **0** hold a zero, and no row holds a
+ * zero midheaven. As with the `natal_positions` shape below, no surviving row
+ * bears this create path's signature (a later PA sync COALESCEs `natal_chart`, so
+ * this says nothing survives, not that nothing was ever written) — which is why
+ * both defects were latent, and why there is no data to repair.
+ *
+ * `statesALongitude` decides what counts as an angle at all, and is the SAME rule
+ * `natalPositionsFromChart` applies to the bodies — so a placeholder is absent
+ * from both fields of this row, never null in one and 0° Aries in the other. null
+ * makes every reader skip the point, where 0 makes all of them place it at 0°
+ * Aries.
+ */
+function ascendantLongitude(
+  planets: Array<{ name: string; position: number }>,
+): number | null {
+  const ascendant = planets.find((p) => p.name === "Ascendant");
+  if (!ascendant || !statesALongitude(ascendant.position)) return null;
+  return ascendant.position;
 }
 
 export async function POST(request: NextRequest) {
@@ -161,8 +204,15 @@ export async function POST(request: NextRequest) {
           planets: {} as Record<string, { sign: string; degree: number; retrograde: boolean; longitude: number }>,
           houses: {} as Record<string, number>,
           aspects: [] as any[],
-          ascendant: 0,
-          midheaven: 0
+          // A real angle or null, never a placeholder — see ascendantLongitude().
+          ascendant: null as number | null,
+          // No `midheaven` key. Nothing in this chart computes an MC, and the
+          // field was previously initialised to 0 and never written — which
+          // `flattenNatalChart` would read as a real MC at 0° Aries, exactly as it
+          // would the ascendant. An absent key is skipped there instead. (The 71
+          // prod rows that DO carry a midheaven were written elsewhere; none is
+          // 0.) `/api/planetary-rectification` computes a real MC if one is
+          // ever wanted here.
         };
 
         serverChart.planets.forEach((p) => {
@@ -174,9 +224,7 @@ export async function POST(request: NextRequest) {
           };
         });
 
-        const SIGN_ORDER = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
-        const ascIdx = SIGN_ORDER.indexOf(serverChart.ascendant);
-        formattedChart.ascendant = ascIdx >= 0 ? ascIdx * 30 : 0;
+        formattedChart.ascendant = ascendantLongitude(serverChart.planets);
 
         // §18e — a real thermodynamic monica from the whole chart, via the
         // canonical engine. This replaces a longitude average
@@ -241,7 +289,13 @@ export async function POST(request: NextRequest) {
             purpose,
             JSON.stringify(birthData),
             JSON.stringify(formattedChart),
-            JSON.stringify(formattedChart.planets || {}),
+            // natal_positions is an ARRAY of {planet, sign, degree, position} —
+            // the shape `parseNatalPositions` reads and the shape the other two
+            // writers (PA sync, sync-debit) store. This used to pass
+            // `formattedChart.planets` straight through, which is an OBJECT keyed
+            // by planet name; the parser rejects a non-array outright, so a chart
+            // written here produced NO full-chart monica for any consumer.
+            JSON.stringify(natalPositionsFromChart(formattedChart.planets)),
             monicaConstant,
             // §18j — this agent has a real birth chart, so monica_constant is
             // built by the full-chart engine (alchemize()), not the single-body

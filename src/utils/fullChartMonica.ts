@@ -132,6 +132,71 @@ export function parseNatalPositions(
 }
 
 /**
+ * The write side of the same contract: a chart keyed by planet name becomes the
+ * canonical stored row array.
+ *
+ * `natal_positions` is an ARRAY in every writer. `agents/unified` used to store
+ * its `formattedChart.planets` verbatim — an OBJECT keyed by planet name — which
+ * `parseNatalPositions` rejects on its first line, so such a chart yielded no
+ * full-chart monica at all and every caller skipped the row. No object-shaped row
+ * ever reached production (`jsonb_typeof` was `array` for all 5084 rows on
+ * 2026-07-26), so this closed a latent divergence, not a live one. The encoder
+ * lives beside the parser, and the round-trip between them is asserted in
+ * `src/app/api/agents/unified/__tests__/route.test.ts` — the missing assertion is
+ * what let the two shapes drift in the first place.
+ *
+ * The absolute longitude goes in `position`, the key the parser reads — never in
+ * `longitude`, for the reasons `normaliseNatalPositions` sets out above. This
+ * writer therefore emits nothing for that normaliser to strip, and satisfies
+ * `scripts/checkNoFabricatedNatalFields.ts`, which exists to catch exactly this:
+ * a NEW write path routing around the strip.
+ *
+ * Worth knowing if you ever change the key: the parser falls back to
+ * `signIndex * 30 + degree`, which on a chart whose `degree` agrees with its sign
+ * reconstructs the SAME number. A round-trip assertion alone therefore cannot see
+ * the wrong key — hence the explicit `position` assertion in the route test.
+ */
+export function natalPositionsFromChart(
+  planets: Record<string, { sign: string; longitude: number }>,
+): NatalPositionRow[] {
+  return Object.entries(planets)
+    .filter(([, p]) => statesALongitude(p.longitude))
+    .map(([planet, p]) => ({
+      planet,
+      sign: p.sign,
+      degree: p.longitude % 30,
+      position: p.longitude,
+    }));
+}
+
+/**
+ * Does this value state an ecliptic longitude, or merely occupy the field?
+ *
+ * ONE rule, shared by everything that writes a chart out of `calculateNatalChart`
+ * — the `natal_positions` encoder above and the `natal_chart` ascendant in
+ * `agents/unified`. Having it in two places is how the two fields come to
+ * disagree about the same body.
+ *
+ * Non-finite is rejected because JSON renders NaN as null, and the parser's
+ * `degree ?? 0` fallback would then place the body at 0° of its sign — a
+ * fabricated position with no warning.
+ *
+ * Exactly `0` is rejected for the same reason one step earlier: every longitude in
+ * this pipeline passes through a `?? 0`, so a zero cannot be told apart from an
+ * absent measurement. Two known non-observations produce it —
+ * `fetchPlanetaryPositions` leaves the ascendant at its 0 initialiser when the
+ * astrologize response carries none (deriving only the SIGN, locally, from
+ * sidereal time), and the offline planetary fallback carries
+ * `Ascendant: [0, 0, 0, "aries"]`, documented in place as a placeholder. Both are
+ * systematic; a genuine 0.000000° is measure-zero and indistinguishable anyway.
+ * Compare `normaliseNatalPositions` above, which rejects a zero `longitude` on
+ * exactly the same grounds.
+ */
+export function statesALongitude(value: number): boolean {
+  return Number.isFinite(value) && value !== 0;
+}
+
+/**
  * The reference instant used when a chart has NO birth data.
  *
  * ⚠️ It does NOT decide the answer. Sect is passed explicitly for each sect, so
