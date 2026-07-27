@@ -9,6 +9,13 @@
  */
 
 import { _logger } from "@/lib/logger";
+import {
+  creditTokensSql,
+  debitAllTokensSql,
+  debitTokensSql,
+  getBalancesSql,
+  transmuteSql,
+} from "@/services/tokenEconomyQueries";
 import type {
   TokenType,
   TokenBalances,
@@ -122,144 +129,6 @@ function rowToTransaction(row: TokenTransactionRow): TokenTransaction {
   };
 }
 
-/** Source types that are once-per-user-per-UTC-day BY DEFINITION. Only these
- *  get a `yield_day`, and only these are covered by
- *  `uniq_daily_yield_per_user_day`. Everything else — Sky Drops, transit
- *  attunement — is legitimately multi-per-day and must stay unconstrained. */
-const DAILY_YIELD_SOURCES = ["agents_yield", "daily_yield"] as const;
-
-/** The same list as a SQL literal, so the writer and the partial index in
- *  `database/init/73-daily-yield-once-per-day.sql` cannot drift apart. If they
- *  do, rows get a yield_day the index ignores (or vice versa) and the guard
- *  silently stops guarding. */
-const DAILY_YIELD_SOURCES_SQL = DAILY_YIELD_SOURCES.map((s) => `'${s}'`).join(
-  ", ",
-);
-
-// Single-statement credit: insert an immutable ledger entry (idempotency-guarded)
-// and apply the delta to the typed column, atomically. `column` is a constrained
-// union literal (never user input), so interpolating it is injection-safe.
-//
-// ── Why the balance write is an UPSERT and not an UPDATE ────────────────────
-//
-// It used to be an `UPDATE token_balances … WHERE user_id = $1` preceded by an
-// `ensure_balance` CTE that INSERTed the row. That silently lost every user's
-// FIRST-EVER credit. In a data-modifying CTE, every sub-statement AND the main
-// query run against ONE snapshot taken before the statement begins, so the
-// UPDATE could not see the row `ensure_balance` had just inserted: the ledger
-// row committed, the UPDATE matched ZERO rows, and the balance never moved.
-//
-// It failed silently because `creditMultipleTokens` only assigns `last` when
-// `res.rows.length > 0`. Spirit returning nothing just left `last` null, Essence
-// then set it, and the endpoint returned 200 with a balances object.
-//
-// `[MEASURED 2026-07-26 on production]` 67 users, 521.7141 Spirit. For 67 of 67
-// the shortfall equals that user's FIRST ledger row, and all 67 are
-// auto-provisioned agents — human signup seeds `token_balances` in its own
-// statement, so the row pre-existed and the UPDATE landed. Spirit is simply the
-// first of the four axes written, so it is the only one that ever meets the
-// missing-row state; Essence/Matter/Substance always found the row and
-// reconciled EXACTLY, which is why only Spirit looked wrong.
-//
-// The upsert has no such ordering hazard: with no row it INSERTs the credited
-// amount (the other three axes default to 0), and with a row it adds the delta
-// under `ON CONFLICT`. Idempotency is preserved because `SELECT … FROM inserted`
-// yields no row when the ledger insert was suppressed, so nothing is written.
-//
-// ── Why $4 is cast to text in BOTH of its references ────────────────────────
-//
-// A bind parameter has exactly ONE deduced type. $4 is bound as the INSERT value
-// for `source_type` (character varying) and is also compared against the string
-// literals in the CASE, which deduce `text`. Left uncast, PostgreSQL refuses to
-// prepare the statement at all:
-//
-//     42P08  inconsistent types deduced for parameter $4
-//
-// and every credit throws. Casting only the comparison side does NOT fix it —
-// the INSERT target still deduces varchar. Both references must agree; text ->
-// varchar is an assignment cast, so pinning both to text is safe.
-//
-// This shipped to production once. Thirteen unit tests covered the path and all
-// passed, because they mock the database — a mock accepts SQL no database will.
-// `scripts/checkEconomySqlParses.ts` now PREPAREs every variant against a real
-// PostgreSQL in CI, which is the only thing that can catch this class.
-//
-// Params, in order:
-//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
-//   $5 sourceId  $6 description  $7 transactionGroupId  $8 idempotencyKey
-//
-// `yield_day` is computed IN THE DATABASE from `now()`, not passed in from the
-// caller. That matters: the whole point is a day key the application cannot get
-// wrong or disagree with itself about, and two producers running in different
-// timezones (or one of them holding a stale clock) is precisely how the
-// original double-credit arose. It is NULL for every non-daily-yield source, so
-// those rows do not participate in the unique index at all.
-function creditTokensSql(
-  column: "spirit" | "essence" | "matter" | "substance",
-): string {
-  return `WITH inserted AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key, yield_day)
-            VALUES
-              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4::text, $5, $6, $8,
-               CASE WHEN $4::text IN (${DAILY_YIELD_SOURCES_SQL})
-                    THEN (now() AT TIME ZONE 'UTC')::date
-                    ELSE NULL END)
-            ON CONFLICT (idempotency_key) DO NOTHING
-            RETURNING id
-          )
-          INSERT INTO token_balances (user_id, ${column}, updated_at)
-          SELECT $1, $3, now() FROM inserted
-          ON CONFLICT (user_id) DO UPDATE
-            SET ${column} = token_balances.${column} + EXCLUDED.${column},
-                updated_at = now()
-          RETURNING *`;
-}
-
-// Single-statement debit: check the balance, write the ledger entry only if the
-// funds are there, and apply the delta — atomically. Params, in order:
-//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
-//   $5 sourceId  $6 transactionGroupId  $7 description
-//
-// ── Why this one is NOT an upsert, unlike the credit above ──────────────────
-//
-// This statement also used to open with an `ensure_balance` INSERT, which was
-// inert for exactly the reason described above the credit builder: no other
-// sub-statement could see the row it created. Removing it changes nothing, and
-// leaving it in read as a safeguard that was never operating.
-//
-// It must NOT become `INSERT … ON CONFLICT DO UPDATE`. `[MEASURED 2026-07-27]`
-// against production, in a rolled-back transaction: an upsert-shaped debit of 25
-// against a user with NO balance row produces `spirit = -25.0000` — it lets
-// someone spend tokens they never had. The `check_balance` CTE is what makes this
-// fail CLOSED: with no row it selects nothing, the ledger insert selects FROM it
-// and writes nothing, the UPDATE matches nothing, and the caller reads "0 rows"
-// as insufficient balance. Verified in the same run: the guarded shape touched 0
-// rows and created no balance.
-//
-// The asymmetry is the point. A credit for a missing row SHOULD create it; a debit
-// for a missing row should refuse.
-function debitTokensSql(
-  column: "spirit" | "essence" | "matter" | "substance",
-): string {
-  return `WITH check_balance AS (
-            SELECT ${column} AS current_balance FROM token_balances WHERE user_id = $1
-          ),
-          inserted AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT COALESCE($6::uuid, uuid_generate_v4()), $1, $2, -$3::numeric, $4::text, $5, $7
-            FROM check_balance
-            WHERE current_balance >= $3::numeric
-            RETURNING id
-          )
-          UPDATE token_balances
-          SET ${column} = ${column} - $3::numeric,
-              updated_at = now()
-          WHERE user_id = $1
-            AND EXISTS (SELECT 1 FROM inserted)
-          RETURNING *`;
-}
 
 // ─── Service Class ────────────────────────────────────────────────────
 
@@ -277,28 +146,7 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        // ONE statement, and it returns the row whether it was just created or
-        // already existed. `DO UPDATE` rather than `DO NOTHING` is what makes
-        // that true: `RETURNING` yields nothing for a conflicting row under DO
-        // NOTHING, so the ensure and the read have to be the same statement to
-        // be both atomic and readable. The SET is deliberately a no-op write of
-        // the column's own value — nothing about the row should change here.
-        //
-        // This replaces `INSERT …; SELECT …` sent as ONE string with a bind
-        // parameter, which PostgreSQL rejects outright:
-        // `[MEASURED 2026-07-27]` against production it throws
-        // `42601 cannot insert multiple commands into a prepared statement`.
-        // It was never the multi-statement support question the old comment
-        // assumed — the extended query protocol permits exactly one command per
-        // parameterised message. So EVERY balance read raised, was swallowed by
-        // the catch, and silently took the two-query fallback: correct results,
-        // an exception per call, and a "primary" path that had never once run.
-        const result = await db.executeQuery(
-          `INSERT INTO token_balances (user_id) VALUES ($1)
-           ON CONFLICT (user_id) DO UPDATE SET updated_at = token_balances.updated_at
-           RETURNING *`,
-          [userId],
-        );
+        const result = await db.executeQuery(getBalancesSql(), [userId]);
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
         }
@@ -488,75 +336,18 @@ class TokenEconomyService {
           }
         }
 
-        const result = await db.executeQuery(
-          // No `ensure_balance` CTE: it could not be seen by any other
-          // sub-statement (one snapshot per statement), so it never protected
-          // anything, and `balance_check` is what makes this fail CLOSED for a
-          // user with no row. See debitTokensSql for the measurement showing why
-          // an upsert would be WRONG here.
-          `WITH balance_check AS (
-            SELECT * FROM token_balances WHERE user_id = $1
-            AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
-          ),
-          new_group AS (
-            SELECT uuid_generate_v4() AS gid
-          ),
-          debit_spirit AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Spirit', -$2, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Spirit' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $2 > 0
-            RETURNING id
-          ),
-          debit_essence AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Essence', -$3, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Essence' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $3 > 0
-            RETURNING id
-          ),
-          debit_matter AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Matter', -$4, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Matter' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $4 > 0
-            RETURNING id
-          ),
-          debit_substance AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Substance', -$5, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Substance' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $5 > 0
-            RETURNING id
-          ),
-          updated AS (
-            UPDATE token_balances
-            SET spirit = token_balances.spirit - $2,
-                essence = token_balances.essence - $3,
-                matter = token_balances.matter - $4,
-                substance = token_balances.substance - $5,
-                updated_at = now()
-            FROM balance_check bc
-            WHERE token_balances.user_id = $1
-            RETURNING token_balances.*
-          )
-          SELECT u.*, g.gid AS txn_group_id FROM updated u, new_group g`,
-          [
-            userId,
-            amounts.spirit,
-            amounts.essence,
-            amounts.matter,
-            amounts.substance,
+        const query = debitAllTokensSql({
+          userId,
+          amounts,
+          description: opts?.description || null,
+          idempotencyKey: idemKey,
+          intent: {
+            kind: "spend",
             sourceType,
-            opts?.sourceId || null,
-            opts?.description || null,
-            idemKey,
-          ],
-        );
+            sourceId: opts?.sourceId || null,
+          },
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length === 0) {
           return { success: false, reason: "insufficient_funds" };
@@ -817,12 +608,19 @@ class TokenEconomyService {
 
   /**
    * Transmute tokens: spend 3:1 ratio to convert one type to another.
+   *
+   * Pass `opts.idempotencyKey` to make a retry safe. Without one, a client that
+   * retries after a network error transmutes a SECOND time and is debited
+   * twice — every other money-moving path here takes a key for exactly that
+   * reason. With one, the unique index on `token_transactions.idempotency_key`
+   * rejects the duplicate and this returns null rather than charging again.
    */
   async transmute(
     userId: string,
     fromToken: TokenType,
     toToken: TokenType,
     targetAmount: number,
+    opts?: { idempotencyKey?: string },
   ): Promise<TransmutationResult | null> {
     if (fromToken === toToken) return null;
     if (targetAmount <= 0) return null;
@@ -835,54 +633,20 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          // No `ensure_balance` CTE — inert within the statement, and
-          // `check_balance` is what makes a transmutation fail CLOSED for a user
-          // with no balance row. See debitTokensSql.
-          `WITH check_balance AS (
-            SELECT ${fromColumn} AS current_balance
-            FROM token_balances
-            WHERE user_id = $1
-          ),
-          updated AS (
-            UPDATE token_balances
-            SET ${fromColumn} = ${fromColumn} - $2,
-                ${toColumn} = ${toColumn} + $3,
-                updated_at = now()
-            WHERE user_id = $1
-              AND EXISTS (
-                SELECT 1
-                FROM check_balance
-                WHERE current_balance >= $2
-              )
-            RETURNING *
-          ),
-          debit_txn AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT
-              $4::uuid, $1, $5, -$2, 'transmutation', NULL, $6
-            FROM updated
-          ),
-          credit_txn AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT
-              $4::uuid, $1, $7, $3, 'transmutation', NULL, $8
-            FROM updated
-          )
-          SELECT * FROM updated`,
-          [
-            userId,
-            costAmount,
-            targetAmount,
-            groupId,
-            fromToken,
-            `Transmute ${costAmount} ${fromToken} → ${targetAmount} ${toToken}`,
-            toToken,
-            `Received from transmutation of ${fromToken}`,
-          ],
-        );
+        const query = transmuteSql({
+          fromColumn,
+          toColumn,
+          userId,
+          costAmount,
+          targetAmount,
+          transactionGroupId: groupId,
+          fromToken,
+          toToken,
+          debitDescription: `Transmute ${costAmount} ${fromToken} → ${targetAmount} ${toToken}`,
+          creditDescription: `Received from transmutation of ${fromToken}`,
+          idempotencyKey: opts?.idempotencyKey ?? null,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length === 0) {
           return null;
@@ -894,12 +658,24 @@ class TokenEconomyService {
           newBalances: rowToBalances(result.rows[0]),
         };
       } catch (error) {
+        // Unique-violation on idempotency_key: this transmutation already ran.
+        // Returning null means the caller reports it as not-applied, which is
+        // correct — the point is that the user is NOT debited a second time.
+        if ((error as { code?: string })?.code === "23505") {
+          _logger.info(
+            "[TokenEconomy] Duplicate transmutation blocked by idempotency key:",
+            opts?.idempotencyKey,
+          );
+          return null;
+        }
         _logger.error("[TokenEconomy] transmute DB failed:", error);
         return null;
       }
     }
 
-    // Debit first
+    // In-memory fallback. No idempotency guard here: `debitTokens` takes no key
+    // and this path has no durable ledger to enforce one against. It runs only
+    // when there is no database at all.
     const afterDebit = await this.debitTokens(
       userId,
       fromToken,
@@ -1062,91 +838,15 @@ class TokenEconomyService {
           ? `Shop: ${item.title} (${opts.descriptionSuffix})`
           : `Shop: ${item.title}`;
 
-        // 3. Atomic: check balance + debit + record purchase in one CTE.
-        //    $8 is the idempotency key prefix (null when not provided).
-        //    Each debit_* INSERT includes idempotency_key = $8 || ':<TokenType>'
-        //    so the unique constraint on token_transactions.idempotency_key catches
-        //    any concurrent duplicate that slips past the pre-check above.
-        const result = await db.executeQuery(
-          // No `ensure_balance` CTE: it could not be seen by any other
-          // sub-statement (one snapshot per statement), so it never protected
-          // anything, and `balance_check` is what makes this fail CLOSED for a
-          // user with no row. See debitTokensSql for the measurement showing why
-          // an upsert would be WRONG here.
-          `WITH balance_check AS (
-            SELECT * FROM token_balances WHERE user_id = $1
-            AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
-          ),
-          new_group AS (
-            SELECT uuid_generate_v4() AS gid
-          ),
-          debit_spirit AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Spirit', -$2, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Spirit' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $2 > 0
-            RETURNING id
-          ),
-          debit_essence AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Essence', -$3, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Essence' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $3 > 0
-            RETURNING id
-          ),
-          debit_matter AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Matter', -$4, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Matter' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $4 > 0
-            RETURNING id
-          ),
-          debit_substance AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Substance', -$5, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Substance' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $5 > 0
-            RETURNING id
-          ),
-          updated AS (
-            -- Qualify token_balances.<col> on the right-hand side of each
-            -- SET so the planner doesn't see the bare column name as
-            -- ambiguous between token_balances and balance_check (both
-            -- have spirit/essence/matter/substance columns). Without
-            -- these qualifiers Postgres raises 42702 and the whole CTE
-            -- rolls back, surfacing as purchase_failed in the caller.
-            UPDATE token_balances
-            SET spirit = token_balances.spirit - $2,
-                essence = token_balances.essence - $3,
-                matter = token_balances.matter - $4,
-                substance = token_balances.substance - $5,
-                updated_at = now()
-            FROM balance_check bc
-            WHERE token_balances.user_id = $1
-            RETURNING token_balances.*
-          ),
-          purchase AS (
-            INSERT INTO user_purchases (user_id, shop_item_id, transaction_group_id)
-            SELECT $1, $6::uuid, g.gid FROM updated u, new_group g
-            RETURNING transaction_group_id
-          )
-          SELECT u.*, p.transaction_group_id AS txn_group_id
-          FROM updated u, purchase p`,
-          [
-            userId,
-            costs.spirit,
-            costs.essence,
-            costs.matter,
-            costs.substance,
-            item.id,
-            description,
-            idemKey,
-          ],
-        );
+        // 3. Atomic: check balance + debit + record purchase in one statement.
+        const query = debitAllTokensSql({
+          userId,
+          amounts: costs,
+          description,
+          idempotencyKey: idemKey,
+          intent: { kind: "purchase", shopItemId: item.id },
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length === 0) {
           _logger.info("[TokenEconomy] Insufficient funds for:", shopItemSlug);

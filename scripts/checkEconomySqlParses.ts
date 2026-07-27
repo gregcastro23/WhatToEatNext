@@ -25,20 +25,42 @@
  * misspelled columns, dropped tables, and a parameter count that has drifted
  * from the call site.
  *
+ * PREPARE proves a statement is LEGAL, not that it is CORRECT. Semantics are
+ * covered separately by `scripts/checkEconomyStatementBehaviour.mjs`, which
+ * exercises each statement against production inside a rolled-back transaction.
+ * Neither gate substitutes for the other.
+ *
+ * ── Why this imports instead of scraping ────────────────────────────────────
+ *
+ * It used to pull each statement out of `TokenEconomyService.ts` with a regex,
+ * which drifts silently the moment anything is reformatted — a regex that stops
+ * matching reports "extracted nothing", not "the SQL changed". The builders now
+ * live in `src/services/tokenEconomyQueries.ts`, a module with ZERO runtime
+ * imports, so this gate can import and call the real functions. It therefore
+ * checks exactly what ships, and cannot drift from it at all.
+ *
  * ── Controls ────────────────────────────────────────────────────────────────
  *
- * A zero result is a claim requiring a control test: if the extractor silently
- * matched nothing, "0 statements failed" would read as a pass. So the run FAILS
- * unless it extracted every statement it expects, and it additionally proves it
- * can detect a genuinely broken statement by preparing one that must fail.
+ * A zero result is a claim requiring a control test: if the gate silently
+ * checked nothing, "0 statements failed" would read as a pass. Three controls
+ * guard against that:
+ *
+ *   1. It proves it can detect a genuinely broken statement, by preparing one
+ *      that must fail.
+ *   2. Every builder exported by the queries module must be exercised. Add a
+ *      builder without gating it and this fails, rather than quietly checking
+ *      less than it appears to.
+ *   3. The total statement count is asserted. A builder that starts yielding
+ *      fewer variants (a collapsed loop, a dropped column) fails here even
+ *      though every individual statement still prepares.
  *
  * Read-only. Never writes.
  *
  *   railway run --service Postgres -- bun scripts/checkEconomySqlParses.ts
  */
-import { readFileSync } from "fs";
-import { join } from "path";
 import pg from "pg";
+import * as queries from "../src/services/tokenEconomyQueries";
+import type { AxisColumn } from "../src/services/tokenEconomyQueries";
 
 const fail = (msg: string): never => {
   console.error(`\n✗ ${msg}`);
@@ -48,84 +70,102 @@ const fail = (msg: string): never => {
 const url = process.env.DATABASE_PUBLIC_URL ?? process.env.DATABASE_URL;
 if (!url) fail("no DATABASE_PUBLIC_URL / DATABASE_URL in the environment");
 
-const SERVICE = join(
-  process.cwd(),
-  "src/services/TokenEconomyService.ts",
-);
-const source = readFileSync(SERVICE, "utf8");
-
-// The four axis columns are interpolated into the statement, so each is a
+// The four axis columns are interpolated into the statements, so each is a
 // DIFFERENT statement and each must be checked. A typo in one would otherwise
 // only surface for whichever axis happened to be credited.
-const COLUMNS = ["spirit", "essence", "matter", "substance"] as const;
+const COLUMNS: readonly AxisColumn[] = [
+  "spirit",
+  "essence",
+  "matter",
+  "substance",
+];
 
-/** Resolve the SQL exactly as the module builds it — never a hand copy. */
-function creditSql(column: string): string {
-  const body = source.match(/return `WITH inserted[\s\S]*?RETURNING \*`;/)?.[0];
-  if (!body) {
-    fail(
-      "CONTROL FAILED: could not extract the credit statement from " +
-        "TokenEconomyService.ts. The gate cannot pass by finding nothing — if " +
-        "the statement was renamed or restructured, update this extractor.",
-    );
-  }
-  const sources = source
-    .match(/const DAILY_YIELD_SOURCES = \[([\s\S]*?)\]/)?.[1]
-    .match(/"[^"]+"/g);
-  if (!sources || sources.length === 0) {
-    fail("CONTROL FAILED: could not extract DAILY_YIELD_SOURCES");
-  }
-  return body!
-    .replace(/^return `/, "")
-    .replace(/`;$/, "")
-    .replace(
-      /\$\{DAILY_YIELD_SOURCES_SQL\}/g,
-      sources!.map((s) => `'${s.slice(1, -1)}'`).join(", "),
-    )
-    .replace(/\$\{column\}/g, column);
+/** Placeholder bind values. PREPARE only performs type analysis, so these are
+ *  never sent to the server — they exist because the builders return their
+ *  parameters alongside their SQL. */
+const AMOUNTS = { spirit: 1, essence: 2, matter: 3, substance: 4 };
+const UUID = "00000000-0000-0000-0000-000000000000";
+
+interface Statement {
+  label: string;
+  sql: string;
+  /** Which exported builder produced it — used by the coverage control. */
+  builder: string;
 }
 
-/**
- * The debit statement, resolved the same way. It is a SEPARATE statement from the
- * credit and deliberately NOT an upsert — see the comment above `debitTokensSql`
- * for the production measurement showing an upsert-shaped debit drives a missing
- * balance to -25.0000. Its `WITH check_balance` opening is shared with the
- * transmutation statement, so the extractor anchors on `return \`` to stay unique.
- */
-function debitSql(column: string): string {
-  const body = source.match(/return `WITH check_balance[\s\S]*?RETURNING \*`;/)?.[0];
-  if (!body) {
-    fail(
-      "CONTROL FAILED: could not extract the debit statement from " +
-        "TokenEconomyService.ts. If it was renamed or restructured, update this " +
-        "extractor — the gate must not pass by finding nothing.",
-    );
-  }
-  return body!
-    .replace(/^return `/, "")
-    .replace(/`;$/, "")
-    .replace(/\$\{column\}/g, column);
+const statements: Statement[] = [];
+
+for (const column of COLUMNS) {
+  statements.push({
+    label: `credit(${column})`,
+    sql: queries.creditTokensSql(column),
+    builder: "creditTokensSql",
+  });
+  statements.push({
+    label: `debit(${column})`,
+    sql: queries.debitTokensSql(column),
+    builder: "debitTokensSql",
+  });
 }
 
-/**
- * The balance read. Gated because it is where the OTHER un-preparable shape lived:
- * `INSERT …; SELECT …` sent as one parameterised string, which PostgreSQL rejects
- * with `42601 cannot insert multiple commands into a prepared statement`. Every
- * call raised and fell through to a catch, so the "primary" path had never run.
- */
-function getBalancesSql(): string {
-  const body = source.match(
-    /`INSERT INTO token_balances \(user_id\) VALUES \(\$1\)\s*\n\s*ON CONFLICT[\s\S]*?RETURNING \*`/,
-  )?.[0];
-  if (!body) {
-    fail(
-      "CONTROL FAILED: could not extract the getBalances statement from " +
-        "TokenEconomyService.ts. Update this extractor rather than letting the " +
-        "gate pass on nothing.",
-    );
+statements.push({
+  label: "getBalances",
+  sql: queries.getBalancesSql(),
+  builder: "getBalancesSql",
+});
+
+statements.push({
+  label: "debitAll(spend)",
+  sql: queries.debitAllTokensSql({
+    userId: UUID,
+    amounts: AMOUNTS,
+    description: "probe",
+    idempotencyKey: "probe",
+    intent: { kind: "spend", sourceType: "recipe_ingestion", sourceId: null },
+  }).sql,
+  builder: "debitAllTokensSql",
+});
+
+statements.push({
+  label: "debitAll(purchase)",
+  sql: queries.debitAllTokensSql({
+    userId: UUID,
+    amounts: AMOUNTS,
+    description: "probe",
+    idempotencyKey: "probe",
+    intent: { kind: "purchase", shopItemId: UUID },
+  }).sql,
+  builder: "debitAllTokensSql",
+});
+
+// Transmutation interpolates TWO columns, so every ordered pair is its own
+// statement — 4 x 3 = 12. Checking one pair would leave a typo in any of the
+// other eleven to surface only for whoever happened to swap those two axes.
+for (const fromColumn of COLUMNS) {
+  for (const toColumn of COLUMNS) {
+    if (fromColumn === toColumn) continue;
+    statements.push({
+      label: `transmute(${fromColumn}->${toColumn})`,
+      sql: queries.transmuteSql({
+        fromColumn,
+        toColumn,
+        userId: UUID,
+        costAmount: 3,
+        targetAmount: 1,
+        transactionGroupId: UUID,
+        fromToken: "Spirit",
+        toToken: "Essence",
+        debitDescription: "probe",
+        creditDescription: "probe",
+        idempotencyKey: "probe",
+      }).sql,
+      builder: "transmuteSql",
+    });
   }
-  return body!.replace(/^`/, "").replace(/`$/, "");
 }
+
+// 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute
+const EXPECTED_TOTAL = 23;
 
 const client = new pg.Client({
   connectionString: url,
@@ -135,7 +175,7 @@ await client.connect();
 
 let failures = 0;
 try {
-  // ── Control: the gate can detect a statement that IS broken ───────────────
+  // ── Control 1: the gate can detect a statement that IS broken ─────────────
   // Without this, a PREPARE that silently succeeds on anything would make every
   // check below meaningless.
   let controlCaught = false;
@@ -155,43 +195,40 @@ try {
   }
   console.log("✓ control: PREPARE rejects a statement it should reject");
 
-  // ── The gate ──────────────────────────────────────────────────────────────
-  for (const column of COLUMNS) {
-    const sql = creditSql(column);
-    const name = `_gate_credit_${column}`;
-    try {
-      await client.query(`PREPARE ${name} AS ${sql}`);
-      const meta = await client.query<{ parameter_types: string[] }>(
-        "SELECT parameter_types::text[] FROM pg_prepared_statements WHERE name = $1",
-        [name],
-      );
-      await client.query(`DEALLOCATE ${name}`);
-      console.log(
-        `✓ credit(${column}) prepares — ${meta.rows[0]?.parameter_types.length ?? "?"} params: ` +
-          `${meta.rows[0]?.parameter_types.join(", ")}`,
-      );
-    } catch (e) {
-      failures++;
-      const err = e as { code?: string; message?: string };
-      console.error(`✗ credit(${column}) FAILED TO PREPARE`);
-      console.error(`    ${err.code ?? ""} ${err.message ?? String(e)}`);
-      if (err.code === "42P08") {
-        console.error(
-          "    A bind parameter has ONE deduced type. If the same $n is used " +
-            "both as\n    an INSERT value and inside a comparison against " +
-            "string literals, BOTH\n    references must carry the same explicit " +
-            "cast — casting only one does not fix it.",
-        );
-      }
-    }
+  // ── Control 2: every exported builder is actually exercised ───────────────
+  // Derived from the module's exports rather than a hand-kept list, so adding a
+  // builder and forgetting to gate it fails here instead of passing quietly.
+  const exportedBuilders = Object.entries(queries)
+    .filter(([, v]) => typeof v === "function")
+    .map(([k]) => k);
+  const covered = new Set(statements.map((s) => s.builder));
+  const ungated = exportedBuilders.filter((b) => !covered.has(b));
+  if (ungated.length > 0) {
+    fail(
+      `CONTROL FAILED: ${ungated.length} exported builder(s) are never ` +
+        `PREPAREd: ${ungated.join(", ")}.\n  Every SQL builder in ` +
+        "tokenEconomyQueries.ts must be exercised by this gate.",
+    );
   }
+  console.log(
+    `✓ control: all ${exportedBuilders.length} exported builders are exercised ` +
+      `(${exportedBuilders.join(", ")})`,
+  );
 
-  // Debit, one statement per axis, same reasoning as the credit above.
-  const others: Array<[string, string]> = [
-    ...COLUMNS.map((c) => [`debit(${c})`, debitSql(c)] as [string, string]),
-    ["getBalances", getBalancesSql()],
-  ];
-  for (const [label, sql] of others) {
+  // ── Control 3: the statement count has not silently shrunk ────────────────
+  if (statements.length !== EXPECTED_TOTAL) {
+    fail(
+      `CONTROL FAILED: expected ${EXPECTED_TOTAL} statements, built ` +
+        `${statements.length}. A builder yielding fewer variants would still ` +
+        "prepare cleanly while covering less — update EXPECTED_TOTAL only if " +
+        "the reduction is intended.",
+    );
+  }
+  console.log(`✓ control: ${statements.length} statements built as expected`);
+
+  // ── The gate ──────────────────────────────────────────────────────────────
+  console.log("");
+  for (const { label, sql } of statements) {
     // Lowercased: PREPARE folds an unquoted identifier, so a mixed-case name
     // would not match in pg_prepared_statements and the param report would read
     // "? params: undefined" while the statement had in fact prepared fine.
@@ -212,6 +249,14 @@ try {
       const err = e as { code?: string; message?: string };
       console.error(`✗ ${label} FAILED TO PREPARE`);
       console.error(`    ${err.code ?? ""} ${err.message ?? String(e)}`);
+      if (err.code === "42P08") {
+        console.error(
+          "    A bind parameter has ONE deduced type. If the same $n is used " +
+            "both as\n    an INSERT value and inside a comparison against " +
+            "string literals, BOTH\n    references must carry the same explicit " +
+            "cast — casting only one does not fix it.",
+        );
+      }
       if (err.code === "42601") {
         console.error(
           "    The extended query protocol allows exactly ONE command per\n" +
@@ -219,27 +264,41 @@ try {
             "    with a bind parameter can never be prepared.",
         );
       }
+      if (err.code === "42702") {
+        console.error(
+          "    Ambiguous column. In an UPDATE … FROM balance_check, both\n" +
+            "    relations expose spirit/essence/matter/substance — qualify the\n" +
+            "    right-hand side of every SET with `token_balances.`.",
+        );
+      }
     }
   }
 
-  const total = COLUMNS.length + others.length;
   if (failures > 0) {
     fail(
-      `${failures} of ${total} economy statements cannot be prepared by ` +
-        "PostgreSQL.\n  Unit tests cannot catch this: they mock the database, and " +
-        "a mock will\n  happily accept SQL no database would.",
+      `${failures} of ${statements.length} economy statements cannot be ` +
+        "prepared by PostgreSQL.\n  Unit tests cannot catch this: they mock the " +
+        "database, and a mock will\n  happily accept SQL no database would.",
     );
   }
   console.log(
-    `\n✓ all ${total} economy statements parse and type-check against PostgreSQL`,
+    `\n✓ all ${statements.length} economy statements parse and type-check ` +
+      "against PostgreSQL",
   );
-  // Stated so a reader does not mistake this for full coverage: the multi-axis
-  // spend/purchase CTEs (`WITH balance_check …`) and the transmutation statement
-  // are still inline template literals inside their methods, and this extractor
-  // cannot reach them. They need lifting into named builders first.
+  // Stated so a reader does not mistake this for total coverage of the file.
+  // Every statement that MOVES MONEY is now gated. What remains ungated are
+  // simple reads and one timestamp write, none of which touch a balance:
   console.log(
-    "  NOT covered: the two spend/purchase CTEs and transmutation — still inline,\n" +
-      "  pending extraction into builders. 3 statements ungated.",
+    "\n  Covered: every balance-mutating statement (credit, debit, multi-axis\n" +
+      "  spend, premium purchase, transmutation, balance ensure-and-read).\n" +
+      "\n  NOT covered — still inline in TokenEconomyService.ts, none of which\n" +
+      "  move a balance:\n" +
+      "    · the two `SELECT 1 FROM token_transactions … idempotency_key LIKE`\n" +
+      "      pre-checks (debitAllTokens, purchaseShopItem)\n" +
+      "    · getTransactions' page + count reads\n" +
+      "    · updateDailyClaimTimestamp's `UPDATE token_balances SET <col> = now()`\n" +
+      "    · hasActivePurchase, getShopItem, getShopItems, and the shop_items\n" +
+      "      lookup in purchaseShopItem",
   );
 } finally {
   await client.end();
