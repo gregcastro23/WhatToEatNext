@@ -18,6 +18,7 @@ import {
   type RailwayPlanetData,
 } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
+import { statesALongitude } from "@/utils/fullChartMonica";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -145,6 +146,8 @@ function formatRailwayResponse(
 
   const bodies: Record<string, CelestialBody> = {};
   const allBodies: CelestialBody[] = [];
+  /** Bodies dropped for want of a usable longitude — reported, never fabricated. */
+  const unusableBodies: string[] = [];
 
   const positionsData =
     railwayData.planetary_positions ??
@@ -159,11 +162,25 @@ function formatRailwayResponse(
     if (!planetData || typeof planetData !== "object") continue;
 
     const pd = planetData;
-    const longitude =
-      pd.exactLongitude ??
-      pd.longitude ??
-      pd.eclipticLongitude ??
-      0;
+
+    // ⚠️ The SIGN comes from this longitude on the next line, so a fallback `0`
+    // invents 0° ARIES rather than merely an angle. And because `0` is not nullish,
+    // the old `?? ?? ?? 0` chain also STOPPED at a zero first key instead of trying
+    // the other two. Per-candidate `statesALongitude` fixes both halves.
+    //
+    // `[MEASURED 2026-07-27]` against the production backend, 14 bodies: all carry
+    // `exactLongitude`, none as 0, and none carries `longitude` or
+    // `eclipticLongitude` — so the first candidate always wins and this is
+    // unreachable on the live path. (This whole function is a duplicate of
+    // `formatRailwayResponse` in `src/server/lib/astrology-utils.ts`, which is why
+    // the same fix appears twice; unifying them is a separate change.)
+    const longitude = [pd.exactLongitude, pd.longitude, pd.eclipticLongitude].find(
+      (candidate) => statesALongitude(candidate as number),
+    );
+    if (longitude === undefined) {
+      unusableBodies.push(capitalizedKey);
+      continue;
+    }
 
     const { sign, degree: degreeInSign } = getSignFromLongitude(longitude);
     const degrees = Math.floor(degreeInSign);
@@ -191,6 +208,13 @@ function formatRailwayResponse(
     allBodies.push(body);
   }
 
+  if (unusableBodies.length > 0) {
+    console.warn(
+      `[astrologize] dropped ${unusableBodies.length} body/bodies with no usable ` +
+        `longitude: ${unusableBodies.join(", ")}`,
+    );
+  }
+
   // Extract Ascendant if the backend computed it (added via PySwisseph modifications)
   let ascendant: AscendantData | undefined;
   const positionsRecord = positionsData;
@@ -199,18 +223,29 @@ function formatRailwayResponse(
     (positionsRecord.ascendant);
 
   if (ascData) {
-    const ascLong =
-      ascData.exactLongitude ??
-      ascData.longitude ??
-      ascData.eclipticLongitude ??
-      0;
-    const { sign: ascSign, degree: ascDeg } = getSignFromLongitude(ascLong);
-    ascendant = {
-      sign: ascSign,
-      degree: Math.floor(ascDeg),
-      minute: Math.floor((ascDeg - Math.floor(ascDeg)) * 60),
-      exactLongitude: ascLong,
-    };
+    const ascLong = [ascData.exactLongitude, ascData.longitude, ascData.eclipticLongitude].find(
+      (candidate) => statesALongitude(candidate as number),
+    );
+    if (ascLong === undefined) {
+      // `ascendant` stays undefined — the field is optional precisely so that
+      // "we do not have one" can be said. This matters more than the planet case:
+      // `natalChartService` tests `data.ascendant?.sign`, so a fabricated
+      // `{sign: "aries", exactLongitude: 0}` SATISFIES that test and suppresses the
+      // local sidereal-time derivation that would otherwise produce a real sign.
+      // Leaving it absent hands the question to that derivation instead.
+      console.warn(
+        "[astrologize] backend returned an Ascendant with no usable longitude; " +
+          "omitting it so the local derivation runs instead of storing 0° Aries",
+      );
+    } else {
+      const { sign: ascSign, degree: ascDeg } = getSignFromLongitude(ascLong);
+      ascendant = {
+        sign: ascSign,
+        degree: Math.floor(ascDeg),
+        minute: Math.floor((ascDeg - Math.floor(ascDeg)) * 60),
+        exactLongitude: ascLong,
+      };
+    }
   }
 
   return {

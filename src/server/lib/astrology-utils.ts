@@ -1,4 +1,5 @@
 import * as Astronomy from "astronomy-engine";
+import { statesALongitude } from "@/utils/fullChartMonica";
 import { 
   type PlanetaryRequest, 
   type RailwayPositionsResponse, 
@@ -94,6 +95,8 @@ export function formatRailwayResponse(
 
   const bodies: Record<string, CelestialBody> = {};
   const allBodies: CelestialBody[] = [];
+  /** Bodies dropped for want of a usable longitude — reported, never fabricated. */
+  const unusableBodies: string[] = [];
 
   const positionsData =
     railwayData.planetary_positions ??
@@ -106,7 +109,33 @@ export function formatRailwayResponse(
     if (!planetData || typeof planetData !== "object") continue;
 
     const pd = planetData;
-    const longitude = pd.exactLongitude ?? pd.longitude ?? pd.eclipticLongitude ?? 0;
+
+    // ⚠️ The SIGN is derived from this longitude two lines down, so a fallback `0`
+    // does not merely invent an angle — it invents 0° ARIES, and every consumer
+    // downstream reads that as a measured placement.
+    //
+    // This was `pd.exactLongitude ?? pd.longitude ?? pd.eclipticLongitude ?? 0`.
+    // Two defects in one expression: the terminal `?? 0` fabricates, and because
+    // `0` is not nullish the chain also STOPS at a zero in the first key and never
+    // consults the other two. `statesALongitude` is applied per candidate instead,
+    // so a zero is passed over rather than accepted or treated as a terminator.
+    //
+    // `[MEASURED 2026-07-27]` against the production backend
+    // (`/api/planetary/positions`, 14 bodies): every body carries `exactLongitude`,
+    // none carries it as 0, and NO body carries `longitude` or `eclipticLongitude`
+    // at all. So on the live path the first candidate always wins and this branch
+    // is unreachable — which is exactly why it could sit here fabricating Aries for
+    // a malformed response without anyone noticing.
+    const longitude = [pd.exactLongitude, pd.longitude, pd.eclipticLongitude].find(
+      (candidate) => statesALongitude(candidate as number),
+    );
+    if (longitude === undefined) {
+      // Skip the body rather than place it at 0° Aries. The loop already skips a
+      // body with no data at all; a body with no usable longitude is the same
+      // condition, and an absent body is honest where a fabricated one is not.
+      unusableBodies.push(capitalizedKey);
+      continue;
+    }
 
     const { sign, degree: degreeInSign } = getSignFromLongitude(longitude);
     const degrees = Math.floor(degreeInSign);
@@ -132,6 +161,15 @@ export function formatRailwayResponse(
 
     bodies[key] = body;
     allBodies.push(body);
+  }
+
+  if (unusableBodies.length > 0) {
+    // Visible, not swallowed: a short chart is a real event worth seeing in logs,
+    // where a chart quietly padded with Aries placements is not.
+    console.warn(
+      `[formatRailwayResponse] dropped ${unusableBodies.length} body/bodies with no ` +
+        `usable longitude: ${unusableBodies.join(", ")}`,
+    );
   }
 
   return {
