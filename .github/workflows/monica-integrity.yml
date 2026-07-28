@@ -117,7 +117,32 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # ─────────────────────────────────────────────────────────────────────
+      # Every DB gate below carries
+      #     if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+      #
+      # WHY: by default a failed step cancels the rest of the job, so ONE red gate
+      # silently skips every gate after it. `[MEASURED 2026-07-28]` that is not
+      # hypothetical — the drift check had been failing on master since
+      # 2026-07-26 on 108 rows that were merely UNCLASSIFIED (`drifted 0`,
+      # `wrong-method 0`: new agents arrive without a monica and a backfill assigns
+      # one). Four further gates were skipped behind it, including two that had
+      # NEVER run since being added: the economy SQL PREPARE gate and the
+      # ledger/balance reconciliation gate.
+      #
+      # A routine, self-resolving data condition was therefore masking the checks
+      # that guard money and SQL validity — the "a gate that cannot run reads as a
+      # pass" failure this workflow exists to prevent, arriving through a side
+      # door. Each gate now reports independently and the job is red if ANY of them
+      # is, which is the signal we actually want.
+      #
+      # `!cancelled()` rather than `always()`: a cancelled run should stop, not keep
+      # opening connections to production. Gated on `db-secret` because without the
+      # secret every gate fails identically for one uninteresting reason, and five
+      # copies of the same error hide which gate is genuinely broken.
+      # ─────────────────────────────────────────────────────────────────────
       - name: Require the database secret
+        id: db-secret
         # FAIL, do not skip. A skipped job renders as a green check, and a green
         # check that verified nothing is the exact failure this gate exists to
         # prevent. If this step fails, the gate is not operational — add the
@@ -133,11 +158,13 @@ jobs:
           echo "database secret present"
 
       - name: Drift check (recomputes every value from the engine)
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkAgentMonicaDrift.ts
 
       - name: Integrity audit (asserts structure directly in SQL)
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # The SECOND, INDEPENDENT witness. It matters that there are two: the
         # drift check re-derives values from the engine, while this asserts
         # structure directly in SQL and reuses none of the backfill's
@@ -153,6 +180,7 @@ jobs:
         run: bun scripts/auditAgentDataIntegrity.ts
 
       - name: No new cloned natal charts
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # A THIRD data witness, watching a defect the other two cannot see: a
         # chart REUSED as a fallback across several agents. Drift-clean by
         # construction (the value is correctly derived from the chart it has) and
@@ -168,6 +196,7 @@ jobs:
         run: bun scripts/checkNoNewClonedCharts.ts
 
       - name: No fabricated fields on stored natal bodies
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # A FOURTH data witness. The other three all passed while every one of the
         # 710 stored bodies carried `longitude: 0` — a fabricated literal, since
         # the upstream producer evaluates `data?.longitude ?? data?.degrees ?? 0`
@@ -186,6 +215,7 @@ jobs:
         run: bun scripts/checkNoFabricatedNatalFields.ts
 
       - name: Economy SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # SQL is a second language here and ONLY the database can typecheck it.
         # The credit statement once shipped in a state PostgreSQL refused to
         # prepare at all (42P08, a bind parameter deduced as two different
@@ -201,6 +231,7 @@ jobs:
         run: bun scripts/checkEconomySqlParses.ts
 
       - name: Balances reconcile with their own ledger
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # A FIFTH data witness, for a defect that lives in the RELATIONSHIP between
         # two tables rather than inside either one. Every witness above passed while
         # 521.7141 Spirit across 67 users sat in the ledger and never reached a
