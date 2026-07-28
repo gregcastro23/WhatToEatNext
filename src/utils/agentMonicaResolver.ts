@@ -183,3 +183,50 @@ export function twoBodyMonicaFromName(name: string): AgentMonica | null {
   if (!placement || placement.kind !== "phase") return null;
   return twoBodyMonica(placement.phase ?? "", placement.sign, placement.degree);
 }
+
+/** A resolved monica together with the `monica_method` the row must be stamped with. */
+export interface ResolvedAgentMonica {
+  monica: AgentMonica;
+  method: "single-body" | "two-body";
+}
+
+/**
+ * Both constructions, for a WRITER — the one entry point a request handler should
+ * use when provisioning an agent.
+ *
+ * ── Why this exists ─────────────────────────────────────────────────────────
+ *
+ * `agentMonicaFromName` covers single-body placements and returns null for
+ * everything else. Writers called only that, so every Moon-phase agent was
+ * inserted with a NULL monica and left for a backfill to classify.
+ * `[MEASURED 2026-07-28]` of 110 unclassified agents, **92 were phase agents**
+ * that `twoBodyMonicaFromName` resolves perfectly — the construction existed and
+ * was simply never called on the write path.
+ *
+ * ── Why it cannot throw ─────────────────────────────────────────────────────
+ *
+ * `twoBodyMonicaFromName` THROWS `UnknownMoonPhaseError` for a name that is a
+ * phase agent whose phase cannot be classified. That is right for a backfill: the
+ * throw means "my population, unclassified", and swallowing it would silently drop
+ * rows. It is wrong inside a request handler on the money path, where it would
+ * turn an odd agent name into a failed debit.
+ *
+ * So the throw is caught here and reported through `onUnclassifiedPhase`, and the
+ * row is left NULL for the nightly backfill — which does surface it. The
+ * distinction the throw carries is preserved by the callback, not discarded.
+ */
+export function agentMonicaWithMethod(
+  name: string,
+  onUnclassifiedPhase?: (error: unknown) => void,
+): ResolvedAgentMonica | null {
+  const single = agentMonicaFromName(name);
+  if (single) return { monica: single, method: "single-body" };
+
+  try {
+    const twoBody = twoBodyMonicaFromName(name);
+    return twoBody ? { monica: twoBody, method: "two-body" } : null;
+  } catch (error) {
+    onUnclassifiedPhase?.(error);
+    return null;
+  }
+}
