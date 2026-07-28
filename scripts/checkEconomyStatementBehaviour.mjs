@@ -17,10 +17,19 @@ import { readFileSync } from "node:fs";
 import pg from "pg";
 import {
   creditTokensSql,
+  dailyClaimTimestampSql,
   debitAllTokensSql,
   debitTokensSql,
   getBalancesSql,
+  hasActivePurchaseSql,
+  idempotencyProbeSql,
+  shopItemDetailSql,
+  shopItemForPurchaseSql,
+  shopItemsSql,
+  transactionCountSql,
+  transactionsPageSql,
   transmuteSql,
+  userOwnsItemSql,
 } from "../src/services/tokenEconomyQueries.ts";
 
 const c = new pg.Client({
@@ -409,6 +418,171 @@ try {
         );
   }
 
+  // ── reads and bookkeeping ────────────────────────────────────────────────
+  // These move no balance, but two of them decide whether money moves at all
+  // (the idempotency probe) or which rows a user is shown, so a silent
+  // misbehaviour is not harmless.
+  console.log("\nreads and bookkeeping");
+
+  // The probe must match the keys the WRITERS actually produce. This is a
+  // cross-builder agreement: debitAllTokensSql writes `<prefix>:<TokenType>`,
+  // one row per axis, and the probe searches on `<prefix>:%`. If those two
+  // conventions ever drift, duplicate detection silently stops working and the
+  // only thing standing between a client retry and a double-charge is the
+  // unique index.
+  {
+    const pu = await mkFundedUser("probe convention", 100);
+    const key = `probe-convention-${randomUUID()}`;
+    const q = debitAllTokensSql({
+      userId: pu, amounts: COST, description: "probe", idempotencyKey: key,
+      intent: { kind: "spend", sourceType: "recipe_ingestion", sourceId: null },
+    });
+    await c.query(q.sql, q.values);
+    const probe = idempotencyProbeSql(key);
+    const hit = await c.query(probe.sql, probe.values);
+    hit.rows.length === 1
+      ? ok("idempotencyProbe FINDS the keys debitAllTokensSql writes")
+      : no(`probe found ${hit.rows.length} rows for a key that was just written`);
+
+    // Control: it must not match a different key. A probe that matched
+    // everything would also "pass" the assertion above.
+    const miss = idempotencyProbeSql(`${key}-other`);
+    const missRes = await c.query(miss.sql, miss.values);
+    missRes.rows.length === 0
+      ? ok("control: the probe does NOT match an unrelated key")
+      : no(`probe matched ${missRes.rows.length} rows for an unrelated key`);
+  }
+
+  // limit/offset are two adjacent integers — the swap this refactor exists to
+  // prevent. Assert they are not transposed, by checking the pages differ and
+  // the ordering is newest-first.
+  {
+    const tu = await mkUser("pager");
+    for (let i = 0; i < 3; i++) {
+      const q = creditTokensSql({
+        userId: tu, tokenType: "Spirit", amount: i + 1, sourceType: "signup_grant",
+        sourceId: null, description: `page probe ${i}`, transactionGroupId: randomUUID(),
+        idempotencyKey: `page:${tu}:${i}`,
+      });
+      await c.query(q.sql, q.values);
+    }
+    const p1 = transactionsPageSql({ userId: tu, limit: 2, offset: 0 });
+    const p2 = transactionsPageSql({ userId: tu, limit: 2, offset: 2 });
+    const r1 = await c.query(p1.sql, p1.values);
+    const r2 = await c.query(p2.sql, p2.values);
+    r1.rows.length === 2 && r2.rows.length === 1
+      ? ok("transactionsPage honours limit and offset in the right order")
+      : no(`limit 2 offset 0 -> ${r1.rows.length} rows, offset 2 -> ${r2.rows.length} (expected 2 / 1)`);
+    // A transposed limit/offset would be LIMIT 0 OFFSET 2, returning nothing —
+    // so a non-empty first page is itself the discriminator.
+    r1.rows[0] && new Date(r1.rows[0].created_at) >= new Date(r1.rows[1].created_at)
+      ? ok("transactionsPage orders newest-first")
+      : no("transactionsPage ordering is not newest-first");
+
+    const cnt = transactionCountSql(tu);
+    Number((await c.query(cnt.sql, cnt.values)).rows[0].total) === 3
+      ? ok("transactionCount counts every row, unaffected by paging")
+      : no("transactionCount disagrees with the rows written");
+  }
+
+  // The shop reads, and the date bound that used to be spliced into the text.
+  {
+    const su = await mkUser("shopper");
+    const activeId = randomUUID();
+    const inactiveId = randomUUID();
+    const activeSlug = `probe-active-${activeId}`;
+    const inactiveSlug = `probe-inactive-${inactiveId}`;
+    const cat = `probe-cat-${randomUUID()}`;
+    for (const [id, slug, isActive] of [
+      [activeId, activeSlug, true],
+      [inactiveId, inactiveSlug, false],
+    ]) {
+      await c.query(
+        `INSERT INTO shop_items (id, slug, title, category, cost_spirit, cost_essence,
+                                 cost_matter, cost_substance, is_one_time, is_active)
+         VALUES ($1,$2,'Probe',$3,1,1,1,1,true,$4)`,
+        [id, slug, cat, isActive],
+      );
+    }
+
+    const forPurchase = shopItemForPurchaseSql(activeSlug);
+    (await c.query(forPurchase.sql, forPurchase.values)).rows.length === 1
+      ? ok("shopItemForPurchase finds an ACTIVE item")
+      : no("shopItemForPurchase missed an active item");
+    const inactiveLookup = shopItemForPurchaseSql(inactiveSlug);
+    (await c.query(inactiveLookup.sql, inactiveLookup.values)).rows.length === 0
+      ? ok("shopItemForPurchase refuses an INACTIVE item")
+      : no("shopItemForPurchase returned an inactive item — it would be buyable");
+
+    const detail = shopItemDetailSql(inactiveSlug);
+    (await c.query(detail.sql, detail.values)).rows.length === 1
+      ? ok("shopItemDetail reads an inactive item (display, not purchase)")
+      : no("shopItemDetail could not read an inactive item");
+
+    const listDefault = shopItemsSql({ category: cat });
+    const listAll = shopItemsSql({ category: cat, onlyActive: false });
+    const nDefault = (await c.query(listDefault.sql, listDefault.values)).rows.length;
+    const nAll = (await c.query(listAll.sql, listAll.values)).rows.length;
+    nDefault === 1 && nAll === 2
+      ? ok("shopItems hides inactive by DEFAULT; onlyActive:false includes them")
+      : no(`shopItems default -> ${nDefault}, onlyActive:false -> ${nAll} (expected 1 / 2)`);
+
+    // hasActivePurchase, and the maxAgeDays bound that is now a parameter.
+    const owns0 = userOwnsItemSql({ userId: su, slug: activeSlug });
+    (await c.query(owns0.sql, owns0.values)).rows.length === 0
+      ? ok("userOwnsItem is false before any purchase")
+      : no("userOwnsItem reported ownership with no purchase");
+
+    await c.query(
+      `INSERT INTO user_purchases (user_id, shop_item_id, transaction_group_id, purchased_at)
+       VALUES ($1,$2,$3, now() - interval '40 days')`,
+      [su, activeId, randomUUID()],
+    );
+    const owns1 = userOwnsItemSql({ userId: su, slug: activeSlug });
+    (await c.query(owns1.sql, owns1.values)).rows.length === 1
+      ? ok("userOwnsItem is true after a purchase")
+      : no("userOwnsItem missed a purchase");
+
+    const anyAge = hasActivePurchaseSql({ userId: su, slug: activeSlug });
+    (await c.query(anyAge.sql, anyAge.values)).rows.length === 1
+      ? ok("hasActivePurchase with no age bound finds a 40-day-old purchase")
+      : no("hasActivePurchase missed an unbounded purchase");
+
+    const within30 = hasActivePurchaseSql({ userId: su, slug: activeSlug, maxAgeDays: 30 });
+    (await c.query(within30.sql, within30.values)).rows.length === 0
+      ? ok("hasActivePurchase(30) EXCLUDES the 40-day-old purchase — the bound binds")
+      : no("maxAgeDays=30 still matched a 40-day-old purchase");
+
+    const within90 = hasActivePurchaseSql({ userId: su, slug: activeSlug, maxAgeDays: 90 });
+    (await c.query(within90.sql, within90.values)).rows.length === 1
+      ? ok("hasActivePurchase(90) INCLUDES it — so the exclusion above is the bound, not a broken query")
+      : no("maxAgeDays=90 failed to match a 40-day-old purchase");
+  }
+
+  // The daily-claim stamp writes the column its site names, and only that one.
+  {
+    const cu = await mkUser("claimer");
+    const bal = getBalancesSql(cu);
+    await c.query(bal.sql, bal.values);
+    for (const [site, written, untouched] of [
+      ["main", "last_daily_claim_at", "last_daily_claim_agents_at"],
+      ["agents", "last_daily_claim_agents_at", "last_daily_claim_at"],
+    ]) {
+      const v = await mkUser(`claimer ${site}`);
+      const b = getBalancesSql(v);
+      await c.query(b.sql, b.values);
+      const q = dailyClaimTimestampSql({ userId: v, site });
+      await c.query(q.sql, q.values);
+      const r = await c.query(
+        `SELECT last_daily_claim_at, last_daily_claim_agents_at FROM token_balances WHERE user_id=$1`,
+        [v],
+      );
+      r.rows[0][written] !== null && r.rows[0][untouched] === null
+        ? ok(`dailyClaim(${site}) stamps ${written} and leaves ${untouched} alone`)
+        : no(`dailyClaim(${site}) wrote ${JSON.stringify(r.rows[0])}`);
+    }
+  }
+
   // ── the ledger/balance invariant ─────────────────────────────────────────
   console.log("\ninvariant");
   const inv = await c.query(
@@ -514,6 +688,53 @@ try {
   JSON.stringify(["U", "Essence", 7, "signup_grant", "SRC", "DESC", "GRP", "IDEM"])
     ? ok("creditTokensSql binds values in $1..$8 order")
     : no(`creditTokensSql values are ${JSON.stringify(credited.values)}`);
+
+  // ── the lifted reads changed no SQL either ──────────────────────────────
+  // Every read moved out of TokenEconomyService verbatim. Fixtures captured
+  // from origin/master's inline literals; each variant rendered the way the
+  // original code rendered it.
+  console.log("\nlifted reads are semantics-free (vs pre-lift fixtures)");
+  const readCases = [
+    ["idempotencyProbe", idempotencyProbeSql("K").sql],
+    ["dailyClaim.main", dailyClaimTimestampSql({ userId: "u", site: "main" }).sql],
+    ["dailyClaim.agents", dailyClaimTimestampSql({ userId: "u", site: "agents" }).sql],
+    ["transactionsPage", transactionsPageSql({ userId: "u", limit: 1, offset: 0 }).sql],
+    ["transactionCount", transactionCountSql("u").sql],
+    ["shopItemForPurchase", shopItemForPurchaseSql("s").sql],
+    ["userOwnsItem", userOwnsItemSql({ userId: "u", slug: "s" }).sql],
+    ["shopItemDetail", shopItemDetailSql("s").sql],
+    ["shopItems.default", shopItemsSql().sql],
+    ["shopItems.category", shopItemsSql({ category: "x" }).sql],
+    ["shopItems.all", shopItemsSql({ onlyActive: false }).sql],
+    ["shopItems.categoryAll", shopItemsSql({ category: "x", onlyActive: false }).sql],
+  ];
+  for (const [name, rendered] of readCases) {
+    stripComments(rendered) === fixture(name)
+      ? ok(`${name} SQL unchanged by the lift`)
+      : no(`${name} SQL CHANGED`);
+  }
+
+  // hasActivePurchase is the ONE read that deliberately changed: its day count
+  // moved from spliced-into-the-text to a bound parameter. The no-bound variant
+  // must still be identical; the bounded one must NOT interpolate its value.
+  stripComments(hasActivePurchaseSql({ userId: "u", slug: "s" }).sql) ===
+  fixture("hasActivePurchase.nodate")
+    ? ok("hasActivePurchase (no age bound) SQL unchanged by the lift")
+    : no("hasActivePurchase (no age bound) SQL CHANGED");
+
+  const bounded = hasActivePurchaseSql({ userId: "u", slug: "s", maxAgeDays: 30 });
+  !bounded.sql.includes("30") && bounded.values.includes(30)
+    ? ok("hasActivePurchase(30) BINDS the day count — it appears in values, not in the SQL")
+    : no(`maxAgeDays leaked into the statement text: ${bounded.sql}`);
+
+  // The case that made this worth fixing: a hostile value must land in the
+  // parameter list, not in the statement.
+  const hostile = hasActivePurchaseSql({
+    userId: "u", slug: "s", maxAgeDays: "1 days' OR true --",
+  });
+  !hostile.sql.includes("OR true") && hostile.values.includes("1 days' OR true --")
+    ? ok("a hostile maxAgeDays cannot reach the statement text")
+    : no("hostile maxAgeDays was interpolated into the SQL");
 
   // And the column can no longer disagree with the token type, because there
   // is only one argument to get wrong.

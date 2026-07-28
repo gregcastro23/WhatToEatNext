@@ -193,8 +193,91 @@ for (const fromColumn of COLUMNS) {
   }
 }
 
-// 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute
-const EXPECTED_TOTAL = 23;
+// ── Reads and bookkeeping ───────────────────────────────────────────────────
+// None of these moves a balance, but PREPARE still catches a renamed column, a
+// dropped table, or a parameter count that has drifted from its call site.
+// Statements whose text varies with an argument get one entry per variant: a
+// gate that checked only the default shape would not be checking the others.
+
+statements.push({
+  label: "idempotencyProbe",
+  sql: queries.idempotencyProbeSql("probe").sql,
+  builder: "idempotencyProbeSql",
+});
+
+for (const site of ["main", "agents"] as const) {
+  statements.push({
+    label: `dailyClaim(${site})`,
+    sql: queries.dailyClaimTimestampSql({ userId: UUID, site }).sql,
+    builder: "dailyClaimTimestampSql",
+  });
+}
+
+statements.push({
+  label: "transactionsPage",
+  sql: queries.transactionsPageSql({ userId: UUID, limit: 20, offset: 0 }).sql,
+  builder: "transactionsPageSql",
+});
+
+statements.push({
+  label: "transactionCount",
+  sql: queries.transactionCountSql(UUID).sql,
+  builder: "transactionCountSql",
+});
+
+statements.push({
+  label: "shopItemForPurchase",
+  sql: queries.shopItemForPurchaseSql("probe-slug").sql,
+  builder: "shopItemForPurchaseSql",
+});
+
+statements.push({
+  label: "userOwnsItem",
+  sql: queries.userOwnsItemSql({ userId: UUID, slug: "probe-slug" }).sql,
+  builder: "userOwnsItemSql",
+});
+
+// Both branches: the date-bounded variant is the one whose day count used to be
+// spliced into the statement text rather than bound.
+statements.push({
+  label: "hasActivePurchase(any age)",
+  sql: queries.hasActivePurchaseSql({ userId: UUID, slug: "probe-slug" }).sql,
+  builder: "hasActivePurchaseSql",
+});
+statements.push({
+  label: "hasActivePurchase(maxAgeDays)",
+  sql: queries.hasActivePurchaseSql({
+    userId: UUID,
+    slug: "probe-slug",
+    maxAgeDays: 30,
+  }).sql,
+  builder: "hasActivePurchaseSql",
+});
+
+statements.push({
+  label: "shopItemDetail",
+  sql: queries.shopItemDetailSql("probe-slug").sql,
+  builder: "shopItemDetailSql",
+});
+
+// All four filter combinations. `onlyActive` defaults to true, so the no-options
+// call is NOT the unfiltered statement — both are checked.
+for (const [label, opts] of [
+  ["default", undefined],
+  ["category", { category: "probe" }],
+  ["all", { onlyActive: false }],
+  ["category+all", { category: "probe", onlyActive: false }],
+] as const) {
+  statements.push({
+    label: `shopItems(${label})`,
+    sql: queries.shopItemsSql(opts).sql,
+    builder: "shopItemsSql",
+  });
+}
+
+// 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
+// statements, plus 14 reads/bookkeeping.
+const EXPECTED_TOTAL = 37;
 
 const client = new pg.Client({
   connectionString: url,
@@ -320,20 +403,15 @@ try {
     `\n✓ all ${statements.length} economy statements parse and type-check ` +
       "against PostgreSQL",
   );
-  // Stated so a reader does not mistake this for total coverage of the file.
-  // Every statement that MOVES MONEY is now gated. What remains ungated are
-  // simple reads and one timestamp write, none of which touch a balance:
+  // Coverage is now total for this service, and that claim is enforced rather
+  // than asserted: `TokenEconomyService.ts` contains no SQL of its own, so the
+  // exported-builder control above is the same thing as "every statement".
   console.log(
-    "\n  Covered: every balance-mutating statement (credit, debit, multi-axis\n" +
-      "  spend, premium purchase, transmutation, balance ensure-and-read).\n" +
-      "\n  NOT covered — still inline in TokenEconomyService.ts, none of which\n" +
-      "  move a balance:\n" +
-      "    · the two `SELECT 1 FROM token_transactions … idempotency_key LIKE`\n" +
-      "      pre-checks (debitAllTokens, purchaseShopItem)\n" +
-      "    · getTransactions' page + count reads\n" +
-      "    · updateDailyClaimTimestamp's `UPDATE token_balances SET <col> = now()`\n" +
-      "    · hasActivePurchase, getShopItem, getShopItems, and the shop_items\n" +
-      "      lookup in purchaseShopItem",
+    "\n  Coverage is COMPLETE for TokenEconomyService: it holds no SQL of its\n" +
+      "  own — every statement it sends comes from tokenEconomyQueries.ts, and\n" +
+      "  control 2 fails if any exported builder goes unexercised.\n" +
+      "\n  This gate covers that ONE service. Economy SQL living elsewhere (API\n" +
+      "  routes, crons, migrations) is out of its scope and still ungated.",
   );
 } finally {
   await client.end();

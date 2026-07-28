@@ -1,5 +1,5 @@
 /**
- * Token Economy SQL — every statement that moves money.
+ * Token Economy SQL — every statement `TokenEconomyService` sends to PostgreSQL.
  *
  * @file src/services/tokenEconomyQueries.ts
  *
@@ -572,4 +572,198 @@ export function transmuteSql(opts: {
           SELECT * FROM updated`;
 
   return { sql, values: p.values };
+}
+
+// ─── Reads and bookkeeping ────────────────────────────────────────────
+//
+// None of the statements below moves a balance. They are here for the same two
+// reasons the money statements are: the PREPARE gate can only check SQL it can
+// reach, and a hand-numbered `$n` beside a hand-ordered array is a shape where
+// swapping two same-typed arguments type-checks and silently does the wrong
+// thing.
+
+/**
+ * Has any transaction already been written under this idempotency key?
+ *
+ * The writers store `<prefix>:<TokenType>`, one row per axis, so the probe has
+ * to match on the prefix. That `:%` suffix lives HERE rather than at the call
+ * sites: it is the same convention `debitAllTokensSql` encodes when it writes
+ * the keys, and the two must agree. Passing the raw prefix and appending `:%`
+ * by hand at each caller is how they drift.
+ *
+ * `LIKE` with a caller-supplied prefix is safe because the prefix is BOUND, not
+ * interpolated — a `%` inside it would widen the match but cannot alter the
+ * statement.
+ */
+export function idempotencyProbeSql(keyPrefix: string): BuiltQuery {
+  const p = new QueryParams();
+  const prefix = p.add(`${keyPrefix}:%`);
+  return {
+    sql: `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE ${prefix} LIMIT 1`,
+    values: p.values,
+  };
+}
+
+/** Which column records a site's daily claim. Two sites, two columns; derived
+ *  from the site so the caller cannot name a column that does not exist. */
+export type ClaimSite = "main" | "agents";
+const CLAIM_COLUMN: Record<ClaimSite, string> = {
+  main: "last_daily_claim_at",
+  agents: "last_daily_claim_agents_at",
+};
+
+/** Stamp the site-specific daily-claim timestamp. */
+export function dailyClaimTimestampSql(opts: {
+  userId: string;
+  site: ClaimSite;
+}): BuiltQuery {
+  const column = CLAIM_COLUMN[opts.site];
+  const p = new QueryParams();
+  const user = p.add(opts.userId);
+  return {
+    sql: `UPDATE token_balances SET ${column} = now(), updated_at = now() WHERE user_id = ${user}`,
+    values: p.values,
+  };
+}
+
+/**
+ * One page of a user's ledger, newest first.
+ *
+ * `limit` and `offset` are two adjacent integers — the one parameter pair here
+ * where a hand-ordered array could silently swap and return the wrong page.
+ */
+export function transactionsPageSql(opts: {
+  userId: string;
+  limit: number;
+  offset: number;
+}): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(opts.userId);
+  const limit = p.add(opts.limit);
+  const offset = p.add(opts.offset);
+  return {
+    sql: `SELECT * FROM token_transactions
+             WHERE user_id = ${user}
+             ORDER BY created_at DESC
+             LIMIT ${limit} OFFSET ${offset}`,
+    values: p.values,
+  };
+}
+
+/** Total ledger rows for a user, for paging. */
+export function transactionCountSql(userId: string): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(userId);
+  return {
+    sql: `SELECT COUNT(*)::int AS total FROM token_transactions WHERE user_id = ${user}`,
+    values: p.values,
+  };
+}
+
+/** The purchasable item behind a slug. Filters `is_active` because an inactive
+ *  item must not be buyable — distinct from `shopItemDetailSql`, which reads an
+ *  item for display regardless of its active state. */
+export function shopItemForPurchaseSql(slug: string): BuiltQuery {
+  const p = new QueryParams();
+  const s = p.add(slug);
+  return {
+    sql: `SELECT * FROM shop_items WHERE slug = ${s} AND is_active = true`,
+    values: p.values,
+  };
+}
+
+/** Does this user already own this item? Used to enforce one-time items. */
+export function userOwnsItemSql(opts: {
+  userId: string;
+  slug: string;
+}): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(opts.userId);
+  const slug = p.add(opts.slug);
+  return {
+    sql: `SELECT 1 FROM user_purchases up
+             JOIN shop_items si ON si.id = up.shop_item_id
+             WHERE up.user_id = ${user} AND si.slug = ${slug}`,
+    values: p.values,
+  };
+}
+
+/**
+ * Does this user hold a CURRENT purchase of this item?
+ *
+ * ── Why `maxAgeDays` is bound rather than interpolated ──────────────────────
+ *
+ * It used to be spliced straight into the statement text:
+ *
+ *     AND up.purchased_at >= now() - interval '${maxAgeDays} days'
+ *
+ * `maxAgeDays` is typed `number`, but a value arriving from `request.json()` is
+ * `any` at runtime, so a string would have been concatenated into the SQL. No
+ * caller passed the argument, so the branch was unreachable and nothing was
+ * exploitable — but it was one call site away from being an injection point,
+ * and a PREPARE gate cannot check a statement whose text depends on a value.
+ *
+ * `make_interval` takes the day count as an ordinary bound parameter, so the
+ * statement text is now fixed no matter what the caller passes.
+ */
+export function hasActivePurchaseSql(opts: {
+  userId: string;
+  slug: string;
+  maxAgeDays?: number;
+}): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(opts.userId);
+  const slug = p.add(opts.slug);
+  const dateCondition =
+    opts.maxAgeDays === undefined
+      ? ""
+      : `AND up.purchased_at >= now() - make_interval(days => ${p.add(opts.maxAgeDays)}::int)`;
+  return {
+    sql: `SELECT 1 FROM user_purchases up
+           JOIN shop_items si ON si.id = up.shop_item_id
+           WHERE up.user_id = ${user} AND si.slug = ${slug}
+           ${dateCondition}
+           LIMIT 1`,
+    values: p.values,
+  };
+}
+
+/** The shop catalogue entry for a slug, whatever its active state. */
+export function shopItemDetailSql(slug: string): BuiltQuery {
+  const p = new QueryParams();
+  const s = p.add(slug);
+  return {
+    sql: `SELECT id, slug, title, description, category,
+                  cost_spirit, cost_essence, cost_matter, cost_substance,
+                  is_one_time, is_active
+           FROM shop_items WHERE slug = ${s}`,
+    values: p.values,
+  };
+}
+
+/**
+ * The shop catalogue, optionally filtered.
+ *
+ * `onlyActive` defaults to true, and specifically on `!== false`: passing no
+ * options at all must still hide inactive items. Only an explicit `false`
+ * widens the query.
+ */
+export function shopItemsSql(opts?: {
+  category?: string;
+  onlyActive?: boolean;
+}): BuiltQuery {
+  const p = new QueryParams();
+  const where: string[] = [];
+  if (opts?.category) where.push(`category = ${p.add(opts.category)}`);
+  if (opts?.onlyActive !== false) where.push(`is_active = true`);
+  const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
+  return {
+    sql: `SELECT id, slug, title, description, category,
+                cost_spirit, cost_essence, cost_matter, cost_substance,
+                is_one_time, is_active, sort_order
+         FROM shop_items
+         ${whereClause}
+         ORDER BY sort_order ASC, title ASC`,
+    values: p.values,
+  };
 }

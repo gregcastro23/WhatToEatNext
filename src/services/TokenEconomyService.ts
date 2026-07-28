@@ -12,10 +12,19 @@ import { _logger } from "@/lib/logger";
 import {
   columnFor,
   creditTokensSql,
+  dailyClaimTimestampSql,
   debitAllTokensSql,
   debitTokensSql,
   getBalancesSql,
+  hasActivePurchaseSql,
+  idempotencyProbeSql,
+  shopItemDetailSql,
+  shopItemForPurchaseSql,
+  shopItemsSql,
+  transactionCountSql,
+  transactionsPageSql,
   transmuteSql,
+  userOwnsItemSql,
 } from "@/services/tokenEconomyQueries";
 import type {
   TokenType,
@@ -327,10 +336,8 @@ class TokenEconomyService {
     if (db) {
       try {
         if (idemKey) {
-          const dup = await db.executeQuery(
-            `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
-            [`${idemKey}:%`],
-          );
+          const probe = idempotencyProbeSql(idemKey);
+          const dup = await db.executeQuery(probe.sql, probe.values);
           if (dup.rows.length > 0) {
             return { success: false, reason: "already_applied" };
           }
@@ -552,15 +559,12 @@ class TokenEconomyService {
    * 'main' updates last_daily_claim_at; 'agents' updates last_daily_claim_agents_at.
    */
   async updateDailyClaimTimestamp(userId: string, site: "main" | "agents" = "main"): Promise<void> {
-    const column = site === "agents" ? "last_daily_claim_agents_at" : "last_daily_claim_at";
     const db = await getDbModule();
 
     if (db) {
       try {
-        await db.executeQuery(
-          `UPDATE token_balances SET ${column} = now(), updated_at = now() WHERE user_id = $1`,
-          [userId],
-        );
+        const query = dailyClaimTimestampSql({ userId, site });
+        await db.executeQuery(query.sql, query.values);
       } catch (error) {
         _logger.error("[TokenEconomy] updateDailyClaimTimestamp failed:", error);
       }
@@ -721,18 +725,11 @@ class TokenEconomyService {
 
     if (db) {
       try {
+        const page = transactionsPageSql({ userId, limit, offset });
+        const count = transactionCountSql(userId);
         const [txnResult, countResult] = await Promise.all([
-          db.executeQuery(
-            `SELECT * FROM token_transactions
-             WHERE user_id = $1
-             ORDER BY created_at DESC
-             LIMIT $2 OFFSET $3`,
-            [userId, limit, offset],
-          ),
-          db.executeQuery(
-            `SELECT COUNT(*)::int AS total FROM token_transactions WHERE user_id = $1`,
-            [userId],
-          ),
+          db.executeQuery(page.sql, page.values),
+          db.executeQuery(count.sql, count.values),
         ]);
 
         return {
@@ -787,10 +784,8 @@ class TokenEconomyService {
     if (db) {
       try {
         // 1. Look up the shop item
-        const itemResult = await db.executeQuery(
-          `SELECT * FROM shop_items WHERE slug = $1 AND is_active = true`,
-          [shopItemSlug],
-        );
+        const lookup = shopItemForPurchaseSql(shopItemSlug);
+        const itemResult = await db.executeQuery(lookup.sql, lookup.values);
         const item = itemResult.rows[0];
         if (!item) {
           _logger.warn("[TokenEconomy] Shop item not found:", shopItemSlug);
@@ -799,12 +794,8 @@ class TokenEconomyService {
 
         // 2. Check if one-time item already purchased
         if (item.is_one_time) {
-          const existing = await db.executeQuery(
-            `SELECT 1 FROM user_purchases up
-             JOIN shop_items si ON si.id = up.shop_item_id
-             WHERE up.user_id = $1 AND si.slug = $2`,
-            [userId, shopItemSlug],
-          );
+          const owned = userOwnsItemSql({ userId, slug: shopItemSlug });
+          const existing = await db.executeQuery(owned.sql, owned.values);
           if (existing.rows.length > 0) {
             _logger.info("[TokenEconomy] One-time item already purchased:", shopItemSlug);
             return { success: false, reason: "already_owned" };
@@ -814,10 +805,8 @@ class TokenEconomyService {
         // 2b. Idempotency pre-check: reject duplicate submissions (client retry after network error)
         const idemKey = opts?.idempotencyKey ?? null;
         if (idemKey) {
-          const dup = await db.executeQuery(
-            `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
-            [`${idemKey}:%`],
-          );
+          const probe = idempotencyProbeSql(idemKey);
+          const dup = await db.executeQuery(probe.sql, probe.values);
           if (dup.rows.length > 0) {
             _logger.info("[TokenEconomy] Duplicate purchase blocked by idempotency key:", idemKey);
             return { success: false, reason: "already_applied" };
@@ -884,18 +873,12 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const dateCondition = maxAgeDays
-          ? `AND up.purchased_at >= now() - interval '${maxAgeDays} days'`
-          : "";
-
-        const result = await db.executeQuery(
-          `SELECT 1 FROM user_purchases up
-           JOIN shop_items si ON si.id = up.shop_item_id
-           WHERE up.user_id = $1 AND si.slug = $2
-           ${dateCondition}
-           LIMIT 1`,
-          [userId, shopItemSlug],
-        );
+        const query = hasActivePurchaseSql({
+          userId,
+          slug: shopItemSlug,
+          maxAgeDays,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
         return result.rows.length > 0;
       } catch (error) {
         _logger.error("[TokenEconomy] hasActivePurchase failed:", error);
@@ -925,13 +908,8 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          `SELECT id, slug, title, description, category,
-                  cost_spirit, cost_essence, cost_matter, cost_substance,
-                  is_one_time, is_active
-           FROM shop_items WHERE slug = $1`,
-          [slug],
-        );
+        const query = shopItemDetailSql(slug);
+        const result = await db.executeQuery(query.sql, query.values);
         const row = result.rows[0];
         if (!row) return null;
         return {
@@ -976,29 +954,8 @@ class TokenEconomyService {
     if (!db) return [];
 
     try {
-      const where: string[] = [];
-      const params: unknown[] = [];
-      let idx = 1;
-
-      if (opts?.category) {
-        where.push(`category = $${idx++}`);
-        params.push(opts.category);
-      }
-      if (opts?.onlyActive !== false) {
-        where.push(`is_active = true`);
-      }
-
-      const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
-
-      const result = await db.executeQuery(
-        `SELECT id, slug, title, description, category,
-                cost_spirit, cost_essence, cost_matter, cost_substance,
-                is_one_time, is_active, sort_order
-         FROM shop_items
-         ${whereClause}
-         ORDER BY sort_order ASC, title ASC`,
-        params,
-      );
+      const query = shopItemsSql(opts);
+      const result = await db.executeQuery(query.sql, query.values);
 
       return result.rows.map(row => ({
         id: row.id,
