@@ -242,6 +242,41 @@ if (!WRITE) {
   process.exit(0);
 }
 
+// ── Blast-radius bound, for the UNATTENDED path ─────────────────────────────
+//
+// This runs on a schedule now (.github/workflows/monica-backfill.yml, 06:45 UTC),
+// so nobody reads the dry run first. `[MEASURED 2026-07-28]` a normal night is
+// ~50 newly-arrived agents (7-day range 43-57). A run that suddenly wants to
+// classify thousands is not a busy night — it is a classifier or schema change
+// re-deciding the whole population, and it should stop and wait for a human
+// rather than rewrite 5000 rows at 06:45 while everyone is asleep.
+//
+// Bounded on NEW arrivals only. Re-computation of already-classified rows is
+// idempotent and provably value-preserving (the drift check verifies it), so it
+// is not the dangerous quantity; first-time assignment is.
+//
+// --max-new=<n> overrides, for the deliberate manual run that follows an alert.
+const maxNewArg = process.argv.find((a) => a.startsWith("--max-new="));
+const MAX_NEW = maxNewArg ? Number(maxNewArg.split("=")[1]) : Number.POSITIVE_INFINITY;
+if (!Number.isFinite(MAX_NEW) && maxNewArg) {
+  console.error(`FATAL: --max-new expects a number, got "${maxNewArg}"`);
+  await client.end();
+  process.exit(1);
+}
+if (newlyComputed > MAX_NEW) {
+  console.error(
+    `\n*** REFUSING TO WRITE: ${newlyComputed} agents would be classified for the first\n` +
+      `    time, above the --max-new=${MAX_NEW} bound. Ordinary growth is ~50/night.\n` +
+      `    This is what a classifier or schema change re-deciding the population\n` +
+      `    looks like. Inspect the dry run, then re-run with a raised bound if the\n` +
+      `    count is genuinely expected:\n` +
+      `      railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write --max-new=${newlyComputed}\n` +
+      `    Nothing was written. ***`,
+  );
+  await client.end();
+  process.exit(1);
+}
+
 const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "").replace("T", "_");
 const snapshot = `monica_preconstruction_${stamp}`;
 if (!/^monica_preconstruction_\d{8}_\d{6}$/.test(snapshot)) {
