@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { MAX_BIRTH_YEAR, MIN_BIRTH_YEAR, birthMomentUtc } from "@/lib/agents/birthYear";
 import { buildAgentContext } from "@/lib/agents/persona/build-agent-context";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database";
@@ -153,8 +154,26 @@ export async function POST(request: NextRequest) {
         const latitude = Number(birthInfo.latitude);
         const longitude = Number(birthInfo.longitude);
 
+        // Historical births are legitimate here. `/api/internal/agent-sync`
+        // already accepts any birthDate — its own fixture is Hildegard of Bingen,
+        // 1098-09-17 — and the chart-bearing agent population is largely
+        // historical figures, so the 1900 floor only meant the public create path
+        // could not author what the sync path routinely does.
+        //
+        // ⚠️ [MEASURED 2026-07-27] this widening is what CREATES the pre-1600
+        // ephemeris exposure; it does not inherit it. Today NO stored chart has a
+        // pre-1600 birth — in fact only 4 rows in all of user_profiles carry a
+        // `dateTime` at all, every one of them 1900+. The production astrologize
+        // backend is pyswisseph/NASA JPL DE and handles these epochs, but when
+        // Railway is unreachable `/api/astrologize` falls back to
+        // astronomy-engine, which before ~1600 CE diverges from JPL Horizons by up
+        // to 0.53° (Pluto) and 0.45° (Moon) and raises NO error. Half a degree can
+        // move a body across a sign boundary, which changes its element, its
+        // dignity, and the whole ESMS profile. A backend-health precondition for
+        // pre-1600 births is the natural follow-up and is deliberately not bundled
+        // here.
         if (
-          isNaN(year) || year < 1900 || year > 2100 ||
+          isNaN(year) || year < MIN_BIRTH_YEAR || year > MAX_BIRTH_YEAR ||
           isNaN(month) || month < 1 || month > 12 ||
           isNaN(day) || day < 1 || day > 31 ||
           isNaN(hour) || hour < 0 || hour > 23 ||
@@ -163,19 +182,13 @@ export async function POST(request: NextRequest) {
           isNaN(longitude) || longitude < -180 || longitude > 180
         ) {
           return NextResponse.json(
-            { success: false, error: "Invalid birthInfo parameters or range (year: 1900-2100, lat: -90 to 90, lon: -180 to 180).", timestamp },
+            { success: false, error: `Invalid birthInfo parameters or range (year: ${MIN_BIRTH_YEAR}-${MAX_BIRTH_YEAR}, lat: -90 to 90, lon: -180 to 180).`, timestamp },
             { status: 400 }
           );
         }
 
         const birthData = {
-          dateTime: new Date(Date.UTC(
-            year,
-            month - 1,
-            day,
-            hour,
-            minute
-          )).toISOString(),
+          dateTime: birthMomentUtc(year, month, day, hour, minute).toISOString(),
           latitude,
           longitude,
           timezone: birthInfo.timezone || "UTC",
