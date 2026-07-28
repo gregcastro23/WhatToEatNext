@@ -1,0 +1,103 @@
+# Classify newly-arrived agents, nightly.
+#
+# This is the ONLY workflow in the repository that WRITES to production. Every
+# guard below exists because of that.
+#
+# ── Why it exists ───────────────────────────────────────────────────────────
+#
+# Agents arrive without a monica and a backfill assigns one from the agent's own
+# name. `[MEASURED 2026-07-28]` ~50 arrive per day (7-day range 43-57), and six
+# appeared within fifteen minutes of a backfill finishing. Left to a human, the
+# queue is never empty for long — which is how the integrity gate came to be red
+# on master continuously from 2026-07-26, and, because a failed step used to
+# cancel the rest of the job, silently skipped the four gates behind it including
+# the economy SQL and ledger/balance gates.
+#
+# So the queue is cleared on a schedule, and the integrity check now treats queue
+# depth as a threshold rather than a defect (scripts/checkAgentMonicaDrift.ts).
+#
+# ── Why 06:45 UTC ───────────────────────────────────────────────────────────
+#
+# Thirty minutes ahead of the 07:15 integrity cron in monica-integrity.yml, so
+# the board is clear when the check runs. Not so close that a slow run overlaps
+# it: a normal run takes well under a minute.
+#
+# ── Why this is safe to run unattended ──────────────────────────────────────
+#
+#   * values are DERIVED from each agent's own name — deterministic, and the
+#     drift check independently re-computes every one of them afterwards
+#   * the script snapshots to monica_preconstruction_<timestamp> before writing
+#   * it migrates in ONE transaction
+#   * --max-new bounds first-time classification, so a classifier or schema change
+#     re-deciding the whole population stops and waits for a human instead of
+#     rewriting thousands of rows overnight
+#   * schedule + manual dispatch ONLY. Never on push or pull_request: a workflow
+#     that writes to production must not be triggerable by opening a PR.
+
+name: Monica Backfill
+
+on:
+  schedule:
+    - cron: "45 6 * * *"
+  workflow_dispatch:
+    inputs:
+      max_new:
+        description: "Bound on first-time classifications (raise only after reading a dry run)"
+        required: false
+        default: "500"
+
+concurrency:
+  # Never two writers at once. `cancel-in-progress: false` deliberately — a write
+  # in flight is not something to cancel; the transaction should finish.
+  group: monica-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    name: Classify new agents
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Require the database secret
+        # FAIL, do not skip. A skipped write job renders green, and "the backfill
+        # is running" would then be an assumption rather than a fact — with the
+        # queue quietly growing until the integrity threshold trips days later.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: |
+          if [ -z "$DATABASE_PUBLIC_URL" ]; then
+            echo "::error::DATABASE_PUBLIC_URL secret is not set — the nightly backfill is NOT operational."
+            exit 1
+          fi
+          echo "database secret present"
+
+      - name: Dry run (what would change)
+        # Runs first and is kept in the log even when the write succeeds. If a
+        # write is ever wrong, the plan that produced it is the first thing anyone
+        # needs, and reconstructing it after the fact is not possible.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/backfillMonicaPerConstruction.ts
+
+      - name: Backfill
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+          MAX_NEW: ${{ github.event.inputs.max_new || '500' }}
+        run: bun scripts/backfillMonicaPerConstruction.ts --write --max-new="$MAX_NEW"
+
+      - name: Verify the write against a fresh computation
+        # The write is only as trustworthy as its verification. This re-derives
+        # every stored value from the engine and fails on any disagreement, so a
+        # backfill that wrote something wrong cannot report success.
+        if: ${{ !cancelled() }}
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAgentMonicaDrift.ts

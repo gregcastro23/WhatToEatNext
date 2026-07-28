@@ -217,9 +217,65 @@ for (const [k, xs] of Object.entries(values)) {
   }
 }
 
-const sum = (t: Tally) => t.drifted + t.missing + t.wrongMethod;
-const bad = sum(tally.single) + sum(tally.phase) + sum(tally.fullChart) + problems.length;
+// ── Two different things were being reported as one ─────────────────────────
+//
+// `drifted` and `wrongMethod` are DEFECTS: a stored value disagrees with a fresh
+// computation, or sits in the wrong column. Neither can happen through ordinary
+// operation, and either means something overwrote a value it should not have.
+// Any occurrence fails, always.
+//
+// `missing` is a QUEUE DEPTH. Agents arrive without a monica and a backfill
+// assigns one; a non-zero count is the system working, not breaking.
+// `[MEASURED 2026-07-28]` roughly 50 new agents per day (7-day range 43-57), and
+// six had already appeared within fifteen minutes of a backfill finishing. A gate
+// that fails on any missing row is therefore red almost all the time.
+//
+// That conflation had a real cost: this check failed on master continuously from
+// 2026-07-26, and because a failed step used to cancel the rest of the job, it
+// silently skipped four gates behind it — including the economy SQL and
+// ledger/balance gates, which had never run at all. A routine condition was
+// switching off the checks that guard money.
+//
+// So `missing` fails only above a threshold that ordinary growth cannot reach.
+const MISSING_QUEUE_THRESHOLD = 150;
+//
+// Derivation, not a round number picked for comfort: ~50 arrivals/day, and the
+// scheduled backfill (06:45 UTC, ahead of the 07:15 integrity cron) clears the
+// queue daily. Steady-state depth at the worst moment of a day is therefore ~50,
+// and 150 is three days of accumulation — high enough that organic growth never
+// trips it, low enough to catch the failure that matters: the backfill silently
+// not running, or a writer producing unclassified rows en masse. A count between
+// the two is reported loudly and passes.
+
+const defects = (t: Tally) => t.drifted + t.wrongMethod;
+const totalDefects =
+  defects(tally.single) + defects(tally.phase) + defects(tally.fullChart) + problems.length;
+const totalMissing = tally.single.missing + tally.phase.missing + tally.fullChart.missing;
+const queueOverflowed = totalMissing > MISSING_QUEUE_THRESHOLD;
+const bad = totalDefects + (queueOverflowed ? totalMissing : 0);
+
 if (problems.length) console.error("\ninvariant failures:\n  " + problems.join("\n  "));
+
+if (totalMissing > 0 && !queueOverflowed) {
+  // Visible but not fatal. Printed even on an otherwise-clean run so the queue
+  // never grows unnoticed — silence here is how a stalled backfill would hide.
+  console.log(
+    `\nqueue: ${totalMissing} agent(s) awaiting classification ` +
+      `(threshold ${MISSING_QUEUE_THRESHOLD}; ~50 arrive per day and the 06:45 UTC ` +
+      `backfill clears them). Not a defect.`,
+  );
+}
+if (queueOverflowed) {
+  console.error(
+    `\n*** ${totalMissing} agents await classification, above the ${MISSING_QUEUE_THRESHOLD} threshold.\n` +
+      `    That is more than ordinary growth produces, so the scheduled backfill\n` +
+      `    (.github/workflows/monica-backfill.yml, 06:45 UTC) is likely not running,\n` +
+      `    or a writer has begun inserting agents without a monica. Check the\n` +
+      `    workflow's recent runs BEFORE re-running the backfill by hand — a\n` +
+      `    backfill that succeeds hides the reason the queue grew. ***`,
+  );
+}
+
 if (bad === 0) {
   console.log(
     `\nOK — all ${tally.single.checked + tally.phase.checked + tally.fullChart.checked} backfilled agents ` +
@@ -232,13 +288,18 @@ if (bad === 0) {
   // `monica_method = 'two-body'|'full-chart'`, which the
   // `monica_constant_single_body_only` CHECK rejects. A gate that reports a
   // problem and then names the wrong fix is worse than one that stays quiet.
-  console.error(
-    `\n*** ${bad} row(s) need attention. Remedy:\n` +
-      `      railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write\n` +
-      `    It is idempotent, classifies by NAME, and handles all three constructions.\n` +
-      `    Do NOT use backfillAgentMonica.ts / backfillPhaseMonica.ts — they are\n` +
-      `    pre-§18o and write monica_constant for two-body/full-chart rows, which\n` +
-      `    the monica_constant_single_body_only constraint now rejects. ***`,
-  );
+  if (totalDefects > 0) {
+    console.error(
+      `\n*** ${totalDefects} DEFECT(s): a stored value disagrees with a fresh\n` +
+        `    computation, or sits in the wrong column. Neither happens through\n` +
+        `    ordinary operation — something overwrote a value it should not have.\n` +
+        `    Remedy:\n` +
+        `      railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write\n` +
+        `    It is idempotent, classifies by NAME, and handles all three constructions.\n` +
+        `    Do NOT use backfillAgentMonica.ts / backfillPhaseMonica.ts — they are\n` +
+        `    pre-§18o and write monica_constant for two-body/full-chart rows, which\n` +
+        `    the monica_constant_single_body_only constraint now rejects. ***`,
+    );
+  }
   process.exit(1);
 }
