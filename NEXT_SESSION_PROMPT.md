@@ -34,7 +34,9 @@ Truth lives in `docs/physics/SYNTHESIS_MODEL.md` §18 and the
 **§17c (engine reconciliation) is done and live.** Canonical
 `src/data/unified/alchemicalCalculations.ts` has a totality contract — never
 NaN/null; degenerate → `0` (heat/entropy/reactivity/greg), `1.0` (kalchm),
-**φ = 1.618** (monica). Constants: `KALCHM_EPSILON` 0.01, `MONICA_LN_EPSILON` 0.05,
+**φ = 1.618** (monica). Constants: `MONICA_REACTIVITY_FLOOR` 0.01 (ASSUMED, §18k
+k21 — named `KALCHM_EPSILON` before that), `MONICA_LN_EPSILON`
+0.10939293407637272 (DERIVED, §18k k3 — it was 0.05 when this line was written),
 `MONICA_EQUILIBRIUM` 1.618. Reactivity is `(Matter+Earth)²` everywhere; data
 regenerated; priors recalibrated; browser-verified.
 

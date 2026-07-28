@@ -34,10 +34,23 @@ MONICA_LN_EPSILON = 0.10939293407637272
 # engine never returns None or NaN.
 MONICA_EQUILIBRIUM = 1.618
 
-# Divide-by-zero guard for reactivity. Not derived — reactivity has no bimodal
-# structure to place it in; its only requirement is being small relative to real
-# reactivities, which it is.
-KALCHM_EPSILON = 0.01
+# Divide-by-zero guard for reactivity in the monica denominator. Mirrors
+# MONICA_REACTIVITY_FLOOR in src/data/unified/alchemicalCalculations.ts; pinned
+# against it by backend/tests/test_kalchm_parity.py.
+#
+# BASIS: ASSUMED (§18k k26). Not derived. The MONICA_LN_EPSILON construction
+# (midpoint of a measured bimodal gap) does not transfer — reactivity is
+# unimodal, widest-low-gap dominance 1.0026 against 1.77 for |ln k| on the same
+# grid with the same algorithm.
+#
+# Inert on the canonical population [MEASURED 2026-07-28, n=7920]: minimum
+# reactivity over the exhaustive single-body grid is 0.22437673130193908, so any
+# floor strictly below that cannot fire. Monica is bit-identical at floors 0
+# through 0.2; values first move at 0.5.
+#
+# Named KALCHM_EPSILON until §18k k26, which is a name it never earned — the
+# kalchm axis floor it was built for was removed in #642.
+MONICA_REACTIVITY_FLOOR = 0.01
 
 # Floor for the heat/entropy/reactivity denominators, matching
 # THERMO_DEN_FLOOR in src/data/unified/alchemicalCalculations.ts. Unlike the
@@ -107,8 +120,10 @@ def compute_kalchm_monica(
         return kalchm, MONICA_EQUILIBRIUM
 
     safe_reactivity = reactivity
-    if abs(reactivity) < KALCHM_EPSILON:
-        safe_reactivity = math.copysign(KALCHM_EPSILON, reactivity if reactivity else 1.0)
+    if abs(reactivity) < MONICA_REACTIVITY_FLOOR:
+        safe_reactivity = math.copysign(
+            MONICA_REACTIVITY_FLOOR, reactivity if reactivity else 1.0
+        )
 
     monica = -gregs_energy / (safe_reactivity * ln_k)
     # Totality: never NaN, never None, never infinite.

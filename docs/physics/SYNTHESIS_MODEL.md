@@ -1737,10 +1737,17 @@ TWO_BODY_LN_EPSILON      = (0.110698 + 0.138173) / 2 = 0.1244355   [DERIVED]
 When `|ln(kalchm)| < TWO_BODY_LN_EPSILON`, the result is `MONICA_EQUILIBRIUM` (φ).
 
 **Why those bounds are structural, not fitted.** The lower bound is a chart with
-a literal `0.000` on an axis — degenerate by inspection, held finite only by
-`KALCHM_EPSILON`. The upper bound is the first case that computes a perfectly
+a literal `0.000` on an axis — degenerate by inspection, ~~held finite only by
+`KALCHM_EPSILON`~~. The upper bound is the first case that computes a perfectly
 sane monica. The band is the midpoint, carrying ~12% margin each way. Both bounds
 are pinned by test, so a retune that starts swallowing real values fails loudly.
+
+> ⚠️ `[CORRECTED 2026-07-28, §18k k26]` The struck phrase above was wrong twice
+> over. `KALCHM_EPSILON` never kept `calculateKalchm` finite — `0 ** 0` is exactly
+> 1 in JS, so a zeroed axis was always finite on its own (k1) — and after #642 that
+> constant has no connection to kalchm at all. It is now
+> `MONICA_REACTIVITY_FLOOR`, a guard on reactivity in the monica denominator.
+> The measured value below is unaffected; only the explanation was.
 
 **Why LOCAL and not a change to `MONICA_LN_EPSILON`.** The canonical constant
 (0.05) is shared by every §17c consumer, including the **4280 single-body agent
@@ -1839,6 +1846,9 @@ instructive record.
 | k9 | A `|max|`-derived constant is **hostage to its least-trustworthy row** — one shipped 3.6× wrong off a duplicated chart. Audit the extremum's provenance before trusting any such constant. | MEASURED | #641 |
 | k10 | Constants must **round-trip**. All three scales were irreproducible from their own basis (copied from `toPrecision()` output). Assert `===`, not `toBeCloseTo`; emit with `String(x)`. | MEASURED | #642 |
 | k11 | Derived constants carry a **guard test that re-derives them from the population each run**, so a moved grid fails CI rather than silently invalidating a comment. | RULED | #641, #642 |
+| k26 | `KALCHM_EPSILON` is **ASSUMED, not derivable**, and is renamed **`MONICA_REACTIVITY_FLOOR`**. The k3 construction does not transfer: reactivity is unimodal, its widest low gap scoring dominance **1.0026** against **1.77** for `\|ln k\|` — same grid, same algorithm, control reproducing both known `\|ln k\|` endpoints under `===`. It is inert on the canonical population (min reactivity **0.22437673130193908**, so any floor below that cannot fire; monica bit-identical at floors 0 → 0.2, first moving at 0.5) but **not dead** — see k27. **Keep at 0.01, labelled ASSUMED with the measured bound; removal deferred behind k27.** | MEASURED | — |
+| k27 | ⚠️ `reactivity === 0 ⟹ gregsEnergy === 0` holds for `calculateThermodynamics` **only**, not repo-wide. The second `calculateReactivity` (`monicaKalchmCalculations.ts:81`, 21 importers) fabricates `0` at its pole where the true value is `+∞`, then delegates to the canonical `calculateMonica` — reaching the guard with `gregsEnergy ≠ 0` (monica `−3.4172` floored vs `φ` unfloored). That is a **k12-class fabricated fallback**, and it is why removing the floor is not behaviour-neutral. | MEASURED | — |
+| k28 | At `reactivity === 0` with `kalchm ≠ 1` the canonical engine returns `0` — literally `-0` for some inputs — where the §17c totality contract promises **φ**. Not reachable in production (0 occurrences across 7920 single-body + 5760 two-body + 142 full-chart + 931 ingredient evaluations), but a contract violation independent of the floor's value. | MEASURED | — |
 
 #### Data and absence
 

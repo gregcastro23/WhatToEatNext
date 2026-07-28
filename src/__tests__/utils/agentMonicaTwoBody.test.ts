@@ -348,7 +348,8 @@ describe("twoBodyMonica — the totality contract", () => {
   // degenerate cells unbanded, which is where the extreme values came from.
   //
   // ⚠️ OPEN, deliberately pinned rather than clamped: flooring the vessel at
-  // KALCHM_EPSILON does NOT fix this — tried both before normalisation (the
+  // 0.01 (the constant then named KALCHM_EPSILON, now MONICA_REACTIVITY_FLOOR)
+  // does NOT fix this — tried both before normalisation (the
   // mass-4 rescale divides the floor straight back down to 0.0067) and after
   // (it perturbed single-body away from the already-backfilled production
   // values). The real fix is in the pillar → vessel mapping (§7a).

@@ -23,7 +23,7 @@ import pytest
 # run is worse than no gate, because its absence reads as a pass.
 from backend.alchm_kitchen.thermodynamics import (
     AXES,
-    KALCHM_EPSILON,
+    MONICA_REACTIVITY_FLOOR,
     MONICA_EQUILIBRIUM,
     MONICA_LN_EPSILON,
     PLANETARY_SECTARIAN_ESMS,
@@ -52,11 +52,28 @@ def test_golden_vector_file_is_populated():
 
 
 def test_constants_match_the_shared_contract():
-    """The constants are DERIVED. If Python and the JSON disagree, one of them was
-    edited without the other and the whole comparison below is meaningless."""
+    """If Python and the JSON disagree, one of them was edited without the other
+    and the whole comparison below is meaningless.
+
+    CONTROL on the pin itself: a dict subscript raises KeyError on a renamed key,
+    so Python cannot silently compare a constant against a missing entry — but
+    assert the key set anyway, because the TypeScript half of this pair reads the
+    same file through an index signature where a miss yields ``undefined``.
+    """
+    expected_keys = {
+        "MONICA_LN_EPSILON",
+        "MONICA_EQUILIBRIUM",
+        "MONICA_REACTIVITY_FLOOR",
+        "X_POW_X_GLOBAL_MINIMUM",
+        "THERMO_DEN_FLOOR",
+    }
+    assert set(GOLDEN["constants"]) == expected_keys, (
+        "the shared constants block changed shape; both runtimes must be updated "
+        "together or one of them is pinning nothing"
+    )
     assert MONICA_LN_EPSILON == GOLDEN["constants"]["MONICA_LN_EPSILON"]
     assert MONICA_EQUILIBRIUM == GOLDEN["constants"]["MONICA_EQUILIBRIUM"]
-    assert KALCHM_EPSILON == GOLDEN["constants"]["KALCHM_EPSILON"]
+    assert MONICA_REACTIVITY_FLOOR == GOLDEN["constants"]["MONICA_REACTIVITY_FLOOR"]
 
 
 def test_monica_ln_epsilon_is_the_derived_midpoint():
