@@ -28,6 +28,7 @@ import {
   MONICA_EQUILIBRIUM,
   MONICA_LN_EPSILON,
   MONICA_REACTIVITY_FLOOR,
+  THERMO_DEN_FLOOR,
   SINGLE_BODY_DEGENERATE_LN_CEILING,
   SINGLE_BODY_HEALTHY_LN_FLOOR,
   calculateKalchm,
@@ -115,6 +116,11 @@ describe("kalchm cross-runtime parity", () => {
     // Pinned against a literal as well as against the file, so a simultaneous
     // edit to both sides cannot slip through unremarked.
     expect(MONICA_REACTIVITY_FLOOR).toBe(0.01);
+    // THERMO_DEN_FLOOR was module-private until §18k k30, so nothing could pin
+    // its NAME — the TS symbol, the Python symbol and this JSON key could all
+    // diverge with the suite green. Now imported and pinned like the others.
+    expect(THERMO_DEN_FLOOR).toBe(GOLDEN.constants.THERMO_DEN_FLOOR);
+    expect(THERMO_DEN_FLOOR).toBe(0.01);
   });
 
   it("re-derives MONICA_LN_EPSILON rather than re-typing it", () => {
