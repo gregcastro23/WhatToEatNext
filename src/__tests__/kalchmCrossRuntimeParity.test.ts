@@ -25,9 +25,9 @@ import { join } from "path";
 
 import {
   calculateThermodynamics,
-  KALCHM_EPSILON,
   MONICA_EQUILIBRIUM,
   MONICA_LN_EPSILON,
+  MONICA_REACTIVITY_FLOOR,
   SINGLE_BODY_DEGENERATE_LN_CEILING,
   SINGLE_BODY_HEALTHY_LN_FLOOR,
   calculateKalchm,
@@ -86,10 +86,35 @@ describe("kalchm cross-runtime parity", () => {
     }
   });
 
+  // CONTROL on the pins below. `constants` is typed `Record<string, number>`, so
+  // a key that no longer exists reads as `undefined` — and if the imported symbol
+  // were also dropped, `expect(undefined).toBe(undefined)` would PASS while
+  // pinning nothing. tsc cannot save us here: tsconfig excludes `src/__tests__/**`
+  // and ts-jest runs transpile-only. So assert the key set first.
+  it("the shared constants block still has exactly the keys we pin", () => {
+    expect(Object.keys(GOLDEN.constants).sort()).toEqual([
+      "MONICA_EQUILIBRIUM",
+      "MONICA_LN_EPSILON",
+      "MONICA_REACTIVITY_FLOOR",
+      "THERMO_DEN_FLOOR",
+      "X_POW_X_GLOBAL_MINIMUM",
+    ]);
+    for (const [k, v] of Object.entries(GOLDEN.constants)) {
+      expect(typeof v).toBe("number");
+      expect(Number.isFinite(v)).toBe(true);
+      // A dropped key would arrive here as `undefined` and fail the typeof check
+      // above; this asserts the reverse — that every key we read is real.
+      expect(GOLDEN.constants[k]).toBeDefined();
+    }
+  });
+
   it("pins the shared constants, so neither runtime can edit one alone", () => {
     expect(MONICA_LN_EPSILON).toBe(GOLDEN.constants.MONICA_LN_EPSILON);
     expect(MONICA_EQUILIBRIUM).toBe(GOLDEN.constants.MONICA_EQUILIBRIUM);
-    expect(KALCHM_EPSILON).toBe(GOLDEN.constants.KALCHM_EPSILON);
+    expect(MONICA_REACTIVITY_FLOOR).toBe(GOLDEN.constants.MONICA_REACTIVITY_FLOOR);
+    // Pinned against a literal as well as against the file, so a simultaneous
+    // edit to both sides cannot slip through unremarked.
+    expect(MONICA_REACTIVITY_FLOOR).toBe(0.01);
   });
 
   it("re-derives MONICA_LN_EPSILON rather than re-typing it", () => {

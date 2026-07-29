@@ -54,21 +54,49 @@ export interface AlchemicalIngredient {
 //                                                    perfect balance, not "dead")
 /**
  * Minimum magnitude for REACTIVITY in the monica denominator, so a reactivity of
- * 0 cannot divide. That is now its only job — see `calculateMonica` below.
+ * 0 cannot divide. That is its only job — see `calculateMonica` below.
  *
- * ⚠️ It used to ALSO floor each ESMS axis inside `calculateKalchm`, described as
- * preventing "0^0 / division by zero". Both hazards were imaginary: `0 ** 0` is
- * already exactly 1 in JS (the true limit), and x^x bottoms out at 0.692201, so
- * the denominator can never be 0. The floor only cost accuracy — 0.01^0.01 =
- * 0.954993 instead of 1, a ~4.5% understatement on the 68.2% of the single-body
- * grid that has a zero axis. Removed; kalchm now clamps only negatives.
+ * ⚠️ Named `KALCHM_EPSILON` until §18k k26. It has nothing to do with kalchm: it
+ * used to ALSO floor each ESMS axis inside `calculateKalchm`, but that floor was
+ * removed in #642 (`0 ** 0` is already exactly 1 in JS, the true limit, and x^x
+ * bottoms out at 0.692201 so the denominator can never reach 0 — both hazards
+ * were imaginary and the floor only cost accuracy). The readers went; the name
+ * outlived them by two months and misdescribed the constant to every reader in
+ * between. Renamed to say what it does.
  *
- * This value is NOT derived. Unlike MONICA_LN_EPSILON there is no measured gap to
- * place it in — reactivity has no bimodal structure to exploit, it is simply a
- * divide-by-zero guard. Its only requirement is being small relative to real
- * reactivities, and it is: see the sensitivity note in the monica docstring.
+ * ── BASIS: ASSUMED ──────────────────────────────────────────────────────────
+ *
+ * Not MEASURED and not DERIVED. The `MONICA_LN_EPSILON` construction (midpoint of
+ * a measured bimodal gap) was applied to reactivity over the identical grid with
+ * the identical algorithm and does NOT transfer: reactivity is unimodal, its
+ * widest low gap scoring a dominance ratio of 1.0026 against 1.77 for |ln k|.
+ * Three indistinguishable candidate gaps means no midpoint to take. There is
+ * nothing here to derive; this is a chosen tolerance and is labelled as one.
+ *
+ * ── What it is inert against [MEASURED 2026-07-28, n=7920] ──────────────────
+ *
+ * Over the exhaustive single-body grid the minimum reactivity is
+ * 0.22437673130193908, so ANY floor strictly below that cannot fire on this
+ * population — the inertness is structural, not a lucky margin. Monica is
+ * bit-identical (`Object.is`) at floors 0 (i.e. no floor at all), 0.0001, 0.001,
+ * 0.01, 0.05, 0.1 and 0.2. Values first move at 0.5 (306 of 7920 cells, max
+ * |Δmonica| 0.0641163822659449) and at 1 (1430 cells, max 0.1708601401780716).
+ * `monicaReactivityFloorInertness.test.ts` re-derives this on every run and fails
+ * if the grid moves, so it is a gate rather than a comment asserting a stale
+ * measurement.
+ *
+ * ── Why it is kept rather than removed [§18k k26] ───────────────────────────
+ *
+ * Removal is NOT behaviour-neutral, despite 0 of 7920 canonical cells changing.
+ * The second `calculateReactivity` in `src/utils/monicaKalchmCalculations.ts`
+ * fabricates 0 at its pole (`denominator > 0 ? n/d : 0`) where the true value is
+ * +∞, and its `calculateMonicaConstant` delegates here — so the guard IS reached,
+ * with gregsEnergy ≠ 0. Removing the floor would turn one baseless number
+ * (-3.417247237179051) into another (φ) while leaving that fabrication in place.
+ * Fix the k12-class fallback there first; then removal becomes neutral and this
+ * constant should go.
  */
-export const KALCHM_EPSILON = 0.01;
+export const MONICA_REACTIVITY_FLOOR = 0.01;
 
 // ── The monica degenerate band, DERIVED ─────────────────────────────────────
 //
@@ -145,7 +173,7 @@ const THERMO_DEN_FLOOR = 0.01;
  *
  * ── Why there is no longer an epsilon floor ─────────────────────────────────
  *
- * Each axis used to be floored at KALCHM_EPSILON = 0.01, justified in a comment
+ * Each axis used to be floored at 0.01 (then named KALCHM_EPSILON), justified in a comment
  * as "so 0^0 and division-by-zero cannot occur". BOTH of those hazards are
  * imaginary in JavaScript, and the floor cost real accuracy:
  *
@@ -261,8 +289,8 @@ export function calculateMonica(
   // Degenerate/equilibrium band: perfectly balanced state, monica is φ.
   if (Math.abs(lnKalchm) < MONICA_LN_EPSILON) return MONICA_EQUILIBRIUM;
   const safeReactivity =
-    Math.abs(reactivity) < KALCHM_EPSILON
-      ? Math.sign(reactivity || 1) * KALCHM_EPSILON
+    Math.abs(reactivity) < MONICA_REACTIVITY_FLOOR
+      ? Math.sign(reactivity || 1) * MONICA_REACTIVITY_FLOOR
       : reactivity;
   const monica = -gregsEnergy / (safeReactivity * lnKalchm);
   return Number.isFinite(monica) ? monica : MONICA_EQUILIBRIUM;

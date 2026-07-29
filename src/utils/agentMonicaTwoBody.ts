@@ -507,7 +507,9 @@ export const VESSEL_DIGNITY_NEUTRAL = 0;
  * chart: Comixion (degree 8/22), nocturnal, where the vessel's Essence is
  * literally `0.000`.
  *
- * ⚠️ This used to read "and only `KALCHM_EPSILON` keeps `calculateKalchm` finite".
+ * ⚠️ This used to read "and only `KALCHM_EPSILON` keeps `calculateKalchm` finite"
+ * (that constant is now `MONICA_REACTIVITY_FLOOR`, §18k k26, and never touched
+ * `calculateKalchm` after #642).
  * That was never true: `0 ** 0` is exactly 1 in JS, so a zero axis was always
  * finite on its own. The floor has been removed, which means the measured value
  * below CHANGES — see the recomputation note on TWO_BODY_LN_EPSILON.
@@ -538,7 +540,8 @@ export const VESSEL_DIGNITY_NEUTRAL = 0;
  * the maximum available margin on both sides (~12% each way).
  *
  * ── Why local, and not a change to MONICA_LN_EPSILON ────────────────────────
- * The canonical `MONICA_LN_EPSILON` (0.05) is shared by every consumer of the
+ * The canonical `MONICA_LN_EPSILON` (0.05 when this was written; DERIVED as
+ * 0.10939293407637272 since #642) is shared by every consumer of the
  * §17c engine, including the **4280 single-body agent rows already written to
  * production**. Widening it there would silently re-value all of them and every
  * full-chart caller besides. This band is applied in this module only; the
