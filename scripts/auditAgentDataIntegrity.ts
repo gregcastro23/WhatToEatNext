@@ -125,8 +125,13 @@ checks++;
 if (total !== Number(agentRows)) { failures++; console.log(`  FAIL  method buckets ${total} != agent rows ${agentRows}`); }
 else console.log(`  OK    method buckets sum to the agent row count (${total})`);
 
+// Was hardcoded "expected: 1, 'Mars Gemini'" — stale from 2026-07-22, when
+// `Moon Cancer` made it 2 and nothing noticed for two months. Since §18k k29
+// both are classifiable, so the permanent residue is 0 and anything here is
+// either a fresh arrival awaiting the backfill or a genuinely new name family.
+// The names are printed below; do not re-hardcode a count.
 await report(
-  "agents with NO monica at all (expected: 1, 'Mars Gemini')",
+  "agents with NO monica at all (expected: 0 permanent; fresh arrivals queue here)",
   `SELECT count(*)::text n FROM user_profiles up JOIN users u ON u.id=up.user_id
     WHERE u.is_agent AND up.monica_method IS NULL`,
 );
