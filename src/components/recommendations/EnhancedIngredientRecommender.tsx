@@ -15,6 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import { calculateKalchm } from "@/data/unified/alchemicalCalculations";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { usePantry } from "@/hooks/usePantry";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
@@ -31,7 +32,6 @@ import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
 import {
   calculateThermodynamicMetrics,
   elementalToAlchemicalApproximation,
-  calculateKAlchm,
 } from "@/utils/monicaKalchmCalculations";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
@@ -2189,12 +2189,12 @@ export const EnhancedIngredientRecommender: React.FC<
                       const kalchmValue =
                         ingredient.kalchm ??
                         (alch?.Spirit
-                          ? calculateKAlchm(
-                              alch.Spirit,
-                              alch.Essence,
-                              alch.Matter,
-                              alch.Substance,
-                            )
+                          ? calculateKalchm({
+                              Spirit: alch.Spirit,
+                              Essence: alch.Essence,
+                              Matter: alch.Matter,
+                              Substance: alch.Substance,
+                            })
                           : null);
                       if (kalchmValue == null) return null;
                       return (
