@@ -166,14 +166,33 @@ export const MONICA_EQUILIBRIUM = 1.618;
  * Substituted for a squared denominator of EXACTLY ZERO in the three
  * thermodynamic ratios. §18k k30.
  *
- * ── It is a POLE SUBSTITUTION, not a small-denominator guard ────────────────
+ * ── On the single-body population it is a POLE SUBSTITUTION ─────────────────
  *
- * `Math.max(den, THERMO_DEN_FLOOR)` reads as a guard against denominators that
- * are merely small. It is never that. `[MEASURED 2026-07-29, n=7920]` over the
- * exhaustive single-body grid, ZERO cells have a denominator anywhere in the open
- * band `(0, 0.01)` for any of the three ratios. Every clamp substitutes for an
- * exact 0, so the effective semantics are `if (den === 0) den = 0.01` and it
- * should be read that way.
+ * `[MEASURED 2026-07-29, n=7920]` over the exhaustive single-body grid, ZERO cells
+ * have a denominator anywhere in the open band `(0, 0.01)` for any of the three
+ * ratios. Every clamp there substitutes for an exact 0, so for that population the
+ * effective semantics are `if (den === 0) den = 0.01`.
+ *
+ * ⚠️ ── That does NOT generalise to caller input ────────────────────────────
+ *
+ * `[CORRECTED 2026-07-29]` An earlier revision of this note said the clamp "is
+ * never" a small-denominator guard, generalising the grid census to the function.
+ * That is false, and it matters because `GET /api/alchemize` takes caller-supplied
+ * elementals. MEASURED at a real diurnal ESMS
+ * `{Spirit: 2.3684111079749997, Essence: 1.5543791025227327, Matter: 0, Substance: 0}`
+ * with `Earth = 0.001`, so `den = 1e-6` — inside the open band:
+ *
+ *     exact  num/den   8025465.570738742
+ *     clamped (this)       802.5465570738742     ← 10,000x LOW
+ *
+ * So on caller input the clamp DOES interpolate, and it understates reactivity
+ * without bound as `den -> 0`. `src/utils/monicaKalchmCalculations.ts` is exact in
+ * that band (control: the two agree bit-for-bit on healthy input, so this is a
+ * real divergence and not a formula difference).
+ *
+ * The consequence for §18k k7: consolidating onto this engine must be justified on
+ * one-formula-per-runtime plus removing the second module's k12 zero — NOT on
+ * "canonical is more correct". In the open band it is measurably less so.
  *
  * ── Only ONE of the three denominators ever reaches zero ────────────────────
  *
@@ -338,9 +357,18 @@ export function calculateThermodynamics(
   // Greg's Energy — never clamped; may be negative (a real, meaningful sign).
   const gregsEnergy = heat - entropy * reactivity;
 
-  // Every value is finite by construction (floored denominators, finite
-  // numerators). The guard is a belt-and-braces backstop for the totality
-  // contract, not a reachable branch.
+  // ⚠️ `[CORRECTED 2026-07-29]` This comment claimed the guard was "not a
+  // reachable branch". It IS reached. An elemental object MISSING a key
+  // destructures to `undefined`, every arithmetic result becomes NaN, and all four
+  // values fall through to 0 (MEASURED: `{Fire:0.3, Water:0.25, Earth:0.2}` with no
+  // `Air` returns all zeros; control: the complete object returns
+  // reactivity 2.0530045351473922). So this guard is load-bearing for
+  // partially-populated caller input, not belt-and-braces.
+  //
+  // It is also a k12-shaped fallback — 0 is a legitimate value for all four of
+  // these quantities, so a caller cannot distinguish "genuinely zero" from "your
+  // input was malformed". Left as-is rather than widened into here; recorded so
+  // the next reader does not trust the old claim.
   return {
     heat: Number.isFinite(heat) ? heat : 0,
     entropy: Number.isFinite(entropy) ? entropy : 0,
