@@ -210,16 +210,34 @@ function flattenNatalChart(chart: NatalChartInput): PlanetPoint[] {
       house: position.house,
     });
   }
+  /**
+   * Angles (Ascendant, MC). Requires the OBJECT form — a bare number is refused.
+   *
+   * ⚠️ This used to accept a bare scalar and read it as an absolute ecliptic
+   * longitude: `sign = ZODIAC_SIGNS[floor(n / 30)]`. `[MEASURED 2026-07-29]` every
+   * such scalar in production was a DEGREE WITHIN A SIGN, not a longitude, so
+   * that branch assigned the wrong sign — and the sign is the dominant lever on
+   * monica (±37-43%), while sub-degree precision is noise (0.98° vs 1.0° differ
+   * by 1.5e-7).
+   *
+   * The proof was one row's own stored aspect. `Greg Castro` carries
+   * `Sun sextile Ascendant, orb 0.65, exact` with Sun at Cancer 1.63° (= 91.63°
+   * absolute) and `ascendant: 0.98`. Read as a longitude, the separation is
+   * 90.65° — a SQUARE, off by 30.65° from the stored orb. Read as 0.98° into
+   * Taurus (30.98°) or Virgo (150.98°), the separation is 60.65° / 59.35° and the
+   * orb error is 0.65° — reproducing the stored value exactly. Only the
+   * degree-within-sign reading is consistent with the chart's own aspect.
+   *
+   * A number cannot state its own unit, so it is no longer accepted. The object
+   * form carries an explicit `sign`, which removes the ambiguity permanently
+   * rather than guessing at it. `api/agents/unified/route.ts` writes that form.
+   */
   const extra = (label: string, input: number | NatalPlanetInput | undefined) => {
     if (input === undefined || input === null) return;
     if (typeof input === "number") {
-      out.push({
-        planet: label,
-        longitude: ((input % 360) + 360) % 360,
-        sign: ZODIAC_SIGNS[Math.floor((((input % 360) + 360) % 360) / 30)],
-        degreeInSign: ((input % 360) + 360) % 30,
-        retrograde: false,
-      });
+      // Refused deliberately — see the note above. Skipping is the same
+      // behaviour this function already gives an absent angle, and it is the
+      // only option that does not invent a sign.
       return;
     }
     const sign = normalizeSign(input.sign);
