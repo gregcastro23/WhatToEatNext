@@ -47,6 +47,43 @@ function syncDebitProfileSql() {
   return sql.slice(1, -1);
 }
 
+/**
+ * The profile UPSERT from `userDatabaseService.ensureAgent`, extracted from the
+ * module source. This is the statement 370 of 370 real arrivals go through.
+ */
+function ensureAgentProfileSql() {
+  const src = readFileSync("src/services/userDatabaseService.ts", "utf8");
+
+  // Scope to the ensureAgent body FIRST. There are four `INSERT INTO
+  // user_profiles` statements in this module and a file-wide regex would
+  // happily verify one of the other three — which is the same class of mistake
+  // that let #666 pass while the real producer went unpatched.
+  const start = src.indexOf("async ensureAgent");
+  if (start === -1) {
+    console.error("CONTROL FAILED: no `async ensureAgent` in userDatabaseService.ts. Update this extractor.");
+    process.exit(1);
+  }
+  const nextMethod = src.slice(start + 1).search(/\n {2}(?:async )?[a-zA-Z_]\w*\s*\(/);
+  const body = nextMethod === -1 ? src.slice(start) : src.slice(start, start + 1 + nextMethod);
+
+  const sql = body.match(/`(INSERT INTO user_profiles[\s\S]*?updated_at = CURRENT_TIMESTAMP)`/)?.[1];
+  if (!sql) {
+    console.error("CONTROL FAILED: no profile UPSERT inside ensureAgent. Update this extractor.");
+    process.exit(1);
+  }
+  // The point of this whole section: if ensureAgent's UPSERT does not classify,
+  // say so precisely rather than reporting an extraction problem.
+  if (!/monica_method/.test(sql)) {
+    console.error(
+      "FAIL: ensureAgent's profile UPSERT does not write monica_method.\n" +
+        "      This is the path 370/370 real arrivals take, so every new agent\n" +
+        "      lands unclassified and the nightly backfill papers over it.",
+    );
+    process.exit(1);
+  }
+  return sql;
+}
+
 const client = new pg.Client({ connectionString: url, ssl: { rejectUnauthorized: false } });
 await client.connect();
 
@@ -131,12 +168,78 @@ try {
 
   // ── 3. an unresolvable name must stay NULL, not fabricate ───────────────
   console.log("\n3. unresolvable name");
-  const oddUser = await mkAgent("Mars Gemini");
+  // NB: this used to be "Mars Gemini", which §18k k29 made RESOLVABLE (planet +
+  // sign, degree supplied at the sign midpoint). A person's name is missing the
+  // planet and the sign, so nothing constrains it and it must stay NULL.
+  const oddUser = await mkAgent("Edgar Allan Poe");
   await client.query(SQL, params(oddUser, null, null));
   const odd = await classification(oddUser);
   if (odd.monica_method === null && odd.monica_single === null && odd.monica_two_body === null) {
     ok("left entirely NULL — no invented classification");
   } else no(`fabricated ${JSON.stringify(odd)}`);
+
+  // ── 3b. THE ACTUAL PRODUCER ─────────────────────────────────────────────
+  //
+  // `[MEASURED 2026-07-29]` Sections 1-3 verify the two endpoints #666 believed
+  // were the writers. They are not. Over seven days, 370 of 370 arrivals carry
+  // `ensureAgent`'s fingerprint and 0 carry sync-debit's — so every assertion
+  // above passed while every real arrival landed unclassified.
+  //
+  // The lesson is not that the gate was wrong. It executed real SQL against a
+  // real database and reported honestly. It was POINTED AT THE WRONG STATEMENT,
+  // and nothing in it could notice. Hence this section, and hence the assertion
+  // at the end that the extractor still finds something.
+  console.log("\n3b. ensureAgent — the path 370/370 real arrivals actually take");
+  const ENSURE_SQL = ensureAgentProfileSql();
+  const ensureParams = (userId, name, resolved) => [
+    userId,
+    name,
+    resolved?.method ?? null,
+    resolved?.monica.combined ?? null,
+    resolved?.monica.diurnal ?? null,
+    resolved?.monica.nocturnal ?? null,
+  ];
+
+  for (const [label, name, wantMethod] of [
+    ["phase", "Moon Phase Full Moon 121", "two-body"],
+    ["single-body", "Venus Taurus 12", "single-body"],
+    ["person", "Edgar Allan Poe", null],
+  ]) {
+    // ensureAgent INSERTs the profile row itself, so unlike above there must be
+    // no pre-existing row — that is the branch real arrivals take.
+    const uid = randomUUID();
+    const email = `ensure-${uid.slice(0, 8)}@agentic.alchm.kitchen`;
+    await client.query(
+      `INSERT INTO users (id, email, password_hash, role, is_active, email_verified, is_agent,
+                          name, profile, preferences, login_count, created_at, updated_at)
+       VALUES ($1,$2,'AGENT_NO_LOGIN','USER'::user_role,true,true,true,$3,$4,'{}'::jsonb,0,now(),now())`,
+      [uid, email, name, JSON.stringify({ email, isAgent: true, name })],
+    );
+    await client.query(ENSURE_SQL, ensureParams(uid, name, agentMonicaWithMethod(name)));
+    const got = await classification(uid);
+    if (got.monica_method === wantMethod) {
+      ok(`${label}: fresh INSERT classified as ${String(wantMethod)}`);
+    } else {
+      no(`${label}: expected method ${String(wantMethod)}, got ${JSON.stringify(got)}`);
+    }
+
+    // ON CONFLICT branch. The invariant is NOT "never writes again" — a row
+    // still NULL must accept a later classification, which is how a resolver
+    // improvement reaches rows already in the table. The invariant is that an
+    // ALREADY-CLASSIFIED row is never re-classified. Re-run with a deliberately
+    // DIFFERENT classification and require the right one of those two.
+    const other = agentMonicaWithMethod("Sun Aries 5");
+    await client.query(ENSURE_SQL, ensureParams(uid, name, other));
+    const after = await classification(uid);
+    if (wantMethod === null) {
+      if (after.monica_method === "single-body") ok(`${label}: still-NULL row accepts a later classification`);
+      else no(`${label}: still-NULL row refused a later classification — ${JSON.stringify(after)}`);
+    } else if (after.monica_method === got.monica_method && after.monica_single === got.monica_single) {
+      ok(`${label}: already-classified row is NOT re-classified`);
+    } else {
+      no(`${label}: re-classified ${JSON.stringify(got)} -> ${JSON.stringify(after)}`);
+    }
+  }
 
   // ── 4. CONTROL: the pre-fix shape must be REJECTED by the constraint ────
   // Without this, the assertions above could be passing for reasons unrelated to

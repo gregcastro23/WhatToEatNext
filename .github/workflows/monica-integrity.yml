@@ -252,3 +252,26 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkLedgerBalanceReconciliation.ts
+
+      - name: Agents leave the writer already classified
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # A SIXTH data witness, and the only one that tests a WRITER rather than
+        # stored state. It executes the real provisioning statements — extracted
+        # from the route/service source, never hand-copied — against real
+        # PostgreSQL inside a transaction that is always rolled back.
+        #
+        # It is added to CI here because it was not wired in when it was written.
+        # #666 shipped it, and it has never run: not in this workflow, not in
+        # package.json, not anywhere. So the regression it exists to catch went
+        # on happening in production for a further day, unobserved.
+        #
+        # That is the second half of the same lesson. #666 also pointed the gate
+        # at `sync-debit` and `internal/agent-sync`, neither of which creates
+        # agents — `[MEASURED 2026-07-29]` 370 of 370 arrivals over seven days
+        # carry `userDatabaseService.ensureAgent`'s fingerprint and 0 carry
+        # sync-debit's. A gate can execute real SQL against a real database,
+        # report honestly, pass, and still prove nothing, if it is aimed at a
+        # statement nobody runs. Section 3b now covers the real producer.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAgentClassifiedAtCreation.mjs
