@@ -377,14 +377,21 @@ All share `M = −gregsEnergy / (reactivity · ln K)`; they differ in **what the
 | `src/utils/recommendation/ingredientRecommendation 2.ts:1134,1190,1288` | identical | — | **DEAD** |
 | `src/utils/astrologyUtils.ts:2598-2604` | fails → **`0`** | — | **eff. DEAD** |
 | `src/utils/methodAlchemicalSnapshot.ts:160` | `kalchm ? calculateMonicaConstant(gregsEnergy, thermo.reactivity, kalchm) : null` — **mixes a `gregsEnergy.ts` gregsEnergy with a `alchemicalPillars` table reactivity** | 2 consumers | **LIVE — cross-family mix** |
-| `src/utils/monicaKalchmCalculations.ts:395` (`calculateMonicaWithBField`) | `baseMonica * pow(monicaField, 0.3) * forceMultiplier` (1.2/0.8 by force class) | exported | **LIVE** |
-| `src/utils/monicaKalchmCalculations.ts:418` (`calculateKalchmWithKinetics`) | `baseKalchm * (1 + momentum*0.1) * aspectMultiplier` | exported | **LIVE** |
+| ~~`src/utils/monicaKalchmCalculations.ts:395` (`calculateMonicaWithBField`)~~ | ~~`baseMonica * pow(monicaField, 0.3) * forceMultiplier` (1.2/0.8 by force class)~~ | 0 | **DELETED 2026-07-29** |
+| ~~`src/utils/monicaKalchmCalculations.ts:418` (`calculateKalchmWithKinetics`)~~ | ~~`baseKalchm * (1 + momentum*0.1) * aspectMultiplier`~~ | 0 | **DELETED 2026-07-29** |
 | **`src/app/(alchm)/philosophers-stone/page.tsx:199`** | **`((sunLongitude + moonLongitude + ascLongitude) / 3 / 360) * 10`** — pure longitude average, no ESMS, no thermodynamics | in-page | **LIVE** |
 | **`src/app/api/agents/unified/route.ts:173`** | **same longitude formula**, written into `userProfilePayload` at agent creation | API route | **LIVE — persists to DB** |
 | `src/app/admin/_dashboard/sky.tsx:385` | `const monica = 0.847` — hardcoded | admin UI | **LIVE (hardcoded)** |
 | `src/data/unified/recipeBuilding.ts:202` (`monicaProxyForCuisine`) | **`(Air + Fire) / (Water + Earth)`** — explicitly a "volatility proxy" named monica | cuisine path | **LIVE** |
 | `src/services/AlchemicalService.ts:173` / `IngredientService.ts:630` | `0` / `ingredient.monica \|\| 0` sentinel | live | **LIVE (sentinel)** |
 | `src/services/UnifiedRecommendationService.ts:710` | `NaN` sentinel | live | **LIVE (sentinel)** |
+
+> ⚠️ **Correction 2026-07-29 — "exported" is not a consumer count.** The two struck rows
+> above were marked **LIVE** on the evidence that they were `export`ed. Measured, both had
+> **zero** callers anywhere in the repo — no importer, no barrel re-export, and the only
+> reference was the module's own `MonicaKalchmCalculations` default-export object, which
+> itself had zero importers. A symbol reachable only through an unimported aggregate is not
+> live. When auditing this table, count *importers that call it*, not export keywords.
 
 ---
 

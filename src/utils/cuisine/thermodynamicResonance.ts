@@ -15,11 +15,7 @@ import type {
   ElementalProperties,
   ThermodynamicProperties,
 } from "@/types/alchemy";
-import {
-  calculateThermodynamicMetrics,
-  calculateMonicaKalchmCompatibility as _calculateMonicaKalchmCompatibility,
-  calculateKalchmHarmony as _calculateKalchmHarmony,
-} from "@/utils/monicaKalchmCalculations";
+import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 
 // ========== TYPE DEFINITIONS ==========
 
