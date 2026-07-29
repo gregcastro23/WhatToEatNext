@@ -162,8 +162,88 @@ export const MONICA_LN_EPSILON =
  *  (degenerate) alchemical state. See §17c. */
 export const MONICA_EQUILIBRIUM = 1.618;
 
-/** Floor applied to squared denominators in the thermodynamic ratios. */
-const THERMO_DEN_FLOOR = 0.01;
+/**
+ * Substituted for a squared denominator of EXACTLY ZERO in the three
+ * thermodynamic ratios. §18k k30.
+ *
+ * ── It is a POLE SUBSTITUTION, not a small-denominator guard ────────────────
+ *
+ * `Math.max(den, THERMO_DEN_FLOOR)` reads as a guard against denominators that
+ * are merely small. It is never that. `[MEASURED 2026-07-29, n=7920]` over the
+ * exhaustive single-body grid, ZERO cells have a denominator anywhere in the open
+ * band `(0, 0.01)` for any of the three ratios. Every clamp substitutes for an
+ * exact 0, so the effective semantics are `if (den === 0) den = 0.01` and it
+ * should be read that way.
+ *
+ * ── Only ONE of the three denominators ever reaches zero ────────────────────
+ *
+ *   heat       (Substance+Essence+Matter+Water+Air+Earth)²   0 zeros, min 3.24
+ *   entropy    (Essence+Matter+Earth+Water)²                 0 zeros, min 1.44
+ *   reactivity (Matter+Earth)²                            1008 zeros, min 0.81
+ *
+ * The heat and entropy floors are INERT on this population, sitting 324× and
+ * 144× below their minima. (They nest, as they must — all terms are
+ * non-negative, so heat=0 implies entropy=0 implies reactivity=0.)
+ *
+ * ── Why (Matter + Earth) is exactly zero in 1008 of 7920 cells ──────────────
+ *
+ * Both terms are non-negative, so both must be exactly 0, and each has its own
+ * cause. All three conditions hold at once:
+ *
+ *   1. `Earth = 0` — single-body elements are one-hot from the sign, so the nine
+ *      non-Earth signs qualify. Taurus, Virgo and Capricorn never appear.
+ *   2. The planet contributes 0 Matter IN THAT SECT — Sun/Mercury/Jupiter/Neptune
+ *      in both sects; Moon/Venus/Mars/Saturn/Uranus/Pluto in DIURNAL only.
+ *   3. The vessel contributes 0 Matter — exactly four of the fourteen pillars,
+ *      those with `effects.Matter = -1`: Filtration, Evaporation, Distillation,
+ *      Purification. `max(0, 1 + (-1)) = 0`, and the mass-4 normalisation
+ *      preserves zero. Via `(degree-1) mod 14` these are degrees
+ *      {2, 3, 4, 9, 16, 17, 18, 23}.
+ *
+ * ── BASIS: ASSUMED, and it is an API CONTRACT rather than a derivation ───────
+ *
+ * The reactivity numerator is STRICTLY POSITIVE in all 1008 cells (8.48 to
+ * 16.08; zero cells have a zero numerator), so this is a TRUE POLE whose limit is
+ * `+Infinity` — not an indeterminate 0/0. `0.01` therefore approximates nothing.
+ * It CHOOSES WHERE TO CAP INFINITY, and that choice sets the top of the published
+ * range directly, since the clamp yields `numerator / 0.01` = 848 to 1608.
+ *
+ * `[MEASURED]` what that does to what `GET /api/alchemize` serves:
+ *
+ *   median                 2.5
+ *   p90                  999.99…      <- already inside the manufactured band
+ *   max                 1608.00
+ *   largest GENUINE value  20
+ *   smallest MANUFACTURED 848         disjoint, and 42x above the real maximum
+ *
+ * So 12.7% of the published distribution is a block of values sitting 42x beyond
+ * anything the model actually produces, and the 90th percentile lands inside it.
+ * ⚠️ Anything taking a max, a percentile, or a normalisation over reactivity is
+ * dominated by THIS CONSTANT rather than by the data. Changing it to 0.001 would
+ * multiply that band by ten.
+ *
+ * ⚠️ The clamp is also NOT UNIFORM across the population — Earth signs and most
+ * nocturnal sects are structurally exempt (conditions 1 and 2). It systematically
+ * inflates diurnal, non-Earth, four-specific-pillar cells, so any comparison of
+ * reactivity ACROSS sects or elements inherits that confound.
+ *
+ * ── RULED: keep it, do not derive it, do not delete it ──────────────────────
+ *
+ * Unlike `MONICA_REACTIVITY_FLOOR` (k26, inert) this is load-bearing for 12.73%
+ * of the grid, and removing it would serve `Infinity` over an API that currently
+ * promises a number. It is not derivable in the k3 sense because there is no gap
+ * to place it in — nothing lies between 0 and 0.81. Its value is a product
+ * decision about how to render a pole. Do not "derive" it later; if it needs to
+ * change, that is an API contract change.
+ *
+ * Re-derived every run by `src/__tests__/thermoDenFloorPoleSubstitution.test.ts`.
+ */
+// EXPORTED deliberately. While it was module-private, no test could import it by
+// name, so the TypeScript name, the Python name and the shared JSON key could all
+// drift apart with the suite fully green — the one genuinely silent rename hole in
+// this module (the `MONICA_REACTIVITY_FLOOR` rename fails loudly by comparison).
+// `kalchmCrossRuntimeParity.test.ts` now pins this symbol against the JSON.
+export const THERMO_DEN_FLOOR = 0.01;
 
 /**
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
