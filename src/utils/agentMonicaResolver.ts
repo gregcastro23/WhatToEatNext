@@ -50,6 +50,44 @@ const asPlanet = (s: string): string | null => {
   return PLANETS.includes(k) ? k : null;
 };
 
+/**
+ * The degree a SIGN-LEVEL agent is placed at — an agent whose name gives a
+ * planet and a sign but no degree ("Mars Gemini", "Moon Cancer"). §18k k29.
+ *
+ * ── The ruling ──────────────────────────────────────────────────────────────
+ *
+ * `[USER 2026-07-28]` A one-body agent with no chart and no degree resolves to
+ * the **mathematical average of the 30 degrees of its sign**. This is NOT a
+ * fourth construction: it is the existing single-body §18c calc invoked at one
+ * more degree value, landing inside the existing population, band, scale and
+ * guard. (⚠️ §18k k18 rejected "mean-of-siblings" — the mean of the 30 siblings'
+ * OUTPUT monica. That is a different quantity: monica is nonlinear, and the two
+ * differ by 7.3× for Mars Gemini. k18's "not worth a 4th construction" rationale
+ * does not apply here. See k29.)
+ *
+ * ── Why 14.5 and not 15 ─────────────────────────────────────────────────────
+ *
+ * DERIVED as the mean of the integers the degree actually ranges over. Agent
+ * names carry `0..29` — MEASURED across the 3240 degree-bearing production rows,
+ * min 0 / max 29 — and `fromAbsoluteDegree` below returns `a % 30`, also 0-based.
+ * The mean of 0..29 is 14.5.
+ *
+ * ⚠️ The intuitive "midpoint of a 30° sign" = 15.0 is WRONG here, and silently
+ * so. `groundingVessel` floors its argument, so 15.0 and 15.5 both select pillar
+ * index `(15 - 1) % 14 = 0` — Solution `{0,2,2,0}` — which is one of only five
+ * degrees in thirty that yield a monica of exactly 0. `Moon Cancer` at degree 15
+ * computes to **0 in both sects**: indistinguishable from the fabricated-literal
+ * class k12 exists to forbid. At 14.5 it floors to 14 → pillar 13, Protection
+ * `{1,1,1,1}`, and computes a real 0.011826214870076034.
+ *
+ * Expressed as an expression rather than a typed literal so it re-derives from
+ * its own stated basis (k10), and 14.5 is exactly representable as a double so
+ * it round-trips.
+ */
+const AGENT_DEGREE_MIN = 0;
+const AGENT_DEGREE_MAX = 29;
+export const SIGN_MIDPOINT_DEGREE = (AGENT_DEGREE_MIN + AGENT_DEGREE_MAX) / 2;
+
 /** Absolute ecliptic degree (0–359) → sign + degree within that sign. */
 function fromAbsoluteDegree(n: number): { sign: string; degree: number } {
   const a = ((n % 360) + 360) % 360;
@@ -145,6 +183,26 @@ export function parseAgentPlacement(rawName: string): AgentPlacement | null {
       planet: asPlanet(m[1])!,
       sign: asSign(m[2])!,
       degree: Number(m[3]),
+    };
+  }
+
+  // `<Planet> <Sign>` — a SIGN-LEVEL agent, no degree in the name. §18k k29.
+  //
+  // This is the LAST branch deliberately: every degree-bearing form above must
+  // win, so a name that states its degree never falls back to the midpoint.
+  //
+  // It is not a guess. The planet and the sign are both stated by the name and
+  // both validated against the live tables, so the only missing coordinate is
+  // the degree — and the ruling supplies it as the mean of the degrees the sign
+  // spans. Contrast the null cases below it: those are missing the planet, the
+  // sign, or both, and nothing in the name constrains them.
+  m = name.match(/^([A-Za-z]+) ([A-Za-z]+)$/);
+  if (m && asPlanet(m[1]) && asSign(m[2])) {
+    return {
+      kind: "single",
+      planet: asPlanet(m[1])!,
+      sign: asSign(m[2])!,
+      degree: SIGN_MIDPOINT_DEGREE,
     };
   }
 

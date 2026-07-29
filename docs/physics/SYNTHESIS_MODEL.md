@@ -1242,7 +1242,7 @@ scripts are recorded inline.
 > | single-body placements | **4284** | `single-body` | `monica_single` (+ `monica_constant`) |
 > | two-body Moon phases | **513** | `two-body` | `monica_two_body` |
 > | full-chart (historical agents) | **71** | `full-chart` | `monica_full_chart` |
-> | no placement, no usable chart | **1** | `NULL` | none — `Mars Gemini` |
+> | no placement, no usable chart | ~~**1**~~ **0 since k29** | `NULL` | ~~none — `Mars Gemini`~~ was 2 (`Mars Gemini`, `Moon Cancer`); both now single-body |
 > | **total** | **4869** | | sums exactly to the agent row count |
 >
 > Every row also stores `monica_diurnal` + `monica_nocturnal`; the construction
@@ -1483,9 +1483,16 @@ Reconciliations against the figures above, which were correct when measured:
 - **72 rows remain unclassified** (46 + 26) and are `[OPEN]`. `[RULED]` they are
   classified *before* the backfill runs — an unexamined bucket is exactly what
   hid the 3240-row family the first time.
-- One row, **`Mars Gemini`**, is a planet and a sign with **no degree**. The
-  resolver skips it rather than defaulting the degree. It exists only because the
-  sum was forced.
+- One row, **`Mars Gemini`**, is a planet and a sign with **no degree**. ~~The
+  resolver skips it rather than defaulting the degree.~~ It exists only because
+  the sum was forced.
+
+  > ⚠️ `[SUPERSEDED 2026-07-29, §18k k29]` "Skips it" was never a ruling, only a
+  > description of what the code happened to do — and it was quoted as settled
+  > intent for two months. The resolver now places sign-level agents at the
+  > derived sign midpoint. `Mars Gemini` was also not alone: `Moon Cancer`
+  > arrived 2026-07-22, 1h50m after the `[MEASURED 2026-07-22 16:10 UTC]` stamp
+  > above, and the count was never updated.
 
 `[RULED 2026-07-21]` The `[OPEN]` duplicate question above is now **settled:
 merge-and-repoint.** Reassign the referencing `feed_events` and
@@ -1849,6 +1856,7 @@ instructive record.
 | k26 | `KALCHM_EPSILON` is **ASSUMED, not derivable**, and is renamed **`MONICA_REACTIVITY_FLOOR`**. The k3 construction does not transfer: reactivity is unimodal, its widest low gap scoring dominance **1.0026** against **1.77** for `\|ln k\|` — same grid, same algorithm, control reproducing both known `\|ln k\|` endpoints under `===`. It is inert on the canonical population (min reactivity **0.22437673130193908**, so any floor below that cannot fire; monica bit-identical at floors 0 → 0.2, first moving at 0.5) but **not dead** — see k27. **Keep at 0.01, labelled ASSUMED with the measured bound; removal deferred behind k27.** | MEASURED | #667 |
 | k27 | ⚠️ `reactivity === 0 ⟹ gregsEnergy === 0` holds for `calculateThermodynamics` **only**, not repo-wide. The second `calculateReactivity` (`monicaKalchmCalculations.ts:81`, 21 importers) fabricates `0` at its pole where the true value is `+∞`, then delegates to the canonical `calculateMonica` — reaching the guard with `gregsEnergy ≠ 0` (monica `−3.4172` floored vs `φ` unfloored). That is a **k12-class fabricated fallback**, and it is why removing the floor is not behaviour-neutral. | MEASURED | #667 |
 | k28 | At `reactivity === 0` with `kalchm ≠ 1` the canonical engine returns `0` — literally `-0` for some inputs — where the §17c totality contract promises **φ**. Not reachable in production (0 occurrences across 7920 single-body + 5760 two-body + 142 full-chart + 931 ingredient evaluations), but a contract violation independent of the floor's value. | MEASURED | #667 |
+| k29 | **Sign-level agents resolve at the mean of the 30 degrees of their sign** — `SIGN_MIDPOINT_DEGREE = 14.5`, DERIVED as the mean of the integers `0..29` (MEASURED: agent names carry min 0 / max 29, n=3240). This is the **existing single-body §18c construction at one more degree value** — `monica_method='single-body'`, same population, band, scale and guard — **not a 4th construction**. ⚠️ **15.0 and 15.5 are REJECTED**: `groundingVessel` floors, so both select pillar 0 (*Solution* `{0,2,2,0}`), one of only five degrees in thirty yielding **monica exactly 0** — a k12-class fabricated literal. **Reverses k18**, which rejected a *different* quantity (mean of the siblings' **output**, `mean f(x)`, vs this `f(mean x)` — **7.3×** apart for `Mars Gemini`), and whose "not worth a 4th construction" rationale therefore never applied. | USER + MEASURED | #668 |
 
 #### Data and absence
 
@@ -1865,7 +1873,7 @@ instructive record.
 |---|---|---|---|
 | k16 | Migrate all agent names to one convention | **ABANDONED** | Measured: terse is live and growing, verbose is frozen; 346 names collide; two name columns mean a round-trip reverts it. |
 | k17 | Normalise full-chart monica to the single-body scale | **RAW value per construction** | Normalisation had **no consumer** and cost separation (largest bucket 16.9% → 31.0%). |
-| k18 | Sign-level agents get a mean-of-siblings monica | **Delete them** (deferred) | The degree agents are strictly more specific; a 4th construction for 2 rows is not worth its band, scale and guard. |
+| k18 | Sign-level agents get a mean-of-siblings monica | ~~**Delete them** (deferred)~~ **REVERSED by k29** | The degree agents are strictly more specific; a 4th construction for 2 rows is not worth its band, scale and guard. ⚠️ Both halves are now known to be answering the wrong question — see k29. |
 | k19 | Demote the 8 ancients to a coarser construction | **Author real charts** | Owner ruling 2026-07-25. ⚠️ Gated on k20. |
 | k20 | — | **Validate the ephemeris before authoring** | `astronomy-engine` returns positions for 428 BC **without erroring**, but its accuracy is documented only for ~1700–2200. It produces plausible numbers with no accuracy claim — the defect class this programme exists to remove. |
 
