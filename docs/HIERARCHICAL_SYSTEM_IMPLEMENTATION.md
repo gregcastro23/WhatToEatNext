@@ -255,7 +255,8 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 ### Functions Deprecated
 
 1. `elementalToAlchemical(elemental)` in `monicaKalchmCalculations.ts`
-   - **Status:** Deprecated with console warnings
+   - **Status:** **DELETED 2026-07-29** (was: deprecated with console warnings). It had zero
+     importers; its only caller was `performEnhancedAnalysis`, itself unimported.
    - **Replacement:** `elementalToAlchemicalApproximation(elemental)` (clearly marked as approximation)
    - **Preferred:** `calculateAlchemicalFromPlanets(positions)`
 
