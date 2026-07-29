@@ -85,10 +85,11 @@ describe("THERMO_DEN_FLOOR is a pole substitution (§18k k30)", () => {
     expect(CELLS.length).toBe(7920);
   });
 
-  it("never interpolates — no denominator lands in the open band (0, 0.01)", () => {
-    // This is the claim that makes `Math.max(den, 0.01)` a misnomer. If any of
-    // these becomes non-zero the constant has started behaving as an actual
-    // floor, and the docstring must be rewritten.
+  it("on THIS POPULATION it never interpolates — nothing lands in (0, 0.01)", () => {
+    // ⚠️ Scoped to the single-body grid deliberately. Generalising this census to
+    // the function is exactly the error corrected below in "CALLER input CAN land
+    // in the open band" — caller-supplied elementals reach it and the clamp then
+    // understates by up to 10,000x.
     expect(CELLS.filter((c) => inBand(c.heatDen)).length).toBe(0);
     expect(CELLS.filter((c) => inBand(c.entropyDen)).length).toBe(0);
     expect(CELLS.filter((c) => inBand(c.reactDen)).length).toBe(0);
@@ -163,6 +164,61 @@ describe("THERMO_DEN_FLOOR is a pole substitution (§18k k30)", () => {
     const sorted = [...manufactured, ...genuine].sort((a, b) => a - b);
     const p90 = sorted[Math.floor(0.9 * (sorted.length - 1))];
     expect(p90).toBeGreaterThan(Math.max(...genuine));
+  });
+
+  it("⚠️ CALLER input CAN land in the open band, where the clamp interpolates", () => {
+    // `[CORRECTED 2026-07-29]` The grid census above says 0 cells fall in
+    // (0, 0.01). An earlier revision generalised that to the function and called
+    // the clamp "never" a small-denominator guard. False — and it matters because
+    // GET /api/alchemize takes caller-supplied elementals.
+    const esms = {
+      Spirit: 2.3684111079749997,
+      Essence: 1.5543791025227327,
+      Matter: 0,
+      Substance: 0,
+    };
+    const el = { Fire: 0, Water: 0, Air: 0, Earth: 0.001 };
+    const den = (esms.Matter + el.Earth) ** 2;
+    expect(den).toBe(1e-6);
+    expect(inBand(den)).toBe(true); // inside (0, 0.01) — unreachable on the grid
+
+    const num =
+      esms.Spirit ** 2 + esms.Substance ** 2 + esms.Essence ** 2 +
+      el.Fire ** 2 + el.Air ** 2 + el.Water ** 2;
+    const exact = num / den;
+    const clamped = calculateThermodynamics(esms as AlchemicalProperties, el).reactivity;
+
+    expect(clamped).toBe(num / THERMO_DEN_FLOOR);
+    expect(exact / clamped).toBe(10000);
+
+    // The understatement is UNBOUNDED as den -> 0, so it is not a fixed offset.
+    // Tolerance rather than `===` here deliberately: this is a ratio of derived
+    // floats (0.0001**2 does not round-trip), and the claim being pinned is the
+    // growth, not an exact constant. The exact assertions above use `===`.
+    const tighter = { ...el, Earth: 0.0001 };
+    const clampedTighter = calculateThermodynamics(
+      esms as AlchemicalProperties,
+      tighter,
+    ).reactivity;
+    const ratioTighter = num / tighter.Earth ** 2 / clampedTighter;
+    expect(ratioTighter).toBeCloseTo(1_000_000, 3);
+    expect(ratioTighter).toBeGreaterThan(exact / clamped);
+  });
+
+  it("the isFinite guard IS reachable — a missing elemental key zeroes everything", () => {
+    // `[CORRECTED 2026-07-29]` The comment beside that guard said "not a
+    // reachable branch". A missing key destructures to undefined, every result
+    // becomes NaN, and all four fall through to 0.
+    const esms = { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+    const missingAir = { Fire: 0.3, Water: 0.25, Earth: 0.2 } as never;
+    const r = calculateThermodynamics(esms as AlchemicalProperties, missingAir);
+    expect(Object.values(r)).toEqual([0, 0, 0, 0]);
+
+    // CONTROL: the complete object must NOT be all zeros, or the assertion above
+    // would pass for any input at all.
+    const complete = { Fire: 0.3, Water: 0.25, Air: 0.25, Earth: 0.2 };
+    const c = calculateThermodynamics(esms as AlchemicalProperties, complete);
+    expect(c.reactivity).toBe(2.0530045351473922);
   });
 
   it("the clamp is NOT uniform — a confound for cross-sect comparison", () => {
