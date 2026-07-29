@@ -11,16 +11,16 @@ import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
 import type { KineticMetrics } from "@/calculations/kinetics";
 import type { AlchemicalPillar } from "@/constants/alchemicalPillars";
 import { getCookingMethodThermodynamics } from "@/constants/alchemicalPillars";
+import {
+  calculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import type { CookingMethodData, CookingMethodKineticProfile } from "@/types/cookingMethod";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import {
   calculateMethodSpecificKinetics,
   getKineticProfile,
 } from "@/utils/cookingMethodKinetics";
-import {
-  calculateKAlchm,
-  calculateMonicaConstant,
-} from "@/utils/monicaKalchmCalculations";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import {
   calculateHarmonyIndex,
@@ -151,14 +151,14 @@ export function computeMethodSnapshot(
     Earth: method.elementalEffect.Earth,
   }).gregsEnergy;
 
-  const kalchm = calculateKAlchm(
-    transformedESMS.Spirit,
-    transformedESMS.Essence,
-    transformedESMS.Matter,
-    transformedESMS.Substance,
-  );
+  const kalchm = calculateKalchm({
+    Spirit: transformedESMS.Spirit,
+    Essence: transformedESMS.Essence,
+    Matter: transformedESMS.Matter,
+    Substance: transformedESMS.Substance,
+  });
   const monica = kalchm
-    ? calculateMonicaConstant(gregsEnergy, thermo.reactivity, kalchm)
+    ? calculateMonica(gregsEnergy, thermo.reactivity, kalchm)
     : null;
 
   let kinetics: KineticMetrics | null = null;
