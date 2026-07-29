@@ -118,12 +118,41 @@ const cov = await client.query<{ method: string; n: string }>(
 );
 console.table(cov.rows);
 const total = cov.rows.reduce((s, r) => s + Number(r.n), 0);
-const { rows: [{ n: agentRows }] } = await client.query<{ n: string }>(
-  `SELECT count(*)::text n FROM user_profiles up JOIN users u ON u.id=up.user_id WHERE u.is_agent`,
+
+// ⚠️ The denominator used to be `count(*) FROM user_profiles JOIN users` — the
+// SAME join the buckets above come from, so the comparison was self-referential
+// and could not fail. This workflow calls this script its "SECOND, INDEPENDENT
+// witness"; a witness that reproduces the first one's blind spot is not
+// independent. Read the population from `users` alone, and account for the rows
+// the join cannot see.
+const { rows: [pop] } = await client.query<{ agents: string; no_profile: string }>(
+  `SELECT
+     (SELECT count(*) FROM users WHERE is_agent)::text AS agents,
+     (SELECT count(*) FROM users u
+        LEFT JOIN user_profiles up ON up.user_id = u.id
+       WHERE u.is_agent AND up.user_id IS NULL)::text AS no_profile`,
 );
+const agentPop = Number(pop.agents);
+const noProfile = Number(pop.no_profile);
 checks++;
-if (total !== Number(agentRows)) { failures++; console.log(`  FAIL  method buckets ${total} != agent rows ${agentRows}`); }
-else console.log(`  OK    method buckets sum to the agent row count (${total})`);
+if (total + noProfile !== agentPop) {
+  failures++;
+  console.log(
+    `  FAIL  method buckets ${total} + ${noProfile} with no profile row != ${agentPop} agents`,
+  );
+} else {
+  console.log(
+    `  OK    method buckets (${total}) + no-profile rows (${noProfile}) = ${agentPop} agents`,
+  );
+}
+// Surfaced separately because it is invisible to every join-based check here.
+checks++;
+if (noProfile > 56) {
+  failures++;
+  console.log(`  FAIL  ${noProfile} agents have no user_profiles row (known frozen cohort: 56)`);
+} else {
+  console.log(`  OK    ${noProfile} agents with no profile row, within the known cohort of 56`);
+}
 
 // Was hardcoded "expected: 1, 'Mars Gemini'" — stale from 2026-07-22, when
 // `Moon Cancer` made it 2 and nothing noticed for two months. Since §18k k29

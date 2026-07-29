@@ -34,6 +34,39 @@ import { fullChartMonica } from "@/utils/fullChartMonica";
  *  the engine DECLINED to compute; a rising share is a health signal (§18p). */
 const PHI_THRESHOLD = 0.10;
 
+/**
+ * Agents allowed to exist with NO `user_profiles` row at all.
+ *
+ * `[MEASURED 2026-07-29]` exactly 56, and the cohort is FROZEN: 52 are the legacy
+ * `@agents.alchm.kitchen` seed, each with a properly-provisioned twin at
+ * `@agentic.alchm.kitchen` (52/52 email-stem collisions; control: 0 collisions
+ * among profiled agents), 0 transactions, 0 feed events. Of the 550 agents
+ * created 2026-07-20..29, ZERO lack a profile; the newest profile-less agent is
+ * 2026-07-19.
+ *
+ * So this is a "must not grow" assertion, not a tolerance. It is deliberately
+ * set to the exact current count: `sync-credit`'s users insert
+ * (`src/app/api/economy/sync-credit/route.ts`) still has no matching
+ * `user_profiles` insert for non-daily-yield sources, so the population CAN
+ * grow — and if it does, every DB gate in this workflow is blind to the new rows
+ * because they all share the same self-referential join.
+ */
+const NO_PROFILE_BUDGET = 56;
+
+/**
+ * Agents allowed to have an unparseable name AND no usable chart.
+ *
+ * `[MEASURED 2026-07-29]` ZERO, since §18k k29 made sign-level names resolvable.
+ * A genuine person agent carries a chart and is counted as full-chart instead,
+ * so nothing legitimately lands here any more.
+ *
+ * This is the invariant that actually detects a resolver regression — see the
+ * note at check 1b. Budget 0 is deliberate: one row here needs a human, and
+ * looking at one is cheap. Two rows sat in this bucket unobserved for two months
+ * because it fed neither the exit code nor the "all N agents match" denominator.
+ */
+const NOT_A_PLACEMENT_BUDGET = 0;
+
 const TOLERANCE = 1e-5;
 
 const client = new pg.Client({
@@ -60,6 +93,33 @@ const { rows } = await client.query<{
           up.monica_method, up.natal_positions, up.updated_at::text
      FROM user_profiles up JOIN users u ON u.id = up.user_id
     WHERE u.is_agent AND up.name IS NOT NULL`,
+);
+
+// The DENOMINATOR, read independently of the rows above.
+//
+// ⚠️ This exists because the invariant below used to compare `rows` against
+// itself. Every path through the tally loop increments exactly one counter, so
+// `totalClassified === rows.length` held IDENTICALLY — it could not fail for any
+// input. It was advertised as the defence against "the failure that once
+// silently dropped 3240 rows", and a test that moved 3240 rows into an
+// unrecognised name family still printed its sum and exited 0.
+//
+// The join above cannot see an agent with no `user_profiles` row at all, and
+// there are 56 of those. A self-referential denominator is blind to exactly the
+// population it is supposed to be counting.
+const { rows: [census] } = await client.query<{
+  agents: string;
+  no_profile_row: string;
+  profile_no_name: string;
+}>(
+  `SELECT
+     (SELECT count(*) FROM users WHERE is_agent)::text AS agents,
+     (SELECT count(*) FROM users u
+        LEFT JOIN user_profiles up ON up.user_id = u.id
+       WHERE u.is_agent AND up.user_id IS NULL)::text AS no_profile_row,
+     (SELECT count(*) FROM users u
+        JOIN user_profiles up ON up.user_id = u.id
+       WHERE u.is_agent AND up.name IS NULL)::text AS profile_no_name`,
 );
 await client.end();
 
@@ -191,16 +251,102 @@ if (examples.length) console.log("\n" + examples.join("\n"));
 // ── the ruled invariants, beyond drift ────────────────────────────────────
 const problems: string[] = [];
 
-// 1. Populations sum EXACTLY to the agent row count. A count that stops summing
-//    means a new name family appeared or the resolver stopped recognising one —
-//    the failure that once silently dropped 3240 rows.
+// 1. Populations sum EXACTLY to the AGENT POPULATION — not to the rows this
+//    script happened to fetch.
+//
+//    ⚠️ TWO corrections to what this check used to claim, both measured:
+//
+//    (a) It compared the tally against `rows.length`, which is a TAUTOLOGY.
+//        Every path through the loop increments exactly one counter, so the
+//        equality held for any input whatsoever. The denominator now comes from
+//        `census`, read by its own query against `users`.
+//
+//    (b) Its stated purpose — catching "the failure that once silently dropped
+//        3240 rows" — is NOT something any sum can do, and the fixed version
+//        cannot do it either. A name family that stops resolving falls through
+//        `parseAgentPlacement` -> null and `fullChartMonica` -> null into
+//        `notAPlacementNoChart`, which is INSIDE the sum. The total does not
+//        move. What catches that failure is invariant 1b below: a budget on the
+//        bucket itself. Recorded so the comment stops promising coverage the
+//        arithmetic cannot provide.
+//
+//    ⚠️ And be honest about what the fixed sum is worth. The three census terms
+//    partition the agent population exactly, so `accountedFor === agents` is
+//    STILL close to an identity — it can only differ if the population changes
+//    between the two queries. That is worth reporting (it means these numbers
+//    are a smear across a moving table, not a snapshot) but it is NOT a defect
+//    detector. Do not let a future reader mistake it for one again.
+//
+//    The assertions that can actually fail on bad data are the two BUDGETS: the
+//    no-profile-row count below, and check 1b. Both were verified by injection —
+//    a simulated resolver regression moved 464 rows and the sum stayed balanced
+//    at 5284/5284 while 1b fired.
+//
+//    The sum's real contribution is that it PRINTS the no-profile population,
+//    which no gate in this workflow could previously see at all.
 const totalClassified =
   tally.single.checked + tally.phase.checked + tally.fullChart.checked +
   unparseable + notAPlacementNoChart;
-console.log(`\npopulations sum: ${tally.single.checked} + ${tally.phase.checked} + ` +
-  `${tally.fullChart.checked} + ${unparseable + notAPlacementNoChart} = ${totalClassified} / ${rows.length}`);
+const agents = Number(census.agents);
+const noProfileRow = Number(census.no_profile_row);
+const profileNoName = Number(census.profile_no_name);
+const accountedFor = totalClassified + noProfileRow + profileNoName;
+
+console.log(
+  `\npopulations sum: ${tally.single.checked} + ${tally.phase.checked} + ` +
+    `${tally.fullChart.checked} + ${unparseable + notAPlacementNoChart} = ${totalClassified} profiled` +
+    `\n                 + ${noProfileRow} with no profile row + ${profileNoName} with a NULL name` +
+    `\n                 = ${accountedFor} / ${agents} agents`,
+);
+
+// The trivial half, kept only because a mismatch here means the tally loop
+// itself is broken (a row falling through every branch).
 if (totalClassified !== rows.length) {
-  problems.push(`populations do not sum: ${totalClassified} classified vs ${rows.length} rows`);
+  problems.push(`tally does not cover its own rows: ${totalClassified} vs ${rows.length}`);
+}
+// The half that can actually fail.
+if (accountedFor !== agents) {
+  problems.push(
+    `populations do not sum to the agent census: ${accountedFor} accounted for vs ${agents} agents ` +
+      `(${agents - accountedFor} unaccounted)`,
+  );
+}
+// A no-profile agent is invisible to every other gate in this workflow, because
+// they all share this script's self-referential join. Report it as a standing
+// number so it cannot grow unobserved; 56 is the known legacy cohort.
+if (noProfileRow > NO_PROFILE_BUDGET) {
+  problems.push(
+    `${noProfileRow} agents have no user_profiles row, above the budget of ${NO_PROFILE_BUDGET}. ` +
+      `Something is creating agents without a profile — see sync-credit's users insert.`,
+  );
+}
+
+// 1b. THE ONE THAT CATCHES A RESOLVER REGRESSION.
+//
+// `notAPlacementNoChart` is the bucket a row falls into when its name does not
+// parse AND it has no usable chart. Post-§18k k29 the correct value is EXACTLY
+// ZERO: sign-level names resolve at the sign midpoint, and a genuine person
+// agent carries a chart and lands in `fullChart` instead.
+//
+// This is the assertion the sum was wrongly credited with. If a name family
+// stops resolving, every one of its rows lands here and this fires immediately —
+// whereas the sum stays balanced because this bucket is one of its terms.
+//
+// It is also the fix for a two-month blind spot: `Mars Gemini` and `Moon Cancer`
+// sat in this bucket since 2026-05-24 and 2026-07-22, were subtracted from the
+// "all N agents match" denominator, and never contributed to the exit code. The
+// audit script's hardcoded `expected: 1` had been stale since the second one
+// arrived and nothing noticed.
+//
+// Budget 0 deliberately, not a tolerance. A single new row here is either a
+// resolver regression or a name family nobody has ruled on — both need a human,
+// and both are cheap to look at while there is one of them rather than 3240.
+if (notAPlacementNoChart > NOT_A_PLACEMENT_BUDGET) {
+  problems.push(
+    `${notAPlacementNoChart} agents have a name that does not parse AND no usable chart ` +
+      `(budget ${NOT_A_PLACEMENT_BUDGET}). Either the resolver stopped recognising a name ` +
+      `family, or a new one arrived that needs a ruling. The names are printed above.`,
+  );
 }
 
 // 2. φ share per population. φ is the engine declining to compute; a rising

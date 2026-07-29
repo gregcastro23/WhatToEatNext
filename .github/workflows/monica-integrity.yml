@@ -94,6 +94,84 @@ jobs:
           python -m pytest backend/tests/test_kalchm_parity.py -q
 
   # ---------------------------------------------------------------------------
+  # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
+  # the code reaches master.
+  #
+  # The problem this solves: every DB gate ran only on master + cron, so the
+  # earliest anything could fail was after merge, with the deploy already in
+  # flight. `[MEASURED 2026-07-29]` five master SHAs whose integrity run concluded
+  # `failure` each received a Production deployment of that same SHA, three
+  # created strictly after the failure verdict. The gate was not a gate; it was a
+  # notification.
+  #
+  # ── Two deliberate limits, both load-bearing ──────────────────────────────
+  #
+  # 1. `pull_request`, NOT `pull_request_target`, and same-repo ONLY.
+  #    `pull_request_target` runs with the base repo's secrets against the PR's
+  #    code — here that means `bun install --frozen-lockfile` on a PR-AUTHORED
+  #    lockfile with DATABASE_PUBLIC_URL in the environment, i.e. arbitrary
+  #    postinstall code holding production database credentials. The head-repo
+  #    condition below is what keeps this safe; do not remove it, and do not
+  #    "fix" a skipped fork PR by switching the trigger.
+  #
+  # 2. ONLY the diff-sensitive gates. The other five assert production DATA
+  #    state that no PR diff controls. As required checks they would block every
+  #    unrelated PR on someone else's data condition — the drift check was red
+  #    across eight consecutive runs over ~20 hours for a self-resolving queue
+  #    caused by no PR at all. That is the exact failure #665 was written to stop,
+  #    and promoting the whole workflow would reintroduce it.
+  # ---------------------------------------------------------------------------
+  pre-merge-sql:
+    name: SQL a PR can break (pre-merge)
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Setup safe directory
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Require the database secret
+        id: db-secret
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: |
+          if [ -z "$DATABASE_PUBLIC_URL" ]; then
+            echo "DATABASE_PUBLIC_URL is not set — these gates cannot run." >&2
+            exit 1
+          fi
+          echo "secret present"
+
+      - name: Economy SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the live query builders, so a PR that edits
+        # them can make this fail. PREPARE writes nothing.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkEconomySqlParses.ts
+
+      - name: Agents leave the writer already classified
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it extracts the provisioning statements from the route
+        # and service SOURCE and executes them, rolled back. A PR that edits
+        # either writer changes what this runs.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAgentClassifiedAtCreation.mjs
+
+  # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never
   # run on a pull_request from a fork.
   # ---------------------------------------------------------------------------
