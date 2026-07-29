@@ -65,6 +65,28 @@ function ascendantLongitude(
   return ascendant.position;
 }
 
+/**
+ * The Ascendant as `{ sign, degree }` — the SELF-DESCRIBING form.
+ *
+ * ⚠️ This used to be written as a bare number, and a bare number cannot state
+ * its unit. `[MEASURED 2026-07-29]` all 71 production charts carrying a numeric
+ * ascendant stored a DEGREE WITHIN A SIGN, while every reader interpreted it as
+ * an absolute longitude — a 30-150° error on the sign, which is the dominant
+ * lever on monica (±37-43%). Those values are purged; this shape is what stops
+ * the ambiguity recurring.
+ *
+ * `degree` is 0..30 within `sign`, matching the `planets` entries beside it, so
+ * one convention covers the whole chart. Returns null when there is no real
+ * angle — never a placeholder, per `ascendantLongitude()` above.
+ */
+function ascendantPoint(
+  planets: Array<{ name: string; position: number; sign: string }>,
+): { sign: string; degree: number } | null {
+  const ascendant = planets.find((p) => p.name === "Ascendant");
+  if (!ascendant || !statesALongitude(ascendant.position)) return null;
+  return { sign: ascendant.sign, degree: ascendant.position % 30 };
+}
+
 export async function POST(request: NextRequest) {
   const rl = await rateLimit(request, RATE_LIMIT);
   if (!rl.allowed) return rl.response!;
@@ -217,8 +239,11 @@ export async function POST(request: NextRequest) {
           planets: {} as Record<string, { sign: string; degree: number; retrograde: boolean; longitude: number }>,
           houses: {} as Record<string, number>,
           aspects: [] as any[],
-          // A real angle or null, never a placeholder — see ascendantLongitude().
-          ascendant: null as number | null,
+          // A real angle or null, never a placeholder — see ascendantPoint().
+          // ⚠️ `{ sign, degree }`, NOT a bare number: a scalar cannot state its
+          // unit, and every stored scalar turned out to be a degree-within-sign
+          // that readers took for a longitude. See ascendantPoint()'s note.
+          ascendant: null as { sign: string; degree: number } | null,
           // No `midheaven` key. Nothing in this chart computes an MC, and the
           // field was previously initialised to 0 and never written — which
           // `flattenNatalChart` would read as a real MC at 0° Aries, exactly as it
@@ -237,7 +262,7 @@ export async function POST(request: NextRequest) {
           };
         });
 
-        formattedChart.ascendant = ascendantLongitude(serverChart.planets);
+        formattedChart.ascendant = ascendantPoint(serverChart.planets);
 
         // §18e — a real thermodynamic monica from the whole chart, via the
         // canonical engine. This replaces a longitude average

@@ -238,25 +238,40 @@ describe("POST /api/agents/unified — the ascendant it writes", () => {
     return JSON.parse(params[NATAL_CHART_PARAM] as string);
   }
 
-  it("stores the chart's REAL ascendant longitude", async () => {
+  it("stores the ascendant as { sign, degree }, not a bare longitude", async () => {
     const chart = await storedChart();
 
-    // 75°, the Ascendant body's own longitude. Distinguishes all three
-    // candidates: 0 was the bug, 60 would be the sign-start reconstruction the
-    // broken lookup was reaching for, 75 is the angle the chart actually states.
-    expect(chart.ascendant).toBe(CHART_LONGITUDES.Ascendant.position);
+    // ⚠️ SHAPE CHANGE. This asserted `chart.ascendant === 75`, the raw longitude.
+    // A scalar cannot state its unit, and `[MEASURED 2026-07-29]` all 71
+    // production charts holding a numeric ascendant stored a DEGREE WITHIN A SIGN
+    // while every reader took it for a longitude — a 30-150° error on the sign,
+    // which is the dominant lever on monica. The self-describing form removes the
+    // ambiguity instead of guessing at it.
+    //
+    // 75° = gemini 15°. The pair still distinguishes every candidate the original
+    // test separated: the 0-bug, the 60 sign-start reconstruction, and the real
+    // angle — because sign AND degree are both pinned.
+    expect(chart.ascendant).toEqual({
+      sign: CHART_LONGITUDES.Ascendant.sign,
+      degree: CHART_LONGITUDES.Ascendant.position % 30,
+    });
     expect(chart.ascendant).not.toBe(0);
-    expect(chart.ascendant).not.toBe(SIGNS.indexOf("gemini") * 30);
+    expect(chart.ascendant).not.toBe(CHART_LONGITUDES.Ascendant.position);
   });
 
-  it("the stored longitude falls in the ascendant's own sign", async () => {
+  it("the stored sign and degree reconstruct the chart's own longitude", async () => {
     const chart = await storedChart();
+    const asc = chart.ascendant as { sign: string; degree: number };
 
-    // The consistency the old code could not have had: a longitude of 0 lands in
-    // aries, which disagrees with every ascendant sign but one.
-    const sign = SIGNS[Math.floor((chart.ascendant as number) / 30)];
-    expect(sign).toBe(CHART_LONGITUDES.Ascendant.sign);
-    expect(sign).toBe(serverChart.ascendant);
+    // The consistency the old code could not have had — now checkable in the
+    // other direction: sign+degree must rebuild the angle the chart states, so a
+    // degree that belongs to a different sign fails here.
+    expect(SIGNS.indexOf(asc.sign) * 30 + asc.degree).toBe(
+      CHART_LONGITUDES.Ascendant.position,
+    );
+    expect(asc.sign).toBe(serverChart.ascendant);
+    expect(asc.degree).toBeGreaterThanOrEqual(0);
+    expect(asc.degree).toBeLessThan(30);
   });
 
   it("writes null, not 0, when the chart carries no Ascendant body", async () => {
