@@ -8,6 +8,7 @@ import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
+import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { safeJsonParse } from "@/utils/typeGuards";
 
 // Extended User type with profile data
@@ -428,13 +429,90 @@ class UserDatabaseService {
           throw new Error("ensureAgent: upsert returned no row");
         }
         const finalId = insertUser.rows[0].id as string;
+
+        // ── Classify at creation (§18) ──────────────────────────────────────
+        //
+        // THIS is the agent producer. #666 added classification-at-creation to
+        // `sync-debit` and `internal/agent-sync`, but `[MEASURED 2026-07-29]`
+        // 370 of 370 arrivals over seven days carry THIS path's fingerprint and
+        // 0 carry sync-debit's — so every new agent still landed unclassified
+        // and the nightly backfill went on papering over it.
+        //
+        // The fingerprint that settles it: `users.created_at`,
+        // `user_profiles.created_at` and `updated_at` agree to the MICROSECOND,
+        // which only happens inside one transaction (`now()` is transaction-
+        // start). Two autocommit statements differ by ~86ms on this database.
+        // sync-debit also unconditionally inserts a `token_balances` row and
+        // these arrivals have none.
+        //
+        // Resolution is from `resolvedName` — the same string written to
+        // `user_profiles.name` — because `checkAgentMonicaDrift.ts` re-derives
+        // from that column. Classifying any other string would report as drift
+        // on a row written correctly.
+        const resolved = agentMonicaWithMethod(resolvedName, (error) =>
+          console.warn(
+            `[ensureAgent] unclassifiable phase in "${resolvedName}" —` +
+              ` left for the nightly backfill to surface. ${String(error)}`,
+          ),
+        );
+        const method = resolved?.method ?? null;
+        const combined = resolved?.monica.combined ?? null;
+
+        // §18o: each construction writes its OWN column, or four CHECK
+        // constraints reject the row —
+        //   monica_method_matches_column      method='X' requires monica_X NOT NULL
+        //   monica_one_construction           at most ONE construction column set
+        //   monica_constant_single_body_only  constant IS NULL OR method='single-body'
+        //   monica_both_sects_present         both sects, or neither
+        // An unresolvable name leaves every column NULL, which all four allow.
+        //
+        // The DO UPDATE branch is gated on `monica_method IS NULL` so this is
+        // FIRST-TIME classification only: re-classification belongs to the
+        // backfill, and an unconditional write could set a second construction
+        // column on a row that already has one, or clobber a hand-authored
+        // full-chart value.
+        //
+        // NB: no backticks in the SQL comments below — one would terminate this
+        // template literal and break the build.
         await client.query(
-          `INSERT INTO user_profiles (user_id, name)
-           VALUES ($1, $2)
+          `INSERT INTO user_profiles
+             (user_id, name, monica_method, monica_constant, monica_single,
+              monica_two_body, monica_diurnal, monica_nocturnal)
+           VALUES
+             ($1, $2, $3,
+              CASE WHEN $3 = 'single-body' THEN $4::numeric END,
+              CASE WHEN $3 = 'single-body' THEN $4::numeric END,
+              CASE WHEN $3 = 'two-body'    THEN $4::numeric END,
+              CASE WHEN $3 IS NOT NULL     THEN $5::numeric END,
+              CASE WHEN $3 IS NOT NULL     THEN $6::numeric END)
            ON CONFLICT (user_id) DO UPDATE
              SET name = COALESCE(EXCLUDED.name, user_profiles.name),
+                 -- first-time classification only; see the note above
+                 monica_constant = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 = 'single-body'
+                   THEN $4::numeric ELSE user_profiles.monica_constant END,
+                 monica_single = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 = 'single-body'
+                   THEN $4::numeric ELSE user_profiles.monica_single END,
+                 monica_two_body = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 = 'two-body'
+                   THEN $4::numeric ELSE user_profiles.monica_two_body END,
+                 monica_diurnal = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 IS NOT NULL
+                   THEN $5::numeric ELSE user_profiles.monica_diurnal END,
+                 monica_nocturnal = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 IS NOT NULL
+                   THEN $6::numeric ELSE user_profiles.monica_nocturnal END,
+                 monica_method = COALESCE(user_profiles.monica_method, $3),
                  updated_at = CURRENT_TIMESTAMP`,
-          [finalId, resolvedName],
+          [
+            finalId,
+            resolvedName,
+            method,
+            combined,
+            resolved?.monica.diurnal ?? null,
+            resolved?.monica.nocturnal ?? null,
+          ],
         );
       });
 
