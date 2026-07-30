@@ -232,17 +232,25 @@ describe("THERMO_DEN_FLOOR is a pole substitution (§18k k30)", () => {
     expect(Number.isFinite(served)).toBe(true);
   });
 
-  it("the isFinite guard IS reachable — a missing elemental key zeroes everything", () => {
-    // `[CORRECTED 2026-07-29]` The comment beside that guard said "not a
+  it("a missing elemental key now THROWS instead of silently zeroing everything", () => {
+    // `[CORRECTED 2026-07-29]` The comment beside the isFinite guard said "not a
     // reachable branch". A missing key destructures to undefined, every result
-    // becomes NaN, and all four fall through to 0.
+    // becomes NaN, and all four fell through to 0 — indistinguishable from a
+    // genuinely zero chart.
+    //
+    // `[FIXED 2026-07-30]` §18k k7. `assertThermodynamicInput` rejects it at the
+    // boundary and names the field, so malformed input can no longer masquerade
+    // as measured physics. This test previously PINNED the silent zeroing; it
+    // now pins its removal.
     const esms = { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
     const missingAir = { Fire: 0.3, Water: 0.25, Earth: 0.2 } as never;
-    const r = calculateThermodynamics(esms as AlchemicalProperties, missingAir);
-    expect(Object.values(r)).toEqual([0, 0, 0, 0]);
+    expect(() =>
+      calculateThermodynamics(esms as AlchemicalProperties, missingAir),
+    ).toThrow(/elementalProps\.Air is undefined/);
 
-    // CONTROL: the complete object must NOT be all zeros, or the assertion above
-    // would pass for any input at all.
+    // CONTROL: the complete object still computes, and to the SAME value as
+    // before this change — the validator rejects malformed input without moving
+    // any healthy number.
     const complete = { Fire: 0.3, Water: 0.25, Air: 0.25, Earth: 0.2 };
     const c = calculateThermodynamics(esms as AlchemicalProperties, complete);
     expect(c.reactivity).toBe(2.0530045351473922);

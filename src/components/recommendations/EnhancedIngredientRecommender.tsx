@@ -18,6 +18,7 @@ import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   calculateKalchm,
   deriveAlchemicalFromElemental,
+  performAlchemicalAnalysis,
 } from "@/data/unified/alchemicalCalculations";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { usePantry } from "@/hooks/usePantry";
@@ -32,7 +33,6 @@ import type { AlchemicalProperties } from "@/types/celestial";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
-import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -459,11 +459,11 @@ function calculateCompatibilityScore(
   const currentAlchemical =
     astroCtx?.alchemical ?? deriveAlchemicalFromElemental(currentElementals);
 
-  const ingredientThermo = calculateThermodynamicMetrics(
+  const ingredientThermo = performAlchemicalAnalysis(
     ingredientAlchemical,
     ingredientElementals,
   );
-  const currentThermo = calculateThermodynamicMetrics(
+  const currentThermo = performAlchemicalAnalysis(
     currentAlchemical,
     currentElementals,
   );
