@@ -63,6 +63,33 @@ MONICA_REACTIVITY_FLOOR = 0.01
 THERMO_DEN_FLOOR = 0.01
 
 
+def thermo_quotient(numerator: float, denominator: float) -> float:
+    """The ONE place this runtime decides what to do about a thermo denominator.
+
+    Mirrors ``thermoQuotient`` in ``src/data/unified/alchemicalCalculations.ts``
+    exactly: ``num / den`` wherever the ratio is defined, and the published
+    ``THERMO_DEN_FLOOR`` substitution ONLY at the pole.
+
+    This replaces ``num / max(den, THERMO_DEN_FLOOR)``. ``max`` cannot tell
+    "denominator is 0" from "denominator is small", so it silently interpolated
+    across the whole open band ``(0, 0.01)``, understating without bound as
+    ``den -> 0``. MEASURED at ``den = 1e-6``: exact ``8025465.570738742`` versus
+    clamped ``802.5465570738742`` — 10,000x low.
+
+    The pole itself is unchanged. At ``den == 0`` the reactivity numerator is
+    strictly positive, so it is a TRUE pole whose limit is ``+inf``;
+    ``THERMO_DEN_FLOOR`` is the published choice of where to cap it and is an
+    API contract (see the TS note, §18k k30).
+
+    ⚠️ Both runtimes must change together or ``/api/alchemize`` and the Python
+    backend serve different numbers for the same chart. Pinned by
+    ``backend/tests/test_kalchm_parity.py``.
+    """
+    if denominator > 0:
+        return numerator / denominator
+    return numerator / THERMO_DEN_FLOOR
+
+
 def compute_kalchm_monica(
     spirit: float,
     essence: float,

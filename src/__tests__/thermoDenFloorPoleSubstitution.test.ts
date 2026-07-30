@@ -166,11 +166,16 @@ describe("THERMO_DEN_FLOOR is a pole substitution (§18k k30)", () => {
     expect(p90).toBeGreaterThan(Math.max(...genuine));
   });
 
-  it("⚠️ CALLER input CAN land in the open band, where the clamp interpolates", () => {
+  it("CALLER input in the open band is now EXACT, not interpolated", () => {
     // `[CORRECTED 2026-07-29]` The grid census above says 0 cells fall in
     // (0, 0.01). An earlier revision generalised that to the function and called
-    // the clamp "never" a small-denominator guard. False — and it matters because
-    // GET /api/alchemize takes caller-supplied elementals.
+    // the clamp "never" a small-denominator guard. False — and it mattered
+    // because GET /api/alchemize takes caller-supplied elementals.
+    //
+    // `[FIXED 2026-07-30]` The engine no longer clamps there. `Math.max(den,
+    // floor)` became `thermoQuotient`, which is exact for any den > 0 and
+    // substitutes ONLY at an exact 0. This test previously PINNED the
+    // interpolation as correct behaviour; it now pins its removal.
     const esms = {
       Spirit: 2.3684111079749997,
       Essence: 1.5543791025227327,
@@ -186,23 +191,45 @@ describe("THERMO_DEN_FLOOR is a pole substitution (§18k k30)", () => {
       esms.Spirit ** 2 + esms.Substance ** 2 + esms.Essence ** 2 +
       el.Fire ** 2 + el.Air ** 2 + el.Water ** 2;
     const exact = num / den;
-    const clamped = calculateThermodynamics(esms as AlchemicalProperties, el).reactivity;
+    const served = calculateThermodynamics(esms as AlchemicalProperties, el).reactivity;
 
-    expect(clamped).toBe(num / THERMO_DEN_FLOOR);
-    expect(exact / clamped).toBe(10000);
+    // What the engine serves is now the true ratio.
+    expect(served).toBe(exact);
 
-    // The understatement is UNBOUNDED as den -> 0, so it is not a fixed offset.
-    // Tolerance rather than `===` here deliberately: this is a ratio of derived
-    // floats (0.0001**2 does not round-trip), and the claim being pinned is the
-    // growth, not an exact constant. The exact assertions above use `===`.
+    // And it is NOT what the old clamp would have produced — the regression
+    // guard. That value was 10,000x low here, and unboundedly low as den -> 0.
+    const wouldHaveBeenClamped = num / THERMO_DEN_FLOOR;
+    expect(served).not.toBe(wouldHaveBeenClamped);
+    expect(exact / wouldHaveBeenClamped).toBe(10000);
+
+    // The old understatement grew without bound as den -> 0; confirm the fix
+    // holds at a tighter denominator too rather than only at this one point.
+    // Tolerance rather than `===` deliberately: 0.0001**2 does not round-trip.
     const tighter = { ...el, Earth: 0.0001 };
-    const clampedTighter = calculateThermodynamics(
+    const servedTighter = calculateThermodynamics(
       esms as AlchemicalProperties,
       tighter,
     ).reactivity;
-    const ratioTighter = num / tighter.Earth ** 2 / clampedTighter;
-    expect(ratioTighter).toBeCloseTo(1_000_000, 3);
-    expect(ratioTighter).toBeGreaterThan(exact / clamped);
+    expect(servedTighter).toBeCloseTo(num / tighter.Earth ** 2, 0);
+    expect(servedTighter / wouldHaveBeenClamped).toBeGreaterThan(exact / wouldHaveBeenClamped);
+  });
+
+  it("still substitutes at an EXACT zero — the API contract is unchanged", () => {
+    // The pole treatment is deliberately untouched: at den === 0 the numerator
+    // is strictly positive, so the limit is +Infinity and THERMO_DEN_FLOOR is
+    // the published choice of where to cap it (§18k k30: keep it, do not derive
+    // it, do not delete it). Removing the interpolation must not have removed
+    // this.
+    const esms = { Spirit: 3, Essence: 2, Matter: 0, Substance: 1 };
+    const el = { Fire: 1, Water: 0, Air: 0, Earth: 0 };
+    expect((esms.Matter + el.Earth) ** 2).toBe(0);
+
+    const num =
+      esms.Spirit ** 2 + esms.Substance ** 2 + esms.Essence ** 2 +
+      el.Fire ** 2 + el.Air ** 2 + el.Water ** 2;
+    const served = calculateThermodynamics(esms as AlchemicalProperties, el).reactivity;
+    expect(served).toBe(num / THERMO_DEN_FLOOR);
+    expect(Number.isFinite(served)).toBe(true);
   });
 
   it("the isFinite guard IS reachable — a missing elemental key zeroes everything", () => {

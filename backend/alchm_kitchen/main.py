@@ -36,9 +36,9 @@ from backend.alchm_kitchen.auth_middleware import get_current_user
 # imports, so the cross-runtime parity gate can import it on a bare Python —
 # a gate that cannot be collected reads as a pass.
 from backend.alchm_kitchen.thermodynamics import (
-    THERMO_DEN_FLOOR,
     compute_kalchm_monica,
     planetary_hour_esms,
+    thermo_quotient,
 )
 
 
@@ -661,11 +661,11 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
 
     heat_num = spirit ** 2 + fire ** 2
     heat_den = (substance + essence + matter + water + air + earth) ** 2
-    heat = heat_num / max(heat_den, THERMO_DEN_FLOOR)
+    heat = thermo_quotient(heat_num, heat_den)
 
     entropy_num = spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2
     entropy_den = (essence + matter + earth + water) ** 2
-    entropy = entropy_num / max(entropy_den, THERMO_DEN_FLOOR)
+    entropy = thermo_quotient(entropy_num, entropy_den)
 
     reactivity_num = spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2
     # Reactivity = (S² + Su² + E² + F² + A² + W²) / (Matter + Earth)²
@@ -680,7 +680,7 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
     # Not a judgement call: all NINE TypeScript implementations use
     # (Matter + Earth)², and the two forms coincide only when Earth = 0 and
     # Matter = 1 — which is why it survived this long.
-    reactivity = reactivity_num / max((matter + earth) ** 2, THERMO_DEN_FLOOR)
+    reactivity = thermo_quotient(reactivity_num, (matter + earth) ** 2)
     gregs_energy = heat - entropy * reactivity
 
     kalchm, monica = compute_kalchm_monica(

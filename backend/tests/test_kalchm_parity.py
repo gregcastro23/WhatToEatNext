@@ -30,6 +30,7 @@ from backend.alchm_kitchen.thermodynamics import (
     THERMO_DEN_FLOOR,
     planetary_hour_esms,
     compute_kalchm_monica,
+    thermo_quotient,
 )
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -74,6 +75,14 @@ def test_constants_match_the_shared_contract():
     assert MONICA_LN_EPSILON == GOLDEN["constants"]["MONICA_LN_EPSILON"]
     assert MONICA_EQUILIBRIUM == GOLDEN["constants"]["MONICA_EQUILIBRIUM"]
     assert MONICA_REACTIVITY_FLOOR == GOLDEN["constants"]["MONICA_REACTIVITY_FLOOR"]
+    # `[ADDED 2026-07-30]` THERMO_DEN_FLOOR was in `expected_keys` above but its
+    # VALUE was never compared — the only constant in the set Python did not
+    # actually pin. The TypeScript half has always pinned it
+    # (`kalchmCrossRuntimeParity.test.ts:122`), so the contract was one-sided:
+    # editing `thermodynamics.py`'s copy to any number at all left every gate
+    # green while the two runtimes served different physics. Asserting presence
+    # is not asserting agreement.
+    assert THERMO_DEN_FLOOR == GOLDEN["constants"]["THERMO_DEN_FLOOR"]
 
 
 def test_monica_ln_epsilon_is_the_derived_midpoint():
@@ -205,13 +214,20 @@ def test_thermo_vector_file_is_populated():
 
 
 def _thermo(v):
-    """Mirrors calculate_local_alchemize's thermodynamic block."""
+    """Mirrors calculate_local_alchemize's thermodynamic block.
+
+    The NUMERATOR/DENOMINATOR structure is deliberately re-typed here — that is
+    what catches the lost-parentheses reactivity form below. The DENOMINATOR
+    RULE is not: it comes from ``thermo_quotient``, the shipped implementation,
+    so this reference cannot keep asserting the old ``max(den, floor)``
+    semantics after production has moved off them.
+    """
     s, e, m, su = v["Spirit"], v["Essence"], v["Matter"], v["Substance"]
     f, w, a, ea = v["Fire"], v["Water"], v["Air"], v["Earth"]
-    heat = (s**2 + f**2) / max((su + e + m + w + a + ea) ** 2, THERMO_DEN_FLOOR)
-    entropy = (s**2 + su**2 + f**2 + a**2) / max((e + m + ea + w) ** 2, THERMO_DEN_FLOOR)
-    reactivity = (s**2 + su**2 + e**2 + f**2 + a**2 + w**2) / max(
-        (m + ea) ** 2, THERMO_DEN_FLOOR
+    heat = thermo_quotient(s**2 + f**2, (su + e + m + w + a + ea) ** 2)
+    entropy = thermo_quotient(s**2 + su**2 + f**2 + a**2, (e + m + ea + w) ** 2)
+    reactivity = thermo_quotient(
+        s**2 + su**2 + e**2 + f**2 + a**2 + w**2, (m + ea) ** 2
     )
     return heat, entropy, reactivity, heat - entropy * reactivity
 
@@ -234,7 +250,7 @@ def test_reactivity_is_not_the_lost_parens_form():
     rather than showing up as a mystery numeric drift."""
     s, su, e, f, a, w, m, ea = 4, 1, 3, 2, 1.5, 1, 2, 0.5
     num = s**2 + su**2 + e**2 + f**2 + a**2 + w**2
-    correct = num / max((m + ea) ** 2, THERMO_DEN_FLOOR)
+    correct = thermo_quotient(num, (m + ea) ** 2)
     lost_parens = (num / (m or 1)) + ea**2
     assert correct == 5.32
     assert lost_parens == 16.875
@@ -244,12 +260,48 @@ def test_reactivity_is_not_the_lost_parens_form():
     )[2] == correct
 
 
-def test_denominator_guard_is_a_floor_not_a_truthiness_fallback():
-    """`(den or 1)` and `max(den, 0.01)` differ by 100x at a zero denominator,
-    in the direction of understating the quantity."""
+def test_denominator_guard_is_a_pole_substitution_not_an_interpolation():
+    """The guard fires ONLY at an exact zero, and is exact everywhere else.
+
+    Three distinct wrong shapes are excluded here, in increasing subtlety:
+
+      * ``(den or 1)`` — a truthiness fallback; 100x low at the pole.
+      * ``max(den, floor)`` — interpolates across the whole open band
+        ``(0, 0.01)``, understating without bound as ``den -> 0``. This is the
+        shape that shipped, and it is the reason for this test.
+      * dropping the guard entirely — would divide by zero at the pole.
+    """
     num = 25.0
-    assert num / max(0.0, THERMO_DEN_FLOOR) == 2500.0
-    assert num / (0.0 or 1) == 25.0
+
+    # At the pole: substitute the published cap. Unchanged from before.
+    assert thermo_quotient(num, 0.0) == 2500.0
+    assert num / (0.0 or 1) == 25.0  # the old truthiness shape, 100x low
+
+    # INSIDE the open band: exact, NOT clamped. `max` would have returned
+    # 2500.0 for every one of these, i.e. the same answer as the pole.
+    assert thermo_quotient(num, 1e-3) == 25000.0
+    assert thermo_quotient(num, 1e-6) == 25000000.0
+    assert thermo_quotient(num, 0.005) == 5000.0
+    for den in (1e-3, 1e-6, 0.005, 0.009999):
+        assert thermo_quotient(num, den) == num / den
+        assert thermo_quotient(num, den) != num / max(den, THERMO_DEN_FLOOR)
+
+    # OUTSIDE the band the two shapes agree, which is why this went unnoticed.
+    for den in (0.01, 0.5, 6.25, 100.0):
+        assert thermo_quotient(num, den) == num / max(den, THERMO_DEN_FLOOR)
+
+
+def test_thermo_quotient_matches_the_measured_alchemize_divergence():
+    """The k30 note's own worked example, re-derived rather than quoted."""
+    # Diurnal ESMS with Matter = Substance = 0 and Earth = 0.001 -> den = 1e-6.
+    spirit, essence, earth = 2.3684111079749997, 1.5543791025227327, 0.001
+    num = spirit**2 + essence**2
+    den = (0.0 + earth) ** 2
+    assert den == 1e-06
+    exact = thermo_quotient(num, den)
+    clamped = num / max(den, THERMO_DEN_FLOOR)
+    assert exact == num / den
+    assert round(exact / clamped) == 10000  # the documented 10,000x understatement
 
 
 # ── Planet -> ESMS table parity ─────────────────────────────────────────────

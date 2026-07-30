@@ -183,16 +183,29 @@ export const MONICA_EQUILIBRIUM = 1.618;
  * with `Earth = 0.001`, so `den = 1e-6` — inside the open band:
  *
  *     exact  num/den   8025465.570738742
- *     clamped (this)       802.5465570738742     ← 10,000x LOW
+ *     clamped (was)        802.5465570738742     ← 10,000x LOW
  *
- * So on caller input the clamp DOES interpolate, and it understates reactivity
- * without bound as `den -> 0`. `src/utils/monicaKalchmCalculations.ts` is exact in
- * that band (control: the two agree bit-for-bit on healthy input, so this is a
- * real divergence and not a formula difference).
+ * `[FIXED 2026-07-30]` ── this no longer happens ─────────────────────────────
  *
- * The consequence for §18k k7: consolidating onto this engine must be justified on
- * one-formula-per-runtime plus removing the second module's k12 zero — NOT on
- * "canonical is more correct". In the open band it is measurably less so.
+ * The interpolation is GONE. `Math.max(den, THERMO_DEN_FLOOR)` was replaced by
+ * `thermoQuotient` (below), which is exact for every `den > 0` and substitutes
+ * this constant ONLY at an exact 0. The engine now serves 8025465.570738742 for
+ * the case above. Pinned by `thermoDenFloorPoleSubstitution.test.ts`, which used
+ * to assert the clamped value and now asserts the exact one.
+ *
+ * That change moved NOTHING on the single-body grid — the census immediately
+ * above is exactly why: with zero cells in the open band, `Math.max` only ever
+ * fired on an exact 0, which is the branch that remains. The published clamped
+ * band (848 .. 1608) is bit-identical.
+ *
+ * The consequence for §18k k7, RESTATED: the open-band objection to consolidating
+ * onto this engine is now resolved — canonical and
+ * `src/utils/monicaKalchmCalculations.ts` agree there, both exact. Consolidation
+ * is still justified on one-formula-per-runtime plus removing the second
+ * module's k12 zero; what is no longer true is that canonical is measurably
+ * WORSE in the band. The two runtimes were changed together —
+ * `backend/alchm_kitchen/thermodynamics.py:thermo_quotient` mirrors this
+ * exactly, and `backend/tests/test_kalchm_parity.py` pins it.
  *
  * ── Only ONE of the three denominators ever reaches zero ────────────────────
  *
@@ -265,6 +278,63 @@ export const MONICA_EQUILIBRIUM = 1.618;
 export const THERMO_DEN_FLOOR = 0.01;
 
 /**
+ * The one place the three thermodynamic ratios decide what to do about their
+ * denominator. `num / den` everywhere it is defined; the substitution ONLY at
+ * the pole.
+ *
+ * ── What changed, and why it is not a value change on the grid ──────────────
+ *
+ * This was `num / Math.max(den, THERMO_DEN_FLOOR)`. On the exhaustive
+ * single-body grid that is IDENTICAL to what is written here, because
+ * `thermoDenFloorPoleSubstitution.test.ts` re-derives every run that ZERO of
+ * the 7920 cells put any of the three denominators inside the open band
+ * `(0, 0.01)` — so `Math.max` only ever fired on an exact 0, which is exactly
+ * the branch below. The grid population does not move by a single ULP.
+ *
+ * ── What it DOES change: caller-supplied input ──────────────────────────────
+ *
+ * `Math.max` does not distinguish "denominator is 0" from "denominator is
+ * small", and `GET /api/alchemize` takes caller-supplied elementals, so small
+ * denominators ARE reachable there. `[MEASURED]` at the real diurnal ESMS
+ * `{Spirit: 2.3684111079749997, Essence: 1.5543791025227327, Matter: 0,
+ * Substance: 0}` with `Earth = 0.001`, giving `den = 1e-6`:
+ *
+ *     exact    num/den   8025465.570738742
+ *     old      num/0.01      802.5465570738742   <- 10,000x LOW
+ *
+ * The old form silently interpolated across the whole open band, understating
+ * without bound as `den -> 0`. `src/utils/monicaKalchmCalculations.ts` was
+ * exact there, so this also removes a real divergence between the two engines
+ * rather than merely moving canonical closer to it.
+ *
+ * ── The pole itself is UNCHANGED, deliberately ──────────────────────────────
+ *
+ * At `den === 0` the reactivity numerator is strictly positive (8.48 .. 16.08
+ * across the 1008 zero cells), so it is a TRUE POLE whose limit is +Infinity —
+ * not an indeterminate 0/0. `THERMO_DEN_FLOOR` is the published choice of where
+ * to cap that infinity and is an API CONTRACT (§18k k30: "keep it, do not
+ * derive it, do not delete it"). Nothing here re-derives or removes it; the
+ * clamped band 848 .. 1608 that `/api/alchemize` serves is bit-identical.
+ */
+function thermoQuotient(numerator: number, denominator: number): number {
+  // Exact wherever the ratio is defined.
+  if (denominator > 0) return numerator / denominator;
+  // A true pole. Substitute the published cap; see the note above.
+  if (denominator === 0) return numerator / THERMO_DEN_FLOOR;
+  // NaN (or, impossibly for a square, negative) — MALFORMED INPUT, not a pole.
+  //
+  // ⚠️ Do not fold this into the branch above. A denominator is NaN when an
+  // elemental key is MISSING and destructures to `undefined`, which is a
+  // reachable caller error, and `NaN > 0` is false — so a bare `else` would
+  // hand malformed input the pole substitution and return a confident finite
+  // number (MEASURED: 1609 for `{Fire, Water, Earth}` with no `Air`). Propagate
+  // the NaN and let the `Number.isFinite` guard below decide, exactly as
+  // `Math.max(NaN, floor)` did. Pinned by
+  // `thermoDenFloorPoleSubstitution.test.ts`.
+  return NaN;
+}
+
+/**
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  *
@@ -332,7 +402,7 @@ export function calculateThermodynamics(
     Substance + Essence + Matter + Water + Air + Earth,
     2,
   );
-  const heat = heatNum / Math.max(heatDen, THERMO_DEN_FLOOR);
+  const heat = thermoQuotient(heatNum, heatDen);
 
   // Entropy calculation
   const entropyNum =
@@ -341,7 +411,7 @@ export function calculateThermodynamics(
     Math.pow(Fire, 2) +
     Math.pow(Air, 2);
   const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
-  const entropy = entropyNum / Math.max(entropyDen, THERMO_DEN_FLOOR);
+  const entropy = thermoQuotient(entropyNum, entropyDen);
 
   // Reactivity calculation
   const reactivityNum =
@@ -352,7 +422,7 @@ export function calculateThermodynamics(
     Math.pow(Air, 2) +
     Math.pow(Water, 2);
   const reactivityDen = Math.pow(Matter + Earth, 2);
-  const reactivity = reactivityNum / Math.max(reactivityDen, THERMO_DEN_FLOOR);
+  const reactivity = thermoQuotient(reactivityNum, reactivityDen);
 
   // Greg's Energy — never clamped; may be negative (a real, meaningful sign).
   const gregsEnergy = heat - entropy * reactivity;
