@@ -257,7 +257,21 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 1. `elementalToAlchemical(elemental)` in `monicaKalchmCalculations.ts`
    - **Status:** **DELETED 2026-07-29** (was: deprecated with console warnings). It had zero
      importers; its only caller was `performEnhancedAnalysis`, itself unimported.
-   - **Replacement:** `elementalToAlchemicalApproximation(elemental)` (clearly marked as approximation)
+   - **Replacement:** `deriveAlchemicalFromElemental(elemental)` from
+     `@/data/unified/alchemicalCalculations`
+   - **Preferred:** `calculateAlchemicalFromPlanets(positions)`
+
+2. `elementalToAlchemicalApproximation(elemental)` in `monicaKalchmCalculations.ts`
+   - **Status:** **DELETED 2026-07-30.** It DOUBLE-COUNTED EARTH — `elemental.Earth` appeared
+     at full weight in both `Matter` and `Substance`, giving Earth a transfer coefficient of
+     2.0 against Air's 0.4 (a 5.0x spread). Its three live call sites were repointed.
+   - **Replacement:** `deriveAlchemicalFromElemental(elemental)` (coefficients Fire 1.0 /
+     Water 1.2 / Earth 1.2 / Air 0.6 — a 2.0x spread, pinned by
+     `src/__tests__/elementalToEsmsTransfer.test.ts`).
+   - ⚠️ **Do not describe the replacement as "mass-preserving".** It is not: ΣESMS still
+     varies with the input mix (measured 0.76 .. 1.13 over normalized inputs). It happens to
+     sum to exactly 1.0 only when `Water + Earth == 2 x Air`, which balanced test vectors
+     satisfy by coincidence. The defensible claim is the removal of the double count.
    - **Preferred:** `calculateAlchemicalFromPlanets(positions)`
 
 ### Files That Need Updates
@@ -285,7 +299,9 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 1. Search for `calculateAlchemicalProperties(` calls
 2. Replace with `calculateAlchemicalFromPlanets(planetaryPositions)`
 3. Ensure planetary positions are available in context
-4. If planetary positions unavailable, use `elementalToAlchemicalApproximation()` with warning comment
+4. If planetary positions unavailable, use `deriveAlchemicalFromElemental()` from
+   `@/data/unified/alchemicalCalculations`, with a warning comment
+   (`elementalToAlchemicalApproximation()` was deleted 2026-07-30 — it double-counted Earth)
 
 ## Next Steps
 

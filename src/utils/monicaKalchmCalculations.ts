@@ -150,32 +150,13 @@ export function calculateMonicaConstant(
   return calculateMonica(gregsEnergy, reactivity, K_alchm);
 }
 // ========== HELPER FUNCTIONS ==========
-/**
- * Convert elemental properties to approximated alchemical properties
- *
- * ⚠️ WARNING: This is an APPROXIMATION and NOT the correct method!
- *
- * The ONLY correct way to calculate ESMS (Spirit, Essence, Matter, Substance)
- * is through planetary positions using calculateAlchemicalFromPlanets().
- *
- * This function should ONLY be used as a fallback when planetary data is
- * completely unavailable. It provides a rough approximation based on elemental
- * correlations, but lacks the precision and accuracy of the true alchemical method.
- *
- * @deprecated Prefer calculateAlchemicalFromPlanets() whenever possible
- * @param elemental - Elemental properties (Fire, Water, Earth, Air)
- * @returns Approximated alchemical properties (NOT accurate)
- */
-export function elementalToAlchemicalApproximation(
-  elemental: ElementalProperties,
-): AlchemicalProperties {
-  return {
-    Spirit: elemental.Fire + ((elemental as any)?.Air || 0) * 0.2, // Rough approximation
-    Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Rough approximation
-    Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Rough approximation
-    Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2, // Rough approximation
-  };
-}
+//
+// `elementalToAlchemicalApproximation` was DELETED here. It double-counted
+// Earth: `elemental.Earth` appeared at FULL weight in both Matter and
+// Substance, giving Earth a transfer coefficient of 2.0 where every other
+// element sat near 1. Its three call sites now use the canonical
+// `deriveAlchemicalFromElemental` (@/data/unified/alchemicalCalculations).
+// Do not reintroduce it — see docs/design/home-living-hero-stitch-prompt.md.
 /**
  * Calculate complete thermodynamic metrics from properties
  */
