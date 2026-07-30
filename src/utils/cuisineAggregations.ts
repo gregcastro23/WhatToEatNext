@@ -11,6 +11,10 @@
  * Part of the three-tier hierarchical system: Ingredients → Recipes → Cuisines
  */
 
+import type {
+  AlchemicalProperties,
+  ThermodynamicMetrics,
+} from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type {
   CuisineSignature,
@@ -19,10 +23,6 @@ import type {
   PlanetaryPattern,
   RecipeComputedProperties,
 } from "@/types/hierarchy";
-import type {
-  AlchemicalProperties,
-  ThermodynamicMetrics,
-} from "./monicaKalchmCalculations";
 
 // ========== GLOBAL AVERAGES (for z-score calculation) ==========
 

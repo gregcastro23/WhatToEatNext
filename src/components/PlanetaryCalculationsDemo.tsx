@@ -11,16 +11,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import {
+  performAlchemicalAnalysis,
+  type ThermodynamicMetrics,
+} from "@/data/unified/alchemicalCalculations";
 import { logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/alchemy";
 import {
   calculateKineticProperties,
   type KineticMetrics,
 } from "@/utils/kineticCalculations";
-import {
-  calculateThermodynamicMetrics,
-  type ThermodynamicMetrics,
-} from "@/utils/monicaKalchmCalculations";
 import {
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
@@ -263,7 +263,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
       setElementalProps(elemental);
 
       // Calculate thermodynamic metrics
-      const thermo = calculateThermodynamicMetrics(alchemical, elemental);
+      const thermo = performAlchemicalAnalysis(alchemical, elemental);
       setThermodynamicMetrics(thermo);
 
       // Calculate kinetic metrics (P=IV circuit model)
@@ -569,7 +569,7 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
           <p className="text-sm text-gray-600 mb-4">
             Calculated using{" "}
             <code className="bg-gray-100 px-2 py-1 rounded">
-              calculateThermodynamicMetrics()
+              performAlchemicalAnalysis()
             </code>
           </p>
 

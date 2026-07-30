@@ -18,7 +18,7 @@
  *     description); rough count units ("2 medium") are flagged `gramsEstimated`.
  */
 
-import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
+import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import { lookupIngredientFull } from "@/utils/recipeAlchemicalQuantities";
 import { parseAmount } from "./quantity";
 import type { MintableRecipe } from "./mintableRecipe";
@@ -369,7 +369,7 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
     elementalSource = "authored";
   }
 
-  const metrics = calculateThermodynamicMetrics(
+  const metrics = performAlchemicalAnalysis(
     { Spirit: totals.spirit, Essence: totals.essence, Matter: totals.matter, Substance: totals.substance },
     elemental,
   );

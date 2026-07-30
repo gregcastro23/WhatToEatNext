@@ -10,12 +10,12 @@
  * Provides sophisticated resonance analysis for enhanced cuisine recommendations.
  */
 
+import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import type {
   AlchemicalProperties,
   ElementalProperties,
   ThermodynamicProperties,
 } from "@/types/alchemy";
-import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 
 // ========== TYPE DEFINITIONS ==========
 
@@ -530,7 +530,7 @@ export function createUserThermodynamicProfile(
     reactivityPreference?: number;
   },
 ): UserThermodynamicProfile {
-  const thermodynamicMetrics = calculateThermodynamicMetrics(
+  const thermodynamicMetrics = performAlchemicalAnalysis(
     alchemicalProperties,
     elementalProperties,
   );

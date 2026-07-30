@@ -316,7 +316,7 @@ export const THERMO_DEN_FLOOR = 0.01;
  * derive it, do not delete it"). Nothing here re-derives or removes it; the
  * clamped band 848 .. 1608 that `/api/alchemize` serves is bit-identical.
  */
-function thermoQuotient(numerator: number, denominator: number): number {
+export function thermoQuotient(numerator: number, denominator: number): number {
   // Exact wherever the ratio is defined.
   if (denominator > 0) return numerator / denominator;
   // A true pole. Substitute the published cap; see the note above.
@@ -386,13 +386,79 @@ export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   return Number.isFinite(kalchm) && kalchm > 0 ? kalchm : 1.0;
 }
 
+const ESMS_AXES = ["Spirit", "Essence", "Matter", "Substance"] as const;
+const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
+
+/**
+ * FAIL LOUDLY on malformed thermodynamic input. §18k k7.
+ *
+ * Replaces the fabrication layer that `src/utils/monicaKalchmCalculations.ts`
+ * carried, which returned a hardcoded
+ * `{heat: 0.08, entropy: 0.15, reactivity: 0.45, gregsEnergy: -0.02,
+ * kalchm: 2.5, monica: 1.0}` for a null argument and silently substituted
+ * `Spirit/Essence/Matter -> 4`, `Substance -> 2`, and every element -> `0.25`
+ * for a missing or NaN field. A caller could not tell invented physics from
+ * measured physics, which is the k12 class this codebase is eradicating.
+ *
+ * A hard seam here is the point: an upstream caller that cannot produce four
+ * finite ESMS axes and four finite elements has a bug, and the correct
+ * behaviour is to surface it — as a 500 from an API route, or a failed render
+ * — rather than to serve a plausible number nobody can audit.
+ *
+ * ⚠️ Note what is NOT rejected. `0` is a LEGITIMATE value for every one of
+ * these eight fields and passes: the old per-field guards used
+ * `typeof x === "number" && !isNaN(x)`, which also admitted `0` but admitted
+ * `Infinity` too. This requires FINITE, so `Infinity` — which produces
+ * `Infinity/Infinity = NaN` downstream — is now caught at the boundary instead
+ * of surfacing as a silent zero via the `Number.isFinite` guard below.
+ */
+function assertThermodynamicInput(
+  alchemicalProps: AlchemicalProperties,
+  elementalProps: ElementalProperties,
+  caller: string,
+): void {
+  if (!alchemicalProps || typeof alchemicalProps !== "object") {
+    throw new TypeError(
+      `${caller}: alchemicalProps is ${alchemicalProps === null ? "null" : typeof alchemicalProps}. ` +
+        `ESMS cannot be invented — pass four finite axes or resolve them upstream.`,
+    );
+  }
+  if (!elementalProps || typeof elementalProps !== "object") {
+    throw new TypeError(
+      `${caller}: elementalProps is ${elementalProps === null ? "null" : typeof elementalProps}. ` +
+        `Elementals cannot be invented — pass four finite elements or resolve them upstream.`,
+    );
+  }
+  for (const axis of ESMS_AXES) {
+    const v = (alchemicalProps as Record<string, unknown>)[axis];
+    if (typeof v !== "number" || !Number.isFinite(v)) {
+      throw new TypeError(
+        `${caller}: alchemicalProps.${axis} is ${String(v)} (expected a finite number). ` +
+          `A missing or non-finite axis used to be silently replaced with a literal.`,
+      );
+    }
+  }
+  for (const element of ELEMENTS) {
+    const v = (elementalProps as Record<string, unknown>)[element];
+    if (typeof v !== "number" || !Number.isFinite(v)) {
+      throw new TypeError(
+        `${caller}: elementalProps.${element} is ${String(v)} (expected a finite number). ` +
+          `A missing or non-finite element used to be silently replaced with 0.25.`,
+      );
+    }
+  }
+}
+
 /**
  * Calculate thermodynamic metrics including heat, entropy, reactivity, and Greg's Energy
+ *
+ * THROWS on malformed input — see `assertThermodynamicInput`.
  */
 export function calculateThermodynamics(
   alchemicalProps: AlchemicalProperties,
   elementalProps: ElementalProperties,
 ): Omit<ThermodynamicMetrics, "kalchm" | "monica"> {
+  assertThermodynamicInput(alchemicalProps, elementalProps, "calculateThermodynamics");
   const { Spirit, Essence, Matter, Substance } = alchemicalProps;
   const { Fire, Water, Air, Earth } = elementalProps;
 
@@ -428,17 +494,23 @@ export function calculateThermodynamics(
   const gregsEnergy = heat - entropy * reactivity;
 
   // ⚠️ `[CORRECTED 2026-07-29]` This comment claimed the guard was "not a
-  // reachable branch". It IS reached. An elemental object MISSING a key
-  // destructures to `undefined`, every arithmetic result becomes NaN, and all four
-  // values fall through to 0 (MEASURED: `{Fire:0.3, Water:0.25, Earth:0.2}` with no
-  // `Air` returns all zeros; control: the complete object returns
-  // reactivity 2.0530045351473922). So this guard is load-bearing for
-  // partially-populated caller input, not belt-and-braces.
+  // reachable branch". It WAS reached: an elemental object MISSING a key
+  // destructured to `undefined`, every arithmetic result became NaN, and all four
+  // values fell through to 0 (MEASURED: `{Fire:0.3, Water:0.25, Earth:0.2}` with no
+  // `Air` returned all zeros; control: the complete object returns
+  // reactivity 2.0530045351473922).
   //
-  // It is also a k12-shaped fallback — 0 is a legitimate value for all four of
-  // these quantities, so a caller cannot distinguish "genuinely zero" from "your
-  // input was malformed". Left as-is rather than widened into here; recorded so
-  // the next reader does not trust the old claim.
+  // `[RESOLVED 2026-07-30 — §18k k7]` That was a k12-shaped fallback: 0 is a
+  // legitimate value for all four quantities, so a caller could not distinguish
+  // "genuinely zero" from "your input was malformed". It is now rejected at the
+  // boundary by `assertThermodynamicInput`, which names the offending field, so
+  // NO malformed input can reach here any more.
+  //
+  // The guard is KEPT as a genuine last resort — it is now unreachable for
+  // missing/NaN/Infinity input, but a pathological combination of finite inputs
+  // could in principle still overflow to a non-finite quotient, and 0 is a safer
+  // last word than NaN escaping into a score. It is no longer load-bearing, and
+  // `thermoFailsLoudly.test.ts` pins that the boundary catches these cases first.
   return {
     heat: Number.isFinite(heat) ? heat : 0,
     entropy: Number.isFinite(entropy) ? entropy : 0,
@@ -475,12 +547,25 @@ export function calculateMonica(
 }
 
 /**
- * Complete alchemical analysis for an ingredient or cuisine
+ * Complete alchemical analysis for an ingredient or cuisine — heat, entropy,
+ * reactivity, Greg's Energy, kalchm and monica in one call.
+ *
+ * THE canonical six-field entry point. `src/utils/monicaKalchmCalculations.ts`
+ * exported a second composite of the same shape (`calculateThermodynamicMetrics`)
+ * which fabricated on bad input; it has been deleted and its consumers routed
+ * here. §18k k7.
+ *
+ * THROWS on malformed input — see `assertThermodynamicInput`.
  */
 export function performAlchemicalAnalysis(
   alchemicalProps: AlchemicalProperties,
   elementalProps: ElementalProperties,
 ): ThermodynamicMetrics {
+  // Assert HERE as well as in calculateThermodynamics, because calculateKalchm
+  // runs first and would otherwise fail on a null argument with an opaque
+  // "Cannot destructure property 'Spirit' of 'null'" rather than a message
+  // naming the caller and the offending field.
+  assertThermodynamicInput(alchemicalProps, elementalProps, "performAlchemicalAnalysis");
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProps);
   // Calculate thermodynamic metrics;

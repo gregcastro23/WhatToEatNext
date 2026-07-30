@@ -2,6 +2,7 @@ import { ALCHEMICAL_PILLARS, COOKING_METHOD_PILLAR_MAPPING } from "@/constants/a
 import {
   calculateKalchm as canonicalCalculateKalchm,
   calculateMonica,
+  thermoQuotient,
 } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
@@ -47,7 +48,7 @@ export function calculateHeat(
     substance + essence + matter + water + air + earth,
     2,
   );
-  return denominator > 0 ? numerator / denominator : 0;
+  return thermoQuotient(numerator, denominator);
 }
 /**
  * Calculate Entropy: Measures disorder (active properties vs passive properties)
@@ -62,7 +63,7 @@ export function calculateEntropy(
     Math.pow(fire, 2) +
     Math.pow(air, 2);
   const denominator = Math.pow(essence + matter + earth + water, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  return thermoQuotient(numerator, denominator);
 }
 /**
  * Calculate Reactivity: Measures potential for change (volatile properties vs stable properties)
@@ -79,7 +80,7 @@ export function calculateReactivity(
     Math.pow(air, 2) +
     Math.pow(water, 2);
   const denominator = Math.pow(matter + earth, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  return thermoQuotient(numerator, denominator);
 }
 /**
  * Calculate Greg's Energy: Overall energy balance
@@ -157,82 +158,27 @@ export function calculateMonicaConstant(
 // element sat near 1. Its three call sites now use the canonical
 // `deriveAlchemicalFromElemental` (@/data/unified/alchemicalCalculations).
 // Do not reintroduce it — see docs/design/home-living-hero-stitch-prompt.md.
-/**
- * Calculate complete thermodynamic metrics from properties
- */
-export function calculateThermodynamicMetrics(
-  alchemical: AlchemicalProperties,
-  elemental: ElementalProperties,
-): ThermodynamicMetrics {
-  // Defensive checks for undefined/null inputs
-  if (!alchemical || !elemental) {
-    return {
-      heat: 0.08,
-      entropy: 0.15,
-      reactivity: 0.45,
-      gregsEnergy: -0.02,
-      kalchm: 2.5,
-      monica: 1.0,
-    };
-  }
-  // Defensive extraction with fallback values
-  const Spirit =
-    typeof alchemical.Spirit === "number" && !isNaN(alchemical.Spirit)
-      ? alchemical.Spirit
-      : 4;
-  const Essence =
-    typeof alchemical.Essence === "number" && !isNaN(alchemical.Essence)
-      ? alchemical.Essence
-      : 4;
-  const Matter =
-    typeof alchemical.Matter === "number" && !isNaN(alchemical.Matter)
-      ? alchemical.Matter
-      : 4;
-  const Substance =
-    typeof alchemical.Substance === "number" && !isNaN(alchemical.Substance)
-      ? alchemical.Substance
-      : 2;
-  const Fire =
-    typeof elemental.Fire === "number" && !isNaN(elemental.Fire)
-      ? elemental.Fire
-      : 0.25;
-  const Water =
-    typeof elemental.Water === "number" && !isNaN(elemental.Water)
-      ? elemental.Water
-      : 0.25;
-  const Air =
-    typeof elemental.Air === "number" && !isNaN(elemental.Air)
-      ? elemental.Air
-      : 0.25;
-  const Earth =
-    typeof elemental.Earth === "number" && !isNaN(elemental.Earth)
-      ? elemental.Earth
-      : 0.25;
-  const thermodynamicInputs = {
-    spirit: Spirit,
-    substance: Substance,
-    essence: Essence,
-    matter: Matter,
-    fire: Fire,
-    water: Water,
-    air: Air,
-    earth: Earth,
-  };
-  const heat = calculateHeat(thermodynamicInputs);
-  const entropy = calculateEntropy(thermodynamicInputs);
-  const reactivity = calculateReactivity(thermodynamicInputs);
-  const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
-  const kalchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
-  const monica = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
-  return {
-    heat,
-    entropy,
-    reactivity,
-    gregsEnergy,
-    kalchm,
-    monica,
-  };
-}
+// `calculateThermodynamicMetrics` was DELETED here — §18k k7.
+//
+// It was the repo's SECOND six-field thermodynamic composite, and it fabricated
+// twice over:
+//
+//   1. `if (!alchemical || !elemental) return {heat: 0.08, entropy: 0.15,
+//      reactivity: 0.45, gregsEnergy: -0.02, kalchm: 2.5, monica: 1.0}` — six
+//      invented numbers, none derived from anything, returned as if measured.
+//   2. Per-field substitution when a value was missing or NaN:
+//      `Spirit/Essence/Matter -> 4`, `Substance -> 2`, every element -> `0.25`.
+//      A caller could not distinguish invented physics from real physics.
+//
+// All nine consumers now call `performAlchemicalAnalysis` in
+// `@/data/unified/alchemicalCalculations`, which returns the same six fields and
+// THROWS on malformed input instead (`assertThermodynamicInput`).
+//
+// The four primitives above (`calculateHeat`/`Entropy`/`Reactivity`/
+// `GregsEnergy`) are RETAINED because the Monica scoring block below still uses
+// them; they now share canonical's `thermoQuotient`, so their former
+// `den > 0 ? n/d : 0` pole — which returned 0 where the true limit is +Infinity
+// — is gone and they agree with canonical bit for bit.
 // ========== MONICA SCORING SYSTEM (0-100 Scale) ==========
 /**
  * Result of the Monica scoring algorithm for a recipe
