@@ -1,5 +1,5 @@
+import { deriveAlchemicalFromElemental } from '../data/unified/alchemicalCalculations';
 import { deriveLiveSkyQuantities } from '../utils/liveSkyQuantities';
-import { elementalToAlchemicalApproximation } from '../utils/monicaKalchmCalculations';
 
 /**
  * The exact shape AlchemicalContext's provider builds (see provider.tsx
@@ -37,17 +37,23 @@ describe('deriveLiveSkyQuantities', () => {
     expect(total).toBeGreaterThan(0);
   });
 
-  test('does NOT reproduce the elemental approximation it replaced', () => {
-    // The approximation reads Fire/Water/Earth/Air; the engine reads the planets.
-    // If these ever coincide, the fix is not doing anything.
+  test('does NOT reproduce the elemental derivation it replaced', () => {
+    // The elemental derivation reads Fire/Water/Earth/Air; the engine reads the
+    // planets. If these ever coincide, the fix is not doing anything.
+    //
+    // This used to compare against `elementalToAlchemicalApproximation`, which
+    // has been deleted for double-counting Earth. The guard is unchanged in
+    // intent: the live-sky engine must not collapse onto whatever the cheap
+    // elemental fallback returns, and that fallback is now the canonical
+    // `deriveAlchemicalFromElemental`.
     const esms = deriveLiveSkyQuantities(CONTEXT_POSITIONS, true)!;
-    const approximated = elementalToAlchemicalApproximation({
+    const derived = deriveAlchemicalFromElemental({
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25,
     });
-    expect(esms.Spirit).not.toBeCloseTo(approximated.Spirit, 3);
+    expect(esms.Spirit).not.toBeCloseTo(derived.Spirit, 3);
   });
 
   test('sect changes the result, so isDaytime is actually honoured', () => {

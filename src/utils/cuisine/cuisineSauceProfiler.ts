@@ -10,15 +10,13 @@
 import { cuisineFlavorProfiles } from "@/data/cuisineFlavorProfiles";
 import { cuisinesMap } from "@/data/cuisines";
 import { allSauces, type Sauce as DataSauce } from "@/data/sauces";
+import { deriveAlchemicalFromElemental } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
 import type { RecipeIngredient } from "@/types/recipe";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { aggregateIngredientElementals } from "@/utils/hierarchicalRecipeCalculations";
-import {
-  calculateThermodynamicMetrics,
-  elementalToAlchemicalApproximation
-} from "@/utils/monicaKalchmCalculations";
+import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 
 // ============================================================================
 // Types
@@ -396,7 +394,7 @@ function enhanceSauceWithDynamicProperties(sauce: UnifiedSauce): UnifiedSauce {
   }
 
   const elementalProperties = normalizeForDisplay(rawElementals);
-  const alchemicalProperties = sauce.alchemicalProperties || elementalToAlchemicalApproximation(elementalProperties);
+  const alchemicalProperties = sauce.alchemicalProperties || deriveAlchemicalFromElemental(elementalProperties);
   const thermodynamicProperties = calculateThermodynamicMetrics(alchemicalProperties, elementalProperties);
 
   return {
