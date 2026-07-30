@@ -20,6 +20,7 @@
 
 import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 import { lookupIngredientFull } from "@/utils/recipeAlchemicalQuantities";
+import { parseAmount } from "./quantity";
 import type { MintableRecipe } from "./mintableRecipe";
 import type {
   CoinAmounts,
@@ -110,16 +111,6 @@ const round = (n: number, d = 4): number => {
   return Math.round(n * f) / f;
 };
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
-
-function parseAmount(raw: string): number {
-  const s = raw.trim();
-  const mixed = s.match(/^(\d+)\s+(\d+)\/(\d+)$/);
-  if (mixed) return Number(mixed[1]) + Number(mixed[2]) / Number(mixed[3]);
-  const frac = s.match(/^(\d+)\/(\d+)$/);
-  if (frac) return Number(frac[1]) / Number(frac[2]);
-  const n = Number(s);
-  return Number.isFinite(n) ? n : NaN;
-}
 
 const normalizeUnit = (u: string) => u.toLowerCase().trim().replace(/s$/, "");
 
@@ -314,17 +305,39 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
   );
   // Normalize to the fixed economy target: every recipe's four coins sum to
   // TARGET_ESMS, so all recipes cost the same to mint. Only the SPLIT varies,
-  // preserving the raw potency-weighted ratio between coins. A degenerate recipe
-  // with no resolved ESMS (rawTotal 0) yields all-zero totals rather than NaN.
+  // preserving the raw potency-weighted ratio between coins.
+  //
+  // FAIL LOUDLY. This used to read `rawTotal > 0 ? TARGET_ESMS / rawTotal : 0`,
+  // which turned a degenerate recipe into all-zero totals — and since these
+  // totals ARE the mint cost basis (`cost.ts baseMintCost`), that was a free
+  // mint. `mintableRecipe.ts` now rejects the inputs that get here, so reaching
+  // this throw means the validator and the engine have drifted apart; that is a
+  // bug to surface, never a price to charge.
   const rawTotal =
     weighted.spirit + weighted.essence + weighted.matter + weighted.substance;
-  const normScale = rawTotal > 0 ? TARGET_ESMS / rawTotal : 0;
+  if (!Number.isFinite(rawTotal) || rawTotal <= 0) {
+    throw new Error(
+      `computeRecipeFingerprint: recipe "${recipe.id}" has no usable ingredient mass ` +
+        `(rawTotal=${rawTotal}). Refusing to emit a zero/non-finite cost basis.`,
+    );
+  }
+  const normScale = TARGET_ESMS / rawTotal;
   const totals: CoinAmounts = {
     spirit: weighted.spirit * normScale,
     essence: weighted.essence * normScale,
     matter: weighted.matter * normScale,
     substance: weighted.substance * normScale,
   };
+  // `normScale` can still overflow if `rawTotal` is denormal, which makes every
+  // coin Infinity or NaN. Assert on the OUTPUT rather than trusting the input.
+  for (const [coin, value] of Object.entries(totals)) {
+    if (!Number.isFinite(value) || value < 0) {
+      throw new Error(
+        `computeRecipeFingerprint: recipe "${recipe.id}" produced a non-finite ${coin} ` +
+          `coin (${value}, normScale=${normScale}). Refusing to emit it as a cost basis.`,
+      );
+    }
+  }
   const aSharp = totals.spirit + totals.essence + totals.matter + totals.substance;
 
   // Ingredient-derived elemental shares (potency-weighted); fall back to authored.
