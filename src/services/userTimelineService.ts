@@ -163,7 +163,9 @@ async function readIdentity(
          u.login_count,
          COALESCE(up.dominant_element, up.natal_chart->>'dominantElement') AS dominant_element,
          up.bio,
-         up.monica_constant::text AS monica_constant,
+         -- §18o: monica_constant is single-body only; COALESCE the other two
+         -- constructions so this view shows an agent's real value.
+         COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart)::text AS monica_constant,
          up.onboarding_completed,
          up.onboarding_completed_at,
          (up.birth_data IS NOT NULL AND up.birth_data <> '{}'::jsonb) AS has_birth_data,

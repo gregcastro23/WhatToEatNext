@@ -166,7 +166,9 @@ export async function GET(request: NextRequest) {
          up.onboarding_completed,
          COALESCE(up.dominant_element, up.natal_chart->>'dominantElement') AS dominant_element,
          up.bio,
-         up.monica_constant::text AS monica_constant,
+         -- §18o: monica_constant is single-body only; COALESCE the other two
+         -- constructions so the admin panel shows an agent's real value.
+         COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart)::text AS monica_constant,
          s.tier::text AS subscription_tier,
          s.status::text AS subscription_status,
          ds.active_sessions,

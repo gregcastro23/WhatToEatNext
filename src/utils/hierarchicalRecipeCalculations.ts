@@ -14,6 +14,8 @@
 import { calculateKinetics } from "@/calculations/kinetics";
 import type { KineticsCalculationInput } from "@/calculations/kinetics";
 import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
+import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
+import type { ThermodynamicMetrics } from "@/data/unified/alchemicalCalculations";
 import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
 import type {
   CookingMethod,
@@ -29,14 +31,12 @@ import type {
   KineticMetrics /*, KineticsCalculationInput */,
 } from "@/types/kinetics";
 import type { RecipeIngredient } from "@/types/recipe";
-import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import {
   aggregateZodiacElementals,
   calculateAlchemicalFromPlanets,
   getDominantAlchemicalProperty,
   getDominantElement,
 } from "./planetaryAlchemyMapping";
-import type { ThermodynamicMetrics } from "./monicaKalchmCalculations";
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
 
@@ -358,7 +358,7 @@ export function computeRecipeProperties(
     : combinedElementals;
 
   // Step 6: Calculate thermodynamic metrics from ESMS + elementals
-  const thermodynamicMetrics = calculateThermodynamicMetrics(
+  const thermodynamicMetrics = performAlchemicalAnalysis(
     alchemicalProperties,
     finalElementals,
   );

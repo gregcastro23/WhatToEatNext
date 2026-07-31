@@ -9,6 +9,23 @@
  */
 
 import { _logger } from "@/lib/logger";
+import {
+  columnFor,
+  creditTokensSql,
+  dailyClaimTimestampSql,
+  debitAllTokensSql,
+  debitTokensSql,
+  getBalancesSql,
+  hasActivePurchaseSql,
+  idempotencyProbeSql,
+  shopItemDetailSql,
+  shopItemForPurchaseSql,
+  shopItemsSql,
+  transactionCountSql,
+  transactionsPageSql,
+  transmuteSql,
+  userOwnsItemSql,
+} from "@/services/tokenEconomyQueries";
 import type {
   TokenType,
   TokenBalances,
@@ -122,35 +139,6 @@ function rowToTransaction(row: TokenTransactionRow): TokenTransaction {
   };
 }
 
-// Single-statement credit: ensure the balance row exists, insert an immutable
-// ledger entry (idempotency-guarded), and apply the delta to the typed column —
-// all atomically. `column` is a constrained union literal (never user input),
-// so interpolating it is injection-safe. Params, in order:
-//   $1 userId  $2 tokenType  $3 amount  $4 sourceType
-//   $5 sourceId  $6 description  $7 transactionGroupId  $8 idempotencyKey
-function creditTokensSql(
-  column: "spirit" | "essence" | "matter" | "substance",
-): string {
-  return `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          inserted AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            VALUES
-              (COALESCE($7::uuid, uuid_generate_v4()), $1, $2, $3, $4, $5, $6, $8)
-            ON CONFLICT (idempotency_key) DO NOTHING
-            RETURNING id
-          )
-          UPDATE token_balances
-          SET ${column} = ${column} + $3,
-              updated_at = now()
-          WHERE user_id = $1
-            AND EXISTS (SELECT 1 FROM inserted)
-          RETURNING *`;
-}
 
 // ─── Service Class ────────────────────────────────────────────────────
 
@@ -168,34 +156,13 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          `INSERT INTO token_balances (user_id)
-           VALUES ($1)
-           ON CONFLICT (user_id) DO NOTHING;
-           SELECT * FROM token_balances WHERE user_id = $1`,
-          [userId],
-        );
-        // executeQuery returns the last statement's result
+        const query = getBalancesSql(userId);
+        const result = await db.executeQuery(query.sql, query.values);
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
         }
-      } catch {
-        // Fallback: separate queries if multi-statement not supported
-        try {
-          await db.executeQuery(
-            `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
-            [userId],
-          );
-          const result = await db.executeQuery(
-            `SELECT * FROM token_balances WHERE user_id = $1`,
-            [userId],
-          );
-          if (result.rows.length > 0) {
-            return rowToBalances(result.rows[0]);
-          }
-        } catch (error) {
-          _logger.error("[TokenEconomy] getBalances failed:", error);
-        }
+      } catch (error) {
+        _logger.error("[TokenEconomy] getBalances failed:", error);
       }
     }
 
@@ -232,21 +199,21 @@ class TokenEconomyService {
     }
 
     const db = await getDbModule();
-    const column = tokenType.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
 
     if (db) {
       try {
         // Single atomic statement (insert ledger row + apply delta).
-        const result = await db.executeQuery(creditTokensSql(column), [
+        const query = creditTokensSql({
           userId,
           tokenType,
           amount,
           sourceType,
-          opts?.sourceId || null,
-          opts?.description || null,
-          opts?.transactionGroupId || null,
-          opts?.idempotencyKey || null,
-        ]);
+          sourceId: opts?.sourceId || null,
+          description: opts?.description || null,
+          transactionGroupId: opts?.transactionGroupId || null,
+          idempotencyKey: opts?.idempotencyKey || null,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -270,7 +237,7 @@ class TokenEconomyService {
     }
 
     const balances = await this.getBalances(userId);
-    balances[column] += amount;
+    balances[columnFor(tokenType)] += amount;
     balances.updatedAt = new Date().toISOString();
 
     memoryTransactions.push({
@@ -307,44 +274,20 @@ class TokenEconomyService {
   ): Promise<TokenBalances | null> {
     if (amount <= 0) return null;
 
-    const column = tokenType.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
     const db = await getDbModule();
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          check_balance AS (
-            SELECT ${column} AS current_balance FROM token_balances WHERE user_id = $1
-          ),
-          inserted AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT COALESCE($6::uuid, uuid_generate_v4()), $1, $2, -$3, $4, $5, $7
-            FROM check_balance
-            WHERE current_balance >= $3
-            RETURNING id
-          )
-          UPDATE token_balances
-          SET ${column} = ${column} - $3,
-              updated_at = now()
-          WHERE user_id = $1
-            AND EXISTS (SELECT 1 FROM inserted)
-          RETURNING *`,
-          [
-            userId,
-            tokenType,
-            amount,
-            sourceType,
-            opts?.sourceId || null,
-            opts?.transactionGroupId || null,
-            opts?.description || null,
-          ],
-        );
+        const query = debitTokensSql({
+          userId,
+          tokenType,
+          amount,
+          sourceType,
+          sourceId: opts?.sourceId || null,
+          transactionGroupId: opts?.transactionGroupId || null,
+          description: opts?.description || null,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length > 0) {
           return rowToBalances(result.rows[0]);
@@ -357,6 +300,7 @@ class TokenEconomyService {
     }
 
     // In-memory fallback
+    const column = columnFor(tokenType);
     const balances = await this.getBalances(userId);
     if (balances[column] < amount) return null;
 
@@ -392,83 +336,25 @@ class TokenEconomyService {
     if (db) {
       try {
         if (idemKey) {
-          const dup = await db.executeQuery(
-            `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
-            [`${idemKey}:%`],
-          );
+          const probe = idempotencyProbeSql(idemKey);
+          const dup = await db.executeQuery(probe.sql, probe.values);
           if (dup.rows.length > 0) {
             return { success: false, reason: "already_applied" };
           }
         }
 
-        const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id) VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          balance_check AS (
-            SELECT * FROM token_balances WHERE user_id = $1
-            AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
-          ),
-          new_group AS (
-            SELECT uuid_generate_v4() AS gid
-          ),
-          debit_spirit AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Spirit', -$2, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Spirit' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $2 > 0
-            RETURNING id
-          ),
-          debit_essence AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Essence', -$3, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Essence' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $3 > 0
-            RETURNING id
-          ),
-          debit_matter AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Matter', -$4, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Matter' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $4 > 0
-            RETURNING id
-          ),
-          debit_substance AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Substance', -$5, $6, $7, $8,
-                   CASE WHEN $9::text IS NOT NULL THEN $9 || ':Substance' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $5 > 0
-            RETURNING id
-          ),
-          updated AS (
-            UPDATE token_balances
-            SET spirit = token_balances.spirit - $2,
-                essence = token_balances.essence - $3,
-                matter = token_balances.matter - $4,
-                substance = token_balances.substance - $5,
-                updated_at = now()
-            FROM balance_check bc
-            WHERE token_balances.user_id = $1
-            RETURNING token_balances.*
-          )
-          SELECT u.*, g.gid AS txn_group_id FROM updated u, new_group g`,
-          [
-            userId,
-            amounts.spirit,
-            amounts.essence,
-            amounts.matter,
-            amounts.substance,
+        const query = debitAllTokensSql({
+          userId,
+          amounts,
+          description: opts?.description || null,
+          idempotencyKey: idemKey,
+          intent: {
+            kind: "spend",
             sourceType,
-            opts?.sourceId || null,
-            opts?.description || null,
-            idemKey,
-          ],
-        );
+            sourceId: opts?.sourceId || null,
+          },
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length === 0) {
           return { success: false, reason: "insufficient_funds" };
@@ -531,24 +417,20 @@ class TokenEconomyService {
           let last: Record<string, unknown> | null = null;
           for (const { tokenType, amount } of credits) {
             if (amount <= 0) continue;
-            const column = tokenType.toLowerCase() as
-              | "spirit"
-              | "essence"
-              | "matter"
-              | "substance";
             const idemKey = opts?.idempotencyKey
               ? `${opts.idempotencyKey}:${tokenType}`
               : null;
-            const res = await client.query(creditTokensSql(column), [
+            const query = creditTokensSql({
               userId,
               tokenType,
               amount,
               sourceType,
-              opts?.sourceId || null,
-              opts?.description || null,
-              groupId,
-              idemKey,
-            ]);
+              sourceId: opts?.sourceId || null,
+              description: opts?.description || null,
+              transactionGroupId: groupId,
+              idempotencyKey: idemKey,
+            });
+            const res = await client.query(query.sql, query.values);
             if (res.rows.length > 0) last = res.rows[0];
           }
           return last;
@@ -560,6 +442,27 @@ class TokenEconomyService {
         // reflects any prior claim, so return the current balance.
         return this.getBalances(userId);
       } catch (error) {
+        // A unique violation on `uniq_daily_yield_per_user_day` is not a
+        // failure — it is the atomic backstop doing its job. The application
+        // guard in sync-credit §3b is a check-then-act SELECT, so two concurrent
+        // requests can both pass it; this index is what makes the second one
+        // lose. Returning null routes it to the same 409 "already_applied" the
+        // caller already produces for an idempotency replay, which is exactly
+        // the right answer: the day's yield IS already applied.
+        //
+        // Distinguished from a genuine fault so it is not logged as an error and
+        // does not read as an incident. 23505 = unique_violation.
+        const pgError = error as { code?: string; constraint?: string };
+        if (
+          pgError?.code === "23505" &&
+          pgError?.constraint === "uniq_daily_yield_per_user_day"
+        ) {
+          _logger.info(
+            `[TokenEconomy] daily-yield double-credit prevented by the DB for user ${userId} (${sourceType}); ` +
+              "the application guard lost a race and the index caught it.",
+          );
+          return null;
+        }
         _logger.error(
           "[TokenEconomy] creditMultipleTokens failed, rolled back:",
           error,
@@ -656,15 +559,12 @@ class TokenEconomyService {
    * 'main' updates last_daily_claim_at; 'agents' updates last_daily_claim_agents_at.
    */
   async updateDailyClaimTimestamp(userId: string, site: "main" | "agents" = "main"): Promise<void> {
-    const column = site === "agents" ? "last_daily_claim_agents_at" : "last_daily_claim_at";
     const db = await getDbModule();
 
     if (db) {
       try {
-        await db.executeQuery(
-          `UPDATE token_balances SET ${column} = now(), updated_at = now() WHERE user_id = $1`,
-          [userId],
-        );
+        const query = dailyClaimTimestampSql({ userId, site });
+        await db.executeQuery(query.sql, query.values);
       } catch (error) {
         _logger.error("[TokenEconomy] updateDailyClaimTimestamp failed:", error);
       }
@@ -708,12 +608,19 @@ class TokenEconomyService {
 
   /**
    * Transmute tokens: spend 3:1 ratio to convert one type to another.
+   *
+   * Pass `opts.idempotencyKey` to make a retry safe. Without one, a client that
+   * retries after a network error transmutes a SECOND time and is debited
+   * twice — every other money-moving path here takes a key for exactly that
+   * reason. With one, the unique index on `token_transactions.idempotency_key`
+   * rejects the duplicate and this returns null rather than charging again.
    */
   async transmute(
     userId: string,
     fromToken: TokenType,
     toToken: TokenType,
     targetAmount: number,
+    opts?: { idempotencyKey?: string },
   ): Promise<TransmutationResult | null> {
     if (fromToken === toToken) return null;
     if (targetAmount <= 0) return null;
@@ -726,56 +633,20 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          check_balance AS (
-            SELECT ${fromColumn} AS current_balance
-            FROM token_balances
-            WHERE user_id = $1
-          ),
-          updated AS (
-            UPDATE token_balances
-            SET ${fromColumn} = ${fromColumn} - $2,
-                ${toColumn} = ${toColumn} + $3,
-                updated_at = now()
-            WHERE user_id = $1
-              AND EXISTS (
-                SELECT 1
-                FROM check_balance
-                WHERE current_balance >= $2
-              )
-            RETURNING *
-          ),
-          debit_txn AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT
-              $4::uuid, $1, $5, -$2, 'transmutation', NULL, $6
-            FROM updated
-          ),
-          credit_txn AS (
-            INSERT INTO token_transactions
-              (transaction_group_id, user_id, token_type, amount, source_type, source_id, description)
-            SELECT
-              $4::uuid, $1, $7, $3, 'transmutation', NULL, $8
-            FROM updated
-          )
-          SELECT * FROM updated`,
-          [
-            userId,
-            costAmount,
-            targetAmount,
-            groupId,
-            fromToken,
-            `Transmute ${costAmount} ${fromToken} → ${targetAmount} ${toToken}`,
-            toToken,
-            `Received from transmutation of ${fromToken}`,
-          ],
-        );
+        const query = transmuteSql({
+          fromColumn,
+          toColumn,
+          userId,
+          costAmount,
+          targetAmount,
+          transactionGroupId: groupId,
+          fromToken,
+          toToken,
+          debitDescription: `Transmute ${costAmount} ${fromToken} → ${targetAmount} ${toToken}`,
+          creditDescription: `Received from transmutation of ${fromToken}`,
+          idempotencyKey: opts?.idempotencyKey ?? null,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length === 0) {
           return null;
@@ -787,12 +658,24 @@ class TokenEconomyService {
           newBalances: rowToBalances(result.rows[0]),
         };
       } catch (error) {
+        // Unique-violation on idempotency_key: this transmutation already ran.
+        // Returning null means the caller reports it as not-applied, which is
+        // correct — the point is that the user is NOT debited a second time.
+        if ((error as { code?: string })?.code === "23505") {
+          _logger.info(
+            "[TokenEconomy] Duplicate transmutation blocked by idempotency key:",
+            opts?.idempotencyKey,
+          );
+          return null;
+        }
         _logger.error("[TokenEconomy] transmute DB failed:", error);
         return null;
       }
     }
 
-    // Debit first
+    // In-memory fallback. No idempotency guard here: `debitTokens` takes no key
+    // and this path has no durable ledger to enforce one against. It runs only
+    // when there is no database at all.
     const afterDebit = await this.debitTokens(
       userId,
       fromToken,
@@ -842,18 +725,11 @@ class TokenEconomyService {
 
     if (db) {
       try {
+        const page = transactionsPageSql({ userId, limit, offset });
+        const count = transactionCountSql(userId);
         const [txnResult, countResult] = await Promise.all([
-          db.executeQuery(
-            `SELECT * FROM token_transactions
-             WHERE user_id = $1
-             ORDER BY created_at DESC
-             LIMIT $2 OFFSET $3`,
-            [userId, limit, offset],
-          ),
-          db.executeQuery(
-            `SELECT COUNT(*)::int AS total FROM token_transactions WHERE user_id = $1`,
-            [userId],
-          ),
+          db.executeQuery(page.sql, page.values),
+          db.executeQuery(count.sql, count.values),
         ]);
 
         return {
@@ -908,10 +784,8 @@ class TokenEconomyService {
     if (db) {
       try {
         // 1. Look up the shop item
-        const itemResult = await db.executeQuery(
-          `SELECT * FROM shop_items WHERE slug = $1 AND is_active = true`,
-          [shopItemSlug],
-        );
+        const lookup = shopItemForPurchaseSql(shopItemSlug);
+        const itemResult = await db.executeQuery(lookup.sql, lookup.values);
         const item = itemResult.rows[0];
         if (!item) {
           _logger.warn("[TokenEconomy] Shop item not found:", shopItemSlug);
@@ -920,12 +794,8 @@ class TokenEconomyService {
 
         // 2. Check if one-time item already purchased
         if (item.is_one_time) {
-          const existing = await db.executeQuery(
-            `SELECT 1 FROM user_purchases up
-             JOIN shop_items si ON si.id = up.shop_item_id
-             WHERE up.user_id = $1 AND si.slug = $2`,
-            [userId, shopItemSlug],
-          );
+          const owned = userOwnsItemSql({ userId, slug: shopItemSlug });
+          const existing = await db.executeQuery(owned.sql, owned.values);
           if (existing.rows.length > 0) {
             _logger.info("[TokenEconomy] One-time item already purchased:", shopItemSlug);
             return { success: false, reason: "already_owned" };
@@ -935,10 +805,8 @@ class TokenEconomyService {
         // 2b. Idempotency pre-check: reject duplicate submissions (client retry after network error)
         const idemKey = opts?.idempotencyKey ?? null;
         if (idemKey) {
-          const dup = await db.executeQuery(
-            `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
-            [`${idemKey}:%`],
-          );
+          const probe = idempotencyProbeSql(idemKey);
+          const dup = await db.executeQuery(probe.sql, probe.values);
           if (dup.rows.length > 0) {
             _logger.info("[TokenEconomy] Duplicate purchase blocked by idempotency key:", idemKey);
             return { success: false, reason: "already_applied" };
@@ -955,90 +823,15 @@ class TokenEconomyService {
           ? `Shop: ${item.title} (${opts.descriptionSuffix})`
           : `Shop: ${item.title}`;
 
-        // 3. Atomic: check balance + debit + record purchase in one CTE.
-        //    $8 is the idempotency key prefix (null when not provided).
-        //    Each debit_* INSERT includes idempotency_key = $8 || ':<TokenType>'
-        //    so the unique constraint on token_transactions.idempotency_key catches
-        //    any concurrent duplicate that slips past the pre-check above.
-        const result = await db.executeQuery(
-          `WITH ensure_balance AS (
-            INSERT INTO token_balances (user_id) VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-          ),
-          balance_check AS (
-            SELECT * FROM token_balances WHERE user_id = $1
-            AND spirit >= $2 AND essence >= $3 AND matter >= $4 AND substance >= $5
-          ),
-          new_group AS (
-            SELECT uuid_generate_v4() AS gid
-          ),
-          debit_spirit AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Spirit', -$2, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Spirit' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $2 > 0
-            RETURNING id
-          ),
-          debit_essence AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Essence', -$3, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Essence' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $3 > 0
-            RETURNING id
-          ),
-          debit_matter AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Matter', -$4, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Matter' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $4 > 0
-            RETURNING id
-          ),
-          debit_substance AS (
-            INSERT INTO token_transactions (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-            SELECT g.gid, $1, 'Substance', -$5, 'premium_purchase', $6, $7,
-                   CASE WHEN $8::text IS NOT NULL THEN $8 || ':Substance' ELSE NULL END
-            FROM balance_check bc, new_group g
-            WHERE $5 > 0
-            RETURNING id
-          ),
-          updated AS (
-            -- Qualify token_balances.<col> on the right-hand side of each
-            -- SET so the planner doesn't see the bare column name as
-            -- ambiguous between token_balances and balance_check (both
-            -- have spirit/essence/matter/substance columns). Without
-            -- these qualifiers Postgres raises 42702 and the whole CTE
-            -- rolls back, surfacing as purchase_failed in the caller.
-            UPDATE token_balances
-            SET spirit = token_balances.spirit - $2,
-                essence = token_balances.essence - $3,
-                matter = token_balances.matter - $4,
-                substance = token_balances.substance - $5,
-                updated_at = now()
-            FROM balance_check bc
-            WHERE token_balances.user_id = $1
-            RETURNING token_balances.*
-          ),
-          purchase AS (
-            INSERT INTO user_purchases (user_id, shop_item_id, transaction_group_id)
-            SELECT $1, $6::uuid, g.gid FROM updated u, new_group g
-            RETURNING transaction_group_id
-          )
-          SELECT u.*, p.transaction_group_id AS txn_group_id
-          FROM updated u, purchase p`,
-          [
-            userId,
-            costs.spirit,
-            costs.essence,
-            costs.matter,
-            costs.substance,
-            item.id,
-            description,
-            idemKey,
-          ],
-        );
+        // 3. Atomic: check balance + debit + record purchase in one statement.
+        const query = debitAllTokensSql({
+          userId,
+          amounts: costs,
+          description,
+          idempotencyKey: idemKey,
+          intent: { kind: "purchase", shopItemId: item.id },
+        });
+        const result = await db.executeQuery(query.sql, query.values);
 
         if (result.rows.length === 0) {
           _logger.info("[TokenEconomy] Insufficient funds for:", shopItemSlug);
@@ -1080,18 +873,12 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const dateCondition = maxAgeDays
-          ? `AND up.purchased_at >= now() - interval '${maxAgeDays} days'`
-          : "";
-
-        const result = await db.executeQuery(
-          `SELECT 1 FROM user_purchases up
-           JOIN shop_items si ON si.id = up.shop_item_id
-           WHERE up.user_id = $1 AND si.slug = $2
-           ${dateCondition}
-           LIMIT 1`,
-          [userId, shopItemSlug],
-        );
+        const query = hasActivePurchaseSql({
+          userId,
+          slug: shopItemSlug,
+          maxAgeDays,
+        });
+        const result = await db.executeQuery(query.sql, query.values);
         return result.rows.length > 0;
       } catch (error) {
         _logger.error("[TokenEconomy] hasActivePurchase failed:", error);
@@ -1121,13 +908,8 @@ class TokenEconomyService {
 
     if (db) {
       try {
-        const result = await db.executeQuery(
-          `SELECT id, slug, title, description, category,
-                  cost_spirit, cost_essence, cost_matter, cost_substance,
-                  is_one_time, is_active
-           FROM shop_items WHERE slug = $1`,
-          [slug],
-        );
+        const query = shopItemDetailSql(slug);
+        const result = await db.executeQuery(query.sql, query.values);
         const row = result.rows[0];
         if (!row) return null;
         return {
@@ -1172,29 +954,8 @@ class TokenEconomyService {
     if (!db) return [];
 
     try {
-      const where: string[] = [];
-      const params: unknown[] = [];
-      let idx = 1;
-
-      if (opts?.category) {
-        where.push(`category = $${idx++}`);
-        params.push(opts.category);
-      }
-      if (opts?.onlyActive !== false) {
-        where.push(`is_active = true`);
-      }
-
-      const whereClause = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
-
-      const result = await db.executeQuery(
-        `SELECT id, slug, title, description, category,
-                cost_spirit, cost_essence, cost_matter, cost_substance,
-                is_one_time, is_active, sort_order
-         FROM shop_items
-         ${whereClause}
-         ORDER BY sort_order ASC, title ASC`,
-        params,
-      );
+      const query = shopItemsSql(opts);
+      const result = await db.executeQuery(query.sql, query.values);
 
       return result.rows.map(row => ({
         id: row.id,

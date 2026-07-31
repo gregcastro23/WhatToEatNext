@@ -1,8 +1,11 @@
-import { calculateKinetics } from "@/calculations/kinetics";
 import { ALCHEMICAL_PILLARS, COOKING_METHOD_PILLAR_MAPPING } from "@/constants/alchemicalPillars";
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  calculateMonica,
+  thermoQuotient,
+} from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
-import type { KineticMetrics } from "@/types/kinetics";
 
 /**
  * Monica/Kalchm Constant Calculation System
@@ -22,14 +25,6 @@ export interface ThermodynamicMetrics {
   kalchm: number;
   monica: number;
 }
-export interface EnhancedAlchemicalResult {
-  alchemicalProperties: AlchemicalProperties;
-  elementalProperties: ElementalProperties;
-  thermodynamicMetrics: ThermodynamicMetrics;
-  compatibilityScore: number;
-  confidence: number;
-}
-
 interface ThermodynamicInputs {
   spirit: number;
   substance: number;
@@ -53,7 +48,7 @@ export function calculateHeat(
     substance + essence + matter + water + air + earth,
     2,
   );
-  return denominator > 0 ? numerator / denominator : 0;
+  return thermoQuotient(numerator, denominator);
 }
 /**
  * Calculate Entropy: Measures disorder (active properties vs passive properties)
@@ -68,7 +63,7 @@ export function calculateEntropy(
     Math.pow(fire, 2) +
     Math.pow(air, 2);
   const denominator = Math.pow(essence + matter + earth + water, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  return thermoQuotient(numerator, denominator);
 }
 /**
  * Calculate Reactivity: Measures potential for change (volatile properties vs stable properties)
@@ -85,7 +80,7 @@ export function calculateReactivity(
     Math.pow(air, 2) +
     Math.pow(water, 2);
   const denominator = Math.pow(matter + earth, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  return thermoQuotient(numerator, denominator);
 }
 /**
  * Calculate Greg's Energy: Overall energy balance
@@ -108,463 +103,82 @@ export function calculateKAlchm(
   matter: number,
   substance: number,
 ): number {
-  // Ensure positive values and handle edge cases
-  const safeSpirit = Math.max(0.01, spirit);
-  const safeEssence = Math.max(0.01, essence);
-  const safeMatter = Math.max(0.01, matter);
-  const safeSubstance = Math.max(0.01, substance);
-  const numerator =
-    Math.pow(safeSpirit, safeSpirit) * Math.pow(safeEssence, safeEssence);
-  const denominator =
-    Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance);
-  return denominator > 0 ? numerator / denominator : 1;
+  // Delegates to THE canonical engine. This was the most-used stray copy — 11
+  // files reach it, five of them React components — and it floored every axis
+  // at 0.01, inflating kalchm by exactly 0.01^(-0.01) − 1 = +4.7129% per
+  // imbalanced zeroed axis.
+  //
+  // It did NOT corrupt the degeneracy classification (unlike the 0.1 floor in
+  // core/kalchmEngine.ts): the most |ln k| it could manufacture from a
+  // degenerate chart is 2 × 0.04605170185988091 = 0.0921, still inside the
+  // MONICA_LN_EPSILON band of 0.10939293407637272. So the damage was confined
+  // to magnitude, and healthy charts were already bit-for-bit correct.
+  return canonicalCalculateKalchm({
+    Spirit: spirit,
+    Essence: essence,
+    Matter: matter,
+    Substance: substance,
+  });
 }
 /**
  * Calculate Monica Constant: Dynamic system constant relating energy to equilibrium
  * Formula: M = -Greg's Energy / (Reactivity × ln(K_alchm))
+ *
+ * §14d — DELEGATES to the canonical engine. The name and signature are kept so
+ * no importer changes.
+ *
+ * It previously reimplemented the formula. Measured, that reimplementation agreed
+ * with the canonical engine EXACTLY on healthy input (−2.705053 to the last
+ * digit), so this delegation moves no healthy value. It differed only in failure
+ * handling, in two ways that were both wrong:
+ *
+ *   1. It returned a hardcoded `1.0` for kalchm ≤ 0, ln(kalchm) === 0, or
+ *      reactivity === 0 — its own comment called that a "Default neutral value".
+ *      1.0 is neither neutral (monica is signed and unbounded) nor derived from
+ *      anything.
+ *   2. It had NO near-degenerate band, so at kalchm = 1.0001 — ordinary data, not
+ *      an edge case — it returned −18750.94 where the canonical engine returns φ.
+ *      Both values are finite, so nothing threw and no consumer could tell.
+ *
+ * Pinned before and after in
+ * `src/__tests__/thermodynamicDegenerateCharacterisation.test.ts`.
  */
 export function calculateMonicaConstant(
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
 ): number {
-  const lnK = Math.log(K_alchm);
-  if (K_alchm > 0 && lnK !== 0 && reactivity !== 0) {
-    return -gregsEnergy / (reactivity * lnK);
-  } else {
-    return 1.0; // Default neutral value
-  }
+  return calculateMonica(gregsEnergy, reactivity, K_alchm);
 }
 // ========== HELPER FUNCTIONS ==========
-/**
- * Convert elemental properties to approximated alchemical properties
- *
- * ⚠️ WARNING: This is an APPROXIMATION and NOT the correct method!
- *
- * The ONLY correct way to calculate ESMS (Spirit, Essence, Matter, Substance)
- * is through planetary positions using calculateAlchemicalFromPlanets().
- *
- * This function should ONLY be used as a fallback when planetary data is
- * completely unavailable. It provides a rough approximation based on elemental
- * correlations, but lacks the precision and accuracy of the true alchemical method.
- *
- * @deprecated Prefer calculateAlchemicalFromPlanets() whenever possible
- * @param elemental - Elemental properties (Fire, Water, Earth, Air)
- * @returns Approximated alchemical properties (NOT accurate)
- */
-export function elementalToAlchemicalApproximation(
-  elemental: ElementalProperties,
-): AlchemicalProperties {
-  return {
-    Spirit: elemental.Fire + ((elemental as any)?.Air || 0) * 0.2, // Rough approximation
-    Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Rough approximation
-    Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Rough approximation
-    Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2, // Rough approximation
-  };
-}
-/**
- * Legacy alias for backward compatibility
- * @deprecated Use elementalToAlchemicalApproximation() or better yet, calculateAlchemicalFromPlanets()
- */
-export function elementalToAlchemical(
-  elemental: ElementalProperties,
-): AlchemicalProperties {
-  console.warn(
-    "elementalToAlchemical() is deprecated. Use calculateAlchemicalFromPlanets() for accurate ESMS values.",
-  );
-  return elementalToAlchemicalApproximation(elemental);
-}
-/**
- * Calculate complete thermodynamic metrics from properties
- */
-export function calculateThermodynamicMetrics(
-  alchemical: AlchemicalProperties,
-  elemental: ElementalProperties,
-): ThermodynamicMetrics {
-  // Defensive checks for undefined/null inputs
-  if (!alchemical || !elemental) {
-    return {
-      heat: 0.08,
-      entropy: 0.15,
-      reactivity: 0.45,
-      gregsEnergy: -0.02,
-      kalchm: 2.5,
-      monica: 1.0,
-    };
-  }
-  // Defensive extraction with fallback values
-  const Spirit =
-    typeof alchemical.Spirit === "number" && !isNaN(alchemical.Spirit)
-      ? alchemical.Spirit
-      : 4;
-  const Essence =
-    typeof alchemical.Essence === "number" && !isNaN(alchemical.Essence)
-      ? alchemical.Essence
-      : 4;
-  const Matter =
-    typeof alchemical.Matter === "number" && !isNaN(alchemical.Matter)
-      ? alchemical.Matter
-      : 4;
-  const Substance =
-    typeof alchemical.Substance === "number" && !isNaN(alchemical.Substance)
-      ? alchemical.Substance
-      : 2;
-  const Fire =
-    typeof elemental.Fire === "number" && !isNaN(elemental.Fire)
-      ? elemental.Fire
-      : 0.25;
-  const Water =
-    typeof elemental.Water === "number" && !isNaN(elemental.Water)
-      ? elemental.Water
-      : 0.25;
-  const Air =
-    typeof elemental.Air === "number" && !isNaN(elemental.Air)
-      ? elemental.Air
-      : 0.25;
-  const Earth =
-    typeof elemental.Earth === "number" && !isNaN(elemental.Earth)
-      ? elemental.Earth
-      : 0.25;
-  const thermodynamicInputs = {
-    spirit: Spirit,
-    substance: Substance,
-    essence: Essence,
-    matter: Matter,
-    fire: Fire,
-    water: Water,
-    air: Air,
-    earth: Earth,
-  };
-  const heat = calculateHeat(thermodynamicInputs);
-  const entropy = calculateEntropy(thermodynamicInputs);
-  const reactivity = calculateReactivity(thermodynamicInputs);
-  const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
-  const kalchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
-  const monica = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
-  return {
-    heat,
-    entropy,
-    reactivity,
-    gregsEnergy,
-    kalchm,
-    monica,
-  };
-}
-/**
- * Calculate compatibility between two sets of properties using Monica/Kalchm metrics
- *
- * ⚠️ WARNING: If alchemical properties are not provided, this function will use
- * an approximation. For accurate results, provide alchemical properties calculated
- * from planetary positions using calculateAlchemicalFromPlanets().
- */
-export function calculateMonicaKalchmCompatibility(
-  properties1: {
-    alchemical?: AlchemicalProperties;
-    elemental: ElementalProperties;
-  },
-  properties2: {
-    alchemical?: AlchemicalProperties;
-    elemental: ElementalProperties;
-  },
-): number {
-  // Convert elemental to alchemical if needed (using approximation as fallback)
-  const alchemical1 =
-    properties1.alchemical ||
-    elementalToAlchemicalApproximation(properties1.elemental);
-  const alchemical2 =
-    properties2.alchemical ||
-    elementalToAlchemicalApproximation(properties2.elemental);
-  // Calculate thermodynamic metrics for both
-  const metrics1 = calculateThermodynamicMetrics(
-    alchemical1,
-    properties1.elemental,
-  );
-  const metrics2 = calculateThermodynamicMetrics(
-    alchemical2,
-    properties2.elemental,
-  );
-  // Calculate compatibility based on Monica constant similarity
-  const monicaDiff = Math.abs(metrics1.monica - metrics2.monica);
-  const kalchmRatio =
-    Math.min(metrics1.kalchm, metrics2.kalchm) /
-    Math.max(metrics1.kalchm, metrics2.kalchm);
-  const energyHarmony =
-    1 - Math.abs(metrics1.gregsEnergy - metrics2.gregsEnergy) / 10; // Normalize to 0-1
-  // Weighted compatibility score
-  const compatibility =
-    (1 - Math.min(monicaDiff / 51)) * 0.4 + // Monica similarity (40%)
-    kalchmRatio * 0.3 + // Kalchm harmony (30%)
-    Math.max(0, energyHarmony) * 0.3; // Energy harmony (30%)
-  return Math.max(0, Math.min(1, compatibility));
-}
-/**
- * Calculate moment Monica constant from current elemental state
- * Used for real-time compatibility calculations
- *
- * ⚠️ WARNING: This function uses an approximation to derive ESMS from elementals.
- * For accurate Monica constants, use planetary positions via calculateAlchemicalFromPlanets().
- *
- * @deprecated Prefer calculating Monica from planetary positions when available
- */
-export function calculateMomentMonicaConstant(
-  elementalProfile: ElementalProperties,
-): number {
-  const alchemical = elementalToAlchemicalApproximation(elementalProfile);
-  const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile);
-  return metrics.monica;
-}
-/**
- * Calculate Kalchm harmony for multiple items (e.g., cuisine combinations)
- */
-export function calculateKalchmHarmony(
-  items: Array<{
-    elemental: ElementalProperties;
-    alchemical?: AlchemicalProperties;
-  }>,
-): number {
-  if (items.length === 0) return 0.5;
-  if (items.length === 1) return 0.8;
-  let totalHarmony = 0;
-  let comparisons = 0;
-  // Compare each item with every other item
-  for (let i = 0; i < items.length; i++) {
-    for (let j = i + 1; j < items.length; j++) {
-      const compatibility = calculateMonicaKalchmCompatibility(
-        items[i],
-        items[j],
-      );
-      totalHarmony += compatibility;
-      comparisons++;
-    }
-  }
-  return comparisons > 0 ? totalHarmony / comparisons : 0.5;
-}
-/**
- * Enhanced analysis with confidence scoring
- */
-export function performEnhancedAnalysis(
-  item: { elemental: ElementalProperties; alchemical?: AlchemicalProperties },
-  referenceProfile: ElementalProperties,
-): EnhancedAlchemicalResult {
-  const alchemical = item.alchemical || elementalToAlchemical(item.elemental);
-  const thermodynamicMetrics = calculateThermodynamicMetrics(
-    alchemical,
-    item.elemental,
-  );
-  const compatibilityScore = calculateMonicaKalchmCompatibility(
-    { alchemical, elemental: item.elemental },
-    { elemental: referenceProfile },
-  );
-  // Calculate confidence based on metric stability
-  const confidence = Math.min(
-    1,
-    Math.max(
-      0.3,
-      1 - Math.abs(thermodynamicMetrics.monica - 1) / 5, // Higher confidence when Monica is closer to 1
-    ),
-  );
-  return {
-    alchemicalProperties: alchemical,
-    elementalProperties: item.elemental,
-    thermodynamicMetrics,
-    compatibilityScore,
-    confidence,
-  };
-}
-// ========== EXPORT DEFAULT CALCULATION SUITE ==========
-export const MonicaKalchmCalculations = {
-  calculateHeat,
-  calculateEntropy,
-  calculateReactivity,
-  calculateGregsEnergy,
-  calculateKAlchm,
-  calculateMonicaConstant,
-  calculateThermodynamicMetrics,
-  calculateMonicaKalchmCompatibility,
-  calculateMomentMonicaConstant,
-  calculateKalchmHarmony,
-  performEnhancedAnalysis,
-  elementalToAlchemical,
-  calculateMonicaOptimizationScore,
-  buildMonicaOptimization,
-};
-// ========== KINETICS-ENHANCED FUNCTIONS ==========
-/**
- * Calculate Monica constant with B-field influence (electromagnetic kinetics)
- */
-export function calculateMonicaWithBField(
-  gregsEnergy: number,
-  reactivity: number,
-  K_alchm: number,
-  kinetics: KineticMetrics,
-): number {
-  const baseMonica = calculateMonicaConstant(gregsEnergy, reactivity, K_alchm);
-  // Apply B-field (Monica field) modulation
-  const kineticsData = kinetics as any;
-  const monicaField = kineticsData.monica || 1.0;
-  const fieldInfluence = Math.pow(monicaField, 0.3); // Cube root for subtle influence
-  // Modulate based on force classification
-  let forceMultiplier = 1.0;
-  if (kinetics.forceClassification === "accelerating") {
-    forceMultiplier = 1.2; // Enhance accelerating systems
-  } else if (kinetics.forceClassification === "decelerating") {
-    forceMultiplier = 0.8; // Dampen decelerating systems
-  }
-  return baseMonica * fieldInfluence * forceMultiplier;
-}
-/**
- * Calculate Kalchm with kinetics enhancement
- */
-export function calculateKalchmWithKinetics(
-  alchemical: AlchemicalProperties,
-  kinetics: KineticMetrics,
-): number {
-  const baseKalchm = calculateKAlchm(
-    alchemical.Spirit,
-    alchemical.Essence,
-    alchemical.Matter,
-    alchemical.Substance,
-  );
-  // Apply momentum boost to Kalchm calculation
-  const momentumFactor =
-    1 + ((kinetics.momentum as unknown as number) || 0) * 0.1;
-  // Apply aspect phase influence
-  let aspectMultiplier = 1.0;
-  switch (kinetics.aspectPhase) {
-    case "conjunction" as any:
-      aspectMultiplier = 1.3; // Maximum enhancement
-      break;
-    case "opposition" as any:
-      aspectMultiplier = 1.1; // Moderate enhancement
-      break;
-    case "trine" as any:
-      aspectMultiplier = 1.15; // Harmonic enhancement
-      break;
-    case "square" as any:
-      aspectMultiplier = 0.9; // Mild reduction
-      break;
-  }
-  return baseKalchm * momentumFactor * aspectMultiplier;
-}
-/**
- * Enhanced thermodynamic metrics with kinetics
- */
-export function calculateThermodynamicMetricsWithKinetics(
-  alchemical: AlchemicalProperties,
-  elemental: ElementalProperties,
-  planetaryPositions: { [planet: string]: string },
-): ThermodynamicMetrics {
-  const baseMetrics = calculateThermodynamicMetrics(alchemical, elemental);
-  try {
-    const kinetics = calculateKinetics(planetaryPositions as any);
-    // Enhance metrics with kinetics
-    const kineticsData = kinetics as any;
-    const enhancedMetrics: ThermodynamicMetrics = {
-      heat: baseMetrics.heat * (1 + kineticsData.velocityBoost * 0.1),
-      entropy:
-        baseMetrics.entropy *
-        ((kinetics.aspectPhase as any) === "square" ? 1.2 : 0.9),
-      reactivity: baseMetrics.reactivity * (kinetics.forceMagnitude / 5 + 0.8),
-      gregsEnergy: baseMetrics.gregsEnergy,
-      kalchm: calculateKalchmWithKinetics(alchemical, kinetics),
-      monica: calculateMonicaWithBField(
-        baseMetrics.gregsEnergy,
-        baseMetrics.reactivity,
-        baseMetrics.kalchm,
-        kinetics,
-      ),
-    };
-    return enhancedMetrics;
-  } catch (_error) {
-    // Return base metrics if kinetics calculation fails
-    return baseMetrics;
-  }
-}
-/**
- * Calculate kinetics-influenced compatibility
- */
-export function calculateKineticsCompatibility(
-  properties1: {
-    alchemical?: AlchemicalProperties;
-    elemental: ElementalProperties;
-  },
-  properties2: {
-    alchemical?: AlchemicalProperties;
-    elemental: ElementalProperties;
-  },
-  planetaryPositions: { [planet: string]: string },
-): number {
-  const baseCompatibility = calculateMonicaKalchmCompatibility(
-    properties1,
-    properties2,
-  );
-  try {
-    const kinetics = calculateKinetics(planetaryPositions as any);
-    // Apply power conservation factor
-    const powerFactor = Math.min(kinetics.power || 50, 100) / 100; // Normalize to 0-1
-    // Apply thermal alignment bonus
-    let thermalBonus = 0;
-    if (kinetics.thermalDirection === "heating") {
-      // Check if either has high fire content
-      const fire1 = properties1.elemental.Fire || 0;
-      const fire2 = properties2.elemental.Fire || 0;
-      thermalBonus = Math.max(fire1, fire2) * 0.1;
-    } else if (kinetics.thermalDirection === "cooling") {
-      // Check if either has high water content
-      const water1 = properties1.elemental.Water || 0;
-      const water2 = properties2.elemental.Water || 0;
-      thermalBonus = Math.max(water1, water2) * 0.1;
-    }
-    return Math.min(1.0, baseCompatibility + powerFactor * 0.2 + thermalBonus);
-  } catch (_error) {
-    // Return base compatibility if kinetics fails
-    return baseCompatibility;
-  }
-}
-/**
- * Enhanced analysis with kinetics integration
- */
-export function performEnhancedAnalysisWithKinetics(
-  item: { elemental: ElementalProperties; alchemical?: AlchemicalProperties },
-  referenceProfile: ElementalProperties,
-  planetaryPositions: { [planet: string]: string },
-): EnhancedAlchemicalResult {
-  const baseResult = performEnhancedAnalysis(item, referenceProfile);
-  try {
-    const kinetics = calculateKinetics(planetaryPositions as any);
-    // Enhance thermodynamic metrics with kinetics
-    const enhancedMetrics = calculateThermodynamicMetricsWithKinetics(
-      baseResult.alchemicalProperties,
-      baseResult.elementalProperties,
-      planetaryPositions,
-    );
-    // Enhance compatibility with kinetics
-    const enhancedCompatibility = calculateKineticsCompatibility(
-      {
-        alchemical: baseResult.alchemicalProperties,
-        elemental: baseResult.elementalProperties,
-      },
-      { elemental: referenceProfile },
-      planetaryPositions,
-    );
-    // Increase confidence based on kinetics stability
-    const kineticsConfidence =
-      (kinetics.forceClassification as any) === "stable" ? 0.1 : 0;
-    const enhancedConfidence = Math.min(
-      1.0,
-      baseResult.confidence + kineticsConfidence,
-    );
-    return {
-      ...baseResult,
-      thermodynamicMetrics: enhancedMetrics,
-      compatibilityScore: enhancedCompatibility,
-      confidence: enhancedConfidence,
-    };
-  } catch (_error) {
-    // Return base result if kinetics enhancement fails
-    return baseResult;
-  }
-}
+//
+// `elementalToAlchemicalApproximation` was DELETED here. It double-counted
+// Earth: `elemental.Earth` appeared at FULL weight in both Matter and
+// Substance, giving Earth a transfer coefficient of 2.0 where every other
+// element sat near 1. Its three call sites now use the canonical
+// `deriveAlchemicalFromElemental` (@/data/unified/alchemicalCalculations).
+// Do not reintroduce it — see docs/design/home-living-hero-stitch-prompt.md.
+// `calculateThermodynamicMetrics` was DELETED here — §18k k7.
+//
+// It was the repo's SECOND six-field thermodynamic composite, and it fabricated
+// twice over:
+//
+//   1. `if (!alchemical || !elemental) return {heat: 0.08, entropy: 0.15,
+//      reactivity: 0.45, gregsEnergy: -0.02, kalchm: 2.5, monica: 1.0}` — six
+//      invented numbers, none derived from anything, returned as if measured.
+//   2. Per-field substitution when a value was missing or NaN:
+//      `Spirit/Essence/Matter -> 4`, `Substance -> 2`, every element -> `0.25`.
+//      A caller could not distinguish invented physics from real physics.
+//
+// All nine consumers now call `performAlchemicalAnalysis` in
+// `@/data/unified/alchemicalCalculations`, which returns the same six fields and
+// THROWS on malformed input instead (`assertThermodynamicInput`).
+//
+// The four primitives above (`calculateHeat`/`Entropy`/`Reactivity`/
+// `GregsEnergy`) are RETAINED because the Monica scoring block below still uses
+// them; they now share canonical's `thermoQuotient`, so their former
+// `den > 0 ? n/d : 0` pole — which returned 0 where the true limit is +Infinity
+// — is gone and they agree with canonical bit for bit.
 // ========== MONICA SCORING SYSTEM (0-100 Scale) ==========
 /**
  * Result of the Monica scoring algorithm for a recipe
@@ -861,4 +475,3 @@ export function buildMonicaOptimization(
     planetaryTimingRecommendations,
   };
 }
-export default MonicaKalchmCalculations;

@@ -43,6 +43,20 @@ export async function POST(request: NextRequest) {
   }
   const userId = access.userId;
 
+  // The flag gates the WHOLE route, not just the on-chain leg.
+  //
+  // This route previously had no `recipeNftEnabled()` check at all. With the
+  // flag off, `mintRecipeOnChain` returns `pending_chain` (minter.ts) and the
+  // ledger row was still written — so the permanent `content_hash` UNIQUE claim
+  // was taken on a deployment that cannot actually mint. Reject before the ESMS
+  // debit, so there is nothing to refund.
+  if (!recipeNftEnabled()) {
+    return NextResponse.json(
+      { error: "mint_unavailable", detail: "Recipe NFT minting is not enabled on this deployment." },
+      { status: 503 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

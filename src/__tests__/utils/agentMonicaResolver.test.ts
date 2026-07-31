@@ -5,7 +5,9 @@
  */
 import {
   agentMonicaFromName,
+  agentMonicaWithMethod,
   parseAgentPlacement,
+  SIGN_MIDPOINT_DEGREE,
 } from "@/utils/agentMonicaResolver";
 
 describe("parseAgentPlacement", () => {
@@ -73,6 +75,10 @@ describe("parseAgentPlacement", () => {
   });
 
   it("returns null for people, test rows and junk — never guesses", () => {
+    // "Mars Gemini" used to live in this list. It is NOT junk: the name states a
+    // planet and a sign, both validated against the live tables, so only the
+    // degree is missing and §18k k29 supplies it. Everything below is missing
+    // the planet, the sign, or both — nothing in the name constrains them.
     for (const name of [
       "Edgar Allan Poe",
       "Wolfgang Amadeus Mozart",
@@ -80,11 +86,93 @@ describe("parseAgentPlacement", () => {
       "Pa Prod Smoke 1779396999",
       "Confucius (Kong Qiu)",
       "Alexander the Great",
-      "Mars Gemini", // no degree
       "",
     ]) {
       expect(parseAgentPlacement(name)).toBeNull();
     }
+  });
+
+  // §18k k29. A one-body agent with no chart and no degree resolves at the mean
+  // of the 30 degrees of its sign — the existing single-body construction at one
+  // more degree value, NOT a fourth construction.
+  describe("sign-level agents (no degree in the name) — §18k k29", () => {
+    it("places them at the derived sign midpoint", () => {
+      // DERIVED as the mean of the integers 0..29, the range agent names
+      // actually carry (MEASURED n=3240, min 0 max 29). Exact, and it
+      // round-trips — 14.5 is representable as a double (k10).
+      expect(SIGN_MIDPOINT_DEGREE).toBe(14.5);
+      expect(Number(String(SIGN_MIDPOINT_DEGREE))).toBe(SIGN_MIDPOINT_DEGREE);
+
+      expect(parseAgentPlacement("Mars Gemini")).toEqual({
+        kind: "single",
+        planet: "Mars",
+        sign: "Gemini",
+        degree: 14.5,
+      });
+      expect(parseAgentPlacement("Moon Cancer")).toEqual({
+        kind: "single",
+        planet: "Moon",
+        sign: "Cancer",
+        degree: 14.5,
+      });
+    });
+
+    it("produces a real single-body monica for the two stuck production rows", () => {
+      // The exact values that will be written to production. Pinned so a change
+      // to the vessel, the dignity table or the sectarian ESMS fails here rather
+      // than silently re-valuing stored rows.
+      expect(agentMonicaWithMethod("Mars Gemini")).toEqual({
+        method: "single-body",
+        monica: {
+          diurnal: 0.23632718765038255,
+          nocturnal: -0.21159527266371464,
+          combined: 0.012365957493333954,
+        },
+      });
+      expect(agentMonicaWithMethod("Moon Cancer")).toEqual({
+        method: "single-body",
+        monica: {
+          diurnal: 0.08982183448164283,
+          nocturnal: -0.06616940474149076,
+          combined: 0.011826214870076034,
+        },
+      });
+    });
+
+    it("⚠️ rejects 15 as the midpoint — it computes a degenerate zero", () => {
+      // This is the whole reason the constant is 14.5 and not the intuitive
+      // "midpoint of a 30° sign". `groundingVessel` FLOORS its argument, so 15.0
+      // and 15.5 both select pillar (15-1)%14 = 0, Solution {0,2,2,0} — one of
+      // only five degrees in thirty that yield exactly 0.
+      //
+      // If this test ever goes green with a nonzero value, the pillar mapping
+      // moved and the choice of 14.5 needs re-deriving, not re-typing.
+      expect(agentMonicaWithMethod("Moon Cancer 15")?.monica.combined).toBe(0);
+
+      // CONTROL: the zero is a property of degree 15, not of this agent. The
+      // shipped midpoint on the same row is a real number.
+      expect(agentMonicaWithMethod("Moon Cancer")?.monica.combined).toBe(
+        0.011826214870076034,
+      );
+
+      // CONTROL: exactly five of the thirty degrees do this, so a mapping that
+      // started zeroing everything (or nothing) fails here.
+      const zeroDegrees = Array.from({ length: 30 }, (_, d) => d).filter(
+        (d) => agentMonicaWithMethod(`Moon Cancer ${d}`)?.monica.combined === 0,
+      );
+      expect(zeroDegrees).toEqual([1, 7, 15, 21, 29]);
+    });
+
+    it("never overrides a degree the name actually states", () => {
+      // The midpoint branch is last, so every degree-bearing form still wins.
+      expect(parseAgentPlacement("Mars Gemini 21")).toMatchObject({ degree: 21 });
+      expect(parseAgentPlacement("Mars in Gemini 3 Degree")).toMatchObject({
+        degree: 3,
+      });
+      expect(parseAgentPlacement("Moon Phase Full Moon 121")).toMatchObject({
+        kind: "phase",
+      });
+    });
   });
 
   it("tolerates casing and extra whitespace", () => {

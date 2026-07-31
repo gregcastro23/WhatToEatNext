@@ -1,7 +1,8 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
-import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
+import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
+import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -114,9 +115,19 @@ export async function POST(req: NextRequest) {
   ].filter(Boolean).join(" ");
 
   try {
-    // 1. Look up user — auto-provision agentic emails
-    let userResult = await executeQuery<{ id: string }>(
-      "SELECT id FROM users WHERE email = $1 LIMIT 1",
+    // 1. Look up user — auto-provision agentic emails.
+    //
+    // `profile_name` is selected because the monica below MUST be resolved from
+    // the name this row actually STORES. `checkAgentMonicaDrift.ts` re-derives
+    // every value from `user_profiles.name`, so a writer that classified some
+    // other string would be reported as drift on a row it wrote correctly.
+    /** The name the row carries — the string the monica must be resolved from. */
+    let storedName: string | null = null;
+    let userResult = await executeQuery<{ id: string; profile_name: string | null }>(
+      `SELECT u.id, up.name AS profile_name
+         FROM users u
+         LEFT JOIN user_profiles up ON up.user_id = u.id
+        WHERE u.email = $1 LIMIT 1`,
       [email],
     );
 
@@ -125,7 +136,8 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ok: false, reason: "user_not_found" }, { status: 404 });
       }
       const displayName = deriveAgentDisplayName(email, metadata);
-      userResult = await executeQuery<{ id: string }>(
+      storedName = displayName;
+      userResult = await executeQuery<{ id: string; profile_name: string | null }>(
         `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, name, profile, preferences, login_count, created_at, updated_at)
          VALUES ($1, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true, $2, $3, '{}'::jsonb, 0, now(), now())
          ON CONFLICT (email) DO UPDATE SET is_agent = true
@@ -142,6 +154,7 @@ export async function POST(req: NextRequest) {
       );
     }
     const userId = userResult.rows[0].id;
+    storedName ??= userResult.rows[0].profile_name;
 
     // 1.5 Update Agent Profile if metadata present.
     // Treat the payload as Record<string, unknown> — the planetary-agents
@@ -171,28 +184,100 @@ export async function POST(req: NextRequest) {
       // OWN name, never taken from the AlchmAgentsETH payload: the old
       // `COALESCE(payload.monicaConstant, ...)` is how 3600 rows came to hold
       // round (0,1) sentinels that were never a thermodynamic monica at all.
-      // A name that is not a single-body placement yields null, which the
-      // COALESCE below reads as "leave the stored value alone".
-      const agentName = (ap.name as string | undefined) ?? null;
-      const resolvedMonica = agentName ? agentMonicaFromName(agentName) : null;
+      // A name that resolves to no construction yields null, which the COALESCE
+      // below reads as "leave the stored value alone".
+      //
+      // ── Two bugs lived in the two lines this replaces ────────────────────
+      //
+      //     const agentName = (ap.name as string | undefined) ?? null;
+      //     const resolvedMonica = agentName ? agentMonicaFromName(agentName) : null;
+      //
+      // 1. WRONG INPUT. `ap.name` is an optional payload field, while the name
+      //    this endpoint DERIVES and STORES comes from `deriveAgentDisplayName`
+      //    (the email local-part, title-cased). When the producer omits
+      //    `agentProfile.name` — which it evidently does — `agentName` was null,
+      //    so no monica was computed, while `hasNatalChart` was evaluated from a
+      //    different field and the chart WAS written. Hence rows with a chart, a
+      //    perfectly resolvable stored name, and a NULL monica.
+      // 2. MISSING CONSTRUCTION. `agentMonicaFromName` covers single-body only
+      //    and returns null for a Moon-phase agent, so every phase agent was
+      //    inserted unclassified even when a name was supplied.
+      //
+      // `[MEASURED 2026-07-28]` 110 agents were sitting unclassified: 92 phase
+      // (bug 2), 16 single-body whose stored names resolve fine (bug 1), 2
+      // genuinely unparseable. NONE of the 1506 agents in this family had EVER
+      // been classified within five minutes of creation — every value they hold
+      // came from a backfill.
+      //
+      // Resolution order is the stored name FIRST. `checkAgentMonicaDrift.ts`
+      // re-derives from `user_profiles.name`, so classifying any other string
+      // would report as drift on a row written correctly. `ap.name` remains a
+      // fallback for the case where no profile name exists yet.
+      const onUnclassifiedPhase = (error: unknown) =>
+        console.warn(
+          `[sync-debit] phase agent with an unclassifiable phase: ${storedName ?? "(no name)"} —` +
+            ` left for the nightly backfill to surface. ${String(error)}`,
+        );
+      const resolved =
+        (storedName ? agentMonicaWithMethod(storedName, onUnclassifiedPhase) : null) ??
+        (typeof ap.name === "string" ? agentMonicaWithMethod(ap.name, onUnclassifiedPhase) : null);
+      const resolvedMonica = resolved?.monica ?? null;
       const monicaCandidate = resolvedMonica?.combined ?? null;
       const hasNatalChart =
         ap.natalChart && typeof ap.natalChart === "object" && Object.keys(ap.natalChart).length > 0;
-      const hasNatalPositions = Array.isArray(ap.natalPositions) && (ap.natalPositions as unknown[]).length > 0;
+      // Strip the fabricated `longitude: 0` on the way in — see
+      // normaliseNatalPositions. This endpoint is a live ingest path, so
+      // cleaning stored rows without cleaning here would let the key return.
+      const natalPositions = normaliseNatalPositions(ap.natalPositions);
+      const hasNatalPositions = Array.isArray(natalPositions) && (natalPositions as unknown[]).length > 0;
       const hasBirthData = ap.birthDate || ap.birthTime || ap.birthLocation;
 
       // COALESCE so a null/empty field in this fire never wipes a previously
       // written value — every tick keeps the row fresh without regression.
+      //
+      // ── §18o: each construction writes its OWN column ────────────────────
+      //
+      // Four CHECK constraints police this, and the previous statement satisfied
+      // them only by accident. It wrote `monica_constant` plus
+      // `monica_method='single-body'` and never `monica_single`, which
+      // `monica_method_matches_column` REJECTS:
+      //
+      //   monica_constant_single_body_only  constant IS NULL OR method='single-body'
+      //   monica_method_matches_column      method='X' requires monica_X NOT NULL
+      //   monica_one_construction           at most ONE construction column set
+      //
+      // It never fired only because the resolution bug above left the method NULL.
+      // Fixing the resolution ALONE would therefore have converted a silent NULL
+      // into a failed debit on every agent-provisioning call — which is why this
+      // is verified by executing it, not by reading it.
+      //
+      // Every write is gated on `monica_method IS NULL`, so this performs
+      // FIRST-TIME classification only. Re-classification belongs to the backfill;
+      // an unconditional write could set a second construction column on a row
+      // that already has one (violating monica_one_construction) or overwrite the
+      // hand-authored full-chart value of a chart-bearing agent.
+      //
+      // NB: SQL comments inside this template literal must not contain backticks —
+      // a backtick terminates the literal and breaks the build.
       await executeQuery(
         `UPDATE user_profiles SET
            bio              = COALESCE($2, bio),
            natal_chart      = CASE WHEN $3::boolean THEN $4::jsonb ELSE natal_chart END,
            natal_positions  = CASE WHEN $5::boolean THEN $6::jsonb ELSE natal_positions END,
            dominant_element = COALESCE($7, dominant_element),
-           monica_constant  = COALESCE($8::numeric, monica_constant),
-           monica_diurnal   = COALESCE($11::numeric, monica_diurnal),
-           monica_nocturnal = COALESCE($12::numeric, monica_nocturnal),
-           monica_method    = COALESCE($13, monica_method),
+           -- See the note above this statement: value into its own construction
+           -- column, first-time classification only.
+           monica_constant  = CASE WHEN monica_method IS NULL AND $13 = 'single-body'
+                                   THEN $8::numeric ELSE monica_constant END,
+           monica_single    = CASE WHEN monica_method IS NULL AND $13 = 'single-body'
+                                   THEN $8::numeric ELSE monica_single END,
+           monica_two_body  = CASE WHEN monica_method IS NULL AND $13 = 'two-body'
+                                   THEN $8::numeric ELSE monica_two_body END,
+           monica_diurnal   = CASE WHEN monica_method IS NULL AND $13 IS NOT NULL
+                                   THEN $11::numeric ELSE monica_diurnal END,
+           monica_nocturnal = CASE WHEN monica_method IS NULL AND $13 IS NOT NULL
+                                   THEN $12::numeric ELSE monica_nocturnal END,
+           monica_method    = COALESCE(monica_method, $13),
            birth_data       = CASE WHEN $9::boolean THEN $10::jsonb ELSE birth_data END,
            updated_at       = now()
          WHERE user_id = $1`,
@@ -202,7 +287,7 @@ export async function POST(req: NextRequest) {
           hasNatalChart,
           JSON.stringify(ap.natalChart || {}),
           hasNatalPositions,
-          JSON.stringify(ap.natalPositions || []),
+          JSON.stringify(natalPositions || []),
           dominantElementCandidate,
           monicaCandidate,
           hasBirthData,
@@ -213,10 +298,11 @@ export async function POST(req: NextRequest) {
           }),
           resolvedMonica?.diurnal ?? null,
           resolvedMonica?.nocturnal ?? null,
-          // agentMonicaFromName only resolves single-body placements (it
-          // returns null for phase agents), so a resolved value is always
-          // this method — see §18j.
-          resolvedMonica ? "single-body" : null,
+          // The construction that actually produced the value — 'two-body' for a
+          // Moon-phase agent. Hardcoding 'single-body' here would have stamped a
+          // phase agent with the wrong method, which `checkAgentMonicaDrift.ts`
+          // reports as `wrong-method` and the §18o column constraint rejects.
+          resolved?.method ?? null,
         ]
       );
     }

@@ -1,6 +1,11 @@
 // Core Greg's Energy System Rules
 // Based on Core_Gregs_Energy_System.ipynb and current-moment-chart.ipynb
 
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  calculateMonica as canonicalCalculateMonica,
+} from "@/data/unified/alchemicalCalculations"
+
 export interface AlchemicalProperties {
   spirit: number
   essence: number
@@ -225,25 +230,32 @@ export class AdvancedConstantsCalculator {
     matter: number,
     substance: number
   ): number {
-    try {
-      // Handle negative values by using absolute values
-      const spiritAbs = Math.abs(spirit) || 1e-10
-      const essenceAbs = Math.abs(essence) || 1e-10
-      const matterAbs = Math.abs(matter) || 1e-10
-      const substanceAbs = Math.abs(substance) || 1e-10
-
-      // Calculate with absolute values
-      const numerator = Math.pow(spiritAbs, spiritAbs) * Math.pow(essenceAbs, essenceAbs)
-      const denominator = Math.pow(matterAbs, matterAbs) * Math.pow(substanceAbs, substanceAbs)
-
-      // Apply sign correction based on the number of negative values
-      const negativeCount = [spirit, essence, matter, substance].filter(v => v < 0).length
-      const signFactor = negativeCount % 2 === 1 ? -1 : 1
-
-      return signFactor * (numerator / denominator)
-    } catch (_error) {
-      return NaN
-    }
+    // Delegates to THE canonical engine. Four measured defects went with the
+    // local implementation:
+    //
+    // 1. `Math.abs(x) || 1e-10` DESTROYED the sign rather than clamping it, so
+    //    |-0.5|^|-0.5| = 0.7071 entered the numerator where the true limit
+    //    contributes exactly 1. Measured on (-0.5, 2, 1, 0.5): -4 here versus
+    //    5.65685424949238 canonical, a -170.71% error. The `|| 1e-10` half is
+    //    additionally a truthiness floor that fires for a legitimate 0.
+    // 2. The "sign correction based on the number of negative values" let
+    //    kalchm come back NEGATIVE, which the formula forbids — a ratio of x^x
+    //    terms is strictly positive. An odd count flipped the sign outright.
+    // 3. `return NaN` from a catch that can never run: Math.abs, Math.pow and
+    //    arithmetic are total in JS, so nothing in the body could throw. The
+    //    dead catch disguised the fact that NaN was also the ordinary
+    //    fall-through of calculateMonicaConstant below.
+    //
+    // (A fourth allegation — that `Math.log(Math.abs(kalchmConstant))` masked
+    // the negativity — did NOT hold up: the `kalchmConstant > 0` guard on the
+    // preceding line rejects a negative kalchm first, so that line is
+    // unreachable with a negative argument.)
+    return canonicalCalculateKalchm({
+      Spirit: spirit,
+      Essence: essence,
+      Matter: matter,
+      Substance: substance,
+    })
   }
 
   /**
@@ -254,17 +266,17 @@ export class AdvancedConstantsCalculator {
     reactivity: number,
     kalchmConstant: number
   ): number {
-    try {
-      if (kalchmConstant > 0 && reactivity !== 0) {
-        const lnK = Math.log(Math.abs(kalchmConstant))
-        if (lnK !== 0) {
-          return -energy / (reactivity * lnK)
-        }
-      }
-      return NaN
-    } catch (_error) {
-      return NaN
-    }
+    // Delegates to THE canonical engine, which is TOTAL: always finite, never
+    // NaN. This version returned NaN on three reachable inputs where canonical
+    // returns MONICA_EQUILIBRIUM (φ = 1.618): kalchm exactly 1 (any four equal
+    // ESMS axes, e.g. 1.3/1.3/1.3/1.3), kalchm negative, and reactivity === 0.
+    //
+    // It also had no degenerate BAND — only `lnK !== 0`, which excludes a single
+    // point. At kalchm = 1.0001 it returned -6250.312494792615, roughly 3900x
+    // the equilibrium magnitude yet perfectly finite, so it passed every
+    // downstream Number.isFinite guard. That is more dangerous than the NaN,
+    // which at least announces itself.
+    return canonicalCalculateMonica(energy, reactivity, kalchmConstant)
   }
 
   /**

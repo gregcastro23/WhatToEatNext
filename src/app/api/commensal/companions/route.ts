@@ -108,13 +108,15 @@ export async function GET(_req: NextRequest) {
       },
     ),
     executeQuery<LocalAgentRow>(
+      // §18o: monica_constant is single-body only; COALESCE the other two
+      // constructions so an agent of any kind still surfaces its real value.
       `SELECT u.id AS user_id,
               u.email,
               u.profile,
               up.name,
               up.bio,
               up.dominant_element,
-              up.monica_constant,
+              COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart) AS monica_constant,
               up.birth_data,
               up.natal_chart
          FROM users u

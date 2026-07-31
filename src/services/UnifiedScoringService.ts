@@ -10,6 +10,7 @@
  * - Tarot effects and other mystical influences
  */
 
+import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
 import { getTarotCardsForDate } from "@/lib/tarotCalculations";
 import { log } from "@/services/LoggingService";
 import {
@@ -584,13 +585,31 @@ export function calculateThermodynamicEffect(
     // Greg's Energy
     const gregsEnergy = heat - entropy * reactivity;
 
-    // Kalchm
+    // Kalchm via THE canonical engine.
+    //
+    // The local copy substituted `|| 1` on every axis. MEASURED, that fallback
+    // turns out to be numerically IDENTICAL to canonical wherever it fires:
+    // `||` only triggers on 0/NaN, and it then contributes 1^1 = 1, which is
+    // exactly what the true limit 0^0 contributes. It does not fire at all for
+    // an axis in (0,1), since 0.5 is truthy. So this copy was not producing
+    // wrong numbers for zeroed axes — the sole divergence is a NEGATIVE axis,
+    // where -0.5 is truthy, Math.pow(-0.5, -0.5) is NaN, and the whole kalchm
+    // becomes NaN where canonical clamps to 0 and returns a finite value.
+    //
+    // It is delegated anyway, because a second copy of the formula is the
+    // defect regardless of whether this one currently agrees.
+    //
+    // `kalchmResonance ?? …` rather than `|| …`: kalchm is > 0 by contract, but
+    // a precomputed resonance of 0 is a value, not an absence, and `||` would
+    // silently discard it and recompute.
     const kalchm =
-      context.item.kalchmResonance ||
-      (Math.pow(alch.Spirit || 1, alch.Spirit || 1) *
-        Math.pow(alch.Essence || 1, alch.Essence || 1)) /
-      (Math.pow(alch.Matter || 1, alch.Matter || 1) *
-        Math.pow(alch.Substance || 1, alch.Substance || 1));
+      context.item.kalchmResonance ??
+      canonicalCalculateKalchm({
+        Spirit: alch.Spirit,
+        Essence: alch.Essence,
+        Matter: alch.Matter,
+        Substance: alch.Substance,
+      });
 
     // Monica
     let monica = context.item.monicaConstant || 1.0;

@@ -1,0 +1,396 @@
+{
+  "_comment": [
+    "SHARED golden vectors for the kalchm/monica engine. Read by BOTH runtimes:",
+    "  Python     backend/tests/test_kalchm_parity.py",
+    "  TypeScript src/__tests__/kalchmCrossRuntimeParity.test.ts",
+    "",
+    "This file is the contract. There is one kalchm engine per runtime, and the",
+    "only thing that keeps them from drifting apart is that both must reproduce",
+    "every vector below EXACTLY. Expected values were computed from the canonical",
+    "TypeScript implementation (src/data/unified/alchemicalCalculations.ts) and",
+    "are written as full-precision decimal strings, never toPrecision output, so",
+    "they round-trip through both JSON parsers unchanged.",
+    "",
+    "The regimes are chosen because they are where implementations actually",
+    "diverged in practice, not to be exhaustive:",
+    "  healthy        - all implementations already agree bit-for-bit here",
+    "  zeroed axis    - where every epsilon floor showed up (eps^-eps - 1 per axis)",
+    "  negative axis  - JS gives NaN, Python gives a COMPLEX number; both must clamp",
+    "  near-degenerate- the ~31000x monica error a missing band produces",
+    "  tiny reactivity- divide-by-near-zero"
+  ],
+  "constants": {
+    "MONICA_LN_EPSILON": 0.10939293407637272,
+    "MONICA_EQUILIBRIUM": 1.618,
+    "MONICA_REACTIVITY_FLOOR": 0.01,
+    "X_POW_X_GLOBAL_MINIMUM": 0.6922006275556402,
+    "THERMO_DEN_FLOOR": 0.01
+  },
+  "vectors": [
+    {
+      "name": "healthy - a REAL production ESMS vector from POST /alchemize",
+      "spirit": 3.2772289332979954,
+      "essence": 5.482048975845337,
+      "matter": 4.3549306100522225,
+      "substance": 2.351311954308986,
+      "reactivity": 6.326,
+      "gregsEnergy": -1.5018,
+      "expectedKalchm": 121.49817994831771,
+      "expectedMonica": 0.04945962142181648
+    },
+    {
+      "name": "healthy - second independent point",
+      "spirit": 4,
+      "essence": 3,
+      "matter": 2,
+      "substance": 1,
+      "reactivity": 5.32,
+      "gregsEnergy": -2.0403,
+      "expectedKalchm": 1728,
+      "expectedMonica": 0.05144593495114522
+    },
+    {
+      "name": "one zeroed axis (Matter) - 0**0 is exactly 1, no floor",
+      "spirit": 3.2772289332979954,
+      "essence": 5.482048975845337,
+      "matter": 0,
+      "substance": 2.351311954308986,
+      "reactivity": 6.326,
+      "gregsEnergy": -1.5018,
+      "expectedKalchm": 73669.6711736147,
+      "expectedMonica": 0.02118264139473428
+    },
+    {
+      "name": "one zeroed axis (Spirit) - numerator side",
+      "spirit": 0,
+      "essence": 5.482048975845337,
+      "matter": 4.3549306100522225,
+      "substance": 2.351311954308986,
+      "reactivity": 6.326,
+      "gregsEnergy": -1.5018,
+      "expectedKalchm": 2.4839110308381294,
+      "expectedMonica": 0.26092793956910537
+    },
+    {
+      "name": "two zeroed axes (Matter and Substance)",
+      "spirit": 3.2772289332979954,
+      "essence": 5.482048975845337,
+      "matter": 0,
+      "substance": 0,
+      "reactivity": 6.326,
+      "gregsEnergy": -1.5018,
+      "expectedKalchm": 549990.2180348035,
+      "expectedMonica": 0.01796091572456522
+    },
+    {
+      "name": "all four axes zero - kalchm exactly 1, DEGENERATE, monica is phi",
+      "spirit": 0,
+      "essence": 0,
+      "matter": 0,
+      "substance": 0,
+      "reactivity": 0,
+      "gregsEnergy": 0,
+      "expectedKalchm": 1,
+      "expectedMonica": 1.618
+    },
+    {
+      "name": "balanced non-zero axes - kalchm exactly 1, still DEGENERATE",
+      "spirit": 1.3,
+      "essence": 1.3,
+      "matter": 1.3,
+      "substance": 1.3,
+      "reactivity": 4,
+      "gregsEnergy": -1,
+      "expectedKalchm": 1,
+      "expectedMonica": 1.618
+    },
+    {
+      "name": "NEAR-degenerate - inside the band. A bare ln_k != 0 test returned -49999.5 here.",
+      "spirit": 1,
+      "essence": 1.00002,
+      "matter": 1,
+      "substance": 1,
+      "reactivity": 1,
+      "gregsEnergy": 1,
+      "expectedKalchm": 1.000020000400004,
+      "expectedMonica": 1.618
+    },
+    {
+      "name": "negative Spirit - JS gives NaN, Python gives complex; both must clamp to 0",
+      "spirit": -0.5,
+      "essence": 5.482048975845337,
+      "matter": 4.3549306100522225,
+      "substance": 2.351311954308986,
+      "reactivity": 6.326,
+      "gregsEnergy": -1.5018,
+      "expectedKalchm": 2.4839110308381294,
+      "expectedMonica": 0.26092793956910537
+    },
+    {
+      "name": "all four axes negative - clamps to the all-zero degenerate case",
+      "spirit": -0.5,
+      "essence": -2,
+      "matter": -1,
+      "substance": -0.5,
+      "reactivity": 3,
+      "gregsEnergy": -1,
+      "expectedKalchm": 1,
+      "expectedMonica": 1.618
+    },
+    {
+      "name": "healthy kalchm with near-zero reactivity - guarded by MONICA_REACTIVITY_FLOOR",
+      "spirit": 4,
+      "essence": 3,
+      "matter": 2,
+      "substance": 1,
+      "reactivity": 0.000001,
+      "gregsEnergy": -2.0403,
+      "expectedKalchm": 1728,
+      "expectedMonica": 27.36923739400925
+    },
+    {
+      "name": "healthy kalchm with exactly zero reactivity",
+      "spirit": 4,
+      "essence": 3,
+      "matter": 2,
+      "substance": 1,
+      "reactivity": 0,
+      "gregsEnergy": -2.0403,
+      "expectedKalchm": 1728,
+      "expectedMonica": 27.36923739400925
+    }
+  ],
+  "thermoVectors": [
+    {
+      "name": "healthy, Earth non-zero — where the parens loss shows",
+      "Spirit": 4,
+      "Essence": 3,
+      "Matter": 2,
+      "Substance": 1,
+      "Fire": 2,
+      "Water": 1,
+      "Air": 1.5,
+      "Earth": 0.5,
+      "expectedHeat": 0.24691358024691357,
+      "expectedEntropy": 0.5502958579881657,
+      "expectedReactivity": 5.32,
+      "expectedGregsEnergy": -2.680660384250128
+    },
+    {
+      "name": "Earth = 0, Matter = 1 — the coincidence point",
+      "Spirit": 4,
+      "Essence": 3,
+      "Matter": 1,
+      "Substance": 1,
+      "Fire": 2,
+      "Water": 1,
+      "Air": 1.5,
+      "Earth": 0,
+      "expectedHeat": 0.35555555555555557,
+      "expectedEntropy": 0.93,
+      "expectedReactivity": 33.25,
+      "expectedGregsEnergy": -30.56694444444445
+    },
+    {
+      "name": "Matter + Earth = 0 — denominator floor is load-bearing",
+      "Spirit": 4,
+      "Essence": 3,
+      "Matter": 0,
+      "Substance": 1,
+      "Fire": 2,
+      "Water": 1,
+      "Air": 1.5,
+      "Earth": 0,
+      "expectedHeat": 0.47337278106508873,
+      "expectedEntropy": 1.453125,
+      "expectedReactivity": 3325,
+      "expectedGregsEnergy": -4831.167252218935
+    },
+    {
+      "name": "all axes zero — every denominator floored",
+      "Spirit": 0,
+      "Essence": 0,
+      "Matter": 0,
+      "Substance": 0,
+      "Fire": 0,
+      "Water": 0,
+      "Air": 0,
+      "Earth": 0,
+      "expectedHeat": 0,
+      "expectedEntropy": 0,
+      "expectedReactivity": 0,
+      "expectedGregsEnergy": 0
+    },
+    {
+      "name": "real production vector",
+      "Spirit": 3.2772289332979954,
+      "Essence": 5.482048975845337,
+      "Matter": 4.3549306100522225,
+      "Substance": 2.351311954308986,
+      "Fire": 2.1,
+      "Water": 1.4,
+      "Air": 1.9,
+      "Earth": 1.2,
+      "expectedHeat": 0.05439956849681729,
+      "expectedEntropy": 0.1570283101870952,
+      "expectedReactivity": 1.8245874441960752,
+      "expectedGregsEnergy": -0.2321123146538833
+    }
+  ],
+  "planetarySectarianEsms": {
+    "Sun": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      }
+    },
+    "Moon": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Mercury": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 1
+      }
+    },
+    "Venus": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Mars": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Jupiter": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      }
+    },
+    "Saturn": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Uranus": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Neptune": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 0,
+        "Substance": 1
+      }
+    },
+    "Pluto": {
+      "diurnal": {
+        "Spirit": 0,
+        "Essence": 1,
+        "Matter": 0,
+        "Substance": 0
+      },
+      "nocturnal": {
+        "Spirit": 0,
+        "Essence": 0,
+        "Matter": 1,
+        "Substance": 0
+      }
+    },
+    "Ascendant": {
+      "diurnal": {
+        "Spirit": 1,
+        "Essence": 1,
+        "Matter": 1,
+        "Substance": 1
+      },
+      "nocturnal": {
+        "Spirit": 1,
+        "Essence": 1,
+        "Matter": 1,
+        "Substance": 1
+      }
+    }
+  }
+}

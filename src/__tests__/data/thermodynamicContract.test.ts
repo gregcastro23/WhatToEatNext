@@ -19,7 +19,7 @@ import {
   calculateThermodynamics,
   calculateMonica,
   MONICA_EQUILIBRIUM,
-  KALCHM_EPSILON,
+  MONICA_REACTIVITY_FLOOR,
   MONICA_LN_EPSILON,
 } from "@/data/unified/alchemicalCalculations";
 
@@ -112,9 +112,17 @@ describe("canonical thermodynamic contract — reference values on the probe", (
     expect(r.kalchm).toBeCloseTo(64, 5);
   });
 
-  it("exposes the epsilons as tunable constants", () => {
-    expect(KALCHM_EPSILON).toBeGreaterThan(0);
-    expect(MONICA_LN_EPSILON).toBeGreaterThan(0);
-    expect(MONICA_EQUILIBRIUM).toBeCloseTo(1.618, 3);
+  // Was "exposes the epsilons as tunable constants", asserting only
+  // `toBeGreaterThan(0)` — which passes for 1e300. "Tunable knob" is the framing
+  // §11 forbids and that the engine docstring now explicitly disclaims: one of
+  // these is DERIVED, one is ASSUMED, and neither is tunable. Pin the values.
+  it("pins the engine constants to their exact shipped values", () => {
+    // DERIVED (§18k k3): the midpoint of a measured bimodal gap. Re-derived from
+    // the module's own endpoints in monicaLnEpsilonDerivation.test.ts.
+    expect(MONICA_LN_EPSILON).toBe(0.10939293407637272);
+    // ASSUMED (§18k k26): a chosen tolerance, not a derivation. Inertness is
+    // proven structurally in monicaReactivityFloorInertness.test.ts.
+    expect(MONICA_REACTIVITY_FLOOR).toBe(0.01);
+    expect(MONICA_EQUILIBRIUM).toBe(1.618);
   });
 });

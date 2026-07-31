@@ -6,7 +6,7 @@
 // It does NOT re-derive any thermodynamics — every formula is reused:
 //   • quantity weighting       → quantityScaling.calculateQuantityFactor (gram-normalized, log)
 //   • ESMS from a blend        → quantityScaling.deriveESMSFromElemental
-//   • Heat/Entropy/Reactivity/GregsEnergy/Kalchm/Monica → monicaKalchmCalculations.calculateThermodynamicMetrics
+//   • Heat/Entropy/Reactivity/GregsEnergy/Kalchm/Monica → alchemicalCalculations.performAlchemicalAnalysis
 //   • Charge Q / Voltage V / Current I / Power P (P=IV) → cookingMethodKinetics.calculateMethodSpecificKinetics
 //   • R = Entropy, Losses = I²R, η = (P − Losses)/P     → same mapping as recipeCircuit/mealCircuit
 //
@@ -14,10 +14,10 @@
 // flows stage → stage), so the batch is a series circuit with total V, shared current, and I²R losses.
 
 import { ingredientsMap } from "@/data/ingredients";
+import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties, AlchemicalProperties } from "@/types/alchemy";
 import type { KineticMetrics } from "@/types/kinetics";
 import { calculateMethodSpecificKinetics, getKineticProfile } from "./cookingMethodKinetics";
-import { calculateThermodynamicMetrics } from "./monicaKalchmCalculations";
 import { calculateQuantityFactor, deriveESMSFromElemental } from "./quantityScaling";
 
 const EPS = 1e-9;
@@ -44,7 +44,7 @@ export interface StageCircuit {
   name: string;
   blendedElemental: ElementalProperties;
   esms: AlchemicalProperties;
-  // thermodynamic substrate (from calculateThermodynamicMetrics)
+  // thermodynamic substrate (from performAlchemicalAnalysis)
   heat: number;
   entropy: number;
   reactivity: number;
@@ -135,7 +135,7 @@ export function computeStageCircuit(
 ): StageCircuit {
   const blendedElemental = blendStageElemental(stage.ingredients);
   const esms = deriveESMSFromElemental(blendedElemental);
-  const thermo = calculateThermodynamicMetrics(esms, blendedElemental);
+  const thermo = performAlchemicalAnalysis(esms, blendedElemental);
 
   const kinetics = calculateMethodSpecificKinetics({
     methodId: "tilt_skillet",

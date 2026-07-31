@@ -52,7 +52,7 @@ export type Sect = "diurnal" | "nocturnal";
  *  magnitude. See §18c. */
 export const VESSEL_MASS = 4;
 
-interface ESMS {
+export interface ESMS {
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -74,10 +74,25 @@ function toSignKey(sign: string): SignKey | null {
 /**
  * The process-shaped, dignity-scaled grounding vessel for a given degree.
  * `dignityEsmsScale` is the +10/+7/0/-7/-10 essential-dignity score.
+ *
+ * Exported so the two-body phase calc (§18i) reuses this exact construction
+ * rather than forking a second one — the §17c lesson was that a forked formula
+ * is how six engines came to disagree.
  */
-function vessel(degree: number, dignityEsmsScale: number): ESMS {
-  // Degree 1..30 → one of the 14 alchemical processes (§7a). The array is
-  // 0-indexed, so pillar id = index + 1.
+export function groundingVessel(degree: number, dignityEsmsScale: number): ESMS {
+  // Degree → one of the 14 alchemical processes (§7a). The array is 0-indexed,
+  // so pillar id = index + 1.
+  //
+  // ⚠️ The `- 1` treats the degree as 1..30, but every caller passes 0-based
+  // degrees: agent names carry 0..29 (MEASURED, n=3240) and `fromAbsoluteDegree`
+  // returns `a % 30`. So degree 0 maps to pillar 13, the same cell as degree 14.
+  // This is UNIFORM across all 4330 single-body agents, so it produces no drift
+  // and is NOT corrected here — changing it would silently re-value every stored
+  // row. Recorded because the mismatch is what makes the §18k k29 sign-midpoint
+  // convention-dependent: `Math.floor` sends 15.0 and 15.5 to the same pillar.
+  //
+  // Note this floors, so a fractional degree is legitimate input (k29 passes
+  // 14.5) and lands in the pillar of its integer part.
   const idx = ((Math.floor(degree) - 1) % 14 + 14) % 14;
   const eff = ALCHEMICAL_PILLARS[idx].effects;
 
@@ -115,7 +130,7 @@ export function agentMonicaForSect(
 
   const signKey = toSignKey(sign);
   const dignityScale = signKey ? getDignityScore(planet, signKey).esmsScale : 0;
-  const v = vessel(degree, dignityScale);
+  const v = groundingVessel(degree, dignityScale);
 
   const esms: ESMS = {
     Spirit: base.Spirit + v.Spirit,

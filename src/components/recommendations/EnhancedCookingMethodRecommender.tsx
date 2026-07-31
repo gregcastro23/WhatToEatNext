@@ -34,6 +34,10 @@ import {
 } from "@/data/cooking/methods";
 import type { MethodPhysicalReference } from "@/data/cooking/physicalReference";
 import { METHOD_PHYSICAL_REFERENCE } from "@/data/cooking/physicalReference";
+import {
+  calculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
 import type {
   AlchemicalProperties,
@@ -42,11 +46,7 @@ import type {
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { calculateMethodSpecificKinetics, getKineticProfile } from "@/utils/cookingMethodKinetics";
 import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
-import {
-  calculateKAlchm,
-  calculateMonicaConstant,
-  calculateMonicaOptimizationScore,
-} from "@/utils/monicaKalchmCalculations";
+import { calculateMonicaOptimizationScore } from "@/utils/monicaKalchmCalculations";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import {
   calculateHarmonyIndex,
@@ -524,9 +524,9 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         Air: method.elementalEffect.Air, Earth: method.elementalEffect.Earth,
       }).gregsEnergy;
 
-      const kalchm = calculateKAlchm(transformedESMS.Spirit, transformedESMS.Essence, transformedESMS.Matter, transformedESMS.Substance);
+      const kalchm = calculateKalchm(transformedESMS);
       const reactivity = methodThermo.reactivity;
-      const monica = gregsEnergy !== null && kalchm ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm) : null;
+      const monica = gregsEnergy !== null && kalchm ? calculateMonica(gregsEnergy, reactivity, kalchm) : null;
       const monicaModifiers = monica !== null ? calculatePillarMonicaModifiers(monica) : { temperatureAdjustment: 0, timingAdjustment: 0, intensityModifier: "neutral" as const };
       const optimalConditions = method.thermodynamicProperties && monica !== null ? calculateOptimalCookingConditions(monica, method.thermodynamicProperties) : null;
 

@@ -32,6 +32,16 @@ from backend.database import get_db, Recipe, Ingredient, Recommendation, SystemM
 # New Auth Middleware import
 from backend.alchm_kitchen.auth_middleware import get_current_user
 
+# The kalchm/monica engine. It lives in its own module, with no framework
+# imports, so the cross-runtime parity gate can import it on a bare Python —
+# a gate that cannot be collected reads as a pass.
+from backend.alchm_kitchen.thermodynamics import (
+    compute_kalchm_monica,
+    planetary_hour_esms,
+    thermo_quotient,
+)
+
+
 from backend.alchm_kitchen.recipe_generator import get_astrological_recipes
 try:
     import swisseph as swe
@@ -479,6 +489,7 @@ PLANET_ALCHM_PERIODS = {
 PERIOD_LOG_MIN = math.log10(0.003)
 PERIOD_LOG_MAX = math.log10(247.94)
 
+
 PLANETARY_ALCHEMY = {
     "Sun": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
     "Moon": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
@@ -650,23 +661,31 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
 
     heat_num = spirit ** 2 + fire ** 2
     heat_den = (substance + essence + matter + water + air + earth) ** 2
-    heat = heat_num / (heat_den or 1)
+    heat = thermo_quotient(heat_num, heat_den)
 
     entropy_num = spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2
     entropy_den = (essence + matter + earth + water) ** 2
-    entropy = entropy_num / (entropy_den or 1)
+    entropy = thermo_quotient(entropy_num, entropy_den)
 
     reactivity_num = spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2
-    reactivity = (reactivity_num / (matter or 1)) + earth ** 2
+    # Reactivity = (S² + Su² + E² + F² + A² + W²) / (Matter + Earth)²
+    #
+    # This read `(reactivity_num / (matter or 1)) + earth ** 2` — the same
+    # expression with the parentheses lost, so Earth moved out of the
+    # denominator and became an additive term. MEASURED on
+    # (S,Su,E,F,A,W,M,Ea) = (4,1,3,2,1.5,1,2,0.5): 16.875 here versus 5.320
+    # canonical, a 3.17x divergence, which propagated straight into
+    # monica = -gregsEnergy / (reactivity * ln kalchm).
+    #
+    # Not a judgement call: all NINE TypeScript implementations use
+    # (Matter + Earth)², and the two forms coincide only when Earth = 0 and
+    # Matter = 1 — which is why it survived this long.
+    reactivity = thermo_quotient(reactivity_num, (matter + earth) ** 2)
     gregs_energy = heat - entropy * reactivity
 
-    kalchm_denominator = (matter ** matter) * (substance ** substance)
-    kalchm = ((spirit ** spirit) * (essence ** essence)) / (kalchm_denominator or 1)
-    monica = 1.0
-    if kalchm > 0 and math.isfinite(kalchm):
-        ln_k = math.log(kalchm)
-        if ln_k != 0 and reactivity != 0:
-            monica = -gregs_energy / (reactivity * ln_k)
+    kalchm, monica = compute_kalchm_monica(
+        spirit, essence, matter, substance, reactivity, gregs_energy
+    )
 
     element_total = max(1.0, fire + water + air + earth)
     elemental_properties = {
@@ -824,7 +843,17 @@ class TokenRatesResult(BaseModel):
     Matter: float
     Substance: float
     kalchm: float
-    monica: float
+    # NULLABLE, deliberately. monica = -gregsEnergy / (reactivity * ln kalchm),
+    # and both gregsEnergy and reactivity are functions of the four ELEMENTS.
+    # Elements come from SIGNS; this endpoint is given only a planetary HOUR,
+    # which names a ruling planet and no sign. So monica is genuinely not
+    # derivable here, and null says that. Substituting a literal would invent
+    # data — which is exactly what the previous `monica=1.0` did.
+    #
+    # kalchm is a different case: it is (S^S * E^E) / (M^M * Su^Su), a function
+    # of the ESMS axes ALONE, and those the planetary hour does determine. So
+    # kalchm is real and monica is absent, which is not an inconsistency.
+    monica: Optional[float] = None
     planetaryHour: Optional[str] = None
     isDaytime: Optional[bool] = None
 
@@ -869,9 +898,27 @@ async def calculate_token_rates_endpoint(request: TokenRatesRequest):
     except Exception:
         pass
         
+    # The four axes are MEASURED from the resolved planetary hour, not declared.
+    # Previously they were the literals (1,1,1,1), which made kalchm 1.0 for
+    # every hour of every day — a constant wearing the shape of a computation.
+    #
+    # The construction is single-body (§18c): the ruling planet's own sectarian
+    # row plus the Ascendant grounding vessel. Without the vessel a ruler
+    # contributes to one axis, the other three are 0, and the result carries no
+    # information. With it, e.g. a diurnal Sun hour gives (2,1,1,1) -> kalchm 4.0
+    # and a nocturnal Moon hour gives (1,1,2,1) -> kalchm 0.25.
+    esms = planetary_hour_esms(planetary_hour, is_day)
+    kalchm, _ = compute_kalchm_monica(
+        esms["Spirit"], esms["Essence"], esms["Matter"], esms["Substance"],
+        # Reactivity and gregsEnergy are element-derived and unavailable here, so
+        # the monica this returns would be meaningless. It is discarded and the
+        # field is reported as null — see TokenRatesResult.monica.
+        reactivity=1.0, gregs_energy=1.0,
+    )
     return TokenRatesResult(
-        Spirit=1.0, Essence=1.0, Matter=1.0, Substance=1.0,
-        kalchm=1.0, monica=1.0,
+        Spirit=esms["Spirit"], Essence=esms["Essence"],
+        Matter=esms["Matter"], Substance=esms["Substance"],
+        kalchm=kalchm, monica=None,
         planetaryHour=planetary_hour,
         isDaytime=is_day
     )
@@ -910,8 +957,12 @@ async def alchemize_current_moment(request: AlchemizeRequest):
             elementalProperties=result.get('elementalProperties', {}),
             thermodynamicProperties=result.get('thermodynamicProperties', {}),
             esms=result.get('esms', {}),
-            kalchm=result.get('kalchm', 0),
-            monica=result.get('monica', 0),
+            # No defaults: kalchm is > 0 by the totality contract and monica is
+            # always finite, so 0 is IMPOSSIBLE for either. A default here would
+            # turn a future upstream shape change into silent corruption
+            # instead of a loud KeyError.
+            kalchm=result['kalchm'],
+            monica=result['monica'],
             score=result.get('score', 0),
             normalized=result.get('normalized', False),
             confidence=result.get('confidence', 0),

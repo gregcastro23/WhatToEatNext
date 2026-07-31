@@ -1,5 +1,6 @@
 import fs from "fs";
 import {
+  calculateKalchm,
   calculateMonica,
   MONICA_LN_EPSILON,
 } from "@/data/unified/alchemicalCalculations";
@@ -267,12 +268,17 @@ function getPlanetaryDignity(planet: string, sign: string): number {
  * @param planetaryPositions - CURRENT planetary positions
  * @param historicalPositions - PREVIOUS planetary positions (for momentum calculation)
  * @param date - The moment being calculated
+ * @param options.diurnal - Override the computed sect. Sect is otherwise derived
+ *   from `date` at the site's NEW YORK reference observer, which is right for
+ *   the live sky and WRONG for a natal chart: a birth chart's sect belongs to
+ *   the birth moment at the BIRTHPLACE. Natal callers should compute it with
+ *   `isDiurnalAt(birthMoment, lat, lon)` and pass it here.
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
   historicalPositions: Record<string, PlanetaryPosition> | null = null,
   date: Date = new Date(),
-  options: { incomingDegraded?: DegradedInfo | null } = {},
+  options: { incomingDegraded?: DegradedInfo | null; diurnal?: boolean } = {},
 ): StandardizedAlchemicalResult {
   // Initialize totals
   const totals = {
@@ -304,11 +310,15 @@ export function alchemize(
     Ascendant: { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 },
   };
   // Determine sect (diurnal / nocturnal) for the moment being calculated.
-  // This shifts at every sunrise (~06:00 UTC) and sunset (~18:00 UTC).
   // Using the provided `date` parameter ensures historical/forecast
   // calculations use the correct sect for that point in time.
-  const diurnal = isCurrentSkyDiurnal(date);
-  
+  //
+  // `options.diurnal` overrides it entirely. Required for NATAL charts: the
+  // default resolves sect at the site's New York reference observer, so a
+  // birth chart would otherwise inherit the sect of whoever's sky it was
+  // computed under rather than its own. See the @param note above.
+  const diurnal = options.diurnal ?? isCurrentSkyDiurnal(date);
+
   // Momentum Tracking
   const planetaryMomentum: Record<string, number> = {};
   // Elemental blending weights:
@@ -471,18 +481,17 @@ export function alchemize(
     reactivityNum / Math.max(Math.pow(Matter + Earth, 2), 0.01);
   // Greg's Energy;
   const gregsEnergy = heat - entropy * reactivity;
-  // Kalchm (K_alchm). Clamp ESMS bases to a tiny positive epsilon first: a
-  // negative base (possible after aspect modifications subtract below 0) makes
-  // Math.pow return NaN, which would otherwise propagate into monica, pricing,
-  // and the API payload. x^x → 1 as x → 0, so valid inputs are unaffected.
-  const kSpirit = Math.max(Spirit, 1e-9);
-  const kEssence = Math.max(Essence, 1e-9);
-  const kMatter = Math.max(Matter, 1e-9);
-  const kSubstance = Math.max(Substance, 1e-9);
-  const kalchmRaw =
-    (Math.pow(kSpirit, kSpirit) * Math.pow(kEssence, kEssence)) /
-    (Math.pow(kMatter, kMatter) * Math.pow(kSubstance, kSubstance));
-  const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
+  // Kalchm (K_alchm) via THE canonical engine. This is the production ESMS
+  // path, so it is the copy whose values reach agent monica and the API payload.
+  //
+  // The local clamp it replaces used 1e-9 rather than 0. The intent — stop a
+  // negative base (reachable after aspect modifications subtract below 0) from
+  // making Math.pow return NaN — was right, but clamping to 1e-9 instead of 0
+  // is a floor, and a floor at eps inflates kalchm by exactly eps^(-eps) − 1
+  // per zeroed axis. Canonical clamps negatives to 0 and leaves a genuine zero
+  // alone, because 0**0 is exactly 1 — the true limit of x^x — so the accurate
+  // value needs no epsilon at all.
+  const kalchm = calculateKalchm({ Spirit, Essence, Matter, Substance });
   // Monica constant: −GregsEnergy / (Reactivity × ln(Kalchm))
   // Guards: kalchm must be > 0; lnK must be non-zero; reactivity must be non-zero
   // Monica via the canonical engine (§17c): always finite, and returns φ at the
@@ -761,16 +770,10 @@ export function alchemizeDetailed(
   const reactivity =
     reactivityNum / Math.max(Math.pow(Matter + Earth, 2), 0.01);
   const gregsEnergy = heat - entropy * reactivity;
-  // Clamp ESMS bases to epsilon before pow/ratio so a negative base can't make
-  // kalchm NaN (mirrors alchemize()); x^x → 1 as x → 0 so valid inputs are unaffected.
-  const kSpirit = Math.max(Spirit, 1e-9);
-  const kEssence = Math.max(Essence, 1e-9);
-  const kMatter = Math.max(Matter, 1e-9);
-  const kSubstance = Math.max(Substance, 1e-9);
-  const kalchmRaw =
-    (Math.pow(kSpirit, kSpirit) * Math.pow(kEssence, kEssence)) /
-    (Math.pow(kMatter, kMatter) * Math.pow(kSubstance, kSubstance));
-  const kalchm = Number.isFinite(kalchmRaw) ? kalchmRaw : 1;
+  // Kalchm via THE canonical engine (second of the two sites in this file;
+  // mirrors alchemize() above, which is exactly why neither should hold its own
+  // copy of the formula).
+  const kalchm = calculateKalchm({ Spirit, Essence, Matter, Substance });
   // Monica via the canonical engine (§17c): always finite, and returns φ at the
   // equilibrium point (kalchm ≈ 1) instead of the old 1.0 placeholder. The
   // degraded flag still fires when the value is that fallback rather than a real

@@ -12,6 +12,7 @@
  */
 
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
+import { QUANTITY_MAX, QUANTITY_MIN, rejectMintQuantity } from "./quantity";
 import type { z } from "zod";
 
 export type RecipeSource = "generated" | "scan" | "seeded" | "curated";
@@ -47,17 +48,80 @@ export interface ParseResult {
 }
 
 /**
+ * Mint-only structural checks that the AUTHORING schema deliberately does not make.
+ *
+ * `cosmicRecipeSchema` is the LLM structured-output contract; constraining it
+ * would change what the generator is asked to produce. These rules therefore
+ * live on the mint path only, and apply to BOTH the strict and relaxed parses.
+ *
+ * Each rule exists because it is a measured route to a degenerate mint cost —
+ * the cost basis IS the ingredient mass, so anything that zeroes or overflows
+ * the mass zeroes or corrupts the price:
+ *
+ *   • no ingredients      -> the fingerprint's reduce seed {0,0,0,0} is the
+ *                            answer, so all four coins are 0. A free mint.
+ *   • quantity ""         -> `Number("") === 0`, finite, so mass is 0. Same.
+ *   • quantity "0" / "-5" -> mass <= 0, so the normalisation scale is 0. Same.
+ *   • quantity 1e308      -> overflows to Infinity on the unit multiply, so
+ *                            every coin becomes NaN and the debit is NaN.
+ *   • quantity 1e-320     -> denormal; positive and finite, but the scale
+ *                            `TARGET_ESMS / rawTotal` overflows to Infinity.
+ *
+ * A NON-NUMERIC quantity ("to taste") is intentionally still accepted — the
+ * engine assigns it a nominal mass by design.
+ */
+function mintStructureError(recipe: MintableRecipe): string | null {
+  if (recipe.ingredients.length === 0) {
+    return "ingredients: a mintable recipe must list at least one ingredient";
+  }
+
+  for (let i = 0; i < recipe.ingredients.length; i++) {
+    const ing = recipe.ingredients[i];
+    const rejection = rejectMintQuantity(ing.quantity);
+    if (!rejection) continue;
+
+    const where = `ingredients.${i}.quantity`;
+    const got = JSON.stringify(ing.quantity);
+    switch (rejection) {
+      case "not_positive":
+        return `${where}: must be a positive amount (got ${got})`;
+      case "too_small":
+        return `${where}: is below the minimum mintable amount ${QUANTITY_MIN} (got ${got})`;
+      case "too_large":
+        return `${where}: exceeds the maximum mintable amount ${QUANTITY_MAX} (got ${got})`;
+      default:
+        return `${where}: is not a usable amount (got ${got})`;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Validate a posted recipe for minting. Prefers the strict schema (fully
  * cosmology-enriched, as generated recipes are); falls back to the relaxed
  * mintable schema so ingested recipes still validate. Returns a structured
  * result rather than throwing.
+ *
+ * Both parses are additionally subjected to `mintStructureError`, so a payload
+ * cannot slip a degenerate cost basis through by satisfying the strict schema.
  */
 export function parseRecipeForMint(input: unknown): ParseResult {
   const strict = cosmicRecipeSchema.safeParse(input);
-  if (strict.success) return { ok: true, recipe: strict.data, complete: true };
+  if (strict.success) {
+    const structural = mintStructureError(strict.data);
+    return structural
+      ? { ok: false, complete: false, error: structural }
+      : { ok: true, recipe: strict.data, complete: true };
+  }
 
   const relaxed = mintableRecipeSchema.safeParse(input);
-  if (relaxed.success) return { ok: true, recipe: relaxed.data, complete: false };
+  if (relaxed.success) {
+    const structural = mintStructureError(relaxed.data);
+    return structural
+      ? { ok: false, complete: false, error: structural }
+      : { ok: true, recipe: relaxed.data, complete: false };
+  }
 
   return {
     ok: false,

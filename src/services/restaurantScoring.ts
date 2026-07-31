@@ -15,6 +15,7 @@
  * elemental match or Monica calculation.
  */
 
+import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type {
   AstrologicalState,
@@ -23,7 +24,6 @@ import type {
 } from "@/types/celestial";
 import type { YelpBusiness, AlchmScoredRestaurant } from "@/types/yelp";
 import { calculateElementalMatch } from "@/utils/cuisineRecommender";
-import { calculateThermodynamicMetrics } from "@/utils/monicaKalchmCalculations";
 import { PLANETARY_SECTARIAN_ALCHEMICAL } from "@/utils/planetaryAlchemyMapping";
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -83,8 +83,8 @@ export const SCORING_WEIGHTS = {
  * astrological moment, returning a full `AlchmScoredRestaurant`.
  *
  * Reuses existing scoring primitives:
- *   - `calculateElementalMatch`       (cuisineRecommender)
- *   - `calculateThermodynamicMetrics` (monicaKalchmCalculations) — real Monica
+ *   - `calculateElementalMatch`   (cuisineRecommender)
+ *   - `performAlchemicalAnalysis` (data/unified/alchemicalCalculations) — real Monica
  *
  * Cuisine ESMS is derived from the cuisine's planetary ruler via
  * `PLANETARY_SECTARIAN_ALCHEMICAL`, so it represents an authentic
@@ -104,7 +104,14 @@ export function scoreCuisineAgainstMoment(
   diurnal: boolean,
 ): AlchmScoredRestaurant {
   const cuisineKey = resolveCuisineKey(cuisineType, business.categories);
-  const cuisineProfile = CUISINE_ELEMENTAL_MAP[cuisineKey];
+  // Own-property check here too, so this cannot desync from resolveCuisineKey.
+  // Belt and braces on a user-controlled lookup: an inherited key would give
+  // four `undefined` elements, which now throws in performAlchemicalAnalysis
+  // instead of being fabricated into 0.25s — a user-triggerable 503 rather than
+  // silently wrong scores. Neither is acceptable; resolve to Default instead.
+  const cuisineProfile = Object.hasOwn(CUISINE_ELEMENTAL_MAP, cuisineKey)
+    ? CUISINE_ELEMENTAL_MAP[cuisineKey]
+    : CUISINE_ELEMENTAL_MAP.Default;
 
   const cuisineElement: ElementalProperties = {
     Fire: cuisineProfile.Fire,
@@ -126,18 +133,18 @@ export function scoreCuisineAgainstMoment(
   );
 
   // ── Factor 3: Monica compatibility ──
-  // Both Monica values come from `calculateThermodynamicMetrics` so they
+  // Both Monica values come from `performAlchemicalAnalysis` so they
   // are computed from the authoritative formula:
   //   Monica = -GregsEnergy / (Reactivity * ln(Kalchm))
   const cuisineAlchemical = deriveCuisineAlchemical(
     cuisineProfile.planetaryRuler,
     diurnal,
   );
-  const cuisineMonica = calculateThermodynamicMetrics(
+  const cuisineMonica = performAlchemicalAnalysis(
     cuisineAlchemical,
     cuisineElement,
   ).monica;
-  const momentMonica = calculateThermodynamicMetrics(
+  const momentMonica = performAlchemicalAnalysis(
     momentAlchemical,
     momentElement,
   ).monica;
@@ -197,7 +204,14 @@ function resolveCuisineKey(
   categories: YelpBusiness["categories"],
 ): string {
   const normalized = capitalize(cuisineType.trim());
-  if (CUISINE_ELEMENTAL_MAP[normalized]) return normalized;
+  // `Object.hasOwn`, NOT truthiness. `cuisineType` is a user-supplied query
+  // param, and a plain-object map inherits from Object.prototype — so
+  // `CUISINE_ELEMENTAL_MAP["__proto__"]` is Object.prototype (truthy), and
+  // "constructor"/"toString" are functions (also truthy). Each returned a key
+  // whose four element reads are all `undefined`, which the old engine then
+  // silently replaced with 0.25 apiece. MEASURED: `?cuisine=__proto__` produced
+  // `{Fire: undefined, Water: undefined, Earth: undefined, Air: undefined}`.
+  if (Object.hasOwn(CUISINE_ELEMENTAL_MAP, normalized)) return normalized;
 
   // Loose match — case-insensitive
   for (const key of Object.keys(CUISINE_ELEMENTAL_MAP)) {

@@ -8,6 +8,7 @@ import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
+import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { safeJsonParse } from "@/utils/typeGuards";
 
 // Extended User type with profile data
@@ -63,6 +64,38 @@ interface UserWithProfileRow {
 const parseJsonColumn = <T>(value: string | T | null | undefined, fallback: T): T => {
   if (typeof value === "string") return safeJsonParse<T>(value, fallback) ?? fallback;
   return value ?? fallback;
+};
+
+/**
+ * The write-side counterpart of `parseJsonColumn`: serialise a JSONB value, or
+ * return SQL NULL when there is nothing to store.
+ *
+ * ⚠️ Use this instead of `JSON.stringify(x || {})`. That idiom writes the literal
+ * `'{}'`, which is NON-NULL, so the column says "a chart is present" while holding
+ * nothing. Measured in production: `natal_chart` is non-null but empty in 4940 of
+ * 5015 rows, and `birth_data` in 1421 of 1425.
+ *
+ * Every reader was audited before this change and NONE is fooled — they either
+ * guard on `.planets` or come through the `Object.keys(x).length > 0 ? x : undefined`
+ * normalisation further down this file. So this is not a bug fix; it is making the
+ * stored value mean what it says, which is the standard the rest of this codebase
+ * is held to. Readers behave identically on NULL: `parseJsonColumn` and the route
+ * handlers' `parseJsonField` both test `!value`, which is true for null and for
+ * `undefined` alike.
+ *
+ * An empty object is treated as absent deliberately. `{}` is the shape the old
+ * idiom produced, and a caller passing it means "I have no chart", not "I have an
+ * empty one".
+ */
+export const jsonbOrNull = (value: unknown): string | null => {
+  if (value === null || value === undefined) return null;
+  if (Array.isArray(value)) return value.length > 0 ? JSON.stringify(value) : null;
+  if (typeof value === "object") {
+    // No `as object` needed — `typeof value === "object"` narrows unknown to
+    // `object | null`, and null was already returned above.
+    return Object.keys(value).length > 0 ? JSON.stringify(value) : null;
+  }
+  return JSON.stringify(value);
 };
 
 class UserDatabaseService {
@@ -175,8 +208,8 @@ class UserDatabaseService {
               userId,
               data.name,
               JSON.stringify(data.profile?.dietaryPreferences || {}),
-              JSON.stringify(data.profile?.birthData || {}),
-              JSON.stringify(data.profile?.natalChart || {}),
+              jsonbOrNull(data.profile?.birthData),
+              jsonbOrNull(data.profile?.natalChart),
               JSON.stringify(data.profile?.groupMembers || []),
               JSON.stringify(data.profile?.diningGroups || []),
             ],
@@ -396,13 +429,90 @@ class UserDatabaseService {
           throw new Error("ensureAgent: upsert returned no row");
         }
         const finalId = insertUser.rows[0].id as string;
+
+        // ── Classify at creation (§18) ──────────────────────────────────────
+        //
+        // THIS is the agent producer. #666 added classification-at-creation to
+        // `sync-debit` and `internal/agent-sync`, but `[MEASURED 2026-07-29]`
+        // 370 of 370 arrivals over seven days carry THIS path's fingerprint and
+        // 0 carry sync-debit's — so every new agent still landed unclassified
+        // and the nightly backfill went on papering over it.
+        //
+        // The fingerprint that settles it: `users.created_at`,
+        // `user_profiles.created_at` and `updated_at` agree to the MICROSECOND,
+        // which only happens inside one transaction (`now()` is transaction-
+        // start). Two autocommit statements differ by ~86ms on this database.
+        // sync-debit also unconditionally inserts a `token_balances` row and
+        // these arrivals have none.
+        //
+        // Resolution is from `resolvedName` — the same string written to
+        // `user_profiles.name` — because `checkAgentMonicaDrift.ts` re-derives
+        // from that column. Classifying any other string would report as drift
+        // on a row written correctly.
+        const resolved = agentMonicaWithMethod(resolvedName, (error) =>
+          console.warn(
+            `[ensureAgent] unclassifiable phase in "${resolvedName}" —` +
+              ` left for the nightly backfill to surface. ${String(error)}`,
+          ),
+        );
+        const method = resolved?.method ?? null;
+        const combined = resolved?.monica.combined ?? null;
+
+        // §18o: each construction writes its OWN column, or four CHECK
+        // constraints reject the row —
+        //   monica_method_matches_column      method='X' requires monica_X NOT NULL
+        //   monica_one_construction           at most ONE construction column set
+        //   monica_constant_single_body_only  constant IS NULL OR method='single-body'
+        //   monica_both_sects_present         both sects, or neither
+        // An unresolvable name leaves every column NULL, which all four allow.
+        //
+        // The DO UPDATE branch is gated on `monica_method IS NULL` so this is
+        // FIRST-TIME classification only: re-classification belongs to the
+        // backfill, and an unconditional write could set a second construction
+        // column on a row that already has one, or clobber a hand-authored
+        // full-chart value.
+        //
+        // NB: no backticks in the SQL comments below — one would terminate this
+        // template literal and break the build.
         await client.query(
-          `INSERT INTO user_profiles (user_id, name)
-           VALUES ($1, $2)
+          `INSERT INTO user_profiles
+             (user_id, name, monica_method, monica_constant, monica_single,
+              monica_two_body, monica_diurnal, monica_nocturnal)
+           VALUES
+             ($1, $2, $3,
+              CASE WHEN $3 = 'single-body' THEN $4::numeric END,
+              CASE WHEN $3 = 'single-body' THEN $4::numeric END,
+              CASE WHEN $3 = 'two-body'    THEN $4::numeric END,
+              CASE WHEN $3 IS NOT NULL     THEN $5::numeric END,
+              CASE WHEN $3 IS NOT NULL     THEN $6::numeric END)
            ON CONFLICT (user_id) DO UPDATE
              SET name = COALESCE(EXCLUDED.name, user_profiles.name),
+                 -- first-time classification only; see the note above
+                 monica_constant = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 = 'single-body'
+                   THEN $4::numeric ELSE user_profiles.monica_constant END,
+                 monica_single = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 = 'single-body'
+                   THEN $4::numeric ELSE user_profiles.monica_single END,
+                 monica_two_body = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 = 'two-body'
+                   THEN $4::numeric ELSE user_profiles.monica_two_body END,
+                 monica_diurnal = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 IS NOT NULL
+                   THEN $5::numeric ELSE user_profiles.monica_diurnal END,
+                 monica_nocturnal = CASE
+                   WHEN user_profiles.monica_method IS NULL AND $3 IS NOT NULL
+                   THEN $6::numeric ELSE user_profiles.monica_nocturnal END,
+                 monica_method = COALESCE(user_profiles.monica_method, $3),
                  updated_at = CURRENT_TIMESTAMP`,
-          [finalId, resolvedName],
+          [
+            finalId,
+            resolvedName,
+            method,
+            combined,
+            resolved?.monica.diurnal ?? null,
+            resolved?.monica.nocturnal ?? null,
+          ],
         );
       });
 
@@ -498,8 +608,8 @@ class UserDatabaseService {
               [
                 userId,
                 updatedProfile.name || "",
-                JSON.stringify(updatedProfile.birthData || {}),
-                JSON.stringify(updatedProfile.natalChart || {}),
+                jsonbOrNull(updatedProfile.birthData),
+                jsonbOrNull(updatedProfile.natalChart),
                 JSON.stringify(updatedProfile.dietaryPreferences || {}),
                 JSON.stringify(updatedProfile.groupMembers || []),
                 JSON.stringify(updatedProfile.diningGroups || []),
@@ -522,8 +632,8 @@ class UserDatabaseService {
               [
                 userId,
                 updatedProfile.name || "",
-                JSON.stringify(updatedProfile.birthData || {}),
-                JSON.stringify(updatedProfile.natalChart || {}),
+                jsonbOrNull(updatedProfile.birthData),
+                jsonbOrNull(updatedProfile.natalChart),
                 JSON.stringify(updatedProfile.groupMembers || []),
                 JSON.stringify(updatedProfile.diningGroups || []),
                 onboardingComplete,

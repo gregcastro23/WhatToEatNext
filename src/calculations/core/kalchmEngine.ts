@@ -5,6 +5,10 @@
  * for Kalchm (K_alchm) and Monica Constant (M) as specified in the system requirements.
  */
 
+import {
+  calculateKalchm as canonicalCalculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { getCachedCalculation } from "../../utils/calculationCache";
@@ -163,38 +167,52 @@ export function calculateKAlchm(
   Matter: number,
   Substance: number,
 ): number {
-  // Ensure all values are positive to avoid NaN in power calculations
-  const safespirit = Math.max(0.1, Spirit);
-  const safeessence = Math.max(0.1, Essence);
-  const safematter = Math.max(0.1, Matter);
-  const safesubstance = Math.max(0.1, Substance);
-
-  const numerator =
-    Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
-  const denominator =
-    Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance);
-
-  // Prevent division by zero
-  if (denominator === 0) return 1.0;
-  return numerator / denominator;
+  // Delegates to THE canonical engine.
+  //
+  // This copy floored every axis at 0.1, and of all the strays it was the only
+  // one that corrupted the DEGENERACY CLASSIFICATION rather than just the
+  // magnitude. A floor at eps inflates kalchm by exactly eps^(-eps) − 1 per
+  // zeroed axis — +25.8925% at 0.1 — so a truly degenerate chart (kalchm
+  // exactly 1, |ln k| exactly 0) came back with |ln k| up to 0.2303, ABOVE the
+  // measured healthy floor of 0.21878586815274545. It therefore read as a
+  // perfectly HEALTHY chart rather than an equilibrium one, and monica was
+  // computed from the divergence instead of returning φ.
+  //
+  // The floor was never needed: `Math.max(0.1, x)` was justified as avoiding
+  // NaN, but 0**0 is exactly 1 in JS and x^x has a global minimum of
+  // 0.6922006275556402, so neither NaN nor a zero denominator is reachable from
+  // a non-negative axis. Only NEGATIVES produce NaN, and canonical clamps those.
+  return canonicalCalculateKalchm({ Spirit, Essence, Matter, Substance });
 }
 
 /**
- * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
+ * Calculate Monica Constant: M = -Greg's Energy / (Reactivity × ln(K_alchm))
+ *
+ * §14d — DELEGATES to the canonical engine. Name and signature kept so no
+ * importer changes.
+ *
+ * It previously reimplemented the formula and agreed with the canonical engine
+ * EXACTLY on healthy input (−2.705053 to the last digit), so this moves no
+ * healthy value. It differed only in failure handling, and had no totality
+ * contract at all — it could return NaN (kalchm ≤ 0, or ln(kalchm) === 0) and
+ * **-Infinity** (reactivity === 0, which it never checked).
+ *
+ * -Infinity is worse than NaN: NaN poisons comparisons visibly, while -Infinity
+ * silently wins every Math.min and sorts to the front of every list. Nothing
+ * downstream guarded for either.
+ *
+ * It also had no near-degenerate band, so at kalchm = 1.0001 it returned
+ * −18750.94 where the canonical engine returns φ — both finite, so undetectable.
+ *
+ * Pinned before and after in
+ * `src/__tests__/thermodynamicDegenerateCharacterisation.test.ts`.
  */
 export function calculateMonicaConstant(
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
 ): number {
-  // Check for valid K_alchm
-  if (K_alchm <= 0) return NaN;
-  const lnK = Math.log(K_alchm);
-
-  // Check for valid natural log
-  if (lnK === 0) return NaN;
-
-  return -gregsEnergy / (reactivity * lnK);
+  return calculateMonica(gregsEnergy, reactivity, K_alchm);
 }
 
 /**

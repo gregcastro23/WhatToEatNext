@@ -11,7 +11,12 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { withTransaction } from "@/lib/database";
-import { agentMonicaFromName } from "@/utils/agentMonicaResolver";
+import { jsonbOrNull } from "@/services/userDatabaseService";
+import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
+import { normaliseNatalPositions } from "@/utils/fullChartMonica";
+
+/** `{}` and `[]` mean "absent" here, exactly as jsonbOrNull treats them. */
+const nonEmpty = <T,>(v: T): T | undefined => (jsonbOrNull(v) === null ? undefined : v);
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -117,11 +122,29 @@ export async function POST(req: NextRequest) {
     // `monicaConstant` straight from the sync payload (PA's own legacy,
     // unsigned, disconnected formula) via a bare parseFloat with no
     // validation — a fourth write path the original three-site §18e fix
-    // missed. `agentMonicaFromName` only resolves single-body placements and
-    // returns null for anything else (a phase agent, a person), which the
+    // missed. A name that matches no construction yields null, which the
     // COALESCE below reads as "leave the stored value alone."
+    //
+    // `agentMonicaWithMethod` covers BOTH constructions. It previously called
+    // `agentMonicaFromName`, which is single-body only, so every Moon-phase agent
+    // synced through here was written unclassified — the same gap measured on
+    // sync-debit, latent here but identical in kind. It is also writer-safe: the
+    // two-body resolver THROWS for an unclassifiable phase, which must not turn a
+    // sync into a 500.
     void monicaConstant; // intentionally ignored — see comment above
-    const resolvedMonica = agentMonicaFromName(resolvedName);
+    const resolved = agentMonicaWithMethod(resolvedName, (error) =>
+      console.warn(
+        `[agent-sync] phase agent with an unclassifiable phase: ${resolvedName} —` +
+          ` left for the nightly backfill to surface. ${String(error)}`,
+      ),
+    );
+    const resolvedMonica = resolved?.monica ?? null;
+
+    // The upstream producer emits `longitude: data?.longitude ?? data?.degrees ?? 0`
+    // over objects carrying neither key, so every body arrives with a fabricated
+    // `longitude: 0`. This is the boundary that upstream crosses, so it is the
+    // boundary that strips it — see normaliseNatalPositions.
+    const cleanNatalPositions = normaliseNatalPositions(natalPositions);
     const parsedMonicaConstant = resolvedMonica?.combined ?? null;
 
     const userProfilePayload = {
@@ -129,8 +152,10 @@ export async function POST(req: NextRequest) {
       isAgent: true,
       name: resolvedName,
       bio: bio || undefined,
-      birthData: birthData || undefined,
-      natalChart: natalChart || undefined,
+      // Same emptiness rule as the columns below: `x || undefined` keeps a
+      // truthy '{}', which would merge an empty chart into users.profile.
+      birthData: nonEmpty(birthData),
+      natalChart: nonEmpty(natalChart),
     };
 
     let wtenUserId = "";
@@ -162,31 +187,44 @@ export async function POST(req: NextRequest) {
         // Upsert user profile
         await client.query(
           `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, monica_diurnal, monica_nocturnal, monica_method, dominant_element
-           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+             user_id, name, bio, birth_data, natal_chart, natal_positions,
+             monica_constant, monica_single, monica_two_body,
+             monica_diurnal, monica_nocturnal, monica_method, dominant_element
+           ) VALUES ($1, $2, $3, $4, $5, $6,
+             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
+             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
+             CASE WHEN $10 = 'two-body'    THEN $7::numeric END,
+             $8, $9, $10, $11)
            ON CONFLICT (user_id) DO UPDATE SET
              name = COALESCE(EXCLUDED.name, user_profiles.name),
              bio = COALESCE(EXCLUDED.bio, user_profiles.bio),
              birth_data = COALESCE(EXCLUDED.birth_data, user_profiles.birth_data),
              natal_chart = COALESCE(EXCLUDED.natal_chart, user_profiles.natal_chart),
              natal_positions = COALESCE(EXCLUDED.natal_positions, user_profiles.natal_positions),
-             monica_constant = COALESCE(EXCLUDED.monica_constant, user_profiles.monica_constant),
+             monica_constant = COALESCE(user_profiles.monica_constant, EXCLUDED.monica_constant),
+             monica_single = COALESCE(user_profiles.monica_single, EXCLUDED.monica_single),
+             monica_two_body = COALESCE(user_profiles.monica_two_body, EXCLUDED.monica_two_body),
              monica_diurnal = COALESCE(EXCLUDED.monica_diurnal, user_profiles.monica_diurnal),
              monica_nocturnal = COALESCE(EXCLUDED.monica_nocturnal, user_profiles.monica_nocturnal),
-             monica_method = COALESCE(EXCLUDED.monica_method, user_profiles.monica_method),
+             monica_method = COALESCE(user_profiles.monica_method, EXCLUDED.monica_method),
              dominant_element = COALESCE(EXCLUDED.dominant_element, user_profiles.dominant_element),
              updated_at = now()`,
           [
             wtenUserId,
             resolvedName,
             bio || null,
-            birthData ? JSON.stringify(birthData) : null,
-            natalChart ? JSON.stringify(natalChart) : null,
-            natalPositions ? JSON.stringify(natalPositions) : null,
+            // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
+            // truthy, so the old guard wrote '{}' for a caller that has no chart.
+            // Where this statement COALESCEs onto the stored value, a non-null
+            // '{}' WINS that COALESCE and overwrites a real stored chart with an
+            // empty one. NULL correctly leaves the stored value alone.
+            jsonbOrNull(birthData),
+            jsonbOrNull(natalChart),
+            jsonbOrNull(cleanNatalPositions),
             parsedMonicaConstant,
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
-            resolvedMonica ? "single-body" : null,
+            resolved?.method ?? null,
             dominantElement || null
           ]
         );
@@ -213,19 +251,30 @@ export async function POST(req: NextRequest) {
 
         await client.query(
           `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions, monica_constant, monica_diurnal, monica_nocturnal, monica_method, dominant_element
-           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+             user_id, name, bio, birth_data, natal_chart, natal_positions,
+             monica_constant, monica_single, monica_two_body,
+             monica_diurnal, monica_nocturnal, monica_method, dominant_element
+           ) VALUES ($1, $2, $3, $4, $5, $6,
+             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
+             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
+             CASE WHEN $10 = 'two-body'    THEN $7::numeric END,
+             $8, $9, $10, $11)`,
           [
             wtenUserId,
             resolvedName,
             bio || null,
-            birthData ? JSON.stringify(birthData) : null,
-            natalChart ? JSON.stringify(natalChart) : null,
-            natalPositions ? JSON.stringify(natalPositions) : null,
+            // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
+            // truthy, so the old guard wrote '{}' for a caller that has no chart.
+            // Where this statement COALESCEs onto the stored value, a non-null
+            // '{}' WINS that COALESCE and overwrites a real stored chart with an
+            // empty one. NULL correctly leaves the stored value alone.
+            jsonbOrNull(birthData),
+            jsonbOrNull(natalChart),
+            jsonbOrNull(cleanNatalPositions),
             parsedMonicaConstant,
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
-            resolvedMonica ? "single-body" : null,
+            resolved?.method ?? null,
             dominantElement || null
           ]
         );

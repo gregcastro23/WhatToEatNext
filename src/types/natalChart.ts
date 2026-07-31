@@ -39,7 +39,20 @@ export interface BirthData {
 export interface PlanetInfo {
   name: Planet;
   sign: ZodiacSignType;
-  /** Ecliptic longitude in decimal degrees (0-360). Sub-arcminute precision. 0 means unknown/legacy. */
+  /**
+   * Ecliptic longitude in decimal degrees (0-360), sub-arcminute where measured.
+   *
+   * ⚠️ `0` is NOT a sentinel for "unknown" in anything written after 2026-07-27.
+   * It used to be — `position: rawPositions[p]?.exactLongitude ?? 0` — and that is
+   * precisely the defect `src/lib/astrology/natalBodies.ts` exists to remove: a
+   * fabricated zero survives `Number.isFinite`, satisfies NOT NULL, stops a `??`
+   * chain, and reads as 0° Aries to every consumer. New writers either state a
+   * measured longitude, DERIVE one from sign+degree (consistent with the sign), or
+   * refuse to produce the chart at all.
+   *
+   * Rows written before then may still carry a `0` that means nothing. Treat a 0 on
+   * legacy data as suspect rather than as a placement.
+   */
   position: number;
 }
 

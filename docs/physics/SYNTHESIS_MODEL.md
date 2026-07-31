@@ -1232,6 +1232,60 @@ Gated behind §14d (the stack imports weights/orb that must be canonical first).
 a real computation rather than a null-out. Every claim below is measured; the
 scripts are recorded inline.
 
+> ### STATUS `[MEASURED 2026-07-22 16:10 UTC]` — read this before the sections below
+>
+> **§18 is shipped for all three constructions**, each in its own column, with
+> DB constraints preventing regression.
+>
+> | population | count | `monica_method` | value lives in |
+> |---|---|---|---|
+> | single-body placements | **4284** | `single-body` | `monica_single` (+ `monica_constant`) |
+> | two-body Moon phases | **513** | `two-body` | `monica_two_body` |
+> | full-chart (historical agents) | **71** | `full-chart` | `monica_full_chart` |
+> | no placement, no usable chart | ~~**1**~~ **0 since k29** | `NULL` | ~~none — `Mars Gemini`~~ was 2 (`Mars Gemini`, `Moon Cancer`); both now single-body |
+> | **total** | **4869** | | sums exactly to the agent row count |
+>
+> Every row also stores `monica_diurnal` + `monica_nocturnal`; the construction
+> column is always their mean.
+>
+> **Two independent verifications, both re-runnable, both exit non-zero on failure:**
+>
+> ```
+> railway run --service Postgres -- bun scripts/checkAgentMonicaDrift.ts     # recomputes every value
+> railway run --service Postgres -- bun scripts/auditAgentDataIntegrity.ts   # asserts structure in SQL
+> ```
+>
+> They are deliberately independent — one re-derives from the engine, the other
+> asserts structure without reusing any backfill's classification. **A
+> mis-classifying script passes its own re-run**, which nearly happened twice on
+> 2026-07-22, so neither is allowed to be the only witness. Last run: drift 0/0/0
+> across all three populations; audit **22 checks, 0 failures**.
+>
+> **§18 has no unmeasured numbers** — every constant is read from live code or
+> measured, and each records which (§18i-ter closed the last one).
+>
+> ⚠️ **The population grows continuously**: 4822 → 4865 → 4869 within one hour on
+> 2026-07-22, and nothing reports it. Every count here has a shelf life.
+> Re-measure rather than quoting one; the backfills are idempotent and pick up
+> new arrivals, so re-running them is always safe.
+>
+> **The governing principle, ruled 2026-07-22 — read §18o before touching any
+> monica code:** the three agent kinds are **different OBJECTS**, not one quantity
+> at three scales. A planetary agent is one planet at one degree; a phase agent is
+> a Sun–Moon relationship; a historical agent is a whole natal chart. Each keeps
+> its **own natural scale**, gets its **own column**, and takes a
+> **per-population** display mapping (§18p). There is no cross-construction
+> normalisation, and no consumer that needs one.
+>
+> ⚠️ **Sections below predate this and contain superseded plans.** Where a section
+> and this header disagree, the header is measured and the section is not. The
+> known corrections are flagged inline; the load-bearing ones are:
+> **§18m** (monica has no fixed scale across body counts), **§18n** (the
+> "full-chart for the 71 real people" ruling has no valid subject and is
+> triple-blocked), **§18o** (the three kinds are different objects — this
+> REVERSES the mass-normalisation §18m originally proposed) and **§18p**
+> (Sacred-7 takes `tanh(monica / s_p)`, per population).
+
 ### 18a. The reframing
 
 Planetary agents (a single planet at a position, e.g. "Aries Sun 1 Degree", 4275
@@ -1278,9 +1332,16 @@ vessel = normalize( max(0, 1 + pillarEffect(degree)) , mass = 4 ) × (1 + dignit
 | | result |
 |---|---|
 | Finite | **224/224** |
-| Range | **[−3.97, 3.90]** — same scale as full-chart monica |
+| Range | **[−3.97, 3.90]** ⚠️ **NOT** the same scale as full-chart monica — see §18m |
 | Degree resolution | **7 distinct bands** (the 14 processes collapse to 7 ESMS patterns; Solution ≡ Calcination) |
 | Dignity sensitivity | Sun/Leo domicile **0.656** vs peregrine **0.905** — real, bounded |
+
+> ⚠️ `[CORRECTED 2026-07-22]` This row previously read "same scale as full-chart
+> monica". That was never measured and is **false in the opposite direction from
+> the one later assumed**: full-chart monica is ~12–43× *smaller*, not larger.
+> monica has no fixed scale across body counts — see §18m, where it is measured.
+> It is a property of the formula, not a bug, and it decides what may be written
+> into `monica_constant`.
 
 Two dead ends ruled out by measurement, recorded so they are not retried:
 *flat dignity-scaling* moves only the 4 dignified signs by ±0.1 (arguably
@@ -1292,9 +1353,21 @@ that holds.
 
 | Population | Count | Monica |
 |---|---|---|
-| Planetary ("Planet Sign N°") | 4275 | single-body (§18c), **both sects** |
-| Synthesized / historical | 434 (71 have charts) | **full-chart** monica; the 363 chartless get a chart computed from birth data first |
-| Moon-phase ("Waxing Gibbous Moon in …") | 53 | **phase-weighted** — a two-body Moon + implied-Sun-angle monica (a phase *is* a Sun–Moon relationship) |
+| Planetary ("Planet Sign N°") | ~~4275~~ **4281** `[MEASURED 2026-07-22]` | single-body (§18c), **both sects** — ✅ SHIPPED, `monica_method='single-body'` |
+| Synthesized / historical | 434 (71 have charts) | **full-chart** monica — ⛔ **BLOCKED**, and the plan below is wrong; see §18n |
+| Moon-phase ("Waxing Gibbous Moon in …") | ~~53~~ **469** | **two-body** — Moon + a Sun derived from the phase angle (a phase *is* a Sun–Moon relationship). ✅ SHIPPED, `monica_method='two-body'`. See §18i. |
+| Not a placement (people, junk) | **72** | none — left NULL, never guessed |
+
+`[MEASURED 2026-07-22]` The three populations sum exactly: **4281 + 469 + 72 =
+4822**, the full agent row count. `scripts/checkAgentMonicaDrift.ts` re-derives
+this on every run and reports 0 drifted / 0 missing / 0 wrong-method.
+
+> ⚠️ `[CORRECTED 2026-07-21]` The "53" above was wrong. It counted only part of
+> one name family; the phase population spans **two** families
+> (`<Phase> Moon in <Sign> N Degree` and `Moon Phase <Phase> N`) and totals
+> **469**, re-verified against the live DB. Counts in this table are estimates
+> from a partial sample unless marked `[MEASURED]` — §18e and §18i carry the
+> measured ones.
 
 ### 18e. Schema and writes
 
@@ -1410,9 +1483,16 @@ Reconciliations against the figures above, which were correct when measured:
 - **72 rows remain unclassified** (46 + 26) and are `[OPEN]`. `[RULED]` they are
   classified *before* the backfill runs — an unexamined bucket is exactly what
   hid the 3240-row family the first time.
-- One row, **`Mars Gemini`**, is a planet and a sign with **no degree**. The
-  resolver skips it rather than defaulting the degree. It exists only because the
-  sum was forced.
+- One row, **`Mars Gemini`**, is a planet and a sign with **no degree**. ~~The
+  resolver skips it rather than defaulting the degree.~~ It exists only because
+  the sum was forced.
+
+  > ⚠️ `[SUPERSEDED 2026-07-29, §18k k29]` "Skips it" was never a ruling, only a
+  > description of what the code happened to do — and it was quoted as settled
+  > intent for two months. The resolver now places sign-level agents at the
+  > derived sign midpoint. `Mars Gemini` was also not alone: `Moon Cancer`
+  > arrived 2026-07-22, 1h50m after the `[MEASURED 2026-07-22 16:10 UTC]` stamp
+  > above, and the count was never updated.
 
 `[RULED 2026-07-21]` The `[OPEN]` duplicate question above is now **settled:
 merge-and-repoint.** Reassign the referencing `feed_events` and
@@ -1487,7 +1567,7 @@ value is the one the server returns on forge. It was never persisted.
 |---|---|
 | agent rows scanned | 4808 |
 | to write (single-body) | **4278** (not the ~3600 estimated) |
-| skipped — phase (two-body follow-up) | 455 |
+| skipped — phase (two-body follow-up) | 455 *(at that run; **469** as of 2026-07-21 — the population grew, see §18i)* |
 | skipped — not a placement | 75 |
 | **non-finite** | **0** |
 | combined range | **[−3.1973, 3.9751]**, median 0.0573 |
@@ -1515,16 +1595,44 @@ the disambiguation session:
   Waning Gibbous 225°, Last Quarter 270°, Waning Crescent 315°.
   **`Dark Moon` folds into New at 0°** — it names the invisible Moon at
   conjunction and is not a ninth phase.
-- **Vessel:** ONE shared vessel, mass 4, **shaped by the Moon's degree only**.
-  The pair is one chart, so it gets one vessel, and the named body sets its
-  process. This keeps two-body results on the same scale as single-body ones.
+- **Vessel:** ONE shared vessel, mass 4, **shaped by the Moon's degree only**,
+  and **dignity-NEUTRAL** (`groundingVessel(moonDegree, 0)`). The pair is one
+  chart, so it gets one vessel, and the named body sets its process.
 - **Sect:** both stored, exactly as single-body — the geometry is independent of
   whether it expresses by day or night.
-- **Dignity:** the Moon carries its own position-based essential dignity. The Sun
-  carries **aspect-based dignity instead** — see §18i-bis.
+- **Dignity:** different SOURCES, identical APPLICATION. The Moon carries its own
+  position-based essential dignity; the Sun carries **aspect-based dignity
+  instead** (§18i-bis). Each is applied **exactly once**, as
+  `× (1 + dignity/100)` on **that body's own ESMS**. Neither touches the shared
+  vessel.
 
-`[MEASURED]` The 469 phase agents by aspect: semi-square 158, sesquiquadrate 158,
-square 69, conjunction 47 (New + Dark Moon), opposition 37.
+  > `[CORRECTED 2026-07-21]` An earlier revision scaled the shared vessel by the
+  > **Moon's** dignity. That gave the Moon's dignity two points of leverage (its
+  > own ESMS *and* the grounding term) where the Sun's had one — an asymmetry
+  > inherited unexamined from the single-body case, where there is one body and
+  > the question cannot arise. Equalised; the change moves computed values, so
+  > any figure measured before it is stale.
+
+⚠️ `[CORRECTED 2026-07-21]` **Two-body results are NOT on the same scale as
+single-body ones**, and the earlier claim in this section that the shared vessel
+"keeps two-body results on the same scale" was never measured. Measured after
+equalisation, with the §18i-quater band applied: grid max |monica| **12.6756**
+(single-body: 3.9751), and **2 of 469** production rows fall outside the
+single-body range [−3.197, 3.975]. See §18i-quater.
+
+`[MEASURED 2026-07-21, re-verified against the live DB]` The **469** phase agents.
+By phase: Waxing Crescent 79, Waxing Gibbous 79, Waning Crescent 79,
+Waning Gibbous 79, Full Moon 37, Last Quarter 36, First Quarter 33, New Moon 24,
+Dark Moon 23 — summing to 469 exactly.
+By aspect: semi-square 158, sesquiquadrate 158, square 69, conjunction 47
+(New 24 + Dark Moon 23), opposition 37 — also 469.
+
+> ⚠️ Two figures elsewhere in this document contradict that count and are
+> **wrong**: the family table's "53" Moon-phase agents (§18 name-family section)
+> and the backfill report's "skipped — phase 455". Both predate the resolver
+> handling all five name families. The reproducible number is **469**, and
+> `scripts/checkAgentMonicaDrift.ts` re-derives it against the live DB on every
+> run (it reports each population's count alongside its drift).
 
 #### 18i-bis. Per-aspect dignity for the derived Sun `[DERIVED]`
 
@@ -1532,7 +1640,13 @@ The Sun's longitude is *inferred* from the phase name, but the **aspect is
 certain** — the name states it. Scaling a dignity multiplier by a guessed
 position would be compounding an inference; reading dignity off the aspect uses
 the one thing the name guarantees. So the Sun's dignity is aspect-based, feeding
-the same `× (1 + dignity/100)` vessel term as §18c.
+the same `× (1 + dignity/100)` *form* as §18c.
+
+> `[CORRECTED 2026-07-21]` This paragraph previously said the Sun's aspect
+> dignity feeds "the same **vessel** term as §18c". It does not, and must not:
+> the shared vessel is dignity-neutral (§18i), and pushing an *aspect* quantity
+> into the *grounding* term would double-count the aspect. The Sun's dignity
+> scales the **Sun's own ESMS contribution**, nothing else.
 
 This needs no aspect ESMS grids, no orb budget and no aspect-strength curve —
 the parts §14d has not unified — because **phase aspects are exact by
@@ -1574,7 +1688,7 @@ detector picks a single best aspect *before* normalising, a near-exact septile
 (strength 1.0 at orb 0) makes the whole planet pair return no aspect at all.
 Tracked separately; not a §18 concern.
 
-#### 18i-ter. Applying vs separating `[OPEN — AUTHORED, not derived]`
+#### 18i-ter. Applying vs separating `[RESOLVED 2026-07-21 — DERIVED]`
 
 `[RULED]` Waxing and waning phases **must differ**, even though they share an
 aspect geometry, and applying/separating should become a **general** aspect-layer
@@ -1586,12 +1700,105 @@ Sequenced in two stages so it does not block the phase monica:
 2. `calculateComprehensiveAspects` computes it from relative planetary motion,
    generally, and feeds §14d.
 
-⚠️ **The magnitude of the applying/separating modifier has NO basis in the
-repo.** The orb budgets and the polarity convention gave §18i-bis its derivation;
-nothing comparable exists here (`orbMultiplier 1.2` is Sun/Moon-specific and
-unrelated). This value will be `[AUTHORED]` and is **the only unmeasured number
-left in the §18 design.** It needs either a derivation basis or an explicit
-ruling with the reasoning recorded — per §11, not an assertion.
+~~⚠️ **The magnitude of the applying/separating modifier has NO basis in the
+repo.**~~ `[SUPERSEDED 2026-07-21]` It was authored as ×1.15 / ×0.85, then
+**derived** from the same two live orb budgets §18i-bis already uses:
+
+```
+APPLYING   = ASPECT_DIGNITY_REFERENCE_ORB / ASPECT_ORB_BUDGET.square = 8/7
+SEPARATING = 2 − 8/7                                                 = 6/7
+EXACT      = 1
+```
+
+An applying square therefore scores `−8.75 × 8/7 = −10.00` exactly, landing on
+the domicile anchor of the essential-dignity scale — the same sanity property
+§18i-bis has.
+
+`[MEASURED]` Deriving it costs nothing behaviourally, because the authored value
+was **nearly irrelevant to what it was introduced to achieve**. Waxing and waning
+are already separated by 270° of elongation — the derived Sun lands 90° away, in
+a different sign — so mean |waxing − waning| moved only **0.2870 → 0.2871 →
+0.2875** across multipliers 1.00 / 1.15 / 1.50. The premise that the two differ
+*only* by this multiplier was wrong.
+
+**§18 now has no unmeasured numbers.** Every constant is read from live code or
+measured, and each records which in its own docstring.
+
+#### 18i-quater. The two-body-local equilibrium band `[RULED 2026-07-21]`
+
+**The problem.** The Comixion pillar (degrees 8 and 22, effects S+1/E−1/M+1/Su+1)
+floors the vessel's Essence axis to **zero**. Adding the Sun's Spirit to a Moon
+with no vessel Essence drives `ln(kalchm) → 0`, and `monica = −G/(R·ln k)`
+diverges. Single-body never shows this: a lone planet cannot break the
+Spirit/Matter/Substance symmetry Comixion creates. Unbanded, the 469 production
+rows reach **|monica| 149.35**.
+
+**The fix — a band, applied in `agentMonicaTwoBody.ts` only:**
+
+```
+DEGENERATE_LN_KALCHM     = 0.110698   [MEASURED] the zero-Essence chart itself
+HEALTHY_LN_KALCHM_FLOOR  = 0.138173   [MEASURED] smallest non-Comixion |ln k|
+TWO_BODY_LN_EPSILON      = (0.110698 + 0.138173) / 2 = 0.1244355   [DERIVED]
+```
+
+When `|ln(kalchm)| < TWO_BODY_LN_EPSILON`, the result is `MONICA_EQUILIBRIUM` (φ).
+
+**Why those bounds are structural, not fitted.** The lower bound is a chart with
+a literal `0.000` on an axis — degenerate by inspection, ~~held finite only by
+`KALCHM_EPSILON`~~. The upper bound is the first case that computes a perfectly
+sane monica. The band is the midpoint, carrying ~12% margin each way. Both bounds
+are pinned by test, so a retune that starts swallowing real values fails loudly.
+
+> ⚠️ `[CORRECTED 2026-07-28, §18k k26]` The struck phrase above was wrong twice
+> over. `KALCHM_EPSILON` never kept `calculateKalchm` finite — `0 ** 0` is exactly
+> 1 in JS, so a zeroed axis was always finite on its own (k1) — and after #642 that
+> constant has no connection to kalchm at all. It is now
+> `MONICA_REACTIVITY_FLOOR`, a guard on reactivity in the monica denominator.
+> The measured value below is unaffected; only the explanation was.
+
+**Why LOCAL and not a change to `MONICA_LN_EPSILON`.** The canonical constant
+(0.05) is shared by every §17c consumer, including the **4280 single-body agent
+rows already in production**. Widening it there would silently re-value all of
+them. Single-body output is verified bit-identical (grid max **3.9751**).
+
+**Why a band and not a clamp.** Clamping fabricates a magnitude. A band widens the
+region where the engine *declines to divide by ~0* — the same statement it
+already makes at 0.05, applied to cases that are *nearer* to perfect balance than
+the ones it already absorbs.
+
+`[MEASURED]` Effect on the 469 production rows: rows outside the single-body
+range **25 → 2**; maximum **149.35 → 5.42**; 16 rows resolve to φ; 221 distinct
+values; largest bucket 3.4% (no sentinel clustering).
+
+⚠️ `[OPEN]` **The band does not flatten the tail, deliberately.** It is sized by
+the degeneracy boundary, not by how large the surviving output looks — sizing it
+to swallow every big number would be output-fitting. A near-degenerate skirt
+survives: some Comixion cells land at `|ln k|` *above* the healthy floor and
+cannot be absorbed without converting real values to φ. The real fix belongs in
+the pillar → vessel mapping (§7a), giving Comixion a nonzero Essence floor. That
+was attempted twice and rejected both times: flooring *before* the mass-4
+normalisation divides the floor straight back out (`k = 4/3.01` → 0.0067), and
+flooring *after* it perturbs single-body from 3.9751 to 3.9089, which would
+desync the 4280 rows already in production.
+
+#### 18i-quinquies. φ-mixing across sects `[OPEN — pre-existing, NOT two-body-specific]`
+
+`combined = (diurnal + nocturnal) / 2`. When one sect lands in the equilibrium
+band and the other does not, the mean blends φ with a real value.
+
+`[MEASURED]` This is **not new and not introduced by the two-body work**: the
+shipped single-body calc does it in **180 of 3600 grid cells (5%)** — e.g.
+`Jupiter/Aries 1` is φ diurnal, 0.0126 nocturnal, **0.8153** combined. Those rows
+are in production today.
+
+It is defensible under the engine's own definition — §17c states φ is the
+harmonic *ideal*, a real value, not a couldn't-compute sentinel — so averaging it
+is averaging two real states. Recorded because (a) it is easy to mistake for a
+two-body bug, and (b) it is what produces the single worst residual row,
+`Full Moon Moon in Libra 8 Degree` at −5.4191 (φ diurnal, −12.68 nocturnal).
+
+If φ is ever reclassified as a sentinel, this becomes a defect **in single-body
+first**, and the 4280 production rows would need revisiting — not just the 469.
 
 ### 18j. Scope after the disambiguation `[RULED 2026-07-21]`
 
@@ -1601,8 +1808,8 @@ build:
 | Area | Ruling |
 |---|---|
 | Backfill target | **4279** — include the 360 blocked duplicates; backfill is additive and independent of the de-dupe |
-| Phase agents | **Build two-body now** (§18i), not NULL-until-later |
-| Real people | All **71 already have charts** — the §18d claim that 363 needed computing was false. Full-chart monica this pass, separate PR |
+| Phase agents | **Build two-body now** (§18i), not NULL-until-later — ✅ SHIPPED |
+| Real people | ⛔ **SUPERSEDED — this ruling's subject does not exist.** See §18n. |
 | Duplicates | **Merge**: reassign 1547 `feed_events` + 467 `user_subscriptions` to the canonical twin, then delete. Preserves feed history |
 | Schema | Partial unique index on agent name afterwards, so the class cannot recur |
 | Full-chart rows | Compute **both sects** for them too (reverses the earlier NULL ruling) |
@@ -1611,8 +1818,565 @@ build:
 | Ship order | migrate → backfill → verify → merge |
 | Unknowns | Classify the 72 unresolved rows **before** backfilling |
 
-⚠️ **This is no longer an MVP.** §18 now covers **4817 of 4821** agent rows plus a
+⚠️ `[SUPERSEDED — see the status header at the top of §18 for measured counts]`
+**This is no longer an MVP.** §18 was scoped at **4817 of 4821** agent rows plus a
 merge-dedupe, a schema constraint, a new endpoint, a stats rescale and a general
 aspect-layer concept. Each ruling is defensible alone; together they are several
 PRs. If a smaller first cut is wanted, the natural one is **write-fix +
 single-body backfill**, which is already built and verified.
+
+### 18k. Consolidated decision log `[2026-07-25]`
+
+The numbered home for the rulings, which were otherwise spread across six
+question rounds and a dozen PRs. **Each row cites the PR that measured it** — the
+PR body holds the evidence, this table holds the decision. Where a ruling was
+later reversed, both entries are kept, because the reversal is usually the more
+instructive record.
+
+#### Engine
+
+| # | Ruling | Basis | PR |
+|---|---|---|---|
+| k1 | `calculateKalchm` takes **no epsilon floor**. `0 ** 0 === 1` in JS is exactly `lim x^x`, so a zeroed axis needs no handling; only negatives are clamped, because `Math.pow(-0.5,-0.5)` is `NaN`. | MEASURED | #642 |
+| k2 | Floor divergence is an exact law: **`eps^(-eps) − 1` per zeroed axis, input-independent** (0.6932% / 4.7129% / 25.8925% at 0.001 / 0.01 / 0.1). All implementations agree **bit-for-bit** on healthy input. | MEASURED | #643 |
+| k3 | `MONICA_LN_EPSILON` is **DERIVED** as the midpoint of a measured bimodal gap, not chosen. Post-k1 the degenerate ceiling is **exactly 0**. | DERIVED | #641, #642 |
+| k4 | Two-body degeneracy tests its **cause** (`esms.Essence === 0`), not `|ln kalchm|`. The threshold was right 206 of 648 times (32%). Three constants removed rather than re-derived. | MEASURED | #642 |
+| k5 | ⚠️ **Single-body degeneracy is NOT structural.** It uses the derived `|ln k|` band; the `Essence === 0` set sits at `|ln k| ∈ [1.06, 5.55]`, far outside it. k4 applies to two-body ONLY. | MEASURED | #641 |
+| k6 | A zeroed axis is **neither sufficient nor necessary** for `kalchm === 1`. Of 5400 zeroed-axis cells, 4980 have `kalchm ≠ 1`; of 660 degenerate cells, 240 have no zeroed axis. | MEASURED | #649 |
+| k7 | The formula lives in **one module per runtime**, enforced by an AST gate whose allowlist may only shrink. Target end state: one entry, the characterisation test's own reference. | RULED | #646 |
+
+#### Constants and scales
+
+| # | Ruling | Basis | PR |
+|---|---|---|---|
+| k8 | Every Sacred-7 scale is `|max| / 2` over **its own population**. A single global mapping annihilates the full-chart population (IQR loss 1550×). | MEASURED | #637 |
+| k9 | A `|max|`-derived constant is **hostage to its least-trustworthy row** — one shipped 3.6× wrong off a duplicated chart. Audit the extremum's provenance before trusting any such constant. | MEASURED | #641 |
+| k10 | Constants must **round-trip**. All three scales were irreproducible from their own basis (copied from `toPrecision()` output). Assert `===`, not `toBeCloseTo`; emit with `String(x)`. | MEASURED | #642 |
+| k11 | Derived constants carry a **guard test that re-derives them from the population each run**, so a moved grid fails CI rather than silently invalidating a comment. | RULED | #641, #642 |
+| k26 | `KALCHM_EPSILON` is **ASSUMED, not derivable**, and is renamed **`MONICA_REACTIVITY_FLOOR`**. The k3 construction does not transfer: reactivity is unimodal, its widest low gap scoring dominance **1.0026** against **1.77** for `\|ln k\|` — same grid, same algorithm, control reproducing both known `\|ln k\|` endpoints under `===`. It is inert on the canonical population (min reactivity **0.22437673130193908**, so any floor below that cannot fire; monica bit-identical at floors 0 → 0.2, first moving at 0.5) but **not dead** — see k27. **Keep at 0.01, labelled ASSUMED with the measured bound; removal deferred behind k27.** | MEASURED | #667 |
+| k27 | ⚠️ `reactivity === 0 ⟹ gregsEnergy === 0` holds for `calculateThermodynamics` **only**, not repo-wide. The second `calculateReactivity` (`monicaKalchmCalculations.ts:81`, 21 importers) fabricates `0` at its pole where the true value is `+∞`, then delegates to the canonical `calculateMonica` — reaching the guard with `gregsEnergy ≠ 0` (monica `−3.4172` floored vs `φ` unfloored). That is a **k12-class fabricated fallback**, and it is why removing the floor is not behaviour-neutral. | MEASURED | #667 |
+| k28 | At `reactivity === 0` with `kalchm ≠ 1` the canonical engine returns `0` — literally `-0` for some inputs — where the §17c totality contract promises **φ**. Not reachable in production (0 occurrences across 7920 single-body + 5760 two-body + 142 full-chart + 931 ingredient evaluations), but a contract violation independent of the floor's value. | MEASURED | #667 |
+| k30 | `THERMO_DEN_FLOOR` is **ASSUMED and an API CONTRACT, not a derivation** — keep at `0.01`, do not derive, do not delete. On the single-body population it is a **POLE SUBSTITUTION**: `[MEASURED n=7920]` **0** cells land in the open band `(0, 0.01)` for any of the three ratios, so there it only ever fires on an exact 0. ⚠️ `[CORRECTED]` that does **NOT** generalise to caller input, and `GET /api/alchemize` takes caller elementals — at a real ESMS with `Earth = 0.001` (`den = 1e-6`, inside the band) the clamp returns **802.55** against an exact **8025465.57**, i.e. **10,000x low**, and it understates without bound as `den -> 0`. The second engine is EXACT there (control: the two agree bit-for-bit on healthy input). So a k7 consolidation onto canonical must be justified on one-formula-per-runtime plus removing the second module's k12 zero, **not** on canonical being more correct. Only **reactivity** `(Matter+Earth)²` reaches zero (**1008** cells); heat and entropy never do (minima **3.24** / **1.44**, so those floors are inert). The zero needs all three of: a non-Earth sign, a planet contributing 0 Matter in that sect, and one of the four pillars with `effects.Matter = −1` (degrees {2,3,4,9,16,17,18,23}). The numerator is strictly positive throughout (8.48–16.08), so it is a **TRUE pole** whose limit is `+∞` — `0.01` chooses where to cap infinity and thereby sets the top of the published range (`num/0.01` = 848–1608) against a largest **genuine** value of **20**. ⚠️ 12.7% of what `GET /api/alchemize` serves is that manufactured band, p90 sits inside it, and the clamp is **not uniform** (Earth signs and most nocturnal sects are exempt) — so any max, percentile, normalisation, or cross-sect comparison of reactivity is dominated by this constant. Not derivable in the k3 sense: nothing lies between 0 and 0.81. | USER + MEASURED | #671 |
+| k31 | **The 71 stored chart ANGLES are fabricated and are PURGED, not corrected** `[USER 2026-07-29]`. `natal_chart.ascendant` held only **29 distinct values across 71 rows**, **28** of them exact multiples of 30, **0** with 4+ decimals; `houses` carried only `{ASC, MC}` (never 12 cusps) with `ASC` byte-identical to `ascendant` in 71/71; `midheaven` equalled `houses.MC` in 71/71 and `ASC-90` in 51/71 with the same signature. ⚠️ **The UNIT was wrong, not merely the precision**: every reader took the scalar for an absolute longitude, but it is a DEGREE WITHIN A SIGN — proven by one chart's own aspect (`Greg Castro`, `Sun sextile Ascendant` orb **0.65**, Sun at 91.63°: read as a longitude the separation is 90.65°, a SQUARE, orb error 30.65°; read as Taurus/Virgo 0.98° it is 60.65°/59.35°, orb error **0.65** exactly). Since the sign is the dominant lever on monica (±37-43%) while sub-degree precision is noise (1.5e-7), the readers were confidently wrong about the only axis that matters. WTEN is not the writer and two candidate signs fit even the best-evidenced row, so **no correct value is recoverable** — writing one would be a k12 fabrication, and per k13 an absent JSONB member is REMOVED. `planets`, `natal_positions` and the Sun-Ascendant aspect (the sole recovery basis) are KEPT. Readers now require the self-describing `{sign, degree}` form and REFUSE a bare scalar. Snapshot `natal_chart_preascpurge_20260729212905`. | USER + MEASURED | #672 |
+| k29 | **Sign-level agents resolve at the mean of the 30 degrees of their sign** — `SIGN_MIDPOINT_DEGREE = 14.5`, DERIVED as the mean of the integers `0..29` (MEASURED: agent names carry min 0 / max 29, n=3240). This is the **existing single-body §18c construction at one more degree value** — `monica_method='single-body'`, same population, band, scale and guard — **not a 4th construction**. ⚠️ **15.0 and 15.5 are REJECTED**: `groundingVessel` floors, so both select pillar 0 (*Solution* `{0,2,2,0}`), one of only five degrees in thirty yielding **monica exactly 0** — a k12-class fabricated literal. **Reverses k18**, which rejected a *different* quantity (mean of the siblings' **output**, `mean f(x)`, vs this `f(mean x)` — **7.3×** apart for `Mars Gemini`), and whose "not worth a 4th construction" rationale therefore never applied. | USER + MEASURED | #668 |
+
+#### Data and absence
+
+| # | Ruling | Basis | PR |
+|---|---|---|---|
+| k12 | No **fabricated fallbacks**. A literal substituted for an absent value invents data; a truthiness test additionally corrupts a legitimate `0` (284 agents have one). Propagate `null`. | MEASURED | #635, #637 |
+| k13 | Absent JSONB is written as **NULL, not `'{}'`**. ⚠️ The 4940-row migration was **CANCELLED** — no reader was fooled. The writer was fixed instead. | MEASURED | #645 |
+| k14 | A snapshot is a safety net **only for the columns it contains**. Both writers were pre-§18o and could not restore 623 two-body + 71 full-chart rows. Test a restore inside a rolled-back transaction. | MEASURED | #648 |
+| k15 | The three constructions are **different objects** (§18o). Never rank, average or compare across populations. | RULED | — |
+
+#### Reversed
+
+| # | Original | Replaced by | Why |
+|---|---|---|---|
+| k16 | Migrate all agent names to one convention | **ABANDONED — CONFIRMED CLOSED `[USER 2026-07-29]`** | Measured: terse is live and growing, verbose is frozen; 346 names collide; two name columns mean a round-trip reverts it. ⚠️ **Do not re-open.** Re-confirmed by the owner alongside the 10 cloned charts: negative ROI on migrating edge cases while the engine is still stabilising. This row is the answer; a later session finding the 1064 terse names should read it and stop. |
+| k17 | Normalise full-chart monica to the single-body scale | **RAW value per construction** | Normalisation had **no consumer** and cost separation (largest bucket 16.9% → 31.0%). |
+| k18 | Sign-level agents get a mean-of-siblings monica | ~~**Delete them** (deferred)~~ **REVERSED by k29** | The degree agents are strictly more specific; a 4th construction for 2 rows is not worth its band, scale and guard. ⚠️ Both halves are now known to be answering the wrong question — see k29. |
+| k19 | Demote the 8 ancients to a coarser construction | **Author real charts** | Owner ruling 2026-07-25. ⚠️ Gated on k20. |
+| k20 | — | **Validate the ephemeris before authoring** | `astronomy-engine` returns positions for 428 BC **without erroring**, but its accuracy is documented only for ~1700–2200. It produces plausible numbers with no accuracy claim — the defect class this programme exists to remove. |
+
+#### Method
+
+| # | Ruling |
+|---|---|
+| k21 | **Measure before claiming.** Prose reasoning about this model has a poor track record; arithmetic has a good one. |
+| k22 | **A zero result is a claim needing a control test.** Multiple false all-clears came from broken searches, not clean code — unquoted globs, generic-call syntax, unsupported backreferences. |
+| k23 | **grep cannot attribute symbols.** Same-named functions in different modules are indistinguishable to it. Use the type checker. |
+| k24 | **Two independent witnesses** before trusting a prod write: the drift check re-derives values, the audit asserts structure in SQL. A mis-classifying script passes its own re-run. |
+| k25 | ⚠️ **A green test does not validate the prose beside it.** k6 was false for two days inside a passing test, because no assertion ever tested it. |
+
+### 18m. Monica has no fixed scale across body counts `[MEASURED 2026-07-22]`
+
+The single `monica_constant` column is fed by **three constructions with
+different body counts** — single-body (1), two-body phase (2), full-chart (~10).
+Whether those numbers are comparable is not a matter of taste; it is measurable.
+They are not.
+
+Measured by scaling an ESMS vector uniformly (what adding bodies does to first
+order — every axis grows), pinned by `src/__tests__/monicaScaleInvariance.test.ts`:
+
+| scale k | heat | entropy | reactivity | gregsEnergy | **ln K** | **monica** |
+|---|---|---|---|---|---|---|
+| 1 | 0.1324 | 0.2583 | 6.326 | −1.5018 | **2.89** | **0.08210** |
+| 2 | 0.1447 | 0.2762 | 6.724 | −1.7127 | 8.69 | 0.02930 |
+| 5 | 0.1552 | 0.2921 | 7.040 | −1.9017 | 31.36 | 0.00861 |
+| 10 | 0.1593 | 0.2985 | 7.161 | −1.9780 | 77.27 | 0.00358 |
+| 40 | 0.1627 | 0.3036 | 7.256 | −2.0403 | **425.52** | **0.00066** |
+
+**Four quantities SATURATE.** heat, entropy, reactivity and gregsEnergy each
+drift 15–36% across a 40× scaling and are visibly converging to an asymptote.
+They stay broadly comparable across body counts.
+
+**`ln(kalchm)` does not.** It grows **147×** over the same sweep, monotonically
+and without a fixed point — because `K = (S^S · E^E) / (M^M · Su^Su)` raises the
+*exponents* along with the bases.
+
+**So monica collapses**, by two orders of magnitude, and `monica = −G/(R·ln K)`
+holds exactly at every scale: the collapse is `ln K` alone. This is the mechanism
+behind the measured **~12–43× gap** between full-chart and single-body monica.
+
+> ⚠️ **A wrong version of this was nearly written into this spec.** The claim
+> handed over was "gregsEnergy / reactivity / heat / entropy are *exactly*
+> scale-invariant (byte-identical across a 40× scaling) while monica is not."
+> Measured: **none of the six is invariant.** The real distinction is
+> *saturating* vs *unbounded*, and the correction only surfaced because the
+> assertion was written as a test before being written as prose. See §11.
+
+**Consequences, which are the point of measuring this:**
+
+1. **Do NOT write a full-chart monica into `monica_constant`** — it belongs in
+   its own column (§18o). `[MEASURED 2026-07-22]` Computed over all **71**
+   chart-bearing agents: range **[0.006769, 0.028091]**, median **0.013874**,
+   span 0.0213 — against a single-body span of 7.172.
+2. **`monica_method` is necessary but NOT sufficient.** A discriminator lets a
+   reader tell the constructions apart; it does not stop one from ranking,
+   averaging or thresholding across them. Any cross-population comparison of
+   `monica_constant` is a category error regardless of the column.
+3. **The scale-robust quantities are the saturating four.** If a single
+   comparable agent-identity scalar is ever wanted, derive it from those — not
+   from `−G/(R·ln K)`. §18o argues that no such scalar is actually needed.
+4. **The "~200×" figure in earlier session notes — resolved.** It was reported as
+   "full-chart monica is ~200× LARGER than single-body", then rebutted as "no
+   code path, doc or DB value produces it". **Both were wrong.** `[MEASURED]`
+   The ratio that really exists is `|stored / computed|` over the same 71 rows:
+   **median 334×, max 709×** — i.e. the *fabricated literals already in the
+   column* are ~334× larger than what the engine computes for the same chart
+   (Einstein: stored **6.15**, computed **0.0151**). The figure was real; it was
+   attributed to an engine-vs-engine scale gap when it is actually a
+   fake-vs-real-value gap. This is why "no path produces it" was also wrong —
+   the DB produces it.
+
+~~`[OPEN]` Whether to mass-normalise full-chart ESMS to the single-body
+reference…~~ **`[RESOLVED 2026-07-22 — REJECTED]`. See §18o.**
+
+### 18n. Full-chart monica — the ruling's subject does not exist `[MEASURED 2026-07-22]`
+
+§18d and §18j both plan "full-chart monica for the 71 real people". Measured
+against the live production DB, **every clause of that is wrong**:
+
+| claim | measured |
+|---|---|
+| 71 real *people* need a monica | **13 humans exist in prod, and 0 hold a monica.** None needs one — no real-user data is involved at all |
+| 434 synthesized/historical, 363 need charts computing | **71 agents have a chart**, and they are the same 71 that hold a value |
+| the work is *creating* 71 values | the work is *replacing* **71** fabricated ones, range **[0.817, 6.820]**, all with `monica_method IS NULL` |
+
+The "71 real people" are **historical-figure AGENTS** (Einstein, Aristotle, …),
+not users. They already carry hand-authored literals — Einstein reads **6.15**
+where the engine computes **0.018**.
+
+> ⚠️ An investigation handed this over as "~431 fabricated values". **That is also
+> wrong; it is 71.** Re-measured directly: `monica_method IS NULL AND
+> monica_constant IS NOT NULL` over `is_agent` rows → 71. The 72 non-placement
+> rows in the drift check are these 71 plus one row carrying no monica. Two
+> successive hand-offs each mis-stated this population — quote the query, not the
+> summary.
+
+**THREE independent blockers, all must clear before any full-chart backfill:**
+
+1. **Scale (§18m).** All **71** charts compute to **[0.006769, 0.028091]**, with
+   **45 of 71 inside one 0.01-wide bucket**. Writing that raw collapses every
+   persona into one value and zeroes their Sacred-7 stats. The mass-normalisation
+   question is a unit convention and is unresolved.
+2. **Sect was wrong at the source.** `agents/unified` called
+   `alchemize(chartPositions)` with no date and no sect, so sect resolved from
+   `isCurrentSkyDiurnal()` at a **hardcoded New York observer** *at agent-creation
+   time* — a natal chart inherited "is it daytime in New York right now".
+   Sect drives the whole day/night ESMS split, so the value was not a function of
+   the chart: the same agent created twelve hours apart produced two different
+   monicas. **Fixed for new writes** (`isDiurnalAt(date, lat, lon)` +
+   `alchemize(..., {diurnal})`, PR #633), but every full-chart value computed
+   before that fix is unreliable independently of the scale question.
+
+3. **`[MEASURED 2026-07-22]` NONE of the 71 has usable birth data.** Every one
+   has `natal_positions` (all 71 parse, ≥5 planets, 0 unusable) but **0 of 71**
+   carry a `birth_data` moment + latitude/longitude. So blocker 2 cannot simply
+   be *applied* to them: there is no birth moment or birthplace to resolve sect
+   from. Any full-chart backfill of these rows must first source birth data, or
+   explicitly rule what sect a chart with no birth moment gets — and record that
+   as a modelling decision, not a default.
+
+**Therefore:** full-chart monica is **not** "a separate PR after two-body". It is
+blocked on a modelling decision (§18m), on sourcing birth data that does not
+exist, and it was — until 2026-07-22 — computed from a sect that did not belong
+to the chart. Re-scope before scheduling it.
+
+`[MEASURED]` Reproduce all of the above with `scripts/measureFullChartScale.ts`
+(read-only, no writes):
+
+```
+railway run --service Postgres -- bun scripts/measureFullChartScale.ts
+```
+
+### 18o. The three agent kinds are different OBJECTS, not one quantity at three scales `[RULED 2026-07-22]`
+
+> *"Applying the same rules to both is hogwash."*
+
+§18m established that monica has no fixed scale across body counts, and the first
+response was to hunt for a common scale — mass-normalise full-chart ESMS to the
+single-body reference so the numbers could be compared. **That was the wrong
+move, and it is rejected.** The populations do not disagree about scale; they
+disagree about *what they are*.
+
+| kind | what it IS | what its monica ANSWERS |
+|---|---|---|
+| planetary body | one planet at one degree | what is this body doing at this position |
+| Moon phase | a Sun–Moon *relationship* | what is this angular relationship doing |
+| historical agent | a whole natal chart | what is this entire chart doing |
+
+A lone planet and a ten-body chart are not two samples of one quantity. Putting
+them on one axis is a category error that no amount of rescaling fixes.
+
+**`[MEASURED 2026-07-22]` Three findings, each independently sufficient:**
+
+**1. The populations differ in KIND, not scale.** Relative spread —
+`IQR / |median|`, which is scale-free by construction:
+
+| population | IQR/\|median\| |
+|---|---|
+| single-body | **6.815** |
+| full-chart | **0.176** |
+
+A 39× difference in *relative* dispersion cannot be a units problem. 71 real
+natal charts (ten bodies spread round the zodiac) are genuinely more alike than
+3600 single-planet placements are. **Normalisation cannot manufacture dispersion
+that is not in the population.**
+
+**2. Normalisation has NO CONSUMER.** Audited every reader of `monica_constant`
+in `src/`: **nothing ranks, averages or compares agent monica across
+populations.** The two `.sort()` hits are recipe `monicaScore` and *ingredient*
+monica — different quantities. The one threshold consumer,
+`monica/compatibility.ts`, branches on **sign only** (`> 0` / `< 0` / `== 0`),
+which is scale-free and unaffected. The comparability normalisation buys is
+bought for nobody.
+
+**3. Normalisation COSTS separation.** At equal relative resolution (span/100)
+the largest bucket goes **16.9% raw → 31.0% normalised**. It compresses.
+
+> ⚠️ **A metric trap, recorded because it caught the author of §18m.** The first
+> separation measurement used a fixed 0.01-wide bucket. That is *scale-dependent*
+> — 0.01 is 5.5% of the normalised span but 0.14% of the single-body span,
+> flattering single-body by ~40× and appearing to justify normalising. The
+> conclusion reversed once the metric was made relative. **Never compare
+> dispersion between populations with an absolute bucket width** — that is §18m's
+> own lesson applied to §18m's own analysis.
+
+**RULED:**
+
+- **Each construction keeps its own natural scale.** Write the **raw** computed
+  value into that construction's own column. No cross-construction normalisation.
+- **`monica_constant` is SINGLE-BODY ONLY.** `monica_two_body` and
+  `monica_full_chart` hold the others. A reader wanting a different construction
+  must ask for it by name.
+- **Display mapping is PER-POPULATION**, not global — see §18p.
+- Both sects are still computed for chartless charts (§18n blocker 3). That
+  ruling survives: it depends on no cross-population assumption.
+
+### 18p. Sacred-7 takes a per-population mapping `[MEASURED 2026-07-22]`
+
+`sacred-7-stats.ts` mixes monica into seven stats as `monica/10`, assuming input
+in `[0,10]`. Measured against every backfilled agent, that assumption is wrong in
+the **opposite direction from the one assumed**:
+
+- real input is **[−5.4191, 6.8200]**
+- **24.6%** of values are **NEGATIVE** (1185 of 4821) — never anticipated
+- the span is **122.4%** of the assumed range
+
+So monica does not *under*-drive the stats — it **over**-drives them.
+`kineticAlignment` (coefficient 50) swings **61.2 points** on a 0–100 stat, and
+clamps once its other ~45 points of terms land. A clamped stat is one the chart
+can no longer influence.
+
+**Candidate mappings, scored on the same data by IQR** — the information-carrying
+measure, since a mapping that squashes everyone into a band makes the stat
+useless whatever its range:
+
+| mapping | IQR | outside [0,1] |
+|---|---|---|
+| current `monica/10` | 0.0479 | **1185** |
+| linear `[min,max] → [0,1]` | 0.0392 | 0 |
+| linear signed, `0 → 0.5` | 0.0351 | 0 |
+| **`tanh(monica)`** | **0.2229** | 0 |
+
+tanh wins by **4.6×** and is the principled form: monica is unbounded and signed,
+so a bounded stat needs a *squashing* function, not a linear rescale that one
+outlier redefines. Both linear options are destroyed by the extremes compressing
+the bulk.
+
+**But a GLOBAL tanh annihilates the smallest-scale population.** Scaling each
+population by its own spread `s_p` (its `|p75|`) instead:
+
+| population | n | own `s_p` | global tanh IQR | **per-population IQR** | gain |
+|---|---|---|---|---|---|
+| single-body | 4281 | 0.528 | 0.2891 | 0.3272 | 1.1× |
+| two-body | 469 | 0.814 | 0.3826 | 0.3304 | 0.9× |
+| full-chart | 71 | 5.230 | **0.0001** | **0.1253** | **1550×** |
+
+Under one global mapping **all 71 historical agents collapse to the same stat
+value** (IQR 0.0001). Single-body and two-body barely notice, because they happen
+to sit on similar scales — it is specifically the chart-bearing agents that a
+shared mapping destroys. With the *real* computed full-chart values (~0.014
+rather than the fabricated ~5.2) it is worse still: every one maps to
+`tanh(0.014 / 0.626) ≈ 0.022`, identical to four decimals.
+
+**RULED: `tanh(monica / s_p)`**, where `s_p` is the population's own scale.
+Bounded, signed, and each population resolved against itself — which is the only
+comparison anything in the codebase makes.
+
+**`s_p` = that population's `|max| / 2`** — `single-body` 1.9875, `two-body`
+2.7095 — so the most extreme agent maps to `tanh(2) ≈ 0.964`, near the top of the
+range but not saturated.
+
+⚠️ `[MEASURED]` **Two tighter scales were tried and rejected.**
+
+*`|p75|` (0.5278) scores a far better IQR — 0.327 vs 0.103 — but SATURATES the
+tails:* it pushes **464 single-body agents (10.8%)** past 0.99 or under 0.01,
+where they all render an identical maxed-out stat. `max/2` saturates **zero**, at
+the cost of 12% fewer distinct values (241 vs 269). A visibly pinned stat for a
+tenth of the population is worse than slightly coarser resolution for all of it.
+
+*`|p95|` looked like the sweet spot until it was read carefully: it measures
+**exactly 1.6180 for BOTH single-body and two-body**. That is **φ**
+(`MONICA_EQUILIBRIUM`) — the degenerate-case sentinel piling up — not a feature
+of either distribution. Scaling by it would be reading a sentinel as data.*
+
+Implemented as `normalizeMonicaForStats()` in `src/lib/sacred-7-stats.ts`, which
+replaces `monica / 10` at all seven monica call sites. Shape is preserved:
+**0.5 at monica = 0**, so a coefficient still reads as "up to N points of bonus".
+`full-chart` has no scale yet — those values are not in production (§18n), so a
+placeholder would be the unmeasured constant §11 exists to prevent; it falls back
+to single-body and must be revisited.
+
+⚠️ `clamp()` in that module ROUNDS, so a stat reaching the integer 100 is the top
+of its scale, not a truncation. The failure mode to test for is information loss
+(many monicas squashed onto one output), not the boundary value —
+`src/__tests__/sacred7MonicaMapping.test.ts` asserts the former.
+
+`[MEASURED]` Reproduce with `scripts/measureSacred7Distributions.ts` (read-only).
+
+### 18q. Shipped state and the verification contract `[2026-07-22]`
+
+§18o was executed in three deliberately separate stages. The ordering is the
+point, not bureaucracy:
+
+| stage | what | file |
+|---|---|---|
+| 1 | schema — three nullable columns, additive, breaks nothing | `database/init/71-monica-per-construction.sql` |
+| 2 | data — classify by NAME, recompute, move, write | `scripts/backfillMonicaPerConstruction.ts` |
+| 3 | constraints — **only after** the data satisfies them | `database/init/72-monica-construction-constraints.sql` |
+
+**Constraints come last because a constraint added before its data is clean
+simply rolls the whole transaction back.** That is not hypothetical: it happened
+in this program when `monica_method_known` rejected an invented
+`'two-body-phase'` value and aborted a 469-row migration. Stage 3 was
+pre-validated against live production (0 violations on five checks) before being
+applied.
+
+**Five constraints, each verified to actually REJECT a bad write** — probed with
+deliberate bad writes inside rolled-back transactions, plus a control confirming
+a legitimate write still passes. A constraint that exists but never fires is
+theatre.
+
+> ⚠️ When probing, ISOLATE. One probe initially read as "not enforced" only
+> because a *different* constraint fired first and masked it. "The constraint
+> didn't fire" and "my probe hit another constraint first" look identical in the
+> output, and only one of them is a problem.
+
+#### The verification contract
+
+Two tools, deliberately independent:
+
+- `checkAgentMonicaDrift.ts` — **recomputes** every value from the canonical
+  engine and compares. Also asserts the ruled invariants: populations sum exactly
+  to the row count, `monica_method` matches the name family, and φ share per
+  population stays under threshold.
+- `auditAgentDataIntegrity.ts` — asserts **structure** in direct SQL across seven
+  areas (blast radius, column split, coverage, sentinels, rollback, referential
+  integrity, constraints), reusing no backfill logic.
+
+The separation is load-bearing: a script that mis-classifies would repeat the
+mistake on re-run and report success. On 2026-07-22 the drift check caught three
+such bugs mid-migration — an unstamped `monica_method`, missing sect columns, and
+a classifier reading stored values instead of names — none of which was visible
+in a `COMMIT ok`.
+
+#### ⚠️ The rollback trap
+
+The backfill snapshots on **every** `--write`, so re-runs produce snapshots of
+already-migrated data. There are three `monica_preconstruction_*` tables and
+**only the first is a rollback point**; the later two restore nothing. Picking
+the newest is the natural instinct and is wrong.
+
+`auditAgentDataIntegrity.ts` identifies the true one **by content** — does it
+still hold the 71 hand-authored literals and the two-body values in
+`monica_constant`? Never choose by name or timestamp.
+
+Everything except those 71 authored literals is **recomputable** from the agent's
+own name or chart, which is a stronger guarantee than any snapshot. The snapshot
+exists precisely for the part that is not.
+
+#### Still open
+
+- **Birth data for the 71** — none has a birth moment or birthplace, so sect is
+  unresolvable and both sects are stored (§18n). Ruled: author from public
+  records with per-entry confidence, reviewed before writing.
+- **Sacred-7 `full-chart` scale** — deliberately absent (§18p); measure `|max|/2`
+  from the now-written values.
+- **`combined` for full-chart is a weak signal** — the two sects have opposite
+  signs in most charts (Einstein +0.0151 / −0.0034), so the mean is a partial
+  cancellation. The per-sect columns carry the signal. Not lossy, since both are
+  stored and the mean is recomputable — but worth deciding whether
+  `monica_full_chart` should hold a mean at all.
+- **§14** — the engine still disagrees with itself upstream of all of this.
+  Acceptance bar ruled: characterisation tests BEFORE touching any shared table,
+  and run the drift check either side of any change, since those tables feed
+  every value now in production.
+
+### 18q. The second runtime — Python was live all along `[MEASURED 2026-07-26]`
+
+§18k k7 ruled that the formula lives in "one module per runtime, enforced by an
+AST gate". The gate is a **TypeScript** AST gate, and it structurally cannot see
+a second runtime. There is one, and it serves production traffic.
+
+**Deployment, proven end to end.** `railway.json` declares
+`builder: DOCKERFILE, dockerfilePath: backend/Dockerfile`; that Dockerfile's CMD
+is `uvicorn backend.alchm_kitchen.main:app`. The Railway service **WhatToEatNext**
+is Online; `/health` returns `{"service":"alchm-backend"}`; `/openapi.json` serves
+34 routes from that module. `POST /alchemize` returned kalchm
+**121.49817994831771** for a live request, which round-trips **exactly** to the
+formula at `main.py:663`. It was not dead scaffolding.
+
+**Its kalchm was already correct.** There was no epsilon floor — Python's `0**0`
+is 1 exactly as JS's is, and `(kalchm_denominator or 1)` was unreachable for real
+input because x^x ≥ 0.6922006275556402. The defects were elsewhere:
+
+| # | Defect | Measured consequence |
+|---|---|---|
+| 1 | `monica = 1.0` at exact degeneracy | 1.0 where canonical returns φ = 1.618 |
+| 2 | Bare `ln_k != 0`, **no degenerate band** | kalchm 1.00002 → monica **−49999.5** vs φ. A **~31,000×** error that is *finite and plausible*, so it passes every downstream `isfinite` check and reaches the database |
+| 3 | Unclamped negative axis | `(-0.5) ** (-0.5)` is a **complex number** in Python where JS gives NaN. `complex or 1` is truthy so the fallback never fired; `kalchm > 0` then raised TypeError → HTTP 500 |
+| 4 | `reactivity = (num / (matter or 1)) + earth**2` | **3.17×** divergence — see below |
+| 5 | `TokenRatesResult(... kalchm=1.0, monica=1.0)` from a bare `except: pass` | fabricated ESMS tuple |
+| 6 | `result.get('kalchm', 0)` | 0 is IMPOSSIBLE for kalchm under the totality contract |
+
+**Defect 4 is the instructive one.** `reactivity` should be
+`(S² + Su² + E² + F² + A² + W²) / (Matter + Earth)²`. The Python form is that
+expression **with the parentheses lost**, so Earth left the denominator and
+became an additive term. This is not a judgement call between two candidate
+definitions: **all nine TypeScript implementations** use `(Matter + Earth)²`
+(`data/unified/alchemicalCalculations.ts:227`, `calculations/gregsEnergy.ts:164`,
+`calculations/core/alchemicalEngine.ts:258`, `services/UnifiedScoringService.ts:582`,
+`lib/core-energy-rules.ts:185`, `utils/recommendation/ingredientRecommendation.ts:1158`
+and `:1256`, `app/recipes/[recipeId]/RecipeClient.tsx:441`,
+`calculations/alchemicalCalculations.ts:191`). Measured on
+(S,Su,E,F,A,W,M,Ea) = (4,1,3,2,1.5,1,2,0.5): **16.875 vs 5.320**. The two forms
+coincide **only when Earth = 0 and Matter = 1**, which is why it survived.
+
+Python also used `(den or 1)` on the heat and entropy denominators where
+canonical floors at `THERMO_DEN_FLOOR = 0.01`. Those differ at a zero
+denominator by a factor of **100**, in the direction of understating the value.
+
+**Fixed** by one `compute_kalchm_monica`, plus aligned thermodynamic
+denominators. Both runtimes are now pinned by shared golden vectors in
+`backend/tests/kalchm_golden_vectors.json` — 12 kalchm/monica vectors and 5
+thermodynamic vectors × 4 quantities — read by
+`backend/tests/test_kalchm_parity.py` and
+`src/__tests__/kalchmCrossRuntimeParity.test.ts`. Expected values are
+**generated from canonical**, not transcribed: 9 of 12 hand-written monica values
+were wrong on the first pass, which is k10 reproducing itself exactly.
+
+#### Rulings
+
+| # | Ruling | Basis |
+|---|---|---|
+| q1 | The formula lives in one module **per runtime**, and "per runtime" must be **enumerated**, not assumed. A TypeScript gate proves nothing about Python, SQL, Rust or a notebook. | MEASURED |
+| q2 | Cross-runtime agreement must be **tested, never inferred from a shared formula**. `(-0.5) ** (-0.5)` differs between JS and Python in **TYPE**, not just value. | MEASURED |
+| q3 | ⚠️ **A near-degenerate divergence is more dangerous than a NaN.** NaN announces itself; −49999.5 is finite, plausible, and survives every `isfinite` guard to reach the database. Test the BAND, never the point. | MEASURED |
+| q4 | Where implementations disagree, **count them**. Nine-to-one with a visible mechanism (lost parentheses) settles a question that prose argument would not. | MEASURED |
+
+### 18r. Corrections to §18k `[MEASURED 2026-07-26]`
+
+Three claims this programme acted on did not survive re-measurement. Recording
+them because the reversals are the more instructive record (§18k precedent).
+
+**r1 — "`src/calculations/alchemicalCalculations.ts` is UNREACHABLE; DELETE it."
+FALSE.** Three adversarial verifiers, each with a different lens, returned
+REACHABLE at high confidence, with an empirical deletion test:
+`src/calculations/index.ts:459` does `export * from "./alchemicalCalculations"`,
+and removing the file yields exactly one
+`TS2307: Cannot find module './alchemicalCalculations'`. Worse — the neighbouring
+`export * from "./core/kalchmEngine"` exports `calculateKAlchm` (**capital A**), a
+*different identifier*, so no name collision shadowed it and
+`import { calculateKalchm } from "@/calculations"` bound to **this** file: the
+copy that returned **0** at a zeroed axis, making `ln(kalchm)` −Infinity. **The
+barrel was publicly exporting the worst implementation in the repo.** Delegated,
+not deleted. Deletion is a one-way door; delegation fixes the behaviour either
+way and is reversible.
+
+**r2 — "`src/lib/core-energy-rules.ts` is live via galileo-logger
+ANumberCalculator." FALSE.** Refuted by three independent sweeps, each with a
+positive control. It has no live callers at all. The claim had been used **twice**
+to defer the file from dead-code sweeps. Of its four alleged defects, three
+confirmed (sign destruction via `Math.abs`, a parity-based sign flip letting
+kalchm go negative, a `return NaN` violating totality); the fourth —
+`Math.log(Math.abs(k))` masking negativity — is **misdescribed**: the
+`kalchmConstant > 0` guard on the preceding line rejects a negative first, so that
+line is unreachable with a negative argument.
+
+**r3 — the persisted-value partition.** Measured by AST walk with an exact
+round-trip test at each value's own stored precision: **967 reproducible / 198
+placeholders**, not 540 / 203 / 423. The "423 unverifiable, inputs never
+persisted" population **does not exist** — those values reproduce exactly from
+ESMS stored beside them. The work item to persist their inputs is therefore
+unnecessary, the same way k13's 4940-row migration was cancelled.
+
+Also re-measured: `natal_positions` is an **empty array** (not a partial chart)
+for Mars Gemini and Moon Cancer; **285** agents hold monica_constant exactly 0,
+not 284; and the agent population moved **5028 → 5032 → 5057 within four hours**,
+which is k-level evidence for never quoting a count from a document.
+
+### 18s. The ephemeris gate — it passes, but not for the reason expected `[MEASURED 2026-07-26]`
+
+§18k k20 gated chart authoring on validating `astronomy-engine` outside its
+documented ~1700–2200 window. **Validated against JPL Horizons (DE441),
+56 body-date pairs across the 8 ancients × 7 bodies:**
+
+| | result |
+|---|---|
+| SIGN mismatches | **0 of 56** |
+| DEGREE mismatches | 4 of 56 (7.1%) |
+| worst deviation | **0.4533°** (Moon) |
+| controls (J2000, 1875) | ≤ 0.0011° |
+
+Since the ESMS vector is driven by **sign**, ancient charts are defensible at
+sign granularity. k20 is **cleared** — but two other things nearly produced a
+wrong answer, and one of them is the real blocker:
+
+1. **Horizons returns rows sorted by JD, not in TLIST order.** Zipping
+   positionally reported **26 sign mismatches** — entirely artefact. Caught only
+   because a control row mapped J2000 to 1875. Join on the echoed JD
+   (`CAL_FORMAT='JD'`), never on array position.
+2. **Calendar convention dwarfs ephemeris error by two orders of magnitude.**
+   JS `Date` is proleptic Gregorian; historical dates are quoted in the **Julian**
+   calendar. The same JD reads as May 21 (Gregorian) and May 26 (Julian) — a
+   5-day gap, which is ~4.9° of Sun and **~66° of Moon, more than two signs.**
+3. Outer-planet **body-centre** ephemerides (Horizons 499/599/699) do not exist
+   before **AD 1600**; ancient work needs the barycentres (4/5/6).
+
+**So the blocker for the 8 ancients is date ATTESTATION, not ephemeris
+accuracy.** A Sun-degree → date inversion (measured: exact round-trip,
+sub-arcsecond, at 750 BC) structurally removes hazard 2, because it never
+constructs a calendar date — but it cannot supply the year, and a 1° Sun window
+(±0.5 day) leaves the Moon spanning **14.28°**: degree unrecoverable, ~48% chance
+of straddling a sign boundary. Pairing it with an attested lunar-calendar day
+(Plato's traditional 7 Thargelion → Sun–Moon elongation) is what would pin the
+Moon.
+
+| # | Ruling |
+|---|---|
+| s1 | An external ephemeris comparison must **join on an explicit key**. Row order is not a contract, and a positional zip fails silently and spectacularly. |
+| s2 | For any pre-1582 date, state the **calendar** as explicitly as the timezone. Going longitude → JD avoids the question entirely and is preferred. |
+| s3 | Authoring a chart from a declared convention is acceptable **only if the convention is recorded as the basis**. The same guess inside a birth date reads as a fact; inside `basis=DERIVED` it reads as what it is. |

@@ -1,4 +1,5 @@
 import { getCurrentSeason } from "@/data/integrations/seasonal";
+import { performAlchemicalAnalysis as calcThermo } from "@/data/unified/alchemicalCalculations";
 import {
   unifiedBeverages,
   unifiedCookingStaples,
@@ -26,7 +27,6 @@ import type {
 } from "@/types/alchemy";
 import { alchemicalEngine } from "@/utils/alchemyInitializer";
 import { resolveIngredientByName } from "@/utils/ingredientResolution";
-import { calculateThermodynamicMetrics as calcThermo } from "@/utils/monicaKalchmCalculations";
 import type { Recipe } from "../types/recipe";
 
 /**
@@ -708,7 +708,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Calculate thermodynamic metrics from ingredient's elemental and alchemical properties
    */
-  calculateThermodynamicMetrics(
+  performAlchemicalAnalysis(
     ingredient: UnifiedIngredient,
   ): ThermodynamicProperties {
     const elemental = ingredient.elementalProperties || {
@@ -1297,9 +1297,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // `energyProfile` are), so narrow the fallback-or-computed result to
     // the shape actually read below.
     const metrics1 = (ing1.thermodynamicProperties ||
-      this.calculateThermodynamicMetrics(ing1)) as ThermodynamicProperties;
+      this.performAlchemicalAnalysis(ing1)) as ThermodynamicProperties;
     const metrics2 = (ing2.thermodynamicProperties ||
-      this.calculateThermodynamicMetrics(ing2)) as ThermodynamicProperties;
+      this.performAlchemicalAnalysis(ing2)) as ThermodynamicProperties;
 
     // Calculate differences in key properties
     const heatDiff = Math.abs(metrics1?.heat - metrics2?.heat);

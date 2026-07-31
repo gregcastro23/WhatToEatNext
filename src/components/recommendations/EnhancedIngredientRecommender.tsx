@@ -15,6 +15,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
+import {
+  calculateKalchm,
+  deriveAlchemicalFromElemental,
+  performAlchemicalAnalysis,
+} from "@/data/unified/alchemicalCalculations";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { usePantry } from "@/hooks/usePantry";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
@@ -28,11 +33,6 @@ import type { AlchemicalProperties } from "@/types/celestial";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
-import {
-  calculateThermodynamicMetrics,
-  elementalToAlchemicalApproximation,
-  calculateKAlchm,
-} from "@/utils/monicaKalchmCalculations";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -449,22 +449,21 @@ function calculateCompatibilityScore(
     (fireCompat + waterCompat + earthCompat + airCompat) / 4;
 
   // An ingredient is not a chart — it has no planets — so its quantities come
-  // from its own data, and the elemental approximation is a legitimate fallback.
+  // from its own data, and an elemental derivation is a legitimate fallback.
   const ingredientAlchemical = ingredientAlchemicalProps?.Spirit
     ? ingredientAlchemicalProps
-    : elementalToAlchemicalApproximation(ingredientElementals);
+    : deriveAlchemicalFromElemental(ingredientElementals);
   // The current moment DOES have planets, so its quantities are derived from
-  // them (once per render, in astroCtx). The approximation — whose own docstring
-  // says it is "NOT the correct method" — is now only reached when positions are
-  // unavailable, the single case it was written for.
+  // them (once per render, in astroCtx). The elemental derivation is only
+  // reached when positions are unavailable, the single case it exists for.
   const currentAlchemical =
-    astroCtx?.alchemical ?? elementalToAlchemicalApproximation(currentElementals);
+    astroCtx?.alchemical ?? deriveAlchemicalFromElemental(currentElementals);
 
-  const ingredientThermo = calculateThermodynamicMetrics(
+  const ingredientThermo = performAlchemicalAnalysis(
     ingredientAlchemical,
     ingredientElementals,
   );
-  const currentThermo = calculateThermodynamicMetrics(
+  const currentThermo = performAlchemicalAnalysis(
     currentAlchemical,
     currentElementals,
   );
@@ -2189,12 +2188,12 @@ export const EnhancedIngredientRecommender: React.FC<
                       const kalchmValue =
                         ingredient.kalchm ??
                         (alch?.Spirit
-                          ? calculateKAlchm(
-                              alch.Spirit,
-                              alch.Essence,
-                              alch.Matter,
-                              alch.Substance,
-                            )
+                          ? calculateKalchm({
+                              Spirit: alch.Spirit,
+                              Essence: alch.Essence,
+                              Matter: alch.Matter,
+                              Substance: alch.Substance,
+                            })
                           : null);
                       if (kalchmValue == null) return null;
                       return (

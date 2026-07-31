@@ -17,11 +17,11 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import {
-  calculateKAlchm,
-  calculateMonicaConstant,
-} from "@/utils/monicaKalchmCalculations";
+  calculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
+import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 interface MethodData {
@@ -316,18 +316,18 @@ export default function CookingMethodPreview() {
         const gregsEnergy = result.gregsEnergy;
 
         // Calculate Kalchm using TRANSFORMED ESMS (method-specific equilibrium constant)
-        const kalchm = calculateKAlchm(
-          transformedESMS.Spirit,
-          transformedESMS.Essence,
-          transformedESMS.Matter,
-          transformedESMS.Substance,
-        );
+        const kalchm = calculateKalchm({
+          Spirit: transformedESMS.Spirit,
+          Essence: transformedESMS.Essence,
+          Matter: transformedESMS.Matter,
+          Substance: transformedESMS.Substance,
+        });
 
         // Use method-specific reactivity for Monica calculation
         const reactivity = methodThermo.reactivity;
         const monica =
           gregsEnergy !== null && kalchm
-            ? calculateMonicaConstant(gregsEnergy, reactivity, kalchm)
+            ? calculateMonica(gregsEnergy, reactivity, kalchm)
             : null;
 
         const monicaClass = classifyMonica(monica);
