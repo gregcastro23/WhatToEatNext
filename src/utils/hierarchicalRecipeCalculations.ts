@@ -451,13 +451,14 @@ export function calculateRecipeKinetics(
   // 4. Recipe power (P) = I × V (transformation power)
   const recipePower = recipeCurrent * recipePotential;
 
-  // 5. Recipe force (F) = Power × Inertia (cooking resistance)
-  const recipeInertia = 1 + (Matter + Substance) * 0.1;
-  const recipeForce = recipePower * recipeInertia;
+  // 5. Recipe force (F) = Power × Thermodynamic Resistance (cooking resistance)
+  const recipeThermodynamicResistance = 1 + (Matter + Substance) * 0.1;
+  const recipeInertia = recipeThermodynamicResistance;
+  const recipeForce = recipePower * recipeThermodynamicResistance;
 
-  // 6. Recipe acceleration = Force / Inertia
+  // 6. Recipe acceleration = Force / Resistance
   const recipeAcceleration =
-    recipeInertia > 0 ? recipeForce / recipeInertia : 0;
+    recipeThermodynamicResistance > 0 ? recipeForce / recipeThermodynamicResistance : 0;
 
   // 7. Thermal direction based on heat vs entropy balance
   let thermalDirection: "heating" | "cooling" | "stable";

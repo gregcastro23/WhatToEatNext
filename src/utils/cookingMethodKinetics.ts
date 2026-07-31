@@ -449,20 +449,21 @@ export function calculateMethodSpecificKinetics(
     velocity[element] = emphasis * profile.velocityFactor * planetaryBoost * velocityMultiplier;
   }
 
-  // ── 6. Inertia ──────────────────────────────────────────────────────
-  // Method inertia from ESMS Matter/Substance + Earth element
+  // ── 6. Thermodynamic Resistance ─────────────────────────────────────
+  // Method transformation resistance from ESMS Matter/Substance + Earth element
   const earthEmphasis = elementalEffect.Earth ?? 0;
-  const inertia = Math.max(
+  const thermodynamicResistance = Math.max(
     0.5,
     1 + (transformedESMS.Matter + earthEmphasis + transformedESMS.Substance / 2) * 0.1,
   );
+  const inertia = thermodynamicResistance;
 
   // ── 7. Momentum per element ─────────────────────────────────────────
-  // p = inertia × velocity × momentum retention factor
+  // p = thermodynamicResistance × velocity × momentum retention factor
   const momentum: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   for (const element of elements) {
-    momentum[element] = inertia * velocity[element] * profile.momentumRetention;
+    momentum[element] = thermodynamicResistance * velocity[element] * profile.momentumRetention;
   }
 
   // ── 8. Force per element ────────────────────────────────────────────

@@ -129,16 +129,17 @@ export function calculateKineticProperties(
     Air: baseVelocity * (Air + Substance / 2),
   };
 
-  // Calculate inertia (resistance to change)
-  // Higher Matter and Earth = higher inertia
-  const inertia = Math.max(1, Matter + Earth + Substance / 2);
+  // Calculate thermodynamic resistance (resistance to transformation)
+  // Higher Matter and Earth = higher thermodynamic resistance
+  const thermodynamicResistance = Math.max(1, Matter + Earth + Substance / 2);
+  const inertia = thermodynamicResistance;
 
   // Calculate momentum (mass × velocity per element)
   const momentum: Record<string, number> = {
-    Fire: inertia * velocity.Fire,
-    Water: inertia * velocity.Water,
-    Earth: inertia * velocity.Earth,
-    Air: inertia * velocity.Air,
+    Fire: thermodynamicResistance * velocity.Fire,
+    Water: thermodynamicResistance * velocity.Water,
+    Earth: thermodynamicResistance * velocity.Earth,
+    Air: thermodynamicResistance * velocity.Air,
   };
 
   // Calculate charge (Q) = Matter + Substance

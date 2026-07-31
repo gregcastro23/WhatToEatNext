@@ -1,77 +1,127 @@
-from typing import Dict, Any
+"""
+Natal Alchemy & ESMS Physics Calculation Engine - Python Backend
 
-def calculate_natal_alchemical_quantities(planetary_positions: Dict[str, Any]) -> Dict[str, float]:
+Calculates authoritative ESMS quantities (Spirit, Essence, Matter, Substance)
+for a natal or transit chart using Planet Identity x Sect, continuous positional physics,
+and gravitational inertia. Purges phantom points (North Node).
+"""
+
+import math
+from typing import Dict, Any, Optional
+from backend.utils.planetary_alchemy import (
+    ESMS_PLANETS,
+    PLANETARY_SECTARIAN_ESMS,
+    ZODIAC_ELEMENTS,
+    get_normalized_alchm_weight,
+    get_gravitational_inertia,
+    get_tidal_pull,
+    calculate_positional_ascendant_vessel,
+)
+
+def calculate_natal_alchemical_quantities(
+    planetary_positions: Dict[str, Any],
+    is_diurnal: bool = True
+) -> Dict[str, Any]:
     """
-    Calculates the Alchemical Quantities (Spirit, Essence, Matter, Substance)
-    for a user based on their Natal Chart planetary positions.
+    Calculates authoritatively unified Alchemical Quantities (Spirit, Essence, Matter, Substance)
+    based on planetary positions, sect (diurnal vs nocturnal), and geocentric distance physics.
     """
+    sect_key = "diurnal" if is_diurnal else "nocturnal"
     
-    # Elemental Weights
-    elements = {"Fire": 0.0, "Earth": 0.0, "Air": 0.0, "Water": 0.0}
+    # Initialize totals
+    esms_totals = {"Spirit": 0.0, "Essence": 0.0, "Matter": 0.0, "Substance": 0.0}
+    elements_raw = {"Fire": 0.0, "Earth": 0.0, "Air": 0.0, "Water": 0.0}
     
-    # Sign to Element Map
-    SIGN_ELEMENTS = {
-        "aries": "Fire", "leo": "Fire", "sagittarius": "Fire",
-        "taurus": "Earth", "virgo": "Earth", "capricorn": "Earth",
-        "gemini": "Air", "libra": "Air", "aquarius": "Air",
-        "cancer": "Water", "scorpio": "Water", "pisces": "Water"
-    }
+    total_planet_weight = 0.0
+    total_inertia = 0.0
+    total_tidal_pull = 0.0
     
-    # Planetary Weights (Importance in Chart)
-    # Sun/Moon/Ascendant are most important
-    PLANET_WEIGHTS = {
-        "Sun": 3.0,
-        "Moon": 3.0,
-        "Ascendant": 3.0, # If present in positions
-        "Mercury": 1.5,
-        "Venus": 1.5,
-        "Mars": 1.5,
-        "Jupiter": 1.0,
-        "Saturn": 1.0,
-        "Uranus": 0.5,
-        "Neptune": 0.5,
-        "Pluto": 0.5,
-        "North Node": 0.5
-    }
-    
-    total_weight = 0.0
-    
+    # Process strictly valid planetary bodies (Purging North Node and phantom points)
     for body, pos in planetary_positions.items():
-        sign = pos.get("sign", "").lower()
-        if sign in SIGN_ELEMENTS:
-            element = SIGN_ELEMENTS[sign]
-            weight = PLANET_WEIGHTS.get(body, 1.0)
-            elements[element] += weight
-            total_weight += weight
+        if not isinstance(pos, dict):
+            continue
             
-    # Normalize Elements
-    # Gracefully handles missing bodies (e.g., unknown birth time missing Ascendant)
-    if total_weight > 0:
-        for e in elements:
-            elements[e] /= total_weight
+        body_clean = body.strip().title()
+        if body_clean not in ESMS_PLANETS:
+            continue  # Exclude North Node, MC, Chiron, etc.
+            
+        sign = str(pos.get("sign", "")).strip().lower()
+        degree = float(pos.get("degree", 0.0))
+        distance_au = pos.get("distance", None)
+        if distance_au is not None:
+            try:
+                distance_au = float(distance_au)
+            except (ValueError, TypeError):
+                distance_au = None
+
+        # Elemental placement
+        element = ZODIAC_ELEMENTS.get(sign, "Earth")
+        alchm_weight = get_normalized_alchm_weight(body_clean)
+        inertia = get_gravitational_inertia(body_clean, distance_au)
+        tidal_pull = get_tidal_pull(body_clean, distance_au)
+        
+        elements_raw[element] += alchm_weight
+        total_planet_weight += alchm_weight
+        total_inertia += inertia
+        total_tidal_pull += tidal_pull
+        
+        # Sectarian ESMS contribution
+        sect_esms = PLANETARY_SECTARIAN_ESMS.get(body_clean, {}).get(
+            sect_key, {"Spirit": 0.0, "Essence": 0.0, "Matter": 0.0, "Substance": 0.0}
+        )
+        
+        for key in esms_totals:
+            esms_totals[key] += sect_esms.get(key, 0.0) * inertia
+
+    # Grounding Ascendant Vessel (Positional)
+    asc_pos = planetary_positions.get("Ascendant") or planetary_positions.get("ascendant")
+    if isinstance(asc_pos, dict):
+        asc_sign = str(asc_pos.get("sign", "aries"))
+        asc_degree = float(asc_pos.get("degree", 0.0))
     else:
-        # Fallback to perfectly balanced if chart is completely empty
-        elements = {"Fire": 0.25, "Earth": 0.25, "Air": 0.25, "Water": 0.25}
-            
-    # Calculate Alchemical Quantities
-    # Spirit: Fire (Energy) + Air (Movement)
-    spirit = (elements["Fire"] * 0.6) + (elements["Air"] * 0.4)
+        asc_sign = "aries"
+        asc_degree = 0.0
+        
+    asc_vessel = calculate_positional_ascendant_vessel(asc_sign, asc_degree)
+    asc_weight = get_normalized_alchm_weight("Ascendant")
+    asc_inertia = get_gravitational_inertia("Ascendant")
     
-    # Essence: Water (Soul/Emotion) + Air (Communication)
-    essence = (elements["Water"] * 0.6) + (elements["Air"] * 0.4)
-    
-    # Matter: Earth (Body) + Water (Biology)
-    matter = (elements["Earth"] * 0.6) + (elements["Water"] * 0.4)
-    
-    # Substance: Earth (Structure) + Fire (Metabolism)
-    substance = (elements["Earth"] * 0.6) + (elements["Fire"] * 0.4)
-    
-    # Normalize to 0-1 scale visually (approximated max possible is around 0.6+0.4=1.0)
-    
+    total_inertia += asc_inertia
+    for key in esms_totals:
+        esms_totals[key] += asc_vessel.get(key, 0.5) * asc_inertia
+
+    # Normalize elements
+    total_elem = sum(elements_raw.values())
+    if total_elem > 0:
+        elemental_balance = {k: round(v / total_elem, 4) for k, v in elements_raw.items()}
+    else:
+        elemental_balance = {"Fire": 0.25, "Earth": 0.25, "Air": 0.25, "Water": 0.25}
+
+    # Absolute ESMS scores
+    spirit = round(esms_totals["Spirit"], 4)
+    essence = round(esms_totals["Essence"], 4)
+    matter = round(esms_totals["Matter"], 4)
+    substance = round(esms_totals["Substance"], 4)
+
+    # Reactivity: Strictly (Matter + Earth)^2
+    earth_val = elemental_balance.get("Earth", 0.25)
+    reactivity_denom = (matter + earth_val) ** 2
+    reactivity = round(reactivity_denom, 4)
+
+    # Continuous Monica Equilibrium calculation
+    # Monica phi equilibrium = 1.618; non-zero signed continuous readout
+    ln_arg = (spirit + essence + 0.05) / (matter + substance + 0.05)
+    monica = round(1.618 * math.log(max(ln_arg, 1e-6)), 4)
+
     return {
-        "spirit": round(spirit, 3),
-        "essence": round(essence, 3),
-        "matter": round(matter, 3),
-        "substance": round(substance, 3),
-        "elemental_balance": {k: round(v, 3) for k, v in elements.items()}
+        "spirit": spirit,
+        "essence": essence,
+        "matter": matter,
+        "substance": substance,
+        "elemental_balance": elemental_balance,
+        "reactivity": reactivity,
+        "inertia": round(total_inertia, 4),
+        "tidal_pull": round(total_tidal_pull, 4),
+        "monica": monica,
+        "is_diurnal": is_diurnal,
     }

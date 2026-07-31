@@ -237,6 +237,83 @@ export const ZODIAC_QUALITIES: Record<string, ZodiacQuality> = {
 };
 
 /**
+ * Mean Geocentric Distances (in AU) for Inverse Physics (M/r^2 inertia, M/r^3 tidal pull)
+ */
+export const PLANET_MEAN_DISTANCES: Record<string, number> = {
+  Sun:       1.000,
+  Moon:      1.000, // normalized relative geocentric baseline
+  Mercury:   1.000,
+  Venus:     0.723,
+  Mars:      1.524,
+  Jupiter:   5.204,
+  Saturn:    9.582,
+  Uranus:   19.200,
+  Neptune:  30.050,
+  Pluto:    39.480,
+  Ascendant: 1.000,
+};
+
+/**
+ * Computes true gravitational inertia M / r^2.
+ * Uses log-normalized weight for mass M, and geocentric distance r in AU.
+ */
+export function getGravitationalInertia(planet: string, distanceAu?: number): number {
+  const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+  const mass = normalizePlanetWeight(relMass);
+  const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : (PLANET_MEAN_DISTANCES[planet] ?? 1.0);
+  return mass / (r * r);
+}
+
+/**
+ * Computes tidal pull M / r^3.
+ */
+export function getTidalPull(planet: string, distanceAu?: number): number {
+  const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+  const mass = normalizePlanetWeight(relMass);
+  const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : (PLANET_MEAN_DISTANCES[planet] ?? 1.0);
+  return mass / (r * r * r);
+}
+
+/**
+ * Calculates dynamic Ascendant Grounding Vessel based on sign element and decan.
+ * Prevents Day chart Matter/Substance collapse while introducing continuous positional modulation.
+ * Decans: 1st (0-10°), 2nd (10-20°), 3rd (20-30°).
+ */
+export function calculatePositionalAscendantVessel(sign: string, degree: number = 0): AlchemicalProperties {
+  const signClean = sign.trim().charAt(0).toUpperCase() + sign.trim().slice(1).toLowerCase();
+  const element = ZODIAC_ELEMENTS[signClean as ZodiacSignType] ?? "Earth";
+
+  const deg = Math.max(0.0, Math.min(29.999, Number(degree) || 0));
+  const decanIndex = Math.floor(deg / 10); // 0, 1, or 2
+
+  const vessel: AlchemicalProperties = { Spirit: 0.5, Essence: 0.5, Matter: 0.5, Substance: 0.5 };
+
+  if (element === "Fire") {
+    vessel.Spirit += 0.5;
+    vessel.Substance += 0.25;
+  } else if (element === "Earth") {
+    vessel.Matter += 0.5;
+    vessel.Substance += 0.25;
+  } else if (element === "Water") {
+    vessel.Essence += 0.5;
+    vessel.Matter += 0.25;
+  } else if (element === "Air") {
+    vessel.Spirit += 0.25;
+    vessel.Substance += 0.5;
+  }
+
+  if (decanIndex === 0) {
+    vessel.Matter += 0.1;
+  } else if (decanIndex === 1) {
+    vessel.Essence += 0.1;
+  } else {
+    vessel.Spirit += 0.1;
+  }
+
+  return vessel;
+}
+
+/**
  * Determine whether the current moment is diurnal (day) or nocturnal (night).
  *
  * A fully precise answer requires the observer's geographic coordinates and the

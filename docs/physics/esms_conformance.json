@@ -1,0 +1,240 @@
+{
+  "version": "2.0.0",
+  "description": "ESMS 2.0 Unified Physics Model Conformance Fixture (20 Golden Charts)",
+  "charts": [
+    {
+      "id": "chart_01_diurnal_standard",
+      "name": "Standard Diurnal Day Chart",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "leo", "degree": 15.0, "distance": 1.0 },
+        "Moon": { "sign": "taurus", "degree": 10.0, "distance": 1.0 },
+        "Mercury": { "sign": "virgo", "degree": 5.0, "distance": 1.0 },
+        "Venus": { "sign": "libra", "degree": 20.0, "distance": 0.723 },
+        "Mars": { "sign": "aries", "degree": 12.0, "distance": 1.524 },
+        "Jupiter": { "sign": "sagittarius", "degree": 8.0, "distance": 5.204 },
+        "Saturn": { "sign": "aquarius", "degree": 2.0, "distance": 9.582 },
+        "Uranus": { "sign": "gemini", "degree": 18.0, "distance": 19.2 },
+        "Neptune": { "sign": "pisces", "degree": 25.0, "distance": 30.05 },
+        "Pluto": { "sign": "scorpio", "degree": 1.0, "distance": 39.48 },
+        "Ascendant": { "sign": "leo", "degree": 0.0 }
+      }
+    },
+    {
+      "id": "chart_02_nocturnal_standard",
+      "name": "Standard Nocturnal Night Chart",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Sun": { "sign": "scorpio", "degree": 10.0, "distance": 1.0 },
+        "Moon": { "sign": "cancer", "degree": 22.0, "distance": 1.0 },
+        "Mercury": { "sign": "scorpio", "degree": 1.0, "distance": 1.0 },
+        "Venus": { "sign": "pisces", "degree": 14.0, "distance": 0.723 },
+        "Mars": { "sign": "scorpio", "degree": 29.0, "distance": 1.524 },
+        "Jupiter": { "sign": "pisces", "degree": 19.0, "distance": 5.204 },
+        "Saturn": { "sign": "capricorn", "degree": 11.0, "distance": 9.582 },
+        "Uranus": { "sign": "taurus", "degree": 4.0, "distance": 19.2 },
+        "Neptune": { "sign": "pisces", "degree": 12.0, "distance": 30.05 },
+        "Pluto": { "sign": "capricorn", "degree": 26.0, "distance": 39.48 },
+        "Ascendant": { "sign": "cancer", "degree": 15.0 }
+      }
+    },
+    {
+      "id": "chart_03_mars_opposition",
+      "name": "Mars Close Opposition (r = 0.38 AU)",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Sun": { "sign": "aquarius", "degree": 5.0, "distance": 1.0 },
+        "Moon": { "sign": "leo", "degree": 5.0, "distance": 1.0 },
+        "Mars": { "sign": "leo", "degree": 5.0, "distance": 0.38 },
+        "Jupiter": { "sign": "gemini", "degree": 12.0, "distance": 5.204 },
+        "Saturn": { "sign": "pisces", "degree": 3.0, "distance": 9.582 },
+        "Ascendant": { "sign": "scorpio", "degree": 25.0 }
+      }
+    },
+    {
+      "id": "chart_04_new_moon_conjunction",
+      "name": "New Moon Solar Conjunction",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "aries", "degree": 0.0, "distance": 1.0 },
+        "Moon": { "sign": "aries", "degree": 0.5, "distance": 1.0 },
+        "Mercury": { "sign": "aries", "degree": 2.0, "distance": 1.0 },
+        "Venus": { "sign": "taurus", "degree": 10.0, "distance": 0.723 },
+        "Ascendant": { "sign": "aries", "degree": 0.0 }
+      }
+    },
+    {
+      "id": "chart_05_scorpio_stellium",
+      "name": "Scorpio Stellium",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Sun": { "sign": "scorpio", "degree": 12.0, "distance": 1.0 },
+        "Moon": { "sign": "scorpio", "degree": 14.0, "distance": 1.0 },
+        "Mercury": { "sign": "scorpio", "degree": 18.0, "distance": 1.0 },
+        "Mars": { "sign": "scorpio", "degree": 22.0, "distance": 1.524 },
+        "Pluto": { "sign": "scorpio", "degree": 25.0, "distance": 39.48 },
+        "Ascendant": { "sign": "scorpio", "degree": 10.0 }
+      }
+    },
+    {
+      "id": "chart_06_mercury_retrograde",
+      "name": "Mercury Retrograde in Gemini",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "taurus", "degree": 28.0, "distance": 1.0 },
+        "Mercury": { "sign": "gemini", "degree": 16.0, "distance": 0.65 },
+        "Venus": { "sign": "aries", "degree": 10.0, "distance": 0.723 },
+        "Ascendant": { "sign": "gemini", "degree": 5.0 }
+      }
+    },
+    {
+      "id": "chart_07_ascendant_aries_decan1",
+      "name": "Ascendant Aries 1st Decan",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "aries", "degree": 1.0, "distance": 1.0 },
+        "Ascendant": { "sign": "aries", "degree": 5.0 }
+      }
+    },
+    {
+      "id": "chart_08_ascendant_taurus_decan2",
+      "name": "Ascendant Taurus 2nd Decan",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Moon": { "sign": "taurus", "degree": 12.0, "distance": 1.0 },
+        "Ascendant": { "sign": "taurus", "degree": 15.0 }
+      }
+    },
+    {
+      "id": "chart_09_ascendant_pisces_decan3",
+      "name": "Ascendant Pisces 3rd Decan",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Neptune": { "sign": "pisces", "degree": 28.0, "distance": 30.05 },
+        "Ascendant": { "sign": "pisces", "degree": 25.0 }
+      }
+    },
+    {
+      "id": "chart_10_saturn_capricorn_domicile",
+      "name": "Saturn Domicile in Capricorn",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Saturn": { "sign": "capricorn", "degree": 15.0, "distance": 9.582 },
+        "Sun": { "sign": "capricorn", "degree": 10.0, "distance": 1.0 },
+        "Ascendant": { "sign": "capricorn", "degree": 12.0 }
+      }
+    },
+    {
+      "id": "chart_11_venus_pisces_exaltation",
+      "name": "Venus Exaltation in Pisces",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Venus": { "sign": "pisces", "degree": 27.0, "distance": 0.723 },
+        "Moon": { "sign": "pisces", "degree": 20.0, "distance": 1.0 },
+        "Ascendant": { "sign": "pisces", "degree": 10.0 }
+      }
+    },
+    {
+      "id": "chart_12_jupiter_gemini_detriment",
+      "name": "Jupiter Detriment in Gemini",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Jupiter": { "sign": "gemini", "degree": 14.0, "distance": 5.204 },
+        "Sun": { "sign": "gemini", "degree": 18.0, "distance": 1.0 },
+        "Ascendant": { "sign": "gemini", "degree": 2.0 }
+      }
+    },
+    {
+      "id": "chart_13_moon_scorpio_fall",
+      "name": "Moon Fall in Scorpio",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Moon": { "sign": "scorpio", "degree": 3.0, "distance": 1.0 },
+        "Mars": { "sign": "scorpio", "degree": 8.0, "distance": 1.524 },
+        "Ascendant": { "sign": "scorpio", "degree": 15.0 }
+      }
+    },
+    {
+      "id": "chart_14_uranus_taurus",
+      "name": "Uranus in Taurus",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Uranus": { "sign": "taurus", "degree": 10.0, "distance": 19.2 },
+        "Sun": { "sign": "taurus", "degree": 12.0, "distance": 1.0 },
+        "Ascendant": { "sign": "taurus", "degree": 0.0 }
+      }
+    },
+    {
+      "id": "chart_15_neptune_pisces",
+      "name": "Neptune in Pisces",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Neptune": { "sign": "pisces", "degree": 5.0, "distance": 30.05 },
+        "Moon": { "sign": "cancer", "degree": 14.0, "distance": 1.0 },
+        "Ascendant": { "sign": "pisces", "degree": 8.0 }
+      }
+    },
+    {
+      "id": "chart_16_pluto_aquarius",
+      "name": "Pluto in Aquarius",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Pluto": { "sign": "aquarius", "degree": 2.0, "distance": 39.48 },
+        "Sun": { "sign": "aquarius", "degree": 5.0, "distance": 1.0 },
+        "Ascendant": { "sign": "aquarius", "degree": 12.0 }
+      }
+    },
+    {
+      "id": "chart_17_balanced_elements",
+      "name": "Balanced 4-Element Distribution",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "aries", "degree": 10.0, "distance": 1.0 },
+        "Moon": { "sign": "cancer", "degree": 10.0, "distance": 1.0 },
+        "Mercury": { "sign": "libra", "degree": 10.0, "distance": 1.0 },
+        "Venus": { "sign": "capricorn", "degree": 10.0, "distance": 0.723 },
+        "Ascendant": { "sign": "aries", "degree": 0.0 }
+      }
+    },
+    {
+      "id": "chart_18_fire_dominant",
+      "name": "Fire Dominant Chart",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "leo", "degree": 20.0, "distance": 1.0 },
+        "Mars": { "sign": "aries", "degree": 15.0, "distance": 1.524 },
+        "Jupiter": { "sign": "sagittarius", "degree": 25.0, "distance": 5.204 },
+        "Ascendant": { "sign": "leo", "degree": 5.0 }
+      }
+    },
+    {
+      "id": "chart_19_water_dominant",
+      "name": "Water Dominant Chart",
+      "is_diurnal": false,
+      "planetary_positions": {
+        "Moon": { "sign": "cancer", "degree": 18.0, "distance": 1.0 },
+        "Venus": { "sign": "pisces", "degree": 10.0, "distance": 0.723 },
+        "Neptune": { "sign": "scorpio", "degree": 22.0, "distance": 30.05 },
+        "Ascendant": { "sign": "cancer", "degree": 12.0 }
+      }
+    },
+    {
+      "id": "chart_20_full_10_body_natal",
+      "name": "Full 10-Body Natal Chart",
+      "is_diurnal": true,
+      "planetary_positions": {
+        "Sun": { "sign": "gemini", "degree": 24.0, "distance": 1.0 },
+        "Moon": { "sign": "taurus", "degree": 18.0, "distance": 1.0 },
+        "Mercury": { "sign": "gemini", "degree": 12.0, "distance": 1.0 },
+        "Venus": { "sign": "cancer", "degree": 5.0, "distance": 0.723 },
+        "Mars": { "sign": "virgo", "degree": 29.0, "distance": 1.524 },
+        "Jupiter": { "sign": "aquarius", "degree": 9.0, "distance": 5.204 },
+        "Saturn": { "sign": "aries", "degree": 1.0, "distance": 9.582 },
+        "Uranus": { "sign": "aquarius", "degree": 22.0, "distance": 19.2 },
+        "Neptune": { "sign": "capricorn", "degree": 6.0, "distance": 30.05 },
+        "Pluto": { "sign": "sagittarius", "degree": 11.0, "distance": 39.48 },
+        "Ascendant": { "sign": "libra", "degree": 14.0 }
+      }
+    }
+  ]
+}

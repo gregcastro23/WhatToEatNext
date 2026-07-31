@@ -95,12 +95,14 @@ export function calculateKinetics(
         : 0;
   });
 
-  // 3. Inertia
-  const inertia =
+  // 3. Thermodynamic Resistance (Kinetic transformation resistance)
+  const thermodynamicResistance =
     Math.max(
       1,
       currentTotals.Matter + currentTotals.Earth + currentTotals.Substance / 2,
     ) * modifiers.inertia;
+
+  const inertia = thermodynamicResistance;
 
   // 4. Momentum per element
   const momentum: Record<Element, number> = {

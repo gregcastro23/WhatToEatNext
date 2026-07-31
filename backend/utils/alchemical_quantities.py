@@ -1,59 +1,73 @@
+"""
+Alchemical Quantities Calculation - Python Backend
+
+Calculates fundamental alchemical quantities (Spirit, Essence, Matter, Substance)
+for recipes and culinary preparations without artificial clamping, preserving
+continuous thermodynamic scale.
+"""
 
 from typing import Dict, Any
 from backend.schemas.planetary import AlchemicalQuantities
+from backend.utils.planetary_alchemy import ZODIAC_ELEMENTS
 
 def calculate_alchemical_quantities(
-    recipe: Any, # Assuming recipe object with elementalProperties
+    recipe: Any,
     kinetic_rating: float,
     planetary_hour_ruler: str,
     thermo_rating: float
 ) -> AlchemicalQuantities:
     """
-    Calculates the four fundamental alchemical quantities: Spirit, Essence, Matter, and Substance.
+    Calculates the four fundamental alchemical quantities for a recipe:
+    Spirit, Essence, Matter, and Substance without artificial [0, 1] clamps.
     """
-    elemental_properties = recipe.elementalProperties
-    if not elemental_properties:
-        elemental_properties = {"Fire": 0.25, "Water": 0.25, "Earth": 0.25, "Air": 0.25} # Default neutral
+    elemental_properties = getattr(recipe, "elementalProperties", None) or getattr(recipe, "elemental_properties", None)
+    if not elemental_properties or not isinstance(elemental_properties, dict):
+        elemental_properties = {"Fire": 0.25, "Water": 0.25, "Earth": 0.25, "Air": 0.25}
 
-    # Spirit (Kinetic + Air/Fire)
-    # The energetic velocity and transformational potential.
-    spirit_score = (kinetic_rating * 0.5) + (elemental_properties.get("Air", 0) * 0.25) + (elemental_properties.get("Fire", 0) * 0.25)
+    air_val = float(elemental_properties.get("Air", 0.25))
+    fire_val = float(elemental_properties.get("Fire", 0.25))
+    water_val = float(elemental_properties.get("Water", 0.25))
+    earth_val = float(elemental_properties.get("Earth", 0.25))
 
-    # Essence (Planetary Hour + Water)
-    # The vibrational quality and timing affinity.
-    # Assuming planetary_hour_ruler element alignment boosts Essence
-    ESSENCE_BONUS = 0.0
+    # Planetary Ruler Element Bonus
+    ruler_bonus = 0.0
     if planetary_hour_ruler:
-        PLANETARY_ELEMENTS = {
+        ruler_clean = planetary_hour_ruler.strip().title()
+        PLANETARY_RULER_ELEMENTS = {
             "Sun": "Fire", "Venus": "Earth", "Mercury": "Air", "Moon": "Water",
-            "Saturn": "Earth", "Jupiter": "Fire", "Mars": "Fire"
+            "Saturn": "Earth", "Jupiter": "Fire", "Mars": "Fire", "Uranus": "Air",
+            "Neptune": "Water", "Pluto": "Water"
         }
-        if PLANETARY_ELEMENTS.get(planetary_hour_ruler) == "Water":
-            ESSENCE_BONUS = 0.3 # Boost if Water planet rules the hour
+        if PLANETARY_RULER_ELEMENTS.get(ruler_clean) == "Water":
+            ruler_bonus = 0.3
 
-    essence_score = (elemental_properties.get("Water", 0) * 0.7) + (ESSENCE_BONUS * 0.3)
+    # Spirit: Kinetic velocity + Fire + Air
+    spirit_score = (kinetic_rating * 0.5) + (air_val * 0.25) + (fire_val * 0.25)
 
-    # Matter (Nutritional Density + Earth)
-    # The physical body and caloric weight.
-    # Nutritional Density is approximated here; in a real scenario, it would come from recipe.nutritional_profile
-    nutritional_density = recipe.nutritional_profile.get("calories", 500) / 1000 if recipe.nutritional_profile else 0.5 # Placeholder
-    matter_score = (nutritional_density * 0.6) + (elemental_properties.get("Earth", 0) * 0.4)
+    # Essence: Timing & Water affinity + planetary ruler
+    essence_score = (water_val * 0.7) + (ruler_bonus * 0.3)
 
-    # Substance (Thermodynamic Stability + Earth/Water)
-    # The enduring structure and heat retention.
-    substance_score = (thermo_rating * 0.5) + (elemental_properties.get("Earth", 0) * 0.25) + (elemental_properties.get("Water", 0) * 0.25)
+    # Matter: Physical caloric density + Earth
+    nutritional_density = 0.5
+    profile = getattr(recipe, "nutritional_profile", None)
+    if isinstance(profile, dict) and "calories" in profile:
+        try:
+            nutritional_density = float(profile["calories"]) / 1000.0
+        except (ValueError, TypeError):
+            nutritional_density = 0.5
+    matter_score = (nutritional_density * 0.6) + (earth_val * 0.4)
 
-    # Normalize scores to be between 0 and 1, if they exceed 1.0 due to bonuses
-    spirit_score = min(spirit_score, 1.0)
-    essence_score = min(essence_score, 1.0)
-    matter_score = min(matter_score, 1.0)
-    substance_score = min(substance_score, 1.0)
+    # Substance: Thermodynamic stability + Earth + Water
+    substance_score = (thermo_rating * 0.5) + (earth_val * 0.25) + (water_val * 0.25)
+
+    # Note: Artificial min(score, 1.0) clamping removed per Unified Physics Model v2 directive
+    # to preserve genuine thermodynamic scale and prevent artificial ceiling distortion.
 
     return AlchemicalQuantities(
-        spirit_score=spirit_score,
-        essence_score=essence_score,
-        matter_score=matter_score,
-        substance_score=substance_score,
-        kinetic_val=kinetic_rating, # Include kinetic_rating in the return
-        thermo_val=thermo_rating,   # Include thermo_rating in the return
+        spirit_score=round(spirit_score, 4),
+        essence_score=round(essence_score, 4),
+        matter_score=round(matter_score, 4),
+        substance_score=round(substance_score, 4),
+        kinetic_val=round(kinetic_rating, 4),
+        thermo_val=round(thermo_rating, 4),
     )

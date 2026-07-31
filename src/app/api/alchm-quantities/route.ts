@@ -185,7 +185,7 @@ export async function GET(request: Request) {
     const potentialDifference = round(charge > 0 ? energy / charge : 0, 6);
     const currentFlow = round(reactivity * charge * 0.1, 6);
     const power = round(currentFlow * potentialDifference, 6);
-    const inertia = round(
+    const thermodynamicResistance = round(
       Math.max(
         1,
         quantities.Matter +
@@ -194,7 +194,8 @@ export async function GET(request: Request) {
       ),
       6,
     );
-    const forceMagnitude = round(Math.abs(power) / Math.max(inertia, 1), 6);
+    const inertia = thermodynamicResistance;
+    const forceMagnitude = round(Math.abs(power) / Math.max(thermodynamicResistance, 1), 6);
 
     const forceClassification: "accelerating" | "decelerating" | "balanced" =
       forceMagnitude > 0.25
