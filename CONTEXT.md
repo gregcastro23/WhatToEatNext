@@ -96,9 +96,52 @@ none — not a number synthesized from their elements.
   elements as separate inputs. Combining the two axes in a formula is correct;
   deriving one from the other is not.
 
+## Cooking methods
+
+- **Method key** — the `snake_case` identifier a registry is keyed by, e.g.
+  `pressure_cooking`. Distinct from a method's **declared name** (`"Pressure
+  Cooking"`, the Title Case string in its data file) and from its **slug**
+  (`pressurecooking`, the URL form). All three normalize to the same key; only
+  the key is a lookup identity. See ADR-009.
+- **Servable method** — a method with a data file, i.e. a key of
+  `allCookingMethods` (27 of them). Registry totality is asserted against these.
+  Contrast **registry-only key** — present in a registry with no data file
+  (`baking`, `ceviche`, `foam`, `sauteing`), so nothing can be served for it.
+- **Pillar** — one of the 14 alchemical transformations a method maps to, which
+  supplies the ESMS delta the method applies. A method with no pillar renders
+  with *untransformed* ESMS — silently, since the lookup returns `undefined`.
+- **Method keys are never renamed.** They are persisted in
+  `user_profiles.taste_corrections.methods`, `user_interactions.payload` and
+  `food_lab_entries.cooking_method`, all read by exact string equality. Adding a
+  second spelling is correct; substituting one is a data migration. See ADR-009.
+
+## Environment
+
+- **Climatic baseline** — a location's *permanent* conditions: elevation-derived
+  pressure plus a trailing 30-day robust median and dispersion per geohash. The
+  trunk, not the variable.
+- **Daily anomaly** — today's reading minus the climatic baseline, carried in
+  both physical units **and** z-scores against that location's own dispersion.
+  Elevation outweighs weather by roughly an order of magnitude, so the anomaly is
+  the smaller term and is always expressed relative to the baseline, never
+  absolutely.
+- **Station pressure** — pressure measured *at* the location (Open-Meteo's
+  `surface_pressure`). Always this. **Never sea-level pressure** (MSLP / QNH /
+  `pressure_msl`), which has the altitude signal removed by construction: using
+  it puts Denver's boiling point at 99.8 °C instead of 94.9 °C. See ADR-010.
+- **Dew point, not relative humidity**, is the transported moisture variable. RH
+  is a ratio against a temperature-dependent saturation pressure and does not
+  survive the trip from outdoor air to indoor air; dew point does.
+- **Regime** — which physical constraint governs a method: `saturation_limited`
+  (boiling point caps it), `setpoint_limited` (equipment sets it),
+  `evaporation_limited` (vapour-pressure deficit sets the rate),
+  `concentration_limited`, `leavening_limited`, `ambient_limited`. The regime
+  decides whether pressure or humidity matters at all.
+
 ## Related
 
 - `docs/HIERARCHICAL_SYSTEM_IMPLEMENTATION.md` — tiering of what data holds what.
-- `docs/adr/` — architectural decisions.
+- `docs/adr/` — architectural decisions. ADR-009 (cooking-method key space),
+  ADR-010 (environmental thermodynamics).
 - `src/components/home/QuantitiesExplainer.tsx` — the user-facing framing of the
   two readings; the terminology anchor for copy.
