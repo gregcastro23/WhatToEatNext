@@ -16,6 +16,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { Ingredient, ElementalProperties } from "@/types/alchemy";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 // Chakra type definition
@@ -144,15 +145,10 @@ export function useChakraInfluencedFood(options: ChakraFoodOptions = {}) {
       return null;
     }
 
-    // Convert planetary positions to the format expected by calculateAlchemicalFromPlanets
-    const planetarySigns: Record<string, string> = {};
-
-    Object.entries(planetaryPositions).forEach(([planet, position]) => {
-      planetarySigns[planet] = position.sign;
-    });
-
-    // Use the ONLY correct way to calculate ESMS
-    return calculateAlchemicalFromPlanets(planetarySigns);
+    return calculateAlchemicalFromPlanets(
+      planetaryPositions,
+      isCurrentSkyDiurnal(),
+    );
   }, [planetaryPositions]);
 
   /**

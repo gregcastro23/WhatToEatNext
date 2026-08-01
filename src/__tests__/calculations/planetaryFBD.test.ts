@@ -3,7 +3,7 @@
  *
  * The builder no longer accepts a caller-supplied `perPlanet` stub: it derives
  * every ESMS number from the engine's own three-layer decomposition
- * (calculateEnhancedAlchemicalFromPlanetsDetailed). That makes the cards a
+ * (calculateAlchemicalFromPlanetsDetailed). That makes the cards a
  * DECOMPOSITION of the sky rather than a lookalike recomputation, so the
  * headline test here is the reconciliation invariant:
  *
@@ -107,10 +107,14 @@ describe("buildFreeBodyDiagrams — reconciliation invariant", () => {
 
       test("the grounding vessel is injected when no Ascendant is supplied", () => {
         expect(totals.groundingVessel?.injected).toBe(true);
-        // Physical Vessel = flat (+1) to all four, weight 1.0, dignity Neutral.
-        for (const axis of AXES) {
-          expect(totals.groundingVessel?.esms[axis]).toBeCloseTo(1, 9);
-        }
+        // The legacy fallback is Aries 0°: positional Fire/decan vessel,
+        // inertial anchor 1.0, dignity Neutral.
+        expect(totals.groundingVessel?.esms).toEqual({
+          Spirit: 1,
+          Essence: 0.5,
+          Matter: 0.6,
+          Substance: 0.75,
+        });
       });
 
       test("the aspect layer is already inside totals.esms, not added on top", () => {

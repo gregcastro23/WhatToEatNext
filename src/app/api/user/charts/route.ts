@@ -19,9 +19,8 @@ import type {
   SavedChart,
   GroupMember,
 } from "@/types/natalChart";
-import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
 import {
-  calculateEnhancedAlchemicalFromPlanets,
+  calculateAlchemicalFromPlanets,
   aggregateEnhancedZodiacElementals,
   isSectDiurnalForBirth
 } from "@/utils/planetaryAlchemyMapping";
@@ -274,13 +273,7 @@ export async function POST(request: NextRequest) {
     dominantElement: calcDominantElement(positions),
     dominantModality: calcDominantModality(positions),
     elementalBalance: aggregateEnhancedZodiacElementals(positions, diurnal),
-    // Aspects (Layer 3) from rawPositions' longitudes — the main per-chart
-    // differentiator; omitting them leaves ESMS near-constant.
-    alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(
-      positions,
-      diurnal,
-      buildAspectsWithStrength(rawPositions),
-    ),
+    alchemicalProperties: calculateAlchemicalFromPlanets(rawPositions, diurnal),
     calculatedAt: new Date().toISOString(),
   };
 

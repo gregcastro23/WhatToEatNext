@@ -24,7 +24,10 @@ import { calculateNatalChart } from "@/services/natalChartService";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import {
+  getAccuratePlanetaryPositions,
+  isCurrentSkyDiurnal,
+} from "@/utils/astrology/positions";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
 import { calculateAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
 
@@ -74,7 +77,7 @@ export async function POST(req: Request) {
       longitude,
       timezone,
     };
-    
+
     console.log(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);
     const chart = await calculateNatalChart(birthData);
 
@@ -162,7 +165,7 @@ export async function POST(req: Request) {
       const baseUrl = process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
         : `http://localhost:${process.env.PORT || 3000}`;
-        
+
       console.log(`[ignite] Invoking server-side recipe generation at: ${baseUrl}/api/generate-cosmic-recipe`);
       const generateRes = await fetch(`${baseUrl}/api/generate-cosmic-recipe`, {
         method: "POST",
@@ -206,14 +209,13 @@ export async function POST(req: Request) {
         console.log(`[ignite] Initiating direct fallback fetch to planetary agents API...`);
         const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
-        const raw = getAccuratePlanetaryPositions(new Date());
+        const skyDate = new Date();
+        const raw = getAccuratePlanetaryPositions(skyDate);
         const dominantElement = getDominantElementFromPositions(raw);
 
         const esms = calculateAlchemicalFromPlanets(
-          Object.entries(raw).reduce((acc, [planet, pos]) => {
-            acc[planet] = String((pos as any).sign ?? "");
-            return acc;
-          }, {} as Record<string, string>)
+          raw,
+          isCurrentSkyDiurnal(skyDate),
         );
 
         const alchemizedResult = alchemize(

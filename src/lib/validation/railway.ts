@@ -117,7 +117,7 @@ export const AlchemizeQuerySchema = z.object({
       const d = new Date(val);
       return Number.isNaN(d.getTime()) ? new Date() : d;
     }),
-  /** Use full enhanced (sect + dignity + aspects) calculation; default true */
+  /** Deprecated compatibility flag; every request now uses the unified engine. */
   enhanced: z
     .string()
     .optional()

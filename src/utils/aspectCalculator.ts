@@ -14,6 +14,8 @@ export interface PlanetaryPositionData {
   degree: number;
   /** Absolute ecliptic longitude (0–360). */
   exactLongitude?: number;
+  /** Geocentric distance in AU; ignored by aspect geometry, used by ESMS Λ. */
+  distance?: number;
   isRetrograde?: boolean;
 }
 
@@ -235,7 +237,7 @@ export function calculateComprehensiveAspects(
  * from any loose position record carrying sign + (exactLongitude or degree).
  *
  * This is the single place that adapts a position bag into aspects — every
- * caller of `calculateEnhancedAlchemicalFromPlanets` that has real positions
+ * caller of `calculateAlchemicalFromPlanets` that has real positions
  * should route through here rather than re-inlining the mapping, since an
  * omitted or malformed aspect pass silently collapses ESMS toward a constant.
  *

@@ -19,9 +19,14 @@ import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { NatalChart } from "@/types/natalChart";
-import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
-import { validatePlanetaryPositions, formatValidationResult } from "@/utils/astrology/planetaryValidation";
-import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
+import {
+  validatePlanetaryPositions,
+  formatValidationResult,
+} from "@/utils/astrology/planetaryValidation";
+import {
+  calculateAlchemicalFromPlanets,
+  isSectDiurnalForBirth,
+} from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -86,14 +91,14 @@ export async function POST(request: NextRequest) {
     }
 
     const parsedBody = OnboardingRequestSchema.safeParse(body);
-    
+
     if (!parsedBody.success) {
       return NextResponse.json(
         { success: false, message: "Validation error", details: parsedBody.error.flatten().fieldErrors },
         { status: 400 },
       );
     }
-    
+
     const { name, birthData } = parsedBody.data;
 
     // Resolve user from session or fallback
@@ -229,14 +234,11 @@ export async function POST(request: NextRequest) {
       dominantElement: calcDominantElement(positions),
       dominantModality: calcDominantModality(positions),
       elementalBalance: calcElementalBalance(positions),
-      // Enhanced mapping injects the Ascendant so Matter/Substance don't collapse
-      // to 0 for day-born (diurnal) charts. Aspects (Layer 3) come from
-      // rawPositions' longitudes and are the main per-chart differentiator —
-      // omitting them leaves ESMS near-constant. Matches natalChartService.
-      alchemicalProperties: calculateEnhancedAlchemicalFromPlanets(
-        positions,
+      // The canonical engine consumes the longitude-bearing chart directly, so
+      // dignity and aspects cannot drift from the stored natal calculation.
+      alchemicalProperties: calculateAlchemicalFromPlanets(
+        rawPositions,
         isSectDiurnalForBirth(birthDate),
-        buildAspectsWithStrength(rawPositions),
       ),
       calculatedAt: new Date().toISOString(),
     };

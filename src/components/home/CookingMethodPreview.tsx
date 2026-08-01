@@ -22,7 +22,11 @@ import {
   calculateMonica,
 } from "@/data/unified/alchemicalCalculations";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import {
+  calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
 
 interface MethodData {
   name: string;
@@ -261,8 +265,17 @@ export default function CookingMethodPreview() {
 
   // Calculate BASE ESMS from real planetary positions (calculated once per planetary change)
   const baseESMS = useMemo(() => {
-    return calculateAlchemicalFromPlanets(planetaryPositions);
-  }, [planetaryPositions]);
+    const positions: AlchemicalPlanetPositions =
+      contextPlanetaryPositions &&
+      Object.keys(contextPlanetaryPositions).length > 0
+        ? (Object.fromEntries(
+            Object.entries(contextPlanetaryPositions).filter(
+              ([, position]) => position != null,
+            ),
+          ) as AlchemicalPlanetPositions)
+        : planetaryPositions;
+    return calculateAlchemicalFromPlanets(positions, isCurrentSkyDiurnal());
+  }, [contextPlanetaryPositions, planetaryPositions]);
 
   const currentMethods = useMemo(() => {
     const category = categories.find((cat) => cat.id === selectedCategory);

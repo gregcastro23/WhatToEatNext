@@ -1,17 +1,21 @@
 'use client';
 
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
-import { useProfile } from '@/hooks/useProfile';
-import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
-import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
-import { PLANETARY_SECTARIAN_ELEMENTS, PLANETARY_SECTARIAN_ESMS, isSectDiurnalForBirth, calculateEnhancedAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
+import Link from "next/link";
+import React, { useState } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useProfile } from "@/hooks/useProfile";
+import { extractAlchemicalPlanetPositions } from "@/utils/astrology/chartDataUtils";
+import {
+  PLANETARY_SECTARIAN_ELEMENTS,
+  PLANETARY_SECTARIAN_ESMS,
+  isSectDiurnalForBirth,
+  calculateAlchemicalFromPlanets,
+} from "@/utils/planetaryAlchemyMapping";
 
 export default function DayNightEffectsPage() {
   const { profileData, isLoading } = useProfile();
   const { isDiurnal: appIsDiurnal, setPreference } = useTheme();
-  
+
   // Local state to toggle views independent of the global theme, though we can sync them
   const [viewDiurnal, setViewDiurnal] = useState(appIsDiurnal);
 
@@ -41,18 +45,16 @@ export default function DayNightEffectsPage() {
   }
 
   const natalChart = profileData.natalChart;
-  const natalPositions = extractPlanetaryPositions(natalChart);
-  
+
   // Calculate user's natal sect using the birth time if available
   const birthDate = natalChart.birthData?.dateTime ? new Date(natalChart.birthData.dateTime) : new Date();
   const _isNatalDiurnal = isSectDiurnalForBirth(birthDate);
 
   // Get alchemical properties for the toggled view. Aspects (Layer 3) come from
   // the chart's own planet longitudes and don't depend on the day/night toggle.
-  const currentAlchemical = calculateEnhancedAlchemicalFromPlanets(
-    natalPositions,
+  const currentAlchemical = calculateAlchemicalFromPlanets(
+    extractAlchemicalPlanetPositions(natalChart),
     viewDiurnal,
-    buildAspectsFromChartPlanets(natalChart.planets),
   );
 
   const toggleView = () => {
@@ -75,8 +77,8 @@ export default function DayNightEffectsPage() {
 
         {/* Hero Section */}
         <div className={`mb-12 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden transition-all duration-1000 ${
-          viewDiurnal 
-            ? 'bg-gradient-to-br from-amber-200 via-orange-100 to-sky-200 border border-amber-300 text-amber-950' 
+          viewDiurnal
+            ? 'bg-gradient-to-br from-amber-200 via-orange-100 to-sky-200 border border-amber-300 text-amber-950'
             : 'bg-gradient-to-br from-[#08080e] via-[#0b0814] to-[#0f0b1a] border border-indigo-500/30 text-white'
         }`}>
           {/* Decorative Background Elements */}
@@ -84,7 +86,7 @@ export default function DayNightEffectsPage() {
             <div className={`w-96 h-96 rounded-full transition-colors duration-1000 ${viewDiurnal ? 'bg-amber-400' : 'bg-indigo-600'}`} />
           </div>
           <div className={`absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t to-transparent opacity-60 z-0 transition-colors duration-1000 ${viewDiurnal ? 'from-amber-100/50' : 'from-black'}`} />
-          
+
           <div className="relative z-10 flex flex-col items-center md:flex-row md:items-end justify-between gap-8 text-center md:text-left">
             <div className="max-w-2xl">
               <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 shadow-sm transition-all duration-700 ${
@@ -92,18 +94,18 @@ export default function DayNightEffectsPage() {
               }`}>
                 {viewDiurnal ? '☀️ Diurnal Sect (Day)' : '🌙 Nocturnal Sect (Night)'}
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight drop-shadow-sm">Sectarian Resonance</h1>
               <p className={`text-lg leading-relaxed font-medium transition-colors duration-700 ${viewDiurnal ? 'text-amber-800' : 'text-indigo-200'}`}>
                 Planets express entirely different alchemical properties based on the sect of the chart. Observe how your elemental composition shifts between day and night logic.
               </p>
             </div>
-            
-            <button 
+
+            <button
               onClick={toggleView}
               className={`shrink-0 w-full md:w-auto px-8 py-5 rounded-[2rem] font-black shadow-2xl flex flex-col items-center justify-center gap-2 transition-all duration-500 hover:-translate-y-1 active:scale-95 border ${
-                viewDiurnal 
-                  ? 'bg-[#08080e] text-white hover:bg-white/5 border-white/10 shadow-black/20' 
+                viewDiurnal
+                  ? 'bg-[#08080e] text-white hover:bg-white/5 border-white/10 shadow-black/20'
                   : 'bg-white/10 text-white hover:bg-white/20 border-white/20 shadow-white/5'
               }`}
             >
@@ -149,9 +151,9 @@ export default function DayNightEffectsPage() {
 
             const currentEl = sectEl ? (viewDiurnal ? sectEl.diurnal : sectEl.nocturnal) : 'Earth';
             const currentEsms = viewDiurnal ? sectEsms.diurnal : sectEsms.nocturnal;
-            
+
             const dominantESMS = getHighestESMS(currentEsms);
-            
+
             // Generate visual highlight if the current state is different from the opposite sect
             const oppositeEl = sectEl ? (viewDiurnal ? sectEl.nocturnal : sectEl.diurnal) : 'Earth';
             const elementShifted = currentEl !== oppositeEl;
@@ -173,18 +175,18 @@ export default function DayNightEffectsPage() {
                     }`}>Constant</span>
                   )}
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className={`text-xs font-bold uppercase tracking-widest ${'text-white/60'}`}>Element</span>
                     <span className={`text-sm font-black px-3 py-1 rounded-xl shadow-sm ${
-                      currentEl === 'Fire' ? 'bg-red-50 text-red-600 border border-red-100' : 
-                      currentEl === 'Water' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 
-                      currentEl === 'Air' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 
+                      currentEl === 'Fire' ? 'bg-red-50 text-red-600 border border-red-100' :
+                      currentEl === 'Water' ? 'bg-blue-50 text-blue-600 border border-blue-100' :
+                      currentEl === 'Air' ? 'bg-amber-50 text-amber-600 border border-amber-100' :
                       'bg-emerald-50 text-emerald-600 border border-emerald-100'
                     }`}>{currentEl}</span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <span className={`text-xs font-bold uppercase tracking-widest ${'text-white/60'}`}>Focus</span>
                     <span className={`text-base font-black ${'text-white'}`}>{dominantESMS}</span>

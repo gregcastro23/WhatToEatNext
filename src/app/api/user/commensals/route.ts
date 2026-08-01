@@ -13,6 +13,7 @@ import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
 import type { BirthData, NatalChart, GroupMember } from "@/types/natalChart";
+import { isDiurnalAt } from "@/utils/astrology/positions";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -183,7 +184,14 @@ export async function POST(request: NextRequest) {
     dominantElement: calcDominantElement(positions),
     dominantModality: calcDominantModality(positions),
     elementalBalance: calcElementalBalance(positions),
-    alchemicalProperties: calculateAlchemicalFromPlanets(positions),
+    alchemicalProperties: calculateAlchemicalFromPlanets(
+      rawPositions,
+      isDiurnalAt(
+        new Date(birthData.dateTime),
+        birthData.latitude,
+        birthData.longitude,
+      ),
+    ),
     calculatedAt: new Date().toISOString(),
   };
 

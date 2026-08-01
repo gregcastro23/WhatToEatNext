@@ -11,10 +11,18 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { getCurrentAlchemicalState } from "@/services/RealAlchemizeService";
-import { buildAspectsFromChartPlanets, buildAspectsWithStrength } from "@/utils/aspectCalculator";
-import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
-import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
-import { calculateEnhancedAlchemicalFromPlanets, isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
+import {
+  extractAlchemicalPlanetPositions,
+  extractPlanetaryPositions,
+} from "@/utils/astrology/chartDataUtils";
+import {
+  getAccuratePlanetaryPositions,
+  isCurrentSkyDiurnal,
+} from "@/utils/astrology/positions";
+import {
+  calculateAlchemicalFromPlanets,
+  isSectDiurnalForBirth,
+} from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -129,11 +137,14 @@ async function handlePost(request: NextRequest) {
       const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnalForBirth(new Date(natalChart.birthData.dateTime)) : true;
       const currentDiurnal = isCurrentSkyDiurnal(new Date());
 
-      // Aspects (Layer 3) are the main per-chart differentiator. The sign-only
-      // natalPositions/currentPositions can't yield them, so build from the
-      // longitude-bearing sources: the natal chart's planets[] and the raw sky.
-      const natalAlch = calculateEnhancedAlchemicalFromPlanets(natalPositions, natalDiurnal, buildAspectsFromChartPlanets(natalChart?.planets));
-      const currentAlch = calculateEnhancedAlchemicalFromPlanets(currentPositions, currentDiurnal, buildAspectsWithStrength(currentRaw));
+      const natalAlch = calculateAlchemicalFromPlanets(
+        extractAlchemicalPlanetPositions(natalChart),
+        natalDiurnal,
+      );
+      const currentAlch = calculateAlchemicalFromPlanets(
+        currentRaw,
+        currentDiurnal,
+      );
 
       const natalTotal = Object.values(natalAlch).reduce((a, b) => a + Number(b), 0) || 1;
       const currentTotal = Object.values(currentAlch).reduce((a, b) => a + Number(b), 0) || 1;

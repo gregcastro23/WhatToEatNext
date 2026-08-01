@@ -17,6 +17,7 @@ import {
 } from "@/data/unified/alchemicalCalculations";
 import { logger } from "@/lib/logger";
 import type { ElementalProperties } from "@/types/alchemy";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
   calculateKineticProperties,
   type KineticMetrics,
@@ -255,7 +256,10 @@ export const PlanetaryCalculationsDemo: React.FC = () => {
       });
 
       // Calculate alchemical properties (ESMS)
-      const alchemical = calculateAlchemicalFromPlanets(planetaryPositionsMap);
+      const alchemical = calculateAlchemicalFromPlanets(
+        positions,
+        isCurrentSkyDiurnal(),
+      );
       setAlchemicalProps(alchemical);
 
       // Calculate elemental properties

@@ -18,6 +18,7 @@ import {
   OSCILLATOR_X_BAR,
   oscillatorCoordinate,
   oscillatorEnergy,
+  type OscillatorSky,
 } from "@/utils/esmsOscillator";
 
 const ASTRO_BODY: Record<string, Astronomy.Body> = {
@@ -27,20 +28,47 @@ const ASTRO_BODY: Record<string, Astronomy.Body> = {
   Pluto: Astronomy.Body.Pluto,
 };
 
+const ZODIAC_SIGNS = [
+  "Aries",
+  "Taurus",
+  "Gemini",
+  "Cancer",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
+] as const;
+
+function skyAt(date: Date): OscillatorSky {
+  const t = Astronomy.MakeTime(date);
+  const sky: OscillatorSky = {};
+  for (const body of OSCILLATOR_BODIES) {
+    const v = Astronomy.GeoVector(ASTRO_BODY[body], t, true);
+    const longitude = Astronomy.Ecliptic(v).elon;
+    const signIndex = Math.floor(longitude / 30) % 12;
+    sky[body] = {
+      sign: ZODIAC_SIGNS[signIndex],
+      degree: longitude % 30,
+      exactLongitude: longitude,
+      distanceAu: Math.hypot(v.x, v.y, v.z),
+    };
+  }
+  return sky;
+}
+
 /** The exact epoch series, rebuilt from the ephemeris. */
 function buildSeries(): { diurnal: number[]; nocturnal: number[] } {
   const start = Date.parse(ESMS_OSCILLATOR_EPOCH.startUtc);
   const stepMs = ESMS_OSCILLATOR_EPOCH.stepHours * 3600 * 1000;
   const out = { diurnal: [] as number[], nocturnal: [] as number[] };
   for (let i = 0; i < ESMS_OSCILLATOR_EPOCH.samples; i++) {
-    const t = Astronomy.MakeTime(new Date(start + i * stepMs));
-    const dist: Record<string, number> = {};
-    for (const body of OSCILLATOR_BODIES) {
-      const v = Astronomy.GeoVector(ASTRO_BODY[body], t, true);
-      dist[body] = Math.hypot(v.x, v.y, v.z);
-    }
-    out.diurnal.push(oscillatorCoordinate(dist, true));
-    out.nocturnal.push(oscillatorCoordinate(dist, false));
+    const sky = skyAt(new Date(start + i * stepMs));
+    out.diurnal.push(oscillatorCoordinate(sky, true));
+    out.nocturnal.push(oscillatorCoordinate(sky, false));
   }
   return out;
 }
@@ -69,21 +97,34 @@ function fundamentalDays(x: number[], Tlo: number, Thi: number, step: number): n
 }
 
 const series = buildSeries();
+const measuredFundamentals = {
+  diurnal: fundamentalDays(series.diurnal, 500, 700, 0.05),
+  nocturnal: fundamentalDays(series.nocturnal, 500, 700, 0.05),
+};
+const measuredMeans = {
+  diurnal:
+    series.diurnal.reduce((sum, value) => sum + value, 0) /
+    series.diurnal.length,
+  nocturnal:
+    series.nocturnal.reduce((sum, value) => sum + value, 0) /
+    series.nocturnal.length,
+};
 
 describe("ESMS oscillator calibration (§8)", () => {
   it("re-derives the sect equilibria x̄ from the ephemeris", () => {
     for (const sect of ["diurnal", "nocturnal"] as const) {
       const x = series[sect];
       expect(x).toHaveLength(ESMS_OSCILLATOR_EPOCH.samples);
-      const mean = x.reduce((s, v) => s + v, 0) / x.length;
-      expect(mean).toBeCloseTo(OSCILLATOR_X_BAR[sect], 10);
+      expect(measuredMeans[sect]).toBeCloseTo(OSCILLATOR_X_BAR[sect], 10);
     }
   });
 
   it("re-derives the periodogram fundamentals per sect", () => {
     for (const sect of ["diurnal", "nocturnal"] as const) {
-      const T = fundamentalDays(series[sect], 500, 700, 0.05);
-      expect(T).toBeCloseTo(OSCILLATOR_FUNDAMENTAL_DAYS[sect], 6);
+      expect(measuredFundamentals[sect]).toBeCloseTo(
+        OSCILLATOR_FUNDAMENTAL_DAYS[sect],
+        6,
+      );
     }
   });
 
@@ -94,14 +135,16 @@ describe("ESMS oscillator calibration (§8)", () => {
     // Venus line, the physical story in the module doc is stale and this fails.
     const VENUS_SYNODIC_DAYS = 583.92;
     for (const sect of ["diurnal", "nocturnal"] as const) {
-      const rel = Math.abs(OSCILLATOR_FUNDAMENTAL_DAYS[sect] - VENUS_SYNODIC_DAYS) / VENUS_SYNODIC_DAYS;
+      const rel =
+        Math.abs(measuredFundamentals[sect] - VENUS_SYNODIC_DAYS) /
+        VENUS_SYNODIC_DAYS;
       expect(rel).toBeLessThan(0.005);
     }
     // Sect independence: the two fundamentals agree to 0.1% — the basis for
     // ruling a SINGLE ω instead of per-sect precision theater.
     const relSect =
-      Math.abs(OSCILLATOR_FUNDAMENTAL_DAYS.diurnal - OSCILLATOR_FUNDAMENTAL_DAYS.nocturnal) /
-      OSCILLATOR_FUNDAMENTAL_DAYS.diurnal;
+      Math.abs(measuredFundamentals.diurnal - measuredFundamentals.nocturnal) /
+      measuredFundamentals.diurnal;
     expect(relSect).toBeLessThan(0.001);
   });
 
@@ -115,19 +158,29 @@ describe("ESMS oscillator calibration (§8)", () => {
 });
 
 describe("oscillator coordinate and Hamiltonian", () => {
-  const meanSky: Record<string, number> = {
-    Sun: 1.0001517506922113, Moon: 0.002571016680904456, Mercury: 1.0527771261580632,
-    Venus: 1.0162138470401183, Mars: 1.9442585501420186, Jupiter: 5.429789190115696,
-    Saturn: 9.484384119258557, Uranus: 19.49876988921305, Neptune: 29.88354939796314,
-    Pluto: 35.52718536398905,
-  };
+  const meanSky = skyAt(new Date(ESMS_OSCILLATOR_EPOCH.startUtc));
 
   it("throws on a partial or malformed sky rather than measuring a different observable", () => {
     const { Pluto: _dropped, ...partial } = meanSky;
     expect(() => oscillatorCoordinate(partial, true)).toThrow(/Pluto/);
-    expect(() => oscillatorCoordinate({ ...meanSky, Moon: NaN }, true)).toThrow(/Moon/);
-    expect(() => oscillatorCoordinate({ ...meanSky, Venus: 0 }, true)).toThrow(/Venus/);
-    expect(() => oscillatorCoordinate({ ...meanSky, Venus: -1 }, false)).toThrow(/Venus/);
+    expect(() =>
+      oscillatorCoordinate(
+        { ...meanSky, Moon: { ...meanSky.Moon, distanceAu: NaN } },
+        true,
+      ),
+    ).toThrow(/Moon/);
+    expect(() =>
+      oscillatorCoordinate(
+        { ...meanSky, Venus: { ...meanSky.Venus, distanceAu: 0 } },
+        true,
+      ),
+    ).toThrow(/Venus/);
+    expect(() =>
+      oscillatorCoordinate(
+        { ...meanSky, Venus: { ...meanSky.Venus, distanceAu: -1 } },
+        false,
+      ),
+    ).toThrow(/Venus/);
   });
 
   it("has its energy minimum exactly at the sect equilibrium", () => {
@@ -148,16 +201,14 @@ describe("oscillator coordinate and Hamiltonian", () => {
     expect(coherentPacketCenter(meanSky, true)).toBe(oscillatorCoordinate(meanSky, true));
     // Endpoint pins to the ephemeris: first and last epoch samples.
     for (const idx of [0, ESMS_OSCILLATOR_EPOCH.samples - 1]) {
-      const t = Astronomy.MakeTime(
-        new Date(Date.parse(ESMS_OSCILLATOR_EPOCH.startUtc) + idx * ESMS_OSCILLATOR_EPOCH.stepHours * 3600 * 1000),
+      const sky = skyAt(
+        new Date(
+          Date.parse(ESMS_OSCILLATOR_EPOCH.startUtc) +
+            idx * ESMS_OSCILLATOR_EPOCH.stepHours * 3600 * 1000,
+        ),
       );
-      const dist: Record<string, number> = {};
-      for (const body of OSCILLATOR_BODIES) {
-        const v = Astronomy.GeoVector(ASTRO_BODY[body], t, true);
-        dist[body] = Math.hypot(v.x, v.y, v.z);
-      }
-      expect(coherentPacketCenter(dist, true)).toBe(series.diurnal[idx]);
-      expect(coherentPacketCenter(dist, false)).toBe(series.nocturnal[idx]);
+      expect(coherentPacketCenter(sky, true)).toBe(series.diurnal[idx]);
+      expect(coherentPacketCenter(sky, false)).toBe(series.nocturnal[idx]);
     }
   });
 });

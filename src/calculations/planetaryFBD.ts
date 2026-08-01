@@ -43,7 +43,7 @@ import {
   type AspectKinematics,
 } from "@/utils/aspectKinematics";
 import {
-  calculateEnhancedAlchemicalFromPlanetsDetailed,
+  calculateAlchemicalFromPlanetsDetailed,
   getPlanetarySectElement,
   type EnhancedPlanetContribution,
 } from "@/utils/planetaryAlchemyMapping";
@@ -480,20 +480,22 @@ export function buildFreeBodyDiagrams(input: BuildFBDInput): FBDResult {
   // The ESMS numbers on every card come from the engine's OWN three-layer
   // decomposition, so a card's Spirit/Essence/Matter/Substance is literally
   // that planet's term in the totals — not a lookalike recomputation.
-  const signMap: Record<string, string> = {};
-  for (const [name, pos] of Object.entries(positions)) {
-    if (EXCLUDED_ASPECT_BODIES.has(name)) continue;
-    signMap[name] = String(pos.sign).toLowerCase();
-  }
-  const engine = calculateEnhancedAlchemicalFromPlanetsDetailed(
-    signMap,
+  const enginePositions = Object.fromEntries(
+    Object.entries(positions)
+      .filter(([name]) => !EXCLUDED_ASPECT_BODIES.has(name))
+      .map(([name, pos]) => [
+        name,
+        {
+          sign: String(pos.sign).toLowerCase(),
+          degree: pos.degree,
+          exactLongitude: longitudes[name],
+        },
+      ]),
+  );
+  const engine = calculateAlchemicalFromPlanetsDetailed(
+    enginePositions,
     diurnal,
-    aspects.map((a) => ({
-      planet1: a.planet1,
-      planet2: a.planet2,
-      type: a.type,
-      strength: a.strength,
-    })),
+    { injectAscendant: true },
   );
 
   const cardPlanets =

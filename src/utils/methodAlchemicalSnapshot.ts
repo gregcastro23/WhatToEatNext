@@ -17,11 +17,15 @@ import {
 } from "@/data/unified/alchemicalCalculations";
 import type { CookingMethodData, CookingMethodKineticProfile } from "@/types/cookingMethod";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
   calculateMethodSpecificKinetics,
   getKineticProfile,
 } from "@/utils/cookingMethodKinetics";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
 import {
   calculateHarmonyIndex,
   type FocusMode,
@@ -45,6 +49,8 @@ export interface MethodMomentInput {
   planetaryPositions?: Record<string, unknown> | null;
   /** Live ESMS override (e.g. from /api/alchm-quantities). */
   baseESMS?: AlchemicalQuantities | null;
+  /** Moment timestamp used for the real New York solar-altitude sect. */
+  date?: Date;
   focusMode?: FocusMode;
   userIntent?: UserIntent;
   highStress?: boolean;
@@ -95,7 +101,7 @@ function extractSign(position: unknown): string {
   return "Aries";
 }
 
-/** Collapse raw context positions to plain sign names for the ESMS engine. */
+/** Collapse raw context positions to plain sign names for elemental/kinetic adapters. */
 export function toSignPositions(
   positions: Record<string, unknown> | null | undefined,
 ): Record<string, string> {
@@ -118,7 +124,17 @@ export function computeMethodSnapshot(
   moment: MethodMomentInput = {},
 ): MethodAlchemicalSnapshot {
   const signPositions = toSignPositions(moment.planetaryPositions);
-  const live = moment.baseESMS ?? calculateAlchemicalFromPlanets(signPositions);
+  const alchemicalPositions =
+    moment.planetaryPositions &&
+    Object.keys(moment.planetaryPositions).length > 0
+      ? (moment.planetaryPositions as AlchemicalPlanetPositions)
+      : signPositions;
+  const live =
+    moment.baseESMS ??
+    calculateAlchemicalFromPlanets(
+      alchemicalPositions,
+      isCurrentSkyDiurnal(moment.date ?? new Date()),
+    );
   const baseESMS: AlchemicalQuantities = {
     Spirit: live?.Spirit ?? 4,
     Essence: live?.Essence ?? 4,

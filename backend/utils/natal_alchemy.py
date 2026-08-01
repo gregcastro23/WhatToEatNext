@@ -2,20 +2,19 @@
 Natal Alchemy & ESMS Physics Calculation Engine - Python Backend
 
 Calculates authoritative ESMS quantities (Spirit, Essence, Matter, Substance)
-for a natal or transit chart using Planet Identity x Sect, continuous positional physics,
-and gravitational inertia. Purges phantom points (North Node).
+for a natal or transit chart using planet identity, sect, dignity, aspects, and
+continuous gravitational inertia. Purges phantom points (North Node).
 """
 
 import math
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from backend.utils.planetary_alchemy import (
     ESMS_PLANETS,
-    PLANETARY_SECTARIAN_ESMS,
     ZODIAC_ELEMENTS,
     get_normalized_alchm_weight,
     get_gravitational_inertia,
     get_tidal_pull,
-    calculate_positional_ascendant_vessel,
+    calculate_alchemical_from_planets,
 )
 
 def calculate_natal_alchemical_quantities(
@@ -26,13 +25,15 @@ def calculate_natal_alchemical_quantities(
     Calculates authoritatively unified Alchemical Quantities (Spirit, Essence, Matter, Substance)
     based on planetary positions, sect (diurnal vs nocturnal), and geocentric distance physics.
     """
-    sect_key = "diurnal" if is_diurnal else "nocturnal"
-    
-    # Initialize totals
-    esms_totals = {"Spirit": 0.0, "Essence": 0.0, "Matter": 0.0, "Substance": 0.0}
+    # The ESMS vector comes from the one canonical three-layer engine. This
+    # wrapper adds elementals and derived thermodynamic diagnostics only.
+    esms_totals = calculate_alchemical_from_planets(
+        planetary_positions,
+        is_diurnal=is_diurnal,
+        inject_ascendant=True,
+    )
     elements_raw = {"Fire": 0.0, "Earth": 0.0, "Air": 0.0, "Water": 0.0}
     
-    total_planet_weight = 0.0
     total_inertia = 0.0
     total_tidal_pull = 0.0
     
@@ -46,7 +47,6 @@ def calculate_natal_alchemical_quantities(
             continue  # Exclude North Node, MC, Chiron, etc.
             
         sign = str(pos.get("sign", "")).strip().lower()
-        degree = float(pos.get("degree", 0.0))
         distance_au = pos.get("distance", None)
         if distance_au is not None:
             try:
@@ -61,34 +61,13 @@ def calculate_natal_alchemical_quantities(
         tidal_pull = get_tidal_pull(body_clean, distance_au)
         
         elements_raw[element] += alchm_weight
-        total_planet_weight += alchm_weight
         total_inertia += inertia
         total_tidal_pull += tidal_pull
         
-        # Sectarian ESMS contribution
-        sect_esms = PLANETARY_SECTARIAN_ESMS.get(body_clean, {}).get(
-            sect_key, {"Spirit": 0.0, "Essence": 0.0, "Matter": 0.0, "Substance": 0.0}
-        )
-        
-        for key in esms_totals:
-            esms_totals[key] += sect_esms.get(key, 0.0) * inertia
-
-    # Grounding Ascendant Vessel (Positional)
-    asc_pos = planetary_positions.get("Ascendant") or planetary_positions.get("ascendant")
-    if isinstance(asc_pos, dict):
-        asc_sign = str(asc_pos.get("sign", "aries"))
-        asc_degree = float(asc_pos.get("degree", 0.0))
-    else:
-        asc_sign = "aries"
-        asc_degree = 0.0
-        
-    asc_vessel = calculate_positional_ascendant_vessel(asc_sign, asc_degree)
-    asc_weight = get_normalized_alchm_weight("Ascendant")
+    # The natal wrapper always carries a grounding vessel, supplied by the
+    # chart or injected by the canonical engine for a legacy chart.
     asc_inertia = get_gravitational_inertia("Ascendant")
-    
     total_inertia += asc_inertia
-    for key in esms_totals:
-        esms_totals[key] += asc_vessel.get(key, 0.5) * asc_inertia
 
     # Normalize elements
     total_elem = sum(elements_raw.values())

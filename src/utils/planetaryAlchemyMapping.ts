@@ -15,10 +15,14 @@
  * night. These sectarian elements drive the dynamic elemental profile of the sky.
  */
 
-import { PLANET_WEIGHTS, normalizePlanetWeight, PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
-import { calculateAspectESMSModifications, type AspectWithStrength } from "./aspectESMSEffects";
+import { buildAspectsWithStrength } from "./aspectCalculator";
+import {
+  calculateAspectESMSModifications,
+  type AspectWithStrength,
+} from "./aspectESMSEffects";
 import { getDignityScore } from "./dignityScales";
 
 export type { AlchemicalProperties };
@@ -288,10 +292,9 @@ export const ASCENDANT_VESSEL_WEIGHT = 1.0;
  * the scale's zero is a mass no charted body has, so no member is annihilated.
  * Pluto lands at ≈ 0.109, Sun stays exactly 1.0.
  *
- * This scale is DELIBERATELY separate from `normalizePlanetWeight` — the moment
- * ESMS path (`calculateAlchemicalFromPlanets`) and the thermodynamic-affinity
- * calibration are pinned against that scale's shipped values, and re-anchoring
- * it would silently move both.
+ * This scale is DELIBERATELY separate from `normalizePlanetWeight`. The canonical
+ * ESMS path and thermodynamic-affinity calibration are pinned against this
+ * inertial scale; re-anchoring it would silently move both.
  */
 const _INERTIAL_LOG_MIN = Math.log10(0.0022 / 10); // one decade below Pluto — RULED
 const _INERTIAL_LOG_MAX = Math.log10(333054.2532); // Sun
@@ -453,131 +456,41 @@ export function getZodiacQuality(sign: string): ZodiacQuality {
   return ZODIAC_QUALITIES[key] ?? "Mutable";
 }
 
-/**
- * Calculate ESMS (Alchemical) Properties from Planetary Positions
- *
- * This is the ONLY correct method for deriving Spirit, Essence, Matter, and Substance.
- *
- * @param planetaryPositions - Map of planet names to zodiac sign positions
- * @returns Alchemical properties (Spirit, Essence, Matter, Substance)
- *
- * @example
- * const positions = {
- *   Sun: 'Gemini',
- *   Moon: 'Leo',
- *   Mercury: 'Taurus',
- *   Venus: 'Gemini',
- *   Mars: 'Aries',
- *   Jupiter: 'Gemini',
- *   Saturn: 'Pisces',
- *   Uranus: 'Taurus',
- *   Neptune: 'Aries',
- *   Pluto: 'Aquarius'
- * };
- * const alchemical = calculateAlchemicalFromPlanets(positions);
- * // Result: { Spirit: 4, Essence: 6, Matter: 6, Substance: 2 }
- */
-export function calculateAlchemicalFromPlanets(
-  planetaryPositions: { [planet: string]: string },
-  diurnal: boolean = true
-): AlchemicalProperties {
-  const totals: AlchemicalProperties = {
-    Spirit: 0,
-    Essence: 0,
-    Matter: 0,
-    Substance: 0,
-  };
-
-  const ignoredBodies = new Set([
-    "Ascendant", "Midheaven", "True Node", "South Node",
-    "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node",
-    "NorthNode", "SouthNode", "MC",
-  ]);
-
-  for (const planet in planetaryPositions) {
-    if (ignoredBodies.has(planet)) {
-      continue;
-    }
-
-    const entry = PLANETARY_SECTARIAN_ALCHEMICAL[planet as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL];
-    
-    // Fallback to legacy PLANETARY_ALCHEMY if missing, though it shouldn't be
-    const legacyPlanetData = PLANETARY_ALCHEMY[planet as PlanetName];
-    const planetData = entry ? (diurnal ? entry.diurnal : entry.nocturnal) : legacyPlanetData;
-    
-    if (!planetData) {
-      console.warn(`Unknown planet in alchemical calculation: ${planet}`);
-      continue;
-    }
-
-    // Weight each planet's ESMS contribution by its log-normalized physical
-    // mass so that massive bodies (Sun, Jupiter) dominate the chart profile.
-    // Sun (w=1.0) → full contribution; Mercury (w≈0.17) → ~17% contribution.
-    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
-    const w = normalizePlanetWeight(relMass);
-
-    totals.Spirit    += planetData.Spirit    * w;
-    totals.Essence   += planetData.Essence   * w;
-    totals.Matter    += planetData.Matter    * w;
-    totals.Substance += planetData.Substance * w;
-  }
-
-  return totals;
+/** A position accepted by the canonical ESMS engine. */
+export interface AlchemicalPlanetPosition {
+  sign: string;
+  /** Degree within the occupied sign. */
+  degree?: number;
+  /** Absolute ecliptic longitude. Preferred for aspect derivation. */
+  exactLongitude?: number;
+  /** Geocentric distance in AU for Λ = M̂(r̄/r)². */
+  distance?: number;
+  /** Alias used by oscillator callers. */
+  distanceAu?: number;
 }
 
-/**
- * Enhanced ESMS Calculation with Sect, Dignity, and Aspects
- *
- * This is the NEW authoritative method for calculating ESMS properties
- * with full three-layer modification system:
- *
- * LAYER 1: Base ESMS from sect-aware planetary alchemy (PLANETARY_SECTARIAN_ESMS)
- * LAYER 2: Dignity modifications using +10/+7 scale (getDignityScore from dignityScales)
- * LAYER 3: Aspect modifications based on planet-pair interactions (aspectESMSEffects)
- *
- * The three-layer calculation flow:
- * 1. Get base ESMS from PLANETARY_SECTARIAN_ESMS based on sect (day/night)
- * 2. Apply dignity weighting: multiplier = 1 + (dignityScore / 100)
- *    - Domicile (+10): 1.10 multiplier (10% boost)
- *    - Fall (-10): 0.90 multiplier (10% reduction)
- * 3. Apply aspect modifications scaled by aspect strength (orb tightness)
- *
- * @param planetaryPositions - Map of planet names to zodiac sign positions
- * @param diurnal - true if day chart, false if night chart (defaults to true)
- * @param aspects - Optional array of aspects with strength values
- * @returns Enhanced alchemical properties with all modifications applied
- *
- * @example
- * const positions = {
- *   Sun: 'Aries',     // Sun in Aries (exaltation +7)
- *   Moon: 'Taurus',   // Moon in Taurus (exaltation +7)
- *   Mercury: 'Gemini' // Mercury in Gemini (domicile +10)
- * };
- * const aspects = [
- *   { planet1: 'Sun', planet2: 'Moon', type: 'opposition', strength: 0.95 }
- * ];
- * const alch = calculateEnhancedAlchemicalFromPlanets(positions, true, aspects);
- * // Result includes all three layers of modification
- */
-export function calculateEnhancedAlchemicalFromPlanets(
-  planetaryPositions: { [planet: string]: string },
-  diurnal: boolean = true,
-  aspects?: AspectWithStrength[],
-): AlchemicalProperties {
-  return calculateEnhancedAlchemicalFromPlanetsDetailed(
-    planetaryPositions,
-    diurnal,
-    aspects,
-  ).totals;
+export type AlchemicalPlanetPositions = Record<
+  string,
+  string | AlchemicalPlanetPosition
+>;
+
+export interface AlchemicalCalculationOptions {
+  /** Explicit aspect list for compatibility adapters; normally derived from positions. */
+  aspects?: AspectWithStrength[];
+  /** Inject the historical Aries vessel when a legacy surface lacks an Ascendant. */
+  injectAscendant?: boolean;
 }
 
 /** One body's Layer-1 × Layer-2 contribution to the ESMS totals. */
 export interface EnhancedPlanetContribution {
-  /** baseESMS(sect) × alchmWeight × dignityMultiplier — this body's share. */
+  /** baseESMS(sect) × inertia × dignityMultiplier — this body's share. */
   esms: AlchemicalProperties;
   /** The sign fed in (as provided). */
   sign: string;
-  /** Orbital-period weight (log-normalized; Ascendant pinned to 1.0). */
+  /**
+   * Λ inertia M̂(r̄/r)² (physical-mass scale; Ascendant pinned to 1.0).
+   * @deprecated Historical field name retained for downstream display adapters.
+   */
   alchmWeight: number;
   /** Classical dignity type from the authoritative dual-scale table. */
   dignityType: DignityType;
@@ -590,7 +503,7 @@ export interface EnhancedPlanetContribution {
 }
 
 export interface EnhancedAlchemicalDetail {
-  /** Identical to what {@link calculateEnhancedAlchemicalFromPlanets} returns. */
+  /** Identical to what {@link calculateAlchemicalFromPlanets} returns. */
   totals: AlchemicalProperties;
   /** Per-body Layer 1×2 contributions. Guaranteed: Σ perPlanet + aspectModifications = totals. */
   perPlanet: Record<string, EnhancedPlanetContribution>;
@@ -600,23 +513,49 @@ export interface EnhancedAlchemicalDetail {
   ascendantInjected: boolean;
 }
 
+const CANONICAL_ESMS_BODY_BY_LOWER = new Map<
+  string,
+  keyof typeof PLANETARY_SECTARIAN_ESMS
+>(
+  Object.keys(PLANETARY_SECTARIAN_ESMS).map((body) => [
+    body.toLowerCase(),
+    body as keyof typeof PLANETARY_SECTARIAN_ESMS,
+  ]),
+);
+
+const IGNORED_ALCHEMICAL_BODY_KEYS = new Set([
+  "midheaven",
+  "truenode",
+  "northnode",
+  "southnode",
+  "chiron",
+  "lilith",
+  "vertex",
+  "parsfortune",
+  "meannode",
+  "mc",
+]);
+
+function canonicalESMSBodyName(
+  body: string,
+): keyof typeof PLANETARY_SECTARIAN_ESMS | undefined {
+  return CANONICAL_ESMS_BODY_BY_LOWER.get(body.trim().toLowerCase());
+}
+
+function compactBodyKey(body: string): string {
+  return body.replace(/\s+/g, "").toLowerCase();
+}
+
 /**
- * The three-layer ESMS calculation, exposing its per-body decomposition.
- *
- * {@link calculateEnhancedAlchemicalFromPlanets} is a thin wrapper over this,
- * so the parts provably reconcile with the whole:
+ * The canonical three-layer ESMS calculation, exposing its decomposition.
+ * Rich positions derive aspects internally; sign-only legacy inputs still get
+ * sect, dignity and the non-annihilating inertial mass scale.
  *   Σ perPlanet[*].esms + aspectModifications === totals
- *
- * Surfaces that attribute ESMS to individual planets (the free-body-diagram
- * cards) MUST read this rather than recomputing a parallel decomposition —
- * a lookalike loop that misses the Ascendant grounding constant or uses the
- * food-scale dignity table silently reports Matter/Substance of 0 for every
- * planet in a day chart.
  */
-export function calculateEnhancedAlchemicalFromPlanetsDetailed(
-  planetaryPositions: { [planet: string]: string },
+export function calculateAlchemicalFromPlanetsDetailed(
+  planetaryPositions: AlchemicalPlanetPositions,
   diurnal: boolean = true,
-  aspects?: AspectWithStrength[],
+  options: AlchemicalCalculationOptions = {},
 ): EnhancedAlchemicalDetail {
   const totals: AlchemicalProperties = {
     Spirit: 0,
@@ -626,82 +565,75 @@ export function calculateEnhancedAlchemicalFromPlanetsDetailed(
   };
   const perPlanet: Record<string, EnhancedPlanetContribution> = {};
 
-  // Physical-Vessel grounding: in the diurnal sect every planet maps to
-  // Spirit/Essence, so Matter & Substance collapse to 0 in any day chart lacking
-  // an Ascendant. Natal charts carry a computed Ascendant; a location-less "live
-  // sky" set does not — so inject one when absent, the single grounding chokepoint
-  // for all callers. The Ascendant's dignity is always Neutral so the sign is
-  // irrelevant (flat +1 to all four). Injected into a copy (never mutate the
-  // caller's input); since only signs feed ESMS, it can't become a phantom aspect.
-  const positions = planetaryPositions.Ascendant
-    ? planetaryPositions
-    : { ...planetaryPositions, Ascendant: "aries" };
+  // Normalize at the engine boundary. The astronomy adapters are not uniform:
+  // astrology/positions emits `Sun`, while accurateAstronomy emits `sun`.
+  // Python already title-cases body keys, so accepting both here is also part of
+  // the cross-runtime contract.
+  const canonicalPositions: AlchemicalPlanetPositions = {};
+  for (const [rawBody, position] of Object.entries(planetaryPositions)) {
+    const body = canonicalESMSBodyName(rawBody);
+    if (body) {
+      canonicalPositions[body] = position;
+    } else if (!IGNORED_ALCHEMICAL_BODY_KEYS.has(compactBodyKey(rawBody))) {
+      console.warn(`Unknown planet in alchemical calculation: ${rawBody}`);
+    }
+  }
 
-  // NOTE: the Ascendant is intentionally NOT ignored — see grounding note above.
-  const ignoredBodies = new Set([
-    "Midheaven", "True Node", "North Node", "South Node",
-    "Chiron", "Lilith", "Vertex", "Pars Fortune", "Mean Node",
-    "NorthNode", "SouthNode", "northNode", "southNode", "MC",
-  ]);
+  const ascendantInjected = Boolean(
+    options.injectAscendant && !canonicalPositions.Ascendant,
+  );
+  const positions: AlchemicalPlanetPositions = ascendantInjected
+    ? { ...canonicalPositions, Ascendant: { sign: "aries", degree: 0 } }
+    : canonicalPositions;
 
   // LAYER 1 & 2: Base ESMS with sect and dignity modifications
   for (const planet in positions) {
-    if (ignoredBodies.has(planet)) {
-      continue;
-    }
-    const sign = positions[planet];
-
-    // Get sect-based ESMS from new PLANETARY_SECTARIAN_ESMS constant
-    const sectEntry = PLANETARY_SECTARIAN_ESMS[planet as keyof typeof PLANETARY_SECTARIAN_ESMS];
-
-    if (!sectEntry) {
-      console.warn(`Unknown planet in enhanced alchemical calculation: ${planet}`);
+    const rawPosition = positions[planet];
+    const position =
+      typeof rawPosition === "string" ? { sign: rawPosition } : rawPosition;
+    const sign = position?.sign;
+    if (!sign) {
+      console.warn(`Planet has no sign in alchemical calculation: ${planet}`);
       continue;
     }
 
-    // LAYER 1: Get base ESMS based on sect (day vs night)
-    const baseESMS = diurnal ? sectEntry.diurnal : sectEntry.nocturnal;
+    const body = planet as keyof typeof PLANETARY_SECTARIAN_ESMS;
+    const sectEntry = PLANETARY_SECTARIAN_ESMS[body];
 
-    // Alchm weight: orbital-period based (slower = higher alchemical volume)
-    // Pluto (P=248y) → weight = 1.0; Moon (P=27d) → weight ≈ 0.28
-    //
-    // NOTE: this is the ORBITAL-PERIOD scale (normalizeAlchmWeight), which is
-    // NOT the mass scale (normalizePlanetWeight) used a few hundred lines up.
-    // The two disagree per planet — e.g. Mercury is ≈0.39 here but ≈0.17 by
-    // mass. The stale "Moon ≈ 0.17" this line used to carry was Mercury's MASS
-    // weight copied across the two scales. Don't transcribe between them.
-    //
-    // SPECIAL CASE: The Ascendant is the "Physical Vessel" grounding constant.
-    // It provides a fixed (+1) to all principles to anchor the system,
-    // as it represents the immediate physical body.
-    const period = PLANET_ALCHM_PERIODS[planet] ?? 1.0;
-    const alchmWeight = planet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
+    const baseESMS =
+      body === "Ascendant"
+        ? calculatePositionalAscendantVessel(sign, position.degree ?? 0)
+        : diurnal
+          ? sectEntry.diurnal
+          : sectEntry.nocturnal;
+
+    const distance = position.distance ?? position.distanceAu;
+    const inertia = getGravitationalInertia(body, distance);
 
     // LAYER 2: Apply dignity modifications
-    const dignityScore = getDignityScore(planet, sign);
+    const dignityScore = getDignityScore(body, sign);
     const dignityMultiplier = 1 + dignityScore.esmsScale / 100;
     // Examples: +10 → 1.10 (10% boost), -10 → 0.90 (10% reduction)
 
-    // Apply weighted ESMS with both alchm-period and dignity modifiers
     const contribution: AlchemicalProperties = {
-      Spirit:    baseESMS.Spirit    * alchmWeight * dignityMultiplier,
-      Essence:   baseESMS.Essence   * alchmWeight * dignityMultiplier,
-      Matter:    baseESMS.Matter    * alchmWeight * dignityMultiplier,
-      Substance: baseESMS.Substance * alchmWeight * dignityMultiplier,
+      Spirit: baseESMS.Spirit * inertia * dignityMultiplier,
+      Essence: baseESMS.Essence * inertia * dignityMultiplier,
+      Matter: baseESMS.Matter * inertia * dignityMultiplier,
+      Substance: baseESMS.Substance * inertia * dignityMultiplier,
     };
     totals.Spirit    += contribution.Spirit;
     totals.Essence   += contribution.Essence;
     totals.Matter    += contribution.Matter;
     totals.Substance += contribution.Substance;
 
-    perPlanet[planet] = {
+    perPlanet[body] = {
       esms: contribution,
       sign,
-      alchmWeight,
+      alchmWeight: inertia,
       dignityType: dignityScore.type,
       dignityEsmsScale: dignityScore.esmsScale,
       dignityMultiplier,
-      isGroundingVessel: planet === "Ascendant",
+      isGroundingVessel: body === "Ascendant",
     };
   }
 
@@ -712,7 +644,14 @@ export function calculateEnhancedAlchemicalFromPlanetsDetailed(
     Matter: 0,
     Substance: 0,
   };
-  if (aspects && aspects.length > 0) {
+  const aspectPositions = Object.fromEntries(
+    Object.entries(canonicalPositions).filter(
+      ([, position]) =>
+        typeof position === "object" && position !== null,
+    ),
+  );
+  const aspects = options.aspects ?? buildAspectsWithStrength(aspectPositions);
+  if (aspects.length > 0) {
     const aspectMods = calculateAspectESMSModifications(aspects);
 
     aspectModifications.Spirit = aspectMods.Spirit;
@@ -730,8 +669,51 @@ export function calculateEnhancedAlchemicalFromPlanetsDetailed(
     totals,
     perPlanet,
     aspectModifications,
-    ascendantInjected: !planetaryPositions.Ascendant,
+    ascendantInjected,
   };
+}
+
+/**
+ * The one authoritative ESMS engine for natal charts and live skies.
+ * Aspects are derived from rich positions; sign-only inputs remain supported
+ * for stored legacy charts but cannot fabricate geometry they do not carry.
+ */
+export function calculateAlchemicalFromPlanets(
+  planetaryPositions: AlchemicalPlanetPositions,
+  diurnal: boolean = true,
+): AlchemicalProperties {
+  return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal)
+    .totals;
+}
+
+/**
+ * @deprecated Use {@link calculateAlchemicalFromPlanets}. This adapter remains
+ * temporarily for external callers and contains no independent ESMS logic.
+ */
+export function calculateEnhancedAlchemicalFromPlanets(
+  planetaryPositions: AlchemicalPlanetPositions,
+  diurnal: boolean = true,
+  aspects?: AspectWithStrength[],
+): AlchemicalProperties {
+  return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal, {
+    aspects,
+    injectAscendant: true,
+  }).totals;
+}
+
+/**
+ * @deprecated Use {@link calculateAlchemicalFromPlanetsDetailed}. This adapter
+ * preserves the historical injected-vessel behavior without a second engine.
+ */
+export function calculateEnhancedAlchemicalFromPlanetsDetailed(
+  planetaryPositions: AlchemicalPlanetPositions,
+  diurnal: boolean = true,
+  aspects?: AspectWithStrength[],
+): EnhancedAlchemicalDetail {
+  return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal, {
+    aspects,
+    injectAscendant: true,
+  });
 }
 
 /**
@@ -812,7 +794,7 @@ export function aggregateEnhancedZodiacElementals(
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet] as ZodiacSignType;
     const signElement = ZODIAC_ELEMENTS[sign];
-    
+
     const sectInfo = PLANETARY_SECTARIAN_ELEMENTS[planet as PlanetName];
     let sectElement = signElement;
     if (sectInfo) {
@@ -904,7 +886,7 @@ export function getCurrentPlanetaryContribution(
   const entry = PLANETARY_SECTARIAN_ALCHEMICAL[planet as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL];
   const legacyAlchemy = PLANETARY_ALCHEMY[planet as PlanetName];
   const resolvedAlchemy = entry ? (diurnal ? entry.diurnal : entry.nocturnal) : legacyAlchemy;
-  
+
   const esms: AlchemicalProperties = resolvedAlchemy
     ? { Spirit: resolvedAlchemy.Spirit, Essence: resolvedAlchemy.Essence, Matter: resolvedAlchemy.Matter, Substance: resolvedAlchemy.Substance }
     : { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };

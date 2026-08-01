@@ -1,6 +1,5 @@
-import { sampleSect } from '../../scripts/generate-esms-baseline';
-import { calculateComprehensiveAspects, type PlanetaryPositionData } from '../utils/aspectCalculator';
-import type { AspectWithStrength } from '../utils/aspectESMSEffects';
+import { sampleSect } from "../../scripts/generate-esms-baseline";
+import type { PlanetaryPositionData } from "../utils/aspectCalculator";
 import {
   ESMS_BASELINE,
   ESMS_KEYS,
@@ -8,8 +7,8 @@ import {
   toEsmsShares,
   selectArchetype,
   type EsmsShares,
-} from '../utils/alchemicalConstitution';
-import { calculateEnhancedAlchemicalFromPlanets } from '../utils/planetaryAlchemyMapping';
+} from "../utils/alchemicalConstitution";
+import { calculateAlchemicalFromPlanets } from "../utils/planetaryAlchemyMapping";
 
 const SIGNS = [
   'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
@@ -23,20 +22,16 @@ const BODIES = [
 /** Build a chart the way natalChartService does: longitude drives the sign. */
 function chartFrom(rnd: () => number) {
   const aspectPositions: Record<string, PlanetaryPositionData> = {};
-  const signMap: Record<string, string> = {};
   for (const body of BODIES) {
     const longitude = rnd() * 360;
     const sign = SIGNS[Math.floor(longitude / 30)];
-    aspectPositions[body] = { sign, degree: longitude % 30, exactLongitude: longitude };
-    signMap[body] = sign;
+    aspectPositions[body] = {
+      sign,
+      degree: longitude % 30,
+      exactLongitude: longitude,
+    };
   }
-  const aspects: AspectWithStrength[] = calculateComprehensiveAspects(aspectPositions).map((a) => ({
-    planet1: a.planet1,
-    planet2: a.planet2,
-    type: a.type,
-    strength: a.strength,
-  }));
-  return { signMap, aspects };
+  return aspectPositions;
 }
 
 function makeRng(seed: number) {
@@ -74,14 +69,14 @@ describe('selectArchetype', () => {
     substance: ESMS_BASELINE[sect].substance.mean,
   });
 
-  test('picks the quantity furthest above its sect baseline, not the largest', () => {
-    // Essence is numerically the biggest, but Spirit is the one that stands out.
-    const shares = { ...atBaseline('diurnal') };
-    shares.spirit += 3;
+  test("picks the quantity furthest above its sect baseline, not the largest", () => {
+    // Spirit is numerically the biggest, but Essence is the one that stands out.
+    const shares = { ...atBaseline("diurnal") };
+    shares.essence += 3;
     const { dominantToken, baseArchetype } = selectArchetype(shares, true);
-    expect(shares.essence).toBeGreaterThan(shares.spirit); // Essence still larger
-    expect(dominantToken).toBe('spirit');
-    expect(baseArchetype).toBe(ARCHETYPE_BY_QUANTITY.spirit);
+    expect(shares.spirit).toBeGreaterThan(shares.essence); // Spirit still larger
+    expect(dominantToken).toBe("essence");
+    expect(baseArchetype).toBe(ARCHETYPE_BY_QUANTITY.essence);
   });
 
   test('uses the sect-appropriate baseline', () => {
@@ -106,17 +101,16 @@ describe('selectArchetype', () => {
     const seen = new Set<string>();
     for (let i = 0; i < 600; i++) {
       const diurnal = rnd() > 0.5;
-      const { signMap, aspects } = chartFrom(rnd);
-      const esms = calculateEnhancedAlchemicalFromPlanets(signMap, diurnal, aspects);
+      const esms = calculateAlchemicalFromPlanets(chartFrom(rnd), diurnal);
       seen.add(selectArchetype(toEsmsShares(esms), diurnal).baseArchetype);
     }
     expect(seen.size).toBe(4);
   });
 
-  test('scoring rounded shares would lose signal, so exact shares are required', () => {
-    // Substance's day sd is well under one point; integer rounding is ~0.5 of it.
-    expect(ESMS_BASELINE.diurnal.substance.sd).toBeLessThan(1);
-    const shares = { ...atBaseline('diurnal') };
+  test("scoring rounded shares would lose signal, so exact shares are required", () => {
+    // Integer rounding remains a material fraction of Substance's day spread.
+    expect(ESMS_BASELINE.diurnal.substance.sd).toBeLessThan(3);
+    const shares = { ...atBaseline("diurnal") };
     shares.substance += 0.4;
     const rounded: EsmsShares = {
       spirit: Math.round(shares.spirit),

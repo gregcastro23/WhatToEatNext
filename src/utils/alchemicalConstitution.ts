@@ -30,11 +30,9 @@ export const ARCHETYPE_BY_QUANTITY: Record<EsmsKey, string> = {
  *
  * ESMS comes from which planets are present, and every natal chart contains all
  * ten — so the profile is dominated by sect rather than by the individual chart
- * (day ~32/46/13/9, night ~16/17/46/21). Taking the raw maximum would therefore
- * hand every day-born user "Lunar Adept" and every night-born user "Root
- * Alchemist", and leave two archetypes unreachable: Essence draws on 7 planets
- * and Matter on 6, but Spirit on only 4 and Substance on only 2, so those two
- * can never win on raw share.
+ * (day ~42/33/15/10, night ~24/18/39/19). Taking the raw maximum would therefore
+ * hand every day-born user "Solar Forager" and every night-born user "Root
+ * Alchemist", leaving the other archetypes effectively unreachable.
  *
  * Scoring each quantity against its own sect baseline instead makes the
  * archetype reflect what is genuinely distinctive about the chart.
@@ -53,16 +51,16 @@ export const ESMS_BASELINE: Record<
   Record<EsmsKey, { mean: number; sd: number }>
 > = {
   diurnal: {
-    spirit: { mean: 32.31, sd: 1.17 },
-    essence: { mean: 45.75, sd: 1.17 },
-    matter: { mean: 12.55, sd: 1.46 },
-    substance: { mean: 9.38, sd: 0.74 },
+    spirit: { mean: 41.63, sd: 2.84 },
+    essence: { mean: 33.37, sd: 2.82 },
+    matter: { mean: 15.03, sd: 3.1 },
+    substance: { mean: 9.98, sd: 2.26 },
   },
   nocturnal: {
-    spirit: { mean: 16.08, sd: 1.25 },
-    essence: { mean: 16.72, sd: 1.11 },
-    matter: { mean: 46.46, sd: 1.68 },
-    substance: { mean: 20.74, sd: 0.91 },
+    spirit: { mean: 24.02, sd: 2.87 },
+    essence: { mean: 17.83, sd: 2.88 },
+    matter: { mean: 39.13, sd: 3.21 },
+    substance: { mean: 19.02, sd: 2.33 },
   },
 };
 

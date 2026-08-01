@@ -54,17 +54,6 @@ function matchElement(value: unknown, fallback: FeedElementLocal): FeedElementLo
   return ELEMENTS.find((e) => e.toLowerCase() === s) ?? fallback;
 }
 
-function planetSignsFromNatal(natalPositions: unknown): Record<string, string> {
-  const signs: Record<string, string> = {};
-  for (const entry of asArray(natalPositions)) {
-    if (!isRecord(entry)) continue;
-    const planet = typeof entry.planet === "string" ? entry.planet : undefined;
-    const sign = typeof entry.sign === "string" ? entry.sign : undefined;
-    if (planet && sign) signs[planet] = sign;
-  }
-  return signs;
-}
-
 function normalizedFromNatal(
   natalPositions: unknown,
 ): Record<string, { sign: string; degree: number; minute: number; isRetrograde: boolean }> {
@@ -94,15 +83,15 @@ interface PrewarmAgentRow {
 }
 
 async function generateOne(row: PrewarmAgentRow): Promise<boolean> {
-  const signs = planetSignsFromNatal(row.natal_positions);
-  if (Object.keys(signs).length === 0) return false; // need a chart to ground
+  const positions = normalizedFromNatal(row.natal_positions);
+  if (Object.keys(positions).length === 0) return false; // need a chart to ground
 
   const element = matchElement(row.dominant_element, "Fire");
-  const esms = calculateAlchemicalFromPlanets(signs);
+  const esms = calculateAlchemicalFromPlanets(positions);
   let thermodynamicProperties: unknown;
   try {
     thermodynamicProperties = (
-      alchemize(normalizedFromNatal(row.natal_positions)) as { thermodynamicProperties?: unknown }
+      alchemize(positions) as { thermodynamicProperties?: unknown }
     )?.thermodynamicProperties;
   } catch {
     thermodynamicProperties = undefined;

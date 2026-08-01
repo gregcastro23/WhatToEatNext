@@ -12,7 +12,10 @@
  */
 
 import type { AlchemicalProperties } from "@/types/celestial";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
 import {
   calculateElementalValues,
   calculateHeat,
@@ -52,22 +55,33 @@ const EMPTY_ESMS: AlchemicalProperties = {
 const EMPTY_ELEMENTS = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
 /**
- * Convert a raw positions record into the planet → sign map that
- * `calculateAlchemicalFromPlanets` expects.
+ * Normalize a raw positions record without discarding the longitudes needed
+ * by the canonical aspect-bearing ESMS engine.
  */
-function toPlanetSignMap(
+function toAlchemicalPositions(
   positions: Record<string, unknown> | null | undefined,
-): Record<string, string> {
+): AlchemicalPlanetPositions {
   if (!positions) return {};
-  const result: Record<string, string> = {};
+  const result: AlchemicalPlanetPositions = {};
   for (const [planet, raw] of Object.entries(positions)) {
-    if (!raw || typeof raw !== "object") continue;
-    const r = raw as { sign?: unknown; Sign?: unknown; zodiacSign?: unknown };
-    const sign = (r.sign ?? r.Sign ?? r.zodiacSign ?? "") as string;
-    if (!sign) continue;
     const planetName =
       planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-    result[planetName] = sign.toString().toLowerCase();
+    if (typeof raw === "string") {
+      result[planetName] = raw;
+      continue;
+    }
+    if (!raw || typeof raw !== "object") continue;
+    const r = raw as Record<string, unknown>;
+    const sign = r.sign ?? r.Sign ?? r.zodiacSign;
+    if (!sign) continue;
+    result[planetName] = {
+      sign: sign.toString(),
+      degree: typeof r.degree === "number" ? r.degree : undefined,
+      exactLongitude:
+        typeof r.exactLongitude === "number" ? r.exactLongitude : undefined,
+      distance: typeof r.distance === "number" ? r.distance : undefined,
+      distanceAu: typeof r.distanceAu === "number" ? r.distanceAu : undefined,
+    };
   }
   return result;
 }
@@ -90,10 +104,13 @@ export function calculateAlchemicalProperties(
       params.planetaryPositions ??
       (input as Record<string, unknown>);
 
-    const planetSigns = toPlanetSignMap(positions);
-    if (Object.keys(planetSigns).length === 0) return { ...EMPTY_ESMS };
+    const alchemicalPositions = toAlchemicalPositions(positions);
+    if (Object.keys(alchemicalPositions).length === 0) return { ...EMPTY_ESMS };
 
-    return calculateAlchemicalFromPlanets(planetSigns, params.isDaytime);
+    return calculateAlchemicalFromPlanets(
+      alchemicalPositions,
+      params.isDaytime,
+    );
   } catch {
     return { ...EMPTY_ESMS };
   }

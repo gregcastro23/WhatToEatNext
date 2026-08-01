@@ -44,10 +44,17 @@ import type {
   ElementalProperties,
 } from "@/types/celestial";
 import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
-import { calculateMethodSpecificKinetics, getKineticProfile } from "@/utils/cookingMethodKinetics";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
+import {
+  calculateMethodSpecificKinetics,
+  getKineticProfile,
+} from "@/utils/cookingMethodKinetics";
 import { projectZScoreTarget } from "@/utils/enhancedCompatibilityScoring";
 import { calculateMonicaOptimizationScore } from "@/utils/monicaKalchmCalculations";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
 import {
   calculateHarmonyIndex,
   type FocusMode,
@@ -488,7 +495,19 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     const category = categories.find((cat) => cat.id === selectedCategory);
     if (!category) return [];
 
-    const planetaryDerivedESMS = calculateAlchemicalFromPlanets(planetaryPositions);
+    const esmsPositions: AlchemicalPlanetPositions =
+      contextPlanetaryPositions &&
+      Object.keys(contextPlanetaryPositions).length > 0
+        ? (Object.fromEntries(
+            Object.entries(contextPlanetaryPositions).filter(
+              ([, position]) => position != null,
+            ),
+          ) as AlchemicalPlanetPositions)
+        : planetaryPositions;
+    const planetaryDerivedESMS = calculateAlchemicalFromPlanets(
+      esmsPositions,
+      isCurrentSkyDiurnal(),
+    );
     const baseAlchemicalProperties = currentMoment?.quantities
       ? {
         Spirit: currentMoment.quantities.Spirit,

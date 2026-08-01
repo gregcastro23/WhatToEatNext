@@ -1,25 +1,23 @@
 /**
  * One-off backfill: recompute stored natal-chart `alchemicalProperties` via the
- * enhanced planetary-alchemy mapping (the same fn /api/user/charts and the
- * #529-fixed onboarding use). The enhanced mapping injects the Ascendant, so
- * day-born (diurnal) charts no longer collapse Matter/Substance to 0.
+ * canonical planetary-alchemy engine (the same function /api/user/charts and
+ * onboarding use).
  *
  * Context: before #529, onboarding persisted alchemicalProperties via
  * `calculateAlchemicalFromPlanets` (no Ascendant grounding). #529 switched the
- * onboarding write to `calculateEnhancedAlchemicalFromPlanets`, but that only
+ * onboarding write to the former enhanced ESMS path, but that only
  * fixes NEWLY-onboarded users — existing stored charts keep their 0.0 values.
  * This script recomputes them in place.
  *
  * Recompute is from each chart's OWN stored data (no astrologize re-fetch):
- *   alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
- *     natalChart.planetaryPositions,
+ *   alchemicalProperties = calculateAlchemicalFromPlanets(
+ *     longitude-bearing positions rebuilt from the stored chart,
  *     isSectDiurnalForBirth(new Date(natalChart.birthData.dateTime)),
- *     aspects rebuilt from natalChart.planets[].position,
  *   )
  * which reproduces what natalChartService now writes.
  *
- * ⚠️ The aspects argument is NOT optional here. Aspects are the engine's Layer 3
- * and the main source of chart-to-chart variation — without them every chart
+ * ⚠️ Longitude-bearing positions are NOT optional here. Aspects are the engine's
+ * Layer 3 and the main source of chart-to-chart variation — without them every chart
  * collapses to nearly the same profile. This script previously omitted them, so
  * running that version today would OVERWRITE correct aspect-aware values with
  * near-constant ones. Charts too old to carry `planets[].position` are counted
@@ -48,13 +46,16 @@
  *   DATABASE_URL=postgres://... bun scripts/backfillNatalChartAlchemy.ts --apply  # write changes
  */
 import pkg from "pg";
-import { selectArchetype, toEsmsShares } from "../src/utils/alchemicalConstitution";
-import { buildAspectsFromChartPlanets } from "../src/utils/aspectCalculator";
-import type { AspectWithStrength } from "../src/utils/aspectESMSEffects";
 import {
-  calculateEnhancedAlchemicalFromPlanets,
+  selectArchetype,
+  toEsmsShares,
+} from "../src/utils/alchemicalConstitution";
+import {
+  calculateAlchemicalFromPlanets,
   isSectDiurnalForBirth,
 } from "../src/utils/planetaryAlchemyMapping";
+import { extractAlchemicalPlanetPositions } from "../src/utils/astrology/chartDataUtils";
+import type { NatalChart } from "../src/types/natalChart";
 
 const { Pool } = pkg;
 
@@ -84,15 +85,24 @@ interface Recompute {
 
 const round6 = (n: unknown): number => Math.round((Number(n) || 0) * 1e6) / 1e6;
 
+type JsonRecord = Record<string, unknown>;
+
+function asRecord(value: unknown): JsonRecord | null {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as JsonRecord)
+    : null;
+}
+
 function esmsKey(e: Esms | null | undefined): string {
   if (!e || typeof e !== "object") return "∅";
   return [round6(e.Spirit), round6(e.Essence), round6(e.Matter), round6(e.Substance)].join(",");
 }
 
-function getDateTime(natalChart: any, fallbackBirthData?: any): string | null {
-  const a = natalChart?.birthData?.dateTime;
+function getDateTime(natalChart: unknown, fallbackBirthData?: unknown): string | null {
+  const chart = asRecord(natalChart);
+  const a = asRecord(chart?.birthData)?.dateTime;
   if (typeof a === "string" && a) return a;
-  const b = fallbackBirthData?.dateTime;
+  const b = asRecord(fallbackBirthData)?.dateTime;
   if (typeof b === "string" && b) return b;
   return null;
 }
@@ -105,26 +115,36 @@ function getDateTime(natalChart: any, fallbackBirthData?: any): string | null {
  * chart predates that field, in which case this script MUST NOT write: see the
  * header for why a no-aspect recompute is now a regression, not a fix.
  */
-function buildAspects(natalChart: any): AspectWithStrength[] | null {
-  const planets = natalChart?.planets;
+function buildEnginePositions(
+  natalChart: unknown,
+): Record<
+  string,
+  { sign: string; degree?: number; exactLongitude?: number; distance?: number }
+> | null {
+  const chart = asRecord(natalChart);
+  const planets = chart?.planets;
   if (!Array.isArray(planets) || planets.length === 0) return null;
-  const aspects = buildAspectsFromChartPlanets(planets);
-  // Distinguish "old chart, no longitudes" (skip) from "genuinely no aspects".
-  const hasLongitudes = planets.some((p: any) => typeof p?.position === "number" && p.position > 0);
-  return hasLongitudes ? aspects : null;
+  const hasLongitudes = planets.some((rawPlanet) => {
+    const planet = asRecord(rawPlanet);
+    return typeof planet?.position === "number" && planet.position > 0;
+  });
+  if (!hasLongitudes) return null;
+
+  return extractAlchemicalPlanetPositions(natalChart as NatalChart);
 }
 
 /** Recompute alchemicalProperties for one natalChart object. Returns null if not a chart. */
-function recompute(natalChart: any, fallbackBirthData?: any): Recompute | null {
-  if (!natalChart || typeof natalChart !== "object") return null;
-  const positions = natalChart.planetaryPositions;
+function recompute(natalChart: unknown, fallbackBirthData?: unknown): Recompute | null {
+  const chart = asRecord(natalChart);
+  if (!chart) return null;
+  const positions = chart.planetaryPositions;
   const hasPositions =
     !!positions && typeof positions === "object" && Object.keys(positions).length > 0;
   const dateTime = getDateTime(natalChart, fallbackBirthData);
   const hasDate = !!dateTime;
   const before: Esms | null =
-    natalChart.alchemicalProperties && typeof natalChart.alchemicalProperties === "object"
-      ? (natalChart.alchemicalProperties as Esms)
+    chart.alchemicalProperties && typeof chart.alchemicalProperties === "object"
+      ? (chart.alchemicalProperties as Esms)
       : null;
 
   if (!hasPositions || !hasDate) {
@@ -134,16 +154,23 @@ function recompute(natalChart: any, fallbackBirthData?: any): Recompute | null {
   // Aspects are the engine's Layer 3. Recomputing without them would overwrite
   // the aspect-aware values natalChartService now writes with near-constant
   // ones — the opposite of a backfill. Skip rather than corrupt.
-  const aspects = buildAspects(natalChart);
-  if (!aspects) {
-    return { hasPositions, hasDate, before, after: null, changed: false, symptomatic: false, noAspects: true };
+  const enginePositions = buildEnginePositions(natalChart);
+  if (!enginePositions) {
+    return {
+      hasPositions,
+      hasDate,
+      before,
+      after: null,
+      changed: false,
+      symptomatic: false,
+      noAspects: true,
+    };
   }
 
   const diurnal = isSectDiurnalForBirth(new Date(dateTime as string));
-  const after = calculateEnhancedAlchemicalFromPlanets(
-    positions as Record<string, string>,
+  const after = calculateAlchemicalFromPlanets(
+    enginePositions,
     diurnal,
-    aspects,
   ) as Esms;
 
   const changed = esmsKey(before) !== esmsKey(after);
@@ -186,7 +213,11 @@ async function main(): Promise<void> {
   // ---- Store 2: user_profiles.natal_chart ----
   const up = newTally();
   {
-    const { rows } = await pool.query<{ user_id: string; natal_chart: any; birth_data: any }>(
+    const { rows } = await pool.query<{
+      user_id: string;
+      natal_chart: unknown;
+      birth_data: unknown;
+    }>(
       `SELECT user_id, natal_chart, birth_data
          FROM user_profiles
         WHERE jsonb_typeof(natal_chart) = 'object'
@@ -221,7 +252,11 @@ async function main(): Promise<void> {
   // ---- Store 1: users.profile JSONB (natalChart + savedCharts[]) ----
   const us = newTally();
   {
-    const { rows } = await pool.query<{ id: string; email: string; profile: any }>(
+    const { rows } = await pool.query<{
+      id: string;
+      email: string;
+      profile: unknown;
+    }>(
       `SELECT id, email, profile
          FROM users
         WHERE jsonb_typeof(profile) = 'object'
@@ -232,7 +267,7 @@ async function main(): Promise<void> {
     );
     us.rows = rows.length;
     for (const row of rows) {
-      const profile = row.profile || {};
+      const profile = asRecord(row.profile) ?? {};
       const fallbackBirth = profile.birthData;
 
       // profile.natalChart
@@ -262,7 +297,7 @@ async function main(): Promise<void> {
       // profile.savedCharts[] (legacy in-profile saved charts)
       const saved = Array.isArray(profile.savedCharts) ? profile.savedCharts : [];
       for (let i = 0; i < saved.length; i++) {
-        const entry = saved[i];
+        const entry = asRecord(saved[i]);
         const rSaved = recompute(entry?.natalChart, entry?.birthData);
         if (!rSaved) continue;
         us.charts++;
@@ -308,9 +343,9 @@ async function main(): Promise<void> {
       matter_balance: number;
       substance_balance: number;
       base_archetype: string | null;
-      col_chart: any;
-      jsonb_chart: any;
-      birth_data: any;
+      col_chart: unknown;
+      jsonb_chart: unknown;
+      birth_data: unknown;
     }>(
       `SELECT ac.user_id,
               ac.spirit_balance, ac.essence_balance, ac.matter_balance, ac.substance_balance,

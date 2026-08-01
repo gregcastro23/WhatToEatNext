@@ -264,7 +264,7 @@ export function compareSignVectors(
 // `getAlchemicalStateWithVectors` blended that fabricated ESMS into correct
 // planet-derived ESMS at alpha=0.15 and ran the whole thermodynamic stack on the
 // result. All four were unreferenced. For real quantities use
-// `calculateEnhancedAlchemicalFromPlanets`.
+// `calculateAlchemicalFromPlanets`.
 //
 // The sign vector itself is kept and is the subject of an active programme —
 // modality is the one classical axis the engine never derives from the sky.

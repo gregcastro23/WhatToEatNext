@@ -105,19 +105,19 @@ function quantitiesFromActivePlanets(
  * @returns The user's target KAlchm.
  */
 export function getUserTargetKAlchm(astroState: AstrologicalState): number {
-    // Quantities come from WHICH PLANETS are present — never from the dominant
-    // elements, which are a separate reading taken from the signs those planets
-    // occupy (see the header of `@/utils/planetaryAlchemyMapping`). This used to
-    // build Spirit from (Air + Fire) / 2 and so on, which the engine forbids.
-    //
-    // Only planet names are available here (the menu-planner bridge supplies
-    // `activePlanets` without signs), so this is PLANETARY_ALCHEMY's base layer:
-    // correct in kind, but without the sect, dignity and aspect refinements that
-    // callers holding real positions get from calculateEnhancedAlchemicalFromPlanets.
-    const alchemicalProps = quantitiesFromActivePlanets(astroState.activePlanets);
-    if (!alchemicalProps) {
-        return 1.0;
-    }
+  // Quantities come from WHICH PLANETS are present — never from the dominant
+  // elements, which are a separate reading taken from the signs those planets
+  // occupy (see the header of `@/utils/planetaryAlchemyMapping`). This used to
+  // build Spirit from (Air + Fire) / 2 and so on, which the engine forbids.
+  //
+  // Only planet names are available here (the menu-planner bridge supplies
+  // `activePlanets` without signs), so this is PLANETARY_ALCHEMY's base layer:
+  // correct in kind, but without the sect, dignity and aspect refinements that
+  // callers holding real positions get from calculateAlchemicalFromPlanets.
+  const alchemicalProps = quantitiesFromActivePlanets(astroState.activePlanets);
+  if (!alchemicalProps) {
+    return 1.0;
+  }
 
     // Delegates to THE canonical engine (second of the two copies in this file).
     // Note this one's unreachable zero-denominator branch returned 0.0001 where
