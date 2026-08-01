@@ -163,14 +163,14 @@ export const THERMO_AFFINITY_EPOCH = {
  * population. BASIS: MEASURED — re-derived by
  * `thermodynamicAffinityCalibration.test.ts` on every run.
  *
- * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.334) would
- * outweigh heat's (0.342) by nearly 7:1 on scale alone — an unexamined emphasis of
+ * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.333) would
+ * outweigh heat's (0.333) by 7:1 on scale alone — an unexamined emphasis of
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.34242341216623884,
-  entropy: 0.38791946880722994,
-  reactivity: 2.3335058155938997,
+  heat: 0.3328000991150603,
+  entropy: 0.37031863162603695,
+  reactivity: 2.3331310334971707,
 };
 
 /**
@@ -178,15 +178,25 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  * all 21900 REACHABLE cuisine↔moment distances (see the epoch note above). Not
  * chosen; re-derived by the calibration test.
  *
- * Distance quantiles for reference: p10 0.305, p25 0.517, MEDIAN 1.904,
- * p75 2.585, p90 3.559, max 5.053. The upper tail CONTRACTED when cuisine
- * ESMS went mass-weighted (Strategy A): weighted multi-ruler sums sit closer
- * to real skies than the old one-hot unit vectors did (old max 5.548).
+ * Distance quantiles for reference: p10 0.265, p25 0.380, MEDIAN 1.100,
+ * p75 1.766, p90 2.772, max 4.873.
+ *
+ * The whole distribution CONTRACTED — not just the tail — when the derivation
+ * was finally pointed at the mass-weighted cuisine ESMS production actually
+ * uses (#706). Weighted multi-ruler sums sit much closer to real skies than
+ * one-hot unit vectors, so the MEDIAN fell 1.904 → 1.100 (−42%) and the max
+ * fell 5.053 → 4.873.
+ *
+ * Note this contraction was ASSERTED here before it was ever MEASURED: the
+ * previous version of this comment already credited Strategy A with pulling the
+ * tail in, while the derivation was still building one-hot states. The effect
+ * was real and the direction was right; the magnitude was understated because
+ * nothing had measured it. That gap is the defect #706 closed.
  *
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
  */
-export const THERMO_AFFINITY_D0 = 1.903549175561494;
+export const THERMO_AFFINITY_D0 = 1.0997692434132713;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.

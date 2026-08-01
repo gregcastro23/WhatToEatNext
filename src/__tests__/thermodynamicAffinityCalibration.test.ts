@@ -47,7 +47,10 @@ import {
   thermoStateDistance,
   type ThermoState,
 } from "@/data/unified/thermodynamicAffinity";
-import { CUISINE_ELEMENTAL_MAP } from "@/services/restaurantScoring";
+import {
+  CUISINE_ELEMENTAL_MAP,
+  deriveCuisineAlchemical,
+} from "@/services/restaurantScoring";
 import {
   getAccuratePlanetaryPositions,
   isCurrentSkyDiurnal,
@@ -67,31 +70,36 @@ function capitalizeSign(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
-/** One cuisine's thermodynamic state at a given sect. */
+/**
+ * One cuisine's thermodynamic state at a given sect — built through the SAME
+ * call production uses.
+ *
+ * This used to build a one-hot single-ruler vector from
+ * `PLANETARY_SECTARIAN_ALCHEMICAL[profile.planetaryRuler]`, which is the shape
+ * #700 deliberately retired: cuisine ESMS is now mass-weighted over ALL of the
+ * cuisine's ruling planets, which is what takes kalchm off the binary lattice.
+ * The derivation never followed production there, so these constants were
+ * calibrated against a population the scorer had stopped producing — and the
+ * suite stayed green the whole time, because it re-derives and pins its OWN
+ * output and is therefore self-consistent no matter which population it uses.
+ *
+ * Calling `deriveCuisineAlchemical` rather than re-implementing it is the point:
+ * a copy here is exactly how the two drifted apart the first time.
+ * `scoreCuisineAgainstMoment` (restaurantScoring.ts:197) pairs it with the same
+ * `CUISINE_ELEMENTAL_MAP` elementals used below, so this now matches production
+ * on both halves of the state.
+ */
 function cuisineState(
   cuisine: keyof typeof CUISINE_ELEMENTAL_MAP,
   diurnal: boolean,
 ): Full {
   const profile = CUISINE_ELEMENTAL_MAP[cuisine];
-  const entry =
-    PLANETARY_SECTARIAN_ALCHEMICAL[
-      profile.planetaryRuler as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL
-    ];
-  const sect = diurnal ? entry.diurnal : entry.nocturnal;
-  return calculateThermodynamics(
-    {
-      Spirit: sect.Spirit,
-      Essence: sect.Essence,
-      Matter: sect.Matter,
-      Substance: sect.Substance,
-    },
-    {
-      Fire: profile.Fire,
-      Water: profile.Water,
-      Earth: profile.Earth,
-      Air: profile.Air,
-    },
-  ) as Full;
+  return calculateThermodynamics(deriveCuisineAlchemical(cuisine, diurnal), {
+    Fire: profile.Fire,
+    Water: profile.Water,
+    Earth: profile.Earth,
+    Air: profile.Air,
+  }) as Full;
 }
 
 /** The sky on the epoch grid, exactly as the discovery service reads it. */
@@ -284,9 +292,15 @@ describe("thermodynamic affinity calibration", () => {
       }
     }
     const pct = share.map((s) => (100 * s) / total);
-    expect(pct[0]).toBeCloseTo(32.9, 1); // heat
-    expect(pct[1]).toBeCloseTo(62.1, 1); // entropy
-    expect(pct[2]).toBeCloseTo(5.0, 1); // reactivity
+    // Pinned to 2 decimals at precision 1 (an absolute ±0.05 bound) rather than
+    // to a 1-decimal figure. entropy lands on 63.95, and the nearest 1-decimal
+    // pin (64.0) would sit 0.0465 from the measured value — inside the bound,
+    // but with only 7% headroom, which is how a pin becomes flaky under an ULP
+    // change. Pinning the measured 2-decimal value keeps the same tolerance and
+    // restores the margin.
+    expect(pct[0]).toBeCloseTo(29.39, 1); // heat
+    expect(pct[1]).toBeCloseTo(63.95, 1); // entropy
+    expect(pct[2]).toBeCloseTo(6.66, 1); // reactivity
   });
 
   itPinnedConstant("confirms equal weighting IS the first principal component", () => {
