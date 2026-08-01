@@ -9,6 +9,12 @@ import json
 import math
 import os
 import unittest
+from backend.utils.esms_quantization import (
+    ESMS_K_MAX,
+    format_micro_esms,
+    parse_micro_esms,
+    quantize_esms,
+)
 from backend.utils.natal_alchemy import calculate_natal_alchemical_quantities
 from backend.utils.planetary_alchemy import (
     ASCENDANT_VESSEL_WEIGHT,
@@ -147,6 +153,87 @@ class TestEsmsConformance(unittest.TestCase):
         at_perigee = get_gravitational_inertia("Moon", 0.002384073736896684)
         self.assertLess(at_perigee, 0.25)   # ~0.19 * 1.163 — O(weight), not 43,043
         self.assertGreater(at_perigee, get_inertial_mass_weight("Moon"))  # perigee amplifies
+
+    def test_quantized_goldens_byte_identical(self):
+        """§6 mainnet gate: quantize the engine's full-precision K and match the
+        fixture's expected_micro integers EXACTLY. The TS suite asserts the same
+        integers from the TS quantizer — byte-identical across runtimes."""
+        fixture = load_conformance_fixture()
+        for chart in fixture["charts"]:
+            res = calculate_natal_alchemical_quantities(
+                chart["planetary_positions"], is_diurnal=chart.get("is_diurnal", True)
+            )
+            for coin, want in chart["expected_micro"].items():
+                got = quantize_esms(res[coin])
+                self.assertEqual(got, want, f"[{chart['id']}] {coin}: {got} != {want}")
+                self.assertIsInstance(got, int)
+
+    def test_quantization_conservation(self):
+        """§6 rule 4: sum(q(parts)) <= q(whole), MEASURED over the golden set.
+
+        Parts are the raw per-body coin contributions (sect ESMS x inertia, the
+        vessel as its own part) — the same primitives the engine sums — so the
+        whole is exactly the float sum of the parts, no correction terms. Note
+        the mathematical property holds for exact reals; with float sums an
+        adversarial all-integer-micro portfolio could violate it by one ulp, so
+        this is pinned over the REACHABLE parts, not claimed universally.
+        """
+        from backend.utils.planetary_alchemy import (
+            ESMS_PLANETS,
+            PLANETARY_SECTARIAN_ESMS,
+            calculate_positional_ascendant_vessel,
+        )
+        fixture = load_conformance_fixture()
+        checked = 0
+        for chart in fixture["charts"]:
+            positions = chart["planetary_positions"]
+            sect = "diurnal" if chart.get("is_diurnal", True) else "nocturnal"
+            parts = {"Spirit": [], "Essence": [], "Matter": [], "Substance": []}
+            for body, pos in positions.items():
+                clean = body.strip().title()
+                if clean not in ESMS_PLANETS:
+                    continue
+                inertia = get_gravitational_inertia(clean, pos.get("distance"))
+                for coin, val in PLANETARY_SECTARIAN_ESMS[clean][sect].items():
+                    parts[coin].append(val * inertia)
+            asc = positions.get("Ascendant", {"sign": "aries", "degree": 0})
+            vessel = calculate_positional_ascendant_vessel(asc["sign"], asc.get("degree", 0))
+            asc_inertia = get_gravitational_inertia("Ascendant")
+            for coin in parts:
+                parts[coin].append(vessel[coin] * asc_inertia)
+                whole = sum(parts[coin])
+                self.assertLessEqual(
+                    sum(quantize_esms(p) for p in parts[coin]),
+                    quantize_esms(whole),
+                    f"[{chart['id']}] {coin}: parts quantize above the whole",
+                )
+                checked += 1
+        self.assertEqual(checked, 80)
+
+    def test_quantizer_floor_and_guards(self):
+        """Floor never round; malformed input throws instead of minting."""
+        self.assertEqual(quantize_esms(1.9999999), 1_999_999)  # floor, not round
+        self.assertEqual(quantize_esms(0.0), 0)
+        for bad in (float("nan"), float("inf"), -0.001, ESMS_K_MAX + 1):
+            with self.assertRaises(TypeError):
+                quantize_esms(bad)
+
+    def test_no_float_dequantize_and_exact_round_trip(self):
+        """AMENDMENT to §6 rule 5, with its measurement.
+
+        NEGATIVE CONTROL — the drafted float idempotence is impossible with
+        floor: q=249's float representative multiplies back to 248.99…, so
+        floor loses a micro. This is why there is NO float dequantize.
+        """
+        self.assertEqual(math.floor((249 / 1e6) * 1e6), 248)  # the measured trap
+        # The exact decimal path is lossless for every integer.
+        for q in list(range(0, 2000)) + [249, 999_999, 1_000_000, 4_560_831, 10**8]:
+            self.assertEqual(parse_micro_esms(format_micro_esms(q)), q)
+        self.assertEqual(format_micro_esms(249), "0.000249")
+        fixture = load_conformance_fixture()
+        for chart in fixture["charts"]:
+            for q in chart["expected_micro"].values():
+                self.assertEqual(parse_micro_esms(format_micro_esms(q)), q)
 
     def test_sect_changes_the_result(self):
         """is_diurnal must matter: the onboarding route used to omit it entirely,

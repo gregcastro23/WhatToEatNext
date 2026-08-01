@@ -97,11 +97,16 @@ def calculate_natal_alchemical_quantities(
     else:
         elemental_balance = {"Fire": 0.25, "Earth": 0.25, "Air": 0.25, "Water": 0.25}
 
-    # Absolute ESMS scores
-    spirit = round(esms_totals["Spirit"], 4)
-    essence = round(esms_totals["Essence"], 4)
-    matter = round(esms_totals["Matter"], 4)
-    substance = round(esms_totals["Substance"], 4)
+    # Absolute ESMS scores — FULL PRECISION, deliberately un-rounded.
+    # §6 rule 2 of the quantization contract: all upstream math stays float64,
+    # and display roundings MUST NOT feed the quantizer. The old round(..., 4)
+    # here silently pre-quantized every downstream consumer at 1e-4 — including
+    # the mint boundary — and capped cross-runtime parity checks at 5e-4.
+    # Display formatting is the caller's concern.
+    spirit = esms_totals["Spirit"]
+    essence = esms_totals["Essence"]
+    matter = esms_totals["Matter"]
+    substance = esms_totals["Substance"]
 
     # Reactivity: Strictly (Matter + Earth)^2
     earth_val = elemental_balance.get("Earth", 0.25)
