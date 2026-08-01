@@ -170,6 +170,16 @@ $$\hat{H} = \frac{\hat{p}^2}{2m} + \frac{1}{2} m \omega^2 (x - \bar{x}_{\text{se
 - **Current Λ**: total swing ±155,724; the residual spectrum concentrates in the 25–40 d lunar band (synodic 29.53 d: 6.5×10⁹; anomalistic 27.55 d: 1.9×10⁹) — i.e. under the shipped tensor, the oscillator **is** the Moon's distance cycle and nothing else.
 - **Under option C**: |x| ≤ 16.9; dominant peaks move to the annual/Venus-synodic scale (~2.5×10³ at ≈1 yr) with Mercury's 115.9 d synodic clearly resolved (4.6×10²) and the lunar months present but proportionate (~0.3–0.5).
 
+**`[MEASURED 2026-08-01 — ω DERIVED under the ruled Λ = C]`** §7 is ruled and shipped; the derivation ran per item 1 below, over the required ≥2-synodic epoch (item 2): daily series, noon UTC, 2026-01-01 → 2033-12-31 (2922 samples, **5.0 Venus synodic cycles**), sect-demodulated, bodies only (the sky has no observer, so no vessel term).
+
+- **Fundamental**: T = **586.30 d (diurnal) / 585.90 d (nocturnal)** — within **0.4% of the Venus synodic period (583.92 d)** and sect-independent to 0.07%. The oscillator *is* the Venus distance cycle, whose $(\bar r/r)^2$ factor spans 0.35–13.9×, the largest modulation in the tensor.
+- **Harmonic series**: 291.5 d ≈ T/2 and 146 d ≈ T/4 — the $(\bar r/r)^2$ waveform is non-sinusoidal.
+- **Mercury synodic**: resolved at 115.0–116.5 d (true 115.88 d), exactly as predicted above.
+- **Ruled single ω**: T = 586.10 d (mean of the sect fundamentals, 0.07% apart — per-sect ω would be precision theater), so **ω = 2π/586.10 = 1.07203×10⁻² rad/day**.
+- **Equilibria**: $\bar{x}_{\text{diurnal}} = 6.5245$, $\bar{x}_{\text{nocturnal}} = -4.0937$ (epoch means).
+
+Implementation: `src/utils/esmsOscillator.ts` (constants + $\hat H$ + the coherent transport rule); `esmsOscillator.test.ts` re-derives every constant from the ephemeris on each run, and pins the Venus identification so a Λ change that moves the fundamental off the Venus line fails loudly.
+
 **Consequences for implementation, once §7 is ruled:**
 1. ω must be re-derived against the ruled Λ — deriving it now would calibrate a constant against a defect.
 2. The Venus synodic period (584 d) exceeds a 1-year window; the ω-derivation epoch must span ≥ 2 synodic cycles (**2026–2029**).
