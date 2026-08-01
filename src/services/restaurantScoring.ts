@@ -492,12 +492,10 @@ function buildMatchReasons(input: {
     reasons.push(`Elemental harmony with the moment (${Math.round(elementalMatch * 100)}%)`);
   }
 
-  // 0.85 affinity is d ≤ −D0·ln(0.85) = 0.1787 in whitened units. MEASURED: it
-  // fires for 4.57% of reachable cuisine↔moment pairs, down from ~10.3% before
-  // #706 re-derived the constants against production's mass-weighted cuisine
-  // ESMS. The band tightened because the distribution changed SHAPE, not just
-  // scale: the lower tail contracted less than the median (p10 ×0.87 vs median
-  // ×0.58), so the same affinity cut now sits further out in D0 units. This
+  // 0.85 affinity is d ≤ −D0·ln(0.85) = 0.1777 in whitened units. MEASURED: it
+  // fires for 4.69% of reachable cuisine↔moment pairs (was 4.57% before
+  // ADR-009 moved the elementals onto the inertial scale, and ~10.3% before
+  // #706 re-derived against production's mass-weighted cuisine ESMS). This
   // reason is deliberately rarer than the 0.8 elemental one above it.
   // See `thermodynamicAffinity.ts`. The old copy keyed off a monica score that
   // was identical for every cuisine at any given moment, so it fired for all

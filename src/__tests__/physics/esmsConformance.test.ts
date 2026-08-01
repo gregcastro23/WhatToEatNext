@@ -1,6 +1,6 @@
 import * as Astronomy from "astronomy-engine";
 import fixture from "../../../docs/physics/esms_conformance.json";
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
+import { PLANET_WEIGHTS } from "@/data/planets";
 import {
   ESMS_K_MAX,
   formatMicroEsms,
@@ -101,10 +101,11 @@ describe("ESMS 2.0 Unified Physics Model Conformance Suite", () => {
   });
 
   it("annihilates no charted body on the inertial mass scale", () => {
-    // normalizePlanetWeight anchors AT Pluto, so Pluto is exactly 0 on that
-    // scale — the same extremum-annihilation that zeroed the Ascendant on the
-    // period scale (PR #683). POSITIVE CONTROL first: the trap is real.
-    expect(normalizePlanetWeight(PLANET_WEIGHTS.Pluto)).toBe(0);
+    // The trap this guards against: a mass scale anchored AT Pluto makes Pluto
+    // exactly 0 — a body in the chart contributing nothing. That scale
+    // (`normalizePlanetWeight`) was DELETED in ADR-009; `planets.test.ts` pins
+    // that it stays deleted, since re-adding it is the cheapest way to undo the
+    // migration. Here we assert the surviving scale's property directly.
     // The inertial scale anchors one decade below Pluto (RULED): all bodies > 0.
     expect(inertialMassWeight("Sun")).toBe(1.0);
     for (const body of Object.keys(PLANET_MEAN_GEOCENTRIC_AU)) {
@@ -162,10 +163,13 @@ describe("ESMS 2.0 Unified Physics Model Conformance Suite", () => {
     expect(ASCENDANT_VESSEL_WEIGHT).toBe(1.0);
     expect(getGravitationalInertia("Ascendant")).toBe(1.0); // r = 1.0 AU
     expect(getTidalPull("Ascendant")).toBe(1.0);
-    // POSITIVE CONTROL — what the accidental `?? 1.0` fallback used to produce:
-    // Earth's relative MASS through the mass normalizer, ≈ 0.3249, not a ruling.
+    // The Ascendant still has NO mass entry — it is not an orbiting body. Under
+    // the deleted Pluto-anchored scale that meant a `?? 1.0` fallback handed it
+    // EARTH's mass (≈0.3249), an accident of the fallback rather than a ruling.
+    // `inertialMassWeight` special-cases it instead, so the absence below is now
+    // harmless — but it is asserted because the fallback returns silently, and a
+    // future entry here would resurrect the accident without failing anything.
     expect(PLANET_WEIGHTS["Ascendant" as keyof typeof PLANET_WEIGHTS]).toBeUndefined();
-    expect(normalizePlanetWeight(1.0)).toBeCloseTo(0.3248835368415509, 12);
-    expect(normalizePlanetWeight(1.0)).not.toBe(ASCENDANT_VESSEL_WEIGHT);
+    expect(inertialMassWeight("Ascendant")).toBe(ASCENDANT_VESSEL_WEIGHT);
   });
 });

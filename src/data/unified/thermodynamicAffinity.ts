@@ -163,14 +163,14 @@ export const THERMO_AFFINITY_EPOCH = {
  * population. BASIS: MEASURED — re-derived by
  * `thermodynamicAffinityCalibration.test.ts` on every run.
  *
- * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.333) would
- * outweigh heat's (0.333) by 7:1 on scale alone — an unexamined emphasis of
+ * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.309) would
+ * outweigh heat's (0.330) by 7:1 on scale alone — an unexamined emphasis of
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.3328000991150603,
-  entropy: 0.37031863162603695,
-  reactivity: 2.3331310334971707,
+  heat: 0.32988662169162397,
+  entropy: 0.3689024420258162,
+  reactivity: 2.3088816101488434,
 };
 
 /**
@@ -178,8 +178,8 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  * all 21900 REACHABLE cuisine↔moment distances (see the epoch note above). Not
  * chosen; re-derived by the calibration test.
  *
- * Distance quantiles for reference: p10 0.265, p25 0.380, MEDIAN 1.100,
- * p75 1.766, p90 2.772, max 4.873.
+ * Distance quantiles for reference: p10 0.262, p25 0.376, MEDIAN 1.093,
+ * p75 1.762, p90 2.787, max 4.893.
  *
  * The whole distribution CONTRACTED — not just the tail — when the derivation
  * was finally pointed at the mass-weighted cuisine ESMS production actually
@@ -196,7 +196,7 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
  */
-export const THERMO_AFFINITY_D0 = 1.0997692434132713;
+export const THERMO_AFFINITY_D0 = 1.0934456889925421;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.

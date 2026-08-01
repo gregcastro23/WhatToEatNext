@@ -6,7 +6,6 @@
  * planetary hours, critical degrees, and retrograde modifiers.
  */
 
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type {
   Planet,
   ZodiacSignType,
@@ -14,6 +13,7 @@ import type {
 } from "@/types/celestial";
 import type { Recipe } from "@/types/recipe";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 
 // Planets used for scoring (exclude Ascendant which isn't a planet)
 const SCORING_PLANETS: Planet[] = [
@@ -416,11 +416,11 @@ export class PlanetaryScoringService {
       components.planetaryHourBonus +
       components.criticalDegreeBonus;
 
-    // Ruling planet's physical mass as a soft weight. PLANET_WEIGHTS stores
-    // actual relative-to-Earth values; normalizePlanetWeight log-scales so
-    // Pluto → ≈0, Sun → 1.0. Floor at 0.5 keeps small bodies in play.
-    const relMass = PLANET_WEIGHTS[rulingPlanet] ?? 1.0;
-    const massScale = 0.5 + 0.5 * normalizePlanetWeight(relMass);
+    // Ruling planet's physical mass as a soft weight, on the canonical
+    // inertial scale (ADR-009): Pluto → 0.109, Sun → 1.0. The 0.5 floor stays —
+    // it kept small bodies in play back when Pluto normalized to exactly 0, and
+    // it still bounds how much mass alone can suppress a sky score.
+    const massScale = 0.5 + 0.5 * inertialMassWeight(rulingPlanet);
     const skyComponent = Math.min(
       skyBase * massScale * components.retrogradeModifier,
       1,
