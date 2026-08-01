@@ -254,12 +254,34 @@ export const PLANET_MEAN_DISTANCES: Record<string, number> = {
 };
 
 /**
+ * The Ascendant is the "Physical Vessel" grounding anchor, not an orbiting body.
+ * RULED weight 1.0 — the same special case every period-scale path in this repo
+ * already applies (`calculateESMSWithDegrees` below: "fixed (+1) to anchor the
+ * system"; RealAlchemizeService.ts twice). The inertia functions here previously
+ * had NO special case, so "Ascendant" fell through `?? 1.0` to Earth's relative
+ * MASS and came out as normalizePlanetWeight(1.0) ≈ 0.3249 — an accident of the
+ * fallback, not a ruling. The Python port was worse: its period scale is
+ * min-anchored AT the Ascendant, so the same lookup returned exactly 0.0 and the
+ * vessel was inert (11/20 golden charts collapsed to Matter = Substance = 0).
+ * Both runtimes now pin THIS constant; `esmsConformance.test.ts` and
+ * `test_esms_conformance.py` each assert it.
+ */
+export const ASCENDANT_VESSEL_WEIGHT = 1.0;
+
+function inertialMass(planet: string): number {
+  if (planet === "Ascendant") return ASCENDANT_VESSEL_WEIGHT;
+  // NOTE: unknown bodies still fall back to Earth's relative mass (1.0). That is
+  // a silent-fabrication hazard kept only because every caller filters to the
+  // known-body set first; tightening it to a throw is out of scope here.
+  return normalizePlanetWeight(PLANET_WEIGHTS[planet] ?? 1.0);
+}
+
+/**
  * Computes true gravitational inertia M / r^2.
  * Uses log-normalized weight for mass M, and geocentric distance r in AU.
  */
 export function getGravitationalInertia(planet: string, distanceAu?: number): number {
-  const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
-  const mass = normalizePlanetWeight(relMass);
+  const mass = inertialMass(planet);
   const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : (PLANET_MEAN_DISTANCES[planet] ?? 1.0);
   return mass / (r * r);
 }
@@ -268,8 +290,7 @@ export function getGravitationalInertia(planet: string, distanceAu?: number): nu
  * Computes tidal pull M / r^3.
  */
 export function getTidalPull(planet: string, distanceAu?: number): number {
-  const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
-  const mass = normalizePlanetWeight(relMass);
+  const mass = inertialMass(planet);
   const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : (PLANET_MEAN_DISTANCES[planet] ?? 1.0);
   return mass / (r * r * r);
 }

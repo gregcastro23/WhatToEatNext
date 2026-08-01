@@ -365,8 +365,19 @@ async def user_onboarding(
         if not chart_data or "positions" not in chart_data:
              raise HTTPException(status_code=500, detail="Failed to calculate natal chart")
 
-        # Calculate Alchemical Quantities
-        alchemy_stats = calculate_natal_alchemical_quantities(chart_data["positions"])
+        # Calculate Alchemical Quantities.
+        # Sect MUST come from the birth moment: this call previously omitted
+        # is_diurnal, so it defaulted to True and every user onboarded here got a
+        # DAY-chart ESMS regardless of birth time. `is_sect_diurnal` is the same
+        # 06:00-18:00 wall-clock approximation the TS side uses
+        # (isSectDiurnalForBirth), so the two runtimes agree on sect for a birth.
+        birth_moment = datetime(
+            b_date.year, b_date.month, b_date.day, b_time.hour, b_time.minute
+        )
+        alchemy_stats = calculate_natal_alchemical_quantities(
+            chart_data["positions"],
+            is_diurnal=is_sect_diurnal(birth_moment),
+        )
 
         # Return the comprehensive profile
         return {
