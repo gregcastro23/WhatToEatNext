@@ -87,12 +87,22 @@ everywhere except the coast.
 
 ## Consequences
 
-**⚠️ The subsystem is currently inert.** `database/init/74-environmental-observations.sql`
-has not been applied to any database — the CI gate
-(`scripts/checkEnvironmentalSqlParses.ts`) only ever creates it inside a
-rolled-back transaction. With `environmental_baselines` empty, the hourly cron
-has nothing to sample. To bring it alive: apply migration 74, then
-`POST /api/admin/environment/seed`.
+**⚠️ The subsystem is currently inert — because nothing has been seeded, not
+because the schema is missing.** `[MEASURED 2026-08-01]` migration 74 **is**
+applied in production. Note the applier asymmetry that makes this easy to get
+wrong: migrations run from the **Railway Python backend container**
+(`backend/Dockerfile` invokes `run_init_migrations` before uvicorn), while
+Vercel's `buildCommand` is `next build` and never runs one. A Vercel deploy can
+therefore ship a cron that queries tables Railway has not created yet, and the CI
+gate cannot tell you either way — it applies the migration inside a transaction
+and rolls back, so a green gate is fully compatible with the table not existing.
+Check the database, not the gate.
+
+With `environmental_baselines` empty the hourly cron is a clean 200-OK no-op, and
+nothing in the ingestion layer can create the first row: `buildUpsertBaseline` is
+reached only via `seedFromArchive` (admin POST) or `sampleGeohash`, which the
+due-query only offers for geohashes that already have a baseline. To bring it
+alive: `POST /api/admin/environment/seed`.
 
 **The response profiles are inert types.** `src/types/environmentalResponseSchema.ts`
 and `src/constants/environmentalResponseProfiles.ts` ship for step 5; only 5 of
@@ -115,6 +125,15 @@ holding back ~2.6% of formula water for a +4 °C dew-point anomaly at full
 equilibration, not 10%. The `minimumEffect` floors exist to keep the engine
 silent rather than confidently wrong; `dehydrating` is where the daily anomaly
 regularly clears threshold.
+
+**Shipped with a defect, corrected in #696.** The sampling hour was derived
+twice — MD5 in SQL (deciding when a cell is due) and a `*31` charCode polynomial
+in TypeScript (deciding which hour's reading to keep). They disagreed for 489 of
+508 geohashes, and any cell whose TS hour fell later than its SQL hour would have
+written nothing, permanently, while the run reported success. The general lesson
+is recorded here because the shape recurs: **a value derived twice in two
+languages is invisible to every single-language check.**
+`scripts/checkSamplingHourAgrees.ts` now evaluates both against a real database.
 
 **Remaining steps:** (2) *done* — see ADR-009; (3) promote
 `METHOD_PHYSICAL_REFERENCE` to SI-typed canonical with a full Antoine/ISA solver;
