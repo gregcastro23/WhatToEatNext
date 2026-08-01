@@ -58,7 +58,17 @@ export interface AlchmScoredRestaurant {
   alchmScore: number;
   elementalMatch: number;
   planetaryAlignment: number;
-  monicaCompatibility: number;
+  /**
+   * Closeness of the cuisine's thermodynamic state to the moment's, in (0, 1]
+   * when scored — or exactly `0` when the entry was never scored (no cosmic
+   * state available, or scoring threw). Pair it with `alchmScore > 0` to tell
+   * the two apart; 0 does NOT mean "maximally distant".
+   *
+   * Renamed from `monicaCompatibility`: that field held a distance between two
+   * monica constants, which was MEASURED to be identical for every cuisine at
+   * any given moment. See `@/data/unified/thermodynamicAffinity`.
+   */
+  thermodynamicAffinity: number;
   dominantElement: "Fire" | "Water" | "Earth" | "Air";
   matchReasons: string[];
   cuisineElement: {
