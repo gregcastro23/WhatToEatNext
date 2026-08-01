@@ -379,7 +379,11 @@ async def user_onboarding(
             is_diurnal=is_sect_diurnal(birth_moment),
         )
 
-        # Return the comprehensive profile
+        # Return the comprehensive profile.
+        # alchemical_quantities dual-emits the spec-Φ observable under BOTH
+        # "phi" (code name) and "monica" (frozen legacy wire key) — see
+        # backend/utils/natal_alchemy.py. That quantity is NOT the canonical
+        # thermodynamic monica served by /alchemize and philosophers-stone.
         return {
             "user_id": user.get("sub"),
             "birth_data": data.dict(),

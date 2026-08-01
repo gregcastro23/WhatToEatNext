@@ -61,8 +61,9 @@ class TestEsmsConformance(unittest.TestCase):
             
             res = calculate_natal_alchemical_quantities(positions, is_diurnal=is_diurnal)
             
-            # Assert keys exist
-            for key in ["spirit", "essence", "matter", "substance", "reactivity", "inertia", "monica"]:
+            # Assert keys exist ("monica" and "phi" are the same spec-Φ quantity:
+            # phi is the code name, monica the frozen legacy wire key)
+            for key in ["spirit", "essence", "matter", "substance", "reactivity", "inertia", "monica", "phi"]:
                 self.assertIn(key, res, f"[{chart_id}] Missing key {key}")
                 val = res[key]
                 self.assertIsNotNone(val, f"[{chart_id}] Key {key} is None")
@@ -71,6 +72,26 @@ class TestEsmsConformance(unittest.TestCase):
             # Elemental balance sums to 1.0
             elem_sum = sum(res["elemental_balance"].values())
             self.assertAlmostEqual(elem_sum, 1.0, places=3, msg=f"[{chart_id}] Elemental balance sum != 1.0")
+
+    def test_phi_disambiguation_dual_emit(self):
+        """Spec-Φ dual-emit: the natal dict carries BOTH keys with the SAME value.
+
+        `phi` is the code name for the Monica Equilibrium Observable
+        Φ = 1.618·ln((S+E+ε)/(M+Σ+ε)); `monica` is its frozen legacy wire key
+        (persisted/wire compatibility). Canonical thermodynamic monica
+        (−gregsEnergy/(reactivity·ln kalchm)) is a DIFFERENT quantity and keeps
+        its name — this test pins the Φ path only.
+        """
+        fixture = load_conformance_fixture()
+        for chart in fixture["charts"]:
+            res = calculate_natal_alchemical_quantities(
+                chart["planetary_positions"],
+                is_diurnal=chart.get("is_diurnal", True),
+            )
+            cid = chart["id"]
+            self.assertIn("phi", res, f"[{cid}] missing phi key")
+            self.assertIn("monica", res, f"[{cid}] missing legacy monica key")
+            self.assertEqual(res["phi"], res["monica"], f"[{cid}] phi != monica (dual-emit must carry one value)")
 
     def test_vessel_actually_contributes_no_day_chart_collapse(self):
         """The grounding vessel must land in every chart.
