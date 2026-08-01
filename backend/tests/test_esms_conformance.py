@@ -23,9 +23,6 @@ from backend.utils.planetary_alchemy import (
     calculate_alchemical_from_planets,
     get_gravitational_inertia,
     get_inertial_mass_weight,
-    get_normalized_alchm_weight,
-    _PERIOD_LOG_MIN,
-    _PERIOD_LOG_MAX,
 )
 
 CONF_FILE = os.path.join(
@@ -98,15 +95,34 @@ class TestEsmsConformance(unittest.TestCase):
             self.assertGreater(res["substance"], 0.0, f"[{cid}] Substance collapsed to 0 — vessel inert")
 
     def test_ascendant_weight_is_ruled_not_derived(self):
-        """The Ascendant weight is the RULED anchor 1.0, bypassing the period scale."""
-        self.assertEqual(get_normalized_alchm_weight("Ascendant"), ASCENDANT_VESSEL_WEIGHT)
+        """The Ascendant weight is the RULED anchor 1.0, off any derived scale."""
+        self.assertEqual(get_inertial_mass_weight("Ascendant"), ASCENDANT_VESSEL_WEIGHT)
         self.assertEqual(ASCENDANT_VESSEL_WEIGHT, 1.0)
         self.assertEqual(get_gravitational_inertia("Ascendant"), 1.0)  # r = 1.0 AU
-        # POSITIVE CONTROL — the trap this ruling dodges is real: feeding the
-        # Ascendant's own period entry (0.003) through the normalizer returns
-        # exactly 0.0, because it is the scale's minimum.
-        raw = (math.log10(0.003) - _PERIOD_LOG_MIN) / (_PERIOD_LOG_MAX - _PERIOD_LOG_MIN)
-        self.assertEqual(raw, 0.0)
+        # ANTI-ANNIHILATION CONTROL — the period scale (deleted with its last
+        # caller when elementals unified onto the inertial-mass scale) zeroed
+        # its extremum body, the Ascendant. The inertial scale anchors one
+        # decade BELOW Pluto precisely so its extremum body survives.
+        self.assertGreater(get_inertial_mass_weight("Pluto"), 0.1)
+
+    def test_elementals_and_esms_share_one_scale(self):
+        """The mixed-scale defect must stay dead.
+
+        REGRESSION: natal elementals were weighted by the orbital-period scale
+        (Pluto = 1.0 max, Sun ~ 0.513) while the ESMS vector in the SAME
+        function used the inertial-mass scale (Sun = 1.0, Pluto ~ 0.109) — two
+        roughly anti-correlated weightings in one output. Pin one ratio the two
+        scales order OPPOSITELY: a Sun sign must now outweigh a Pluto sign in
+        the elemental balance.
+        """
+        res = calculate_natal_alchemical_quantities({
+            "Sun": {"sign": "aries", "degree": 0, "exactLongitude": 0},
+            "Pluto": {"sign": "cancer", "degree": 0, "exactLongitude": 90},
+        })
+        balance = res["elemental_balance"]
+        # Sun (aries -> Fire) carries weight 1.0; Pluto (cancer -> Water) ~0.109.
+        # Under the deleted period scale this ordering was INVERTED.
+        self.assertGreater(balance["Fire"], balance["Water"])
 
     def test_golden_expected_values(self):
         """The engine must reproduce the fixture's expected ESMS exactly.

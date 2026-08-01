@@ -11,7 +11,7 @@ from typing import Dict, Any
 from backend.utils.planetary_alchemy import (
     ESMS_PLANETS,
     ZODIAC_ELEMENTS,
-    get_normalized_alchm_weight,
+    get_inertial_mass_weight,
     get_gravitational_inertia,
     get_tidal_pull,
     calculate_alchemical_from_planets,
@@ -54,9 +54,13 @@ def calculate_natal_alchemical_quantities(
             except (ValueError, TypeError):
                 distance_au = None
 
-        # Elemental placement
+        # Elemental placement, on the SAME inertial-mass scale as the ESMS
+        # vector above. This function used to weight elementals by the orbital-
+        # period scale while its ESMS came from the inertial-mass scale — two
+        # roughly ANTI-correlated scales in one output (period privileges outer
+        # planets, mass privileges Sun/Jupiter).
         element = ZODIAC_ELEMENTS.get(sign, "Earth")
-        alchm_weight = get_normalized_alchm_weight(body_clean)
+        alchm_weight = get_inertial_mass_weight(body_clean)
         inertia = get_gravitational_inertia(body_clean, distance_au)
         tidal_pull = get_tidal_pull(body_clean, distance_au)
         
