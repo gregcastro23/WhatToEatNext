@@ -3,6 +3,7 @@ import { _logger } from "@/lib/logger";
 import { log } from "@/services/LoggingService";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { Recipe } from "@/types/unified";
+import { CUISINE_SIGNATURES } from "@/utils/cuisineSignatures.generated";
 import { compatibilityToMatchPercentage } from "@/utils/enhancedCompatibilityScoring";
 
 export interface CuisineFlavorProfile {
@@ -35,6 +36,63 @@ export interface CuisineFlavorProfile {
   culturalContext?: string;
 }
 
+/**
+ * MEASURED elemental alignment — the corpus mean of a cuisine's own recipes,
+ * read LIVE from cuisineSignatures.generated.ts (regenerate with
+ * `bun run cuisines:process-all`). Nothing is copied into this file, so there
+ * is no transcribed decimal that can drift away from its basis.
+ *
+ * `elementalAlignment` is compared element-wise against recipe
+ * `elementalProperties` (see getRecipesForCuisineMatch below), so the corpus
+ * mean is the only value in the right units for that comparison.
+ */
+const corpusElementalAlignment = (corpusCuisine: string): ElementalProperties => {
+  const row = CUISINE_SIGNATURES.find((s) => s.cuisine === corpusCuisine);
+  if (!row) {
+    // Loud by design: a silent fallback here would fabricate an alignment.
+    // cuisineFlavorProfileBasis.test.ts pins every corpus row this file
+    // reads, so a green build cannot reach this throw.
+    throw new Error(
+      `cuisineFlavorProfiles: corpus row missing for ${corpusCuisine}`,
+    );
+  }
+  const { Fire, Water, Earth, Air } = row.averageElementals;
+  return { Fire, Water, Earth, Air };
+};
+
+/**
+ * BASIS of `elementalAlignment`, per row:
+ *
+ * - MEASURED — korean and indian only. These two shipped the byte-identical
+ *   literal { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 }: the same
+ *   Indian≡Korean copy-paste that PR #699 killed in CUISINE_ELEMENTAL_MAP.
+ *   Identical values also made the pair's relative rank an artifact of object
+ *   key order — every tie resolved to korean, so indian sat ~2 places lower
+ *   for no culinary reason. Both now read their own corpus row.
+ *
+ * - UNBASED (pre-existing) — the other 14 rows are hand-authored decimals
+ *   carried over from the file's original authoring with no recorded
+ *   derivation. They are NOT relabelled "RULED" here, because a ruling needs
+ *   a rationale and these have none on record. They are left byte-for-byte
+ *   untouched; this change does not launder them.
+ *
+ * Known consequence of the mixed basis: corpus means are flatter than the
+ * hand values (mean max-min spread 0.20 vs 0.37), and the recommender's
+ * mean(1 - |diff|) similarity favours flat profiles across a diverse user
+ * population. Swept over 286 user elemental states, korean and indian gain
+ * ~2.4 and ~1.9 mean rank places against the 14 unmigrated rows versus where
+ * a fully-migrated set puts them. That is a smaller distortion than "these
+ * two cuisines are literally the same cuisine", so it ships — but migrating
+ * the remaining 12 corpus-backed rows is the fix that removes it. See the
+ * follow-up issue linked in the PR.
+ *
+ * Only `elementalAlignment` was conflated. The pair's other fields were
+ * checked field-by-field and are already distinct (flavorProfiles differ on
+ * sour/bitter/umami; techniques, ingredients, meal patterns, planetary
+ * resonance and dietary suitability all differ). `seasonalPreference:
+ * ["all"]` matches, but it matches six other cuisines too — that is a real
+ * "no seasonal skew" value, not a copy-paste twin.
+ */
 export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   // Mediterranean Cuisines
   greek: {
@@ -189,12 +247,8 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       salty: 0.6,
       umami: 0.7,
     },
-    elementalAlignment: {
-      Fire: 0.5,
-      Earth: 0.3,
-      Water: 0.1,
-      Air: 0.1,
-    },
+    // MEASURED — corpus mean, 43 Korean recipes. Was byte-identical to indian.
+    elementalAlignment: corpusElementalAlignment("Korean"),
     signatureTechniques: ["fermentation", "grilling", "stewing"],
     signatureIngredients: [
       "gochujang",
@@ -423,12 +477,9 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       salty: 0.6,
       umami: 0.4,
     },
-    elementalAlignment: {
-      Fire: 0.5,
-      Earth: 0.3,
-      Water: 0.1,
-      Air: 0.1,
-    },
+    // MEASURED — corpus mean, 39 Indian recipes. Was byte-identical to korean.
+    // Dominant element moves Fire → Earth (Earth .322 > Fire .299).
+    elementalAlignment: corpusElementalAlignment("Indian"),
     signatureTechniques: [
       "tempering",
       "slow cooking",
