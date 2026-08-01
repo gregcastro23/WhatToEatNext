@@ -8,6 +8,7 @@
 import {
   calculateKalchm as canonicalCalculateKalchm,
   calculateMonica,
+  thermoQuotient,
 } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
@@ -83,9 +84,13 @@ export function calculateHeat(
     2,
   );
 
-  // Prevent division by zero
-  if (denominator === 0) return 0.5;
-  return numerator / denominator;
+  // Canonical pole handling (§18k k7/k30): exact wherever the ratio is defined,
+  // the published THERMO_DEN_FLOOR substitution at a true pole, NaN propagation
+  // for malformed input. The old `denominator === 0 ? 0.5` was a k12-class
+  // fabrication — a flat invented ratio indistinguishable from a measurement,
+  // and a THIRD divergent pole policy after canonical's and the second
+  // engine's (#679 removed that one).
+  return thermoQuotient(numerator, denominator);
 }
 
 /**
@@ -113,9 +118,13 @@ export function calculateEntropy(
     2,
   );
 
-  // Prevent division by zero
-  if (denominator === 0) return 0.5;
-  return numerator / denominator;
+  // Canonical pole handling (§18k k7/k30): exact wherever the ratio is defined,
+  // the published THERMO_DEN_FLOOR substitution at a true pole, NaN propagation
+  // for malformed input. The old `denominator === 0 ? 0.5` was a k12-class
+  // fabrication — a flat invented ratio indistinguishable from a measurement,
+  // and a THIRD divergent pole policy after canonical's and the second
+  // engine's (#679 removed that one).
+  return thermoQuotient(numerator, denominator);
 }
 
 /**
@@ -142,9 +151,13 @@ export function calculateReactivity(
     Math.pow(Water, 2);
   const denominator = Math.pow((Matter || 0) + (Earth || 0), 2);
 
-  // Prevent division by zero
-  if (denominator === 0) return 0.5;
-  return numerator / denominator;
+  // Canonical pole handling (§18k k7/k30): exact wherever the ratio is defined,
+  // the published THERMO_DEN_FLOOR substitution at a true pole, NaN propagation
+  // for malformed input. The old `denominator === 0 ? 0.5` was a k12-class
+  // fabrication — a flat invented ratio indistinguishable from a measurement,
+  // and a THIRD divergent pole policy after canonical's and the second
+  // engine's (#679 removed that one).
+  return thermoQuotient(numerator, denominator);
 }
 
 /**

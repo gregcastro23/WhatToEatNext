@@ -166,3 +166,53 @@ describe("§14d — the three monica implementations are unified", () => {
     });
   });
 });
+
+// ─── kalchmEngine's ratio poles: canonical policy, not a fabricated 0.5 ──────
+//
+// Until 2026-08-01, calculateHeat/calculateEntropy/calculateReactivity in
+// src/calculations/core/kalchmEngine.ts each carried
+// `if (denominator === 0) return 0.5;` — a flat invented ratio, the THIRD
+// divergent pole policy in the repo (canonical substitutes THERMO_DEN_FLOOR at
+// a true pole; the second engine's `: 0` pole was removed in #679). Reachable
+// from production via menu-planner's NutritionalDashboard → nutritionalCalculator.
+describe("kalchmEngine ratio poles follow the canonical thermoQuotient", () => {
+  const kalchmEngine = jest.requireActual("@/calculations/core/kalchmEngine");
+  const { thermoQuotient, THERMO_DEN_FLOOR } = jest.requireActual(
+    "@/data/unified/alchemicalCalculations",
+  );
+  const ZERO = {
+    Spirit: 0, Essence: 0, Matter: 0, Substance: 0,
+    Fire: 0, Water: 0, Earth: 0, Air: 0,
+  };
+
+  it("returns the pole substitution at a true pole — never the invented 0.5", () => {
+    // All-zero input: every denominator is 0, every numerator is 0. Canonical
+    // policy: 0 / THERMO_DEN_FLOOR = 0 (a true zero, honestly reported).
+    expect(kalchmEngine.calculateHeat(ZERO)).toBe(0);
+    expect(kalchmEngine.calculateEntropy(ZERO)).toBe(0);
+    expect(kalchmEngine.calculateReactivity(ZERO)).toBe(0);
+    // A pole with a NONZERO numerator gets the published substitution, which is
+    // emphatically not 0.5 for these inputs.
+    const spiritOnly = { ...ZERO, Spirit: 2 };
+    expect(kalchmEngine.calculateReactivity(spiritOnly)).toBe(
+      thermoQuotient(4, 0),
+    );
+    expect(thermoQuotient(4, 0)).toBe(4 / THERMO_DEN_FLOOR);
+    expect(thermoQuotient(4, 0)).not.toBe(0.5);
+  });
+
+  it("propagates NaN for malformed input instead of inventing a confident ratio", () => {
+    const malformed = { ...ZERO, Spirit: NaN };
+    expect(Number.isNaN(kalchmEngine.calculateHeat(malformed))).toBe(true);
+  });
+
+  it("is exact and unchanged on healthy input", () => {
+    const healthy = {
+      Spirit: 4, Essence: 7, Matter: 6, Substance: 2,
+      Fire: 1.2, Water: 0.9, Earth: 0.8, Air: 1.1,
+    };
+    const num = 4 ** 2 + 1.2 ** 2;
+    const den = (2 + 7 + 6 + 0.9 + 1.1 + 0.8) ** 2;
+    expect(kalchmEngine.calculateHeat(healthy)).toBe(num / den);
+  });
+});
