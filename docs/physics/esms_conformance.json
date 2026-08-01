@@ -1,6 +1,6 @@
 {
-  "version": "2.2.0",
-  "description": "ESMS 2.0 golden conformance charts under the RULED Lambda tensor diag(Mhat*(rbar/r)^2) \u2014 spec \u00a77 option C. Every planetary position carries a REAL geocentric distance: the per-body 2026 epoch mean by default, with themed charts at measured 2026 minima (perigee/opposition), and chart_20 with ALL bodies at minima as the numeric stress case. The old fixture pinned Moon/Mercury distance at 1.0 \u2014 a sanitized regime production never ran (spec \u00a77). 'expected' blocks are the Python engine's output (calculate_natal_alchemical_quantities) at the chart's stated sect; the TS suite asserts the same values from the TS functions, making this file the cross-runtime parity witness. 'epoch_mean_geocentric_au' and 'mass_weights' pin the source tables in both runtimes. v2.2.0: `expected` blocks are FULL-PRECISION float64 (the engine's display rounding was removed per \u00a76 rule 2 \u2014 display must not feed the quantizer); MEASURED bit-identical across runtimes, so both suites assert exact equality. `expected_micro` blocks are the \u00a76 quantized integers floor(K*1e6) \u2014 the byte-identical mainnet gate.",
+  "version": "2.3.0",
+  "description": "ESMS 2.0 golden conformance charts under the RULED Lambda tensor diag(Mhat*(rbar/r)^2) \u2014 spec \u00a77 option C. Every planetary position carries a REAL geocentric distance: the per-body 2026 epoch mean by default, with themed charts at measured 2026 minima (perigee/opposition), and chart_20 with ALL bodies at minima as the numeric stress case. The old fixture pinned Moon/Mercury distance at 1.0 \u2014 a sanitized regime production never ran (spec \u00a77). 'expected' blocks are the Python engine's output (calculate_natal_alchemical_quantities) at the chart's stated sect; the TS suite asserts the same values from the TS functions, making this file the cross-runtime parity witness. 'epoch_mean_geocentric_au' and 'mass_weights' pin the source tables in both runtimes. v2.2.0: `expected` blocks are FULL-PRECISION float64 (the engine's display rounding was removed per \u00a76 rule 2 \u2014 display must not feed the quantizer); MEASURED bit-identical across runtimes, so both suites assert exact equality. `expected_micro` blocks are the \u00a76 quantized integers floor(K*1e6) \u2014 the byte-identical mainnet gate. v2.3.0: one aspect-bearing, dignity-sensitive ESMS engine in both runtimes; planet contributions use the non-annihilating inertial mass scale and Lambda=Mhat*(rbar/r)^2, while aspects are derived from each chart's longitudes. `expected` and `expected_micro` were regenerated once from the Python canonical engine.",
   "charts": [
     {
       "id": "chart_01_diurnal_standard",
@@ -63,16 +63,16 @@
         }
       },
       "expected": {
-        "spirit": 3.5461423156931646,
-        "essence": 2.5386466622173223,
-        "matter": 0.6,
-        "substance": 0.75
+        "spirit": 3.9878804404417685,
+        "essence": 2.8029143076411853,
+        "matter": 1.097495903077061,
+        "substance": 0.7436485284428106
       },
       "expected_micro": {
-        "spirit": 3546142,
-        "essence": 2538646,
-        "matter": 600000,
-        "substance": 750000
+        "spirit": 3987880,
+        "essence": 2802914,
+        "matter": 1097495,
+        "substance": 743648
       }
     },
     {
@@ -136,16 +136,16 @@
         }
       },
       "expected": {
-        "spirit": 1.5,
-        "essence": 1.7709903949001067,
-        "matter": 2.8697218312199757,
-        "substance": 1.2940767517904042
+        "spirit": 2.1154583210433016,
+        "essence": 2.236581730986975,
+        "matter": 3.5140252514113377,
+        "substance": 1.4426787281071969
       },
       "expected_micro": {
-        "spirit": 1500000,
-        "essence": 1770990,
-        "matter": 2869721,
-        "substance": 1294076
+        "spirit": 2115458,
+        "essence": 2236581,
+        "matter": 3514025,
+        "substance": 1442678
       }
     },
     {
@@ -184,16 +184,16 @@
         }
       },
       "expected": {
-        "spirit": 1.6,
-        "essence": 1.6709903949001066,
-        "matter": 2.873266673866234,
-        "substance": 0.5
+        "spirit": 1.941865719527887,
+        "essence": 2.032537421879597,
+        "matter": 3.03620762612136,
+        "substance": 0.5702254248593737
       },
       "expected_micro": {
-        "spirit": 1600000,
-        "essence": 1670990,
-        "matter": 2873266,
-        "substance": 500000
+        "spirit": 1941865,
+        "essence": 2032537,
+        "matter": 3036207,
+        "substance": 570225
       }
     },
     {
@@ -227,14 +227,14 @@
         }
       },
       "expected": {
-        "spirit": 2.261210882140804,
-        "essence": 1.1101260556406423,
+        "spirit": 2.3030012850151356,
+        "essence": 1.1207911757838318,
         "matter": 0.6,
         "substance": 0.75
       },
       "expected_micro": {
-        "spirit": 2261210,
-        "essence": 1110126,
+        "spirit": 2303001,
+        "essence": 1120791,
         "matter": 600000,
         "substance": 750000
       }
@@ -275,15 +275,15 @@
         }
       },
       "expected": {
-        "spirit": 1.5,
-        "essence": 1.1,
-        "matter": 1.3419813600939976,
+        "spirit": 1.4277159896372187,
+        "essence": 1.0277159896372188,
+        "matter": 1.3631083662522498,
         "substance": 0.7612108821408041
       },
       "expected_micro": {
-        "spirit": 1500000,
-        "essence": 1100000,
-        "matter": 1341981,
+        "spirit": 1427715,
+        "essence": 1027715,
+        "matter": 1363108,
         "substance": 761210
       }
     },
@@ -313,15 +313,15 @@
         }
       },
       "expected": {
-        "spirit": 2.645249059410167,
-        "essence": 0.8887471726885867,
-        "matter": 0.6,
+        "spirit": 2.7551560395015695,
+        "essence": 0.8785675798453823,
+        "matter": 0.603349364905389,
         "substance": 1.0
       },
       "expected_micro": {
-        "spirit": 2645249,
-        "essence": 888747,
-        "matter": 600000,
+        "spirit": 2755156,
+        "essence": 878567,
+        "matter": 603349,
         "substance": 1000000
       }
     },
@@ -341,14 +341,14 @@
         }
       },
       "expected": {
-        "spirit": 2.0,
-        "essence": 0.5,
+        "spirit": 2.1329409522551264,
+        "essence": 0.5629409522551261,
         "matter": 0.6,
         "substance": 0.75
       },
       "expected_micro": {
-        "spirit": 2000000,
-        "essence": 500000,
+        "spirit": 2132940,
+        "essence": 562940,
         "matter": 600000,
         "substance": 750000
       }
@@ -369,15 +369,15 @@
         }
       },
       "expected": {
-        "spirit": 0.5,
-        "essence": 0.6,
-        "matter": 1.190355649255737,
+        "spirit": 0.5777785116509802,
+        "essence": 0.6777785116509801,
+        "matter": 1.2036805447036385,
         "substance": 0.75
       },
       "expected_micro": {
-        "spirit": 500000,
-        "essence": 600000,
-        "matter": 1190355,
+        "spirit": 577778,
+        "essence": 677778,
+        "matter": 1203680,
         "substance": 750000
       }
     },
@@ -397,16 +397,16 @@
         }
       },
       "expected": {
-        "spirit": 0.6,
-        "essence": 1.0,
+        "spirit": 0.6691341716182545,
+        "essence": 1.0691341716182545,
         "matter": 0.75,
-        "substance": 1.0328658696496
+        "substance": 1.0861524566145602
       },
       "expected_micro": {
-        "spirit": 600000,
-        "essence": 1000000,
+        "spirit": 669134,
+        "essence": 1069134,
         "matter": 750000,
-        "substance": 1032865
+        "substance": 1086152
       }
     },
     {
@@ -430,16 +430,16 @@
         }
       },
       "expected": {
-        "spirit": 2.1139410386522535,
-        "essence": 0.6,
-        "matter": 1.0,
-        "substance": 0.75
+        "spirit": 2.193947450534817,
+        "essence": 0.7588018386328163,
+        "matter": 1.1869193741539714,
+        "substance": 0.8434596870769857
       },
       "expected_micro": {
-        "spirit": 2113941,
-        "essence": 600000,
-        "matter": 1000000,
-        "substance": 750000
+        "spirit": 2193947,
+        "essence": 758801,
+        "matter": 1186919,
+        "substance": 843459
       }
     },
     {
@@ -463,15 +463,15 @@
         }
       },
       "expected": {
-        "spirit": 0.5,
-        "essence": 1.1,
-        "matter": 1.3291028219443237,
+        "spirit": 0.5170327092449966,
+        "essence": 1.1170327092449965,
+        "matter": 1.3563151240325249,
         "substance": 0.5
       },
       "expected_micro": {
-        "spirit": 500000,
-        "essence": 1100000,
-        "matter": 1329102,
+        "spirit": 517032,
+        "essence": 1117032,
+        "matter": 1356315,
         "substance": 500000
       }
     },
@@ -496,14 +496,14 @@
         }
       },
       "expected": {
-        "spirit": 2.4209903949001066,
-        "essence": 0.5,
+        "spirit": 2.436962019512225,
+        "essence": 0.5629409522551261,
         "matter": 0.6,
         "substance": 1.0
       },
       "expected_micro": {
-        "spirit": 2420990,
-        "essence": 500000,
+        "spirit": 2436962,
+        "essence": 562940,
         "matter": 600000,
         "substance": 1000000
       }
@@ -529,15 +529,15 @@
         }
       },
       "expected": {
-        "spirit": 0.5,
-        "essence": 1.1,
-        "matter": 1.233049993505948,
+        "spirit": 0.5505358669129286,
+        "essence": 1.1505358669129286,
+        "matter": 1.2432838630053955,
         "substance": 0.5
       },
       "expected_micro": {
-        "spirit": 500000,
-        "essence": 1100000,
-        "matter": 1233049,
+        "spirit": 550535,
+        "essence": 1150535,
+        "matter": 1243283,
         "substance": 500000
       }
     },
@@ -562,14 +562,14 @@
         }
       },
       "expected": {
-        "spirit": 1.5,
-        "essence": 1.0868290893409467,
+        "spirit": 1.5896676670145617,
+        "essence": 1.1178138474214139,
         "matter": 1.1,
         "substance": 0.75
       },
       "expected_micro": {
-        "spirit": 1500000,
-        "essence": 1086829,
+        "spirit": 1589667,
+        "essence": 1117813,
         "matter": 1100000,
         "substance": 750000
       }
@@ -595,16 +595,16 @@
         }
       },
       "expected": {
-        "spirit": 0.5,
-        "essence": 1.0,
-        "matter": 1.0403556492557369,
-        "substance": 1.0328658696496
+        "spirit": 0.5850474537990464,
+        "essence": 1.0850474537990464,
+        "matter": 1.0593912141813107,
+        "substance": 1.0861524566145602
       },
       "expected_micro": {
-        "spirit": 500000,
-        "essence": 1000000,
-        "matter": 1040355,
-        "substance": 1032865
+        "spirit": 585047,
+        "essence": 1085047,
+        "matter": 1059391,
+        "substance": 1086152
       }
     },
     {
@@ -628,14 +628,14 @@
         }
       },
       "expected": {
-        "spirit": 1.75,
-        "essence": 0.7089313665880494,
+        "spirit": 1.7748112208959765,
+        "essence": 0.8037425874840262,
         "matter": 0.5,
         "substance": 1.0
       },
       "expected_micro": {
-        "spirit": 1750000,
-        "essence": 708931,
+        "spirit": 1774811,
+        "essence": 803742,
         "matter": 500000,
         "substance": 1000000
       }
@@ -671,15 +671,15 @@
         }
       },
       "expected": {
-        "spirit": 2.261210882140804,
-        "essence": 1.0791028219443237,
-        "matter": 0.6,
+        "spirit": 2.2312108821408043,
+        "essence": 0.9981383868698975,
+        "matter": 1.2999999999999998,
         "substance": 0.75
       },
       "expected_micro": {
-        "spirit": 2261210,
-        "essence": 1079102,
-        "matter": 600000,
+        "spirit": 2231210,
+        "essence": 998138,
+        "matter": 1299999,
         "substance": 750000
       }
     },
@@ -709,14 +709,14 @@
         }
       },
       "expected": {
-        "spirit": 2.6709903949001066,
-        "essence": 0.7926943442502112,
+        "spirit": 2.88481927792861,
+        "essence": 0.8686936222137251,
         "matter": 0.6,
         "substance": 0.75
       },
       "expected_micro": {
-        "spirit": 2670990,
-        "essence": 792694,
+        "spirit": 2884819,
+        "essence": 868693,
         "matter": 600000,
         "substance": 750000
       }
@@ -747,15 +747,15 @@
         }
       },
       "expected": {
-        "spirit": 0.5,
-        "essence": 1.1,
-        "matter": 1.3291028219443237,
+        "spirit": 0.6083633389443612,
+        "essence": 1.2083633389443613,
+        "matter": 1.3753506889580986,
         "substance": 1.0328658696496
       },
       "expected_micro": {
-        "spirit": 500000,
-        "essence": 1100000,
-        "matter": 1329102,
+        "spirit": 608363,
+        "essence": 1208363,
+        "matter": 1375350,
         "substance": 1032865
       }
     },
@@ -820,16 +820,16 @@
         }
       },
       "expected": {
-        "spirit": 4.560831181041339,
-        "essence": 8.807260963043165,
-        "matter": 0.5,
-        "substance": 1.0
+        "spirit": 5.057171271363985,
+        "essence": 8.987495090498564,
+        "matter": 1.1040593167474935,
+        "substance": 1.0864087467588808
       },
       "expected_micro": {
-        "spirit": 4560831,
-        "essence": 8807260,
-        "matter": 500000,
-        "substance": 1000000
+        "spirit": 5057171,
+        "essence": 8987495,
+        "matter": 1104059,
+        "substance": 1086408
       }
     }
   ],

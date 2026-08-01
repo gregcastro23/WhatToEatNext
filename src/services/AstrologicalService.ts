@@ -31,6 +31,8 @@ import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import {
   aggregateEnhancedZodiacElementals,
   calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPosition,
+  type AlchemicalPlanetPositions,
 } from "@/utils/planetaryAlchemyMapping";
 import { createLogger } from "../utils/logger";
 import astrologizeApiCache from "./AstrologizeApiCache";
@@ -258,8 +260,24 @@ export class AstrologicalService {
       }
 
       const diurnal = isCurrentSkyDiurnal();
-      const elementalBoost = aggregateEnhancedZodiacElementals(signMap, diurnal);
-      const rawAlchemical = calculateAlchemicalFromPlanets(signMap, diurnal);
+      const elementalBoost = aggregateEnhancedZodiacElementals(
+        signMap,
+        diurnal,
+      );
+      const alchemicalPositions: AlchemicalPlanetPositions = {};
+      for (const [planet, pos] of Object.entries(planetaryPositions)) {
+        if (
+          planet === "dominantPlanet" ||
+          typeof pos === "string" ||
+          !pos?.sign
+        )
+          continue;
+        alchemicalPositions[planet] = pos as AlchemicalPlanetPosition;
+      }
+      const rawAlchemical = calculateAlchemicalFromPlanets(
+        alchemicalPositions,
+        diurnal,
+      );
 
       // Normalize ESMS to 0..1 range for the modifier
       const esmsTotal =

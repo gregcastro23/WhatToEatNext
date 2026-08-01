@@ -8,6 +8,7 @@ import type {
 import type { ZodiacSignType as ZodiacSign } from "@/types/celestial";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { calculateEnhancedElementalCompatibility } from "@/utils/enhancedCompatibilityScoring";
 import { logger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
@@ -247,10 +248,13 @@ export class RecipeService {
         "Getting recipes for planetary alignment:",
         planetaryPositions,
       );
-      
+
       const allRecipes = await this.getAllRecipes();
-      const skyAlchemical = calculateAlchemicalFromPlanets(planetaryPositions as any);
-      
+      const skyAlchemical = calculateAlchemicalFromPlanets(
+        planetaryPositions,
+        isCurrentSkyDiurnal(),
+      );
+
       const skyElemental = {
         Fire: skyAlchemical.Spirit || 0.25,
         Water: skyAlchemical.Essence || 0.25,
@@ -280,7 +284,7 @@ export class RecipeService {
   ): Promise<Recipe[]> {
     try {
       logger.debug("Getting recipes for flavor profile:", flavorProfile);
-      
+
       const allRecipes = await this.getAllRecipes();
       const scoredRecipes = allRecipes.map(recipe => {
         const recipeFlavor = (recipe as any).flavorProfile || { sweet: 0.5, savory: 0.5, spicy: 0, salty: 0.5 };
@@ -307,7 +311,7 @@ export class RecipeService {
     try {
       logger.debug("Getting best recipe matches with criteria:", criteria);
       const recipes = await this.searchRecipes(criteria, options);
-      
+
       const scoringService = UnifiedScoringService.getInstance();
       const scoredRecipes = await Promise.all(
         recipes.map(async (recipe) => {
@@ -330,7 +334,7 @@ export class RecipeService {
           }
         })
       );
-      
+
       return scoredRecipes.sort((a, b) => b.score - a.score);
     } catch (error) {
       logger.error("Error getting best recipe matches:", error);

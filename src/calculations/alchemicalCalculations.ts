@@ -138,7 +138,7 @@ export function calculatePlanetaryDignity(
  * @deprecated DO NOT USE. Derives ESMS quantities from elements
  * (Spirit = max(Fire, Air), etc.), which the engine forbids — quantities come
  * from the planets, not the elements (see CONTEXT.md). Use
- * calculateEnhancedAlchemicalFromPlanets. Currently unreferenced.
+ * calculateAlchemicalFromPlanets. Currently unreferenced.
  */
 export function calculateAlchemicalTransformation(
   elementalProperties: ElementalProperties,

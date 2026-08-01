@@ -35,7 +35,10 @@ import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
-import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
+import {
+  getAccuratePlanetaryPositions,
+  isCurrentSkyDiurnal,
+} from "@/utils/astrology/positions";
 import {
   getDominantElementFromPositions,
   type ClassicalElement,
@@ -99,7 +102,7 @@ async function handlePost(request: NextRequest) {
       try {
         const { executeQuery } = await import("@/lib/database");
         const limitRows = await executeQuery(
-          `SELECT recipes_generated FROM user_daily_limits 
+          `SELECT recipes_generated FROM user_daily_limits
            WHERE user_id = $1 AND date = CURRENT_DATE`,
           [userId]
         );
@@ -221,8 +224,10 @@ async function handlePost(request: NextRequest) {
   // Compute the current sky once. We use it for both the dominant element
   // (a top-level field PA expects) and to derive the alchemical state +
   // thermodynamic properties PA grounds the recipe on.
-  const raw = getAccuratePlanetaryPositions(new Date());
-  const dominantElement: ClassicalElement = getDominantElementFromPositions(raw);
+  const skyDate = new Date();
+  const raw = getAccuratePlanetaryPositions(skyDate);
+  const dominantElement: ClassicalElement =
+    getDominantElementFromPositions(raw);
 
   // Project-curated grounding: which cuisine the user picked (if any),
   // and which indexed ingredients are strongest in the dominant element
@@ -242,7 +247,6 @@ async function handlePost(request: NextRequest) {
   // Compute Spirit/Essence/Matter/Substance + thermodynamic properties
   // from the current sky. PA wants the raw numeric maps; it builds its
   // own prompt from them.
-  const planetarySigns: Record<string, string> = {};
   const normalizedPositions: Record<
     string,
     { sign: string; degree: number; minute: number; isRetrograde: boolean }
@@ -254,7 +258,6 @@ async function handlePost(request: NextRequest) {
       minute?: unknown;
       isRetrograde?: unknown;
     };
-    planetarySigns[planet] = typeof p.sign === "string" ? p.sign : String(p.sign);
     normalizedPositions[planet] = {
       sign: String(p.sign ?? "").toLowerCase(),
       degree: Number(p.degree) || 0,
@@ -262,7 +265,10 @@ async function handlePost(request: NextRequest) {
       isRetrograde: Boolean(p.isRetrograde),
     };
   });
-  const esms = calculateAlchemicalFromPlanets(planetarySigns);
+  const esms = calculateAlchemicalFromPlanets(
+    raw,
+    isCurrentSkyDiurnal(skyDate),
+  );
   const alchemized = alchemize(normalizedPositions);
 
   // Augment the user's natural-language prompt with their recent-foods
@@ -393,8 +399,8 @@ async function handlePost(request: NextRequest) {
   // (CosmicRecipeGenerator → data.title / data.short_description / ...)
   // continues to work. The `success: true` sentinel is what the
   // synthetic-cosmic-recipe probe checks at HTTP 200.
-  let responseJson: Record<string, unknown> = { 
-    success: true, 
+  let responseJson: Record<string, unknown> = {
+    success: true,
     ...recipe,
     recipesGeneratedToday: updatedCount,
   };

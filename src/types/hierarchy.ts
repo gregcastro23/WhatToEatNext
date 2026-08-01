@@ -296,6 +296,9 @@ export interface RecipeComputationOptions {
   /** Whether to apply cooking method transformations */
   applyCookingMethods?: boolean;
 
+  /** Sect override; defaults to the current New York solar-altitude sect. */
+  isDaytime?: boolean;
+
   /** Ingredient quantity scaling method */
   quantityScaling?: "linear" | "logarithmic";
   /** Cache computation results */

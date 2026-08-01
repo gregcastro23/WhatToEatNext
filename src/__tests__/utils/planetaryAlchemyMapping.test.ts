@@ -79,6 +79,40 @@ describe("ZODIAC_ELEMENTS constant", () => {
 // ---------------------------------------------------------------------------
 
 describe("calculateAlchemicalFromPlanets", () => {
+  it("derives dignity and aspects from longitude-bearing positions on the inertial mass scale", () => {
+    const result = calculateAlchemicalFromPlanets({
+      Sun: { sign: "aries", degree: 0, exactLongitude: 0 },
+      Moon: { sign: "cancer", degree: 0, exactLongitude: 90 },
+    });
+
+    // Sun exaltation: 1 × 1.07, then the exact Sun–Moon square contributes
+    // −0.1 Spirit. Moon domicile is likewise applied before the square.
+    expect(result).toEqual({
+      Spirit: 0.9700000000000001,
+      Essence: 0.10939121418131065,
+      Matter: 0.2,
+      Substance: 0,
+    });
+  });
+
+  it("does not annihilate Pluto", () => {
+    const result = calculateAlchemicalFromPlanets({ Pluto: "Aquarius" }, false);
+    expect(result.Matter).toBeGreaterThan(0.1);
+  });
+
+  it("canonicalizes lowercase body keys from astronomy adapters", () => {
+    const capitalized = calculateAlchemicalFromPlanets({
+      Sun: { sign: "aries", degree: 0, exactLongitude: 0 },
+      Moon: { sign: "cancer", degree: 0, exactLongitude: 90 },
+    });
+    const lowercase = calculateAlchemicalFromPlanets({
+      sun: { sign: "aries", degree: 0, exactLongitude: 0 },
+      moon: { sign: "cancer", degree: 0, exactLongitude: 90 },
+    });
+
+    expect(lowercase).toEqual(capitalized);
+  });
+
   it("returns non-negative ESMS values for valid positions", () => {
     const positions = {
       Sun: "Gemini",
@@ -117,7 +151,7 @@ describe("calculateAlchemicalFromPlanets", () => {
     const twoPlanets = calculateAlchemicalFromPlanets({ Sun: "Leo", Jupiter: "Sagittarius" });
     // Jupiter diurnal adds Spirit, so Spirit should be higher
     expect(twoPlanets.Spirit).toBeGreaterThan(onePlanet.Spirit);
-    
+
     // Test nocturnal where Jupiter adds Essence
     const onePlanetNight = calculateAlchemicalFromPlanets({ Sun: "Leo" }, false);
     const twoPlanetsNight = calculateAlchemicalFromPlanets({ Sun: "Leo", Jupiter: "Sagittarius" }, false);

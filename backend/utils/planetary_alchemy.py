@@ -9,7 +9,13 @@ Strictly adheres to Unified Physics Model v2 specifications.
 """
 
 import math
-from typing import Dict, Any, Tuple, Optional
+from typing import Dict, Any, List, Tuple, Optional
+
+from backend.utils.aspect_esms_effects import (
+    calculate_aspect_esms_modifications,
+    calculate_aspects,
+)
+from backend.utils.dignity_scales import get_dignity_esms_multiplier
 
 # Classical + Modern 10 Bodies + Ascendant Grounding Vessel
 ESMS_PLANETS = [
@@ -249,3 +255,74 @@ def calculate_positional_ascendant_vessel(sign: str, degree: float = 0.0) -> Dic
         vessel["Spirit"] += 0.1
         
     return vessel
+
+
+def calculate_alchemical_from_planets(
+    planetary_positions: Dict[str, Any],
+    is_diurnal: bool = True,
+    aspects: Optional[List[Dict[str, Any]]] = None,
+    inject_ascendant: bool = False,
+) -> Dict[str, float]:
+    """The canonical cross-runtime ESMS engine.
+
+    Layer 1 is sectarian identity, Layer 2 is the +10/+7 dignity multiplier,
+    and Layer 3 is the strength-weighted aspect field derived from the supplied
+    longitudes. Every body uses the non-annihilating inertial mass scale and the
+    ruled relative-distance tensor ``Mhat * (rbar/r)^2``.
+    """
+    totals = {"Spirit": 0.0, "Essence": 0.0, "Matter": 0.0, "Substance": 0.0}
+    sect_key = "diurnal" if is_diurnal else "nocturnal"
+    positions = dict(planetary_positions)
+    if inject_ascendant and "Ascendant" not in positions:
+        positions["Ascendant"] = {"sign": "aries", "degree": 0.0}
+
+    for body, raw_position in positions.items():
+        body_clean = body.strip().title()
+        if body_clean not in ESMS_PLANETS and body_clean != "Ascendant":
+            continue
+
+        if isinstance(raw_position, str):
+            position = {"sign": raw_position}
+        elif isinstance(raw_position, dict):
+            position = raw_position
+        else:
+            continue
+
+        sign = str(position.get("sign", "")).strip()
+        if not sign:
+            continue
+        try:
+            degree = float(position.get("degree", 0.0))
+        except (TypeError, ValueError):
+            degree = 0.0
+        distance_au = position.get("distance", position.get("distanceAu"))
+        if distance_au is not None:
+            try:
+                distance_au = float(distance_au)
+            except (TypeError, ValueError):
+                distance_au = None
+
+        if body_clean == "Ascendant":
+            base_esms = calculate_positional_ascendant_vessel(sign, degree)
+        else:
+            base_esms = PLANETARY_SECTARIAN_ESMS[body_clean][sect_key]
+        inertia = get_gravitational_inertia(body_clean, distance_au)
+        dignity_multiplier = get_dignity_esms_multiplier(body_clean, sign)
+
+        for key in totals:
+            totals[key] += base_esms[key] * inertia * dignity_multiplier
+
+    aspect_positions = {
+        body: position
+        for body, position in planetary_positions.items()
+        if (
+            (body.strip().title() in ESMS_PLANETS or body.strip().title() == "Ascendant")
+            and isinstance(position, dict)
+        )
+    }
+    resolved_aspects = aspects if aspects is not None else calculate_aspects(aspect_positions)
+    aspect_modifications = calculate_aspect_esms_modifications(resolved_aspects)
+    for key in totals:
+        totals[key] += aspect_modifications[key]
+
+    return totals

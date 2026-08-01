@@ -7,7 +7,8 @@
  * silently resolves to zero — only the natal-weighted base flows.
  *
  * Fetches the live sky via calculatePlanetaryPositionsWithMeta (Swiss-ephemeris
- * backend first, astronomy-engine fallback), reduces it to a planet→sign map
+ * backend first, astronomy-engine fallback), reduces it to canonical planet keys
+ * without discarding the sign, longitude, or distance needed by the ESMS engine,
  * keyed by the canonical PLANETARY_ALCHEMY planet names (so the key casing
  * matches what calculateAlchemicalFromPlanets expects), and hands it to
  * cacheEphemeris(), which computes + UPSERTs transit_esms. Idempotent:
@@ -23,7 +24,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { _logger } from "@/lib/logger";
 import { dailyYieldService } from "@/services/DailyYieldService";
-import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
+import {
+  PLANETARY_ALCHEMY,
+  type AlchemicalPlanetPosition,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
 import { calculatePlanetaryPositionsWithMeta } from "@/utils/serverPlanetaryCalculations";
 
 export const dynamic = "force-dynamic";
@@ -41,19 +46,22 @@ export async function GET(request: NextRequest) {
   try {
     const { positions, degraded } = await calculatePlanetaryPositionsWithMeta();
 
-    // Reduce to a planet→sign map keyed exactly as calculateAlchemicalFromPlanets
-    // expects (canonical PLANETARY_ALCHEMY planet names). The downstream calc
-    // normalizes sign casing, so the raw sign string is passed through.
+    // Canonicalize planet keys while preserving aspect/distance inputs.
     const lowerLookup = new Map(
       Object.entries(positions).map(([planet, pos]) => [planet.toLowerCase(), pos]),
     );
-    const signMap: Record<string, string> = {};
+    const alchemicalPositions: AlchemicalPlanetPositions = {};
     for (const canonicalPlanet of Object.keys(PLANETARY_ALCHEMY)) {
       const pos = lowerLookup.get(canonicalPlanet.toLowerCase());
-      if (pos?.sign) signMap[canonicalPlanet] = String(pos.sign);
+      if (pos?.sign) {
+        alchemicalPositions[canonicalPlanet] = {
+          ...(pos as AlchemicalPlanetPosition),
+          sign: String(pos.sign),
+        };
+      }
     }
 
-    if (Object.keys(signMap).length === 0) {
+    if (Object.keys(alchemicalPositions).length === 0) {
       _logger.error(
         "[cron/cache-ephemeris] no positions resolved; skipping cache write",
       );
@@ -64,11 +72,11 @@ export async function GET(request: NextRequest) {
     }
 
     const source = degraded ? "astronomy-engine" : "railway";
-    await dailyYieldService.cacheEphemeris(signMap, source);
+    await dailyYieldService.cacheEphemeris(alchemicalPositions, source);
 
     return NextResponse.json({
       success: true,
-      planets: Object.keys(signMap).length,
+      planets: Object.keys(alchemicalPositions).length,
       source,
       degraded: degraded?.reasons ?? null,
     });

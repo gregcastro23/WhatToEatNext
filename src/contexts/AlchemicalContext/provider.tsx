@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { fetchWithRetry } from "@/utils/apiUtils";
+import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { defaultState, _AlchemicalContext } from "./context";
 import type {
   // AlchemicalAction,
@@ -328,11 +329,8 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({
     }, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []); // Run once on mount
-  // Compute isDaytime from current hour
-  const isDaytime = (() => {
-    const hour = new Date().getHours();
-    return hour >= 6 && hour < 18;
-  })();
+  // Current-sky sect is the Sun's real altitude for the New York observer.
+  const isDaytime = isCurrentSkyDiurnal();
   // Stub methods for full interface compatibility
   const updatePlanetaryPositionsDirectly = useCallback(
     (positions: Record<string, unknown>) => {

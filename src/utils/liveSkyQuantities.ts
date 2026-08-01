@@ -13,8 +13,11 @@
  */
 
 import type { AlchemicalProperties } from "@/types/celestial";
-import { buildAspectsWithStrength } from "./aspectCalculator";
-import { calculateEnhancedAlchemicalFromPlanets } from "./planetaryAlchemyMapping";
+import {
+  calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPosition,
+  type AlchemicalPlanetPositions,
+} from "./planetaryAlchemyMapping";
 
 /**
  * Derive the live sky's quantities from the planets overhead.
@@ -38,15 +41,17 @@ export function deriveLiveSkyQuantities(
 
   // The engine matches signs in lowercase — the same convention useChartData
   // and /api/alchemize use.
-  const signMap: Record<string, string> = {};
+  const alchemicalPositions: AlchemicalPlanetPositions = {};
   for (const [planet, raw] of Object.entries(positions)) {
     const pos = raw as { sign?: unknown } | null | undefined;
     if (!pos || typeof pos !== "object" || pos.sign == null) continue;
-    signMap[planet] = String(pos.sign).toLowerCase();
+    alchemicalPositions[planet] = {
+      ...(raw as AlchemicalPlanetPosition),
+      sign: String(pos.sign),
+    };
   }
 
-  if (Object.keys(signMap).length === 0) return null;
+  if (Object.keys(alchemicalPositions).length === 0) return null;
 
-  const aspects = buildAspectsWithStrength(positions);
-  return calculateEnhancedAlchemicalFromPlanets(signMap, isDaytime ?? true, aspects);
+  return calculateAlchemicalFromPlanets(alchemicalPositions, isDaytime ?? true);
 }

@@ -24,11 +24,9 @@
  *
  * SCALES (`THERMO_AFFINITY_SD`) are measured over all 1490 SAMPLED rows: the 30
  * cuisine × sect states (exhaustive) pooled with 1460 sky samples. Those 1490
- * rows hold only 300 DISTINCT states, so the scale is dwell-time weighted by the
- * grid — deliberately. The scorer always runs at "now", and "now" is uniform in
- * time, so a time-uniform grid is the production-faithful measure. Deduplicating
- * to 300 would whiten against a distribution no user experiences (and MEASURED,
- * it moves SD by +3.2%/+13.1%/−3.6% and inverts 60 of 4200 pair orderings).
+ * rows hold 1484 DISTINCT states, so the scale is still dwell-time weighted by
+ * the grid — deliberately. The scorer always runs at "now", and "now" is uniform
+ * in time, so a time-uniform grid is the production-faithful measure.
  *
  * D0 is measured over PRODUCTION-FAITHFUL PAIRS: a cuisine is always scored at
  * the moment's own sect, so diurnal-cuisine × nocturnal-moment pairs are
@@ -115,7 +113,7 @@ function buildMomentPopulation(): Array<{ state: Full; diurnal: boolean }> {
     const diurnal = isCurrentSkyDiurnal(when);
     out.push({
       state: calculateThermodynamics(
-        calculateAlchemicalFromPlanets(signs, diurnal),
+        calculateAlchemicalFromPlanets(positions, diurnal),
         aggregateEnhancedZodiacElementals(signs, diurnal),
       ) as Full,
       diurnal,
@@ -194,8 +192,8 @@ describe("thermodynamic affinity calibration", () => {
     const distinctReactivity = new Set(moments.map((m) => m.state.reactivity.toFixed(10)));
     expect(distinctReactivity.size).toBeGreaterThan(100);
     // Both sects must be represented, or the D0 pairing is only half measured.
-    expect(moments.filter((m) => m.diurnal).length).toBeGreaterThan(100);
-    expect(moments.filter((m) => !m.diurnal).length).toBeGreaterThan(100);
+    expect(moments.filter((m) => m.diurnal).length).toBe(750);
+    expect(moments.filter((m) => !m.diurnal).length).toBe(710);
   });
 
   // Tolerance note: `toBeCloseTo(x, n)` is an ABSOLUTE bound of 0.5e-n. Pinning at
@@ -275,9 +273,9 @@ describe("thermodynamic affinity calibration", () => {
       }
     }
     const pct = share.map((s) => (100 * s) / total);
-    expect(pct[0]).toBeCloseTo(25.4, 1); // heat
-    expect(pct[1]).toBeCloseTo(65.2, 1); // entropy
-    expect(pct[2]).toBeCloseTo(9.4, 1); // reactivity
+    expect(pct[0]).toBeCloseTo(26.3, 1); // heat
+    expect(pct[1]).toBeCloseTo(69.1, 1); // entropy
+    expect(pct[2]).toBeCloseTo(4.6, 1); // reactivity
   });
 
   it("confirms equal weighting IS the first principal component", () => {

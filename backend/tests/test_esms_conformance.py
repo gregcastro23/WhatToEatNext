@@ -20,6 +20,7 @@ from backend.utils.planetary_alchemy import (
     ASCENDANT_VESSEL_WEIGHT,
     PLANET_MASS_WEIGHTS,
     PLANET_MEAN_GEOCENTRIC_AU,
+    calculate_alchemical_from_planets,
     get_gravitational_inertia,
     get_inertial_mass_weight,
     get_normalized_alchm_weight,
@@ -36,8 +37,23 @@ def load_conformance_fixture():
         return json.load(f)
 
 class TestEsmsConformance(unittest.TestCase):
+    def test_canonical_engine_applies_dignity_aspects_and_nonzero_pluto(self):
+        square = calculate_alchemical_from_planets({
+            "Sun": {"sign": "aries", "degree": 0, "exactLongitude": 0},
+            "Moon": {"sign": "cancer", "degree": 0, "exactLongitude": 90},
+        })
+        self.assertEqual(square, {
+            "Spirit": 0.9700000000000001,
+            "Essence": 0.10939121418131065,
+            "Matter": 0.2,
+            "Substance": 0.0,
+        })
+        pluto = calculate_alchemical_from_planets({"Pluto": "Aquarius"}, is_diurnal=False)
+        self.assertGreater(pluto["Matter"], 0.1)
+
     def test_all_20_conformance_charts(self):
         fixture = load_conformance_fixture()
+        self.assertEqual(fixture["version"], "2.3.0")
         charts = fixture["charts"]
         self.assertEqual(len(charts), 20)
 
@@ -171,12 +187,12 @@ class TestEsmsConformance(unittest.TestCase):
     def test_quantization_conservation(self):
         """§6 rule 4: sum(q(parts)) <= q(whole), MEASURED over the golden set.
 
-        Parts are the raw per-body coin contributions (sect ESMS x inertia, the
-        vessel as its own part) — the same primitives the engine sums — so the
-        whole is exactly the float sum of the parts, no correction terms. Note
-        the mathematical property holds for exact reals; with float sums an
+        Parts are the base-Lambda per-body coin contributions (sect ESMS x
+        inertia, with the vessel as its own part). This isolates the floor-law
+        witness from the canonical engine's later dignity and aspect transforms.
+        The mathematical property holds for exact reals; with float sums an
         adversarial all-integer-micro portfolio could violate it by one ulp, so
-        this is pinned over the REACHABLE parts, not claimed universally.
+        this is pinned over the REACHABLE base parts, not claimed universally.
         """
         from backend.utils.planetary_alchemy import (
             ESMS_PLANETS,

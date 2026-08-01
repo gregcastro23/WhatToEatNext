@@ -14,13 +14,13 @@ import type {
   Modality,
 } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
-import { buildAspectsWithStrength } from "@/utils/aspectCalculator";
+import { signDegreeToLongitude } from "@/utils/aspectCalculator";
 import {
   validateBirthChartAgainstEstimates,
   detectStaticFallback,
 } from "@/utils/astrology/birthChartSignEstimator";
 import {
-  calculateEnhancedAlchemicalFromPlanets,
+  calculateAlchemicalFromPlanets,
   aggregateEnhancedZodiacElementals,
   getDominantElement,
   isSectDiurnalForBirth,
@@ -56,7 +56,7 @@ interface AscendantData {
   sign: string;
   degree?: number;
   minute?: number;
-  exactLongitude: number;
+  exactLongitude?: number;
 }
 
 interface AstrologizeResponse {
@@ -130,7 +130,9 @@ function normalizeSignName(signName: string): ZodiacSignType {
  * Calculate approximate Ascendant sign from birth data using Local Sidereal Time.
  * This is a fallback when the server doesn't return Ascendant data.
  */
-function calculateApproximateAscendant(birthData: BirthData): ZodiacSignType {
+function calculateApproximateAscendant(
+  birthData: BirthData,
+): PositionWithLongitude {
   const zodiacSigns: ZodiacSignType[] = [
     "aries", "taurus", "gemini", "cancer", "leo", "virgo",
     "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
@@ -175,7 +177,10 @@ function calculateApproximateAscendant(birthData: BirthData): ZodiacSignType {
   const ascLongitude = ((ascRad * 180 / Math.PI) % 360 + 360) % 360;
 
   const signIndex = Math.floor(ascLongitude / 30) % 12;
-  return zodiacSigns[signIndex];
+  return {
+    sign: zodiacSigns[signIndex],
+    exactLongitude: ascLongitude,
+  };
 }
 
 /**
@@ -234,16 +239,25 @@ async function fetchPlanetaryPositions(
     const data = (await response.json()) as AstrologizeResponse;
 
     // Determine Ascendant from server response or calculate locally
-    let ascendantSign: ZodiacSignType = "aries";
-    let ascendantLongitude = 0;
+    let ascendant: PositionWithLongitude;
     if (data.ascendant?.sign) {
-      ascendantSign = normalizeSignName(data.ascendant.sign);
-      ascendantLongitude = data.ascendant.exactLongitude ?? 0;
+      const sign = normalizeSignName(data.ascendant.sign);
+      const exactLongitude =
+        data.ascendant.exactLongitude ??
+        signDegreeToLongitude(
+          sign,
+          data.ascendant.degree ?? 0,
+          data.ascendant.minute ?? 0,
+        );
+      if (exactLongitude === null) {
+        throw new Error(`Could not derive Ascendant longitude for ${sign}`);
+      }
+      ascendant = { sign, exactLongitude };
       _logger.info(`Ascendant from API: ${data.ascendant.sign} (${data.ascendant.exactLongitude?.toFixed(2)}°)`);
     } else {
       // Calculate approximate Ascendant from birth data using Local Sidereal Time
-      ascendantSign = calculateApproximateAscendant(birthData);
-      _logger.info(`Ascendant calculated locally: ${ascendantSign}`);
+      ascendant = calculateApproximateAscendant(birthData);
+      _logger.info(`Ascendant calculated locally: ${ascendant.sign}`);
     }
 
     // Helper to extract longitude from a celestial body entry
@@ -262,7 +276,7 @@ async function fetchPlanetaryPositions(
       Uranus: { sign: normalizeSignName(data._celestialBodies.uranus.Sign.label), exactLongitude: getLongitude(data._celestialBodies.uranus) },
       Neptune: { sign: normalizeSignName(data._celestialBodies.neptune.Sign.label), exactLongitude: getLongitude(data._celestialBodies.neptune) },
       Pluto: { sign: normalizeSignName(data._celestialBodies.pluto.Sign.label), exactLongitude: getLongitude(data._celestialBodies.pluto) },
-      Ascendant: { sign: ascendantSign, exactLongitude: ascendantLongitude },
+      Ascendant: ascendant,
     };
 
     return positions;
@@ -351,23 +365,10 @@ export async function calculateNatalChart(
       positionsForAlchemy[planet] = sign;
     });
 
-    // Aspects are the engine's Layer 3 and the main source of chart-to-chart
-    // variation in ESMS: every chart holds the same ten planets, so Layers 1-2
-    // (sect + dignity) land within ~0.5 points of the same profile for everyone.
-    // Omitting them here left natal ESMS near-constant within a sect — Matter's
-    // spread alone widens ~13x once they are applied. Mirrors RealAlchemizeService,
-    // which has always passed them for the live sky.
-    //
-    // Unlike RealAlchemizeService — which injects a placeholder Ascendant for the
-    // live sky and so must keep it out of the aspect set — a natal Ascendant is a
-    // real computed angle, so its aspects are included.
-    const aspects = buildAspectsWithStrength(planetaryPositions);
-
-    // Calculate alchemical properties from planetary positions WITH sect logic
-    const alchemicalProperties = calculateEnhancedAlchemicalFromPlanets(
-      positionsForAlchemy,
+    // Calculate all three ESMS layers from the same longitude-bearing chart.
+    const alchemicalProperties = calculateAlchemicalFromPlanets(
+      planetaryPositions,
       diurnal,
-      aspects,
     );
 
     // Calculate elemental balance from zodiac signs WITH sect logic

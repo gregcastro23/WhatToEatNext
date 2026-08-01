@@ -111,6 +111,27 @@ describe('excluded aspect bodies', () => {
     expect(detailed.elementalProperties).toEqual(baseline.elementalProperties);
   });
 
+  test('alchemizeDetailed exposes the canonical ESMS decomposition', () => {
+    const detailed = alchemizeDetailed(
+      REAL_PLANETS,
+      null,
+      new Date('2026-07-19T19:22:00Z'),
+    );
+    const axes = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
+
+    for (const axis of axes) {
+      const planetSum = Object.values(detailed.perPlanet).reduce(
+        (sum, contribution) => sum + contribution.esms[axis],
+        0,
+      );
+      expect(planetSum + detailed.aspectModifications[axis]).toBeCloseTo(
+        detailed.esms[axis],
+        12,
+      );
+    }
+    expect(detailed.perPlanet.Pluto.alchmWeight).toBeGreaterThan(0.1);
+  });
+
   test('several excluded bodies at once are still a complete no-op', () => {
     // The live sky carries MC and BOTH nodes simultaneously — the real-world
     // shape of this bug, where three phantom bodies each pushed 0.4 Air.

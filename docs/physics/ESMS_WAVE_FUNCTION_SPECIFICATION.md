@@ -1,7 +1,7 @@
 # ESMS Wave Function & Gaussian Operator Field Specification
 
-*Version: 2.0.0 | Date: July 2026*  
-*Authoritative Mathematical Physics Specification for Alchm.kitchen (WTEN), AlchmAgentsETH, Pentacles, and PlanetaryAgents.*
+_Version: 2.0.0 | Date: July 2026_
+_Authoritative Mathematical Physics Specification for Alchm.kitchen (WTEN), AlchmAgentsETH, Pentacles, and PlanetaryAgents._
 
 ---
 
@@ -114,9 +114,9 @@ This proves that our shipped codebase functions in `backend/utils/planetary_alch
 
 ---
 
-## 6. Token Quantization Contract (DRAFT — for ruling, no code until ruled)
+## 6. Token Quantization Contract (RULED AND SHIPPED)
 
-*Added 2026-07-31. Status: PROPOSED. Nothing mints until this section is RULED and the two blockers in §7 are resolved.*
+_Added 2026-07-31; ruled and shipped before the v2.3.0 conformance regeneration. The two former blockers below are resolved by the shared inertial-mass scale and relative-distance tensor._
 
 Mainnet requires the continuous integrated vector $\mathbf{K} \in \mathbb{R}^4$ to become discrete on-chain units **deterministically and identically in both runtimes**. The current code disagrees even with itself (`evaluate_field` rounds to 1e-6, `integrate_field` to 1e-4) and across runtimes (§7.1).
 
@@ -127,11 +127,11 @@ Mainnet requires the continuous integrated vector $\mathbf{K} \in \mathbb{R}^4$ 
 5. **Idempotence**: `quantize(dequantize(q)) === q` exactly. Pinned by test.
 6. **Cross-runtime determinism**: TS and Python MUST produce byte-identical integers over the 20-chart golden fixture, asserted by both conformance suites. This is the mainnet gate.
 
-**Blockers**: (a) the mass-basis unification (TS uses physical-mass weights, Python uses orbital-period weights — same skies differ up to 2×; RULED: physical mass, both); (b) the $\mathbf{\Lambda}(r)$ dimensional defect below — a quantity whose *scale* is undecided cannot have its units fixed.
+**Resolved**: both runtimes now use the non-annihilating inertial-mass scale (Pluto ≈ 0.109, not zero), and $\mathbf{\Lambda}(r)$ uses the dimensionless option-C tensor below. The v2.3.0 fixture asserts full-precision and micro-ESMS equality exactly in both runtimes.
 
 ---
 
-## 7. The Λ(r) Dimensional Defect (MEASURED BLOCKER)
+## 7. The Λ(r) Dimensional Defect (RESOLVED: OPTION C)
 
 *Added 2026-07-31 from production measurement. The §2 tensor as shipped is dimensionally incoherent.*
 
@@ -170,13 +170,13 @@ $$\hat{H} = \frac{\hat{p}^2}{2m} + \frac{1}{2} m \omega^2 (x - \bar{x}_{\text{se
 - **Current Λ**: total swing ±155,724; the residual spectrum concentrates in the 25–40 d lunar band (synodic 29.53 d: 6.5×10⁹; anomalistic 27.55 d: 1.9×10⁹) — i.e. under the shipped tensor, the oscillator **is** the Moon's distance cycle and nothing else.
 - **Under option C**: |x| ≤ 16.9; dominant peaks move to the annual/Venus-synodic scale (~2.5×10³ at ≈1 yr) with Mercury's 115.9 d synodic clearly resolved (4.6×10²) and the lunar months present but proportionate (~0.3–0.5).
 
-**`[MEASURED 2026-08-01 — ω DERIVED under the ruled Λ = C]`** §7 is ruled and shipped; the derivation ran per item 1 below, over the required ≥2-synodic epoch (item 2): daily series, noon UTC, 2026-01-01 → 2033-12-31 (2922 samples, **5.0 Venus synodic cycles**), sect-demodulated, bodies only (the sky has no observer, so no vessel term).
+**`[RECALIBRATED 2026-08-01 — ω DERIVED under the unified aspect-bearing Λ = C engine]`** §7 is ruled and shipped; the derivation ran per item 1 below, over the required ≥2-synodic epoch (item 2): daily series, noon UTC, 2026-01-01 → 2033-12-31 (2922 samples, **5.0 Venus synodic cycles**), sect-demodulated, bodies only (the sky has no observer, so no vessel term). Each sample carries its real signs and longitudes, so the same dignity and aspect layers used by natal and moment calculations are present in the oscillator series.
 
-- **Fundamental**: T = **586.30 d (diurnal) / 585.90 d (nocturnal)** — within **0.4% of the Venus synodic period (583.92 d)** and sect-independent to 0.07%. The oscillator *is* the Venus distance cycle, whose $(\bar r/r)^2$ factor spans 0.35–13.9×, the largest modulation in the tensor.
+- **Fundamental**: T = **586.40 d (diurnal) / 585.85 d (nocturnal)** — within **0.5% of the Venus synodic period (583.92 d)** and sect-independent to 0.10%. The oscillator _is_ the Venus distance cycle, whose $(\bar r/r)^2$ factor spans 0.35–13.9×, the largest modulation in the tensor.
 - **Harmonic series**: 291.5 d ≈ T/2 and 146 d ≈ T/4 — the $(\bar r/r)^2$ waveform is non-sinusoidal.
 - **Mercury synodic**: resolved at 115.0–116.5 d (true 115.88 d), exactly as predicted above.
-- **Ruled single ω**: T = 586.10 d (mean of the sect fundamentals, 0.07% apart — per-sect ω would be precision theater), so **ω = 2π/586.10 = 1.07203×10⁻² rad/day**.
-- **Equilibria**: $\bar{x}_{\text{diurnal}} = 6.5245$, $\bar{x}_{\text{nocturnal}} = -4.0937$ (epoch means).
+- **Ruled single ω**: T = 586.125 d (mean of the sect fundamentals, 0.10% apart — per-sect ω would be precision theater), so **ω = 2π/586.125 = 1.07199×10⁻² rad/day**.
+- **Equilibria**: $\bar{x}_{\text{diurnal}} = 8.4590$, $\bar{x}_{\text{nocturnal}} = -4.3783$ (epoch means).
 
 Implementation: `src/utils/esmsOscillator.ts` (constants + $\hat H$ + the coherent transport rule); `esmsOscillator.test.ts` re-derives every constant from the ephemeris on each run, and pins the Venus identification so a Λ change that moves the fundamental off the Venus line fails loudly.
 

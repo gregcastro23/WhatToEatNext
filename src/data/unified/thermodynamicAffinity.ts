@@ -56,8 +56,8 @@
  *
  * ── Why asinh ───────────────────────────────────────────────────────────────
  *
- * The axes span six orders of magnitude over the calibration population
- * (reactivity 4.0e-2 → 5.9e4; heat 2.8e-3 → 3.2; entropy 6.2e-3 → 13.9).
+ * The axes span five orders of magnitude over the calibration population
+ * (reactivity 4.0e-2 → 4.0e3; heat 2.8e-3 → 3.2; entropy 6.2e-3 → 13.9).
  * `asinh(x) = ln(x + sqrt(x² + 1))` is defined on all of ℝ including 0 and
  * negatives, is linear near the origin and logarithmic in the tails, and needs NO
  * epsilon floor — one less unfounded constant than a guarded `log(x + ε)`.
@@ -66,9 +66,9 @@
  *
  * They are DERIVED, not chosen. After whitening, the first principal component of
  * the calibration population loads
- *   [0.5840, 0.5775, 0.5705]   vs exactly-equal 1/sqrt(3) = 0.5774
- * and explains 95.82% of variance. Equal weighting IS the dominant direction of
- * the data, to within 0.007 on every axis.
+ *   [0.5883, 0.5727, 0.5709]   vs exactly-equal 1/sqrt(3) = 0.5774
+ * and explains 94.05% of variance. Equal weighting IS the dominant direction of
+ * the data, to within 0.011 on every axis.
  *
  * That does NOT make the weighting irrelevant. Collapsing to a single axis
  * changes the ranking materially and can invert it — Spearman rho against the
@@ -85,7 +85,7 @@
  * Whitening equalises how much each axis VARIES across states. It does not
  * equalise how much each axis contributes to the distances the scorer actually
  * computes. MEASURED share of the summed squared reachable distance:
- *   heat 25.4%   entropy 65.2%   reactivity 9.4%
+ *   heat 26.3%   entropy 69.1%   reactivity 4.6%
  * Entropy dominates because cuisine and sky genuinely differ more on entropy,
  * relative to how much entropy varies at all, than they do on reactivity.
  *
@@ -96,7 +96,7 @@
  * rho 0.864 (min 0.525), and under it PC1 becomes [0.6504, 0.6433, 0.4039], so
  * equal weighting would no longer be DERIVED from anything. Suppressing the axis
  * that discriminates in order to make a table look symmetric is the wrong trade.
- * The 25/65/9 split is pinned by the calibration test so it cannot drift unnoticed.
+ * The 26/69/5 split is pinned by the calibration test so it cannot drift unnoticed.
  *
  * `thermodynamicAffinityCalibration.test.ts` re-derives every constant below on
  * every run. If the cuisine table, the sectarian ESMS, the planet weights or the
@@ -129,8 +129,9 @@ export type ThermoState = Record<ThermoAffinityAxis, number>;
  *
  * `THERMO_AFFINITY_SD` is measured over all 1490 rows AS SAMPLED — which is
  * DWELL-TIME WEIGHTED, not one-row-per-distinct-state. MEASURED: those 1490 rows
- * hold only 300 distinct states (the sky contributes 276 distinct states across
- * 1460 samples), so states the sky occupies for longer count proportionally more.
+ * hold 1484 distinct states (the aspect-bearing sky contributes 1460 distinct
+ * states across 1460 samples), so repeated cuisine states still count in their
+ * observed proportions.
  * That is deliberate: the scale exists to normalise states the scorer actually
  * meets at runtime, and an even grid over the year is the closest thing to a
  * traffic model this repo has. Deduplicating would upweight rare configurations
@@ -159,14 +160,14 @@ export const THERMO_AFFINITY_EPOCH = {
  * population. BASIS: MEASURED — re-derived by
  * `thermodynamicAffinityCalibration.test.ts` on every run.
  *
- * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (3.952) would
- * outweigh heat's (0.485) by 8:1 on scale alone — an unexamined emphasis of
+ * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.338) would
+ * outweigh heat's (0.343) by nearly 7:1 on scale alone — an unexamined emphasis of
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.4848944178705814,
-  entropy: 0.5710238245845198,
-  reactivity: 3.9518811669576164,
+  heat: 0.3434003327775092,
+  entropy: 0.4121094628487977,
+  reactivity: 2.338113315559114,
 };
 
 /**
@@ -174,13 +175,13 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  * all 21900 REACHABLE cuisine↔moment distances (see the epoch note above). Not
  * chosen; re-derived by the calibration test.
  *
- * Distance quantiles for reference: p10 0.195, p25 0.314, MEDIAN 1.667,
- * p75 2.200, p90 3.107, max 3.889.
+ * Distance quantiles for reference: p10 0.268, p25 0.499, MEDIAN 1.840,
+ * p75 3.519, p90 4.390, max 5.548.
  *
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
  */
-export const THERMO_AFFINITY_D0 = 1.6671237497708582;
+export const THERMO_AFFINITY_D0 = 1.8397254332230344;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.
@@ -230,8 +231,8 @@ export function thermoStateDistance(a: ThermoState, b: ThermoState): number {
  *
  * Exponential decay was picked over the rational alternative `1/(1 + d/D0)` by
  * MEASUREMENT, not taste: mean within-moment spread across the 15 cuisines is
- * 0.581 for `exp(−d/D0)` vs 0.430 for `1/(1 + d/D0)` (40 real moments), and the
- * worst moment still spreads 0.253. Both beat the 0.000 the monica factor
+ * 0.609 for `exp(−d/D0)` vs 0.458 for `1/(1 + d/D0)` (40 real moments), and the
+ * worst moment still spreads 0.259. Both beat the 0.000 the monica factor
  * delivered. The calibration test re-checks that ordering so it cannot silently
  * invert.
  */

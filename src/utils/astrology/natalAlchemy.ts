@@ -1,13 +1,11 @@
-
-import { PLANET_WEIGHTS, normalizePlanetWeight } from '@/data/planets';
-import { performAlchemicalAnalysis } from '@/data/unified/alchemicalCalculations';
-import type { ElementalProperties } from '@/types/alchemy';
-import type { AlchemicalProperties } from '@/types/celestial';
-import type { NatalChart} from '@/types/natalChart';
-import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
-import type { AlchemicalState } from '@/utils/monica/types';
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
+import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
+import type { ElementalProperties } from "@/types/alchemy";
+import type { AlchemicalProperties } from "@/types/celestial";
+import type { NatalChart } from "@/types/natalChart";
+import type { AlchemicalState } from "@/utils/monica/types";
 import {
-  calculateEnhancedAlchemicalFromPlanets,
+  calculateAlchemicalFromPlanets,
   isSectDiurnalForBirth,
 } from '@/utils/planetaryAlchemyMapping';
 
@@ -80,25 +78,34 @@ function resolveNatalQuantities(
 
   // Derived from the same planet list the elemental scoring walks, so the two
   // readings can never disagree about which bodies the chart contains.
-  const positions: Record<string, string> = {};
+  const positions: Record<
+    string,
+    { sign: string; degree?: number; exactLongitude?: number }
+  > = {};
   for (const planet of planets) {
     if (typeof planet?.sign === "string" && planet.sign) {
-      positions[planet.name] = planet.sign.toLowerCase();
+      const exactLongitude =
+        typeof planet.position === "number" && planet.position > 0
+          ? planet.position
+          : undefined;
+      positions[planet.name] = {
+        sign: planet.sign.toLowerCase(),
+        ...(exactLongitude !== undefined
+          ? { degree: exactLongitude % 30, exactLongitude }
+          : {}),
+      };
     }
   }
   if (Object.keys(positions).length === 0) {
     return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
   }
 
-  // Aspects are the engine's Layer 3 and the main source of chart-to-chart
-  // variation; rebuild them when the chart carries real longitudes. Older charts
-  // without them still get correct sect- and dignity-aware quantities.
-  const aspects = buildAspectsFromChartPlanets(planets);
-
-  const birthDate = chart.birthData?.dateTime ? new Date(chart.birthData.dateTime) : null;
+  const birthDate = chart.birthData?.dateTime
+    ? new Date(chart.birthData.dateTime)
+    : null;
   const diurnal = birthDate ? isSectDiurnalForBirth(birthDate) : true;
 
-  return calculateEnhancedAlchemicalFromPlanets(positions, diurnal, aspects);
+  return calculateAlchemicalFromPlanets(positions, diurnal);
 }
 
 /**
@@ -149,7 +156,7 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
           modalityScores[modality as keyof typeof modalityScores] /= totalModalityScore;
       }
   }
-  
+
   // Elements come from the signs the planets occupy (computed above).
   // Quantities come from the planets themselves — never from those elements.
   // Expressed as shares of the chart total so they stay on the same 0-1 scale
@@ -181,7 +188,7 @@ export function calculateAlchemicalState(chart: NatalChart): AlchemicalState {
  */
 export function calculateAlchemicalProfile(chart: NatalChart) {
     const alchemicalState = calculateAlchemicalState(chart);
-    
+
     const elementalProps: ElementalProperties = {
         Fire: alchemicalState.fire,
         Water: alchemicalState.water,

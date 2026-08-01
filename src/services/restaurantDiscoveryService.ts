@@ -259,10 +259,8 @@ export function buildAstrologicalState(now: Date = new Date()): CosmicComputatio
     diurnal,
   );
   const dominantElement: Element = dominantElementOf(domElements);
-  const alchemicalProperties: AlchemicalProperties = calculateAlchemicalFromPlanets(
-    positionMap,
-    diurnal,
-  );
+  const alchemicalProperties: AlchemicalProperties =
+    calculateAlchemicalFromPlanets(positions, diurnal);
   const lunarPhase = getLunarPhaseFromDate(now);
   const timeFactors = getTimeFactors();
   const planetaryHour = timeFactors.planetaryHour.planet as Planet;

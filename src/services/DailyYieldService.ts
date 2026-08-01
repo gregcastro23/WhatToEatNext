@@ -25,7 +25,10 @@ import {
   getStreakMultiplier,
 } from "@/types/economy";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateAlchemicalFromPlanets,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { streakService } from "./StreakService";
 import { tokenEconomy } from "./TokenEconomyService";
@@ -101,7 +104,7 @@ class DailyYieldService {
    * Falls back to a balanced default if the cron hasn't run yet.
    */
   async getTodayEphemeris(): Promise<{
-    positions: Record<string, string>;
+    positions: AlchemicalPlanetPositions;
     transitESMS: AlchemicalProperties;
   }> {
     const db = await getDbModule();
@@ -140,7 +143,7 @@ class DailyYieldService {
    * Cache today's ephemeris (called by the daily cron job).
    */
   async cacheEphemeris(
-    positions: Record<string, string>,
+    positions: AlchemicalPlanetPositions,
     source: "railway" | "astronomy-engine" = "railway",
   ): Promise<void> {
     const todayStr = new Date().toISOString().slice(0, 10);

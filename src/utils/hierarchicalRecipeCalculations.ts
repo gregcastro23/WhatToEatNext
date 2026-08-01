@@ -31,6 +31,7 @@ import type {
   KineticMetrics /*, KineticsCalculationInput */,
 } from "@/types/kinetics";
 import type { RecipeIngredient } from "@/types/recipe";
+import { isCurrentSkyDiurnal } from "./astrology/positions";
 import {
   aggregateZodiacElementals,
   calculateAlchemicalFromPlanets,
@@ -337,8 +338,10 @@ export function computeRecipeProperties(
   const ingredientElementals = aggregateIngredientElementals(ingredients);
 
   // Step 2: Calculate ESMS from planetary positions (THE CORRECT WAY)
-  const alchemicalProperties =
-    calculateAlchemicalFromPlanets(planetaryPositions);
+  const alchemicalProperties = calculateAlchemicalFromPlanets(
+    planetaryPositions,
+    options.isDaytime ?? isCurrentSkyDiurnal(),
+  );
 
   // Step 3: Aggregate zodiac elementals from planetary sign positions
   const zodiacElementals = aggregateZodiacElementals(planetaryPositions);

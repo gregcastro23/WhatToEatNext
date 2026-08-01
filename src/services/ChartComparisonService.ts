@@ -19,6 +19,7 @@ import type {
 import type { Planet, ZodiacSignType, Element } from "@/types/celestial";
 import type { NatalChart } from "@/types/natalChart";
 import { extractPlanetaryPositions } from "@/utils/astrology/chartDataUtils";
+import { isDiurnalAt } from "@/utils/astrology/positions";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 import {
   calculateAlchemicalFromPlanets,
@@ -112,8 +113,14 @@ export async function calculateMomentChart(
     const elementalBalance = aggregateZodiacElementals(planetaryPositions);
 
     // Calculate alchemical properties from planets
-    const alchemicalProperties =
-      calculateAlchemicalFromPlanets(planetaryPositions);
+    const alchemicalProperties = calculateAlchemicalFromPlanets(
+      planetaryPositionsRaw,
+      isDiurnalAt(
+        targetDateTime,
+        targetLocation.latitude,
+        targetLocation.longitude,
+      ),
+    );
 
     // Determine dominant element (cast keyof to Element type)
     const dominantElement = getDominantElement(elementalBalance) as Element;

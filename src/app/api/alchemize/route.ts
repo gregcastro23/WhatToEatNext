@@ -20,10 +20,15 @@ import {
 } from "@/data/unified/alchemicalCalculations";
 import { rateLimit } from "@/lib/rateLimit";
 import { AlchemizeQuerySchema } from "@/lib/validation/railway";
-import { calculateComprehensiveAspects, type PlanetaryPositionData } from "@/utils/aspectCalculator";
-import type { AspectWithStrength } from "@/utils/aspectESMSEffects";
-import { getAccuratePlanetaryPositions, isCurrentSkyDiurnal } from "@/utils/astrology/positions";
-import { calculateEnhancedAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  calculateComprehensiveAspects,
+  type PlanetaryPositionData,
+} from "@/utils/aspectCalculator";
+import {
+  getAccuratePlanetaryPositions,
+  isCurrentSkyDiurnal,
+} from "@/utils/astrology/positions";
+import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -58,7 +63,6 @@ export async function GET(request: Request) {
 
     const raw = getAccuratePlanetaryPositions(date);
 
-    const signMap: Record<string, string> = {};
     const positionData: Record<string, PlanetaryPositionData> = {};
     const elementCounts: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     const modalityCounts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
@@ -69,8 +73,6 @@ export async function GET(request: Request) {
       }
 
       const sign = typeof pos.sign === "string" ? pos.sign : String(pos.sign);
-      signMap[planet] = sign;
-
       positionData[planet] = {
         sign,
         degree: pos.degree,
@@ -90,17 +92,16 @@ export async function GET(request: Request) {
     // Calculate comprehensive aspects with the now-typed positionData
     const aspectsRaw = calculateComprehensiveAspects(positionData);
 
-    const aspects: AspectWithStrength[] = aspectsRaw.map((a) => ({
+    const aspects = aspectsRaw.map((a) => ({
       planet1: a.planet1,
       planet2: a.planet2,
       type: a.type,
       strength: a.strength,
     }));
 
-    // Calculate ESMS: enhanced (sect + dignity + aspects) or enhanced without aspects
-    const alch = useEnhanced
-      ? calculateEnhancedAlchemicalFromPlanets(signMap, diurnal, aspects)
-      : calculateEnhancedAlchemicalFromPlanets(signMap, diurnal);
+    // The legacy query flag is retained for response compatibility; there is
+    // now one aspect-bearing engine for every request.
+    const alch = calculateAlchemicalFromPlanets(positionData, diurnal);
 
     const total = Object.values(alch).reduce((a, b) => a + b, 0) || 1;
     const elTotal = Object.values(elementCounts).reduce((a, b) => a + b, 0) || 1;
@@ -119,7 +120,8 @@ export async function GET(request: Request) {
       success: true,
       timestamp: date.toISOString(),
       sect: diurnal ? "diurnal" : "nocturnal",
-      calculationMethod: useEnhanced ? "enhanced-with-aspects" : "enhanced",
+      calculationMethod: "unified-aspect-bearing",
+      legacyModeRequested: !useEnhanced,
       positions: Object.fromEntries(
         Object.entries(raw).map(([p, pos]) => [
           p,
