@@ -197,7 +197,7 @@ describe("thermodynamic affinity calibration", () => {
   });
 
   // Tolerance note: `toBeCloseTo(x, n)` is an ABSOLUTE bound of 0.5e-n. Pinning at
-  // n=12 would be ~1e-13 relative on SD.reactivity ≈ 3.95 — tighter than this
+  // n=12 would be ~2e-13 relative on SD.reactivity ≈ 2.33 — tighter than this
   // population is actually stable. `Math.asinh`/`Math.log` are implementation-
   // defined in ECMAScript, so a V8 update can move a summand by an ULP, and
   // MEASURED: epoch sample 520 sits 2.474 SECONDS from a sect flip, so a change to
@@ -208,16 +208,14 @@ describe("thermodynamic affinity calibration", () => {
   const CALIBRATION_PRECISION = 6;
 
   // ── RECALIBRATION_PENDING ──────────────────────────────────────────────────
-  // CUISINE_ELEMENTAL_MAP moved to MEASURED corpus rows (fix/cuisine-map-
-  // measured), and Strategy A will move cuisine ESMS next. Both change the
-  // 30-state cuisine population these constants are measured over, so the
-  // pinned values in thermodynamicAffinity.ts are STALE BY RULING until the
-  // single recalibration PR re-derives and re-pins them (one constants churn,
-  // by explicit user ruling 2026-08-01). That PR flips this back to `it` and
-  // MUST be the next thing that touches this file. Structural invariants
-  // (population shape, gregsEnergy identity, decay-form choice, cuisine
-  // separation) stay live below — only the value pins are suspended.
-  const RECALIBRATION_PENDING = true;
+  // Set to true ONLY in a PR that changes the cuisine population these
+  // constants are measured over (map rows, cuisine ESMS derivation, sect
+  // rule, engine), when a ruling batches the recalibration into a later PR.
+  // While true, the four value pins below are suspended; structural
+  // invariants stay live. The recalibration PR re-derives the constants,
+  // re-pins them, and flips this back to false — as this one does (the
+  // 2026-08-01 measured-map + Strategy A batch, recalibrated here).
+  const RECALIBRATION_PENDING = false;
   const itPinnedConstant = RECALIBRATION_PENDING ? it.skip : it;
 
   itPinnedConstant("re-derives THERMO_AFFINITY_SD", () => {
@@ -286,9 +284,9 @@ describe("thermodynamic affinity calibration", () => {
       }
     }
     const pct = share.map((s) => (100 * s) / total);
-    expect(pct[0]).toBeCloseTo(26.3, 1); // heat
-    expect(pct[1]).toBeCloseTo(69.1, 1); // entropy
-    expect(pct[2]).toBeCloseTo(4.6, 1); // reactivity
+    expect(pct[0]).toBeCloseTo(32.9, 1); // heat
+    expect(pct[1]).toBeCloseTo(62.1, 1); // entropy
+    expect(pct[2]).toBeCloseTo(5.0, 1); // reactivity
   });
 
   itPinnedConstant("confirms equal weighting IS the first principal component", () => {

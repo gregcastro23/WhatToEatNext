@@ -117,6 +117,9 @@ export type ThermoState = Record<ThermoAffinityAxis, number>;
  *
  * Two parts, pooled:
  *   1. Every cuisine × sect in `CUISINE_ELEMENTAL_MAP` (30 states) — exhaustive.
+ *      Since the measured-map + Strategy A PRs, a cuisine state is MEASURED
+ *      corpus elementals + a mass-weighted multi-ruler ESMS (no longer a
+ *      one-hot), so all 28 non-Default states are pairwise distinct.
  *   2. The real sky on a 6-hour grid across the epoch year (1460 states), via
  *      `getAccuratePlanetaryPositions` → `calculateAlchemicalFromPlanets` +
  *      `aggregateEnhancedZodiacElementals`, with sect from `isCurrentSkyDiurnal`
@@ -129,9 +132,9 @@ export type ThermoState = Record<ThermoAffinityAxis, number>;
  *
  * `THERMO_AFFINITY_SD` is measured over all 1490 rows AS SAMPLED — which is
  * DWELL-TIME WEIGHTED, not one-row-per-distinct-state. MEASURED: those 1490 rows
- * hold 1484 distinct states (the aspect-bearing sky contributes 1460 distinct
- * states across 1460 samples), so repeated cuisine states still count in their
- * observed proportions.
+ * hold 1486 distinct states (Default is sect-invariant — its single Sun anchor
+ * has no day/night flip — and the sky contributes a few coincidences), so
+ * repeated states still count in their observed proportions.
  * That is deliberate: the scale exists to normalise states the scorer actually
  * meets at runtime, and an even grid over the year is the closest thing to a
  * traffic model this repo has. Deduplicating would upweight rare configurations
@@ -142,9 +145,9 @@ export type ThermoState = Record<ThermoAffinityAxis, number>;
  *
  * The epoch is NAMED and FIXED rather than "the current year" so the constants
  * are reproducible forever. The sky's spread does drift: re-deriving over 2040
- * gives SD.reactivity 2.683 vs 3.952 here (~32% narrower), while the PC1 loadings
- * stay put ([0.5829, 0.5749, 0.5742]). So the loadings are pinned tightly and the
- * scales are pinned to this epoch.
+ * (MEASURED under the original #681 population) moved SD.reactivity ~32%
+ * narrower while the PC1 loadings stayed put — so the loadings are pinned
+ * tightly and the scales are pinned to this epoch.
  */
 export const THERMO_AFFINITY_EPOCH = {
   /** UTC midnight of the first sample. */
@@ -160,14 +163,14 @@ export const THERMO_AFFINITY_EPOCH = {
  * population. BASIS: MEASURED — re-derived by
  * `thermodynamicAffinityCalibration.test.ts` on every run.
  *
- * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.338) would
- * outweigh heat's (0.343) by nearly 7:1 on scale alone — an unexamined emphasis of
+ * Whitening is not cosmetic. Unwhitened, reactivity's asinh spread (2.334) would
+ * outweigh heat's (0.342) by nearly 7:1 on scale alone — an unexamined emphasis of
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.3434003327775092,
-  entropy: 0.4121094628487977,
-  reactivity: 2.338113315559114,
+  heat: 0.34242341216623884,
+  entropy: 0.38791946880722994,
+  reactivity: 2.3335058155938997,
 };
 
 /**
@@ -175,13 +178,15 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  * all 21900 REACHABLE cuisine↔moment distances (see the epoch note above). Not
  * chosen; re-derived by the calibration test.
  *
- * Distance quantiles for reference: p10 0.268, p25 0.499, MEDIAN 1.840,
- * p75 3.519, p90 4.390, max 5.548.
+ * Distance quantiles for reference: p10 0.305, p25 0.517, MEDIAN 1.904,
+ * p75 2.585, p90 3.559, max 5.053. The upper tail CONTRACTED when cuisine
+ * ESMS went mass-weighted (Strategy A): weighted multi-ruler sums sit closer
+ * to real skies than the old one-hot unit vectors did (old max 5.548).
  *
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
  */
-export const THERMO_AFFINITY_D0 = 1.8397254332230344;
+export const THERMO_AFFINITY_D0 = 1.903549175561494;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.

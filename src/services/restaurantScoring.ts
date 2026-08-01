@@ -492,8 +492,8 @@ function buildMatchReasons(input: {
     reasons.push(`Elemental harmony with the moment (${Math.round(elementalMatch * 100)}%)`);
   }
 
-  // 0.85 affinity is d ≤ −D0·ln(0.85) = 0.2709 in whitened units, between p10
-  // (0.195) and p25 (0.314) of the measured reachable distribution — see
+  // 0.85 affinity is d ≤ −D0·ln(0.85) = 0.3094 in whitened units, between p10
+  // (0.305) and p25 (0.517) of the measured reachable distribution — see
   // `thermodynamicAffinity.ts`. The old copy keyed off a monica score that was
   // identical for every cuisine at any given moment, so it fired for all fifteen
   // or none, which is not a per-restaurant reason.
