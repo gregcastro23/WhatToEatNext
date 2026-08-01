@@ -1,4 +1,3 @@
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import type { ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
@@ -6,6 +5,7 @@ import type { NatalChart } from "@/types/natalChart";
 import type { AlchemicalState } from "@/utils/monica/types";
 import {
   calculateAlchemicalFromPlanets,
+  inertialMassWeight,
   isSectDiurnalForBirth,
 } from '@/utils/planetaryAlchemyMapping';
 
@@ -29,16 +29,43 @@ const PLANETARY_WEIGHTS_ASTRO: Record<string, number> = {
 };
 
 /**
- * Composite weight: 60% astrological tradition + 40% physical mass (log-normalized).
- * This grounds the scoring in physics while respecting astrological convention.
+ * Composite weight: 60% astrological tradition + 40% physical mass.
+ *
+ * BASIS of the 0.6 — RULED (ADR-009), not measured. With the astro table
+ * normalized below, 0.6 now means what it always claimed: astrological
+ * convention carries the larger share of a NATAL INTERPRETIVE weight, physical
+ * mass the smaller. That is a product judgement about what a natal chart is,
+ * and it is legitimately ruled rather than derived. It is deliberately NOT
+ * fitted: there is no target metric to fit it against, and inventing one would
+ * launder a hand value into a false "MEASURED".
+ *
+ * ⚠️ This 0.6 is NOT the 0.6/0.4 sign/sect split in planetaryAlchemyMapping,
+ * RealAlchemizeService or main.py. Same number, unrelated meaning. Do not
+ * "unify" them.
+ *
+ * Two defects fixed here (ADR-009 decision 3):
+ *
+ * 1. `PLANETARY_WEIGHTS_ASTRO` was UNNORMALIZED (0.8–1.5), so its term ran
+ *    0.48–0.90 while the mass term was capped at 0.40. The declared 60/40 was
+ *    in practice ~80/20 — and for Pluto exactly 100/0, because the old
+ *    Pluto-anchored mass scale returned 0 and the "physical grounding"
+ *    contributed literally nothing.
+ * 2. The mass term now comes from the canonical inertial scale, so no body is
+ *    annihilated and the Ascendant gets its ruled 1.0 instead of the 0.5
+ *    midpoint guess below.
+ *
+ * Normalized by MAX, deliberately, NOT min-max: min-max would map the lowest
+ * astro value (0.8 — Uranus, Neptune, Pluto) to exactly 0, reintroducing on the
+ * astro axis the precise annihilation this ADR removes. Divide-by-max preserves
+ * ratios and caps the astro term at exactly 0.6, as declared.
  */
+const _ASTRO_MAX = Math.max(...Object.values(PLANETARY_WEIGHTS_ASTRO));
+
 const NATAL_WEIGHTS: Record<string, number> = Object.fromEntries(
-  Object.entries(PLANETARY_WEIGHTS_ASTRO).map(([planet, astroWeight]) => {
-    const massWeight = PLANET_WEIGHTS[planet]
-      ? normalizePlanetWeight(PLANET_WEIGHTS[planet])
-      : 0.5; // Ascendant has no mass; use midpoint
-    return [planet, astroWeight * 0.6 + massWeight * 0.4];
-  })
+  Object.entries(PLANETARY_WEIGHTS_ASTRO).map(([planet, astroWeight]) => [
+    planet,
+    (astroWeight / _ASTRO_MAX) * 0.6 + inertialMassWeight(planet) * 0.4,
+  ])
 );
 
 // Define element and modality for each sign

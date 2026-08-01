@@ -15,7 +15,7 @@
  * night. These sectarian elements drive the dynamic elemental profile of the sky.
  */
 
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
+import { PLANET_WEIGHTS } from "@/data/planets";
 import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { buildAspectsWithStrength } from "./aspectCalculator";
@@ -716,10 +716,17 @@ export function aggregateZodiacElementals(planetaryPositions: {
       continue;
     }
 
-    // Weight elemental contribution by planet's normalized physical mass.
-    // Jupiter in Sagittarius adds ~7× more Fire than Mercury in Sagittarius.
-    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
-    const w = normalizePlanetWeight(relMass);
+    // Weight elemental contribution by the planet's inertial mass — the SAME
+    // scale the ESMS half of this module uses (ADR-009). This was
+    // `normalizePlanetWeight`, which anchors AT Pluto and so gave Pluto a weight
+    // of exactly 0: it was in the chart and contributed nothing, and a
+    // Pluto-only positions map fell through the `count === 0` guard below to a
+    // flat 0.25 vector. The Ascendant fared no better — it has no mass entry, so
+    // `?? 1.0` handed it EARTH's mass (0.3249) rather than the ruled vessel
+    // weight. `inertialMassWeight` fixes both: it takes the body NAME, pins the
+    // Ascendant to 1.0, and anchors its zero one decade below the lightest
+    // charted body so no member is annihilated.
+    const w = inertialMassWeight(planet);
     totals[element] += w;
     count += w;
   }
@@ -770,9 +777,11 @@ export function aggregateEnhancedZodiacElementals(
       continue;
     }
 
-    // Weight elemental contribution by planet's normalized physical mass.
-    const relMass = PLANET_WEIGHTS[planet as PlanetName] ?? 1.0;
-    const w = normalizePlanetWeight(relMass);
+    // Inertial mass — same scale as the ESMS half of this module (ADR-009).
+    // See the note in `aggregateZodiacElementals` above for what the previous
+    // `normalizePlanetWeight` did to Pluto (exactly 0) and the Ascendant
+    // (Earth's mass, 0.3249, by fallback accident).
+    const w = inertialMassWeight(planet);
 
     // Blended elemental property
     totals[signElement] += w * 0.6;

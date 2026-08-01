@@ -28,15 +28,20 @@ export const PLANET_WEIGHTS: Record<string, number> = {
 };
 
 /**
- * Normalizes a relative-mass value to [0, 1] via log₁₀.
- * Pluto → 0.0, Sun → 1.0.
- * Used by food-recommendation scoring; not for Alchm thermodynamics.
+ * REMOVED (ADR-009): `normalizePlanetWeight`, the Pluto-anchored mass scale.
+ *
+ * It log-normalized with its minimum anchored AT Pluto, so Pluto's weight was
+ * identically 0 — a body in the chart contributing nothing — and the Ascendant,
+ * having no entry here, fell through a `?? 1.0` to EARTH's mass (0.3249) rather
+ * than the ruled vessel weight. Both are extremum-annihilation, the same defect
+ * PR #683 fixed for the Ascendant on the period scale.
+ *
+ * Every caller now uses `inertialMassWeight` from
+ * `@/utils/planetaryAlchemyMapping`, which takes a body NAME, pins the Ascendant
+ * to 1.0, and anchors its zero one decade BELOW the lightest charted body so no
+ * member can be annihilated. Do not reintroduce a mass normalizer anchored at a
+ * member of the set it normalizes.
  */
-const _MASS_LOG_MIN = Math.log10(0.0022);      // Pluto
-const _MASS_LOG_MAX = Math.log10(333054.2532); // Sun
-export function normalizePlanetWeight(relMass: number): number {
-  return (Math.log10(Math.max(relMass, 1e-9)) - _MASS_LOG_MIN) / (_MASS_LOG_MAX - _MASS_LOG_MIN);
-}
 
 /**
  * Orbital periods in Earth years.

@@ -1,7 +1,7 @@
 /**
  * Tests for data/planets.ts — planetary mass data and weight normalization.
  */
-import { PLANET_WEIGHTS, normalizePlanetWeight, planetaryData } from "@/data/planets";
+import { PLANET_WEIGHTS, planetaryData } from "@/data/planets";
 
 describe("PLANET_WEIGHTS", () => {
   const expectedPlanets = [
@@ -51,40 +51,18 @@ describe("PLANET_WEIGHTS", () => {
   });
 });
 
-describe("normalizePlanetWeight", () => {
-  it("normalizes Sun to approximately 1.0", () => {
-    const normalized = normalizePlanetWeight(PLANET_WEIGHTS.Sun);
-    expect(normalized).toBeCloseTo(1.0, 2);
-  });
-
-  it("normalizes Pluto to approximately 0.0", () => {
-    const normalized = normalizePlanetWeight(PLANET_WEIGHTS.Pluto);
-    expect(normalized).toBeCloseTo(0.0, 2);
-  });
-
-  it("returns values in [0, 1] for all planets", () => {
-    for (const [name, weight] of Object.entries(PLANET_WEIGHTS)) {
-      const normalized = normalizePlanetWeight(weight);
-      expect(normalized).toBeGreaterThanOrEqual(0);
-      expect(normalized).toBeLessThanOrEqual(1);
-    }
-  });
-
-  it("is monotonically increasing (heavier → higher normalized)", () => {
-    const sorted = Object.entries(PLANET_WEIGHTS)
-      .sort((a, b) => a[1] - b[1]);
-
-    for (let i = 1; i < sorted.length; i++) {
-      const prevNorm = normalizePlanetWeight(sorted[i - 1][1]);
-      const currNorm = normalizePlanetWeight(sorted[i][1]);
-      expect(currNorm).toBeGreaterThanOrEqual(prevNorm);
-    }
-  });
-
-  it("handles very small values gracefully", () => {
-    const result = normalizePlanetWeight(0.0001);
-    expect(typeof result).toBe("number");
-    expect(isNaN(result)).toBe(false);
+describe("the removed Pluto-anchored scale", () => {
+  it("stays removed — no mass normalizer may anchor at a member of its own set", () => {
+    // REGRESSION GUARD (ADR-009). `normalizePlanetWeight` anchored its minimum
+    // AT Pluto, so Pluto normalized to exactly 0 and contributed nothing to any
+    // chart it appeared in. The whole module is asserted to no longer export it,
+    // because the cheapest way to undo this migration is to add it back.
+    const planets = jest.requireActual("@/data/planets") as Record<string, unknown>;
+    expect(planets.normalizePlanetWeight).toBeUndefined();
+    // POSITIVE CONTROL — the module IS loaded and DOES export things, so the
+    // assertion above is a real absence rather than a failed import.
+    expect(typeof planets.PLANET_WEIGHTS).toBe("object");
+    expect(typeof planets.normalizeAlchmWeight).toBe("function");
   });
 });
 

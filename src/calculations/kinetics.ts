@@ -6,9 +6,9 @@
  * momentum, inertia, and aspect phase calculations.
  */
 
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type { Element } from "@/types/celestial";
 import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
+import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 import { alchemize, planetInfo } from "./core/alchemicalEngine";
 
 export type { KineticMetrics } from "@/types/kinetics";
@@ -225,8 +225,7 @@ function aggregateAlchemicalProperties(
 
     // Weight each planet's contribution by its log-normalized physical mass.
     // Jupiter (w≈0.63) adds ~5× more than Mercury (w≈0.17) to alchemical totals.
-    const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
-    const w = normalizePlanetWeight(relMass);
+    const w = inertialMassWeight(planet);
 
     // Sum mass-weighted alchemical properties
     totals.Spirit    += planetData.Alchemy.Spirit    * w;
@@ -277,11 +276,11 @@ function getElementFromSign(sign: string): Element | null {
  *   velocity × 0.15  — faster internal alchemical flow for massive planets
  *   current  × 0.15  — stronger energetic current from massive bodies
  *
- * Result range: ~1.01 (Pluto, w≈0) to ~1.25 (Sun, w=1.0) for force.
+ * Result range: ~1.03 (Pluto, w≈0.109) to ~1.25 (Sun, w=1.0) for force.
+ * ADR-009: was ~1.01 at the bottom, when Pluto's weight was exactly 0.
  */
 function getPlanetaryModifiers(planet: string) {
-  const relMass = PLANET_WEIGHTS[planet] ?? 1.0; // actual × Earth
-  const w = normalizePlanetWeight(relMass);       // 0 (Pluto) → 1 (Sun)
+  const w = inertialMassWeight(planet); // 0.109 (Pluto) → 1.0 (Sun)
 
   return {
     velocity: 1.0 + w * 0.15,

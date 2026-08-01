@@ -5,7 +5,6 @@
  * - alchm-kinetics
  */
 import { NextResponse } from "next/server";
-import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
@@ -14,7 +13,7 @@ import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeServi
 import type { DegradedInfo } from "@/types/degraded";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
-import { PLANETARY_ALCHEMY } from "@/utils/planetaryAlchemyMapping";
+import { PLANETARY_ALCHEMY, inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 import {
   calculatePlanetaryPositions,
   calculatePlanetaryPositionsWithMeta,
@@ -386,9 +385,11 @@ export async function GET(request: Request) {
         const moiety1 = PLANET_MOIETIES[p1] ?? 3.0;
         const moiety2 = PLANET_MOIETIES[p2] ?? 3.0;
 
-        // Gravitational/alchemical physical mass coupling
-        const w1 = normalizePlanetWeight(PLANET_WEIGHTS[p1] ?? 1.0);
-        const w2 = normalizePlanetWeight(PLANET_WEIGHTS[p2] ?? 1.0);
+        // Gravitational/alchemical physical mass coupling, on the canonical
+        // inertial scale (ADR-009). Under the old Pluto-anchored scale a
+        // Pluto aspect contributed w=0 to the pair, i.e. nothing.
+        const w1 = inertialMassWeight(p1);
+        const w2 = inertialMassWeight(p2);
         const combinedWeight = (w1 + w2) / 2;
 
         for (const def of ASPECT_DEFS) {
