@@ -111,3 +111,67 @@ In computational execution (TypeScript & Python), the spatial Gaussian kernel $g
 $$\lim_{\sigma_p \to 0} \int_{S^1} g_p(\theta) \, d\theta = 1$$
 
 This proves that our shipped codebase functions in `backend/utils/planetary_alchemy.py` and `src/utils/planetaryAlchemyMapping.ts` are **exact discrete Riemann-sum quadratures** of this continuous Gaussian field theory.
+
+---
+
+## 6. Token Quantization Contract (DRAFT — for ruling, no code until ruled)
+
+*Added 2026-07-31. Status: PROPOSED. Nothing mints until this section is RULED and the two blockers in §7 are resolved.*
+
+Mainnet requires the continuous integrated vector $\mathbf{K} \in \mathbb{R}^4$ to become discrete on-chain units **deterministically and identically in both runtimes**. The current code disagrees even with itself (`evaluate_field` rounds to 1e-6, `integrate_field` to 1e-4) and across runtimes (§7.1).
+
+1. **Unit**: 1 on-chain unit = $10^{-6}$ K-units ("micro-ESMS"). On-chain amounts are integers only.
+2. **Boundary**: one named function per runtime — `quantizeEsms(K) = ⌊K · 10⁶⌋` per coin — applied **once**, at the mint/settlement boundary. All upstream math stays full-precision `float64`; the 1e-6/1e-4 roundings inside the field engine are display conventions and MUST NOT feed the quantizer.
+3. **Rounding**: `floor`, never `round`. A quantizer can only under-credit, mirroring the mint-cost-pole rule: economic errors must favor the ledger, not the minter.
+4. **Conservation**: `floor` gives $\sum_k q(K_k) \le q(\sum_k K_k)$ — a portfolio of parts can never quantize to more than the whole. Pinned by test.
+5. **Idempotence**: `quantize(dequantize(q)) === q` exactly. Pinned by test.
+6. **Cross-runtime determinism**: TS and Python MUST produce byte-identical integers over the 20-chart golden fixture, asserted by both conformance suites. This is the mainnet gate.
+
+**Blockers**: (a) the mass-basis unification (TS uses physical-mass weights, Python uses orbital-period weights — same skies differ up to 2×; RULED: physical mass, both); (b) the $\mathbf{\Lambda}(r)$ dimensional defect below — a quantity whose *scale* is undecided cannot have its units fixed.
+
+---
+
+## 7. The Λ(r) Dimensional Defect (MEASURED BLOCKER)
+
+*Added 2026-07-31 from production measurement. The §2 tensor as shipped is dimensionally incoherent.*
+
+$\mathbf{\Lambda} = \operatorname{diag}(M_k / r_k^2)$ divides a **dimensionless log-normalized weight** by a **physical distance squared**. The `PLANET_MEAN_DISTANCES` table papered over this by pinning Moon (and Mercury) to `1.000` AU — but both live chart calculators (swisseph and pyephem) emit **real** geocentric distances, and the engine prefers a supplied distance over the table.
+
+**MEASURED consequences with the Moon's real $r \approx 0.00257$ AU:**
+
+| quantity | fixture regime ($r_{Moon}=1.0$) | production regime (real $r$) |
+|---|---|---|
+| Moon inertia | 0.284 | **43,043** (Sun: 0.51) |
+| day-chart ESMS | mixed | Essence ≈ 43,045 (99.99% Moon) |
+| monica | continuous | sect binary: **+16.72 / −16.07** |
+| reactivity (night) | O(1) | **1.85 × 10⁹** |
+| canonical kalchm | finite | **overflows** → fallback 1.0 → monica φ |
+
+The golden fixture inherits the same $r_{Moon}=1.0$ fudge, so **every conformance gate tests the sanitized regime while production runs the pathological one**. And the overflow row is the bitter one: feeding real-distance ESMS into the canonical engine recreates the exact φ-collapse the wave-function work was meant to escape.
+
+**Options, measured over 2026 (6-hour grid, 1460 samples, real ephemeris):**
+
+- **(A) True tidal physics** $M/r^3$ with real masses: Moon:Sun = 2.18:1, planets ≈ 10⁻⁵ — physically true, numerically tame, but planets stop mattering entirely.
+- **(B) Mean distances only** (ignore live $r$): the current fudge made explicit; all distance modulation lost; $\mathbf{\Lambda}$ degenerates to a constant per sect.
+- **(C) Relative-distance modulation** $\mathbf{\Lambda} = \operatorname{diag}\left(\hat{M}_k \cdot (\bar{r}_k / r_k)^2\right)$ — dimensionless by construction; each body oscillates about its own mean. MEASURED: 1460/1460 distinct states; $|\ln(\text{kalchm})| \le 16.9$ (canonical-safe, limit 709); day/night structure preserved (means +7.7 / −2.6); modulation ranges from the real sky: Moon ±13%, Mercury 0.53–3.4×, Venus 0.35–13.9×. **RECOMMENDED.**
+
+Under (C) the $\bar{r}_k$ table becomes MEASURED per-epoch mean geocentric distances (2026: Sun 1.00015, Moon 0.00257, Mercury 1.05278, Venus 1.01621, Mars 1.94426, Jupiter 5.42979, Saturn 9.48438, Uranus 19.49877, Neptune 29.88355, Pluto 35.52719 AU), re-derived by a conformance test — not hand-maintained constants.
+
+---
+
+## 8. Harmonic-Oscillator Hamiltonian on ln(kalchm) (RULED destination)
+
+*The oscillator coordinate is $x = \ln(\text{kalchm})$: it genuinely oscillates about a sect-conditional equilibrium (the canonical engine's φ-band already rules the well's minimum), unlike planetary longitudes, which circulate and would need an invented ω.*
+
+$$\hat{H} = \frac{\hat{p}^2}{2m} + \frac{1}{2} m \omega^2 (x - \bar{x}_{\text{sect}})^2$$
+
+**ω is DERIVED from the measured power spectrum of $x(t)$, never assigned.** Measured (2026, 6h grid, real distances, sect-demodulated day series):
+
+- **Current Λ**: total swing ±155,724; the residual spectrum concentrates in the 25–40 d lunar band (synodic 29.53 d: 6.5×10⁹; anomalistic 27.55 d: 1.9×10⁹) — i.e. under the shipped tensor, the oscillator **is** the Moon's distance cycle and nothing else.
+- **Under option C**: |x| ≤ 16.9; dominant peaks move to the annual/Venus-synodic scale (~2.5×10³ at ≈1 yr) with Mercury's 115.9 d synodic clearly resolved (4.6×10²) and the lunar months present but proportionate (~0.3–0.5).
+
+**Consequences for implementation, once §7 is ruled:**
+1. ω must be re-derived against the ruled Λ — deriving it now would calibrate a constant against a defect.
+2. The Venus synodic period (584 d) exceeds a 1-year window; the ω-derivation epoch must span ≥ 2 synodic cycles (**2026–2029**).
+3. The Gaussian packets as shipped have fixed σ — already the **coherent state** ($\sigma = \sigma_0$, no spreading). The oscillator adds the time dimension: packet centers transported along measured ephemeris (endpoints pinned to astronomy-engine — the transport rule is the only new machinery, no invented positions), reusable directly as the SpacetimeDB live-layer interpolant.
+4. Squeezed states ($\sigma \ne \sigma_0$, width breathing at $2\omega$) are OUT OF SCOPE until a measurable basis for σ-dynamics exists; a breathing width with an assigned rate would be a fabricated constant wearing physics clothing.
