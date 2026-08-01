@@ -15,6 +15,7 @@
  */
 
 import { executeQuery } from "@/lib/database";
+import { YIELD_WEIGHT_SCALE_VERSION } from "@/services/DailyYieldService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import {
   calculatePlanetaryPositions,
@@ -154,9 +155,18 @@ async function getNatalWeights(userId: string): Promise<CoinVector | null> {
       matter_weight: string;
       substance_weight: string;
     }>(
+      // FAILS CLOSED on the weight scale. This reader has no positions, so it
+      // cannot verify the chart hash the way DailyYieldService does — but it can
+      // verify the scale, and it must: `rewardFor` below averages this stored
+      // vector against a sky computed live, at head. Without this filter a row
+      // written under an older weight scale is silently averaged with a
+      // current-scale sky, mis-pricing every reward with no error and no drift
+      // alarm. A filtered-out row returns null, which degrades the user to the
+      // clamped sky-only multiplier: unpersonalized, never wrong. See ADR-009.
       `SELECT spirit_weight, essence_weight, matter_weight, substance_weight
-       FROM user_yield_profiles WHERE user_id = $1`,
-      [userId],
+       FROM user_yield_profiles
+       WHERE user_id = $1 AND weight_scale_version = $2`,
+      [userId, YIELD_WEIGHT_SCALE_VERSION],
     );
     const row = res.rows[0];
     if (!row) return null;

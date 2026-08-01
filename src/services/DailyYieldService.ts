@@ -53,7 +53,31 @@ const getDbModule = async () => {
 // ─── Helpers ──────────────────────────────────────────────────────────
 
 /**
+ * Identifies the weight scale the cached ESMS weights were computed under.
+ *
+ * `user_yield_profiles` caches weights keyed by `natal_chart_hash`. That hash
+ * used to cover POSITIONS ONLY, so changing the per-planet weight scale left the
+ * key untouched and the cache served pre-change weights forever — silently, on a
+ * path that scales real token payouts. Positions are not the only input to the
+ * cached value; the scale is an input too, and the key has to say so.
+ *
+ * BUMP THIS whenever the weighting that feeds `calculateAlchemicalFromPlanets`
+ * changes. Every cached row then misses on its next read and is recomputed.
+ *
+ * ADR-009 note: the yield path already runs on the inertial scale, so unifying
+ * the OTHER scales onto it does not move these weights (proven by probe: zero
+ * Scale-B calls in this path). This guard exists for the change after that one.
+ */
+export const YIELD_WEIGHT_SCALE_VERSION = "inertial-v1";
+
+/**
  * Create a SHA-256 hash of natal chart positions for cache invalidation.
+ *
+ * The hash deliberately covers POSITIONS ONLY. The weight scale is the cache's
+ * other input and is tracked separately, in the `weight_scale_version` column,
+ * because `celestial.ts` reads these rows WITHOUT the positions in hand and so
+ * cannot verify a hash — it can only check a stored version. One mechanism,
+ * checkable by both readers, beats two that can disagree.
  */
 async function hashNatalChart(positions: Record<string, string>): Promise<string> {
   const text = JSON.stringify(positions, Object.keys(positions).sort());
@@ -184,11 +208,18 @@ class DailyYieldService {
     if (db) {
       try {
         const result = await db.executeQuery(
-          `SELECT spirit_weight, essence_weight, matter_weight, substance_weight, natal_chart_hash
+          `SELECT spirit_weight, essence_weight, matter_weight, substance_weight, natal_chart_hash, weight_scale_version
            FROM user_yield_profiles WHERE user_id = $1`,
           [userId],
         );
-        if (result.rows.length > 0 && result.rows[0].natal_chart_hash === chartHash) {
+        // Both inputs must match: the positions (hash) AND the weight scale.
+        // A row on an older scale is a miss, not a hit — it falls through to the
+        // recompute below and is upserted on the current scale.
+        if (
+          result.rows.length > 0 &&
+          result.rows[0].natal_chart_hash === chartHash &&
+          result.rows[0].weight_scale_version === YIELD_WEIGHT_SCALE_VERSION
+        ) {
           return {
             spirit: parseFloat(result.rows[0].spirit_weight),
             essence: parseFloat(result.rows[0].essence_weight),
@@ -210,16 +241,25 @@ class DailyYieldService {
     if (db) {
       try {
         await db.executeQuery(
-          `INSERT INTO user_yield_profiles (user_id, spirit_weight, essence_weight, matter_weight, substance_weight, natal_chart_hash)
-           VALUES ($1, $2, $3, $4, $5, $6)
+          `INSERT INTO user_yield_profiles (user_id, spirit_weight, essence_weight, matter_weight, substance_weight, natal_chart_hash, weight_scale_version)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
            ON CONFLICT (user_id) DO UPDATE SET
              spirit_weight = EXCLUDED.spirit_weight,
              essence_weight = EXCLUDED.essence_weight,
              matter_weight = EXCLUDED.matter_weight,
              substance_weight = EXCLUDED.substance_weight,
              natal_chart_hash = EXCLUDED.natal_chart_hash,
+             weight_scale_version = EXCLUDED.weight_scale_version,
              calculated_at = now()`,
-          [userId, weights.spirit, weights.essence, weights.matter, weights.substance, chartHash],
+          [
+            userId,
+            weights.spirit,
+            weights.essence,
+            weights.matter,
+            weights.substance,
+            chartHash,
+            YIELD_WEIGHT_SCALE_VERSION,
+          ],
         );
       } catch (error) {
         _logger.warn("[DailyYield] Failed to cache yield weights:", error);
