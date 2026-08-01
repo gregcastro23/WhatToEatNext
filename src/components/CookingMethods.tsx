@@ -11,8 +11,7 @@ import { cookingMethods } from '@/data/cooking/cookingMethods';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 import type { Modality } from '@/data/ingredients/types';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import type { ElementalProperties, ZodiacSign, BasicThermodynamicProperties } from '@/types/alchemy';
-import { _COOKING_METHOD_THERMODYNAMICS as COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { _staticAlchemize as staticAlchemize } from '@/utils/alchemyInitializer';
 import { getCulturalCookingMethods } from '@/utils/culturalMethodsAggregator';
 import { elementalSignature } from '@/utils/elemental/signature';
@@ -359,13 +358,9 @@ export default function CookingMethods() {
       };
     }
 
-    // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
-    const thermoMap = COOKING_METHOD_THERMODYNAMICS as Record<string, ThermoTuple>;
-    for (const knownMethod of Object.keys(thermoMap)) {
-      if (methodName.includes(knownMethod)) {
-        return thermoMap[knownMethod];
-      }
-    }
+    // A lookup over COOKING_METHOD_THERMODYNAMICS used to sit here. That constant
+    // was `{}`, so `Object.keys(...)` was empty and the loop never ran a single
+    // iteration. See src/types/alchemy.ts.
 
     // Fallback values based on method characteristics
     if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('fry')) {
@@ -558,13 +553,9 @@ export default function CookingMethods() {
       return method[property as keyof typeof method] as number || 0;
     }
     
-    // Check COOKING_METHOD_THERMODYNAMICS constant
-    const methodName = method.name.toLowerCase();
-    const thermoMap = COOKING_METHOD_THERMODYNAMICS as Record<string, BasicThermodynamicProperties>;
-    if (thermoMap && thermoMap[methodName]) {
-      return thermoMap[methodName][property as keyof BasicThermodynamicProperties] || 0;
-    }
-    
+    // A COOKING_METHOD_THERMODYNAMICS lookup used to sit here. The constant was
+    // `{}`, so the guard was always false. See src/types/alchemy.ts.
+
     // Generate values based on method name keywords if no explicit values found
     // This ensures all methods have reasonable thermodynamic values
     const methodLower = method.name.toLowerCase();
