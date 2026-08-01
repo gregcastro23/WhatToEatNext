@@ -171,6 +171,17 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkAgentClassifiedAtCreation.mjs
 
+      - name: Environmental SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the live query builders AND applies
+        # migration 74, so a PR that edits either one changes what this runs.
+        # Self-provisioning — it creates the schema inside a transaction and
+        # rolls back, so it works before the migration is applied anywhere and
+        # verifies that the migration and the queries agree.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkEnvironmentalSqlParses.ts
+
   # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never
   # run on a pull_request from a fork.
