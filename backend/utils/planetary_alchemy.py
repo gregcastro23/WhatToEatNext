@@ -92,21 +92,6 @@ ZODIAC_ELEMENTS: Dict[str, str] = {
     "sagittarius": "Fire", "capricorn": "Earth", "aquarius": "Air", "pisces": "Water",
 }
 
-# Orbital Period Weights for Alchm Thermodynamics (log10 normalized)
-PLANET_ALCHM_PERIODS: Dict[str, float] = {
-    "Pluto":      247.94,
-    "Neptune":    164.79,
-    "Uranus":      84.01,
-    "Saturn":      29.46,
-    "Jupiter":     11.86,
-    "Mars":         1.88,
-    "Sun":          1.00,
-    "Venus":        0.615,
-    "Mercury":      0.241,
-    "Moon":         0.075,
-    "Ascendant":    0.003, # 1 day physical vessel anchor
-}
-
 # Relative masses (Earth = 1.0) — ported verbatim from src/data/planets.ts
 # PLANET_WEIGHTS. The RULED canonical mass basis for the Lambda(r) tensor
 # ("physical mass, both runtimes" — spec §7). The old inertia here was
@@ -144,9 +129,6 @@ PLANET_MEAN_GEOCENTRIC_AU: Dict[str, float] = {
     "Pluto":   35.52718536398905,
 }
 
-_PERIOD_LOG_MIN = math.log10(0.003)    # Ascendant (1 day)
-_PERIOD_LOG_MAX = math.log10(247.94)   # Pluto
-
 # The Ascendant is the "Physical Vessel" grounding anchor, not an orbiting body.
 # RULED weight 1.0 — the SAME special case TypeScript applies on every period-scale
 # path (src/utils/planetaryAlchemyMapping.ts `calculateESMSWithDegrees`:
@@ -156,20 +138,11 @@ _PERIOD_LOG_MAX = math.log10(247.94)   # Pluto
 # The vessel — the mechanism that exists to prevent day-chart Matter/Substance
 # collapse — was silently multiplied by zero, and 11/20 golden conformance charts
 # (every diurnal one) collapsed to Matter = Substance = 0 (MEASURED 2026-07-31).
-# Never derive this weight from the period table: an extremum-anchored scale
-# annihilates whatever sits at its extremum.
+# Never derive this weight from an extremum-anchored scale: it annihilates
+# whatever sits at its extremum. (The Python period scale itself was DELETED
+# when elementals unified onto the inertial-mass scale — its last caller was
+# natal_alchemy's elemental loop.)
 ASCENDANT_VESSEL_WEIGHT = 1.0
-
-def get_normalized_alchm_weight(planet: str) -> float:
-    """Computes logarithmic weight [0, 1] based on orbital period.
-
-    The Ascendant bypasses the period scale entirely — see ASCENDANT_VESSEL_WEIGHT.
-    """
-    if planet == "Ascendant":
-        return ASCENDANT_VESSEL_WEIGHT
-    period = PLANET_ALCHM_PERIODS.get(planet, 1.0)
-    log_val = math.log10(max(period, 1e-9))
-    return (log_val - _PERIOD_LOG_MIN) / (_PERIOD_LOG_MAX - _PERIOD_LOG_MIN)
 
 # The inertial mass scale — physical mass, log-normalized, zero anchored OFF the
 # charted set (RULED: one decade below Pluto, so no charted body is annihilated
