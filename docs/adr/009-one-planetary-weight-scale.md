@@ -364,10 +364,25 @@ single-body rows are **not** (single-body uses a flat `VESSEL_MASS = 4`, no
 per-planet weight). ~75 of 5015 `user_profiles` rows carry a real chart. Agents
 grow ~50/day.
 
-**Two uncertainties to close before executing:** (1) the `user_yield_profiles`
-cardinality; (2) if `HONO_API_URL` is set, `user/profile/route.ts:57-65` proxies
-to an out-of-repo gateway — if that gateway stores or returns `stats`, then
-`UserContext.stats` flips from self-healing to backfill-required.
+**Both pre-migration uncertainties are now CLOSED (measured 2026-08-01):**
+
+1. **`user_yield_profiles` = 64 rows.** Counted directly against production
+   Postgres (`railway run --service Postgres`; the prod database is **Railway**,
+   not Neon — the Neon credentials are dead). All 64 have non-zero weights, 58
+   distinct `natal_chart_hash` values, **zero null hashes**, written between
+   2026-05-11 and 2026-07-24. `daily_ephemeris_cache` holds 62 rows.
+
+   This substantially de-risks Step 1: the flush is 64 rows, not an unknown
+   population. It also means the whole `user_yield_profiles` hazard — while still
+   the most *dangerous* one, because it silently mis-prices real payouts — is
+   among the *cheapest* to fix. No batching, no throttling, no long-running
+   migration.
+
+2. **`HONO_API_URL` is NOT set in production.** Zero matches across 125 Vercel
+   production environment variables and none on the Railway backend service. So
+   `user/profile/route.ts:57-65` never takes the proxy branch in production, and
+   `UserContext.stats` is confirmed **self-healing** — no backfill obligation.
+   Re-check if that gateway is ever introduced.
 
 ## Migration order
 
@@ -376,8 +391,9 @@ becomes incoherent the moment readers move, and a backfill run from a branch
 "corrects" production data while production still runs the old writer.
 
 **Step 0 — before any code changes.**
-- Establish the `user_yield_profiles` row count. It is the strongest backfill
-  obligation and its cardinality is unknown.
+- ~~Establish the `user_yield_profiles` row count.~~ **DONE — 64 rows** (measured
+  against Railway Postgres 2026-08-01; prod is Railway, not Neon). The flush is
+  trivial; no batching or throttling needed.
 - **RULED: disable `monica-backfill.yml`** (nightly 06:45 UTC, by its own header
   the only workflow that writes to production) **before the migration deploys,
   and re-enable it only after the intended backfill has run and been verified
