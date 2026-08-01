@@ -19,10 +19,7 @@ import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { buildAspectsWithStrength } from "./aspectCalculator";
-import {
-  calculateAspectESMSModifications,
-  type AspectWithStrength,
-} from "./aspectESMSEffects";
+import { calculateAspectESMSModifications } from "./aspectESMSEffects";
 import { getDignityScore } from "./dignityScales";
 
 export type { AlchemicalProperties };
@@ -475,8 +472,6 @@ export type AlchemicalPlanetPositions = Record<
 >;
 
 export interface AlchemicalCalculationOptions {
-  /** Explicit aspect list for compatibility adapters; normally derived from positions. */
-  aspects?: AspectWithStrength[];
   /** Inject the historical Aries vessel when a legacy surface lacks an Ascendant. */
   injectAscendant?: boolean;
 }
@@ -650,7 +645,7 @@ export function calculateAlchemicalFromPlanetsDetailed(
         typeof position === "object" && position !== null,
     ),
   );
-  const aspects = options.aspects ?? buildAspectsWithStrength(aspectPositions);
+  const aspects = buildAspectsWithStrength(aspectPositions);
   if (aspects.length > 0) {
     const aspectMods = calculateAspectESMSModifications(aspects);
 
@@ -684,36 +679,6 @@ export function calculateAlchemicalFromPlanets(
 ): AlchemicalProperties {
   return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal)
     .totals;
-}
-
-/**
- * @deprecated Use {@link calculateAlchemicalFromPlanets}. This adapter remains
- * temporarily for external callers and contains no independent ESMS logic.
- */
-export function calculateEnhancedAlchemicalFromPlanets(
-  planetaryPositions: AlchemicalPlanetPositions,
-  diurnal: boolean = true,
-  aspects?: AspectWithStrength[],
-): AlchemicalProperties {
-  return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal, {
-    aspects,
-    injectAscendant: true,
-  }).totals;
-}
-
-/**
- * @deprecated Use {@link calculateAlchemicalFromPlanetsDetailed}. This adapter
- * preserves the historical injected-vessel behavior without a second engine.
- */
-export function calculateEnhancedAlchemicalFromPlanetsDetailed(
-  planetaryPositions: AlchemicalPlanetPositions,
-  diurnal: boolean = true,
-  aspects?: AspectWithStrength[],
-): EnhancedAlchemicalDetail {
-  return calculateAlchemicalFromPlanetsDetailed(planetaryPositions, diurnal, {
-    aspects,
-    injectAscendant: true,
-  });
 }
 
 /**
