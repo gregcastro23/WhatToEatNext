@@ -93,6 +93,19 @@ jobs:
           python -m pip install --quiet pytest
           python -m pytest backend/tests/test_kalchm_parity.py -q
 
+      - name: Deployed-server planet weighting (Python)
+        # backend/alchm_kitchen/main.py is what Railway actually serves, and it
+        # carries an INLINE copy of the orbital-period weight table that PR #697
+        # deleted from backend/utils/. Until test_main_planet_weighting.py it had
+        # NO coverage at all — the inverse risk of the parity gate above: nothing
+        # would break when it moved, and nothing would say it had moved.
+        #
+        # That test reads main.py's SOURCE and extracts the weighting with `ast`
+        # rather than importing it, precisely so this step keeps the pytest-only
+        # install described above. If it ever needs fastapi, the extraction has
+        # been replaced by an import and the same warning applies.
+        run: python -m pytest backend/tests/test_main_planet_weighting.py -q
+
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
   # the code reaches master.
