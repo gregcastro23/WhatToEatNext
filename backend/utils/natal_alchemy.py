@@ -96,10 +96,15 @@ def calculate_natal_alchemical_quantities(
     reactivity_denom = (matter + earth_val) ** 2
     reactivity = round(reactivity_denom, 4)
 
-    # Continuous Monica Equilibrium calculation
-    # Monica phi equilibrium = 1.618; non-zero signed continuous readout
+    # Monica Equilibrium Observable Phi (spec: ESMS_WAVE_FUNCTION_SPECIFICATION.md §4)
+    #   Phi = 1.618 · ln((Spirit+Essence+ε)/(Matter+Substance+ε))
+    # DISAMBIGUATION: this is spec-Φ, NOT canonical monica. Canonical monica
+    # (−gregsEnergy / (reactivity · ln kalchm), thermodynamics.compute_kalchm_monica)
+    # is a DIFFERENT quantity that keeps the name `monica`. This quantity's code
+    # name is `phi`; its historical wire key "monica" is frozen for compatibility
+    # and the response dual-emits both keys with the same value.
     ln_arg = (spirit + essence + 0.05) / (matter + substance + 0.05)
-    monica = round(1.618 * math.log(max(ln_arg, 1e-6)), 4)
+    phi = round(1.618 * math.log(max(ln_arg, 1e-6)), 4)
 
     return {
         "spirit": spirit,
@@ -110,6 +115,7 @@ def calculate_natal_alchemical_quantities(
         "reactivity": reactivity,
         "inertia": round(total_inertia, 4),
         "tidal_pull": round(total_tidal_pull, 4),
-        "monica": monica,
+        "monica": phi,  # legacy serialization — the wire key "monica" is frozen; value IS spec-Φ
+        "phi": phi,
         "is_diurnal": is_diurnal,
     }

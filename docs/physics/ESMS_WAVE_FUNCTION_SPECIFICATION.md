@@ -102,6 +102,8 @@ Derived non-linear physical observables are calculated as expectations:
 2. **Monica Equilibrium Observable $\Phi(\mathbf{\Psi})$**:
    $$\Phi(\mathbf{\Psi}) = 1.618 \cdot \ln\left( \frac{(\mathbf{e}_S + \mathbf{e}_E)^T \mathbf{K} + \epsilon}{(\mathbf{e}_M + \mathbf{e}_\Sigma)^T \mathbf{K} + \epsilon} \right)$$
 
+   *Naming*: the code name for $\Phi$ is `phi` (`backend/utils/natal_alchemy.py`). Its historical wire/DB serialization key is `monica` — that key is **frozen** for compatibility, and API responses dual-emit both `monica` (legacy) and `phi` with the same value. Canonical thermodynamic monica, $-E_{greg} / (R \cdot \ln K_{alchm})$, is a **different quantity** and keeps the name `monica` throughout the codebase.
+
 ---
 
 ## 5. Discrete Equivalence & Code Parity
@@ -143,7 +145,7 @@ $\mathbf{\Lambda} = \operatorname{diag}(M_k / r_k^2)$ divides a **dimensionless 
 |---|---|---|
 | Moon inertia | 0.284 | **43,043** (Sun: 0.51) |
 | day-chart ESMS | mixed | Essence ≈ 43,045 (99.99% Moon) |
-| monica | continuous | sect binary: **+16.72 / −16.07** |
+| Φ (code `phi`; wire key `monica`) | continuous | sect binary: **+16.72 / −16.07** |
 | reactivity (night) | O(1) | **1.85 × 10⁹** |
 | canonical kalchm | finite | **overflows** → fallback 1.0 → monica φ |
 
