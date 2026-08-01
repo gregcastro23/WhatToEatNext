@@ -199,12 +199,14 @@ Note the fallback hazard on the way out: on the period scale `?? 1.0` means
 `:278-279`. On Scale A the same `?? 1.0` means "unknown → Earth's mass" (0.3984).
 Neither is acceptable; the migration should make unknown bodies throw.
 
-⚠️ **Decision 5 is the expensive half of this ADR and can be sequenced
-separately.** Retiring Scale C invalidates constants that the B→A move does not
-touch: `FALLBACK_METRICS`, the 1821-sample `alchemicalSamples.json` they were
-measured over, and the two-body Sacred-7 monica scale (see Consequences). Landing
-decisions 1–4 first is legitimate and leaves the system strictly more coherent
-than today. Do not treat 1–5 as one commit.
+⚠️ **RULED: decision 5 ships as its own PR, after 1–4 have landed.** Retiring
+Scale C invalidates constants that the B→A move does not touch —
+`FALLBACK_METRICS`, the 1821-sample `alchemicalSamples.json` they were measured
+over, and the two-body Sacred-7 monica scale (see Consequences). Bundling them
+would couple two independent constant-regeneration efforts and make rollback
+all-or-nothing across both the economy and the momentum paths. Decisions 1–4
+alone leave the system strictly more coherent than today, so they are a valid
+stopping point if 5 slips.
 
 ## Consequences
 
@@ -376,19 +378,52 @@ becomes incoherent the moment readers move, and a backfill run from a branch
 **Step 0 — before any code changes.**
 - Establish the `user_yield_profiles` row count. It is the strongest backfill
   obligation and its cardinality is unknown.
-- **Disable `monica-backfill.yml`** (nightly 06:45 UTC, the only workflow that
-  writes to production). Leaving it armed means it rewrites production onto the
-  new scale the first night, unreviewed.
+- **RULED: disable `monica-backfill.yml`** (nightly 06:45 UTC, by its own header
+  the only workflow that writes to production) **before the migration deploys,
+  and re-enable it only after the intended backfill has run and been verified
+  against the deployed SHA.** Leaving it armed means it rewrites every classified
+  agent onto the new scale the first night, unreviewed — and it would do so while
+  `checkAgentMonicaDrift` is red for reasons that look unrelated, with that
+  script's own remediation text pointing the operator at this very workflow. A
+  scale-version guard on the job is the better long-term fix and should follow,
+  but it does not protect *this* migration unless it is built first.
 - Pause `synthetic-onboarding` (every 15 min) for the rollout window, or accept
   that it writes fresh-scale charts throughout.
 - Add a test for `main.py`'s weighting path. It has **none** today, so the Python
   change would otherwise be unverifiable by construction.
 
-**Step 1 — make the cache scale-aware.** Add a scale identifier to
-`hashNatalChart` (`DailyYieldService.ts:58-59`) so a scale change invalidates the
-cache instead of being invisible to it. **Do this first**: it converts the
-`user_yield_profiles` problem from a silent-forever-stale one into a
-self-healing one, and shrinks the backfill.
+**Step 1 — make the cache scale-aware, in three parts. RULED: all three, not
+just the first.**
+
+Hash-versioning alone is **insufficient**, and the reason is specific. The two
+readers of `user_yield_profiles` do not agree on freshness:
+
+- `DailyYieldService.getYieldWeights` **does** gate on the hash
+  (`DailyYieldService.ts:191`) and recomputes + upserts on a mismatch. Versioning
+  the hash makes this path self-heal.
+- `celestial.ts:getNatalWeights` (`:149-171`) selects the four weight columns
+  **`WHERE user_id = $1` with no hash column in the query at all.** It cannot
+  observe a version bump. It would keep averaging stale Scale-B weights against a
+  fresh new-scale sky for every inactive user, indefinitely.
+
+So:
+
+1. **Add a scale identifier to `hashNatalChart`** (`DailyYieldService.ts:58-59`),
+   which today hashes `JSON.stringify(positions)` only. This is the permanent
+   guard — it makes *every future* scale change self-invalidating instead of
+   silent.
+2. **Make `celestial.ts` respect the same gate**, so it fails closed rather than
+   serving a row it cannot prove is current. **Verified safe:** `getNatalWeights`
+   returning `null` makes `rewardFor` fall back to
+   `clamp(sky.skyMultiplier, REWARD_MIN, REWARD_MAX)` (`celestial.ts:190`) — an
+   unpersonalized but fully coherent reward. The degraded state is *less
+   personalized*, never *wrong*.
+3. **Flush the existing rows** so no path can serve a pre-migration weight during
+   rollout. Each row rebuilds on that user's next claim.
+
+The combination has no window in which any reader serves a stale weight, which
+in-place recomputation cannot promise (it has a half-migrated interval), and
+unlike a bare flush it prevents the trap from recurring.
 
 **Step 2 — TypeScript and Python together, per surface**, writers and readers in
 the same commit. They share golden vectors; a one-sided deploy breaks
@@ -410,10 +445,22 @@ production data while production still runs the old writer.
 
 ## Open items
 
-- `0.6` in `NATAL_WEIGHTS` and the `0.6/0.4` sign/sect split
-  (`planetaryAlchemyMapping.ts:776-777`, `RealAlchemizeService.ts:291-296`,
-  `main.py:656-657`) are bare literals with no basis. Rule or derive.
-- `PLANETARY_WEIGHTS_ASTRO` values are themselves unbased hand numbers.
+- **RULED — the `0.6` in `NATAL_WEIGHTS` stays, and gets a written basis.** It is
+  kept as a deliberate **RULED** convention, not promoted to MEASURED: with the
+  astro table normalized by max, 0.6 now means what it always claimed to mean —
+  astrological convention carries the larger share of a natal interpretive
+  weight, physical mass the smaller. That is a product judgement about what a
+  natal chart *is*, and it is legitimately ruled rather than measured. Record the
+  rationale inline where the constant is defined. Deliberately **not** derived:
+  there is no target metric today to fit it against, and inventing one would
+  launder a hand value into a false "MEASURED".
+- The `0.6/0.4` **sign/sect** split is a different constant that happens to share
+  the number (`planetaryAlchemyMapping.ts:776-777`,
+  `RealAlchemizeService.ts:291-296`, `main.py:656-657`). Still unbased; not ruled
+  here. Do not assume the two 0.6s are related.
+- `PLANETARY_WEIGHTS_ASTRO` values are themselves unbased hand numbers. Normalizing
+  the table does not fix this — it makes their *scale* coherent, not their
+  *values*. Still open.
 - Unknown-body fallbacks (`?? 1.0`) silently fabricate a weight in both runtimes.
   Should throw.
 - `backend/alchm_kitchen/recipe_generator.py:15-21` carries stale comments
