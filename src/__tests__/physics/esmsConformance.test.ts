@@ -2,6 +2,12 @@ import * as Astronomy from "astronomy-engine";
 import fixture from "../../../docs/physics/esms_conformance.json";
 import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import {
+  ESMS_K_MAX,
+  formatMicroEsms,
+  parseMicroEsms,
+  quantizeEsms,
+} from "@/lib/economy/esmsQuantization";
+import {
   ASCENDANT_VESSEL_WEIGHT,
   calculatePositionalAscendantVessel,
   getGravitationalInertia,
@@ -87,18 +93,53 @@ describe("ESMS 2.0 Unified Physics Model Conformance Suite", () => {
       expect(substance).toBeGreaterThan(0);
 
       // CROSS-RUNTIME PARITY — the fixture's `expected` blocks are the PYTHON
-      // engine's output (calculate_natal_alchemical_quantities, rounded 4dp).
-      // The TS functions must reproduce them; before this, both suites asserted
-      // only finiteness, which is how a 2x mass-basis divergence stayed green.
-      // Tolerance covers Python's 4dp rounding (5e-5) plus float noise; a basis
-      // divergence is O(0.1+) and cannot hide under it.
+      // engine's FULL-PRECISION output (its 4dp display rounding was removed
+      // per §6 rule 2). MEASURED: all 80 values are BIT-IDENTICAL across
+      // runtimes (same summation order, IEEE-754 float64 in both), so this is
+      // EXACT equality, not a tolerance. Before this, both suites asserted only
+      // finiteness — which is how a 2x mass-basis divergence stayed green.
       const expected = (chart as { expected?: Record<string, number> }).expected;
       expect(expected).toBeDefined();
-      expect(spirit).toBeCloseTo(expected!.spirit, 3);
-      expect(essence).toBeCloseTo(expected!.essence, 3);
-      expect(matter).toBeCloseTo(expected!.matter, 3);
-      expect(substance).toBeCloseTo(expected!.substance, 3);
+      expect(spirit).toBe(expected!.spirit);
+      expect(essence).toBe(expected!.essence);
+      expect(matter).toBe(expected!.matter);
+      expect(substance).toBe(expected!.substance);
+
+      // §6 MAINNET GATE — the TS quantizer must reproduce the fixture's
+      // expected_micro integers byte-identically. Python asserts the same
+      // integers from its quantizer.
+      const micro = (chart as { expected_micro?: Record<string, number> }).expected_micro;
+      expect(micro).toBeDefined();
+      expect(quantizeEsms(spirit)).toBe(micro!.spirit);
+      expect(quantizeEsms(essence)).toBe(micro!.essence);
+      expect(quantizeEsms(matter)).toBe(micro!.matter);
+      expect(quantizeEsms(substance)).toBe(micro!.substance);
     });
+  });
+
+  it("quantizer: floor never round, and malformed input throws", () => {
+    expect(quantizeEsms(1.9999999)).toBe(1_999_999); // floor, not round
+    expect(quantizeEsms(0)).toBe(0);
+    for (const bad of [NaN, Infinity, -Infinity, -0.001, ESMS_K_MAX + 1]) {
+      expect(() => quantizeEsms(bad)).toThrow(TypeError);
+    }
+  });
+
+  it("quantizer: no float dequantize — the exact-decimal path is the round trip", () => {
+    // NEGATIVE CONTROL, the measured §6 rule-5 amendment: pure floor cannot
+    // round-trip a float dequantize (q=249's representative multiplies back to
+    // 248.99…), so dequantized floats must never re-enter the quantizer.
+    expect(Math.floor((249 / 1e6) * 1e6)).toBe(248);
+    // The integer-math decimal path is lossless for every integer.
+    expect(formatMicroEsms(249)).toBe("0.000249");
+    for (let q = 0; q < 2000; q++) {
+      expect(parseMicroEsms(formatMicroEsms(q))).toBe(q);
+    }
+    for (const chart of fixture.charts as Array<{ expected_micro?: Record<string, number> }>) {
+      for (const q of Object.values(chart.expected_micro ?? {})) {
+        expect(parseMicroEsms(formatMicroEsms(q))).toBe(q);
+      }
+    }
   });
 
   it("pins the source tables to the fixture — the shared parity witness", () => {
