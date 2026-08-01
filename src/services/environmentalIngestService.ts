@@ -193,9 +193,18 @@ export async function seedFromArchive(
   // the boiling point by more than a degree.
   const elevationM = await fetchElevation(latitude, longitude);
 
-  // ERA5 lags real time, so the window ends where the archive actually has data.
+  // ERA5 lags real time, so the window ENDS where the archive has data — but it
+  // must START at the edge of the baseline window, not BASELINE_WINDOW_DAYS
+  // before the archive's end.
+  //
+  // The previous form (`start = end - 30d`) seeded days −36..−6 while
+  // recomputeBaseline reads `observed_at >= NOW() - 30 days`. Six days of rows
+  // were therefore outside the window at the instant they were written, and
+  // sample_days topped out around 24 — so `mature_count` (sample_days >= 30)
+  // could never be satisfied by a seed. Live sampling fills the recent
+  // ARCHIVE_LAG_DAYS gap over the following week.
   const end = new Date(Date.now() - ARCHIVE_LAG_DAYS * 86_400_000);
-  const start = new Date(end.getTime() - BASELINE_WINDOW_DAYS * 86_400_000);
+  const start = new Date(Date.now() - BASELINE_WINDOW_DAYS * 86_400_000);
 
   const center = decodeGeohashCenter(geohash5);
   const hourly = await fetchArchiveSamples(
