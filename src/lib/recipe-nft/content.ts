@@ -12,8 +12,23 @@ import { ALCHM_RECIPE_LICENSE } from "./contract";
 import type { MintableRecipe } from "./mintableRecipe";
 import type { RecipeFingerprint } from "./types";
 
-/** Schema version of the NFT content envelope (separate from the alchemical engine version). */
-export const CONTENT_SCHEMA_VERSION = 1;
+/**
+ * Schema version of the NFT content envelope (separate from the alchemical
+ * engine version).
+ *
+ * v2 (2026-08-01, while recipe_nft_mints is still 0 rows):
+ *   • `id` REMOVED from the envelope. It is a client-supplied handle, not
+ *     content — and because the mint dedupe keys on contentHash, a client could
+ *     mint the SAME dish arbitrarily many times by varying only `id`. Identity
+ *     now commits to what the recipe IS, not what the client called it.
+ *   • ADDED the user-visible content that v1 left uncommitted (and therefore
+ *     silently mutable post-mint): `tags`, `finishing_and_serving`,
+ *     `leftovers_and_storage`, `vitamins`, `minerals`.
+ *   • `alignment_score` / `alignment_notes` stay OUT deliberately: they grade
+ *     the recipe's fit to a particular moment/request, not the recipe itself —
+ *     committing them would make the same dish hash differently by mood.
+ */
+export const CONTENT_SCHEMA_VERSION = 2;
 
 /** Deterministic JSON with recursively sorted object keys. */
 function stableStringify(value: unknown): string {
@@ -35,7 +50,6 @@ export function buildRecipeNftContent(
   return {
     schemaVersion: CONTENT_SCHEMA_VERSION,
     engineVersion: fingerprint.engineVersion,
-    id: recipe.id,
     title: recipe.title,
     short_description: recipe.short_description,
     category: recipe.category,
@@ -43,10 +57,15 @@ export function buildRecipeNftContent(
     difficulty: recipe.difficulty,
     yields: recipe.yields,
     total_time: recipe.total_time,
+    tags: recipe.tags,
     ingredients: recipe.ingredients,
     steps: recipe.steps,
+    finishing_and_serving: recipe.finishing_and_serving,
+    leftovers_and_storage: recipe.leftovers_and_storage,
     elementalBalance: recipe.elementalBalance,
     nutrition: recipe.nutrition,
+    vitamins: recipe.vitamins,
+    minerals: recipe.minerals,
     astro_explanation: recipe.astro_explanation,
     // The alchemical fingerprint travels with the content.
     fingerprint,

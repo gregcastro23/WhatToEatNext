@@ -25,6 +25,12 @@ export interface RecordMintInput {
   metadataUri?: string;
   /** Validated recipe payload, so the metadata/content routes can rebuild the token JSON. */
   recipeJson?: unknown;
+  /**
+   * The EXACT content envelope `contentHash` commits to. The content route
+   * serves this verbatim; recomputing from the live catalog made the served
+   * bytes drift from the hash in the URL (migration 57).
+   */
+  contentJson?: unknown;
   imageUrl?: string | null;
 }
 
@@ -37,8 +43,8 @@ export const recipeNftMintService = {
            (user_id, recipe_id, title, source, content_hash, computation_hash,
             ingredient_catalog_root, engine_version, aggregation_mode, a_sharp,
             cost, transaction_group_id, status, chain, token_id, tx_hash, metadata_uri,
-            recipe_json, image_url, minted_at)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,
+            recipe_json, content_json, image_url, minted_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,
                  CASE WHEN $13 = 'minted' THEN now() ELSE NULL END)
          ON CONFLICT (content_hash) DO NOTHING
          RETURNING id`,
@@ -61,7 +67,12 @@ export const recipeNftMintService = {
           input.chainResult.txHash ?? null,
           input.metadataUri ?? null,
           input.recipeJson != null ? JSON.stringify(input.recipeJson) : null,
-          input.imageUrl ?? null,
+          input.contentJson != null ? JSON.stringify(input.contentJson) : null,
+          // NOTE `|| null`, not `?? null`: an empty string here means "image
+          // generation failed at mint time" — storing "" would permanently pin
+          // a blank image, because the metadata route regenerates only when the
+          // stored value is absent.
+          input.imageUrl || null,
         ],
       );
       const id = res.rows?.[0]?.id;
@@ -89,15 +100,21 @@ export const recipeNftMintService = {
   /** Fetch a minted recipe's stored payload (for the metadata/content routes). */
   async getByContentHash(
     contentHash: string,
-  ): Promise<{ recipeJson: unknown; imageUrl: string | null } | null> {
+  ): Promise<{ recipeJson: unknown; contentJson: unknown; imageUrl: string | null } | null> {
     try {
       const res = await executeQuery(
-        `SELECT recipe_json, image_url FROM recipe_nft_mints WHERE content_hash = $1 LIMIT 1`,
+        `SELECT recipe_json, content_json, image_url FROM recipe_nft_mints WHERE content_hash = $1 LIMIT 1`,
         [contentHash],
       );
       const row = res.rows?.[0];
       if (!row?.recipe_json) return null;
-      return { recipeJson: row.recipe_json, imageUrl: row.image_url ?? null };
+      return {
+        recipeJson: row.recipe_json,
+        contentJson: row.content_json ?? null,
+        // `|| null` deliberately: a legacy "" must read as absent so the
+        // metadata route regenerates instead of serving a blank image forever.
+        imageUrl: row.image_url || null,
+      };
     } catch {
       return null;
     }
