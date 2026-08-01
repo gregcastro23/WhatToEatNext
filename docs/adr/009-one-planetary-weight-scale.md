@@ -441,4 +441,6 @@ production data while production still runs the old writer.
   re-derives and pins *its own* output, it is self-consistent and green while
   calibrating over a cuisine population production no longer uses. So #701's
   constants need re-deriving for a second, independent reason, and this one is
-  live on master **today**, before any scale migration. Worth its own issue.
+  live on master **today**, before any scale migration. Tracked as #706 — land
+  it **before** this ADR so the migration is measured against a correct cuisine
+  population instead of compounding two derivation errors.
