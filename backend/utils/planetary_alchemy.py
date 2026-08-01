@@ -119,8 +119,26 @@ PLANET_MEAN_DISTANCES: Dict[str, float] = {
 _PERIOD_LOG_MIN = math.log10(0.003)    # Ascendant (1 day)
 _PERIOD_LOG_MAX = math.log10(247.94)   # Pluto
 
+# The Ascendant is the "Physical Vessel" grounding anchor, not an orbiting body.
+# RULED weight 1.0 — the SAME special case TypeScript applies on every period-scale
+# path (src/utils/planetaryAlchemyMapping.ts `calculateESMSWithDegrees`:
+# "fixed (+1) to anchor the system"; RealAlchemizeService.ts twice). This port
+# originally DROPPED that special case, and because the period table's 0.003 entry
+# IS the log-scale minimum, the normalizer returned exactly 0.0 for the Ascendant.
+# The vessel — the mechanism that exists to prevent day-chart Matter/Substance
+# collapse — was silently multiplied by zero, and 11/20 golden conformance charts
+# (every diurnal one) collapsed to Matter = Substance = 0 (MEASURED 2026-07-31).
+# Never derive this weight from the period table: an extremum-anchored scale
+# annihilates whatever sits at its extremum.
+ASCENDANT_VESSEL_WEIGHT = 1.0
+
 def get_normalized_alchm_weight(planet: str) -> float:
-    """Computes logarithmic weight [0, 1] based on orbital period."""
+    """Computes logarithmic weight [0, 1] based on orbital period.
+
+    The Ascendant bypasses the period scale entirely — see ASCENDANT_VESSEL_WEIGHT.
+    """
+    if planet == "Ascendant":
+        return ASCENDANT_VESSEL_WEIGHT
     period = PLANET_ALCHM_PERIODS.get(planet, 1.0)
     log_val = math.log10(max(period, 1e-9))
     return (log_val - _PERIOD_LOG_MIN) / (_PERIOD_LOG_MAX - _PERIOD_LOG_MIN)

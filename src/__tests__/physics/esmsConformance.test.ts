@@ -1,5 +1,7 @@
 import fixture from "../../../docs/physics/esms_conformance.json";
+import { PLANET_WEIGHTS, normalizePlanetWeight } from "@/data/planets";
 import {
+  ASCENDANT_VESSEL_WEIGHT,
   calculatePositionalAscendantVessel,
   getGravitationalInertia,
   getTidalPull,
@@ -73,6 +75,25 @@ describe("ESMS 2.0 Unified Physics Model Conformance Suite", () => {
       const lnArg = (spirit + essence + 0.05) / (matter + substance + 0.05);
       const monica = 1.618 * Math.log(Math.max(lnArg, 1e-6));
       expect(Number.isFinite(monica)).toBe(true);
+
+      // REGRESSION — the vessel must actually LAND. The Python port zeroed the
+      // Ascendant weight (its period entry is that scale's log-minimum) and
+      // every diurnal chart collapsed to Matter = Substance = 0 while all the
+      // finiteness assertions above kept passing. Only a value assertion sees it.
+      expect(matter).toBeGreaterThan(0);
+      expect(substance).toBeGreaterThan(0);
     });
+  });
+
+  it("pins the Ascendant vessel weight to the RULED anchor 1.0 in both runtimes", () => {
+    // test_esms_conformance.py pins the identical value on the Python side.
+    expect(ASCENDANT_VESSEL_WEIGHT).toBe(1.0);
+    expect(getGravitationalInertia("Ascendant")).toBe(1.0); // r = 1.0 AU
+    expect(getTidalPull("Ascendant")).toBe(1.0);
+    // POSITIVE CONTROL — what the accidental `?? 1.0` fallback used to produce:
+    // Earth's relative MASS through the mass normalizer, ≈ 0.3249, not a ruling.
+    expect(PLANET_WEIGHTS["Ascendant" as keyof typeof PLANET_WEIGHTS]).toBeUndefined();
+    expect(normalizePlanetWeight(1.0)).toBeCloseTo(0.3248835368415509, 12);
+    expect(normalizePlanetWeight(1.0)).not.toBe(ASCENDANT_VESSEL_WEIGHT);
   });
 });
