@@ -34,11 +34,45 @@
 #   * schedule + manual dispatch ONLY. Never on push or pull_request: a workflow
 #     that writes to production must not be triggerable by opening a PR.
 
+# ── ⚠️ DISARMED 2026-08-01 for the ADR-009 scale migration ──────────────────
+#
+# The nightly schedule is commented out, NOT deleted. Manual dispatch still
+# works, so a deliberate, watched run is still one click away.
+#
+# WHY: ADR-009 unifies five per-planet weight scales onto the inertial scale.
+# The moment that lands, every weight-derived monica recomputes to a different
+# value — and this script rewrites what it recomputes. The UPDATEs at
+# scripts/backfillMonicaPerConstruction.ts:310, :326 and :342 are keyed only on
+# `WHERE up.user_id = v.user_id`, with no `monica_method IS NULL` guard, and the
+# script says so itself at :104-106: "it does not care what is currently
+# stored".
+#
+# `--max-new` does NOT hold this back. It bounds the count of NEW ARRIVALS
+# (`monica_method IS NULL`, :108-112). Already-classified rows are not new, so
+# they are not counted, not bounded, and rewritten anyway. On the first night
+# after the migration deploys, that is all 469 two-body and 71 full-chart rows,
+# unreviewed, at 06:45.
+#
+# It gets worse in combination: `scripts/checkAgentMonicaDrift.ts` will already
+# be red at 07:15, reporting those same rows as defects that "cannot happen
+# through ordinary operation" (:368-372), and its remediation text at :434-447
+# tells the operator to run THIS script. So the alarm points at the thing that
+# would silently make the alarm stop.
+#
+# RE-ARM WHEN: the migration has deployed, the intended backfill has run, and
+# its result is verified against the DEPLOYED SHA (not local git). Uncomment the
+# two `schedule` lines below — nothing else changed.
+#
+# The queue does not rot meanwhile: ~50 agents/night arrive unclassified and
+# simply wait. Clear them with a manual dispatch if the backlog matters before
+# the migration lands.
+# ────────────────────────────────────────────────────────────────────────────
+
 name: Monica Backfill
 
 on:
-  schedule:
-    - cron: "45 6 * * *"
+  # schedule:
+  #   - cron: "45 6 * * *"
   workflow_dispatch:
     inputs:
       max_new:
