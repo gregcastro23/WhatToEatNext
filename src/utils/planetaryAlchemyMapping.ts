@@ -237,20 +237,29 @@ export const ZODIAC_QUALITIES: Record<string, ZodiacQuality> = {
 };
 
 /**
- * Mean Geocentric Distances (in AU) for Inverse Physics (M/r^2 inertia, M/r^3 tidal pull)
+ * Mean geocentric distances r̄ (AU) for the Λ(r) tensor — BASIS: MEASURED over
+ * the 2026 epoch (astronomy-engine GeoVector, 6-hour grid, 1460 samples;
+ * re-derived by `esmsConformance.test.ts` on every run).
+ *
+ * These replace the old `PLANET_MEAN_DISTANCES` table, which pinned the Moon
+ * (real r̄ ≈ 0.00257 AU) and Mercury to `1.000` — a silent fudge that papered
+ * over the dimensional incoherence of dividing a log-normalized weight by a
+ * physical distance. Both live chart calculators emit REAL distances, so in
+ * production the Moon's M/r² came out at 43,043 vs the Sun's 0.51 and the live
+ * natal ESMS was 99.99% Moon (spec §7). Under the RULED Λ = diag(M̂·(r̄/r)²)
+ * these means are the per-body normalization, not a stand-in for r.
  */
-export const PLANET_MEAN_DISTANCES: Record<string, number> = {
-  Sun:       1.000,
-  Moon:      1.000, // normalized relative geocentric baseline
-  Mercury:   1.000,
-  Venus:     0.723,
-  Mars:      1.524,
-  Jupiter:   5.204,
-  Saturn:    9.582,
-  Uranus:   19.200,
-  Neptune:  30.050,
-  Pluto:    39.480,
-  Ascendant: 1.000,
+export const PLANET_MEAN_GEOCENTRIC_AU: Record<string, number> = {
+  Sun:      1.0001517506922113,
+  Moon:     0.002571016680904456,
+  Mercury:  1.0527771261580632,
+  Venus:    1.0162138470401183,
+  Mars:     1.9442585501420186,
+  Jupiter:  5.429789190115696,
+  Saturn:   9.484384119258557,
+  Uranus:  19.49876988921305,
+  Neptune: 29.88354939796314,
+  Pluto:   35.52718536398905,
 };
 
 /**
@@ -268,31 +277,64 @@ export const PLANET_MEAN_DISTANCES: Record<string, number> = {
  */
 export const ASCENDANT_VESSEL_WEIGHT = 1.0;
 
-function inertialMass(planet: string): number {
+/**
+ * The inertial mass scale — physical mass, log-normalized, with the zero
+ * anchored OFF the charted set.
+ *
+ * `normalizePlanetWeight` anchors its minimum AT Pluto (0.0022), so Pluto's
+ * weight is exactly 0 on that scale — the same extremum-annihilation that
+ * zeroed the Ascendant on the Python period scale (§18k; PR #683). The inertia
+ * tensor gets its own anchor, RULED one decade below the lightest charted body:
+ * the scale's zero is a mass no charted body has, so no member is annihilated.
+ * Pluto lands at ≈ 0.109, Sun stays exactly 1.0.
+ *
+ * This scale is DELIBERATELY separate from `normalizePlanetWeight` — the moment
+ * ESMS path (`calculateAlchemicalFromPlanets`) and the thermodynamic-affinity
+ * calibration are pinned against that scale's shipped values, and re-anchoring
+ * it would silently move both.
+ */
+const _INERTIAL_LOG_MIN = Math.log10(0.0022 / 10); // one decade below Pluto — RULED
+const _INERTIAL_LOG_MAX = Math.log10(333054.2532); // Sun
+
+export function inertialMassWeight(planet: string): number {
   if (planet === "Ascendant") return ASCENDANT_VESSEL_WEIGHT;
   // NOTE: unknown bodies still fall back to Earth's relative mass (1.0). That is
   // a silent-fabrication hazard kept only because every caller filters to the
   // known-body set first; tightening it to a throw is out of scope here.
-  return normalizePlanetWeight(PLANET_WEIGHTS[planet] ?? 1.0);
+  const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+  return (Math.log10(Math.max(relMass, 1e-9)) - _INERTIAL_LOG_MIN) / (_INERTIAL_LOG_MAX - _INERTIAL_LOG_MIN);
 }
 
 /**
- * Computes true gravitational inertia M / r^2.
- * Uses log-normalized weight for mass M, and geocentric distance r in AU.
+ * Gravitational inertia under the RULED Λ tensor (spec §7, option C):
+ *
+ *   Λ = diag( M̂_k · (r̄_k / r_k)² )
+ *
+ * Dimensionless by construction — each body's contribution oscillates about its
+ * own measured mean distance instead of dividing a normalized weight by raw AU.
+ * MEASURED consequences vs the old M/r²: |ln(kalchm)| ≤ 16.9 over the 2026
+ * epoch (was ±155,724, overflowing canonical kalchm into the φ fallback), 1460/
+ * 1460 distinct states, and real per-body modulation (Moon ±13%, Mercury
+ * 0.53–3.4×, Venus 0.35–13.9×). With no live distance supplied, r = r̄ and the
+ * factor is exactly 1 — the weight itself.
  */
 export function getGravitationalInertia(planet: string, distanceAu?: number): number {
-  const mass = inertialMass(planet);
-  const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : (PLANET_MEAN_DISTANCES[planet] ?? 1.0);
-  return mass / (r * r);
+  const mass = inertialMassWeight(planet);
+  const rBar = PLANET_MEAN_GEOCENTRIC_AU[planet];
+  if (rBar === undefined) return mass; // Ascendant / unknown: no distance concept, factor 1
+  const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : rBar;
+  return mass * (rBar / r) * (rBar / r);
 }
 
 /**
- * Computes tidal pull M / r^3.
+ * Tidal pull under the same RULED tensor: M̂ · (r̄/r)³.
  */
 export function getTidalPull(planet: string, distanceAu?: number): number {
-  const mass = inertialMass(planet);
-  const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : (PLANET_MEAN_DISTANCES[planet] ?? 1.0);
-  return mass / (r * r * r);
+  const mass = inertialMassWeight(planet);
+  const rBar = PLANET_MEAN_GEOCENTRIC_AU[planet];
+  if (rBar === undefined) return mass;
+  const r = (distanceAu !== undefined && distanceAu > 0) ? distanceAu : rBar;
+  return mass * (rBar / r) * (rBar / r) * (rBar / r);
 }
 
 /**

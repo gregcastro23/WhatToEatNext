@@ -101,19 +101,41 @@ PLANET_ALCHM_PERIODS: Dict[str, float] = {
     "Ascendant":    0.003, # 1 day physical vessel anchor
 }
 
-# Mean Geocentric Distances (in AU) for Inverse Physics (r^2 / r^3)
-PLANET_MEAN_DISTANCES: Dict[str, float] = {
-    "Sun":       1.000,
-    "Moon":      1.000, # normalized relative geocentric baseline
-    "Mercury":   1.000,
-    "Venus":     0.723,
-    "Mars":      1.524,
-    "Jupiter":   5.204,
-    "Saturn":    9.582,
-    "Uranus":   19.200,
-    "Neptune":  30.050,
-    "Pluto":    39.480,
-    "Ascendant": 1.000,
+# Relative masses (Earth = 1.0) — ported verbatim from src/data/planets.ts
+# PLANET_WEIGHTS. The RULED canonical mass basis for the Lambda(r) tensor
+# ("physical mass, both runtimes" — spec §7). The old inertia here was
+# ORBITAL-PERIOD-based, which diverged from TS by up to 2x per body.
+PLANET_MASS_WEIGHTS: Dict[str, float] = {
+    "Sun":     333054.2532,
+    "Jupiter":    317.8165,
+    "Saturn":      95.1608,
+    "Neptune":     17.1467,
+    "Uranus":      14.5362,
+    "Earth":        1.0000,
+    "Venus":        0.8150,
+    "Mars":         0.1070,
+    "Mercury":      0.0550,
+    "Moon":         0.0123,
+    "Pluto":        0.0022,
+}
+
+# Mean geocentric distances r-bar (AU) — BASIS: MEASURED over the 2026 epoch
+# (astronomy-engine GeoVector, 6-hour grid, 1460 samples; the TS conformance
+# suite re-derives them, and test_esms_conformance.py pins this table equal to
+# the golden fixture's copy). Replaces PLANET_MEAN_DISTANCES, whose Moon/Mercury
+# "1.000" entries were a silent fudge hiding the dimensional incoherence of
+# M/r^2 with raw AU (real Moon distance made the live natal ESMS 99.99% Moon).
+PLANET_MEAN_GEOCENTRIC_AU: Dict[str, float] = {
+    "Sun":      1.0001517506922113,
+    "Moon":     0.002571016680904456,
+    "Mercury":  1.0527771261580632,
+    "Venus":    1.0162138470401183,
+    "Mars":     1.9442585501420186,
+    "Jupiter":  5.429789190115696,
+    "Saturn":   9.484384119258557,
+    "Uranus":  19.49876988921305,
+    "Neptune": 29.88354939796314,
+    "Pluto":   35.52718536398905,
 }
 
 _PERIOD_LOG_MIN = math.log10(0.003)    # Ascendant (1 day)
@@ -143,22 +165,51 @@ def get_normalized_alchm_weight(planet: str) -> float:
     log_val = math.log10(max(period, 1e-9))
     return (log_val - _PERIOD_LOG_MIN) / (_PERIOD_LOG_MAX - _PERIOD_LOG_MIN)
 
+# The inertial mass scale — physical mass, log-normalized, zero anchored OFF the
+# charted set (RULED: one decade below Pluto, so no charted body is annihilated
+# the way the period scale annihilated the Ascendant — see PR #683). Pluto lands
+# at ~0.109, Sun at exactly 1.0. Mirrors inertialMassWeight in
+# src/utils/planetaryAlchemyMapping.ts; the conformance fixtures pin the two.
+_INERTIAL_LOG_MIN = math.log10(0.0022 / 10.0)  # one decade below Pluto — RULED
+_INERTIAL_LOG_MAX = math.log10(333054.2532)    # Sun
+
+def get_inertial_mass_weight(planet: str) -> float:
+    """Physical-mass log weight for the Lambda(r) tensor. Ascendant is the RULED
+    vessel anchor 1.0; see ASCENDANT_VESSEL_WEIGHT."""
+    if planet == "Ascendant":
+        return ASCENDANT_VESSEL_WEIGHT
+    rel_mass = PLANET_MASS_WEIGHTS.get(planet, 1.0)
+    return (math.log10(max(rel_mass, 1e-9)) - _INERTIAL_LOG_MIN) / (_INERTIAL_LOG_MAX - _INERTIAL_LOG_MIN)
+
 def get_gravitational_inertia(planet: str, distance_au: Optional[float] = None) -> float:
     """
-    Computes true gravitational inertia M / r^2.
-    Uses log-normalized weight for mass M, and geocentric distance r in AU.
+    Gravitational inertia under the RULED Lambda tensor (spec §7, option C):
+
+        Lambda = diag( Mhat_k * (rbar_k / r_k)^2 )
+
+    Dimensionless by construction. With no live distance, r = rbar and the
+    factor is exactly 1 — the weight itself. The old M / r^2 with raw AU let the
+    Moon's real distance (0.00257 AU) produce inertia 43,043 vs the Sun's 0.51,
+    making live natal ESMS 99.99% Moon and overflowing canonical kalchm into the
+    phi fallback (MEASURED — spec §7).
     """
-    mass = get_normalized_alchm_weight(planet)
-    r = distance_au if (distance_au is not None and distance_au > 0) else PLANET_MEAN_DISTANCES.get(planet, 1.0)
-    return mass / (r ** 2)
+    mass = get_inertial_mass_weight(planet)
+    rbar = PLANET_MEAN_GEOCENTRIC_AU.get(planet)
+    if rbar is None:
+        return mass  # Ascendant / unknown: no distance concept, factor 1
+    r = distance_au if (distance_au is not None and distance_au > 0) else rbar
+    return mass * (rbar / r) ** 2
 
 def get_tidal_pull(planet: str, distance_au: Optional[float] = None) -> float:
     """
-    Computes tidal pull M / r^3.
+    Tidal pull under the same RULED tensor: Mhat * (rbar / r)^3.
     """
-    mass = get_normalized_alchm_weight(planet)
-    r = distance_au if (distance_au is not None and distance_au > 0) else PLANET_MEAN_DISTANCES.get(planet, 1.0)
-    return mass / (r ** 3)
+    mass = get_inertial_mass_weight(planet)
+    rbar = PLANET_MEAN_GEOCENTRIC_AU.get(planet)
+    if rbar is None:
+        return mass
+    r = distance_au if (distance_au is not None and distance_au > 0) else rbar
+    return mass * (rbar / r) ** 3
 
 def calculate_positional_ascendant_vessel(sign: str, degree: float = 0.0) -> Dict[str, float]:
     """
