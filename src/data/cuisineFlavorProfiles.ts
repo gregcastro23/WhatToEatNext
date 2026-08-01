@@ -83,8 +83,7 @@ const corpusElementalAlignment = (corpusCuisine: string): ElementalProperties =>
  * ~2.4 and ~1.9 mean rank places against the 14 unmigrated rows versus where
  * a fully-migrated set puts them. That is a smaller distortion than "these
  * two cuisines are literally the same cuisine", so it ships — but migrating
- * the remaining 12 corpus-backed rows is the fix that removes it. See the
- * follow-up issue linked in the PR.
+ * the remaining 12 corpus-backed rows is the fix that removes it (#704).
  *
  * Only `elementalAlignment` was conflated. The pair's other fields were
  * checked field-by-field and are already distinct (flavorProfiles differ on
