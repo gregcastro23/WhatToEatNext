@@ -22,8 +22,8 @@ from backend.utils.planetary_alchemy import (
     ESMS_PLANETS,
     PLANETARY_SECTARIAN_ESMS,
     ZODIAC_ELEMENTS,
-    PLANET_MEAN_DISTANCES,
-    get_normalized_alchm_weight,
+    get_gravitational_inertia,
+    get_inertial_mass_weight,
     calculate_positional_ascendant_vessel,
 )
 
@@ -79,11 +79,12 @@ class EsmsWaveFunction:
             body_theta_rad = math.radians(body_theta_deg)
 
             distance_au = pos.get("distance", None)
-            r = float(distance_au) if (distance_au is not None and float(distance_au) > 0) else PLANET_MEAN_DISTANCES.get(body_clean, 1.0)
+            distance_au = float(distance_au) if (distance_au is not None and float(distance_au) > 0) else None
 
-            # Gravitational Inertia Amplitude M / r^2
-            mass = get_normalized_alchm_weight(body_clean)
-            inertia_amplitude = mass / (r ** 2)
+            # Gravitational inertia amplitude under the RULED Lambda tensor —
+            # Mhat * (rbar/r)^2, the SAME function natal_alchemy uses, so the
+            # wave function cannot drift from the discrete engine.
+            inertia_amplitude = get_gravitational_inertia(body_clean, distance_au)
 
             # Spatial wave packet kernel g(θ - θ_p)
             packet = self.gaussian_packet(theta_rad, body_theta_rad)
@@ -111,7 +112,7 @@ class EsmsWaveFunction:
 
         asc_vessel = calculate_positional_ascendant_vessel(asc_sign, asc_deg)
         asc_packet = self.gaussian_packet(theta_rad, math.radians(asc_theta_deg))
-        asc_weight = get_normalized_alchm_weight("Ascendant") * asc_packet
+        asc_weight = get_inertial_mass_weight("Ascendant") * asc_packet
 
         psi_s += asc_vessel["Spirit"] * asc_weight
         psi_e += asc_vessel["Essence"] * asc_weight
@@ -144,9 +145,9 @@ class EsmsWaveFunction:
                 continue
 
             distance_au = pos.get("distance", None)
-            r = float(distance_au) if (distance_au is not None and float(distance_au) > 0) else PLANET_MEAN_DISTANCES.get(body_clean, 1.0)
-            mass = get_normalized_alchm_weight(body_clean)
-            inertia = mass / (r ** 2)
+            distance_au = float(distance_au) if (distance_au is not None and float(distance_au) > 0) else None
+            # Same RULED Lambda tensor as evaluate_field / natal_alchemy.
+            inertia = get_gravitational_inertia(body_clean, distance_au)
 
             sect_esms = PLANETARY_SECTARIAN_ESMS[body_clean][sect_key]
             k_s += sect_esms["Spirit"] * inertia
@@ -164,7 +165,7 @@ class EsmsWaveFunction:
             asc_deg = 0.0
 
         asc_vessel = calculate_positional_ascendant_vessel(asc_sign, asc_deg)
-        asc_inertia = get_normalized_alchm_weight("Ascendant")
+        asc_inertia = get_inertial_mass_weight("Ascendant")
         k_s += asc_vessel["Spirit"] * asc_inertia
         k_e += asc_vessel["Essence"] * asc_inertia
         k_m += asc_vessel["Matter"] * asc_inertia

@@ -1,23 +1,72 @@
 {
-  "version": "2.0.0",
-  "description": "ESMS 2.0 Unified Physics Model Conformance Fixture (20 Golden Charts)",
+  "version": "2.1.0",
+  "description": "ESMS 2.0 golden conformance charts under the RULED Lambda tensor diag(Mhat*(rbar/r)^2) \u2014 spec \u00a77 option C. Every planetary position carries a REAL geocentric distance: the per-body 2026 epoch mean by default, with themed charts at measured 2026 minima (perigee/opposition), and chart_20 with ALL bodies at minima as the numeric stress case. The old fixture pinned Moon/Mercury distance at 1.0 \u2014 a sanitized regime production never ran (spec \u00a77). 'expected' blocks are the Python engine's output (calculate_natal_alchemical_quantities) at the chart's stated sect; the TS suite asserts the same values from the TS functions, making this file the cross-runtime parity witness. 'epoch_mean_geocentric_au' and 'mass_weights' pin the source tables in both runtimes.",
   "charts": [
     {
       "id": "chart_01_diurnal_standard",
       "name": "Standard Diurnal Day Chart",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "leo", "degree": 15.0, "distance": 1.0 },
-        "Moon": { "sign": "taurus", "degree": 10.0, "distance": 1.0 },
-        "Mercury": { "sign": "virgo", "degree": 5.0, "distance": 1.0 },
-        "Venus": { "sign": "libra", "degree": 20.0, "distance": 0.723 },
-        "Mars": { "sign": "aries", "degree": 12.0, "distance": 1.524 },
-        "Jupiter": { "sign": "sagittarius", "degree": 8.0, "distance": 5.204 },
-        "Saturn": { "sign": "aquarius", "degree": 2.0, "distance": 9.582 },
-        "Uranus": { "sign": "gemini", "degree": 18.0, "distance": 19.2 },
-        "Neptune": { "sign": "pisces", "degree": 25.0, "distance": 30.05 },
-        "Pluto": { "sign": "scorpio", "degree": 1.0, "distance": 39.48 },
-        "Ascendant": { "sign": "leo", "degree": 0.0 }
+        "Sun": {
+          "sign": "leo",
+          "degree": 15.0,
+          "distance": 1.0001517506922113
+        },
+        "Moon": {
+          "sign": "taurus",
+          "degree": 10.0,
+          "distance": 0.002571016680904456
+        },
+        "Mercury": {
+          "sign": "virgo",
+          "degree": 5.0,
+          "distance": 1.0527771261580632
+        },
+        "Venus": {
+          "sign": "libra",
+          "degree": 20.0,
+          "distance": 1.0162138470401183
+        },
+        "Mars": {
+          "sign": "aries",
+          "degree": 12.0,
+          "distance": 1.9442585501420186
+        },
+        "Jupiter": {
+          "sign": "sagittarius",
+          "degree": 8.0,
+          "distance": 5.429789190115696
+        },
+        "Saturn": {
+          "sign": "aquarius",
+          "degree": 2.0,
+          "distance": 9.484384119258557
+        },
+        "Uranus": {
+          "sign": "gemini",
+          "degree": 18.0,
+          "distance": 19.49876988921305
+        },
+        "Neptune": {
+          "sign": "pisces",
+          "degree": 25.0,
+          "distance": 29.88354939796314
+        },
+        "Pluto": {
+          "sign": "scorpio",
+          "degree": 1.0,
+          "distance": 35.52718536398905
+        },
+        "Ascendant": {
+          "sign": "leo",
+          "degree": 0.0
+        }
+      },
+      "expected": {
+        "spirit": 3.5461,
+        "essence": 2.5386,
+        "matter": 0.6,
+        "substance": 0.75
       }
     },
     {
@@ -25,17 +74,66 @@
       "name": "Standard Nocturnal Night Chart",
       "is_diurnal": false,
       "planetary_positions": {
-        "Sun": { "sign": "scorpio", "degree": 10.0, "distance": 1.0 },
-        "Moon": { "sign": "cancer", "degree": 22.0, "distance": 1.0 },
-        "Mercury": { "sign": "scorpio", "degree": 1.0, "distance": 1.0 },
-        "Venus": { "sign": "pisces", "degree": 14.0, "distance": 0.723 },
-        "Mars": { "sign": "scorpio", "degree": 29.0, "distance": 1.524 },
-        "Jupiter": { "sign": "pisces", "degree": 19.0, "distance": 5.204 },
-        "Saturn": { "sign": "capricorn", "degree": 11.0, "distance": 9.582 },
-        "Uranus": { "sign": "taurus", "degree": 4.0, "distance": 19.2 },
-        "Neptune": { "sign": "pisces", "degree": 12.0, "distance": 30.05 },
-        "Pluto": { "sign": "capricorn", "degree": 26.0, "distance": 39.48 },
-        "Ascendant": { "sign": "cancer", "degree": 15.0 }
+        "Sun": {
+          "sign": "scorpio",
+          "degree": 10.0,
+          "distance": 1.0001517506922113
+        },
+        "Moon": {
+          "sign": "cancer",
+          "degree": 22.0,
+          "distance": 0.002571016680904456
+        },
+        "Mercury": {
+          "sign": "scorpio",
+          "degree": 1.0,
+          "distance": 1.0527771261580632
+        },
+        "Venus": {
+          "sign": "pisces",
+          "degree": 14.0,
+          "distance": 1.0162138470401183
+        },
+        "Mars": {
+          "sign": "scorpio",
+          "degree": 29.0,
+          "distance": 1.9442585501420186
+        },
+        "Jupiter": {
+          "sign": "pisces",
+          "degree": 19.0,
+          "distance": 5.429789190115696
+        },
+        "Saturn": {
+          "sign": "capricorn",
+          "degree": 11.0,
+          "distance": 9.484384119258557
+        },
+        "Uranus": {
+          "sign": "taurus",
+          "degree": 4.0,
+          "distance": 19.49876988921305
+        },
+        "Neptune": {
+          "sign": "pisces",
+          "degree": 12.0,
+          "distance": 29.88354939796314
+        },
+        "Pluto": {
+          "sign": "capricorn",
+          "degree": 26.0,
+          "distance": 35.52718536398905
+        },
+        "Ascendant": {
+          "sign": "cancer",
+          "degree": 15.0
+        }
+      },
+      "expected": {
+        "spirit": 1.5,
+        "essence": 1.771,
+        "matter": 2.8697,
+        "substance": 1.2941
       }
     },
     {
@@ -43,12 +141,41 @@
       "name": "Mars Close Opposition (r = 0.38 AU)",
       "is_diurnal": false,
       "planetary_positions": {
-        "Sun": { "sign": "aquarius", "degree": 5.0, "distance": 1.0 },
-        "Moon": { "sign": "leo", "degree": 5.0, "distance": 1.0 },
-        "Mars": { "sign": "leo", "degree": 5.0, "distance": 0.38 },
-        "Jupiter": { "sign": "gemini", "degree": 12.0, "distance": 5.204 },
-        "Saturn": { "sign": "pisces", "degree": 3.0, "distance": 9.582 },
-        "Ascendant": { "sign": "scorpio", "degree": 25.0 }
+        "Sun": {
+          "sign": "aquarius",
+          "degree": 5.0,
+          "distance": 1.0001517506922113
+        },
+        "Moon": {
+          "sign": "leo",
+          "degree": 5.0,
+          "distance": 0.002571016680904456
+        },
+        "Mars": {
+          "sign": "leo",
+          "degree": 5.0,
+          "distance": 0.9158908626340273
+        },
+        "Jupiter": {
+          "sign": "gemini",
+          "degree": 12.0,
+          "distance": 5.429789190115696
+        },
+        "Saturn": {
+          "sign": "pisces",
+          "degree": 3.0,
+          "distance": 9.484384119258557
+        },
+        "Ascendant": {
+          "sign": "scorpio",
+          "degree": 25.0
+        }
+      },
+      "expected": {
+        "spirit": 1.6,
+        "essence": 1.671,
+        "matter": 2.8733,
+        "substance": 0.5
       }
     },
     {
@@ -56,11 +183,36 @@
       "name": "New Moon Solar Conjunction",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "aries", "degree": 0.0, "distance": 1.0 },
-        "Moon": { "sign": "aries", "degree": 0.5, "distance": 1.0 },
-        "Mercury": { "sign": "aries", "degree": 2.0, "distance": 1.0 },
-        "Venus": { "sign": "taurus", "degree": 10.0, "distance": 0.723 },
-        "Ascendant": { "sign": "aries", "degree": 0.0 }
+        "Sun": {
+          "sign": "aries",
+          "degree": 0.0,
+          "distance": 1.0001517506922113
+        },
+        "Moon": {
+          "sign": "aries",
+          "degree": 0.5,
+          "distance": 0.002384073736896684
+        },
+        "Mercury": {
+          "sign": "aries",
+          "degree": 2.0,
+          "distance": 1.0527771261580632
+        },
+        "Venus": {
+          "sign": "taurus",
+          "degree": 10.0,
+          "distance": 1.0162138470401183
+        },
+        "Ascendant": {
+          "sign": "aries",
+          "degree": 0.0
+        }
+      },
+      "expected": {
+        "spirit": 2.2612,
+        "essence": 1.1101,
+        "matter": 0.6,
+        "substance": 0.75
       }
     },
     {
@@ -68,12 +220,41 @@
       "name": "Scorpio Stellium",
       "is_diurnal": false,
       "planetary_positions": {
-        "Sun": { "sign": "scorpio", "degree": 12.0, "distance": 1.0 },
-        "Moon": { "sign": "scorpio", "degree": 14.0, "distance": 1.0 },
-        "Mercury": { "sign": "scorpio", "degree": 18.0, "distance": 1.0 },
-        "Mars": { "sign": "scorpio", "degree": 22.0, "distance": 1.524 },
-        "Pluto": { "sign": "scorpio", "degree": 25.0, "distance": 39.48 },
-        "Ascendant": { "sign": "scorpio", "degree": 10.0 }
+        "Sun": {
+          "sign": "scorpio",
+          "degree": 12.0,
+          "distance": 1.0001517506922113
+        },
+        "Moon": {
+          "sign": "scorpio",
+          "degree": 14.0,
+          "distance": 0.002571016680904456
+        },
+        "Mercury": {
+          "sign": "scorpio",
+          "degree": 18.0,
+          "distance": 1.0527771261580632
+        },
+        "Mars": {
+          "sign": "scorpio",
+          "degree": 22.0,
+          "distance": 1.9442585501420186
+        },
+        "Pluto": {
+          "sign": "scorpio",
+          "degree": 25.0,
+          "distance": 35.52718536398905
+        },
+        "Ascendant": {
+          "sign": "scorpio",
+          "degree": 10.0
+        }
+      },
+      "expected": {
+        "spirit": 1.5,
+        "essence": 1.1,
+        "matter": 1.342,
+        "substance": 0.7612
       }
     },
     {
@@ -81,10 +262,31 @@
       "name": "Mercury Retrograde in Gemini",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "taurus", "degree": 28.0, "distance": 1.0 },
-        "Mercury": { "sign": "gemini", "degree": 16.0, "distance": 0.65 },
-        "Venus": { "sign": "aries", "degree": 10.0, "distance": 0.723 },
-        "Ascendant": { "sign": "gemini", "degree": 5.0 }
+        "Sun": {
+          "sign": "taurus",
+          "degree": 28.0,
+          "distance": 1.0001517506922113
+        },
+        "Mercury": {
+          "sign": "gemini",
+          "degree": 16.0,
+          "distance": 0.568669762768903
+        },
+        "Venus": {
+          "sign": "aries",
+          "degree": 10.0,
+          "distance": 1.0162138470401183
+        },
+        "Ascendant": {
+          "sign": "gemini",
+          "degree": 5.0
+        }
+      },
+      "expected": {
+        "spirit": 2.6452,
+        "essence": 0.8887,
+        "matter": 0.6,
+        "substance": 1.0
       }
     },
     {
@@ -92,8 +294,21 @@
       "name": "Ascendant Aries 1st Decan",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "aries", "degree": 1.0, "distance": 1.0 },
-        "Ascendant": { "sign": "aries", "degree": 5.0 }
+        "Sun": {
+          "sign": "aries",
+          "degree": 1.0,
+          "distance": 1.0001517506922113
+        },
+        "Ascendant": {
+          "sign": "aries",
+          "degree": 5.0
+        }
+      },
+      "expected": {
+        "spirit": 2.0,
+        "essence": 0.5,
+        "matter": 0.6,
+        "substance": 0.75
       }
     },
     {
@@ -101,8 +316,21 @@
       "name": "Ascendant Taurus 2nd Decan",
       "is_diurnal": false,
       "planetary_positions": {
-        "Moon": { "sign": "taurus", "degree": 12.0, "distance": 1.0 },
-        "Ascendant": { "sign": "taurus", "degree": 15.0 }
+        "Moon": {
+          "sign": "taurus",
+          "degree": 12.0,
+          "distance": 0.002571016680904456
+        },
+        "Ascendant": {
+          "sign": "taurus",
+          "degree": 15.0
+        }
+      },
+      "expected": {
+        "spirit": 0.5,
+        "essence": 0.6,
+        "matter": 1.1904,
+        "substance": 0.75
       }
     },
     {
@@ -110,8 +338,21 @@
       "name": "Ascendant Pisces 3rd Decan",
       "is_diurnal": false,
       "planetary_positions": {
-        "Neptune": { "sign": "pisces", "degree": 28.0, "distance": 30.05 },
-        "Ascendant": { "sign": "pisces", "degree": 25.0 }
+        "Neptune": {
+          "sign": "pisces",
+          "degree": 28.0,
+          "distance": 29.88354939796314
+        },
+        "Ascendant": {
+          "sign": "pisces",
+          "degree": 25.0
+        }
+      },
+      "expected": {
+        "spirit": 0.6,
+        "essence": 1.0,
+        "matter": 0.75,
+        "substance": 1.0329
       }
     },
     {
@@ -119,9 +360,26 @@
       "name": "Saturn Domicile in Capricorn",
       "is_diurnal": true,
       "planetary_positions": {
-        "Saturn": { "sign": "capricorn", "degree": 15.0, "distance": 9.582 },
-        "Sun": { "sign": "capricorn", "degree": 10.0, "distance": 1.0 },
-        "Ascendant": { "sign": "capricorn", "degree": 12.0 }
+        "Saturn": {
+          "sign": "capricorn",
+          "degree": 15.0,
+          "distance": 9.484384119258557
+        },
+        "Sun": {
+          "sign": "capricorn",
+          "degree": 10.0,
+          "distance": 1.0001517506922113
+        },
+        "Ascendant": {
+          "sign": "capricorn",
+          "degree": 12.0
+        }
+      },
+      "expected": {
+        "spirit": 2.1139,
+        "essence": 0.6,
+        "matter": 1.0,
+        "substance": 0.75
       }
     },
     {
@@ -129,9 +387,26 @@
       "name": "Venus Exaltation in Pisces",
       "is_diurnal": false,
       "planetary_positions": {
-        "Venus": { "sign": "pisces", "degree": 27.0, "distance": 0.723 },
-        "Moon": { "sign": "pisces", "degree": 20.0, "distance": 1.0 },
-        "Ascendant": { "sign": "pisces", "degree": 10.0 }
+        "Venus": {
+          "sign": "pisces",
+          "degree": 27.0,
+          "distance": 1.0162138470401183
+        },
+        "Moon": {
+          "sign": "pisces",
+          "degree": 20.0,
+          "distance": 0.002571016680904456
+        },
+        "Ascendant": {
+          "sign": "pisces",
+          "degree": 10.0
+        }
+      },
+      "expected": {
+        "spirit": 0.5,
+        "essence": 1.1,
+        "matter": 1.3291,
+        "substance": 0.5
       }
     },
     {
@@ -139,9 +414,26 @@
       "name": "Jupiter Detriment in Gemini",
       "is_diurnal": true,
       "planetary_positions": {
-        "Jupiter": { "sign": "gemini", "degree": 14.0, "distance": 5.204 },
-        "Sun": { "sign": "gemini", "degree": 18.0, "distance": 1.0 },
-        "Ascendant": { "sign": "gemini", "degree": 2.0 }
+        "Jupiter": {
+          "sign": "gemini",
+          "degree": 14.0,
+          "distance": 5.429789190115696
+        },
+        "Sun": {
+          "sign": "gemini",
+          "degree": 18.0,
+          "distance": 1.0001517506922113
+        },
+        "Ascendant": {
+          "sign": "gemini",
+          "degree": 2.0
+        }
+      },
+      "expected": {
+        "spirit": 2.421,
+        "essence": 0.5,
+        "matter": 0.6,
+        "substance": 1.0
       }
     },
     {
@@ -149,9 +441,26 @@
       "name": "Moon Fall in Scorpio",
       "is_diurnal": false,
       "planetary_positions": {
-        "Moon": { "sign": "scorpio", "degree": 3.0, "distance": 1.0 },
-        "Mars": { "sign": "scorpio", "degree": 8.0, "distance": 1.524 },
-        "Ascendant": { "sign": "scorpio", "degree": 15.0 }
+        "Moon": {
+          "sign": "scorpio",
+          "degree": 3.0,
+          "distance": 0.002571016680904456
+        },
+        "Mars": {
+          "sign": "scorpio",
+          "degree": 8.0,
+          "distance": 1.9442585501420186
+        },
+        "Ascendant": {
+          "sign": "scorpio",
+          "degree": 15.0
+        }
+      },
+      "expected": {
+        "spirit": 0.5,
+        "essence": 1.1,
+        "matter": 1.233,
+        "substance": 0.5
       }
     },
     {
@@ -159,9 +468,26 @@
       "name": "Uranus in Taurus",
       "is_diurnal": true,
       "planetary_positions": {
-        "Uranus": { "sign": "taurus", "degree": 10.0, "distance": 19.2 },
-        "Sun": { "sign": "taurus", "degree": 12.0, "distance": 1.0 },
-        "Ascendant": { "sign": "taurus", "degree": 0.0 }
+        "Uranus": {
+          "sign": "taurus",
+          "degree": 10.0,
+          "distance": 18.44389593435794
+        },
+        "Sun": {
+          "sign": "taurus",
+          "degree": 12.0,
+          "distance": 1.0001517506922113
+        },
+        "Ascendant": {
+          "sign": "taurus",
+          "degree": 0.0
+        }
+      },
+      "expected": {
+        "spirit": 1.5,
+        "essence": 1.0868,
+        "matter": 1.1,
+        "substance": 0.75
       }
     },
     {
@@ -169,9 +495,26 @@
       "name": "Neptune in Pisces",
       "is_diurnal": false,
       "planetary_positions": {
-        "Neptune": { "sign": "pisces", "degree": 5.0, "distance": 30.05 },
-        "Moon": { "sign": "cancer", "degree": 14.0, "distance": 1.0 },
-        "Ascendant": { "sign": "pisces", "degree": 8.0 }
+        "Neptune": {
+          "sign": "pisces",
+          "degree": 5.0,
+          "distance": 29.88354939796314
+        },
+        "Moon": {
+          "sign": "cancer",
+          "degree": 14.0,
+          "distance": 0.002571016680904456
+        },
+        "Ascendant": {
+          "sign": "pisces",
+          "degree": 8.0
+        }
+      },
+      "expected": {
+        "spirit": 0.5,
+        "essence": 1.0,
+        "matter": 1.0404,
+        "substance": 1.0329
       }
     },
     {
@@ -179,9 +522,26 @@
       "name": "Pluto in Aquarius",
       "is_diurnal": true,
       "planetary_positions": {
-        "Pluto": { "sign": "aquarius", "degree": 2.0, "distance": 39.48 },
-        "Sun": { "sign": "aquarius", "degree": 5.0, "distance": 1.0 },
-        "Ascendant": { "sign": "aquarius", "degree": 12.0 }
+        "Pluto": {
+          "sign": "aquarius",
+          "degree": 2.0,
+          "distance": 35.52718536398905
+        },
+        "Sun": {
+          "sign": "aquarius",
+          "degree": 5.0,
+          "distance": 1.0001517506922113
+        },
+        "Ascendant": {
+          "sign": "aquarius",
+          "degree": 12.0
+        }
+      },
+      "expected": {
+        "spirit": 1.75,
+        "essence": 0.7089,
+        "matter": 0.5,
+        "substance": 1.0
       }
     },
     {
@@ -189,11 +549,36 @@
       "name": "Balanced 4-Element Distribution",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "aries", "degree": 10.0, "distance": 1.0 },
-        "Moon": { "sign": "cancer", "degree": 10.0, "distance": 1.0 },
-        "Mercury": { "sign": "libra", "degree": 10.0, "distance": 1.0 },
-        "Venus": { "sign": "capricorn", "degree": 10.0, "distance": 0.723 },
-        "Ascendant": { "sign": "aries", "degree": 0.0 }
+        "Sun": {
+          "sign": "aries",
+          "degree": 10.0,
+          "distance": 1.0001517506922113
+        },
+        "Moon": {
+          "sign": "cancer",
+          "degree": 10.0,
+          "distance": 0.002571016680904456
+        },
+        "Mercury": {
+          "sign": "libra",
+          "degree": 10.0,
+          "distance": 1.0527771261580632
+        },
+        "Venus": {
+          "sign": "capricorn",
+          "degree": 10.0,
+          "distance": 1.0162138470401183
+        },
+        "Ascendant": {
+          "sign": "aries",
+          "degree": 0.0
+        }
+      },
+      "expected": {
+        "spirit": 2.2612,
+        "essence": 1.0791,
+        "matter": 0.6,
+        "substance": 0.75
       }
     },
     {
@@ -201,10 +586,31 @@
       "name": "Fire Dominant Chart",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "leo", "degree": 20.0, "distance": 1.0 },
-        "Mars": { "sign": "aries", "degree": 15.0, "distance": 1.524 },
-        "Jupiter": { "sign": "sagittarius", "degree": 25.0, "distance": 5.204 },
-        "Ascendant": { "sign": "leo", "degree": 5.0 }
+        "Sun": {
+          "sign": "leo",
+          "degree": 20.0,
+          "distance": 1.0001517506922113
+        },
+        "Mars": {
+          "sign": "aries",
+          "degree": 15.0,
+          "distance": 1.9442585501420186
+        },
+        "Jupiter": {
+          "sign": "sagittarius",
+          "degree": 25.0,
+          "distance": 5.429789190115696
+        },
+        "Ascendant": {
+          "sign": "leo",
+          "degree": 5.0
+        }
+      },
+      "expected": {
+        "spirit": 2.671,
+        "essence": 0.7927,
+        "matter": 0.6,
+        "substance": 0.75
       }
     },
     {
@@ -212,10 +618,31 @@
       "name": "Water Dominant Chart",
       "is_diurnal": false,
       "planetary_positions": {
-        "Moon": { "sign": "cancer", "degree": 18.0, "distance": 1.0 },
-        "Venus": { "sign": "pisces", "degree": 10.0, "distance": 0.723 },
-        "Neptune": { "sign": "scorpio", "degree": 22.0, "distance": 30.05 },
-        "Ascendant": { "sign": "cancer", "degree": 12.0 }
+        "Moon": {
+          "sign": "cancer",
+          "degree": 18.0,
+          "distance": 0.002571016680904456
+        },
+        "Venus": {
+          "sign": "pisces",
+          "degree": 10.0,
+          "distance": 1.0162138470401183
+        },
+        "Neptune": {
+          "sign": "scorpio",
+          "degree": 22.0,
+          "distance": 29.88354939796314
+        },
+        "Ascendant": {
+          "sign": "cancer",
+          "degree": 12.0
+        }
+      },
+      "expected": {
+        "spirit": 0.5,
+        "essence": 1.1,
+        "matter": 1.3291,
+        "substance": 1.0329
       }
     },
     {
@@ -223,18 +650,98 @@
       "name": "Full 10-Body Natal Chart",
       "is_diurnal": true,
       "planetary_positions": {
-        "Sun": { "sign": "gemini", "degree": 24.0, "distance": 1.0 },
-        "Moon": { "sign": "taurus", "degree": 18.0, "distance": 1.0 },
-        "Mercury": { "sign": "gemini", "degree": 12.0, "distance": 1.0 },
-        "Venus": { "sign": "cancer", "degree": 5.0, "distance": 0.723 },
-        "Mars": { "sign": "virgo", "degree": 29.0, "distance": 1.524 },
-        "Jupiter": { "sign": "aquarius", "degree": 9.0, "distance": 5.204 },
-        "Saturn": { "sign": "aries", "degree": 1.0, "distance": 9.582 },
-        "Uranus": { "sign": "aquarius", "degree": 22.0, "distance": 19.2 },
-        "Neptune": { "sign": "capricorn", "degree": 6.0, "distance": 30.05 },
-        "Pluto": { "sign": "sagittarius", "degree": 11.0, "distance": 39.48 },
-        "Ascendant": { "sign": "libra", "degree": 14.0 }
+        "Sun": {
+          "sign": "gemini",
+          "degree": 24.0,
+          "distance": 0.9833014229361747
+        },
+        "Moon": {
+          "sign": "taurus",
+          "degree": 18.0,
+          "distance": 0.002384073736896684
+        },
+        "Mercury": {
+          "sign": "gemini",
+          "degree": 12.0,
+          "distance": 0.568669762768903
+        },
+        "Venus": {
+          "sign": "cancer",
+          "degree": 5.0,
+          "distance": 0.27280624709386586
+        },
+        "Mars": {
+          "sign": "virgo",
+          "degree": 29.0,
+          "distance": 0.9158908626340273
+        },
+        "Jupiter": {
+          "sign": "aquarius",
+          "degree": 9.0,
+          "distance": 4.231792124492447
+        },
+        "Saturn": {
+          "sign": "aries",
+          "degree": 1.0,
+          "distance": 8.434234652969252
+        },
+        "Uranus": {
+          "sign": "aquarius",
+          "degree": 22.0,
+          "distance": 18.44389593435794
+        },
+        "Neptune": {
+          "sign": "capricorn",
+          "degree": 6.0,
+          "distance": 28.876222127317195
+        },
+        "Pluto": {
+          "sign": "sagittarius",
+          "degree": 11.0,
+          "distance": 34.55169170159587
+        },
+        "Ascendant": {
+          "sign": "libra",
+          "degree": 14.0
+        }
+      },
+      "expected": {
+        "spirit": 4.5608,
+        "essence": 8.8073,
+        "matter": 0.5,
+        "substance": 1.0
       }
     }
-  ]
+  ],
+  "epoch": {
+    "startUtc": "2026-01-01T00:00:00Z",
+    "samples": 1460,
+    "stepHours": 6,
+    "source": "astronomy-engine GeoVector, re-derived by esmsConformance.test.ts"
+  },
+  "epoch_mean_geocentric_au": {
+    "Sun": 1.0001517506922113,
+    "Moon": 0.002571016680904456,
+    "Mercury": 1.0527771261580632,
+    "Venus": 1.0162138470401183,
+    "Mars": 1.9442585501420186,
+    "Jupiter": 5.429789190115696,
+    "Saturn": 9.484384119258557,
+    "Uranus": 19.49876988921305,
+    "Neptune": 29.88354939796314,
+    "Pluto": 35.52718536398905
+  },
+  "mass_weights": {
+    "Sun": 333054.2532,
+    "Jupiter": 317.8165,
+    "Saturn": 95.1608,
+    "Neptune": 17.1467,
+    "Uranus": 14.5362,
+    "Earth": 1.0,
+    "Venus": 0.815,
+    "Mars": 0.107,
+    "Mercury": 0.055,
+    "Moon": 0.0123,
+    "Pluto": 0.0022
+  }
 }
