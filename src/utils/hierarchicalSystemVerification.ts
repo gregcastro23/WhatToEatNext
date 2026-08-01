@@ -21,8 +21,8 @@ import {
 } from "./cuisine/cuisineRecommendationEngine";
 import { analyzePlanetaryPatterns } from "./cuisine/planetaryPatternAnalysis";
 import {
-    DEFAULT_GLOBAL_BASELINE,
-    identifyCuisineSignatures
+    identifyCuisineSignatures,
+    type GlobalBaseline
 } from "./cuisine/signatureIdentificationEngine";
 import {
     aggregateIngredientElementals,
@@ -312,6 +312,26 @@ export function verifyLevel2Recipes(): {
 /**
  * Verify Level 3 (Cuisines) functionality
  */
+/**
+ * FIXTURE, not a measurement. This self-test feeds MOCK recipes through the
+ * signature machinery, so its baseline is likewise an arbitrary test fixture —
+ * chosen only to be non-degenerate (non-zero std-devs) so z-scores exercise
+ * every branch. It replaced the deleted `DEFAULT_GLOBAL_BASELINE`, which
+ * carried the same kind of numbers but presented them as culinary statistics
+ * and sat as the engine's DEFAULT for any caller. Here the arbitrariness is
+ * the point and is labeled as such; only the MACHINERY is under test.
+ */
+const VERIFICATION_FIXTURE_BASELINE: GlobalBaseline = {
+  elementals: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  alchemical: { Spirit: 2.5, Essence: 3.5, Matter: 3.0, Substance: 1.0 },
+  thermodynamics: { heat: 0.15, entropy: 0.12, reactivity: 0.18, gregsEnergy: 0.08, kalchm: 1.2, monica: 0.7 },
+  elementalStdDevs: { Fire: 0.08, Water: 0.07, Earth: 0.06, Air: 0.05 },
+  alchemicalStdDevs: { Spirit: 1.2, Essence: 1.5, Matter: 1.3, Substance: 0.8 },
+  thermodynamicStdDevs: { heat: 0.05, entropy: 0.04, reactivity: 0.06, gregsEnergy: 0.03, kalchm: 0.4, monica: 0.2 },
+  cuisineCount: 10,
+  lastUpdated: new Date("2024-01-01"),
+};
+
 export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
   isValid: boolean;
   results: string[];
@@ -393,7 +413,7 @@ export function verifyLevel3Cuisines(recipe?: RecipeComputedProperties): {
     // Test 3: Signature identification
     const signatures = identifyCuisineSignatures(
       computedCuisine,
-      DEFAULT_GLOBAL_BASELINE,
+      VERIFICATION_FIXTURE_BASELINE,
       {
         threshold: 1.5,
         includeConfidence: true,
