@@ -26,7 +26,11 @@ import type {
 import type { YelpBusiness, AlchmScoredRestaurant } from "@/types/yelp";
 import { calculateElementalMatch } from "@/utils/cuisineRecommender";
 import { CUISINE_SIGNATURES } from "@/utils/cuisineSignatures.generated";
-import { PLANETARY_SECTARIAN_ALCHEMICAL } from "@/utils/planetaryAlchemyMapping";
+import {
+  PLANETARY_SECTARIAN_ALCHEMICAL,
+  inertialMassWeight,
+} from "@/utils/planetaryAlchemyMapping";
+import { culinaryTraditions } from "@/data/cuisines/culinaryTraditions";
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -185,15 +189,12 @@ export function scoreCuisineAgainstMoment(
   // and monica was φ for all 30 cuisine × sect rows. The full derivation and the
   // replacement metric live in `@/data/unified/thermodynamicAffinity`.
   //
-  // Monica is deliberately NOT computed here any more, not even for display: it
-  // is the same constant for every cuisine, so surfacing it would present a
-  // constant as a per-cuisine measurement. It becomes meaningful again once
-  // cuisine ESMS is derived the way the moment's is (mass-weighted over the
-  // cuisine's ruling planets) — tracked separately.
-  const cuisineAlchemical = deriveCuisineAlchemical(
-    cuisineProfile.planetaryRuler,
-    diurnal,
-  );
+  // Monica is still deliberately NOT computed here for display. Cuisine ESMS
+  // is now mass-weighted over the cuisine's ruling planets (the correction
+  // this comment used to track), so kalchm is finally off the binary lattice
+  // and monica varies per cuisine — but surfacing it stays a recalibration-PR
+  // decision, made against the re-derived affinity constants, not here.
+  const cuisineAlchemical = deriveCuisineAlchemical(cuisineKey, diurnal);
   const thermodynamicAffinity = thermoAffinity(
     calculateThermodynamics(cuisineAlchemical, cuisineElement),
     calculateThermodynamics(momentAlchemical, momentElement),
@@ -301,27 +302,76 @@ function deriveMomentElemental(state: AstrologicalState): ElementalProperties {
   };
 }
 
+/** Capitalize a culinaryTraditions planet name into the engine key-space. */
+const capitalizePlanet = (p: string): string =>
+  p.charAt(0).toUpperCase() + p.slice(1).toLowerCase();
+
 /**
- * Derive the cuisine's alchemical (ESMS) profile from its planetary ruler
- * using the authoritative `PLANETARY_SECTARIAN_ALCHEMICAL` table.
+ * The cuisine's ruling planets, read from `culinaryTraditions` — normalize on
+ * read (the traditions file is lowercase-keyed; never rename its keys). The
+ * Default sentinel gets the single neutral Sun anchor and is the ONE profile
+ * allowed to stay on the binary lattice — it is the honest-absence row, not a
+ * cuisine.
  */
-function deriveCuisineAlchemical(
-  ruler: string,
+function cuisineRulingPlanets(cuisineKey: string): string[] {
+  if (cuisineKey === "Default") return ["Sun"];
+  const tradition = culinaryTraditions[cuisineKey.toLowerCase()];
+  const rulers = tradition?.astrologicalProfile?.rulingPlanets;
+  if (!rulers?.length) {
+    // Loud by design — a silent one-hot or flat fallback here would fabricate
+    // an ESMS profile. cuisineEsmsStrategyA.test.ts pins that every scoring
+    // key resolves, so a green build cannot reach this throw.
+    throw new Error(
+      `deriveCuisineAlchemical: no ruling planets for cuisine "${cuisineKey}"`,
+    );
+  }
+  return rulers.map(capitalizePlanet);
+}
+
+/**
+ * Derive the cuisine's alchemical (ESMS) profile the way the MOMENT's is
+ * derived: a mass-weighted sum over bodies, not a one-hot unit vector.
+ *
+ *     ESMS(cuisine, sect) = Σ over rulingPlanets of
+ *         PLANETARY_SECTARIAN_ALCHEMICAL[planet][sect] · inertialMassWeight(planet)
+ *
+ * The old single-ruler one-hot pinned every cuisine to the {0,1}⁴ binary
+ * lattice, where kalchm ≡ 1 for ANY vector — which is what collapsed monica
+ * to a constant across all cuisines (see `thermodynamicAffinity.ts`). The
+ * mass weights are the unified engine's inertial scale (Sun 1.0 … Pluto
+ * 0.109), so the sum is non-integer and off the lattice by construction. No
+ * dignity or distance terms: a cuisine has no chart, so there is no sign
+ * placement to score and no live distance to modulate — the factors the
+ * canonical moment engine adds on top of this same base are measurements of
+ * a sky, and a cuisine has none.
+ */
+export function deriveCuisineAlchemical(
+  cuisineKey: string,
   diurnal: boolean,
 ): AlchemicalProperties {
-  const entry = PLANETARY_SECTARIAN_ALCHEMICAL[
-    ruler as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL
-  ];
-  if (!entry) {
-    return { Spirit: 1, Essence: 1, Matter: 1, Substance: 1 };
-  }
-  const sect = diurnal ? entry.diurnal : entry.nocturnal;
-  return {
-    Spirit: sect.Spirit,
-    Essence: sect.Essence,
-    Matter: sect.Matter,
-    Substance: sect.Substance,
+  const totals: AlchemicalProperties = {
+    Spirit: 0,
+    Essence: 0,
+    Matter: 0,
+    Substance: 0,
   };
+  for (const ruler of cuisineRulingPlanets(cuisineKey)) {
+    const entry = PLANETARY_SECTARIAN_ALCHEMICAL[
+      ruler as keyof typeof PLANETARY_SECTARIAN_ALCHEMICAL
+    ];
+    if (!entry) {
+      throw new Error(
+        `deriveCuisineAlchemical: "${ruler}" is not in PLANETARY_SECTARIAN_ALCHEMICAL`,
+      );
+    }
+    const sect = diurnal ? entry.diurnal : entry.nocturnal;
+    const w = inertialMassWeight(ruler);
+    totals.Spirit += sect.Spirit * w;
+    totals.Essence += sect.Essence * w;
+    totals.Matter += sect.Matter * w;
+    totals.Substance += sect.Substance * w;
+  }
+  return totals;
 }
 
 /**

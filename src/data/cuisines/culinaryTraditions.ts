@@ -197,6 +197,88 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       water_dominant: "Balance with coconut milk",
     },
   },
+
+  // ── RULED entries, authored 2026-08-01 ──────────────────────────────────
+  // The four cuisines below existed in restaurant scoring's
+  // CUISINE_ELEMENTAL_MAP with no tradition entry, so their ESMS derivation
+  // had nothing to read. There is no measurement for a cultural-astrological
+  // correspondence — every entry in this file is a RULED mapping — so these
+  // are authored to the same standard as the originals: rulers chosen from
+  // the cuisine's dominant culinary character, favorableZodiac from the
+  // rulers' domiciles, elementalAlignment summing to 1.0. Reviewed post-merge
+  // by explicit ruling (2026-08-01); amend freely, but keep each set distinct
+  // from every other entry — two cuisines sharing a ruler LIST would share an
+  // ESMS profile, which is the Indian≡Korean conflation all over again.
+  american: {
+    // Abundance and scale (Jupiter), grill and barbecue heat (Mars),
+    // comfort-sweet dairy tradition (Venus).
+    elementalAlignment: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["jupiter", "mars", "venus"],
+      favorableZodiac: ["sagittarius", "aries", "taurus"],
+      techniques: ["barbecue", "smoking", "deep_frying"],
+      aspectEnhancers: ["Jupiter trine Sun", "Mars sextile Venus"],
+    },
+    signatureModifications: {
+      fire_dominant: "Char over open hickory flame",
+      earth_dominant: "Anchor with cornbread and beans",
+      air_dominant: "Lighten with slaw and pickles",
+      water_dominant: "Braise low and slow in stock",
+    },
+  },
+  greek: {
+    // Sun-drenched olive-and-honey table (Sun), festive Venusian sweetness,
+    // seafaring Neptune. Distinct from mediterranean's [sun, mercury,
+    // neptune] — Greek is a NAMED cuisine here, not the meta-category.
+    elementalAlignment: { Fire: 0.35, Air: 0.25, Earth: 0.25, Water: 0.15 },
+    astrologicalProfile: {
+      rulingPlanets: ["sun", "venus", "neptune"],
+      favorableZodiac: ["leo", "taurus", "pisces"],
+      techniques: ["charcoal_grilling", "phyllo_layering", "olive_curing"],
+      aspectEnhancers: ["Sun trine Neptune", "Venus sextile Mercury"],
+    },
+    signatureModifications: {
+      fire_dominant: "Finish over charcoal with lemon",
+      earth_dominant: "Ground with chickpea and barley",
+      air_dominant: "Brighten with oregano and citrus",
+      water_dominant: "Enrich with yogurt and brine",
+    },
+  },
+  spanish: {
+    // Solar cuisine of saffron and plancha (Sun), pimentón fire and the
+    // tapas pulse (Mars), festive conviviality (Venus). Distinct from
+    // mexican's [sun, mars] by the Venus third.
+    elementalAlignment: { Fire: 0.4, Earth: 0.25, Water: 0.2, Air: 0.15 },
+    astrologicalProfile: {
+      rulingPlanets: ["sun", "mars", "venus"],
+      favorableZodiac: ["leo", "aries", "libra"],
+      techniques: ["a_la_plancha", "sofrito", "dry_curing"],
+      aspectEnhancers: ["Sun conjunct Mars", "Venus trine Jupiter"],
+    },
+    signatureModifications: {
+      fire_dominant: "Sear a la plancha with pimentón",
+      earth_dominant: "Deepen with jamón and beans",
+      air_dominant: "Lift with sherry vinegar",
+      water_dominant: "Simmer in saffron broth",
+    },
+  },
+  ethiopian: {
+    // Fermentation depth of injera and ancient highland tradition (Saturn),
+    // berbere heat (Mars), the shared communal plate and stews (Moon).
+    elementalAlignment: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ["saturn", "mars", "moon"],
+      favorableZodiac: ["capricorn", "aries", "cancer"],
+      techniques: ["fermentation", "slow_stewing", "spice_blending"],
+      aspectEnhancers: ["Saturn trine Moon", "Mars sextile Sun"],
+    },
+    signatureModifications: {
+      fire_dominant: "Intensify the berbere bloom",
+      earth_dominant: "Serve on fresh injera",
+      air_dominant: "Cut with cardamom and clove",
+      water_dominant: "Slow the wat to a silk stew",
+    },
+  },
 };
 
 // Add validation to ensure all elementalAlignments sum to 1.0
