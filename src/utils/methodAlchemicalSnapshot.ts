@@ -60,7 +60,12 @@ export interface MethodAlchemicalSnapshot {
   kalchm: number;
   monica: number | null;
   kinetics: KineticMetrics | null;
-  kProfile: CookingMethodKineticProfile;
+  /**
+   * Null when the method has no registered kinetic profile. Previously this was
+   * non-null because the lookup substituted six 0.50 midpoints on a miss, which
+   * consumers could not distinguish from authored values.
+   */
+  kProfile: CookingMethodKineticProfile | null;
   harmony: HarmonyResult;
 }
 
