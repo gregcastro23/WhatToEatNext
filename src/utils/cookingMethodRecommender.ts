@@ -113,7 +113,6 @@ import type {
   MethodRecommendation,
   MethodRecommendationOptions,
 } from "@/types/alchemy";
-import { _COOKING_METHOD_THERMODYNAMICS } from "@/types/alchemy";
 // Removed unused, import: CookingMethodEnum
 import type { CookingMethod } from "@/types/cooking";
 import { calculateLunarPhase, getLunarPhaseName } from "@/utils/astrologyUtils";
@@ -303,10 +302,18 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
 
 // --- Added Thermodynamic Helpers ---
 
-// Function to get thermodynamic properties for a method
-// PRIORITIZES detailedCookingMethods from src/data/cooking/cookingMethods.ts
-// FALLS BACK to _COOKING_METHOD_THERMODYNAMICS constant from src/data/cooking/thermodynamics.ts
-// FURTHER FALLS BACK to keyword-based logic
+// Function to get thermodynamic properties for a method.
+//
+// PRIORITIZES the detailed data source, then the method object's own
+// thermodynamicProperties, then keyword-based logic.
+//
+// The previous comment here claimed a fallback to `_COOKING_METHOD_THERMODYNAMICS`
+// "from src/data/cooking/thermodynamics.ts". Two things were wrong with that: the
+// constant lived in src/types/alchemy.ts, and it was an empty object, so the tier
+// it described could never resolve anything. Both are gone.
+//
+// Note the import below resolves to `allCookingMethods`, not to the legacy
+// src/data/cooking/cookingMethods.ts the old comment named.
 interface MethodWithThermodynamics {
   name?: string;
   thermodynamicProperties?: {
@@ -333,7 +340,10 @@ export function getMethodThermodynamics(
     detailedCookingMethods[
       methodNameLower as keyof typeof detailedCookingMethods
     ];
-  if (detailedMethodData.thermodynamicProperties) {
+  // Optional chain is load-bearing — see the twin in
+  // src/utils/recommendation/methodRecommendation.ts. Here the throw WAS
+  // reachable, and was swallowed by a catch that substituted a fabricated 0.5.
+  if (detailedMethodData?.thermodynamicProperties) {
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
       heat: Number(thermoProps.heat) || 0.5,
@@ -355,17 +365,10 @@ export function getMethodThermodynamics(
     };
   }
 
-  // 3. Check the explicitly defined mapping constant (_COOKING_METHOD_THERMODYNAMICS)
-  // ✅ Pattern KK-1: Safe type conversion for thermodynamics lookup
-  const constantThermoData =
-    _COOKING_METHOD_THERMODYNAMICS[
-      methodNameLower as keyof typeof _COOKING_METHOD_THERMODYNAMICS
-    ];
-  if (constantThermoData) {
-    return constantThermoData;
-  }
-
-  // 4. Fallback logic based on method name characteristics - ENHANCED with more cooking methods
+  // 3. Fallback logic based on method name characteristics - ENHANCED with more cooking methods
+  //
+  // A tier reading the empty `_COOKING_METHOD_THERMODYNAMICS` used to sit above
+  // this one and could never resolve. See src/types/alchemy.ts.
   // ✅ Pattern KK-1: Direct string access since methodNameLower is already string
   const nameStr = methodNameLower;
   if (
@@ -998,18 +1001,20 @@ export async function getRecommendedCookingMethods(
     }
 
     // NEW: Thermodynamic compatibility (10% of score - creates better differentiation)
-    let thermodynamicScore = 0;
-    try {
-      const methodThermodynamics = getMethodThermodynamics(
-        method as unknown as CookingMethodProfile,
-      );
-      thermodynamicScore = calculateThermodynamicCompatibility(
-        elementalComposition,
-        methodThermodynamics,
-      );
-    } catch (_error) {
-      thermodynamicScore = 0.5; // Default if calculation fails
-    }
+    //
+    // No try/catch here any more. It used to swallow every error into
+    // `thermodynamicScore = 0.5` — a fabricated mid-value that is
+    // indistinguishable at the call site from a real computed 0.5, and which
+    // made the TypeError from the unguarded lookup above invisible in logs.
+    // getMethodThermodynamics now always returns a value via its heuristic tier,
+    // so an exception reaching here is a genuine defect and must surface.
+    const methodThermodynamics = getMethodThermodynamics(
+      method as unknown as CookingMethodProfile,
+    );
+    const thermodynamicScore = calculateThermodynamicCompatibility(
+      elementalComposition,
+      methodThermodynamics,
+    );
 
     // Astrological compatibility (25% of score)
     if (method.astrologicalInfluences) {

@@ -9,7 +9,6 @@ import type {
   MethodRecommendationOptions,
   PlanetaryAspect
 } from "@/types/alchemy";
-import { _COOKING_METHOD_THERMODYNAMICS } from "@/types/alchemy";
 import type { AstrologicalState } from "@/types/celestial";
 import type { Ingredient, UnifiedIngredient } from "@/types/ingredient";
 import {
@@ -263,12 +262,19 @@ export function getMethodThermodynamics(
     String((method as unknown as Record<string, unknown>).name).toLowerCase() ||
     "";
 
-  // 1. Check the detailed data source first
+  // 1. Check the detailed data source first.
+  //
+  // The optional chain is load-bearing: this lookup MISSES for any method whose
+  // declared `name` differs from its record key, and the dereference below was
+  // unguarded, so a miss threw TypeError rather than falling through to tier 2.
+  // Production had not crashed on it only by accident — the aggregator upstream
+  // rewrites `name: id`, so the mismatched names never reached this path. Any
+  // caller passing a real method object hit it.
   const detailedMethodData =
     detailedCookingMethods[
     methodNameLower as keyof typeof detailedCookingMethods
     ];
-  if (detailedMethodData.thermodynamicProperties) {
+  if (detailedMethodData?.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
       entropy: detailedMethodData.thermodynamicProperties._entropy ?? 0.5,
@@ -292,16 +298,12 @@ export function getMethodThermodynamics(
     };
   }
 
-  // 3. Check the explicitly defined mapping constant
-  const constantThermoData =
-    _COOKING_METHOD_THERMODYNAMICS[
-    methodNameLower as keyof typeof _COOKING_METHOD_THERMODYNAMICS
-    ];
-  if (constantThermoData) {
-    return constantThermoData;
-  }
-
-  // 4. Fallback logic based on method name characteristics - Safe string access
+  // 3. Fallback logic based on method name characteristics - Safe string access
+  //
+  // A tier reading `_COOKING_METHOD_THERMODYNAMICS` used to sit above this one.
+  // That constant was `{}`, so its `if` guard was never true and this heuristic
+  // has been the real tier 3 all along. See src/types/alchemy.ts for why it was
+  // removed rather than populated.
   if (
     methodNameLower.includes("grill") ||
     methodNameLower.includes("roast") ||

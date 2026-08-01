@@ -591,7 +591,18 @@ export type DignityType =
   | "Fall"
   | "Neutral";
 
-export const _COOKING_METHOD_THERMODYNAMICS = {};
+// `_COOKING_METHOD_THERMODYNAMICS` was declared here as `{}` — an empty object.
+//
+// Four call sites read it as tier 3 of a thermodynamics-resolution ladder, each
+// guarded by `if (constantThermoData)`. Because the object has no keys, that
+// guard was ALWAYS false: the tier could never hit, control always fell through
+// to the substring-heuristic tier below it, and the guard made a table that
+// cannot resolve anything read like a working priority tier.
+//
+// Removed rather than populated. The heuristic tier is what has actually been
+// deciding these values all along, and adding entries here would change live
+// behaviour under the guise of a cleanup. If a curated method→thermodynamics
+// table is wanted, it should be introduced deliberately with sourced values.
 
 // ========== MISSING TYPES FOR TS2305 FIXES ==========
 
