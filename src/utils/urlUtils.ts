@@ -87,3 +87,30 @@ export const getSelfBaseUrl = (): string => {
   const port = process.env.PORT || "3000";
   return `http://localhost:${port}`;
 };
+
+/**
+ * Is `base` safe to commit into a PERMANENT public reference (an on-chain
+ * `contentURI`/`metadataURI`)? False for localhost/loopback, and false for a
+ * bare Vercel DEPLOYMENT URL that differs from the production alias — those are
+ * Deployment-Protection-gated and return 401 to the public, so committing one
+ * on-chain permanently points the token at a door that will never open.
+ */
+export const isPublicCommitmentBase = (base: string): boolean => {
+  let host: string;
+  try {
+    host = new URL(base).hostname.toLowerCase();
+  } catch {
+    return false;
+  }
+  if (host === "localhost" || host === "127.0.0.1" || host === "::1" || host.endsWith(".localhost")) {
+    return false;
+  }
+  const deployment = process.env.VERCEL_URL?.trim().replace(/^https?:\/\//, "").toLowerCase();
+  const productionAlias = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+    .replace(/^https?:\/\//, "")
+    .toLowerCase();
+  if (deployment && host === deployment && host !== productionAlias) {
+    return false;
+  }
+  return true;
+};

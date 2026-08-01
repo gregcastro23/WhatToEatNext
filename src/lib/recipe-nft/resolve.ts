@@ -17,6 +17,13 @@ export interface ResolvedNftRecipe {
   recipe: MintableRecipe;
   /** A durable image URL stored at mint time, if any (else generate on demand). */
   storedImageUrl: string | null;
+  /**
+   * The exact committed content envelope stored at mint time (migration 57).
+   * When present, the content route serves THIS verbatim — never a live
+   * recomputation, whose fingerprint drifts with the ingredient catalog.
+   * Null for the featured pre-mint recipe and legacy rows.
+   */
+  storedContent: unknown | null;
 }
 
 let _featuredContentHash: string | null = null;
@@ -33,7 +40,7 @@ export async function resolveNftRecipe(id: string): Promise<ResolvedNftRecipe | 
 
   // 1. The featured recipe — by id or by its content hash (serveable pre-mint).
   if (key === featuredRecipe.id || lower === featuredContentHash()) {
-    return { recipe: featuredRecipe, storedImageUrl: null };
+    return { recipe: featuredRecipe, storedImageUrl: null, storedContent: null };
   }
 
   // 2. Any minted recipe — by content hash from the ledger.
@@ -42,7 +49,11 @@ export async function resolveNftRecipe(id: string): Promise<ResolvedNftRecipe | 
     if (stored) {
       const parsed = parseRecipeForMint(stored.recipeJson);
       if (parsed.ok && parsed.recipe) {
-        return { recipe: parsed.recipe, storedImageUrl: stored.imageUrl };
+        return {
+          recipe: parsed.recipe,
+          storedImageUrl: stored.imageUrl,
+          storedContent: stored.contentJson,
+        };
       }
     }
   }

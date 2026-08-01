@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { getCurrentSwapRates } from "@/lib/economy/swapRates";
 import { getPrivyWallet } from "@/lib/privy/server";
-import { buildMetadata, computeCommitments } from "@/lib/recipe-nft/content";
+import { buildMetadata, buildRecipeNftContent, computeCommitments } from "@/lib/recipe-nft/content";
 import { recipeNftEnabled } from "@/lib/recipe-nft/contract";
 import { baseMintCost, elementToCoin, redistributeTowardDominant } from "@/lib/recipe-nft/cost";
 import { computeRecipeFingerprint } from "@/lib/recipe-nft/fingerprint";
@@ -14,7 +14,7 @@ import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import { getDominantElementFromPositions } from "@/utils/astrology/signElement";
-import { getSelfBaseUrl } from "@/utils/urlUtils";
+import { getSelfBaseUrl, isPublicCommitmentBase } from "@/utils/urlUtils";
 import type { NextRequest } from "next/server";
 import type { Address } from "viem";
 
@@ -126,18 +126,38 @@ export async function POST(request: NextRequest) {
 
   // Pin display metadata: generate the hero image (live nanobanana, cached) and
   // build absolute content/metadata URIs served from our own infra (no IPFS).
-  const imageUrl =
+  // KEEP null when generation fails — the ledger stores absence, and the
+  // metadata route regenerates on absence. Coalescing to "" here permanently
+  // pinned a blank image on every mint whose generation had a transient failure.
+  const imageUrl: string | null =
     (await generateRecipeImage({
       id: recipe.id,
       title: recipe.title,
       description: recipe.short_description,
       cuisine: recipe.cuisine,
       elemental: fingerprint.elemental,
-    })) ?? "";
+    })) ?? null;
   const base = getSelfBaseUrl();
+  // A real on-chain mint commits these URIs permanently. Refuse to anchor the
+  // token to a base the public can never fetch (localhost fallback, or a
+  // Deployment-Protection-gated Vercel deployment URL) — a misconfigured env
+  // must be a 503 now, not a dead contentURI forever.
+  if (recipeNftEnabled() && !isPublicCommitmentBase(base)) {
+    return NextResponse.json(
+      {
+        error: "mint_unavailable",
+        detail:
+          "On-chain minting is enabled but no public site URL is configured (set NEXT_PUBLIC_SITE_URL). Refusing to commit a non-public contentURI on-chain.",
+      },
+      { status: 503 },
+    );
+  }
   const contentURI = `${base}/api/recipes/nft/content/${commitments.contentHash}`;
   const metadataURI = `${base}/api/recipes/nft/metadata/${commitments.contentHash}`;
-  const metadata = buildMetadata(recipe, fingerprint, { imageUrl, externalUrl: `${base}/recipe-builder` });
+  const metadata = buildMetadata(recipe, fingerprint, {
+    imageUrl: imageUrl ?? undefined,
+    externalUrl: `${base}/recipe-builder`,
+  });
 
   // Recipient = the user's own linked Base wallet when known, else the rights
   // holder (custody, matching the gas-free claim-mint model). Resolved purely
@@ -209,6 +229,9 @@ export async function POST(request: NextRequest) {
     chainResult,
     metadataUri: metadataURI,
     recipeJson: recipe,
+    // The EXACT envelope contentHash commits to — served verbatim by the
+    // content route so catalog edits can never drift the bytes from the hash.
+    contentJson: buildRecipeNftContent(recipe, fingerprint),
     imageUrl,
   };
   let record = await recipeNftMintService.recordMint(ledgerRow);

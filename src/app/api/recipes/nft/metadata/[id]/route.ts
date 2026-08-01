@@ -28,16 +28,19 @@ export async function GET(
 
   const { recipe, storedImageUrl } = resolved;
   const fingerprint = computeRecipeFingerprint(recipe);
+  // `||` deliberately, NOT `??`: a stored empty string means image generation
+  // failed at mint time, and it must trigger regeneration here — `??` would
+  // pin the blank image forever.
   const imageUrl =
-    storedImageUrl ??
-    (await generateRecipeImage({
+    storedImageUrl ||
+    ((await generateRecipeImage({
       id: recipe.id,
       title: recipe.title,
       description: recipe.short_description,
       cuisine: recipe.cuisine,
       elemental: fingerprint.elemental,
     })) ??
-    "";
+      "");
   const externalUrl = `${getSelfBaseUrl()}/recipe-builder`;
 
   const metadata = buildMetadata(recipe, fingerprint, { imageUrl, externalUrl });
