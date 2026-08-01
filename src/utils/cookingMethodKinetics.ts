@@ -12,6 +12,7 @@
  * "Sous Vide" (low power, low entropy, high stability).
  */
 
+import { normalizeCookingMethodKey } from "@/constants/cookingMethodKeys";
 import type { Element } from "@/types/celestial";
 import type { CookingMethodKineticProfile } from "@/types/cookingMethod";
 import type { AspectPhase, KineticMetrics } from "@/types/kinetics";
@@ -299,21 +300,31 @@ interface MethodKineticsInput {
 export function getKineticProfile(
   methodId: string,
   dataProfile?: CookingMethodKineticProfile,
-): CookingMethodKineticProfile {
+): CookingMethodKineticProfile | null {
   if (dataProfile) return dataProfile;
 
-  // Normalize method name for lookup
-  const normalized = methodId.toLowerCase().replace(/[\s-]+/g, "_");
+  const normalized = normalizeCookingMethodKey(methodId);
 
-  return COOKING_METHOD_KINETIC_PROFILES[normalized] ?? {
-    // Fallback for unknown methods
-    voltage: 0.50,
-    current: 0.50,
-    resistance: 0.50,
-    velocityFactor: 0.50,
-    momentumRetention: 0.50,
-    forceImpact: 0.50,
-  };
+  const direct = COOKING_METHOD_KINETIC_PROFILES[normalized];
+  if (direct) return direct;
+
+  // Registry keys are not all in normalized form, so compare normalized forms
+  // on both sides before giving up.
+  const matched = Object.keys(COOKING_METHOD_KINETIC_PROFILES).find(
+    (key) => normalizeCookingMethodKey(key) === normalized,
+  );
+  if (matched) return COOKING_METHOD_KINETIC_PROFILES[matched];
+
+  // Returns null rather than six fabricated 0.50s.
+  //
+  // The old fallback handed back a full profile of midpoints for any unknown
+  // method. Downstream, a 0.50 voltage from this fallback is indistinguishable
+  // from a 0.50 voltage that was actually authored — so a method silently
+  // missing from the registry scored as though it had been measured.
+  //
+  // A coverage test asserts every servable method resolves here, so null means
+  // a genuine gap that a caller must handle, not a routine miss.
+  return null;
 }
 
 /**
@@ -392,6 +403,16 @@ export function calculateMethodSpecificKinetics(
   } = input;
 
   const profile = getKineticProfile(methodId, dataProfile);
+  if (!profile) {
+    // Throws rather than substituting midpoints. A coverage test asserts every
+    // servable method resolves a profile, so reaching this means an
+    // unregistered method id — a programming error that must be visible, not a
+    // recommendation quietly scored on six invented 0.50s.
+    throw new Error(
+      `No kinetic profile for cooking method "${methodId}". ` +
+        `Register it in COOKING_METHOD_KINETIC_PROFILES or pass a dataProfile.`,
+    );
+  }
   const planetaryBoost = getPlanetaryElementBoost(elementalEffect, planetaryPositions);
   const monicaValue = monica ?? 1.0;
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CANONICAL_COOKING_METHOD_KEYS } from "@/constants/cookingMethodKeys";
 
 /**
  * Environmental Thermodynamics — canonical contracts.
@@ -33,41 +34,15 @@ import { z } from "zod";
  * snake_case throughout. Every registry must be total over this list; the
  * coverage test is the enforcement point.
  */
-export const CANONICAL_COOKING_METHODS = [
-  "baking",
-  "boiling",
-  "braising",
-  "broiling",
-  "ceviche",
-  "cryo_cooking",
-  "curing",
-  "dehydrating",
-  "distilling",
-  "emulsification",
-  "fermentation",
-  "foam",
-  "frying",
-  "gelification",
-  "grilling",
-  "infusing",
-  "marinating",
-  "pickling",
-  "poaching",
-  "pressure_cooking",
-  "raw",
-  "roasting",
-  "sauteing",
-  "simmering",
-  "smoking",
-  "sous_vide",
-  "spherification",
-  "steaming",
-  "stewing",
-  "stir_frying",
-  "tilt_skillet",
-] as const;
+// The canonical key space now lives in src/constants/cookingMethodKeys.ts, which
+// owns the cooking-method domain. It was duplicated here; two hand-maintained
+// lists of the same 31 strings is the exact fracture this schema was written to
+// describe.
+export const CANONICAL_COOKING_METHODS = CANONICAL_COOKING_METHOD_KEYS;
 
-export const cookingMethodKeySchema = z.enum(CANONICAL_COOKING_METHODS);
+export const cookingMethodKeySchema = z.enum(
+  CANONICAL_COOKING_METHOD_KEYS as unknown as [string, ...string[]],
+);
 export type CookingMethodKey = z.infer<typeof cookingMethodKeySchema>;
 
 /**

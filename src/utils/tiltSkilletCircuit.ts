@@ -144,7 +144,9 @@ export function computeStageCircuit(
     thermodynamics: { heat: thermo.heat, entropy: thermo.entropy, reactivity: thermo.reactivity },
     gregsEnergy: thermo.gregsEnergy,
     monica: Number.isFinite(thermo.monica) ? thermo.monica : null,
-    kineticProfile: getKineticProfile("tilt_skillet"),
+    // tilt_skillet is a registered profile, so this never resolves null; the
+    // bridge exists because the field is optional rather than nullable.
+    kineticProfile: getKineticProfile("tilt_skillet") ?? undefined,
     planetaryPositions,
   });
 

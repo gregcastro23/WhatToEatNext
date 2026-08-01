@@ -569,12 +569,19 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         )
         : null;
 
-      const methodPowerProxy = Math.max(0, Math.min(1, kProfile.voltage * kProfile.current * (1 - kProfile.resistance)));
+      // Null when the method has no registered kinetic profile. The lookup used
+      // to return six 0.50 midpoints on a miss, which produced a real-looking
+      // power proxy for a method the registry knows nothing about.
+      const methodPowerProxy = kProfile
+        ? Math.max(0, Math.min(1, kProfile.voltage * kProfile.current * (1 - kProfile.resistance)))
+        : null;
       const currentPowerProxy = currentMoment
         ? Math.max(0, Math.min(1, Math.abs(currentMoment.circuit.power) * 20))
         : null;
       const kineticAlignmentScore =
-        currentPowerProxy === null ? null : Math.max(0, 100 - Math.abs(methodPowerProxy - currentPowerProxy) * 100);
+        currentPowerProxy === null || methodPowerProxy === null
+          ? null
+          : Math.max(0, 100 - Math.abs(methodPowerProxy - currentPowerProxy) * 100);
 
       // Calculate Harmony Index via Resonance Gap model
       const duration = method.duration || method.time_range;
@@ -951,27 +958,33 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
-            <h4 className="text-sm font-bold text-gray-300 mb-3">P=IV Circuit Profile</h4>
-            <div className="flex justify-center">
-              <KineticRadar profile={kProfile} size={180} />
+          {/* Rendered only when the method has a registered kinetic profile.
+              The lookup used to substitute six 0.50 midpoints on a miss, so this
+              panel would display a full circuit readout for a method the
+              registry knows nothing about. Absent is now absent. */}
+          {kProfile && (
+            <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">
+              <h4 className="text-sm font-bold text-gray-300 mb-3">P=IV Circuit Profile</h4>
+              <div className="flex justify-center">
+                <KineticRadar profile={kProfile} size={180} />
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                {[
+                  { label: "Voltage", value: kProfile.voltage, unit: "V" },
+                  { label: "Current", value: kProfile.current, unit: "I" },
+                  { label: "Resistance", value: kProfile.resistance, unit: "R" },
+                  { label: "Velocity", value: kProfile.velocityFactor, unit: "v" },
+                  { label: "Momentum", value: kProfile.momentumRetention, unit: "p" },
+                  { label: "Force", value: kProfile.forceImpact, unit: "F" },
+                ].map(({ label, value, unit }) => (
+                  <div key={label} className="text-xs">
+                    <div className="text-gray-400">{label}</div>
+                    <div className="font-bold text-gray-300">{value.toFixed(2)} <span className="text-gray-400 text-[10px]">{unit}</span></div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="mt-3 grid grid-cols-3 gap-2 text-center">
-              {[
-                { label: "Voltage", value: kProfile.voltage, unit: "V" },
-                { label: "Current", value: kProfile.current, unit: "I" },
-                { label: "Resistance", value: kProfile.resistance, unit: "R" },
-                { label: "Velocity", value: kProfile.velocityFactor, unit: "v" },
-                { label: "Momentum", value: kProfile.momentumRetention, unit: "p" },
-                { label: "Force", value: kProfile.forceImpact, unit: "F" },
-              ].map(({ label, value, unit }) => (
-                <div key={label} className="text-xs">
-                  <div className="text-gray-400">{label}</div>
-                  <div className="font-bold text-gray-300">{value.toFixed(2)} <span className="text-gray-400 text-[10px]">{unit}</span></div>
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
 
           {kinetics && (
             <div className="rounded-xl border border-white/10 bg-transparent p-5 shadow-sm">

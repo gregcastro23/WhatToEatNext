@@ -1,5 +1,6 @@
 // src/constants/alchemicalPillars.ts
 
+import { normalizeCookingMethodKey } from "@/constants/cookingMethodKeys";
 import { seasonalElements } from "@/data/seasons";
 import type { Season, ElementalProperties, QuantityScaledProperties } from "@/types/alchemy";
 import type { AlchemicalProperty, Element, LunarPhase} from "@/types/celestial";
@@ -338,6 +339,49 @@ export const COOKING_METHOD_PILLAR_MAPPING = {
   raw: 9, // Purification
   ceviche: 1, // Solution
   marinating: 4, // Distillation (flavor extraction)
+
+  // ── Methods that had no pillar under any spelling ────────────────────────
+  //
+  // `[MEASURED 2026-08-01]` 6 of the 27 servable methods resolved no pillar,
+  // so they rendered with UNTRANSFORMED ESMS and shared an identical kalchm.
+  //
+  // These are ADDED, never renamed. Method keys are persisted in three Postgres
+  // surfaces read by exact string equality — `user_profiles.taste_corrections
+  // .methods` most sharply, where a stored `{"stir-frying": "block"}` is a user
+  // saying *never this*. Renaming a key silently revokes that, and there is no
+  // backfill hook anywhere in database/init/. So `drying` and `dehydrating`
+  // both resolve, `fermenting` and `fermentation` both resolve, and every test
+  // and stored value that worked before still works.
+
+  // Same referent as `drying: 3` above; both spellings are live in the data.
+  dehydrating: 3, // Evaporation
+  // Same referent as `fermenting: 11` above.
+  fermentation: 11, // Fermentation
+  // Same referent as `"stir-frying": 5` above; the data files use stir_frying.
+  stir_frying: 5, // Separation
+
+  // Distillation by name and by mechanism — separation of volatiles by
+  // evaporation and condensation, which is pillar 4's own description.
+  distilling: 4, // Distillation
+  // Flavour extraction into a carrier liquid. Follows the in-repo precedent
+  // set by `marinating: 4 // Distillation (flavor extraction)` above.
+  infusing: 4, // Distillation (flavor extraction)
+
+  // Fire-primary with a substantial Water component from the lidded braise
+  // phase (tilt-skillet.ts elementalEffect Fire 0.55 / Water 0.25 / Earth 0.12,
+  // and profiles/dry.ts: "the lid converts dry conduction into moist
+  // convection: Fire recedes, Water rises"). That moist phase rules out
+  // Calcination's open-heat volatile loss, leaving pillar 5, whose
+  // elementalAssociations are Fire primary / Water secondary.
+  tilt_skillet: 5, // Separation
+
+  // Ruled 13 by the project owner. Recorded for the reader: an adversarial
+  // review argued for 11 (Fermentation) on element order, a suitable_for list
+  // identical to braising and stewing, Mars planetary overlap, and Spirit
+  // direction — pressure cooking retains volatiles ("nothing escapes the
+  // lock"), which argues Spirit +1 rather than pillar 1's Spirit -1.
+  // 13 and 11 differ in Spirit, so this is a real ESMS difference, not cosmetic.
+  pressure_cooking: 13, // Multiplication
 };
 
 /**
@@ -435,7 +479,22 @@ export function getCookingMethodPillar(
   // a bounds-checked `Record` for the dynamic lookup below (same pattern used
   // in monicaKalchmCalculations.ts).
   const pillarMapping: Record<string, number> = COOKING_METHOD_PILLAR_MAPPING;
-  const pillerId = pillarMapping[cookingMethod.toLowerCase()];
+
+  // This used to be a bare `.toLowerCase()`, which collapsed no separators and
+  // folded no accents. "Pressure Cooking" became "pressure cooking" (a space),
+  // "Cryo-Cooking" kept its hyphen, and "Sautéing" kept its accent — none of
+  // which is a key here. Normalizing tolerates every spelling in the data
+  // without renaming a single stored key.
+  const normalized = normalizeCookingMethodKey(cookingMethod);
+  const pillerId =
+    pillarMapping[normalized] ??
+    // Registry keys are not all in normalized form (e.g. "stir-frying"), so
+    // fall back to comparing normalized forms on both sides.
+    pillarMapping[
+      Object.keys(pillarMapping).find(
+        (key) => normalizeCookingMethodKey(key) === normalized,
+      ) ?? ""
+    ];
   if (!pillerId) return undefined;
   return ALCHEMICAL_PILLARS.find((pillar) => pillar.id === pillerId);
 }

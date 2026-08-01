@@ -151,4 +151,28 @@ export const METHOD_PHYSICAL_REFERENCE: Record<string, MethodPhysicalReference> 
         temperatureF: { low: 34, high: 70, ideal: 40, note: "Refrigerated diffusion and acid/salt-driven denaturation for safety + controlled uptake." },
         pressure: { mode: "ambient", gaugePsi: "0", absoluteKPa: "~101", note: "Typically atmospheric unless vacuum tumbling/compression is used." },
     },
+
+    // ── Servable methods that had no physical reference ──────────────────────
+    // [MEASURED 2026-08-01] `stewing` and `raw` were the only two of the 27
+    // servable methods with no entry here, so their temperature and pressure
+    // block was silently omitted from the /cooking-methods surfaces.
+    stewing: {
+        temperatureF: {
+            low: 180, high: 205, ideal: 190,
+            note: "Held just below a boil so collagen converts to gelatin without the agitation that shreds fibres; the same sub-simmer window as simmering, sustained far longer.",
+        },
+        pressure: { mode: "ambient", gaugePsi: "0", absoluteKPa: "~101", note: "Covered vessel at atmospheric pressure; the lid limits evaporation, not pressure." },
+    },
+    raw: {
+        temperatureF: {
+            low: 34, high: 70, ideal: 40,
+            note: "No applied heat. The range is storage and service temperature, bounded below by freezing and above by the food-safety danger zone.",
+            proteins: {
+                seafood: { temp: 34, note: "Held as close to freezing as possible; raw seafood is the least forgiving on time-temperature." },
+                redMeat: { temp: 38, note: "Refrigerated service for tartare and carpaccio." },
+                vegetable: { temp: 55, note: "Cool but not cold — full aromatic expression is lost at refrigerator temperature." },
+            },
+        },
+        pressure: { mode: "ambient", gaugePsi: "0", absoluteKPa: "~101", note: "Atmospheric throughout; no thermal or pressure processing is applied." },
+    },
 };
