@@ -15,7 +15,8 @@
  * elemental match or Monica calculation.
  */
 
-import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
+import { calculateThermodynamics } from "@/data/unified/alchemicalCalculations";
+import { thermoAffinity } from "@/data/unified/thermodynamicAffinity";
 import type { ElementalProperties } from "@/types/alchemy";
 import type {
   AstrologicalState,
@@ -71,7 +72,14 @@ const ZODIAC_ELEMENT: Record<string, Element> = {
 export const SCORING_WEIGHTS = {
   elemental: 0.35,
   planetary: 0.25,
-  monica: 0.20,
+  /**
+   * Was `monica`, and RENAMED rather than repurposed: the factor now measures
+   * thermodynamic state distance, not monica distance. Keeping the old key while
+   * changing what it means would leave every reader silently wrong. The 0.20
+   * value is unchanged — this change restores signal to the existing weight, it
+   * does not re-argue the weighting.
+   */
+  thermodynamic: 0.20,
   zodiac: 0.10,
   lunar: 0.10,
 } as const;
@@ -84,13 +92,17 @@ export const SCORING_WEIGHTS = {
  *
  * Reuses existing scoring primitives:
  *   - `calculateElementalMatch`   (cuisineRecommender)
- *   - `performAlchemicalAnalysis` (data/unified/alchemicalCalculations) — real Monica
+ *   - `calculateThermodynamics`   (data/unified/alchemicalCalculations)
+ *   - `thermoAffinity`            (data/unified/thermodynamicAffinity)
  *
  * Cuisine ESMS is derived from the cuisine's planetary ruler via
  * `PLANETARY_SECTARIAN_ALCHEMICAL`, so it represents an authentic
  * planet-derived alchemical profile rather than an elemental approximation.
+ * ⚠️ That profile is a single unweighted UNIT VECTOR, unlike the moment's
+ * mass-weighted multi-body sum. It is why the old monica factor collapsed; see
+ * `thermodynamicAffinity.ts`. Fixing it is a separate, queued data correction.
  *
- * Final score: weighted sum of elemental, planetary, monica, zodiac, lunar.
+ * Final score: weighted sum of elemental, planetary, thermodynamic, zodiac, lunar.
  *
  * Note: requires `astrologicalState.domElements` and `zodiacSign` to be present
  * (the discovery orchestrator's `buildAstrologicalState` always populates them).
@@ -132,23 +144,25 @@ export function scoreCuisineAgainstMoment(
     astrologicalState,
   );
 
-  // ── Factor 3: Monica compatibility ──
-  // Both Monica values come from `performAlchemicalAnalysis` so they
-  // are computed from the authoritative formula:
-  //   Monica = -GregsEnergy / (Reactivity * ln(Kalchm))
+  // ── Factor 3: Thermodynamic state affinity ──
+  // Was a distance between two `monica` constants. That carried MEASURED ZERO
+  // signal: cuisine ESMS is a one-hot unit vector, so kalchm ≡ 1, ln(kalchm) = 0,
+  // and monica was φ for all 30 cuisine × sect rows. The full derivation and the
+  // replacement metric live in `@/data/unified/thermodynamicAffinity`.
+  //
+  // Monica is deliberately NOT computed here any more, not even for display: it
+  // is the same constant for every cuisine, so surfacing it would present a
+  // constant as a per-cuisine measurement. It becomes meaningful again once
+  // cuisine ESMS is derived the way the moment's is (mass-weighted over the
+  // cuisine's ruling planets) — tracked separately.
   const cuisineAlchemical = deriveCuisineAlchemical(
     cuisineProfile.planetaryRuler,
     diurnal,
   );
-  const cuisineMonica = performAlchemicalAnalysis(
-    cuisineAlchemical,
-    cuisineElement,
-  ).monica;
-  const momentMonica = performAlchemicalAnalysis(
-    momentAlchemical,
-    momentElement,
-  ).monica;
-  const monicaCompatibility = normalizeMonicaDistance(cuisineMonica, momentMonica);
+  const thermodynamicAffinity = thermoAffinity(
+    calculateThermodynamics(cuisineAlchemical, cuisineElement),
+    calculateThermodynamics(momentAlchemical, momentElement),
+  );
 
   // ── Factor 4: Zodiac alignment ──
   const zodiacScore = scoreZodiacAlignment(
@@ -163,7 +177,7 @@ export function scoreCuisineAgainstMoment(
   const alchmScore =
     elementalMatch * SCORING_WEIGHTS.elemental +
     planetaryAlignment * SCORING_WEIGHTS.planetary +
-    monicaCompatibility * SCORING_WEIGHTS.monica +
+    thermodynamicAffinity * SCORING_WEIGHTS.thermodynamic +
     zodiacScore * SCORING_WEIGHTS.zodiac +
     lunarScore * SCORING_WEIGHTS.lunar;
 
@@ -175,7 +189,7 @@ export function scoreCuisineAgainstMoment(
     dominantElement,
     elementalMatch,
     planetaryAlignment,
-    monicaCompatibility,
+    thermodynamicAffinity,
     astrologicalState,
   });
 
@@ -184,7 +198,7 @@ export function scoreCuisineAgainstMoment(
     alchmScore: clamp01(alchmScore),
     elementalMatch: clamp01(elementalMatch),
     planetaryAlignment: clamp01(planetaryAlignment),
-    monicaCompatibility: clamp01(monicaCompatibility),
+    thermodynamicAffinity: clamp01(thermodynamicAffinity),
     dominantElement,
     matchReasons,
     cuisineElement,
@@ -293,17 +307,6 @@ function scorePlanetaryAlignment(
 }
 
 /**
- * Map two Monica constants to a 0–1 compatibility score.
- * Smaller absolute distance ⇒ higher compatibility.
- */
-function normalizeMonicaDistance(a: number, b: number): number {
-  if (!Number.isFinite(a) || !Number.isFinite(b)) return 0.5;
-  const distance = Math.abs(a - b);
-  // Empirical scaling: Monica values typically span O(1); 2.0 distance ≈ 0.
-  return clamp01(1 - Math.min(distance / 2, 1));
-}
-
-/**
  * Zodiac alignment: 1.0 when the zodiac's element is the cuisine's dominant
  * element, 0.7 when the cuisine has meaningful presence (≥0.25) of that
  * element, 0.5 otherwise.
@@ -368,7 +371,7 @@ function buildMatchReasons(input: {
   dominantElement: Element;
   elementalMatch: number;
   planetaryAlignment: number;
-  monicaCompatibility: number;
+  thermodynamicAffinity: number;
   astrologicalState: AstrologicalState;
 }): string[] {
   const reasons: string[] = [];
@@ -378,7 +381,7 @@ function buildMatchReasons(input: {
     dominantElement,
     elementalMatch,
     planetaryAlignment,
-    monicaCompatibility,
+    thermodynamicAffinity,
     astrologicalState,
   } = input;
 
@@ -404,8 +407,13 @@ function buildMatchReasons(input: {
     reasons.push(`Elemental harmony with the moment (${Math.round(elementalMatch * 100)}%)`);
   }
 
-  if (monicaCompatibility >= 0.85) {
-    reasons.push("Monica constant optimized for this moment");
+  // 0.85 affinity is d ≤ −D0·ln(0.85) = 0.2709 in whitened units, between p10
+  // (0.195) and p25 (0.314) of the measured reachable distribution — see
+  // `thermodynamicAffinity.ts`. The old copy keyed off a monica score that was
+  // identical for every cuisine at any given moment, so it fired for all fifteen
+  // or none, which is not a per-restaurant reason.
+  if (thermodynamicAffinity >= 0.85) {
+    reasons.push("Thermodynamic state closely matches this moment");
   }
 
   if (reasons.length === 0) {

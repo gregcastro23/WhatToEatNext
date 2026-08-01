@@ -909,7 +909,7 @@ interface AnnotateOptions {
     alchmScore?: number;
     elementalMatch?: number;
     planetaryAlignment?: number;
-    monicaCompatibility?: number;
+    thermodynamicAffinity?: number;
   };
 }
 
@@ -941,7 +941,7 @@ function annotateWithPartner(opts: AnnotateOptions): AlchmScoredRestaurant {
     alchmScore: scores.alchmScore ?? 0,
     elementalMatch: scores.elementalMatch ?? 0,
     planetaryAlignment: scores.planetaryAlignment ?? 0,
-    monicaCompatibility: scores.monicaCompatibility ?? 0,
+    thermodynamicAffinity: scores.thermodynamicAffinity ?? 0,
     dominantElement,
     matchReasons: partnerReasons,
     cuisineElement,
