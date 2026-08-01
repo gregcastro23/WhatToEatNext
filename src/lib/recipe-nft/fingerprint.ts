@@ -43,6 +43,26 @@ export const TARGET_ESMS = 20.0;
 
 const NEUTRAL_POTENCY = 5;
 
+/** Authored potency is documented as a 1-10 scale throughout src/data/ingredients. */
+const MIN_POTENCY = 1;
+const MAX_POTENCY = 10;
+
+/**
+ * Resolve a potency to use as a weighting factor.
+ *
+ * Absent, non-finite, or out-of-scale values fall back to NEUTRAL_POTENCY — an
+ * honest "unknown", not a measurement. Previously this was `potency || NEUTRAL`,
+ * which also swallowed a legitimate 0; `??` keeps 0 distinguishable from absent
+ * so the range check can reject it explicitly rather than silently rewriting it.
+ */
+function resolvePotency(potency: number | undefined): number {
+  const value = potency ?? NEUTRAL_POTENCY;
+  if (!Number.isFinite(value) || value < MIN_POTENCY || value > MAX_POTENCY) {
+    return NEUTRAL_POTENCY;
+  }
+  return value;
+}
+
 const DEFAULT_ESMS: CoinAmounts = { spirit: 0.25, essence: 0.3, matter: 0.25, substance: 0.2 };
 
 /** Curated per-unit ESMS + elemental + potency for ingredients absent from the catalog. */
@@ -259,7 +279,7 @@ export function computeRecipeFingerprint(recipe: MintableRecipe): RecipeFingerpr
   const rows = recipe.ingredients.map((ing) => {
     const r = resolveIngredient(ing.name);
     const { grams, estimated } = estimateMass(ing.quantity, ing.unit, ing.household_description);
-    const potencyFactor = clamp((r.potency || NEUTRAL_POTENCY) / NEUTRAL_POTENCY, 0.3, 2.5);
+    const potencyFactor = clamp(resolvePotency(r.potency) / NEUTRAL_POTENCY, 0.3, 2.5);
     const weight = grams * potencyFactor;
     return { ing, r, grams, estimated, potencyFactor, weight };
   });

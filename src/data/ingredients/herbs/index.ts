@@ -26,54 +26,35 @@ const CUISINE_TYPES = {
   LEBANESE: "lebanese",
 } as const;
 
-// Helper function to generate meaningful herb values
-function generateHerbValues(
-  elementalProps: Record<string, number>,
-): Record<string, number> {
-  // Normalize elements to ensure they sum to 1
-  const totalElements = Object.values(elementalProps).reduce(
-    (sum, val) => sum + val,
-    0,
-  );
-  const normalized = Object.entries(elementalProps).reduce(
-    (acc, [key, val]) => {
-      acc[key] = val / (totalElements || 1);
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+// ---------------------------------------------------------------------------
+// `generateHerbValues` used to live here. It fabricated five numeric fields
+// with Math.random() at MODULE LOAD, so every process saw different values:
+//
+//   [MEASURED 2026-07-31] three separate processes, same code:
+//     basil=6 mint=6 rosemary=5 curry_leaves=4 lemongrass=5 shiso=5
+//     basil=4 mint=4 rosemary=5 curry_leaves=6 lemongrass=4 shiso=4
+//     basil=3 mint=5 rosemary=6 curry_leaves=4 lemongrass=4 shiso=5
+//
+// One of those fields, `potency`, is load-bearing. It flows through
+// resolveIngredient -> potencyFactor -> ingredient weight -> the recipe
+// fingerprint -> contentHash, which is the Recipe-NFT mint deduplication key
+// AND the on-chain commitment. A per-process hash defeats the "one token per
+// unique recipe content" check at api/recipes/mint/route.ts:78, and commits a
+// hash that cannot be reproduced from the recipe it claims to describe.
+//
+// The other four (`aromatics`, `flavorComplexity`, `preservationFactor`,
+// `infusion_speed`) are removed outright: a repo-wide search found ZERO readers
+// outside src/data/ingredients. `aromatics` additionally collided with the
+// unrelated `aromatics?: string[]` on the recipe types, so shipping a number
+// there was a latent type conflict as well.
+//
+// Potency is now authored or absent. Absent resolves to NEUTRAL_POTENCY (5) at
+// fingerprint.ts, which is an honest "unknown" rather than an invented number —
+// only two herbs in this directory have ever had a sourced potency, and
+// authoring six more would be fabricating the same values by hand.
+// ---------------------------------------------------------------------------
 
-  // Find dominant element
-  const dominant = Object.entries(normalized).sort(
-    ([, a], [, b]) => b - a,
-  )[0][0];
-
-  // Calculate unique values
-  const aromaticStrength = Math.round(
-    normalized["Air"] * 6 + normalized["Fire"] * 4 + Math.random() * 2,
-  );
-  const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
-  const flavorComplexity = Math.round(
-    Object.keys(normalized).filter((k) => normalized[k] > 0.15).length * 2 +
-      Math.random() * 3,
-  );
-  const preservationFactor = Math.round(
-    normalized["Earth"] * 5 + normalized["Water"] * 3 + Math.random(),
-  );
-
-  return {
-    aromatics: Math.min(10, Math.max(1, aromaticStrength)),
-    potency: Math.min(10, Math.max(1, potency)),
-    flavorComplexity: Math.min(10, Math.max(1, flavorComplexity)),
-    preservationFactor: Math.min(10, Math.max(1, preservationFactor)),
-    infusion_speed: Math.min(
-      10,
-      Math.max(1, Math.round(10 - preservationFactor + Math.random() * 2)),
-    ),
-  };
-}
-
-// Helper function to standardize ingredient mappings with enhanced values
+// Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
   properties: Partial<IngredientMapping>,
@@ -87,14 +68,10 @@ function createIngredientMapping(
     Air: 0.45,
   };
 
-  // Generate meaningful numeric values based on elemental properties
-  const herbValues = generateHerbValues(elementalProps);
-
   return {
     name: id,
     elementalProperties: elementalProps,
     category: properties.category || "",
-    ...herbValues,
     ...properties,
   } as IngredientMapping;
 }
@@ -113,6 +90,20 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     elementalProperties: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 },
     qualities: ["aromatic", "sweet", "peppery"],
     category: "culinary_herb",
+    // Restored from this repo's own authored value for basil,
+    // src/data/ingredients/herbs/freshHerbs.ts:265 (`potency: 7 // 1-10 scale`).
+    // This entry shadows that one in the `herbs` spread below, so the authored
+    // figure was already being lost before the random value replaced it.
+    //
+    // Note this does NOT feed the Recipe-NFT fingerprint: [MEASURED 2026-07-31]
+    // resolveIngredient maps the name "basil" to the catalog key `fresh_basil`,
+    // not to this record. It is restored because it is the correct value for
+    // this ingredient, not as part of the contentHash fix.
+    //
+    // The other five herbs built through createIngredientMapping have no sourced
+    // potency anywhere in the repo and are deliberately left absent, resolving
+    // to NEUTRAL_POTENCY rather than to an invented number.
+    potency: 7,
     varieties: {
       sweet_basil: {
         aroma: "clove-like, sweet",
