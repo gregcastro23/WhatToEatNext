@@ -24,7 +24,6 @@ export {
 // ========== SIGNATURE IDENTIFICATION ==========
 
 export {
-  DEFAULT_GLOBAL_BASELINE,
   calculateSignatureConfidence,
   calculateZScore,
   classifySignatureStrength,

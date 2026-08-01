@@ -109,57 +109,18 @@ export interface GlobalBaseline {
   lastUpdated: Date;
 }
 
-/**
- * Default global baseline based on common culinary patterns
- * This serves as a fallback until real baseline data is calculated
+/*
+ * `DEFAULT_GLOBAL_BASELINE` was deleted here (2026-08-01). It was 30 invented
+ * statistics — means, standard deviations, even `cuisineCount: 10 // Estimated`
+ * — presented as culinary measurements and armed as this module's default
+ * z-score baseline. A z-score against numbers nobody measured is not a
+ * signature; it is a fabrication with confidence attached (§18k k12 class).
+ * MEASURED at deletion: its only consumers were the cuisine barrel re-export
+ * (zero external importers) and hierarchicalSystemVerification's self-test,
+ * which now carries its own explicitly-labeled FIXTURE baseline. The
+ * `globalBaseline` parameter is required: every caller names the basis it
+ * scores against.
  */
-export const DEFAULT_GLOBAL_BASELINE: GlobalBaseline = {
-  elementals: {
-    Fire: 0.25, // Balanced across cuisines
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
-  },
-  alchemical: {
-    Spirit: 2.5, // Balanced alchemical profile
-    Essence: 3.5,
-    Matter: 3.0,
-    Substance: 1.0,
-  },
-  thermodynamics: {
-    heat: 0.15,
-    entropy: 0.12,
-    reactivity: 0.18,
-    gregsEnergy: 0.08,
-    kalchm: 1.2,
-    monica: 0.7,
-  },
-
-  // Conservative standard deviations (will be refined with real data)
-  elementalStdDevs: {
-    Fire: 0.08,
-    Water: 0.07,
-    Earth: 0.06,
-    Air: 0.05,
-  },
-  alchemicalStdDevs: {
-    Spirit: 1.2,
-    Essence: 1.5,
-    Matter: 1.3,
-    Substance: 0.8,
-  },
-  thermodynamicStdDevs: {
-    heat: 0.05,
-    entropy: 0.04,
-    reactivity: 0.06,
-    gregsEnergy: 0.03,
-    kalchm: 0.4,
-    monica: 0.2,
-  },
-
-  cuisineCount: 10, // Estimated baseline
-  lastUpdated: new Date("2024-01-01"),
-};
 
 // ========== SIGNATURE IDENTIFICATION ==========
 
@@ -303,9 +264,9 @@ export function identifyThermodynamicSignatures(
 
     const zScore = calculateZScore(
       // kalchm/monica are optional on ThermodynamicProperties, so `value` is
-      // typed number | undefined here even though DEFAULT_GLOBAL_BASELINE and
-      // real baseline data always populate them; the guard above only
-      // narrows globalMean/globalStdDev, not value itself.
+      // typed number | undefined here even though baseline data always
+      // populates them; the guard above only narrows globalMean/globalStdDev,
+      // not value itself.
       value as number,
       globalMean,
       globalStdDev,
@@ -435,7 +396,7 @@ function generateThermodynamicSignatureDescription(
  */
 export function identifyCuisineSignatures(
   cuisineProperties: CuisineComputedProperties,
-  globalBaseline: GlobalBaseline = DEFAULT_GLOBAL_BASELINE,
+  globalBaseline: GlobalBaseline,
   options: {
     threshold?: number;
     includeConfidence?: boolean;
