@@ -25,6 +25,7 @@ import type {
 } from "@/types/celestial";
 import type { YelpBusiness, AlchmScoredRestaurant } from "@/types/yelp";
 import { calculateElementalMatch } from "@/utils/cuisineRecommender";
+import { CUISINE_SIGNATURES } from "@/utils/cuisineSignatures.generated";
 import { PLANETARY_SECTARIAN_ALCHEMICAL } from "@/utils/planetaryAlchemyMapping";
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -33,7 +34,37 @@ import { PLANETARY_SECTARIAN_ALCHEMICAL } from "@/utils/planetaryAlchemyMapping"
  * Cuisine → elemental fingerprint + planetary ruler.
  * Used by `scoreCuisineAgainstMoment` when the cuisine matches a known
  * tradition. Falls back to "Default" for unknown cuisines.
+ *
+ * BASIS, per row:
+ * - MEASURED — corpus mean of the cuisine's own recipes, read live from
+ *   cuisineSignatures.generated.ts (regenerate with `bun run
+ *   cuisines:process-all`; 2026-08-01 run: 1126 recipes, 24 buckets). The
+ *   previous hand-authored decimals had no basis, and two of them (Indian,
+ *   Korean) were byte-identical copy-paste — the corpus separates what the
+ *   hand map conflated.
+ * - MEASURED, continental proxy — Ethiopian reads the African corpus row
+ *   (african.ts covers the continent; no Ethiopian-specific corpus exists).
+ * - RULED — no corpus at all (Mediterranean is a meta-category, Spanish has
+ *   no cuisine file). Hand values retained and labeled; replace with
+ *   measurements if a corpus ever lands.
+ * - ABSENT — Default is the honest-neutral sentinel for unknown cuisines.
+ *
+ * planetaryRuler is a separate hand-assigned axis (unchanged here).
  */
+const corpusElementals = (
+  cuisine: string,
+): { Fire: number; Water: number; Earth: number; Air: number } => {
+  const row = CUISINE_SIGNATURES.find((s) => s.cuisine === cuisine);
+  if (!row) {
+    // Loud by design: a silent fallback here would fabricate a fingerprint.
+    // cuisineElementalMapBasis.test.ts pins every required corpus row, so a
+    // green build cannot reach this throw.
+    throw new Error(`CUISINE_ELEMENTAL_MAP: corpus row missing for ${cuisine}`);
+  }
+  const { Fire, Water, Earth, Air } = row.averageElementals;
+  return { Fire, Water, Earth, Air };
+};
+
 export const CUISINE_ELEMENTAL_MAP: Record<
   string,
   {
@@ -44,20 +75,24 @@ export const CUISINE_ELEMENTAL_MAP: Record<
     planetaryRuler: string;
   }
 > = {
-  Italian:       { Fire: 0.2,  Water: 0.3,  Earth: 0.4,  Air: 0.1,  planetaryRuler: "Venus" },
-  French:        { Fire: 0.1,  Water: 0.3,  Earth: 0.2,  Air: 0.4,  planetaryRuler: "Venus" },
-  Japanese:      { Fire: 0.1,  Water: 0.5,  Earth: 0.3,  Air: 0.1,  planetaryRuler: "Moon" },
-  Chinese:       { Fire: 0.2,  Water: 0.2,  Earth: 0.4,  Air: 0.2,  planetaryRuler: "Saturn" },
-  Mexican:       { Fire: 0.5,  Water: 0.1,  Earth: 0.3,  Air: 0.1,  planetaryRuler: "Mars" },
-  Indian:        { Fire: 0.4,  Water: 0.3,  Earth: 0.2,  Air: 0.1,  planetaryRuler: "Mars" },
-  Thai:          { Fire: 0.3,  Water: 0.2,  Earth: 0.1,  Air: 0.4,  planetaryRuler: "Mercury" },
+  // MEASURED — corpus means
+  Italian:       { ...corpusElementals("Italian"),    planetaryRuler: "Venus" },
+  French:        { ...corpusElementals("French"),     planetaryRuler: "Venus" },
+  Japanese:      { ...corpusElementals("Japanese"),   planetaryRuler: "Moon" },
+  Chinese:       { ...corpusElementals("Chinese"),    planetaryRuler: "Saturn" },
+  Mexican:       { ...corpusElementals("Mexican"),    planetaryRuler: "Mars" },
+  Indian:        { ...corpusElementals("Indian"),     planetaryRuler: "Mars" },
+  Thai:          { ...corpusElementals("Thai"),       planetaryRuler: "Mercury" },
+  American:      { ...corpusElementals("American"),   planetaryRuler: "Jupiter" },
+  Greek:         { ...corpusElementals("Greek"),      planetaryRuler: "Sun" },
+  Korean:        { ...corpusElementals("Korean"),     planetaryRuler: "Mars" },
+  Vietnamese:    { ...corpusElementals("Vietnamese"), planetaryRuler: "Mercury" },
+  // MEASURED, continental proxy
+  Ethiopian:     { ...corpusElementals("African"),    planetaryRuler: "Saturn" },
+  // RULED — no corpus (see doc above)
   Mediterranean: { Fire: 0.3,  Water: 0.2,  Earth: 0.2,  Air: 0.3,  planetaryRuler: "Sun" },
-  American:      { Fire: 0.3,  Water: 0.1,  Earth: 0.4,  Air: 0.2,  planetaryRuler: "Jupiter" },
-  Greek:         { Fire: 0.4,  Water: 0.1,  Earth: 0.2,  Air: 0.3,  planetaryRuler: "Sun" },
   Spanish:       { Fire: 0.4,  Water: 0.2,  Earth: 0.2,  Air: 0.2,  planetaryRuler: "Sun" },
-  Korean:        { Fire: 0.4,  Water: 0.3,  Earth: 0.2,  Air: 0.1,  planetaryRuler: "Mars" },
-  Vietnamese:    { Fire: 0.2,  Water: 0.3,  Earth: 0.1,  Air: 0.4,  planetaryRuler: "Mercury" },
-  Ethiopian:     { Fire: 0.2,  Water: 0.2,  Earth: 0.5,  Air: 0.1,  planetaryRuler: "Saturn" },
+  // ABSENT — honest-neutral sentinel
   Default:       { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25, planetaryRuler: "Sun" },
 };
 
