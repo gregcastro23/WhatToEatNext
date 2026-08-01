@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-19T04:30:04.908Z",
-  "totalCuisines": 23,
-  "totalRecipes": 624,
+  "generatedAt": "2026-08-01T18:22:58.595Z",
+  "totalCuisines": 24,
+  "totalRecipes": 1126,
   "assumptions": {
     "multiCuisineRecipesCountedInEachAggregation": true,
     "uniqueByRecipeNameWithinCuisine": true,
@@ -9,16 +9,16 @@
   },
   "globalAverages": {
     "elementals": {
-      "Fire": 0.25754349186733555,
-      "Water": 0.2813134956746029,
-      "Earth": 0.3393310651138982,
-      "Air": 0.12181194734416328
+      "Fire": 0.25630307461274054,
+      "Water": 0.2817536332563197,
+      "Earth": 0.3378978109461916,
+      "Air": 0.12404548118474823
     },
     "alchemical": {
-      "Spirit": 3.8753247681952008,
-      "Essence": 4.727355661191125,
-      "Matter": 5.66995690035617,
-      "Substance": 4.954654405165937
+      "Spirit": 3.8206224911671476,
+      "Essence": 4.661694759637511,
+      "Matter": 5.573986750623534,
+      "Substance": 4.877478399904208
     },
     "thermodynamics": {
       "heat": 0,
@@ -29,16 +29,16 @@
       "monica": 0
     },
     "elementalsStdDev": {
-      "Fire": 0.07074019844891345,
-      "Water": 0.06824108215055434,
-      "Earth": 0.07691521320477844,
-      "Air": 0.03860337427166374
+      "Fire": 0.06950580523193774,
+      "Water": 0.06683760661201944,
+      "Earth": 0.07560885601205619,
+      "Air": 0.03927935173474447
     },
     "alchemicalStdDev": {
-      "Spirit": 3.7120246181297216,
-      "Essence": 4.710996973885988,
-      "Matter": 7.157156679379513,
-      "Substance": 6.006718762494044
+      "Spirit": 3.64332544295432,
+      "Essence": 4.622545270317315,
+      "Matter": 7.02156374648961,
+      "Substance": 5.891884261649369
     },
     "thermodynamicsStdDev": {
       "heat": 0,
@@ -55,6 +55,35 @@
     "cuisinesWithSignal": 0
   },
   "cuisines": [
+    {
+      "cuisine": "Hsca",
+      "sampleSize": 502,
+      "popularityCount": 0,
+      "popularityWeight": 0,
+      "averageElementals": {
+        "Fire": 0.22777347775705398,
+        "Water": 0.29187679763580593,
+        "Earth": 0.304932965088938,
+        "Air": 0.1754167595182021
+      },
+      "averageAlchemical": {
+        "Spirit": 2.5624701195219126,
+        "Essence": 3.151494023904383,
+        "Matter": 3.3666733067729058,
+        "Substance": 3.1024302788844635
+      },
+      "variance": {
+        "elementals": {
+          "Fire": 0.06622467525165175,
+          "Water": 0.07723037874250549,
+          "Earth": 0.0651352221649664,
+          "Air": 0.03476266752395651
+        },
+        "diversityScore": 0.18251470776231013
+      },
+      "signatures": [],
+      "planetaryPatterns": []
+    },
     {
       "cuisine": "Thai",
       "sampleSize": 46,
@@ -113,11 +142,11 @@
       "signatures": [
         {
           "property": "Spirit",
-          "zscore": 1.7345219759148842,
+          "zscore": 1.7822428037188451,
           "strength": "moderate",
           "averageValue": 10.313913043478259,
-          "globalAverage": 3.8753247681952008,
-          "description": "Spirit is elevated (1.7σ above global average)"
+          "globalAverage": 3.8206224911671476,
+          "description": "Spirit is elevated (1.8σ above global average)"
         }
       ],
       "planetaryPatterns": []
@@ -296,35 +325,35 @@
       "signatures": [
         {
           "property": "Matter",
-          "zscore": 4.097037364324016,
+          "zscore": 4.189822886985768,
           "strength": "very_high",
           "averageValue": 34.993095238095236,
-          "globalAverage": 5.66995690035617,
-          "description": "Matter is elevated (4.1σ above global average)"
+          "globalAverage": 5.573986750623534,
+          "description": "Matter is elevated (4.2σ above global average)"
         },
         {
           "property": "Substance",
-          "zscore": 3.9119468667610047,
+          "zscore": 4.001290521126978,
           "strength": "very_high",
           "averageValue": 28.452619047619052,
-          "globalAverage": 4.954654405165937,
-          "description": "Substance is elevated (3.9σ above global average)"
+          "globalAverage": 4.877478399904208,
+          "description": "Substance is elevated (4.0σ above global average)"
         },
         {
           "property": "Essence",
-          "zscore": 3.71340395928319,
+          "zscore": 3.7986638723275488,
           "strength": "very_high",
           "averageValue": 22.22119047619048,
-          "globalAverage": 4.727355661191125,
-          "description": "Essence is elevated (3.7σ above global average)"
+          "globalAverage": 4.661694759637511,
+          "description": "Essence is elevated (3.8σ above global average)"
         },
         {
           "property": "Spirit",
-          "zscore": 3.522954620385236,
+          "zscore": 3.604398443693065,
           "strength": "very_high",
           "averageValue": 16.952619047619045,
-          "globalAverage": 3.8753247681952008,
-          "description": "Spirit is elevated (3.5σ above global average)"
+          "globalAverage": 3.8206224911671476,
+          "description": "Spirit is elevated (3.6σ above global average)"
         }
       ],
       "planetaryPatterns": []
@@ -445,35 +474,35 @@
       "signatures": [
         {
           "property": "Essence",
-          "zscore": 2.1683894034281033,
+          "zscore": 2.224085696970171,
           "strength": "high",
           "averageValue": 14.942631578947363,
-          "globalAverage": 4.727355661191125,
+          "globalAverage": 4.661694759637511,
           "description": "Essence is elevated (2.2σ above global average)"
         },
         {
           "property": "Substance",
-          "zscore": 2.1462507322133453,
+          "zscore": 2.2011804664733265,
           "strength": "high",
           "averageValue": 17.846578947368418,
-          "globalAverage": 4.954654405165937,
-          "description": "Substance is elevated (2.1σ above global average)"
+          "globalAverage": 4.877478399904208,
+          "description": "Substance is elevated (2.2σ above global average)"
         },
         {
           "property": "Spirit",
-          "zscore": 1.8410839418028069,
+          "zscore": 1.890814120480357,
           "strength": "moderate",
           "averageValue": 10.709473684210527,
-          "globalAverage": 3.8753247681952008,
-          "description": "Spirit is elevated (1.8σ above global average)"
+          "globalAverage": 3.8206224911671476,
+          "description": "Spirit is elevated (1.9σ above global average)"
         },
         {
           "property": "Matter",
-          "zscore": 1.8126561613012144,
+          "zscore": 1.8613281562162045,
           "strength": "moderate",
           "averageValue": 18.643421052631584,
-          "globalAverage": 5.66995690035617,
-          "description": "Matter is elevated (1.8σ above global average)"
+          "globalAverage": 5.573986750623534,
+          "description": "Matter is elevated (1.9σ above global average)"
         }
       ],
       "planetaryPatterns": []
@@ -565,11 +594,11 @@
       "signatures": [
         {
           "property": "Air",
-          "zscore": 3.3206437280259027,
+          "zscore": 3.2066343575583747,
           "strength": "very_high",
           "averageValue": 0.25,
-          "globalAverage": 0.12181194734416328,
-          "description": "Air is elevated (3.3σ above global average)"
+          "globalAverage": 0.12404548118474823,
+          "description": "Air is elevated (3.2σ above global average)"
         }
       ],
       "planetaryPatterns": []
@@ -603,10 +632,10 @@
       "signatures": [
         {
           "property": "Fire",
-          "zscore": 1.5640092725267445,
+          "zscore": 1.609631644374788,
           "strength": "moderate",
           "averageValue": 0.3681818181818182,
-          "globalAverage": 0.25754349186733555,
+          "globalAverage": 0.25630307461274054,
           "description": "Fire is elevated (1.6σ above global average)"
         }
       ],
@@ -670,19 +699,19 @@
       "signatures": [
         {
           "property": "Water",
-          "zscore": -2.0707979888542107,
+          "zscore": -2.1208663870801754,
           "strength": "high",
           "averageValue": 0.13999999999999999,
-          "globalAverage": 0.2813134956746029,
+          "globalAverage": 0.2817536332563197,
           "description": "Water is reduced (2.1σ below global average)"
         },
         {
           "property": "Fire",
-          "zscore": 1.7310738564169994,
+          "zscore": 1.7796632234457022,
           "strength": "moderate",
           "averageValue": 0.38,
-          "globalAverage": 0.25754349186733555,
-          "description": "Fire is elevated (1.7σ above global average)"
+          "globalAverage": 0.25630307461274054,
+          "description": "Fire is elevated (1.8σ above global average)"
         }
       ],
       "planetaryPatterns": []
@@ -745,26 +774,26 @@
       "signatures": [
         {
           "property": "Earth",
-          "zscore": 2.088909699285863,
+          "zscore": 2.143957700245596,
           "strength": "high",
           "averageValue": 0.5,
-          "globalAverage": 0.3393310651138982,
+          "globalAverage": 0.3378978109461916,
           "description": "Earth is elevated (2.1σ above global average)"
         },
         {
           "property": "Air",
-          "zscore": -1.860250527293305,
+          "zscore": -1.8850993693781215,
           "strength": "moderate",
           "averageValue": 0.05,
-          "globalAverage": 0.12181194734416328,
+          "globalAverage": 0.12404548118474823,
           "description": "Air is reduced (1.9σ below global average)"
         },
         {
           "property": "Fire",
-          "zscore": -1.5202599685241256,
+          "zscore": -1.5294128923190227,
           "strength": "moderate",
           "averageValue": 0.15,
-          "globalAverage": 0.25754349186733555,
+          "globalAverage": 0.25630307461274054,
           "description": "Fire is reduced (1.5σ below global average)"
         }
       ],
@@ -828,18 +857,18 @@
       "signatures": [
         {
           "property": "Earth",
-          "zscore": 3.389042609712319,
+          "zscore": 3.466554090066049,
           "strength": "very_high",
           "averageValue": 0.6,
-          "globalAverage": 0.3393310651138982,
-          "description": "Earth is elevated (3.4σ above global average)"
+          "globalAverage": 0.3378978109461916,
+          "description": "Earth is elevated (3.5σ above global average)"
         },
         {
           "property": "Fire",
-          "zscore": -2.227071669598283,
+          "zscore": -2.248777265311354,
           "strength": "high",
           "averageValue": 0.1,
-          "globalAverage": 0.25754349186733555,
+          "globalAverage": 0.25630307461274054,
           "description": "Fire is reduced (2.2σ below global average)"
         }
       ],
@@ -874,26 +903,26 @@
       "signatures": [
         {
           "property": "Water",
-          "zscore": 3.204616595072865,
+          "zscore": 3.265322889411078,
           "strength": "very_high",
           "averageValue": 0.5,
-          "globalAverage": 0.2813134956746029,
-          "description": "Water is elevated (3.2σ above global average)"
+          "globalAverage": 0.2817536332563197,
+          "description": "Water is elevated (3.3σ above global average)"
         },
         {
           "property": "Air",
-          "zscore": -1.860250527293305,
+          "zscore": -1.8850993693781215,
           "strength": "moderate",
           "averageValue": 0.05,
-          "globalAverage": 0.12181194734416328,
+          "globalAverage": 0.12404548118474823,
           "description": "Air is reduced (1.9σ below global average)"
         },
         {
           "property": "Fire",
-          "zscore": -1.5202599685241256,
+          "zscore": -1.5294128923190227,
           "strength": "moderate",
           "averageValue": 0.15,
-          "globalAverage": 0.25754349186733555,
+          "globalAverage": 0.25630307461274054,
           "description": "Fire is reduced (1.5σ below global average)"
         }
       ],

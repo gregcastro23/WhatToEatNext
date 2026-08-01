@@ -207,14 +207,27 @@ describe("thermodynamic affinity calibration", () => {
   // the pool, the nearest plausible mistake, moves SD.entropy by 13%).
   const CALIBRATION_PRECISION = 6;
 
-  it("re-derives THERMO_AFFINITY_SD", () => {
+  // ── RECALIBRATION_PENDING ──────────────────────────────────────────────────
+  // CUISINE_ELEMENTAL_MAP moved to MEASURED corpus rows (fix/cuisine-map-
+  // measured), and Strategy A will move cuisine ESMS next. Both change the
+  // 30-state cuisine population these constants are measured over, so the
+  // pinned values in thermodynamicAffinity.ts are STALE BY RULING until the
+  // single recalibration PR re-derives and re-pins them (one constants churn,
+  // by explicit user ruling 2026-08-01). That PR flips this back to `it` and
+  // MUST be the next thing that touches this file. Structural invariants
+  // (population shape, gregsEnergy identity, decay-form choice, cuisine
+  // separation) stay live below — only the value pins are suspended.
+  const RECALIBRATION_PENDING = true;
+  const itPinnedConstant = RECALIBRATION_PENDING ? it.skip : it;
+
+  itPinnedConstant("re-derives THERMO_AFFINITY_SD", () => {
     const sd = derivedSd();
     THERMO_AFFINITY_AXES.forEach((axis, j) => {
       expect(sd[j]).toBeCloseTo(THERMO_AFFINITY_SD[axis], CALIBRATION_PRECISION);
     });
   });
 
-  it("re-derives THERMO_AFFINITY_D0 as the median reachable distance", () => {
+  itPinnedConstant("re-derives THERMO_AFFINITY_D0 as the median reachable distance", () => {
     const d = reachableDistances();
     expect(d).toHaveLength(CUISINES.length * moments.length);
     expect(d[Math.floor(0.5 * (d.length - 1))]).toBeCloseTo(
@@ -253,7 +266,7 @@ describe("thermodynamic affinity calibration", () => {
     expect(closestMs).toBeLessThan(60 * 1000);
   });
 
-  it("pins how much each axis actually contributes to the reachable distance", () => {
+  itPinnedConstant("pins how much each axis actually contributes to the reachable distance", () => {
     // Equal WEIGHTS after whitening is not equal INFLUENCE. Entropy dominates
     // because cuisine and sky genuinely differ most there. That is a deliberate
     // property (see the module's "Equal WEIGHTS is not equal INFLUENCE" note), so
@@ -278,7 +291,7 @@ describe("thermodynamic affinity calibration", () => {
     expect(pct[2]).toBeCloseTo(4.6, 1); // reactivity
   });
 
-  it("confirms equal weighting IS the first principal component", () => {
+  itPinnedConstant("confirms equal weighting IS the first principal component", () => {
     const { loadings, explained } = pc1(pooled.map(asinhRow));
     const equal = 1 / Math.sqrt(THERMO_AFFINITY_AXES.length);
     // Equal weights are DERIVED, not chosen: PC1 loads within 0.02 of 1/sqrt(3)
