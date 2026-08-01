@@ -1,7 +1,9 @@
 // src/constants/alchemicalPillars.ts
 
+import { seasonalElements } from "@/data/seasons";
 import type { Season, ElementalProperties, QuantityScaledProperties } from "@/types/alchemy";
 import type { AlchemicalProperty, Element, LunarPhase} from "@/types/celestial";
+import { zodiacElements } from "@/types/zodiac";
 
 /**
  * Interface representing an Alchemical Pillar
@@ -517,227 +519,344 @@ export function getTarotCardAlchemicalEffect(
   return pillar ? pillar.effects : null;
 }
 
-// === PHASE, 48: ALCHEMICAL PILLARS INTELLIGENCE SYSTEMS ===
-// Transformed unused variables into sophisticated enterprise intelligence systems
-// Following proven methodology from Phases 40-47
+// ===========================================================================
+// Alchemical analysis
+// ===========================================================================
+//
+// These four objects replace the "PHASE 48 enterprise intelligence" scaffold.
+// That scaffold asked the right questions — how does a season, a planet, a
+// zodiac sign, or a cooking method modulate an alchemical subject — but answered
+// every one of them with `Math.random()`. 51 calls supplied every compatibility,
+// strength, impact and effectiveness scalar it returned, and it additionally
+// applied a ±10% random jitter directly to real ESMS values.
+//
+// Every scalar below is now derived from a named table in this codebase and
+// carries the arithmetic that produced it, so any value can be recomputed by
+// hand from its `derivation` string.
+//
+// Two things the scaffold did that are deliberately NOT carried over:
+//
+//   - `predictiveModeling` / `predictiveOutcomes` returned success probabilities
+//     over short/medium/long-term horizons. Nothing in this system can predict
+//     a cooking outcome's probability, and no engine is planned that could, so
+//     the block is gone rather than preserved as a permanently-absent shape.
+//
+//   - Both thermodynamic methods hardcoded their own elemental table inline
+//     (Fire heat 0.9, Air 0.6, Water 0.3, Earth entropy 0.4) which contradicted
+//     ELEMENTAL_THERMODYNAMIC_PROPERTIES above (1.0 / 0.3 / 0.1 / 0.1). There is
+//     one elemental table and it is that one.
 
 /**
- * COOKING_METHOD_PILLAR_INTELLIGENCE
- * Advanced cooking method pillar analysis with predictive modeling and optimization
- * Transforms static cooking method mappings into intelligent analysis systems
+ * A number that can be reproduced from its stated inputs.
+ *
+ * `derivation` is not a description — it is the calculation, precise enough to
+ * recompute by hand. A score that cannot state its own arithmetic does not
+ * belong in this system.
  */
-export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
+export interface DerivedScore {
+  /** Normalised to 0–1. */
+  value: number;
+  derivation: string;
+}
+
+/** The four alchemical axes, in canonical order. */
+const ALCHEMICAL_AXES: AlchemicalProperty[] = [
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+];
+
+const clamp01 = (n: number): number => Math.min(1, Math.max(0, n));
+
+const round3 = (n: number): number => Math.round(n * 1000) / 1000;
+
+/**
+ * Similarity between two ESMS vectors, as 1 − normalised L1 distance.
+ *
+ * `axisSpan` is the width of a single axis's domain and must be stated by the
+ * caller, because the vectors in this codebase do not share one: pillar effects
+ * run −1…1 (span 2) while planetary and tarot effects run 0…1 (span 1).
+ * Normalising by the wrong span silently rescales every score.
+ */
+function esmsAlignment(
+  a: Record<AlchemicalProperty, number>,
+  b: Record<AlchemicalProperty, number>,
+  axisSpan: number,
+): DerivedScore {
+  const distance = ALCHEMICAL_AXES.reduce(
+    (sum, axis) => sum + Math.abs((a[axis] ?? 0) - (b[axis] ?? 0)),
+    0,
+  );
+  const maxDistance = axisSpan * ALCHEMICAL_AXES.length;
+  return {
+    value: clamp01(1 - distance / maxDistance),
+    derivation:
+      `1 − Σ|Δ(Spirit,Essence,Matter,Substance)| / (span ${axisSpan} × 4 axes) ` +
+      `= 1 − ${round3(distance)}/${maxDistance}`,
+  };
+}
+
+/**
+ * Similarity between two elements, from ELEMENTAL_THERMODYNAMIC_PROPERTIES.
+ *
+ * Each of heat/entropy/reactivity is on 0…1, so the maximum L1 distance across
+ * the three is 3.
+ */
+function elementalCompatibility(a: Element, b: Element): DerivedScore {
+  const pa = ELEMENTAL_THERMODYNAMIC_PROPERTIES[a];
+  const pb = ELEMENTAL_THERMODYNAMIC_PROPERTIES[b];
+  const distance =
+    Math.abs(pa.heat - pb.heat) +
+    Math.abs(pa.entropy - pb.entropy) +
+    Math.abs(pa.reactivity - pb.reactivity);
+  return {
+    value: clamp01(1 - distance / 3),
+    derivation:
+      `1 − Σ|Δ(heat,entropy,reactivity)| / 3 between ${a} and ${b} ` +
+      `= 1 − ${round3(distance)}/3  [ELEMENTAL_THERMODYNAMIC_PROPERTIES]`,
+  };
+}
+
+/**
+ * How well a season suits an element.
+ *
+ * Read straight out of `seasonalElements[season].compatibility[element]` — a
+ * real table, not a derivation. Returns null for an unrecognised season rather
+ * than defaulting, because a wrong season silently scores every subject.
+ */
+function seasonalCompatibility(
+  season: string,
+  element: Element,
+): DerivedScore | null {
+  const affinity = seasonalElements[season.toLowerCase() as Season];
+  if (!affinity) return null;
+  const value = affinity.compatibility?.[element];
+  if (typeof value !== "number") return null;
+  return {
+    value: clamp01(value),
+    derivation: `seasonalElements.${season.toLowerCase()}.compatibility.${element} = ${value}`,
+  };
+}
+
+/** The element a zodiac sign belongs to, or null if the sign is unrecognised. */
+function zodiacElement(sign: string): Element | null {
+  const key = sign.toLowerCase() as keyof typeof zodiacElements;
+  // zodiacElements is a total Record over the 12 signs, so the index type is
+  // already Element; the runtime `?? null` is what handles a sign that is not
+  // one of the 12, which the type cannot express.
+  return zodiacElements[key] ?? null;
+}
+
+/**
+ * Weighted alignment of a subject's ESMS against caller-supplied preference
+ * weights.
+ *
+ * The weights come from the caller, so nothing is invented here — only the
+ * axes the caller actually named are scored, and an empty or entirely
+ * unrecognised preference set returns null.
+ */
+function preferenceAlignment(
+  effects: Record<AlchemicalProperty, number>,
+  preferences: Record<string, number>,
+  axisSpan: number,
+): DerivedScore | null {
+  const named = Object.entries(preferences).filter(([axis]) =>
+    (ALCHEMICAL_AXES as string[]).includes(axis),
+  );
+  if (named.length === 0) return null;
+
+  const totalWeight = named.reduce((sum, [, w]) => sum + Math.abs(w), 0);
+  if (totalWeight === 0) return null;
+
+  const weighted = named.reduce((sum, [axis, weight]) => {
+    const normalised = (effects[axis as AlchemicalProperty] ?? 0) / axisSpan;
+    return sum + normalised * weight;
+  }, 0);
+
+  return {
+    value: clamp01(weighted / totalWeight),
+    derivation:
+      `Σ(effect/${axisSpan} × weight) / Σ|weight| over [${named
+        .map(([a]) => a)
+        .join(", ")}] = ${round3(weighted)}/${round3(totalWeight)}`,
+  };
+}
+
+/**
+ * Cooking-method pillar analysis.
+ *
+ * Every context factor is optional. A factor the caller does not supply is
+ * absent from the result — never defaulted, never filled.
+ */
+export const cookingMethodPillarAnalysis = {
   /**
-   * Perform comprehensive cooking method pillar analysis with contextual optimization
-   * @param cookingMethod - The cooking method to analyze
-   * @param context - Additional context for analysis
-   * @returns Enhanced pillar analysis with predictive insights
+   * Analyse a cooking method's pillar against seasonal, planetary and user context.
+   *
+   * @param cookingMethod The method to analyse.
+   * @param context Optional seasonal factors, planetary influences, and ESMS preference weights.
+   * @returns Analysis, or null when the method has no pillar mapping.
    */
   analyzeCookingMethodPillar: (
     cookingMethod: string,
     context?: {
       seasonalFactors?: string[];
       planetaryInfluences?: string[];
+      /** Weights keyed by alchemical axis, e.g. { Spirit: 0.8, Matter: 0.2 }. */
       userPreferences?: Record<string, number>;
+      /** Planetary effects are diurnal by default. */
+      isDaytime?: boolean;
     },
   ) => {
     const basePillar = getCookingMethodPillar(cookingMethod);
     if (!basePillar) return null;
 
+    const pillarElement = basePillar.elementalAssociations?.primary;
+    const isDaytime = context?.isDaytime ?? true;
+
     return {
       pillar: basePillar,
-      enhancedAnalysis: {
-        seasonalOptimization:
-          context?.seasonalFactors?.map((factor) => ({
-            factor,
-            impact: Math.random() * 0.3 + 0.7, // 70-100% impact
-            recommendation: `Optimize for ${factor} conditions`,
-          })) || [],
-        planetaryEnhancement:
-          context?.planetaryInfluences?.map((planet) => ({
-            planet,
-            strength: Math.random() * 0.4 + 0.6, // 60-100% strength
-            effect: `Enhanced ${planet} influence`,
-          })) || [],
+      analysis: {
+        // Requires the pillar to declare a primary element; without one there is
+        // nothing to compare a season against.
+        seasonalOptimization: (context?.seasonalFactors ?? [])
+          .map((season) => {
+            const score = pillarElement
+              ? seasonalCompatibility(season, pillarElement)
+              : null;
+            return score ? { season, element: pillarElement, score } : null;
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        // Planetary effects are ESMS vectors on 0…1; pillar effects are −1…1.
+        // Compared on the pillar's span, which is the wider of the two.
+        planetaryEnhancement: (context?.planetaryInfluences ?? [])
+          .map((planet) => {
+            const effect = getPlanetaryAlchemicalEffect(planet, isDaytime);
+            if (!effect) return null;
+            return {
+              planet,
+              phase: isDaytime ? ("diurnal" as const) : ("nocturnal" as const),
+              score: esmsAlignment(basePillar.effects, effect, 2),
+            };
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
         userCustomization: context?.userPreferences
-          ? {
-              compatibility: Math.random() * 0.5 + 0.5, // 50-100% compatibility
-              adjustments: Object.keys(context.userPreferences).map((pref) => ({
-                preference: pref,
-                adjustment: Math.random() * 0.2 - 0.1, // ±10% adjustment
-              })),
-            }
+          ? preferenceAlignment(basePillar.effects, context.userPreferences, 1)
           : null,
-      },
-      predictiveModeling: {
-        shortTerm: {
-          effectiveness: Math.random() * 0.3 + 0.7, // 70-100% effectiveness
-          factors: [
-            "immediate application",
-            "current conditions",
-            "user skill level",
-          ],
-        },
-        mediumTerm: {
-          effectiveness: Math.random() * 0.4 + 0.6, // 60-100% effectiveness
-          factors: [
-            "seasonal changes",
-            "planetary transitions",
-            "technique mastery",
-          ],
-        },
-        longTerm: {
-          effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
-          factors: [
-            "mastery development",
-            "system integration",
-            "evolutionary optimization",
-          ],
-        },
       },
     };
   },
 
   /**
-   * Generate intelligent cooking method recommendations based on pillar analysis
-   * @param targetPillar - The desired alchemical pillar
-   * @param constraints - User constraints and preferences
-   * @returns Optimized cooking method recommendations
+   * Rank pillars by alchemical proximity to a target pillar.
+   *
+   * The candidate filter (ESMS distance ≤ 1 on Spirit and Essence) is carried
+   * over from the scaffold, where it was already real. What changed is the
+   * ranking: it was `Math.random()`, and is now the actual alignment.
+   *
+   * `skillLevel` and `availableEquipment` are echoed back as supplied. The
+   * scaffold also returned `timeEfficiency` and `dietaryCompliance` scores;
+   * both are gone, because a pillar has no duration and no dietary profile from
+   * which either could be derived.
    */
-  generateIntelligentRecommendations: (
+  generatePillarRecommendations: (
     targetPillar: AlchemicalPillar,
     constraints?: {
       skillLevel?: string;
       availableEquipment?: string[];
-      timeConstraints?: number;
-      dietaryRestrictions?: string[];
     },
   ) => {
-    const compatibleMethods = ALCHEMICAL_PILLARS.filter(
+    const ranked = ALCHEMICAL_PILLARS.filter(
       (pillar) =>
         Math.abs(pillar.effects.Spirit - targetPillar.effects.Spirit) <= 1 &&
         Math.abs(pillar.effects.Essence - targetPillar.effects.Essence) <= 1,
     )
       .map((pillar) => ({
         pillar,
-        compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
-        optimization: {
-          skillLevel: constraints?.skillLevel || "intermediate",
-          equipment: constraints?.availableEquipment || ["standard"],
-          timeEfficiency: constraints?.timeConstraints
-            ? Math.random() * 0.3 + 0.7
-            : 1.0, // 70-100% efficiency
-          dietaryCompliance: constraints?.dietaryRestrictions
-            ? Math.random() * 0.2 + 0.8
-            : 1.0, // 80-100% compliance
-        },
+        compatibility: esmsAlignment(pillar.effects, targetPillar.effects, 2),
       }))
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((a, b) => b.compatibility.value - a.compatibility.value);
+
+    const meanCompatibility =
+      ranked.length > 0
+        ? ranked.reduce((sum, r) => sum + r.compatibility.value, 0) / ranked.length
+        : null;
 
     return {
-      recommendations: compatibleMethods.slice(0, 5),
+      recommendations: ranked.slice(0, 5),
+      constraints: {
+        skillLevel: constraints?.skillLevel ?? null,
+        availableEquipment: constraints?.availableEquipment ?? null,
+      },
       analysis: {
-        totalOptions: compatibleMethods.length,
-        averageCompatibility:
-          compatibleMethods.reduce((sum, m) => sum + m.compatibility, 0) /
-          compatibleMethods.length,
-        optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
+        totalOptions: ranked.length,
+        meanCompatibility:
+          meanCompatibility === null
+            ? null
+            : {
+                value: round3(meanCompatibility),
+                derivation: `mean of ${ranked.length} candidate alignments`,
+              },
       },
     };
   },
 
   /**
-   * Advanced pillar transformation analysis with temporal and contextual factors
-   * @param pillar - The alchemical pillar to analyze
-   * @param transformationContext - Context for the transformation
-   * @returns Comprehensive transformation analysis
+   * Analyse a pillar's transformation against temporal and intent context.
+   *
+   * The scaffold applied a ±10% random jitter to the pillar's ESMS effects
+   * before returning them. That is removed outright: the effects are the
+   * pillar's declared values, unmodified.
+   *
+   * It also accepted `environmentalConditions` {temperature, humidity, pressure}
+   * and never used them, defaulting missing values to 20/50/1. The parameter is
+   * dropped here rather than kept as an ignored input. Real environmental
+   * response is regime-specific per cooking method and belongs to the
+   * environmental engine (src/lib/environment, PR #680); it will be wired in
+   * from there rather than approximated at the pillar level.
    */
   analyzePillarTransformation: (
     pillar: AlchemicalPillar,
     transformationContext?: {
-      temporalFactors?: string[];
-      environmentalConditions?: Record<string, number>;
+      seasonalFactors?: string[];
       userIntent?: string;
     },
   ) => {
-    const baseEffects = pillar.effects;
-    const enhancedEffects = {
-      Spirit: baseEffects.Spirit * (1 + (Math.random() * 0.2 - 0.1)), // ±10% variation
-      Essence: baseEffects.Essence * (1 + (Math.random() * 0.2 - 0.1)),
-      Matter: baseEffects.Matter * (1 + (Math.random() * 0.2 - 0.1)),
-      Substance: baseEffects.Substance * (1 + (Math.random() * 0.2 - 0.1)),
-    };
+    const pillarElement = pillar.elementalAssociations?.primary;
 
     return {
-      originalPillar: pillar,
-      enhancedEffects,
-      transformationAnalysis: {
-        temporalOptimization:
-          transformationContext?.temporalFactors?.map((factor) => ({
-            factor,
-            impact: Math.random() * 0.3 + 0.7, // 70-100% impact
-            recommendation: `Optimize timing for ${factor}`,
-          })) || [],
-        environmentalEnhancement: transformationContext?.environmentalConditions
-          ? {
-              temperature:
-                transformationContext.environmentalConditions.temperature || 20,
-              humidity:
-                transformationContext.environmentalConditions.humidity || 50,
-              pressure:
-                transformationContext.environmentalConditions.pressure || 1,
-              optimization: Math.random() * 0.4 + 0.6, // 60-100% optimization
-            }
-          : null,
-        userIntentAlignment: transformationContext?.userIntent
-          ? {
-              intent: transformationContext.userIntent,
-              alignment: Math.random() * 0.3 + 0.7, // 70-100% alignment
-              enhancement: `Enhanced for ${transformationContext.userIntent}`,
-            }
-          : null,
-      },
-      predictiveOutcomes: {
-        immediate: {
-          success: Math.random() * 0.3 + 0.7, // 70-100% success
-          factors: [
-            "technique execution",
-            "ingredient quality",
-            "environmental conditions",
-          ],
-        },
-        shortTerm: {
-          success: Math.random() * 0.4 + 0.6, // 60-100% success
-          factors: [
-            "skill development",
-            "method refinement",
-            "contextual adaptation",
-          ],
-        },
-        longTerm: {
-          success: Math.random() * 0.5 + 0.5, // 50-100% success
-          factors: [
-            "mastery development",
-            "system integration",
-            "evolutionary optimization",
-          ],
-        },
+      pillar,
+      effects: pillar.effects,
+      analysis: {
+        seasonalOptimization: (transformationContext?.seasonalFactors ?? [])
+          .map((season) => {
+            const score = pillarElement
+              ? seasonalCompatibility(season, pillarElement)
+              : null;
+            return score ? { season, element: pillarElement, score } : null;
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        // Echoed, not scored. There is no table mapping a free-text intent to an
+        // alchemical alignment, and inventing one is exactly what this rewrite
+        // exists to remove.
+        userIntent: transformationContext?.userIntent ?? null,
       },
     };
   },
 };
 
 /**
- * ELEMENTAL_THERMODYNAMIC_INTELLIGENCE
- * Advanced elemental thermodynamic analysis with predictive modeling and optimization
- * Transforms static thermodynamic properties into intelligent analysis systems
+ * Elemental thermodynamic analysis.
+ *
+ * Reads ELEMENTAL_THERMODYNAMIC_PROPERTIES — the single elemental table — rather
+ * than the contradicting inline copy the scaffold carried.
  */
-export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
+export const elementalThermodynamicAnalysis = {
   /**
-   * Perform comprehensive elemental thermodynamic analysis with contextual optimization
-   * @param element - The element to analyze
-   * @param context - Additional context for analysis
-   * @returns Enhanced thermodynamic analysis with predictive insights
+   * Analyse an element against seasonal, planetary and cooking-method context.
    */
   analyzeElementalThermodynamics: (
     element: Element,
@@ -745,296 +864,264 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       seasonalFactors?: string[];
       planetaryInfluences?: string[];
       cookingMethod?: string;
+      isDaytime?: boolean;
     },
   ) => {
-    const baseProperties = {
-      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
-      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
-      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
-      Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 },
-    }[element];
+    const baseProperties = ELEMENTAL_THERMODYNAMIC_PROPERTIES[element];
+    const isDaytime = context?.isDaytime ?? true;
+
+    const methodPillar = context?.cookingMethod
+      ? getCookingMethodPillar(context.cookingMethod)
+      : null;
+    const methodElement = methodPillar?.elementalAssociations?.primary;
 
     return {
       element,
       baseProperties,
-      enhancedAnalysis: {
-        seasonalOptimization:
-          context?.seasonalFactors?.map((factor) => ({
-            factor,
-            impact: Math.random() * 0.3 + 0.7, // 70-100% impact
-            recommendation: `Optimize ${element} for ${factor}`,
-          })) || [],
-        planetaryEnhancement:
-          context?.planetaryInfluences?.map((planet) => ({
-            planet,
-            strength: Math.random() * 0.4 + 0.6, // 60-100% strength
-            effect: `Enhanced ${planet} influence on ${element}`,
-          })) || [],
-        cookingMethodIntegration: context?.cookingMethod
-          ? {
-              method: context.cookingMethod,
-              compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
-              optimization: `Optimize ${element} for ${context.cookingMethod}`,
-            }
-          : null,
-      },
-      predictiveModeling: {
-        shortTerm: {
-          effectiveness: Math.random() * 0.3 + 0.7, // 70-100% effectiveness
-          factors: [
-            "immediate application",
-            "current conditions",
-            "elemental balance",
-          ],
-        },
-        mediumTerm: {
-          effectiveness: Math.random() * 0.4 + 0.6, // 60-100% effectiveness
-          factors: [
-            "seasonal changes",
-            "planetary transitions",
-            "technique mastery",
-          ],
-        },
-        longTerm: {
-          effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
-          factors: [
-            "elemental mastery",
-            "system integration",
-            "evolutionary optimization",
-          ],
-        },
+      analysis: {
+        seasonalOptimization: (context?.seasonalFactors ?? [])
+          .map((season) => {
+            const score = seasonalCompatibility(season, element);
+            return score ? { season, score } : null;
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        // A planet's contribution to an ELEMENT, via the alchemical properties
+        // that element underpins. _ALCHEMICAL_PROPERTY_ELEMENTS states which
+        // properties each element serves; the planet's weight on those is its
+        // strength here.
+        planetaryEnhancement: (context?.planetaryInfluences ?? [])
+          .map((planet) => {
+            const effect = getPlanetaryAlchemicalEffect(planet, isDaytime);
+            if (!effect) return null;
+            const contributing = ALCHEMICAL_AXES.filter((axis) => {
+              const mapping = _ALCHEMICAL_PROPERTY_ELEMENTS[axis];
+              return mapping.primary === element || mapping.secondary === element;
+            });
+            if (contributing.length === 0) return null;
+            const total = contributing.reduce(
+              (sum, axis) => sum + (effect[axis] ?? 0),
+              0,
+            );
+            return {
+              planet,
+              phase: isDaytime ? ("diurnal" as const) : ("nocturnal" as const),
+              score: {
+                value: clamp01(total / contributing.length),
+                derivation:
+                  `mean of ${planet} ${isDaytime ? "diurnal" : "nocturnal"} weights on ` +
+                  `[${contributing.join(", ")}] (the properties ${element} underpins) ` +
+                  `= ${round3(total)}/${contributing.length}`,
+              } satisfies DerivedScore,
+            };
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        // Null when the method has no pillar mapping or the pillar declares no
+        // primary element — both are real gaps, not zeros.
+        cookingMethodIntegration:
+          context?.cookingMethod && methodElement
+            ? {
+                method: context.cookingMethod,
+                pillar: methodPillar?.name ?? null,
+                methodElement,
+                compatibility: elementalCompatibility(element, methodElement),
+              }
+            : null,
       },
     };
   },
 
   /**
-   * Generate intelligent elemental thermodynamic recommendations
-   * @param targetElement - The target element
-   * @param constraints - User constraints and preferences
-   * @returns Optimized thermodynamic recommendations
+   * Rank elements by thermodynamic proximity to a target element.
+   *
+   * The candidate filter (heat and entropy within 0.3) is carried over from the
+   * scaffold. The ranking was `Math.random()` and is now the real distance.
    */
   generateThermodynamicRecommendations: (
     targetElement: Element,
     constraints?: {
       skillLevel?: string;
       availableEquipment?: string[];
-      timeConstraints?: number;
-      environmentalConditions?: Record<string, number>;
     },
   ) => {
-    const elementProperties = {
-      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
-      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
-      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
-      Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 },
-    }[targetElement];
+    const target = ELEMENTAL_THERMODYNAMIC_PROPERTIES[targetElement];
 
-    const compatibleElements = Object.entries({
-      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
-      Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 },
-      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
-      Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 },
-    })
-      .filter(
-        ([_, properties]) =>
-          Math.abs(properties.heat - elementProperties.heat) <= 0.3 &&
-          Math.abs(properties.entropy - elementProperties.entropy) <= 0.3,
-      )
-      .map(([element, properties]) => ({
+    const ranked = (
+      Object.keys(ELEMENTAL_THERMODYNAMIC_PROPERTIES) as Element[]
+    )
+      .filter((element) => {
+        const properties = ELEMENTAL_THERMODYNAMIC_PROPERTIES[element];
+        return (
+          Math.abs(properties.heat - target.heat) <= 0.3 &&
+          Math.abs(properties.entropy - target.entropy) <= 0.3
+        );
+      })
+      .map((element) => ({
         element,
-        properties,
-        compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
-        optimization: {
-          skillLevel: constraints?.skillLevel || "intermediate",
-          equipment: constraints?.availableEquipment || ["standard"],
-          timeEfficiency: constraints?.timeConstraints
-            ? Math.random() * 0.3 + 0.7
-            : 1.0, // 70-100% efficiency
-          environmentalAdaptation: constraints?.environmentalConditions
-            ? Math.random() * 0.2 + 0.8
-            : 1.0, // 80-100% adaptation
-        },
+        properties: ELEMENTAL_THERMODYNAMIC_PROPERTIES[element],
+        compatibility: elementalCompatibility(element, targetElement),
       }))
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((a, b) => b.compatibility.value - a.compatibility.value);
+
+    const meanCompatibility =
+      ranked.length > 0
+        ? ranked.reduce((sum, r) => sum + r.compatibility.value, 0) / ranked.length
+        : null;
 
     return {
-      recommendations: compatibleElements.slice(0, 5),
+      recommendations: ranked,
+      constraints: {
+        skillLevel: constraints?.skillLevel ?? null,
+        availableEquipment: constraints?.availableEquipment ?? null,
+      },
       analysis: {
-        totalOptions: compatibleElements.length,
-        averageCompatibility:
-          compatibleElements.reduce((sum, e) => sum + e.compatibility, 0) /
-          compatibleElements.length,
-        optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
+        totalOptions: ranked.length,
+        meanCompatibility:
+          meanCompatibility === null
+            ? null
+            : {
+                value: round3(meanCompatibility),
+                derivation: `mean of ${ranked.length} candidate alignments`,
+              },
       },
     };
   },
 };
 
 /**
- * PLANETARY_ALCHEMICAL_INTELLIGENCE
- * Advanced planetary alchemical analysis with predictive modeling and optimization
- * Transforms static planetary effects into intelligent analysis systems
+ * Planetary alchemical analysis.
+ *
+ * Reads PLANETARY_ALCHEMICAL_EFFECTS via getPlanetaryAlchemicalEffect, which
+ * distinguishes diurnal from nocturnal — a real distinction the scaffold ignored
+ * entirely while randomising the result.
  */
-export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
-  /**
-   * Perform comprehensive planetary alchemical analysis with contextual optimization
-   * @param planet - The planet to analyze
-   * @param context - Additional context for analysis
-   * @returns Enhanced planetary analysis with predictive insights
-   */
+export const planetaryAlchemyAnalysis = {
   analyzePlanetaryAlchemy: (
     planet: string,
     context?: {
       seasonalFactors?: string[];
       zodiacInfluences?: string[];
       cookingMethod?: string;
+      isDaytime?: boolean;
     },
   ) => {
-    const baseEffects = getPlanetaryAlchemicalEffect(planet) || {
-      Spirit: 0,
-      Essence: 0,
-      Matter: 0,
-      Substance: 0,
-    };
+    const isDaytime = context?.isDaytime ?? true;
+    const baseEffects = getPlanetaryAlchemicalEffect(planet, isDaytime);
+    // Null rather than a zeroed ESMS vector: the scaffold defaulted an unknown
+    // planet to all-zeros, which reads downstream as a real measurement of
+    // nothing rather than as an absent one.
+    if (!baseEffects) return null;
+
+    const methodPillar = context?.cookingMethod
+      ? getCookingMethodPillar(context.cookingMethod)
+      : null;
 
     return {
       planet,
+      phase: isDaytime ? ("diurnal" as const) : ("nocturnal" as const),
       baseEffects,
-      enhancedAnalysis: {
-        seasonalOptimization:
-          context?.seasonalFactors?.map((factor) => ({
-            factor,
-            impact: Math.random() * 0.3 + 0.7, // 70-100% impact
-            recommendation: `Optimize ${planet} for ${factor}`,
-          })) || [],
-        zodiacEnhancement:
-          context?.zodiacInfluences?.map((sign) => ({
-            sign,
-            strength: Math.random() * 0.4 + 0.6, // 60-100% strength
-            effect: `Enhanced ${planet} influence in ${sign}`,
-          })) || [],
-        cookingMethodIntegration: context?.cookingMethod
+      analysis: {
+        // A planet has no element of its own here, so season is scored against
+        // the element the planet's dominant alchemical axis underpins.
+        seasonalOptimization: (() => {
+          const dominantAxis = ALCHEMICAL_AXES.reduce((best, axis) =>
+            (baseEffects[axis] ?? 0) > (baseEffects[best] ?? 0) ? axis : best,
+          );
+          const element = _ALCHEMICAL_PROPERTY_ELEMENTS[dominantAxis]
+            .primary as Element;
+          return (context?.seasonalFactors ?? [])
+            .map((season) => {
+              const score = seasonalCompatibility(season, element);
+              return score
+                ? { season, viaAxis: dominantAxis, element, score }
+                : null;
+            })
+            .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+        })(),
+
+        zodiacEnhancement: (context?.zodiacInfluences ?? [])
+          .map((sign) => {
+            const element = zodiacElement(sign);
+            if (!element) return null;
+            const dominantAxis = ALCHEMICAL_AXES.reduce((best, axis) =>
+              (baseEffects[axis] ?? 0) > (baseEffects[best] ?? 0) ? axis : best,
+            );
+            const planetElement = _ALCHEMICAL_PROPERTY_ELEMENTS[dominantAxis]
+              .primary as Element;
+            return {
+              sign,
+              signElement: element,
+              score: elementalCompatibility(planetElement, element),
+            };
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        cookingMethodIntegration: methodPillar
           ? {
-              method: context.cookingMethod,
-              compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
-              optimization: `Optimize ${planet} for ${context.cookingMethod}`,
+              method: context?.cookingMethod ?? null,
+              pillar: methodPillar.name,
+              compatibility: esmsAlignment(methodPillar.effects, baseEffects, 2),
             }
           : null,
-      },
-      predictiveModeling: {
-        shortTerm: {
-          effectiveness: Math.random() * 0.3 + 0.7, // 70-100% effectiveness
-          factors: [
-            "immediate application",
-            "current conditions",
-            "planetary position",
-          ],
-        },
-        mediumTerm: {
-          effectiveness: Math.random() * 0.4 + 0.6, // 60-100% effectiveness
-          factors: [
-            "seasonal changes",
-            "zodiac transitions",
-            "technique mastery",
-          ],
-        },
-        longTerm: {
-          effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
-          factors: [
-            "planetary mastery",
-            "system integration",
-            "evolutionary optimization",
-          ],
-        },
       },
     };
   },
 
   /**
-   * Generate intelligent planetary alchemical recommendations
-   * @param targetPlanet - The target planet
-   * @param constraints - User constraints and preferences
-   * @returns Optimized planetary recommendations
+   * Rank planets by alchemical proximity to a target planet.
+   *
+   * Candidates are the planets PLANETARY_ALCHEMICAL_EFFECTS actually defines —
+   * not a hardcoded list — so the set cannot drift from the data.
    */
   generatePlanetaryRecommendations: (
     targetPlanet: string,
-    constraints?: {
-      skillLevel?: string;
-      availableEquipment?: string[];
-      timeConstraints?: number;
-      astrologicalConditions?: Record<string, number>;
-    },
+    options?: { isDaytime?: boolean },
   ) => {
-    const _baseEffects = getPlanetaryAlchemicalEffect(targetPlanet) || {
-      Spirit: 0,
-      Essence: 0,
-      Matter: 0,
-      Substance: 0,
-    };
+    const isDaytime = options?.isDaytime ?? true;
+    const target = getPlanetaryAlchemicalEffect(targetPlanet, isDaytime);
+    if (!target) return null;
 
-    const compatiblePlanets = [
-      "Sun",
-      "Moon",
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Uranus",
-      "Neptune",
-      "Pluto",
-    ]
+    const ranked = Object.keys(PLANETARY_ALCHEMICAL_EFFECTS)
       .filter((planet) => planet !== targetPlanet)
       .map((planet) => {
-        const effects = getPlanetaryAlchemicalEffect(planet) || {
-          Spirit: 0,
-          Essence: 0,
-          Matter: 0,
-          Substance: 0,
-        };
+        const effects = getPlanetaryAlchemicalEffect(planet, isDaytime)!;
         return {
           planet,
           effects,
-          compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
-          optimization: {
-            skillLevel: constraints?.skillLevel || "intermediate",
-            equipment: constraints?.availableEquipment || ["standard"],
-            timeEfficiency: constraints?.timeConstraints
-              ? Math.random() * 0.3 + 0.7
-              : 1.0, // 70-100% efficiency
-            astrologicalAdaptation: constraints?.astrologicalConditions
-              ? Math.random() * 0.2 + 0.8
-              : 1.0, // 80-100% adaptation
-          },
+          compatibility: esmsAlignment(effects, target, 1),
         };
       })
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((a, b) => b.compatibility.value - a.compatibility.value);
 
     return {
-      recommendations: compatiblePlanets.slice(0, 5),
+      target: { planet: targetPlanet, effects: target },
+      phase: isDaytime ? ("diurnal" as const) : ("nocturnal" as const),
+      recommendations: ranked.slice(0, 5),
       analysis: {
-        totalOptions: compatiblePlanets.length,
-        averageCompatibility:
-          compatiblePlanets.reduce((sum, p) => sum + p.compatibility, 0) /
-          compatiblePlanets.length,
-        optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
+        totalOptions: ranked.length,
+        meanCompatibility: {
+          value: round3(
+            ranked.reduce((sum, r) => sum + r.compatibility.value, 0) /
+              ranked.length,
+          ),
+          derivation: `mean of ${ranked.length} candidate alignments`,
+        },
       },
     };
   },
 };
 
 /**
- * TAROT_SUIT_ALCHEMICAL_INTELLIGENCE
- * Advanced tarot suit alchemical analysis with predictive modeling and optimization
- * Transforms static tarot mappings into intelligent analysis systems
+ * Tarot alchemical analysis.
+ *
+ * Card effects resolve through getTarotCardAlchemicalEffect, which matches a
+ * card against the pillars' `tarotAssociations`. Cards with no pillar
+ * association return null — the scaffold defaulted them to a zeroed ESMS vector
+ * and then scored that, which manufactured a reading for cards this system has
+ * no data on at all.
  */
-export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
-  /**
-   * Perform comprehensive tarot suit alchemical analysis with contextual optimization
-   * @param cardName - The tarot card to analyze
-   * @param context - Additional context for analysis
-   * @returns Enhanced tarot analysis with predictive insights
-   */
+export const tarotAlchemyAnalysis = {
   analyzeTarotAlchemy: (
     cardName: string,
     context?: {
@@ -1043,146 +1130,99 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       cookingMethod?: string;
     },
   ) => {
-    const baseEffects = getTarotCardAlchemicalEffect(cardName) || {
-      Spirit: 0,
-      Essence: 0,
-      Matter: 0,
-      Substance: 0,
-    };
+    const baseEffects = getTarotCardAlchemicalEffect(cardName);
+    if (!baseEffects) return null;
+
+    const dominantAxis = ALCHEMICAL_AXES.reduce((best, axis) =>
+      (baseEffects[axis] ?? 0) > (baseEffects[best] ?? 0) ? axis : best,
+    );
+    const cardElement = _ALCHEMICAL_PROPERTY_ELEMENTS[dominantAxis]
+      .primary as Element;
+
+    const methodPillar = context?.cookingMethod
+      ? getCookingMethodPillar(context.cookingMethod)
+      : null;
 
     return {
       cardName,
       baseEffects,
-      enhancedAnalysis: {
-        seasonalOptimization:
-          context?.seasonalFactors?.map((factor) => ({
-            factor,
-            impact: Math.random() * 0.3 + 0.7, // 70-100% impact
-            recommendation: `Optimize ${cardName} for ${factor}`,
-          })) || [],
-        zodiacEnhancement:
-          context?.zodiacInfluences?.map((sign) => ({
-            sign,
-            strength: Math.random() * 0.4 + 0.6, // 60-100% strength
-            effect: `Enhanced ${cardName} influence in ${sign}`,
-          })) || [],
-        cookingMethodIntegration: context?.cookingMethod
+      dominantAxis,
+      cardElement,
+      analysis: {
+        seasonalOptimization: (context?.seasonalFactors ?? [])
+          .map((season) => {
+            const score = seasonalCompatibility(season, cardElement);
+            return score ? { season, score } : null;
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        zodiacEnhancement: (context?.zodiacInfluences ?? [])
+          .map((sign) => {
+            const element = zodiacElement(sign);
+            if (!element) return null;
+            return {
+              sign,
+              signElement: element,
+              score: elementalCompatibility(cardElement, element),
+            };
+          })
+          .filter((entry): entry is NonNullable<typeof entry> => entry !== null),
+
+        cookingMethodIntegration: methodPillar
           ? {
-              method: context.cookingMethod,
-              compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
-              optimization: `Optimize ${cardName} for ${context.cookingMethod}`,
+              method: context?.cookingMethod ?? null,
+              pillar: methodPillar.name,
+              compatibility: esmsAlignment(methodPillar.effects, baseEffects, 2),
             }
           : null,
-      },
-      predictiveModeling: {
-        shortTerm: {
-          effectiveness: Math.random() * 0.3 + 0.7, // 70-100% effectiveness
-          factors: [
-            "immediate application",
-            "current conditions",
-            "card symbolism",
-          ],
-        },
-        mediumTerm: {
-          effectiveness: Math.random() * 0.4 + 0.6, // 60-100% effectiveness
-          factors: [
-            "seasonal changes",
-            "zodiac transitions",
-            "symbolic mastery",
-          ],
-        },
-        longTerm: {
-          effectiveness: Math.random() * 0.5 + 0.5, // 50-100% effectiveness
-          factors: [
-            "tarot mastery",
-            "system integration",
-            "evolutionary optimization",
-          ],
-        },
       },
     };
   },
 
   /**
-   * Generate intelligent tarot alchemical recommendations
-   * @param targetCard - The target tarot card
-   * @param constraints - User constraints and preferences
-   * @returns Optimized tarot recommendations
+   * Rank tarot cards by alchemical proximity to a target card.
+   *
+   * Candidates come from the pillars' declared `tarotAssociations` rather than a
+   * hardcoded list of the 22 Major Arcana. The scaffold listed all 22 and scored
+   * every one, including the majority that have no pillar association and
+   * therefore no alchemical data in this system at all.
    */
-  generateTarotRecommendations: (
-    targetCard: string,
-    constraints?: {
-      skillLevel?: string;
-      availableEquipment?: string[];
-      timeConstraints?: number;
-      symbolicConditions?: Record<string, number>;
-    },
-  ) => {
-    const _baseEffects = getTarotCardAlchemicalEffect(targetCard) || {
-      Spirit: 0,
-      Essence: 0,
-      Matter: 0,
-      Substance: 0,
-    };
+  generateTarotRecommendations: (targetCard: string) => {
+    const target = getTarotCardAlchemicalEffect(targetCard);
+    if (!target) return null;
 
-    const compatibleCards = [
-      "The Fool",
-      "The Magician",
-      "The High Priestess",
-      "The Empress",
-      "The Emperor",
-      "The Hierophant",
-      "The Lovers",
-      "The Chariot",
-      "Strength",
-      "The Hermit",
-      "Wheel of Fortune",
-      "Justice",
-      "The Hanged Man",
-      "Death",
-      "Temperance",
-      "The Devil",
-      "The Tower",
-      "The Star",
-      "The Moon",
-      "The Sun",
-      "Judgement",
-      "The World",
-    ]
-      .filter((card) => card !== targetCard)
+    const associated = [
+      ...new Set(
+        ALCHEMICAL_PILLARS.flatMap((pillar) => pillar.tarotAssociations ?? []),
+      ),
+    ];
+
+    const ranked = associated
+      .filter((card) => card.toLowerCase() !== targetCard.toLowerCase())
       .map((card) => {
-        const effects = getTarotCardAlchemicalEffect(card) || {
-          Spirit: 0,
-          Essence: 0,
-          Matter: 0,
-          Substance: 0,
-        };
-        return {
-          card,
-          effects,
-          compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
-          optimization: {
-            skillLevel: constraints?.skillLevel || "intermediate",
-            equipment: constraints?.availableEquipment || ["standard"],
-            timeEfficiency: constraints?.timeConstraints
-              ? Math.random() * 0.3 + 0.7
-              : 1.0, // 70-100% efficiency
-            symbolicAdaptation: constraints?.symbolicConditions
-              ? Math.random() * 0.2 + 0.8
-              : 1.0, // 80-100% adaptation
-          },
-        };
+        const effects = getTarotCardAlchemicalEffect(card);
+        return effects
+          ? { card, effects, compatibility: esmsAlignment(effects, target, 2) }
+          : null;
       })
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .filter((entry): entry is NonNullable<typeof entry> => entry !== null)
+      .sort((a, b) => b.compatibility.value - a.compatibility.value);
 
     return {
-      recommendations: compatibleCards.slice(0, 5),
+      target: { card: targetCard, effects: target },
+      recommendations: ranked.slice(0, 5),
       analysis: {
-        totalOptions: compatibleCards.length,
-        averageCompatibility:
-          compatibleCards.reduce((sum, c) => sum + c.compatibility, 0) /
-          compatibleCards.length,
-        optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
+        totalOptions: ranked.length,
+        meanCompatibility:
+          ranked.length > 0
+            ? {
+                value: round3(
+                  ranked.reduce((sum, r) => sum + r.compatibility.value, 0) /
+                    ranked.length,
+                ),
+                derivation: `mean of ${ranked.length} candidate alignments`,
+              }
+            : null,
       },
     };
   },

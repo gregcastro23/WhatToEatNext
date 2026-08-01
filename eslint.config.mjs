@@ -383,6 +383,78 @@ export default [
   },
 
   // ============================================================================
+  // Data and calculation layers: no fabricated values
+  // ============================================================================
+  //
+  // `[MEASURED 2026-07-30]` src/constants/alchemicalPillars.ts carried 51
+  // Math.random() calls and src/constants/chakraSymbols.ts carries 105, all
+  // supplying compatibility / strength / impact scalars that read downstream as
+  // computed results. A randomised value in a data or calculation module is
+  // indistinguishable from a real one at the call site, and no type checker or
+  // test that mocks its inputs will ever catch it.
+  //
+  // Components and UI keep genuine visual randomness (particles, jitter, shuffle)
+  // — this rule deliberately does not cover them.
+  {
+    files: [
+      "src/constants/**/*.{ts,tsx}",
+      "src/data/**/*.{ts,tsx}",
+      "src/calculations/**/*.{ts,tsx}",
+      "src/services/**/*.{ts,tsx}",
+    ],
+
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "MemberExpression[object.name='Math'][property.name='random']",
+          message:
+            "Math.random() is not allowed in data, constants, calculation or service modules — " +
+            "a fabricated value here is indistinguishable from a computed one downstream. " +
+            "Derive the value from a named source, or return an explicit absent state. " +
+            "If the randomness is genuinely required (sampling, jitter, id generation), add " +
+            "an eslint-disable-next-line with a comment naming why.",
+        },
+      ],
+    },
+  },
+
+  // ----------------------------------------------------------------------------
+  // Ratchet: files that already violate the rule above.
+  //
+  // This list may only ever SHRINK. It exists so the rule can be an error today —
+  // catching every new file and every new violation in an already-clean file —
+  // without requiring 135 pre-existing call sites to be fixed in one change.
+  //
+  // `[MEASURED 2026-07-31]` 135 violations across these 14 files, of which 105
+  // are in chakraSymbols.ts alone. Deleting an entry here is the definition of
+  // done for cleaning that file; adding one is not permitted.
+  // ----------------------------------------------------------------------------
+  {
+    files: [
+      "src/calculations/alchemicalTransformation.ts",
+      "src/constants/chakraSymbols.ts",
+      "src/data/cuisineFlavorProfiles.ts",
+      "src/data/ingredients/herbs/index.ts",
+      "src/data/ingredients/spices/index.ts",
+      "src/data/recipes.ts",
+      "src/data/unified/seasonal.ts",
+      "src/services/AstrologicalService.ts",
+      "src/services/FoodDiaryService.ts",
+      "src/services/RecommendationAnalyticsService.ts",
+      "src/services/RuneAgentClient.ts",
+      "src/services/commensalDatabaseService.ts",
+      "src/services/notificationDatabaseService.ts",
+      "src/services/recipeData.ts",
+    ],
+
+    rules: {
+      "no-restricted-syntax": "off",
+    },
+  },
+
+  // ============================================================================
   // Scripts Directory Configuration
   // ============================================================================
   {
