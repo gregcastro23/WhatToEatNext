@@ -16,6 +16,8 @@
  * @file src/lib/environment/geohash.ts
  */
 
+import { createHash } from "node:crypto";
+
 const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 
 /** The precision used for every environmental cache key. */
@@ -136,9 +138,18 @@ export function decodeGeohashCenter(geohash: string): { latitude: number; longit
  * evenly across the day instead of stampeding one cron minute.
  */
 export function sampleHourForGeohash(geohash: string): number {
-  let accumulator = 0;
-  for (let i = 0; i < geohash.length; i++) {
-    accumulator = (accumulator * 31 + geohash.charCodeAt(i)) >>> 0;
-  }
-  return accumulator % 24;
+  // MUST stay byte-identical to the SQL in buildSelectGeohashesDueForSampling:
+  //   MOD(ABS(('x' || SUBSTR(MD5(geohash5), 1, 8))::bit(32)::bigint), 24)
+  //
+  // Postgres casts bit(32) to bigint UNSIGNED, so the JavaScript equivalent is
+  // parseInt of the first 8 hex digits — NOT `| 0`, which would sign-extend and
+  // disagree on ~6 of every 7 cells.
+  //
+  // This function previously used a *31 charCode polynomial while the SQL used
+  // MD5. [MEASURED 2026-08-01] the two disagreed for 297 of 306 geohashes
+  // (97.1%, i.e. pure chance), which meant the cron woke a cell at one hour and
+  // then tried to keep a reading from a different one. A test asserts the two
+  // agree against a real PostgreSQL.
+  const digest = createHash("md5").update(geohash).digest("hex").slice(0, 8);
+  return parseInt(digest, 16) % 24;
 }

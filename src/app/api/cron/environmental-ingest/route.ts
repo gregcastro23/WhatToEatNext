@@ -34,9 +34,15 @@ export const maxDuration = 60;
 
 /**
  * Ceiling on geohashes touched per invocation. Each one is an outbound HTTP call
- * plus a handful of writes, and the function has a 60 s budget. Anything not
- * reached this hour is picked up by the next run — the due-query orders by
- * staleness, so nothing starves.
+ * plus a handful of writes, and the function has a 60 s budget.
+ *
+ * NOTE: anything not reached this hour waits a FULL DAY, not an hour. The
+ * due-query matches on exact hour equality, so each hour offers a disjoint set
+ * of geohashes and `ORDER BY last_computed_at` cannot carry an overflow across
+ * buckets. With an even hash spread this ceiling starts dropping cells at
+ * roughly 24 × 40 = 960 baselines fleet-wide; raise it, or shard the sweep,
+ * before then. The previous comment here claimed "nothing starves", which was
+ * false.
  */
 const MAX_GEOHASHES_PER_RUN = 40;
 
@@ -51,6 +57,7 @@ export async function GET(request: NextRequest) {
     const due = await getGeohashesDueForSampling(utcHour, MAX_GEOHASHES_PER_RUN);
 
     let sampled = 0;
+    let wroteNothing = 0;
     let rowsWritten = 0;
     const failures: Array<{ geohash5: string; error: string }> = [];
 
@@ -58,6 +65,11 @@ export async function GET(request: NextRequest) {
       try {
         const { written } = await sampleGeohash(geohash5, elevationM);
         sampled++;
+        // Counted separately: a call that returns without throwing but writes
+        // nothing is not a successful sample. Folding it into `sampled` made a
+        // sweep that ingested no data report a healthy count — the same
+        // indistinguishable-from-real failure this subsystem exists to avoid.
+        if (written === 0) wroteNothing++;
         rowsWritten += written;
       } catch (error) {
         // One bad cell must not abort the sweep. Failures are counted and
@@ -76,6 +88,7 @@ export async function GET(request: NextRequest) {
       utcHour,
       due: due.length,
       sampled,
+      wroteNothing,
       rowsWritten,
       failed: failures.length,
       pruned,
@@ -86,6 +99,7 @@ export async function GET(request: NextRequest) {
       utcHour,
       due: due.length,
       sampled,
+      wroteNothing,
       rowsWritten,
       pruned,
       failed: failures.length,

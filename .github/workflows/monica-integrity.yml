@@ -182,6 +182,19 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEnvironmentalSqlParses.ts
 
+      - name: Sampling hour agrees between TypeScript and SQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # The ingestion cron derives a geohash's sampling hour twice, in two
+        # languages — SQL decides when a cell is due, TypeScript decides which
+        # hour's reading to keep. They shipped disagreeing for 97% of cells,
+        # which silently stopped roughly half the fleet ever writing a row.
+        # Neither a typechecker nor a mocked-DB test can see this: the two
+        # expressions never meet in the same process. Read-only; one SELECT over
+        # a literal array, no table touched.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkSamplingHourAgrees.ts
+
   # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never
   # run on a pull_request from a fork.
