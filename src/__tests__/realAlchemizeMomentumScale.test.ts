@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 
 import { alchemizeDetailed } from "@/services/RealAlchemizeService";
-import { PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
 import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 
 /**
@@ -55,13 +54,30 @@ function sky() {
   return { now, hist };
 }
 
-/** The scale this module used to apply, kept here only to assert we no longer
- *  land on it. Reads the still-live table in @/data/planets — two-body monica
- *  still uses it, so decision 5 is only half done (see the ADR). */
+/**
+ * The scale this module used to apply, kept ONLY to assert we no longer land on
+ * it. This imported from @/data/planets until ADR-009 decision 5b deleted the
+ * table outright (two-body monica was its last consumer), so it is now a FROZEN
+ * private copy — a historical record. Nothing may compute with it.
+ *
+ * Note the rank inversion it encodes: Pluto's 247.94 IS the log-scale maximum,
+ * so Pluto normalized to exactly 1.0 while the Sun sat at 0.5131.
+ */
+const RETIRED_PERIODS: Record<string, number> = {
+  Pluto: 247.94, Neptune: 164.79, Uranus: 84.01, Saturn: 29.46, Jupiter: 11.86,
+  Mars: 1.88, Sun: 1.0, Venus: 0.615, Mercury: 0.241, Moon: 0.075,
+  Ascendant: 0.003,
+};
+const RETIRED_LOG_MIN = Math.log10(0.003);
+const RETIRED_LOG_MAX = Math.log10(247.94);
+
 function periodWeight(planet: string): number {
-  return planet === "Ascendant"
-    ? 1.0
-    : normalizeAlchmWeight(PLANET_ALCHM_PERIODS[planet] ?? 1.0);
+  if (planet === "Ascendant") return 1.0;
+  const p = RETIRED_PERIODS[planet] ?? 1.0;
+  return (
+    (Math.log10(Math.max(p, 1e-9)) - RETIRED_LOG_MIN) /
+    (RETIRED_LOG_MAX - RETIRED_LOG_MIN)
+  );
 }
 
 describe("ADR-009 decision 5 — momentum rides the inertial mass scale", () => {

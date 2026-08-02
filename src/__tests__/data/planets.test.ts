@@ -62,7 +62,11 @@ describe("the removed Pluto-anchored scale", () => {
     // POSITIVE CONTROL — the module IS loaded and DOES export things, so the
     // assertion above is a real absence rather than a failed import.
     expect(typeof planets.PLANET_WEIGHTS).toBe("object");
-    expect(typeof planets.normalizeAlchmWeight).toBe("function");
+    // ADR-009 decision 5b: the orbital-period scale is gone too, so this module
+    // now exports NEITHER normalizer. `PLANET_WEIGHTS` above carries the
+    // positive-control job alone.
+    expect(planets.normalizeAlchmWeight).toBeUndefined();
+    expect(planets.PLANET_ALCHM_PERIODS).toBeUndefined();
   });
 });
 
