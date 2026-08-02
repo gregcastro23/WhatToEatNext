@@ -51,11 +51,21 @@
  *     That is expected, not a bug.
  *
  *  4. **Each body is weighted by `alchmWeight`** — the ORBITAL-PERIOD scale
- *     (`normalizeAlchmWeight(PLANET_ALCHM_PERIODS[planet])`), canonical in this
- *     engine. ⚠️ There is a second, mass-based scale (`normalizePlanetWeight`);
- *     planetaryAlchemyMapping.ts:528-533 records that the two disagree per
- *     planet and must never be transcribed between. This module uses the
- *     orbital-period one.
+ *     (`normalizeAlchmWeight(PLANET_ALCHM_PERIODS[planet])`).
+ *
+ *     ⚠️ `[2026-08-02]` This module is the LAST consumer of that scale, and the
+ *     only reason `src/data/planets.ts` still exports it. Everything else in
+ *     both runtimes now runs on inertial mass (`inertialMassWeight`) — ADR-009
+ *     decisions 1–4 plus 5a. An earlier version of this note warned about a
+ *     second, mass-based scale called `normalizePlanetWeight`; that function no
+ *     longer exists (deleted in decision 1 — it annihilated Pluto by anchoring
+ *     its log normalization ON Pluto).
+ *
+ *     Migrating this module is ADR-009 decision **5b**, and it is BLOCKED on a
+ *     ruling rather than merely pending: the swap moves 90.0% of the grid and
+ *     pushes |max| to 4.4166, OUTSIDE the 3.8977 single-body envelope this
+ *     suite asserts as an invariant. It also desyncs 469 persisted phase-agent
+ *     rows. See docs/adr/009 "Decision 5, remeasured".
  *
  *  5. **Dignity — the two bodies SOURCE it differently, but APPLY it identically.**
  *       • Moon → POSITION-based: its own essential dignity at its own sign,
@@ -122,8 +132,17 @@
  * numbers, so any earlier figure quoted elsewhere is stale by construction.
  *
  * **Full grid** (8 phases × 12 signs × 30 degrees × 2 sects = 5760):
- * 5760/5760 finite · median |monica| 0.2244 · p90 1.2434 · **max 12.6756** ·
- * 304 cells (5.3%) resolve to φ via the local band.
+ * 5760/5760 finite · median |monica| 0.2927 · p90 1.6180 · **max 2.8108** ·
+ * 813 cells (14.1%) resolve to φ via the local band.
+ *
+ * ⚠️ `[RE-MEASURED 2026-08-02]` — the four grid figures above previously read
+ * "median 0.2244 · p90 1.2434 · max 12.6756 · 304 cells (5.3%)". All four were
+ * stale: something moved the grid after 2026-07-21 and this block was not
+ * updated with it. The values now shown are re-measured over the same 5760-cell
+ * enumeration, and `agentMonicaTwoBody.test.ts:457` independently pins |max| to
+ * 2.8107786459098314 — it agreed with the code the whole time this comment did
+ * not. Prefer the test: a docstring cannot fail, so it drifts silently.
+ * (The 469-agent figures below are NOT re-measured — they need the live DB.)
  *
  * **All 469 production phase agents**: 0 unrecognised phase strings, 0
  * non-finite, **range [−5.4191, 1.8004]**, 221 distinct values, 16 φ.

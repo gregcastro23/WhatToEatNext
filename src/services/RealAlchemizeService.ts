@@ -15,6 +15,7 @@ import {
 import {
   getPlanetarySectElement,
   calculateAlchemicalFromPlanetsDetailed,
+  inertialMassWeight,
   type AlchemicalPlanetPositions,
 } from "@/utils/planetaryAlchemyMapping";
 
@@ -44,29 +45,23 @@ function computeDominantModality(
   return top && top[1] > 0 ? top[0] : "Cardinal";
 }
 
-const PLANET_ALCHM_PERIODS: Record<string, number> = {
-  Pluto: 247.94,
-  Neptune: 164.79,
-  Uranus: 84.01,
-  Saturn: 29.46,
-  Jupiter: 11.86,
-  Mars: 1.88,
-  Sun: 1.0,
-  Venus: 0.615,
-  Mercury: 0.241,
-  Moon: 0.075,
-  Ascendant: 0.003,
-};
-
-const PERIOD_LOG_MIN = Math.log10(0.003);
-const PERIOD_LOG_MAX = Math.log10(247.94);
-
-function normalizeAlchmWeight(periodYears: number): number {
-  return (
-    (Math.log10(Math.max(periodYears, 1e-9)) - PERIOD_LOG_MIN) /
-    (PERIOD_LOG_MAX - PERIOD_LOG_MIN)
-  );
-}
+// REMOVED (ADR-009 decision 5): this module's PRIVATE copy of
+// PLANET_ALCHM_PERIODS / PERIOD_LOG_MIN / PERIOD_LOG_MAX / normalizeAlchmWeight.
+//
+// It was a byte-identical duplicate of the table in src/data/planets.ts, and a
+// duplicate is how the two runtimes drifted apart in the first place (PR #697
+// deleted the Python table from backend/utils/ and left main.py's private copy
+// running for a month — see ADR-009 decision 4).
+//
+// Its only consumer here was the momentum weight. ESMS and the elementals never
+// used it: ESMS comes from `engine.totals` (the canonical inertial-mass engine)
+// and the elementals from the flat SIGN_WEIGHT/SECT_WEIGHT split. So retiring it
+// moves `planetaryMomentum` and nothing else — momentum is a display quantity
+// (two API responses and the /quantities tide readout), never persisted.
+//
+// Momentum now uses `inertialMassWeight`, the one scale. The Ascendant special
+// case went with it: inertialMassWeight applies the RULED vessel weight 1.0
+// itself, so the local `=== "Ascendant" ? 1.0 :` conditional is redundant.
 
 /**
  * Bodies excluded from the ESMS aspect universe — not real planets, so they
@@ -275,19 +270,19 @@ export function alchemize(
     // does not know. A live sky carrying MC and both nodes therefore had three
     // phantom bodies each pushing 0.4 of pure Air into the totals, skewing
     // elementalProperties and everything derived from it (thermodynamics,
-    // monica). Their momentum was fabricated too: alchmWeight falls back to
-    // PLANET_ALCHM_PERIODS[planet] ?? 1.0, and 1.0 is Pluto's weight, so MC
-    // was being handed the heaviest alchemical mass in the system.
+    // monica). Their momentum was fabricated too: the weight lookup falls back
+    // to Pluto's period under the old scale (and to Earth's mass under the
+    // inertial one that replaced it — the fabrication survives the migration,
+    // only its magnitude changes), so MC was handed a mass it has no basis for.
+    // This gate, not the fallback, is what keeps them out.
     if (isExcludedAspectBody(planet)) {
       continue;
     }
     const canonicalPlanet = canonicalBodyByLower.get(planet.toLowerCase());
     if (!canonicalPlanet) continue;
-    // Momentum retains its orbital-period scale; ESMS is computed once, below,
-    // by the canonical inertial-mass engine.
-    const period = PLANET_ALCHM_PERIODS[canonicalPlanet] ?? 1.0;
-    const alchmWeight =
-      canonicalPlanet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
+    // ONE scale (ADR-009 decision 5): momentum shares the inertial-mass weight
+    // with ESMS, which `engine.totals` already computes below.
+    const alchmWeight = inertialMassWeight(canonicalPlanet);
     // Elemental contribution — blend of zodiac sign element and sectarian element.
     // Sign element: the element of the sign the planet currently occupies.
     const signElement = getZodiacElement(position.sign);
@@ -518,9 +513,8 @@ export function alchemizeDetailed(
     const engineEntry = enginePerPlanetByLower.get(planet.toLowerCase());
     if (!engineEntry) continue;
     const { planet: canonicalPlanet, contribution } = engineEntry;
-    const period = PLANET_ALCHM_PERIODS[canonicalPlanet] ?? 1.0;
-    const momentumWeight =
-      canonicalPlanet === "Ascendant" ? 1.0 : normalizeAlchmWeight(period);
+    // ONE scale (ADR-009 decision 5) — same weight the engine used for ESMS.
+    const momentumWeight = inertialMassWeight(canonicalPlanet);
 
     const signElement = getZodiacElement(position.sign);
     const sectElement = getPlanetarySectElement(canonicalPlanet, diurnal);
