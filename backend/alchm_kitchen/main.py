@@ -507,6 +507,55 @@ class PhilosophersStonePositionsResponse(BaseModel):
 # finally share one scale.
 
 
+# Bodies excluded from the alchemical universe — abstract geometric points and
+# minor bodies, not physical masses. Byte-for-byte the same membership as
+# EXCLUDED_ASPECT_BODIES in src/services/RealAlchemizeService.ts, matched the
+# same way (lowercased, whitespace stripped), because the two runtimes must
+# answer this question identically.
+#
+# ── What this fixes, MEASURED against production 2026-08-02 ─────────────────
+#
+# TypeScript gated these bodies out; this module never did. So a live sky
+# carrying North Node, South Node and MC put THREE phantom bodies into the
+# elemental totals of every /alchemize and /api/philosophers-stone/positions
+# response — 14 units of element mass where there should have been 11.
+#
+# Note where the damage was and was NOT. Their ESMS was already exactly zero,
+# because `PLANETARY_ALCHEMY.get(planet)` returns None for them and the ESMS sum
+# sits behind `if alchemy:`. The elemental lines had no such guard: they add a
+# flat 0.6 + 0.4 with NO mass weighting at all. So the fabricated
+# get_inertial_mass_weight fallback (unknown body -> Earth's mass, 0.3984) was
+# never the mechanism — zeroing that weight would have left this untouched,
+# because the elemental blend does not read it. Only momentum did.
+#
+# The 0.4 is the worse half: get_planetary_sect_element returns "Air" for any
+# body it does not know (:587), so each phantom pushed 0.4 of PURE AIR. That is
+# why Air is the element that moves most when they are removed:
+#
+#   Air -3.51pp · Water +2.34pp · Fire +1.95pp · Earth -0.78pp
+#
+# Same divergence class as ADR-009 decision 4 (#712): a fix landed in TypeScript
+# and the served Python module kept running the old behaviour.
+EXCLUDED_ASPECT_BODIES = frozenset(
+    {
+        "northnode",
+        "southnode",
+        "truenode",
+        "meannode",
+        "chiron",
+        "lilith",
+        "vertex",
+        "parsfortune",
+        "mc",
+    }
+)
+
+
+def is_excluded_aspect_body(planet: str) -> bool:
+    """True for abstract points that must not contribute mass or element."""
+    return "".join(str(planet).lower().split()) in EXCLUDED_ASPECT_BODIES
+
+
 PLANETARY_ALCHEMY = {
     "Sun": {"Spirit": 1, "Essence": 0, "Matter": 0, "Substance": 0},
     "Moon": {"Spirit": 0, "Essence": 1, "Matter": 1, "Substance": 0},
@@ -645,6 +694,11 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
             continue
         sign = str(position.get("sign", "")).lower()
         if not sign:
+            continue
+        # Abstract points contribute NOTHING — not ESMS, not element, not
+        # momentum, not modality. Must precede the elemental blend below, which
+        # is unguarded and unweighted.
+        if is_excluded_aspect_body(planet):
             continue
 
         alchemy = PLANETARY_ALCHEMY.get(planet)
@@ -795,6 +849,12 @@ def calculate_local_philosophers_stone(
             continue
         sign_raw = str(position.get("sign", "Aries"))
         sign_lower = sign_raw.lower() or "aries"
+        # Same gate as calculate_local_alchemize. Additionally keeps abstract
+        # points out of `per_planet`, whose consumers reasonably assume its keys
+        # are real bodies — an MC entry carried populated `elements` and a
+        # fabricated `alchmWeight` beside all-zero `esms`.
+        if is_excluded_aspect_body(planet):
+            continue
 
         # get_inertial_mass_weight special-cases the Ascendant to the RULED
         # vessel weight 1.0 itself, so no conditional is needed here.
