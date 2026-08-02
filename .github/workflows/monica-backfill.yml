@@ -34,7 +34,7 @@
 #   * schedule + manual dispatch ONLY. Never on push or pull_request: a workflow
 #     that writes to production must not be triggerable by opening a PR.
 
-# ── ⚠️ DISARMED 2026-08-01 for the ADR-009 scale migration ──────────────────
+# ── ✅ RE-ARMED 2026-08-02 — the ADR-009 migration is done ───────────────────
 #
 # The nightly schedule is commented out, NOT deleted. Manual dispatch still
 # works, so a deliberate, watched run is still one click away.
@@ -59,20 +59,33 @@
 # tells the operator to run THIS script. So the alarm points at the thing that
 # would silently make the alarm stop.
 #
-# RE-ARM WHEN: the migration has deployed, the intended backfill has run, and
-# its result is verified against the DEPLOYED SHA (not local git). Uncomment the
-# two `schedule` lines below — nothing else changed.
+# ── All three re-arm conditions met, 2026-08-02 ─────────────────────────────
 #
-# The queue does not rot meanwhile: ~50 agents/night arrive unclassified and
-# simply wait. Clear them with a manual dispatch if the backlog matters before
-# the migration lands.
+#  1. DEPLOYED. Vercel production is READY at 4da5929f — ADR-009 decision 5b's
+#     merge commit — confirmed via the deployment's own githubCommitSha, not
+#     from local git.
+#  2. BACKFILL RAN. backfillMonicaPerConstruction.ts --write, one transaction,
+#     snapshot monica_preconstruction_20260802_122354.
+#  3. VERIFIED. checkAgentMonicaDrift.ts: 0 drift across all three populations
+#     (4345 single-body + 983 two-body + 71 full-chart = 5399), every row
+#     matching a fresh computation to 1e-5.
+#
+# One correction the disarm note earned: it predicted "all 469 two-body and 71
+# full-chart rows" would be rewritten. The two-body population was **983**, not
+# 469 — it had more than doubled while every doc kept quoting the old figure.
+# The hazard it described was real and slightly understated.
+#
+# The reasoning above stands unchanged and is why this stays a schedule +
+# workflow_dispatch job: --max-new still bounds only NEW arrivals, so a future
+# engine change reopens exactly the same window. DISARM AGAIN before the next
+# one.
 # ────────────────────────────────────────────────────────────────────────────
 
 name: Monica Backfill
 
 on:
-  # schedule:
-  #   - cron: "45 6 * * *"
+  schedule:
+    - cron: "45 6 * * *"
   workflow_dispatch:
     inputs:
       max_new:
