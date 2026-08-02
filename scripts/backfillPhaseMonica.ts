@@ -1,8 +1,14 @@
 /**
  * §18i — backfill the real TWO-BODY monica onto every Moon-phase agent.
  *
- * The 469 phase agents were deliberately skipped by `backfillAgentMonica.ts`
- * (which stamps `monica_method = 'single-body'`) and still carry NULL. A Moon
+ * The phase agents were deliberately skipped by `backfillAgentMonica.ts`
+ * (which stamps `monica_method = 'single-body'`) and still carry NULL.
+ *
+ * ⚠️ POPULATION SIZE IS MEASURED, NOT ASSUMED. This docstring said "469" from
+ * 2026-07-21 until 2026-08-02, when a dry run against production counted **983**
+ * of 5399 agent rows in the phase family — the population had more than doubled
+ * while every doc, PR body and ADR note kept quoting 469. Read the dry-run
+ * report, never this sentence. A Moon
  * phase is a Sun-Moon *relationship*, not a placement, so it gets a genuine
  * two-body construction rather than a single-body approximation. This writes
  * that value and stamps `monica_method = 'two-body-phase'`.
@@ -29,7 +35,6 @@ import pg from "pg";
 import { MONICA_EQUILIBRIUM } from "@/data/unified/alchemicalCalculations";
 import { parseAgentPlacement } from "@/utils/agentMonicaResolver";
 import {
-  TWO_BODY_LN_EPSILON,
   UnknownMoonPhaseError,
   twoBodyMonica,
 } from "@/utils/agentMonicaTwoBody";
@@ -45,8 +50,19 @@ const WRITE = process.argv.includes("--write");
  */
 const METHOD = "two-body";
 
-/** The single-body population's shipped range, for a scale sanity check. */
-const SINGLE_BODY_RANGE = { min: -3.197, max: 3.975 };
+/**
+ * The single-body population's range, for a scale sanity check.
+ *
+ * [MEASURED 2026-08-02] over the full 7920-cell grid (11 planets x 12 signs x
+ * 30 degrees x 2 sects) on master at 4da5929f. Was { -3.197, 3.975 }, which
+ * predated the exact-zero kalchm fix and was stale in BOTH directions.
+ *
+ * ASYMMETRIC, deliberately — this is a range test, not a magnitude test. The
+ * extremum is NEGATIVE (Neptune / Aquarius / 2 deg / nocturnal) and the positive
+ * side stops well short of it, so collapsing this to |x| > 3.8977 would let a
+ * whole band of positive outliers through unreported.
+ */
+const SINGLE_BODY_RANGE = { min: -3.8977146920667276, max: 3.8339295409683394 };
 
 interface Row {
   user_id: string;
@@ -168,7 +184,6 @@ for (const r of rows) {
 
 // ---------------------------------------------------------------- report ----
 console.log(`\n=== §18i two-body phase backfill ${WRITE ? "WRITE" : "DRY RUN"} ===`);
-console.log(`TWO_BODY_LN_EPSILON        : ${TWO_BODY_LN_EPSILON}`);
 console.log(`agent rows scanned         : ${rows.length}`);
 console.log(`not a phase agent (skipped): ${notPhase}`);
 console.log(`to write (two-body phase)  : ${updates.length}`);
@@ -223,7 +238,9 @@ for (const u of outOfScale) {
   );
 }
 console.log(
-  `  (expected: 2, both on Comixion degrees 8/22. See agentMonicaTwoBody.ts docstring.)`,
+  `  (expected 0 since ADR-009 decision 5b — MEASURED 2026-08-02 at master` +
+    ` 4da5929f. Was "expected 2, both on Comixion degrees 8/22", against the` +
+    ` stale [-3.197, 3.975] envelope this script used to carry.)`,
 );
 
 const byPhase: Record<string, number[]> = {};
