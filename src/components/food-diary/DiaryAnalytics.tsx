@@ -24,12 +24,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { TooltipValueType } from "recharts";
 import type {
   DailyFoodDiarySummary,
   WeeklyFoodDiarySummary,
 } from "@/types/foodDiary";
 import type { NutritionalSummary } from "@/types/nutrition";
+import type { TooltipValueType } from "recharts";
 
 interface AnalyticsProps {
   weeklySummary: WeeklyFoodDiarySummary | null;
