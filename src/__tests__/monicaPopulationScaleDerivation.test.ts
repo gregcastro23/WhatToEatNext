@@ -96,25 +96,64 @@ const SINGLE = measureSingleBody();
 const TWO = measureTwoBody(CANONICAL_PHASES);
 
 describe("the Sacred-7 monica scales are derived from their populations", () => {
+  describe("the pin tolerance itself", () => {
+    // A tolerance is only worth having if it still fails on a real change. These
+    // guard the guard: precision 12 is ~1e-13 absolute, roughly THREE ORDERS
+    // tighter than the ~2 ULP (1e-15 at this magnitude) of cross-engine noise it
+    // exists to absorb, and vastly tighter than any grid movement.
+    it("absorbs cross-engine ULP noise", () => {
+      // The MEASURED Node/Bun spread on this exact enumeration: 3.8977146920667276
+      // vs 3.8977146920667267. Both must satisfy the pin.
+      expect(3.8977146920667267).toBeCloseTo(3.8977146920667276, 12);
+    });
+
+    it("still REJECTS a real drift — this is not a rubber stamp", () => {
+      // The smallest change that would matter is many orders above ULP noise.
+      expect(3.8977156920667276).not.toBeCloseTo(3.8977146920667276, 12);
+      // And the historical transcription bug the exact pins guard (…634 vs …638)
+      // remains caught by the literal-against-literal assertions, not by these.
+      expect(1.9488573460333634).not.toBe(1.9488573460333638);
+    });
+  });
+
   describe("single-body", () => {
     it("enumerates the full deterministic grid", () => {
       // 11 planets x 12 signs x 30 degrees x 2 sects
       expect(SINGLE.n).toBe(7920);
     });
 
-    it("re-derives the stated scale as |max| / 2, EXACTLY", () => {
-      // `===`, not toBeCloseTo. Dividing by 2 only changes a double's exponent, so
-      // the scale is exactly representable and the derivation is reproducible to
-      // the last bit. toBeCloseTo(…, 15) passed here while the constant was
-      // 1.9488573460333634 and the truth was ...638 — a lossy round-trip through a
-      // script's printed digits. Emit constants with String(x), never toPrecision.
-      expect(MONICA_POPULATION_SCALE["single-body"]).toBe(SINGLE.absMax / 2);
+    it("re-derives the stated scale as |max| / 2", () => {
+      // TOLERANCE, not `===`, and ONLY because the right-hand side is measured.
+      //
+      // SINGLE.absMax comes off a live grid walk whose monica runs through
+      // Math.log and Math.pow. Neither is required by IEEE-754 to be correctly
+      // rounded, so engines legitimately disagree in the last bits: MEASURED
+      // 2026-08-02, this same enumeration yields 3.8977146920667276 under Node
+      // v22 (which is what jest runs on) and 3.8977146920667267 under Bun 1.3 —
+      // ~2 ULP apart, extremum at Neptune / Aquarius / 2° / nocturnal. An exact
+      // assertion here passes only on whichever engine happened to derive the
+      // constant, and this repo runs scripts under `bun` and tests under Node.
+      //
+      // ⚠️ Relaxing this does NOT reopen the transcription bug the old comment
+      // guarded against — that `toBeCloseTo(…, 15)` passed while the constant
+      // read 1.9488573460333634 and the truth was ...638. The exact pin lives in
+      // the test below, literal-against-literal, where no engine is involved and
+      // `toBe` is therefore both safe and meaningful. The two tests split the job:
+      // this one says "the constant still matches the live grid", that one says
+      // "the constant is bit-for-bit what we recorded". Emit constants with
+      // String(x), never toPrecision.
+      expect(MONICA_POPULATION_SCALE["single-body"]).toBeCloseTo(SINGLE.absMax / 2, 12);
     });
 
     it("holds the measurement recorded in the source", () => {
       // 3.8977146920667276 / 2. Was 1.9875 (|max| 3.9751) while calculateKalchm
       // floored each axis at 0.01.
-      expect(SINGLE.absMax).toBe(3.8977146920667276);
+      //
+      // Measured-against-literal: engine-sensitive, so a tolerance (see above).
+      expect(SINGLE.absMax).toBeCloseTo(3.8977146920667276, 12);
+      // Literal-against-literal: no measurement, no engine, no drift. EXACT — and
+      // this is the assertion that actually catches a lossy transcription of the
+      // shipped constant.
       expect(MONICA_POPULATION_SCALE["single-body"]).toBe(1.9488573460333638);
     });
   });
@@ -129,6 +168,13 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
       expect(withAlias.n).toBe(TWO.n + 720); // 12 signs x 30 degrees x 2 sects
       // Exactly equal, not merely close: an alias must resolve down the identical
       // code path, so the extra 720 cells are bit-for-bit duplicates.
+      //
+      // This one KEEPS `toBe` while the literal pins above moved to a tolerance,
+      // and the distinction is the whole rule: both sides here are measured in
+      // the SAME process, so no cross-engine rounding can separate them. A
+      // tolerance would weaken a genuinely exact claim. Engine sensitivity comes
+      // from comparing a measurement to a number frozen in source, never from
+      // comparing two measurements.
       expect(withAlias.absMax).toBe(TWO.absMax);
     });
 
@@ -137,16 +183,19 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
       expect(TWO.n).toBe(5760);
     });
 
-    it("re-derives the stated scale as |max| / 2, EXACTLY", () => {
-      expect(MONICA_POPULATION_SCALE["two-body"]).toBe(TWO.absMax / 2);
+    it("re-derives the stated scale as |max| / 2", () => {
+      // Measured right-hand side — tolerance, for the engine reason documented
+      // on the single-body version of this test.
+      expect(MONICA_POPULATION_SCALE["two-body"]).toBeCloseTo(TWO.absMax / 2, 12);
     });
 
     it("holds the measurement recorded in the source", () => {
-      // 2.8107786459098314 / 2. Was 2.7095 (|max| 5.4191) while the degeneracy
+      // 2.810778645909833 / 2. Was 2.7095 (|max| 5.4191) while the degeneracy
       // band was an |ln kalchm| threshold instead of `esms.Essence === 0` — that
       // threshold left 442 genuinely degenerate charts unbanded, and those were
       // the ones producing the extremes.
-      expect(TWO.absMax).toBe(2.810778645909833);
+      expect(TWO.absMax).toBeCloseTo(2.810778645909833, 12);
+      // Literal-against-literal — exact, and engine-independent.
       expect(MONICA_POPULATION_SCALE["two-body"]).toBe(1.4053893229549166);
     });
 
