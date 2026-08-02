@@ -208,6 +208,77 @@ all-or-nothing across both the economy and the momentum paths. Decisions 1–4
 alone leave the system strictly more coherent than today, so they are a valid
 stopping point if 5 slips.
 
+### Decision 5, remeasured `[MEASURED 2026-08-02]`
+
+Decision 5 has **two halves with unrelated blast radii**, and the causality
+assumed above is wrong in one direction and understated in the other. Measured
+at deployed SHA `77bdfe34`:
+
+**5a — `RealAlchemizeService` momentum. Shipped.** Its private duplicate of the
+period table fed `planetaryMomentum` and *nothing else*: ESMS comes from
+`engine.totals` (canonical, already inertial) and the elementals from the flat
+0.6/0.4 sign/sect split. Momentum is display-only — two API responses and the
+`/quantities` tide readout — and is never persisted. Weights move a long way
+(Pluto 1.0 → 0.109, Sun 0.513 → 1.0, Uranus 0.904 → 0.525) but no stored value
+does.
+
+**`alchemicalSamples.json` and `FALLBACK_METRICS` are NOT invalidated by decision
+5. They were ALREADY stale before it.** Regenerating the file at its own anchor
+(`--anchor=2026-07-12T06:00:00.000Z`, values-only diff by construction) changed
+**1821/1821 samples on unmodified master** — the Sun's stored ESMS contribution
+moves 0.51307 (period × dignity) → 1.0 (inertial), and the dignity multipliers
+moved too, `{1, 1.15, 0.7, 0.85, 1.3}` → `{1, 1.1, 0.9, 0.93, 1.07}`. Cause: the
+ESMS engine unification that already shipped (#695/#710), not this decision.
+Regenerating the same file **with 5a applied is byte-identical** to regenerating
+without it (md5 `63f7ff4e…` both ways) — the file has no momentum field.
+
+The shipped `FALLBACK_METRICS` round-trip *exactly* against the committed
+samples (heat 0.067/0.037 vs measured 0.0669/0.0365), so the derivation was
+honest; it is the samples underneath that moved. Against current master those
+priors are off by roughly 2×:
+
+| prior      | shipped     | current master  | drift         |
+|------------|-------------|-----------------|---------------|
+| heat       | 0.067/0.037 | 0.1225/0.0763   | +83% / +106%  |
+| entropy    | 0.225/0.101 | 0.3929/0.2620   | +75% / +159%  |
+| reactivity | 6.54/6.91   | 14.4540/21.8652 | +121% / +216% |
+
+⚠️ This is a **live defect independent of ADR-009**: `projectZScoreTarget` is
+z-scoring compatibility against priors that no longer describe the engine's
+distribution. It needs its own PR — regenerate the samples, re-derive the priors
+from them — and must NOT be attributed to decision 5, which does not cause it.
+
+**5b — `agentMonicaTwoBody`. BLOCKED on a ruling, not merely deferred.** Swapping
+`alchmWeightOf` to the inertial scale moves **5184/5760 grid cells (90.0%)**,
+median relative shift 24.4%, p90 227%, and fails 6 tests across 2 suites. Two of
+those are not re-pinnable numbers but **design contracts**:
+
+- *"sits inside the single-body envelope"* — two-body |max| goes 2.8108 → 4.4166
+  against a limit of 3.8977. Inertial puts the two-body range OUTSIDE the
+  single-body envelope, which the suite states as an invariant.
+- *"still absorbs a real share of the grid (guard: not a no-op band)"* — the
+  degenerate band's canonical-only population falls to 0, neutering it.
+
+Plus a real constant to re-derive (Sacred-7 two-body scale 1.4054 → 2.2083, i.e.
+|max|/2) and **469 persisted phase-agent rows** (`monica_diurnal` /
+`monica_nocturnal`) that would desync — the module's own header already warns
+that a far smaller perturbation "would desync the 4280 rows already in
+production". So 5b is a model change requiring a ruling on the envelope, plus a
+backfill; it is not a mechanical scale swap. `src/data/planets.ts` therefore
+KEEPS `PLANET_ALCHM_PERIODS` / `normalizeAlchmWeight` until 5b lands — 5b is
+their last consumer.
+
+📌 Correction to the record: `agentMonicaTwoBody`'s header docstring quotes
+"median |monica| 0.2244 · p90 1.2434 · max 12.6756 · 304 cells (5.3%) resolve to
+φ". **All four are stale.** Re-measured over the same 5760-cell grid on current
+master (period scale, unchanged by this PR): median 0.2927 · p90 1.6180 · max
+2.8108 · 813 cells (14.1%) at φ. `agentMonicaTwoBody.test.ts:457` independently
+pins |max| to 2.8107786459098314, agreeing with the re-measurement — **the test
+is the accurate record; the docstring is stale.** Corrected in this PR.
+
+(Under the inertial scale those become median 0.3262 · p90 1.6180 · max 4.4166 ·
+576 cells (10.0%) — recorded here so 5b starts from measured numbers.)
+
 ## Consequences
 
 ### Chart-level output movement (TypeScript)
