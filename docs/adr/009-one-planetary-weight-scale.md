@@ -199,6 +199,46 @@ Note the fallback hazard on the way out: on the period scale `?? 1.0` means
 `:278-279`. On Scale A the same `?? 1.0` means "unknown → Earth's mass" (0.3984).
 Neither is acceptable; the migration should make unknown bodies throw.
 
+📌 **Follow-up `[MEASURED 2026-08-02]`: the fabricated weight was NOT the
+mechanism.** Chasing this fallback in the served Python module found the real
+defect somewhere else, and the obvious fix would have missed it.
+
+`main.py` had **no exclusion gate at all**, while `RealAlchemizeService.ts` has
+gated nine abstract bodies for months. So every `/alchemize` and
+`/api/philosophers-stone/positions` response blended North Node, South Node and
+MC into its elemental totals — 14 units of raw element mass where there should
+have been 11. Same divergence class as decision 4.
+
+But their ESMS was **already exactly 0.0**, because `PLANETARY_ALCHEMY.get()`
+returns `None` for them and the ESMS sum sits behind `if alchemy:`. The
+*elemental* lines were the unguarded ones — and they are also **unweighted**, a
+flat `+= 0.6` / `+= 0.4` that never reads `alchm_weight`. So assigning these
+bodies weight 0.0 would have changed **nothing** about the distortion: the
+elemental blend does not read the weight, and momentum was the only path that
+did. The mechanism was a missing gate, not a wrong number.
+
+The worse half is the 0.4: `get_planetary_sect_element` returns `"Air"` for any
+unknown body (`:587`), so each phantom pushed 0.4 of *pure Air*. Hence Air is the
+element that moves most when they are removed — the signature of that fallback:
+
+| | Fire | Water | Earth | Air |
+|---|---|---|---|---|
+| shift on removal | +1.95pp | +2.34pp | −0.78pp | **−3.51pp** |
+
+Downstream, recomputed from production's own captured payload with the real
+`thermo_quotient` / `compute_kalchm_monica` (the model reproduces the served
+response to 1e-9 on all six metrics, so the deltas are trustworthy): heat
+**+11.6%**, entropy **−10.7%**, reactivity −0.7%, gregsEnergy **+14.1%**, monica
+**−13.5%** — and **kalchm exactly 0.0%**, which independently confirms the
+phantoms contributed no ESMS.
+
+Fixed by porting the gate, with a test asserting the Python and TypeScript
+membership sets are **identical** rather than merely overlapping, and asserting
+by line number that the gate runs BEFORE the elemental blend — a gate placed
+after it still compiles, still passes every ESMS assertion, and still leaks the
+Air. The `?? 1.0` fallback itself remains (now unreachable from these two served
+paths); making unknown bodies throw is still open.
+
 ⚠️ **RULED: decision 5 ships as its own PR, after 1–4 have landed.** Retiring
 Scale C invalidates constants that the B→A move does not touch —
 `FALLBACK_METRICS`, the 1821-sample `alchemicalSamples.json` they were measured
