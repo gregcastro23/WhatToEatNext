@@ -14,7 +14,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
-import math
 import random
 import asyncio
 import time
@@ -334,6 +333,7 @@ async def get_me(user: dict = Depends(get_current_user)):
 
 # ... (previous imports)
 from backend.utils.natal_alchemy import calculate_natal_alchemical_quantities
+from backend.utils.planetary_alchemy import get_inertial_mass_weight
 
 class OnboardingRequest(BaseModel):
     birth_date: str # YYYY-MM-DD
@@ -488,21 +488,23 @@ class PhilosophersStonePositionsResponse(BaseModel):
     metadata: Dict[str, Any]
     perPlanet: Optional[Dict[str, Any]] = None
 
-PLANET_ALCHM_PERIODS = {
-    "Pluto": 247.94,
-    "Neptune": 164.79,
-    "Uranus": 84.01,
-    "Saturn": 29.46,
-    "Jupiter": 11.86,
-    "Mars": 1.88,
-    "Sun": 1.0,
-    "Venus": 0.615,
-    "Mercury": 0.241,
-    "Moon": 0.075,
-    "Ascendant": 0.003,
-}
-PERIOD_LOG_MIN = math.log10(0.003)
-PERIOD_LOG_MAX = math.log10(247.94)
+# REMOVED (ADR-009 decision 4): the inline PLANET_ALCHM_PERIODS orbital-period
+# table, PERIOD_LOG_MIN/MAX and normalize_alchm_weight.
+#
+# PR #697 deleted this exact table from backend/utils/planetary_alchemy.py, but
+# never touched THIS module — the one the Procfile actually serves. So production
+# ran two weight scales side by side, split by endpoint: /alchemize and
+# /api/philosophers-stone/positions on the period scale, /api/user/onboarding on
+# the inertial one. Verified live at deployed SHA a2425ca6, where the response's
+# per-planet alchmWeight matched the period scale to <=2.4e-4 on all ten bodies.
+#
+# The period scale is RANK-INVERTED against every other engine in the repo: it
+# made Pluto the heaviest body in every chart (1.0) and the Sun barely half of it
+# (0.513), a Sun/Pluto ratio of 0.51 where the inertial scale gives 9.18.
+#
+# All weighting now comes from get_inertial_mass_weight, imported below — the
+# same function backend/utils/natal_alchemy.py already uses, so both endpoints
+# finally share one scale.
 
 
 PLANETARY_ALCHEMY = {
@@ -575,8 +577,6 @@ PLANETARY_DIGNITY = {
     "Pluto": {"scorpio": 1, "leo": 2, "taurus": -1, "aquarius": -2},
 }
 
-def normalize_alchm_weight(period_years: float) -> float:
-    return (math.log10(max(period_years, 1e-9)) - PERIOD_LOG_MIN) / (PERIOD_LOG_MAX - PERIOD_LOG_MIN)
 
 def is_sect_diurnal(moment: datetime) -> bool:
     return 6 <= moment.hour < 18
@@ -648,8 +648,9 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
             continue
 
         alchemy = PLANETARY_ALCHEMY.get(planet)
-        period = PLANET_ALCHM_PERIODS.get(planet, 1.0)
-        alchm_weight = 1.0 if planet == "Ascendant" else normalize_alchm_weight(period)
+        # get_inertial_mass_weight special-cases the Ascendant to the RULED
+        # vessel weight 1.0 itself, so no conditional is needed here.
+        alchm_weight = get_inertial_mass_weight(planet)
         if alchemy:
             dignity_multiplier = max(0.5, 1.0 + get_planetary_dignity(planet, sign) * 0.15)
             for key, value in alchemy.items():
@@ -795,8 +796,9 @@ def calculate_local_philosophers_stone(
         sign_raw = str(position.get("sign", "Aries"))
         sign_lower = sign_raw.lower() or "aries"
 
-        period = PLANET_ALCHM_PERIODS.get(planet, 1.0)
-        alchm_weight = 1.0 if planet == "Ascendant" else normalize_alchm_weight(period)
+        # get_inertial_mass_weight special-cases the Ascendant to the RULED
+        # vessel weight 1.0 itself, so no conditional is needed here.
+        alchm_weight = get_inertial_mass_weight(planet)
 
         alchemy = PLANETARY_ALCHEMY.get(planet)
         dignity = get_planetary_dignity(planet, sign_lower)
