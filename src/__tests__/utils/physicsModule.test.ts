@@ -19,14 +19,32 @@ describe("Physics Module Calculations", () => {
     });
 
     it("should use fallback metrics when metric is undefined and fallbackKey is provided", () => {
-      // §17c-recalibrated priors (canonical engine distribution).
-      // reactivity: mean = 6.54, stdDev = 6.91
-      // value = 12 -> z = (12 - 6.54) / 6.91 = 0.7902 -> 0.5 + 0.7902*0.15 = 0.6185
-      expect(projectZScoreTarget(12, undefined, "reactivity")).toBeCloseTo(0.6185, 4);
+      // What this asserts is the LOOKUP — that an absent metric resolves through
+      // FALLBACK_METRICS[key] — so the expectation is computed FROM that table
+      // rather than transcribed from it. The hard-coded form pinned the priors a
+      // second time in a file that does not own them, and duly broke when they
+      // were re-derived over a regenerated corpus (2026-08-02). Same fix the
+      // sigmoid case below already carries for the same reason.
+      const project = (v: number, key: string) => {
+        const m = FALLBACK_METRICS[key];
+        return Math.max(0.1, Math.min(0.9, 0.5 + ((v - m.mean) / m.stdDev) * 0.15));
+      };
 
-      // heat: mean = 0.067, stdDev = 0.037
-      // value = 0.11 -> z = (0.11 - 0.067) / 0.037 = 1.1622 -> 0.5 + 1.1622*0.15 = 0.6743
-      expect(projectZScoreTarget(0.11, undefined, "heat")).toBeCloseTo(0.6743, 4);
+      expect(projectZScoreTarget(12, undefined, "reactivity")).toBeCloseTo(
+        project(12, "reactivity"), 12,
+      );
+      expect(projectZScoreTarget(0.11, undefined, "heat")).toBeCloseTo(
+        project(0.11, "heat"), 12,
+      );
+
+      // POSITIVE CONTROL: the fallback path actually ran. Without a key the
+      // function clamps instead of z-scoring, so an identical result would mean
+      // the lookup never happened and the assertions above proved nothing.
+      expect(projectZScoreTarget(12, undefined, "reactivity")).not.toBeCloseTo(
+        projectZScoreTarget(12, undefined), 6,
+      );
+      // ...and an explicit metric must override the fallback.
+      expect(projectZScoreTarget(12, { mean: 10, stdDev: 2 }, "reactivity")).toBeCloseTo(0.65, 12);
     });
 
     it("should clamp values to [0.1, 0.9] when no metric or fallback key is available", () => {

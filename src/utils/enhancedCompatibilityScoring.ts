@@ -113,21 +113,79 @@ function logarithmicCompatibility(value1: number, value2: number): number {
   return 1 / (1 + Math.log(ratio));
 }
 
-// Priors for z-score projection. heat/entropy/reactivity are recalibrated to the
-// canonical engine's actual distribution, measured over the 1821-sample
-// alchemicalSamples.json (§17c). reactivity moved most: the old mean 10.0 was on
-// the divergent (Σ/M)+Earth² scale; the canonical (Matter+Earth)² distribution is
-// mean 6.54 / stdDev 6.91. kalchm and monica are kept as deliberate equilibrium
-// anchors (1.0 = the multiplicative identity / balance point) — their raw sample
-// distributions are degenerate (kalchm spans 0→2e8, monica clusters in ±0.05), so
-// the sample mean would be a poor prior. power/currentFlow/charge are kinetic
-// quantities, unaffected by the thermodynamic reconciliation.
+// Priors for z-score projection (`projectZScoreTarget`).
+//
+// ── heat / entropy / reactivity — [MEASURED 2026-08-02] ─────────────────────
+//
+// BASIS: mean and POPULATION standard deviation (÷N, not ÷(N−1)) over all 1821
+// samples of src/data/alchemicalSamples.json, fields thermo[0], thermo[1],
+// thermo[2]. Rounded to 3 decimal places (2 for reactivity, whose magnitude is
+// two orders larger). The sample estimator agrees with the population one at
+// this precision on all three, so that choice is not load-bearing.
+//
+//   metric      exact measurement          shipped
+//   heat        0.122523942888523 / 0.076266646038866   0.123 / 0.076
+//   entropy     0.392861153212521 / 0.262027323027900   0.393 / 0.262
+//   reactivity 14.454043717737505 / 21.865234800984545  14.45 / 21.87
+//
+// These are RE-DERIVED, not adjusted: `fallbackMetricsDerivation.test.ts`
+// recomputes all six numbers from the sample file on every run and fails if
+// either the file or these constants move. That test is the reason this block
+// can be trusted; the previous values had no such check and went ~2x stale
+// unnoticed (see below).
+//
+// ⚠️ WHY THEY MOVED. The previous priors (heat 0.067/0.037, entropy
+// 0.225/0.101, reactivity 6.54/6.91) were themselves honestly derived — five of
+// those six numbers still round-trip exactly against the sample file AS IT WAS
+// COMMITTED. What moved was the file underneath them: regenerating
+// alchemicalSamples.json on master changed 1821/1821 samples, because the ESMS
+// engine unified onto the inertial-mass scale (#695/#710) and the stored Sun
+// contribution went 0.51307 → 1.0. So this is not a correction of a bad
+// derivation, it is a re-derivation over a corpus that was silently replaced.
+// NOT caused by ADR-009 decision 5 — see docs/adr/009 "Decision 5, remeasured".
+//
+// (The sixth: heat's stdDev shipped as 0.037 where the committed samples give
+// 0.036463, i.e. one unit off in the last place. Small, but it means the old
+// block was not fully reproducible from its own basis either.)
+//
+// ⚠️ REACTIVITY IS HEAVY-TAILED, and more so than before. Its MEDIAN barely
+// moved (5.101 → 5.462, +7%) while p99 went 28.5 → 105.7 and max 39.9 → 210.5.
+// So mean (14.45) now sits far above median (5.46) and stdDev exceeds the mean
+// (ratio 1.51, was 1.06). A z-score prior over a distribution this skewed maps
+// the TYPICAL case to a negative z (median → −0.41, was −0.21). That is a
+// faithful summary of the corpus, not a modelling choice made here — but if
+// reactivity compatibility ever needs to key off typical rather than mean
+// behaviour, a robust prior (median / IQR) is the change to make, and it is a
+// model decision rather than a recalibration.
+//
+// ── kalchm / monica — RULED anchors, deliberately NOT sample means ──────────
+//
+// 1.0 is the multiplicative identity / balance point. Their raw distributions
+// are degenerate for this purpose (kalchm here spans 0.04 → 9753 with mean 261;
+// monica clusters near 0), so a sample mean would be a poor prior. Unchanged.
+//
+// ── power / currentFlow / charge — ⚠️ UNBASED ──────────────────────────────
+//
+// These have NO measurement behind them. The previous note called them "kinetic
+// quantities, unaffected by the thermodynamic reconciliation", which is true but
+// says only that this file's recalibration did not reach them — it is not a
+// basis. There is no kinetics corpus in the repo (alchemicalSamples.json and
+// alchemicalEchoSamples.json both carry zero kinetic fields), and the values
+// entered in 2f5de52e as round hand numbers with stdDev at exactly half the mean
+// in two of three cases. They are LIVE — `projectZScoreTarget` is called with
+// all three keys at :263-265 — so they are left in place rather than removed,
+// but they are recorded here as unbased so the next person does not mistake
+// their neighbours' provenance for their own. Deriving them needs a kinetics
+// corpus that does not yet exist.
 export const FALLBACK_METRICS: Record<string, { mean: number; stdDev: number }> = {
-  heat: { mean: 0.067, stdDev: 0.037 },
-  entropy: { mean: 0.225, stdDev: 0.101 },
-  reactivity: { mean: 6.54, stdDev: 6.91 },
+  // MEASURED — re-derive with fallbackMetricsDerivation.test.ts, never by hand.
+  heat: { mean: 0.123, stdDev: 0.076 },
+  entropy: { mean: 0.393, stdDev: 0.262 },
+  reactivity: { mean: 14.45, stdDev: 21.87 },
+  // RULED equilibrium anchors.
   kalchm: { mean: 1.0, stdDev: 0.5 },
   monica: { mean: 1.0, stdDev: 0.5 },
+  // ⚠️ UNBASED — no corpus exists for these. See the note above.
   power: { mean: 0.08, stdDev: 0.04 },
   currentFlow: { mean: 0.4, stdDev: 0.2 },
   charge: { mean: 8.0, stdDev: 3.0 },
