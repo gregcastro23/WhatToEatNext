@@ -1,10 +1,8 @@
 """The weighting the DEPLOYED FastAPI server actually uses.
 
 `backend/alchm_kitchen/main.py` is the module Railway serves (Procfile:
-`uvicorn backend.alchm_kitchen.main:app`). It carries its own INLINE copy of the
-orbital-period weight table — the same table PR #697 deleted from
-`backend/utils/planetary_alchemy.py` — and until this file existed, **nothing
-tested it**. `test_kalchm_parity.py:21-24` explains why: importing
+`uvicorn backend.alchm_kitchen.main:app`). Until this file existed, **nothing
+tested it**: `test_kalchm_parity.py:21-24` explains why — importing
 `backend.alchm_kitchen.main` pulls in fastapi/sqlalchemy/pyswisseph, and CI
 installs only pytest, so a suite that imports it could not be COLLECTED at all.
 
@@ -14,25 +12,20 @@ would say it had moved.
 
 ── How this tests it without importing it ──────────────────────────────────
 
-The weighting is a pure table plus a pure function with no imports beyond
-`math`. So instead of importing the app, this reads main.py's SOURCE, pulls out
-exactly those definitions with `ast`, and executes them in an isolated
-namespace. That is the real source, not a transcription — a copy here is
-precisely how `main.py` and `planetary_alchemy.py` drifted apart in the first
-place. Requires only the stdlib, so it runs under CI's pytest-only install.
+It reads main.py's SOURCE and inspects it with `ast`. Under the period scale it
+also EXECUTED the extracted table and normalizer in an isolated namespace, which
+is how it pinned exact weights with no framework installed. After ADR-009
+decision 4 there is no local weighting left to execute — that is the whole point
+of the migration — so the inertial-mode tests assert the SHAPE of the wiring
+instead: the table is gone, the canonical function is imported at module level,
+and both call sites use it. Stdlib only either way.
 
-── What this pins, and why the numbers look "wrong" ────────────────────────
+── EXPECTED_SCALE ──────────────────────────────────────────────────────────
 
-It pins the period scale **as it is deployed today**, including the parts
-ADR-009 rules to be defects (Pluto heaviest, Sun at half of Pluto). That is
-deliberate and is the same device as the `normalizePlanetWeight` positive
-controls in `esmsConformance.test.ts`: pinning the current, wrong behaviour is
-what makes changing it VISIBLE instead of silent.
-
-**ADR-009 decision 4 will make this file fail.** That is the intended signal,
-not a regression. The migration PR flips `EXPECTED_SCALE` to "inertial" and the
-assertions follow. If you are reading this because CI went red on a scale
-change: good — that is the gate doing the one job it was written for.
+Was "period" while main.py carried its own inline orbital-period table; flipped
+to "inertial" by the decision-4 PR together with main.py itself. The period-mode
+tests stay in the file, skipped, because they record what the deployed server
+used to do and what a regression back to it would look like.
 """
 import ast
 import math
@@ -44,18 +37,27 @@ from backend.utils.planetary_alchemy import get_inertial_mass_weight
 
 MAIN_PY = Path(__file__).resolve().parents[1] / "alchm_kitchen" / "main.py"
 
-# Flip to "inertial" in the ADR-009 decision-4 PR, together with main.py itself.
-EXPECTED_SCALE = "period"
+EXPECTED_SCALE = "inertial"
 
 WEIGHTING_NAMES = {"PLANET_ALCHM_PERIODS", "PERIOD_LOG_MIN", "PERIOD_LOG_MAX"}
 WEIGHTING_FUNCS = {"normalize_alchm_weight"}
 
+period_only = pytest.mark.skipif(
+    EXPECTED_SCALE != "period", reason="migrated to the inertial scale (decision 4)"
+)
+inertial_only = pytest.mark.skipif(
+    EXPECTED_SCALE != "inertial", reason="still on the orbital-period scale"
+)
+
+
+def _tree():
+    return ast.parse(MAIN_PY.read_text())
+
 
 def _extract_weighting():
     """Execute ONLY the weighting definitions out of main.py's real source."""
-    tree = ast.parse(MAIN_PY.read_text())
     wanted = []
-    for node in tree.body:
+    for node in _tree().body:
         if isinstance(node, ast.Assign):
             names = {t.id for t in node.targets if isinstance(t, ast.Name)}
             if names & WEIGHTING_NAMES:
@@ -67,89 +69,110 @@ def _extract_weighting():
     return ns
 
 
-@pytest.fixture(scope="module")
-def weighting():
-    return _extract_weighting()
+def _calls_to(name):
+    return [
+        n
+        for n in ast.walk(_tree())
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == name
+    ]
 
 
-def test_the_weighting_definitions_are_still_where_we_think(weighting):
-    """POSITIVE CONTROL on the extractor itself.
+def test_main_py_parses_and_is_substantial():
+    """POSITIVE CONTROL for every AST assertion below.
 
-    Everything below reads whatever this pulled out of main.py. If a rename or a
-    move made the extractor find nothing, every other assertion would vacuously
-    pass against an empty namespace — a green suite proving nothing, which is the
-    exact failure this file was written to end.
+    They all read this one file. If the path were wrong or the parse empty, the
+    absence assertions would pass vacuously against nothing — a green suite
+    proving nothing, which is the exact failure this file exists to end.
     """
+    tree = _tree()
+    assert len(tree.body) > 100, "main.py parsed to almost nothing — path or parse is wrong"
+    assert any(
+        isinstance(n, ast.FunctionDef) and n.name == "calculate_local_alchemize"
+        for n in tree.body
+    ), "calculate_local_alchemize not found — the weighting consumer moved"
+
+
+# ── Post-migration: the inertial scale ──────────────────────────────────────
+
+
+@inertial_only
+def test_the_inline_period_table_is_gone():
+    """The defect decision 4 removed: main.py's private copy of the table PR
+    #697 deleted from backend/utils/. A re-added copy is exactly how the two
+    runtimes drifted apart in the first place."""
+    module_names = set()
+    for node in _tree().body:
+        if isinstance(node, ast.Assign):
+            module_names |= {t.id for t in node.targets if isinstance(t, ast.Name)}
+        elif isinstance(node, ast.FunctionDef):
+            module_names.add(node.name)
+    leftovers = module_names & (WEIGHTING_NAMES | WEIGHTING_FUNCS)
+    assert not leftovers, f"period-scale definitions still in main.py: {sorted(leftovers)}"
+    assert not _calls_to("normalize_alchm_weight")
+
+
+@inertial_only
+def test_the_canonical_weight_is_imported_at_MODULE_level():
+    """Pinned because the nested version of this import nearly shipped.
+
+    main.py imports `calculate_natal_alchemical_quantities` INSIDE a route
+    handler. An import of get_inertial_mass_weight placed beside it would be
+    invisible at the two call sites 300+ lines below, and every request to
+    /alchemize and /philosophers-stone would raise NameError at runtime — while
+    every source-reading test in this file still passed, because the text is
+    present either way. Only the SCOPE tells them apart, so the scope is what is
+    asserted: `.body`, never `ast.walk`.
+    """
+    module_level = [
+        n
+        for n in _tree().body  # module scope ONLY — ast.walk would also match nested
+        if isinstance(n, ast.ImportFrom)
+        and n.module == "backend.utils.planetary_alchemy"
+        and any(a.name == "get_inertial_mass_weight" for a in n.names)
+    ]
+    assert len(module_level) == 1, "get_inertial_mass_weight must be imported at module level"
+
+
+@inertial_only
+def test_both_weighting_call_sites_use_the_canonical_function():
+    """calculate_local_alchemize and calculate_local_philosophers_stone."""
+    calls = _calls_to("get_inertial_mass_weight")
+    assert len(calls) >= 2, f"expected >=2 call sites, found {len(calls)}"
+
+
+@inertial_only
+def test_the_served_weights_now_match_the_canonical_scale():
+    """The point of the migration: both Python endpoints finally share one
+    scale, and Pluto is no longer the heaviest body in every chart."""
+    assert get_inertial_mass_weight("Sun") == 1.0
+    assert get_inertial_mass_weight("Pluto") > 0.1  # not annihilated
+    assert get_inertial_mass_weight("Sun") > get_inertial_mass_weight("Pluto")
+    assert get_inertial_mass_weight("Sun") / get_inertial_mass_weight("Pluto") == pytest.approx(
+        9.180, abs=1e-3
+    )
+    # The Ascendant is the RULED vessel weight, not an orbiting body.
+    assert get_inertial_mass_weight("Ascendant") == 1.0
+
+
+# ── Pre-migration: kept, skipped, as the regression record ──────────────────
+
+
+@period_only
+def test_the_weighting_definitions_are_still_where_we_think():
+    weighting = _extract_weighting()
     for name in WEIGHTING_NAMES | WEIGHTING_FUNCS:
-        assert name in weighting, f"{name} not found in {MAIN_PY.name} — extractor is stale"
+        assert name in weighting, f"{name} not found — extractor is stale"
     assert len(weighting["PLANET_ALCHM_PERIODS"]) == 11
 
 
-def test_the_extracted_weighting_is_actually_called_by_the_server(weighting):
-    """A definition nobody calls would pin nothing. Prove the call sites exist."""
-    tree = ast.parse(MAIN_PY.read_text())
-    calls = [
-        n
-        for n in ast.walk(tree)
-        if isinstance(n, ast.Call)
-        and isinstance(n.func, ast.Name)
-        and n.func.id == "normalize_alchm_weight"
-    ]
-    # calculate_local_alchemize and calculate_local_philosophers_stone.
-    assert len(calls) >= 2, f"expected >=2 live call sites, found {len(calls)}"
-
-
-@pytest.mark.skipif(EXPECTED_SCALE != "period", reason="migrated to the inertial scale")
-def test_deployed_server_still_runs_the_orbital_period_scale(weighting):
-    """The divergence ADR-009 exists to remove, pinned so it cannot move quietly.
-
-    MEASURED against production 2026-08-01 at deployed SHA a2425ca6: the live
-    /api/philosophers-stone/positions response returns exactly these values in
-    its per-planet `alchmWeight` field.
-    """
+@period_only
+def test_deployed_server_still_runs_the_orbital_period_scale():
+    """MEASURED against production 2026-08-01 at deployed SHA a2425ca6: the live
+    /api/philosophers-stone/positions response returned exactly these values in
+    its per-planet `alchmWeight` field."""
+    weighting = _extract_weighting()
     w = lambda p: weighting["normalize_alchm_weight"](weighting["PLANET_ALCHM_PERIODS"][p])
-
     assert w("Pluto") == pytest.approx(1.0, abs=1e-12)
     assert w("Sun") == pytest.approx(0.5130695808579581, abs=1e-12)
-    assert w("Moon") == pytest.approx(0.2842944773527886, abs=1e-9)
-
-    # Pluto is the HEAVIEST body on this scale and the Sun barely half of it.
-    # Inverted against every other engine in the repo; that is the defect.
-    assert w("Pluto") > w("Sun")
+    assert w("Pluto") > w("Sun")  # inverted against every other engine
     assert w("Sun") / w("Pluto") == pytest.approx(0.513, abs=1e-3)
-
-
-@pytest.mark.skipif(EXPECTED_SCALE != "period", reason="migrated to the inertial scale")
-def test_the_two_python_scales_disagree_and_by_how_much(weighting):
-    """Both scales live in the same deployed process, split by endpoint.
-
-    /alchemize and /philosophers-stone use the inline period table; /api/user/
-    onboarding imports the inertial one. This pins the size of the gap so the
-    migration's effect is a known quantity rather than a surprise.
-    """
-    w = lambda p: weighting["normalize_alchm_weight"](weighting["PLANET_ALCHM_PERIODS"][p])
-
-    period_ratio = w("Sun") / w("Pluto")
-    inertial_ratio = get_inertial_mass_weight("Sun") / get_inertial_mass_weight("Pluto")
-
-    assert period_ratio == pytest.approx(0.513, abs=1e-3)
-    assert inertial_ratio == pytest.approx(9.180, abs=1e-3)
-    # ~17.9x apart, and rank-inverted: the scales disagree about which body in
-    # the chart is heaviest, not merely by how much.
-    assert inertial_ratio / period_ratio == pytest.approx(17.9, abs=0.1)
-
-
-@pytest.mark.skipif(EXPECTED_SCALE != "inertial", reason="still on the period scale")
-def test_deployed_server_runs_the_inertial_scale(weighting):
-    """Post-migration shape. Inert until EXPECTED_SCALE flips, by design.
-
-    Written now, with decision 4, so the migration PR has a green target to aim
-    at rather than inventing its own assertions after the fact.
-    """
-    for body in ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn",
-                 "Uranus", "Neptune", "Pluto"):
-        assert weighting["weight_for"](body) == pytest.approx(
-            get_inertial_mass_weight(body), abs=1e-12
-        ), f"{body} does not match the canonical inertial scale"
-    assert weighting["weight_for"]("Sun") == 1.0
-    assert weighting["weight_for"]("Pluto") > 0.1  # no body is annihilated
