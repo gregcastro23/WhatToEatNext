@@ -11,7 +11,10 @@
  * (ingredient scoring, recipe matching). It correctly privileges massive bodies
  * (Sun, Jupiter) because physical presence matters for culinary archetypes.
  *
- * For the ALCHM thermodynamic engine, use PLANET_ALCHM_PERIODS instead.
+ * For the ALCHM thermodynamic engine, use `inertialMassWeight` from
+ * `@/utils/planetaryAlchemyMapping` — it takes a body NAME and derives its
+ * weight from THIS table. (This line used to point at PLANET_ALCHM_PERIODS,
+ * deleted in ADR-009 decision 5b; see the note below.)
  */
 export const PLANET_WEIGHTS: Record<string, number> = {
   Sun:     333054.2532,  // 1.989 × 10³⁰ kg
@@ -44,45 +47,29 @@ export const PLANET_WEIGHTS: Record<string, number> = {
  */
 
 /**
- * Orbital periods in Earth years.
+ * REMOVED (ADR-009 decision 5b): `PLANET_ALCHM_PERIODS`, `_PERIOD_LOG_MIN`,
+ * `_PERIOD_LOG_MAX` and `normalizeAlchmWeight` — the orbital-period weight scale,
+ * and with it the LAST of the five scales ADR-009 set out to unify. Everything in
+ * both runtimes now uses `inertialMassWeight`.
  *
- * Used by the ALCHM thermodynamic engine (RealAlchemizeService, planetaryAlchemyMapping).
- * Slower planets carry higher "alchemical volume":
- *   - Pluto (P=248y) creates generational tides — highest weight
- *   - Moon  (P≈0.075y) creates personal ripples — lowest weight
+ * It was RANK-INVERTED against physical mass: Pluto normalized to exactly 1.0,
+ * the heaviest weight in the system, and the Sun to 0.5131, because a longer
+ * orbital period was read as greater "alchemical volume". The served Python
+ * endpoints ran on it until #712, so production really did hand Pluto nearly
+ * twice the Sun's weight in every chart it returned.
  *
- * Includes Ascendant as the "Physical Vessel" grounding constant (P=1 day ≈ 0.003y),
- * which anchors the reactivity denominator even in pure diurnal charts.
+ * It also ANNIHILATED whatever sat at its lower anchor. The Ascendant's 0.003
+ * entry IS the log-scale minimum, so `normalizeAlchmWeight(0.003)` returned
+ * exactly 0.0, and every caller had to special-case the Ascendant back to 1.0 by
+ * hand. One port forgot, and 11/20 golden conformance charts collapsed to
+ * Matter = Substance = 0. `inertialMassWeight` anchors one decade BELOW the
+ * lightest charted body precisely so no member can be zeroed this way.
  *
- * Source: NASA/IAU mean sidereal periods.
+ * Deleted rather than deprecated, because the cheapest way to undo a migration is
+ * to re-add the table. `src/__tests__/data/planets.test.ts` asserts its absence;
+ * `realAlchemizeMomentumScale.test.ts` keeps a frozen private copy for the sole
+ * purpose of asserting that momentum does NOT land on it.
  */
-export const PLANET_ALCHM_PERIODS: Record<string, number> = {
-  Pluto:      247.94,   // P=248y  — generational, deepest tide
-  Neptune:    164.79,   // P=165y
-  Uranus:      84.01,   // P=84y
-  Saturn:      29.46,   // P=29.5y
-  Jupiter:     11.86,   // P=12y
-  Mars:         1.88,   // P=1.9y
-  Sun:          1.00,   // P=1y   (solar year — ecliptic reference)
-  Venus:        0.615,  // P=225d
-  Mercury:      0.241,  // P=88d
-  Moon:         0.075,  // P=27.3d
-  Ascendant:    0.003,  // P=1d — Physical Vessel grounding constant
-};
-
-/**
- * Normalises an orbital-period value to [0, 1] via log₁₀.
- *
- * Moon (P=0.075y) → ≈ 0.0   (lowest alchemical volume)
- * Pluto (P=248y)  → ≈ 1.0   (highest alchemical volume)
- *
- * Used exclusively by the Alchm thermodynamic engine.
- */
-const _PERIOD_LOG_MIN = Math.log10(0.003);    // Ascendant (1 day)
-const _PERIOD_LOG_MAX = Math.log10(247.94);   // Pluto
-export function normalizeAlchmWeight(periodYears: number): number {
-  return (Math.log10(Math.max(periodYears, 1e-9)) - _PERIOD_LOG_MIN) / (_PERIOD_LOG_MAX - _PERIOD_LOG_MIN);
-}
 
 
 export const planetaryData = {

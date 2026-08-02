@@ -320,9 +320,24 @@ export const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
   // The |max| nearly HALVED because the old local |ln kalchm| threshold was
   // leaving 442 genuinely degenerate charts unbanded, and those were the ones
   // producing the extreme values. Testing `esms.Essence === 0` instead catches all
-  // of them, so the surviving range is [-0.292735, 2.81078] — now comfortably
-  // inside the single-body envelope of 3.8977, which it previously exceeded.
-  'two-body': 1.4053893229549166,
+  // of them.
+  //
+  // ⚠️ RE-DERIVED [MEASURED 2026-08-02] for ADR-009 decision 5b — was
+  // 1.4053893229549166 from |max| 2.810778645909833, when the two bodies were
+  // weighted by the orbital-period scale. They now use inertial mass, which
+  // moves the Moon 0.2843 -> 0.1904 (-33%) against a Sun that goes 0.5131 -> 1.0.
+  //
+  // |max| 4.416554679000386 / 2, over the same 5760-cell grid. Extremum at
+  // full / Aries / 8° / diurnal, 6-way tied. Range [-0.424203, 4.416554].
+  // The degeneracy predicate is UNCHANGED, so collateral is still exactly 0 —
+  // no healthy chart is handed φ.
+  //
+  // ⚠️ THIS SCALE IS |max|-DERIVED, and the warning above about extremum-derived
+  // constants applies to it directly: the 6-way tie is the whole basis. It is
+  // load-bearing only for DISPLAY, and the tie is structural (one vessel shape
+  // repeating across signs) rather than one anomalous row — but re-audit it, not
+  // just re-run it, after any change to kalchm or the vessel.
+  'two-body': 2.208277339500193,
   // ⚠️ RE-DERIVED. The first value shipped here was 0.016851, taken from
   // |max| 0.033702 / 2 across all 71 rows. That maximum was NOT a real agent's
   // monica: Carl Jung and Frida Kahlo share a byte-identical natal_positions

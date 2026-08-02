@@ -178,9 +178,19 @@ describe("deriveStatsFromChart — the real monica range no longer clamps", () =
   it("a two-body agent and a single-body agent at the SAME monica differ", () => {
     // The whole point of §18o: the same number means different things depending
     // on which construction produced it.
-    expect(stats(0.8, "two-body").power).not.toBeCloseTo(
-      stats(0.8, "single-body").power,
-      6,
-    );
+    //
+    // Asserted on normalizeMonicaForStats rather than on `.power`, because that
+    // is where §18o actually lives. ADR-009 decision 5b moved the two scales
+    // much closer (1.9489 vs 2.2083, 13% apart; they were 39% apart when
+    // two-body ran on the orbital-period weights), and `power` rounds to a
+    // 0-100 integer — so at monica 0.8 both now land on exactly 75 while the
+    // underlying values still differ by 0.0208. The principle held; the probe
+    // had become too coarse to see it.
+    const two = normalizeMonicaForStats(0.8, "two-body");
+    const single = normalizeMonicaForStats(0.8, "single-body");
+    expect(two).not.toBeCloseTo(single, 6);
+    // MEASURED separation across the range, so this cannot silently decay to a
+    // rounding coincidence again.
+    expect(Math.abs(two - single)).toBeGreaterThan(0.01);
   });
 });

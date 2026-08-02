@@ -190,21 +190,66 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
     });
 
     it("holds the measurement recorded in the source", () => {
-      // 2.810778645909833 / 2. Was 2.7095 (|max| 5.4191) while the degeneracy
-      // band was an |ln kalchm| threshold instead of `esms.Essence === 0` — that
-      // threshold left 442 genuinely degenerate charts unbanded, and those were
-      // the ones producing the extremes.
-      expect(TWO.absMax).toBeCloseTo(2.810778645909833, 12);
+      // 4.416554679000386 / 2  [ADR-009 decision 5b — the two bodies moved from
+      // the orbital-period scale to inertial mass]. Was 1.4054 from |max| 2.8108,
+      // and before that 2.7095 from |max| 5.4191 while the degeneracy band was an
+      // |ln kalchm| threshold instead of a structural test.
+      expect(TWO.absMax).toBeCloseTo(4.416554679000386, 12);
       // Literal-against-literal — exact, and engine-independent.
-      expect(MONICA_POPULATION_SCALE["two-body"]).toBe(1.4053893229549166);
+      expect(MONICA_POPULATION_SCALE["two-body"]).toBe(2.208277339500193);
     });
 
-    it("sits inside the single-body envelope", () => {
-      // A two-body chart is a single-body chart plus one more body, so it should
-      // not reach further than the single-body population can. It DID before the
-      // structural degeneracy test (5.4191 > 3.8977) — that violation is what
-      // exposed the mis-banding, so this is a real regression guard, not a truism.
-      expect(TWO.absMax).toBeLessThanOrEqual(SINGLE.absMax);
+    it("exceeds the single-body raw maximum — and that is FINE, measured", () => {
+      // ⚠️ THIS ASSERTION WAS INVERTED BY ADR-009 decision 5b [2026-08-02], and
+      // the reasoning matters more than the number.
+      //
+      // It used to read `TWO.absMax <= SINGLE.absMax`, justified as "a two-body
+      // chart is a single-body chart plus one more body, so it should not reach
+      // further". Under inertial mass it fails: 4.4166 vs 3.8977, ratio 1.1331,
+      // 33 cells over. Three things were measured before inverting it:
+      //
+      //  1. The single-body envelope is SCALE-INDEPENDENT. agentMonica imports no
+      //     weight function at all — its only mass constant is VESSEL_MASS — so
+      //     3.8977146920667276 is bit-identical before and after the migration.
+      //     There was never a "period-scale ghost" to re-derive on that side.
+      //
+      //  2. The old nesting was an ARTIFACT. The period scale weighted BOTH
+      //     luminaries below 1.0 (Sun 0.5131, Moon 0.2843, sum 0.7974), so the
+      //     pair carried less mass than a single unweighted body. Inertial puts
+      //     the Sun at exactly 1.0 and the pair at 1.1904. Two weighted bodies
+      //     against the same mass-4 vessel outweighing one is arithmetic, not a
+      //     defect — the inequality only ever held by coincidence.
+      //
+      //  3. The raw magnitudes NEVER MEET. normalizeMonicaForStats picks the
+      //     scale by method, and each scale is its own population's |max|/2, so
+      //     every extremum maps to tanh(2) -> 0.982014 regardless. That is the
+      //     §18o point: these are different OBJECTS, not one quantity at three
+      //     scales. The test below asserts exactly that, and it is what actually
+      //     protects the phase-agent economy — this comparison never did.
+      //
+      // Rejected on measurement, recorded so they are not retried: a scalar
+      // damping coefficient (the grid |max| is violently non-monotone in it —
+      // lambda 0.6 -> 17.35 vs 1.0 -> 4.42, because monica has poles wherever
+      // ln(kalchm) -> 0); normalising the pair to unit mass (worse, 6.2563); and
+      // widening the degeneracy predicate to the vessel's zero Essence, which
+      // DOES restore nesting but hands φ to 576 healthy charts — the exact
+      // fabrication TWO_BODY_LN_EPSILON was deleted for.
+      expect(TWO.absMax).toBeGreaterThan(SINGLE.absMax);
+      expect(TWO.absMax / SINGLE.absMax).toBeCloseTo(1.133114, 5);
+    });
+
+    it("but is NOT reachable on the single-body scale — the display is what protects the hierarchy", () => {
+      // The claim item 3 of the ruling turned on, asserted rather than narrated:
+      // each population's extremum lands on the SAME display value, so a phase
+      // agent cannot outrank a single-body agent by carrying a bigger raw monica.
+      const twoOnOwn = normalizeMonicaForStats(TWO.absMax, "two-body");
+      const singleOnOwn = normalizeMonicaForStats(SINGLE.absMax, "single-body");
+      expect(twoOnOwn).toBeCloseTo(singleOnOwn, 10);
+
+      // NEGATIVE CONTROL: grading two-body on the single-body scale WOULD
+      // over-score it. That path does not exist — normalizeMonicaForStats
+      // selects by method — but if it ever did, this is the damage.
+      expect(normalizeMonicaForStats(TWO.absMax, "single-body")).toBeGreaterThan(singleOnOwn);
     });
   });
 

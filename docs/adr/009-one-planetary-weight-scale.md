@@ -239,6 +239,54 @@ after it still compiles, still passes every ESMS assertion, and still leaks the
 Air. The `?? 1.0` fallback itself remains (now unreachable from these two served
 paths); making unknown bodies throw is still open.
 
+### Decision 5b, RULED and shipped `[2026-08-02]`
+
+The envelope invariant was retired, not satisfied. Three ways of satisfying it
+were measured and rejected first:
+
+| approach | result |
+|---|---|
+| scalar damping coefficient λ on body mass | **unusable** — grid \|max\| is non-monotone in λ (0.6 → 17.35, 1.0 → 4.42, 2.0 → 1.68, 3.0 → 6.54); monica has poles wherever ln(kalchm) → 0 |
+| normalise the pair to unit mass (mirroring `ELEMENTAL_MASS`) | **worse**, 6.2563 — shrinking bodies toward the balanced vessel drives kalchm → 1 and monica diverges |
+| widen the degeneracy predicate to `vessel.Essence === 0` | restores nesting (\|max\| 1.6026) but hands φ to **576 healthy charts** — the exact fabrication `TWO_BODY_LN_EPSILON` was deleted for |
+
+The third was recommended and then withdrawn: it was measured to restore nesting
+but its collateral was not measured until afterwards. Restoring an invariant by
+fabricating sentinel values is not a fix.
+
+**What the measurements actually showed:**
+
+1. **The single-body envelope is SCALE-INDEPENDENT.** `agentMonica` imports no
+   weight function at all — its only mass constant is `VESSEL_MASS = 4` — so
+   3.8977146920667276 is bit-identical before and after the migration. There was
+   never a "period-scale ghost" to re-derive on that side.
+2. **The old nesting was an ARTIFACT.** The period scale weighted BOTH luminaries
+   below 1.0 (Sun 0.5131, Moon 0.2843, sum 0.7974), so the pair carried less mass
+   than one unweighted body. Inertial puts the Sun at exactly 1.0 and the pair at
+   1.1904. Two weighted bodies outweighing one, against the same mass-4 vessel,
+   is arithmetic.
+3. **The raw magnitudes never meet.** `normalizeMonicaForStats` selects the scale
+   by method, and each is its own population's `|max|/2`, so every extremum maps
+   to `tanh(2)` → **0.982014** regardless. That — not the raw comparison — is what
+   protects the phase-agent economy, and it is now asserted directly.
+
+**Shipped:** two-body weights → `inertialMassWeight`; `MONICA_POPULATION_SCALE`
+`'two-body'` re-derived 1.4053893229549166 → **2.208277339500193**
+(`|max|` 4.416554679000386 / 2, extremum at full / Aries / 8° / diurnal, 6-way
+tied); envelope assertions inverted to measured relationships; and
+`PLANET_ALCHM_PERIODS` / `normalizeAlchmWeight` **deleted** from
+`src/data/planets.ts` — this module was their last consumer, so **ADR-009 is
+closed**.
+
+The degeneracy predicate is UNCHANGED, so collateral is still exactly 0. A side
+effect worth recording: φ now accounts for exactly the 576 structurally
+degenerate cells and NOTHING from the engine-wide canonical band, because the
+inertial grid sits further from the pole — closest healthy cell |ln kalchm|
+0.1924 against a band edge of 0.1094, **1.758× clear**. That margin is asserted.
+
+⚠️ **Operational:** the 469 persisted phase-agent rows (`monica_diurnal` /
+`monica_nocturnal`) are stale by construction until the backfill runs.
+
 ⚠️ **RULED: decision 5 ships as its own PR, after 1–4 have landed.** Retiring
 Scale C invalidates constants that the B→A move does not touch —
 `FALLBACK_METRICS`, the 1821-sample `alchemicalSamples.json` they were measured

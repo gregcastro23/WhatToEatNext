@@ -448,14 +448,29 @@ describe("twoBodyMonica — the totality contract", () => {
       expect(localCollateral).toEqual([]);
     });
 
-    it("brings the two-body range INSIDE the single-body envelope", () => {
-      // Previously two-body reached 5.4191 against a single-body 3.9751, because
-      // 442 degenerate charts went unbanded and produced the extremes.
+    it("keeps every cell finite, and exceeds the single-body raw max — measured", () => {
+      // ⚠️ THE SECOND ASSERTION WAS INVERTED BY ADR-009 decision 5b [2026-08-02].
+      // It read `absMax < 3.8977…` on the reasoning that a two-body chart is a
+      // single-body chart plus one more body and so cannot reach further. Under
+      // inertial mass it does reach further, and that turned out to be correct
+      // rather than a regression:
+      //
+      //   • The single-body envelope is SCALE-INDEPENDENT — agentMonica imports
+      //     no weight function at all — so 3.8977… is bit-identical before and
+      //     after the migration. There was no period-scale ghost to re-derive.
+      //   • The old nesting was an ARTIFACT of the period scale weighting BOTH
+      //     luminaries below 1.0 (sum 0.7974, less than one unweighted body).
+      //     Inertial puts the Sun at exactly 1.0 and the pair at 1.1904.
+      //   • The raw magnitudes never meet in production: normalizeMonicaForStats
+      //     scales each population by its OWN |max|/2, so both extrema map to
+      //     tanh(2) -> 0.982014. See monicaPopulationScaleDerivation.test.ts.
+      //
+      // The TOTALITY half of this test is unchanged and still load-bearing.
       const finite = cells.map((c) => c.monica).filter((m) => Number.isFinite(m));
       expect(finite.length).toBe(cells.length);
       const absMax = Math.max(...finite.map(Math.abs));
-      expect(absMax).toBeCloseTo(2.8107786459098314, 10);
-      expect(absMax).toBeLessThan(3.8977146920667267); // single-body envelope
+      expect(absMax).toBeCloseTo(4.416554679000386, 10);
+      expect(absMax).toBeGreaterThan(3.8977146920667267);
     });
 
     it("still absorbs a real share of the grid (guard: not a no-op band)", () => {
@@ -471,8 +486,22 @@ describe("twoBodyMonica — the totality contract", () => {
       // Every φ cell is explained by exactly one of the two bands.
       expect(phi.length).toBe(structural.length + canonicalOnly.length);
       expect(structural.length).toBeGreaterThan(0);
-      expect(canonicalOnly.length).toBeGreaterThan(0);
       expect(phi.length).toBeLessThan(cells.length / 2); // not swallowing everything
+
+      // `canonicalOnly > 0` used to be asserted here, and ADR-009 decision 5b
+      // drove it to exactly 0 — NOT by weakening the local band, which is
+      // untouched, but because the inertial grid sits further from the pole.
+      // MEASURED: the closest healthy cell has |ln kalchm| 0.19236558565274994
+      // against a canonical band edge of 0.10939293407637272 — 1.758x clear. So
+      // no healthy cell NEEDS the engine-wide band any more. Asserting the
+      // margin is the honest form of the original guard: it still fails loudly
+      // if the grid drifts back toward the degenerate pole.
+      const healthyMinLnK = Math.min(
+        ...cells.filter((c) => !c.essenceZero).map((c) => c.absLnK),
+      );
+      expect(canonicalOnly.length).toBe(0);
+      expect(healthyMinLnK).toBeGreaterThan(MONICA_LN_EPSILON);
+      expect(healthyMinLnK / MONICA_LN_EPSILON).toBeGreaterThan(1.5);
     });
   });
 

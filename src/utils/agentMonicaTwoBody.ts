@@ -25,9 +25,11 @@
  *
  *     ⚠️ Sharing the vessel does NOT put the two scales on top of each other.
  *     An earlier version of this note claimed it "lands on the same scale as a
- *     single-body one"; that was never measured and is false. See the measured
- *     behaviour section: the two-body grid reaches 12.6756 where single-body
- *     reaches 3.9751.
+ *     single-body one"; that was never measured and is false. MEASURED
+ *     2026-08-02: the two-body grid reaches 4.4166 where single-body reaches
+ *     3.8977. (This line previously quoted 12.6756 / 3.9751 — both stale, from
+ *     before the exact-zero kalchm fix; the figures were never updated with the
+ *     grid. See the measured-behaviour section.)
  *
  *     ► VESSEL-DIGNITY DECISION `[RULED 2026-07-21, revised]`: the shared vessel
  *       is **dignity-NEUTRAL** — `groundingVessel(moonDegree, 0)`. The Moon
@@ -50,22 +52,35 @@
  *     *all* sect variation comes from the Moon (day = Essence, night = Matter).
  *     That is expected, not a bug.
  *
- *  4. **Each body is weighted by `alchmWeight`** — the ORBITAL-PERIOD scale
- *     (`normalizeAlchmWeight(PLANET_ALCHM_PERIODS[planet])`).
+ *  4. **Each body is weighted by `alchmWeight`** — `inertialMassWeight`, the ONE
+ *     scale, since ADR-009 decision **5b** `[2026-08-02]`. This module was the
+ *     last consumer of the orbital-period scale in either runtime, so
+ *     `PLANET_ALCHM_PERIODS` / `normalizeAlchmWeight` were deleted from
+ *     `src/data/planets.ts` in the same change and ADR-009 is closed. (An older
+ *     version of this note also warned about a third scale,
+ *     `normalizePlanetWeight` — gone in decision 1, which started all this.)
  *
- *     ⚠️ `[2026-08-02]` This module is the LAST consumer of that scale, and the
- *     only reason `src/data/planets.ts` still exports it. Everything else in
- *     both runtimes now runs on inertial mass (`inertialMassWeight`) — ADR-009
- *     decisions 1–4 plus 5a. An earlier version of this note warned about a
- *     second, mass-based scale called `normalizePlanetWeight`; that function no
- *     longer exists (deleted in decision 1 — it annihilated Pluto by anchoring
- *     its log normalization ON Pluto).
+ *     ⚠️ Sun 0.5131 → 1.0, Moon 0.2843 → **0.1904 (−33%)**. The Moon losing a
+ *     third of its weight is what moves this grid, and it lands hardest at the
+ *     Comixion degrees, where the shared vessel contributes NO Essence and the
+ *     pair's entire Essence is therefore the Moon's weight alone.
  *
- *     Migrating this module is ADR-009 decision **5b**, and it is BLOCKED on a
- *     ruling rather than merely pending: the swap moves 90.0% of the grid and
- *     pushes |max| to 4.4166, OUTSIDE the 3.8977 single-body envelope this
- *     suite asserts as an invariant. It also desyncs 469 persisted phase-agent
- *     rows. See docs/adr/009 "Decision 5, remeasured".
+ *     Three fixes for the resulting envelope breach were measured and REJECTED,
+ *     recorded here so they are not retried. A scalar damping coefficient: the
+ *     grid |max| is violently NON-MONOTONE in it (λ 0.6 → 17.35, 1.0 → 4.42,
+ *     2.0 → 1.68, 3.0 → 6.54), because monica has poles wherever ln(kalchm) → 0
+ *     and moving mass sweeps cells through them. Normalising the pair to unit
+ *     mass, mirroring `ELEMENTAL_MASS`: worse, 6.2563 — shrinking bodies toward
+ *     the balanced vessel drives kalchm → 1 and monica diverges. Widening the
+ *     degeneracy predicate to the VESSEL's zero Essence: it does restore nesting
+ *     (|max| 1.6026), but hands φ to **576 healthy charts** — the exact
+ *     fabrication `TWO_BODY_LN_EPSILON` was deleted for.
+ *
+ *     What was ruled instead: the envelope was never an invariant. See the note
+ *     on the envelope test — the single-body bound is scale-INDEPENDENT, the old
+ *     nesting was an artifact of the period scale weighting both luminaries
+ *     below 1.0, and per-population display scaling means the raw magnitudes
+ *     never meet anyway.
  *
  *  5. **Dignity — the two bodies SOURCE it differently, but APPLY it identically.**
  *       • Moon → POSITION-based: its own essential dignity at its own sign,
@@ -132,17 +147,33 @@
  * numbers, so any earlier figure quoted elsewhere is stale by construction.
  *
  * **Full grid** (8 phases × 12 signs × 30 degrees × 2 sects = 5760):
- * 5760/5760 finite · median |monica| 0.2927 · p90 1.6180 · **max 2.8108** ·
- * 813 cells (14.1%) resolve to φ via the local band.
+ * 5760/5760 finite · median |monica| 0.3262 · p90 1.6180 · **max 4.4166**
+ * (full / Aries / 8° / diurnal, 6-way tied) · range [−0.424203, 4.416554] ·
+ * 576 cells (10.0%) resolve to φ, all of them structurally degenerate.
  *
- * ⚠️ `[RE-MEASURED 2026-08-02]` — the four grid figures above previously read
- * "median 0.2244 · p90 1.2434 · max 12.6756 · 304 cells (5.3%)". All four were
- * stale: something moved the grid after 2026-07-21 and this block was not
- * updated with it. The values now shown are re-measured over the same 5760-cell
- * enumeration, and `agentMonicaTwoBody.test.ts:457` independently pins |max| to
- * 2.8107786459098314 — it agreed with the code the whole time this comment did
- * not. Prefer the test: a docstring cannot fail, so it drifts silently.
- * (The 469-agent figures below are NOT re-measured — they need the live DB.)
+ * ⚠️ `[MEASURED 2026-08-02]` These moved TWICE in one day, for unrelated
+ * reasons, and both are worth knowing.
+ *
+ * First a correction: they had read "median 0.2244 · p90 1.2434 · max 12.6756 ·
+ * 304 cells (5.3%)" and ALL FOUR were stale — the grid moved after 2026-07-21
+ * and this block was never updated, while the test pinning |max| agreed with the
+ * code the whole time. Prefer the tests: a docstring cannot fail, so it drifts
+ * silently.
+ *
+ * Then decision 5b moved them legitimately, by putting the two bodies on the
+ * inertial-mass scale. Note that φ now accounts for exactly the structural band
+ * (576) with NOTHING from the engine-wide canonical band — the inertial grid
+ * sits further from the ln(kalchm) pole than the period grid did: the closest
+ * healthy cell is at |ln kalchm| 0.1924 against a band edge of 0.1094, 1.758×
+ * clear. That margin is asserted, not just recorded.
+ *
+ * ⚠️ |max| now EXCEEDS the single-body 3.8977, and that is expected rather than
+ * a regression — see the envelope note in `agentMonicaTwoBody.test.ts` and
+ * `monicaPopulationScaleDerivation.test.ts`. Each population is displayed on its
+ * own |max|/2 scale, so both extrema map to 0.982014 regardless.
+ *
+ * (The 469-agent figures below are NOT re-measured — they need the live DB, and
+ * they are stale BY CONSTRUCTION until the decision-5b backfill runs.)
  *
  * **All 469 production phase agents**: 0 unrecognised phase strings, 0
  * non-finite, **range [−5.4191, 1.8004]**, 221 distinct values, 16 φ.
@@ -185,7 +216,6 @@
  * after it perturbs single-body from 3.9751 to 3.9089, which would desync the
  * 4280 rows already in production.
  */
-import { PLANET_ALCHM_PERIODS, normalizeAlchmWeight } from "@/data/planets";
 import {
   MONICA_EQUILIBRIUM,
   calculateKalchm,
@@ -203,6 +233,7 @@ import { getDignityScore } from "@/utils/dignityScales";
 import {
   PLANETARY_SECTARIAN_ESMS,
   ZODIAC_ELEMENTS,
+  inertialMassWeight,
 } from "@/utils/planetaryAlchemyMapping";
 
 /** Zodiac signs in ecliptic order — index × 30 is the sign's start longitude. */
@@ -500,9 +531,17 @@ export function derivedSunPosition(
 
 // ─────────────────────────────── the calc ─────────────────────────────────
 
-/** Orbital-period ("alchm") weight for a body. NOT the mass scale. */
+/** Inertial-mass weight for a body — the ONE scale (ADR-009 decision 5b).
+ *
+ * This module was the LAST consumer of the orbital-period scale in either
+ * runtime, and the only reason src/data/planets.ts still exported it. Both are
+ * deleted in the same change, closing ADR-009.
+ *
+ * Sun 0.5131 -> 1.0 and Moon 0.2843 -> 0.1904. The Moon losing a third of its
+ * weight is what moves this module's grid; see the envelope note below.
+ */
 function alchmWeightOf(planet: string): number {
-  return normalizeAlchmWeight(PLANET_ALCHM_PERIODS[planet] ?? 1.0);
+  return inertialMassWeight(planet);
 }
 
 /**
