@@ -501,69 +501,92 @@ function singleBody(planet: string, sign: string, exactLongitude: number) {
 }
 
 describe("dignity vector", () => {
-  test("FALL (Venus in virgo): −10 ESMS points, ×0.90, dragging against the sign axis", () => {
+  // Layer 2 is the degree-level 5-fold manifest (src/calculations/dignityManifest.ts):
+  // domicile +5, exaltation +4, triplicity +3, term +2, face +1, detriment −5,
+  // fall −4, summed, with 𝒟 = 1 + score/50. `esmsScale` remains a /100
+  // percentage — (𝒟 − 1) × 100 — because agentMonica and the FBD label contract
+  // on that. The folds a body actually holds are on `dignityFolds`.
+
+  test("FALL is now NET, not absolute: Venus in virgo falls (−4) but rules the Earth day triplicity (+3)", () => {
     const venus = singleBody("Venus", "virgo", 171);
 
+    // The legacy 5-state type still reports Fall by the historic precedence
+    // chain, but the applied physics is nearly neutral — the sign-level scale
+    // could not express this at all, and drove a flat ×0.90.
     expect(venus.dignity.type).toBe("Fall");
-    expect(venus.dignity.esmsScale).toBe(-10);
-    expect(venus.dignity.multiplier).toBeCloseTo(0.9, 9);
+    expect(venus.dignity.esmsScale).toBe(-2);
+    expect(venus.dignity.multiplier).toBeCloseTo(0.98, 9);
 
     const dignityVec = venus.vectors.find((v) => v.kind === "dignity");
     expect(dignityVec).toBeDefined();
-    // |multiplier − 1| = 0.10 — the ESMS scale, not a 30% food-scale swing.
-    expect(dignityVec?.magnitude).toBeCloseTo(0.1, 9);
-    // virgo → Earth (180°), flipped 180° because the dignity drags.
+    expect(dignityVec?.magnitude).toBeCloseTo(0.02, 9);
+    // virgo → Earth (180°), flipped 180° because the net dignity still drags.
     expect(dignityVec?.angleDeg).toBeCloseTo(normalizeAngle(ELEMENT_ANGLES.Earth + 180), 9);
     expect(dignityVec?.polarity).toBe("challenging");
   });
 
-  test("EXALTATION (Sun in aries): +7 ESMS points, ×1.07 — never the food scale's 1.30", () => {
+  test("EXALTATION (Sun in aries): exaltation +4 and Fire day triplicity +3 → ×1.14", () => {
     const sun = singleBody("Sun", "aries", 5);
 
     expect(sun.dignity.type).toBe("Exaltation");
-    expect(sun.dignity.esmsScale).toBe(7);
-    expect(sun.dignity.multiplier).toBeCloseTo(1.07, 9);
+    expect(sun.dignity.esmsScale).toBe(14);
+    expect(sun.dignity.multiplier).toBeCloseTo(1.14, 9);
     // Guard against re-introducing the ±15%-per-level food scale.
     expect(sun.dignity.multiplier).not.toBeCloseTo(1.3, 2);
 
     const dignityVec = sun.vectors.find((v) => v.kind === "dignity");
-    expect(dignityVec?.magnitude).toBeCloseTo(0.07, 9);
+    expect(dignityVec?.magnitude).toBeCloseTo(0.14, 9);
     // aries → Fire (90°), ALONG the axis because the dignity boosts.
     expect(dignityVec?.angleDeg).toBeCloseTo(ELEMENT_ANGLES.Fire, 9);
     expect(dignityVec?.polarity).toBe("harmonious");
   });
 
-  test("DOMICILE (Sun in leo): +10 ESMS points, ×1.10, along the sign axis", () => {
+  test("DOMICILE (Sun in leo): domicile +5 and Fire day triplicity +3 → ×1.16", () => {
     const sun = singleBody("Sun", "leo", 135);
 
     expect(sun.dignity.type).toBe("Domicile");
-    expect(sun.dignity.esmsScale).toBe(10);
-    expect(sun.dignity.multiplier).toBeCloseTo(1.1, 9);
+    expect(sun.dignity.esmsScale).toBe(16);
+    expect(sun.dignity.multiplier).toBeCloseTo(1.16, 9);
 
     const dignityVec = sun.vectors.find((v) => v.kind === "dignity");
-    expect(dignityVec?.magnitude).toBeCloseTo(0.1, 9);
+    expect(dignityVec?.magnitude).toBeCloseTo(0.16, 9);
     expect(dignityVec?.angleDeg).toBeCloseTo(ELEMENT_ANGLES.Fire, 9); // leo → Fire
     expect(dignityVec?.polarity).toBe("harmonious");
   });
 
-  test("DETRIMENT (Venus in aries): −7 ESMS points, ×0.93, flipped", () => {
+  test("DETRIMENT (Venus in aries at 12°): detriment −5 alone, no offsetting fold → ×0.90", () => {
     const venus = singleBody("Venus", "aries", 12);
 
     expect(venus.dignity.type).toBe("Detriment");
-    expect(venus.dignity.esmsScale).toBe(-7);
-    expect(venus.dignity.multiplier).toBeCloseTo(0.93, 9);
+    expect(venus.dignity.esmsScale).toBe(-10);
+    expect(venus.dignity.multiplier).toBeCloseTo(0.9, 9);
     const dignityVec = venus.vectors.find((v) => v.kind === "dignity");
-    expect(dignityVec?.magnitude).toBeCloseTo(0.07, 9);
+    expect(dignityVec?.magnitude).toBeCloseTo(0.1, 9);
     expect(dignityVec?.angleDeg).toBeCloseTo(normalizeAngle(ELEMENT_ANGLES.Fire + 180), 9);
   });
 
   test("NEUTRAL: no dignity vector at all (scale 0 would be a zero-length arrow)", () => {
-    const jupiter = singleBody("Jupiter", "leo", 135);
+    // Pluto in aquarius holds nothing — it is outside the classical seven, so it
+    // takes no triplicity, term or face, and aquarius is neither its modern
+    // domicile (scorpio) nor its exaltation (sagittarius).
+    const pluto = singleBody("Pluto", "aquarius", 300.9);
 
-    expect(jupiter.dignity.type).toBe("Neutral");
-    expect(jupiter.dignity.esmsScale).toBe(0);
-    expect(jupiter.dignity.multiplier).toBeCloseTo(1, 9);
-    expect(jupiter.vectors.find((v) => v.kind === "dignity")).toBeUndefined();
+    expect(pluto.dignity.type).toBe("Neutral");
+    expect(pluto.dignity.esmsScale).toBe(0);
+    expect(pluto.dignity.multiplier).toBeCloseTo(1, 9);
+    expect(pluto.vectors.find((v) => v.kind === "dignity")).toBeUndefined();
+  });
+
+  test("folds that exactly cancel also produce no vector, though the body IS dignified", () => {
+    // Venus 10° scorpio: detriment −5, Water day triplicity +3, Egyptian term +2
+    // → net 0. A property the sign-level scale could not represent: a body with
+    // real dignity whose applied multiplier is exactly 1.
+    const venus = singleBody("Venus", "scorpio", 220);
+
+    expect(venus.dignity.type).toBe("Detriment"); // legacy type still sees the debility
+    expect(venus.dignity.esmsScale).toBe(0);
+    expect(venus.dignity.multiplier).toBeCloseTo(1, 9);
+    expect(venus.vectors.find((v) => v.kind === "dignity")).toBeUndefined();
   });
 
   test("the multiplier the card reports is the one the engine applied: 1 + esmsScale/100", () => {
@@ -573,7 +596,15 @@ describe("dignity vector", () => {
     });
     for (const card of cards) {
       expect(card.dignity.multiplier).toBeCloseTo(1 + card.dignity.esmsScale / 100, 12);
-      expect([10, 7, 0, -7, -10]).toContain(card.dignity.esmsScale);
+      // The scale is no longer drawn from a 5-value set. Summed folds span
+      // −9…+11 points, and esmsScale is score × (100/50), so it is an even
+      // integer in [−18, 22] for any degree-resolved body.
+      expect(Number.isInteger(card.dignity.esmsScale)).toBe(true);
+      // Compared as a boolean: JS modulo takes the sign of the dividend, so
+      // −2 % 2 is −0, and toBe(0) fails that on Object.is.
+      expect(card.dignity.esmsScale % 2 === 0).toBe(true);
+      expect(card.dignity.esmsScale).toBeGreaterThanOrEqual(-18);
+      expect(card.dignity.esmsScale).toBeLessThanOrEqual(22);
     }
   });
 });
@@ -601,16 +632,22 @@ describe("per-card normalization", () => {
   });
 
   test("a vector under 12% of the card max is clamped to the visibility floor", () => {
-    // Mars card max is the exact trine (1.0); its Fall dignity is only 0.10.
+    // Mars card max is the exact trine (1.0). Mars 10° cancer is in fall (−4)
+    // with no offsetting fold — no triplicity (Water is Venus/Mars-by-night/Moon
+    // and this sky is diurnal), Venus holds the term, Mercury the face — so the
+    // dignity vector is 0.08, still under the 12% floor.
     const mars = byPlanet(buildFreeBodyDiagrams(TRINE_SKY).cards, "Mars");
     const dignity = mars.vectors.find((v) => v.kind === "dignity");
-    expect(dignity?.magnitude).toBeCloseTo(0.1, 9);
+    expect(dignity?.magnitude).toBeCloseTo(0.08, 9);
     expect(dignity?.normalized).toBeCloseTo(0.12, 9); // floored, raw preserved
   });
 
   test("a card with no aspects normalizes against its own sign pull", () => {
+    // Jupiter 15° leo now carries a dignity vector: it holds the Chaldean face
+    // of that decan (+1 → ×1.02). The sign pull (0.6) is still the card max, so
+    // the normalization it is asserting is unchanged.
     const jupiter = singleBody("Jupiter", "leo", 135);
-    expect(jupiter.vectors.map((v) => v.kind).sort()).toEqual(["sect", "sign"]);
+    expect(jupiter.vectors.map((v) => v.kind).sort()).toEqual(["dignity", "sect", "sign"]);
     expect(jupiter.normalizationScale).toBeCloseTo(0.6, 9);
     expect(jupiter.vectors.find((v) => v.kind === "sign")?.normalized).toBeCloseTo(1, 9);
     expect(jupiter.vectors.find((v) => v.kind === "sect")?.normalized).toBeCloseTo(

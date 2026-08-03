@@ -39,9 +39,17 @@ class TestEsmsConformance(unittest.TestCase):
             "Sun": {"sign": "aries", "degree": 0, "exactLongitude": 0},
             "Moon": {"sign": "cancer", "degree": 0, "exactLongitude": 90},
         })
+        # 5-fold dignity, diurnal:
+        #   Sun 0 aries  - exaltation +4, Fire day triplicity +3 = +7 -> x1.14
+        #   Moon 0 cancer - domicile +5, Water participating triplicity +3 = +8 -> x1.16
+        # Both applied before the exact Sun-Moon square (-0.1 Spirit). Under the
+        # sign-level scale these were x1.07 and x1.10, giving Spirit
+        # 0.9700000000000001 / Essence 0.10939121418131065. These values are
+        # byte-identical to the TypeScript mirror of this case in
+        # src/__tests__/utils/planetaryAlchemyMapping.test.ts.
         self.assertEqual(square, {
-            "Spirit": 0.9700000000000001,
-            "Essence": 0.10939121418131065,
+            "Spirit": 1.04,
+            "Essence": 0.12081255313665484,
             "Matter": 0.2,
             "Substance": 0.0,
         })
@@ -50,7 +58,7 @@ class TestEsmsConformance(unittest.TestCase):
 
     def test_all_20_conformance_charts(self):
         fixture = load_conformance_fixture()
-        self.assertEqual(fixture["version"], "2.3.0")
+        self.assertEqual(fixture["version"], "2.4.0")
         charts = fixture["charts"]
         self.assertEqual(len(charts), 20)
 

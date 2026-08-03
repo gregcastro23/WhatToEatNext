@@ -15,12 +15,20 @@
  * night. These sectarian elements drive the dynamic elemental profile of the sky.
  */
 
+import {
+  dignityFoldsAtLongitude,
+  dignityFoldsForSign,
+  toLegacyDignityType,
+  toLegacyEsmsScale,
+  MANIFEST_PLANETS,
+  type DignityFoldSummary,
+  type ManifestPlanet,
+} from "@/calculations/dignityManifest";
 import { PLANET_WEIGHTS } from "@/data/planets";
 import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { buildAspectsWithStrength } from "./aspectCalculator";
 import { calculateAspectESMSModifications } from "./aspectESMSEffects";
-import { getDignityScore } from "./dignityScales";
 
 export type { AlchemicalProperties };
 
@@ -471,6 +479,46 @@ export type AlchemicalPlanetPositions = Record<
   string | AlchemicalPlanetPosition
 >;
 
+const ZODIAC_ORDER = [
+  "aries", "taurus", "gemini", "cancer", "leo", "virgo",
+  "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
+];
+
+/** The Ascendant and any unrecognised body carry no essential dignity. */
+const NO_DIGNITY_FOLDS: DignityFoldSummary = {
+  domicile: 0, exaltation: 0, triplicity: 0, term: 0, face: 0,
+  detriment: 0, fall: 0, score: 0, multiplier: 1.0, resolution: "degree",
+};
+
+function isManifestBody(body: string): body is ManifestPlanet {
+  return (MANIFEST_PLANETS as readonly string[]).includes(body);
+}
+
+/**
+ * Absolute ecliptic longitude for dignity, or null when the position genuinely
+ * does not carry one.
+ *
+ * Returning null — rather than 0 — is the whole point. `exactLongitude ??
+ * degree ?? 0` would be wrong twice over: a real 0° Aries body short-circuits
+ * the chain at a legitimate zero, and a sign-only body silently becomes 0°
+ * Aries, inheriting Jupiter's term and Mars' face. Both failures are on record
+ * in this codebase, so every branch below tests for a finite number explicitly.
+ */
+function resolveDignityLongitude(
+  position: AlchemicalPlanetPosition,
+  sign: string,
+): number | null {
+  if (typeof position.exactLongitude === "number" && Number.isFinite(position.exactLongitude)) {
+    return position.exactLongitude;
+  }
+  const signIndex = ZODIAC_ORDER.indexOf(String(sign).toLowerCase());
+  if (signIndex < 0) return null;
+  if (typeof position.degree === "number" && Number.isFinite(position.degree)) {
+    return signIndex * 30 + position.degree;
+  }
+  return null;
+}
+
 export interface AlchemicalCalculationOptions {
   /** Inject the historical Aries vessel when a legacy surface lacks an Ascendant. */
   injectAscendant?: boolean;
@@ -487,12 +535,28 @@ export interface EnhancedPlanetContribution {
    * @deprecated Historical field name retained for downstream display adapters.
    */
   alchmWeight: number;
-  /** Classical dignity type from the authoritative dual-scale table. */
+  /**
+   * Legacy 5-state dignity, degraded from {@link dignityFolds} by the historic
+   * precedence chain (Domicile → Exaltation → Detriment → Fall → Neutral).
+   * Retained unchanged so existing consumers cannot break; it can no longer
+   * express everything the engine computes — read `dignityFolds` for that.
+   */
   dignityType: DignityType;
-  /** ESMS-scale points (+10 domicile … −10 fall) — NOT the food scale. */
+  /**
+   * Percentage form of the applied multiplier: (𝒟 − 1) × 100.
+   * Consumers contract on this being a /100 percentage — agentMonica.ts:107 and
+   * agentMonicaTwoBody.ts:665 compute `1 + dignityEsmsScale/100`, and
+   * planetaryFBD.ts:741 renders it as "+10%".
+   */
   dignityEsmsScale: number;
   /** The multiplier actually applied: 1 + esmsScale/100. */
   dignityMultiplier: number;
+  /**
+   * Full cumulative 5-fold dignity from the degree manifest — domicile,
+   * exaltation, triplicity, term, face, detriment, fall — with the resolution
+   * that produced it ('degree', or 'sign-mean' for legacy sign-only input).
+   */
+  dignityFolds: DignityFoldSummary;
   /** True for the Physical-Vessel Ascendant grounding constant. */
   isGroundingVessel: boolean;
 }
@@ -605,10 +669,20 @@ export function calculateAlchemicalFromPlanetsDetailed(
     const distance = position.distance ?? position.distanceAu;
     const inertia = getGravitationalInertia(body, distance);
 
-    // LAYER 2: Apply dignity modifications
-    const dignityScore = getDignityScore(body, sign);
-    const dignityMultiplier = 1 + dignityScore.esmsScale / 100;
-    // Examples: +10 → 1.10 (10% boost), -10 → 0.90 (10% reduction)
+    // LAYER 2: Apply dignity modifications.
+    //
+    // Degree-level 5-fold dignity from the manifest, superseding the sign-level
+    // +10/+7/0/−7/−10 scale. Resolution is chosen by what the position actually
+    // carries — never by defaulting a missing degree to 0, which would mint
+    // Jupiter's Aries term and face 1 across every legacy sign-only chart (the
+    // failure aspectCalculator.ts:288 already guards against).
+    const longitude = resolveDignityLongitude(position, sign);
+    const dignityFolds = isManifestBody(body)
+      ? longitude === null
+        ? dignityFoldsForSign(body, sign, diurnal ? "diurnal" : "nocturnal")
+        : dignityFoldsAtLongitude(body, longitude, diurnal ? "diurnal" : "nocturnal")
+      : NO_DIGNITY_FOLDS;
+    const dignityMultiplier = dignityFolds.multiplier;
 
     const contribution: AlchemicalProperties = {
       Spirit: baseESMS.Spirit * inertia * dignityMultiplier,
@@ -625,9 +699,10 @@ export function calculateAlchemicalFromPlanetsDetailed(
       esms: contribution,
       sign,
       alchmWeight: inertia,
-      dignityType: dignityScore.type,
-      dignityEsmsScale: dignityScore.esmsScale,
+      dignityType: toLegacyDignityType(dignityFolds),
+      dignityEsmsScale: toLegacyEsmsScale(dignityFolds.score),
       dignityMultiplier,
+      dignityFolds,
       isGroundingVessel: body === "Ascendant",
     };
   }

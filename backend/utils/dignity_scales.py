@@ -1,8 +1,20 @@
-"""Canonical +10/+7/0/-7/-10 ESMS dignity scale.
+"""SUPERSEDED sign-level +10/+7/0/-7/-10 ESMS dignity scale.
 
-This is the Python port of ``src/utils/dignityScales.ts`` and its
-``getPlanetaryDignityInfo`` lookup. Keep the tables byte-for-byte equivalent:
-dignity is Layer 2 of the cross-runtime ESMS conformance contract.
+NO LONGER WIRED TO ANYTHING. Layer 2 of the cross-runtime ESMS contract is now
+``backend/utils/dignity_manifest.py`` (degree-level 5-fold), which
+``planetary_alchemy.py`` calls instead. This module has zero importers as of
+that change; it is retained only because its tables document the previous
+scale, and its ``get_dignity_type`` precedence chain is the behaviour
+``to_legacy_dignity_type`` in the manifest reproduces exactly (verified 240/240
+across both resolutions).
+
+Do NOT edit this expecting an effect on ESMS output — there is no caller.
+
+Asymmetry worth knowing: the TypeScript counterpart ``src/utils/dignityScales.ts``
+is NOT dead. It still drives ``agentMonica``, ``agentMonicaTwoBody`` and the
+``NatalTransitChart`` sign vector, which were left on the sign-level scale when
+the ESMS engine moved to the manifest. Those call sites are a separate
+migration.
 """
 
 from typing import Dict, List

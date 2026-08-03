@@ -528,6 +528,158 @@ export function buildDignityManifest(
   return { planets: MANIFEST_PLANETS, stride: MANIFEST_STRIDE, diurnal, nocturnal, range: { min, max, minAt, maxAt } }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Sign-resolution fallback and legacy degradation
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Per-fold point breakdown for one body, plus the legacy-compatible summary.
+ *
+ * Points rather than booleans, because under 'sign-mean' resolution the
+ * degree-level folds are expectation values and genuinely fractional.
+ */
+export interface DignityFoldSummary {
+  domicile: number
+  exaltation: number
+  triplicity: number
+  term: number
+  face: number
+  detriment: number
+  fall: number
+  /** Σ folds — the Score of the specification. */
+  score: number
+  /** 𝒟 = 1 + score / DIGNITY_SCORE_DIVISOR. */
+  multiplier: number
+  /**
+   * 'degree'    — a real ecliptic longitude was available; exact dignity.
+   * 'sign-mean' — only a sign was known, so degree-level folds are the mean
+   *               over that sign's 30 degrees. Never a fabricated 0°.
+   */
+  resolution: 'degree' | 'sign-mean'
+}
+
+const EMPTY_FOLDS = (): Omit<DignityFoldSummary, 'score' | 'multiplier' | 'resolution'> => ({
+  domicile: 0,
+  exaltation: 0,
+  triplicity: 0,
+  term: 0,
+  face: 0,
+  detriment: 0,
+  fall: 0,
+})
+
+function foldsFromComponents(components: DignityBreakdown['components']) {
+  const folds = EMPTY_FOLDS()
+  for (const c of components) folds[c.kind] += c.points
+  return folds
+}
+
+/**
+ * Exact dignity folds at a known ecliptic longitude.
+ */
+export function dignityFoldsAtLongitude(
+  planet: ManifestPlanet,
+  longitude: number,
+  sect: Sect,
+  aggregation: DignityAggregation = DEFAULT_AGGREGATION
+): DignityFoldSummary {
+  const b = scoreDignity(planet, longitude, sect, aggregation)
+  return {
+    ...foldsFromComponents(b.components),
+    score: b.score,
+    multiplier: b.multiplier,
+    resolution: 'degree',
+  }
+}
+
+/**
+ * Expected dignity folds for a body known only by sign — E[𝒟 | sign].
+ *
+ * Domicile, exaltation, detriment, fall and triplicity are all sign-level, so
+ * their mean over the sign equals their exact value and is unchanged. Only term
+ * and face vary within a sign, and both are piecewise-constant on integer
+ * degree boundaries, so averaging the 30 integer degrees yields the exact
+ * measure (a term spanning 6° of 30 contributes 2 × 6/30 = 0.4).
+ *
+ * This exists because AlchemicalPlanetPositions accepts a bare sign string,
+ * which produces a position with no degree at all. Defaulting such a body to 0°
+ * would mint Jupiter's Aries term and face 1 across every legacy chart — the
+ * same failure aspectCalculator.ts:288 already guards against.
+ */
+export function dignityFoldsForSign(
+  planet: ManifestPlanet,
+  sign: string,
+  sect: Sect,
+  aggregation: DignityAggregation = DEFAULT_AGGREGATION
+): DignityFoldSummary {
+  const idx = SIGNS.indexOf(sign.toLowerCase() as SignName)
+  if (idx < 0) {
+    // Unknown sign contributes no dignity rather than a fabricated one.
+    return { ...EMPTY_FOLDS(), score: 0, multiplier: 1.0, resolution: 'sign-mean' }
+  }
+
+  const acc = EMPTY_FOLDS()
+  let score = 0
+  for (let d = 0; d < 30; d++) {
+    const b = scoreDignity(planet, idx * 30 + d, sect, aggregation)
+    const f = foldsFromComponents(b.components)
+    for (const k of Object.keys(acc) as Array<keyof typeof acc>) acc[k] += f[k]
+    score += b.score
+  }
+  for (const k of Object.keys(acc) as Array<keyof typeof acc>) acc[k] /= 30
+  score /= 30
+
+  return { ...acc, score, multiplier: 1.0 + score / DIGNITY_SCORE_DIVISOR, resolution: 'sign-mean' }
+}
+
+/**
+ * Collapse the cumulative folds to the narrow 5-state DignityType that existing
+ * consumers expect.
+ *
+ * Uses the LIVE engine's precedence chain (astrologyUtils.ts:1343-1353):
+ * Domicile → Exaltation → Detriment → Fall → Neutral. Deliberately NOT
+ * "highest-scoring": Mercury in Pisces holds both detriment (−5) and fall (−4),
+ * and highest-scoring would report Fall where the engine reports Detriment
+ * today — flipping the `strength` field that PlanetInfoModal's bar and the
+ * dignityEffects accumulator read live.
+ *
+ * Returns 'Neutral', not 'Peregrine': the DignityType union has no Peregrine
+ * member and widening it is exactly what this degradation exists to avoid.
+ */
+export function toLegacyDignityType(folds: DignityFoldSummary): LegacyDignityType {
+  // Tested against zero, not against > 0: detriment and fall carry NEGATIVE
+  // points (−5, −4), so a positivity check silently degrades every debility to
+  // Neutral. That mistake scored 96/120 against the live engine instead of 120.
+  if (folds.domicile !== 0) return 'Domicile'
+  if (folds.exaltation !== 0) return 'Exaltation'
+  if (folds.detriment !== 0) return 'Detriment'
+  if (folds.fall !== 0) return 'Fall'
+  return 'Neutral'
+}
+
+/** Mirrors DignityType in src/types/alchemy.ts — intentionally not widened. */
+export type LegacyDignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral'
+
+/**
+ * The percentage form the existing consumers contract on.
+ *
+ * `dignityEsmsScale` is not an opaque score — agentMonica.ts:107 and
+ * agentMonicaTwoBody.ts:665 both compute `1 + dignityEsmsScale / 100`, and
+ * planetaryFBD.ts:741 renders it as "+10%". Emitting the raw manifest score
+ * there would halve the applied effect in both monica paths. (𝒟 − 1) × 100
+ * reproduces 𝒟 exactly through that existing /100 math, and reduces to the
+ * current values for the old scale (domicile → 10).
+ *
+ * Derived from the score rather than from 𝒟: `(1.12 - 1) * 100` evaluates to
+ * 12.00000000000001 in IEEE754, which planetaryFBD would render verbatim as
+ * "+12.00000000000001%". score × (100/divisor) is exact for integer scores,
+ * and the rounding only trims float dust from fractional sign-mean scores.
+ */
+export function toLegacyEsmsScale(score: number): number {
+  const raw = score * (100 / DIGNITY_SCORE_DIVISOR)
+  return Math.round(raw * 1e6) / 1e6
+}
+
 /** Read 𝒟_p(θ_p) out of a built manifest. */
 export function getDignityMultiplier(
   manifest: DignityManifest,
