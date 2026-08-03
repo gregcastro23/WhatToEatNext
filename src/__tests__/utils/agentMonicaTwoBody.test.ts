@@ -38,6 +38,11 @@ import {
   parseAgentPlacement,
   twoBodyMonicaFromName,
 } from "@/utils/agentMonicaResolver";
+import {
+  DIGNITY_POINTS,
+  toLegacyEsmsScale,
+} from "@/calculations/dignityManifest";
+import { inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
 
 const SIGNS = [
   "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
@@ -206,11 +211,20 @@ describe("ASPECT_DIGNITY — [DERIVED] from aspectCalculator.ts", () => {
     expect(ASPECT_DIGNITY.sesquisquare).toBeCloseTo(-3.75, 10);
   });
 
-  it("keeps the sanity property: ±10 are the domicile/fall anchors and square sits between detriment and fall", () => {
+  it("keeps the sanity property: ±10 are single-fold anchors and square sits between the two debilities", () => {
     expect(Math.abs(ASPECT_DIGNITY.conjunction)).toBe(10);
     expect(Math.abs(ASPECT_DIGNITY.opposition)).toBe(10);
-    expect(ASPECT_DIGNITY.square).toBeLessThan(-7); // past detriment
-    expect(ASPECT_DIGNITY.square).toBeGreaterThan(-10); // not past fall
+    // Bounds come from the manifest's single folds, not from retired literals.
+    // This test used to read `< -7 // past detriment` and `> -10 // not past
+    // fall`, which were the SIGN-LEVEL scale's values. Under the manifest those
+    // two swapped: detriment alone is −10 and fall alone is −8, so the same
+    // −8.75 now sits past fall and short of detriment. The assertions were
+    // numerically unchanged and silently passed while their comments inverted —
+    // deriving the bounds keeps that from recurring.
+    expect(ASPECT_DIGNITY.square).toBeLessThan(toLegacyEsmsScale(DIGNITY_POINTS.fall));
+    expect(ASPECT_DIGNITY.square).toBeGreaterThan(
+      toLegacyEsmsScale(DIGNITY_POINTS.detriment),
+    );
   });
 });
 
@@ -647,5 +661,64 @@ describe("twoBodyMonicaFromName — the resolver seam", () => {
     expect(() =>
       twoBodyMonicaFromName("Blorp Moon in Cancer 0 Degree"),
     ).toThrow(UnknownMoonPhaseError);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// The aspect-dignity anchor — enforcing the module note in section 5
+// ---------------------------------------------------------------------------
+
+describe("ASPECT_DIGNITY is anchored to a single dignity FOLD, not to the stack", () => {
+  // These exist because the range gap between the Moon (−18…+22) and the Sun
+  // (±10) reads as "the Sun was left behind on the retired sign-level scale"
+  // and invites a well-meaning rescale. It is not a defect. The module note in
+  // section 5 argues why; this turns that argument into assertions, so a
+  // rescale fails here and is pointed at the note instead of shipping.
+
+  const fold = (k: keyof typeof DIGNITY_POINTS) => toLegacyEsmsScale(DIGNITY_POINTS[k]);
+
+  it("keeps ±10 on real single-fold anchors — domicile and DETRIMENT", () => {
+    // The anchor never moved. What moved is WHICH debility carries it: fall
+    // alone is −8 under the manifest, detriment alone is −10.
+    expect(fold("domicile")).toBe(10);
+    expect(fold("detriment")).toBe(-10);
+    expect(fold("fall")).toBe(-8);
+
+    expect(ASPECT_DIGNITY.conjunction).toBe(fold("domicile"));
+    expect(ASPECT_DIGNITY.opposition).toBe(fold("detriment"));
+  });
+
+  it("keeps square between the two debilities rather than off the end", () => {
+    // −10 < −8.75 < −8. The gap it falls into is now fall…detriment, where on
+    // the sign-level scale it was detriment (−7)…fall (−10).
+    expect(ASPECT_DIGNITY.square).toBeGreaterThan(fold("detriment"));
+    expect(ASPECT_DIGNITY.square).toBeLessThan(fold("fall"));
+  });
+
+  it("stays symmetric, because conjunction and opposition share an orb budget", () => {
+    // The stacked manifest range is ASYMMETRIC (+22 / −18) because Mercury
+    // uniquely rules AND is exalted in one sign. Aspect dignity cannot inherit
+    // that: equal orb budgets force equal magnitudes.
+    expect(ASPECT_ORB_BUDGET.conjunction).toBe(ASPECT_ORB_BUDGET.opposition);
+    expect(ASPECT_DIGNITY.conjunction).toBe(-ASPECT_DIGNITY.opposition);
+  });
+
+  it("gives the Sun MORE absolute leverage than the Moon, despite the narrower band", () => {
+    // Range is not leverage — each dignity multiplies its own body's ESMS,
+    // which is mass-weighted. This is the measurement that retires the
+    // "solar under-weighting" reading of the range gap.
+    const STACK_MAX = toLegacyEsmsScale(11); // +22, Mercury in Virgo
+    const STACK_MIN = toLegacyEsmsScale(-9); // −18, Mercury in Pisces
+    expect([STACK_MAX, STACK_MIN]).toEqual([22, -18]);
+
+    const sunSwing =
+      inertialMassWeight("Sun") *
+      ((1 + ASPECT_DIGNITY.conjunction / 100) - (1 + ASPECT_DIGNITY.opposition / 100));
+    const moonSwing =
+      inertialMassWeight("Moon") * ((1 + STACK_MAX / 100) - (1 + STACK_MIN / 100));
+
+    expect(sunSwing).toBeCloseTo(0.2, 12);
+    expect(moonSwing).toBeCloseTo(0.0761, 4);
+    expect(sunSwing).toBeGreaterThan(moonSwing * 2.5);
   });
 });

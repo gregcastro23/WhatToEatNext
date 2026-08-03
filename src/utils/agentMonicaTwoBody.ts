@@ -94,21 +94,49 @@
  *     thing, `× (1 + dignity/100)` on its own body's ESMS. Neither touches the
  *     shared vessel (see 2).
  *
- *     ⚠️ **RANGE ASYMMETRY, OPEN.** This note used to read "each is a ±10-scale
- *     number", and that stopped being true when the Moon moved to the 5-fold
- *     manifest. The Moon's position dignity now spans −18…+22 (summed folds over
- *     50), while the Sun's ASPECT_DIGNITY is still anchored to the retired
- *     ±10 sign-level scale — conjunction +10, opposition −10, chosen precisely
- *     because "±10 land exactly on the domicile/fall anchors of the existing
- *     dignity scale" (see the provenance note below). Those anchors moved.
+ *     ⚠️ **THE RANGE GAP IS NOT A DEFECT — MEASURED, DO NOT "FIX" IT.**
  *
- *     The APPLICATION is still symmetric and each dignity still has exactly one
- *     point of leverage, so this is not the two-points-of-leverage defect fixed
- *     above. But the Moon now carries roughly twice the Sun's dynamic range in
- *     a calculation whose whole premise is a two-body RELATIONSHIP. Rescaling
- *     ASPECT_DIGNITY to the new anchors is a model change to how minor aspects
- *     are valued, so it is NOT done here — recorded as an open decision rather
- *     than silently introduced.
+ *     The Moon's position dignity spans −18…+22 while the Sun's ASPECT_DIGNITY
+ *     spans ±10, and that gap looks like the Sun was left behind on the retired
+ *     sign-level scale when the Moon moved to the 5-fold manifest. It was not.
+ *     This note is here because that reading was flagged once already and is
+ *     wrong on three counts.
+ *
+ *     1. ±10 IS STILL AN EXACT ANCHOR. On the manifest's percentage scale the
+ *        SINGLE folds are domicile +10, exaltation +8, triplicity +6, term +4,
+ *        face +2, detriment −10, fall −8. Domicile is still exactly +10 and
+ *        detriment exactly −10 — the same numbers the aspect magnitude was
+ *        anchored to. Only WHICH state carries the negative anchor moved: it is
+ *        detriment now, not fall (fall alone is −8). See the provenance note.
+ *
+ *     2. −18…+22 IS A STACKING ARTIFACT, NOT A WIDER UNIT. It is reachable only
+ *        because essential-dignity folds COMBINE — Mercury in Virgo takes
+ *        domicile +5, exaltation +4 and its own term +2 for +11, being the one
+ *        body that rules AND is exalted in a single sign. An aspect is one
+ *        relationship between one pair; nothing stacks. Stretching ±10 to that
+ *        range would import a combinatorial artifact of essential dignity into
+ *        aspect space. It is also ASYMMETRIC (+22 / −18) for the same reason,
+ *        while aspect dignity is structurally symmetric: conjunction and
+ *        opposition share an orb budget of 8, so the derivation below FORCES
+ *        their magnitudes equal.
+ *
+ *     3. THE LEVERAGE WORRY INVERTS WHEN MEASURED. Range is not leverage —
+ *        each dignity multiplies its own body's ESMS, which is mass-weighted.
+ *        MEASURED 2026-08-03, inertialMassWeight Sun 1.0, Moon 0.19035564925573695:
+ *
+ *            Sun   ±10        → 1.0     × 0.20 = 0.200 absolute ESMS swing
+ *            Moon  −18…+22    → 0.19036 × 0.40 = 0.076 absolute ESMS swing
+ *
+ *        The Sun already carries 2.6× the Moon's actual leverage despite the
+ *        narrower band. There is no solar under-weighting to correct.
+ *
+ *     What WOULD be a real question — and is NOT settled by any of the above —
+ *     is whether one aspect should be commensurate with one FOLD or with a whole
+ *     STACK. That is a physics ruling with an argument on both sides, and it
+ *     would need the two-body grid measured under both. It is not a units fix,
+ *     and geometry cannot answer it: the derivation below already supplies
+ *     everything geometry can (polarity and the orbBudget/8 shape, both read
+ *     from live code), and magnitude is dimensionless.
  *
  * ── Provenance of the numbers ───────────────────────────────────────────────
  *
@@ -123,9 +151,17 @@
  *                   _sesquiquadrate 3
  *
  * giving conjunction +10, opposition −10, square −8.75, semisquare −3.75,
- * sesquisquare −3.75. Sanity property: ±10 land exactly on the domicile/fall
- * anchors of the existing dignity scale, and square falls between detriment
- * (−7) and fall (−10) rather than off the end.
+ * sesquisquare −3.75.
+ *
+ * Sanity property, RE-ANCHORED for the 5-fold dignity manifest: ±10 still land
+ * exactly on single-fold anchors, but on **domicile (+10) and DETRIMENT (−10)**
+ * — not domicile/fall as this note read while Layer 2 was the sign-level
+ * +10/+7/0/−7/−10 scale. Under the manifest fall alone is −8 and detriment
+ * alone is −10, so the two debilities swapped which one sits at the anchor.
+ * Square (−8.75) still lands between them rather than off the end; the gap it
+ * falls into is now fall (−8) … detriment (−10), where it used to be detriment
+ * (−7) … fall (−10). The magnitude is unchanged and needs no recalibration —
+ * see the range-gap note in section 5 above before concluding otherwise.
  *
  * ⚠️ **Giving semisquare / sesquisquare a nonzero dignity is a MODEL CHANGE,
  * not a gap-fill.** `aspectCalculator.ts:209-215` assigns `influence = 0` to
