@@ -128,9 +128,13 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
       // SINGLE.absMax comes off a live grid walk whose monica runs through
       // Math.log and Math.pow. Neither is required by IEEE-754 to be correctly
       // rounded, so engines legitimately disagree in the last bits: MEASURED
-      // 2026-08-02, this same enumeration yields 3.8977146920667276 under Node
-      // v22 (which is what jest runs on) and 3.8977146920667267 under Bun 1.3 —
-      // ~2 ULP apart, extremum at Neptune / Aquarius / 2° / nocturnal. An exact
+      // 2026-08-02 on the then-current sign-level dignity scale, this same
+      // enumeration yielded 3.8977146920667276 under Node v22 (which is what
+      // jest runs on) and 3.8977146920667267 under Bun 1.3 — ~2 ULP apart,
+      // extremum then at Neptune / Aquarius / 2° / nocturnal. The enumeration
+      // now yields 4.112110463016779 with the extremum at Mercury / Gemini /
+      // 2° / nocturnal, but the ENGINE-SPREAD REASONING is unchanged and is
+      // what this tolerance exists for. An exact
       // assertion here passes only on whichever engine happened to derive the
       // constant, and this repo runs scripts under `bun` and tests under Node.
       //
@@ -146,15 +150,16 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
     });
 
     it("holds the measurement recorded in the source", () => {
-      // 3.8977146920667276 / 2. Was 1.9875 (|max| 3.9751) while calculateKalchm
-      // floored each axis at 0.01.
+      // 4.112110463016779 / 2. Was 1.9488573460333638 (|max| 3.8977146920667276)
+      // on the sign-level dignity scale, and 1.9875 (|max| 3.9751) before that,
+      // while calculateKalchm floored each axis at 0.01.
       //
       // Measured-against-literal: engine-sensitive, so a tolerance (see above).
-      expect(SINGLE.absMax).toBeCloseTo(3.8977146920667276, 12);
+      expect(SINGLE.absMax).toBeCloseTo(4.112110463016779, 12);
       // Literal-against-literal: no measurement, no engine, no drift. EXACT — and
       // this is the assertion that actually catches a lossy transcription of the
       // shipped constant.
-      expect(MONICA_POPULATION_SCALE["single-body"]).toBe(1.9488573460333638);
+      expect(MONICA_POPULATION_SCALE["single-body"]).toBe(2.0560552315083895);
     });
   });
 
@@ -208,6 +213,12 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
       // further". Under inertial mass it fails: 4.4166 vs 3.8977, ratio 1.1331,
       // 33 cells over. Three things were measured before inverting it:
       //
+      // (Those two figures are the 2026-08-02 state, kept because they are the
+      // evidence the inversion was argued from. The dignity manifest since
+      // raised single-body to 4.1121 while two-body held at 4.4166, so the
+      // ratio narrowed to 1.0740 — the inequality this test asserts still
+      // holds, by less.)
+      //
       //  1. The single-body envelope is SCALE-INDEPENDENT. agentMonica imports no
       //     weight function at all — its only mass constant is VESSEL_MASS — so
       //     3.8977146920667276 is bit-identical before and after the migration.
@@ -235,7 +246,7 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
       // DOES restore nesting but hands φ to 576 healthy charts — the exact
       // fabrication TWO_BODY_LN_EPSILON was deleted for.
       expect(TWO.absMax).toBeGreaterThan(SINGLE.absMax);
-      expect(TWO.absMax / SINGLE.absMax).toBeCloseTo(1.133114, 5);
+      expect(TWO.absMax / SINGLE.absMax).toBeCloseTo(1.074036, 5);
     });
 
     it("but is NOT reachable on the single-body scale — the display is what protects the hierarchy", () => {

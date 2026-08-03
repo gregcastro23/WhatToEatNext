@@ -301,10 +301,20 @@ export type MonicaMethod = 'single-body' | 'two-body' | 'full-chart'
 // Exported for src/__tests__/monicaPopulationScaleDerivation.test.ts, which
 // re-derives the two grid-backed entries from their populations on every run.
 export const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
-  // |max| 3.8977146920667276 / 2  [MEASURED 2026-07-25, exhaustive grid n=7920,
-  // AFTER the exact-zero kalchm fix]. Was 1.9875 from |max| 3.9751 under the floor.
-  // Extremum at Neptune / Aquarius / 2° / nocturnal (monica -3.8977146920667276).
-  'single-body': 1.9488573460333638,
+  // |max| 4.112110463016779 / 2  [MEASURED 2026-08-03, exhaustive grid n=7920,
+  // AFTER agent monica moved to the degree-level 5-fold dignity manifest].
+  // Was 1.9488573460333638 from |max| 3.8977146920667276; before that 1.9875
+  // from |max| 3.9751 under the floor.
+  //
+  // ⚠️ The extremum CHANGED BODIES: Neptune / Aquarius / 2° / nocturnal →
+  // Mercury / Gemini / 2° / nocturnal (monica -4.112110463016779). Mercury in
+  // Gemini is the manifest's strongest Mercury — domicile +5, Air nocturnal
+  // triplicity +3, its own Egyptian term +2 → 𝒟 = 1.20 — and the old
+  // sign-level scale could only ever give it +10 → 1.10. A |max|-derived scale
+  // is hostage to whichever single row is most extreme, so record WHICH row:
+  // this one is now a well-dignified classical body rather than an outer
+  // planet, which is the more defensible anchor of the two.
+  'single-body': 2.0560552315083895,
   // |max| 2.810778645909833 / 2  [MEASURED 2026-07-25, exhaustive two-body grid
   // n=5760, AFTER the exact-zero kalchm fix AND the switch to a structural
   // degeneracy test]. Was 2.7095 from |max| 5.4191.

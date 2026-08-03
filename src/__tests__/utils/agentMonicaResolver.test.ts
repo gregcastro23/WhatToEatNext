@@ -119,22 +119,28 @@ describe("parseAgentPlacement", () => {
 
     it("produces a real single-body monica for the two stuck production rows", () => {
       // The exact values that will be written to production. Pinned so a change
-      // to the vessel, the dignity table or the sectarian ESMS fails here rather
-      // than silently re-valuing stored rows.
+      // to the vessel, the dignity manifest or the sectarian ESMS fails here
+      // rather than silently re-valuing stored rows.
+      //
+      // ⚠️ Re-measure these UNDER JEST, never from a `bun run` probe. These are
+      // exact `toBe` pins and monica runs through Math.log/exp, which ECMAScript
+      // leaves implementation-defined: jest is Node/V8, `bun run` is JSC, and the
+      // two disagree by an ULP. MEASURED here — nocturnal is ...181878 under jest
+      // and ...181879 under bun, which is enough to fail toBe.
       expect(agentMonicaWithMethod("Mars Gemini")).toEqual({
         method: "single-body",
         monica: {
-          diurnal: 0.23632718765038255,
-          nocturnal: -0.21159527266371464,
-          combined: 0.012365957493333954,
+          diurnal: 0.2338892828502221,
+          nocturnal: -0.20936954259002769,
+          combined: 0.012259870130097203,
         },
       });
       expect(agentMonicaWithMethod("Moon Cancer")).toEqual({
         method: "single-body",
         monica: {
-          diurnal: 0.08982183448164283,
-          nocturnal: -0.06616940474149076,
-          combined: 0.011826214870076034,
+          diurnal: 0.09186116374961706,
+          nocturnal: -0.06886676129181878,
+          combined: 0.011497201228899141,
         },
       });
     });
@@ -152,7 +158,7 @@ describe("parseAgentPlacement", () => {
       // CONTROL: the zero is a property of degree 15, not of this agent. The
       // shipped midpoint on the same row is a real number.
       expect(agentMonicaWithMethod("Moon Cancer")?.monica.combined).toBe(
-        0.011826214870076034,
+        0.011497201228899141,
       );
 
       // CONTROL: exactly five of the thirty degrees do this, so a mapping that
