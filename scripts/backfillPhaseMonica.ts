@@ -7,8 +7,12 @@
  * ⚠️ POPULATION SIZE IS MEASURED, NOT ASSUMED. This docstring said "469" from
  * 2026-07-21 until 2026-08-02, when a dry run against production counted **983**
  * of 5399 agent rows in the phase family — the population had more than doubled
- * while every doc, PR body and ADR note kept quoting 469. Read the dry-run
- * report, never this sentence. A Moon
+ * while every doc, PR body and ADR note kept quoting 469.
+ *
+ * It went stale AGAIN within a day: the 2026-08-03 dry run counted **1056** of
+ * 5485. Three measurements, three different numbers, each one larger. This note
+ * proving its own point twice is the strongest argument for what it says —
+ * read the dry-run report, never this sentence. A Moon
  * phase is a Sun-Moon *relationship*, not a placement, so it gets a genuine
  * two-body construction rather than a single-body approximation. This writes
  * that value and stamps `monica_method = 'two-body-phase'`.

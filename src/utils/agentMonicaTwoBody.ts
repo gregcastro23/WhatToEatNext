@@ -4,8 +4,17 @@
  *
  * A phase agent ("First Quarter Moon in Cancer 0 Degree", "Moon Phase Dark Moon
  * 153") is not a placement. A phase is a Sun–Moon *relationship*, so it earns a
- * genuine two-body calculation rather than a scaled single-body one. 469 agent
- * rows are in this family. Until this lands they carry NULL in
+ * genuine two-body calculation rather than a scaled single-body one.
+ *
+ * ⚠️ POPULATION SIZE IS MEASURED, NOT ASSUMED — and this sentence has been
+ * wrong twice. It read "469 agent rows are in this family" from 2026-07-21
+ * until 2026-08-03. The true count was 983 by 2026-08-02 and **1056** by
+ * 2026-08-03: it has grown at every measurement, and each time the docs were
+ * still quoting the previous figure. Read the dry-run report of
+ * scripts/backfillPhaseMonica.ts or backfillMonicaPerConstruction.ts, never
+ * this number.
+ *
+ * Until the two-body work landed these rows carried NULL in
  * `monica_diurnal` / `monica_nocturnal` (the single-body backfill skipped them)
  * and the OLD FAKE `monica_constant` of 0.5 — not NULL. That fake sentinel is
  * what this replaces.

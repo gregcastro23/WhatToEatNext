@@ -79,6 +79,56 @@
 # workflow_dispatch job: --max-new still bounds only NEW arrivals, so a future
 # engine change reopens exactly the same window. DISARM AGAIN before the next
 # one.
+#
+# ── ⚠️ 2026-08-03 — THE WINDOW REOPENED, EXACTLY AS PREDICTED ───────────────
+#
+# The sentence directly above is not hypothetical. It came true in eight days.
+#
+# PRs #721/#722 replaced Layer 2 with the degree-level 5-fold dignity manifest
+# in BOTH runtimes — a weight-derived-monica change of precisely the kind the
+# note warned about — and this workflow was NOT disarmed beforehand. It was
+# caught at 22:30 UTC with the 06:45 run ~8h away, while tracing write paths
+# for the follow-up backfill. Had it fired, all 5485 already-classified rows
+# would have been rewritten unattended, unbounded (--max-new gates only
+# `monica_method IS NULL`, and there were ZERO new arrivals that night, so it
+# would have bounded nothing at all).
+#
+# Disarmed via `gh workflow disable "Monica Backfill"` rather than a PR —
+# the CLI takes effect immediately, where a workflow-file change would not have
+# landed before 06:45. Use the CLI for the stop, a PR for the record.
+#
+# ── All three re-arm conditions met, 2026-08-03 ─────────────────────────────
+#
+#  1. DEPLOYED. Verified from each deployment's OWN commit SHA, never local git:
+#     Vercel production READY at 37240a492 (= origin/master HEAD); Railway
+#     service WhatToEatNext SUCCESS at b96a1e649 (#721). Railway showed #722 and
+#     #723 as SKIPPED — confirmed correct, not a failed deploy: both touched
+#     zero backend/ files, while #721 touched five.
+#  2. BACKFILL RAN. backfillMonicaPerConstruction.ts --write, one transaction,
+#     snapshot monica_preconstruction_20260803_225237. A SECOND, independent
+#     snapshot was taken first (snapshotAgentMonica.ts →
+#     agent_monica_snapshot_20260803_224249) so a crash during the migration's
+#     own initialisation could not leave us without a restore point.
+#  3. VERIFIED. checkAgentMonicaDrift.ts: 0 drift across all three populations
+#     (4358 single-body + 1056 two-body + 71 full-chart = 5485), accounting
+#     closed at 5541/5541 agents, every row matching a fresh computation to
+#     1e-5. §18o invariant re-checked post-write: monica_constant populated for
+#     single-body only, 0 for two-body and full-chart.
+#
+# POPULATION, RE-MEASURED. The two-body family is **1056** as of 2026-08-03.
+# It was 469 (2026-07-21), then 983 (2026-08-02), now 1056 — it has grown at
+# every single measurement, and every time some doc was still quoting the
+# previous figure. Do not quote this number either; run the dry run.
+#
+# One thing this cycle adds to the runbook: `alchemical_constitutions` was
+# deliberately NOT backfilled alongside. A control test (recompute with the OLD
+# dignity, compare to stored) FAILED on both recomputable rows, proving the
+# stored-vs-fresh gap was not attributable to the dignity change — it predates
+# it. Two of its four rows have no birth data at all. Backfilling it would have
+# applied unrelated physics drift, on degraded geometry (natal_chart.planets[]
+# carries no geocentric distance), under a "dignity backfill" label. Always
+# control a backfill against the OLD engine before attributing a delta to the
+# new one.
 # ────────────────────────────────────────────────────────────────────────────
 
 name: Monica Backfill
