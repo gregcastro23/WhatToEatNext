@@ -85,11 +85,16 @@ describe("calculateAlchemicalFromPlanets", () => {
       Moon: { sign: "cancer", degree: 0, exactLongitude: 90 },
     });
 
-    // Sun exaltation: 1 × 1.07, then the exact Sun–Moon square contributes
-    // −0.1 Spirit. Moon domicile is likewise applied before the square.
+    // 5-fold dignity, diurnal:
+    //   Sun 0° aries  — exaltation +4, Fire day triplicity +3 = +7 → ×1.14
+    //   Moon 0° cancer — domicile +5, Water participating triplicity +3 = +8 → ×1.16
+    // Both are applied before the exact Sun–Moon square, which contributes
+    // −0.1 Spirit. Under the previous sign-level scale these were ×1.07 and
+    // ×1.10, giving Spirit 0.9700000000000001 / Essence 0.10939121418131065;
+    // triplicity is the new fold that moved them.
     expect(result).toEqual({
-      Spirit: 0.9700000000000001,
-      Essence: 0.10939121418131065,
+      Spirit: 1.04,
+      Essence: 0.12081255313665484,
       Matter: 0.2,
       Substance: 0,
     });

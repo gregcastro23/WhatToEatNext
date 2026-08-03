@@ -129,23 +129,51 @@ describe("ESMS oscillator calibration (§8)", () => {
   });
 
   it("identifies the fundamental as the Venus synodic cycle, sect-independently", () => {
-    // The INTERPRETATION pin: the measured period sits within 0.5% of the Venus
-    // synodic period (583.92 d) — Venus's (r̄/r)² spans 0.35–13.9×, the largest
-    // modulation in the tensor. If a Λ change moves the fundamental off the
-    // Venus line, the physical story in the module doc is stale and this fails.
+    // The INTERPRETATION pin: the measured period sits near the Venus synodic
+    // period (583.92 d) — Venus's (r̄/r)² spans 0.35–13.9×, the largest
+    // modulation in the tensor.
+    //
+    // Band widened 0.5% → 1% when Layer 2 became the degree-level 5-fold dignity
+    // manifest. 𝒟(θ) adds a longitude-dependent term that Λ(r) alone lacked, and
+    // it detuned the peak: diurnal 0.425% → 0.579% off Venus, nocturnal 0.336%
+    // → 0.468%. The IDENTIFICATION is unaffected and the widening does not blur
+    // it, because Venus is the ONLY synodic period inside the 500–700 d scan
+    // window at all — Jupiter is 398.9 d and Mars 779.9 d, both far outside — so
+    // the assertion below is what actually rules out a competing line.
     const VENUS_SYNODIC_DAYS = 583.92;
     for (const sect of ["diurnal", "nocturnal"] as const) {
       const rel =
         Math.abs(measuredFundamentals[sect] - VENUS_SYNODIC_DAYS) /
         VENUS_SYNODIC_DAYS;
-      expect(rel).toBeLessThan(0.005);
+      expect(rel).toBeLessThan(0.01);
     }
-    // Sect independence: the two fundamentals agree to 0.1% — the basis for
-    // ruling a SINGLE ω instead of per-sect precision theater.
+
+    // No other body's synodic period is a candidate for this peak. This is the
+    // real identification test; the band above only bounds the detuning.
+    const OTHER_SYNODIC_DAYS = {
+      Mercury: 115.88, Mars: 779.94, Jupiter: 398.88,
+      Saturn: 378.09, Uranus: 369.66, Neptune: 367.49, Pluto: 366.73,
+    };
+    for (const sect of ["diurnal", "nocturnal"] as const) {
+      const toVenus = Math.abs(measuredFundamentals[sect] - VENUS_SYNODIC_DAYS);
+      for (const [body, days] of Object.entries(OTHER_SYNODIC_DAYS)) {
+        expect({ body, d: Math.abs(measuredFundamentals[sect] - days) > toVenus }).toEqual({
+          body,
+          d: true,
+        });
+      }
+    }
+
+    // Sect independence: the basis for ruling a SINGLE ω instead of per-sect
+    // precision theater. Band widened 0.1% → 0.2% (measured 0.111%) for a
+    // principled reason, not to accommodate noise: triplicity rulership is
+    // ITSELF sect-dependent (Dorothean day/night rulers), so Layer 2 now differs
+    // between the sects where the old sign-level scale was sect-blind. Some
+    // additional sect divergence is a predicted consequence of the manifest.
     const relSect =
       Math.abs(measuredFundamentals.diurnal - measuredFundamentals.nocturnal) /
       measuredFundamentals.diurnal;
-    expect(relSect).toBeLessThan(0.001);
+    expect(relSect).toBeLessThan(0.002);
   });
 
   it("derives ω from the ruled period, never assigns it", () => {

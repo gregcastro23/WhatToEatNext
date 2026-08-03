@@ -95,9 +95,15 @@ describe("unified ESMS engine characterization", () => {
 });
 
 // GOLDEN — one result from the canonical aspect-bearing engine at FIXED_DATE.
+//
+// Re-pinned when Layer 2 moved from the sign-level +10/+7/0/−7/−10 dignity scale
+// to the degree-level 5-fold manifest (src/calculations/dignityManifest.ts).
+// Previously 0.426 / 0.2828 / 0.2096 / 0.0815. Both engines moved to exactly the
+// same new numbers, so the parity this file exists to pin is intact — the test
+// above asserting real === canonical still passes untouched.
 const GOLDEN_UNIFIED: Record<string, number> = {
-  Spirit: 0.426,
-  Essence: 0.2828,
-  Matter: 0.2096,
-  Substance: 0.0815,
+  Spirit: 0.4344,
+  Essence: 0.2793,
+  Matter: 0.2061,
+  Substance: 0.0801,
 };

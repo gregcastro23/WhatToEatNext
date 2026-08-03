@@ -298,9 +298,12 @@ describe("thermodynamic affinity calibration", () => {
     // but with only 7% headroom, which is how a pin becomes flaky under an ULP
     // change. Pinning the measured 2-decimal value keeps the same tolerance and
     // restores the margin.
-    expect(pct[0]).toBeCloseTo(29.57, 1); // heat
-    expect(pct[1]).toBeCloseTo(63.89, 1); // entropy
-    expect(pct[2]).toBeCloseTo(6.54, 1); // reactivity
+    // Re-pinned with the degree-level dignity manifest (was 29.57 / 63.89 / 6.54).
+    // The axis ordering and the entropy dominance are unchanged; the shift is
+    // a few tenths of a point.
+    expect(pct[0]).toBeCloseTo(29.68, 1); // heat
+    expect(pct[1]).toBeCloseTo(63.35, 1); // entropy
+    expect(pct[2]).toBeCloseTo(6.97, 1); // reactivity
   });
 
   itPinnedConstant("confirms equal weighting IS the first principal component", () => {

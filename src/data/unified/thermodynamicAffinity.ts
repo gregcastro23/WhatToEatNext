@@ -168,9 +168,9 @@ export const THERMO_AFFINITY_EPOCH = {
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.32988662169162397,
-  entropy: 0.3689024420258162,
-  reactivity: 2.3088816101488434,
+  heat: 0.34131226632479406,
+  entropy: 0.38373136532822183,
+  reactivity: 2.3362050980931595,
 };
 
 /**
@@ -196,7 +196,7 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
  */
-export const THERMO_AFFINITY_D0 = 1.0934456889925421;
+export const THERMO_AFFINITY_D0 = 1.092982897400189;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.

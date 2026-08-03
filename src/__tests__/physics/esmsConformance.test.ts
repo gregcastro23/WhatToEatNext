@@ -18,7 +18,7 @@ import {
 
 describe("ESMS 2.0 Unified Physics Model Conformance Suite", () => {
   it("has 20 golden test charts in fixture", () => {
-    expect(fixture.version).toBe("2.3.0");
+    expect(fixture.version).toBe("2.4.0");
     expect(fixture.charts.length).toBe(20);
   });
 

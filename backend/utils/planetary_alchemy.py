@@ -15,7 +15,7 @@ from backend.utils.aspect_esms_effects import (
     calculate_aspect_esms_modifications,
     calculate_aspects,
 )
-from backend.utils.dignity_scales import get_dignity_esms_multiplier
+from backend.utils.dignity_manifest import get_dignity_manifest_multiplier
 
 # Classical + Modern 10 Bodies + Ascendant Grounding Vessel
 ESMS_PLANETS = [
@@ -280,7 +280,16 @@ def calculate_alchemical_from_planets(
         else:
             base_esms = PLANETARY_SECTARIAN_ESMS[body_clean][sect_key]
         inertia = get_gravitational_inertia(body_clean, distance_au)
-        dignity_multiplier = get_dignity_esms_multiplier(body_clean, sign)
+        # Layer 2: degree-level 5-fold dignity manifest, superseding the
+        # sign-level +10/+7/0/-7/-10 scale. Resolution follows what the position
+        # actually carries - a body with no degree falls back to E[D | sign]
+        # rather than being defaulted to 0 degrees, which would mint Jupiter's
+        # Aries term and Mars' first face on every sign-only body. NOTE the
+        # `degree` local above defaults to 0.0 for the Ascendant vessel; dignity
+        # must not reuse it, and reads the raw position instead.
+        dignity_multiplier = get_dignity_manifest_multiplier(
+            body_clean, sign, position, sect_key
+        )
 
         for key in totals:
             totals[key] += base_esms[key] * inertia * dignity_multiplier

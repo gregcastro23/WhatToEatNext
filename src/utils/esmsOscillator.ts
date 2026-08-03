@@ -61,14 +61,21 @@ export const ESMS_OSCILLATOR_EPOCH = {
   stepHours: 24,
 } as const;
 
-/** MEASURED periodogram fundamentals per sect, days. */
+/**
+ * MEASURED periodogram fundamentals per sect, days.
+ *
+ * Re-measured when Layer 2 moved from the sign-level dignity scale to the
+ * degree-level 5-fold manifest. Both fundamentals rose (diurnal 586.4 → 587.30,
+ * nocturnal 585.85 → 586.65), because 𝒟(θ) adds a longitude-dependent term the
+ * distance tensor Λ(r) alone did not carry.
+ */
 export const OSCILLATOR_FUNDAMENTAL_DAYS = {
-  diurnal: 586.4,
-  nocturnal: 585.85,
+  diurnal: 587.3,
+  nocturnal: 586.65,
 } as const;
 
-/** The RULED single period: mean of the sect fundamentals (0.10% apart). */
-export const OSCILLATOR_PERIOD_DAYS = 586.125;
+/** The RULED single period: mean of the sect fundamentals (0.11% apart). */
+export const OSCILLATOR_PERIOD_DAYS = 586.975;
 
 /** ω = 2π / T, rad/day. DERIVED from OSCILLATOR_PERIOD_DAYS — never assigned. */
 export const OSCILLATOR_OMEGA_RAD_PER_DAY = (2 * Math.PI) / OSCILLATOR_PERIOD_DAYS;
@@ -78,8 +85,8 @@ export const OSCILLATOR_OMEGA_RAD_PER_DAY = (2 * Math.PI) / OSCILLATOR_PERIOD_DA
  * two sect potentials. Re-derived by test.
  */
 export const OSCILLATOR_X_BAR = {
-  diurnal: 8.458978167710258,
-  nocturnal: -4.378329784869517,
+  diurnal: 8.754175881924644,
+  nocturnal: -4.527018190024539,
 } as const;
 
 /** The ten oscillator bodies — the charted set, no vessel (see module note). */
