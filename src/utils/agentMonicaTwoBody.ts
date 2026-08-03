@@ -84,15 +84,31 @@
  *
  *  5. **Dignity — the two bodies SOURCE it differently, but APPLY it identically.**
  *       • Moon → POSITION-based: its own essential dignity at its own sign,
- *         the +10/+7/0/−7/−10 scale (`getDignityScore`).
+ *         the degree-level 5-fold dignity manifest (`dignityFoldsAtLongitude`).
  *       • Sun  → ASPECT-based, NOT position-based. Its longitude is *inferred*
  *         from the phase name, but the *aspect* is stated by the name with
  *         certainty. Scaling by a guessed position would compound an inference;
  *         reading dignity off the aspect uses the one thing the name guarantees.
  *
- *     Different SOURCES, identical APPLICATION: each is a ±10-scale number and
- *     each multiplies exactly one thing, `× (1 + dignity/100)` on its own body's
- *     ESMS. Neither touches the shared vessel (see 2).
+ *     Different SOURCES, identical APPLICATION: each multiplies exactly one
+ *     thing, `× (1 + dignity/100)` on its own body's ESMS. Neither touches the
+ *     shared vessel (see 2).
+ *
+ *     ⚠️ **RANGE ASYMMETRY, OPEN.** This note used to read "each is a ±10-scale
+ *     number", and that stopped being true when the Moon moved to the 5-fold
+ *     manifest. The Moon's position dignity now spans −18…+22 (summed folds over
+ *     50), while the Sun's ASPECT_DIGNITY is still anchored to the retired
+ *     ±10 sign-level scale — conjunction +10, opposition −10, chosen precisely
+ *     because "±10 land exactly on the domicile/fall anchors of the existing
+ *     dignity scale" (see the provenance note below). Those anchors moved.
+ *
+ *     The APPLICATION is still symmetric and each dignity still has exactly one
+ *     point of leverage, so this is not the two-points-of-leverage defect fixed
+ *     above. But the Moon now carries roughly twice the Sun's dynamic range in
+ *     a calculation whose whole premise is a two-body RELATIONSHIP. Rescaling
+ *     ASPECT_DIGNITY to the new anchors is a model change to how minor aspects
+ *     are valued, so it is NOT done here — recorded as an open decision rather
+ *     than silently introduced.
  *
  * ── Provenance of the numbers ───────────────────────────────────────────────
  *
@@ -217,6 +233,11 @@
  * 4280 rows already in production.
  */
 import {
+  dignityFoldsAtLongitude,
+  toLegacyEsmsScale,
+  longitudeFromSignDegree,
+} from "@/calculations/dignityManifest";
+import {
   MONICA_EQUILIBRIUM,
   calculateKalchm,
   calculateMonica,
@@ -229,7 +250,6 @@ import {
   type ESMS,
   type Sect,
 } from "@/utils/agentMonica";
-import { getDignityScore } from "@/utils/dignityScales";
 import {
   PLANETARY_SECTARIAN_ESMS,
   ZODIAC_ELEMENTS,
@@ -738,8 +758,15 @@ export function twoBodyState(
   const sunSignKey = toSignKey(sun.sign);
   if (!sunSignKey) return DEGENERATE_STATE;
 
-  // Moon: position-based essential dignity at its own sign.
-  const moonDignity = getDignityScore("Moon", moonSignKey).esmsScale;
+  // Moon: position-based essential dignity at its own DEGREE, from the 5-fold
+  // manifest. moonDegree is finite by the guard above, so this resolves exactly.
+  // Sect is passed because triplicity rulership is sect-dependent, and the Moon
+  // is the Water participating ruler in both sects.
+  const moonLongitude = longitudeFromSignDegree(moonSignKey, moonDegree);
+  if (moonLongitude === null) return DEGENERATE_STATE;
+  const moonDignity = toLegacyEsmsScale(
+    dignityFoldsAtLongitude("Moon", moonLongitude, sect).score,
+  );
   // Sun: aspect-based dignity, scaled by applying/separating.
   const sunDignity =
     ASPECT_DIGNITY[geometry.aspect] *

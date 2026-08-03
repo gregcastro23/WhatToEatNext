@@ -1,13 +1,19 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import {
+  dignityFoldsAtLongitude,
+  dignityFoldsForSign,
+  toLegacyDignityType,
+  type ManifestPlanet,
+} from '@/calculations/dignityManifest';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useActiveTransits } from '@/hooks/useActiveTransits';
 import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
 import type { NatalChart, Planet, ZodiacSignType } from '@/types/natalChart';
 import { buildAspectsFromChartPlanets } from '@/utils/aspectCalculator';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
-import { getDignityScore } from '@/utils/dignityScales';
+import { isSectDiurnalForBirth } from '@/utils/planetaryAlchemyMapping';
 
 interface NatalTransitChartProps {
   natalChart: NatalChart;
@@ -57,12 +63,20 @@ interface TransitData {
 
 /**
  * Sign-vector length = BASE + (dignityMultiplier − 1) × GAIN, in SVG units.
- * Yields ~6px at Fall (×0.90) and ~24px at Domicile (×1.10), a spread a
- * reader can actually see, versus ~2px if the multiplier scaled the length
- * directly. Neutral sits at BASE.
+ * Yields ~7.8px at the manifest's worst debility (×0.82) and ~23.8px at its
+ * best dignity (×1.22), a spread a reader can actually see, versus ~2px if the
+ * multiplier scaled the length directly. Undignified sits at BASE.
  */
 const SIGN_VECTOR_BASE = 15;
-const SIGN_VECTOR_GAIN = 90;
+// Retuned 90 → 40 when the sign vectors moved to the 5-fold dignity manifest.
+// The old gain was fitted to the sign-level scale's ±7/±10% span; the manifest
+// spans −18%…+22%, so at gain 90 the worst debility computed to
+// 15 + (0.82 − 1) × 90 = −1.2px — a NEGATIVE arrow length, which SVG would draw
+// inverted rather than short. Gain 40 maps the wider range back onto essentially
+// the original pixel band: 7.8px at 𝒟 = 0.82, 23.8px at 𝒟 = 1.22, against the
+// old 8.7–24.0px. The encoding stays monotonic and proportional, and the exact
+// multiplier remains in the <title> tooltip either way.
+const SIGN_VECTOR_GAIN = 40;
 
 /** Majors only on the wheel — minors would hairball; they live on the FBD cards instead. */
 const MAJOR_ASPECTS = new Set(['conjunction', 'opposition', 'trine', 'square', 'sextile']);
@@ -132,20 +146,40 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
   };
 
   // Build natal positions
-  const natalPositions: Array<{ planet: string; sign: string; degree: number; absAngle: number }> = [];
+  // Sect for dignity: triplicity rulership is sect-dependent, so the sign
+  // vectors need it. Derived from the chart's own birth moment; an unparseable
+  // birthData falls back to diurnal, matching the engine's own default.
+  const birthMoment = new Date(natalChart.birthData?.dateTime ?? '');
+  const birthMomentIsValid = Number.isFinite(birthMoment.getTime());
+  const chartSect: 'diurnal' | 'nocturnal' =
+    !birthMomentIsValid || isSectDiurnalForBirth(birthMoment) ? 'diurnal' : 'nocturnal';
+
+  const natalPositions: Array<{
+    planet: string;
+    sign: string;
+    degree: number;
+    absAngle: number;
+    /** True ecliptic longitude, or null when this row carries no measured geometry. */
+    longitude: number | null;
+  }> = [];
   const natalSigns = extractPlanetaryPositions(natalChart);
-  
+
   for (const planet of PLANETS) {
     const sign = natalSigns[planet];
     if (!sign) continue;
     const planetInfo = natalChart.planets?.find(p => p.name === planet);
     const rawPos = planetInfo?.position ?? 0;
+    // `position <= 0` means unknown/legacy per PlanetInfo.position's contract —
+    // NOT 0° Aries. Placement keeps its 15° sign-midpoint convention so the glyph
+    // still lands somewhere sensible, but `longitude` stays null so dignity below
+    // falls back to E[𝒟 | sign] instead of inheriting the midpoint's term and face.
     const deg = rawPos > 0 ? rawPos % 30 : 15;
     natalPositions.push({
       planet,
       sign: typeof sign === 'string' ? sign : '',
       degree: deg,
       absAngle: toAbsoluteAngle(typeof sign === 'string' ? sign : '', deg),
+      longitude: rawPos > 0 ? rawPos : null,
     });
   }
 
@@ -285,10 +319,25 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
               const element = SIGN_ELEMENTS[signStr];
               if (!element) return null;
               const color = ELEMENT_COLORS[element];
-              // ESMS-scale dignity — the same multiplier the alchemical engine
-              // applies, so the arrow length means what the FBD cards mean.
-              const dignity = getDignityScore(pos.planet, signStr);
-              const multiplier = 1 + dignity.esmsScale / 100;
+              // Degree-level 5-fold dignity — the same multiplier the alchemical
+              // engine applies, so the arrow length means what the FBD cards mean.
+              // That claim was briefly FALSE: the engine moved to the manifest
+              // while this component still read the retired sign-level scale.
+              // Resolution mirrors the engine exactly — real longitude when the
+              // row has one, E[𝒟 | sign] when it does not.
+              const folds =
+                pos.longitude === null
+                  ? dignityFoldsForSign(pos.planet as ManifestPlanet, signStr, chartSect)
+                  : dignityFoldsAtLongitude(pos.planet as ManifestPlanet, pos.longitude, chartSect);
+              const multiplier = folds.multiplier;
+              const dignityType = toLegacyDignityType(folds);
+              // The legacy type alone now under-describes the physics — Venus in
+              // virgo reads "Fall" yet applies ×0.98, because the Earth day
+              // triplicity offsets the fall. List the folds that actually fired.
+              const foldLabel = (['domicile', 'exaltation', 'triplicity', 'term', 'face', 'detriment', 'fall'] as const)
+                .filter((k) => folds[k] !== 0)
+                .map((k) => `${k} ${folds[k] > 0 ? '+' : ''}${Number(folds[k].toFixed(2))}`)
+                .join(', ');
               // Amplify the dignity deviation so it is actually visible.
               //
               // The ESMS dignity scale spans only ±7/±10% (Detriment 0.93 →
@@ -315,7 +364,11 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
               const signLabel = signStr ? signStr.charAt(0).toUpperCase() + signStr.slice(1) : signStr;
               return (
                 <g key={`sign-vector-${pos.planet}`} opacity="0.8">
-                  <title>{`${signLabel} → ${element} · ${dignity.type} ×${multiplier.toFixed(2)}`}</title>
+                  <title>
+                    {`${signLabel} → ${element} · ${dignityType} ×${multiplier.toFixed(2)}${ 
+                      foldLabel ? ` (${foldLabel})` : '' 
+                      }${folds.resolution === 'sign-mean' ? ' · sign-mean, no measured longitude' : ''}`}
+                  </title>
                   <line
                     x1={start.x}
                     y1={start.y}

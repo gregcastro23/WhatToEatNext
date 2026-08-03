@@ -19,7 +19,11 @@
  *              × (1 + dignity / 100)
  *
  * where the degree selects one of the 14 alchemical processes (§7a) and dignity
- * is the planet's own essential dignity at its sign (the +10/+7/-7/-10 scale).
+ * is the planet's own essential dignity at its DEGREE, from the 5-fold manifest
+ * (domicile/exaltation/triplicity/term/face, summed, as (𝒟−1)×100). It replaced
+ * the sign-level +10/+7/0/−7/−10 scale; the same degree that picks the process
+ * now also resolves the term and face, and sect matters because triplicity
+ * rulership is sect-dependent.
  * The sect-resolved ESMS plus the vessel goes through the canonical
  * data/unified thermodynamics. Both sects are returned — a position expresses
  * differently by day and night.
@@ -32,6 +36,12 @@
  * equilibrium band and correctly return φ regardless of dignity. Any all-zero /
  * unknown-planet input also resolves to φ, never NaN.
  */
+import {
+  dignityFoldsAtLongitude,
+  toLegacyEsmsScale,
+  longitudeFromSignDegree,
+  type ManifestPlanet,
+} from "@/calculations/dignityManifest";
 import { ALCHEMICAL_PILLARS } from "@/constants/alchemicalPillars";
 import {
   calculateKalchm,
@@ -39,7 +49,6 @@ import {
   calculateThermodynamics,
 } from "@/data/unified/alchemicalCalculations";
 import type { AlchemicalProperties } from "@/types/celestial";
-import { getDignityScore } from "@/utils/dignityScales";
 import {
   PLANETARY_SECTARIAN_ESMS,
   ZODIAC_ELEMENTS,
@@ -73,7 +82,11 @@ function toSignKey(sign: string): SignKey | null {
 
 /**
  * The process-shaped, dignity-scaled grounding vessel for a given degree.
- * `dignityEsmsScale` is the +10/+7/0/-7/-10 essential-dignity score.
+ * `dignityEsmsScale` is the percentage form of the applied dignity multiplier,
+ * (𝒟 − 1) × 100 — now sourced from the degree-level 5-fold manifest rather than
+ * the retired sign-level +10/+7/0/−7/−10 scale. The `/100` arithmetic below is
+ * unchanged because the field is still a percentage; only its resolution and
+ * range moved (±10% → −18%…+22%).
  *
  * Exported so the two-body phase calc (§18i) reuses this exact construction
  * rather than forking a second one — the §17c lesson was that a forked formula
@@ -129,7 +142,16 @@ export function agentMonicaForSect(
   const base: ESMS = sectTable ? { ...ZERO_ESMS, ...sectTable[sect] } : ZERO_ESMS;
 
   const signKey = toSignKey(sign);
-  const dignityScale = signKey ? getDignityScore(planet, signKey).esmsScale : 0;
+  // Degree-level 5-fold dignity. This call site already carries both the degree
+  // and the sect, so it resolves exactly — no sign-mean fallback is needed, and
+  // sect matters here because triplicity rulership is sect-dependent.
+  const dignityLongitude = signKey ? longitudeFromSignDegree(signKey, degree) : null;
+  const dignityScale =
+    dignityLongitude === null
+      ? 0
+      : toLegacyEsmsScale(
+          dignityFoldsAtLongitude(planet as ManifestPlanet, dignityLongitude, sect).score,
+        );
   const v = groundingVessel(degree, dignityScale);
 
   const esms: ESMS = {

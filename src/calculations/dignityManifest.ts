@@ -575,6 +575,26 @@ function foldsFromComponents(components: DignityBreakdown['components']) {
 }
 
 /**
+ * Absolute ecliptic longitude from a sign name and a degree within it, or null
+ * when the sign is unrecognised.
+ *
+ * Exists so no caller writes `SIGNS.indexOf(sign) * 30 + degree` by hand.
+ * `SIGNS` is lowercase, but sign keys elsewhere in this codebase are Title-case
+ * (`toSignKey` in agentMonica) or raw API strings, and a bare `indexOf` returns
+ * −1 for all twelve of those — silently mapping EVERY sign to the same wrong
+ * longitude rather than failing. That defect shipped briefly during the agent
+ * migration and was caught only because a two-body test asserted that Moon
+ * domicile and Moon detriment must differ. Case is normalised here, and an
+ * unknown sign returns null rather than a plausible number.
+ */
+export function longitudeFromSignDegree(sign: string, degree: number): number | null {
+  const idx = SIGNS.indexOf(String(sign).trim().toLowerCase() as SignName)
+  if (idx < 0) return null
+  if (!Number.isFinite(degree)) return null
+  return idx * 30 + degree
+}
+
+/**
  * Exact dignity folds at a known ecliptic longitude.
  */
 export function dignityFoldsAtLongitude(
