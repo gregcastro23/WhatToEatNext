@@ -55,7 +55,7 @@ async function handlePost(request: NextRequest) {
       {
         error: "premium_required",
         message:
-          "Large-batch circuit planning is a premium feature. Upgrade to generate full plans.",
+          "Large-batch circuit planning requires holding at least 50 ESMS coins or an active coin pack.",
       },
       402,
     );

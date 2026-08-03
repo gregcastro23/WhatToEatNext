@@ -14,7 +14,8 @@ import type {
   UserSubscription,
   UsageRecord,
 } from "@/types/subscription";
-import { TIER_LIMITS } from "@/types/subscription";
+import { TIER_LIMITS, MINIMUM_HOLDINGS_FOR_PREMIUM } from "@/types/subscription";
+import { tokenEconomy } from "@/services/TokenEconomyService";
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;
@@ -47,6 +48,7 @@ class SubscriptionService {
   async getUserSubscription(
     userId: string,
   ): Promise<UserSubscription | null> {
+    let sub: UserSubscription | null = null;
     const db = await getDbModule();
     if (db) {
       try {
@@ -62,23 +64,55 @@ class SubscriptionService {
            FROM user_subscriptions WHERE user_id = $1`,
           [userId],
         );
-        return (result.rows[0] as UserSubscription) || null;
+        sub = (result.rows[0] as UserSubscription) || null;
       } catch (error) {
         console.error("[subscriptionService] DB query failed:", error);
       }
     }
-    return memorySubscriptions.get(userId) || null;
+    if (!sub) {
+      sub = memorySubscriptions.get(userId) || null;
+    }
+
+    // Web3 Economy integration: Check ESMS token holdings to elevate tier
+    if (sub && sub.tier !== "premium") {
+      try {
+        const balances = await tokenEconomy.getBalances(userId);
+        const total = balances.spirit + balances.essence + balances.matter + balances.substance;
+        if (total >= MINIMUM_HOLDINGS_FOR_PREMIUM) {
+          return {
+            ...sub,
+            tier: "premium",
+            status: "active",
+          };
+        }
+      } catch {
+        // Fall back to original sub shape if balance fetch fails
+      }
+    }
+    return sub;
   }
 
   async getOrCreateSubscription(userId: string): Promise<UserSubscription> {
     const existing = await this.getUserSubscription(userId);
     if (existing) return existing;
 
+    // Check token holdings for new subscription
+    let tier: "free" | "premium" = "free";
+    try {
+      const balances = await tokenEconomy.getBalances(userId);
+      const total = balances.spirit + balances.essence + balances.matter + balances.substance;
+      if (total >= MINIMUM_HOLDINGS_FOR_PREMIUM) {
+        tier = "premium";
+      }
+    } catch {
+      // Default to free if balance fetch fails
+    }
+
     const period = getCurrentPeriod();
     const sub: UserSubscription = {
       id: randomUUID(),
       userId,
-      tier: "free",
+      tier,
       status: "active",
       stripeCustomerId: null,
       stripeSubscriptionId: null,
@@ -281,7 +315,7 @@ class SubscriptionService {
     if (!hasAccess) {
       return {
         allowed: false,
-        reason: `${String(feature)} requires a Premium subscription.`,
+        reason: `${String(feature)} requires holding at least ${MINIMUM_HOLDINGS_FOR_PREMIUM} ESMS coins or purchasing a coin pack.`,
       };
     }
 

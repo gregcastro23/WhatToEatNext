@@ -39,13 +39,16 @@ export interface UsageRecord {
 }
 
 /**
+ * Minimum total ESMS tokens required in user wallet to unlock premium features
+ * (proof of token holdings / Web3 coin economy tier).
+ */
+export const MINIMUM_HOLDINGS_FOR_PREMIUM = 50;
+
+/**
  * Feature flags per tier.
  *
- * NOTE: there is intentionally no `monthlyRecipeGenerations` cap. Recipe
- * generation is throttled purely by the token economy (Spirit/Essence cost
- * per call, personalised to the user's chart × current sky). Free vs Premium
- * is a feature-access distinction (cosmic recipes, dining companions, etc.),
- * not a usage quota.
+ * NOTE: Premium feature access is unlocked by holding >= MINIMUM_HOLDINGS_FOR_PREMIUM (50)
+ * total ESMS coins or purchasing ESMS coin packs, replacing legacy $5/mo SaaS subscriptions.
  */
 export const TIER_LIMITS: Record<
   SubscriptionTier,

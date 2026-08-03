@@ -67,16 +67,14 @@ export function PremiumGate({
         }}
       >
         <div style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
-          Premium Feature
+          Cosmic Feature Locked
         </div>
         <p style={{ opacity: 0.7, marginBottom: "1rem", maxWidth: 400 }}>
-          This feature requires a Premium subscription. Upgrade to unlock
-          unlimited recipe generations, dining companions, advanced charts,
-          and more.
+          This feature requires holding at least 50 ESMS coins. Claim daily cosmic yield or purchase an ESMS Coin Pack to unlock full feature access.
         </p>
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
-          <button
-            onClick={() => { void openCheckout("premium"); }}
+          <a
+            href="/premium"
             style={{
               padding: "0.625rem 1.5rem",
               fontWeight: 600,
@@ -84,11 +82,12 @@ export function PremiumGate({
               color: "white",
               border: "none",
               borderRadius: "0.5rem",
+              textDecoration: "none",
               cursor: "pointer",
             }}
           >
-            Upgrade to Premium — $5/mo
-          </button>
+            Get ESMS Coins
+          </a>
           <a
             href="/upgrade"
             style={{

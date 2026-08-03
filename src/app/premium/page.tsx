@@ -98,12 +98,12 @@ function PremiumPageContent() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-black mb-3 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            Alchm Kitchen Premium
+            Alchm Web3 ESMS Economy
           </h1>
           <p className="text-lg text-white/60 max-w-xl mx-auto">
-            Unlock the Cosmic Recipe Generator, the Cosmic Restaurant Creator,
-            advanced planetary charts, dining companions, and 2× daily
-            Cosmic Yield — all powered by your natal chart.
+            Unlock the Cosmic Recipe Generator, Cosmic Restaurant Creator, advanced planetary charts,
+            and dining companions by holding 50+ ESMS coins — or buy coin packs to fuel your alchemy.
+            Claims settle on-chain to Base Sepolia testnet.
           </p>
         </div>
 
@@ -113,11 +113,10 @@ function PremiumPageContent() {
             <span className="text-2xl shrink-0" aria-hidden>✨</span>
             <div className="flex-1">
               <p className="font-semibold text-purple-100">
-                Unlock {fromLabel} with Premium
+                Unlock {fromLabel} with ESMS Coins
               </p>
               <p className="text-sm text-white/70 mt-1">
-                You were redirected here because {fromLabel} is part of the
-                Premium tier. Upgrade below to gain instant access.
+                You were redirected here because {fromLabel} requires holding at least 50 ESMS coins or an active coin pack. Buy coins below or claim your daily yield to gain access.
               </p>
             </div>
           </div>
@@ -142,22 +141,17 @@ function PremiumPageContent() {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-1">
-                  <h2 className="text-2xl font-bold text-white">Your Plan</h2>
+                  <h2 className="text-2xl font-bold text-white">Your Access Tier</h2>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-bold ${TIER_STYLES[tier].badge}`}
                   >
-                    {TIER_LIMITS[tier].label}
+                    {tier === "premium" ? "Unlocked (ESMS Holder)" : "Standard"}
                   </span>
-                  {subscription?.cancelAtPeriodEnd && (
-                    <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-50 text-red-700">
-                      Canceling at period end
-                    </span>
-                  )}
                 </div>
                 <p className="text-white/60">
                   {tier === "free"
-                    ? "Free tier — pay-as-you-go with cosmic tokens (Spirit / Essence / Matter / Substance)"
-                    : `$${TIER_LIMITS.premium.price}/month — unlocks premium features + 2× daily Cosmic Yield`}
+                    ? "Standard Access — Hold 50+ ESMS coins or purchase a coin pack to unlock full features & boost daily Cosmic Yield"
+                    : "Full Cosmic Access — Unlocked by holding 50+ ESMS coins or active coin pack. Enjoy 2x yield boost and unlimited tools!"}
                 </p>
               </div>
 
