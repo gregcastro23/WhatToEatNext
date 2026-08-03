@@ -34,7 +34,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 MAIN_PY = REPO / "backend" / "alchm_kitchen" / "main.py"
-TS_SERVICE = REPO / "src" / "services" / "RealAlchemizeService.ts"
+TS_SERVICE = REPO / "src" / "utils" / "planetaryAlchemyMapping.ts"
 
 WEIGHTED_FUNCS = ("calculate_local_alchemize", "calculate_local_philosophers_stone")
 
@@ -113,9 +113,9 @@ def test_the_python_set_is_IDENTICAL_to_the_typescript_one():
     """
     ts_src = TS_SERVICE.read_text()
     block = re.search(
-        r"EXCLUDED_ASPECT_BODIES\s*=\s*new Set\(\[(.*?)\]\)", ts_src, re.S
+        r"EXCLUDED_ASPECT_BODIES[^=]*=\s*new Set\(\[(.*?)\]\)", ts_src, re.S
     )
-    assert block, "could not find EXCLUDED_ASPECT_BODIES in RealAlchemizeService.ts"
+    assert block, "could not find EXCLUDED_ASPECT_BODIES in planetaryAlchemyMapping.ts"
     ts_set = set(re.findall(r'"([^"]+)"', block.group(1)))
     # POSITIVE CONTROL — a regex that silently matched nothing would make the
     # comparison below trivially true against two empty sets.

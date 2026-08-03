@@ -168,9 +168,9 @@ export const THERMO_AFFINITY_EPOCH = {
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.34131226632479406,
-  entropy: 0.38373136532822183,
-  reactivity: 2.3362050980931595,
+  heat: 0.3378390648554481,
+  entropy: 0.3746538534296866,
+  reactivity: 2.3097837830440806,
 };
 
 /**
@@ -195,8 +195,22 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  *
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
+ *
+ * ⚠️ RE-DERIVED [MEASURED]: Under Layer 2 degree-level 5-fold dignity manifest
+ * and unknown-body exclusion (stopping NorthNode and SouthNode from fabricating
+ * Earth's mass via the unknown-body fallback in aggregators):
+ *
+ *   SD.heat        0.34131226632479406 -> 0.3378390648554481
+ *   SD.entropy     0.38373136532822183 -> 0.3746538534296866
+ *   SD.reactivity  2.3362050980931595  -> 2.3097837830440806
+ *   D0             1.092982897400189   -> 1.0838506639865946
+ *   axis influence 29.68/63.35/6.97    -> 29.16/64.21/6.63
+ *
+ * ⚠️ Derived in the ORDER the dependency requires: SD first, then D0 re-measured
+ * AGAINST the new SD. Taking both from one pass gives D0 wrong by ~0.02 because
+ * D0 is measured in whitened units and the whitening must land first.
  */
-export const THERMO_AFFINITY_D0 = 1.092982897400189;
+export const THERMO_AFFINITY_D0 = 1.0838506639865946;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.

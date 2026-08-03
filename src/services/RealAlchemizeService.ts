@@ -16,6 +16,7 @@ import {
   getPlanetarySectElement,
   calculateAlchemicalFromPlanetsDetailed,
   inertialMassWeight,
+  isExcludedAspectBody,
   type AlchemicalPlanetPositions,
 } from "@/utils/planetaryAlchemyMapping";
 
@@ -75,21 +76,11 @@ function computeDominantModality(
  * the static backup use slightly different casing/spacing for node and angle
  * names, so we strip both before matching.
  */
-const EXCLUDED_ASPECT_BODIES = new Set<string>([
-  "northnode",
-  "southnode",
-  "truenode",
-  "meannode",
-  "chiron",
-  "lilith",
-  "vertex",
-  "parsfortune",
-  "mc",
-]);
-
-function isExcludedAspectBody(planet: string): boolean {
-  return EXCLUDED_ASPECT_BODIES.has(planet.toLowerCase().replace(/\s+/g, ""));
-}
+// EXCLUDED_ASPECT_BODIES and isExcludedAspectBody moved to
+// @/utils/planetaryAlchemyMapping (imported above) so there is ONE canonical set
+// per runtime. This module had the only copy, while the two aggregators in
+// planetaryAlchemyMapping had NO gate at all and were handing nodes Earth's mass
+// — a duplicate that existed here could not protect them.
 
 /**
  * Real Alchemize Service
