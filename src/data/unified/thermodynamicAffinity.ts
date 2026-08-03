@@ -168,9 +168,9 @@ export const THERMO_AFFINITY_EPOCH = {
  * exactly the kind the old `Math.abs(a - b) / 2` divisor smuggled in.
  */
 export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
-  heat: 0.32988662169162397,
-  entropy: 0.3689024420258162,
-  reactivity: 2.3088816101488434,
+  heat: 0.32637481885352243,
+  entropy: 0.3600556169710307,
+  reactivity: 2.282714354733683,
 };
 
 /**
@@ -195,8 +195,25 @@ export const THERMO_AFFINITY_SD: Readonly<ThermoState> = {
  *
  * D0 depends on `THERMO_AFFINITY_SD`, so the two must be re-derived together —
  * the calibration test fails on both if either is edited alone.
+ *
+ * ⚠️ RE-DERIVED [MEASURED 2026-08-02], and NOT because the metric changed. The
+ * MOMENT POPULATION underneath it did: `aggregateEnhancedZodiacElementals` was
+ * handing NorthNode and SouthNode EARTH's mass via an unknown-body fallback
+ * (2920 fabricated calls in one suite run), so every sky in the 1460-sample
+ * epoch grid carried two phantom bodies. Gating them out moved all of it.
+ *
+ *   SD.heat        0.32988662169162397 -> 0.32637481885352243
+ *   SD.entropy     0.3689024420258162  -> 0.3600556169710307
+ *   SD.reactivity  2.3088816101488434  -> 2.282714354733683
+ *   D0             1.0934456889925421  -> 1.0904241489725401
+ *   axis influence 29.57/63.89/6.54    -> 29.04/64.76/6.21
+ *
+ * ⚠️ Derived in the ORDER the dependency requires: SD first, then D0 re-measured
+ * AGAINST the new SD. Taking both from one pass gives D0 = 1.0708780888185956 —
+ * wrong by 0.02, because D0 is measured in whitened units and the whitening had
+ * not landed yet. Same trap as #707 and #710; it is now three for three.
  */
-export const THERMO_AFFINITY_D0 = 1.0934456889925421;
+export const THERMO_AFFINITY_D0 = 1.0904241489725401;
 
 /**
  * Whitened, asinh-space Euclidean distance between two thermodynamic states.
