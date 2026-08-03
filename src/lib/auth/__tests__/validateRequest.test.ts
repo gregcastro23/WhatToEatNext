@@ -50,8 +50,10 @@ import {
   getUserIdFromRequest,
 } from "../validateRequest";
 
+import { NextRequest } from "next/server";
+
 describe("validateRequest: getUserIdFromRequest", () => {
-  const mockReq = new (jest.requireMock("next/server").NextRequest)("http://localhost:3000/api/test");
+  const mockReq = new NextRequest("http://localhost:3000/api/test");
   const auth = jest.fn();
   const userDb = {
     getUserById: jest.fn(),
@@ -133,7 +135,7 @@ describe("validateRequest: getUserIdFromRequest", () => {
 
   it("SECURITY REGRESSION: must NOT trust a ?userId= query param as identity when there is no session, token, or agents-bridge cookie", async () => {
     auth.mockResolvedValue(null);
-    const spoofedReq = new (jest.requireMock("next/server").NextRequest)(
+    const spoofedReq = new NextRequest(
       "http://localhost:3000/api/test?userId=00000000-0000-4000-8000-000000000000",
     );
 
