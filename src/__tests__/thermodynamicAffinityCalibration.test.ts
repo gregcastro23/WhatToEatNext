@@ -293,14 +293,17 @@ describe("thermodynamic affinity calibration", () => {
     }
     const pct = share.map((s) => (100 * s) / total);
     // Pinned to 2 decimals at precision 1 (an absolute ±0.05 bound) rather than
-    // to a 1-decimal figure. entropy lands on 63.95, and the nearest 1-decimal
-    // pin (64.0) would sit 0.0465 from the measured value — inside the bound,
-    // but with only 7% headroom, which is how a pin becomes flaky under an ULP
-    // change. Pinning the measured 2-decimal value keeps the same tolerance and
-    // restores the margin.
-    expect(pct[0]).toBeCloseTo(29.57, 1); // heat
-    expect(pct[1]).toBeCloseTo(63.89, 1); // entropy
-    expect(pct[2]).toBeCloseTo(6.54, 1); // reactivity
+    // to a 1-decimal figure — a 1-decimal pin can land within 7% of the bound,
+    // which is how a pin becomes flaky under an ULP change. The measured
+    // 2-decimal value keeps the same tolerance and restores the margin.
+    //
+    // [RE-DERIVED 2026-08-02] Was 29.57 / 63.89 / 6.54. The moment population
+    // these are measured over changed: `aggregateEnhancedZodiacElementals` was
+    // handing NorthNode and SouthNode EARTH's mass (2920 fabricated calls in one
+    // suite run), and gating them out moved every sky in the epoch grid.
+    expect(pct[0]).toBeCloseTo(29.04, 1); // heat
+    expect(pct[1]).toBeCloseTo(64.76, 1); // entropy
+    expect(pct[2]).toBeCloseTo(6.21, 1); // reactivity
   });
 
   itPinnedConstant("confirms equal weighting IS the first principal component", () => {

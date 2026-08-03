@@ -296,12 +296,66 @@ export const ASCENDANT_VESSEL_WEIGHT = 1.0;
 const _INERTIAL_LOG_MIN = Math.log10(0.0022 / 10); // one decade below Pluto — RULED
 const _INERTIAL_LOG_MAX = Math.log10(333054.2532); // Sun
 
+/**
+ * Bodies that carry no mass and must never reach a weighting function —
+ * abstract geometric points (nodes, MC) and minor bodies with no entry in
+ * PLANET_WEIGHTS.
+ *
+ * ⚠️ CANONICAL. This set is mirrored EXACTLY in `backend/alchm_kitchen/main.py`
+ * as `EXCLUDED_ASPECT_BODIES`, and `backend/tests/test_main_excluded_bodies.py`
+ * asserts the two are IDENTICAL, not merely overlapping. Add here and there
+ * together, or that test fails — which is the point: the two runtimes drifted
+ * apart on exactly this question once already (ADR-009 decision 4, #712) and the
+ * Python side served phantom bodies for a month.
+ *
+ * Matched case- and whitespace-insensitively, because the Swiss-Ephemeris
+ * backend emits "North Node" with a space while other callers use "NorthNode".
+ */
+export const EXCLUDED_ASPECT_BODIES: ReadonlySet<string> = new Set([
+  "northnode",
+  "southnode",
+  "truenode",
+  "meannode",
+  "chiron",
+  "lilith",
+  "vertex",
+  "parsfortune",
+  "mc",
+]);
+
+/** True for bodies that must contribute no mass and no element. */
+export function isExcludedAspectBody(planet: string): boolean {
+  return EXCLUDED_ASPECT_BODIES.has(String(planet).toLowerCase().replace(/\s+/g, ""));
+}
+
 export function inertialMassWeight(planet: string): number {
   if (planet === "Ascendant") return ASCENDANT_VESSEL_WEIGHT;
-  // NOTE: unknown bodies still fall back to Earth's relative mass (1.0). That is
-  // a silent-fabrication hazard kept only because every caller filters to the
-  // known-body set first; tightening it to a throw is out of scope here.
-  const relMass = PLANET_WEIGHTS[planet] ?? 1.0;
+
+  // ⚠️ THROWS on an unknown body. It used to be `PLANET_WEIGHTS[planet] ?? 1.0`,
+  // with a note claiming the fallback was safe because "every caller filters to
+  // the known-body set first". That claim was FALSE, and measurably so:
+  // instrumenting this function across the full suite recorded 2920 calls with
+  // NorthNode / SouthNode (1460 each), every one silently handed Earth's mass.
+  //
+  // The fabricated value is especially hard to spot because PLANET_WEIGHTS.Earth
+  // is exactly 1.0 — the same number the fallback used — so an unknown body
+  // produced a weight (0.3984) indistinguishable from a legitimate "Earth" call,
+  // and heavier than Mars, Mercury, the Moon and Pluto.
+  //
+  // Callers that legitimately see abstract bodies must filter with
+  // `isExcludedAspectBody` BEFORE calling this, exactly as the two aggregators
+  // below and RealAlchemizeService do. Anything else reaching here is a real bug
+  // and should be loud (ADR-009: "the migration should make unknown bodies
+  // throw").
+  const relMass = PLANET_WEIGHTS[planet];
+  if (relMass === undefined) {
+    const why = isExcludedAspectBody(planet)
+      ? "It is an EXCLUDED body — the caller must filter with isExcludedAspectBody() first."
+      : "Unknown body: add it to PLANET_WEIGHTS, or exclude it.";
+    throw new Error(
+      `inertialMassWeight: no mass for ${JSON.stringify(planet)}. ${why}`,
+    );
+  }
   return (Math.log10(Math.max(relMass, 1e-9)) - _INERTIAL_LOG_MIN) / (_INERTIAL_LOG_MAX - _INERTIAL_LOG_MIN);
 }
 
@@ -716,6 +770,13 @@ export function aggregateZodiacElementals(planetaryPositions: {
       continue;
     }
 
+    // Abstract points (nodes, MC, Chiron, ...) carry no mass and no element.
+    // Without this they reached inertialMassWeight and were silently handed
+    // EARTH's mass (0.3984) — heavier than Mars, Mercury, the Moon and Pluto.
+    // MEASURED: 2920 such calls in one suite run, all NorthNode/SouthNode.
+    if (isExcludedAspectBody(planet)) continue;
+
+
     // Weight elemental contribution by the planet's inertial mass — the SAME
     // scale the ESMS half of this module uses (ADR-009). This was
     // `normalizePlanetWeight`, which anchors AT Pluto and so gave Pluto a weight
@@ -776,6 +837,13 @@ export function aggregateEnhancedZodiacElementals(
     if (!signElement || !sectElement) {
       continue;
     }
+
+    // Abstract points (nodes, MC, Chiron, ...) carry no mass and no element.
+    // Without this they reached inertialMassWeight and were silently handed
+    // EARTH's mass (0.3984) — heavier than Mars, Mercury, the Moon and Pluto.
+    // MEASURED: 2920 such calls in one suite run, all NorthNode/SouthNode.
+    if (isExcludedAspectBody(planet)) continue;
+
 
     // Inertial mass — same scale as the ESMS half of this module (ADR-009).
     // See the note in `aggregateZodiacElementals` above for what the previous
