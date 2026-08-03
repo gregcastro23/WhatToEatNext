@@ -43,13 +43,23 @@ export async function POST(req: Request) {
   try {
     // 1. Authenticate user from active NextAuth session
     const session = await auth();
-    if (!session?.user?.id) {
+    let userId = session?.user?.id;
+    if (!userId && session?.user?.email) {
+      try {
+        const dbUser = await userDatabase.getUserByEmail(session.user.email);
+        if (dbUser?.id) {
+          userId = dbUser.id;
+        }
+      } catch (lookupErr) {
+        console.warn("[ignite] Fallback email lookup failed:", lookupErr);
+      }
+    }
+    if (!userId) {
       return NextResponse.json(
         { success: false, error: "unauthorized", message: "You must be signed in to ignite the Agent Forge." },
         { status: 401 }
       );
     }
-    const userId = session.user.id;
 
     // 2. Parse request payload
     const body = await req.json().catch(() => null);
@@ -140,7 +150,7 @@ export async function POST(req: Request) {
       await userDatabase.updateUserProfile(
         userId,
         { birthData, natalChart: chart, onboardingComplete: true },
-        session.user.email || undefined,
+        session?.user?.email || undefined,
       );
       console.log(`[ignite] Persisted natal profile + marked onboarding complete (user_profiles synced).`);
     } catch (err) {

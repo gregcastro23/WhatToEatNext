@@ -42,7 +42,8 @@ const pendingLookups = new Map<string, Promise<any>>();
 const CACHE_TTL = 30000; // 30 seconds
 
 async function getCachedUser(email: string) {
-  const cached = userCache.get(email);
+  const normalizedEmail = email.toLowerCase().trim();
+  const cached = userCache.get(normalizedEmail);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
     if (cached.data === "TIMEOUT_ERROR") {
       throw new Error("DB Timeout (Cached)");
@@ -51,8 +52,8 @@ async function getCachedUser(email: string) {
   }
   
   // Check if there is already a lookup in progress for this email
-  if (pendingLookups.has(email)) {
-    return pendingLookups.get(email);
+  if (pendingLookups.has(normalizedEmail)) {
+    return pendingLookups.get(normalizedEmail);
   }
   
   const lookupPromise = (async () => {
@@ -62,24 +63,24 @@ async function getCachedUser(email: string) {
       // + first-connection setup. Vercel's default function limit is 10s, so this
       // still leaves slack for the rest of the handler.
       const dbUser = await Promise.race([
-        userDatabase.getUserByEmail(email),
+        userDatabase.getUserByEmail(normalizedEmail),
         new Promise<any>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 8000))
       ]);
       
       // Cache both valid users and null (not found)
-      userCache.set(email, { data: dbUser, timestamp: Date.now() });
+      userCache.set(normalizedEmail, { data: dbUser, timestamp: Date.now() });
       return dbUser;
     } catch (error) {
       // Cache the timeout/error momentarily so the jwt callback doesn't hang again
       // Using a string symbol for error caching
-      userCache.set(email, { data: "TIMEOUT_ERROR", timestamp: Date.now() });
+      userCache.set(normalizedEmail, { data: "TIMEOUT_ERROR", timestamp: Date.now() });
       throw error;
     } finally {
-      pendingLookups.delete(email);
+      pendingLookups.delete(normalizedEmail);
     }
   })();
   
-  pendingLookups.set(email, lookupPromise);
+  pendingLookups.set(normalizedEmail, lookupPromise);
   return lookupPromise;
 }
 
@@ -191,7 +192,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               new Promise<any>((_, reject) => setTimeout(() => reject(new Error("Create User Timeout")), 8000))
             ]);
             if (dbUser) {
-              userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+              const normEmail = user.email.toLowerCase().trim();
+              userCache.set(normEmail, { data: dbUser, timestamp: Date.now() });
+              if (dbUser.email) {
+                userCache.set(dbUser.email.toLowerCase().trim(), { data: dbUser, timestamp: Date.now() });
+              }
               void logAuthEvent({
                 type: "signin_user_created",
                 status: "success",
@@ -220,7 +225,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           await userDatabase.updateUserRole(dbUser.id, UserRole.ADMIN);
           // Refresh cache
           dbUser.roles = [UserRole.ADMIN, UserRole.USER];
-          userCache.set(user.email, { data: dbUser, timestamp: Date.now() });
+          const normEmail = user.email.toLowerCase().trim();
+          userCache.set(normEmail, { data: dbUser, timestamp: Date.now() });
           void logAuthEvent({
             type: "signin_role_promoted",
             status: "info",
@@ -595,21 +601,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      // Resolve role, tier, and onboarding status from DB (on sign-in or session update)
-      if (token.email && (user || trigger === "update")) {
+      // Resolve role, tier, and onboarding status from DB (on sign-in, session update, or missing userId)
+      if (token.email && (user || trigger === "update" || !token.userId)) {
         try {
+          const normTokenEmail = token.email.toLowerCase().trim();
           // On explicit session update (e.g. after onboarding), bypass the 30-second
           // in-process cache so the JWT reflects the freshly-persisted profile data.
           if (trigger === "update") {
-            userCache.delete(token.email);
+            userCache.delete(normTokenEmail);
           }
-          const dbUser = await getCachedUser(token.email);
-          
+          let dbUser = await getCachedUser(normTokenEmail);
+
+          // JIT Fallback: If dbUser is missing/null, attempt creation
+          if (!dbUser && token.email) {
+            try {
+              const { userDatabase } = await import("@/services/userDatabaseService");
+              const isAdmin = isAdminEmail(token.email);
+              dbUser = await Promise.race([
+                userDatabase.createUser({
+                  email: token.email,
+                  name: token.name || "",
+                  image: token.picture || undefined,
+                  roles: isAdmin ? [UserRole.ADMIN, UserRole.USER] : [UserRole.USER],
+                }),
+                new Promise<any>((_, reject) => setTimeout(() => reject(new Error("JIT Create User Timeout")), 8000))
+              ]);
+              if (dbUser) {
+                userCache.set(normTokenEmail, { data: dbUser, timestamp: Date.now() });
+              }
+            } catch (jitErr) {
+              logger.warn(`JIT createUser fallback in jwt callback failed for ${token.email}:`, jitErr);
+            }
+          }
+
           if (dbUser) {
             token.userId = dbUser.id;
             const isAdmin = dbUser.roles.includes(UserRole.ADMIN);
             token.role = isAdmin ? "admin" : "user";
-            token.onboardingComplete = dbUser.profile.onboardingComplete === true;
+            token.onboardingComplete = dbUser.profile?.onboardingComplete === true;
 
             // On initial sign-in: write a session record so sessions are revocable.
             // We use a UUID as the token (not the full JWT) so it fits VARCHAR(255).
