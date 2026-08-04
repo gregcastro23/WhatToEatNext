@@ -12,18 +12,56 @@
  * 91.47408219086523 under TZ=America/New_York -- 0.159 degrees of drift with no
  * error raised anywhere.
  *
- * This file forces a non-UTC zone BEFORE importing the service, so a revert to
- * local getters fails here rather than only on a developer's laptop.
+ * ── WHY THIS DOES NOT SET process.env.TZ ────────────────────────────────────
+ *
+ * The obvious test is "force a non-UTC zone, then check the payload". It does
+ * not work, and its first version shipped broken: setting `process.env.TZ` in a
+ * test module does not reliably relatch Node's zone, because jest's setup files
+ * have already constructed Dates by then. On a developer machine that is
+ * invisible -- the ambient zone is non-UTC anyway, so the assertions pass for
+ * the wrong reason -- and on a UTC CI runner the local and UTC getters AGREE,
+ * so a local-getter regression sails straight through.
+ *
+ * So the zone is not used as the lever at all. Instead the LOCAL getters are
+ * poisoned: any call to `getFullYear`/`getMonth`/`getDate`/`getHours`/
+ * `getMinutes` returns a value that cannot occur in a correct payload. A
+ * correct implementation never touches them and is unaffected; a regression
+ * reads poison and fails. That holds in EVERY timezone, including UTC, which is
+ * exactly where the timezone-based version was blind.
  */
-
-// Must precede any import that captures the zone. Chosen to be on the far side
-// of the date line from UTC, so a local-getter regression shifts the DATE and
-// not merely the hour -- a same-day hour shift can hide inside a wide orb.
-process.env.TZ = "Pacific/Auckland";
 
 import { describe, expect, it, jest, beforeEach, afterAll } from "@jest/globals";
 
 const ORIGINAL_FETCH = global.fetch;
+
+/**
+ * Sentinel values for the local-time getters — deliberately impossible for the
+ * instants under test, so a poisoned read is unmistakable in the diff.
+ */
+const POISON = {
+  getFullYear: 1888,
+  getMonth: 10, // would surface as month 11
+  getDate: 28,
+  getHours: 7,
+  getMinutes: 55,
+} as const;
+
+/**
+ * Run `fn` with the local-time getters poisoned. Scoped as tightly as possible
+ * and always restored, since Date.prototype is global and jest itself uses it.
+ */
+async function withPoisonedLocalGetters<T>(fn: () => Promise<T>): Promise<T> {
+  const spies = (Object.keys(POISON) as Array<keyof typeof POISON>).map((name) =>
+    jest
+      .spyOn(Date.prototype, name as never)
+      .mockReturnValue(POISON[name] as never),
+  );
+  try {
+    return await fn();
+  } finally {
+    for (const s of spies) s.mockRestore();
+  }
+}
 
 /** A minimal astrologize response — only the fields the service reads. */
 function stubResponse() {
@@ -77,20 +115,34 @@ afterAll(() => {
 });
 
 describe("astrologize payload timezone boundary", () => {
-  it("runs under a non-UTC zone, or this suite proves nothing", () => {
-    // A guard on the guard: if the runner ignores process.env.TZ, every
-    // assertion below would pass trivially against a UTC clock.
-    expect(new Date("1991-06-23T14:24:00.000Z").getTimezoneOffset()).not.toBe(0);
+  it("poisoning the local getters actually bites, or this suite proves nothing", () => {
+    // A guard on the guard. The previous version of this check asserted the
+    // runner was in a non-UTC zone; CI is UTC, so it failed there and correctly
+    // reported that every other assertion in the file was passing vacuously.
+    // This replacement is about the mechanism, not the ambient zone, so it holds
+    // identically on a laptop and on a UTC runner.
+    const probe = new Date("1991-06-23T14:24:00.000Z");
+    expect(probe.getUTCFullYear()).toBe(1991);
+    return withPoisonedLocalGetters(async () => {
+      expect(probe.getFullYear()).toBe(POISON.getFullYear);
+      expect(probe.getHours()).toBe(POISON.getHours);
+      // UTC getters must be untouched by the poison, or the tests below would
+      // be asserting against a mocked value rather than the real instant.
+      expect(probe.getUTCFullYear()).toBe(1991);
+      expect(probe.getUTCHours()).toBe(14);
+    });
   });
 
   it("sends the UTC components of the birth instant, not the local ones", async () => {
     const { calculateNatalChart } = await import("@/services/natalChartService");
-    await calculateNatalChart({
-      dateTime: "1991-06-23T14:24:00.000Z",
-      latitude: 40.6526006,
-      longitude: -73.9497211,
-      timezone: "America/New_York",
-    });
+    await withPoisonedLocalGetters(() =>
+      calculateNatalChart({
+        dateTime: "1991-06-23T14:24:00.000Z",
+        latitude: 40.6526006,
+        longitude: -73.9497211,
+        timezone: "America/New_York",
+      }),
+    );
 
     expect(capturedPayload).toMatchObject({
       year: 1991,
@@ -106,11 +158,13 @@ describe("astrologize payload timezone boundary", () => {
     // asymmetry is the whole defect.
     const { calculateNatalChart } = await import("@/services/natalChartService");
     const instant = "1996-10-21T10:28:00.000Z";
-    await calculateNatalChart({
-      dateTime: instant,
-      latitude: 40.7956894,
-      longitude: -73.6989103,
-    });
+    await withPoisonedLocalGetters(() =>
+      calculateNatalChart({
+        dateTime: instant,
+        latitude: 40.7956894,
+        longitude: -73.6989103,
+      }),
+    );
 
     const p = capturedPayload as Record<string, number>;
     const reconstructed = new Date(
@@ -119,15 +173,18 @@ describe("astrologize payload timezone boundary", () => {
     expect(reconstructed.toISOString()).toBe(instant);
   });
 
-  it("crosses the date line without dragging the calendar day with it", async () => {
-    // Auckland is +12/+13. An instant just before UTC midnight reads as the
-    // NEXT day locally, so a local-getter regression changes `date` here.
+  it("keeps an instant near UTC midnight on its own calendar day", async () => {
+    // The case a zone shift mangles worst: 23:50 UTC is already the NEXT day
+    // anywhere east of the meridian, so a local-getter regression moves `date`
+    // rather than merely `hour` — and an hour shift can hide inside a wide orb.
     const { calculateNatalChart } = await import("@/services/natalChartService");
-    await calculateNatalChart({
-      dateTime: "2001-03-14T23:50:00.000Z",
-      latitude: 0,
-      longitude: 0,
-    });
+    await withPoisonedLocalGetters(() =>
+      calculateNatalChart({
+        dateTime: "2001-03-14T23:50:00.000Z",
+        latitude: 0,
+        longitude: 0,
+      }),
+    );
 
     expect(capturedPayload).toMatchObject({
       year: 2001,
