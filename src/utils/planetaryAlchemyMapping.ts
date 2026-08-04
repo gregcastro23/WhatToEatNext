@@ -404,34 +404,31 @@ export function isSectDiurnal(date?: Date): boolean {
 /**
  * Determine the sect of a *birth* moment.
  *
- * Birth times arrive as timezone-less wall-clock strings ("1990-05-15T14:30")
- * and so are parsed in whatever zone the host runs in. The astrologize payload
- * reads that Date back with the local getters, so the wall clock round-trips and
- * the chart itself is host-independent — but {@link isSectDiurnal} reads
- * getUTCHours(), which is not. On a UTC host (Vercel) the two agree; on any other
- * host the same birth flips day/night, which swings the whole ESMS profile
- * (day ~32/49/9/9 vs night ~14/16/47/22).
+ * ⚠️ Pass `birthData.dateTime` — the WALL CLOCK — never `birthData.utcInstant`.
  *
- * Re-projecting the wall clock into UTC keeps sect on the same hour the chart was
- * computed from, on every host. This is a no-op in production.
+ * Sect is a local-clock predicate: "was the sun up where they were born". A
+ * 14:24 Brooklyn birth is diurnal, and stays diurnal no matter that its true
+ * instant is 18:24Z. MEASURED 2026-08-04, feeding the true instant here instead
+ * flips day↔night on 6 of the 8 human rows in prod (18:24Z reads nocturnal,
+ * because `18 < 18` is false), swinging the profile from ~32/49/9/9 to
+ * ~14/16/47/22 and rewriting the archetype. `dateTime` is already the wall clock
+ * labelled `Z`, so {@link isSectDiurnal}'s getUTCHours() reads it correctly.
+ *
+ * This function previously re-projected through the host's LOCAL getters
+ * (`getFullYear`/`getHours`/…), to match `fetchPlanetaryPositions`, which then
+ * also used local getters. That premise died when the chart path moved to
+ * getUTC* (#725) and this call site was missed — leaving the chart host-
+ * independent while sect, which decides the archetype, was not. A no-op on
+ * prod's UTC infrastructure and wrong by the operator's offset anywhere else.
  *
  * Note: like isSectDiurnal, this is still a 06:00–18:00 local-clock approximation
  * of "sun above the horizon", not a true altitude calculation.
  *
- * @param birth - the birth instant, as parsed from a wall-clock string
+ * @param birth - the birth WALL CLOCK, UTC-labelled (i.e. `birthData.dateTime`)
  * @returns true if diurnal (day), false if nocturnal (night)
  */
 export function isSectDiurnalForBirth(birth: Date): boolean {
-  const wallClock = new Date(
-    Date.UTC(
-      birth.getFullYear(),
-      birth.getMonth(),
-      birth.getDate(),
-      birth.getHours(),
-      birth.getMinutes(),
-    ),
-  );
-  return isSectDiurnal(wallClock);
+  return isSectDiurnal(birth);
 }
 
 /**

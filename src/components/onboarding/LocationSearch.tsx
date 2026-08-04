@@ -22,18 +22,23 @@ interface LocationSearchProps {
   placeholder?: string;
 }
 
-/**
- * Estimate IANA timezone from longitude (rough but useful fallback).
- * For birth chart calculations, the exact timezone matters less than
- * the UTC offset at the time of birth, which the backend derives from coords.
+/*
+ * `estimateTimezone` used to live here: `Math.round(longitude / 15)` rendered as
+ * `UTC±N`. It was removed rather than fixed, for three reasons —
+ *
+ *   1. Despite the name and its docstring, it never returned an IANA zone. It is
+ *      where every `UTC-5` in prod came from.
+ *   2. Being a fixed offset it was DST-blind, so it was an hour wrong for any
+ *      birth inside daylight saving — both `UTC-5` rows in prod are EDT births.
+ *   3. Its docstring justified the imprecision with "the UTC offset at the time
+ *      of birth, which the backend derives from coords". No such derivation
+ *      exists: `fetchPlanetaryPositions` sends the raw UTC components and lat/lon
+ *      and the route rebuilds the instant with `Date.UTC`.
+ *
+ * The zone now arrives already resolved on the geocoding result (`result.timezone`,
+ * DERIVED from the tz boundary data server-side). Resolving it here instead would
+ * pull ~150KB of boundary raster into the client bundle for no benefit.
  */
-function estimateTimezone(latitude: number, longitude: number): string {
-  // Simple longitude-based UTC offset estimation
-  const offsetHours = Math.round(longitude / 15);
-  const absOffset = Math.abs(offsetHours);
-  const sign = offsetHours >= 0 ? "+" : "-";
-  return `UTC${sign}${absOffset}`;
-}
 
 /**
  * Format a location display name to be more readable.
@@ -139,12 +144,13 @@ export function LocationSearch({
   }, [query, performSearch, selectedLocation]);
 
   const handleSelectLocation = (result: GeocodingResult) => {
-    const timezone = estimateTimezone(result.latitude, result.longitude);
     const locationData: LocationData = {
       displayName: result.displayName,
       latitude: result.latitude,
       longitude: result.longitude,
-      timezone,
+      // Server-resolved IANA name, or undefined when the pin resolves to no
+      // zone. Never substitute a guess: downstream this dates the birth chart.
+      timezone: result.timezone ?? undefined,
     };
 
     setQuery(result.displayName);

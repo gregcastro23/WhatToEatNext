@@ -96,6 +96,35 @@ const WITH_DISTANCE = ARGV.has("--with-distance");
  * would matter.
  */
 const RECOMPUTE_ALL = ARGV.has("--recompute-all");
+/**
+ * Also refresh profiles that hold a natal chart but NO constitution row.
+ *
+ * This script's main query is `FROM alchemical_constitutions`, so such rows are
+ * structurally invisible to it — and after the temporal migration they are
+ * exactly the rows left holding a chart computed from the old wall-clock
+ * instant, with nothing to ever bring them forward. MEASURED 2026-08-04: 2 of
+ * the 6 migrated profiles are in this state.
+ *
+ * Only the chart is rewritten; there is no constitution row to update.
+ */
+const ORPHAN_CHARTS = ARGV.has("--orphan-charts");
+/**
+ * Run the CONTROL pass at the WALL CLOCK instead of the row's true instant.
+ *
+ * The control gate's job is to reproduce what prod actually stored. Which
+ * instant that was depends on where a row sits in the temporal migration:
+ *
+ *   - BEFORE the charts were recomputed, prod's stored charts came from the wall
+ *     clock, so the control had to strip `utcInstant` to match them. Without
+ *     this the gate failed on every migrated row — correctly, but for a reason
+ *     that was the migration's whole point rather than a harness fault.
+ *   - AFTER `--recompute-all` has run, prod's stored charts ARE true-instant
+ *     charts, and the control must use the birth data as-is (the default).
+ *
+ * Kept as a flag rather than deleted because it is the only way to re-verify the
+ * pre-migration geometry against a row that has since been recomputed.
+ */
+const CONTROL_WALL_CLOCK = ARGV.has("--control-wall-clock");
 
 // ─────────────────────────────── guardrails ───────────────────────────────
 
@@ -138,7 +167,14 @@ function resolveConnectionString(): string {
 // ──────────────────────────────── types ────────────────────────────────
 
 interface BirthData {
+  /** The birth WALL CLOCK, labelled `Z`. Drives sect. */
   dateTime: string;
+  /**
+   * The true UTC instant, written by `scripts/backfillBirthInstant.ts`. Drives
+   * the ephemeris. Absent on rows that predate the temporal migration and on
+   * rows where no defensible instant exists — never fabricated.
+   */
+  utcInstant?: string;
   latitude: number;
   longitude: number;
   timezone?: string;
@@ -197,11 +233,25 @@ function geocentricDistanceAu(planet: string, instant: Date): number | null {
  * the constitution with the canonical engine. This is the same sequence
  * `/api/agent-forge/ignite` runs, minus auth, geocoding and recipe generation.
  */
-async function reignite(birthData: BirthData) {
-  const chart: any = await calculateNatalChart(birthData);
+async function reignite(birthData: BirthData, opts: { useWallClock?: boolean } = {}) {
+  // `calculateNatalChart` queries the ephemeris at `utcInstant` when the temporal
+  // migration has supplied one, falling back to `dateTime` (the wall clock).
+  //
+  // The CONTROL pass must reproduce what prod actually stored, and prod stored
+  // charts computed from the wall clock. So the control strips `utcInstant` and
+  // re-runs on `dateTime`; the healing pass leaves it in place and gets the true
+  // sky. Without this split the control gate would fail on every migrated row —
+  // correctly, since the geometry genuinely changed — and refuse to apply,
+  // reporting the migration's whole point as a harness fault.
+  const source: BirthData = opts.useWallClock
+    ? { ...birthData, utcInstant: undefined }
+    : birthData;
+
+  const chart: any = await calculateNatalChart(source);
 
   if (WITH_DISTANCE) {
-    const instant = new Date(birthData.dateTime);
+    // The distance must come from the same instant the sky did.
+    const instant = new Date(source.utcInstant ?? source.dateTime);
     for (const planet of chart.planets ?? []) {
       const d = geocentricDistanceAu(planet.name, instant);
       if (d !== null) planet.distance = d;
@@ -275,7 +325,12 @@ async function runControl(healthy: CandidateRow[]): Promise<boolean> {
       continue;
     }
 
-    const { chart: control, esms } = await reignite(birth);
+    // Reproduce prod's own stored geometry. Post-migration that means using the
+    // birth data as-is (true instant); --control-wall-clock re-checks against
+    // the pre-migration sky. See CONTROL_WALL_CLOCK's docs.
+    const { chart: control, esms } = await reignite(birth, {
+      useWallClock: CONTROL_WALL_CLOCK,
+    });
     const storedPlanets: any[] = row.stored_chart?.planets ?? [];
     const controlPlanets: any[] = control.planets ?? [];
 
@@ -396,6 +451,45 @@ async function healRow(
   }
 }
 
+/**
+ * Rewrite a profile's stored chart on both surfaces, without touching any
+ * constitution row (these profiles have none — that is why they are here).
+ */
+async function refreshChartOnly(
+  client: pg.PoolClient,
+  row: CandidateRow,
+  birth: BirthData,
+  rebuilt: Awaited<ReturnType<typeof reignite>>,
+): Promise<void> {
+  const mergedProfile = {
+    ...(row.users_profile ?? {}),
+    userId: row.user_id,
+    birthData: birth,
+    natalChart: rebuilt.chart,
+  };
+
+  await client.query("BEGIN");
+  try {
+    await client.query(
+      `UPDATE users SET profile = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $1::uuid`,
+      [row.user_id, JSON.stringify(mergedProfile)],
+    );
+    const res = await client.query(
+      `UPDATE user_profiles
+          SET natal_chart = $2::jsonb, updated_at = CURRENT_TIMESTAMP
+        WHERE user_id = $1::uuid`,
+      [row.user_id, JSON.stringify(rebuilt.chart)],
+    );
+    if (res.rowCount !== 1) {
+      throw new Error(`expected to update exactly 1 profile row, got ${res.rowCount}`);
+    }
+    await client.query("COMMIT");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  }
+}
+
 // ──────────────────────────────── main ────────────────────────────────
 
 async function main(): Promise<void> {
@@ -460,8 +554,10 @@ async function main(): Promise<void> {
     console.log(`\n━━━ ${APPLY ? "APPLY" : "DRY RUN"} ━━━`);
     const targets = RECOMPUTE_ALL ? [...broken, ...healthy] : broken;
     if (targets.length === 0) {
-      console.log("  Nothing to heal.");
-      return;
+      // Deliberately NOT an early return: the orphan-chart pass below is
+      // independent of the constitution scope, and "no constitution needs
+      // healing" is the normal state in which orphans still do.
+      console.log("  No constitution row needs healing.");
     }
     if (RECOMPUTE_ALL) {
       console.log(`  --recompute-all: ${broken.length} broken + ${healthy.length} healthy rows`);
@@ -513,6 +609,94 @@ async function main(): Promise<void> {
 
       await healRow(client, row, birth, rebuilt);
       console.log("    ✔ committed (users.profile + user_profiles + constitution)");
+    }
+
+    // ── orphan charts: a stored chart with no constitution row ──────────
+    if (!ORPHAN_CHARTS) {
+      const { rows: orphanCount } = await client.query<{ n: string }>(`
+        SELECT count(*) AS n
+          FROM user_profiles up
+          LEFT JOIN alchemical_constitutions ac ON ac.user_id = up.user_id
+         WHERE ac.user_id IS NULL
+           -- CASE, not AND: SQL's AND is not short-circuiting, so a bare
+           -- jsonb_array_length beside the typeof guard still errors on the
+           -- 71 rows whose planets key is not an array.
+           AND CASE WHEN jsonb_typeof(up.natal_chart->'planets') = 'array'
+                    THEN jsonb_array_length(up.natal_chart->'planets')
+                    ELSE 0 END > 0
+      `);
+      if (Number(orphanCount[0]?.n ?? 0) > 0) {
+        console.log(
+          `\n  NOTE: ${orphanCount[0].n} profile(s) hold a natal chart but no constitution row,` +
+            "\n  so this script's constitution-scoped query cannot see them. After the\n" +
+            "  temporal migration those charts are stale. Pass --orphan-charts to include them.",
+        );
+      }
+      return;
+    }
+
+    console.log(`\n━━━ ORPHAN CHARTS (chart present, no constitution row) ━━━`);
+    const { rows: orphans } = await client.query<CandidateRow>(`
+      SELECT
+        up.user_id::text                       AS user_id,
+        u.email                                AS email,
+        NULL::text                             AS base_archetype,
+        ARRAY[0,0,0,0]                         AS stored_esms,
+        -- CASE-guarded, not COALESCE-guarded: 71 profile rows store the chart's
+        -- planets key as something other than an array, and jsonb_array_length
+        -- errors on those. The WHERE clause filters them out but does not
+        -- constrain when this select expression is evaluated.
+        CASE WHEN jsonb_typeof(up.natal_chart->'planets') = 'array'
+             THEN jsonb_array_length(up.natal_chart->'planets')
+             ELSE 0 END                        AS profile_planet_count,
+        up.birth_data                          AS profile_birth_data,
+        u.profile -> 'birthData'               AS jsonb_birth_data,
+        u.profile                              AS users_profile,
+        up.natal_chart                         AS stored_chart
+      FROM user_profiles up
+      LEFT JOIN users u                     ON u.id = up.user_id
+      LEFT JOIN alchemical_constitutions ac ON ac.user_id = up.user_id
+      WHERE ac.user_id IS NULL
+        AND CASE WHEN jsonb_typeof(up.natal_chart->'planets') = 'array'
+                 THEN jsonb_array_length(up.natal_chart->'planets')
+                 ELSE 0 END > 0
+      ORDER BY up.updated_at
+    `);
+
+    if (orphans.length === 0) {
+      console.log("  None.");
+      return;
+    }
+
+    for (const row of orphans) {
+      const birth = isUsableBirthData(row.profile_birth_data)
+        ? row.profile_birth_data
+        : row.jsonb_birth_data;
+      if (!isUsableBirthData(birth)) {
+        console.log(`  ${row.user_id}  SKIP — no usable birth data`);
+        continue;
+      }
+
+      let rebuilt: Awaited<ReturnType<typeof reignite>>;
+      try {
+        rebuilt = await reignite(birth);
+      } catch (err) {
+        console.log(`  ${row.user_id}  FAILED to re-ignite: ${(err as Error).message}`);
+        continue;
+      }
+
+      console.log(`\n  ${row.user_id}  (${row.email ?? "no email"})`);
+      console.log(
+        `    ephemeris    : ${birth.utcInstant ?? birth.dateTime}` +
+          `${birth.utcInstant ? "  (true instant)" : "  (wall clock — unmigrated)"}`,
+      );
+      console.log(`    chart        : ${rebuilt.chart.planets?.length ?? 0} planets`);
+      if (!APPLY) {
+        console.log("    (dry run — no write)");
+        continue;
+      }
+      await refreshChartOnly(client, row, birth, rebuilt);
+      console.log("    ✔ committed (users.profile + user_profiles.natal_chart)");
     }
   } finally {
     client.release();

@@ -199,10 +199,32 @@ async function fetchPlanetaryPositions(
   birthData: BirthData,
 ): Promise<Record<Planet, PositionWithLongitude>> {
   try {
-    const date = new Date(birthData.dateTime);
+    // The EPHEMERIS is queried at the true instant when the temporal migration
+    // has supplied one, and falls back to the wall clock otherwise.
+    //
+    // `dateTime` is a wall clock labelled `Z` (see BirthData's docs): a Brooklyn
+    // birth at 14:24 is stored `1991-06-23T14:24:00.000Z` when the real instant
+    // is 18:24Z. Querying the sky at the wall clock is wrong by exactly the
+    // birthplace's UTC offset — four hours here, which is ~2.2 deg of Moon and
+    // ~60 deg (two whole signs) of Ascendant.
+    //
+    // `utcInstant` is written by `scripts/backfillBirthInstant.ts` and is absent
+    // on unmigrated rows and on rows where no defensible instant exists. It is
+    // never fabricated, so `undefined` really does mean "unknown" and the
+    // fallback below preserves exactly the pre-migration behaviour for them.
+    //
+    // ⚠️ SECT DOES NOT MOVE WITH THIS. `isSectDiurnal` is a 06:00-18:00 LOCAL
+    // window; it must keep reading `dateTime`. MEASURED 2026-08-04: sourcing it
+    // from the true instant instead flips day<->night on 6 of the 8 human rows
+    // in prod (14:24 local is diurnal; 18:24Z is nocturnal because `18 < 18` is
+    // false), swinging the profile ~32/49/9/9 -> ~14/16/47/22 and rewriting the
+    // archetype — a flip manufactured by the migration rather than found by it.
+    const ephemerisSource = birthData.utcInstant ?? birthData.dateTime;
+    const date = new Date(ephemerisSource);
     if (Number.isNaN(date.getTime())) {
       throw new Error(
-        `Unparseable birthData.dateTime: ${JSON.stringify(birthData.dateTime)}. ` +
+        `Unparseable birth instant: ${JSON.stringify(ephemerisSource)} ` +
+          `(from birthData.${birthData.utcInstant ? "utcInstant" : "dateTime"}). ` +
           "Refusing to compute a chart from an invalid instant.",
       );
     }
@@ -223,15 +245,23 @@ async function fetchPlanetaryPositions(
     // UTC branch; these getters make that the behaviour everywhere instead of an
     // accident of deployment.
     //
-    // NOTE: `birthData.timezone` is still not applied, and that is deliberate,
-    // not an oversight. `dateTime` is built from a `datetime-local` input via
-    // `new Date(dob).toISOString()`, so it holds the user's WALL-CLOCK birth
-    // time labelled UTC, not the true UTC instant of their birth. Interpreting
-    // it through `timezone` would be more astronomically correct but would
-    // re-date every chart already stored (5 hours for a New York birth) and the
-    // stored zone strings are not uniformly IANA ("America/New_York" alongside
-    // "UTC-5"). That is a physics ruling with a migration attached, not a
-    // boundary fix -- see the session notes accompanying this change.
+    // NOTE (superseded 2026-08-04): this used to read "`birthData.timezone` is
+    // still not applied, and that is deliberate" — parked because applying it
+    // would re-date every stored chart and because the stored zone strings were
+    // not uniformly IANA. Both halves are now resolved and the zone IS applied,
+    // via `utcInstant` above rather than here:
+    //
+    //   * the mixed key-space was RULED — the zone is DERIVED from the birth
+    //     coordinates, never from the stored string, which was wrong on 3 of the
+    //     6 migratable rows (2x `UTC-5` on EDT births, 1x `America/New_York` on
+    //     Brazilian coordinates). See `utils/astrology/birthTimezone.ts`.
+    //   * the re-dating is the point, and was sized before it was done:
+    //     `scripts/backfillBirthInstant.ts` reports it as a three-column
+    //     STORED/CONTROL/NEW diff so engine drift cannot be mistaken for it.
+    //
+    // These getters remain UTC-only regardless: `/api/astrologize` rebuilds the
+    // instant with `Date.UTC(...)`, so getUTC* -> Date.UTC is the exact
+    // round-trip and the caller's zone stays out of the physics.
     const payload = {
       year: date.getUTCFullYear(),
       month: date.getUTCMonth() + 1, // 1-indexed

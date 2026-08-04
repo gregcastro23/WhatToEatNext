@@ -75,17 +75,37 @@ export async function POST(req: Request) {
     const { dob, city } = body;
 
     // 3. Geocode location to coordinates
+    //
+    // A failed geocode used to fall back to `40.7498, -73.7976` ("Fallback NY")
+    // with a timezone of `"UTC"`. That is not a degraded chart, it is a
+    // confidently wrong one: the pin satisfies every downstream finiteness check
+    // and reads as a real birthplace forever after. MEASURED 2026-08-04, 2 of
+    // the 8 human birth records in prod carry that exact pin bit-for-bit, so
+    // their stored birthplace — and the `America/New_York` zone derived from it —
+    // was never anything the user said.
+    //
+    // Refuse instead. A chart cannot be invented for a place we could not find.
     const geocoded = await geocodeLocationSingle(city);
-    const latitude = geocoded?.latitude ?? 40.7498; // Fallback NY
-    const longitude = geocoded?.longitude ?? -73.7976;
-    const timezone = geocoded?.estimatedTimezone ?? "UTC";
+    if (!geocoded || !Number.isFinite(geocoded.latitude) || !Number.isFinite(geocoded.longitude)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "geocode_failed",
+          message: `Could not resolve "${city}" to a birthplace. A natal chart cannot be computed without real coordinates.`,
+        },
+        { status: 422 },
+      );
+    }
+    const { latitude, longitude } = geocoded;
 
     // 4. Temporal Analysis (retrieves the natal chart)
     const birthData = {
       dateTime: new Date(dob).toISOString(),
       latitude,
       longitude,
-      timezone,
+      // IANA, resolved from the pin. Null rather than "UTC" when unresolvable —
+      // a fabricated "UTC" silently re-dates the birth by the true offset.
+      timezone: geocoded.timezone ?? undefined,
     };
 
     console.log(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);

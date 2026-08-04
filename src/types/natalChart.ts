@@ -26,10 +26,38 @@ export type {
  * Birth data required to generate a natal chart
  */
 export interface BirthData {
+  /**
+   * The birth WALL CLOCK, labelled `Z` but not a UTC instant.
+   *
+   * Produced by `new Date(<datetime-local value>).toISOString()`, so a Brooklyn
+   * birth at 14:24 is stored `1991-06-23T14:24:00.000Z`. The true instant is
+   * 18:24Z — see {@link BirthData.utcInstant}.
+   *
+   * Deliberately NOT renamed or corrected in place: this is the field every
+   * existing reader already treats as a wall clock, and it is the field SECT
+   * must read (`isSectDiurnal` is a 06:00–18:00 LOCAL window; sourcing it from
+   * the true instant flips day↔night on 6 of the 8 measured prod rows).
+   */
   dateTime: string; // ISO 8601 format
+  /**
+   * The absolute UTC instant of birth = {@link BirthData.dateTime} interpreted
+   * as local time in {@link BirthData.timezone}. Written by
+   * `scripts/backfillBirthInstant.ts`.
+   *
+   * This is what the EPHEMERIS must be queried at. Absent on rows that predate
+   * the temporal migration, and absent by design on rows where no defensible
+   * instant exists (agent sentinels, fabricated pins) — never fabricated, so
+   * `undefined` genuinely means "unknown" and callers fall back to `dateTime`.
+   */
+  utcInstant?: string;
   latitude: number;
   longitude: number;
+  /** IANA zone name. Never a raw `UTC±N` offset — those cannot express DST. */
   timezone?: string;
+  /** How `timezone` was decided. See `ZoneBasis` in `utils/astrology/birthTimezone`. */
+  timezoneBasis?: "DERIVED_FROM_COORDINATES" | "STORED_IANA_STRING" | "ABSENT";
+  /** The pre-migration `timezone` string, kept for audit when it was replaced. */
+  timezoneStoredBefore?: string;
   location?: {
     latitude: number;
     longitude: number;
