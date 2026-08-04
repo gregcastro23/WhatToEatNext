@@ -140,7 +140,7 @@ export const authConfig = {
     async authorized({ auth: session, request }) {
       const { pathname } = request.nextUrl;
 
-      // Routes that require authentication
+      // Protected routes requiring authentication
       const isProtected =
         pathname.startsWith("/profile") ||
         pathname.startsWith("/onboarding") ||
@@ -148,35 +148,22 @@ export const authConfig = {
         pathname.startsWith("/birth-chart") ||
         pathname.startsWith("/current-chart");
 
-      // Routes that require premium tier (authenticated users without premium
-      // get redirected to /upgrade instead of seeing errors)
-      // /planetary-chart is deliberately absent: the planetary-ecosystem
-      // surface is public (the current sky is the same for everyone), and its
-      // middleware matcher entry was removed alongside this.
-      const isPremiumRoute =
-        pathname.startsWith("/recipe-generator") ||
-        pathname.startsWith("/restaurant-creator") ||
-        pathname.startsWith("/premium-table");
-
       // Not authenticated -> redirect to login for protected routes
-      if ((isProtected || isPremiumRoute) && !session?.user) {
+      if (isProtected && !session?.user) {
         return Response.redirect(new URL("/login", request.nextUrl.origin));
       }
 
       if (session?.user) {
         const user = session.user as Record<string, unknown>;
         const onboardingComplete = user.onboardingComplete === true;
-        const tier = (user.tier as string) || "free";
-        const isAdmin = user.role === "admin";
+        const _isAdmin = user.role === "admin";
 
         // Soft session revocation: when AUTH_REVOCATION_CHECK=on, look up
         // the jti against the Redis/Postgres revocation store. If the
-        // session has been revoked (DELETE /api/auth/sessions/[id], mass
-        // revoke, or row deleted), redirect to /login as if the session
-        // had expired. Fail-open if both stores error.
+        // session has been revoked, redirect to /login.
         if (
           process.env.AUTH_REVOCATION_CHECK === "on" &&
-          (isProtected || isPremiumRoute) &&
+          isProtected &&
           typeof user.sessionId === "string" &&
           user.sessionId.length > 0
         ) {
@@ -187,13 +174,9 @@ export const authConfig = {
         }
 
         // Also check the short-lived cookie set after onboarding completes.
-        // This prevents a redirect loop when the JWT hasn't propagated yet
-        // (e.g., serverless instance isolation, DB unavailable for JWT callback).
         const onboardingCookie = request.cookies.get("onboarding_completed")?.value === "1";
 
-        // Authenticated but onboarding incomplete -> force /onboarding,
-        // preserving the original destination via ?return= so the user
-        // lands back where they started after completing or skipping.
+        // Authenticated but onboarding incomplete -> force /onboarding
         if (!onboardingComplete && !onboardingCookie && pathname.startsWith("/profile")) {
           const onboardingUrl = new URL("/onboarding", request.nextUrl.origin);
           const originalPath =
@@ -214,14 +197,6 @@ export const authConfig = {
           return Response.redirect(
             new URL("/profile", request.nextUrl.origin),
           );
-        }
-
-        // Premium route gating — free users see upgrade page, not errors.
-        // Admins always have premium access.
-        if (isPremiumRoute && tier !== "premium" && !isAdmin) {
-          const upgradeUrl = new URL("/upgrade", request.nextUrl.origin);
-          upgradeUrl.searchParams.set("from", pathname);
-          return Response.redirect(upgradeUrl);
         }
       }
 

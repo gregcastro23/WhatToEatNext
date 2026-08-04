@@ -196,8 +196,8 @@ export function TokenGate({
             color: showPreview ? "#d1d5db" : "inherit",
           }}
         >
-          Spend your alchemical tokens to access {displayName}, or upgrade to
-          Premium for unlimited access.
+          Spend your ESMS tokens to access {displayName}, or claim your daily
+          Cosmic Yield to earn more tokens.
         </p>
 
         {/* Token cost breakdown */}
@@ -299,7 +299,7 @@ export function TokenGate({
             {isPurchasing ? "Unlocking..." : "🔮 Unlock with Tokens"}
           </button>
           <a
-            href="/upgrade"
+            href="/premium"
             style={{
               padding: "0.625rem 1.5rem",
               fontWeight: 500,
@@ -314,7 +314,7 @@ export function TokenGate({
               minWidth: "180px",
             }}
           >
-            ✨ Go Premium — $5/mo
+            ✨ Claim Daily Yield
           </a>
         </div>
       </div>

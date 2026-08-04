@@ -1,346 +1,193 @@
 /**
- * Premium Dashboard Page
+ * Alchm ESMS Token Vault & Economy Hub
  *
- * Shows subscription status, usage stats, upgrade/manage buttons,
- * and a feature comparison table between Free and Premium tiers.
+ * Displays live ESMS token balances (Spirit, Essence, Matter, Substance),
+ * tool token costs, daily Cosmic Yield claim status, and token top-up options.
  *
  * @file src/app/premium/page.tsx
  */
 
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState, Suspense } from "react";
-import { usePremium } from "@/contexts/PremiumContext";
-import {
-  TIER_LIMITS,
-  FEATURE_LIST,
-  type SubscriptionTier,
-} from "@/types/subscription";
+import { FEATURE_TOKEN_COSTS } from "@/types/subscription";
 
-const TIER_ORDER: SubscriptionTier[] = ["free", "premium"];
-
-const TIER_STYLES: Record<
-  SubscriptionTier,
-  { gradient: string; border: string; badge: string; glow: string }
-> = {
-  free: {
-    gradient: "from-white/10 to-white/5",
-    border: "border-white/10",
-    badge: "bg-white/10 text-white/80",
-    glow: "",
-  },
-  premium: {
-    gradient: "from-purple-50 to-indigo-100",
-    border: "border-purple-300",
-    badge: "bg-purple-100 text-purple-800",
-    glow: "ring-2 ring-purple-200 shadow-lg shadow-purple-50",
-  },
-};
+interface TokenBalances {
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+}
 
 function PremiumPageContent() {
   const { data: session, status: authStatus } = useSession();
-  const {
-    subscription,
-    tier,
-    isLoading,
-    openCheckout,
-    openPortal,
-    refresh,
-  } = usePremium();
+  const [balances, setBalances] = useState<TokenBalances>({
+    spirit: 0,
+    essence: 0,
+    matter: 0,
+    substance: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [claiming, setClaiming] = useState(false);
+  const [claimMessage, setClaimMessage] = useState<string | null>(null);
 
-  const searchParams = useSearchParams();
-  const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
-  const fromPath = searchParams?.get("from") ?? null;
+  const fetchBalances = async () => {
+    if (!session?.user) {
+      setLoading(false);
+      return;
+    }
+    try {
+      const res = await fetch("/api/economy/balances");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.balances) {
+          setBalances(data.balances);
+        }
+      }
+    } catch {
+      // Fallback
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const checkoutStatus = searchParams?.get("checkout");
-    const isTrial = searchParams?.get("trial") === "true";
-    if (checkoutStatus === "success") {
-      setCheckoutMessage(
-        isTrial
-          ? "Your 7-day Premium free trial has started! You can cancel anytime in Manage Billing."
-          : "Your Premium subscription is now active! Welcome aboard.",
-      );
-      void refresh();
-    } else if (checkoutStatus === "canceled") {
-      setCheckoutMessage("Checkout was canceled. No changes were made.");
+    void fetchBalances();
+  }, [session]);
+
+  const handleClaimDaily = async () => {
+    setClaiming(true);
+    setClaimMessage(null);
+    try {
+      const res = await fetch("/api/economy/claim-daily", { method: "POST" });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setClaimMessage(data.message || "✨ Daily Cosmic Yield collected!");
+        void fetchBalances();
+      } else {
+        setClaimMessage(data.message || "Could not claim daily yield today.");
+      }
+    } catch {
+      setClaimMessage("Failed to connect to economy service.");
+    } finally {
+      setClaiming(false);
     }
-  }, [searchParams, refresh]);
-
-  // Friendly labels for the routes the middleware redirects from.
-  // Falls back to a generic "premium feature" message if the path isn't recognized.
-  const fromLabels: Record<string, string> = {
-    "/recipe-generator": "the Recipe Generator",
-    "/planetary-chart": "Advanced Planetary Charts",
-    "/restaurant-creator": "the Cosmic Restaurant Creator",
-    "/premium-table": "the Premium Group Table",
   };
-  const fromLabel = fromPath
-    ? fromLabels[fromPath] ?? "a premium feature"
-    : null;
 
-  if (authStatus === "loading" || isLoading) {
+  if (authStatus === "loading" || loading) {
     return (
-      <div className="min-h-screen bg-[#08080e] text-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-white/60 font-medium">Loading your plan...</p>
+          <p className="text-white/60 font-medium">Opening Token Vault...</p>
         </div>
       </div>
     );
   }
 
+  const totalTokens =
+    balances.spirit + balances.essence + balances.matter + balances.substance;
+
   return (
-    <div className="min-h-screen bg-[#08080e] text-white via-purple-50 to-indigo-50">
+    <div className="min-h-screen bg-[#08080e] text-white">
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-black mb-3 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            Alchm Web3 ESMS Economy
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold uppercase tracking-wider mb-4">
+            ✨ Web3 ESMS Token Economy
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black mb-3 bg-gradient-to-r from-purple-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
+            Alchm ESMS Token Vault
           </h1>
           <p className="text-lg text-white/60 max-w-xl mx-auto">
-            Unlock the Cosmic Recipe Generator, Cosmic Restaurant Creator, advanced planetary charts,
-            and dining companions by holding 50+ ESMS coins — or buy coin packs to fuel your alchemy.
-            Claims settle on-chain to Base Sepolia testnet.
+            Use your Spirit, Essence, Matter, and Substance tokens to access all
+            Alchm kitchen tools. Claim your daily Cosmic Yield to top up your balance.
           </p>
         </div>
 
-        {/* Contextual "you tried to access X" banner */}
-        {fromLabel && tier !== "premium" && (
-          <div className="mb-8 p-5 rounded-xl border border-purple-500/30 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 text-white flex items-start gap-4">
-            <span className="text-2xl shrink-0" aria-hidden>✨</span>
-            <div className="flex-1">
-              <p className="font-semibold text-purple-100">
-                Unlock {fromLabel} with ESMS Coins
+        {/* Claim Message Notification */}
+        {claimMessage && (
+          <div className="mb-8 p-4 rounded-xl text-center font-medium bg-purple-900/40 border border-purple-500/40 text-purple-200">
+            {claimMessage}
+          </div>
+        )}
+
+        {/* Token Balance Cards */}
+        <div className="mb-10 glass-card-premium rounded-2xl border border-white/10 p-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-1">Your Token Wallet</h2>
+              <p className="text-sm text-white/60">
+                Total Balance: <span className="font-bold text-amber-400">{totalTokens.toFixed(1)} ESMS</span>
               </p>
-              <p className="text-sm text-white/70 mt-1">
-                You were redirected here because {fromLabel} requires holding at least 50 ESMS coins or an active coin pack. Buy coins below or claim your daily yield to gain access.
-              </p>
             </div>
-          </div>
-        )}
-
-        {/* Checkout Message */}
-        {checkoutMessage && (
-          <div
-            className={`mb-8 p-4 rounded-xl text-center font-medium ${
-              searchParams?.get("checkout") === "success"
-                ? "bg-green-50 text-green-800 border border-green-200"
-                : "bg-amber-50 text-amber-800 border border-amber-200"
-            }`}
-          >
-            {checkoutMessage}
-          </div>
-        )}
-
-        {/* Current Plan Status */}
-        {session?.user && (
-          <div className="mb-10 glass-card-premium rounded-2xl border border-white/8 p-8">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div>
-                <div className="flex items-center gap-3 mb-1">
-                  <h2 className="text-2xl font-bold text-white">Your Access Tier</h2>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-bold ${TIER_STYLES[tier].badge}`}
-                  >
-                    {tier === "premium" ? "Unlocked (ESMS Holder)" : "Standard"}
-                  </span>
-                </div>
-                <p className="text-white/60">
-                  {tier === "free"
-                    ? "Standard Access — Hold 50+ ESMS coins or purchase a coin pack to unlock full features & boost daily Cosmic Yield"
-                    : "Full Cosmic Access — Unlocked by holding 50+ ESMS coins or active coin pack. Enjoy 2x yield boost and unlimited tools!"}
-                </p>
-              </div>
-
-              {tier === "premium" && (
-                <button
-                  onClick={() => { void openPortal(); }}
-                  className="px-5 py-2.5 rounded-xl border-2 border-white/10 text-white/80 font-semibold hover:bg-white/5 transition-all"
-                >
-                  Manage Billing
-                </button>
-              )}
-            </div>
-
-            <div className="mt-8 grid md:grid-cols-2 gap-6">
-              <div className="bg-white/5 rounded-xl p-5">
-                <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
-                  Renewal
-                </p>
-                <p className="text-lg font-semibold text-white/80">
-                  {subscription?.currentPeriodEnd && tier === "premium"
-                    ? new Date(subscription.currentPeriodEnd).toLocaleDateString()
-                    : tier === "premium" ? "Monthly reset" : "No subscription"}
-                </p>
-              </div>
-
-              <div className="bg-white/5 rounded-xl p-5">
-                <p className="text-xs font-bold text-white/60 uppercase tracking-wider mb-2">
-                  Status
-                </p>
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`w-2.5 h-2.5 rounded-full ${
-                      !subscription || subscription.status === "active"
-                        ? "bg-green-500"
-                        : subscription.status === "past_due"
-                          ? "bg-amber-500"
-                          : "bg-white/20"
-                    }`}
-                  />
-                  <span className="text-lg font-semibold text-white/80 capitalize">
-                    {subscription?.status || "Active"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-14">
-          {TIER_ORDER.map((t) => {
-            const config = TIER_LIMITS[t];
-            const styles = TIER_STYLES[t];
-            const isCurrent = tier === t;
-
-            return (
-              <div
-                key={t}
-                className={`relative bg-gradient-to-b ${styles.gradient} rounded-2xl border-2 ${styles.border} ${styles.glow} p-8 flex flex-col`}
+            {session?.user ? (
+              <button
+                onClick={() => { void handleClaimDaily(); }}
+                disabled={claiming}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 via-amber-500 to-orange-500 text-white font-bold hover:brightness-110 transition-all shadow-lg shadow-purple-900/30 disabled:opacity-50"
               >
-                {t === "premium" && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-purple-600 text-white text-xs font-bold uppercase tracking-wider rounded-full">
-                    Recommended
-                  </div>
-                )}
+                {claiming ? "Claiming..." : "⚡ Claim Daily Cosmic Yield"}
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="px-6 py-3 rounded-xl bg-purple-600 text-white font-bold hover:bg-purple-700 transition-all"
+              >
+                Sign In to Claim Free ESMS
+              </a>
+            )}
+          </div>
 
-                <h3 className="text-2xl font-black mb-2">{config.label}</h3>
-                <div className="mb-6">
-                  <span className="text-4xl font-black">
-                    {config.price === 0 ? "Free" : `$${config.price}`}
-                  </span>
-                  {config.price > 0 && (
-                    <span className="text-white/60 font-medium">/month</span>
-                  )}
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-1">
-                  {FEATURE_LIST.map((feature) => {
-                    const value = feature[t];
-                    const hasIt = value === true || typeof value === "string";
-                    return (
-                      <li key={feature.key} className="flex items-center gap-2.5 text-sm">
-                        <span
-                          className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                            hasIt ? "bg-green-100 text-green-700" : "bg-white/10 text-white/60"
-                          }`}
-                        >
-                          {hasIt ? "\u2713" : "\u2715"}
-                        </span>
-                        <span className={hasIt ? "text-white" : "text-white/60"}>
-                          {feature.label}
-                          {typeof value === "string" && (
-                            <span className="font-bold ml-1">({value})</span>
-                          )}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-
-                {isCurrent ? (
-                  <button
-                    disabled
-                    className="w-full py-3 rounded-xl bg-white/10 text-white/60 font-bold cursor-not-allowed"
-                  >
-                    Current Plan
-                  </button>
-                ) : session?.user ? (
-                  <div className="space-y-2">
-                    {t === "premium" && tier === "free" && !subscription?.stripeSubscriptionId && (
-                      <button
-                        onClick={() => { void openCheckout(t, { trial: true }); }}
-                        className="w-full py-3 rounded-xl font-bold transition-all bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-lg"
-                      >
-                        Try Premium Free for 7 Days
-                      </button>
-                    )}
-                    <button
-                      onClick={() => { void openCheckout(t); }}
-                      className={`w-full py-3 rounded-xl font-bold transition-all ${
-                        t === "premium"
-                          ? (tier === "free" && !subscription?.stripeSubscriptionId
-                              ? "bg-white/10 text-white border-2 border-white/15 hover:bg-white/15"
-                              : "bg-purple-600 text-white hover:bg-purple-700 shadow-md")
-                          : "bg-white border-2 border-white/10 text-white/80 hover:bg-white/5"
-                      }`}
-                    >
-                      {t === "free" ? "Downgrade to Free" : "Upgrade to Premium"}
-                    </button>
-                  </div>
-                ) : (
-                  <a
-                    href="/login"
-                    className="block w-full py-3 rounded-xl bg-purple-600 text-white font-bold text-center hover:bg-purple-700 transition-all"
-                  >
-                    Sign in to Get Premium
-                  </a>
-                )}
-              </div>
-            );
-          })}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-center">
+              <div className="text-2xl mb-1">🝇</div>
+              <div className="text-xs uppercase tracking-wider text-amber-400 font-bold">Spirit</div>
+              <div className="text-2xl font-black mt-1 text-white">{balances.spirit.toFixed(1)}</div>
+            </div>
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-center">
+              <div className="text-2xl mb-1">🝑</div>
+              <div className="text-xs uppercase tracking-wider text-purple-400 font-bold">Essence</div>
+              <div className="text-2xl font-black mt-1 text-white">{balances.essence.toFixed(1)}</div>
+            </div>
+            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-center">
+              <div className="text-2xl mb-1">🝙</div>
+              <div className="text-xs uppercase tracking-wider text-emerald-400 font-bold">Matter</div>
+              <div className="text-2xl font-black mt-1 text-white">{balances.matter.toFixed(1)}</div>
+            </div>
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 text-center">
+              <div className="text-2xl mb-1">🝉</div>
+              <div className="text-xs uppercase tracking-wider text-blue-400 font-bold">Substance</div>
+              <div className="text-2xl font-black mt-1 text-white">{balances.substance.toFixed(1)}</div>
+            </div>
+          </div>
         </div>
 
-        {/* Feature Comparison Table */}
-        <div className="glass-card-premium rounded-2xl border border-white/8 overflow-hidden">
+        {/* Tool Token Costs Catalog */}
+        <div className="glass-card-premium rounded-2xl border border-white/10 overflow-hidden mb-12">
           <div className="p-8 border-b border-white/10">
-            <h2 className="text-2xl font-black text-white">What&apos;s included</h2>
+            <h2 className="text-2xl font-black text-white">Tool Token Costs</h2>
+            <p className="text-sm text-white/60 mt-1">
+              Every tool on Alchm.kitchen is pay-as-you-go using your ESMS tokens.
+            </p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left p-4 pl-8 text-sm font-bold text-white/60 uppercase tracking-wider">
-                    Feature
-                  </th>
-                  {TIER_ORDER.map((t) => (
-                    <th
-                      key={t}
-                      className="p-4 text-center text-sm font-bold text-white/60 uppercase tracking-wider"
-                    >
-                      {TIER_LIMITS[t].label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {FEATURE_LIST.map((feature, i) => (
-                  <tr key={feature.key} className={i % 2 === 0 ? "bg-white/5" : ""}>
-                    <td className="p-4 pl-8 font-medium text-white/80">
-                      {feature.label}
-                    </td>
-                    {TIER_ORDER.map((t) => {
-                      const value = feature[t];
-                      return (
-                        <td key={t} className="p-4 text-center">
-                          {typeof value === "string" ? (
-                            <span className="font-bold text-white">{value}</span>
-                          ) : value ? (
-                            <span className="text-green-600 font-bold text-lg">{"\u2713"}</span>
-                          ) : (
-                            <span className="text-white/80 text-lg">{"\u2014"}</span>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="divide-y divide-white/10">
+            {Object.entries(FEATURE_TOKEN_COSTS).map(([key, item]) => (
+              <div key={key} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h3 className="font-bold text-lg text-white capitalize">
+                    {key.replace(/([A-Z])/g, " $1")}
+                  </h3>
+                  <p className="text-sm text-white/60">{item.description}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-300 font-bold text-sm">
+                    {item.label}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -350,11 +197,13 @@ function PremiumPageContent() {
 
 export default function PremiumPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+        </div>
+      }
+    >
       <PremiumPageContent />
     </Suspense>
   );

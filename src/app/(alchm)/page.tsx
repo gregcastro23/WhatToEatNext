@@ -279,6 +279,17 @@ export default function AlchmKitchenHome(): JSX.Element {
           <EnhancedIngredientRecommender compact maxItems={6} />
         </HomeSection>
 
+        {/* 3 · COOKING METHOD RECOMMENDER */}
+        <HomeSection
+          tag="METHODS · LIVE THERMODYNAMICS"
+          title="Cooking methods aligned with elemental transits"
+          cta={{ label: "All methods", href: "/cooking-methods" }}
+        >
+          <div className="alchm-home-cookmethods">
+            <EnhancedCookingMethodRecommender />
+          </div>
+        </HomeSection>
+
         {/* 3 · CELESTIAL PREP (COMBINED SAUCE + METHODS RECOMMENDER) */}
         <HomeSection
           tag="PREPARATION · CELESTIAL PREP"

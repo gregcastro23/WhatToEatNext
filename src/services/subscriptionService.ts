@@ -14,8 +14,6 @@ import type {
   UserSubscription,
   UsageRecord,
 } from "@/types/subscription";
-import { TIER_LIMITS, MINIMUM_HOLDINGS_FOR_PREMIUM } from "@/types/subscription";
-import { tokenEconomy } from "@/services/TokenEconomyService";
 
 const isServerWithDB = (): boolean => {
   return typeof window === "undefined" && !!process.env.DATABASE_URL;
@@ -72,22 +70,12 @@ class SubscriptionService {
     if (!sub) {
       sub = memorySubscriptions.get(userId) || null;
     }
-
-    // Web3 Economy integration: Check ESMS token holdings to elevate tier
-    if (sub && sub.tier !== "premium") {
-      try {
-        const balances = await tokenEconomy.getBalances(userId);
-        const total = balances.spirit + balances.essence + balances.matter + balances.substance;
-        if (total >= MINIMUM_HOLDINGS_FOR_PREMIUM) {
-          return {
-            ...sub,
-            tier: "premium",
-            status: "active",
-          };
-        }
-      } catch {
-        // Fall back to original sub shape if balance fetch fails
-      }
+    // In ESMS Token Economy, default active status with free/standard tier
+    if (sub) {
+      return {
+        ...sub,
+        status: "active",
+      };
     }
     return sub;
   }
@@ -96,23 +84,11 @@ class SubscriptionService {
     const existing = await this.getUserSubscription(userId);
     if (existing) return existing;
 
-    // Check token holdings for new subscription
-    let tier: "free" | "premium" = "free";
-    try {
-      const balances = await tokenEconomy.getBalances(userId);
-      const total = balances.spirit + balances.essence + balances.matter + balances.substance;
-      if (total >= MINIMUM_HOLDINGS_FOR_PREMIUM) {
-        tier = "premium";
-      }
-    } catch {
-      // Default to free if balance fetch fails
-    }
-
     const period = getCurrentPeriod();
     const sub: UserSubscription = {
       id: randomUUID(),
       userId,
-      tier,
+      tier: "free",
       status: "active",
       stripeCustomerId: null,
       stripeSubscriptionId: null,
@@ -306,19 +282,15 @@ class SubscriptionService {
    */
   async canUseFeature(
     userId: string,
-    feature: keyof typeof TIER_LIMITS.free,
+    _feature: string,
   ): Promise<{ allowed: boolean; reason?: string }> {
-    const sub = await this.getOrCreateSubscription(userId);
-    const limits = TIER_LIMITS[sub.tier];
-
-    const hasAccess = limits[feature];
-    if (!hasAccess) {
+    if (!userId) {
       return {
         allowed: false,
-        reason: `${String(feature)} requires holding at least ${MINIMUM_HOLDINGS_FOR_PREMIUM} ESMS coins or purchasing a coin pack.`,
+        reason: "Authentication required — please sign in to use Alchm tools.",
       };
     }
-
+    // All tools are accessible via ESMS tokens in the token economy
     return { allowed: true };
   }
 

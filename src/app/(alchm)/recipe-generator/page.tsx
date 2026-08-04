@@ -26,7 +26,6 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { PremiumGate } from "@/components/PremiumGate";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
@@ -1401,7 +1400,6 @@ export default function RecipeGeneratorPage() {
   const canBuilderGenerate = builder.totalItems > 0 || builder.mealType !== null;
 
   return (
-    <PremiumGate feature="cosmicRecipeAccess">
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/40 to-orange-50/40">
       <div className="mx-auto max-w-4xl px-4 py-6 space-y-5">
         {/* Header */}
@@ -1564,6 +1562,5 @@ export default function RecipeGeneratorPage() {
         </div>
       )}
     </div>
-    </PremiumGate>
   );
 }

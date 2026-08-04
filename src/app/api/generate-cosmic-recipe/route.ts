@@ -82,21 +82,14 @@ async function handlePost(request: NextRequest) {
   });
   if (access.mode === "denied") return access.blocked;
 
-  let isPremiumUser = false;
+  const isPremiumUser = false;
 
-  // Auth'd path: token economy is the throttle. Premium users skip the
-  // shop-item debit but everyone else pays personalized live pricing — the
-  // user's natal chart × the chart of the moment shapes the per-token cost.
+  // Auth'd path: token economy is the throttle. Every user gets 1 free daily generation,
+  // and subsequent recipe generations spend personalized live ESMS tokens.
   if (access.mode === "auth") {
     const userId = access.userId;
-
-    const sub = await subscriptionService.getUserSubscription(userId);
-    const isPremium = sub?.tier === "premium";
-    isPremiumUser = isPremium;
-
-    if (!isPremium) {
-      let isFirstGeneration = true;
-      let count = 0;
+    let isFirstGeneration = true;
+    let count = 0;
 
       // Check daily limit table to see if this is their first generation of the day
       try {
@@ -177,7 +170,6 @@ async function handlePost(request: NextRequest) {
           });
         }
       }
-    }
 
     // Cosmic recipes count toward both the generic "Culinary Explorer" tiers
     // and the one-shot "Cosmic Chef" premium quest.

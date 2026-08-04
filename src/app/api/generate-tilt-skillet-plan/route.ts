@@ -14,7 +14,7 @@
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
-import { subscriptionService } from "@/services/subscriptionService";
+import { tokenEconomy } from "@/services/TokenEconomyService";
 import {
   tiltSkilletBatchSchema,
   tiltSkilletBodySchema,
@@ -35,7 +35,7 @@ function json(body: unknown, status: number) {
 }
 
 async function handlePost(request: NextRequest) {
-  // Premium-only: anonymous/demo users are turned away with a sign-in/upgrade nudge.
+  // Passersby/anonymous users get prompt to sign in
   const access = await gateDemoOrAuth(request, {
     dailyDemoQuota: 0,
     feature: "tilt skillet batch plan",
@@ -49,17 +49,26 @@ async function handlePost(request: NextRequest) {
   }
 
   const userId = access.userId;
-  const sub = await subscriptionService.getUserSubscription(userId);
-  if (sub?.tier !== "premium") {
+  const COST = 5;
+  const balances = await tokenEconomy.getBalances(userId);
+  const total = balances.spirit + balances.essence + balances.matter + balances.substance;
+
+  if (total < COST) {
     return json(
       {
-        error: "premium_required",
-        message:
-          "Large-batch circuit planning requires holding at least 50 ESMS coins or an active coin pack.",
+        error: "insufficient_esms",
+        message: `Tilt Skillet batch planning costs ${COST} ESMS tokens. You currently have ${total.toFixed(1)} ESMS. Claim your daily Cosmic Yield to earn more tokens!`,
+        requiredCost: COST,
+        userBalance: total,
       },
       402,
     );
   }
+
+  // Deduct ESMS tokens for batch plan generation
+  await tokenEconomy.debitTokens(userId, "Spirit", COST, "purchase", {
+    description: "Tilt Skillet batch circuit plan generation",
+  });
 
   const rawBody = await request.json().catch(() => null);
   const parsed = tiltSkilletBodySchema.safeParse(rawBody);

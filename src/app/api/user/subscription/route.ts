@@ -84,18 +84,19 @@ export async function GET(request: Request) {
       })
     ]);
 
-    // Force premium status for admins regardless of DB record
-    const isPremium = isAdmin || (subscription.tier === "premium" && subscription.status === "active");
-    const tier = isAdmin ? "premium" : subscription.tier;
+    // In ESMS Token Economy, all authenticated users have active access
+    const isPremium = true;
+    const tier = "standard";
 
     return NextResponse.json({
       isPremium,
       tier,
       expiresAt: subscription.currentPeriodEnd,
-      status: subscription.status,
+      status: "active",
       subscription: {
         ...subscription,
-        tier // Ensure subscription object reflects admin status
+        tier: "standard",
+        status: "active",
       },
     });
   } catch (error: any) {

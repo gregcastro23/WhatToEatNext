@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { PremiumGate } from "@/components/PremiumGate";
 import type { Variants } from "framer-motion";
 
 function SectionLoader() {
@@ -109,9 +108,7 @@ export default function CuisinesPage() {
             <div className="absolute top-1/2 left-1/2 w-full h-full bg-amber-600/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2 -translate-y-1/2" />
 
             <div className="relative z-10">
-              <PremiumGate feature="sauceRecommender" showPreview>
-                <EnhancedSauceRecommender />
-              </PremiumGate>
+              <EnhancedSauceRecommender />
             </div>
           </div>
         </motion.section>

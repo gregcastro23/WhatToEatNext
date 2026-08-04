@@ -25,7 +25,6 @@ import type {
   SubscriptionTier,
   UserSubscription,
 } from "@/types/subscription";
-import { TIER_LIMITS } from "@/types/subscription";
 
 const CACHE_KEY = "alchm_subscription_cache";
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
@@ -239,15 +238,11 @@ export function PremiumProvider({ children }: { children: ReactNode }) {
   }, [fetchSubscription]);
 
   const hasFeature = useCallback(
-    (feature: string): boolean => {
-      // Admins have access to everything
-      if (isAdmin) return true;
-      // Pure boolean feature-flag lookup. Usage rates (recipe gen, etc.) are
-      // throttled by the token economy, not gated here.
-      const tierLimits = TIER_LIMITS[tier];
-      return !!(tierLimits as Record<string, unknown>)[feature];
+    (_feature: string): boolean => {
+      // In the ESMS Token Economy, all features are accessible via ESMS tokens.
+      return true;
     },
-    [tier, isAdmin],
+    [],
   );
 
   const openCheckout = useCallback(

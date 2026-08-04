@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
-import { PremiumGate } from '@/components/PremiumGate';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
@@ -483,9 +482,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
         <BackButton />
         <div className="alchm-card rounded-[2.5rem] p-1 shadow-2xl overflow-hidden border-white/5">
-          <PremiumGate feature="diningCompanions" showPreview>
-            <CommensalManager />
-          </PremiumGate>
+          <CommensalManager />
         </div>
       </motion.div>
     );
