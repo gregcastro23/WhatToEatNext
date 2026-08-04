@@ -148,12 +148,21 @@ function calculateApproximateAscendant(
     "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces",
   ] as const;
 
+  // UTC getters, deliberately — same boundary rule as
+  // `natalChartService.fetchPlanetaryPositions`. These components are handed
+  // straight to `Date.UTC(year, month - 1, day, hour, minute)` below, so reading
+  // them with LOCAL getters shifted "now" by the caller's UTC offset and then
+  // reinterpreted the shifted wall clock as UTC — a double-counted offset.
+  //
+  // This path is worse than the natal one because it also runs in the BROWSER,
+  // where the offset is the visitor's own zone rather than the server's. A user
+  // in UTC+13 got an Ascendant computed for an instant 13 hours off, silently.
   const now = new Date();
-  const year = requestData.year ?? now.getFullYear();
-  const month = requestData.month ?? (now.getMonth() + 1);
-  const day = requestData.date ?? now.getDate();
-  const hour = requestData.hour ?? now.getHours();
-  const minute = requestData.minute ?? now.getMinutes();
+  const year = requestData.year ?? now.getUTCFullYear();
+  const month = requestData.month ?? (now.getUTCMonth() + 1);
+  const day = requestData.date ?? now.getUTCDate();
+  const hour = requestData.hour ?? now.getUTCHours();
+  const minute = requestData.minute ?? now.getUTCMinutes();
   const longitude = requestData.longitude ?? DEFAULT_LOCATION.longitude;
   const latitude = requestData.latitude ?? DEFAULT_LOCATION.latitude;
 

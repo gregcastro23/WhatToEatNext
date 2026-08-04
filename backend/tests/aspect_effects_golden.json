@@ -1,0 +1,387 @@
+{
+  "_comment": "Layer 3 aspect-ESMS effect tables. Shared golden for TS<->Python parity. Order: [Spirit, Essence, Matter, Substance].",
+  "axes": [
+    "Spirit",
+    "Essence",
+    "Matter",
+    "Substance"
+  ],
+  "dignityAnchors": {
+    "_comment": "Layer 2 anchors the Layer 3 magnitudes are ruled commensurate with.",
+    "domicileFoldPoints": 5,
+    "fullStackPoints": 11,
+    "dignityScoreDivisor": 50
+  },
+  "tables": {
+    "Jupiter-Mercury": {
+      "biquintile": [
+        0.2,
+        0,
+        0,
+        0.1
+      ],
+      "conjunction": [
+        0.4,
+        0,
+        0,
+        0.2
+      ],
+      "inconjunct": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "opposition": [
+        0.1,
+        0,
+        0,
+        0.2
+      ],
+      "quincunx": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "quintile": [
+        0.2,
+        0,
+        0,
+        0.1
+      ],
+      "semi-sextile": [
+        0.1,
+        0,
+        0,
+        0
+      ],
+      "semisquare": [
+        0,
+        0,
+        0,
+        -0.05
+      ],
+      "sesquisquare": [
+        0,
+        0,
+        0,
+        -0.05
+      ],
+      "sextile": [
+        0.2,
+        0,
+        0,
+        0.1
+      ],
+      "square": [
+        -0.1,
+        0,
+        0,
+        -0.1
+      ],
+      "trine": [
+        0.3,
+        0,
+        0,
+        0.1
+      ]
+    },
+    "Mars-Venus": {
+      "biquintile": [
+        0,
+        0.2,
+        0.1,
+        0
+      ],
+      "conjunction": [
+        0,
+        0.4,
+        0.2,
+        0
+      ],
+      "inconjunct": [
+        0,
+        0,
+        0,
+        0.1
+      ],
+      "opposition": [
+        0,
+        -0.2,
+        0,
+        0.2
+      ],
+      "quincunx": [
+        0,
+        0,
+        0,
+        0.1
+      ],
+      "quintile": [
+        0,
+        0.2,
+        0.1,
+        0
+      ],
+      "semi-sextile": [
+        0,
+        0.1,
+        0,
+        0
+      ],
+      "semisquare": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "sesquisquare": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "sextile": [
+        0,
+        0.2,
+        0.1,
+        0
+      ],
+      "square": [
+        0,
+        -0.1,
+        0.3,
+        0
+      ],
+      "trine": [
+        0,
+        0.3,
+        0.1,
+        0
+      ]
+    },
+    "Moon-Sun": {
+      "biquintile": [
+        0.1,
+        0.05,
+        0,
+        0
+      ],
+      "conjunction": [
+        -0.5,
+        -0.5,
+        0,
+        0
+      ],
+      "inconjunct": [
+        0,
+        0,
+        0,
+        0.1
+      ],
+      "opposition": [
+        0.3,
+        0.3,
+        0,
+        0
+      ],
+      "quincunx": [
+        0,
+        0,
+        0,
+        0.1
+      ],
+      "quintile": [
+        0.1,
+        0.05,
+        0,
+        0
+      ],
+      "semi-sextile": [
+        0,
+        0.05,
+        0,
+        0
+      ],
+      "semisquare": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "sesquisquare": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "sextile": [
+        0.1,
+        0.1,
+        0,
+        0
+      ],
+      "square": [
+        -0.1,
+        -0.1,
+        0.2,
+        0
+      ],
+      "trine": [
+        0.2,
+        0.2,
+        0,
+        0
+      ]
+    },
+    "Saturn-Sun": {
+      "biquintile": [
+        0.1,
+        0,
+        0.2,
+        0
+      ],
+      "conjunction": [
+        -0.3,
+        0,
+        0.4,
+        0.2
+      ],
+      "inconjunct": [
+        0,
+        0,
+        0.1,
+        0.1
+      ],
+      "opposition": [
+        0,
+        0,
+        0.2,
+        0.3
+      ],
+      "quincunx": [
+        0,
+        0,
+        0.1,
+        0.1
+      ],
+      "quintile": [
+        0.1,
+        0,
+        0.2,
+        0
+      ],
+      "semi-sextile": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "semisquare": [
+        -0.1,
+        0,
+        0.1,
+        0
+      ],
+      "sesquisquare": [
+        -0.1,
+        0,
+        0.1,
+        0
+      ],
+      "sextile": [
+        0.1,
+        0,
+        0.2,
+        0.1
+      ],
+      "square": [
+        -0.2,
+        0,
+        0.3,
+        0
+      ],
+      "trine": [
+        0.1,
+        0,
+        0.3,
+        0.2
+      ]
+    },
+    "__DEFAULT__": {
+      "biquintile": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "conjunction": [
+        0.1,
+        0.1,
+        0,
+        0
+      ],
+      "inconjunct": [
+        0,
+        0,
+        0,
+        0.05
+      ],
+      "opposition": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "quincunx": [
+        0,
+        0,
+        0,
+        0.05
+      ],
+      "quintile": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "semi-sextile": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "semisquare": [
+        0,
+        0,
+        0.05,
+        0
+      ],
+      "sesquisquare": [
+        0,
+        0,
+        0.05,
+        0
+      ],
+      "sextile": [
+        0.05,
+        0,
+        0,
+        0
+      ],
+      "square": [
+        0,
+        0,
+        0.1,
+        0
+      ],
+      "trine": [
+        0.05,
+        0.05,
+        0,
+        0
+      ]
+    }
+  }
+}

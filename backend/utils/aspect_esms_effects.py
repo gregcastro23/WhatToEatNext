@@ -4,6 +4,54 @@ Python port of ``src/utils/aspectCalculator.ts`` plus
 ``src/utils/aspectESMSEffects.ts``. Aspect geometry is derived from absolute
 longitudes (or sign + degree), then the strongest in-orb aspect per pair is
 scaled by the same cosine bell and archetypal ESMS table as TypeScript.
+
+ASPECT-DIGNITY COMMENSURABILITY
+===============================
+``[RULED 2026-08-03, lambda = 1]`` -- the aspect layer is ratified AS MEASURED.
+A single aspect is commensurate with a single dignity FOLD at the median and
+with a full dignity STACK at the tail. No scaling constant is applied.
+
+BASIS: MEASURED over 48 fixed skies (1970-2025), 1743 aspects. Reproduce with
+``src/__tests__/aspectDignityCommensurability.test.ts``. Additivity residual
+``|sum(parts) - total|`` was exactly 0, so the layer decomposition is valid.
+
+The two layers are not the same kind of quantity, which is why this needed
+ruling at all: Layer 2 (dignity) is a per-planet MULTIPLIER, ``D = 1 + score/50``
+(``dignity_manifest.py``), while Layer 3 (this module) is an ADDITIVE term on
+the chart totals. Nothing structurally ties them together.
+
+Measured, in gross ESMS units summed over all four axes:
+
+===========================================  ========  =======  ========
+quantity                                     value     x fold   x stack
+===========================================  ========  =======  ========
+one domicile fold (+5), D=1.10               0.0468    1.00     0.45
+full stack (+11, Mercury 0-7 deg Virgo)      0.1029    2.20     1.00
+single aspect, p50                           0.0352    0.75     0.34
+single aspect, mean                          0.0514    1.10     0.50
+single aspect, p90                           0.1000    2.14     0.97
+single aspect, p100                          0.8998    19.2     8.75
+===========================================  ========  =======  ========
+
+The distribution is already BRACKETED by the two dignity anchors: the median
+aspect sits just below one fold and p90 lands on the full-stack ceiling. That
+is the commensurability the ruling wanted, so lambda = 1 changes no number.
+
+REJECTED -- stack-commensurate scaling (lambda = 2.0012, making the MEAN aspect
+equal a full stack). It doubles the layer and moves ESMS shares by up to
+10.98 percentage points, which would move every threshold stabilised under
+ADR-009. This is the same magnitude argument that rejected DIGNITY_SCORE_DIVISOR
+= 10 in favour of 50 (see ``dignity_manifest.py``). For reference the other
+modelled options were: exact fold parity, lambda = 0.9102 -> 1.25pp; per-aspect
+cap at the stack ceiling -> 8.27pp (7.6% of aspects capped); aspects off -> 17.97pp.
+
+KNOWN, NOT FIXED: 7.6% of aspects exceed a full dignity stack, topping out at
+8.75x (the Sun-Moon conjunction at +/-0.5 per axis). Capping the tail was
+modelled and deliberately not adopted -- at 8.27pp it costs nearly as much as
+the rescale it would prevent.
+
+Enforced by ``backend/tests/test_aspect_effects_parity.py`` (table parity) and
+the TypeScript suite above (the distributional ruling).
 """
 
 import math

@@ -11,6 +11,12 @@ import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
 import { getCachedHistoricalStats } from "@/services/HistoricalStatsService";
 import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import type { DegradedInfo } from "@/types/degraded";
+import {
+  DEG2RAD,
+  magnitude,
+  positionVec,
+  type Vec3,
+} from "@/utils/astrology/geocentricVectors";
 import { isCurrentSkyDiurnal } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
 import { PLANETARY_ALCHEMY, inertialMassWeight } from "@/utils/planetaryAlchemyMapping";
@@ -233,7 +239,6 @@ export async function GET(request: Request) {
     // separating aspects as inductive (resistance to change). The elemental
     // mix becomes resistive impedance R. Net reactance X = ωL − 1/(ωC).
     // -----------------------------------------------------------------------
-    interface Vec3 { x: number; y: number; z: number }
     const ZERO_VEC: Vec3 = { x: 0, y: 0, z: 0 };
     const addVec = (a: Vec3, b: Vec3): Vec3 => ({
       x: a.x + b.x,
@@ -245,51 +250,15 @@ export async function GET(request: Request) {
       y: v.y * s,
       z: v.z * s,
     });
-    const magnitude = (v: Vec3): number =>
-      Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
     const roundVec = (v: Vec3, digits = 6): Vec3 => ({
       x: round(v.x, digits),
       y: round(v.y, digits),
       z: round(v.z, digits),
     });
 
-    const DEG2RAD = Math.PI / 180;
-
-    // Build 3D ecliptic Cartesian + velocity for a position record.
-    // Distance defaults to 1 AU when the source didn't provide it.
-    const positionVec = (pos: any): { r: Vec3; v: Vec3 } => {
-      const lon = toFinite(pos?.exactLongitude) * DEG2RAD;
-      const lat = toFinite(pos?.eclipticLatitude) * DEG2RAD;
-      const r = toFinite(pos?.distance, 1);
-      const lonDot = toFinite(pos?.longitudeSpeed) * DEG2RAD; // rad/day
-      const latDot = toFinite(pos?.latitudeSpeed) * DEG2RAD; // rad/day
-      const rDot = toFinite(pos?.distanceSpeed); // AU/day
-
-      const cosLat = Math.cos(lat);
-      const sinLat = Math.sin(lat);
-      const cosLon = Math.cos(lon);
-      const sinLon = Math.sin(lon);
-
-      const position: Vec3 = {
-        x: r * cosLat * cosLon,
-        y: r * cosLat * sinLon,
-        z: r * sinLat,
-      };
-      // dP/dt by chain rule
-      const velocity: Vec3 = {
-        x:
-          rDot * cosLat * cosLon -
-          r * sinLat * latDot * cosLon -
-          r * cosLat * sinLon * lonDot,
-        y:
-          rDot * cosLat * sinLon -
-          r * sinLat * latDot * sinLon +
-          r * cosLat * cosLon * lonDot,
-        z: rDot * sinLat + r * cosLat * latDot,
-      };
-      return { r: position, v: velocity };
-    };
-
+    // `positionVec` now lives in @/utils/astrology/geocentricVectors — it takes
+    // the body NAME as well as the position, because a missing distance must
+    // fall back to that body's own mean geocentric range, not to a flat 1 AU.
     // ESMS vector field: sum planet velocities weighted by alchemical contribution.
     // Result is the directional "flow" of each ESMS axis through 3D space.
     const esmsVectors: Record<EsmsKey, Vec3> = {
@@ -308,7 +277,7 @@ export async function GET(request: Request) {
     for (const [planet, pos] of Object.entries(nowPositions)) {
       const alch = (PLANETARY_ALCHEMY as any)[planet];
       if (!alch) continue;
-      const { r, v } = positionVec(pos);
+      const { r, v } = positionVec(planet, pos);
       // Force magnitude scales with 1/r² (inverse-square coupling),
       // direction along velocity (motion = force-of-becoming).
       const coupling = 1 / Math.max(magnitude(r) * magnitude(r), 0.01);

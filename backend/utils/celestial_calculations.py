@@ -330,8 +330,18 @@ def calculate_planetary_positions_pyephem(
                 lon_deg = math.degrees(float(ecl_now.lon)) % 360
                 lat_deg = math.degrees(float(ecl_now.lat))
                 # pyephem reports earth_distance in AU for all bodies (including Moon).
+                #
+                # When it is absent, emit None rather than a literal 1.0. A
+                # fabricated 1.0 is INDISTINGUISHABLE from a real measurement
+                # downstream, so it defeats every mean-distance fallback that
+                # exists to handle a missing range: get_gravitational_inertia
+                # here, and resolveGeocentricDistanceAu in the TypeScript
+                # runtime, both substitute the body's own rbar when the distance
+                # is absent but accept any positive number as measured truth.
+                # 1.0 AU would put Pluto (rbar 35.53) at Earth's orbit.
+                # Every reader already uses .get("distance", None).
                 dist_au = float(planet_obj.earth_distance) \
-                    if hasattr(planet_obj, "earth_distance") else 1.0
+                    if hasattr(planet_obj, "earth_distance") else None
 
                 # Finite-difference velocity at t + 1 hour
                 future_planet = type(planet_obj)()
@@ -340,12 +350,19 @@ def calculate_planetary_positions_pyephem(
                 lon_next = math.degrees(float(ecl_next.lon)) % 360
                 lat_next = math.degrees(float(ecl_next.lat))
                 dist_next = float(future_planet.earth_distance) \
-                    if hasattr(future_planet, "earth_distance") else dist_au
+                    if hasattr(future_planet, "earth_distance") else None
 
                 d_lon = ((lon_next - lon_deg + 540) % 360) - 180  # wrap to (-180, 180]
                 longitude_speed = d_lon / DT_DAYS
                 latitude_speed = (lat_next - lat_deg) / DT_DAYS
-                distance_speed = (dist_next - dist_au) / DT_DAYS
+                # Absent either endpoint there is no rate to report. None, not
+                # 0.0: a zero here would read as "range is not changing", which
+                # is a measurement, whereas None is the honest "not measured".
+                distance_speed = (
+                    (dist_next - dist_au) / DT_DAYS
+                    if dist_au is not None and dist_next is not None
+                    else None
+                )
 
                 is_retrograde = (
                     longitude_speed < 0
