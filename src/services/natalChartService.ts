@@ -200,13 +200,44 @@ async function fetchPlanetaryPositions(
 ): Promise<Record<Planet, PositionWithLongitude>> {
   try {
     const date = new Date(birthData.dateTime);
+    if (Number.isNaN(date.getTime())) {
+      throw new Error(
+        `Unparseable birthData.dateTime: ${JSON.stringify(birthData.dateTime)}. ` +
+          "Refusing to compute a chart from an invalid instant.",
+      );
+    }
 
+    // UTC getters, deliberately — this is the timezone boundary.
+    //
+    // `/api/astrologize` reconstructs the instant with
+    // `Date.UTC(year, month - 1, date, hour, minute)` (see that route). So the
+    // components it wants are the UTC components of this instant, and
+    // getUTC* -> Date.UTC is an exact round-trip on any machine.
+    //
+    // The local-time getters this replaces made the CALLER'S timezone part of
+    // the physics. MEASURED 2026-08-03 re-igniting a stored chart (birth
+    // 1991-06-23T14:24:00Z): TZ=UTC reproduced the stored Sun bit-exact at
+    // 91.63304700590142, while TZ=America/New_York returned 91.47408219086523
+    // -- 0.159 degrees of pure harness drift, small enough to read as rounding.
+    // Prod runs on UTC infrastructure, so every stored chart was computed on the
+    // UTC branch; these getters make that the behaviour everywhere instead of an
+    // accident of deployment.
+    //
+    // NOTE: `birthData.timezone` is still not applied, and that is deliberate,
+    // not an oversight. `dateTime` is built from a `datetime-local` input via
+    // `new Date(dob).toISOString()`, so it holds the user's WALL-CLOCK birth
+    // time labelled UTC, not the true UTC instant of their birth. Interpreting
+    // it through `timezone` would be more astronomically correct but would
+    // re-date every chart already stored (5 hours for a New York birth) and the
+    // stored zone strings are not uniformly IANA ("America/New_York" alongside
+    // "UTC-5"). That is a physics ruling with a migration attached, not a
+    // boundary fix -- see the session notes accompanying this change.
     const payload = {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1, // 1-indexed
-      date: date.getDate(),
-      hour: date.getHours(),
-      minute: date.getMinutes(),
+      year: date.getUTCFullYear(),
+      month: date.getUTCMonth() + 1, // 1-indexed
+      date: date.getUTCDate(),
+      hour: date.getUTCHours(),
+      minute: date.getUTCMinutes(),
       latitude: birthData.latitude,
       longitude: birthData.longitude,
       zodiacSystem: "tropical" as const,
