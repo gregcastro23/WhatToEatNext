@@ -114,10 +114,14 @@ describe("POST /api/agent-forge/ignite", () => {
     jest.spyOn(console, "warn").mockImplementation(() => {});
     errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
+    // `timezone`, not the retired `estimatedTimezone`. Note this mock was always
+    // fictional under the old name: production's `estimatedTimezone` held
+    // `Math.round(lon / 15)` rendered as `UTC±N` and could never have produced
+    // "America/New_York". The field now genuinely carries an IANA name.
     mockGeocode.mockResolvedValue({
       latitude: 40.7,
       longitude: -74,
-      estimatedTimezone: "America/New_York",
+      timezone: "America/New_York",
     });
     mockCalcChart.mockResolvedValue(MOCK_CHART);
     mockExecuteQuery.mockResolvedValue({ rows: [] });
@@ -193,6 +197,27 @@ describe("POST /api/agent-forge/ignite", () => {
     const res = await POST(makeRequest({ city: "New York" }));
 
     expect(res.status).toBe(400);
+    expect(mockUpdateProfile).not.toHaveBeenCalled();
+  });
+
+  it("refuses a failed geocode instead of stamping the Fallback NY pin", async () => {
+    // Regression guard. This route used to do:
+    //   const latitude  = geocoded?.latitude  ?? 40.7498; // Fallback NY
+    //   const longitude = geocoded?.longitude ?? -73.7976;
+    //   const timezone  = geocoded?.estimatedTimezone ?? "UTC";
+    // MEASURED 2026-08-04, 2 of the 8 human birth records in prod carry that pin
+    // bit-for-bit — their birthplace was never geocoded, and nothing downstream
+    // could tell, because a fabricated pin passes every finiteness check there is.
+    mockAuth.mockResolvedValue({
+      user: { id: "user-123", email: "test@example.com" },
+    });
+    mockGeocode.mockResolvedValue(null);
+
+    const res = await POST(makeRequest({ dob: "1990-05-15T10:30", city: "Nowhere-at-all" }));
+
+    expect(res.status).toBe(422);
+    await expect(res.json()).resolves.toMatchObject({ error: "geocode_failed" });
+    expect(mockCalcChart).not.toHaveBeenCalled();
     expect(mockUpdateProfile).not.toHaveBeenCalled();
   });
 

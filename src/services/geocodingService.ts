@@ -5,6 +5,7 @@
  */
 
 import { _logger } from "@/lib/logger";
+import { resolveBirthZone } from "@/utils/astrology/birthTimezone";
 
 export interface GeocodingResult {
   displayName: string;
@@ -12,8 +13,16 @@ export interface GeocodingResult {
   longitude: number;
   type: string; // city, town, village, etc.
   country: string;
-  /** Estimated UTC offset string, e.g. "UTC+5" */
-  estimatedTimezone?: string;
+  /**
+   * IANA zone name for these coordinates, e.g. "America/New_York", or null when
+   * the pin resolves to no zone. Basis: DERIVED — tz boundary data at lat/lon.
+   *
+   * Renamed from `estimatedTimezone`, which held a `UTC±N` longitude estimate.
+   * The rename is deliberate: the old field's values are not valid inputs to the
+   * new one, so any reader still expecting the old shape must fail to compile
+   * rather than silently receive an IANA name where it wanted an offset.
+   */
+  timezone: string | null;
 }
 
 interface NominatimResult {
@@ -84,9 +93,6 @@ export async function geocodeLocation(
         
         const lat = parseFloat(result.lat);
         const lon = parseFloat(result.lon);
-        const offsetHours = Math.round(lon / 15);
-        const absOffset = Math.abs(offsetHours);
-        const sign = offsetHours >= 0 ? "+" : "-";
 
         uniqueResults.push({
           displayName: result.display_name,
@@ -94,7 +100,12 @@ export async function geocodeLocation(
           longitude: lon,
           type: result.type,
           country: result.address.country,
-          estimatedTimezone: `UTC${sign}${absOffset}`,
+          // Resolved from the tz boundary data, NOT from `Math.round(lon / 15)`.
+          // The longitude estimate this replaces was DST-blind and never emitted
+          // an IANA name at all, so it could not be used to date a birth chart —
+          // see `resolveBirthZone`'s docs for the two classes of error it caused
+          // in prod. `null` when the pin resolves to no zone; never fabricated.
+          timezone: resolveBirthZone({ latitude: lat, longitude: lon }).zone,
         });
 
         if (uniqueResults.length >= 5) break; // Limit to 5 unique results

@@ -7,6 +7,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form"; // For form management
 import { z } from "zod"; // For validation
 import { OnboardingRequestSchema } from "@/lib/validation/apiSchemas";
+// From `ianaZone`, not `birthTimezone`: this is a client component, and the
+// latter pulls tz-lookup's ~150KB boundary raster into the browser bundle.
+import { isIanaZone } from "@/utils/astrology/ianaZone";
 
 // Zod schemas for validation
 const IdentitySchema = z
@@ -34,7 +37,19 @@ const WizardBirthDataSchema = z.object({
     .number()
     .min(-180)
     .max(180, "Longitude must be between -180 and 180"),
-  timezone: z.string().min(1, "Timezone is required"),
+  // IANA-validated, not just non-empty. `z.string().min(1)` accepted anything
+  // typed here, which is how free-text zones entered the same key-space as the
+  // geocoder's `UTC±N` output. A bare `UTC-5` is NOT an IANA zone and is
+  // rejected; `Etc/GMT+5` is one, and is accepted.
+  timezone: z
+    .string()
+    .min(1, "Timezone is required")
+    .refine(isIanaZone, {
+      message:
+        "Enter an IANA timezone name such as America/New_York. Offsets like " +
+        "UTC-5 are not accepted: they cannot express daylight saving, so they " +
+        "date a birth chart an hour wrong for much of the year.",
+    }),
 });
 
 const KitchenPreferencesSchema = z.object({
