@@ -263,7 +263,8 @@ export async function POST(request: NextRequest) {
   }
   const { positions, planets } = bodies;
 
-  const diurnal = isSectDiurnalForBirth(birthDate);
+  // Whole birthData — sect is the Sun's altitude at the birthplace.
+  const diurnal = isSectDiurnalForBirth(birthData);
 
   const natalChart: NatalChart = {
     birthData: { dateTime: birthData.dateTime, latitude: birthData.latitude, longitude: birthData.longitude, timezone: birthData.timezone },

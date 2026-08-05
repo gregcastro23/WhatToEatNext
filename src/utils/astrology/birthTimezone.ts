@@ -81,6 +81,17 @@ export type ZoneBasis =
   | "DERIVED_FROM_COORDINATES"
   /** The stored string, used only when coordinates are absent or unusable. */
   | "STORED_IANA_STRING"
+  /**
+   * The REGION is confirmed (operator attestation), but the coordinates are a
+   * city-level default rather than the user's actual birthplace.
+   *
+   * The zone — and therefore the birth INSTANT — is as sound as any other row.
+   * The Ascendant is not: a default pin can be off by up to ~0.55 deg of rising
+   * degree across a city the size of New York, which matters only within about
+   * half a degree of a sign cusp. Kept distinct from
+   * DERIVED_FROM_COORDINATES so a default can never be read as a measurement.
+   */
+  | "ATTESTED_REGION_DEFAULT_PIN"
   /** Nothing usable. Callers must degrade, not guess. */
   | "ABSENT";
 

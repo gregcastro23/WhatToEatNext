@@ -405,7 +405,10 @@ export async function calculateNatalChart(
 
     // Validate birth chart positions against astronomical estimates
     const birthDate = new Date(birthData.dateTime);
-    const diurnal = isSectDiurnalForBirth(birthDate);
+    // Pass the whole birthData: sect is the Sun's real altitude at the
+    // birthplace, so it needs the true instant AND the coordinates. A bare Date
+    // would silently fall back to the location-less 06:00–18:00 clock proxy.
+    const diurnal = isSectDiurnalForBirth(birthData);
 
     if (detectStaticFallback(signPositions)) {
       _logger.error(

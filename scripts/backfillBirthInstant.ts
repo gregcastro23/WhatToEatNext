@@ -96,6 +96,20 @@ const SHOW_TRAP = ARGV.has("--show-trap");
  * produces a more precise fiction, not a more accurate birth.
  */
 const INCLUDE_AGENTS = ARGV.has("--include-agents");
+/**
+ * Admit the rows carrying the retired `ignite` "Fallback NY" pin, on the
+ * operator's attestation that those users were in fact born in New York.
+ *
+ * This resolves the ZONE (every NYC-metro pin is America/New_York, so the birth
+ * instant follows correctly) WITHOUT pretending the coordinates are theirs. The
+ * pin stays a city-level default, which is why these rows are written with
+ * basis ATTESTED_REGION_DEFAULT_PIN rather than DERIVED_FROM_COORDINATES: the
+ * instant is sound, the Ascendant is approximate to within ~0.55 deg, and a
+ * reader must be able to tell the two apart.
+ *
+ * Opt-in, because it encodes a human claim that is not in the data.
+ */
+const ATTEST_FALLBACK_PIN = ARGV.has("--attest-fallback-pin");
 
 /** The sentinel every agent placeholder carries. */
 const AGENT_SENTINEL_DATETIME = "1900-01-01T12:00:00.000Z";
@@ -213,7 +227,7 @@ function planRow(row: Row): Plan {
     };
   }
 
-  if (isFabricatedFallbackPin(birth.latitude, birth.longitude)) {
+  if (isFabricatedFallbackPin(birth.latitude, birth.longitude) && !ATTEST_FALLBACK_PIN) {
     return {
       row,
       disposition: "REFUSE_FABRICATED_PIN",
@@ -225,6 +239,15 @@ function planRow(row: Row): Plan {
   }
 
   const zone = resolveBirthZone(birth);
+  // An attested row resolves its zone from a default pin, so it must NOT claim
+  // DERIVED_FROM_COORDINATES — that label means "we know where they were born".
+  if (
+    ATTEST_FALLBACK_PIN &&
+    isFabricatedFallbackPin(birth.latitude, birth.longitude) &&
+    zone.zone
+  ) {
+    zone.basis = "ATTESTED_REGION_DEFAULT_PIN";
+  }
   if (!zone.zone) {
     return {
       row,

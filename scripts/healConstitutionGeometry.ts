@@ -264,7 +264,9 @@ async function reignite(birthData: BirthData, opts: { useWallClock?: boolean } =
   }
 
   const shares = toEsmsShares(chart.alchemicalProperties);
-  const diurnal = isSectDiurnalForBirth(new Date(birthData.dateTime));
+  // Whole birthData: sect is the Sun's altitude at the birthplace, so it
+  // needs the true instant AND the coordinates.
+  const diurnal = isSectDiurnalForBirth(source);
   const { baseArchetype } = selectArchetype(shares, diurnal);
 
   return {
@@ -618,12 +620,7 @@ async function main(): Promise<void> {
           FROM user_profiles up
           LEFT JOIN alchemical_constitutions ac ON ac.user_id = up.user_id
          WHERE ac.user_id IS NULL
-           -- CASE, not AND: SQL's AND is not short-circuiting, so a bare
-           -- jsonb_array_length beside the typeof guard still errors on the
-           -- 71 rows whose planets key is not an array.
-           AND CASE WHEN jsonb_typeof(up.natal_chart->'planets') = 'array'
-                    THEN jsonb_array_length(up.natal_chart->'planets')
-                    ELSE 0 END > 0
+           AND up.birth_true_utc_instant IS NOT NULL
       `);
       if (Number(orphanCount[0]?.n ?? 0) > 0) {
         console.log(
@@ -635,7 +632,7 @@ async function main(): Promise<void> {
       return;
     }
 
-    console.log(`\n━━━ ORPHAN CHARTS (chart present, no constitution row) ━━━`);
+    console.log(`\n━━━ ORPHAN CHARTS (migrated profile, no constitution row) ━━━`);
     const { rows: orphans } = await client.query<CandidateRow>(`
       SELECT
         up.user_id::text                       AS user_id,
@@ -656,10 +653,12 @@ async function main(): Promise<void> {
       FROM user_profiles up
       LEFT JOIN users u                     ON u.id = up.user_id
       LEFT JOIN alchemical_constitutions ac ON ac.user_id = up.user_id
+      -- Any MIGRATED profile the constitution-scoped pass cannot reach, whether
+      -- it holds a stale chart or none at all. Requiring planets > 0 here (the
+      -- first version of this query) silently skipped the rows whose chart had
+      -- never reached the profile table -- exactly the rows most in need of one.
       WHERE ac.user_id IS NULL
-        AND CASE WHEN jsonb_typeof(up.natal_chart->'planets') = 'array'
-                 THEN jsonb_array_length(up.natal_chart->'planets')
-                 ELSE 0 END > 0
+        AND up.birth_true_utc_instant IS NOT NULL
       ORDER BY up.updated_at
     `);
 

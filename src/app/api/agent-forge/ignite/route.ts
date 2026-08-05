@@ -131,7 +131,9 @@ export async function POST(req: Request) {
     // ESMS_BASELINE for why the raw maximum is not usable here. Uses the same
     // birth instant and the same sect helper as `calculateNatalChart`, so the
     // archetype can never disagree with the quantities it is scoring.
-    const diurnal = isSectDiurnalForBirth(new Date(birthData.dateTime));
+    // Whole birthData, not a bare Date — sect needs the birthplace to have a
+    // horizon to measure the Sun against.
+    const diurnal = isSectDiurnalForBirth(birthData);
     const { dominantToken, baseArchetype } = selectArchetype(shares, diurnal);
 
     console.log(`[ignite] Dominant token: ${dominantToken}, Archetype: ${baseArchetype}`);

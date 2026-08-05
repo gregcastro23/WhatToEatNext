@@ -47,8 +47,10 @@ export default function DayNightEffectsPage() {
   const natalChart = profileData.natalChart;
 
   // Calculate user's natal sect using the birth time if available
-  const birthDate = natalChart.birthData?.dateTime ? new Date(natalChart.birthData.dateTime) : new Date();
-  const _isNatalDiurnal = isSectDiurnalForBirth(birthDate);
+  // Whole birthData: sect needs the birthplace, not just the moment.
+  const _isNatalDiurnal = isSectDiurnalForBirth(
+    natalChart.birthData?.dateTime ? natalChart.birthData : new Date(),
+  );
 
   // Get alchemical properties for the toggled view. Aspects (Layer 3) come from
   // the chart's own planet longitudes and don't depend on the day/night toggle.

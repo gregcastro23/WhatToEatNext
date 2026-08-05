@@ -36,12 +36,14 @@ function buildNatalFBDs(natalChart: NatalChart): PlanetFBD[] | null {
   }
   if (Object.keys(fbdPositions).length < 2) return null;
 
-  const birthDate = natalChart.birthData?.dateTime
-    ? new Date(natalChart.birthData.dateTime)
+  // Whole birthData when we have it: sect is the Sun's altitude at the
+  // birthplace, and a bare Date falls back to the location-less clock proxy.
+  const sectInput = natalChart.birthData?.dateTime
+    ? natalChart.birthData
     : new Date(natalChart.calculatedAt);
   return buildFreeBodyDiagrams({
     positions: fbdPositions,
-    diurnal: isSectDiurnalForBirth(birthDate),
+    diurnal: isSectDiurnalForBirth(sectInput),
   }).cards;
 }
 
