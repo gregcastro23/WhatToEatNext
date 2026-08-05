@@ -28,7 +28,7 @@ const QUICK_ACTIONS: PaletteItem[] = [
   { id: "action:compose", icon: "flask", label: "Compose tonight's menu", hint: "RECIPE BUILDER · ENTER", href: "/recipe-builder" },
   { id: "action:pantry", icon: "mortar", label: "Open the pantry", hint: "PANTRY · ENTER", href: "/pantry" },
   { id: "action:commensal", icon: "ring", label: "Plan a commensal gathering", hint: "COMMENSAL · ENTER", href: "/commensal" },
-  { id: "action:upgrade", icon: "diamond", label: "Upgrade to Alchemist", hint: "PREMIUM · ENTER", href: "/premium" },
+  { id: "action:vault", icon: "diamond", label: "Open the ESMS vault", hint: "TOKENS · ENTER", href: "/premium" },
   { id: "action:security", icon: "atom", label: "Account & sessions", hint: "SECURITY · ENTER", href: "/profile/security" },
 ];
 

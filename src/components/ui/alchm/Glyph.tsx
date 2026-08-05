@@ -23,7 +23,10 @@ export type GlyphName =
   | "x"
   | "check"
   | "google"
-  | "settings";
+  | "settings"
+  | "user"
+  | "shield"
+  | "logout";
 
 export interface GlyphProps {
   name: GlyphName;
@@ -208,6 +211,28 @@ export function Glyph({
         <svg {...common}>
           <circle cx="12" cy="12" r="3" />
           <path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.3-1.3L13.7 3h-3.4l-.6 2.4a7 7 0 0 0-2.3 1.3l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.3 1.3l.6 2.4h3.4l.6-2.4a7 7 0 0 0 2.3-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z" />
+        </svg>
+      );
+    case "user":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="8" r="3.6" />
+          <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
+        </svg>
+      );
+    case "shield":
+      return (
+        <svg {...common}>
+          <path d="M12 3l7 3v5.5c0 4.2-2.9 7.9-7 9.5-4.1-1.6-7-5.3-7-9.5V6l7-3z" />
+          <path d="M9.2 12.2l2 2 3.6-3.9" />
+        </svg>
+      );
+    case "logout":
+      return (
+        <svg {...common}>
+          <path d="M14 4.5h4a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-4" />
+          <path d="M10 16l-4-4 4-4" />
+          <path d="M6 12h8.5" />
         </svg>
       );
     default:

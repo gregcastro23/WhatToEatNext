@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import { PlanetaryChip } from "@/components/ui/alchm/PlanetaryChip";
@@ -67,7 +67,7 @@ const FEATURED_TILE: Record<PrimaryKey, {
     href: "/commensal",
   },
   lab: {
-    tag: "PREMIUM · PRACTITIONER",
+    tag: "PRACTITIONER · ENGINE",
     title: "Engine internals",
     sub: "Recommendation weights, planetary chart, standing chart, quantities.",
     cta: "Open lab",
@@ -94,9 +94,25 @@ const MENU_GROUPS: Partial<
   ],
   lab: [
     { label: "Engine", paths: ["/lab", "/quantities"] },
-    { label: "Charts & Premium", paths: ["/planetary-chart", "/current-chart", "/birth-chart", "/premium"] },
+    { label: "Charts & Vault", paths: ["/planetary-chart", "/current-chart", "/birth-chart", "/premium"] },
   ],
 };
+
+/**
+ * Account-menu destinations, shown above the sign-out control. Kept short on
+ * purpose — this menu exists so signing out is reachable from every route,
+ * not as a second home for the full profile IA.
+ */
+const ACCOUNT_LINKS: ReadonlyArray<{
+  href: string;
+  label: string;
+  glyph: "user" | "settings" | "diamond" | "shield";
+}> = [
+  { href: "/profile", label: "Profile", glyph: "user" },
+  { href: "/profile/preferences", label: "Preferences", glyph: "settings" },
+  { href: "/premium", label: "ESMS Vault", glyph: "diamond" },
+  { href: "/profile/security", label: "Account & sessions", glyph: "shield" },
+];
 
 export interface RedesignedHeaderProps {
   /** When provided, overrides the path-derived active key. */
@@ -116,8 +132,10 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
   const resolved = active ?? activePrimaryFromPathname(pathname);
 
   const [openMenu, setOpenMenu] = useState<PrimaryKey | "none">("none");
+  const [accountOpen, setAccountOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const accountRef = useRef<HTMLDivElement>(null);
 
   // Generous 400ms delay so a slow cursor can bridge from the pill button to
   // the mega-menu without the panel snapping shut mid-transit. A taller hover
@@ -136,7 +154,34 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
   // Close mega-menus on route change
   useEffect(() => {
     setOpenMenu("none");
+    setAccountOpen(false);
   }, [pathname]);
+
+  // The account menu is click-driven (not hover, like the mega-menus), so it
+  // owns its own Escape / click-outside listener scoped to the chip subtree.
+  // Focus returns to the trigger on Escape so keyboard users aren't stranded.
+  useEffect(() => {
+    if (!accountOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setAccountOpen(false);
+        accountRef.current?.querySelector("button")?.focus();
+      }
+    };
+    const onDocMouseDown = (e: MouseEvent) => {
+      const root = accountRef.current;
+      if (!root) return;
+      if (e.target instanceof Node && !root.contains(e.target)) {
+        setAccountOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDocMouseDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDocMouseDown);
+    };
+  }, [accountOpen]);
 
   // Close on Escape, and close on mousedown outside the header. The previous
   // implementation used a full-viewport overlay div (z-30) for click-outside,
@@ -277,6 +322,56 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
         .alchm-header-planet { display: none; }
         @media (min-width: 1024px) {
           .alchm-header-planet { display: flex; }
+        }
+        .alchm-account-wrap { position: relative; }
+        .alchm-account-menu {
+          position: absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          min-width: 224px;
+          padding: 6px;
+          background: var(--bg-elev, #12101d);
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          box-shadow: 0 18px 44px rgba(0,0,0,0.55);
+          z-index: 70;
+        }
+        .alchm-account-head {
+          padding: 10px 12px 8px;
+          border-bottom: 1px solid var(--line);
+          margin-bottom: 6px;
+        }
+        .alchm-account-item {
+          display: flex; align-items: center; gap: 10px;
+          width: 100%;
+          padding: 9px 12px;
+          border: 0;
+          border-radius: 8px;
+          background: transparent;
+          color: var(--fg-mute);
+          font-family: var(--f-mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          text-align: left;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        .alchm-account-item:hover,
+        .alchm-account-item:focus-visible {
+          background: rgba(255,255,255,0.05);
+          color: var(--fg);
+          outline: none;
+        }
+        .alchm-account-sep {
+          height: 1px;
+          background: var(--line);
+          margin: 6px 4px;
+        }
+        .alchm-account-signout:hover,
+        .alchm-account-signout:focus-visible {
+          background: color-mix(in oklch, #ef4444, transparent 86%);
+          color: #fca5a5;
         }
       `}</style>
 
@@ -442,26 +537,82 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           {status === "authenticated" && <NotificationBell />}
 
           {status === "authenticated" ? (
-            <Link
-              href="/profile"
-              className="alchm-header-userchip"
-              aria-label="Your account"
-            >
-              <div className="alchm-header-userchip-text">
-                <div style={{ fontSize: 11, color: "var(--fg)" }}>{userName}</div>
-                <div
-                  className="t-mono"
-                  style={{
-                    fontSize: 9,
-                    color: "var(--fg-mute)",
-                    letterSpacing: "0.12em",
-                  }}
-                >
-                  {userId}
+            <div className="alchm-account-wrap" ref={accountRef}>
+              <button
+                type="button"
+                className="alchm-header-userchip"
+                aria-label="Your account"
+                aria-haspopup="menu"
+                aria-expanded={accountOpen}
+                onClick={() => setAccountOpen((v) => !v)}
+              >
+                <div className="alchm-header-userchip-text">
+                  <div style={{ fontSize: 11, color: "var(--fg)" }}>{userName}</div>
+                  <div
+                    className="t-mono"
+                    style={{
+                      fontSize: 9,
+                      color: "var(--fg-mute)",
+                      letterSpacing: "0.12em",
+                    }}
+                  >
+                    {userId}
+                  </div>
                 </div>
-              </div>
-              <div className="alchm-header-avatar">{userInitial}</div>
-            </Link>
+                <div className="alchm-header-avatar">{userInitial}</div>
+              </button>
+
+              {accountOpen && (
+                <div className="alchm-account-menu" role="menu" aria-label="Account">
+                  <div className="alchm-account-head">
+                    <div style={{ fontSize: 12, color: "var(--fg)" }}>{userName}</div>
+                    {session?.user?.email && (
+                      <div
+                        className="t-mono"
+                        style={{
+                          fontSize: 9,
+                          color: "var(--fg-faint)",
+                          letterSpacing: "0.06em",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {session.user.email}
+                      </div>
+                    )}
+                  </div>
+
+                  {ACCOUNT_LINKS.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      role="menuitem"
+                      className="alchm-account-item"
+                      onClick={() => setAccountOpen(false)}
+                    >
+                      <Glyph name={l.glyph} size={13} stroke={1.4} />
+                      {l.label}
+                    </Link>
+                  ))}
+
+                  <div className="alchm-account-sep" />
+
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className="alchm-account-item alchm-account-signout"
+                    onClick={() => {
+                      setAccountOpen(false);
+                      void signOut({ callbackUrl: "/" });
+                    }}
+                  >
+                    <Glyph name="logout" size={13} stroke={1.4} />
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <Link
               href="/login"

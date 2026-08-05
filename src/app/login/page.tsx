@@ -221,7 +221,7 @@ function LoginContent() {
           <div className="mt-12">
             <div className="relative flex items-center mb-6">
               <div className="flex-grow border-t border-white/10" />
-              <span className="flex-shrink-0 mx-4 text-xs font-semibold text-gray-500 uppercase tracking-widest">Premium Access</span>
+              <span className="flex-shrink-0 mx-4 text-xs font-semibold text-gray-500 uppercase tracking-widest">What you unlock</span>
               <div className="flex-grow border-t border-white/10" />
             </div>
             
