@@ -134,7 +134,7 @@ async function handlePost(request: NextRequest) {
       };
     } | null = null;
     if (includeChartAnalysis && Object.keys(natalPositions).length > 0) {
-      const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnalForBirth(new Date(natalChart.birthData.dateTime)) : true;
+      const natalDiurnal = natalChart?.birthData?.dateTime ? isSectDiurnalForBirth(natalChart.birthData) : true;
       const currentDiurnal = isCurrentSkyDiurnal(new Date());
 
       const natalAlch = calculateAlchemicalFromPlanets(

@@ -127,10 +127,11 @@ function resolveNatalQuantities(
     return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
   }
 
-  const birthDate = chart.birthData?.dateTime
-    ? new Date(chart.birthData.dateTime)
-    : null;
-  const diurnal = birthDate ? isSectDiurnalForBirth(birthDate) : true;
+  // Whole birthData: sect is the Sun's altitude at the birthplace, so the
+  // coordinates matter as much as the instant.
+  const diurnal = chart.birthData?.dateTime
+    ? isSectDiurnalForBirth(chart.birthData)
+    : true;
 
   return calculateAlchemicalFromPlanets(positions, diurnal);
 }

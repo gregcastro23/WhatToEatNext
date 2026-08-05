@@ -238,7 +238,8 @@ export async function POST(request: NextRequest) {
       // dignity and aspects cannot drift from the stored natal calculation.
       alchemicalProperties: calculateAlchemicalFromPlanets(
         rawPositions,
-        isSectDiurnalForBirth(birthDate),
+        // Whole birthData — sect is the Sun's altitude at the birthplace.
+        isSectDiurnalForBirth(birthData),
       ),
       calculatedAt: new Date().toISOString(),
     };

@@ -29,6 +29,10 @@ import type { DignityType, ElementalProperties } from "@/types/alchemy";
 import type { AlchemicalProperties } from "@/types/celestial";
 import { buildAspectsWithStrength } from "./aspectCalculator";
 import { calculateAspectESMSModifications } from "./aspectESMSEffects";
+// The real sect primitive: the Sun's altitude above a given observer's horizon.
+// `positions` imports only astronomy-engine, the logger and types, so this
+// direction introduces no cycle.
+import { isDiurnalAt } from "./astrology/positions";
 
 export type { AlchemicalProperties };
 
@@ -385,12 +389,17 @@ export function calculatePositionalAscendantVessel(sign: string, degree: number 
 }
 
 /**
- * Determine whether the current moment is diurnal (day) or nocturnal (night).
+ * Location-less sect fallback: 06:00–18:00 UTC → diurnal.
  *
- * A fully precise answer requires the observer's geographic coordinates and the
- * local sidereal time to compute the Sun's altitude above the horizon. Without
- * location data this function uses UTC hour as a reasonable approximation:
- * 06:00–18:00 UTC → diurnal, otherwise → nocturnal.
+ * ⚠️ PREFER {@link isSectDiurnalForBirth} (natal) or `isCurrentSkyDiurnal`
+ * (live sky). Both compute the Sun's REAL altitude above a real horizon. This
+ * function cannot: with no coordinates there is no horizon to be above, so it
+ * substitutes the UTC clock for the sky.
+ *
+ * The substitution is wrong by the observer's offset from Greenwich — a little
+ * over 5 hours for New York, where it reads US afternoons as "night". It
+ * survives only as the degraded path for callers that genuinely have no
+ * location, and as the catch-branch when astronomy-engine throws.
  *
  * @param date - Optional date/time to evaluate (defaults to now)
  * @returns true if diurnal (day), false if nocturnal (night)
@@ -402,33 +411,81 @@ export function isSectDiurnal(date?: Date): boolean {
 }
 
 /**
- * Determine the sect of a *birth* moment.
+ * The inputs sect actually needs: an instant, and a place to stand.
+ * A `BirthData` satisfies this directly — every natal call site already has one.
+ */
+export interface BirthSectInput {
+  /** Wall clock, UTC-labelled. The fallback when `utcInstant` is absent. */
+  dateTime: string;
+  /**
+   * The true UTC instant. PREFERRED, because solar altitude is a physical fact
+   * about an absolute moment — a wall clock is not a moment until a zone is
+   * applied to it. Written by `scripts/backfillBirthInstant.ts`.
+   */
+  utcInstant?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
+/**
+ * Determine the sect of a *birth* moment — was the Sun above the horizon at the
+ * birthplace.
  *
- * ⚠️ Pass `birthData.dateTime` — the WALL CLOCK — never `birthData.utcInstant`.
+ * ⚠️ PASS THE WHOLE `birthData`, not a bare `Date`. Sect drives the entire
+ * day/night ESMS split (day → Spirit/Essence, night → Matter/Substance), so
+ * getting it wrong rewrites the chart and the archetype with it.
  *
- * Sect is a local-clock predicate: "was the sun up where they were born". A
- * 14:24 Brooklyn birth is diurnal, and stays diurnal no matter that its true
- * instant is 18:24Z. MEASURED 2026-08-04, feeding the true instant here instead
- * flips day↔night on 6 of the 8 human rows in prod (18:24Z reads nocturnal,
- * because `18 < 18` is false), swinging the profile from ~32/49/9/9 to
- * ~14/16/47/22 and rewriting the archetype. `dateTime` is already the wall clock
- * labelled `Z`, so {@link isSectDiurnal}'s getUTCHours() reads it correctly.
+ * ── WHY THIS TAKES THE TRUE INSTANT WHERE THE OLD ONE TOOK THE WALL CLOCK ──
  *
- * This function previously re-projected through the host's LOCAL getters
- * (`getFullYear`/`getHours`/…), to match `fetchPlanetaryPositions`, which then
- * also used local getters. That premise died when the chart path moved to
- * getUTC* (#725) and this call site was missed — leaving the chart host-
- * independent while sect, which decides the archetype, was not. A no-op on
- * prod's UTC infrastructure and wrong by the operator's offset anywhere else.
+ * This function used to insist on `birthData.dateTime` and explicitly forbid
+ * `utcInstant`. That was correct FOR THE OLD IMPLEMENTATION, and is wrong for
+ * this one, so the reversal is deliberate rather than a regression:
  *
- * Note: like isSectDiurnal, this is still a 06:00–18:00 local-clock approximation
- * of "sun above the horizon", not a true altitude calculation.
+ *   The 06:00–18:00 rule was never a definition of sect. It was a PROXY for
+ *   "the Sun is up", phrased in local clock hours. Feeding a true instant into
+ *   a local-clock proxy mixes two frames: 18:24Z reads nocturnal (`18 < 18` is
+ *   false) for a Brooklyn birth that was plainly 2:24pm in broad daylight.
+ *   Hence the old rule, which managed the hazard rather than removing it.
  *
- * @param birth - the birth WALL CLOCK, UTC-labelled (i.e. `birthData.dateTime`)
+ *   {@link isDiurnalAt} is not a proxy — it computes the Sun's real altitude,
+ *   and altitude is a fact about an ABSOLUTE moment at a REAL place. So the
+ *   correct inputs flip to `utcInstant` + coordinates, and the wall-clock
+ *   hazard dissolves instead of needing to be remembered.
+ *
+ * MEASURED: both readings agree on all 6 migrated prod rows. The difference is
+ * that this one keeps agreeing near dawn, near dusk, and at high latitude,
+ * where a 06:00–18:00 window is simply not what the sky is doing.
+ *
+ * Degrades in documented steps, never silently — no `utcInstant` or no
+ * coordinates falls back to the clock proxy on the wall clock, i.e. exactly the
+ * previous behaviour, preserved on purpose for unmigrated rows.
+ *
+ * @param birth - the full birth data, or (legacy, degraded) a bare wall-clock Date
  * @returns true if diurnal (day), false if nocturnal (night)
  */
-export function isSectDiurnalForBirth(birth: Date): boolean {
-  return isSectDiurnal(birth);
+export function isSectDiurnalForBirth(birth: Date | BirthSectInput): boolean {
+  // Legacy shape: a bare Date carries no horizon, so the proxy is all there is.
+  if (birth instanceof Date) return isSectDiurnal(birth);
+
+  const { dateTime, utcInstant, latitude, longitude } = birth;
+
+  const hasPlace =
+    typeof latitude === "number" &&
+    Number.isFinite(latitude) &&
+    typeof longitude === "number" &&
+    Number.isFinite(longitude);
+
+  if (hasPlace && utcInstant) {
+    const instant = new Date(utcInstant);
+    if (!Number.isNaN(instant.getTime())) {
+      return isDiurnalAt(instant, latitude, longitude);
+    }
+  }
+
+  // The wall clock is not an instant, so use the clock proxy it was designed
+  // for rather than computing an altitude for demonstrably the wrong moment.
+  const wall = new Date(dateTime);
+  return isSectDiurnal(Number.isNaN(wall.getTime()) ? undefined : wall);
 }
 
 /**

@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
         Air: 0.25,
       }) as any;
       const diurnal = ownerChart.birthData?.dateTime
-        ? isSectDiurnalForBirth(new Date(ownerChart.birthData.dateTime))
+        ? isSectDiurnalForBirth(ownerChart.birthData)
         : true;
       const alch = (ownerChart.alchemicalProperties ??
         calculateAlchemicalFromPlanets(
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
           Air: 0.25,
         }) as any;
         const diurnal = chart.birthData?.dateTime
-          ? isSectDiurnalForBirth(new Date(chart.birthData.dateTime))
+          ? isSectDiurnalForBirth(chart.birthData)
           : true;
         const alch = (chart.alchemicalProperties ??
           calculateAlchemicalFromPlanets(
@@ -209,7 +209,7 @@ export async function POST(request: NextRequest) {
             Air: 0.25,
           }) as any;
           const diurnal = chart.birthData?.dateTime
-            ? isSectDiurnalForBirth(new Date(chart.birthData.dateTime))
+            ? isSectDiurnalForBirth(chart.birthData)
             : true;
           const alch = (chart.alchemicalProperties ??
             calculateAlchemicalFromPlanets(
