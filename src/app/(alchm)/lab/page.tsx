@@ -99,7 +99,7 @@ function AwaitingBackend({
         }}
       >
         <div className="t-tag" style={{ color: "var(--accent)" }}>
-          {title} · AWAITING BACKEND
+          {title} · NOT YET AVAILABLE
         </div>
         <span
           className="t-mono"
