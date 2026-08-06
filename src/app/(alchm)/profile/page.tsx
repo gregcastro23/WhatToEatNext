@@ -16,7 +16,6 @@ import { FoodPreferences } from '@/components/profile/FoodPreferences';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { usePremium } from '@/contexts/PremiumContext';
-import { PREMIUM_FEATURES_DISPLAY } from '@/lib/tiers';
 import type { BirthData, NatalChart } from '@/types/natalChart';
 
 // Heavy panels that only render on non-default profile tabs (cosmos / agents /
@@ -86,7 +85,7 @@ function PremiumDashboard({
   onEditPreferences: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<PremiumTab>('overview');
-  const userName = session?.user?.name || 'Premium';
+  const userName = session?.user?.name || 'Operator';
   const email = session?.user?.email || '';
 
   return (
@@ -111,23 +110,23 @@ function PremiumDashboard({
             <div className="flex items-center gap-3 mb-2">
               <span className="w-10 h-px bg-amber-500/40" />
               <span className="text-[9px] font-black text-amber-400/60 uppercase tracking-[0.5em]">
-                Premium Sanctum
+                Operator Console
               </span>
             </div>
             <h1 className="text-4xl font-black text-white tracking-tighter alchm-gradient-text uppercase">
               {userName}
             </h1>
             <p className="text-white/20 text-xs mt-1 font-mono">
-              {email} · Alchemical Premium
+              {email} · Admin
             </p>
           </div>
 
-          {/* Premium badge + sign out */}
+          {/* Operator badge + sign out */}
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 rounded-full border border-amber-500/30">
               <span className="text-amber-400 text-xs">✦</span>
               <span className="text-[10px] font-black text-amber-400 uppercase tracking-[0.3em]">
-                Premium
+                Admin
               </span>
             </div>
             <button
@@ -361,7 +360,7 @@ function PremiumSettingsPanel({
   const rows = [
     { label: 'Name', value: session?.user?.name || '—' },
     { label: 'Email', value: session?.user?.email || '—' },
-    { label: 'Plan', value: 'Premium' },
+    { label: 'Access', value: 'Admin' },
     { label: 'Dominant Element', value: natalChart.dominantElement || '—' },
     { label: 'Dominant Modality', value: natalChart.dominantModality || '—' },
   ];
@@ -471,7 +470,6 @@ function FreeDashboard({
   onEditPreferences: () => void;
 }) {
   const [activeTab, setActiveTab] = useState<FreeTab>('profile');
-  const { openCheckout } = usePremium();
   const userName = session?.user?.name || 'Initiate';
   const email = session?.user?.email || '';
 
@@ -617,7 +615,13 @@ function FreeDashboard({
                   </Link>
                 </div>
 
-                {/* ── Premium Upgrade Section (single, elegant, no hard gates) ── */}
+                {/* ── ESMS vault pointer ──
+                    Replaced the "$5 / month · Upgrade to Premium" upsell. That
+                    card advertised a real price for a tier ede69c41 abandoned:
+                    no Stripe subscription has ever been created, and
+                    openCheckout('premium') swallows a failed /api/stripe/checkout
+                    silently, so the button was a dead end. The vault is where
+                    the live pay-as-you-go economy actually lives. */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -625,71 +629,31 @@ function FreeDashboard({
                   className="relative rounded-3xl overflow-hidden border border-purple-500/20"
                   style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(15,15,22,0.9) 60%, rgba(251,146,60,0.08) 100%)' }}
                 >
-                  {/* Glow orb */}
                   <div className="absolute top-0 right-0 w-52 h-52 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-
                   <div className="relative z-10 p-8">
-                    <div className="flex items-start justify-between gap-6 mb-6">
-                      <div>
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-amber-400 text-lg">✦</span>
-                          <h3 className="text-lg font-black text-white tracking-tight">
-                            Ascend to Premium
-                          </h3>
-                        </div>
-                        <p className="text-white/40 text-sm max-w-lg leading-relaxed">
-                          Unlock the full alchemical system — advanced transit forecasts, the token economy, 
-                          group meal planning, planetary remedies, and daily cosmic insights.
-                        </p>
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        <div className="text-3xl font-black text-white">$5</div>
-                        <div className="text-[10px] text-white/30 uppercase tracking-widest">per month</div>
-                      </div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-amber-400 text-lg">✦</span>
+                      <h3 className="text-lg font-black text-white tracking-tight">
+                        Your ESMS vault
+                      </h3>
                     </div>
-
-                    {/* Feature grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-7">
-                      {PREMIUM_FEATURES_DISPLAY.map((feat) => (
-                        <div key={feat.feature} className="flex items-start gap-2.5">
-                          <span className="text-amber-400 text-xs mt-0.5 flex-shrink-0">✦</span>
-                          <div>
-                            <p className="text-[11px] font-bold text-white/80">{feat.label}</p>
-                            <p className="text-[10px] text-white/30 mt-0.5 leading-relaxed">{feat.description}</p>
-                          </div>
-                        </div>
-                      ))}
-                      {/* Extra highlights */}
-                      <div className="flex items-start gap-2.5">
-                        <span className="text-amber-400 text-xs mt-0.5 flex-shrink-0">✦</span>
-                        <div>
-                          <p className="text-[11px] font-bold text-white/80">2× Token Yields</p>
-                          <p className="text-[10px] text-white/30 mt-0.5">Double daily ESMS payouts & streak bonuses</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-2.5">
-                        <span className="text-amber-400 text-xs mt-0.5 flex-shrink-0">✦</span>
-                        <div>
-                          <p className="text-[11px] font-bold text-white/80">Full Token Economy</p>
-                          <p className="text-[10px] text-white/30 mt-0.5">Complete transmutation ledger & quest rewards</p>
-                        </div>
-                      </div>
-                    </div>
-
+                    <p className="text-white/40 text-sm max-w-lg leading-relaxed mb-7">
+                      Every tool on Alchm is pay-as-you-go. Spend Spirit, Essence,
+                      Matter and Substance as you cook, and claim your daily
+                      Cosmic Yield to top the balance back up — no subscription.
+                    </p>
                     <div className="flex items-center gap-4 flex-wrap">
-                      <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => { void openCheckout('premium'); }}
-                        className="px-8 py-3 bg-gradient-to-r from-purple-600 to-amber-500 text-white rounded-full font-black text-sm uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] transition-all"
-                      >
-                        Upgrade to Premium
-                      </motion.button>
                       <Link
                         href="/premium"
+                        className="px-8 py-3 bg-gradient-to-r from-purple-600 to-amber-500 text-white rounded-full font-black text-sm uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] transition-all"
+                      >
+                        Open the vault
+                      </Link>
+                      <Link
+                        href="/rewards"
                         className="text-[11px] font-black text-white/30 hover:text-white/60 uppercase tracking-widest transition-colors"
                       >
-                        Compare Plans →
+                        Earn ESMS →
                       </Link>
                     </div>
                   </div>
@@ -823,7 +787,19 @@ function ProfileSkeleton() {
 export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
   const { state: _state } = useAlchemical();
-  const { tier, isLoading: premiumLoading } = usePremium();
+  const { isLoading: premiumLoading } = usePremium();
+
+  // `role` is derived server-side from the admin allowlist and carried in the
+  // signed JWT, so it is not user-forgeable. Deliberately NOT re-checking
+  // isAdminEmail here the way admin/layout.tsx does: that module inlines the
+  // allowlist as string literals, and importing it into this page — which
+  // every signed-in user loads — would publish the admin addresses to the
+  // browser bundle. It also reads AUTH_ADMIN_EMAIL, which is not a
+  // NEXT_PUBLIC_ var and would resolve to undefined client-side, silently
+  // diverging from the server. This gate only picks which dashboard renders;
+  // the operator panels each authorize their own API calls.
+  const isOperator =
+    (session?.user as { role?: string } | undefined)?.role === 'admin';
 
   const [profileData, setProfileData] = useState<any>(null);
   const [preferences, setPreferences] = useState<UserPreferences>(DEFAULT_PREFERENCES);
@@ -1053,8 +1029,15 @@ export default function ProfilePage() {
           </div>
         </div>
       ) : profileData?.natalChart ? (
-        // ── Tier-aware dashboard split ──
-        tier === 'premium' ? (
+        // ── Operator vs. member dashboard split ──
+        // Was `tier === 'premium'`, which is vestigial for humans after the
+        // ESMS pivot: nobody is Stripe-backed, and the premium tier is now
+        // assigned by /api/feed auto-upgrading agent accounts so they can post.
+        // That meant 2,789 agent rows and 3 humans nominally routed here.
+        // The rich dashboard's real audience is operators, so it now gates on
+        // admin the same way src/app/admin/layout.tsx does — role AND email,
+        // not either alone. Everyone else gets the ESMS-native dashboard.
+        isOperator ? (
           <PremiumDashboard {...dashboardProps} natalChart={profileData.natalChart} />
         ) : (
           <FreeDashboard {...dashboardProps} natalChart={profileData.natalChart} />

@@ -5,30 +5,83 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { type JSX } from "react";
 import { Glyph, type GlyphName } from "@/components/ui/alchm/Glyph";
-import { activePrimaryFromPathname } from "@/config/navigation";
 
 interface Tab {
   id: string;
   label: string;
   icon: GlyphName;
   href: string;
-  matchKey: "kitchen" | "discover" | "plan" | "commensal" | "lab";
+  /**
+   * Path prefixes that light this tab. Matched longest-first across all tabs,
+   * so a tab can claim a sub-tree without stealing a sibling's more specific
+   * route. `/` is exact-only — otherwise Kitchen would swallow every path.
+   */
+  match: readonly string[];
 }
 
-// 5 tabs per design-spec §2.11. The center quick-action FAB is removed — its
-// actions remain reachable (recipe-builder/pantry under Plan, the palette via
-// the header ⌘K, and inviting people is now the Tables tab itself). Tables
-// keeps the internal `commensal` matchKey (navigation.ts relabels the
-// section). Tables uses `orbital` (not `ring`, which Profile already claims) —
-// the orbital-ring motif the design spec uses for Tables elsewhere in this
-// program — so no two of the 5 tabs render the same icon.
+// 5 tabs per design-spec §2.11. Discover and Tables previously held two of the
+// five slots, but both are cold-start social surfaces — /discover greets a new
+// visitor with "No tables match yet". That spent 40% of the persistent mobile
+// nav on empty states while the actual library (2,901 ingredients, 184
+// cuisines, the method catalog) was reachable only via homepage tiles or the
+// footer. Those two slots now point straight at the library.
+//
+// Tables and Discover remain reachable from the Kitchen tile grid, the footer,
+// and the header mega-menu on ≥900px.
+//
+// Active state is resolved by path prefix rather than by
+// activePrimaryFromPathname: Cuisines and Ingredients both live under that
+// helper's "discover" key, so keying off it would light two tabs at once.
+//
+// All 5 icons must stay visually distinct (regression-guarded below) — Profile
+// uses `user` so Cuisines can take `ring`, matching navigation.ts.
 const TABS: readonly Tab[] = [
-  { id: "kitchen", label: "Kitchen", icon: "flask", href: "/", matchKey: "kitchen" },
-  { id: "discover", label: "Discover", icon: "atom", href: "/discover", matchKey: "discover" },
-  { id: "plan", label: "Plan", icon: "diamond", href: "/menu-planner", matchKey: "plan" },
-  { id: "tables", label: "Tables", icon: "orbital", href: "/tables", matchKey: "commensal" },
-  { id: "profile", label: "Profile", icon: "ring", href: "/profile", matchKey: "lab" },
+  { id: "kitchen", label: "Kitchen", icon: "flask", href: "/", match: ["/"] },
+  {
+    id: "cuisines",
+    label: "Cuisines",
+    icon: "ring",
+    href: "/cuisines",
+    match: ["/cuisines", "/recipes", "/restaurants"],
+  },
+  {
+    id: "ingredients",
+    label: "Ingredients",
+    icon: "diamond",
+    href: "/ingredients",
+    match: ["/ingredients", "/sauces", "/cooking-methods"],
+  },
+  {
+    id: "plan",
+    label: "Plan",
+    icon: "mortar",
+    href: "/menu-planner",
+    match: ["/menu-planner", "/meal-plan", "/pantry", "/grocery-cart", "/food-tracking"],
+  },
+  { id: "profile", label: "Profile", icon: "user", href: "/profile", match: ["/profile"] },
 ] as const;
+
+/**
+ * Resolve which tab owns a pathname, longest matching prefix wins. Returns
+ * null when nothing matches (e.g. /discover, /tables, /lab) so no tab shows a
+ * false active state for a route that is not in the bar.
+ */
+export function activeTabId(pathname: string | null | undefined): string | null {
+  if (!pathname) return null;
+  if (pathname === "/") return "kitchen";
+
+  let best: { id: string; len: number } | null = null;
+  for (const tab of TABS) {
+    for (const prefix of tab.match) {
+      if (prefix === "/") continue; // exact-match only, handled above
+      const matches = pathname === prefix || pathname.startsWith(`${prefix}/`);
+      if (matches && (!best || prefix.length > best.len)) {
+        best = { id: tab.id, len: prefix.length };
+      }
+    }
+  }
+  return best?.id ?? null;
+}
 
 /**
  * Mobile-only bottom tab bar (design-spec §2.11). Five equal tabs; the active
@@ -38,7 +91,7 @@ const TABS: readonly Tab[] = [
 export function MobileGlassTabBar(): JSX.Element {
   const pathname = usePathname();
   const { status } = useSession();
-  const active = activePrimaryFromPathname(pathname);
+  const active = activeTabId(pathname);
 
   return (
     <>
@@ -76,7 +129,7 @@ export function MobileGlassTabBar(): JSX.Element {
           }}
         >
           {TABS.map((t) => {
-            const isActive = t.matchKey === active;
+            const isActive = t.id === active;
             // Profile routes unauthenticated users to sign-in.
             const href =
               t.id === "profile" && status !== "authenticated" ? "/login" : t.href;
