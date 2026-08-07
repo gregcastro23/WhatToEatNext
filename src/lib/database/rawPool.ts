@@ -4,6 +4,7 @@ import {
   databaseConfig,
   assertRuntimeDatabaseConfig,
   resolveSslOption,
+  resolveServerStatementCap,
 } from "./config";
 import type { Pool, PoolClient } from "pg";
 
@@ -78,16 +79,18 @@ function getDatabaseConfig(): DatabaseConfig {
     poolerMode,
   } = databaseConfig;
 
-  // Under transaction-mode PgBouncer, `statement_timeout` cannot ride the
-  // connection startup packet: PgBouncer rejects non-allow-listed startup
-  // params, and even when ignored it has no effect because server connections
-  // are shared across clients. Omit it there and deliver the server-side cap
-  // via a PgBouncer `connect_query` (+ `SET LOCAL` in withTransaction) instead.
-  // In direct/session mode the per-connection startup param is the right floor.
-  const serverStatementCap =
-    poolerMode === "transaction"
-      ? {}
-      : { statement_timeout: statementTimeoutMs };
+  // `statement_timeout` may only ride the connection startup packet on a
+  // genuinely direct connection. PgBouncer refuses any startup parameter that
+  // is not in `ignore_startup_parameters`, and that check runs at client login
+  // in EVERY pool mode — the previous note here claimed session mode took "the
+  // same startup-param path as direct", which is wrong and made the pooler
+  // unreachable. Deliver the server-side cap when pooled via a PgBouncer
+  // `connect_query` (+ `SET LOCAL` in withTransaction) instead. See
+  // resolveServerStatementCap in ./config and docs/adr/007.
+  const serverStatementCap = resolveServerStatementCap(
+    poolerMode,
+    statementTimeoutMs,
+  );
 
   // SSL: Railway fronts Postgres/PgBouncer with a self-signed cert, and the
   // internal `*.railway.internal` traffic never leaves Railway's private
