@@ -1,6 +1,10 @@
 import pkg from 'pg';
 import { logger } from "../logger";
-import { databaseConfig, assertRuntimeDatabaseConfig } from "./config";
+import {
+  databaseConfig,
+  assertRuntimeDatabaseConfig,
+  resolveSslOption,
+} from "./config";
 import type { Pool, PoolClient } from "pg";
 
 /**
@@ -101,10 +105,12 @@ function getDatabaseConfig(): DatabaseConfig {
       database: url.pathname.slice(1),
       user: url.username,
       password: url.password,
-      // Enable SSL for any remote connection (non-localhost)
-      ssl: url.hostname !== "localhost" && url.hostname !== "127.0.0.1"
-        ? remoteSsl
-        : false,
+      // Enable SSL for any remote connection (non-localhost), unless the URL
+      // explicitly opts out with `?sslmode=disable`. The opt-out is required
+      // for PgBouncer, which refuses TLS — and because this function drops the
+      // query string when it destructures the URL, `sslmode` is invisible
+      // unless it is read here. See resolveSslOption in ./config.
+      ssl: resolveSslOption(url),
       max: maxConnections,
       idleTimeoutMillis: idleTimeout,
       connectionTimeoutMillis: connectionTimeout,
