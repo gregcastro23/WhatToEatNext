@@ -194,4 +194,34 @@ export function resolveSslOption(
   return isLocal ? false : { rejectUnauthorized: false };
 }
 
+/**
+ * Decide whether `statement_timeout` may ride the connection startup packet.
+ *
+ * node-postgres sends `statement_timeout` as a startup parameter. PgBouncer
+ * rejects any startup parameter absent from `ignore_startup_parameters` with
+ * `unsupported startup parameter: statement_timeout`, and **that check runs at
+ * client login regardless of pool mode** — it is not specific to transaction
+ * mode, as previously assumed. Verified against the live Railway pooler, whose
+ * `ignore_startup_parameters` is `extra_float_digits` only: the app's exact
+ * config was refused, and succeeded as soon as `statement_timeout` was removed.
+ *
+ * So the startup param is only safe on a genuinely direct connection. Anything
+ * pooled (session or transaction) must omit it, or the pool cannot connect at
+ * all.
+ *
+ * ⚠ Trade-off: when pooled, the server-side cap from docs/adr/007 is NOT in
+ * force. `query_timeout` still bounds the request client-side, but it only
+ * aborts the client read — it does not cancel the backend query. Restore the
+ * server-side floor with a PgBouncer `connect_query` (`SET statement_timeout`)
+ * or `SET LOCAL` inside withTransaction.
+ */
+export function resolveServerStatementCap(
+  poolerMode: string,
+  statementTimeoutMs: number,
+): { statement_timeout?: number } {
+  // Fail safe: only the explicitly-direct topology gets the startup param, so
+  // an unrecognised value can never wedge the pool shut.
+  return poolerMode === "direct" ? { statement_timeout: statementTimeoutMs } : {};
+}
+
 export default databaseConfig;
