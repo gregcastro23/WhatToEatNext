@@ -168,4 +168,30 @@ void logger.info("Database configuration loaded", {
 });
 */
 
+/**
+ * Resolve the `pg` `ssl` option for a parsed connection URL.
+ *
+ * getDatabaseConfig() in rawPool.ts destructures the connection URL into
+ * discrete pg fields (host/port/database/user/password), which drops the query
+ * string. That made libpq's `sslmode` parameter unreadable, so every non-local
+ * host got forced TLS. Railway's PgBouncer refuses TLS ("the server does not
+ * support SSL connections"), which made routing through the pooler impossible
+ * no matter what the connection string said — the pooler flip could not work
+ * on an env change alone.
+ *
+ * Only `sslmode=disable` is special-cased. Every other libpq mode (`require`,
+ * `verify-ca`, `verify-full`, …) wants TLS, which the default already provides.
+ * We can't pin a CA we don't control (Railway rotates it), so remote hosts get
+ * `rejectUnauthorized: false` — see the SSL note in rawPool.ts.
+ */
+export function resolveSslOption(
+  url: URL,
+): false | { rejectUnauthorized: boolean } {
+  if (url.searchParams.get("sslmode") === "disable") {
+    return false;
+  }
+  const isLocal = url.hostname === "localhost" || url.hostname === "127.0.0.1";
+  return isLocal ? false : { rejectUnauthorized: false };
+}
+
 export default databaseConfig;
