@@ -51,6 +51,23 @@ interface TransitPrediction {
   sources: string[]; // Which cached entries contributed to this prediction
 }
 
+/**
+ * This module ends with `export default new AstrologizeApiCache()`, so the
+ * constructor — and its `loadFromStorage()` call — runs the moment anything
+ * imports it, including server-only code. `localStorage` does not exist on the
+ * server, so importing this from an API route threw a ReferenceError on every
+ * cold start. It was caught and logged rather than fatal, which is why it
+ * survived: the Vercel build printed "Failed to load astrologize cache from
+ * localStorage: ReferenceError: localStorage is not defined" while collecting
+ * page data for /api/feed/share, and the build still passed.
+ *
+ * Checked at call time rather than construction time because jsdom-based tests
+ * install `localStorage` after module load.
+ */
+function hasLocalStorage(): boolean {
+  return typeof globalThis !== "undefined" && typeof globalThis.localStorage !== "undefined";
+}
+
 class AstrologizeApiCache {
   private cache: Map<string, CachedAstrologicalData> = new Map();
   private readonly maxCacheSize = 1000; // Store up to 1000 calculations
@@ -415,6 +432,7 @@ class AstrologizeApiCache {
   }
 
   private saveToStorage(): void {
+    if (!hasLocalStorage()) return;
     try {
       const data = Array.from(this.cache.entries());
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
@@ -424,6 +442,7 @@ class AstrologizeApiCache {
   }
 
   private loadFromStorage(): void {
+    if (!hasLocalStorage()) return;
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
