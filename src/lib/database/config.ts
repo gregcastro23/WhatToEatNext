@@ -209,11 +209,8 @@ export function resolveSslOption(
  * pooled (session or transaction) must omit it, or the pool cannot connect at
  * all.
  *
- * ⚠ Trade-off: when pooled, the server-side cap from docs/adr/007 is NOT in
- * force. `query_timeout` still bounds the request client-side, but it only
- * aborts the client read — it does not cancel the backend query. Restore the
- * server-side floor with a PgBouncer `connect_query` (`SET statement_timeout`)
- * or `SET LOCAL` inside withTransaction.
+ * When pooled the startup packet can't carry the cap, so it is delivered after
+ * connect instead — see {@link resolvePooledStatementTimeoutSql}.
  */
 export function resolveServerStatementCap(
   poolerMode: string,
@@ -222,6 +219,63 @@ export function resolveServerStatementCap(
   // Fail safe: only the explicitly-direct topology gets the startup param, so
   // an unrecognised value can never wedge the pool shut.
   return poolerMode === "direct" ? { statement_timeout: statementTimeoutMs } : {};
+}
+
+/**
+ * The `SET` that restores the docs/adr/007 server-side floor when pooled.
+ *
+ * WHY THIS IS NEEDED AT ALL
+ * -------------------------
+ * `query_timeout` bounds the request client-side but only aborts the client
+ * read — it does NOT cancel the backend query. Measured against the live
+ * Railway pooler with no floor set: the client gave up at 2,002ms while the
+ * backend ran the full 6s, holding one of the 20 pooled slots for four seconds
+ * after the request was abandoned. That leak is what the floor exists to stop.
+ *
+ * WHY A POST-CONNECT `SET` RATHER THAN THE STARTUP PACKET
+ * ------------------------------------------------------
+ * PgBouncer refuses `statement_timeout` as a startup parameter at login in
+ * every pool mode (see {@link resolveServerStatementCap}), but a plain `SET`
+ * after connect is just a query, and in SESSION mode it persists for the life
+ * of the client connection. `server_reset_query = DISCARD ALL` issues
+ * `RESET ALL` on release, which resets to the role default rather than to
+ * nothing — so the reset floor is whatever `pg_db_role_setting` holds, and this
+ * `SET` re-tightens it on the next checkout.
+ *
+ * Returns null when the `SET` would not do anything:
+ *   • "direct"      — the startup param already carries it.
+ *   • "transaction" — a session `SET` does not survive; PgBouncer reassigns a
+ *                     server per transaction. Such a deployment needs a
+ *                     PgBouncer `connect_query`, and is meanwhile covered by
+ *                     the role-level backstop on the Postgres side.
+ */
+export function resolvePooledStatementTimeoutSql(
+  poolerMode: string,
+  statementTimeoutMs: number,
+): string | null {
+  if (poolerMode !== "session") return null;
+  // `SET` takes no bind parameters, so the value is interpolated. Only a finite
+  // positive integer may ever reach the string.
+  const ms = Math.round(statementTimeoutMs);
+  if (!Number.isFinite(ms) || ms <= 0) return null;
+  return `SET statement_timeout = ${ms}`;
+}
+
+/**
+ * Client-side bound, deliberately set ABOVE the server-side cap.
+ *
+ * Both timers race, and node-postgres starts its own at dispatch while Postgres
+ * starts `statement_timeout` when the backend begins executing — measured delta
+ * ~40ms. With equal values the client wins, and the caller sees a bare
+ * "Query read timeout" instead of `SQLSTATE 57014 canceling statement due to
+ * statement timeout`. The margin lets the server win, so a query killed by the
+ * floor says so in the logs. `query_timeout` stays as the backstop for a
+ * connection that hangs without the backend ever starting the query.
+ */
+export const CLIENT_TIMEOUT_MARGIN_MS = 1000;
+
+export function resolveClientQueryTimeout(statementTimeoutMs: number): number {
+  return statementTimeoutMs + CLIENT_TIMEOUT_MARGIN_MS;
 }
 
 export default databaseConfig;

@@ -5,6 +5,8 @@ import {
   assertRuntimeDatabaseConfig,
   resolveSslOption,
   resolveServerStatementCap,
+  resolvePooledStatementTimeoutSql,
+  resolveClientQueryTimeout,
 } from "./config";
 import type { Pool, PoolClient } from "pg";
 
@@ -118,7 +120,7 @@ function getDatabaseConfig(): DatabaseConfig {
       idleTimeoutMillis: idleTimeout,
       connectionTimeoutMillis: connectionTimeout,
       ...serverStatementCap,
-      query_timeout: statementTimeoutMs,
+      query_timeout: resolveClientQueryTimeout(statementTimeoutMs),
     };
   }
   // Local development configuration
@@ -133,7 +135,7 @@ function getDatabaseConfig(): DatabaseConfig {
     idleTimeoutMillis: idleTimeout,
     connectionTimeoutMillis: connectionTimeout,
     ...serverStatementCap,
-    query_timeout: statementTimeoutMs,
+    query_timeout: resolveClientQueryTimeout(statementTimeoutMs),
   };
 }
 
@@ -158,8 +160,39 @@ export function initializeDatabase(): Pool {
     throw new Error("Failed to initialize database pool");
   }
 
+  // Restore the docs/adr/007 server-side floor on every new pooled connection.
+  // PgBouncer refuses `statement_timeout` in the startup packet (see
+  // resolveServerStatementCap), so when pooled it is delivered as an ordinary
+  // query right after connect, where session mode makes it stick.
+  //
+  // ORDERING — why this is not a race. `client.query()` is called
+  // SYNCHRONOUSLY here and deliberately not awaited. pg-pool emits "connect"
+  // inside _acquireClient BEFORE invoking the waiter's callback (verified in
+  // pg-pool 8.21), and each client dispatches its queued queries in FIFO order
+  // on one connection. So the SET is guaranteed to reach Postgres ahead of the
+  // consumer's first statement. Awaiting here would instead let the consumer's
+  // query be queued first, and every new connection's first query would run
+  // uncapped. pg-pool also exposes an awaited `onConnect` option, which is
+  // stronger, but it is absent from @types/pg and would need an untyped cast.
+  const pooledStatementTimeoutSql = resolvePooledStatementTimeoutSql(
+    databaseConfig.poolerMode,
+    databaseConfig.statementTimeoutMs,
+  );
+
   // Connection event handlers
-  pool.on("connect", (_client: PoolClient) => {
+  pool.on("connect", (client: PoolClient) => {
+    if (pooledStatementTimeoutSql) {
+      void client.query(pooledStatementTimeoutSql).catch((err: Error) => {
+        // Log rather than throw: the connection is already checked out, and a
+        // request served without the floor beats a request that fails outright.
+        // A persistent failure here means the floor is silently off, so it is
+        // logged at error level to be greppable.
+        void logger.error("Failed to apply pooled statement_timeout", {
+          error: err.message,
+          statement: pooledStatementTimeoutSql,
+        });
+      });
+    }
     void logger.info("New database connection established", {
       database: config.database,
       host: config.host,
