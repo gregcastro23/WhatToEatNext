@@ -28,6 +28,11 @@ const executeQuery = jest.fn();
 
 jest.mock("@/lib/database", () => ({
   executeQuery: (...args: unknown[]) => executeQuery(...args),
+  // Steps 2-5 run inside a transaction now. Hand the operation a client whose
+  // query() routes back through the same spy, so statements issued with
+  // `{ client }` are captured exactly like the unpooled ones.
+  withTransaction: (op: (client: unknown) => Promise<unknown>) =>
+    op({ query: (...args: unknown[]) => executeQuery(...args) }),
 }));
 jest.mock("@/utils/agentMonicaResolver", () => ({
   agentMonicaWithMethod: () => null,

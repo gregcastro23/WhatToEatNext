@@ -94,6 +94,18 @@ export async function executeQuery<_T extends any = any>(
   options: {
     logQuery?: boolean;
     timeout?: number;
+    /**
+     * Run on an existing transaction client instead of checking a fresh
+     * connection out of the pool.
+     *
+     * Without this, every call lands on whatever connection the pool hands
+     * over, so a caller inside {@link withTransaction} would silently execute
+     * OUTSIDE its own transaction — the statements would autocommit and a
+     * rollback would not undo them. Passing the client keeps the statement in
+     * the transaction while retaining the slow-query instrumentation and error
+     * handling below, which raw `client.query` would bypass.
+     */
+    client?: PoolClient;
   } = {},
 ): Promise<QueryResult<any>> {
   const { logQuery = databaseConfig.logQueries, timeout: _timeout = 30000 } = options;
@@ -105,7 +117,7 @@ export async function executeQuery<_T extends any = any>(
         paramCount: params.length,
       });
     }
-    const result = await getDatabasePool().query(query, params);
+    const result = await (options.client ?? getDatabasePool()).query(query, params);
     const executionTime = Date.now() - startTime;
     // Push to the in-memory slow-query ring (threshold defaults to 200ms).
     // The admin observability endpoint reads this; production traffic should
