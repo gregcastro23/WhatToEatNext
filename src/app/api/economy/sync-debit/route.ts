@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery, withTransaction } from "@/lib/database";
+import { withObservability } from "@/lib/observability/withObservability";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 
@@ -57,7 +58,7 @@ interface SyncDebitBody {
   metadata?: Record<string, unknown>;
 }
 
-export async function POST(req: NextRequest) {
+async function handlePost(req: NextRequest) {
   const authHeader = req.headers.get("X-Sync-Secret");
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
   if (!syncSecret || authHeader !== syncSecret) {
@@ -507,3 +508,27 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+/**
+ * Instrumented so the debit path has a DURABLE record of being called.
+ *
+ * The liveness check for this endpoint (agentDebitPathHealth) has to answer
+ * "are agents calling while nothing is landing?". Until now the calling half
+ * was proxied by agent-authored feed_events, because sync-debit requests were
+ * persisted nowhere — so the check could not distinguish "sync-debit is broken"
+ * from "the producer stopped calling sync-debit but kept posting feed events".
+ * request_log_entries makes the traffic signal measure the thing it is about.
+ *
+ * It also matters that STATUS is recorded: the outage was 1,349 calls/day at
+ * 100% HTTP 500, which is unmistakable in this table and was invisible without
+ * it. `/api/admin/observability` could not have shown it either — that ring is
+ * in-memory and resets on every Vercel cold start.
+ *
+ * skipUserResolution: this is a machine-to-machine endpoint authenticated by
+ * X-Sync-Secret, with no session cookie to resolve. Attempting resolution would
+ * spend a database round-trip per call to always return null.
+ */
+export const POST = withObservability(
+  { routeName: "/api/economy/sync-debit", skipUserResolution: true },
+  handlePost,
+);

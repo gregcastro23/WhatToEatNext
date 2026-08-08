@@ -31,6 +31,10 @@ import {
   fetchDebitPathSignals,
 } from "@/services/agentDebitPathHealth";
 import { getEventCounts } from "@/services/authEventsService";
+import {
+  classifyCronLedgerPath,
+  fetchCronLedgerSignals,
+} from "@/services/cronLedgerHealth";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getMcpNetworkSummary } from "@/services/mcpNetworkService";
 import {
@@ -684,6 +688,13 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
     live = false;
   }
 
+  // Daily yield cron liveness. `txns24h` above cannot see this: agents_yield
+  // has a second, ad-hoc writer that lands 8-20 times a day, so the ledger
+  // never looks stale even when the cron is completely dead. Only the BATCH
+  // shape distinguishes them — see cronLedgerHealth.
+  const yieldSignals = await fetchCronLedgerSignals();
+  const yieldHealth = classifyCronLedgerPath(yieldSignals);
+
   const pathStatus = statusFromPathHealth(economy, {
     warnErrorRate: 0.1,
     warnP95Ms: 1000,
@@ -692,13 +703,16 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
 
   let status: FlowStatus;
   if (!live && pathStatus === "UNKNOWN") status = "UNKNOWN";
-  else if (pathStatus === "INCIDENT") status = "INCIDENT";
+  else if (pathStatus === "INCIDENT" || yieldHealth.verdict === "INCIDENT") status = "INCIDENT";
   else if (pathStatus === "DEGRADED") status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
   const econIssue = issueFromFailure(economy, "economy");
   if (econIssue) issues.push(econIssue);
+  if (yieldHealth.verdict === "INCIDENT") {
+    issues.push({ at: checkedAt, message: yieldHealth.summary, severity: "error" });
+  }
 
   return {
     id: "economy",
@@ -712,10 +726,21 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
         : status === "DEGRADED"
           ? `Economy endpoints slow or partially failing`
           : status === "INCIDENT"
-            ? `/api/economy failing (${formatPct(economy.errorRate)})`
+            ? // Name the yield cron when it is the cause. Reporting an
+              // /api/economy error rate during a dead-cron incident points the
+              // reader at a healthy endpoint.
+              yieldHealth.verdict === "INCIDENT" && pathStatus !== "INCIDENT"
+              ? yieldHealth.summary
+              : `/api/economy failing (${formatPct(economy.errorRate)})`
             : "Awaiting signals",
     metrics: [
       { label: "Txns · 24h", value: `${txns24h}`, raw: txns24h },
+      {
+        label: "Yield batch · 24h",
+        // An em dash rather than a fabricated 0 when there is no source.
+        value: yieldSignals.live ? `${yieldSignals.biggestBatch24h}` : "—",
+        raw: yieldSignals.live ? yieldSignals.biggestBatch24h : 0,
+      },
       {
         label: "In circulation",
         value: inCirculation.toLocaleString(undefined, { maximumFractionDigits: 0 }),
