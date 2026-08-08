@@ -160,6 +160,16 @@ async function main() {
   const client = new Client({ connectionString: dbUrl });
   await client.connect();
   try {
+    // Opt out of the role-level statement_timeout backstop
+    // (ALTER ROLE postgres SET statement_timeout = 60000). Every consumer shares
+    // the `postgres` role, so the backstop reaches this runner too — and it runs
+    // unattended at container start, before uvicorn. Most migrations here are
+    // far under 60s, but CREATE INDEX CONCURRENTLY waits for conflicting
+    // transactions to drain and can block well past it on a busy database. A
+    // migration killed halfway is a deploy-time failure with a half-applied
+    // file, so lift the cap explicitly rather than discover the limit in prod.
+    await client.query("SET statement_timeout = 0");
+
     await client.query(`
       CREATE TABLE IF NOT EXISTS _migrations (
         filename   TEXT PRIMARY KEY,
