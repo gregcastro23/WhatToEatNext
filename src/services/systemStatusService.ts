@@ -33,6 +33,10 @@ import {
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getMcpNetworkSummary } from "@/services/mcpNetworkService";
+import {
+  classifyPoolerSaturation,
+  fetchPoolerSaturationSignals,
+} from "@/services/poolerSaturationHealth";
 import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
 import {
   getLatestProbeResults,
@@ -1087,10 +1091,19 @@ async function probeDatabase(): Promise<FlowHealth> {
 
   const slowQueries = summarizeSlowQueries(FIVE_MIN);
 
+  // Connection-pool saturation. Since the PgBouncer flip the old ceiling
+  // (max_connections = 100) is permanently healthy — backends are capped at 20
+  // by default_pool_size — while the real wall is the pooler's max_client_conn.
+  // See poolerSaturationHealth for why only the admin console can see it.
+  const poolerSignals = await fetchPoolerSaturationSignals();
+  const pooler = classifyPoolerSaturation(poolerSignals);
+
   let status: FlowStatus;
   if (!healthy) status = "INCIDENT";
+  else if (pooler.verdict === "INCIDENT") status = "INCIDENT";
   else if ((latency ?? 0) > 200 || slowQueries.count >= 20) status = "DEGRADED";
   else if (slowQueries.count >= 5) status = "DEGRADED";
+  else if (pooler.verdict === "DEGRADED") status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
@@ -1099,6 +1112,13 @@ async function probeDatabase(): Promise<FlowHealth> {
       at: checkedAt,
       message: `Database unreachable: ${dbError}`,
       severity: "error",
+    });
+  }
+  if (pooler.verdict === "INCIDENT" || pooler.verdict === "DEGRADED") {
+    issues.push({
+      at: checkedAt,
+      message: `Connection pool: ${pooler.summary}`,
+      severity: pooler.verdict === "INCIDENT" ? "error" : "warn",
     });
   }
   if (slowQueries.count >= 5) {
@@ -1118,14 +1138,37 @@ async function probeDatabase(): Promise<FlowHealth> {
     summary:
       status === "OK"
         ? `Healthy · ${formatLatency(latency ?? 0)} ping · ${slowQueries.count} slow queries 5m`
-        : status === "DEGRADED"
-          ? `${slowQueries.count} slow queries in 5m`
-          : "Database unreachable",
+        : // Name the pooler when it is the cause. Reporting "N slow queries"
+          // during a connection-pool incident points the reader at the wrong
+          // layer — queries are not slow, they are waiting to start.
+          status === "INCIDENT" && healthy && pooler.verdict === "INCIDENT"
+          ? pooler.summary
+          : status === "DEGRADED"
+            ? pooler.verdict === "DEGRADED" && slowQueries.count < 5
+              ? pooler.summary
+              : `${slowQueries.count} slow queries in 5m`
+            : "Database unreachable",
     metrics: [
       {
         label: "Health ping",
         value: formatLatency(latency ?? 0),
         raw: latency ?? 0,
+      },
+      {
+        label: "Pooler clients",
+        // An honest dash beats a fabricated 0/0 when the admin console is
+        // unreachable — the panel must never imply it measured something.
+        value: poolerSignals.live
+          ? `${poolerSignals.clientsActive + poolerSignals.clientsWaiting}/${poolerSignals.maxClientConn}`
+          : "—",
+        raw: poolerSignals.live ? poolerSignals.clientsActive + poolerSignals.clientsWaiting : 0,
+      },
+      {
+        label: "Pooler servers",
+        value: poolerSignals.live
+          ? `${poolerSignals.serversActive}/${poolerSignals.poolSize}`
+          : "—",
+        raw: poolerSignals.live ? poolerSignals.serversActive : 0,
       },
       {
         label: "Slow queries · 5m",
