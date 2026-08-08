@@ -26,6 +26,10 @@ import {
 } from "@/lib/observability/requestLog";
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import {
+  classifyDebitPath,
+  fetchDebitPathSignals,
+} from "@/services/agentDebitPathHealth";
 import { getEventCounts } from "@/services/authEventsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { getMcpNetworkSummary } from "@/services/mcpNetworkService";
@@ -851,6 +855,14 @@ async function probeAgents(): Promise<FlowHealth> {
     live = false;
   }
 
+  // Is the debit path actually landing writes? Feed ingest can look perfectly
+  // healthy while sync-debit 500s on every call — that is exactly how the
+  // agents_operation ledger stayed empty for twelve weeks. See
+  // agentDebitPathHealth for why traffic-AND-no-writes is the only signal that
+  // separates "broken" from "nobody called".
+  const debitSignals = await fetchDebitPathSignals();
+  const debitHealth = classifyDebitPath(debitSignals);
+
   const lastEmitAgeMs = lastEmit
     ? Date.now() - new Date(lastEmit.timestamp).getTime()
     : null;
@@ -863,11 +875,20 @@ async function probeAgents(): Promise<FlowHealth> {
 
   let status: FlowStatus;
   if (!live && feedPathStatus === "UNKNOWN") status = "UNKNOWN";
-  else if (feedPathStatus === "INCIDENT") status = "INCIDENT";
+  // A dead debit path is a revenue outage, not a warning — rank it with the
+  // other INCIDENT conditions rather than letting a green feed mask it.
+  else if (feedPathStatus === "INCIDENT" || debitHealth.verdict === "INCIDENT") status = "INCIDENT";
   else if (feedPathStatus === "DEGRADED" || stale) status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
+  if (debitHealth.verdict === "INCIDENT") {
+    issues.push({
+      at: new Date().toISOString(),
+      message: debitHealth.summary,
+      severity: "error",
+    });
+  }
   if (stale && lastEmit) {
     issues.push({
       at: lastEmit.timestamp,
@@ -892,7 +913,9 @@ async function probeAgents(): Promise<FlowHealth> {
             ? "Webhook silent — PA may have stopped emitting"
             : "Feed-ingest errors detected"
           : status === "INCIDENT"
-            ? `Feed ingest failing (${formatPct(feedPath.errorRate)})`
+            ? debitHealth.verdict === "INCIDENT"
+              ? debitHealth.summary
+              : `Feed ingest failing (${formatPct(feedPath.errorRate)})`
             : "Awaiting signals",
     metrics: [
       { label: "Agents", value: `${agentCount}`, raw: agentCount },
@@ -906,6 +929,11 @@ async function probeAgents(): Promise<FlowHealth> {
         label: "Feed p95",
         value: formatLatency(feedPath.p95LatencyMs),
         raw: feedPath.p95LatencyMs,
+      },
+      {
+        label: "Debits · 24h",
+        value: debitSignals.live ? `${debitSignals.debits24h}` : "no source",
+        raw: debitSignals.debits24h,
       },
     ],
     issues: issues.slice(0, 3),
