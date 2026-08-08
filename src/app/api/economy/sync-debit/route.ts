@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
-import { executeQuery } from "@/lib/database";
+import { executeQuery, withTransaction } from "@/lib/database";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 
@@ -160,6 +160,20 @@ export async function POST(req: NextRequest) {
     // Treat the payload as Record<string, unknown> — the planetary-agents
     // engine ships untyped JSON so we can't lean on the route's own interface.
     const agentProfileRaw = metadata?.agentProfile;
+    // ── Enrichment is deliberately NON-FATAL ──────────────────────────────
+    //
+    // This block used to be able to kill the debit, and did: a single bad
+    // parameter binding threw here, before step 4, so every call carrying birth
+    // data returned 500 and NOTHING was charged for twelve weeks (#733).
+    // Profile enrichment is a nice-to-have; charging for the operation is the
+    // point of the endpoint. A failure here must degrade to "the profile is
+    // stale" and never to "no revenue".
+    //
+    // The four §18o CHECK constraints below make this a live risk rather than a
+    // hypothetical — any of them can reject a write on data we do not control,
+    // since the payload comes from another repo's engine. Logged at error level
+    // with a greppable marker so it degrades loudly rather than silently.
+    try {
     if (agentProfileRaw && typeof agentProfileRaw === "object") {
       const ap = agentProfileRaw as Record<string, unknown>;
 
@@ -317,56 +331,74 @@ export async function POST(req: NextRequest) {
         ]
       );
     }
-
-    // 2. Idempotency check
-    const dup = await executeQuery(
-      `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
-      [`${idempotencyKey}:%`],
-    );
-    if (dup.rows.length > 0) {
-      // Even on idempotency hit, return userId so the caller can persist the
-      // alchm.kitchen UUID for downstream profile linking.
-      return NextResponse.json(
-        { ok: false, reason: "already_applied", userId },
-        { status: 409 },
+    } catch (enrichmentError) {
+      // Never rethrow: the debit below is the reason this endpoint exists.
+      console.error(
+        "[sync-debit] PROFILE_ENRICHMENT_FAILED — continuing to the debit.",
+        { userId, name: storedName, error: enrichmentError },
       );
     }
 
-    // 3. Ensure balance row, read current balances
-    await executeQuery(
-      `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
-      [userId],
-    );
-    const balRow = await executeQuery<{
-      spirit: string; essence: string; matter: string; substance: string;
-    }>(
-      `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
-      [userId],
-    );
-    const bal = balRow.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
-    const curSpirit = parseFloat(bal.spirit) || 0;
-    const curEssence = parseFloat(bal.essence) || 0;
-    const curMatter = parseFloat(bal.matter) || 0;
-    const curSubstance = parseFloat(bal.substance) || 0;
+    // ── Steps 2-5 are ONE transaction ─────────────────────────────────────
+    //
+    // Every statement here used to autocommit independently, so a failure
+    // between the debit and the ledger writes would leave the balance reduced
+    // with no transaction rows to account for it — a user charged with no
+    // record, and permanent drift in a ledger whose whole purpose is to
+    // reconcile. Nothing detects that after the fact; the sums simply disagree
+    // forever. The twelve-week outage happened to be clean only because the
+    // throw landed before step 4, which was luck, not design.
+    //
+    // Provisioning and enrichment stay OUTSIDE deliberately: they are
+    // idempotent (ON CONFLICT) and worth keeping even when the debit is
+    // refused, and folding them in would mean an enrichment failure could roll
+    // back a completed charge.
+    //
+    // Early returns inside commit, which is correct — none of them has written
+    // anything that should be undone. Only a throw rolls back.
+    const outcome = await withTransaction(async (client) => {
+      // 2. Idempotency check
+      const dup = await executeQuery(
+        `SELECT 1 FROM token_transactions WHERE idempotency_key LIKE $1 LIMIT 1`,
+        [`${idempotencyKey}:%`],
+        { client },
+      );
+      if (dup.rows.length > 0) {
+        return { kind: "already_applied" as const };
+      }
 
-    if (curSpirit < spirit || curEssence < essence || curMatter < matter || curSubstance < substance) {
-      return NextResponse.json(
-        {
-          ok: false,
-          reason: "insufficient_funds",
-          userId,
+      // 3. Ensure balance row, read current balances
+      await executeQuery(
+        `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
+        [userId],
+        { client },
+      );
+      const balRow = await executeQuery<{
+        spirit: string; essence: string; matter: string; substance: string;
+      }>(
+        `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
+        [userId],
+        { client },
+      );
+      const bal = balRow.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
+      const curSpirit = parseFloat(bal.spirit) || 0;
+      const curEssence = parseFloat(bal.essence) || 0;
+      const curMatter = parseFloat(bal.matter) || 0;
+      const curSubstance = parseFloat(bal.substance) || 0;
+
+      if (curSpirit < spirit || curEssence < essence || curMatter < matter || curSubstance < substance) {
+        return {
+          kind: "insufficient_funds" as const,
           balances: { spirit: curSpirit, essence: curEssence, matter: curMatter, substance: curSubstance },
-        },
-        { status: 402 },
-      );
-    }
+        };
+      }
 
-    // 4. Atomic debit — UPDATE using text-cast params to avoid operator ambiguity.
-    //    The amounts are passed as fixed-point strings (e.g. "2.0000"), which
-    //    Postgres coerces to DECIMAL without ambiguity.
-    const groupId = randomUUID();
-    const updateRes = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
-      `UPDATE token_balances
+      // 4. Atomic debit — UPDATE using text-cast params to avoid operator ambiguity.
+      //    The amounts are passed as fixed-point strings (e.g. "2.0000"), which
+      //    Postgres coerces to DECIMAL without ambiguity.
+      const groupId = randomUUID();
+      const updateRes = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
+        `UPDATE token_balances
        SET spirit    = spirit    - $2::decimal,
            essence   = essence   - $3::decimal,
            matter    = matter    - $4::decimal,
@@ -378,68 +410,90 @@ export async function POST(req: NextRequest) {
          AND matter    >= $4::decimal
          AND substance >= $5::decimal
        RETURNING spirit::text, essence::text, matter::text, substance::text`,
-      [userId, sSpirit, sEssence, sMatter, sSubstance],
-    );
-
-    if (updateRes.rows.length === 0) {
-      // Race condition lost — re-read and return 402
-      const cur2 = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
-        `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
-        [userId],
+        [userId, sSpirit, sEssence, sMatter, sSubstance],
+        { client },
       );
-      const b2 = cur2.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
-      return NextResponse.json(
-        {
-          ok: false,
-          reason: "insufficient_funds",
-          userId,
+
+      if (updateRes.rows.length === 0) {
+        // Race condition lost — re-read and return 402
+        const cur2 = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
+          `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
+          [userId],
+          { client },
+        );
+        const b2 = cur2.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
+        return {
+          kind: "insufficient_funds" as const,
           balances: {
             spirit: parseFloat(b2.spirit) || 0,
             essence: parseFloat(b2.essence) || 0,
             matter: parseFloat(b2.matter) || 0,
             substance: parseFloat(b2.substance) || 0,
           },
+        };
+      }
+
+      // 5. Write ledger rows — per non-zero token type, with child idempotency keys.
+      //    These share the transaction with the debit above: the balance change
+      //    and the rows that account for it commit together or not at all.
+      const tokenEntries: Array<{ type: string; amount: string }> = [
+        { type: "Spirit", amount: sSpirit },
+        { type: "Essence", amount: sEssence },
+        { type: "Matter", amount: sMatter },
+        { type: "Substance", amount: sSubstance },
+      ].filter((e) => parseFloat(e.amount) > 0);
+
+      for (const entry of tokenEntries) {
+        await executeQuery(
+          `INSERT INTO token_transactions
+           (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
+         VALUES ($1, $2, $3, -$4::decimal, 'agents_operation', $5, $6, $7)`,
+          [
+            groupId,
+            userId,
+            entry.type,
+            entry.amount,
+            operationType ?? null,
+            description,
+            `${idempotencyKey}:${entry.type}`,
+          ],
+          { client },
+        );
+      }
+
+      const final = updateRes.rows[0];
+      return {
+        kind: "ok" as const,
+        groupId,
+        balances: {
+          spirit: parseFloat(final.spirit) || 0,
+          essence: parseFloat(final.essence) || 0,
+          matter: parseFloat(final.matter) || 0,
+          substance: parseFloat(final.substance) || 0,
         },
+      };
+    });
+
+    if (outcome.kind === "already_applied") {
+      // Even on idempotency hit, return userId so the caller can persist the
+      // alchm.kitchen UUID for downstream profile linking.
+      return NextResponse.json(
+        { ok: false, reason: "already_applied", userId },
+        { status: 409 },
+      );
+    }
+    if (outcome.kind === "insufficient_funds") {
+      return NextResponse.json(
+        { ok: false, reason: "insufficient_funds", userId, balances: outcome.balances },
         { status: 402 },
       );
     }
 
-    // 5. Write ledger rows — per non-zero token type, with child idempotency keys
-    const tokenEntries: Array<{ type: string; amount: string }> = [
-      { type: "Spirit", amount: sSpirit },
-      { type: "Essence", amount: sEssence },
-      { type: "Matter", amount: sMatter },
-      { type: "Substance", amount: sSubstance },
-    ].filter((e) => parseFloat(e.amount) > 0);
-
-    for (const entry of tokenEntries) {
-      await executeQuery(
-        `INSERT INTO token_transactions
-           (transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key)
-         VALUES ($1, $2, $3, -$4::decimal, 'agents_operation', $5, $6, $7)`,
-        [
-          groupId,
-          userId,
-          entry.type,
-          entry.amount,
-          operationType ?? null,
-          description,
-          `${idempotencyKey}:${entry.type}`,
-        ],
-      );
-    }
-
-    const final = updateRes.rows[0];
     return NextResponse.json({
       ok: true,
       userId,
-      transactionGroupId: groupId,
-      balances: {
-        spirit: parseFloat(final.spirit) || 0,
-        essence: parseFloat(final.essence) || 0,
-        matter: parseFloat(final.matter) || 0,
-        substance: parseFloat(final.substance) || 0,
-      },
+      transactionGroupId: outcome.groupId,
+      balances: outcome.balances,
     });
   } catch (error) {
     // Unique-violation on idempotency_key (race condition) → 409
