@@ -21,7 +21,6 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { extractClientIp, hashIp } from "./hashIp";
 import { recordRequest } from "./requestLog";
 
@@ -125,6 +124,12 @@ async function resolveAndRecord(opts: ResolveAndRecordOpts): Promise<void> {
   let ipHashed: string | null = null;
   try {
     if (!opts.skipUserResolution) {
+      // Imported lazily so routes that skip user resolution never load the
+      // auth chain at all. `validateRequest` pulls in `jose`, which is
+      // ESM-only — a static import drags it into every instrumented route,
+      // including machine-to-machine endpoints that authenticate by shared
+      // secret and can never have a user to resolve.
+      const { getUserIdFromRequest } = await import("@/lib/auth/validateRequest");
       userId = await getUserIdFromRequest(opts.request);
     }
     const ip = extractClientIp(opts.request.headers);
