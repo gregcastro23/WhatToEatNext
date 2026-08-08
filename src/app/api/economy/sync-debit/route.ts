@@ -223,14 +223,25 @@ export async function POST(req: NextRequest) {
         (typeof ap.name === "string" ? agentMonicaWithMethod(ap.name, onUnclassifiedPhase) : null);
       const resolvedMonica = resolved?.monica ?? null;
       const monicaCandidate = resolvedMonica?.combined ?? null;
-      const hasNatalChart =
-        ap.natalChart && typeof ap.natalChart === "object" && Object.keys(ap.natalChart).length > 0;
+      // Every one of these three is bound to a `$n::boolean` in the UPDATE
+      // below, so each MUST be a real boolean. `||` and `&&` return the
+      // *operand*, not a boolean — `ap.birthDate || ap.birthTime || ...`
+      // evaluated to the birth date itself, and Postgres rejected it with
+      // `invalid input syntax for type boolean: "1756-01-27"` (22P02). That
+      // threw before the debit ran, so EVERY call carrying birth data 500'd and
+      // no agent operation was charged. Boolean() is the whole fix; keep it on
+      // all three so the next field added here can't reintroduce it.
+      const hasNatalChart = Boolean(
+        ap.natalChart && typeof ap.natalChart === "object" && Object.keys(ap.natalChart).length > 0,
+      );
       // Strip the fabricated `longitude: 0` on the way in — see
       // normaliseNatalPositions. This endpoint is a live ingest path, so
       // cleaning stored rows without cleaning here would let the key return.
       const natalPositions = normaliseNatalPositions(ap.natalPositions);
-      const hasNatalPositions = Array.isArray(natalPositions) && (natalPositions as unknown[]).length > 0;
-      const hasBirthData = ap.birthDate || ap.birthTime || ap.birthLocation;
+      const hasNatalPositions = Boolean(
+        Array.isArray(natalPositions) && (natalPositions as unknown[]).length > 0,
+      );
+      const hasBirthData = Boolean(ap.birthDate || ap.birthTime || ap.birthLocation);
 
       // COALESCE so a null/empty field in this fire never wipes a previously
       // written value — every tick keeps the row fresh without regression.
