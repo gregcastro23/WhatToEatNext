@@ -8,7 +8,7 @@
  * Every telemetry panel is wired to a live source (user database, request
  * log, ephemeris, Postgres stat views, Planetary Agents backend); only the
  * admin identity card is static. `meta.mockedFields` lists any panels still
- * on seeded data — currently empty.
+ * on explicitly-labelled illustrative data.
  */
 
 import { NextResponse, type NextRequest } from "next/server";
@@ -38,7 +38,14 @@ import {
   getCohortRetention,
 } from "@/services/dashboardPanelsService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
+import { getLaunchReadiness } from "@/services/launchReadinessService";
 import { getLiveActivity } from "@/services/liveActivityService";
+import { getOnboardingHealth } from "@/services/onboardingHealthService";
+import {
+  buildOperationsControlPlane,
+  normalizePlanetaryHealth,
+  type CodebaseGap,
+} from "@/services/operationsControlPlaneService";
 import { getSkyConditions } from "@/services/skyConditionsService";
 import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
 import { getSystemStatus } from "@/services/systemStatusService";
@@ -51,10 +58,119 @@ export const runtime = "nodejs";
 // must render even when a dependency URL is unconfigured.
 const PA_BACKEND_URL = getServiceUrlSafe("planetaryAgentsApi");
 
+// Known implementation debt that is visible from the admin surface. Keeping
+// this registry beside the payload assembly makes unfinished work explicit in
+// production instead of hiding it behind a permanently-empty `mockedFields`.
+const KNOWN_CODEBASE_GAPS: CodebaseGap[] = [
+  {
+    id: "api-volume-heatmap",
+    label: "API volume heatmap is not instrumented",
+    category: "MISSING_INSTRUMENTATION",
+    severity: "P1",
+    detail:
+      "Persist per-route hourly request counts before enabling the heatmap for capacity decisions.",
+    href: "#infrastructure",
+  },
+  {
+    id: "canonical-route-performance",
+    label: "Canonical route latency and error rates are not captured",
+    category: "MISSING_INSTRUMENTATION",
+    severity: "P1",
+    detail:
+      "The route matrix has live row counts but no per-route request, latency, or error aggregation.",
+    href: "#infrastructure",
+  },
+  {
+    id: "recipe-quality-sems",
+    label: "Recipe-level SEMS quality scores are not captured",
+    category: "MISSING_INSTRUMENTATION",
+    severity: "P1",
+    detail:
+      "Recipe ingestion does not persist the per-axis quality scores rendered by the inspector.",
+    href: "#engine",
+  },
+  {
+    id: "token-flow-series",
+    label: "Token mint/burn trend lacks time-series telemetry",
+    category: "MISSING_INSTRUMENTATION",
+    severity: "P1",
+    detail:
+      "The ledger provides 30-day totals, but no dated daily aggregates are persisted.",
+    href: "#economy",
+  },
+  {
+    id: "sems-rollup",
+    label: "SEMS thermodynamic rollup is illustrative",
+    category: "PLACEHOLDER_DATA",
+    severity: "P2",
+    detail:
+      "Add a persisted per-recipe SEMS rollup before restoring this sample panel.",
+    href: "#engine",
+  },
+  {
+    id: "recommendation-evals",
+    label: "Recommendation eval and canary controls are not wired",
+    category: "MISSING_WORKFLOW",
+    severity: "P2",
+    detail:
+      "NDCG, MAP, canary promotion, and rollback have no operator workflow yet.",
+    href: "#engine",
+  },
+  {
+    id: "billing-analytics",
+    label: "Billing retention analytics are not wired",
+    category: "MISSING_INSTRUMENTATION",
+    severity: "P2",
+    detail:
+      "Subscription mix, churn, lifetime value, and free-to-pro conversion are absent.",
+    href: "#commerce",
+  },
+  {
+    id: "agent-reasoning-traces",
+    label: "Agent step-level traces are not instrumented",
+    category: "MISSING_INSTRUMENTATION",
+    severity: "P2",
+    detail:
+      "Only agent-chat decision previews exist; no structured trace event or table is emitted.",
+    href: "#agents",
+  },
+  {
+    id: "agent-topology-state",
+    label: "Agent topology node states are decorative",
+    category: "PLACEHOLDER_DATA",
+    severity: "P2",
+    detail:
+      "Role counts are live, but per-node healthy, warning, and idle states are not backed by agent heartbeat data.",
+    href: "#agents",
+  },
+  {
+    id: "dashboard-visual-traces",
+    label: "Dashboard pulse and KPI mini-traces are illustrative",
+    category: "PLACEHOLDER_DATA",
+    severity: "P2",
+    detail:
+      "Headline values are live, but the hero line and KPI sparkline shapes are synthesized because time-series samples are not stored.",
+    href: "#overview",
+  },
+  {
+    id: "sky-event-projections",
+    label: "Upcoming sky-event impact projections are illustrative",
+    category: "PLACEHOLDER_DATA",
+    severity: "P2",
+    detail:
+      "Future event timing and projected site impact are not backed by a forecast feed.",
+    href: "#engine",
+  },
+];
+
 /**
  * Helper to fetch external APIs safely with a timeout
  */
-async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 2000): Promise<Response> {
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit = {},
+  timeoutMs = 2000,
+): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -140,7 +256,8 @@ export async function GET(request: NextRequest) {
     const stats = {
       totalUsers: allUsers.length,
       activeUsers: allUsers.filter((u) => u.isActive).length,
-      newUsersToday: allUsers.filter((u) => new Date(u.createdAt) > oneDayAgo).length,
+      newUsersToday: allUsers.filter((u) => new Date(u.createdAt) > oneDayAgo)
+        .length,
       completedOnboarding: allUsers.filter(
         (u) => u.profile.birthData && u.profile.natalChart,
       ).length,
@@ -191,6 +308,9 @@ export async function GET(request: NextRequest) {
     const featureFlagsPromise = Promise.resolve(getFeatureFlags());
     const practitionerGeoPromise = getPractitionerGeo();
     const cohortRetentionPromise = getCohortRetention();
+    const onboardingHealthPromise = getOnboardingHealth();
+    const launchReadinessPromise = getLaunchReadiness();
+    const resourceUsagePromise = getResourceUsage();
 
     let paHealth = "offline";
     let paAgentCount = 0;
@@ -221,7 +341,9 @@ export async function GET(request: NextRequest) {
       }
 
       if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-        paAgentCount = getAgentCount(await agentsRes.value.json().catch(() => []));
+        paAgentCount = getAgentCount(
+          await agentsRes.value.json().catch(() => []),
+        );
       }
     } catch (err) {
       console.error("Failed to query Planetary Agents backend metrics:", err);
@@ -248,14 +370,61 @@ export async function GET(request: NextRequest) {
     const featureFlags = await featureFlagsPromise;
     const practitionerGeo = await practitionerGeoPromise;
     const cohortRetention = await cohortRetentionPromise;
-    const resourceUsage = await getResourceUsage();
+    const onboardingHealth = await onboardingHealthPromise;
+    const launchReadiness = await launchReadinessPromise;
+    const resourceUsage = await resourceUsagePromise;
+
+    // Live metaphysical telemetry — feed-event rate + event-type entropy from
+    // the database, elemental harmony from the live ephemeris. Supersedes the
+    // former `meta.mockedTelemetry` seed fixture.
+    const telemetry = await telemetryPromise;
+
+    const planetaryIntegration = {
+      endpoints: {
+        alchmNextApp: "https://alchm.kitchen",
+        paUi: getServiceUrlSafe("agentsUi"),
+        paBackend: PA_BACKEND_URL,
+        wtenLegacyBackend: getServiceUrlSafe("wtenBackend"),
+      },
+      health: normalizePlanetaryHealth(paHealth),
+      agentCount: paAgentCount,
+      lastFeedEmit: feedEmitTracker.getLastEmit(),
+      telemetry,
+    };
+
+    const mockedFields = KNOWN_CODEBASE_GAPS.filter(
+      (gap) => gap.category === "PLACEHOLDER_DATA",
+    ).map((gap) => gap.label);
+    const operations = buildOperationsControlPlane({
+      systemStatus,
+      onboarding: onboardingHealth,
+      cosmicYield,
+      launchReadiness,
+      recentAlerts,
+      planetaryIntegration,
+      pulse: platformPulse,
+      stats,
+      observability: {
+        catalog: catalogTrending.live,
+        database: dbObservability.live,
+        engine: enginePerformance.live,
+        security: security.live,
+        commerce: commerce.live,
+        resources: resourceUsage.live,
+        deploys: deploys.live,
+        featureFlags: featureFlags.live,
+      },
+      mockedFields,
+      codebaseGaps: KNOWN_CODEBASE_GAPS,
+    });
 
     // Resolve the admin identity from the validated session rather than
     // hardcoding a single operator. Falls back to the session token payload
     // when the DB lookup fails so the panel always renders something.
     const adminEmail = authResult.user.email;
-    let adminDbUser: Awaited<ReturnType<typeof userDatabase.getUserById>> | null =
-      null;
+    let adminDbUser: Awaited<
+      ReturnType<typeof userDatabase.getUserById>
+    > | null = null;
     try {
       adminDbUser = await userDatabase.getUserById(authResult.user.userId);
     } catch (err) {
@@ -306,6 +475,10 @@ export async function GET(request: NextRequest) {
       commerce,
       pageTelemetry,
       systemStatus,
+      onboardingHealth,
+      launchReadiness,
+      operations,
+      planetaryIntegration,
       liveActivity: {
         entries: liveActivityResult.events,
         live: liveActivityResult.live,
@@ -321,26 +494,8 @@ export async function GET(request: NextRequest) {
       cohortRetention,
       meta: {
         generatedAt: now.toISOString(),
-        mockedFields: [],
+        mockedFields,
       },
-    };
-
-    // Live metaphysical telemetry — feed-event rate + event-type entropy from
-    // the database, elemental harmony from the live ephemeris. Supersedes the
-    // former `meta.mockedTelemetry` seed fixture.
-    const telemetry = await telemetryPromise;
-
-    const paIntegration = {
-      endpoints: {
-        alchmNextApp: "https://alchm.kitchen",
-        paUi: getServiceUrlSafe("agentsUi"),
-        paBackend: PA_BACKEND_URL,
-        wtenLegacyBackend: getServiceUrlSafe("wtenBackend"),
-      },
-      health: paHealth,
-      agentCount: paAgentCount,
-      lastFeedEmit: feedEmitTracker.getLastEmit(),
-      telemetry,
     };
 
     // Backwards-compatible response: legacy `/admin` reads `stats` and
@@ -351,7 +506,7 @@ export async function GET(request: NextRequest) {
       stats,
       recentUsers,
       data,
-      paIntegration,
+      paIntegration: planetaryIntegration,
     });
   } catch (error) {
     console.error("Admin dashboard error:", error);

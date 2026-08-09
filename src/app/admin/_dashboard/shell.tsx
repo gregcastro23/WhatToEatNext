@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import { Glyph, LiveTimecode, ScanLine } from "./atoms";
 import type { AdminDashboardData, Density } from "./data";
@@ -54,12 +55,21 @@ export function AdminShell({
       />
       <div
         data-shell-body=""
-        style={{ display: "grid", gridTemplateColumns: "232px 1fr", minHeight: 0 }}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "232px 1fr",
+          minHeight: 0,
+        }}
       >
-        <AdminSideRail data={data} />
+        <AdminSideRail data={data} onNavigate={() => setNavOpen(false)} />
         <main
           data-shell-main=""
-          style={{ minWidth: 0, minHeight: 0, overflow: "auto", padding: "16px 20px 24px" }}
+          style={{
+            minWidth: 0,
+            minHeight: 0,
+            overflow: "auto",
+            padding: "16px 20px 24px",
+          }}
           onClick={() => navOpen && setNavOpen(false)}
         >
           {children}
@@ -100,7 +110,8 @@ function AdminTopBar({
         gap: 24,
         padding: "0 20px",
         borderBottom: "1px solid var(--line)",
-        background: "linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005))",
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005))",
         backdropFilter: "blur(12px)",
         position: "relative",
         zIndex: 5,
@@ -117,12 +128,33 @@ function AdminTopBar({
           <Glyph name="crosshair" size={16} stroke={1.4} />
         </button>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Glyph name="orbital" size={20} stroke={1.4} style={{ color: "var(--accent)" }} />
-          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.0 }}>
-            <span className="t-display" style={{ fontSize: 17, letterSpacing: "0.02em" }}>
+          <Glyph
+            name="orbital"
+            size={20}
+            stroke={1.4}
+            style={{ color: "var(--accent)" }}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: 1.0,
+            }}
+          >
+            <span
+              className="t-display"
+              style={{ fontSize: 17, letterSpacing: "0.02em" }}
+            >
               alchm
             </span>
-            <span className="t-mono" style={{ fontSize: 8, letterSpacing: "0.32em", color: "var(--fg-mute)" }}>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 8,
+                letterSpacing: "0.32em",
+                color: "var(--fg-mute)",
+              }}
+            >
               ADMIN
             </span>
           </div>
@@ -134,26 +166,46 @@ function AdminTopBar({
               width: 28,
               height: 28,
               borderRadius: "50%",
-              background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
+              background:
+                "linear-gradient(135deg, var(--accent), var(--accent-2))",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontFamily: "var(--f-display)",
               fontSize: 14,
               color: "#0A0712",
-              boxShadow: "0 0 0 1px var(--line-hi), 0 0 16px var(--accent-glow)",
+              boxShadow:
+                "0 0 0 1px var(--line-hi), 0 0 16px var(--accent-glow)",
             }}
           >
             {user.initial}
           </div>
-          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
-            <span style={{ fontSize: 12, color: "var(--fg)" }}>{user.name}</span>
-            <span className="t-mono" style={{ fontSize: 9, letterSpacing: "0.16em", color: "var(--accent-2)" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              lineHeight: 1.15,
+            }}
+          >
+            <span style={{ fontSize: 12, color: "var(--fg)" }}>
+              {user.name}
+            </span>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9,
+                letterSpacing: "0.16em",
+                color: "var(--accent-2)",
+              }}
+            >
               {user.badge} · {user.role}
             </span>
           </div>
           {user.onCall && (
-            <span className="chip chip-active" style={{ padding: "2px 8px", fontSize: 8 }}>
+            <span
+              className="chip chip-active"
+              style={{ padding: "2px 8px", fontSize: 8 }}
+            >
               <span
                 style={{
                   width: 5,
@@ -172,7 +224,12 @@ function AdminTopBar({
       {/* center — global heartbeat */}
       <div
         data-shell-topbar-metrics=""
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18 }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 18,
+        }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span
@@ -186,10 +243,20 @@ function AdminTopBar({
             }}
             data-motion
           />
-          <span className="t-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--fg)" }}>
+          <span
+            className="t-mono"
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.18em",
+              color: "var(--fg)",
+            }}
+          >
             ALL SYSTEMS · {pulse.state}
           </span>
-          <span className="t-mono" style={{ fontSize: 11, color: "var(--fg-mute)" }}>
+          <span
+            className="t-mono"
+            style={{ fontSize: 11, color: "var(--fg-mute)" }}
+          >
             · {pulse.score.toFixed(2)}
             <span style={{ color: "var(--fg-faint)" }}>%</span>
           </span>
@@ -198,25 +265,50 @@ function AdminTopBar({
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <TopMetric label="AVAIL" value={`${pulse.availability}%`} />
           <TopMetric label="P95" value={`${pulse.p95}ms`} />
-          <TopMetric label="ERR" value={`${pulse.errRate}%`} tone={pulse.errRate > 0.1 ? "warn" : "ok"} />
+          <TopMetric
+            label="ERR"
+            value={`${pulse.errRate}%`}
+            tone={pulse.errRate > 0.1 ? "warn" : "ok"}
+          />
           <TopMetric label="DEPLOY" value={pulse.deployFreshness} />
-          <TopMetric label="INC" value={pulse.activeIncidents} tone={pulse.activeIncidents ? "warn" : "ok"} />
+          <TopMetric
+            label="INC"
+            value={pulse.activeIncidents}
+            tone={pulse.activeIncidents ? "warn" : "ok"}
+          />
         </div>
       </div>
 
       {/* right — time, search, alerts, deploy */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div
+        data-shell-actions=""
+        style={{ display: "flex", alignItems: "center", gap: 12 }}
+      >
         <div
           data-shell-time=""
-          style={{ display: "flex", flexDirection: "column", textAlign: "right", lineHeight: 1.1 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "right",
+            lineHeight: 1.1,
+          }}
         >
           <LiveTimecode format="JD" />
           <LiveTimecode format="UTC" />
         </div>
-        <button className="btn btn-ghost" style={{ padding: "6px 10px", fontSize: 10, gap: 8 }} type="button">
-          <Glyph name="search" size={12} />⌘K
+        <button
+          className="btn btn-ghost"
+          style={{ padding: "6px 10px", fontSize: 10, gap: 8 }}
+          type="button"
+        >
+          <Glyph name="search" size={12} />
+          ⌘K
         </button>
-        <button className="btn btn-ghost" style={{ padding: "6px 10px", fontSize: 10, position: "relative" }} type="button">
+        <button
+          className="btn btn-ghost"
+          style={{ padding: "6px 10px", fontSize: 10, position: "relative" }}
+          type="button"
+        >
           <Glyph name="ring" size={12} />
           <span
             style={{
@@ -256,8 +348,15 @@ function TopMetric({
   const color = tone === "warn" ? "var(--el-fire)" : "var(--fg)";
   return (
     <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.05 }}>
-      <span className="t-mono" style={{ fontSize: 8, letterSpacing: "0.2em", color: "var(--fg-mute)" }}>{label}</span>
-      <span className="t-num" style={{ fontSize: 12, color }}>{value}</span>
+      <span
+        className="t-mono"
+        style={{ fontSize: 8, letterSpacing: "0.2em", color: "var(--fg-mute)" }}
+      >
+        {label}
+      </span>
+      <span className="t-num" style={{ fontSize: 12, color }}>
+        {value}
+      </span>
     </div>
   );
 }
@@ -268,6 +367,7 @@ function TopMetric({
 interface ModuleEntry {
   id: string;
   label: string;
+  href: string;
   glyph:
     | "orbital"
     | "crosshair"
@@ -309,24 +409,42 @@ function formatBytes(bytes: number): string {
   return `${n.toFixed(n < 10 ? 1 : 0)} ${units[i]}`;
 }
 
-function AdminSideRail({ data }: { data: AdminDashboardData }) {
-  const flowsCount = data.systemStatus.flows.length + data.systemStatus.dependencies.length;
-  const activeAlerts = data.recentAlerts.entries.filter((a) => !a.suppressed && a.severity !== "info").length;
+function AdminSideRail({
+  data,
+  onNavigate,
+}: {
+  data: AdminDashboardData;
+  onNavigate: () => void;
+}) {
+  const flowsCount =
+    data.systemStatus.flows.length + data.systemStatus.dependencies.length;
+  const activeAlerts = data.recentAlerts.entries.filter(
+    (a) => !a.suppressed && a.severity !== "info",
+  ).length;
   const recipeCount = data.stats.totalRecipes;
   const ingredientCount = data.stats.totalIngredients;
   const commensals = data.pageTelemetry.commensals;
 
   const modules: ModuleEntry[] = [
-    { id: "overview", label: "Overview", glyph: "orbital", badge: null, active: true },
+    {
+      id: "overview",
+      label: "Overview",
+      href: "#overview",
+      glyph: "orbital",
+      badge: null,
+    },
     {
       id: "ops",
       label: "Operations",
+      href: "#operations",
       glyph: "crosshair",
       badge: flowsCount > 0 ? `${flowsCount} svc` : null,
+      active: true,
     },
     {
       id: "engine",
       label: "Recommendation",
+      href: "#engine",
       glyph: "atom",
       badge: data.enginePerformance.live
         ? `${data.enginePerformance.totalCalculations.toLocaleString()} calc`
@@ -335,18 +453,22 @@ function AdminSideRail({ data }: { data: AdminDashboardData }) {
     {
       id: "agents",
       label: "Agent Mesh",
+      href: "#agents",
       glyph: "ring",
       badge: null,
     },
     {
       id: "users",
       label: "Practitioners",
+      href: "/admin/users",
       glyph: "diamond",
-      badge: data.stats.totalUsers > 0 ? formatCount(data.stats.totalUsers) : null,
+      badge:
+        data.stats.totalUsers > 0 ? formatCount(data.stats.totalUsers) : null,
     },
     {
       id: "catalog",
       label: "Catalog",
+      href: "#engine",
       glyph: "bookmark",
       badge:
         recipeCount + ingredientCount > 0
@@ -356,27 +478,60 @@ function AdminSideRail({ data }: { data: AdminDashboardData }) {
     {
       id: "commensal",
       label: "Commensal",
+      href: "#platform-telemetry",
       glyph: "wave",
       badge: commensals > 0 ? String(commensals) : null,
     },
     {
       id: "commerce",
       label: "Commerce",
+      href: "#commerce",
       glyph: "triangle-up-bar",
       badge: data.commerce.live ? formatCurrencyShort(data.commerce.mrr) : null,
     },
     {
       id: "moderation",
       label: "Moderation",
+      href: "#trust",
       glyph: "flask",
       badge: activeAlerts > 0 ? String(activeAlerts) : null,
       warn: activeAlerts > 0,
     },
-    { id: "security", label: "Security", glyph: "spiral", badge: null },
-    { id: "experiments", label: "Experiments", glyph: "triangle-down-bar", badge: null },
-    { id: "deploys", label: "Deploys", glyph: "triangle-up", badge: null },
-    { id: "audit", label: "Audit Log", glyph: "bookmark", badge: null },
-    { id: "settings", label: "Settings", glyph: "settings", badge: null },
+    {
+      id: "security",
+      label: "Security",
+      href: "#trust",
+      glyph: "spiral",
+      badge: null,
+    },
+    {
+      id: "experiments",
+      label: "Experiments",
+      href: "#delivery",
+      glyph: "triangle-down-bar",
+      badge: null,
+    },
+    {
+      id: "deploys",
+      label: "Deploys",
+      href: "#delivery",
+      glyph: "triangle-up",
+      badge: null,
+    },
+    {
+      id: "audit",
+      label: "Audit Log",
+      href: "#delivery",
+      glyph: "bookmark",
+      badge: null,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      href: "/admin/settings",
+      glyph: "settings",
+      badge: null,
+    },
   ];
 
   const buildId =
@@ -396,20 +551,25 @@ function AdminSideRail({ data }: { data: AdminDashboardData }) {
       data-shell-rail=""
       style={{
         borderRight: "1px solid var(--line)",
-        background: "linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.002))",
+        background:
+          "linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.002))",
         display: "flex",
         flexDirection: "column",
         minHeight: 0,
       }}
     >
       <div style={{ padding: "12px 16px 6px" }}>
-        <div className="t-tag" style={{ fontSize: 9 }}>HIGH ALCHEMIST · CONTROL</div>
+        <div className="t-tag" style={{ fontSize: 9 }}>
+          HIGH ALCHEMIST · CONTROL
+        </div>
       </div>
 
       <nav style={{ flex: 1, overflow: "auto", padding: "4px 8px 10px" }}>
         {modules.map((m) => (
-          <div
+          <Link
             key={m.id}
+            href={m.href}
+            onClick={onNavigate}
             style={{
               display: "flex",
               alignItems: "center",
@@ -417,13 +577,16 @@ function AdminSideRail({ data }: { data: AdminDashboardData }) {
               padding: "9px 10px",
               borderRadius: 8,
               cursor: "pointer",
-              background: m.active ? "color-mix(in oklch, var(--accent), transparent 86%)" : "transparent",
+              background: m.active
+                ? "color-mix(in oklch, var(--accent), transparent 86%)"
+                : "transparent",
               border: m.active
                 ? "1px solid color-mix(in oklch, var(--accent), transparent 60%)"
                 : "1px solid transparent",
               color: m.active ? "var(--fg)" : "var(--fg-dim)",
               position: "relative",
               marginBottom: 2,
+              textDecoration: "none",
             }}
           >
             {m.active && (
@@ -467,12 +630,14 @@ function AdminSideRail({ data }: { data: AdminDashboardData }) {
                 {m.badge}
               </span>
             )}
-          </div>
+          </Link>
         ))}
       </nav>
 
       <div style={{ padding: 12, borderTop: "1px solid var(--line)" }}>
-        <div className="t-tag" style={{ fontSize: 9, marginBottom: 6 }}>ENVIRONMENT</div>
+        <div className="t-tag" style={{ fontSize: 9, marginBottom: 6 }}>
+          ENVIRONMENT
+        </div>
         <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
           <span
             className={`chip ${env === "production" || env === "prod" ? "chip-active" : ""}`}
@@ -514,7 +679,16 @@ function AdminSideRail({ data }: { data: AdminDashboardData }) {
 function SideKv({ k, v }: { k: string; v: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-      <span className="t-mono" style={{ fontSize: 9, letterSpacing: "0.12em", color: "var(--fg-mute)" }}>{k}</span>
+      <span
+        className="t-mono"
+        style={{
+          fontSize: 9,
+          letterSpacing: "0.12em",
+          color: "var(--fg-mute)",
+        }}
+      >
+        {k}
+      </span>
       <span
         className="t-mono"
         style={{
@@ -560,15 +734,26 @@ export function ArchitectCard({
     info: "var(--fg-mute)",
   };
   return (
-    <div className="panel-glow" style={{ padding: 16, position: "relative", overflow: "hidden" }}>
+    <div
+      className="panel-glow"
+      style={{ padding: 16, position: "relative", overflow: "hidden" }}
+    >
       <ScanLine />
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          marginBottom: 14,
+        }}
+      >
         <div
           style={{
             width: 56,
             height: 56,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
+            background:
+              "linear-gradient(135deg, var(--accent), var(--accent-2))",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -594,8 +779,15 @@ export function ArchitectCard({
           />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div className="t-tag" style={{ fontSize: 8.5 }}>HIGH ALCHEMIST · {user.role}</div>
-          <div className="t-display" style={{ fontSize: 18, lineHeight: 1.1, marginTop: 2 }}>{user.name}</div>
+          <div className="t-tag" style={{ fontSize: 8.5 }}>
+            HIGH ALCHEMIST · {user.role}
+          </div>
+          <div
+            className="t-display"
+            style={{ fontSize: 18, lineHeight: 1.1, marginTop: 2 }}
+          >
+            {user.name}
+          </div>
           <div
             className="t-mono"
             style={{
@@ -613,12 +805,23 @@ export function ArchitectCard({
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 12 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 6,
+          marginBottom: 12,
+        }}
+      >
         <KvLine k="BADGE" v={user.badge} />
         <KvLine k="TIER" v={user.tier} accent />
         <KvLine k="JOINED" v={user.joined} />
         <KvLine k="REGION" v={process.env.NEXT_PUBLIC_VERCEL_REGION ?? "—"} />
-        <KvLine k="ON CALL" v={user.onCall ? "YES · primary" : "no"} accent={user.onCall} />
+        <KvLine
+          k="ON CALL"
+          v={user.onCall ? "YES · primary" : "no"}
+          accent={user.onCall}
+        />
         <KvLine k="2FA" v={user.onCall ? "hw key · ok" : "—"} />
       </div>
 
@@ -642,7 +845,9 @@ export function ArchitectCard({
               fontSize: 11,
             }}
           >
-            {recentAlerts.live ? "no alerts in window" : "alert_events unreachable"}
+            {recentAlerts.live
+              ? "no alerts in window"
+              : "alert_events unreachable"}
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -655,7 +860,8 @@ export function ArchitectCard({
                   gap: 10,
                   alignItems: "center",
                   padding: "8px 4px",
-                  borderBottom: i === alerts.length - 1 ? "none" : "1px solid var(--line)",
+                  borderBottom:
+                    i === alerts.length - 1 ? "none" : "1px solid var(--line)",
                   opacity: a.suppressed ? 0.55 : 1,
                 }}
               >
@@ -685,7 +891,10 @@ export function ArchitectCard({
                 >
                   {a.title}
                 </span>
-                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                <span
+                  className="t-mono"
+                  style={{ fontSize: 9, color: "var(--fg-mute)" }}
+                >
                   {formatRelative(a.triggeredAt)}
                 </span>
               </div>
@@ -695,10 +904,18 @@ export function ArchitectCard({
       </div>
 
       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-        <button className="btn btn-primary" style={{ padding: "6px 12px", fontSize: 9, flex: 1 }} type="button">
+        <button
+          className="btn btn-primary"
+          style={{ padding: "6px 12px", fontSize: 9, flex: 1 }}
+          type="button"
+        >
           OPEN INBOX
         </button>
-        <button className="btn btn-ghost" style={{ padding: "6px 12px", fontSize: 9 }} type="button">
+        <button
+          className="btn btn-ghost"
+          style={{ padding: "6px 12px", fontSize: 9 }}
+          type="button"
+        >
           HAND OFF
         </button>
       </div>
@@ -718,7 +935,9 @@ function KvLine({ k, v, accent }: { k: string; v: string; accent?: boolean }) {
         minWidth: 0,
       }}
     >
-      <span className="t-tag" style={{ fontSize: 8.5 }}>{k}</span>
+      <span className="t-tag" style={{ fontSize: 8.5 }}>
+        {k}
+      </span>
       <span
         className="t-mono"
         style={{
