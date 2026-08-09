@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import type { QuickFoodCategory } from "@/types/foodDiary";
 import type { NextRequest } from "next/server";
@@ -20,7 +21,7 @@ export const runtime = "nodejs";
  *
  * Query params:
  * - q: string (required, search query)
- * - userId: string (optional, for personalized results)
+ *   (identity is taken from the session — a `userId` query param is ignored)
  * - limit: number (optional, default 20)
  * - category: string (optional, filter by category)
  */
@@ -28,7 +29,11 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("q");
-    const userId = searchParams.get("userId") || "guest";
+    // Identity comes from the session, never the query string. searchFoods()
+    // reads the user's own saved favourites, so a caller-supplied `userId`
+    // returned someone else's. Signed-out callers still search the shared
+    // preset catalogue as "guest" — that half was never user-scoped.
+    const userId = (await getUserIdFromRequest(request)) ?? "guest";
     const limit = parseInt(searchParams.get("limit") || "20", 10);
     const category = searchParams.get("category") as QuickFoodCategory | null;
 
