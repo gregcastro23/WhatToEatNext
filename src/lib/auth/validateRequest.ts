@@ -276,7 +276,14 @@ export async function validateAdminRequest(
 }
 
 /**
- * Helper to get userId from request (from NextAuth session, token, or query param)
+ * Helper to get userId from request: NextAuth session, then bearer token, then
+ * the agents bridge. Returns null if none identify a user.
+ *
+ * There is deliberately NO query-param fallback. One existed until #632 and was
+ * a live production auth bypass — `?userId=<uuid>` returned that account's data
+ * with no cookie and no header. Do not reintroduce it: `getDatabaseUserFromRequest`
+ * guards the spend paths by calling this function, so a fallback here silently
+ * becomes a fallback for money.
  */
 export async function getUserIdFromRequest(
   request: NextRequest,
