@@ -16,6 +16,7 @@
  * Polls /api/admin/onboarding-health every 30s with visibility-aware backoff.
  */
 
+import Link from "next/link";
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
@@ -80,7 +81,8 @@ const STATUS_STYLE: Record<
   { banner: string; dot: string; label: string; pill: string }
 > = {
   OK: {
-    banner: "bg-gradient-to-r from-emerald-50 to-emerald-100 border-emerald-200",
+    banner:
+      "bg-gradient-to-r from-emerald-50 to-emerald-100 border-emerald-200",
     dot: "bg-emerald-500 animate-pulse",
     label: "OK",
     pill: "bg-emerald-200 text-emerald-900",
@@ -142,7 +144,9 @@ export default function OnboardingFunnelPanel() {
         setError(`Failed to load onboarding health (HTTP ${res.status})`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & OnboardingHealthPayload;
+      const json = (await res.json()) as {
+        success: boolean;
+      } & OnboardingHealthPayload;
       if (json.success) {
         setData(json);
         setError(null);
@@ -247,7 +251,9 @@ export default function OnboardingFunnelPanel() {
                           ? "bg-gradient-to-r from-emerald-400 to-emerald-500"
                           : "bg-gradient-to-r from-purple-400 to-purple-500"
                       }`}
-                      style={{ width: `${Math.max(widthPct, stage.count > 0 ? 4 : 0)}%` }}
+                      style={{
+                        width: `${Math.max(widthPct, stage.count > 0 ? 4 : 0)}%`,
+                      }}
                     />
                   </div>
                 </div>
@@ -256,8 +262,11 @@ export default function OnboardingFunnelPanel() {
           </div>
           {data.skipRate > 0 && (
             <p className="mt-4 text-xs text-gray-500">
-              <span className="font-semibold">{(data.skipRate * 100).toFixed(0)}%</span>{" "}
-              of completions used &ldquo;skip natal&rdquo; (no birth data submitted).
+              <span className="font-semibold">
+                {(data.skipRate * 100).toFixed(0)}%
+              </span>{" "}
+              of completions used &ldquo;skip natal&rdquo; (no birth data
+              submitted).
             </p>
           )}
         </div>
@@ -282,7 +291,10 @@ export default function OnboardingFunnelPanel() {
                         : "error"
                   }
                 />
-                <Stat label="p50 latency" value={`${data.apiHealth.p50LatencyMs}ms`} />
+                <Stat
+                  label="p50 latency"
+                  value={`${data.apiHealth.p50LatencyMs}ms`}
+                />
                 <Stat
                   label="p95 latency"
                   value={`${data.apiHealth.p95LatencyMs}ms`}
@@ -319,7 +331,9 @@ export default function OnboardingFunnelPanel() {
                         </span>
                         {err.method} {err.path} →{" "}
                         <span className="font-bold">{err.status}</span>{" "}
-                        <span className="text-gray-500">({err.latencyMs}ms)</span>
+                        <span className="text-gray-500">
+                          ({err.latencyMs}ms)
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -357,12 +371,17 @@ export default function OnboardingFunnelPanel() {
                     className="hover:bg-amber-100 border-t border-amber-200"
                   >
                     <td className="px-2 py-1.5">
-                      <div className="font-medium text-gray-800">
-                        {user.name || "No name"}
-                      </div>
-                      <div className="text-xs text-gray-600 font-mono">
-                        {user.email}
-                      </div>
+                      <Link
+                        href={`/admin/users/${user.userId}`}
+                        className="block hover:text-purple-700"
+                      >
+                        <div className="font-medium text-gray-800">
+                          {user.name || "No name"}
+                        </div>
+                        <div className="text-xs text-gray-600 font-mono">
+                          {user.email}
+                        </div>
+                      </Link>
                     </td>
                     <td className="px-2 py-1.5 text-xs font-mono text-amber-900">
                       {user.ageHours}h
@@ -386,7 +405,9 @@ export default function OnboardingFunnelPanel() {
           Recent successful onboardings
         </h3>
         {data.recentSuccesses.length === 0 ? (
-          <p className="text-sm text-gray-500 italic">No completed onboardings yet.</p>
+          <p className="text-sm text-gray-500 italic">
+            No completed onboardings yet.
+          </p>
         ) : (
           <ul className="space-y-2">
             {data.recentSuccesses.slice(0, 5).map((user) => (
@@ -399,9 +420,12 @@ export default function OnboardingFunnelPanel() {
                     ✓
                   </span>
                   <div className="min-w-0">
-                    <div className="font-medium text-gray-800 truncate">
+                    <Link
+                      href={`/admin/users/${user.userId}`}
+                      className="block font-medium text-gray-800 truncate hover:text-purple-700"
+                    >
                       {user.name || "No name"}
-                    </div>
+                    </Link>
                     <div className="text-xs text-gray-500 font-mono truncate">
                       {user.email}
                     </div>
@@ -418,7 +442,9 @@ export default function OnboardingFunnelPanel() {
                     </span>
                   )}
                   {!user.fullOnboarding && (
-                    <span className="text-[10px] text-gray-400 italic">skipped natal</span>
+                    <span className="text-[10px] text-gray-400 italic">
+                      skipped natal
+                    </span>
                   )}
                   <span className="text-xs text-gray-500 font-mono">
                     {formatRelative(user.completedAt)}

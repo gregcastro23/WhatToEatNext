@@ -14,23 +14,23 @@
   width: 100%;
   min-height: 100vh;
   background: #050409;
-  color: #F2EDFF;
+  color: #f2edff;
 }
 
 /* Scope tokens to the dashboard root so the rest of the
    app (Tailwind, marketing pages) is untouched. */
 .dashboard-root {
-  --bg: #07060B;
-  --bg-elev: #0E0C16;
-  --bg-elev-2: #15121F;
+  --bg: #07060b;
+  --bg-elev: #0e0c16;
+  --bg-elev-2: #15121f;
   --surface: rgba(255, 255, 255, 0.03);
   --surface-hi: rgba(255, 255, 255, 0.055);
   --line: rgba(255, 255, 255, 0.08);
   --line-hi: rgba(255, 255, 255, 0.14);
-  --fg: #F2EDFF;
-  --fg-dim: #B5ADCC;
-  --fg-mute: #6E6884;
-  --fg-faint: #3F3A52;
+  --fg: #f2edff;
+  --fg-dim: #b5adcc;
+  --fg-mute: #6e6884;
+  --fg-faint: #3f3a52;
 
   --accent: oklch(0.72 0.18 305);
   --accent-2: oklch(0.78 0.14 65);
@@ -53,8 +53,16 @@
   -webkit-font-smoothing: antialiased;
 
   background:
-    radial-gradient(1200px 800px at 20% 10%, rgba(120, 90, 255, 0.06), transparent 60%),
-    radial-gradient(900px 700px at 90% 90%, rgba(255, 160, 80, 0.04), transparent 60%),
+    radial-gradient(
+      1200px 800px at 20% 10%,
+      rgba(120, 90, 255, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 700px at 90% 90%,
+      rgba(255, 160, 80, 0.04),
+      transparent 60%
+    ),
     #050409;
 }
 
@@ -70,12 +78,12 @@
   --accent-2: oklch(0.78 0.14 65);
 }
 .dashboard-root[data-palette="bio"] {
-  --accent: oklch(0.82 0.20 165);
+  --accent: oklch(0.82 0.2 165);
   --accent-2: oklch(0.78 0.14 90);
 }
 .dashboard-root[data-palette="copper"] {
   --accent: oklch(0.78 0.16 60);
-  --accent-2: oklch(0.70 0.18 25);
+  --accent-2: oklch(0.7 0.18 25);
 }
 .dashboard-root[data-palette="prism"] {
   --accent: oklch(0.74 0.22 330);
@@ -94,9 +102,17 @@
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(1000px 700px at 15% 0%, rgba(140, 100, 255, 0.10), transparent 60%),
-    radial-gradient(700px 600px at 100% 100%, rgba(255, 170, 90, 0.06), transparent 60%),
-    linear-gradient(180deg, #0A0712 0%, #07060B 100%);
+    radial-gradient(
+      1000px 700px at 15% 0%,
+      rgba(140, 100, 255, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 600px at 100% 100%,
+      rgba(255, 170, 90, 0.06),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #0a0712 0%, #07060b 100%);
   color: var(--fg);
   overflow: hidden;
   font-family: var(--f-body);
@@ -110,7 +126,11 @@
     linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
   background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 95%);
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 40%,
+    black 30%,
+    transparent 95%
+  );
   pointer-events: none;
 }
 
@@ -174,7 +194,11 @@
    ========================================================= */
 .panel {
   position: relative;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.005));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.025),
+    rgba(255, 255, 255, 0.005)
+  );
   border: 1px solid var(--line);
   border-radius: var(--radius);
   backdrop-filter: blur(12px);
@@ -186,7 +210,11 @@
 }
 .panel-glow {
   position: relative;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.005));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.005)
+  );
   border: 1px solid var(--line-hi);
   border-radius: var(--radius);
   box-shadow:
@@ -262,7 +290,11 @@
   border-color: rgba(255, 255, 255, 0.22);
 }
 .dashboard-root .btn-primary {
-  background: linear-gradient(180deg, color-mix(in oklch, var(--accent), transparent 60%), color-mix(in oklch, var(--accent), transparent 80%));
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--accent), transparent 60%),
+    color-mix(in oklch, var(--accent), transparent 80%)
+  );
   border-color: color-mix(in oklch, var(--accent), transparent 40%);
   color: var(--fg);
   box-shadow:
@@ -270,7 +302,11 @@
     0 12px 40px -10px var(--accent-soft);
 }
 .dashboard-root .btn-primary:hover {
-  background: linear-gradient(180deg, color-mix(in oklch, var(--accent), transparent 40%), color-mix(in oklch, var(--accent), transparent 70%));
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklch, var(--accent), transparent 40%),
+    color-mix(in oklch, var(--accent), transparent 70%)
+  );
 }
 .dashboard-root .btn-ghost {
   background: transparent;
@@ -383,6 +419,50 @@
 
 .dashboard-root.motion-off [data-motion] {
   animation: none !important;
+}
+
+/* Quantum control-plane interaction + dense widescreen layout. */
+.quantum-control-plane a {
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+.quantum-control-plane a:hover {
+  background-color: rgba(255, 255, 255, 0.035) !important;
+  border-color: var(--line-hi) !important;
+}
+.quantum-domain-grid > a:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1380px) {
+  .quantum-headline-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .quantum-headline-grid > div:nth-child(3n) {
+    border-right: none !important;
+  }
+  .quantum-headline-grid > div:nth-child(-n + 3) {
+    border-bottom: 1px solid var(--line);
+  }
+  .quantum-secondary-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .quantum-secondary-grid > div:last-child {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 1160px) {
+  .quantum-primary-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .quantum-primary-grid > div:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 /* =========================================================
@@ -519,6 +599,7 @@
   }
   .admin-shell main[data-shell-main] {
     padding: 12px 12px 96px !important;
+    overflow-x: hidden !important;
   }
 
   /* stack helpers — applied to inline-styled grids in Dashboard.tsx */
@@ -546,6 +627,17 @@
   .dash-kpi-grid > div:nth-child(-n + 10) {
     border-bottom: 1px solid var(--line) !important;
   }
+  .quantum-secondary-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .quantum-secondary-grid > div {
+    grid-column: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--line);
+  }
+  .quantum-domain-grid {
+    grid-template-columns: 1fr !important;
+  }
 
   /* tighten panel internals */
   .dashboard-root .panel,
@@ -565,6 +657,21 @@
 }
 
 @media (max-width: 600px) {
+  .admin-shell [data-shell-actions] {
+    display: none !important;
+  }
+  .admin-shell header[data-shell-topbar] {
+    grid-template-columns: 1fr !important;
+  }
+  .quantum-headline-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .quantum-headline-grid > div {
+    border-bottom: 1px solid var(--line);
+  }
+  .quantum-headline-grid > div:nth-child(2n) {
+    border-right: none !important;
+  }
   .dash-kpi-grid {
     grid-template-columns: 1fr !important;
   }
