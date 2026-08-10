@@ -16,7 +16,6 @@ import PlanetaryAspectsDisplay from "@/components/PlanetaryAspectsDisplay";
 import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChart";
 import { QuantityContextStrip } from "@/components/QuantityContext";
 import { AlchemicalStatisticsProvider } from "@/contexts/AlchemicalStatisticsContext";
-import { usePremium } from "@/contexts/PremiumContext";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
 import type {
   TokenBalances,
@@ -400,7 +399,6 @@ interface EconomyTabProps {
 }
 
 function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: EconomyTabProps) {
-  const { isPremium } = usePremium();
 
   const [balances, setBalances] = useState<TokenBalances | null>(null);
   const prevBalances = useRef<TokenBalances | null>(null);
@@ -623,14 +621,6 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
               </span>
               <span className="text-[9px] text-amber-400/50 font-medium">
                 day streak
-              </span>
-            </div>
-          )}
-
-          {isPremium && (
-            <div className="px-3 py-1.5 bg-amber-500/15 rounded-full border border-amber-500/30 flex items-center gap-1.5">
-              <span className="text-[9px] text-amber-400 font-black uppercase tracking-widest">
-                ✦ 2× Premium
               </span>
             </div>
           )}

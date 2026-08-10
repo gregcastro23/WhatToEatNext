@@ -18,7 +18,6 @@ export { PremiumMark, type PremiumMarkProps } from "./PremiumMark";
 export { PremiumLockBadge } from "./PremiumLockBadge";
 export { ProcurementKit, type ProcurementItem, type ProcurementKitProps } from "./ProcurementKit";
 export { ProcureChip, type ProcureChipProps } from "./ProcureChip";
-export { PremiumGlow, type PremiumGlowProps } from "./PremiumGlow";
 
 export { procureBtnStyle, premiumBtnStyle } from "./buttonStyles";
 

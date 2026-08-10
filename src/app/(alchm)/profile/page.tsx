@@ -15,15 +15,11 @@ import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { FoodPreferences } from '@/components/profile/FoodPreferences';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { usePremium } from '@/contexts/PremiumContext';
 import type { BirthData, NatalChart } from '@/types/natalChart';
 
 // Heavy panels that only render on non-default profile tabs (cosmos / agents /
 // economy) are code-split so they stay out of the initial bundle.
 const UserDashboard = dynamic(() => import('@/components/dashboard').then((m) => m.UserDashboard));
-const YieldMultiplierCard = dynamic(() =>
-  import('@/components/economy/YieldMultiplierCard').then((m) => m.YieldMultiplierCard),
-);
 const AgentsPane = dynamic(() => import('@/components/profile/AgentsPane').then((m) => m.AgentsPane));
 const CosmicAlignmentCard = dynamic(() =>
   import('@/components/profile/CosmicAlignmentCard').then((m) => m.CosmicAlignmentCard),
@@ -265,7 +261,6 @@ function PremiumDashboard({
             {activeTab === 'economy' && (
               <div className="space-y-7">
                 <TokenBalanceBar />
-                <YieldMultiplierCard />
                 <LiveLedgerFeed limit={5} />
                 <div className="rounded-3xl glass-card-premium p-6 border-white/8">
                   <div className="flex items-center justify-between mb-4">
@@ -618,10 +613,10 @@ function FreeDashboard({
                 {/* ── ESMS vault pointer ──
                     Replaced the "$5 / month · Upgrade to Premium" upsell. That
                     card advertised a real price for a tier ede69c41 abandoned:
-                    no Stripe subscription has ever been created, and
-                    openCheckout('premium') swallows a failed /api/stripe/checkout
-                    silently, so the button was a dead end. The vault is where
-                    the live pay-as-you-go economy actually lives. */}
+                    no Stripe subscription was ever created, and the checkout it
+                    opened failed silently, so the button was a dead end. Both
+                    the tier and that checkout route are now retired; the vault
+                    is where the live pay-as-you-go economy actually lives. */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -644,7 +639,7 @@ function FreeDashboard({
                     </p>
                     <div className="flex items-center gap-4 flex-wrap">
                       <Link
-                        href="/premium"
+                        href="/vault"
                         className="px-8 py-3 bg-gradient-to-r from-purple-600 to-amber-500 text-white rounded-full font-black text-sm uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] transition-all"
                       >
                         Open the vault
@@ -787,7 +782,6 @@ function ProfileSkeleton() {
 export default function ProfilePage() {
   const { data: session, status, update: updateSession } = useSession();
   const { state: _state } = useAlchemical();
-  const { isLoading: premiumLoading } = usePremium();
 
   // `role` is derived server-side from the admin allowlist and carried in the
   // signed JWT, so it is not user-forgeable. Deliberately NOT re-checking
@@ -976,7 +970,7 @@ export default function ProfilePage() {
   };
 
   // Auth states
-  if (status === 'loading' || premiumLoading) return <ProfileSkeleton />;
+  if (status === 'loading') return <ProfileSkeleton />;
   if (status === 'unauthenticated' || !session) return null;
 
   // Shared props for sub-dashboards

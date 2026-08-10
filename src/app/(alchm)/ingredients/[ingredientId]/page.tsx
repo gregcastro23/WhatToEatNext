@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState, use, type JSX } from "react";
 import {
   CompatibilityRing,
   ElementalMeter,
-  PremiumGlow,
   ProcurementKit,
   SeasonalityChart,
   SensoryRadar,
@@ -651,13 +650,10 @@ export default function IngredientHeroPage({
           <div className="t-tag" style={{ marginBottom: 12 }}>
             AGENT INTELLIGENCE
           </div>
-          <PremiumGlow
-            revealAmount={0.4}
-            headline="Unlock the full readout for this ingredient."
-            description="Recipe lineage, agent-tuned substitutions, and Spirit×Essence×Matter forecasting against your natal chart."
-            ctaLabel="Go Premium"
-            ctaHref="/premium"
-          >
+          {/* PremiumGlow removed with the tier concept: it blurred this readout
+              behind a "Go Premium" CTA for a subscription nobody ever held. The
+              full agent intelligence is simply shown now. */}
+          <>
             <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
               <div>
                 <div className="t-tag" style={{ marginBottom: 10 }}>
@@ -710,7 +706,7 @@ export default function IngredientHeroPage({
                 </div>
               </div>
             </div>
-          </PremiumGlow>
+          </>
         </section>
       </main>
     </Shell>

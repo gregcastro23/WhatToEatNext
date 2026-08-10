@@ -9,7 +9,6 @@ import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalCons
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
 import { ElementalWheel } from '@/components/profile/ElementalWheel';
 import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
-import { TierUpgradePrompt } from '@/components/profile/TierUpgradePrompt';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useActiveTransits } from '@/hooks/useActiveTransits';
 import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
@@ -649,15 +648,6 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
               </CollapsibleSection>
             </motion.div>
 
-            {tier === 'free' && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-              >
-                <TierUpgradePrompt />
-              </motion.div>
-            )}
           </div>
         </div>
       </section>

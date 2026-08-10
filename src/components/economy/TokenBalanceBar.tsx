@@ -12,7 +12,6 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { usePremium } from '@/contexts/PremiumContext';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
 import type { TokenBalances, UserStreak, DailyYieldResult, TokenType } from '@/types/economy';
 import { PlanetaryInfluenceTooltip } from './PlanetaryInfluenceTooltip';
@@ -34,7 +33,6 @@ interface TokenBalanceBarProps {
 }
 
 export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBarProps) {
-  const { isPremium } = usePremium();
   const [balances, setBalances] = useState<TokenBalances | null>(null);
   const prevBalances = useRef<TokenBalances | null>(null);
   const [streak, setStreak] = useState<UserStreak | null>(null);
@@ -243,12 +241,6 @@ export function TokenBalanceBar({ className = '', onClaimDaily }: TokenBalanceBa
               </div>
             )}
 
-            {/* Premium Badge */}
-            {isPremium && (
-              <div className="px-3 py-1 bg-amber-500/20 rounded-full border border-amber-500/30 flex items-center gap-1.5 animate-pulse">
-                <span className="text-[10px] text-amber-400 font-black uppercase">2x Premium</span>
-              </div>
-            )}
 
             {/* Claim Button */}
             {canClaim && (

@@ -761,10 +761,12 @@ async function probeTokenEconomy(): Promise<FlowHealth> {
 
 async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
-  const checkout = summarizePath("/api/stripe/checkout", ONE_HOUR);
+  // /api/stripe/checkout and /api/stripe/portal were deleted with the premium
+  // tier. A summary over a route that no longer exists reports a permanent
+  // zero, which reads as "no errors" rather than "no route" — so they are not
+  // monitored here. The webhook is the surviving Stripe surface.
   const webhook = summarizePath("/api/stripe/webhook", ONE_HOUR);
-  const portal = summarizePath("/api/stripe/portal", ONE_HOUR);
-  const combined = [checkout, webhook, portal];
+  const combined = [webhook];
 
   let mrr = 0;
   let paidSubs = 0;
@@ -843,7 +845,7 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
   return {
     id: "payments",
     label: "Payments · Stripe",
-    description: "Checkout, billing portal, webhook ingestion.",
+    description: "Webhook ingestion and event coverage.",
     status,
     summary:
       status === "OK"
@@ -851,7 +853,7 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
         : status === "DEGRADED"
           ? synthetic.stale
             ? "Synthetic stripe-webhook probe stale"
-            : `Webhook or checkout errors detected`
+            : `Webhook errors detected`
           : status === "INCIDENT"
             ? coverage.status === "incident"
               ? coverage.summary

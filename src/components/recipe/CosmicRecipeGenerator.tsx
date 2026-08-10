@@ -305,7 +305,7 @@ export default function CosmicRecipeGenerator() {
       if (!res.ok) {
         let message = "We couldn't conjure a recipe this time. Please try again.";
         if (res.status === 401) message = "Please sign in to generate cosmic recipes.";
-        else if (res.status === 402) message = "Upgrade to premium to keep generating recipes.";
+        else if (res.status === 402) message = "Not enough ESMS tokens to generate another recipe. Claim your daily Cosmic Yield to earn more.";
         else if (res.status === 429) message = "You're generating recipes faster than the cosmos can keep up. Please wait a moment.";
         else if (res.status >= 500) message = "The recipe service is temporarily unavailable. Please try again shortly.";
         try {

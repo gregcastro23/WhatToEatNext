@@ -10,7 +10,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { getServiceUrl } from "@/lib/serviceUrls";
-import { subscriptionService } from "@/services/subscriptionService";
 
 const INTERNAL_API_SECRET = process.env.INTERNAL_API_SECRET || "";
 
@@ -20,21 +19,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Check premium access
-  const isAdmin = session.user.role === "admin";
-  if (!isAdmin) {
-    const sub = await subscriptionService.getOrCreateSubscription(session.user.id);
-    if (sub.tier !== "premium") {
-      return NextResponse.json(
-        {
-          upgrade_required: true,
-          message: "Group compatibility requires a Premium subscription.",
-          feature: "diningCompanions",
-        },
-        { status: 403 },
-      );
-    }
-  }
+  // Tier gate removed with the premium concept. `user_subscriptions` held 3,479
+  // rows and NOT ONE was Stripe-backed; 3,418 were agents, so this 403 refused
+  // essentially every human for a subscription that never existed. Access is
+  // authentication plus the ESMS token economy now.
 
   try {
     const BACKEND_URL = getServiceUrl("wtenBackend");

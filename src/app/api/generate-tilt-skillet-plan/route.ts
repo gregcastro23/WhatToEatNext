@@ -3,7 +3,9 @@
  *
  * Thin proxy in front of the Planetary Agents backend's /api/tilt-skillet-plan endpoint —
  * the same proxy → PA pattern as /api/generate-cosmic-recipe. WTEN's job here:
- *   - Require an authenticated PREMIUM user (this is a premium-only tool; hard 402 otherwise).
+ *   - Require an authenticated user holding at least the ESMS cost (hard 402 otherwise).
+ *     Despite what this line used to say, the gate has always been a token-balance
+ *     check, never a subscription tier.
  *   - Compute the deterministic recipe-as-a-circuit grounding from the staged ingredient list
  *     (computeBatchCircuit reuses the existing kinetics / Kalchm / Monica engine).
  *   - Forward the grounding + stages to PA, which owns the LLM persona, JSON mode, validation,
