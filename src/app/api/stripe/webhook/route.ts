@@ -1,18 +1,34 @@
 /**
  * Stripe Webhook Handler
  *
- * Processes Stripe events to keep subscription state in sync.
- * Handles: checkout.session.completed, invoice.paid, invoice.payment_failed,
- * customer.subscription.updated, customer.subscription.deleted
+ * Processes Stripe events for all three money paths: restaurant orders
+ * (Connect), MCP top-ups, and subscriptions.
+ *
+ * Handles:
+ *   checkout.session.completed                 all three purposes
+ *   checkout.session.async_payment_succeeded   delayed methods (crypto)
+ *   checkout.session.async_payment_failed      delayed methods (crypto)
+ *   account.updated                            Connect onboarding state
+ *   customer.subscription.updated / .deleted
+ *   invoice.payment_succeeded / .payment_failed
+ *
+ * DUPLICATE DELIVERY IS SAFE, by construction rather than by a dedup table:
+ * Stripe delivers at least once, so every write here is either naturally
+ * idempotent (the subscription updates re-write the same values) or explicitly
+ * guarded — the Connect transfer carries an idempotency key, and fulfillment is
+ * claimed with a conditional UPDATE that only matches an unfulfilled paid row.
+ *
+ * FAILURES DELIBERATELY RETURN NON-2XX so Stripe retries. A swallowed database
+ * error would report success for an order that real money already moved for.
  *
  * @file src/app/api/stripe/webhook/route.ts
  */
 
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { handleMcpTopUpCheckout } from "@/lib/billing/handleMcpTopUpCheckout";
 import { MCP_TOP_UP_PURPOSE } from "@/lib/billing/mcpTopUp";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
+import { RESTAURANT_ORDER_PURPOSE } from "@/lib/payments/restaurantPayments";
 import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
 // Bundler/ESM resolution (Next.js, scripts/tsconfig.json) sees the
 // `stripe` default export as the actual class with merged namespace —
@@ -21,6 +37,13 @@ import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription"
 // wrapper instead; we align the scripts tsconfig to bundler resolution
 // to avoid that mismatch.
 import type Stripe from "stripe";
+
+// This route verifies a Stripe signature with Node crypto and writes to
+// Postgres. Declared explicitly so it can never be hoisted to the Edge runtime,
+// where `constructEvent` and the `pg` driver do not work, and so Next cannot
+// treat a webhook as statically cacheable.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 /**
  * Extract current_period_start/end from a Stripe Subscription.
@@ -331,10 +354,99 @@ async function handleRestaurantOrderCheckout(
   }
 }
 
+/**
+ * A restaurant order whose asynchronous payment ultimately failed.
+ *
+ * Terminal: Stripe will not retry the customer's payment, so the order must
+ * stop looking like it is still on its way to being paid. Nothing is
+ * transferred and nothing is fulfilled — `claimOrderForFulfillment` only claims
+ * rows at `status = 'paid'`, so leaving this un-handled would be safe but
+ * silent; the point of writing it down is that support can see what happened.
+ */
+async function handleRestaurantOrderPaymentFailed(
+  session: Stripe.Checkout.Session,
+) {
+  const orderId = session.metadata?.orderId;
+  if (!orderId) {
+    console.warn(
+      `[webhook] Restaurant order session ${session.id} missing orderId on async_payment_failed`,
+    );
+    return;
+  }
+
+  await updateRestaurantOrderIntent({
+    orderId,
+    status: "payment_failed",
+    stripeCheckoutSessionId: session.id,
+    paymentStatus: session.payment_status,
+    transferStatus: "not_transferred",
+    metadata: {
+      checkoutStatus: session.status,
+      paymentStatus: session.payment_status,
+      failureReason: "async_payment_failed",
+    },
+  });
+
+  console.log(
+    `[webhook] Restaurant order payment FAILED: order=${orderId} session=${session.id}`,
+  );
+}
+
+/**
+ * Dispatch a non-subscription Checkout Session to its purpose handler.
+ *
+ * Shared by `checkout.session.completed` AND
+ * `checkout.session.async_payment_succeeded`, because those are the same event
+ * for our purposes — "this session reached a settled state" — and which one
+ * fires depends only on the customer's payment method.
+ *
+ * Crypto (see DELAYED_SETTLEMENT_PAYMENT_METHODS) does not settle during the
+ * redirect: `completed` arrives with `payment_status: "unpaid"` and the real
+ * outcome lands minutes-to-hours later on the async event. Handling only
+ * `completed` is what left paid crypto orders parked at `payment_pending`
+ * forever — customer charged, restaurant never transferred to, order never
+ * fulfilled.
+ *
+ * Re-entry is safe: the transfer carries an idempotency key and fulfillment is
+ * claimed with a conditional UPDATE, so a redelivered event cannot double-pay
+ * or double-fulfil.
+ */
+async function dispatchSettledCheckoutSession(
+  stripe: Stripe,
+  session: Stripe.Checkout.Session,
+  eventType: string,
+) {
+  const purpose = session.metadata?.purpose;
+
+  if (purpose === RESTAURANT_ORDER_PURPOSE) {
+    await handleRestaurantOrderCheckout(stripe, session);
+    return;
+  }
+
+  if (purpose === MCP_TOP_UP_PURPOSE) {
+    const result = await handleMcpTopUpCheckout({
+      id: session.id,
+      payment_status: session.payment_status,
+      metadata: session.metadata,
+    });
+    console.log(
+      `[webhook] MCP top-up ${result.outcome}: session=${session.id} user=${result.userId ?? "—"} sku=${result.sku ?? "—"}`,
+    );
+    return;
+  }
+
+  console.warn(
+    `[webhook] ${eventType} for session ${session.id} with unrecognised purpose=${purpose ?? "—"} — no handler ran`,
+  );
+}
+
 export async function POST(request: Request) {
   const body = await request.text();
-  const headersList = await headers();
-  const signature = headersList.get("stripe-signature");
+  // Read the signature off the Request rather than next/headers: it is the same
+  // header, but next/headers needs an async request scope, which couples a pure
+  // request→response handler to Next's rendering context and makes it
+  // unreachable from tests.
+  const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
     return NextResponse.json({ error: "Missing signature" }, { status: 400 });
@@ -365,21 +477,26 @@ export async function POST(request: Request) {
     console.log(`[webhook] Processing event: ${event.type}`);
 
     switch (event.type) {
+      // Both of these mean "this Checkout Session reached a settled state".
+      // Which one fires is decided by the customer's payment method, not by us:
+      // card settles inline and emits `completed` already paid, while crypto
+      // emits `completed` as UNPAID and reports the real outcome later on
+      // `async_payment_succeeded`. Handling only the first is what stranded paid
+      // crypto orders at `payment_pending`.
+      case "checkout.session.async_payment_succeeded": {
+        await dispatchSettledCheckoutSession(stripe, event.data.object, event.type);
+        break;
+      }
+
+      case "checkout.session.async_payment_failed": {
+        await handleRestaurantOrderPaymentFailed(event.data.object);
+        break;
+      }
+
       case "checkout.session.completed": {
         const session = event.data.object;
         if (session.mode !== "subscription") {
-          if (session.metadata?.purpose === "restaurant_order") {
-            await handleRestaurantOrderCheckout(stripe, session);
-          } else if (session.metadata?.purpose === MCP_TOP_UP_PURPOSE) {
-            const result = await handleMcpTopUpCheckout({
-              id: session.id,
-              payment_status: session.payment_status,
-              metadata: session.metadata,
-            });
-            console.log(
-              `[webhook] MCP top-up ${result.outcome}: session=${session.id} user=${result.userId ?? "—"} sku=${result.sku ?? "—"}`,
-            );
-          }
+          await dispatchSettledCheckoutSession(stripe, session, event.type);
           break;
         }
 

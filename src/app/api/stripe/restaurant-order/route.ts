@@ -19,6 +19,7 @@ import {
   quoteEsmsBasket,
 } from "@/lib/payments/restaurantEsms";
 import {
+  RESTAURANT_ORDER_PURPOSE,
   normalizeRestaurantPaymentPreference,
   restaurantCryptoPaymentsEnabled,
   stripePaymentMethodTypes,
@@ -865,7 +866,7 @@ export async function POST(request: Request) {
       }
     }
     const commonMetadata = {
-      purpose: "restaurant_order",
+      purpose: RESTAURANT_ORDER_PURPOSE,
       source: "cuisine_restaurant_discovery",
       orderId: metadataValue(orderId),
       userId: effectiveUser?.id ?? "",
