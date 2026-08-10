@@ -790,15 +790,44 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
     STALE_15MIN,
   );
 
+  // Is Stripe actually SENDING the events we handle? Every other signal here
+  // measures requests that arrived. An event the Dashboard is not subscribed to
+  // produces no request, no error and no log line — the handler simply never
+  // runs, which is indistinguishable from "nothing happened". That is precisely
+  // how paid crypto restaurant orders sat in `payment_pending`.
+  const { fetchStripeWebhookCoverage } = await import(
+    "@/services/stripeWebhookCoverageService"
+  );
+  const coverage = await fetchStripeWebhookCoverage();
+
   let status: FlowStatus;
   if (!live && !observed && synthetic.missing) status = "UNKNOWN";
-  else if (errorRate >= 0.3 || synthetic.freshFailure) status = "INCIDENT";
+  else if (
+    errorRate >= 0.3 ||
+    synthetic.freshFailure ||
+    coverage.status === "incident"
+  )
+    status = "INCIDENT";
   else if (errorRate >= 0.05) status = "DEGRADED";
-  else if (webhook.errors5xx > 0 || synthetic.stale) status = "DEGRADED";
+  else if (
+    webhook.errors5xx > 0 ||
+    synthetic.stale ||
+    coverage.status === "degraded"
+  )
+    status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
   if (synthetic.issue) issues.push(synthetic.issue);
+  if (coverage.status === "incident" || coverage.status === "degraded") {
+    issues.push({
+      at: checkedAt,
+      // Names the Dashboard as the thing to change — a missing subscription is
+      // not fixed by touching this codebase.
+      message: `${coverage.summary}. Enable it on the Stripe Dashboard webhook endpoint.`,
+      severity: coverage.status === "incident" ? "error" : "warn",
+    });
+  }
   if (webhook.errors5xx > 0 && webhook.lastFailure) {
     issues.push({
       at: webhook.lastFailure.at,
@@ -824,9 +853,11 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
             ? "Synthetic stripe-webhook probe stale"
             : `Webhook or checkout errors detected`
           : status === "INCIDENT"
-            ? synthetic.freshFailure
-              ? "Synthetic stripe-webhook probe failing"
-              : `Stripe endpoints failing (${formatPct(errorRate)})`
+            ? coverage.status === "incident"
+              ? coverage.summary
+              : synthetic.freshFailure
+                ? "Synthetic stripe-webhook probe failing"
+                : `Stripe endpoints failing (${formatPct(errorRate)})`
             : "No payment traffic in window",
     metrics: [
       { label: "Paid subs", value: `${paidSubs}`, raw: paidSubs },
@@ -846,10 +877,21 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
         value: synthetic.metricValue,
         raw: synthetic.metricRaw,
       },
+      {
+        label: "Webhook events",
+        value: coverage.live
+          ? coverage.missingEvents.length === 0
+            ? "all covered"
+            : `${coverage.missingEvents.length} missing`
+          : "no source",
+        raw: coverage.missingEvents.length,
+      },
     ],
     issues: issues.slice(0, 3),
     checkedAt,
-    live,
+    // An unreachable Stripe must not read as "verified"; fold it into liveness
+    // rather than letting a silent failure look like a clean board.
+    live: live && coverage.live,
   };
 }
 
