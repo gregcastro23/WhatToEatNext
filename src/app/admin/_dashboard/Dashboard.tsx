@@ -3,7 +3,12 @@
 import React from "react";
 import { AgentFeedControlRoom } from "./agents";
 import "./dashboard.css";
-import { PALETTES, type AdminDashboardData, type Density, type PaletteKey } from "./data";
+import {
+  PALETTES,
+  type AdminDashboardData,
+  type Density,
+  type PaletteKey,
+} from "./data";
 import {
   SubdomainMatrix,
   APIHeatmap,
@@ -15,6 +20,7 @@ import {
   DatabaseStorage,
 } from "./extras";
 import { KPIStrip, MasterLineHero } from "./hero";
+import { OperationsControlPlane } from "./OperationsControlPlane";
 import {
   ServiceMatrix,
   LiveEventStream,
@@ -87,11 +93,31 @@ export function Dashboard({ data }: DashboardProps) {
   const cohortFunnel = data.practitionerCohorts.funnel;
   const funnelTop = cohortFunnel.signup || 1;
   const realFunnel = [
-    { stage: "Signup · Google", count: cohortFunnel.signup, pct: cohortFunnel.signup / funnelTop },
-    { stage: "Onboarding · complete", count: cohortFunnel.onboarded, pct: cohortFunnel.onboarded / funnelTop },
-    { stage: "Active · 24h", count: cohortFunnel.active, pct: cohortFunnel.active / funnelTop },
-    { stage: "First cook log", count: cohortFunnel.firstCook, pct: cohortFunnel.firstCook / funnelTop },
-    { stage: "Paid · Pro", count: cohortFunnel.paidPro, pct: cohortFunnel.paidPro / funnelTop },
+    {
+      stage: "Signup · Google",
+      count: cohortFunnel.signup,
+      pct: cohortFunnel.signup / funnelTop,
+    },
+    {
+      stage: "Onboarding · complete",
+      count: cohortFunnel.onboarded,
+      pct: cohortFunnel.onboarded / funnelTop,
+    },
+    {
+      stage: "Active · 24h",
+      count: cohortFunnel.active,
+      pct: cohortFunnel.active / funnelTop,
+    },
+    {
+      stage: "First cook log",
+      count: cohortFunnel.firstCook,
+      pct: cohortFunnel.firstCook / funnelTop,
+    },
+    {
+      stage: "Paid · Pro",
+      count: cohortFunnel.paidPro,
+      pct: cohortFunnel.paidPro / funnelTop,
+    },
   ];
 
   return (
@@ -112,15 +138,25 @@ export function Dashboard({ data }: DashboardProps) {
         `}
       </style>
 
-      <AdminShell density={density} showGrid={showGrid} user={data.user} pulse={data.pulse} data={data}>
-        <MasterLineHero
-          greeting={`Good ${data.skyConditions.planetaryHour.planet} hour, ${data.user.name.split(" ")[0]}`}
-          data={data}
-        />
+      <AdminShell
+        density={density}
+        showGrid={showGrid}
+        user={data.user}
+        pulse={data.pulse}
+        data={data}
+      >
+        <section id="overview" style={{ scrollMarginTop: 70 }}>
+          <MasterLineHero
+            greeting={`Good ${data.skyConditions.planetaryHour.planet} hour, ${data.user.name.split(" ")[0]}`}
+            data={data}
+          />
+        </section>
         <KPIStrip data={data} />
+        <OperationsControlPlane data={data} />
         <SkyConditions data={data.skyConditions} />
 
         <div
+          id="platform-telemetry"
           className="dash-stack"
           style={{
             display: "grid",
@@ -134,9 +170,19 @@ export function Dashboard({ data }: DashboardProps) {
           <LiveEventStream liveActivity={data.liveActivity} />
         </div>
 
-        <AgentFeedControlRoom />
+        <section id="agents" style={{ scrollMarginTop: 70 }}>
+          <AgentFeedControlRoom />
+        </section>
 
-        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.2fr 1fr",
+            gap: 12,
+            marginBottom: 12,
+          }}
+        >
           <SEMSDistribution />
           <AstronomicalEngine
             live={data.skyConditions.live}
@@ -154,47 +200,85 @@ export function Dashboard({ data }: DashboardProps) {
           }}
         >
           <ElementalTraffic cohorts={data.practitionerCohorts} />
-          <PractitionersCohort realFunnel={realFunnel} retention={data.cohortRetention} />
+          <PractitionersCohort
+            realFunnel={realFunnel}
+            retention={data.cohortRetention}
+          />
           <IncidentsPanel recentAlerts={data.recentAlerts} />
         </div>
 
-        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 12, marginBottom: 12 }}>
+        <div
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1.3fr",
+            gap: 12,
+            marginBottom: 12,
+          }}
+        >
           <SubdomainMatrix pageTelemetry={data.pageTelemetry} />
           <APIHeatmap db={data.dbObservability} />
         </div>
 
-        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-          <EngineHealth enginePerformance={data.enginePerformance} />
+        <div
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 12,
+            marginBottom: 12,
+          }}
+        >
+          <section id="engine" style={{ scrollMarginTop: 70 }}>
+            <EngineHealth enginePerformance={data.enginePerformance} />
+          </section>
           <RecipeQualityInspector trending={data.catalogTrending} />
         </div>
 
         <div
+          id="commerce"
           className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 0.9fr 1fr",
             gap: 12,
             marginBottom: 12,
+            scrollMarginTop: 70,
           }}
         >
-          <CatalogState realCards={catalogCards} trending={data.catalogTrending} />
+          <CatalogState
+            realCards={catalogCards}
+            trending={data.catalogTrending}
+          />
           <CommensalPulse pageTelemetry={data.pageTelemetry} />
           <CommercePanel commerceSummary={data.commerce} />
           <LivingEconomyPanel data={data.livingEconomy} />
         </div>
 
-        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div
+          id="economy"
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.4fr 1fr",
+            gap: 12,
+            marginBottom: 12,
+            scrollMarginTop: 70,
+          }}
+        >
           <CosmicYieldEconomy data={data.cosmicYield} />
           <PractitionerGeo data={data.practitionerGeo} />
         </div>
 
         <div
+          id="infrastructure"
           className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1.2fr 1fr 1fr",
             gap: 12,
             marginBottom: 12,
+            scrollMarginTop: 70,
           }}
         >
           <DatabaseStorage data={data.dbObservability} />
@@ -202,12 +286,32 @@ export function Dashboard({ data }: DashboardProps) {
           <ResourceUsage data={data.resourceUsage} />
         </div>
 
-        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div
+          id="trust"
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.2fr 1fr",
+            gap: 12,
+            marginBottom: 12,
+            scrollMarginTop: 70,
+          }}
+        >
           <ModerationQueue />
           <SecurityPanel security={data.security} />
         </div>
 
-        <div className="dash-stack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div
+          id="delivery"
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: 12,
+            marginBottom: 12,
+            scrollMarginTop: 70,
+          }}
+        >
           <DeploysPanel data={data.deploys} />
           <FeatureFlagsPanel data={data.featureFlags} />
           <AuditLogPanel data={data.auditEvents} />
@@ -227,17 +331,29 @@ export function Dashboard({ data }: DashboardProps) {
           }}
         >
           <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+            <span
+              className="t-mono"
+              style={{ fontSize: 9.5, color: "var(--fg-mute)" }}
+            >
               alchm.kitchen · admin · agentic.alchm.kitchen
             </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+            <span
+              className="t-mono"
+              style={{ fontSize: 9.5, color: "var(--fg-mute)" }}
+            >
               region · {process.env.NEXT_PUBLIC_VERCEL_REGION ?? "—"}
             </span>
-            <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+            <span
+              className="t-mono"
+              style={{ fontSize: 9.5, color: "var(--fg-mute)" }}
+            >
               build · #{shortSha()}
             </span>
             {data.meta.mockedFields.length > 0 && (
-              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--el-fire)" }}>
+              <span
+                className="t-mono"
+                style={{ fontSize: 9.5, color: "var(--el-fire)" }}
+              >
                 mocked: {data.meta.mockedFields.join(", ")}
               </span>
             )}
@@ -247,7 +363,9 @@ export function Dashboard({ data }: DashboardProps) {
               className="t-mono"
               style={{
                 fontSize: 9.5,
-                color: data.skyConditions.planetaryHour.live ? "var(--accent)" : "var(--fg-mute)",
+                color: data.skyConditions.planetaryHour.live
+                  ? "var(--accent)"
+                  : "var(--fg-mute)",
               }}
             >
               ● {data.skyConditions.planetaryHour.planet.toLowerCase()} hour
@@ -263,10 +381,14 @@ export function Dashboard({ data }: DashboardProps) {
               className="t-mono"
               style={{
                 fontSize: 9.5,
-                color: data.skyConditions.live ? "var(--el-earth)" : "var(--fg-mute)",
+                color: data.skyConditions.live
+                  ? "var(--el-earth)"
+                  : "var(--fg-mute)",
               }}
             >
-              {data.skyConditions.live ? "● ephemeris · live" : "○ ephemeris · degraded"}
+              {data.skyConditions.live
+                ? "● ephemeris · live"
+                : "○ ephemeris · degraded"}
             </span>
             <span
               className="t-mono"
@@ -313,7 +435,16 @@ interface TweaksBarProps {
   onGrid: (v: boolean) => void;
 }
 
-function TweaksBar({ palette, density, motion, showGrid, onPalette, onDensity, onMotion, onGrid }: TweaksBarProps) {
+function TweaksBar({
+  palette,
+  density,
+  motion,
+  showGrid,
+  onPalette,
+  onDensity,
+  onMotion,
+  onGrid,
+}: TweaksBarProps) {
   const [open, setOpen] = React.useState(false);
   return (
     <div
@@ -340,7 +471,9 @@ function TweaksBar({ palette, density, motion, showGrid, onPalette, onDensity, o
           }}
         >
           <div>
-            <div className="t-tag" style={{ marginBottom: 6 }}>PALETTE</div>
+            <div className="t-tag" style={{ marginBottom: 6 }}>
+              PALETTE
+            </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
               {(Object.keys(PALETTES) as PaletteKey[]).map((k) => (
                 <button
@@ -356,7 +489,9 @@ function TweaksBar({ palette, density, motion, showGrid, onPalette, onDensity, o
             </div>
           </div>
           <div>
-            <div className="t-tag" style={{ marginBottom: 6 }}>DENSITY</div>
+            <div className="t-tag" style={{ marginBottom: 6 }}>
+              DENSITY
+            </div>
             <div style={{ display: "flex", gap: 4 }}>
               <button
                 type="button"
@@ -377,7 +512,9 @@ function TweaksBar({ palette, density, motion, showGrid, onPalette, onDensity, o
             </div>
           </div>
           <div>
-            <div className="t-tag" style={{ marginBottom: 6 }}>DISPLAY</div>
+            <div className="t-tag" style={{ marginBottom: 6 }}>
+              DISPLAY
+            </div>
             <div style={{ display: "flex", gap: 4 }}>
               <button
                 type="button"

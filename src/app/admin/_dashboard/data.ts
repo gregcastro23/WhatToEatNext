@@ -1,11 +1,9 @@
 /**
  * data.ts — admin dashboard data contract.
  *
- * The prototype baked deterministic mock data into the component
- * tree. Here we extract the same data into a typed contract that
- * the page fetches from `/api/admin/dashboard`. Anything the API
- * doesn't yet provide is filled with the same seeded mock the
- * prototype used, so the visual output matches one-for-one.
+ * Typed contract consumed by the admin dashboard. The API fills this from
+ * operational sources; FALLBACK_DATA is an explicit loading/error state and
+ * must not impersonate live telemetry.
  */
 
 import type {
@@ -27,22 +25,15 @@ import type {
   PractitionerGeoData,
   CohortRetentionData,
 } from "@/services/dashboardPanelsService";
+import type { LaunchReadinessReport } from "@/services/launchReadinessService";
 import type { ActivityEvent } from "@/services/liveActivityService";
+import type { OnboardingHealthPayload } from "@/services/onboardingHealthService";
+import type {
+  OperationsControlPlane,
+  PlanetaryIntegrationSnapshot,
+} from "@/services/operationsControlPlaneService";
 import type { SkyConditionsData } from "@/services/skyConditionsService";
 import type { SystemStatusPayload } from "@/services/systemStatusService";
-
-// ============================================================
-// DETERMINISTIC PSEUDO-RANDOM — used for sparkline / heatmap fill
-// ============================================================
-export function seeded(seed: number, n: number, lo = 0.2, hi = 0.95): number[] {
-  const out: number[] = [];
-  let s = seed;
-  for (let i = 0; i < n; i++) {
-    s = (s * 9301 + 49297) % 233280;
-    out.push(lo + (s / 233280) * (hi - lo));
-  }
-  return out;
-}
 
 // ============================================================
 // PALETTE
@@ -144,6 +135,14 @@ export interface AdminDashboardData {
   pageTelemetry: PageTelemetryData;
   /** Per-flow + dependency health from systemStatusService. */
   systemStatus: SystemStatusPayload;
+  /** Dedicated 24h onboarding funnel, stuck-user queue, and API health. */
+  onboardingHealth: OnboardingHealthPayload;
+  /** Presence-only rollout configuration and settlement backlog. */
+  launchReadiness: LaunchReadinessReport;
+  /** Synthesized operator priorities, domain coverage, and maintenance queue. */
+  operations: OperationsControlPlane;
+  /** Cross-project Planetary Agents reachability and live telemetry. */
+  planetaryIntegration: PlanetaryIntegrationSnapshot;
   /** Recent merged activity feed (auth + recipe + token + agent events). */
   liveActivity: { entries: ActivityEvent[]; live: boolean };
   /** Recent alert_events rows for the IncidentsPanel. */
@@ -166,30 +165,79 @@ export interface AdminDashboardData {
   cohortRetention: CohortRetentionData;
   /**
    * Generation metadata. `mockedFields` lists any panels still served
-   * from seeded fixtures rather than a live source — currently empty.
+   * from explicitly-labelled illustrative values rather than a live source.
    */
   meta: {
     generatedAt: string;
-    /** Which fields are still served from seeded fixtures. */
+    /** Which panels still contain explicitly-labelled illustrative values. */
     mockedFields: string[];
   };
 }
 
 // ============================================================
-// FALLBACK / SEED — used during loading and as the API mock
+// FALLBACK / LOADING — deliberately neutral when the API is unavailable
 // ============================================================
 const SKY_SEED: SkyConditionsData = {
   headline: "Awaiting ephemeris",
   live: false,
   generatedAt: new Date(0).toISOString(),
   planets: [
-    { symbol: "☉", name: "Sun", position: "—", speed: "—", retrograde: false, stationing: false },
-    { symbol: "☽", name: "Moon", position: "—", speed: "—", retrograde: false, stationing: false },
-    { symbol: "☿", name: "Mercury", position: "—", speed: "—", retrograde: false, stationing: false },
-    { symbol: "♀", name: "Venus", position: "—", speed: "—", retrograde: false, stationing: false },
-    { symbol: "♂", name: "Mars", position: "—", speed: "—", retrograde: false, stationing: false },
-    { symbol: "♃", name: "Jupiter", position: "—", speed: "—", retrograde: false, stationing: false },
-    { symbol: "♄", name: "Saturn", position: "—", speed: "—", retrograde: false, stationing: false },
+    {
+      symbol: "☉",
+      name: "Sun",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
+    {
+      symbol: "☽",
+      name: "Moon",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
+    {
+      symbol: "☿",
+      name: "Mercury",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
+    {
+      symbol: "♀",
+      name: "Venus",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
+    {
+      symbol: "♂",
+      name: "Mars",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
+    {
+      symbol: "♃",
+      name: "Jupiter",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
+    {
+      symbol: "♄",
+      name: "Saturn",
+      position: "—",
+      speed: "—",
+      retrograde: false,
+      stationing: false,
+    },
   ],
   aspects: [],
   planetaryHour: {
@@ -257,9 +305,21 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   catalogTrending: { recipes: [], live: false },
   auditEvents: { events: [], live: false },
-  enginePerformance: { clickToCookRate: 0, totalCalculations: 0, averageLatencyMs: 0, live: false },
+  enginePerformance: {
+    clickToCookRate: 0,
+    totalCalculations: 0,
+    averageLatencyMs: 0,
+    live: false,
+  },
   practitionerCohorts: {
-    funnel: { landing: 0, signup: 0, onboarded: 0, active: 0, firstCook: 0, paidPro: 0 },
+    funnel: {
+      landing: 0,
+      signup: 0,
+      onboarded: 0,
+      active: 0,
+      firstCook: 0,
+      paidPro: 0,
+    },
     elementalBreakdown: [],
     live: false,
   },
@@ -270,16 +330,88 @@ export const FALLBACK_DATA: AdminDashboardData = {
     recentOrders: [],
     live: false,
   },
-  pageTelemetry: { foodDiary: 0, customRecipes: 0, restaurants: 0, commensals: 0, mealPlans: 0, live: false },
+  pageTelemetry: {
+    foodDiary: 0,
+    customRecipes: 0,
+    restaurants: 0,
+    commensals: 0,
+    mealPlans: 0,
+    live: false,
+  },
   systemStatus: {
     generatedAt: new Date(0).toISOString(),
     overall: "UNKNOWN",
     flows: [],
     dependencies: [],
   },
+  onboardingHealth: {
+    generatedAt: new Date(0).toISOString(),
+    overall: "UNKNOWN",
+    headline: "Awaiting onboarding signals",
+    funnel: [
+      { id: "signup", label: "Signed up", count: 0, dropOff: 0 },
+      { id: "birth-data", label: "Submitted birth data", count: 0, dropOff: 0 },
+      {
+        id: "natal-chart",
+        label: "Natal chart computed",
+        count: 0,
+        dropOff: 0,
+      },
+      { id: "onboarded", label: "Onboarding complete", count: 0, dropOff: 0 },
+    ],
+    stuckUsers: [],
+    recentSuccesses: [],
+    apiHealth: {
+      observed: false,
+      count: 0,
+      successRate: 0,
+      errors4xx: 0,
+      errors5xx: 0,
+      p50LatencyMs: 0,
+      p95LatencyMs: 0,
+      recentErrors: [],
+    },
+    skipRate: 0,
+    live: false,
+  },
+  launchReadiness: {
+    subsystems: [],
+    settlement: { pending: 0, live: false },
+    readyCount: 0,
+    generatedAt: new Date(0).toISOString(),
+  },
+  operations: {
+    generatedAt: new Date(0).toISOString(),
+    state: "ATTENTION",
+    readinessScore: 0,
+    summary: "Awaiting control-plane signals",
+    coverage: { live: 0, total: 0, percent: 0, blindSpots: [] },
+    rollout: { ready: 0, total: 0, partial: 0, off: 0 },
+    codebase: { knownGaps: [], highPriority: 0 },
+    domains: [],
+    priorities: [],
+    maintenance: [],
+  },
+  planetaryIntegration: {
+    endpoints: {
+      alchmNextApp: "https://alchm.kitchen",
+      paUi: "",
+      paBackend: "",
+      wtenLegacyBackend: "",
+    },
+    health: "unknown",
+    agentCount: 0,
+    lastFeedEmit: null,
+    telemetry: null,
+  },
   liveActivity: { entries: [], live: false },
   recentAlerts: { entries: [], live: false },
-  livingEconomy: { affiliateClicksWeek: 0, cookedPostsWeek: 0, feedDauToday: 0, live: false },
+  livingEconomy: {
+    affiliateClicksWeek: 0,
+    cookedPostsWeek: 0,
+    feedDauToday: 0,
+    live: false,
+  },
   errorGroups: { groups: [], windowMinutes: 60, live: false },
   security: {
     signinSuccess24h: 0,
@@ -291,7 +423,12 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   deploys: { entries: [], live: false },
   featureFlags: { flags: [], live: false },
-  resourceUsage: { items: [], provider: "Railway", periodLabel: "", live: false },
+  resourceUsage: {
+    items: [],
+    provider: "Railway",
+    periodLabel: "",
+    live: false,
+  },
   practitionerGeo: { regions: [], live: false },
   cohortRetention: { cohorts: [], live: false },
   meta: {
