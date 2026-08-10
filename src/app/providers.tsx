@@ -9,7 +9,6 @@ import { ToastProvider } from "@/components/ToastProvider";
 import { AlchemicalProvider } from "@/contexts/AlchemicalContext/provider";
 import { AlchemicalDataProvider } from "@/contexts/AlchemicalDataContext";
 import { GroceryCartProvider } from "@/contexts/GroceryCartContext";
-import { PremiumProvider } from "@/contexts/PremiumContext";
 import { RecipeBuilderProvider } from "@/contexts/RecipeBuilderContext";
 import { SpacetimeProvider } from "@/contexts/SpacetimeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -25,24 +24,22 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <ToastProvider>
           <ThemeProvider>
             <UserProvider>
-              <PremiumProvider>
-                <AlchemicalDataProvider>
-                  <AlchemicalProvider>
-                    <RecipeBuilderProvider>
-                      {/* SpacetimeProvider sits above the cart so the cart
-                          context can consume the live connection. */}
-                      <SpacetimeProvider>
-                        <GroceryCartProvider>
-                          <MasterQuestBroadcastListener />
-                          {/* Invisible-reward reveals: toast + token rain */}
-                          <PracticeDelightHost />
-                          {children}
-                        </GroceryCartProvider>
-                      </SpacetimeProvider>
-                    </RecipeBuilderProvider>
-                  </AlchemicalProvider>
-                </AlchemicalDataProvider>
-              </PremiumProvider>
+              <AlchemicalDataProvider>
+                <AlchemicalProvider>
+                  <RecipeBuilderProvider>
+                    {/* SpacetimeProvider sits above the cart so the cart
+                        context can consume the live connection. */}
+                    <SpacetimeProvider>
+                      <GroceryCartProvider>
+                        <MasterQuestBroadcastListener />
+                        {/* Invisible-reward reveals: toast + token rain */}
+                        <PracticeDelightHost />
+                        {children}
+                      </GroceryCartProvider>
+                    </SpacetimeProvider>
+                  </RecipeBuilderProvider>
+                </AlchemicalProvider>
+              </AlchemicalDataProvider>
             </UserProvider>
           </ThemeProvider>
         </ToastProvider>

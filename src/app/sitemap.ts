@@ -26,8 +26,7 @@ const STATIC_ROUTES: Array<{
   { path: "/food-tracking", changeFrequency: "weekly", priority: 0.7 },
   { path: "/sauces", changeFrequency: "weekly", priority: 0.7 },
   { path: "/restaurants", changeFrequency: "weekly", priority: 0.65 },
-  { path: "/premium", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/upgrade", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/vault", changeFrequency: "monthly", priority: 0.6 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.2 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.2 },
 ];

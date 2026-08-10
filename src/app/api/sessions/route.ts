@@ -9,7 +9,6 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { subscriptionService } from "@/services/subscriptionService";
 
 let dbModule: typeof import("@/lib/database") | null = null;
 const getDb = async () => {
@@ -29,17 +28,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Premium check
-  const isAdmin = session.user.role === "admin";
-  if (!isAdmin) {
-    const sub = await subscriptionService.getOrCreateSubscription(session.user.id);
-    if (sub.tier !== "premium") {
-      return NextResponse.json(
-        { upgrade_required: true, message: "Shared sessions require Premium." },
-        { status: 403 },
-      );
-    }
-  }
+  // Tier gate removed with the premium concept — see the note in
+  // group/compatibility. No subscription row was ever Stripe-backed.
 
   try {
     const body = await request.json();

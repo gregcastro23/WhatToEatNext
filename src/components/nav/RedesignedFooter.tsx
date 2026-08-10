@@ -129,7 +129,7 @@ export function RedesignedFooter(): JSX.Element {
               <Link href="/profile/security" className="alchm-footer-link">Account & sessions</Link>
             </li>
             <li>
-              <Link href="/premium" className="alchm-footer-link">ESMS Vault</Link>
+              <Link href="/vault" className="alchm-footer-link">ESMS Vault</Link>
             </li>
           </ul>
           <div

@@ -139,7 +139,11 @@ export default function TiltSkilletPlanner() {
           res.status === 401
             ? "Please sign in to generate a batch plan."
             : res.status === 402
-              ? "Upgrade to premium to generate large-batch plans."
+              ? // 402 here is an ESMS balance failure, not a tier one. The
+                // server's message names the cost and the balance, so prefer it
+                // over anything generic.
+                (data?.message ??
+                  "Not enough ESMS tokens to generate a batch plan. Claim your daily Cosmic Yield to earn more.")
               : res.status === 429
                 ? "Generating faster than the cosmos can keep up — try again in a moment."
                 : res.status >= 500

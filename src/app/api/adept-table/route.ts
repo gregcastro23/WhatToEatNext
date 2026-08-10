@@ -1,5 +1,5 @@
 /**
- * POST /api/premium-table
+ * POST /api/adept-table
  * Calculate the Alchemical Midpoint (Composite Chart) between two constitutions
  * and recommend a meal that harmonizes both.
  */
@@ -7,7 +7,6 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
-import { subscriptionService } from "@/services/subscriptionService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -29,19 +28,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const subscription = await subscriptionService.getUserSubscription(user.id);
-    if (!subscription || subscription.tier !== "premium") {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Premium subscription required.",
-          upgradeUrl: "/upgrade",
-        },
-        { status: 402 },
-      );
-    }
+    // Tier gate removed with the premium concept. Only 3 humans ever held a
+    // `premium` row (against 3,418 agents), and none was Stripe-backed — so
+    // this 402 kept the Alchemical Midpoint dark for effectively every real
+    // user. It is authenticated + rate-limited, which is the actual protection.
 
-    console.log(`[premium-table] Premium user ${user.id} requested composite chart.`);
+    console.log(`[adept-table] User ${user.id} requested composite chart.`);
 
     const body = await request.json().catch(() => ({}));
     const { hostData, friendData } = body;

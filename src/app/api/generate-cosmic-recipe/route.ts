@@ -160,7 +160,7 @@ async function handlePost(request: NextRequest) {
           }
           return new Response(JSON.stringify({
             error: "Insufficient tokens",
-            message: `You have generated your free recipe for today. Generating another requires ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence. Earn more via the daily Cosmic Yield, complete quests, or upgrade to Premium for unlimited generations!`,
+            message: `You have generated your free recipe for today. Generating another requires ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence. Earn more via the daily Cosmic Yield or complete quests.`,
             liveCost,
             pricing,
             recipesGeneratedToday: count,

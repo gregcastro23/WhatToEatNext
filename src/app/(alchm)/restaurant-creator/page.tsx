@@ -1,5 +1,5 @@
 /**
- * Restaurant Creator — Premium Feature
+ * Restaurant Creator
  *
  * Design a full cosmic restaurant: name, menu, ambiance, signature drink.
  * Reuses existing alchemical calculation infrastructure and restaurant types.
@@ -9,10 +9,8 @@
 
 "use client";
 
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useState, useCallback } from "react";
-import { usePremium } from "@/contexts/PremiumContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
 import type {
   SavedRestaurant as _SavedRestaurant,
@@ -55,7 +53,6 @@ interface RestaurantConcept {
 
 export default function RestaurantCreatorPage() {
   const { data: _session } = useSession();
-  const { tier: _tier, hasFeature, openCheckout } = usePremium();
   const astroState = useAstrologicalState();
 
   const [concept, setConcept] = useState<RestaurantConcept>({
@@ -79,8 +76,6 @@ export default function RestaurantCreatorPage() {
     category: "Mains" as MenuCategory,
     tags: [] as DietaryTag[],
   });
-
-  const canAccess = hasFeature("restaurantCreator");
 
   const generateCosmicConcept = useCallback(() => {
     setIsGenerating(true);
@@ -145,36 +140,6 @@ export default function RestaurantCreatorPage() {
       menu: prev.menu.filter((i) => i.id !== id),
     }));
   }, []);
-
-  // Premium gate
-  if (!canAccess) {
-    return (
-      <div className="min-h-screen bg-[#08080e] text-white flex items-center justify-center px-4">
-        <div className="max-w-md text-center bg-[#0c0c14] rounded-2xl shadow-2xl shadow-purple-900/20 border border-white/10 p-10">
-          <div className="text-6xl mb-6">{"\uD83C\uDF1F"}</div>
-          <h1 className="text-3xl font-black mb-3 text-white">
-            Premium Feature
-          </h1>
-          <p className="text-white/60 mb-6">
-            The Cosmic Restaurant Creator is available to Premium and Cosmic
-            subscribers. Design your dream restaurant aligned with the stars.
-          </p>
-          <button
-            onClick={() => { void openCheckout("premium"); }}
-            className="px-8 py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition-all shadow-md"
-          >
-            Upgrade to Premium
-          </button>
-          <Link
-            href="/premium"
-            className="block mt-4 text-purple-400 font-medium hover:text-purple-300 hover:underline"
-          >
-            Compare all plans
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   const selectedAmbiance = AMBIANCE_STYLES.find(
     (a) => a.id === concept.ambianceStyle,

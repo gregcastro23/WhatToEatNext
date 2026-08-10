@@ -113,7 +113,7 @@ export const NAV_IA: NavIA = {
       { label: "Current Chart", path: "/current-chart", glyph: "wave", hint: "Live sky × your natal" },
       { label: "Alchm Quantities", path: "/quantities", glyph: "crosshair", hint: "ESMS · Monica constants · P=IV" },
       { label: "Standing Chart", path: "/birth-chart", glyph: "diamond", hint: "Your natal · stored encrypted" },
-      { label: "ESMS Vault", path: "/premium", glyph: "diamond", hint: "Token balances · daily Cosmic Yield" },
+      { label: "ESMS Vault", path: "/vault", glyph: "diamond", hint: "Token balances · daily Cosmic Yield" },
     ],
   },
 };
@@ -133,8 +133,7 @@ export function activePrimaryFromPathname(pathname: string | null | undefined): 
     pathname.startsWith("/birth-chart") ||
     pathname.startsWith("/current-chart") ||
     pathname.startsWith("/quantities") ||
-    pathname.startsWith("/premium") ||
-    pathname.startsWith("/upgrade") ||
+    pathname.startsWith("/vault") ||
     pathname.startsWith("/profile") ||
     pathname.startsWith("/alchm")
   ) {

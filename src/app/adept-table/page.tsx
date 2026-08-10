@@ -1,15 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
-import { usePremium } from "@/contexts/PremiumContext";
 import type { Recipe } from "@/types/recipe";
 
 function AdeptTableContent() {
-  const { isPremium } = usePremium();
   const searchParams = useSearchParams();
   const isInvite = searchParams?.get("invite") === "true";
   
@@ -28,7 +25,7 @@ function AdeptTableContent() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLink(`${window.location.origin}/premium-table?invite=true&host_fire=30&host_water=20&host_earth=10&host_air=40`);
+      setLink(`${window.location.origin}/adept-table?invite=true&host_fire=30&host_water=20&host_earth=10&host_air=40`);
     }
   }, []);
 
@@ -65,7 +62,7 @@ function AdeptTableContent() {
         dominantModality: "Fixed"
       };
 
-      const res = await fetch("/api/premium-table", {
+      const res = await fetch("/api/adept-table", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ hostData, friendData })
@@ -85,22 +82,11 @@ function AdeptTableContent() {
     }
   };
 
-  if (!isPremium && !isInvite) {
-    return (
-      <main className="min-h-screen bg-[#08080e] flex items-center justify-center p-6">
-        <div className="glass-card-premium rounded-3xl p-8 max-w-md text-center border-amber-500/30">
-          <h1 className="text-2xl font-black text-amber-400 mb-4">Premium Status Required</h1>
-          <p className="text-white/60 mb-6">Group Rituals and the Alchemical Midpoint table are exclusive to Premium users.</p>
-          <Link
-            href="/upgrade?from=/premium-table"
-            className="inline-block px-6 py-2 rounded-full bg-amber-500 text-black font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors"
-          >
-            Upgrade Now
-          </Link>
-        </div>
-      </main>
-    );
-  }
+  // The tier gate that stood here read `!isPremium && !isInvite`. Dropping only
+  // `isPremium` would have left `!isInvite`, which deadlocks the feature: the
+  // host has to load this page to generate the invite link in the first place.
+  // The body below already branches on `isInvite` — host sees the share link,
+  // guest sees the join form — so no gate is needed at all.
 
   return (
     <main className="min-h-screen bg-[#08080e] text-white/80 p-6 md:p-12 relative overflow-hidden">
@@ -111,7 +97,7 @@ function AdeptTableContent() {
       <div className="max-w-5xl mx-auto relative z-10">
         <header className="mb-12 text-center">
           <h1 className="text-5xl font-black mb-4 bg-gradient-to-r from-amber-400 to-purple-500 text-transparent bg-clip-text uppercase tracking-tighter">
-            Premium Group Rituals
+            Group Rituals
           </h1>
           <p className="text-white/50 max-w-2xl mx-auto">
             Invite a friend to your Table. We calculate the Alchemical Midpoint between your natal charts to recommend the perfect harmonizing meal.

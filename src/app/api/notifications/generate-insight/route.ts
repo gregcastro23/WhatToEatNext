@@ -25,14 +25,8 @@ export async function POST(request: NextRequest) {
     const rl = await rateLimit(request, { window: 60_000, max: 5, bucket: "generate-insight", identifier: user.id });
     if (!rl.allowed) return rl.response!;
 
-    // Check premium tier
-    const tier = (user as any).tier || (user as any).profile?.tier || "free";
-    if (tier !== "premium") {
-      return NextResponse.json(
-        { success: false, message: "Daily insights are a premium feature" },
-        { status: 403 },
-      );
-    }
+    // Tier gate removed with the premium concept — see group/compatibility.
+    // The rate limit above (5/min) is the real protection here.
 
     // Get natal chart from user profile
     const natalChart =

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useCallback, useEffect, type ReactNode } from "react";
-import { usePremium } from "@/contexts/PremiumContext";
 
 interface TokenGateProps {
   /** The shop item slug to check/purchase */
@@ -40,7 +39,6 @@ export function TokenGate({
   cost,
   onUnlocked,
 }: TokenGateProps) {
-  const { isPremium, isLoading } = usePremium();
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [checkingAccess, setCheckingAccess] = useState(true);
   const [isOneTimeItem, setIsOneTimeItem] = useState(false);
@@ -50,11 +48,9 @@ export function TokenGate({
   useEffect(() => {
     let mounted = true;
     const checkAccess = async () => {
-      // Premium users always pass; no need to check purchase history.
-      if (isPremium) {
-        if (mounted) setCheckingAccess(false);
-        return;
-      }
+      // The premium bypass is gone with the tier concept. Note the direction:
+      // this gate now gates MORE, not less — access is earned through the ESMS
+      // token economy rather than skipped by holding a tier nobody paid for.
       try {
         const res = await fetch(
           `/api/economy/purchase?shopItemSlug=${encodeURIComponent(shopItemSlug)}`,
@@ -81,7 +77,7 @@ export function TokenGate({
     return () => {
       mounted = false;
     };
-  }, [shopItemSlug, isPremium]);
+  }, [shopItemSlug]);
 
   const handlePurchase = useCallback(async () => {
     setIsPurchasing(true);
@@ -113,8 +109,8 @@ export function TokenGate({
   }, [shopItemSlug, onUnlocked, isOneTimeItem]);
 
   // Loading or already has access
-  if (isLoading || checkingAccess) return null;
-  if (isPremium || isUnlocked) return <>{children}</>;
+  if (checkingAccess) return null;
+  if (isUnlocked) return <>{children}</>;
 
   const hasCost = cost && (cost.spirit || cost.essence || cost.matter || cost.substance);
   const displayName = featureName || "this feature";
@@ -299,7 +295,7 @@ export function TokenGate({
             {isPurchasing ? "Unlocking..." : "🔮 Unlock with Tokens"}
           </button>
           <a
-            href="/premium"
+            href="/vault"
             style={{
               padding: "0.625rem 1.5rem",
               fontWeight: 500,

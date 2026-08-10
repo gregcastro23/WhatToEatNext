@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { FutureRecipeSkeleton } from "@/components/premium/FutureRecipeSkeleton";
-import { TemporalFrictionGate } from "@/components/premium/TemporalFrictionGate";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
 import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { DiscoverySection } from "@/components/recipes/DiscoverySection";
@@ -1490,7 +1489,10 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
           onClose={() => setSelectedTechnique(null)}
         />
 
-        <TemporalFrictionGate dailyLimitReached={dailyLimitReached}>
+        {/* TemporalFrictionGate removed with the tier concept: it existed only
+            to show an upsell veil to non-premium users who hit the daily limit.
+            The children already branch on `dailyLimitReached` themselves. */}
+        <>
           {dailyLimitReached ? (
             <div className="pt-8 space-y-8">
               <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
@@ -1520,7 +1522,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               )}
             </>
           )}
-        </TemporalFrictionGate>
+        </>
       </div>
     </main>
   );

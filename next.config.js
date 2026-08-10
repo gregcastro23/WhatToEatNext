@@ -281,6 +281,28 @@ const nextConfig = {
         destination: "/menu-planner",
         permanent: true,
       },
+      // The tier concept is retired, but these two were never upsell pages —
+      // /premium was the ESMS Vault (still linked from the footer as "ESMS
+      // Vault") and /premium-table is the Alchemical Midpoint feature. Renamed
+      // so the URLs stop implying a subscription that never existed; redirected
+      // because both had live inbound links.
+      {
+        source: "/premium",
+        destination: "/vault",
+        permanent: true,
+      },
+      {
+        source: "/premium-table",
+        destination: "/adept-table",
+        permanent: true,
+      },
+      // /upgrade only ever redirected to /premium. Kept as a redirect rather
+      // than a 404 so any bookmark lands on the vault instead of a dead end.
+      {
+        source: "/upgrade",
+        destination: "/vault",
+        permanent: true,
+      },
     ];
   },
 

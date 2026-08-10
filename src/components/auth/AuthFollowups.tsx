@@ -744,7 +744,7 @@ export function UpgradeGate({
     // Route to the subscription manager rather than a nonsensical free "trial".
     if (t.id === "free") {
       track("upgrade_gate_downgrade", { from: currentTier });
-      window.location.href = "/premium";
+      window.location.href = "/vault";
       return;
     }
     if (t.id === "alchemist") {

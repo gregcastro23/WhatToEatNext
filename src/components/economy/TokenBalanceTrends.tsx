@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaLock } from "react-icons/fa";
 import {
   LineChart,
   Line,
@@ -12,7 +11,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { usePremium } from "@/contexts/PremiumContext";
 
 interface TrendPoint {
   date: string;
@@ -23,16 +21,10 @@ interface TrendPoint {
 }
 
 export function TokenBalanceTrends() {
-  const { isPremium } = usePremium();
   const [data, setData] = useState<TrendPoint[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isPremium) {
-      setLoading(false);
-      return;
-    }
-
     const fetchHistory = async () => {
       try {
         const [balRes, txRes] = await Promise.all([
@@ -101,29 +93,7 @@ export function TokenBalanceTrends() {
     };
 
     void fetchHistory();
-  }, [isPremium]);
-
-  if (!isPremium) {
-    return (
-      <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-white/[0.02] p-8 text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-purple-600/5 backdrop-blur-md" />
-        <div className="relative z-10 flex flex-col items-center justify-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-            <FaLock className="w-6 h-6 text-white/40" />
-          </div>
-          <div>
-            <h3 className="text-xl font-black text-white tracking-wide">Premium Exclusive</h3>
-            <p className="text-sm text-white/50 mt-2 max-w-md mx-auto">
-              Unlock historical transmutation trends and token balance projections with Premium status.
-            </p>
-          </div>
-          <button className="mt-4 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest bg-gradient-to-r from-amber-500 to-amber-600 text-black shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all">
-            Upgrade to Premium
-          </button>
-        </div>
-      </div>
-    );
-  }
+  }, []);
 
   if (loading) {
     return (
