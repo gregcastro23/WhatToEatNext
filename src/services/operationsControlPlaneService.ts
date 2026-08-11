@@ -43,7 +43,16 @@ export interface PlanetaryIntegrationSnapshot {
     wtenLegacyBackend: string;
   };
   health: PlanetaryIntegrationHealth;
-  agentCount: number;
+  /** Remote roster size; null when the /api/agents probe failed — a failed
+   *  probe must render as unknown, never as an empty roster. */
+  agentCount: number | null;
+  /** Both halves of the roster, for drift detection. `wtenAgents` counts
+   *  `users WHERE is_agent`; `paAgents` mirrors agentCount. Either side is
+   *  null when its source was unreadable. */
+  rosterDiff: {
+    wtenAgents: number | null;
+    paAgents: number | null;
+  };
   lastFeedEmit: FeedEmitStatus | null;
   telemetry: AgentNetworkTelemetry | null;
 }
@@ -394,10 +403,16 @@ export function buildOperationsControlPlane(
             : "CRITICAL",
         observedStatus(Boolean(planetaryIntegration.telemetry?.allLive)),
       ]),
-      summary: `${planetaryIntegration.agentCount} remote agents · backend ${planetaryIntegration.health || "unknown"}`,
+      summary: `${planetaryIntegration.agentCount ?? "unknown"} remote agents · backend ${planetaryIntegration.health || "unknown"}`,
       href: "#agents",
       metrics: [
-        { label: "Agents", value: String(planetaryIntegration.agentCount) },
+        {
+          label: "Agents",
+          value:
+            planetaryIntegration.agentCount === null
+              ? "—"
+              : String(planetaryIntegration.agentCount),
+        },
         {
           label: "Feed · 1h",
           value: planetaryIntegration.telemetry?.transmutationRate.value ?? "—",

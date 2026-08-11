@@ -36,6 +36,14 @@ export interface CosmicYieldHolder {
   balance: number;
 }
 
+/** One day of ledger flow, for the 30-day mint/burn trend. */
+export interface CosmicYieldFlowDay {
+  /** ISO date (YYYY-MM-DD, UTC day buckets). */
+  date: string;
+  minted: number;
+  burned: number;
+}
+
 export interface CosmicYieldData {
   /** total ESMS tokens held across all balances */
   inCirculation: number;
@@ -43,6 +51,12 @@ export interface CosmicYieldData {
   burned30d: number;
   netFlow30d: number;
   sinks24h: CosmicYieldSink[];
+  /** Credit mirror of sinks24h — decomposes inflow by source_type, exposing
+   *  the PA sync-credit bridge, MCP top-ups, and grants as separate lines. */
+  sources24h: CosmicYieldSink[];
+  /** Daily mint/burn over 30 days, computed live from the immutable ledger
+   *  (GROUP BY day over created_at — no persisted aggregates needed). */
+  flowSeries: { days: CosmicYieldFlowDay[]; live: boolean };
   topHolders: CosmicYieldHolder[];
   /** true when computed from the live ledger; false when degraded. */
   live: boolean;
@@ -54,6 +68,8 @@ const COSMIC_YIELD_FALLBACK: CosmicYieldData = {
   burned30d: 0,
   netFlow30d: 0,
   sinks24h: [],
+  sources24h: [],
+  flowSeries: { days: [], live: false },
   topHolders: [],
   live: false,
 };
@@ -113,6 +129,10 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
         source: String(r.source_type),
         amount: Number(r.amount),
       })),
+      // NOT YET WIRED — implementation mirrors sinks24h with amount > 0 and
+      // adds the 30-day GROUP BY day flow series. Honest empty until then.
+      sources24h: [],
+      flowSeries: { days: [], live: false },
       topHolders: holderRows.map((r) => ({
         handle: deriveHandle(String(r.email)),
         balance: Number(r.balance),
@@ -123,6 +143,35 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
     _logger.error("[cosmicYield] token-economy aggregation failed:", error);
     return COSMIC_YIELD_FALLBACK;
   }
+}
+
+// ─── Request series (hero trace) ───────────────────────────────────────
+
+/** One hourly bucket of real request telemetry from request_log_entries. */
+export interface RequestSeriesPoint {
+  /** ISO timestamp of the bucket start (UTC hour). */
+  hour: string;
+  requests: number;
+  /** 5xx responses in the bucket. */
+  errors: number;
+}
+
+/**
+ * Real 24h request/error series for the dashboard hero trace — replaces the
+ * synthesized sine wave that was labelled "requests/s". Sourced from the
+ * durable request_log_entries mirror (same table as errorGroups), so it
+ * covers only instrumented routes; `live: false` when the table is
+ * unreadable, and an empty-but-live series means genuinely no logged traffic.
+ */
+export interface RequestSeriesData {
+  points: RequestSeriesPoint[];
+  windowHours: number;
+  live: boolean;
+}
+
+/** NOT YET WIRED — skeleton returning the honest degraded state. */
+export async function getRequestHourlySeries(): Promise<RequestSeriesData> {
+  return { points: [], windowHours: 24, live: false };
 }
 
 // ─── Database observability ────────────────────────────────────────────
@@ -520,6 +569,11 @@ export interface PageTelemetryData {
   restaurants: number;
   commensals: number;
   mealPlans: number;
+  /** natal_charts row count — the number previously mislabelled from
+   *  customRecipes on the Astronomical Engine panel. */
+  natalCharts: number;
+  /** Catalog cuisine count — replaces a hardcoded "184". */
+  cuisines: number;
   live: boolean;
 }
 
@@ -731,6 +785,10 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
       restaurants: Number(restaurantsRes.rows[0]?.count ?? 0),
       commensals: Number(commensalsRes.rows[0]?.count ?? 0),
       mealPlans: Number(mealPlansRes.rows[0]?.count ?? 0),
+      // NOT YET WIRED — implementation adds natal_charts + cuisine counts
+      // and makes per-count failures flip `live` instead of hiding as 0.
+      natalCharts: 0,
+      cuisines: 0,
       live: true,
     };
   } catch (error) {
@@ -741,6 +799,8 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
       restaurants: 0,
       commensals: 0,
       mealPlans: 0,
+      natalCharts: 0,
+      cuisines: 0,
       live: false,
     };
   }
