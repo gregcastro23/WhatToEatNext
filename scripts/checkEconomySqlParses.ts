@@ -84,13 +84,10 @@ const COLUMNS: readonly AxisColumn[] = [
 ];
 
 // The credit/debit builders derive their column from the token type, so they
-// are driven by the token names rather than the column names.
-const TOKEN_TYPES: readonly TokenTypeName[] = [
-  "Spirit",
-  "Essence",
-  "Matter",
-  "Substance",
-];
+// are driven by the token names rather than the column names. Taken from the
+// module under test rather than re-listed here: a gate that hand-maintains its
+// own copy of the axes stops covering a fifth one the day it is added.
+const TOKEN_TYPES: readonly TokenTypeName[] = queries.TOKEN_TYPES;
 
 /** Placeholder bind values. PREPARE only performs type analysis, so these are
  *  never sent to the server — they exist because the builders return their
@@ -314,7 +311,16 @@ try {
   // PREPARE. Listed explicitly rather than filtered by a name pattern: adding
   // an export then has to be a conscious decision here, instead of silently
   // slipping past a `endsWith("Sql")` test.
-  const NON_BUILDER_EXPORTS = new Set(["columnFor"]);
+  // `signupGrantIdempotencyKey` returns the ON CONFLICT key for one axis of the
+  // welcome grant, not SQL. It lives in this module because TWO producers now
+  // write those rows — `createUser`'s transaction and `grantSignupBonus` — and
+  // a key they spell independently is a double-credit waiting to happen.
+  // Covered by userDatabaseService.signupGrant.test.ts, which asserts the two
+  // agree; there is nothing here for PREPARE to analyse.
+  const NON_BUILDER_EXPORTS = new Set([
+    "columnFor",
+    "signupGrantIdempotencyKey",
+  ]);
 
   const exportedBuilders = Object.entries(queries)
     .filter(([k, v]) => typeof v === "function" && !NON_BUILDER_EXPORTS.has(k))
