@@ -7,16 +7,45 @@
  */
 
 
+/**
+ * Read an integer env var, yielding NaN for anything that is not cleanly one.
+ *
+ * `parseInt` stops at the first non-digit, so it turns a malformed value into a
+ * plausible one: `DB_MAX_CONNECTIONS="5s"` silently resolves to 5, and `="abc"`
+ * resolves to NaN — which then passes every range check in
+ * {@link validateDatabaseConfig}, because *every* comparison against NaN is
+ * false. `Number` refuses the partial parse instead, collapsing both cases into
+ * one detectable NaN that the validator's `Number.isInteger` guard rejects.
+ *
+ * Empty-string is treated as unset, matching the `||` fallback this replaced.
+ */
+function intFromEnv(raw: string | undefined, fallback: number): number {
+  if (raw === undefined || raw === "") return fallback;
+  return Number(raw);
+}
+
+/**
+ * Connection-URL schemes `pg` accepts. BOTH are valid libpq URLs, and Railway,
+ * Neon, Supabase and Heroku all hand out the `postgres://` spelling. The
+ * validator used to accept only `postgresql:`, which was harmless while nothing
+ * called it — and would have aborted the pool on a perfectly working connection
+ * string the moment initializeDatabase() started throwing on it.
+ */
+const VALID_DB_PROTOCOLS = ["postgresql:", "postgres:"];
+
 // Environment variable validation and defaults
 export const databaseConfig = {
   // Database connection
   databaseUrl:
     process.env.DATABASE_URL ||
     "postgresql://user:pass@localhost:5432/alchm_kitchen",
-  
-  // Individual connection parameters (fallback if DATABASE_URL not provided)
+
+  // Individual connection parameters (fallback if DATABASE_URL not provided).
+  // Note these are effectively unreachable: `databaseUrl` above always resolves
+  // to a truthy default, and getDatabaseConfig() branches on `if (databaseUrl)`.
+  // They are left in place because removing them is a separate change.
   host: process.env.DB_HOST || "localhost",
-  port: parseInt(process.env.DB_PORT || "5432", 10),
+  port: intFromEnv(process.env.DB_PORT, 5432),
   database: process.env.DB_NAME || "alchm_kitchen",
   user: process.env.DB_USER || "user",
   password: process.env.DB_PASSWORD || "pass",
@@ -24,9 +53,9 @@ export const databaseConfig = {
 
   // Connection pool settings — kept small for serverless (each Vercel invocation
   // owns its own pool; 50 concurrent connections per instance would exhaust Railway).
-  maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || "5", 10),
-  idleTimeout: parseInt(process.env.DB_IDLE_TIMEOUT || "10000", 10),
-  connectionTimeout: parseInt(process.env.DB_CONNECTION_TIMEOUT || "5000", 10),
+  maxConnections: intFromEnv(process.env.DB_MAX_CONNECTIONS, 5),
+  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, 10000),
+  connectionTimeout: intFromEnv(process.env.DB_CONNECTION_TIMEOUT, 5000),
 
   // Per-statement cap. Pool-acquisition storms (cold start + cron storms) used
   // to surface as 1737s queries on trivial SELECTs because the SQL never started
@@ -35,13 +64,16 @@ export const databaseConfig = {
   // fails fast instead of holding a function instance for 29 minutes. Pair
   // with a proper pooler (PgBouncer/Supavisor) for the root-cause fix; this is
   // the floor that should always be on.
-  statementTimeoutMs: parseInt(process.env.DB_STATEMENT_TIMEOUT_MS || "5000", 10),
+  statementTimeoutMs: intFromEnv(process.env.DB_STATEMENT_TIMEOUT_MS, 5000),
 
   // Pooler topology in front of Postgres. Governs how the per-statement cap is
   // delivered (see getDatabaseConfig in connection.ts):
-  //   "direct"      — app talks straight to Postgres (or a session-mode pooler).
-  //                   `statement_timeout` is sent as a connection startup param.
-  //   "session"     — session-mode PgBouncer; same startup-param path as direct.
+  //   "direct"      — app talks straight to Postgres. `statement_timeout` is
+  //                   sent as a connection startup param.
+  //   "session"     — session-mode PgBouncer. NOT the same path as direct: the
+  //                   startup param is refused at login in every pool mode (see
+  //                   resolveServerStatementCap), so the cap is delivered by a
+  //                   post-connect `SET`, which session mode makes stick.
   //   "transaction" — transaction-mode PgBouncer. Startup params other than the
   //                   allow-listed few are REJECTED, and `SET`s don't persist
   //                   across the shared server connections, so we must NOT send
@@ -61,7 +93,36 @@ export const databaseConfig = {
   redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
 };
 
-// Validate configuration on import
+/**
+ * Range-check one integer knob.
+ *
+ * The `Number.isInteger` guard is the load-bearing half. Before it existed a
+ * malformed env var produced NaN, and `NaN < min || NaN > max` is `false` — so
+ * the *most* broken configuration was the one the validator was blindest to.
+ */
+function checkIntegerRange(
+  errors: string[],
+  name: string,
+  value: number,
+  min: number,
+  max: number,
+  unit = "",
+): void {
+  if (!Number.isInteger(value)) {
+    errors.push(`${name} must be an integer (got ${JSON.stringify(value)})`);
+    return;
+  }
+  if (value < min || value > max) {
+    errors.push(
+      `${name} must be between ${min}${unit} and ${max}${unit} (got ${value}${unit})`,
+    );
+  }
+}
+
+/**
+ * Pure check of the resolved {@link databaseConfig}. Returns errors rather than
+ * throwing so callers choose the consequence; initializeDatabase() throws.
+ */
 export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
@@ -69,8 +130,10 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
   if (databaseConfig.databaseUrl) {
     try {
       const url = new URL(databaseConfig.databaseUrl);
-      if (url.protocol !== "postgresql:") {
-        errors.push("DATABASE_URL must use postgresql:// protocol");
+      if (!VALID_DB_PROTOCOLS.includes(url.protocol)) {
+        errors.push(
+          `DATABASE_URL must use postgresql:// or postgres:// (got ${url.protocol}//)`,
+        );
       }
     } catch {
       errors.push("DATABASE_URL is not a valid URL");
@@ -85,35 +148,30 @@ export function validateDatabaseConfig(): { valid: boolean; errors: string[] } {
       errors.push("DB_NAME is required when DATABASE_URL is not provided");
     if (!databaseConfig.user)
       errors.push("DB_USER is required when DATABASE_URL is not provided");
-    if (databaseConfig.port <= 0 || databaseConfig.port > 65535) {
-      errors.push("DB_PORT must be a valid port number (1-65535)");
-    }
+    checkIntegerRange(errors, "DB_PORT", databaseConfig.port, 1, 65535);
   }
 
-  // Check connection pool settings
-  if (
-    databaseConfig.maxConnections < 1 ||
-    databaseConfig.maxConnections > 100
-  ) {
-    errors.push("DB_MAX_CONNECTIONS must be between 1 and 100");
-  }
-  if (databaseConfig.idleTimeout < 1000) {
-    errors.push("DB_IDLE_TIMEOUT must be at least 1000ms");
-  }
-  if (databaseConfig.connectionTimeout < 100) {
-    errors.push("DB_CONNECTION_TIMEOUT must be at least 100ms");
-  }
-  if (
-    databaseConfig.statementTimeoutMs < 100 ||
-    databaseConfig.statementTimeoutMs > 60000
-  ) {
-    errors.push(
-      "DB_STATEMENT_TIMEOUT_MS must be between 100ms and 60000ms",
-    );
-  }
+  // Check connection pool settings. Upper bounds are the blast radius, not a
+  // preference: the pool is per-serverless-instance, so a large `max` multiplied
+  // by concurrent instances is what exhausts PgBouncer's max_client_conn.
+  checkIntegerRange(errors, "DB_MAX_CONNECTIONS", databaseConfig.maxConnections, 1, 100);
+  checkIntegerRange(
+    errors, "DB_IDLE_TIMEOUT", databaseConfig.idleTimeout, 1000, 600_000, "ms",
+  );
+  checkIntegerRange(
+    errors, "DB_CONNECTION_TIMEOUT", databaseConfig.connectionTimeout, 100, 60_000, "ms",
+  );
+  checkIntegerRange(
+    errors, "DB_STATEMENT_TIMEOUT_MS", databaseConfig.statementTimeoutMs, 100, 60_000, "ms",
+  );
+  // An unrecognised pooler mode is not cosmetic: resolveServerStatementCap and
+  // resolvePooledStatementTimeoutSql both compare against exact strings, so a
+  // typo silently disables the docs/adr/007 statement floor on every connection
+  // while the pool still appears to work.
   if (!["direct", "session", "transaction"].includes(databaseConfig.poolerMode)) {
     errors.push(
-      'DB_POOLER_MODE must be one of "direct", "session", or "transaction"',
+      `DB_POOLER_MODE must be one of "direct", "session", or "transaction" ` +
+        `(got ${JSON.stringify(databaseConfig.poolerMode)})`,
     );
   }
 
@@ -140,33 +198,29 @@ export function assertRuntimeDatabaseConfig(): void {
   }
 }
 
-// Initialize configuration and log warnings
-// DISABLED: Module-level logging causes Next.js build to hang during module scanning
-// These validations and logs should be called at runtime, not during import
-/*
-const validation = validateDatabaseConfig();
-if (!validation.valid) {
-  void logger.error("Database configuration validation failed", {
-    errors: validation.errors,
-  });
-  throw new Error(
-    `Invalid database configuration: ${validation.errors.join(", ")}`,
-  );
+/**
+ * Loggable summary of the resolved config — no credentials.
+ *
+ * The connection URL carries the password, so nothing derived from it is
+ * reported beyond presence. `host`/`database` mirror what initializeDatabase()
+ * already logs on pool creation, and `poolerMode` is a topology enum rather
+ * than a secret; it is included because a wrong value silently disables the
+ * statement floor and was otherwise unobservable in production.
+ */
+export function databaseConfigSummary(): Record<string, unknown> {
+  return {
+    environment: databaseConfig.environment,
+    hasDatabaseUrl: !!process.env.DATABASE_URL,
+    port: databaseConfig.port,
+    poolerMode: databaseConfig.poolerMode,
+    maxConnections: databaseConfig.maxConnections,
+    idleTimeout: databaseConfig.idleTimeout,
+    connectionTimeout: databaseConfig.connectionTimeout,
+    statementTimeoutMs: databaseConfig.statementTimeoutMs,
+    logQueries: databaseConfig.logQueries,
+    autoMigrate: databaseConfig.autoMigrate,
+  };
 }
-
-// Log configuration summary (without sensitive data)
-void logger.info("Database configuration loaded", {
-  environment: databaseConfig.environment,
-  hasDatabaseUrl: !!databaseConfig.databaseUrl,
-  host: databaseConfig.databaseUrl ? "[hidden]" : databaseConfig.host,
-  port: databaseConfig.port,
-  database: databaseConfig.database,
-  maxConnections: databaseConfig.maxConnections,
-  ssl: databaseConfig.ssl,
-  logQueries: databaseConfig.logQueries,
-  autoMigrate: databaseConfig.autoMigrate,
-});
-*/
 
 /**
  * Resolve the `pg` `ssl` option for a parsed connection URL.
