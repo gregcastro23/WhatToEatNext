@@ -10,6 +10,7 @@
  * can be tested without a database or network.
  */
 
+import { SUSTAINED_COMPONENT } from "@/lib/observability/alertLog";
 import type { AgentNetworkTelemetry } from "@/services/agentTelemetryService";
 import type {
   CosmicYieldData,
@@ -228,6 +229,10 @@ function activeAlerts(recentAlerts: RecentAlertsData): number {
     RecentAlertsData["entries"][number]
   >();
   for (const alert of recentAlerts.entries) {
+    // The sustained-incident digest is a re-announcement of components already
+    // counted here, not a component of its own. Counting it would inflate this
+    // number by one for the entire life of any outage.
+    if (alert.component === SUSTAINED_COMPONENT) continue;
     if (!latestByComponent.has(alert.component)) {
       latestByComponent.set(alert.component, alert);
     }
