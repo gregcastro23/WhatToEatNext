@@ -3,6 +3,8 @@ import { logger } from "../logger";
 import {
   databaseConfig,
   assertRuntimeDatabaseConfig,
+  validateDatabaseConfig,
+  databaseConfigSummary,
   resolveSslOption,
   resolveServerStatementCap,
   resolvePooledStatementTimeoutSql,
@@ -151,6 +153,26 @@ export function initializeDatabase(): Pool {
   // Fail fast in production if DATABASE_URL is unset (would silently fall back
   // to the localhost default and "succeed" until the first query times out).
   assertRuntimeDatabaseConfig();
+
+  // The resolved config, before it can throw — so a rejected configuration is
+  // still legible in the runtime logs rather than only in the exception.
+  void logger.info("Database configuration resolved", databaseConfigSummary());
+
+  // This validation used to run at module scope and was commented out because
+  // module-level work hung the Next build. Pool creation is the right place: it
+  // is lazy (first query after a cold start), it runs in the environment being
+  // validated rather than at build time, and a bad value is refused before it
+  // reaches `new Pool()` — where NaN and out-of-range knobs otherwise produce a
+  // pool that connects and then misbehaves under load.
+  const validation = validateDatabaseConfig();
+  if (!validation.valid) {
+    void logger.error("Database configuration validation failed", {
+      errors: validation.errors,
+    });
+    throw new Error(
+      `Invalid database configuration: ${validation.errors.join("; ")}`,
+    );
+  }
 
   const config = getDatabaseConfig();
 
