@@ -15,6 +15,19 @@ import type { FlowStatus } from "@/services/systemStatusService";
 
 export type AlertSeverity = "info" | "warn" | "error";
 
+/**
+ * Component id of the sustained-incident digest alertService emits (see
+ * `collectSustainedReminder`). It is a re-announcement of components that are
+ * already alerting, not a component of its own, so readers that count open
+ * incidents must skip it.
+ *
+ * It lives in this leaf rather than in alertService because
+ * operationsControlPlaneService is deliberately pure, and importing
+ * alertService there would drag the database, Slack and email clients into it.
+ * Two matching string literals would drift; one constant cannot.
+ */
+export const SUSTAINED_COMPONENT = "sustained";
+
 export interface AlertLogEntry {
   id: number;
   at: string;
