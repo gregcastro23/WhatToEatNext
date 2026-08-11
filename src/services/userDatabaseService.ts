@@ -8,6 +8,12 @@ import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
+import {
+  creditTokensSql,
+  signupGrantIdempotencyKey,
+  SIGNUP_GRANT_PER_TOKEN,
+  TOKEN_TYPES,
+} from "@/services/tokenEconomyQueries";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { safeJsonParse } from "@/utils/typeGuards";
 
@@ -224,6 +230,44 @@ class UserDatabaseService {
             `INSERT INTO user_streaks (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
             [userId]
           );
+
+          // ── Welcome grant, in the SAME transaction as the user row ────────
+          //
+          // `[MEASURED 2026-08-10]` 6 of 14 human signups held a zero balance
+          // because the grant was not part of creating a user — it hung off ONE
+          // of the three call sites that create one. `signIn` granted; the JIT
+          // fallback in the `jwt` callback and the JIT heal in
+          // `getDatabaseUserFromRequest` did not. Users who arrived by either
+          // of those got the balance row seeded four lines above and nothing in
+          // it, permanently: the "self-heals on the next sign-in" retry also
+          // lives only in `signIn`, which had never completed for any of them.
+          //
+          // Seeding it here makes a user without a grant unconstructible rather
+          // than merely unlikely, and it costs no round trip a caller can time
+          // out on — two callers race `createUser` against an 8s timeout, so
+          // this deliberately stays inside the open transaction instead of
+          // awaiting the retry loop in `grantSignupBonus`.
+          //
+          // Reuses `creditTokensSql` rather than hand-writing the INSERTs: it
+          // is the statement CI already PREPAREs against a real PostgreSQL, and
+          // it upserts `token_balances` itself, so it is correct whether or not
+          // the seed above won. Same idempotency key as `grantSignupBonus`, so
+          // the two producers can never double-credit.
+          const grantGroupId = randomUUID();
+          for (const tokenType of TOKEN_TYPES) {
+            const grant = creditTokensSql({
+              userId,
+              tokenType,
+              amount: SIGNUP_GRANT_PER_TOKEN,
+              sourceType: "signup_grant",
+              sourceId: null,
+              description:
+                "Welcome to Alchm.kitchen — starter cosmic balance",
+              transactionGroupId: grantGroupId,
+              idempotencyKey: signupGrantIdempotencyKey(userId, tokenType),
+            });
+            await client.query(grant.sql, grant.values);
+          }
         });
 
         if (!conflictOccurred) {

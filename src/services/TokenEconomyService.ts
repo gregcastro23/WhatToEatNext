@@ -12,6 +12,8 @@ import { _logger } from "@/lib/logger";
 import {
   columnFor,
   creditTokensSql,
+  SIGNUP_GRANT_PER_TOKEN,
+  TOKEN_TYPES,
   dailyClaimTimestampSql,
   debitAllTokensSql,
   debitTokensSql,
@@ -495,16 +497,32 @@ class TokenEconomyService {
   // SIGNUP GRANT
   // ═══════════════════════════════════════════════════════════════════
 
-  /** Welcome grant: every new user starts with this even ESMS balance. */
-  static readonly SIGNUP_GRANT_PER_TOKEN = 15;
+  /** Welcome grant: every new user starts with this even ESMS balance.
+   *  Defined in `tokenEconomyQueries` so `createUser` — which now seeds the
+   *  grant in the same transaction as the user row — cannot drift from it. */
+  static readonly SIGNUP_GRANT_PER_TOKEN = SIGNUP_GRANT_PER_TOKEN;
 
   /**
-   * Grant (or heal) a new user's one-time welcome balance.
+   * Heal a user's one-time welcome balance.
+   *
+   * NOT the primary producer any more. `userDatabase.createUser` seeds the
+   * grant in the same transaction as the user row, so a user cannot be created
+   * without one. This remains the repair path for users created before that —
+   * and for any future path that manages to insert a user row some other way.
+   *
+   * `[MEASURED 2026-08-10]` why the primary moved: this method is reachable
+   * from exactly one call site, the NextAuth `signIn` callback. Two OTHER code
+   * paths create users (the JIT fallback in the `jwt` callback, and the JIT
+   * heal in `getDatabaseUserFromRequest`), and neither granted. 6 of 14 human
+   * signups were created by those paths and held nothing. The "self-heals on
+   * every sign-in" promise below could never rescue them, because the sign-in
+   * callback it lives in is the one that never completed for them — all 6 had
+   * `login_count = 0` and no `accounts` row, months later.
    *
    * Idempotent via the per-user key `signup_grant:<userId>` (per-token under
-   * the hood), so it is safe to call on every sign-in: an already-granted user
-   * is a cheap no-op, and a user whose grant failed once is healed the next
-   * time they sign in.
+   * the hood, see `signupGrantIdempotencyKey`), so it is safe to call on every
+   * sign-in and safe to run alongside the `createUser` seed: whichever writes
+   * first wins and the other hits `ON CONFLICT DO NOTHING`.
    *
    * Resilient by design. `creditMultipleTokens` swallows DB errors and returns
    * `null` rather than throwing, so the previous caller's try/catch was dead
@@ -519,9 +537,10 @@ class TokenEconomyService {
    */
   async grantSignupBonus(userId: string): Promise<boolean> {
     const amount = TokenEconomyService.SIGNUP_GRANT_PER_TOKEN;
-    const credits = (
-      ["Spirit", "Essence", "Matter", "Substance"] as TokenType[]
-    ).map((tokenType) => ({ tokenType, amount }));
+    const credits = (TOKEN_TYPES as readonly TokenType[]).map((tokenType) => ({
+      tokenType,
+      amount,
+    }));
     const backoffsMs = [0, 250, 750];
 
     for (let attempt = 0; attempt < backoffsMs.length; attempt++) {

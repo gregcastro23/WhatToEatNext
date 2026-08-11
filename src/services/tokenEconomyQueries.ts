@@ -46,6 +46,36 @@ export type TokenTypeName = "Spirit" | "Essence" | "Matter" | "Substance";
 export const columnFor = (tokenType: TokenTypeName): AxisColumn =>
   tokenType.toLowerCase() as AxisColumn;
 
+/** The four axes in the order every multi-axis grant writes them. */
+export const TOKEN_TYPES: readonly TokenTypeName[] = [
+  "Spirit",
+  "Essence",
+  "Matter",
+  "Substance",
+];
+
+/** Welcome grant: what every new user starts with, on each axis. */
+export const SIGNUP_GRANT_PER_TOKEN = 15;
+
+/**
+ * The idempotency key for one axis of a user's welcome grant.
+ *
+ * `[MEASURED 2026-08-10]` 6 of 14 human signups held no grant, because the
+ * grant lived in exactly one of the THREE code paths that create a user. The
+ * fix seeds it inside `createUser` itself, which means two independent
+ * producers now write these rows: `createUser` (in the same transaction as the
+ * user) and `grantSignupBonus` (the self-heal for users who predate that).
+ *
+ * Two producers agreeing on a key by writing the same string literal twice is
+ * exactly how a double-credit ships — the `ON CONFLICT (idempotency_key) DO
+ * NOTHING` that makes the grant replay-safe only works if both sides spell the
+ * key identically. So both derive it from here, and a test asserts they agree.
+ */
+export const signupGrantIdempotencyKey = (
+  userId: string,
+  tokenType: TokenTypeName,
+): string => `signup_grant:${userId}:${tokenType}`;
+
 /** Amounts across all four axes, for the multi-axis statements. */
 export interface AxisAmounts {
   spirit: number;
