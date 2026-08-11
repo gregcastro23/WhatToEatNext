@@ -15,12 +15,35 @@
  * @file src/lib/observability/slowQueryLog.ts
  */
 
+/**
+ * The pool's state at the instant an entry was recorded.
+ *
+ * `ms` conflates two unrelated failure modes, because executeQuery starts its
+ * timer before `pool.query()` and that call does checkout AND execution. These
+ * gauges separate them: `waiting` is how many callers were queued for a
+ * connection, so **a slow entry with `waiting === 0` cannot be checkout
+ * starvation**, whatever the duration says.
+ *
+ * Gauges rather than a second timer on purpose. Timing checkout separately
+ * would mean replacing `pool.query()` with manual connect/query/release on the
+ * hottest path in the app, where one missed release leaks a connection and
+ * manufactures the starvation being measured. Reading three counters off the
+ * pool object changes nothing about acquisition.
+ */
+export interface PoolGauges {
+  waiting: number;
+  total: number;
+  idle: number;
+}
+
 export interface SlowQueryEntry {
   id: number;
   at: string;
   ms: number;
   preview: string;
   rowCount: number | null;
+  /** Absent when the caller could not reach the pool (e.g. a passed-in client). */
+  pool?: PoolGauges;
 }
 
 const RING_SIZE = 200;
@@ -43,6 +66,7 @@ export function recordSlowQuery(
   ms: number,
   query: string,
   rowCount: number | null,
+  pool?: PoolGauges,
 ): void {
   if (ms < threshold) return;
   const entry: SlowQueryEntry = {
@@ -51,6 +75,7 @@ export function recordSlowQuery(
     ms: Math.round(ms),
     preview: query.length > 200 ? `${query.slice(0, 200)}…` : query,
     rowCount,
+    pool,
   };
   ring.push(entry);
   if (ring.length > RING_SIZE) ring.shift();
@@ -69,9 +94,21 @@ async function persistSlowQueryEntry(entry: SlowQueryEntry): Promise<void> {
     // there is no import cycle with connection.ts.
     const { getDatabasePool } = await import("@/lib/database/rawPool");
     await getDatabasePool().query(
-      `INSERT INTO slow_query_log_entries (at, ms, preview, row_count)
-       VALUES ($1, $2, $3, $4)`,
-      [entry.at, entry.ms, entry.preview, entry.rowCount],
+      `INSERT INTO slow_query_log_entries
+         (at, ms, preview, row_count, pool_waiting, pool_total, pool_idle)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        entry.at,
+        entry.ms,
+        entry.preview,
+        entry.rowCount,
+        // NULL, not 0, when the gauges were unavailable — "not measured" has to
+        // stay distinguishable from "measured as zero", which is the whole
+        // point of the column.
+        entry.pool?.waiting ?? null,
+        entry.pool?.total ?? null,
+        entry.pool?.idle ?? null,
+      ],
     );
   } catch {
     // Observability writes never crash the query path.

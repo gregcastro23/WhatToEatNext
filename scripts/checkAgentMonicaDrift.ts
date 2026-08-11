@@ -150,6 +150,24 @@ for (const r of rows) {
     const fc = fullChartMonica(r.natal_positions);
     if (!fc) {
       notAPlacementNoChart++;
+      // The failure message below tells the operator "the names are printed
+      // above" — but this branch used to increment and `continue` without
+      // recording anything, so the one name you actually need was the one name
+      // never shown. Finding it meant re-implementing this classification by
+      // hand against production. Record it here, with the chart shape, since
+      // "unparseable name" and "empty chart" want different fixes.
+      if (examples.length < 15) {
+        const positions = r.natal_positions;
+        const shape = Array.isArray(positions)
+          ? `array[${positions.length}]`
+          : positions == null
+            ? "null"
+            : `object{${Object.keys(positions).length}}`;
+        examples.push(
+          `NO-CHART ${r.name}: name does not parse as a placement and ` +
+            `natal_positions is ${shape}`,
+        );
+      }
       continue;
     }
     const t = tally.fullChart;
