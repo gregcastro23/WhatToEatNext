@@ -1,5 +1,5 @@
 import { logger } from "../logger";
-import { recordSlowQuery } from "../observability/slowQueryLog";
+import { recordSlowQuery, type PoolGauges } from "../observability/slowQueryLog";
 import { databaseConfig } from "./config";
 import { getDatabasePool, initializeDatabase, closeDatabase } from "./rawPool";
 import type { PoolClient, QueryResult } from "pg";
@@ -26,6 +26,39 @@ export type { DatabaseConfig } from "./rawPool";
 // instance.
 let _lastSlowQueryMetricAt = 0;
 const SLOW_QUERY_METRIC_MIN_INTERVAL_MS = 2000;
+
+/**
+ * Read the pool's counters, or undefined if the pool cannot be reached.
+ *
+ * `getDatabasePool()` constructs the pool on first call and now throws on an
+ * invalid config, so this must never be the thing that surfaces that — it runs
+ * on the slow-query path, after a query has already succeeded, which means the
+ * pool provably exists. The guard is for the shapes where it does not: a
+ * caller-supplied client with no pool of its own, or a mocked pool in tests.
+ */
+export function readPoolGauges(): PoolGauges | undefined {
+  try {
+    const pool = getDatabasePool() as unknown as {
+      waitingCount?: number;
+      totalCount?: number;
+      idleCount?: number;
+    };
+    if (
+      typeof pool?.waitingCount !== "number" ||
+      typeof pool?.totalCount !== "number" ||
+      typeof pool?.idleCount !== "number"
+    ) {
+      return undefined;
+    }
+    return {
+      waiting: pool.waitingCount,
+      total: pool.totalCount,
+      idle: pool.idleCount,
+    };
+  } catch {
+    return undefined;
+  }
+}
 
 // Health check function
 export async function checkDatabaseHealth(): Promise<{
@@ -122,7 +155,15 @@ export async function executeQuery<_T extends any = any>(
     // Push to the in-memory slow-query ring (threshold defaults to 200ms).
     // The admin observability endpoint reads this; production traffic should
     // surface gradual regressions here long before they trip the >1s warn.
-    recordSlowQuery(executionTime, query, result.rowCount);
+    //
+    // `executionTime` spans BOTH checkout and execution, because `pool.query()`
+    // does both — so on its own it cannot say whether a slow entry means slow
+    // SQL or no connection. The gauges answer that: `waiting` is how many
+    // callers were queued for a connection, so an entry recorded with
+    // `waiting === 0` was not waiting on the pool. Read AFTER the query so it
+    // reflects the state the query actually left behind rather than a guess
+    // made before dispatch.
+    recordSlowQuery(executionTime, query, result.rowCount, readPoolGauges());
 
     // Persist slow queries to system_metrics (sampled — see throttle note at top).
     const nowMs = Date.now();
