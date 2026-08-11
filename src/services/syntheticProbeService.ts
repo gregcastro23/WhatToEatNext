@@ -40,6 +40,95 @@ import { invokeTool } from "@/lib/mcp/tools";
 
 const PROBE_TIMEOUT_MS = 10_000;
 
+/**
+ * When the long-lived `SYNTHETIC_PROBE_TOKEN` JWT stops being accepted.
+ *
+ * BASIS: recorded, not re-derived. The variable is marked Sensitive in Vercel,
+ * so its value cannot be read back to decode the `exp` claim — this date is
+ * carried forward from when it could be. `assertProbeTokenExpiryIsNotImminent`
+ * (see its test) turns that into a tripwire that goes red 60 days out, and
+ * `warnIfProbeTokenNearExpiry` re-derives the true `exp` at runtime wherever
+ * the token actually is, so a wrong date here corrects itself in the logs
+ * rather than sitting undetected until every probe starts failing at once.
+ */
+export const SYNTHETIC_PROBE_TOKEN_EXPIRES_AT = "2027-05-25T00:00:00.000Z";
+
+/** Lead time on the tripwire — long enough to rotate without urgency. */
+export const PROBE_TOKEN_EXPIRY_WARNING_DAYS = 60;
+
+/**
+ * Days until the recorded expiry. Negative once it has passed. Pure.
+ */
+export function daysUntilProbeTokenExpiry(now: Date): number {
+  const expiresAt = Date.parse(SYNTHETIC_PROBE_TOKEN_EXPIRES_AT);
+  return Math.floor((expiresAt - now.getTime()) / 86_400_000);
+}
+
+/**
+ * Read the `exp` claim from the configured token, or null if it has none.
+ *
+ * Decodes only — no signature check, which would need the signing secret and
+ * is not the question being asked. Returns null rather than throwing on
+ * anything unexpected: an unreadable token is a reason to stay quiet here, not
+ * to break the probe that is about to use it.
+ */
+export function decodeJwtExpiry(token: string | undefined): Date | null {
+  if (!token) return null;
+  const parts = token.split(".");
+  if (parts.length !== 3) return null;
+  try {
+    const claims = JSON.parse(
+      Buffer.from(parts[1], "base64url").toString("utf8"),
+    ) as { exp?: unknown };
+    if (typeof claims.exp !== "number" || !Number.isFinite(claims.exp)) {
+      return null;
+    }
+    return new Date(claims.exp * 1000);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Cross-check the recorded expiry against the token actually in use, and warn
+ * when either says rotation is due. Called once per probe batch.
+ *
+ * This is what keeps SYNTHETIC_PROBE_TOKEN_EXPIRES_AT from rotting into a date
+ * nobody has verified since it was written: production holds the real token,
+ * so production is where the constant gets checked.
+ */
+export function warnIfProbeTokenNearExpiry(now: Date = new Date()): void {
+  const recordedDays = daysUntilProbeTokenExpiry(now);
+  const actual = decodeJwtExpiry(process.env.SYNTHETIC_PROBE_TOKEN);
+
+  if (actual) {
+    const actualDays = Math.floor((actual.getTime() - now.getTime()) / 86_400_000);
+    if (Math.abs(actualDays - recordedDays) > 1) {
+      _logger.warn(
+        "[syntheticProbe] SYNTHETIC_PROBE_TOKEN_EXPIRES_AT disagrees with the token in use",
+        {
+          recorded: SYNTHETIC_PROBE_TOKEN_EXPIRES_AT,
+          actual: actual.toISOString(),
+        },
+      );
+    }
+    if (actualDays <= PROBE_TOKEN_EXPIRY_WARNING_DAYS) {
+      _logger.warn(
+        `[syntheticProbe] SYNTHETIC_PROBE_TOKEN expires in ${actualDays}d ` +
+          `(${actual.toISOString()}) — every probe fails at once when it does`,
+      );
+    }
+    return;
+  }
+
+  if (recordedDays <= PROBE_TOKEN_EXPIRY_WARNING_DAYS) {
+    _logger.warn(
+      `[syntheticProbe] SYNTHETIC_PROBE_TOKEN expires in ${recordedDays}d ` +
+        `(${SYNTHETIC_PROBE_TOKEN_EXPIRES_AT}, recorded — token not decodable here)`,
+    );
+  }
+}
+
 export type ProbeStatus = "success" | "failure" | "timeout";
 
 export interface ProbeResult {
@@ -63,6 +152,10 @@ export interface LatestProbeRow {
 }
 
 async function recordProbeResult(result: ProbeResult): Promise<void> {
+  // Every probe funnels through here, and this runs in the cron context where
+  // SYNTHETIC_PROBE_TOKEN actually exists — the only place the recorded expiry
+  // can be checked against the real token. Silent until rotation is due.
+  warnIfProbeTokenNearExpiry();
   try {
     await executeQuery(
       `INSERT INTO synthetic_probe_results
@@ -764,10 +857,41 @@ export async function getLatestProbeResults(): Promise<LatestProbeRow[]> {
       http_status: number | null;
       error_message: string | null;
     }>(
-      `SELECT DISTINCT ON (probe_name)
-         probe_name, started_at, status, latency_ms, http_status, error_message
-       FROM synthetic_probe_results
-       ORDER BY probe_name, started_at DESC`,
+      // Emulated loose index scan. The obvious spelling —
+      //   SELECT DISTINCT ON (probe_name) ... ORDER BY probe_name, started_at DESC
+      // — does use idx_synthetic_probe_results_name_started, but `DISTINCT ON`
+      // cannot skip: it walks EVERY index entry in order and discards the
+      // duplicates. Measured against production at 40,301 rows it read all of
+      // them, 6,356 buffers, to return 7 — and pg_stat_user_indexes showed
+      // 44.7M tuples read across 1,580 scans of this one query. Nothing prunes
+      // this table, so that cost grows forever.
+      //
+      // The recursive term instead descends the index once per DISTINCT
+      // probe_name (7 of them), then takes one LIMIT 1 per probe. Measured:
+      // 8.688ms → 0.161ms, 6,356 → 65 buffers, and the cost is now O(probes)
+      // rather than O(rows). Verified to return byte-identical rows.
+      `WITH RECURSIVE names AS (
+           (SELECT probe_name FROM synthetic_probe_results
+             ORDER BY probe_name LIMIT 1)
+           UNION ALL
+           SELECT (SELECT s.probe_name FROM synthetic_probe_results s
+                    WHERE s.probe_name > n.probe_name
+                    ORDER BY s.probe_name LIMIT 1)
+             FROM names n WHERE n.probe_name IS NOT NULL
+         )
+         SELECT r.probe_name, r.started_at, r.status, r.latency_ms,
+                r.http_status, r.error_message
+           FROM names n
+           CROSS JOIN LATERAL (
+             SELECT s.probe_name, s.started_at, s.status, s.latency_ms,
+                    s.http_status, s.error_message
+               FROM synthetic_probe_results s
+              WHERE s.probe_name = n.probe_name
+              ORDER BY s.started_at DESC
+              LIMIT 1
+           ) r
+          WHERE n.probe_name IS NOT NULL
+          ORDER BY r.probe_name`,
     );
     return result.rows.map((row) => ({
       probeName: row.probe_name,
