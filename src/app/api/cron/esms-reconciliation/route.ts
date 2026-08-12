@@ -49,8 +49,11 @@ interface StuckOrder {
 /**
  * Persist the run's findings to alert_events so they outlive the JSON
  * response — getRecentAlerts reads that table for the IncidentsPanel. A
- * clean run records an info row (OK→OK audit trail); record drift records
- * warn (OK→DEGRADED). Same column conventions as alertService's
+ * Only drifted runs write a row: this cron is hourly and getRecentAlerts is
+ * a LIMIT-8 window with no severity filter, so an OK→OK row per clean hour
+ * would evict every real alert within a working day. Clean-run liveness is
+ * the heartbeat's job (recordCronRun below), same convention as
+ * chain-reconcile. Same column conventions as alertService's
  * persistAlertEvent; the dispatch column keeps its '{}' default because no
  * Slack/email sink ran for this row.
  */
@@ -66,9 +69,8 @@ async function persistReconciliationSummary(summary: {
 }): Promise<void> {
   const drifted =
     summary.orphanDebits.length > 0 || summary.paidWithoutTransfer.length > 0;
-  const title = drifted
-    ? `ESMS settlement drift: ${summary.orphanDebits.length} orphan debit(s), ${summary.paidWithoutTransfer.length} paid-without-transfer`
-    : "ESMS settlement reconciliation clean";
+  if (!drifted) return;
+  const title = `ESMS settlement drift: ${summary.orphanDebits.length} orphan debit(s), ${summary.paidWithoutTransfer.length} paid-without-transfer`;
   const message =
     `stuck=${summary.stuckCount} (retryable=${summary.retryable.length}, ` +
     `refundable=${summary.refundable.length}, probeErrors=${summary.probeErrors}); ` +
@@ -84,8 +86,8 @@ async function persistReconciliationSummary(summary: {
       [
         "esms-reconciliation",
         "OK",
-        drifted ? "DEGRADED" : "OK",
-        drifted ? "warn" : "info",
+        "DEGRADED",
+        "warn",
         title,
         message,
       ],

@@ -6,8 +6,8 @@ import type {
   CosmicYieldSink,
 } from "@/services/dashboardPanelsService";
 import type { EconomyIntegrityData } from "@/services/economyIntegrityService";
-import type { AdminDashboardData } from "./data";
 import { Card } from "./hero";
+import type { AdminDashboardData } from "./data";
 
 // ============================================================
 // LEDGER INTEGRITY — invariant checks + 24h flow decomposition

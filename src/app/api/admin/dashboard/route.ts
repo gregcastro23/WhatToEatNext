@@ -189,16 +189,17 @@ function getAgentCount(payload: unknown): number {
 }
 
 /**
- * Run a scalar COUNT query, degrading to 0 on any failure so a single missing
- * table or transient DB error can't fail the entire dashboard payload.
+ * Run a scalar COUNT query, degrading to null on failure so a single missing
+ * table or transient DB error can't fail the entire dashboard payload — and
+ * so the caller can flip stats.live rather than render the 0 as a fact.
  */
-async function safeCount(label: string, sql: string): Promise<number> {
+async function safeCount(label: string, sql: string): Promise<number | null> {
   try {
     const result = await executeQuery(sql);
     return Number(result.rows[0]?.count ?? 0);
   } catch (error) {
     console.error(`[admin/dashboard] ${label} count failed:`, error);
-    return 0;
+    return null;
   }
 }
 
@@ -228,11 +229,11 @@ async function assembleTelemetryCore() {
         "SELECT COUNT(*)::integer AS count FROM ingredients",
       ),
       // Only Stripe-backed subs are paying customers; provisioned/agent
-      // accounts (no stripe_subscription_id) are not revenue. Falls back to 0
-      // on failure, matching the safeCount() graceful-degradation pattern.
+      // accounts (no stripe_subscription_id) are not revenue. Falls back to
+      // null on failure, matching the safeCount() degradation pattern.
       getSubscriptionRevenueBreakdown()
-        .then((b) => b.paidSubs)
-        .catch(() => 0),
+        .then((b): number | null => b.paidSubs)
+        .catch(() => null),
       safeCount(
         "token transactions",
         "SELECT COUNT(*)::integer AS count FROM token_transactions",
@@ -241,6 +242,13 @@ async function assembleTelemetryCore() {
 
     const now = new Date();
 
+    // stats.live covers EVERY field in the block: a failed catalog COUNT
+    // (null) must flip the flag, or its zero renders as a measured count.
+    const countsLive =
+      totalRecipes !== null &&
+      totalIngredients !== null &&
+      totalSubscriptions !== null &&
+      totalTransactions !== null;
     const stats = {
       totalUsers: userStats.totalUsers,
       activeUsers: userStats.activeUsers,
@@ -248,11 +256,11 @@ async function assembleTelemetryCore() {
       completedOnboarding: userStats.completedOnboarding,
       humanUsers: userStats.humanUsers,
       agentUsers: userStats.agentUsers,
-      totalRecipes,
-      totalIngredients,
-      totalSubscriptions,
-      totalTransactions,
-      live: userStats.live,
+      totalRecipes: totalRecipes ?? 0,
+      totalIngredients: totalIngredients ?? 0,
+      totalSubscriptions: totalSubscriptions ?? 0,
+      totalTransactions: totalTransactions ?? 0,
+      live: userStats.live && countsLive,
     };
 
     const recentUsers = recentSignups.users;
@@ -504,8 +512,6 @@ export async function GET(request: NextRequest) {
         ? `${lat.toFixed(2)}°${lat >= 0 ? "N" : "S"} · ${lon.toFixed(2)}°${lon >= 0 ? "E" : "W"}`
         : "—";
 
-    const { recentUsersLive, ...coreData } = core;
-
     const data: AdminDashboardData = {
       user: {
         handle: adminHandle,
@@ -519,7 +525,7 @@ export async function GET(request: NextRequest) {
         location: adminLocation,
         onCall: true,
       },
-      ...coreData,
+      ...core,
     };
 
     // Backwards-compatible response: legacy `/admin` reads `stats` and
@@ -530,7 +536,7 @@ export async function GET(request: NextRequest) {
       success: true,
       stats: core.stats,
       recentUsers: core.recentUsers,
-      recentUsersLive,
+      recentUsersLive: core.recentUsersLive,
       data,
       paIntegration: core.planetaryIntegration,
     });

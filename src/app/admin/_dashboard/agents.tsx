@@ -216,9 +216,12 @@ function useAgentNetwork(filters: AgentNetworkFilters = {}): {
 // ============================================================
 export function AgentFeedControlRoom({
   lastFeedEmit,
+  paBackend,
 }: {
   /** planetaryIntegration.lastFeedEmit — null means no emit recorded. */
   lastFeedEmit?: FeedEmitStatus | null;
+  /** planetaryIntegration.endpoints.paBackend — forwarded to the sync panel. */
+  paBackend?: string | null;
 } = {}) {
   // Operator-controlled discourse filters. Local input state stays
   // unthrottled for responsive typing; we debounce the server-bound copy so
@@ -253,7 +256,7 @@ export function AgentFeedControlRoom({
 
   return (
     <>
-    <PaAgentSyncPanel />
+    <PaAgentSyncPanel endpoint={paBackend} />
     <section style={{ marginBottom: 14 }}>
       <div
         style={{

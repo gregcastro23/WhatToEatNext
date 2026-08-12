@@ -60,23 +60,27 @@ export function Dashboard({ data }: DashboardProps) {
   const [motion, setMotion] = React.useState(true);
   const [showGrid, setShowGrid] = React.useState(true);
 
-  // Use real catalog / funnel data where available
+  // Use real catalog / funnel data where available. All three stats-backed
+  // cards gate on stats.live — a degraded stats query returns zeros, and a
+  // zero rendered as a count would be a fabricated measurement.
+  const statValue = (n: number) =>
+    data.stats.live ? n.toLocaleString() : "—";
   const catalogCards = [
     {
       label: "Practitioners",
-      value: data.stats.totalUsers.toLocaleString(),
-      delta: `+${data.stats.newUsersToday} · 24h`,
+      value: statValue(data.stats.totalUsers),
+      delta: data.stats.live ? `+${data.stats.newUsersToday} · 24h` : "—",
       icon: "diamond",
     },
     {
       label: "Recipes",
-      value: data.stats.totalRecipes.toLocaleString(),
+      value: statValue(data.stats.totalRecipes),
       delta: "—",
       icon: "bookmark",
     },
     {
       label: "Ingredients",
-      value: data.stats.totalIngredients.toLocaleString(),
+      value: statValue(data.stats.totalIngredients),
       delta: "—",
       icon: "ring",
     },
@@ -176,7 +180,10 @@ export function Dashboard({ data }: DashboardProps) {
         </div>
 
         <section id="agents" style={{ scrollMarginTop: 70 }}>
-          <AgentFeedControlRoom />
+          <AgentFeedControlRoom
+            lastFeedEmit={data.planetaryIntegration.lastFeedEmit}
+            paBackend={data.planetaryIntegration.endpoints.paBackend}
+          />
         </section>
 
         <div
@@ -211,11 +218,9 @@ export function Dashboard({ data }: DashboardProps) {
             retention={data.cohortRetention}
           />
           <IncidentsPanel recentAlerts={data.recentAlerts} />
-          {/* recentUsers has no dedicated live flag in the contract;
-              stats.live covers the same degraded-user-query condition. */}
           <RecentSignupsPanel
             users={data.recentUsers}
-            live={data.stats.live}
+            live={data.recentUsersLive}
           />
         </div>
 
@@ -410,12 +415,16 @@ export function Dashboard({ data }: DashboardProps) {
               className="t-mono"
               style={{
                 fontSize: 9.5,
+                // UNKNOWN is absence-of-telemetry, not an incident — it must
+                // not inherit the incident red (nor the nominal green).
                 color:
                   data.pulse.state === "NOMINAL"
                     ? "var(--el-earth)"
                     : data.pulse.state === "DEGRADED"
                       ? "var(--el-fire)"
-                      : "#FF5252",
+                      : data.pulse.state === "UNKNOWN"
+                        ? "var(--text-dim, #8b8b95)"
+                        : "#FF5252",
               }}
             >
               {data.pulse.state === "NOMINAL" ? "● " : "○ "}

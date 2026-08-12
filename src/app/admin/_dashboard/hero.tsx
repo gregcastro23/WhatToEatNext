@@ -153,8 +153,13 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
     : [];
 
   const incidentCount = systemStatus.flows.filter((f) => f.status === "INCIDENT").length;
-  const subtitle =
-    pulse.activeIncidents > 0 || incidentCount > 0
+  // UNKNOWN = the telemetry payload itself is absent (loading or API outage).
+  // "all systems quiet" here would be a fabricated verdict about systems we
+  // cannot currently see.
+  const telemetryAbsent = pulse.state === "UNKNOWN";
+  const subtitle = telemetryAbsent
+    ? "awaiting telemetry"
+    : pulse.activeIncidents > 0 || incidentCount > 0
       ? `${pulse.activeIncidents || incidentCount} active incident${(pulse.activeIncidents || incidentCount) === 1 ? "" : "s"}`
       : recentAlerts.entries.length > 0
         ? `${recentAlerts.entries.length} recent alert${recentAlerts.entries.length === 1 ? "" : "s"}`
@@ -227,21 +232,33 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
               background: "rgba(0,0,0,0.25)",
             }}
           >
-            <Ticker label="AVAIL" value={`${pulse.availability.toFixed(2)}%`} delta="rolling" up={pulse.availability >= 99} warn={pulse.availability < 99} />
-            <Ticker label="P95" value={`${pulse.p95}ms`} delta="req log" warn={pulse.p95 > 500} up={pulse.p95 <= 500} />
+            <Ticker
+              label="AVAIL"
+              value={telemetryAbsent ? "—" : `${pulse.availability.toFixed(2)}%`}
+              delta={telemetryAbsent ? "no data" : "rolling"}
+              up={!telemetryAbsent && pulse.availability >= 99}
+              warn={!telemetryAbsent && pulse.availability < 99}
+            />
+            <Ticker
+              label="P95"
+              value={telemetryAbsent ? "—" : `${pulse.p95}ms`}
+              delta={telemetryAbsent ? "no data" : "req log"}
+              warn={!telemetryAbsent && pulse.p95 > 500}
+              up={!telemetryAbsent && pulse.p95 <= 500}
+            />
             <Ticker
               label="ERR"
-              value={`${pulse.errRate.toFixed(2)}%`}
-              delta={pulse.errRate > 0 ? "active" : "nominal"}
-              warn={pulse.errRate > 0.5}
-              up={pulse.errRate <= 0.5}
+              value={telemetryAbsent ? "—" : `${pulse.errRate.toFixed(2)}%`}
+              delta={telemetryAbsent ? "no data" : pulse.errRate > 0 ? "active" : "nominal"}
+              warn={!telemetryAbsent && pulse.errRate > 0.5}
+              up={!telemetryAbsent && pulse.errRate <= 0.5}
             />
             <Ticker
               label="INC"
-              value={String(pulse.activeIncidents || incidentCount)}
+              value={telemetryAbsent ? "—" : String(pulse.activeIncidents || incidentCount)}
               delta={pulse.state}
-              warn={pulse.activeIncidents > 0 || incidentCount > 0}
-              up={pulse.activeIncidents === 0 && incidentCount === 0}
+              warn={!telemetryAbsent && (pulse.activeIncidents > 0 || incidentCount > 0)}
+              up={!telemetryAbsent && pulse.activeIncidents === 0 && incidentCount === 0}
             />
             <Ticker
               label="MRR"
@@ -704,10 +721,13 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
       live: stats.live,
     },
     {
-      label: "Active · 24h",
+      // activeUsers counts is_active accounts (not deactivated) — an
+      // account-status total, NOT daily activity. The old "Active · 24h"
+      // label fabricated an engagement metric out of a suspension flag.
+      label: "Accounts · active",
       v: stats.live ? fmtCount(stats.activeUsers) : "—",
       d: stats.live
-        ? `${Math.round((stats.activeUsers / Math.max(stats.totalUsers, 1)) * 100)}% of base`
+        ? `${Math.round((stats.activeUsers / Math.max(stats.totalUsers, 1)) * 100)}% not deactivated`
         : "offline",
       tone: stats.live ? "ok" : "neutral",
       live: stats.live,

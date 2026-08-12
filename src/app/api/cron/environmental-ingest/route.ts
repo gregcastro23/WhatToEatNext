@@ -22,6 +22,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { _logger } from "@/lib/logger";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 import {
   getGeohashesDueForSampling,
   pruneOldObservations,
@@ -52,6 +53,7 @@ export async function GET(request: NextRequest) {
   }
 
   const utcHour = new Date().getUTCHours();
+  const startedAt = new Date();
 
   try {
     const due = await getGeohashesDueForSampling(utcHour, MAX_GEOHASHES_PER_RUN);
@@ -84,6 +86,11 @@ export async function GET(request: NextRequest) {
 
     const pruned = await pruneOldObservations();
 
+    await recordCronRun("environmental-ingest", {
+      status: "success",
+      startedAt,
+    });
+
     void _logger.info("Environmental ingestion sweep complete", {
       utcHour,
       due: due.length,
@@ -109,6 +116,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     void _logger.error("Environmental ingestion sweep failed", { error, utcHour });
+    await recordCronRun("environmental-ingest", {
+      status: "failure",
+      startedAt,
+      error: error instanceof Error ? error.message : "Ingestion failed",
+    });
     return NextResponse.json(
       {
         success: false,

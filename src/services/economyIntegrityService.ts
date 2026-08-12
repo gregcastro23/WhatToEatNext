@@ -20,6 +20,7 @@
  * @file src/services/economyIntegrityService.ts
  */
 
+import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import {
@@ -116,19 +117,47 @@ async function checkOnchainClaimBacklog(): Promise<OnchainClaimBacklog> {
 }
 
 /**
+ * Invariants change on write-path bugs, not poll-to-poll — but the drift
+ * check aggregates the ENTIRE ledger (no time bound can exist for a
+ * balance-vs-ledger comparison), which is far too heavy to re-run on the
+ * dashboard's 5s-memoized 30s poll cadence. 10 minutes bounds the scan to
+ * ~6/hour per instance. A payload with any degraded sub-check is NOT
+ * cached, so an outage can't pin `live: false` for the TTL.
+ */
+const INTEGRITY_CACHE_TTL_MS = 10 * 60 * 1000;
+
+/**
  * Run all three invariant checks. Each degrades independently — one failed
  * query flips only its own `live` flag, never the siblings'.
  */
 export async function getEconomyIntegrity(): Promise<EconomyIntegrityData> {
-  const [drift, welcomeGrant, onchainClaims] = await Promise.all([
-    checkLedgerDrift(),
-    checkWelcomeGrantCoverage(),
-    checkOnchainClaimBacklog(),
-  ]);
-  return {
-    drift,
-    welcomeGrant,
-    onchainClaims,
-    generatedAt: new Date().toISOString(),
-  };
+  return memoize("economy-integrity", INTEGRITY_CACHE_TTL_MS, async () => {
+    const [drift, welcomeGrant, onchainClaims] = await Promise.all([
+      checkLedgerDrift(),
+      checkWelcomeGrantCoverage(),
+      checkOnchainClaimBacklog(),
+    ]);
+    const payload: EconomyIntegrityData = {
+      drift,
+      welcomeGrant,
+      onchainClaims,
+      generatedAt: new Date().toISOString(),
+    };
+    if (!drift.live || !welcomeGrant.live || !onchainClaims.live) {
+      // Degraded payloads must not be pinned for the TTL — surface once and
+      // let the next poll retry the real queries.
+      throw new DegradedIntegrityPayload(payload);
+    }
+    return payload;
+  }).catch((err) => {
+    if (err instanceof DegradedIntegrityPayload) return err.payload;
+    throw err;
+  });
+}
+
+/** Carrier that lets a degraded payload escape the memoize without being cached. */
+class DegradedIntegrityPayload extends Error {
+  constructor(readonly payload: EconomyIntegrityData) {
+    super("economy integrity degraded — not cached");
+  }
 }

@@ -75,30 +75,48 @@ interface GithubIssueRow {
   pull_request?: unknown;
 }
 
-/** Open issues (never PRs) carrying `label`. Throws on any non-200/network failure. */
+/** Pages fetched per label before declaring the count unknowable. 500 open
+ *  issues under one triage label is beyond what a count tile can help with —
+ *  degrading to live:false is more honest than a silently-capped number. */
+const MAX_PAGES_PER_LABEL = 5;
+
+/**
+ * Open issues (never PRs) carrying `label`, following pagination so the
+ * count is exact — a single page silently caps at 100 and would present a
+ * truncated figure as a live fact. Throws on any non-200/network failure.
+ */
 async function fetchLabelledIssues(label: string): Promise<GithubIssueRow[]> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  try {
-    const token = process.env.GITHUB_TOKEN;
-    const res = await fetch(
-      `https://api.github.com/repos/${REPO}/issues?state=open&labels=${encodeURIComponent(label)}&per_page=100`,
-      {
-        headers: {
-          Accept: "application/vnd.github+json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  const token = process.env.GITHUB_TOKEN;
+  const all: GithubIssueRow[] = [];
+  for (let page = 1; page <= MAX_PAGES_PER_LABEL; page++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${REPO}/issues?state=open&labels=${encodeURIComponent(label)}&per_page=100&page=${page}`,
+        {
+          headers: {
+            Accept: "application/vnd.github+json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          signal: controller.signal,
         },
-        signal: controller.signal,
-      },
-    );
-    if (!res.ok) {
-      throw new Error(`GitHub issues (${label}) responded ${res.status}`);
+      );
+      if (!res.ok) {
+        throw new Error(`GitHub issues (${label}) responded ${res.status}`);
+      }
+      // Raw page length (PRs included) decides pagination; a page below 100
+      // rows is the last one.
+      const rows = (await res.json()) as GithubIssueRow[];
+      all.push(...rows.filter((row) => row.pull_request === undefined));
+      if (rows.length < 100) return all;
+    } finally {
+      clearTimeout(timer);
     }
-    const rows = (await res.json()) as GithubIssueRow[];
-    return rows.filter((row) => row.pull_request === undefined);
-  } finally {
-    clearTimeout(timer);
   }
+  throw new Error(
+    `GitHub issues (${label}) exceed ${MAX_PAGES_PER_LABEL * 100} — count unknowable, degrading`,
+  );
 }
 
 /** Assemble the full payload from GitHub. Throws so a failure is never cached. */

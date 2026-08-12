@@ -128,6 +128,9 @@ export interface AdminDashboardData {
     dominantElement: string | null;
     isActive: boolean;
   }>;
+  /** false when the recent-signups query itself degraded — an empty list
+   *  under a failed query is absence, not a measured empty roster. */
+  recentUsersLive: boolean;
   /** Live planetary snapshot — computed by getSkyConditions(). */
   skyConditions: SkyConditionsData;
   /** Live token-economy rollup — computed by getCosmicYield(). */
@@ -319,6 +322,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
     live: false,
   },
   recentUsers: [],
+  recentUsersLive: false,
   skyConditions: SKY_SEED,
   cosmicYield: {
     inCirculation: 0,

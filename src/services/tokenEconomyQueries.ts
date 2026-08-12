@@ -806,10 +806,13 @@ export function shopItemsSql(opts?: {
 // tables — a misspelled column here would otherwise surface only in a panel's
 // catch block, as a silent `live: false`.
 
-/** Largest per-axis divergence treated as "no drift". `token_balances` columns
- *  are DECIMAL(12,4), so 0.0001 is one ulp — anything above it is a real
- *  discrepancy, not rounding. */
-const DRIFT_TOLERANCE_SQL = "0.0001";
+/** Any nonzero divergence is real drift: both sides are exact DECIMAL(12,4)
+ *  arithmetic (NUMERIC SUM never rounds), and credit/debit statements bind the
+ *  SAME parameter to the ledger insert and the balance update — so ledger and
+ *  balance can only differ by an actual lost or phantom write. A one-ulp
+ *  (0.0001) delta is the smallest representable real discrepancy and must
+ *  count, not hide inside a tolerance. */
+const DRIFT_TOLERANCE_SQL = "0";
 
 /**
  * Compare materialized `token_balances` against per-axis ledger sums.

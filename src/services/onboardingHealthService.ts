@@ -347,11 +347,14 @@ export function diagnose({
     };
   }
 
-  // Degraded: too many stuck users.
+  // Degraded: too many RECENTLY stuck users. The rescue queue lists a 7-day
+  // window, but the alarm counts only the last 24h — ordinary week-scale
+  // abandonment (a handful of visitors who tried the site and left) must not
+  // pin the panel DEGRADED forever.
   if (stuckCount >= 5) {
     return {
       overall: "DEGRADED",
-      headline: `${stuckCount} users stuck mid-onboarding (>1h since signup)`,
+      headline: `${stuckCount} users stuck mid-onboarding in the last 24h`,
     };
   }
 
@@ -420,7 +423,9 @@ export async function getOnboardingHealth(): Promise<OnboardingHealthPayload> {
 
   const { overall, headline } = diagnose({
     funnel,
-    stuckCount: stuckUsers.length,
+    // The DEGRADED trigger stays 24h-calibrated even though the queue shows
+    // 7 days — see the threshold comment in diagnose().
+    stuckCount: stuckUsers.filter((u) => u.ageHours <= 24).length,
     apiHealth,
     live,
   });

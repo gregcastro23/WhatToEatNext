@@ -13,6 +13,7 @@ import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
+import { withObservability } from "@/lib/observability/withObservability";
 import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { DayOfWeek } from "@/types/menuPlanner";
@@ -196,7 +197,7 @@ interface GenerateRequestBody {
   retryToken?: string;
 }
 
-export async function POST(request: NextRequest) {
+async function handlePost(request: NextRequest) {
   const tStart = Date.now();
 
   // Auth'd users → token economy is the throttle.
@@ -488,3 +489,14 @@ export async function POST(request: NextRequest) {
   }
 }
 
+
+/**
+ * Request-logged so the AI-generation flow probe is real: systemStatusService
+ * summarizes this route from request_log_entries, and an unwrapped handler
+ * would leave that signal a permanent calm zero — the exact deleted-route
+ * trap the probe was just repointed away from.
+ */
+export const POST = withObservability(
+  { routeName: "/api/recommendations/generate" },
+  handlePost,
+);

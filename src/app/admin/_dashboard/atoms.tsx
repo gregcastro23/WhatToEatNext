@@ -362,7 +362,9 @@ interface SparklineProps {
 }
 
 export function Sparkline({ data, width = 140, height = 32, color = "var(--accent)", filled = true }: SparklineProps) {
-  if (data.length === 0) return null;
+  // A single point has no trend to draw — and its x divisor (length - 1)
+  // would be 0, yielding a NaN SVG path.
+  if (data.length < 2) return null;
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
