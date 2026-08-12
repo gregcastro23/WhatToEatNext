@@ -14,6 +14,10 @@ import {
   SIGNUP_GRANT_PER_TOKEN,
   TOKEN_TYPES,
 } from "@/services/tokenEconomyQueries";
+import {
+  AgentChartRequiredError,
+  agentIsClassifiable,
+} from "@/utils/agentChartInvariant";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { safeJsonParse } from "@/utils/typeGuards";
 
@@ -419,6 +423,17 @@ class UserDatabaseService {
           return existing;
         }
       }
+      // Same invariant as the DB path below. Without this, a developer with no
+      // DATABASE_URL provisions a bare-name agent happily and the identical
+      // call fails in production — a divergence that only shows up in CI.
+      // Creation-only is sufficient here: the refresh branch above returns a
+      // user that this guard already vetted, and in-memory rows never reach the
+      // drift gate anyway. There is no chart on this path, so the predicate
+      // reduces to the name.
+      if (!agentIsClassifiable(resolvedName, undefined)) {
+        throw new AgentChartRequiredError(normalizedEmail, resolvedName);
+      }
+
       const userId = randomUUID();
       const now = new Date();
       const user: UserWithProfile = {
@@ -558,6 +573,40 @@ class UserDatabaseService {
             resolved?.monica.nocturnal ?? null,
           ],
         );
+
+        // ── The chart invariant (§18), enforced where the paths converge ────
+        //
+        // `checkAgentMonicaDrift` fails on any agent whose name does not parse
+        // as a placement AND whose chart is unusable (budget 0). Chiron was
+        // exactly that row, and THIS transaction is what produced it.
+        //
+        // The check reads the row BACK rather than testing `resolvedName` up
+        // front, and that is the whole point:
+        //
+        //   - On create there is no chart, so an unparseable name is refused.
+        //   - On refresh — the DO UPDATE branch, reached when an existing user
+        //     is being flipped to is_agent — the row may ALREADY carry a chart
+        //     written by another producer (sync-debit, agent-sync, or by hand).
+        //     A pre-check on the arguments cannot see that chart and would
+        //     refuse a perfectly healthy agent. Reading post-upsert state is
+        //     the only formulation that is correct for both.
+        //
+        // Throwing here rolls the transaction back, so the rejected row is
+        // never constructible — as opposed to merely detected the next time CI
+        // runs the gate against production.
+        const verify = await client.query(
+          `SELECT name, natal_positions FROM user_profiles WHERE user_id = $1`,
+          [finalId],
+        );
+        const verified = verify.rows[0] as
+          | { name: string | null; natal_positions: unknown }
+          | undefined;
+        if (
+          !verified ||
+          !agentIsClassifiable(verified.name, verified.natal_positions)
+        ) {
+          throw new AgentChartRequiredError(normalizedEmail, resolvedName);
+        }
       });
 
       const fresh = await this.getUserByEmail(normalizedEmail);
@@ -572,6 +621,17 @@ class UserDatabaseService {
       });
       return fresh;
     } catch (error) {
+      // A policy refusal is not an infrastructure failure, and must not be
+      // laundered into one. Wrapping it in the generic Error below would erase
+      // the type every caller uses to answer 422 instead of 500 — the whole
+      // reason the error is typed.
+      if (error instanceof AgentChartRequiredError) {
+        _logger.warn("ensureAgent: refused unclassifiable agent", {
+          email: error.agentEmail,
+          name: error.agentName,
+        });
+        throw error;
+      }
       _logger.error("ensureAgent: failed to upsert agent", error);
       throw new Error("Failed to provision agent", { cause: error });
     }
