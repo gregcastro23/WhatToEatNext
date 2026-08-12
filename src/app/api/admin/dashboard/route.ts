@@ -14,9 +14,15 @@
 import { NextResponse, type NextRequest } from "next/server";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import {
+  getAdminUserStats,
+  getRecentHumanSignups,
+} from "@/services/adminStatsService";
 import { getAgentNetworkTelemetry } from "@/services/agentTelemetryService";
+import { getCronHeartbeats } from "@/services/cronHeartbeatService";
 import {
   getAuditEvents,
   getCatalogTrending,
@@ -30,6 +36,7 @@ import {
   getPageTelemetry,
   getRecentAlerts,
   getLivingEconomyMetrics,
+  getRequestHourlySeries,
   getSecuritySummary,
   getDeployHistory,
   getFeatureFlags,
@@ -37,9 +44,12 @@ import {
   getPractitionerGeo,
   getCohortRetention,
 } from "@/services/dashboardPanelsService";
+import { getEconomyIntegrity } from "@/services/economyIntegrityService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
+import { getTriageQueue } from "@/services/githubTriageService";
 import { getLaunchReadiness } from "@/services/launchReadinessService";
 import { getLiveActivity } from "@/services/liveActivityService";
+import { getMigrationStatus } from "@/services/migrationStatusService";
 import { getOnboardingHealth } from "@/services/onboardingHealthService";
 import {
   buildOperationsControlPlane,
@@ -90,15 +100,6 @@ const KNOWN_CODEBASE_GAPS: CodebaseGap[] = [
     href: "#engine",
   },
   {
-    id: "token-flow-series",
-    label: "Token mint/burn trend lacks time-series telemetry",
-    category: "MISSING_INSTRUMENTATION",
-    severity: "P1",
-    detail:
-      "The ledger provides 30-day totals, but no dated daily aggregates are persisted.",
-    href: "#economy",
-  },
-  {
     id: "sems-rollup",
     label: "SEMS thermodynamic rollup is illustrative",
     category: "PLACEHOLDER_DATA",
@@ -135,31 +136,22 @@ const KNOWN_CODEBASE_GAPS: CodebaseGap[] = [
     href: "#agents",
   },
   {
-    id: "agent-topology-state",
-    label: "Agent topology node states are decorative",
-    category: "PLACEHOLDER_DATA",
+    id: "agent-per-node-health",
+    label: "Per-node agent health is not instrumented",
+    category: "MISSING_INSTRUMENTATION",
     severity: "P2",
     detail:
-      "Role counts are live, but per-node healthy, warning, and idle states are not backed by agent heartbeat data.",
+      "Topology role counts are live; per-agent heartbeat state needs an agent heartbeat table before nodes can carry health.",
     href: "#agents",
   },
   {
-    id: "dashboard-visual-traces",
-    label: "Dashboard pulse and KPI mini-traces are illustrative",
-    category: "PLACEHOLDER_DATA",
+    id: "stripe-webhook-event-log",
+    label: "Stripe webhook arrivals are not persisted per event type",
+    category: "MISSING_INSTRUMENTATION",
     severity: "P2",
     detail:
-      "Headline values are live, but the hero line and KPI sparkline shapes are synthesized because time-series samples are not stored.",
-    href: "#overview",
-  },
-  {
-    id: "sky-event-projections",
-    label: "Upcoming sky-event impact projections are illustrative",
-    category: "PLACEHOLDER_DATA",
-    severity: "P2",
-    detail:
-      "Future event timing and projected site impact are not backed by a forecast feed.",
-    href: "#engine",
+      "A handler that has never once run is undetectable until a stripe_webhook_events table records which event types actually arrive.",
+    href: "#commerce",
   },
 ];
 
@@ -197,53 +189,51 @@ function getAgentCount(payload: unknown): number {
 }
 
 /**
- * Run a scalar COUNT query, degrading to 0 on any failure so a single missing
- * table or transient DB error can't fail the entire dashboard payload.
+ * Run a scalar COUNT query, degrading to null on failure so a single missing
+ * table or transient DB error can't fail the entire dashboard payload — and
+ * so the caller can flip stats.live rather than render the 0 as a fact.
  */
-async function safeCount(label: string, sql: string): Promise<number> {
+async function safeCount(label: string, sql: string): Promise<number | null> {
   try {
     const result = await executeQuery(sql);
     return Number(result.rows[0]?.count ?? 0);
   } catch (error) {
     console.error(`[admin/dashboard] ${label} count failed:`, error);
-    return 0;
+    return null;
   }
 }
 
 /**
- * GET /api/admin/dashboard
- * Returns dashboard statistics, recent users, and cross-project PA observability.
+ * Assemble everything except the per-admin identity card. Memoized for 5s by
+ * GET so bursts (both admin surfaces poll this endpoint at 30s, plus extra
+ * tabs) coalesce into one ~35-query fan-out instead of one per request.
  */
-export async function GET(request: NextRequest) {
-  try {
-    const authResult = await validateAdminRequest(request);
-    if ("error" in authResult) {
-      return authResult.error;
-    }
-
-    // getAllUsers() is critical — its failure still 500s the dashboard via the
-    // outer catch. The catalog counts are supplementary: safeCount swallows a
-    // failed COUNT and returns 0, so one missing table or transient DB error
-    // can't take down the whole payload.
+async function assembleTelemetryCore() {
+  {
+    // SQL aggregates replace the former getAllUsers() full-table read; the
+    // stats payload now carries its own honest `live` flag instead of
+    // silently rendering zeros on failure.
     const [
-      allUsers,
+      userStats,
+      recentSignups,
       totalRecipes,
       totalIngredients,
       totalSubscriptions,
       totalTransactions,
     ] = await Promise.all([
-      userDatabase.getAllUsers(),
+      getAdminUserStats(),
+      getRecentHumanSignups(),
       safeCount("recipes", "SELECT COUNT(*)::integer AS count FROM recipes"),
       safeCount(
         "ingredients",
         "SELECT COUNT(*)::integer AS count FROM ingredients",
       ),
       // Only Stripe-backed subs are paying customers; provisioned/agent
-      // accounts (no stripe_subscription_id) are not revenue. Falls back to 0
-      // on failure, matching the safeCount() graceful-degradation pattern.
+      // accounts (no stripe_subscription_id) are not revenue. Falls back to
+      // null on failure, matching the safeCount() degradation pattern.
       getSubscriptionRevenueBreakdown()
-        .then((b) => b.paidSubs)
-        .catch(() => 0),
+        .then((b): number | null => b.paidSubs)
+        .catch(() => null),
       safeCount(
         "token transactions",
         "SELECT COUNT(*)::integer AS count FROM token_transactions",
@@ -251,38 +241,29 @@ export async function GET(request: NextRequest) {
     ]);
 
     const now = new Date();
-    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
+    // stats.live covers EVERY field in the block: a failed catalog COUNT
+    // (null) must flip the flag, or its zero renders as a measured count.
+    const countsLive =
+      totalRecipes !== null &&
+      totalIngredients !== null &&
+      totalSubscriptions !== null &&
+      totalTransactions !== null;
     const stats = {
-      totalUsers: allUsers.length,
-      activeUsers: allUsers.filter((u) => u.isActive).length,
-      newUsersToday: allUsers.filter((u) => new Date(u.createdAt) > oneDayAgo)
-        .length,
-      completedOnboarding: allUsers.filter(
-        (u) => u.profile.birthData && u.profile.natalChart,
-      ).length,
-      totalRecipes,
-      totalIngredients,
-      totalSubscriptions,
-      totalTransactions,
+      totalUsers: userStats.totalUsers,
+      activeUsers: userStats.activeUsers,
+      newUsersToday: userStats.newUsersToday,
+      completedOnboarding: userStats.completedOnboarding,
+      humanUsers: userStats.humanUsers,
+      agentUsers: userStats.agentUsers,
+      totalRecipes: totalRecipes ?? 0,
+      totalIngredients: totalIngredients ?? 0,
+      totalSubscriptions: totalSubscriptions ?? 0,
+      totalTransactions: totalTransactions ?? 0,
+      live: userStats.live && countsLive,
     };
 
-    const recentUsers = [...allUsers]
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      )
-      .slice(0, 5)
-      .map((u) => ({
-        id: u.id,
-        email: u.email,
-        name: u.profile.name ?? null,
-        createdAt: new Date(u.createdAt).toISOString(),
-        dominantElement: u.profile.natalChart?.dominantElement
-          ? String(u.profile.natalChart.dominantElement)
-          : null,
-        isActive: u.isActive,
-      }));
+    const recentUsers = recentSignups.users;
 
     // Kick off live telemetry + sky-conditions aggregation in parallel with
     // the PA backend probe below. Neither rejects — degraded sources surface
@@ -311,9 +292,16 @@ export async function GET(request: NextRequest) {
     const onboardingHealthPromise = getOnboardingHealth();
     const launchReadinessPromise = getLaunchReadiness();
     const resourceUsagePromise = getResourceUsage();
+    const requestSeriesPromise = getRequestHourlySeries();
+    const economyIntegrityPromise = getEconomyIntegrity();
+    const migrationStatusPromise = getMigrationStatus();
+    const cronHeartbeatsPromise = getCronHeartbeats();
+    const triageQueuePromise = getTriageQueue();
 
     let paHealth = "offline";
-    let paAgentCount = 0;
+    // null = the roster probe failed — renders as unknown, never as an
+    // empty roster (a fabricated 0 was the previous behavior).
+    let paAgentCount: number | null = null;
 
     try {
       const internalSecret = process.env.INTERNAL_API_SECRET;
@@ -373,6 +361,11 @@ export async function GET(request: NextRequest) {
     const onboardingHealth = await onboardingHealthPromise;
     const launchReadiness = await launchReadinessPromise;
     const resourceUsage = await resourceUsagePromise;
+    const requestSeries = await requestSeriesPromise;
+    const economyIntegrity = await economyIntegrityPromise;
+    const migrationStatus = await migrationStatusPromise;
+    const cronHeartbeats = await cronHeartbeatsPromise;
+    const triageQueue = await triageQueuePromise;
 
     // Live metaphysical telemetry — feed-event rate + event-type entropy from
     // the database, elemental harmony from the live ephemeris. Supersedes the
@@ -388,6 +381,12 @@ export async function GET(request: NextRequest) {
       },
       health: normalizePlanetaryHealth(paHealth),
       agentCount: paAgentCount,
+      // Roster drift: WTEN's is_agent count vs the PA backend's roster.
+      // Either side is null when its source degraded this poll.
+      rosterDiff: {
+        wtenAgents: stats.live ? stats.agentUsers : null,
+        paAgents: paAgentCount,
+      },
       lastFeedEmit: feedEmitTracker.getLastEmit(),
       telemetry,
     };
@@ -418,9 +417,73 @@ export async function GET(request: NextRequest) {
       codebaseGaps: KNOWN_CODEBASE_GAPS,
     });
 
+    return {
+      pulse: platformPulse,
+      stats,
+      recentUsers,
+      recentUsersLive: recentSignups.live,
+      skyConditions,
+      cosmicYield,
+      dbObservability,
+      catalogTrending,
+      auditEvents,
+      enginePerformance,
+      practitionerCohorts,
+      commerce,
+      pageTelemetry,
+      systemStatus,
+      onboardingHealth,
+      launchReadiness,
+      operations,
+      planetaryIntegration,
+      requestSeries,
+      economyIntegrity,
+      maintenance: { migrations: migrationStatus, cronHeartbeats },
+      triageQueue,
+      liveActivity: {
+        entries: liveActivityResult.events,
+        live: liveActivityResult.live,
+      },
+      recentAlerts,
+      livingEconomy,
+      errorGroups,
+      security,
+      deploys,
+      featureFlags,
+      resourceUsage,
+      practitionerGeo,
+      cohortRetention,
+      meta: {
+        generatedAt: now.toISOString(),
+        mockedFields,
+      },
+    };
+  }
+}
+
+// Coalesce polling bursts: both admin surfaces poll at 30s, and extra tabs
+// multiply that. 5s matches the sibling admin routes' memoize TTL.
+const CORE_CACHE_TTL_MS = 5_000;
+
+/**
+ * GET /api/admin/dashboard
+ * Returns dashboard statistics, recent users, and cross-project PA observability.
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const authResult = await validateAdminRequest(request);
+    if ("error" in authResult) {
+      return authResult.error;
+    }
+
+    const core = await memoize("admin:dashboard-core", CORE_CACHE_TTL_MS, () =>
+      assembleTelemetryCore(),
+    );
+
     // Resolve the admin identity from the validated session rather than
-    // hardcoding a single operator. Falls back to the session token payload
-    // when the DB lookup fails so the panel always renders something.
+    // hardcoding a single operator. Per-request (never cached — the core
+    // memoize is shared across admins). Falls back to the session token
+    // payload when the DB lookup fails so the panel always renders something.
     const adminEmail = authResult.user.email;
     let adminDbUser: Awaited<
       ReturnType<typeof userDatabase.getUserById>
@@ -440,7 +503,7 @@ export async function GET(request: NextRequest) {
     const adminHandle = adminEmail.split("@")[0] || "operator";
     const adminJoined = adminDbUser?.createdAt
       ? new Date(adminDbUser.createdAt).toISOString().slice(0, 10)
-      : new Date(now).toISOString().slice(0, 10);
+      : new Date().toISOString().slice(0, 10);
     // BirthData stores lat/lon (no place name) — render coordinates when known.
     const lat = adminDbUser?.profile.birthData?.latitude;
     const lon = adminDbUser?.profile.birthData?.longitude;
@@ -462,51 +525,20 @@ export async function GET(request: NextRequest) {
         location: adminLocation,
         onCall: true,
       },
-      pulse: platformPulse,
-      stats,
-      recentUsers,
-      skyConditions,
-      cosmicYield,
-      dbObservability,
-      catalogTrending,
-      auditEvents,
-      enginePerformance,
-      practitionerCohorts,
-      commerce,
-      pageTelemetry,
-      systemStatus,
-      onboardingHealth,
-      launchReadiness,
-      operations,
-      planetaryIntegration,
-      liveActivity: {
-        entries: liveActivityResult.events,
-        live: liveActivityResult.live,
-      },
-      recentAlerts,
-      livingEconomy,
-      errorGroups,
-      security,
-      deploys,
-      featureFlags,
-      resourceUsage,
-      practitionerGeo,
-      cohortRetention,
-      meta: {
-        generatedAt: now.toISOString(),
-        mockedFields,
-      },
+      ...core,
     };
 
     // Backwards-compatible response: legacy `/admin` reads `stats` and
     // `recentUsers` from the top level; `/admin/dashboard` reads `data`;
-    // the new PA panel reads `paIntegration`.
+    // the new PA panel reads `paIntegration`. `recentUsersLive` lets the
+    // overview render fetch-failure as absence instead of "No users yet".
     return NextResponse.json({
       success: true,
-      stats,
-      recentUsers,
+      stats: core.stats,
+      recentUsers: core.recentUsers,
+      recentUsersLive: core.recentUsersLive,
       data,
-      paIntegration: planetaryIntegration,
+      paIntegration: core.planetaryIntegration,
     });
   } catch (error) {
     console.error("Admin dashboard error:", error);

@@ -21,6 +21,10 @@ function getStripeInstance(): StripeClient {
   return new Stripe(key, {
     apiVersion: "2026-04-22.dahlia",
     typescript: true,
+    // Admin probes call Stripe inline with dashboard polls; the SDK's ~80s
+    // default timeout would let one hanging Stripe API stall the whole board.
+    timeout: 8000,
+    maxNetworkRetries: 1,
   });
 }
 

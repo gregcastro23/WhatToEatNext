@@ -106,10 +106,11 @@ export function Legend({ color, label }: { color: string; label: string }) {
 }
 
 // ============================================================
-// MASTER LINE HERO — wired to pulse + recentAlerts + systemStatus
+// MASTER LINE HERO — wired to pulse + requestSeries + recentAlerts + systemStatus
 // ============================================================
 interface HeroEvent {
-  i: number;
+  /** 0..1 fraction of the series window (real time alignment). */
+  f: number;
   kind: "alert" | "incident" | "ok";
   label: string;
 }
@@ -120,35 +121,45 @@ interface MasterLineHeroProps {
 }
 
 export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: MasterLineHeroProps) {
-  const { pulse, recentAlerts, systemStatus, commerce } = data;
+  const { pulse, recentAlerts, systemStatus, commerce, requestSeries } = data;
 
-  // Distribute the recent alerts across the 0..96 sample window as visual
-  // event markers. We don't try to time-align them — just show that they
-  // exist on the timeline as anchors operators can scan.
-  const alerts = recentAlerts.entries.slice(0, 5);
-  const events: HeroEvent[] = alerts.map((a, idx) => ({
-    i: Math.round(((idx + 0.5) / Math.max(1, alerts.length)) * 92),
-    kind:
-      a.severity === "error"
-        ? "incident"
-        : a.severity === "warn"
-          ? "alert"
-          : "ok",
-    label: a.title.length > 28 ? `${a.title.slice(0, 26)}…` : a.title,
-  }));
-
-  // Synthesize a flat baseline trace; we don't yet capture per-minute request
-  // counts. The events markers carry the signal; the trace is just chrome.
-  const baseline = pulse.errRate > 0.5 ? 0.65 : 0.4;
-  const reqs = Array.from({ length: 96 }, (_, i) => {
-    const wave = 0.15 * Math.sin((i / 96) * Math.PI * 4);
-    return Math.max(0.15, Math.min(0.95, baseline + wave));
-  });
-  const errs = Array.from({ length: 96 }, () => Math.min(0.4, pulse.errRate / 5));
+  // The x-axis is real hours from request_log_entries, so alert markers are
+  // placed at their actual timestamps; alerts outside the window are dropped.
+  const points = requestSeries.points;
+  const windowMs = (requestSeries.windowHours || 24) * 3_600_000;
+  const windowEnd =
+    points.length > 0
+      ? new Date(points[points.length - 1].hour).getTime() + 3_600_000
+      : Date.now();
+  const windowStart =
+    points.length > 0 ? new Date(points[0].hour).getTime() : windowEnd - windowMs;
+  const events: HeroEvent[] = requestSeries.live
+    ? recentAlerts.entries.slice(0, 5).flatMap((a) => {
+        const t = new Date(a.triggeredAt).getTime();
+        if (!Number.isFinite(t) || t < windowStart || t > windowEnd) return [];
+        return [
+          {
+            f: (t - windowStart) / Math.max(windowEnd - windowStart, 1),
+            kind:
+              a.severity === "error"
+                ? ("incident" as const)
+                : a.severity === "warn"
+                  ? ("alert" as const)
+                  : ("ok" as const),
+            label: a.title.length > 28 ? `${a.title.slice(0, 26)}…` : a.title,
+          },
+        ];
+      })
+    : [];
 
   const incidentCount = systemStatus.flows.filter((f) => f.status === "INCIDENT").length;
-  const subtitle =
-    pulse.activeIncidents > 0 || incidentCount > 0
+  // UNKNOWN = the telemetry payload itself is absent (loading or API outage).
+  // "all systems quiet" here would be a fabricated verdict about systems we
+  // cannot currently see.
+  const telemetryAbsent = pulse.state === "UNKNOWN";
+  const subtitle = telemetryAbsent
+    ? "awaiting telemetry"
+    : pulse.activeIncidents > 0 || incidentCount > 0
       ? `${pulse.activeIncidents || incidentCount} active incident${(pulse.activeIncidents || incidentCount) === 1 ? "" : "s"}`
       : recentAlerts.entries.length > 0
         ? `${recentAlerts.entries.length} recent alert${recentAlerts.entries.length === 1 ? "" : "s"}`
@@ -197,15 +208,17 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
                 </span>
               </div>
             </div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button className="btn btn-ghost" style={{ padding: "5px 10px", fontSize: 9 }} type="button">1H</button>
-              <button className="btn" style={{ padding: "5px 10px", fontSize: 9 }} type="button">24H</button>
-              <button className="btn btn-ghost" style={{ padding: "5px 10px", fontSize: 9 }} type="button">7D</button>
-              <button className="btn btn-ghost" style={{ padding: "5px 10px", fontSize: 9 }} type="button">30D</button>
-            </div>
+            <span className="chip chip-active" style={{ padding: "4px 10px", fontSize: 9 }}>
+              24H
+            </span>
           </div>
 
-          <Heartbeat reqs={reqs} errs={errs} events={events} />
+          <Heartbeat
+            series={requestSeries}
+            events={events}
+            windowStart={windowStart}
+            windowEnd={windowEnd}
+          />
 
           <div
             className="dash-hero-tickers"
@@ -219,21 +232,33 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
               background: "rgba(0,0,0,0.25)",
             }}
           >
-            <Ticker label="AVAIL" value={`${pulse.availability.toFixed(2)}%`} delta="rolling" up={pulse.availability >= 99} warn={pulse.availability < 99} />
-            <Ticker label="P95" value={`${pulse.p95}ms`} delta="req log" warn={pulse.p95 > 500} up={pulse.p95 <= 500} />
+            <Ticker
+              label="AVAIL"
+              value={telemetryAbsent ? "—" : `${pulse.availability.toFixed(2)}%`}
+              delta={telemetryAbsent ? "no data" : "rolling"}
+              up={!telemetryAbsent && pulse.availability >= 99}
+              warn={!telemetryAbsent && pulse.availability < 99}
+            />
+            <Ticker
+              label="P95"
+              value={telemetryAbsent ? "—" : `${pulse.p95}ms`}
+              delta={telemetryAbsent ? "no data" : "req log"}
+              warn={!telemetryAbsent && pulse.p95 > 500}
+              up={!telemetryAbsent && pulse.p95 <= 500}
+            />
             <Ticker
               label="ERR"
-              value={`${pulse.errRate.toFixed(2)}%`}
-              delta={pulse.errRate > 0 ? "active" : "nominal"}
-              warn={pulse.errRate > 0.5}
-              up={pulse.errRate <= 0.5}
+              value={telemetryAbsent ? "—" : `${pulse.errRate.toFixed(2)}%`}
+              delta={telemetryAbsent ? "no data" : pulse.errRate > 0 ? "active" : "nominal"}
+              warn={!telemetryAbsent && pulse.errRate > 0.5}
+              up={!telemetryAbsent && pulse.errRate <= 0.5}
             />
             <Ticker
               label="INC"
-              value={String(pulse.activeIncidents || incidentCount)}
+              value={telemetryAbsent ? "—" : String(pulse.activeIncidents || incidentCount)}
               delta={pulse.state}
-              warn={pulse.activeIncidents > 0 || incidentCount > 0}
-              up={pulse.activeIncidents === 0 && incidentCount === 0}
+              warn={!telemetryAbsent && (pulse.activeIncidents > 0 || incidentCount > 0)}
+              up={!telemetryAbsent && pulse.activeIncidents === 0 && incidentCount === 0}
             />
             <Ticker
               label="MRR"
@@ -261,25 +286,49 @@ export function MasterLineHero({ greeting = "Good Mars hour, Greg", data }: Mast
 }
 
 function Heartbeat({
-  reqs,
-  errs,
+  series,
   events,
+  windowStart,
+  windowEnd,
 }: {
-  reqs: number[];
-  errs: number[];
+  series: AdminDashboardData["requestSeries"];
   events: HeroEvent[];
+  windowStart: number;
+  windowEnd: number;
 }) {
   const W = 980;
   const H = 168;
   const P = 4;
-  const n = reqs.length;
-  const xOf = (i: number) => P + ((W - P * 2) * i) / (n - 1);
-  const yReq = (v: number) => H - P - v * (H - P * 2);
-  const yErr = (v: number) => H - P - v * (H - P * 2) * 0.55;
+  const points = series.points;
+  const span = Math.max(windowEnd - windowStart, 1);
+  const xOfTime = (t: number) => P + ((W - P * 2) * (t - windowStart)) / span;
+  const maxV = Math.max(1, ...points.map((p) => Math.max(p.requests, p.errors)));
+  const yOf = (v: number) => H - P - (v / maxV) * (H - P * 2) * 0.92;
 
-  const reqPath = reqs.map((v, i) => `${i === 0 ? "M" : "L"}${xOf(i).toFixed(1)} ${yReq(v).toFixed(1)}`).join(" ");
+  // A live-but-empty (or all-zero) series is a measured zero — draw the real
+  // flat line at zero rather than hiding it, and say so in the corner note.
+  const allZero =
+    series.live && points.every((p) => p.requests === 0 && p.errors === 0);
+  const toPath = (valueOf: (p: (typeof points)[number]) => number) =>
+    points.length > 0
+      ? points
+          .map(
+            (p, i) =>
+              `${i === 0 ? "M" : "L"}${xOfTime(new Date(p.hour).getTime()).toFixed(1)} ${yOf(valueOf(p)).toFixed(1)}`,
+          )
+          .join(" ")
+      : `M${P} ${yOf(0).toFixed(1)} L${(W - P).toFixed(1)} ${yOf(0).toFixed(1)}`;
+  const reqPath = toPath((p) => p.requests);
   const reqFill = `${reqPath} L${(W - P).toFixed(1)} ${(H - P).toFixed(1)} L${P} ${(H - P).toFixed(1)} Z`;
-  const errPath = errs.map((v, i) => `${i === 0 ? "M" : "L"}${xOf(i).toFixed(1)} ${yErr(v).toFixed(1)}`).join(" ");
+  const errPath = toPath((p) => p.errors);
+  const lastY =
+    points.length > 0 ? yOf(points[points.length - 1].requests) : yOf(0);
+
+  const tickLabel = (frac: number): string => {
+    if (frac === 1) return "now";
+    const d = new Date(windowStart + span * frac);
+    return `${String(d.getUTCHours()).padStart(2, "0")}:00`;
+  };
 
   return (
     <div
@@ -317,11 +366,15 @@ function Heartbeat({
             />
           );
         })}
-        <path d={errPath} fill="none" stroke="var(--el-fire)" strokeWidth="1.2" opacity="0.7" />
-        <path d={reqFill} fill="url(#hb-req)" />
-        <path d={reqPath} fill="none" stroke="var(--accent)" strokeWidth="1.4" />
+        {series.live && (
+          <>
+            <path d={errPath} fill="none" stroke="var(--el-fire)" strokeWidth="1.2" opacity="0.7" />
+            <path d={reqFill} fill="url(#hb-req)" />
+            <path d={reqPath} fill="none" stroke="var(--accent)" strokeWidth="1.4" />
+          </>
+        )}
         {events.map((e, idx) => {
-          const x = xOf(e.i);
+          const x = P + (W - P * 2) * e.f;
           const color =
             e.kind === "incident"
               ? "#FF5252"
@@ -344,19 +397,49 @@ function Heartbeat({
             </g>
           );
         })}
-        <line x1={W - P} x2={W - P} y1={P} y2={H - P} stroke="var(--accent)" strokeWidth="1" />
-        <circle cx={W - P} cy={yReq(reqs[reqs.length - 1])} r="3.5" fill="var(--accent)" />
-        {[0, 6, 12, 18, 24].map((h) => (
+        {series.live && (
+          <>
+            <line x1={W - P} x2={W - P} y1={P} y2={H - P} stroke="var(--accent)" strokeWidth="1" />
+            <circle cx={W - P} cy={lastY} r="3.5" fill="var(--accent)" />
+          </>
+        )}
+        {!series.live && (
           <text
-            key={h}
-            x={P + ((W - P * 2) * h) / 24}
+            x={W / 2}
+            y={H / 2}
+            fill="var(--fg-mute)"
+            fontSize="11"
+            fontFamily="JetBrains Mono"
+            textAnchor="middle"
+            letterSpacing="2"
+          >
+            REQUEST LOG UNREADABLE
+          </text>
+        )}
+        {allZero && (
+          <text
+            x={W / 2}
+            y={H / 2 - 14}
+            fill="var(--fg-mute)"
+            fontSize="10"
+            fontFamily="JetBrains Mono"
+            textAnchor="middle"
+            letterSpacing="1"
+          >
+            no instrumented traffic in window
+          </text>
+        )}
+        {[0, 0.25, 0.5, 0.75, 1].map((frac) => (
+          <text
+            key={frac}
+            x={P + (W - P * 2) * frac}
             y={H - 10}
             fill="rgba(255,255,255,0.4)"
             fontSize="9"
             fontFamily="JetBrains Mono"
             textAnchor="middle"
           >
-            {h === 24 ? "now" : `${String(h).padStart(2, "0")}:00`}
+            {series.live ? tickLabel(frac) : "—"}
           </text>
         ))}
       </svg>
@@ -390,20 +473,22 @@ function Heartbeat({
           })}
         </div>
       )}
-      <div
-        style={{
-          position: "absolute",
-          right: 10,
-          top: 8,
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-          alignItems: "flex-end",
-        }}
-      >
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--accent)" }}>━ requests/s</span>
-        <span className="t-mono" style={{ fontSize: 9, color: "var(--el-fire)" }}>━ errors/s</span>
-      </div>
+      {series.live && (
+        <div
+          style={{
+            position: "absolute",
+            right: 10,
+            top: 8,
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+            alignItems: "flex-end",
+          }}
+        >
+          <span className="t-mono" style={{ fontSize: 9, color: "var(--accent)" }}>━ requests/hr</span>
+          <span className="t-mono" style={{ fontSize: 9, color: "var(--el-fire)" }}>━ 5xx/hr (instrumented routes)</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -608,63 +693,63 @@ function fmtCurrency(n: number): string {
   return `$${n.toLocaleString()}`;
 }
 
-// 12-bar deterministic mini-trend so we have something for the sparkline
-// even when we don't yet have a time series. Centered around 0.5.
-function flatTrend(value: number, scale: number, len = 24): number[] {
-  const v = Math.max(0.2, Math.min(0.9, value / Math.max(scale, 1)));
-  return Array.from({ length: len }, (_, i) => v + 0.05 * Math.sin((i / len) * Math.PI * 2));
-}
-
 export function KPIStrip({ data }: { data: AdminDashboardData }) {
-  const { stats, commerce, cosmicYield, dbObservability, enginePerformance, security, recentAlerts, errorGroups, pageTelemetry } = data;
+  const { stats, commerce, cosmicYield, dbObservability, enginePerformance, security, recentAlerts, errorGroups } = data;
   const onboardingRate =
     stats.totalUsers > 0 ? stats.completedOnboarding / stats.totalUsers : 0;
+
+  // Only two tiles have a real time series (auth hourly attempts, cosmic-yield
+  // daily flow); every other tile is value-only — no decorative trend shapes.
+  const flowSpark =
+    cosmicYield.flowSeries.live && cosmicYield.flowSeries.days.length > 0
+      ? cosmicYield.flowSeries.days.map((d) => d.minted - d.burned)
+      : undefined;
 
   const kpis: Array<{
     label: string;
     v: string;
     d: string;
-    spark: number[];
+    spark?: number[];
     tone: "ok" | "warn" | "neutral";
     live?: boolean;
   }> = [
     {
       label: "Practitioners · total",
-      v: fmtCount(stats.totalUsers),
-      d: `+${stats.newUsersToday} · 24h`,
-      spark: flatTrend(stats.totalUsers, 200),
-      tone: stats.newUsersToday > 0 ? "ok" : "neutral",
-      live: true,
+      v: stats.live ? fmtCount(stats.totalUsers) : "—",
+      d: stats.live ? `+${stats.newUsersToday} · 24h` : "offline",
+      tone: stats.live && stats.newUsersToday > 0 ? "ok" : "neutral",
+      live: stats.live,
     },
     {
-      label: "Active · 24h",
-      v: fmtCount(stats.activeUsers),
-      d: `${Math.round((stats.activeUsers / Math.max(stats.totalUsers, 1)) * 100)}% of base`,
-      spark: flatTrend(stats.activeUsers, Math.max(stats.totalUsers, 1)),
-      tone: "ok",
-      live: true,
+      // activeUsers counts is_active accounts (not deactivated) — an
+      // account-status total, NOT daily activity. The old "Active · 24h"
+      // label fabricated an engagement metric out of a suspension flag.
+      label: "Accounts · active",
+      v: stats.live ? fmtCount(stats.activeUsers) : "—",
+      d: stats.live
+        ? `${Math.round((stats.activeUsers / Math.max(stats.totalUsers, 1)) * 100)}% not deactivated`
+        : "offline",
+      tone: stats.live ? "ok" : "neutral",
+      live: stats.live,
     },
     {
       label: "Onboarded",
-      v: fmtCount(stats.completedOnboarding),
-      d: `${(onboardingRate * 100).toFixed(1)}% complete`,
-      spark: flatTrend(onboardingRate, 1),
-      tone: onboardingRate < 0.3 ? "warn" : "ok",
-      live: true,
+      v: stats.live ? fmtCount(stats.completedOnboarding) : "—",
+      d: stats.live ? `${(onboardingRate * 100).toFixed(1)}% complete` : "offline",
+      tone: !stats.live ? "neutral" : onboardingRate < 0.3 ? "warn" : "ok",
+      live: stats.live,
     },
     {
       label: "Recipes · catalog",
-      v: fmtCount(stats.totalRecipes),
-      d: `${fmtCount(stats.totalIngredients)} ingredients`,
-      spark: flatTrend(stats.totalRecipes, 5000),
-      tone: "ok",
-      live: true,
+      v: stats.live ? fmtCount(stats.totalRecipes) : "—",
+      d: stats.live ? `${fmtCount(stats.totalIngredients)} ingredients` : "offline",
+      tone: stats.live ? "ok" : "neutral",
+      live: stats.live,
     },
     {
       label: "MRR · active subs",
       v: commerce.live ? fmtCurrency(commerce.mrr) : "—",
-      d: `${stats.totalSubscriptions} subs`,
-      spark: flatTrend(commerce.mrr, 5000),
+      d: stats.live ? `${stats.totalSubscriptions} subs` : "offline",
       tone: commerce.live ? "ok" : "neutral",
       live: commerce.live,
     },
@@ -672,7 +757,7 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
       label: "Cosmic yield · circ.",
       v: cosmicYield.live ? fmtCount(Math.round(cosmicYield.inCirculation)) : "—",
       d: cosmicYield.live ? `${cosmicYield.netFlow30d >= 0 ? "+" : ""}${fmtCount(Math.round(cosmicYield.netFlow30d))} · 30d` : "offline",
-      spark: flatTrend(cosmicYield.inCirculation, 10000),
+      spark: flowSpark,
       tone: cosmicYield.live ? "ok" : "neutral",
       live: cosmicYield.live,
     },
@@ -680,40 +765,45 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
       label: "Engine · click→cook",
       v: enginePerformance.live ? `${(enginePerformance.clickToCookRate * 100).toFixed(1)}%` : "—",
       d: enginePerformance.live ? `${fmtCount(enginePerformance.totalCalculations)} calc` : "offline",
-      spark: flatTrend(enginePerformance.clickToCookRate, 0.1),
       tone: enginePerformance.live ? "ok" : "neutral",
       live: enginePerformance.live,
     },
     {
       label: "Engine · avg latency",
       v: enginePerformance.live ? `${enginePerformance.averageLatencyMs}ms` : "—",
-      d: enginePerformance.averageLatencyMs > 200 ? "above SLO" : "within SLO",
-      spark: flatTrend(Math.max(50, 200 - enginePerformance.averageLatencyMs), 200),
-      tone: enginePerformance.averageLatencyMs > 200 ? "warn" : "ok",
+      d: !enginePerformance.live
+        ? "offline"
+        : enginePerformance.averageLatencyMs > 200
+          ? "above SLO"
+          : "within SLO",
+      tone: !enginePerformance.live
+        ? "neutral"
+        : enginePerformance.averageLatencyMs > 200
+          ? "warn"
+          : "ok",
       live: enginePerformance.live,
     },
     {
       label: "Auth · 24h failures",
       v: security.live ? String(security.signinFailure24h) : "—",
       d: security.live ? `${security.signinSuccess24h} success` : "offline",
-      spark: security.hourlyAttempts.map((c) =>
-        c === 0 ? 0.18 : Math.min(0.95, 0.2 + c / Math.max(...security.hourlyAttempts, 1) * 0.7),
-      ),
-      tone: security.signinFailure24h > 0 ? "warn" : "ok",
+      spark: security.live ? security.hourlyAttempts : undefined,
+      tone: !security.live ? "neutral" : security.signinFailure24h > 0 ? "warn" : "ok",
       live: security.live,
     },
     {
       label: "DB · pool",
       v: dbObservability.live ? `${dbObservability.pool.total - dbObservability.pool.idle}/${dbObservability.pool.max}` : "—",
-      d:
-        dbObservability.pool.waiting > 0
+      d: !dbObservability.live
+        ? "offline"
+        : dbObservability.pool.waiting > 0
           ? `${dbObservability.pool.waiting} waiting`
           : `${dbObservability.slowQueries.length} slow Q`,
-      spark: flatTrend(
-        dbObservability.pool.total - dbObservability.pool.idle,
-        Math.max(dbObservability.pool.max, 1),
-      ),
-      tone: dbObservability.pool.waiting > 0 ? "warn" : "ok",
+      tone: !dbObservability.live
+        ? "neutral"
+        : dbObservability.pool.waiting > 0
+          ? "warn"
+          : "ok",
       live: dbObservability.live,
     },
     {
@@ -722,7 +812,6 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
       d: recentAlerts.live
         ? `${recentAlerts.entries.filter((a) => a.severity === "error").length} err`
         : "offline",
-      spark: flatTrend(recentAlerts.entries.length, 10),
       tone: recentAlerts.entries.some((a) => a.severity === "error") ? "warn" : "ok",
       live: recentAlerts.live,
     },
@@ -732,20 +821,10 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
       d: errorGroups.live
         ? `${errorGroups.groups.reduce((s, g) => s + g.fiveXxCount, 0)} 5xx`
         : "offline",
-      spark: flatTrend(errorGroups.groups.length, 5),
       tone: errorGroups.groups.some((g) => g.fiveXxCount > 0) ? "warn" : "ok",
       live: errorGroups.live,
     },
   ];
-
-  // pageTelemetry is informational; we surface it inline below the strip
-  // if any surfaces have non-zero activity.
-  const pageTotal =
-    pageTelemetry.foodDiary +
-    pageTelemetry.customRecipes +
-    pageTelemetry.restaurants +
-    pageTelemetry.commensals +
-    pageTelemetry.mealPlans;
 
   return (
     <section
@@ -757,7 +836,7 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
         border: "1px solid var(--line)",
         borderRadius: 12,
         background: "linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005))",
-        marginBottom: pageTotal > 0 ? 6 : 14,
+        marginBottom: 14,
         overflow: "hidden",
       }}
     >
@@ -800,12 +879,14 @@ export function KPIStrip({ data }: { data: AdminDashboardData }) {
             >
               {k.d}
             </span>
-            <Sparkline
-              data={k.spark}
-              width={60}
-              height={20}
-              color={k.tone === "warn" ? "var(--el-fire)" : "var(--accent)"}
-            />
+            {k.spark && k.spark.length > 0 && (
+              <Sparkline
+                data={k.spark}
+                width={60}
+                height={20}
+                color={k.tone === "warn" ? "var(--el-fire)" : "var(--accent)"}
+              />
+            )}
           </div>
         </div>
       ))}

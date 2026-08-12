@@ -124,7 +124,13 @@ export async function POST(request: NextRequest) {
 }
 
 /** Health check — returns email service configuration status */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Same admin gate as POST — config presence is operator-only information.
+  const auth = await validateAdminRequest(request);
+  if ("error" in auth) {
+    return auth.error;
+  }
+
   emailService.ensureInitialized();
   return NextResponse.json({
     configured: emailService.isConfigured(),
@@ -134,8 +140,8 @@ export async function GET() {
     example: {
       method: "POST",
       body: {
-        to: "cookingwithcastrollc@gmail.com",
-        name: "Greg Castro",
+        to: "admin@example.com",
+        name: "Test User",
         dominantElement: "Fire",
         type: "welcome",
       },

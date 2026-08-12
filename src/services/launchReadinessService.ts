@@ -54,6 +54,9 @@ export interface SubsystemReadiness {
 export interface SettlementBacklog {
   /** Orders awaiting settlement (debited, transfer unconfirmed). */
   pending: number;
+  /** Age of the oldest pending order in hours — a count alone hides a
+   *  6-day-old stuck payout. Null when nothing is pending. */
+  oldestPendingAgeHours: number | null;
   /** false when restaurant_order_intents is absent or the query failed. */
   live: boolean;
 }
@@ -118,16 +121,29 @@ function subsystem(
 
 async function getSettlementBacklog(): Promise<SettlementBacklog> {
   try {
-    const result = await executeQuery<{ count: string }>(
-      `SELECT COUNT(*)::integer AS count
+    const result = await executeQuery<{
+      count: string;
+      oldest_hours: string | null;
+    }>(
+      `SELECT COUNT(*)::integer AS count,
+              EXTRACT(EPOCH FROM (NOW() - MIN(created_at))) / 3600 AS oldest_hours
          FROM restaurant_order_intents
         WHERE status = 'settlement_pending'
            OR transfer_status = 'retry_required'`,
     );
-    return { pending: Number(result.rows[0]?.count ?? 0), live: true };
+    const row = result.rows[0];
+    const pending = Number(row?.count ?? 0);
+    return {
+      pending,
+      oldestPendingAgeHours:
+        pending > 0 && row?.oldest_hours != null
+          ? Math.round(Number(row.oldest_hours) * 10) / 10
+          : null,
+      live: true,
+    };
   } catch (error) {
     _logger.warn("[launchReadiness] settlement backlog query failed:", error);
-    return { pending: 0, live: false };
+    return { pending: 0, oldestPendingAgeHours: null, live: false };
   }
 }
 

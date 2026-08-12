@@ -14,6 +14,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { _logger } from "@/lib/logger";
 import { prewarmAgentRecipes } from "@/services/agentRecipePrewarm";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -23,13 +24,20 @@ export async function GET(request: NextRequest) {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
+  const startedAt = new Date();
   try {
     const { searchParams } = new URL(request.url);
     const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "3", 10), 1), 8);
     const result = await prewarmAgentRecipes(limit);
+    await recordCronRun("prewarm-agent-recipes", { status: "success", startedAt });
     return NextResponse.json({ success: true, ...result });
   } catch (error) {
     _logger.error("[cron/prewarm-agent-recipes] failed:", error);
+    await recordCronRun("prewarm-agent-recipes", {
+      status: "failure",
+      startedAt,
+      error: error instanceof Error ? error.message : "unknown",
+    });
     return NextResponse.json(
       { success: false, message: error instanceof Error ? error.message : "unknown" },
       { status: 500 },

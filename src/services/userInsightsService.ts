@@ -22,6 +22,9 @@ export interface SignDistribution {
 
 export interface UserInsightsPayload {
   generatedAt: string;
+  /** false when any sub-query degraded to empty rows — zeros below are
+   *  absence, not measurement. */
+  live: boolean;
   totals: {
     all: number;
     humans: number;
@@ -121,6 +124,7 @@ const ZODIAC_SIGNS = [
 ] as const;
 
 export async function getUserInsights(): Promise<UserInsightsPayload> {
+  let live = true;
   const [
     rollupRes,
     trendRes,
@@ -237,6 +241,7 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
           "[userInsights] sub-query failed, degrading to empty rows:",
           e,
         );
+        live = false;
         return { rows: [] as never[] };
       }),
     ),
@@ -284,6 +289,7 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
 
   return {
     generatedAt: new Date().toISOString(),
+    live,
     totals: {
       all: rollup.total,
       humans: rollup.humans,

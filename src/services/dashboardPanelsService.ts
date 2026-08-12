@@ -7,6 +7,7 @@
  */
 
 import { execSync } from "child_process";
+import { PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
 import { checkDatabaseHealth, executeQuery } from "@/lib/database";
 import { getDatabasePool } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
@@ -21,6 +22,10 @@ import {
   type ResourceUsageItem,
 } from "@/services/railwayUsageService";
 import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
+import {
+  tokenFlowSeriesSql,
+  tokenSources24hSql,
+} from "@/services/tokenEconomyQueries";
 
 // ─── Cosmic Yield · token economy ──────────────────────────────────────
 
@@ -36,6 +41,14 @@ export interface CosmicYieldHolder {
   balance: number;
 }
 
+/** One day of ledger flow, for the 30-day mint/burn trend. */
+export interface CosmicYieldFlowDay {
+  /** ISO date (YYYY-MM-DD, UTC day buckets). */
+  date: string;
+  minted: number;
+  burned: number;
+}
+
 export interface CosmicYieldData {
   /** total ESMS tokens held across all balances */
   inCirculation: number;
@@ -43,6 +56,12 @@ export interface CosmicYieldData {
   burned30d: number;
   netFlow30d: number;
   sinks24h: CosmicYieldSink[];
+  /** Credit mirror of sinks24h — decomposes inflow by source_type, exposing
+   *  the PA sync-credit bridge, MCP top-ups, and grants as separate lines. */
+  sources24h: CosmicYieldSink[];
+  /** Daily mint/burn over 30 days, computed live from the immutable ledger
+   *  (GROUP BY day over created_at — no persisted aggregates needed). */
+  flowSeries: { days: CosmicYieldFlowDay[]; live: boolean };
   topHolders: CosmicYieldHolder[];
   /** true when computed from the live ledger; false when degraded. */
   live: boolean;
@@ -54,6 +73,8 @@ const COSMIC_YIELD_FALLBACK: CosmicYieldData = {
   burned30d: 0,
   netFlow30d: 0,
   sinks24h: [],
+  sources24h: [],
+  flowSeries: { days: [], live: false },
   topHolders: [],
   live: false,
 };
@@ -70,38 +91,60 @@ function deriveHandle(email: string): string {
  */
 export async function getCosmicYield(): Promise<CosmicYieldData> {
   try {
-    const [flowRes, circulationRes, sinksRes, holdersRes] = await Promise.all([
-      executeQuery(
-        `SELECT
-           COALESCE(SUM(amount) FILTER (WHERE amount > 0), 0)::float8 AS minted,
-           COALESCE(SUM(-amount) FILTER (WHERE amount < 0), 0)::float8 AS burned
-         FROM token_transactions
-         WHERE created_at > NOW() - INTERVAL '30 days'`,
-      ),
-      executeQuery(
-        `SELECT COALESCE(SUM(spirit + essence + matter + substance), 0)::float8 AS total
-         FROM token_balances`,
-      ),
-      executeQuery(
-        `SELECT source_type, COALESCE(SUM(-amount), 0)::float8 AS amount
-         FROM token_transactions
-         WHERE amount < 0 AND created_at > NOW() - INTERVAL '24 hours'
-         GROUP BY source_type
-         ORDER BY amount DESC
-         LIMIT 5`,
-      ),
-      executeQuery(
-        `SELECT u.email, (b.spirit + b.essence + b.matter + b.substance)::float8 AS balance
-         FROM token_balances b
-         JOIN users u ON u.id = b.user_id
-         ORDER BY balance DESC
-         LIMIT 6`,
-      ),
-    ]);
+    const sourcesQuery = tokenSources24hSql();
+    const flowSeriesQuery = tokenFlowSeriesSql();
+    const [flowRes, circulationRes, sinksRes, holdersRes, sourcesRes, flowSeries] =
+      await Promise.all([
+        executeQuery(
+          `SELECT
+             COALESCE(SUM(amount) FILTER (WHERE amount > 0), 0)::float8 AS minted,
+             COALESCE(SUM(-amount) FILTER (WHERE amount < 0), 0)::float8 AS burned
+           FROM token_transactions
+           WHERE created_at > NOW() - INTERVAL '30 days'`,
+        ),
+        executeQuery(
+          `SELECT COALESCE(SUM(spirit + essence + matter + substance), 0)::float8 AS total
+           FROM token_balances`,
+        ),
+        executeQuery(
+          `SELECT source_type, COALESCE(SUM(-amount), 0)::float8 AS amount
+           FROM token_transactions
+           WHERE amount < 0 AND created_at > NOW() - INTERVAL '24 hours'
+           GROUP BY source_type
+           ORDER BY amount DESC
+           LIMIT 5`,
+        ),
+        executeQuery(
+          `SELECT u.email, (b.spirit + b.essence + b.matter + b.substance)::float8 AS balance
+           FROM token_balances b
+           JOIN users u ON u.id = b.user_id
+           ORDER BY balance DESC
+           LIMIT 6`,
+        ),
+        executeQuery(sourcesQuery.sql, sourcesQuery.values),
+        // The flow series carries its own live flag, so its failure degrades
+        // only the trend strip rather than the whole panel.
+        executeQuery(flowSeriesQuery.sql, flowSeriesQuery.values)
+          .then((res) => ({
+            days: (res.rows as Array<{ day: string; minted: number; burned: number }>).map(
+              (r) => ({
+                date: String(r.day),
+                minted: Number(r.minted),
+                burned: Number(r.burned),
+              }),
+            ),
+            live: true,
+          }))
+          .catch((err) => {
+            _logger.warn("[cosmicYield] 30d flow-series query failed:", err);
+            return { days: [] as CosmicYieldFlowDay[], live: false };
+          }),
+      ]);
 
     const minted = Number(flowRes.rows[0]?.minted ?? 0);
     const burned = Number(flowRes.rows[0]?.burned ?? 0);
     const sinkRows = sinksRes.rows as Array<{ source_type: string; amount: number }>;
+    const sourceRows = sourcesRes.rows as Array<{ source_type: string; amount: number }>;
     const holderRows = holdersRes.rows as Array<{ email: string; balance: number }>;
 
     return {
@@ -113,6 +156,11 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
         source: String(r.source_type),
         amount: Number(r.amount),
       })),
+      sources24h: sourceRows.map((r) => ({
+        source: String(r.source_type),
+        amount: Number(r.amount),
+      })),
+      flowSeries,
       topHolders: holderRows.map((r) => ({
         handle: deriveHandle(String(r.email)),
         balance: Number(r.balance),
@@ -122,6 +170,83 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
   } catch (error) {
     _logger.error("[cosmicYield] token-economy aggregation failed:", error);
     return COSMIC_YIELD_FALLBACK;
+  }
+}
+
+// ─── Request series (hero trace) ───────────────────────────────────────
+
+/** One hourly bucket of real request telemetry from request_log_entries. */
+export interface RequestSeriesPoint {
+  /** ISO timestamp of the bucket start (UTC hour). */
+  hour: string;
+  requests: number;
+  /** 5xx responses in the bucket. */
+  errors: number;
+}
+
+/**
+ * Real 24h request/error series for the dashboard hero trace — replaces the
+ * synthesized sine wave that was labelled "requests/s". Sourced from the
+ * durable request_log_entries mirror (same table as errorGroups), so it
+ * covers only instrumented routes; `live: false` when the table is
+ * unreadable, and an empty-but-live series means genuinely no logged traffic.
+ */
+export interface RequestSeriesData {
+  points: RequestSeriesPoint[];
+  windowHours: number;
+  live: boolean;
+}
+
+export async function getRequestHourlySeries(): Promise<RequestSeriesData> {
+  const windowHours = 24;
+  try {
+    // Buckets keyed by UTC epoch rather than a driver-parsed timestamp: the
+    // `AT TIME ZONE 'UTC'` truncation pins hour boundaries regardless of the
+    // server's session timezone, and an epoch survives the round-trip without
+    // any Date-parsing ambiguity.
+    const res = await executeQuery(
+      `SELECT
+         EXTRACT(EPOCH FROM date_trunc('hour', at AT TIME ZONE 'UTC'))::float8 AS bucket_epoch,
+         COUNT(*)::int AS requests,
+         COUNT(*) FILTER (WHERE status >= 500)::int AS errors
+       FROM request_log_entries
+       WHERE at > NOW() - INTERVAL '24 hours'
+       GROUP BY bucket_epoch
+       ORDER BY bucket_epoch`,
+    );
+
+    const byEpochMs = new Map<number, { requests: number; errors: number }>();
+    for (const row of res.rows as Array<{
+      bucket_epoch: number;
+      requests: number;
+      errors: number;
+    }>) {
+      byEpochMs.set(Number(row.bucket_epoch) * 1000, {
+        requests: Number(row.requests),
+        errors: Number(row.errors),
+      });
+    }
+
+    // Zero-fill every hour so the trace always has 24 points. This runs only
+    // after the query succeeded, so a zero bucket is a measured "no logged
+    // traffic that hour", not a masked failure.
+    const hourMs = 3_600_000;
+    const currentHourMs = Math.floor(Date.now() / hourMs) * hourMs;
+    const points: RequestSeriesPoint[] = [];
+    for (let i = windowHours - 1; i >= 0; i--) {
+      const bucketMs = currentHourMs - i * hourMs;
+      const bucket = byEpochMs.get(bucketMs);
+      points.push({
+        hour: new Date(bucketMs).toISOString(),
+        requests: bucket?.requests ?? 0,
+        errors: bucket?.errors ?? 0,
+      });
+    }
+
+    return { points, windowHours, live: true };
+  } catch (error) {
+    _logger.warn("[getRequestHourlySeries] request_log_entries query failed:", error);
+    return { points: [], windowHours, live: false };
   }
 }
 
@@ -406,28 +531,19 @@ export interface PlatformPulse {
   p95: number;
   /** 5xx error rate (%) over the request-log window. */
   errRate: number;
-  /** Time since this server process started (≈ time since last deploy). */
+  /** Short sha of the running deploy (Vercel build env), or "—" when the
+   *  deploy identity is unknown. NOT process uptime — a recycled lambda
+   *  restarts the clock without a deploy, so uptime says nothing about
+   *  deploy freshness. */
   deployFreshness: string;
-}
-
-function formatProcessUptime(seconds: number): string {
-  if (seconds < 90) return `${Math.round(seconds)}s`;
-  const minutes = Math.round(seconds / 60);
-  if (minutes < 90) return `${minutes}m`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 36) {
-    const remMinutes = minutes % 60;
-    return remMinutes > 0 ? `${hours}h ${remMinutes}m` : `${hours}h`;
-  }
-  return `${Math.floor(hours / 24)}d`;
 }
 
 /**
  * Live platform health for the dashboard's top-bar pulse strip. Latency and
  * error rate come from the in-memory request log (`summarizeRecent`), DB
- * reachability from a health probe, and deploy freshness from process uptime.
- * No external uptime/APM service is required — degraded signals lower the
- * score rather than failing the panel.
+ * reachability from a health probe, and deploy identity from the Vercel build
+ * env. No external uptime/APM service is required — degraded signals lower
+ * the score rather than failing the panel.
  */
 export async function getPlatformPulse(): Promise<PlatformPulse> {
   const summary = summarizeRecent();
@@ -464,6 +580,8 @@ export async function getPlatformPulse(): Promise<PlatformPulse> {
       ? Number(((1 - summary.errorRate) * 100).toFixed(3))
       : 100;
 
+  const deploySha = process.env.VERCEL_GIT_COMMIT_SHA;
+
   return {
     state,
     score,
@@ -471,7 +589,7 @@ export async function getPlatformPulse(): Promise<PlatformPulse> {
     activeIncidents,
     p95: summary.p95LatencyMs,
     errRate,
-    deployFreshness: formatProcessUptime(process.uptime()),
+    deployFreshness: deploySha ? `sha ${deploySha.slice(0, 7)}` : "—",
   };
 }
 
@@ -520,6 +638,11 @@ export interface PageTelemetryData {
   restaurants: number;
   commensals: number;
   mealPlans: number;
+  /** natal_charts row count — the number previously mislabelled from
+   *  customRecipes on the Astronomical Engine panel. */
+  natalCharts: number;
+  /** Catalog cuisine count — replaces a hardcoded "184". */
+  cuisines: number;
   live: boolean;
 }
 
@@ -645,35 +768,53 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
 export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
   try {
+    // Any sub-source failure must flip `live` — a caught-to-zero MRR or a
+    // caught-to-[] order list under `live: true` is fabricated data.
+    let revenueLive = true;
+    let ordersLive = true;
     const [revenue, ordersRes] = await Promise.all([
-      getSubscriptionRevenueBreakdown().catch(() => ({
-        paidSubs: 0,
-        provisionedSubs: 0,
-        mrr: 0,
-      })),
+      getSubscriptionRevenueBreakdown().catch((err) => {
+        revenueLive = false;
+        _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
+        return { paidSubs: 0, provisionedSubs: 0, mrr: 0 };
+      }),
+      // Coded to the DEPLOYED cart_handoff_intents schema, which has drifted
+      // from database/init/24: the live table has a real `status` column and
+      // NO estimated_total (the init file has the inverse), so the previous
+      // `'fulfilled' AS status` was fabricated AND the column reference made
+      // the whole statement unpreparable in production. A handoff row is an
+      // intent, not an order — the user pays Amazon, not us — so its
+      // on-platform transacted amount is a true 0, not a placeholder.
+      // `u.id::text = r.user_id`: restaurant_order_intents.user_id is TEXT
+      // while users.id is uuid, and `uuid = text` has no operator — uncast,
+      // this arm never prepared either.
       executeQuery(`
-        SELECT 
-          c.id, 
-          COALESCE(u.email, 'Guest') AS user_email, 
-          'Amazon Fresh' AS order_type, 
-          c.estimated_total::float8 AS amount, 
-          c.created_at, 
-          'fulfilled' AS status 
+        SELECT
+          c.id::text AS id,
+          COALESCE(u.email, 'Guest') AS user_email,
+          'cart_handoff' AS order_type,
+          0::float8 AS amount,
+          c.created_at,
+          c.status
         FROM cart_handoff_intents c
         LEFT JOIN users u ON u.id = c.user_id
         UNION ALL
-        SELECT 
-          r.id, 
-          COALESCE(u.email, 'Guest') AS user_email, 
-          'Stripe Connect' AS order_type, 
-          (r.total_cents / 100.0)::float8 AS amount, 
-          r.created_at, 
-          r.status 
+        SELECT
+          r.id::text AS id,
+          COALESCE(u.email, 'Guest') AS user_email,
+          'Stripe Connect' AS order_type,
+          (r.total_cents / 100.0)::float8 AS amount,
+          r.created_at,
+          r.status
         FROM restaurant_order_intents r
-        LEFT JOIN users u ON u.id = r.user_id
+        LEFT JOIN users u ON u.id::text = r.user_id
         ORDER BY created_at DESC
         LIMIT 5;
-      `).catch(() => ({ rows: [] })),
+      `).catch((err) => {
+        ordersLive = false;
+        _logger.warn("[getCommerceTelemetry] order-intents query failed:", err);
+        return { rows: [] };
+      }),
     ]);
 
     const { paidSubs, provisionedSubs, mrr } = revenue;
@@ -701,7 +842,7 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       paidSubs,
       provisionedSubs,
       recentOrders,
-      live: true,
+      live: revenueLive && ordersLive,
     };
   } catch (error) {
     _logger.error("[getCommerceTelemetry] failed:", error);
@@ -716,34 +857,48 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
 }
 
 export async function getPageTelemetry(): Promise<PageTelemetryData> {
-  try {
-    const [foodDiaryRes, customRecipesRes, restaurantsRes, commensalsRes, mealPlansRes] = await Promise.all([
-      executeQuery("SELECT COUNT(*)::integer AS count FROM food_diary_entries").catch(() => ({ rows: [{ count: 0 }] })),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM recipes WHERE is_public = false").catch(() => ({ rows: [{ count: 0 }] })),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM restaurants").catch(() => ({ rows: [{ count: 0 }] })),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM manual_companion_charts").catch(() => ({ rows: [{ count: 0 }] })),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM user_meal_plans").catch(() => ({ rows: [{ count: 0 }] })),
+  // ANY failed count flips `live` — a count silently caught to 0 under
+  // `live: true` is indistinguishable from a measured empty table.
+  let allLive = true;
+  const countOf = (sql: string, label: string): Promise<number> =>
+    executeQuery(sql)
+      .then((res) => Number(res.rows[0]?.count ?? 0))
+      .catch((err) => {
+        allLive = false;
+        _logger.warn(`[getPageTelemetry] ${label} count failed:`, err);
+        return 0;
+      });
+
+  const [foodDiary, customRecipes, restaurants, commensals, mealPlans, natalCharts] =
+    await Promise.all([
+      countOf("SELECT COUNT(*)::integer AS count FROM food_diary_entries", "food_diary_entries"),
+      countOf("SELECT COUNT(*)::integer AS count FROM recipes WHERE is_public = false", "custom recipes"),
+      countOf("SELECT COUNT(*)::integer AS count FROM restaurants", "restaurants"),
+      countOf("SELECT COUNT(*)::integer AS count FROM manual_companion_charts", "manual_companion_charts"),
+      countOf("SELECT COUNT(*)::integer AS count FROM user_meal_plans", "user_meal_plans"),
+      // There is no natal_charts TABLE — computed charts live in the
+      // user_profiles.natal_chart JSONB column, with '{}' meaning "not yet
+      // computed" (same predicate as onboardingHealthService's funnel).
+      countOf(
+        `SELECT COUNT(*)::integer AS count FROM user_profiles
+         WHERE natal_chart IS NOT NULL AND natal_chart <> '{}'::jsonb`,
+        "natal charts",
+      ),
     ]);
 
-    return {
-      foodDiary: Number(foodDiaryRes.rows[0]?.count ?? 0),
-      customRecipes: Number(customRecipesRes.rows[0]?.count ?? 0),
-      restaurants: Number(restaurantsRes.rows[0]?.count ?? 0),
-      commensals: Number(commensalsRes.rows[0]?.count ?? 0),
-      mealPlans: Number(mealPlansRes.rows[0]?.count ?? 0),
-      live: true,
-    };
-  } catch (error) {
-    _logger.error("[getPageTelemetry] failed:", error);
-    return {
-      foodDiary: 0,
-      customRecipes: 0,
-      restaurants: 0,
-      commensals: 0,
-      mealPlans: 0,
-      live: false,
-    };
-  }
+  return {
+    foodDiary,
+    customRecipes,
+    restaurants,
+    commensals,
+    mealPlans,
+    natalCharts,
+    // DERIVED from the src/data cuisines registry (the catalog source of
+    // truth) — there is no cuisines DB table. A static count cannot fail,
+    // so it does not participate in `live`.
+    cuisines: PRIMARY_CUISINE_KEYS.length,
+    live: allLive,
+  };
 }
 
 // ─── Recent Alerts · alert_events table ────────────────────────────────
@@ -1031,6 +1186,33 @@ export interface DeployHistoryEntry {
 }
 
 export function getDeployHistory(): { entries: DeployHistoryEntry[]; live: boolean } {
+  // Deployed lambdas have no .git directory, so the git path below is
+  // permanently dead in production. Vercel stamps the deploy's commit into
+  // the build env — one honest current-deploy entry beats five fabricated
+  // "unknown" rows or an execSync that fails on every poll.
+  const vercelSha = process.env.VERCEL_GIT_COMMIT_SHA;
+  if (vercelSha) {
+    return {
+      entries: [
+        {
+          sha: vercelSha.slice(0, 7),
+          author: process.env.VERCEL_GIT_COMMIT_AUTHOR_NAME || "unknown",
+          // Vercel exposes no deploy timestamp env, so the age is the deploy's
+          // identity, not a fabricated duration.
+          age: "current",
+          message: process.env.VERCEL_GIT_COMMIT_MESSAGE || "unknown",
+        },
+      ],
+      live: true,
+    };
+  }
+
+  // git exec is a local-dev fallback only — never in production, where it
+  // would spawn a doomed subprocess on every dashboard poll.
+  if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+    return { entries: [], live: false };
+  }
+
   try {
     const output = execSync('git log -n 5 --pretty=format:"%h|%an|%ar|%s"', {
       encoding: "utf-8",

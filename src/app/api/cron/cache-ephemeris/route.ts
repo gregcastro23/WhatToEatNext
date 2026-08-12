@@ -23,6 +23,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { _logger } from "@/lib/logger";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 import { dailyYieldService } from "@/services/DailyYieldService";
 import {
   PLANETARY_ALCHEMY,
@@ -43,6 +44,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const startedAt = new Date();
   try {
     const { positions, degraded } = await calculatePlanetaryPositionsWithMeta();
 
@@ -65,6 +67,13 @@ export async function GET(request: NextRequest) {
       _logger.error(
         "[cron/cache-ephemeris] no positions resolved; skipping cache write",
       );
+      // Non-throwing failure path — record it, or the run would be invisible
+      // to the heartbeat and read as merely late instead of failing.
+      await recordCronRun("cache-ephemeris", {
+        status: "failure",
+        startedAt,
+        error: "no positions resolved",
+      });
       return NextResponse.json(
         { success: false, message: "no positions resolved" },
         { status: 502 },
@@ -74,6 +83,7 @@ export async function GET(request: NextRequest) {
     const source = degraded ? "astronomy-engine" : "railway";
     await dailyYieldService.cacheEphemeris(alchemicalPositions, source);
 
+    await recordCronRun("cache-ephemeris", { status: "success", startedAt });
     return NextResponse.json({
       success: true,
       planets: Object.keys(alchemicalPositions).length,
@@ -82,6 +92,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     _logger.error("[cron/cache-ephemeris] failed:", err);
+    await recordCronRun("cache-ephemeris", {
+      status: "failure",
+      startedAt,
+      error: err instanceof Error ? err.message : "unknown",
+    });
     return NextResponse.json(
       { success: false, message: err instanceof Error ? err.message : "unknown" },
       { status: 500 },

@@ -20,6 +20,7 @@ import {
   healBurnedPurchases,
   settleStaleClaims,
 } from "@/services/chainReconcileService";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
 
+  const startedAt = new Date();
   try {
     // Sequential on purpose: shared RPC + one signer wallet — parallel jobs
     // would race nonces on the retry mints.
@@ -67,6 +69,11 @@ export async function GET(request: NextRequest) {
       alerts.push("chain-shop");
     }
 
+    // Wallet-invariant violations persist to alert_events through
+    // dispatchAlert: persistAlertEvent runs unconditionally (a cooldown only
+    // suppresses the Slack/email sinks), so every violating run leaves an
+    // 'error' row for the dashboard. Clean runs write no alert row — the
+    // heartbeat below covers liveness.
     if (invariants.violations.length > 0) {
       await dispatchAlert({
         component: "chain-invariant",
@@ -96,6 +103,7 @@ export async function GET(request: NextRequest) {
       alerts.push("chain-nft");
     }
 
+    await recordCronRun("chain-reconcile", { status: "success", startedAt });
     return NextResponse.json({
       success: true,
       claims,
@@ -110,6 +118,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     _logger.error("[cron/chain-reconcile] failed:", err);
+    await recordCronRun("chain-reconcile", {
+      status: "failure",
+      startedAt,
+      error: err instanceof Error ? err.message : "unknown",
+    });
     return NextResponse.json(
       { success: false, message: err instanceof Error ? err.message : "unknown" },
       { status: 500 },

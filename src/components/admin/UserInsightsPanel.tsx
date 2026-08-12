@@ -26,6 +26,8 @@ interface SignDistribution {
 
 interface UserInsightsPayload {
   generatedAt: string;
+  /** false when any server-side sub-query degraded — zeros are absence, not fact. */
+  live: boolean;
   totals: {
     all: number;
     humans: number;
@@ -208,6 +210,13 @@ export default function UserInsightsPanel() {
       {error && (
         <div className="mb-4 px-3 py-2 rounded bg-yellow-50 text-yellow-800 text-xs">
           Last refresh failed ({error}) — showing previous snapshot.
+        </div>
+      )}
+
+      {data.live === false && (
+        <div className="mb-4 px-3 py-2 rounded bg-amber-50 border border-amber-200 text-amber-800 text-xs">
+          Degraded snapshot — one or more source queries failed, so some counts
+          below read zero because the data is missing, not because it is zero.
         </div>
       )}
 

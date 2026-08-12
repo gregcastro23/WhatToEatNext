@@ -20,6 +20,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { _logger } from "@/lib/logger";
 import { dispatchTransitions } from "@/services/alertService";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 import {
   getLatestSnapshot,
   writeSnapshot,
@@ -46,6 +47,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const startedAt = new Date();
   try {
     const previous = await getLatestSnapshot();
     const current = await getSystemStatus();
@@ -54,6 +56,10 @@ export async function GET(request: NextRequest) {
       snapshotId,
     });
 
+    await recordCronRun("system-health-snapshot", {
+      status: "success",
+      startedAt,
+    });
     return NextResponse.json({
       success: true,
       snapshotId,
@@ -72,6 +78,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     _logger.error("[cron/system-health-snapshot] failed:", err);
+    await recordCronRun("system-health-snapshot", {
+      status: "failure",
+      startedAt,
+      error: err instanceof Error ? err.message : "unknown",
+    });
     return NextResponse.json(
       {
         success: false,

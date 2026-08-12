@@ -35,7 +35,13 @@ interface SyncResponse {
 
 const AGENTIC_DOMAIN = "@agentic.alchm.kitchen";
 
-export function PaAgentSyncPanel() {
+interface PaAgentSyncPanelProps {
+  /** planetaryIntegration.endpoints.paBackend — the env-resolved PA backend
+   *  the sync route actually posts to. Absent/empty means unresolved. */
+  endpoint?: string | null;
+}
+
+export function PaAgentSyncPanel({ endpoint }: PaAgentSyncPanelProps) {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState<"all" | "one" | null>(null);
   const [result, setResult] = useState<SyncResponse | null>(null);
@@ -89,7 +95,10 @@ export function PaAgentSyncPanel() {
             PA RE-SYNC · MANUAL
           </div>
           <div className="t-display" style={{ fontSize: 14, marginTop: -2 }}>
-            push WTEN is_agent=true users to api.agents.alchm.kitchen
+            push WTEN is_agent=true users to{" "}
+            {endpoint
+              ? endpoint.replace(/^https?:\/\//, "")
+              : "PA backend (endpoint unresolved)"}
           </div>
         </div>
         <button

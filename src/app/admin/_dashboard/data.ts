@@ -6,6 +6,7 @@
  * must not impersonate live telemetry.
  */
 
+import type { CronHeartbeatData } from "@/services/cronHeartbeatService";
 import type {
   AuditEventsData,
   CatalogTrendingData,
@@ -18,6 +19,7 @@ import type {
   PageTelemetryData,
   RecentAlertsData,
   LivingEconomyMetrics,
+  RequestSeriesData,
   SecuritySummaryData,
   DeployHistoryEntry,
   FeatureFlagEntry,
@@ -25,8 +27,11 @@ import type {
   PractitionerGeoData,
   CohortRetentionData,
 } from "@/services/dashboardPanelsService";
+import type { EconomyIntegrityData } from "@/services/economyIntegrityService";
+import type { TriageQueueData } from "@/services/githubTriageService";
 import type { LaunchReadinessReport } from "@/services/launchReadinessService";
 import type { ActivityEvent } from "@/services/liveActivityService";
+import type { MigrationStatusData } from "@/services/migrationStatusService";
 import type { OnboardingHealthPayload } from "@/services/onboardingHealthService";
 import type {
   OperationsControlPlane,
@@ -88,7 +93,9 @@ export interface AdminDashboardData {
     onCall: boolean;
   };
   pulse: {
-    state: "NOMINAL" | "DEGRADED" | "INCIDENT";
+    /** UNKNOWN is the loading/outage state — the UI must render it as an
+     *  absence, never as a healthy default. */
+    state: "NOMINAL" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
     score: number;
     /** Request success rate (%) over the in-memory request-log window. */
     availability: number;
@@ -102,10 +109,16 @@ export interface AdminDashboardData {
     activeUsers: number;
     newUsersToday: number;
     completedOnboarding: number;
+    /** Human/agent split of totalUsers — user administration is about the
+     *  humans; agentUsers is the WTEN half of the PA roster diff. */
+    humanUsers: number;
+    agentUsers: number;
     totalRecipes: number;
     totalIngredients: number;
     totalSubscriptions: number;
     totalTransactions: number;
+    /** false when the user-stats query degraded — zeros are absence, not fact. */
+    live: boolean;
   };
   recentUsers: Array<{
     id: string;
@@ -115,6 +128,9 @@ export interface AdminDashboardData {
     dominantElement: string | null;
     isActive: boolean;
   }>;
+  /** false when the recent-signups query itself degraded — an empty list
+   *  under a failed query is absence, not a measured empty roster. */
+  recentUsersLive: boolean;
   /** Live planetary snapshot — computed by getSkyConditions(). */
   skyConditions: SkyConditionsData;
   /** Live token-economy rollup — computed by getCosmicYield(). */
@@ -143,6 +159,20 @@ export interface AdminDashboardData {
   operations: OperationsControlPlane;
   /** Cross-project Planetary Agents reachability and live telemetry. */
   planetaryIntegration: PlanetaryIntegrationSnapshot;
+  /** Real 24h hourly request/error series (hero trace) from
+   *  request_log_entries — replaces the synthesized sine wave. */
+  requestSeries: RequestSeriesData;
+  /** Ledger invariants: balance drift, welcome-grant coverage, stuck
+   *  on-chain claims. Each check degrades independently. */
+  economyIntegrity: EconomyIntegrityData;
+  /** Schema + scheduled-job maintenance state: pending migrations and
+   *  per-cron heartbeat staleness. */
+  maintenance: {
+    migrations: MigrationStatusData;
+    cronHeartbeats: CronHeartbeatData;
+  };
+  /** Unfinished work — live GitHub triage-label queue for this repo. */
+  triageQueue: TriageQueueData;
   /** Recent merged activity feed (auth + recipe + token + agent events). */
   liveActivity: { entries: ActivityEvent[]; live: boolean };
   /** Recent alert_events rows for the IncidentsPanel. */
@@ -252,22 +282,27 @@ const SKY_SEED: SkyConditionsData = {
 };
 
 export const FALLBACK_DATA: AdminDashboardData = {
+  // Neutral placeholder identity — the real operator arrives with the API
+  // payload. The fallback must not impersonate a specific person.
   user: {
-    handle: "gregcastro23",
-    name: "Greg Castro",
-    email: "gregcastro23@gmail.com",
+    handle: "—",
+    name: "Operator",
+    email: "—",
     role: "ARCHITECT",
-    badge: "ALCH-0001",
-    initial: "G",
-    tier: "ROOT",
-    joined: "2023-08-14",
-    location: "Brooklyn, NY · 40.6782°N",
-    onCall: true,
+    badge: "ALCH-????",
+    initial: "·",
+    tier: "—",
+    joined: "—",
+    location: "—",
+    onCall: false,
   },
+  // UNKNOWN, score 0 — while the API is unreachable the topbar must read as
+  // an absence. A fabricated "NOMINAL · 100%" during an outage is the exact
+  // failure mode this fixture previously shipped.
   pulse: {
-    state: "NOMINAL",
-    score: 100,
-    availability: 100,
+    state: "UNKNOWN",
+    score: 0,
+    availability: 0,
     activeIncidents: 0,
     p95: 0,
     errRate: 0,
@@ -278,12 +313,16 @@ export const FALLBACK_DATA: AdminDashboardData = {
     activeUsers: 0,
     newUsersToday: 0,
     completedOnboarding: 0,
+    humanUsers: 0,
+    agentUsers: 0,
     totalRecipes: 0,
     totalIngredients: 0,
     totalSubscriptions: 0,
     totalTransactions: 0,
+    live: false,
   },
   recentUsers: [],
+  recentUsersLive: false,
   skyConditions: SKY_SEED,
   cosmicYield: {
     inCirculation: 0,
@@ -291,6 +330,8 @@ export const FALLBACK_DATA: AdminDashboardData = {
     burned30d: 0,
     netFlow30d: 0,
     sinks24h: [],
+    sources24h: [],
+    flowSeries: { days: [], live: false },
     topHolders: [],
     live: false,
   },
@@ -336,6 +377,8 @@ export const FALLBACK_DATA: AdminDashboardData = {
     restaurants: 0,
     commensals: 0,
     mealPlans: 0,
+    natalCharts: 0,
+    cuisines: 0,
     live: false,
   },
   systemStatus: {
@@ -376,7 +419,7 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   launchReadiness: {
     subsystems: [],
-    settlement: { pending: 0, live: false },
+    settlement: { pending: 0, oldestPendingAgeHours: null, live: false },
     readyCount: 0,
     generatedAt: new Date(0).toISOString(),
   },
@@ -400,9 +443,39 @@ export const FALLBACK_DATA: AdminDashboardData = {
       wtenLegacyBackend: "",
     },
     health: "unknown",
-    agentCount: 0,
+    agentCount: null,
+    rosterDiff: { wtenAgents: null, paAgents: null },
     lastFeedEmit: null,
     telemetry: null,
+  },
+  requestSeries: { points: [], windowHours: 24, live: false },
+  economyIntegrity: {
+    drift: { driftedUsers: 0, maxAbsDelta: 0, checkedUsers: 0, live: false },
+    welcomeGrant: { humansWithoutGrant: 0, live: false },
+    onchainClaims: { pending: 0, oldestPendingHours: null, live: false },
+    generatedAt: new Date(0).toISOString(),
+  },
+  maintenance: {
+    migrations: {
+      appliedCount: 0,
+      latestApplied: null,
+      pendingFiles: [],
+      manifestCount: null,
+      live: false,
+    },
+    cronHeartbeats: { entries: [], live: false },
+  },
+  triageQueue: {
+    counts: {
+      needsTriage: 0,
+      needsInfo: 0,
+      readyForAgent: 0,
+      readyForHuman: 0,
+    },
+    topIssues: [],
+    openTotal: null,
+    fetchedAt: null,
+    live: false,
   },
   liveActivity: { entries: [], live: false },
   recentAlerts: { entries: [], live: false },

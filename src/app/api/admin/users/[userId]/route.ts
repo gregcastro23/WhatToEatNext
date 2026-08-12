@@ -1,7 +1,7 @@
 /**
  * Admin User Detail API Route
  * GET /api/admin/users/[userId] - Get user details
- * DELETE /api/admin/users/[userId] - Delete user
+ * DELETE /api/admin/users/[userId] - Soft-delete (deactivate) user
  *
  * @requires Authentication - Admin role required
  */
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 /**
  * DELETE /api/admin/users/[userId]
- * Permanently deletes a user (non-admin only)
+ * Soft-deletes (deactivates) a user (non-admin only)
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
@@ -100,12 +100,14 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Deactivate (soft delete) - in production would actually delete
+    // Soft delete: the row keeps existing with is_active = false, and the
+    // account can be reactivated. The response says so — "deleted" here
+    // previously implied an irreversible removal that never happened.
     await userDatabase.deactivateUser(userId);
 
     return NextResponse.json({
       success: true,
-      message: "User deleted successfully",
+      message: "User deactivated (soft delete — reactivation possible)",
     });
   } catch (error) {
     console.error("Admin delete user error:", error);
@@ -116,9 +118,13 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   }
 }
 
+// The users.role column enum (database/init/06 + 07): legacy ALCHEMIST /
+// GRAND_MASTER labels plus the USER / ADMIN pair the app actually gates on.
+const ALLOWED_ROLES = new Set(["USER", "ADMIN", "ALCHEMIST", "GRAND_MASTER"]);
+
 /**
  * PATCH /api/admin/users/[userId]
- * Allows admins to update a user's tier or deactivation status.
+ * Allows admins to update a user's tier, role, or deactivation status.
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
@@ -139,9 +145,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { tier, isActive } = body as {
+    const { tier, isActive, role } = body as {
       tier?: "free" | "premium";
       isActive?: boolean;
+      role?: string;
     };
 
     const user = await userDatabase.getUserById(userId);
@@ -149,6 +156,52 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json(
         { success: false, message: "User not found" },
         { status: 404 },
+      );
+    }
+
+    const targetIsAdmin = user.roles.includes("admin" as any);
+    // Session ids can be an OAuth sub rather than the DB uuid, so the
+    // self-check matches on email as well as id.
+    const isSelf =
+      userId === authResult.user.userId ||
+      user.email.toLowerCase() === authResult.user.email.toLowerCase();
+
+    let normalizedRole: string | undefined;
+    if (role !== undefined) {
+      if (typeof role !== "string" || !ALLOWED_ROLES.has(role.toUpperCase())) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Invalid role. Allowed: ${Array.from(ALLOWED_ROLES).join(", ")}`,
+          },
+          { status: 400 },
+        );
+      }
+      normalizedRole = role.toUpperCase();
+      // Lockout guard: an admin must never change their own role — a
+      // self-demotion would strip the very access used to undo it.
+      if (isSelf) {
+        return NextResponse.json(
+          { success: false, message: "Cannot change your own role" },
+          { status: 403 },
+        );
+      }
+      // Same protect-admin-target convention as /status and DELETE.
+      if (targetIsAdmin && normalizedRole !== "ADMIN") {
+        return NextResponse.json(
+          { success: false, message: "Cannot demote admin users" },
+          { status: 403 },
+        );
+      }
+    }
+
+    // Deactivation guard runs before any write so a mixed payload can't
+    // half-apply. Same protect-admin convention as /status and DELETE.
+    const wantsDeactivation = typeof isActive === "boolean" && !isActive;
+    if (wantsDeactivation && targetIsAdmin) {
+      return NextResponse.json(
+        { success: false, message: "Cannot deactivate admin users" },
+        { status: 403 },
       );
     }
 
@@ -170,8 +223,26 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       });
     }
 
-    // Deactivate / reactivate
-    if (typeof isActive === "boolean" && !isActive) {
+    // Update role (guards above already ran)
+    if (normalizedRole) {
+      const applied = await userDatabase.updateUserRole(
+        userId,
+        // updateUserRole uppercases before casting to the user_role enum, so
+        // the DB label round-trips even for the legacy ALCHEMIST/GRAND_MASTER values.
+        normalizedRole.toLowerCase() as Parameters<
+          typeof userDatabase.updateUserRole
+        >[1],
+      );
+      if (!applied) {
+        return NextResponse.json(
+          { success: false, message: "Failed to persist role change" },
+          { status: 500 },
+        );
+      }
+    }
+
+    // Deactivate (guard already ran above)
+    if (wantsDeactivation) {
       await userDatabase.deactivateUser(userId);
     }
 
@@ -180,6 +251,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       message: "User updated",
       userId,
       ...(tier ? { tier } : {}),
+      ...(normalizedRole ? { role: normalizedRole } : {}),
     });
   } catch (error) {
     console.error("[admin/users/[userId]] PATCH error:", error);

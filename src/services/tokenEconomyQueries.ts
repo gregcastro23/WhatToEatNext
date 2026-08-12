@@ -797,3 +797,135 @@ export function shopItemsSql(opts?: {
     values: p.values,
   };
 }
+
+// ─── Admin dashboard aggregates ───────────────────────────────────────
+//
+// Read-only rollups for the admin dashboard's economy panels. They live here
+// rather than in the panel services for the same reason as everything above:
+// the PREPARE gate can only check SQL it can reach, and these read the money
+// tables — a misspelled column here would otherwise surface only in a panel's
+// catch block, as a silent `live: false`.
+
+/** Any nonzero divergence is real drift: both sides are exact DECIMAL(12,4)
+ *  arithmetic (NUMERIC SUM never rounds), and credit/debit statements bind the
+ *  SAME parameter to the ledger insert and the balance update — so ledger and
+ *  balance can only differ by an actual lost or phantom write. A one-ulp
+ *  (0.0001) delta is the smallest representable real discrepancy and must
+ *  count, not hide inside a tolerance. */
+const DRIFT_TOLERANCE_SQL = "0";
+
+/**
+ * Compare materialized `token_balances` against per-axis ledger sums.
+ *
+ * The balances table is documented as rebuildable from the immutable
+ * `token_transactions` ledger; `[MEASURED 2026-07-26]` a 67-user / 521.7-Spirit
+ * divergence has happened (the lost-first-credit CTE bug above
+ * `creditTokensSql`). This unpivots each balance row into four axis rows and
+ * FULL OUTER JOINs them to the ledger sums, so a user present on only ONE side
+ * still counts as drifted when the other side is nonzero — an inner join would
+ * hide exactly the users whose balance row was never created.
+ */
+export function ledgerDriftSql(): BuiltQuery {
+  return {
+    sql: `WITH ledger AS (
+            SELECT user_id, lower(token_type) AS axis, SUM(amount) AS total
+            FROM token_transactions
+            GROUP BY user_id, lower(token_type)
+          ),
+          balances AS (
+            SELECT b.user_id, v.axis, v.amount
+            FROM token_balances b,
+                 LATERAL (VALUES ('spirit', b.spirit),
+                                 ('essence', b.essence),
+                                 ('matter', b.matter),
+                                 ('substance', b.substance)) AS v(axis, amount)
+          ),
+          deltas AS (
+            SELECT COALESCE(bal.user_id, led.user_id) AS user_id,
+                   ABS(COALESCE(bal.amount, 0) - COALESCE(led.total, 0)) AS abs_delta
+            FROM balances bal
+            FULL OUTER JOIN ledger led
+              ON led.user_id = bal.user_id AND led.axis = bal.axis
+          )
+          SELECT
+            COUNT(DISTINCT user_id) FILTER (WHERE abs_delta > ${DRIFT_TOLERANCE_SQL})::int AS drifted_users,
+            COALESCE(MAX(abs_delta), 0)::float8 AS max_abs_delta,
+            COUNT(DISTINCT user_id)::int AS checked_users
+          FROM deltas`,
+    values: [],
+  };
+}
+
+/**
+ * Human users holding no `signup_grant` ledger row.
+ *
+ * #744 moved the grant into `createUser` itself, but humans created before the
+ * fix (and any future path that skips it) can still hold nothing. `IS NOT TRUE`
+ * rather than `= false`: a NULL `is_agent` is a human, and `NOT (NULL)` would
+ * drop those rows from the count entirely.
+ */
+export function welcomeGrantCoverageSql(): BuiltQuery {
+  return {
+    sql: `SELECT COUNT(*)::int AS humans_without_grant
+          FROM users u
+          WHERE u.is_agent IS NOT TRUE
+            AND NOT EXISTS (
+              SELECT 1 FROM token_transactions t
+              WHERE t.user_id = u.id AND t.source_type = 'signup_grant'
+            )`,
+    values: [],
+  };
+}
+
+/**
+ * Claims stuck in `pending` — debited off-chain with no confirmed mint.
+ * `MIN(created_at)` over zero rows is NULL, so `oldest_pending_hours` is NULL
+ * (not 0) when nothing is pending; the reader must preserve that distinction.
+ */
+export function onchainClaimBacklogSql(): BuiltQuery {
+  return {
+    sql: `SELECT
+            COUNT(*)::int AS pending,
+            (EXTRACT(EPOCH FROM (NOW() - MIN(created_at))) / 3600)::float8 AS oldest_pending_hours
+          FROM esms_onchain_claims
+          WHERE status = 'pending'`,
+    values: [],
+  };
+}
+
+/**
+ * Daily mint/burn over the trailing 30 days, oldest day first. Buckets are
+ * UTC days (`AT TIME ZONE 'UTC'` before truncating) so the series cannot
+ * shift with the server's session timezone, and the day is emitted as a
+ * YYYY-MM-DD string so no driver-side Date parsing can reintroduce one.
+ */
+export function tokenFlowSeriesSql(): BuiltQuery {
+  return {
+    sql: `SELECT
+            to_char(date_trunc('day', created_at AT TIME ZONE 'UTC'), 'YYYY-MM-DD') AS day,
+            COALESCE(SUM(amount) FILTER (WHERE amount > 0), 0)::float8 AS minted,
+            COALESCE(SUM(-amount) FILTER (WHERE amount < 0), 0)::float8 AS burned
+          FROM token_transactions
+          WHERE created_at > NOW() - INTERVAL '30 days'
+          GROUP BY 1
+          ORDER BY 1 ASC`,
+    values: [],
+  };
+}
+
+/**
+ * Top 5 credit sources over the trailing 24h — the mirror of the sinks
+ * rollup in `getCosmicYield`, decomposing inflow (PA sync-credit bridge,
+ * MCP top-ups, grants) by `source_type`.
+ */
+export function tokenSources24hSql(): BuiltQuery {
+  return {
+    sql: `SELECT source_type, COALESCE(SUM(amount), 0)::float8 AS amount
+          FROM token_transactions
+          WHERE amount > 0 AND created_at > NOW() - INTERVAL '24 hours'
+          GROUP BY source_type
+          ORDER BY amount DESC
+          LIMIT 5`,
+    values: [],
+  };
+}

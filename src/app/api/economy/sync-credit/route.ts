@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { withObservability } from "@/lib/observability/withObservability";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { DAILY_YIELD_SOURCES } from "@/services/tokenEconomyQueries";
@@ -61,7 +62,7 @@ interface SyncCreditBody {
   };
 }
 
-export async function POST(req: NextRequest) {
+async function handlePost(req: NextRequest) {
   try {
     // 1. Validate Sync Secret
     const authHeader = req.headers.get("X-Sync-Secret");
@@ -317,3 +318,16 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+/**
+ * Request-logged so agentCreditPathHealth's traffic half is real: the credit
+ * check counts request_log_entries on this exact route, and an unwrapped
+ * handler would leave its INCIDENT branch (traffic with zero credit rows —
+ * the historic 12-week silent-500 shape) permanently unreachable.
+ *
+ * skipUserResolution: machine-to-machine (X-Sync-Secret), no session cookie.
+ */
+export const POST = withObservability(
+  { routeName: "/api/economy/sync-credit", skipUserResolution: true },
+  handlePost,
+);

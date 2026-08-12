@@ -830,7 +830,9 @@ class UserDatabaseService {
       return false;
     }
 
-    // Try PostgreSQL first
+    // Try PostgreSQL first. A failed write must surface — returning true
+    // after only mutating the in-memory cache would report a suspension
+    // that never persisted.
     if (db) {
       try {
         await db.executeQuery(
@@ -839,6 +841,7 @@ class UserDatabaseService {
         );
       } catch (error) {
         _logger.error("PostgreSQL deactivation failed:", error);
+        throw new Error("Failed to persist deactivation", { cause: error });
       }
     }
 
@@ -846,6 +849,37 @@ class UserDatabaseService {
     user.isActive = false;
     this.users.set(userId, user);
     _logger.info("User deactivated:", { userId });
+    return true;
+  }
+
+  /**
+   * Reactivate user (mirror of deactivateUser)
+   */
+  async activateUser(userId: string): Promise<boolean> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    const user = await this.getUserById(userId);
+    if (!user) {
+      return false;
+    }
+
+    if (db) {
+      try {
+        await db.executeQuery(
+          `UPDATE users SET is_active = true, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+          [userId],
+        );
+      } catch (error) {
+        _logger.error("PostgreSQL reactivation failed:", error);
+        throw new Error("Failed to persist reactivation", { cause: error });
+      }
+    }
+
+    // Update in-memory
+    user.isActive = true;
+    this.users.set(userId, user);
+    _logger.info("User reactivated:", { userId });
     return true;
   }
 
