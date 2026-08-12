@@ -25,7 +25,12 @@ import {
   type PathHealth,
 } from "@/lib/observability/requestLog";
 import { summarizeSlowQueries } from "@/lib/observability/slowQueryLog";
+import { redisGet, redisSet } from "@/lib/redis";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import {
+  classifyCreditPath,
+  fetchCreditPathSignals,
+} from "@/services/agentCreditPathHealth";
 import {
   classifyDebitPath,
   fetchDebitPathSignals,
@@ -41,7 +46,10 @@ import {
   classifyPoolerSaturation,
   fetchPoolerSaturationSignals,
 } from "@/services/poolerSaturationHealth";
+import type { StripeWebhookCoverage } from "@/services/stripeWebhookCoverageService";
 import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
+// Type-only: erased at compile, so the Stripe SDK still loads only via the
+// dynamic import inside probePayments.
 import {
   getLatestProbeResults,
   type LatestProbeRow,
@@ -402,7 +410,13 @@ async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
              AND COALESCE(up.onboarding_completed, false) = false
          )::int AS stuck
        FROM users u
-       LEFT JOIN user_profiles up ON up.user_id = u.id`,
+       LEFT JOIN user_profiles up ON up.user_id = u.id
+       -- Bounds the scan; previously every users×user_profiles row was read
+       -- with the 24h windows only inside FILTER(). The OR is required because
+       -- the onboarded stage is scoped by COALESCE(onboarding_completed_at,
+       -- created_at) — a user created long ago can complete today.
+       WHERE u.created_at > NOW() - INTERVAL '24 hours'
+          OR up.onboarding_completed_at > NOW() - INTERVAL '24 hours'`,
     );
     signupsLast24h = result.rows[0]?.signups ?? 0;
     onboardedLast24h = result.rows[0]?.onboarded ?? 0;
@@ -599,7 +613,11 @@ async function probeAIGeneration(
 ): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const cosmic = summarizePath("/api/generate-cosmic-recipe", FIVE_MIN);
-  const aiGenerate = summarizePath("/api/recipes/generate", FIVE_MIN);
+  // /api/recipes/generate does not exist under src/app/api — summarizing it
+  // reported a permanent calm zero (the same trap as the deleted Stripe routes
+  // in probePayments). /api/recommendations/generate is the real token-charged
+  // generation endpoint.
+  const aiGenerate = summarizePath("/api/recommendations/generate", FIVE_MIN);
   const combined = [cosmic, aiGenerate];
 
   const observed = combined.filter((h) => h.observed);
@@ -635,7 +653,7 @@ async function probeAIGeneration(
     id: "ai-generation",
     label: "AI Recipe Generation",
     description:
-      "Cosmic-recipe generation via Planetary Agents backend, token-gated.",
+      "Cosmic-recipe and recommendation generation endpoints, token-gated.",
     status,
     summary:
       status === "OK"
@@ -797,10 +815,20 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
   // produces no request, no error and no log line — the handler simply never
   // runs, which is indistinguishable from "nothing happened". That is precisely
   // how paid crypto restaurant orders sat in `payment_pending`.
-  const { fetchStripeWebhookCoverage } = await import(
-    "@/services/stripeWebhookCoverageService"
-  );
-  const coverage = await fetchStripeWebhookCoverage();
+  //
+  // Endpoint config changes rarely, so the DERIVED coverage summary (never a
+  // secret) is cached ~15 min instead of hitting stripe.webhookEndpoints.list
+  // on every dashboard poll. A live:false result is deliberately NOT cached —
+  // pinning "Stripe unreachable" for the full TTL would outlive the outage.
+  const coverageCacheKey = "system:stripe-webhook-coverage";
+  let coverage = await redisGet<StripeWebhookCoverage>(coverageCacheKey);
+  if (!coverage) {
+    const { fetchStripeWebhookCoverage } = await import(
+      "@/services/stripeWebhookCoverageService"
+    );
+    coverage = await fetchStripeWebhookCoverage();
+    if (coverage.live) await redisSet(coverageCacheKey, coverage, 900);
+  }
 
   let status: FlowStatus;
   if (!live && !observed && synthetic.missing) status = "UNKNOWN";
@@ -900,15 +928,16 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
 async function probeAgents(): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const feedPath = summarizePath("/api/feed", FIVE_MIN);
-  const lastEmit = feedEmitTracker.getLastEmit();
 
   let live = true;
   let agentCount = 0;
   let agentEvents24h = 0;
+  let dbLastEmitAgeMs: number | null = null;
   try {
     const result = await executeQuery<{
       agents: number;
       events_24h: number;
+      last_agent_event_age_ms: number | null;
     }>(
       `SELECT
          COUNT(*) FILTER (WHERE u.is_agent = true)::int AS agents,
@@ -918,11 +947,24 @@ async function probeAgents(): Promise<FlowHealth> {
            JOIN users u2 ON f.actor_id = u2.id
            WHERE u2.is_agent = true
              AND f.created_at > NOW() - INTERVAL '24 hours'
-         ) AS events_24h
+         ) AS events_24h,
+         (
+           -- ORDER BY + LIMIT 1 walks idx_feed_events_created newest-first and
+           -- stops at the first agent row; MAX() over the join could not use
+           -- the index through the is_agent predicate.
+           SELECT (EXTRACT(EPOCH FROM (NOW() - f.created_at)) * 1000)::float8
+           FROM feed_events f
+           JOIN users u2 ON f.actor_id = u2.id
+           WHERE u2.is_agent = true
+           ORDER BY f.created_at DESC
+           LIMIT 1
+         ) AS last_agent_event_age_ms
        FROM users u`,
     );
     agentCount = result.rows[0]?.agents ?? 0;
     agentEvents24h = result.rows[0]?.events_24h ?? 0;
+    const rawAge = result.rows[0]?.last_agent_event_age_ms;
+    dbLastEmitAgeMs = rawAge === null || rawAge === undefined ? null : Number(rawAge);
   } catch (err) {
     _logger.warn("[systemStatus] agent network query failed:", err);
     live = false;
@@ -932,13 +974,28 @@ async function probeAgents(): Promise<FlowHealth> {
   // healthy while sync-debit 500s on every call — that is exactly how the
   // agents_operation ledger stayed empty for twelve weeks. See
   // agentDebitPathHealth for why traffic-AND-no-writes is the only signal that
-  // separates "broken" from "nobody called".
-  const debitSignals = await fetchDebitPathSignals();
+  // separates "broken" from "nobody called". agentCreditPathHealth is the same
+  // conjunction pointed at the PA→WTEN sync-credit bridge.
+  const [debitSignals, creditSignals] = await Promise.all([
+    fetchDebitPathSignals(),
+    fetchCreditPathSignals(),
+  ]);
   const debitHealth = classifyDebitPath(debitSignals);
+  const creditHealth = classifyCreditPath(creditSignals);
 
-  const lastEmitAgeMs = lastEmit
-    ? Date.now() - new Date(lastEmit.timestamp).getTime()
+  // Last-emit is derived from feed_events (durable) rather than the per-process
+  // feedEmitTracker, which resets on every serverless cold start and made this
+  // signal read "never" on fresh instances. The in-memory value may only
+  // SUPPLEMENT the DB one — fresher within the same instance (write-behind lag),
+  // never a substitute for it.
+  const memoryLastEmit = feedEmitTracker.getLastEmit();
+  const memoryLastEmitAgeMs = memoryLastEmit
+    ? Date.now() - new Date(memoryLastEmit.timestamp).getTime()
     : null;
+  const lastEmitAgeMs =
+    dbLastEmitAgeMs !== null && memoryLastEmitAgeMs !== null
+      ? Math.min(dbLastEmitAgeMs, memoryLastEmitAgeMs)
+      : (dbLastEmitAgeMs ?? memoryLastEmitAgeMs);
   const stale = lastEmitAgeMs !== null && lastEmitAgeMs > 6 * ONE_HOUR;
   const feedPathStatus = statusFromPathHealth(feedPath, {
     warnErrorRate: 0.1,
@@ -948,10 +1005,20 @@ async function probeAgents(): Promise<FlowHealth> {
 
   let status: FlowStatus;
   if (!live && feedPathStatus === "UNKNOWN") status = "UNKNOWN";
-  // A dead debit path is a revenue outage, not a warning — rank it with the
-  // other INCIDENT conditions rather than letting a green feed mask it.
-  else if (feedPathStatus === "INCIDENT" || debitHealth.verdict === "INCIDENT") status = "INCIDENT";
-  else if (feedPathStatus === "DEGRADED" || stale) status = "DEGRADED";
+  // A dead debit or credit path is a revenue outage, not a warning — rank it
+  // with the other INCIDENT conditions rather than letting a green feed mask it.
+  else if (
+    feedPathStatus === "INCIDENT" ||
+    debitHealth.verdict === "INCIDENT" ||
+    creditHealth.verdict === "INCIDENT"
+  )
+    status = "INCIDENT";
+  else if (
+    feedPathStatus === "DEGRADED" ||
+    stale ||
+    creditHealth.verdict === "STALLED"
+  )
+    status = "DEGRADED";
   else status = "OK";
 
   const issues: FlowIssue[] = [];
@@ -962,10 +1029,17 @@ async function probeAgents(): Promise<FlowHealth> {
       severity: "error",
     });
   }
-  if (stale && lastEmit) {
+  if (creditHealth.verdict === "INCIDENT" || creditHealth.verdict === "STALLED") {
     issues.push({
-      at: lastEmit.timestamp,
-      message: `No PA feed emit in ${Math.round((lastEmitAgeMs ?? 0) / ONE_HOUR)}h — webhook silent`,
+      at: new Date().toISOString(),
+      message: creditHealth.summary,
+      severity: creditHealth.verdict === "INCIDENT" ? "error" : "warn",
+    });
+  }
+  if (stale && lastEmitAgeMs !== null) {
+    issues.push({
+      at: new Date(Date.now() - lastEmitAgeMs).toISOString(),
+      message: `No PA feed emit in ${Math.round(lastEmitAgeMs / ONE_HOUR)}h — webhook silent`,
       severity: "warn",
     });
   }
@@ -984,11 +1058,15 @@ async function probeAgents(): Promise<FlowHealth> {
         : status === "DEGRADED"
           ? stale
             ? "Webhook silent — PA may have stopped emitting"
-            : "Feed-ingest errors detected"
+            : creditHealth.verdict === "STALLED"
+              ? creditHealth.summary
+              : "Feed-ingest errors detected"
           : status === "INCIDENT"
             ? debitHealth.verdict === "INCIDENT"
               ? debitHealth.summary
-              : `Feed ingest failing (${formatPct(feedPath.errorRate)})`
+              : creditHealth.verdict === "INCIDENT"
+                ? creditHealth.summary
+                : `Feed ingest failing (${formatPct(feedPath.errorRate)})`
             : "Awaiting signals",
     metrics: [
       { label: "Agents", value: `${agentCount}`, raw: agentCount },
@@ -1007,6 +1085,11 @@ async function probeAgents(): Promise<FlowHealth> {
         label: "Debits · 24h",
         value: debitSignals.live ? `${debitSignals.debits24h}` : "no source",
         raw: debitSignals.debits24h,
+      },
+      {
+        label: "Credits · 24h",
+        value: creditSignals.live ? `${creditSignals.credits24h}` : "no source",
+        raw: creditSignals.credits24h,
       },
     ],
     issues: issues.slice(0, 3),

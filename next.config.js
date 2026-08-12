@@ -140,6 +140,16 @@ const getSecurityHeaders = () => {
 const nextConfig = {
   reactStrictMode: false,
   outputFileTracingRoot: __dirname,
+  // The admin dashboard's migration-status and cron-heartbeat services read
+  // database/init/*.sql and vercel.json from disk at runtime; trace them into
+  // that route's lambda or the manifest degrades to its honest null/fallback
+  // state in production. Both key spellings are listed because app-router
+  // route entries match "/api/admin/dashboard/route" while pages-style
+  // matching uses the bare path.
+  outputFileTracingIncludes: {
+    "/api/admin/dashboard": ["./database/init/*.sql", "./vercel.json"],
+    "/api/admin/dashboard/route": ["./database/init/*.sql", "./vercel.json"],
+  },
   // Inline the package version so server + client code can report it reliably.
   env: {
     APP_VERSION: appVersion,

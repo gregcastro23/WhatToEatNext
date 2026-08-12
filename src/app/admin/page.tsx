@@ -48,7 +48,8 @@ interface PaIntegration {
     wtenLegacyBackend: string;
   };
   health: string;
-  agentCount: number;
+  /** null when the PA roster probe failed — unknown, not an empty roster. */
+  agentCount: number | null;
   lastFeedEmit: {
     eventType: string;
     agentEmail: string;
@@ -64,6 +65,10 @@ interface PaIntegration {
  */
 export default function AdminDashboardPage() {
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
+  // null = no fetch has completed yet; false = the fetch failed or the
+  // server-side user query degraded; true = the list is a live fact, so an
+  // empty list means genuinely no signups.
+  const [recentUsersLive, setRecentUsersLive] = useState<boolean | null>(null);
   const [paIntegration, setPaIntegration] = useState<PaIntegration | null>(null);
 
   // Sync state management
@@ -81,17 +86,25 @@ export default function AdminDashboardPage() {
   const fetchDashboardData = async (): Promise<{ ok: boolean }> => {
     try {
       const response = await fetch("/api/admin/dashboard");
-      if (!response.ok) return { ok: false };
+      if (!response.ok) {
+        setRecentUsersLive(false);
+        return { ok: false };
+      }
       const data = await response.json();
       if (data.success) {
-        setRecentUsers(data.recentUsers);
+        setRecentUsers(Array.isArray(data.recentUsers) ? data.recentUsers : []);
+        // recentUsersLive is the server's own signal that the user query ran;
+        // without it an empty list is indistinguishable from a failure.
+        setRecentUsersLive(data.recentUsersLive === true);
         setPaIntegration(data.paIntegration || null);
         return { ok: true };
       }
+      setRecentUsersLive(false);
       return { ok: false };
     } catch (_err) {
-      // Each sub-panel reports its own connection errors — silent fail
-      // here is fine.
+      // Each sub-panel reports its own connection errors; the Recent Users
+      // card still needs the failure so emptiness is never presented as fact.
+      setRecentUsersLive(false);
       return { ok: false };
     }
   };
@@ -336,7 +349,7 @@ export default function AdminDashboardPage() {
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
                     Planetary Agent Synchronizer
                   </h3>
-                  <p className="text-xs text-gray-500">PA Backend Registered Agents: <span className="font-semibold text-gray-800">{paIntegration?.agentCount ?? 0}</span></p>
+                  <p className="text-xs text-gray-500">PA Backend Registered Agents: <span className="font-semibold text-gray-800">{paIntegration?.agentCount ?? "—"}</span></p>
                 </div>
                 <button
                   onClick={() => { void handleSyncAll(); }}
@@ -438,12 +451,20 @@ export default function AdminDashboardPage() {
               <h2 className="text-lg font-bold text-gray-800">Recent Users</h2>
               <p className="text-xs text-gray-500">Latest user sign-ups and charts</p>
             </div>
-            <Link
-              href="/admin/users"
-              className="text-xs font-bold text-purple-600 hover:text-purple-800"
-            >
-              VIEW ALL →
-            </Link>
+            <div className="flex items-center gap-3">
+              {recentUsersLive === false && (
+                <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide text-amber-800 bg-amber-100">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                  Degraded
+                </span>
+              )}
+              <Link
+                href="/admin/users"
+                className="text-xs font-bold text-purple-600 hover:text-purple-800"
+              >
+                VIEW ALL →
+              </Link>
+            </div>
           </div>
           <div className="overflow-x-auto flex-1">
             <table className="w-full">
@@ -466,11 +487,19 @@ export default function AdminDashboardPage() {
               <tbody className="divide-y divide-gray-200">
                 {recentUsers.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={4}
-                      className="px-6 py-8 text-center text-gray-500"
-                    >
-                      No users yet
+                    <td colSpan={4} className="px-6 py-8 text-center">
+                      {recentUsersLive === null ? (
+                        <span className="text-gray-400">Loading users…</span>
+                      ) : recentUsersLive ? (
+                        <span className="text-gray-500">
+                          No human signups recorded yet
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-2 text-amber-700">
+                          <span className="h-2 w-2 rounded-full bg-amber-500" />
+                          User query degraded — recent signups unavailable
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ) : (

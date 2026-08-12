@@ -20,12 +20,21 @@
  * @file src/services/economyIntegrityService.ts
  */
 
+import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
+import {
+  ledgerDriftSql,
+  onchainClaimBacklogSql,
+  welcomeGrantCoverageSql,
+} from "@/services/tokenEconomyQueries";
+
 export interface LedgerDriftStatus {
   /** Users whose materialized balance differs from their ledger sum. */
   driftedUsers: number;
   /** Largest absolute per-axis divergence found, in token units. */
   maxAbsDelta: number;
-  /** Users compared (rows in token_balances). */
+  /** Distinct users compared — the union of balance-row holders and ledger
+   *  users, so a user missing from either side is still checked. */
   checkedUsers: number;
   live: boolean;
 }
@@ -51,16 +60,75 @@ export interface EconomyIntegrityData {
   generatedAt: string;
 }
 
+async function checkLedgerDrift(): Promise<LedgerDriftStatus> {
+  try {
+    const { sql, values } = ledgerDriftSql();
+    const res = await executeQuery(sql, values);
+    const row = res.rows[0] as
+      | { drifted_users: number; max_abs_delta: number; checked_users: number }
+      | undefined;
+    return {
+      driftedUsers: Number(row?.drifted_users ?? 0),
+      maxAbsDelta: Number(row?.max_abs_delta ?? 0),
+      checkedUsers: Number(row?.checked_users ?? 0),
+      live: true,
+    };
+  } catch (error) {
+    _logger.error("[economyIntegrity] ledger-drift check failed:", error);
+    return { driftedUsers: 0, maxAbsDelta: 0, checkedUsers: 0, live: false };
+  }
+}
+
+async function checkWelcomeGrantCoverage(): Promise<WelcomeGrantCoverage> {
+  try {
+    const { sql, values } = welcomeGrantCoverageSql();
+    const res = await executeQuery(sql, values);
+    const row = res.rows[0] as { humans_without_grant: number } | undefined;
+    return {
+      humansWithoutGrant: Number(row?.humans_without_grant ?? 0),
+      live: true,
+    };
+  } catch (error) {
+    _logger.error("[economyIntegrity] welcome-grant check failed:", error);
+    return { humansWithoutGrant: 0, live: false };
+  }
+}
+
+async function checkOnchainClaimBacklog(): Promise<OnchainClaimBacklog> {
+  try {
+    const { sql, values } = onchainClaimBacklogSql();
+    const res = await executeQuery(sql, values);
+    const row = res.rows[0] as
+      | { pending: number; oldest_pending_hours: number | null }
+      | undefined;
+    // MIN() over zero pending rows is SQL NULL — keep it null. Coercing with
+    // Number() would fabricate "oldest claim: 0h" out of an empty backlog.
+    const oldest = row?.oldest_pending_hours;
+    return {
+      pending: Number(row?.pending ?? 0),
+      oldestPendingHours: oldest === null || oldest === undefined ? null : Number(oldest),
+      live: true,
+    };
+  } catch (error) {
+    _logger.error("[economyIntegrity] onchain-claims check failed:", error);
+    return { pending: 0, oldestPendingHours: null, live: false };
+  }
+}
+
 /**
- * NOT YET WIRED — skeleton returning the honest degraded state. The
- * implementation executes the ledger-drift, welcome-grant-coverage, and
- * pending-claims statements from `tokenEconomyQueries.ts`.
+ * Run all three invariant checks. Each degrades independently — one failed
+ * query flips only its own `live` flag, never the siblings'.
  */
 export async function getEconomyIntegrity(): Promise<EconomyIntegrityData> {
+  const [drift, welcomeGrant, onchainClaims] = await Promise.all([
+    checkLedgerDrift(),
+    checkWelcomeGrantCoverage(),
+    checkOnchainClaimBacklog(),
+  ]);
   return {
-    drift: { driftedUsers: 0, maxAbsDelta: 0, checkedUsers: 0, live: false },
-    welcomeGrant: { humansWithoutGrant: 0, live: false },
-    onchainClaims: { pending: 0, oldestPendingHours: null, live: false },
+    drift,
+    welcomeGrant,
+    onchainClaims,
     generatedAt: new Date().toISOString(),
   };
 }

@@ -85,6 +85,15 @@ export function AdminShell({
 // ============================================================
 // TOP BAR
 // ============================================================
+// Exhaustive over pulse.state — UNKNOWN is the loading/outage absence state
+// and must never inherit the NOMINAL green or the INCIDENT red.
+const PULSE_STATE_COLOR: Record<AdminDashboardData["pulse"]["state"], string> = {
+  NOMINAL: "var(--el-earth)",
+  DEGRADED: "var(--el-fire)",
+  INCIDENT: "#FF5252",
+  UNKNOWN: "var(--fg-mute)",
+};
+
 function AdminTopBar({
   user,
   pulse,
@@ -94,12 +103,8 @@ function AdminTopBar({
   pulse: AdminDashboardData["pulse"];
   onToggleNav: () => void;
 }) {
-  const pulseColor =
-    pulse.state === "NOMINAL"
-      ? "var(--el-earth)"
-      : pulse.state === "DEGRADED"
-        ? "var(--el-fire)"
-        : "#FF5252";
+  const unknown = pulse.state === "UNKNOWN";
+  const pulseColor = PULSE_STATE_COLOR[pulse.state] ?? "var(--fg-mute)";
   return (
     <header
       data-shell-topbar=""
@@ -238,8 +243,8 @@ function AdminTopBar({
               height: 8,
               borderRadius: 999,
               background: pulseColor,
-              boxShadow: `0 0 10px ${pulseColor}`,
-              animation: "pulseGlow 1.6s ease-in-out infinite",
+              boxShadow: unknown ? "none" : `0 0 10px ${pulseColor}`,
+              animation: unknown ? "none" : "pulseGlow 1.6s ease-in-out infinite",
             }}
             data-motion
           />
@@ -248,38 +253,56 @@ function AdminTopBar({
             style={{
               fontSize: 11,
               letterSpacing: "0.18em",
-              color: "var(--fg)",
+              color: unknown ? "var(--fg-mute)" : "var(--fg)",
             }}
           >
-            ALL SYSTEMS · {pulse.state}
+            {unknown ? "AWAITING TELEMETRY" : `ALL SYSTEMS · ${pulse.state}`}
           </span>
           <span
             className="t-mono"
             style={{ fontSize: 11, color: "var(--fg-mute)" }}
           >
-            · {pulse.score.toFixed(2)}
-            <span style={{ color: "var(--fg-faint)" }}>%</span>
+            {unknown ? (
+              "· —"
+            ) : (
+              <>
+                · {pulse.score.toFixed(2)}
+                <span style={{ color: "var(--fg-faint)" }}>%</span>
+              </>
+            )}
           </span>
         </div>
         <span style={{ width: 1, height: 18, background: "var(--line)" }} />
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <TopMetric label="AVAIL" value={`${pulse.availability}%`} />
-          <TopMetric label="P95" value={`${pulse.p95}ms`} />
+          <TopMetric
+            label="AVAIL"
+            value={unknown ? "—" : `${pulse.availability}%`}
+            tone={unknown ? "mute" : "ok"}
+          />
+          <TopMetric
+            label="P95"
+            value={unknown ? "—" : `${pulse.p95}ms`}
+            tone={unknown ? "mute" : "ok"}
+          />
           <TopMetric
             label="ERR"
-            value={`${pulse.errRate}%`}
-            tone={pulse.errRate > 0.1 ? "warn" : "ok"}
+            value={unknown ? "—" : `${pulse.errRate}%`}
+            tone={unknown ? "mute" : pulse.errRate > 0.1 ? "warn" : "ok"}
           />
-          <TopMetric label="DEPLOY" value={pulse.deployFreshness} />
+          <TopMetric
+            label="DEPLOY"
+            value={pulse.deployFreshness}
+            tone={unknown ? "mute" : "ok"}
+          />
           <TopMetric
             label="INC"
-            value={pulse.activeIncidents}
-            tone={pulse.activeIncidents ? "warn" : "ok"}
+            value={unknown ? "—" : pulse.activeIncidents}
+            tone={unknown ? "mute" : pulse.activeIncidents ? "warn" : "ok"}
           />
         </div>
       </div>
 
-      {/* right — time, search, alerts, deploy */}
+      {/* right — live clocks */}
       <div
         data-shell-actions=""
         style={{ display: "flex", alignItems: "center", gap: 12 }}
@@ -296,41 +319,6 @@ function AdminTopBar({
           <LiveTimecode format="JD" />
           <LiveTimecode format="UTC" />
         </div>
-        <button
-          className="btn btn-ghost"
-          style={{ padding: "6px 10px", fontSize: 10, gap: 8 }}
-          type="button"
-        >
-          <Glyph name="search" size={12} />
-          ⌘K
-        </button>
-        <button
-          className="btn btn-ghost"
-          style={{ padding: "6px 10px", fontSize: 10, position: "relative" }}
-          type="button"
-        >
-          <Glyph name="ring" size={12} />
-          <span
-            style={{
-              position: "absolute",
-              top: 2,
-              right: 4,
-              width: 6,
-              height: 6,
-              borderRadius: 999,
-              background: "var(--el-fire)",
-              boxShadow: "0 0 6px var(--el-fire)",
-            }}
-          />
-        </button>
-        <button
-          className="btn btn-primary"
-          data-shell-deploy-btn=""
-          style={{ padding: "6px 12px", fontSize: 10 }}
-          type="button"
-        >
-          <Glyph name="triangle-up" size={10} /> DEPLOY
-        </button>
       </div>
     </header>
   );
@@ -343,9 +331,14 @@ function TopMetric({
 }: {
   label: string;
   value: string | number;
-  tone?: "ok" | "warn";
+  tone?: "ok" | "warn" | "mute";
 }) {
-  const color = tone === "warn" ? "var(--el-fire)" : "var(--fg)";
+  const color =
+    tone === "warn"
+      ? "var(--el-fire)"
+      : tone === "mute"
+        ? "var(--fg-mute)"
+        : "var(--fg)";
   return (
     <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.05 }}>
       <span
@@ -462,16 +455,21 @@ function AdminSideRail({
       label: "Practitioners",
       href: "/admin/users",
       glyph: "diamond",
-      badge:
-        data.stats.totalUsers > 0 ? formatCount(data.stats.totalUsers) : null,
+      // stats zeros are absence when the query degraded — show "—", not a 0.
+      badge: !data.stats.live
+        ? "—"
+        : data.stats.totalUsers > 0
+          ? formatCount(data.stats.totalUsers)
+          : null,
     },
     {
       id: "catalog",
       label: "Catalog",
       href: "#engine",
       glyph: "bookmark",
-      badge:
-        recipeCount + ingredientCount > 0
+      badge: !data.stats.live
+        ? "—"
+        : recipeCount + ingredientCount > 0
           ? `${formatCount(recipeCount)} / ${formatCount(ingredientCount)}`
           : null,
     },
@@ -480,7 +478,11 @@ function AdminSideRail({
       label: "Commensal",
       href: "#platform-telemetry",
       glyph: "wave",
-      badge: commensals > 0 ? String(commensals) : null,
+      badge: !data.pageTelemetry.live
+        ? "—"
+        : commensals > 0
+          ? String(commensals)
+          : null,
     },
     {
       id: "commerce",
@@ -822,7 +824,6 @@ export function ArchitectCard({
           v={user.onCall ? "YES · primary" : "no"}
           accent={user.onCall}
         />
-        <KvLine k="2FA" v={user.onCall ? "hw key · ok" : "—"} />
       </div>
 
       <div style={{ borderTop: "1px solid var(--line)", paddingTop: 10 }}>
@@ -903,22 +904,6 @@ export function ArchitectCard({
         )}
       </div>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-        <button
-          className="btn btn-primary"
-          style={{ padding: "6px 12px", fontSize: 9, flex: 1 }}
-          type="button"
-        >
-          OPEN INBOX
-        </button>
-        <button
-          className="btn btn-ghost"
-          style={{ padding: "6px 12px", fontSize: 9 }}
-          type="button"
-        >
-          HAND OFF
-        </button>
-      </div>
     </div>
   );
 }

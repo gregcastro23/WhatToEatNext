@@ -57,11 +57,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Update status
+    // Update status — both branches write users.is_active; a failed write
+    // throws so we never report a status change that didn't persist.
     if (isActive) {
-      // Reactivate user - need to update the user object directly
-      user.isActive = true;
-      await userDatabase.updateUserProfile(userId, {}); // Trigger save
+      await userDatabase.activateUser(userId);
     } else {
       await userDatabase.deactivateUser(userId);
     }

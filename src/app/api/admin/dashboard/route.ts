@@ -100,15 +100,6 @@ const KNOWN_CODEBASE_GAPS: CodebaseGap[] = [
     href: "#engine",
   },
   {
-    id: "token-flow-series",
-    label: "Token mint/burn trend lacks time-series telemetry",
-    category: "MISSING_INSTRUMENTATION",
-    severity: "P1",
-    detail:
-      "The ledger provides 30-day totals, but no dated daily aggregates are persisted.",
-    href: "#economy",
-  },
-  {
     id: "sems-rollup",
     label: "SEMS thermodynamic rollup is illustrative",
     category: "PLACEHOLDER_DATA",
@@ -145,31 +136,22 @@ const KNOWN_CODEBASE_GAPS: CodebaseGap[] = [
     href: "#agents",
   },
   {
-    id: "agent-topology-state",
-    label: "Agent topology node states are decorative",
-    category: "PLACEHOLDER_DATA",
+    id: "agent-per-node-health",
+    label: "Per-node agent health is not instrumented",
+    category: "MISSING_INSTRUMENTATION",
     severity: "P2",
     detail:
-      "Role counts are live, but per-node healthy, warning, and idle states are not backed by agent heartbeat data.",
+      "Topology role counts are live; per-agent heartbeat state needs an agent heartbeat table before nodes can carry health.",
     href: "#agents",
   },
   {
-    id: "dashboard-visual-traces",
-    label: "Dashboard pulse and KPI mini-traces are illustrative",
-    category: "PLACEHOLDER_DATA",
+    id: "stripe-webhook-event-log",
+    label: "Stripe webhook arrivals are not persisted per event type",
+    category: "MISSING_INSTRUMENTATION",
     severity: "P2",
     detail:
-      "Headline values are live, but the hero line and KPI sparkline shapes are synthesized because time-series samples are not stored.",
-    href: "#overview",
-  },
-  {
-    id: "sky-event-projections",
-    label: "Upcoming sky-event impact projections are illustrative",
-    category: "PLACEHOLDER_DATA",
-    severity: "P2",
-    detail:
-      "Future event timing and projected site impact are not backed by a forecast feed.",
-    href: "#engine",
+      "A handler that has never once run is undetectable until a stripe_webhook_events table records which event types actually arrive.",
+    href: "#commerce",
   },
 ];
 

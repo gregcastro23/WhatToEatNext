@@ -10,11 +10,18 @@
  * manifest. The manifest is read from the filesystem at runtime; when the
  * deploy bundle does not include the directory the payload degrades to
  * `manifestCount: null` (applied facts still render) rather than guessing.
+ * next.config.js traces `database/init/*.sql` into the dashboard route's
+ * lambda so the manifest is normally present in production.
  *
  * Honesty contract: `live: false` when `_migrations` itself is unreadable.
  *
  * @file src/services/migrationStatusService.ts
  */
+
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
+import { executeQuery } from "@/lib/database/connection";
+import { _logger } from "@/lib/logger";
 
 export interface MigrationStatusData {
   /** Rows in `_migrations`. */
@@ -30,15 +37,54 @@ export interface MigrationStatusData {
 }
 
 /**
- * NOT YET WIRED — skeleton returning the honest degraded state. The
- * implementation reads `_migrations` and diffs it against database/init.
+ * On-disk manifest, mirroring scripts/migrate.ts listMigrationFiles()
+ * (including its " 2." backup-file exclusion) so both sides diff the same
+ * set. Null when the directory is not in the deploy bundle.
  */
+function readManifest(): string[] | null {
+  try {
+    return readdirSync(join(process.cwd(), "database", "init"))
+      .filter((f) => f.endsWith(".sql") && !f.includes(" 2."))
+      .sort();
+  } catch {
+    return null;
+  }
+}
+
 export async function getMigrationStatus(): Promise<MigrationStatusData> {
+  let applied: Array<{ filename: string; applied_at: Date }>;
+  try {
+    const result = await executeQuery<{ filename: string; applied_at: Date }>(
+      `SELECT filename, applied_at FROM _migrations ORDER BY applied_at`,
+    );
+    applied = result.rows;
+  } catch (err) {
+    // Includes the table not existing at all — itself a finding (the runner
+    // never ran here), reported as an honest absence rather than a guess.
+    _logger.warn("[migrationStatus] _migrations query failed:", err);
+    return {
+      appliedCount: 0,
+      latestApplied: null,
+      pendingFiles: [],
+      manifestCount: null,
+      live: false,
+    };
+  }
+
+  const manifest = readManifest();
+  const appliedSet = new Set(applied.map((r) => r.filename));
+  const latest = applied.length > 0 ? applied[applied.length - 1] : null;
+
   return {
-    appliedCount: 0,
-    latestApplied: null,
-    pendingFiles: [],
-    manifestCount: null,
-    live: false,
+    appliedCount: applied.length,
+    latestApplied: latest
+      ? {
+          filename: latest.filename,
+          appliedAt: new Date(latest.applied_at).toISOString(),
+        }
+      : null,
+    pendingFiles: manifest ? manifest.filter((f) => !appliedSet.has(f)) : [],
+    manifestCount: manifest ? manifest.length : null,
+    live: true,
   };
 }

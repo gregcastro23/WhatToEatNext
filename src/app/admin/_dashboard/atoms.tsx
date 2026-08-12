@@ -239,13 +239,14 @@ export function Glyph({
 // ELEMENTAL METER — fire / water / earth / air bars or radial
 // ============================================================
 interface ElementalMeterProps {
-  values?: { fire: number; water: number; earth: number; air: number };
+  /** Required — a meter with no data must not invent a default breakdown. */
+  values: { fire: number; water: number; earth: number; air: number };
   compact?: boolean;
   layout?: "bars" | "radial";
 }
 
 export function ElementalMeter({
-  values = { fire: 0.62, water: 0.28, earth: 0.71, air: 0.45 },
+  values,
   compact = false,
   layout = "bars",
 }: ElementalMeterProps) {
@@ -345,45 +346,6 @@ export function ElementalMeter({
           </div>
         </div>
       ))}
-    </div>
-  );
-}
-
-// ============================================================
-// COMPATIBILITY RING — circular score
-// ============================================================
-interface CompatibilityRingProps {
-  value?: number;
-  size?: number;
-  label?: string;
-}
-
-export function CompatibilityRing({ value = 0.87, size = 80, label = "MATCH" }: CompatibilityRingProps) {
-  const r = size / 2 - 6;
-  const c = size / 2;
-  const circ = 2 * Math.PI * r;
-  return (
-    <div style={{ position: "relative", width: size, height: size }}>
-      <svg width={size} height={size}>
-        <circle cx={c} cy={c} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3" />
-        <circle
-          cx={c}
-          cy={c}
-          r={r}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeDasharray={circ}
-          strokeDashoffset={circ * (1 - value)}
-          transform={`rotate(-90 ${c} ${c})`}
-          style={{ filter: `drop-shadow(0 0 6px color-mix(in oklch, var(--accent), transparent 50%))` }}
-        />
-      </svg>
-      <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        <div className="t-num" style={{ fontSize: size * 0.28, color: "var(--fg)" }}>{Math.round(value * 100)}</div>
-        <div className="t-tag" style={{ fontSize: 8 }}>{label}</div>
-      </div>
     </div>
   );
 }

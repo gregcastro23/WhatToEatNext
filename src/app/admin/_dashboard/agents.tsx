@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import type { FeedEmitStatus } from "@/services/feedEmitTracker";
 import { Glyph } from "./atoms";
 import { Card } from "./hero";
 import { PaAgentSyncPanel } from "./PaAgentSyncPanel";
@@ -213,7 +214,12 @@ function useAgentNetwork(filters: AgentNetworkFilters = {}): {
 // ============================================================
 // AGENT FEED CONTROL ROOM
 // ============================================================
-export function AgentFeedControlRoom() {
+export function AgentFeedControlRoom({
+  lastFeedEmit,
+}: {
+  /** planetaryIntegration.lastFeedEmit — null means no emit recorded. */
+  lastFeedEmit?: FeedEmitStatus | null;
+} = {}) {
   // Operator-controlled discourse filters. Local input state stays
   // unthrottled for responsive typing; we debounce the server-bound copy so
   // the API isn't hammered on every keystroke.
@@ -308,7 +314,12 @@ export function AgentFeedControlRoom() {
           gap: 12,
         }}
       >
-        <AgentTopology roles={roles.entries} totalNodes={totals.total} live={roles.live} />
+        <AgentTopology
+          roles={roles.entries}
+          totalNodes={totals.total}
+          live={roles.live}
+          lastFeedEmit={lastFeedEmit}
+        />
         <AgentRoleDistribution roles={roles.entries} live={roles.live} />
         <AgentDispatchStream entries={dispatch.entries} live={dispatch.live} />
       </div>
@@ -403,10 +414,12 @@ function AgentTopology({
   roles: roleData,
   totalNodes,
   live,
+  lastFeedEmit,
 }: {
   roles: AgentRoleSlice[];
   totalNodes: number;
   live: boolean;
+  lastFeedEmit?: FeedEmitStatus | null;
 }) {
   // Map the live roles into the shape the SVG renderer expects. When the API
   // returns no roles (empty agent roster or degraded source) we still render
@@ -421,11 +434,12 @@ function AgentTopology({
   const c = SIZE / 2;
   const ringR = 110;
 
+  // Per-node health is not instrumented — every node renders in one neutral
+  // role-colored style; only the role counts are live.
   interface Node {
     x: number;
     y: number;
     role: (typeof ROLES)[number];
-    state: "ok" | "warn" | "idle";
     center?: boolean;
   }
   const nodes: Node[] = [];
@@ -439,20 +453,12 @@ function AgentTopology({
     for (let i = 0; i < decoCount; i++) {
       const aa = (i / Math.max(decoCount, 1)) * 2 * Math.PI;
       const r = 8 + (i % 3) * 8;
-      const seed = (ri * 31 + i * 7) % 17;
-      const state: Node["state"] = seed === 13 ? "warn" : seed === 7 || seed === 11 ? "idle" : "ok";
-      nodes.push({ x: rx + Math.cos(aa) * r, y: ry + Math.sin(aa) * r, role, state });
+      nodes.push({ x: rx + Math.cos(aa) * r, y: ry + Math.sin(aa) * r, role });
     }
     if (role.n > 0) {
-      nodes.push({ x: rx, y: ry, role, state: "ok", center: true });
+      nodes.push({ x: rx, y: ry, role, center: true });
     }
   });
-
-  const stateColor: Record<Node["state"], string | null> = {
-    ok: null,
-    warn: "var(--el-fire)",
-    idle: "var(--fg-mute)",
-  };
 
   return (
     <div
@@ -475,11 +481,35 @@ function AgentTopology({
         <span className="t-tag">
           FLEET TOPOLOGY · {ROLES.length} {ROLES.length === 1 ? "ROLE" : "ROLES"} · {totalNodes} {totalNodes === 1 ? "NODE" : "NODES"}
         </span>
-        <span
-          className="t-mono"
-          style={{ fontSize: 9, color: live ? "var(--accent)" : "var(--fg-mute)" }}
-        >
-          {live ? "BROKER · LIVE" : "BROKER · DEGRADED"}
+        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: live ? "var(--accent)" : "var(--fg-mute)" }}
+          >
+            {live ? "BROKER · LIVE" : "BROKER · DEGRADED"}
+          </span>
+          <span
+            className="t-mono"
+            title={
+              lastFeedEmit
+                ? `${lastFeedEmit.eventType} · HTTP ${lastFeedEmit.responseCode} · ${lastFeedEmit.timestamp}`
+                : "no feed emit has been recorded since boot"
+            }
+            style={{
+              fontSize: 8.5,
+              padding: "1px 7px",
+              borderRadius: 999,
+              border: "1px solid var(--line)",
+              background: "rgba(0,0,0,0.3)",
+              letterSpacing: "0.1em",
+              color: lastFeedEmit ? "var(--fg-dim)" : "var(--fg-mute)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {lastFeedEmit
+              ? `EMIT ${relativeTime(lastFeedEmit.timestamp)}`
+              : "no emit recorded"}
+          </span>
         </span>
       </div>
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width="100%" height={300} style={{ display: "block" }}>
@@ -543,16 +573,11 @@ function AgentTopology({
             cx={n.x}
             cy={n.y}
             r={n.center ? 6 : 2.4}
-            fill={n.state === "ok" ? n.role.color : stateColor[n.state] || n.role.color}
+            fill={n.role.color}
             stroke={n.center ? "rgba(0,0,0,0.5)" : "none"}
             strokeWidth={n.center ? 1 : 0}
             style={{
-              filter:
-                n.state === "warn"
-                  ? "drop-shadow(0 0 4px var(--el-fire))"
-                  : n.center
-                    ? `drop-shadow(0 0 8px ${n.role.color})`
-                    : "none",
+              filter: n.center ? `drop-shadow(0 0 8px ${n.role.color})` : "none",
             }}
           />
         ))}
@@ -593,6 +618,14 @@ function AgentTopology({
           BROKER
         </text>
       </svg>
+      <div style={{ padding: "0 12px 8px" }}>
+        <span
+          className="t-mono"
+          style={{ fontSize: 8.5, color: "var(--fg-faint)", letterSpacing: "0.1em" }}
+        >
+          per-node health not instrumented — nodes show role placement only
+        </span>
+      </div>
       {ROLES.length === 0 && (
         <div
           style={{

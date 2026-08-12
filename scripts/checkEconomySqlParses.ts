@@ -272,9 +272,44 @@ for (const [label, opts] of [
   });
 }
 
+// ── Admin dashboard aggregates ──────────────────────────────────────────────
+// Zero-parameter rollups over the money tables. PREPARE still catches a
+// renamed column or dropped table — exactly the failure a panel's catch block
+// would otherwise flatten into a silent `live: false`.
+
+statements.push({
+  label: "ledgerDrift",
+  sql: queries.ledgerDriftSql().sql,
+  builder: "ledgerDriftSql",
+});
+
+statements.push({
+  label: "welcomeGrantCoverage",
+  sql: queries.welcomeGrantCoverageSql().sql,
+  builder: "welcomeGrantCoverageSql",
+});
+
+statements.push({
+  label: "onchainClaimBacklog",
+  sql: queries.onchainClaimBacklogSql().sql,
+  builder: "onchainClaimBacklogSql",
+});
+
+statements.push({
+  label: "tokenFlowSeries",
+  sql: queries.tokenFlowSeriesSql().sql,
+  builder: "tokenFlowSeriesSql",
+});
+
+statements.push({
+  label: "tokenSources24h",
+  sql: queries.tokenSources24hSql().sql,
+  builder: "tokenSources24hSql",
+});
+
 // 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
-// statements, plus 14 reads/bookkeeping.
-const EXPECTED_TOTAL = 37;
+// statements, plus 14 reads/bookkeeping and 5 dashboard aggregates.
+const EXPECTED_TOTAL = 42;
 
 const client = new pg.Client({
   connectionString: url,

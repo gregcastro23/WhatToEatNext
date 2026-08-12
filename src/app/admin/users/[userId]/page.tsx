@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import GrantTokensModal from "../_components/GrantTokensModal";
+
+// users.role enum labels accepted by PATCH /api/admin/users/[userId].
+const ROLE_OPTIONS = ["USER", "ADMIN", "ALCHEMIST", "GRAND_MASTER"] as const;
 
 type Status = "success" | "failure" | "info";
 type Category =
@@ -120,6 +124,15 @@ export default function AdminUserDeepDivePage() {
   const [data, setData] = React.useState<UserTimelinePayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [notFound, setNotFound] = React.useState(false);
+  const [grantOpen, setGrantOpen] = React.useState(false);
+  const [revokeState, setRevokeState] = React.useState<{
+    loading: boolean;
+    message: string | null;
+  }>({ loading: false, message: null });
+  const [roleState, setRoleState] = React.useState<{
+    loading: boolean;
+    message: string | null;
+  }>({ loading: false, message: null });
 
   const poll = React.useCallback(async (): Promise<{ ok: boolean }> => {
     if (!userId) return { ok: false };
@@ -150,6 +163,77 @@ export default function AdminUserDeepDivePage() {
   }, [userId]);
 
   useHardenedPolling(poll, { baseIntervalMs: 60_000 });
+
+  const revokeSessions = React.useCallback(async () => {
+    if (!userId) return;
+    if (
+      // eslint-disable-next-line no-alert
+      !window.confirm(
+        "Revoke all active sessions for this user? They will be signed out on every device.",
+      )
+    ) {
+      return;
+    }
+    setRevokeState({ loading: true, message: null });
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/sessions/revoke`, {
+        method: "POST",
+      });
+      const json = (await res.json()) as {
+        success?: boolean;
+        revoked?: number;
+        message?: string;
+      };
+      if (res.ok && json.success) {
+        const n = json.revoked ?? 0;
+        setRevokeState({
+          loading: false,
+          message: `Revoked ${n} session${n === 1 ? "" : "s"}`,
+        });
+        void poll();
+      } else {
+        setRevokeState({
+          loading: false,
+          message: json.message ?? `Failed (HTTP ${res.status})`,
+        });
+      }
+    } catch {
+      setRevokeState({ loading: false, message: "Failed to reach admin API" });
+    }
+  }, [userId, poll]);
+
+  const applyRole = React.useCallback(
+    async (role: string) => {
+      if (!userId || !role) return;
+      if (
+        // eslint-disable-next-line no-alert
+        !window.confirm(`Set this user's role to ${role}?`)
+      ) {
+        return;
+      }
+      setRoleState({ loading: true, message: null });
+      try {
+        const res = await fetch(`/api/admin/users/${userId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role }),
+        });
+        const json = (await res.json()) as { success?: boolean; message?: string };
+        if (res.ok && json.success) {
+          setRoleState({ loading: false, message: `Role set to ${role}` });
+          void poll();
+        } else {
+          setRoleState({
+            loading: false,
+            message: json.message ?? `Failed (HTTP ${res.status})`,
+          });
+        }
+      } catch {
+        setRoleState({ loading: false, message: "Failed to reach admin API" });
+      }
+    },
+    [userId, poll],
+  );
 
   if (notFound) {
     return (
@@ -272,6 +356,25 @@ export default function AdminUserDeepDivePage() {
             value={identity.activeSessions.toString()}
             sub={identity.activeSessions === 0 ? "no active devices" : undefined}
             valueClass="font-mono"
+            action={
+              <>
+                {identity.activeSessions > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => void revokeSessions()}
+                    disabled={revokeState.loading}
+                    className="text-xs font-medium text-rose-600 hover:text-rose-800 disabled:opacity-50"
+                  >
+                    {revokeState.loading ? "Revoking…" : "Revoke sessions"}
+                  </button>
+                )}
+                {revokeState.message && (
+                  <p className="text-[10px] text-gray-500 mt-0.5">
+                    {revokeState.message}
+                  </p>
+                )}
+              </>
+            }
           />
           <DetailTile
             label="Onboarding"
@@ -279,6 +382,44 @@ export default function AdminUserDeepDivePage() {
             sub={identity.onboardingCompletedAt ? formatRelative(identity.onboardingCompletedAt) : undefined}
             valueClass={identity.hasCompletedOnboarding ? "text-emerald-700" : "text-amber-700"}
           />
+        </div>
+
+        {/* Operator actions */}
+        <div className="px-4 sm:px-6 py-3 border-t border-gray-100 bg-gray-50 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setGrantOpen(true)}
+            className="px-3 py-1.5 text-sm rounded bg-purple-600 hover:bg-purple-700 text-white font-medium"
+          >
+            Grant tokens
+          </button>
+          <label className="flex items-center gap-2 text-xs text-gray-600">
+            Role
+            <select
+              // Value stays on the placeholder — the payload doesn't expose the
+              // raw role enum, so pre-selecting one would claim knowledge we
+              // don't have. Choosing an option applies it (after confirm).
+              value=""
+              disabled={roleState.loading}
+              onChange={(e) => {
+                const next = e.target.value;
+                if (next) void applyRole(next);
+              }}
+              className="px-2 py-1.5 text-sm border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+            >
+              <option value="">
+                {identity.isAdmin ? "ADMIN — change…" : "Change role…"}
+              </option>
+              {ROLE_OPTIONS.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </select>
+          </label>
+          {roleState.message && (
+            <span className="text-xs text-gray-600">{roleState.message}</span>
+          )}
         </div>
       </div>
 
@@ -351,10 +492,18 @@ export default function AdminUserDeepDivePage() {
 
       {/* Lifetime stats */}
       <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-        <div className="px-4 sm:px-6 py-3 border-b border-gray-100 bg-gray-50">
+        <div className="px-4 sm:px-6 py-3 border-b border-gray-100 bg-gray-50 flex items-center justify-between gap-2 flex-wrap">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
             Lifetime stats
           </h2>
+          {!data.live && (
+            <span
+              className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800"
+              title="One or more source queries failed — zeros below are absence, not measurement."
+            >
+              Unverified — source degraded
+            </span>
+          )}
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8">
           <StatTile label="Sign-ins" value={stats.signIns} />
@@ -388,6 +537,17 @@ export default function AdminUserDeepDivePage() {
           </ul>
         )}
       </div>
+
+      {/* Grant Tokens Modal */}
+      {grantOpen && (
+        <GrantTokensModal
+          target={{ userId: identity.id, email: identity.email }}
+          onClose={() => setGrantOpen(false)}
+          onGranted={() => {
+            void poll();
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -397,11 +557,13 @@ function DetailTile({
   value,
   sub,
   valueClass,
+  action,
 }: {
   label: string;
   value: string;
   sub?: string;
   valueClass?: string;
+  action?: React.ReactNode;
 }) {
   return (
     <div className="p-3 sm:p-4 border-r border-b border-gray-100 last:border-r-0 even:border-r-0 md:even:border-r md:last:border-r-0">
@@ -412,6 +574,7 @@ function DetailTile({
         {value}
       </div>
       {sub && <div className="text-[10px] text-gray-500 mt-0.5">{sub}</div>}
+      {action && <div className="mt-1.5">{action}</div>}
     </div>
   );
 }

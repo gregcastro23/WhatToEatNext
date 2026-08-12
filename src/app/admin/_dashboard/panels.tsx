@@ -551,9 +551,13 @@ export function ElementalTraffic({ cohorts }: { cohorts?: any }) {
 // ============================================================
 export function PractitionersCohort({
   realFunnel,
+  funnelLive = false,
   retention,
 }: {
   realFunnel?: Array<{ stage: string; count: number; pct: number }>;
+  /** practitionerCohorts.live — the funnel and retention halves degrade
+   *  independently, so each carries its own badge. */
+  funnelLive?: boolean;
   retention?: {
     cohorts: CohortRetentionEntry[];
     live: boolean;
@@ -570,24 +574,34 @@ export function PractitionersCohort({
     ];
   const max = funnel[0].count || 1;
   const cohorts = retention?.cohorts ?? [];
-  const live = retention?.live ?? false;
+  const retentionLive = retention?.live ?? false;
 
   return (
     <Card
       title="Practitioner Funnel · Cohort Analytics"
-      subtitle={`${funnel[0].count.toLocaleString()} → ${funnel[funnel.length - 1].count.toLocaleString()} pro · this week`}
+      subtitle={`${funnel[0].count.toLocaleString()} → ${funnel[funnel.length - 1].count.toLocaleString()} pro · all-time`}
       right={
-        <span
-          className="t-mono"
-          style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
-        >
-          {live ? "● LIVE" : "○ STALE"}
+        <span style={{ display: "flex", gap: 10 }}>
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: funnelLive ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
+          >
+            {funnelLive ? "● FUNNEL" : "○ FUNNEL"}
+          </span>
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: retentionLive ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}
+          >
+            {retentionLive ? "● RETENTION" : "○ RETENTION"}
+          </span>
         </span>
       }
     >
       <div style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 18 }}>
         <div>
-          <div className="t-tag" style={{ marginBottom: 8 }}>ACQUISITION FUNNEL · 30D</div>
+          {/* Stage counts are all-time DB totals (see getPractitionerCohorts)
+              — the panel previously claimed "this week" and "30D" at once. */}
+          <div className="t-tag" style={{ marginBottom: 8 }}>ACQUISITION FUNNEL · ALL-TIME</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {funnel.map((f, i) => (
               <div key={f.stage}>
@@ -810,27 +824,15 @@ export function CatalogState({
   realCards,
   trending,
 }: {
-  realCards?: Array<{ label: string; value: string; delta: string; icon: string }>;
+  realCards: Array<{ label: string; value: string; delta: string; icon: string }>;
   trending?: CatalogTrendingData;
 }) {
-  const cards =
-    realCards ??
-    [
-      { label: "Ingredients", value: "2,901", delta: "+12 · 24h", icon: "diamond" },
-      { label: "Recipes", value: "12,438", delta: "+47 · 24h", icon: "bookmark" },
-      { label: "Cuisines", value: "184", delta: "—", icon: "ring" },
-      { label: "Methods", value: "62", delta: "+1 · molecular", icon: "triangle-up-bar" },
-    ];
+  const cards = realCards;
   const recipes = trending?.recipes ?? [];
   return (
     <Card
       title="Catalog · State of the Pantry"
       subtitle="ingredients · recipes · cuisines · methods"
-      right={
-        <button className="btn btn-ghost" style={{ padding: "4px 10px", fontSize: 9 }} type="button">
-          OPEN CATALOG
-        </button>
-      }
     >
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8, marginBottom: 12 }}>
         {cards.map((c) => (

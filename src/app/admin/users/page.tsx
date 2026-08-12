@@ -4,6 +4,9 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import UserInsightsPanel from "@/components/admin/UserInsightsPanel";
 import { looseIncludes } from "@/utils/searchNormalize";
+import GrantTokensModal, {
+  type GrantTarget,
+} from "./_components/GrantTokensModal";
 
 /**
  * Admin user-management page.
@@ -39,6 +42,13 @@ interface UserCounts {
   agents: number;
 }
 
+interface Pagination {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
 type UserType = "all" | "human" | "agent";
 type StatusFilter = "all" | "active" | "inactive";
 
@@ -58,6 +68,10 @@ export default function AdminUsersPage() {
   const [userType, setUserType] = useState<UserType>("all");
   const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [degraded, setDegraded] = useState(false);
+  const [grantTarget, setGrantTarget] = useState<GrantTarget | null>(null);
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -66,6 +80,7 @@ export default function AdminUsersPage() {
       if (search) params.set("search", search);
       if (statusFilter !== "all") params.set("status", statusFilter);
       params.set("userType", userType);
+      params.set("page", String(page));
 
       const response = await fetch(`/api/admin/users?${params}`);
       if (!response.ok) throw new Error(`Server error (${response.status})`);
@@ -74,6 +89,10 @@ export default function AdminUsersPage() {
       if (data.success) {
         setUsers(data.users);
         if (data.counts) setCounts(data.counts);
+        setPagination(data.pagination ?? null);
+        // The API sets `degraded: true` on its in-memory fallback path, where
+        // tier/loginCount/session fields are absent (rendered as zeros).
+        setDegraded(data.degraded === true);
         setError(null);
       } else {
         setError(data.message || "Failed to load users");
@@ -83,7 +102,7 @@ export default function AdminUsersPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, statusFilter, userType]);
+  }, [search, statusFilter, userType, page]);
 
   useEffect(() => {
     void fetchUsers();
@@ -95,6 +114,15 @@ export default function AdminUsersPage() {
   };
 
   const handleStatusChange = async (userId: string, isActive: boolean) => {
+    if (
+      !isActive &&
+      // eslint-disable-next-line no-alert
+      !window.confirm(
+        "Deactivate this user? They will be unable to sign in until reactivated.",
+      )
+    ) {
+      return;
+    }
     try {
       setActionLoading(true);
       const response = await fetch(`/api/admin/users/${userId}/status`, {
@@ -117,37 +145,6 @@ export default function AdminUsersPage() {
       }
     } catch (_err) {
       console.warn("Failed to update status");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleDelete = async (userId: string) => {
-    if (
-      // eslint-disable-next-line no-alert
-      !window.confirm(
-        "Are you sure you want to delete this user? This action cannot be undone.",
-      )
-    ) {
-      return;
-    }
-
-    try {
-      setActionLoading(true);
-      const response = await fetch(`/api/admin/users/${userId}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error(`Server error (${response.status})`);
-      const data = await response.json();
-
-      if (data.success) {
-        setUsers((prev) => prev.filter((u) => u.id !== userId));
-        setSelectedUser(null);
-      } else {
-        console.warn(data.message || "Failed to delete user");
-      }
-    } catch (_err) {
-      console.warn("Failed to delete user");
     } finally {
       setActionLoading(false);
     }
@@ -228,7 +225,10 @@ export default function AdminUsersPage() {
             <button
               key={type}
               type="button"
-              onClick={() => setUserType(type)}
+              onClick={() => {
+                setUserType(type);
+                setPage(1);
+              }}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${accent}`}
             >
               {USER_TYPE_LABELS[type]}
@@ -260,14 +260,20 @@ export default function AdminUsersPage() {
             <input
               type="text"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
               placeholder="Search by name or email..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
           <select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+            onChange={(e) => {
+              setStatusFilter(e.target.value as StatusFilter);
+              setPage(1);
+            }}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
@@ -282,6 +288,18 @@ export default function AdminUsersPage() {
           </button>
         </form>
       </div>
+
+      {/* Degraded state — the API fell back to its in-memory roster. The
+          fallback rows carry no tier/login/session data, so those columns
+          render zeros that mean "absent", not "measured zero". */}
+      {degraded && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 text-sm text-amber-800">
+          <span className="font-semibold">Degraded roster.</span> The database
+          is unreachable, so this list comes from an in-memory fallback. Tier,
+          login counts, sessions, and activity are unavailable (not zero), and
+          pagination is disabled.
+        </div>
+      )}
 
       {/* Error State */}
       {error && (
@@ -496,33 +514,30 @@ export default function AdminUsersPage() {
                           >
                             Quick
                           </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setGrantTarget({ userId: user.id, email: user.email })
+                            }
+                            className="text-sm text-emerald-600 hover:text-emerald-800"
+                            title="Grant ESMS tokens"
+                          >
+                            Grant
+                          </button>
                           {!user.roles.includes("admin") && (
-                            <>
-                              <button
-                                onClick={() => {
-                                  void handleStatusChange(user.id, !user.isActive);
-                                }}
-                                disabled={actionLoading}
-                                className={`text-sm ${
-                                  user.isActive
-                                    ? "text-yellow-600 hover:text-yellow-800"
-                                    : "text-green-600 hover:text-green-800"
-                                }`}
-                              >
-                                {user.isActive ? "Deactivate" : "Activate"}
-                              </button>
-                              {!user.isAgent && (
-                                <button
-                                  onClick={() => {
-                                    void handleDelete(user.id);
-                                  }}
-                                  disabled={actionLoading}
-                                  className="text-sm text-red-600 hover:text-red-800"
-                                >
-                                  Delete
-                                </button>
-                              )}
-                            </>
+                            <button
+                              onClick={() => {
+                                void handleStatusChange(user.id, !user.isActive);
+                              }}
+                              disabled={actionLoading}
+                              className={`text-sm ${
+                                user.isActive
+                                  ? "text-yellow-600 hover:text-yellow-800"
+                                  : "text-green-600 hover:text-green-800"
+                              }`}
+                            >
+                              {user.isActive ? "Deactivate" : "Activate"}
+                            </button>
                           )}
                         </div>
                       </td>
@@ -532,6 +547,42 @@ export default function AdminUsersPage() {
               )}
             </tbody>
           </table>
+          </div>
+        )}
+
+        {/* Pager — the API caps pages at 50 rows, so without this only the
+            first 50 of the roster are reachable. Hidden on the degraded
+            fallback, which is unpaginated. */}
+        {!loading && !degraded && pagination && (
+          <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 border-t border-gray-200 bg-gray-50">
+            <span className="text-xs text-gray-500">
+              Page{" "}
+              <span className="font-semibold text-gray-700">{pagination.page}</span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-700">
+                {Math.max(pagination.totalPages, 1)}
+              </span>
+              {" · "}
+              <span className="font-mono">{pagination.total}</span> users
+            </span>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                disabled={pagination.page <= 1}
+                className="px-3 py-1.5 text-sm rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                ← Prev
+              </button>
+              <button
+                type="button"
+                onClick={() => setPage((p) => p + 1)}
+                disabled={pagination.page >= pagination.totalPages}
+                className="px-3 py-1.5 text-sm rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Next →
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -717,6 +768,17 @@ export default function AdminUsersPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Grant Tokens Modal */}
+      {grantTarget && (
+        <GrantTokensModal
+          target={grantTarget}
+          onClose={() => setGrantTarget(null)}
+          onGranted={() => {
+            void fetchUsers();
+          }}
+        />
       )}
     </div>
   );

@@ -14,7 +14,7 @@
  *   - Skipped onboarding — onboarding_completed=true AND birth_data empty
  *
  * Plus:
- *   - Stuck users (signed up > 1h ago, not completed)
+ *   - Stuck users (signed up 1h–7d ago, not completed)
  *   - Recent /api/onboarding traffic (success rate, p95, recent errors)
  *   - Most-recent completed onboardings (visibility of the happy path)
  *
@@ -87,7 +87,7 @@ export interface OnboardingHealthPayload {
   headline: string;
   /** 24h funnel — counts at each stage. */
   funnel: OnboardingFunnelStage[];
-  /** Users stuck mid-flow (sign-up > 1h, not completed). */
+  /** Users stuck mid-flow (signed up 1h–7d ago, not completed). */
   stuckUsers: OnboardingStuckUser[];
   /** Most-recent completed onboardings. */
   recentSuccesses: OnboardingRecentSuccess[];
@@ -147,7 +147,11 @@ async function readFunnel(): Promise<{ row: FunnelRow; live: boolean }> {
              AND (up.birth_data IS NULL OR up.birth_data = '{}'::jsonb)
          )::int AS skipped
        FROM users u
-       LEFT JOIN user_profiles up ON up.user_id = u.id`,
+       LEFT JOIN user_profiles up ON up.user_id = u.id
+       -- Bounds the scan: every stage above is scoped by u.created_at, so
+       -- without this WHERE the aggregate read all users × user_profiles rows
+       -- just to count the last 24 hours.
+       WHERE u.created_at > NOW() - INTERVAL '24 hours'`,
     );
     const r = result.rows[0];
     return {
@@ -196,7 +200,10 @@ async function readStuckUsers(): Promise<OnboardingStuckUser[]> {
          COALESCE(up.onboarding_completed, false) AS completed
        FROM users u
        LEFT JOIN user_profiles up ON up.user_id = u.id
-       WHERE u.created_at > NOW() - INTERVAL '24 hours'
+       -- 7-day lookback (not 24h): with a 24h window a user stuck for more
+       -- than a day silently vanished from the queue — the opposite of the
+       -- escalation a stuck-user list is for.
+       WHERE u.created_at > NOW() - INTERVAL '7 days'
          AND u.created_at < NOW() - INTERVAL '1 hour'
          AND COALESCE(u.is_agent, false) = false
          AND COALESCE(up.onboarding_completed, false) = false

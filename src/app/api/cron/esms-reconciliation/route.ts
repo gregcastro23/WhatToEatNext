@@ -28,6 +28,7 @@ import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { getStripe } from "@/lib/stripe/stripe";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -45,6 +46,58 @@ interface StuckOrder {
   created_at: string;
 }
 
+/**
+ * Persist the run's findings to alert_events so they outlive the JSON
+ * response — getRecentAlerts reads that table for the IncidentsPanel. A
+ * clean run records an info row (OK→OK audit trail); record drift records
+ * warn (OK→DEGRADED). Same column conventions as alertService's
+ * persistAlertEvent; the dispatch column keeps its '{}' default because no
+ * Slack/email sink ran for this row.
+ */
+async function persistReconciliationSummary(summary: {
+  stuckCount: number;
+  retryable: string[];
+  refundable: string[];
+  probeErrors: number;
+  paidWithoutTransfer: string[];
+  orphanDebits: string[];
+  tokensRedeemedToday: number;
+  tokensRefundedToday: number;
+}): Promise<void> {
+  const drifted =
+    summary.orphanDebits.length > 0 || summary.paidWithoutTransfer.length > 0;
+  const title = drifted
+    ? `ESMS settlement drift: ${summary.orphanDebits.length} orphan debit(s), ${summary.paidWithoutTransfer.length} paid-without-transfer`
+    : "ESMS settlement reconciliation clean";
+  const message =
+    `stuck=${summary.stuckCount} (retryable=${summary.retryable.length}, ` +
+    `refundable=${summary.refundable.length}, probeErrors=${summary.probeErrors}); ` +
+    `paidWithoutTransfer=${summary.paidWithoutTransfer.length}; ` +
+    `orphanDebits=${summary.orphanDebits.length}; ` +
+    `tokens today: redeemed=${summary.tokensRedeemedToday}, refunded=${summary.tokensRefundedToday}. ` +
+    "Resolve via /admin/settlements.";
+  try {
+    await executeQuery(
+      `INSERT INTO alert_events
+         (component, previous_status, current_status, severity, title, message)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        "esms-reconciliation",
+        "OK",
+        drifted ? "DEGRADED" : "OK",
+        drifted ? "warn" : "info",
+        title,
+        message,
+      ],
+    );
+  } catch (err) {
+    _logger.warn(
+      "[cron/esms-reconciliation] failed to persist summary alert:",
+      err,
+    );
+  }
+}
+
 export async function GET(request: NextRequest) {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json(
@@ -53,6 +106,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const startedAt = new Date();
   try {
     const [stuckRes, paidNoTransferRes, orphanRes, redeemedRes, refundedRes] =
       await Promise.all([
@@ -151,9 +205,19 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    await persistReconciliationSummary(summary);
+    await recordCronRun("esms-reconciliation", {
+      status: "success",
+      startedAt,
+    });
     return NextResponse.json({ success: true, driftDetected, ...summary });
   } catch (err) {
     _logger.error("[cron/esms-reconciliation] failed:", err);
+    await recordCronRun("esms-reconciliation", {
+      status: "failure",
+      startedAt,
+      error: err instanceof Error ? err.message : "unknown",
+    });
     return NextResponse.json(
       { success: false, message: err instanceof Error ? err.message : "unknown" },
       { status: 500 },

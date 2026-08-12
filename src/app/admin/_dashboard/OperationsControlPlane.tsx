@@ -29,8 +29,35 @@ const MAINTENANCE_COLOR = {
   DUE: "#FF5252",
 } as const;
 
+const CRON_STATE_COLOR = {
+  ok: "var(--el-earth)",
+  late: "var(--accent-2)",
+  failing: "#FF5252",
+  never: "var(--fg-mute)",
+} as const;
+
+// Worst-first so the header chip surfaces the most urgent entry.
+const CRON_STATE_RANK = ["failing", "late", "never", "ok"] as const;
+
 function statusColor(status: OperationsStatus): string {
   return STATUS_COLOR[status];
+}
+
+function formatRelative(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "just now";
+  const m = Math.round(ms / 60000);
+  if (m < 1) return "just now";
+  if (m < 60) return `${m}m ago`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return `${Math.round(h / 24)}d ago`;
+}
+
+function formatAgeHours(hours: number): string {
+  if (hours < 1) return "<1h";
+  if (hours < 48) return `${Math.round(hours)}h`;
+  return `${Math.round(hours / 24)}d`;
 }
 
 function QuickRoute({
@@ -140,6 +167,33 @@ export function OperationsControlPlane({ data }: Props) {
     (subsystem) => subsystem.status !== "READY",
   );
   const warming = operations.domains.length === 0;
+  const { migrations, cronHeartbeats } = data.maintenance;
+  const triageQueue = data.triageQueue;
+  const settlement = launchReadiness.settlement;
+  const settlementBadge = !settlement.live
+    ? "no source"
+    : settlement.pending === 0
+      ? "0 pending"
+      : typeof settlement.oldestPendingAgeHours !== "number"
+        ? `${settlement.pending} pending`
+        : `${settlement.pending} pending · oldest ${formatAgeHours(settlement.oldestPendingAgeHours)}`;
+  const worstCronState = cronHeartbeats.entries.reduce<
+    (typeof CRON_STATE_RANK)[number] | null
+  >((worst, entry) => {
+    if (worst === null) return entry.state;
+    return CRON_STATE_RANK.indexOf(entry.state) < CRON_STATE_RANK.indexOf(worst)
+      ? entry.state
+      : worst;
+  }, null);
+  const { wtenAgents, paAgents } = planetaryIntegration.rosterDiff;
+  const rosterMismatch =
+    wtenAgents !== null && paAgents !== null && wtenAgents !== paAgents;
+  const triageCounts = [
+    { label: "needs-triage", count: triageQueue.counts.needsTriage },
+    { label: "needs-info", count: triageQueue.counts.needsInfo },
+    { label: "ready-for-agent", count: triageQueue.counts.readyForAgent },
+    { label: "ready-for-human", count: triageQueue.counts.readyForHuman },
+  ];
 
   return (
     <section
@@ -262,13 +316,17 @@ export function OperationsControlPlane({ data }: Props) {
             <QuickRoute
               href="#agents"
               label="Agent mesh"
-              badge={String(planetaryIntegration.agentCount)}
+              badge={
+                planetaryIntegration.agentCount === null
+                  ? "—"
+                  : String(planetaryIntegration.agentCount)
+              }
             />
             <QuickRoute href="/admin/mcp" label="MCP" />
             <QuickRoute
               href="/admin/settlements"
               label="Settlements"
-              badge={String(launchReadiness.settlement.pending)}
+              badge={settlementBadge}
             />
             <QuickRoute href="/admin/chat-reports" label="Moderation" />
             <QuickRoute href="/admin/settings" label="Settings" />
@@ -334,7 +392,11 @@ export function OperationsControlPlane({ data }: Props) {
         <HeadlineMetric
           label="Planetary backend"
           value={planetaryIntegration.health.toUpperCase()}
-          detail={`${planetaryIntegration.agentCount} agents · ${planetaryIntegration.telemetry?.mcpInvocationRate.value ?? "MCP blind"}`}
+          detail={`${
+            planetaryIntegration.agentCount === null
+              ? "— roster probe failed"
+              : `${planetaryIntegration.agentCount} agents`
+          } · ${planetaryIntegration.telemetry?.mcpInvocationRate.value ?? "MCP blind"}`}
           color={
             operations.domains.find((item) => item.id === "planetary-agents")
               ? statusColor(
@@ -693,6 +755,89 @@ export function OperationsControlPlane({ data }: Props) {
               </div>
             ))}
           </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              marginTop: 10,
+              paddingTop: 8,
+              borderTop: "1px solid var(--line)",
+            }}
+          >
+            <span className="t-tag" style={{ fontSize: 8 }}>
+              SKIP RATE · 24H
+            </span>
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9.5,
+                color: onboardingHealth.live ? "var(--fg)" : "var(--fg-mute)",
+              }}
+            >
+              {onboardingHealth.live
+                ? `${Math.round(onboardingHealth.skipRate * 100)}% skipped natal`
+                : "—"}
+            </span>
+          </div>
+          {onboardingHealth.apiHealth.observed &&
+            (onboardingHealth.apiHealth.errors5xx > 0 ||
+            onboardingHealth.apiHealth.recentErrors.length > 0 ? (
+              <div style={{ marginTop: 8 }}>
+                <div
+                  className="t-tag"
+                  style={{ color: "#FF5252", marginBottom: 5 }}
+                >
+                  API ERRORS · {onboardingHealth.apiHealth.errors5xx} × 5XX
+                </div>
+                {onboardingHealth.apiHealth.recentErrors
+                  .slice(0, 3)
+                  .map((err, i) => (
+                    <div
+                      key={`${err.at}-${i}`}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 8,
+                        padding: "3px 0",
+                        borderBottom: "1px dashed var(--line)",
+                      }}
+                    >
+                      <span
+                        className="t-mono"
+                        style={{
+                          fontSize: 8.5,
+                          color: "var(--fg-dim)",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                        title={`${err.method} ${err.path}`}
+                      >
+                        <span style={{ color: "#FF5252" }}>{err.status}</span>{" "}
+                        {err.method} {err.path}
+                      </span>
+                      <span
+                        className="t-mono"
+                        style={{
+                          fontSize: 8,
+                          color: "var(--fg-mute)",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {formatRelative(err.at)}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            ) : (
+              <div
+                className="t-mono"
+                style={{ fontSize: 8.5, color: "var(--el-earth)", marginTop: 8 }}
+              >
+                ● no recent onboarding API errors
+              </div>
+            ))}
           {onboardingHealth.stuckUsers.length > 0 && (
             <div
               style={{
@@ -818,6 +963,297 @@ export function OperationsControlPlane({ data }: Props) {
               );
             })}
           </div>
+
+          <div
+            style={{
+              marginTop: 12,
+              border: "1px solid var(--line)",
+              borderRadius: 7,
+              padding: "8px 10px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 6,
+              }}
+            >
+              <span className="t-tag" style={{ fontSize: 8 }}>
+                MIGRATIONS
+              </span>
+              <span
+                className="t-mono"
+                style={{
+                  fontSize: 8,
+                  color: !migrations.live
+                    ? "var(--fg-mute)"
+                    : migrations.pendingFiles.length > 0
+                      ? "#FF5252"
+                      : "var(--el-earth)",
+                }}
+              >
+                {!migrations.live
+                  ? "○ NO SOURCE"
+                  : migrations.pendingFiles.length > 0
+                    ? `● ATTENTION · ${migrations.pendingFiles.length} PENDING`
+                    : "● IN SYNC"}
+              </span>
+            </div>
+            {migrations.live ? (
+              <>
+                <div
+                  className="t-mono"
+                  style={{ fontSize: 8.5, color: "var(--fg-dim)" }}
+                >
+                  {migrations.appliedCount} applied /{" "}
+                  {migrations.manifestCount === null
+                    ? "manifest unavailable"
+                    : `${migrations.manifestCount} in manifest`}
+                </div>
+                {migrations.pendingFiles.slice(0, 3).map((file) => (
+                  <div
+                    key={file}
+                    className="t-mono"
+                    style={{
+                      fontSize: 8.5,
+                      color: "#FF5252",
+                      marginTop: 3,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                    title={file}
+                  >
+                    {file}
+                  </div>
+                ))}
+                {migrations.pendingFiles.length > 3 && (
+                  <div
+                    className="t-mono"
+                    style={{ fontSize: 8, color: "var(--fg-mute)", marginTop: 3 }}
+                  >
+                    …and {migrations.pendingFiles.length - 3} more
+                  </div>
+                )}
+              </>
+            ) : (
+              <div
+                className="t-mono"
+                style={{ fontSize: 8.5, color: "var(--fg-mute)" }}
+              >
+                _migrations table unreadable
+              </div>
+            )}
+          </div>
+
+          <div
+            style={{
+              marginTop: 8,
+              border: "1px solid var(--line)",
+              borderRadius: 7,
+              padding: "8px 10px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 6,
+              }}
+            >
+              <span className="t-tag" style={{ fontSize: 8 }}>
+                CRON HEARTBEATS
+              </span>
+              <span
+                className="t-mono"
+                style={{
+                  fontSize: 8,
+                  color: !cronHeartbeats.live
+                    ? "var(--fg-mute)"
+                    : worstCronState === null
+                      ? "var(--fg-mute)"
+                      : CRON_STATE_COLOR[worstCronState],
+                }}
+              >
+                {!cronHeartbeats.live
+                  ? "○ NO SOURCE"
+                  : worstCronState === null
+                    ? "○ NO CRONS REGISTERED"
+                    : `${worstCronState === "ok" ? "●" : "○"} WORST · ${worstCronState.toUpperCase()}`}
+              </span>
+            </div>
+            {!cronHeartbeats.live ? (
+              <div
+                className="t-mono"
+                style={{ fontSize: 8.5, color: "var(--fg-mute)" }}
+              >
+                heartbeat table unreadable
+              </div>
+            ) : cronHeartbeats.entries.length === 0 ? (
+              <div
+                className="t-mono"
+                style={{ fontSize: 8.5, color: "var(--fg-mute)" }}
+              >
+                no scheduled jobs registered
+              </div>
+            ) : (
+              cronHeartbeats.entries.map((entry) => (
+                <div
+                  key={entry.name}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr auto auto",
+                    gap: 8,
+                    alignItems: "baseline",
+                    padding: "3px 0",
+                  }}
+                >
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 8.5,
+                      color: "var(--fg-dim)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                    title={entry.schedule}
+                  >
+                    {entry.name}
+                  </span>
+                  <span
+                    className="t-mono"
+                    style={{
+                      fontSize: 7.5,
+                      padding: "1px 5px",
+                      borderRadius: 999,
+                      color: CRON_STATE_COLOR[entry.state],
+                      border: `1px solid color-mix(in oklch, ${CRON_STATE_COLOR[entry.state]}, transparent 55%)`,
+                    }}
+                  >
+                    {entry.state.toUpperCase()}
+                  </span>
+                  <span
+                    className="t-mono"
+                    style={{ fontSize: 8, color: "var(--fg-mute)" }}
+                  >
+                    {entry.lastRun === null
+                      ? "no run recorded"
+                      : formatRelative(entry.lastRun)}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div
+            style={{
+              marginTop: 8,
+              border: "1px solid var(--line)",
+              borderRadius: 7,
+              padding: "8px 10px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 6,
+              }}
+            >
+              <span className="t-tag" style={{ fontSize: 8 }}>
+                TRIAGE QUEUE
+              </span>
+              <span
+                className="t-mono"
+                style={{
+                  fontSize: 8,
+                  color: triageQueue.live ? "var(--el-earth)" : "var(--fg-mute)",
+                }}
+              >
+                {triageQueue.live
+                  ? `● ${triageQueue.openTotal ?? "?"} OPEN${triageQueue.fetchedAt ? ` · ${formatRelative(triageQueue.fetchedAt)}` : ""}`
+                  : "○ DEGRADED"}
+              </span>
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: 4,
+                marginBottom: triageQueue.topIssues.length > 0 ? 7 : 0,
+              }}
+            >
+              {triageCounts.map((c) => (
+                <div
+                  key={c.label}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 6,
+                    border: "1px solid var(--line)",
+                    borderRadius: 5,
+                    padding: "3px 6px",
+                  }}
+                >
+                  <span
+                    className="t-mono"
+                    style={{ fontSize: 7.5, color: "var(--fg-mute)" }}
+                  >
+                    {c.label}
+                  </span>
+                  <span
+                    className="t-num"
+                    style={{
+                      fontSize: 9.5,
+                      color: triageQueue.live ? "var(--fg)" : "var(--fg-mute)",
+                    }}
+                  >
+                    {triageQueue.live ? c.count : "—"}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {triageQueue.topIssues.slice(0, 4).map((issue) => (
+              <a
+                key={issue.number}
+                href={issue.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex",
+                  gap: 6,
+                  padding: "3px 0",
+                  color: "inherit",
+                  textDecoration: "none",
+                  borderBottom: "1px dashed var(--line)",
+                }}
+                title={issue.title}
+              >
+                <span
+                  className="t-mono"
+                  style={{ fontSize: 8.5, color: "var(--accent-2)", flexShrink: 0 }}
+                >
+                  #{issue.number}
+                </span>
+                <span
+                  style={{
+                    fontSize: 9,
+                    color: "var(--fg-dim)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {issue.title}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div style={{ padding: 16, minWidth: 0 }}>
@@ -833,9 +1269,14 @@ export function OperationsControlPlane({ data }: Props) {
             }}
           >
             {(["READY", "PARTIAL", "OFF"] as const).map((status) => {
-              const count = launchReadiness.subsystems.filter(
-                (item) => item.status === status,
-              ).length;
+              // READY comes from the service's own readyCount; only the
+              // sub-states are derived client-side.
+              const count =
+                status === "READY"
+                  ? launchReadiness.readyCount
+                  : launchReadiness.subsystems.filter(
+                      (item) => item.status === status,
+                    ).length;
               const color =
                 status === "READY"
                   ? "var(--el-earth)"
@@ -996,6 +1437,31 @@ export function OperationsControlPlane({ data }: Props) {
               ))}
             </div>
           )}
+
+          <div className="t-tag" style={{ margin: "13px 0 7px" }}>
+            PA ROSTER
+          </div>
+          <span
+            className="chip"
+            style={{
+              padding: "2px 8px",
+              fontSize: 8,
+              color: rosterMismatch
+                ? "#FF5252"
+                : wtenAgents !== null && paAgents !== null
+                  ? "var(--el-earth)"
+                  : "var(--fg-mute)",
+            }}
+            title={
+              rosterMismatch
+                ? "WTEN is_agent count and PA roster disagree — sync drift"
+                : "WTEN is_agent count vs PA remote roster"
+            }
+          >
+            WTEN {wtenAgents === null ? "—" : wtenAgents} · PA{" "}
+            {paAgents === null ? "—" : paAgents}
+            {rosterMismatch ? " · MISMATCH" : ""}
+          </span>
 
           <div
             style={{ display: "flex", gap: 5, marginTop: 12, flexWrap: "wrap" }}

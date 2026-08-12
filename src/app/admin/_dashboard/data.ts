@@ -6,6 +6,7 @@
  * must not impersonate live telemetry.
  */
 
+import type { CronHeartbeatData } from "@/services/cronHeartbeatService";
 import type {
   AuditEventsData,
   CatalogTrendingData,
@@ -26,12 +27,11 @@ import type {
   PractitionerGeoData,
   CohortRetentionData,
 } from "@/services/dashboardPanelsService";
-import type { CronHeartbeatData } from "@/services/cronHeartbeatService";
 import type { EconomyIntegrityData } from "@/services/economyIntegrityService";
 import type { TriageQueueData } from "@/services/githubTriageService";
-import type { MigrationStatusData } from "@/services/migrationStatusService";
 import type { LaunchReadinessReport } from "@/services/launchReadinessService";
 import type { ActivityEvent } from "@/services/liveActivityService";
+import type { MigrationStatusData } from "@/services/migrationStatusService";
 import type { OnboardingHealthPayload } from "@/services/onboardingHealthService";
 import type {
   OperationsControlPlane,

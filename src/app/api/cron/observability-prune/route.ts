@@ -19,6 +19,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { recordCronRun } from "@/services/cronHeartbeatService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -45,6 +46,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  const startedAt = new Date();
   try {
     const result = await executeQuery<{
       request_log_deleted: string;
@@ -63,6 +65,7 @@ export async function GET(request: NextRequest) {
       ? Number(row.mcp_invocations_deleted)
       : 0;
 
+    await recordCronRun("observability-prune", { status: "success", startedAt });
     return NextResponse.json({
       success: true,
       retainDays,
@@ -72,6 +75,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     _logger.error("[cron/observability-prune] failed:", err);
+    await recordCronRun("observability-prune", {
+      status: "failure",
+      startedAt,
+      error: err instanceof Error ? err.message : "unknown",
+    });
     return NextResponse.json(
       {
         success: false,

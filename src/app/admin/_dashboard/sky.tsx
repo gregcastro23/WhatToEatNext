@@ -233,20 +233,22 @@ export function AstronomicalEngine({
   live = false,
   pageTelemetry,
 }: AstronomicalEngineProps = {}) {
+  // Static kernel/reference facts baked into the build — not monitored
+  // signals, so they carry no live dots or health coloring.
   const refs = [
-    { k: "EPHEMERIS", v: "DE440 · 2020-2050", ok: live },
-    { k: "VSOP87 KERNEL", v: "rev · 2024-03-12", ok: live },
-    { k: "IAU 2006 PRECESSION", v: "P03 · OK", ok: live },
-    { k: "ΔT MODEL", v: "ESPENAK-MEEUS", ok: live },
-    { k: "LEAP SECOND TABLE", v: "37s · 2017-01-01", ok: live },
+    { k: "EPHEMERIS", v: "DE440 · 2020-2050" },
+    { k: "VSOP87 KERNEL", v: "rev · 2024-03-12" },
+    { k: "IAU 2006 PRECESSION", v: "P03" },
+    { k: "ΔT MODEL", v: "ESPENAK-MEEUS" },
+    { k: "LEAP SECOND TABLE", v: "37s · 2017-01-01" },
   ];
 
   // pageTelemetry surfaces the row counts we actually capture in Postgres
-  // (no per-endpoint RPS). Show what we have; an "—" makes it obvious when
-  // we don't, instead of fabricating a number.
-  const t = pageTelemetry;
+  // (no per-endpoint RPS). When the source degraded its zeros are absence,
+  // so every row renders "—" instead of a fabricated 0.
+  const t = pageTelemetry?.live ? pageTelemetry : null;
   const compute = [
-    { k: "natal · charts stored", count: t ? t.customRecipes : null, color: "var(--accent)" },
+    { k: "natal · charts stored", count: t ? t.natalCharts : null, color: "var(--accent)" },
     { k: "food diary · entries", count: t ? t.foodDiary : null, color: "var(--accent-2)" },
     { k: "meal plans · saved", count: t ? t.mealPlans : null, color: "var(--el-water)" },
     { k: "restaurants · stored", count: t ? t.restaurants : null, color: "var(--el-air)" },
@@ -285,11 +287,7 @@ export function AstronomicalEngine({
                 >
                   {r.k}
                 </span>
-                <span
-                  className="t-mono"
-                  style={{ fontSize: 10, color: r.ok ? "var(--fg)" : "var(--el-fire)" }}
-                >
-                  {r.ok && <span style={{ color: "var(--el-earth)" }}>● </span>}
+                <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
                   {r.v}
                 </span>
               </div>
@@ -330,225 +328,46 @@ export function AstronomicalEngine({
         </div>
       </div>
 
-      <div style={{ marginTop: 10, padding: "8px 10px", border: "1px dashed var(--line)", borderRadius: 8 }}>
-        <div className="t-tag" style={{ marginBottom: 4 }}>UPCOMING SKY EVENTS · ILLUSTRATIVE</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-          <SkyEvent t="+47m" e="☿ → Mercury hour" impact="planner load +18%" />
-          <SkyEvent t="+2d" e="♀ stations direct" impact="cuisine: sweet/aromatic +24%" warn />
-          <SkyEvent t="+12d" e="☉ ingress ♋" impact="seasonality recompute · 12,438 recipes" />
-        </div>
-      </div>
     </Card>
-  );
-}
-
-function SkyEvent({ t, e, impact, warn }: { t: string; e: string; impact: string; warn?: boolean }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "4px 6px",
-        borderLeft: `2px solid ${warn ? "var(--el-fire)" : "var(--accent)"}`,
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 11, color: "var(--fg)" }}>{e}</span>
-        <span className="t-mono" style={{ fontSize: 9, color: warn ? "var(--el-fire)" : "var(--accent)" }}>{t}</span>
-      </div>
-      <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.1em" }}>{impact}</span>
-    </div>
   );
 }
 
 // ============================================================
 // SEMS THERMODYNAMIC BALANCE
-// The SEMS rollup table doesn't exist yet — these are illustrative
-// values. We label the card with a "SAMPLE" badge so operators
-// don't read it as a live signal until the rollup is wired.
+// No per-recipe SEMS rollup exists yet, so the panel carries no
+// numbers at all — only the honest NOT-WIRED state (same pattern
+// as EngineHealth's offline-eval slot) until the rollup lands.
 // ============================================================
 export function SEMSDistribution() {
-  const sems = [
-    { id: "spirit", label: "Spirit", sym: "🜀", v: 0.62, target: 0.55, sub: "volatile · aroma · top-notes" },
-    { id: "essence", label: "Essence", sym: "🜁", v: 0.71, target: 0.65, sub: "umami · core flavor compounds" },
-    { id: "matter", label: "Matter", sym: "🜃", v: 0.48, target: 0.5, sub: "texture · structure · weight" },
-    {
-      id: "substance",
-      label: "Substance",
-      sym: "🜄",
-      v: 0.34,
-      target: 0.45,
-      sub: "minerals · base · bottom",
-      low: true,
-    },
-  ];
-  const monica = 0.847;
   return (
     <Card
       title="Alchm · SEMS Thermodynamic Balance"
-      subtitle="Spirit · Essence · Matter · Substance — sample rollup, not wired"
+      subtitle="Spirit · Essence · Matter · Substance"
       right={
         <span
           className="t-mono"
-          style={{
-            fontSize: 9,
-            color: "var(--el-fire)",
-            padding: "2px 8px",
-            borderRadius: 999,
-            border: "1px solid color-mix(in oklch, var(--el-fire), transparent 60%)",
-            background: "color-mix(in oklch, var(--el-fire), transparent 92%)",
-            letterSpacing: "0.14em",
-          }}
+          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
         >
-          ◌ SAMPLE
+          ○ NOT WIRED
         </span>
       }
     >
-      <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 16 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {sems.map((s) => (
-            <div key={s.id}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: 4,
-                }}
-              >
-                <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span
-                    style={{
-                      width: 22,
-                      height: 22,
-                      borderRadius: 4,
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid var(--line-hi)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 13,
-                      color: "var(--accent)",
-                    }}
-                  >
-                    {s.sym}
-                  </span>
-                  <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
-                    <span style={{ fontSize: 12, color: "var(--fg)" }}>{s.label}</span>
-                    <span
-                      className="t-mono"
-                      style={{ fontSize: 8.5, color: "var(--fg-mute)", letterSpacing: "0.12em" }}
-                    >
-                      {s.sub}
-                    </span>
-                  </div>
-                </span>
-                <span className="t-num" style={{ fontSize: 13, color: s.low ? "var(--el-fire)" : "var(--fg)" }}>
-                  {(s.v * 100).toFixed(1)}
-                  <span style={{ color: "var(--fg-mute)" }}>%</span>
-                </span>
-              </div>
-              <div
-                style={{
-                  position: "relative",
-                  height: 10,
-                  background: "rgba(255,255,255,0.04)",
-                  borderRadius: 4,
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    left: `${(s.target - 0.06) * 100}%`,
-                    width: `${0.12 * 100}%`,
-                    top: 0,
-                    bottom: 0,
-                    background: "rgba(255,255,255,0.08)",
-                    border: "1px dashed rgba(255,255,255,0.18)",
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 1,
-                    bottom: 1,
-                    width: `${s.v * 100}%`,
-                    background: s.low
-                      ? "linear-gradient(90deg, var(--el-fire), color-mix(in oklch, var(--el-fire), transparent 50%))"
-                      : "linear-gradient(90deg, var(--accent), color-mix(in oklch, var(--accent), transparent 50%))",
-                    boxShadow: s.low ? "0 0 10px var(--el-fire)" : "0 0 10px var(--accent)",
-                    borderRadius: 3,
-                  }}
-                />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-                <span
-                  className="t-mono"
-                  style={{ fontSize: 8.5, color: "var(--fg-faint)", letterSpacing: "0.12em" }}
-                >
-                  target band {(s.target * 100).toFixed(0)}±6%
-                </span>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 8.5,
-                    color:
-                      s.v > s.target
-                        ? "var(--el-fire)"
-                        : s.v < s.target - 0.06
-                          ? "var(--el-fire)"
-                          : "var(--el-earth)",
-                    letterSpacing: "0.12em",
-                  }}
-                >
-                  {s.v > s.target ? "+" : ""}
-                  {((s.v - s.target) * 100).toFixed(1)} from center
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "10px 12px" }}>
-            <div className="t-tag" style={{ marginBottom: 6 }}>ALCHM CONSTANTS</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-              <KV2 k="Monica" v={monica.toFixed(3)} />
-              <KV2 k="Kalchm" v="K = 1.214" accent />
-              <KV2 k="P = IV" v="P = 1.62V" />
-              <KV2 k="Δ entropy" v="0.014" />
-              <KV2 k="ΔG free" v="−2.41 kJ" />
-              <KV2 k="τ relax" v="1.6 hr" />
-            </div>
-          </div>
-
-          <div
-            style={{
-              border: "1px dashed var(--line)",
-              borderRadius: 8,
-              padding: "10px 12px",
-            }}
-          >
-            <div className="t-tag" style={{ marginBottom: 4 }}>WHEN WIRED · SOURCE</div>
-            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", lineHeight: 1.6 }}>
-              SEMS rollup will read from a per-recipe thermodynamic score
-              table once recipe ingestion captures it. Calibration R² will
-              follow from the eval harness.
-            </div>
-          </div>
+      <div
+        style={{
+          padding: "10px 12px",
+          border: "1px dashed var(--line)",
+          borderRadius: 8,
+        }}
+      >
+        <div className="t-tag" style={{ marginBottom: 4 }}>SEMS ROLLUP · NOT WIRED</div>
+        <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", lineHeight: 1.6 }}>
+          This panel will populate from a per-recipe SEMS rollup (Spirit /
+          Essence / Matter / Substance scores plus the derived Monica and
+          Kalchm constants) once recipe ingestion captures a thermodynamic
+          score table. No live source exists yet — nothing is shown rather
+          than sample numbers.
         </div>
       </div>
     </Card>
-  );
-}
-
-function KV2({ k, v, accent }: { k: string; v: string; accent?: boolean }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", padding: "4px 0" }}>
-      <span className="t-tag" style={{ fontSize: 8 }}>{k}</span>
-      <span className="t-num" style={{ fontSize: 13, color: accent ? "var(--accent)" : "var(--fg)" }}>{v}</span>
-    </div>
   );
 }

@@ -20,6 +20,7 @@ import {
   DatabaseStorage,
 } from "./extras";
 import { KPIStrip, MasterLineHero } from "./hero";
+import { EconomyIntegrityPanel, RecentSignupsPanel } from "./integrity";
 import { OperationsControlPlane } from "./OperationsControlPlane";
 import {
   ServiceMatrix,
@@ -81,7 +82,11 @@ export function Dashboard({ data }: DashboardProps) {
     },
     {
       label: "Cuisines",
-      value: "184",
+      // A zero with pageTelemetry degraded is absence, not a measured count.
+      value:
+        data.pageTelemetry.cuisines === 0 && !data.pageTelemetry.live
+          ? "—"
+          : data.pageTelemetry.cuisines.toLocaleString(),
       delta: "—",
       icon: "triangle-up-bar",
     },
@@ -202,9 +207,16 @@ export function Dashboard({ data }: DashboardProps) {
           <ElementalTraffic cohorts={data.practitionerCohorts} />
           <PractitionersCohort
             realFunnel={realFunnel}
+            funnelLive={data.practitionerCohorts.live}
             retention={data.cohortRetention}
           />
           <IncidentsPanel recentAlerts={data.recentAlerts} />
+          {/* recentUsers has no dedicated live flag in the contract;
+              stats.live covers the same degraded-user-query condition. */}
+          <RecentSignupsPanel
+            users={data.recentUsers}
+            live={data.stats.live}
+          />
         </div>
 
         <div
@@ -268,6 +280,10 @@ export function Dashboard({ data }: DashboardProps) {
         >
           <CosmicYieldEconomy data={data.cosmicYield} />
           <PractitionerGeo data={data.practitionerGeo} />
+          <EconomyIntegrityPanel
+            integrity={data.economyIntegrity}
+            cosmicYield={data.cosmicYield}
+          />
         </div>
 
         <div
