@@ -24,6 +24,7 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
+import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 
 export const dynamic = "force-dynamic";
 
@@ -232,6 +233,28 @@ export async function POST(request: Request) {
           `[Feed API] Auto-provisioned agent ${normalizedEmail} (userId=${user.id})`,
         );
       } catch (provisionError) {
+        // A chart-less agent is a REJECTED REQUEST, not a broken server. Left
+        // as a 500 it would be indistinguishable from an outage: PA retries,
+        // the 5xx rate climbs, and the sustained-incident digest (#746)
+        // announces a platform incident for what is really one malformed
+        // agent. 422 says "we understood you and declined".
+        if (provisionError instanceof AgentChartRequiredError) {
+          console.warn(
+            "[Feed API] refused unclassifiable agent",
+            normalizedEmail,
+            provisionError.message,
+          );
+          rememberFeedEmit(eventType, normalizedEmail, 422);
+          return NextResponse.json(
+            {
+              error: "Agent is not classifiable",
+              detail: provisionError.message,
+              agentEmail: normalizedEmail,
+              namespace: AGENTIC_EMAIL_DOMAIN,
+            },
+            { status: 422 },
+          );
+        }
         console.error("[Feed API] ensureAgent failed for", normalizedEmail, provisionError);
         rememberFeedEmit(eventType, normalizedEmail, 500);
         return NextResponse.json(

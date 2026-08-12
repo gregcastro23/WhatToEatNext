@@ -13,6 +13,7 @@ import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { getWeekEndDate } from "@/types/menuPlanner";
 import type { GroceryItem, MealSlot } from "@/types/menuPlanner";
+import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -262,6 +263,11 @@ export async function GET(request: NextRequest) {
       menu,
     });
   } catch (error) {
+    // See the note in /api/feed: a refusal to provision is a 422, not an outage.
+    if (error instanceof AgentChartRequiredError) {
+      console.warn("[agent-weekly-menu GET] refused agent", error.message);
+      return jsonError(error.message, 422);
+    }
     console.error("[agent-weekly-menu GET]", error);
     return jsonError("Failed to load agent weekly menu", 500);
   }
@@ -351,6 +357,11 @@ export async function POST(request: NextRequest) {
       feedMetadata,
     });
   } catch (error) {
+    // See the note in /api/feed: a refusal to provision is a 422, not an outage.
+    if (error instanceof AgentChartRequiredError) {
+      console.warn("[agent-weekly-menu POST] refused agent", error.message);
+      return jsonError(error.message, 422);
+    }
     console.error("[agent-weekly-menu POST]", error);
     return jsonError("Failed to save agent weekly menu", 500);
   }
