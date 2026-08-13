@@ -19,6 +19,7 @@ import {
   agentIsClassifiable,
 } from "@/utils/agentChartInvariant";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
+import { natalPositionsFromStoredChart } from "@/utils/fullChartMonica";
 import { safeJsonParse } from "@/utils/typeGuards";
 
 // Extended User type with profile data
@@ -208,11 +209,15 @@ class UserDatabaseService {
           }
 
           await client.query(
-            `INSERT INTO user_profiles (user_id, name, dietary_preferences, birth_data, natal_chart, group_members, dining_groups)
-             VALUES ($1, $2, $3, $4, $5, $6, $7)
+            `INSERT INTO user_profiles (user_id, name, dietary_preferences, birth_data, natal_chart, natal_positions, group_members, dining_groups)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
              ON CONFLICT (user_id) DO UPDATE SET
                name = EXCLUDED.name,
                dietary_preferences = EXCLUDED.dietary_preferences,
+               -- Only fill natal_positions when it is currently absent. A
+               -- COALESCE the other way round would let a re-run overwrite a
+               -- richer stored chart with whatever this caller happened to hold.
+               natal_positions = COALESCE(user_profiles.natal_positions, EXCLUDED.natal_positions),
                updated_at = CURRENT_TIMESTAMP`,
             [
               userId,
@@ -220,6 +225,17 @@ class UserDatabaseService {
               JSON.stringify(data.profile?.dietaryPreferences || {}),
               jsonbOrNull(data.profile?.birthData),
               jsonbOrNull(data.profile?.natalChart),
+              // `[MEASURED 2026-08-12]` 0 of 8 chart-bearing humans held
+              // natal_positions while 71 of 71 chart-bearing agents did, because
+              // this writer persisted the chart and never the column that
+              // `parseNatalPositions` actually reads — so every full-chart monica
+              // for a human silently yielded nothing.
+              //
+              // Derived from the SAME chart written on the line above, through the
+              // converter the reader's own rules live in, so the two columns
+              // cannot disagree. Null when the chart is unusable: jsonbOrNull
+              // keeps an empty array out of a NOT-NULL-looking column.
+              jsonbOrNull(natalPositionsFromStoredChart(data.profile?.natalChart)),
               JSON.stringify(data.profile?.groupMembers || []),
               JSON.stringify(data.profile?.diningGroups || []),
             ],
