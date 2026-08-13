@@ -6,8 +6,8 @@
  * shows a quiet "not available yet" state rather than 404ing.
  */
 
-import { GradientText } from "@/components/tables/ui/GradientText";
 import { InboxList } from "@/components/chat/InboxList";
+import { GradientText } from "@/components/tables/ui/GradientText";
 import { useChatInbox } from "@/hooks/useChatInbox";
 import {
   isCirclesEnabledClient,

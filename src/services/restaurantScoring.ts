@@ -15,6 +15,7 @@
  * elemental match or Monica calculation.
  */
 
+import { culinaryTraditions } from "@/data/cuisines/culinaryTraditions";
 import { calculateThermodynamics } from "@/data/unified/alchemicalCalculations";
 import { thermoAffinity } from "@/data/unified/thermodynamicAffinity";
 import type { ElementalProperties } from "@/types/alchemy";
@@ -30,7 +31,6 @@ import {
   PLANETARY_SECTARIAN_ALCHEMICAL,
   inertialMassWeight,
 } from "@/utils/planetaryAlchemyMapping";
-import { culinaryTraditions } from "@/data/cuisines/culinaryTraditions";
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 

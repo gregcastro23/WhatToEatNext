@@ -33,9 +33,17 @@ export function ConversationView({
   const viewerId = convo.viewerId;
   const [reportTarget, setReportTarget] = useState<ChatMessage | null>(null);
 
+  // Destructured rather than called as `convo.markRead()`: the rule treats a
+  // method call as depending on the whole `convo` object, and `convo` is a fresh
+  // object every render, so satisfying it that way would mark the thread read on
+  // every render. `markRead` is a useCallback keyed on `conversationId`, so this
+  // keeps the original firing — on mount and on each new message.
+  const { markRead } = convo;
+  const messageCount = convo.messages.length;
+
   useEffect(() => {
-    void convo.markRead();
-  }, [convo.markRead, convo.messages.length]);
+    void markRead();
+  }, [markRead, messageCount]);
 
   const renderMenu = (message: ChatMessage) => {
     if (message.pending || message.deletedAt) return null;

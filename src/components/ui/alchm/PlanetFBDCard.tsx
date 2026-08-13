@@ -20,8 +20,8 @@
 
 import { useState } from "react";
 import type { FBDVector, PlanetFBD } from "@/calculations/planetaryFBD";
-import { getZodiacGlyph } from "@/utils/chartRendering";
 import type { ZodiacSignType } from "@/types/celestial";
+import { getZodiacGlyph } from "@/utils/chartRendering";
 import { planetColor, planetGlyph } from "./planetColors";
 
 const ESMS_GLYPHS: Record<string, string> = {

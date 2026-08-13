@@ -508,16 +508,16 @@ export function buildFreeBodyDiagrams(input: BuildFBDInput): FBDResult {
       const contribution = engine.perPlanet[planet];
       const lon = longitudes[planet];
       if (!pos || !contribution || lon === undefined) return null;
-      return buildCard(
+      return buildCard({
         planet,
         pos,
         lon,
         contribution,
         diurnal,
-        aspects,
+        allAspects: aspects,
         longitudes,
         positions,
-      );
+      });
     })
     .filter((card): card is PlanetFBD => card !== null);
 
@@ -562,16 +562,34 @@ export function buildFreeBodyDiagrams(input: BuildFBDInput): FBDResult {
   };
 }
 
-function buildCard(
-  planet: string,
-  pos: FBDPositionInput,
-  lon: number,
-  contribution: EnhancedPlanetContribution,
-  diurnal: boolean,
-  allAspects: AspectData[],
-  longitudes: Record<string, number>,
-  positions: Record<string, FBDPositionInput>,
-): PlanetFBD {
+/**
+ * One card's worth of inputs. Passed as a single object rather than positionally
+ * because the last four arguments were four same-shaped collections in a row —
+ * `longitudes` and `positions` are both `Record<string, …>` keyed by planet, and
+ * transposing them at the call site would type-check while silently reading the
+ * wrong map. Naming them removes that failure mode.
+ */
+interface BuildCardInput {
+  planet: string;
+  pos: FBDPositionInput;
+  lon: number;
+  contribution: EnhancedPlanetContribution;
+  diurnal: boolean;
+  allAspects: AspectData[];
+  longitudes: Record<string, number>;
+  positions: Record<string, FBDPositionInput>;
+}
+
+function buildCard({
+  planet,
+  pos,
+  lon,
+  contribution,
+  diurnal,
+  allAspects,
+  longitudes,
+  positions,
+}: BuildCardInput): PlanetFBD {
   const sign = String(pos.sign).toLowerCase();
   const signElement = SIGN_ELEMENT[sign] ?? "Air";
   const degreeInSign = lon % 30;

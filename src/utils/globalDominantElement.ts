@@ -12,12 +12,13 @@ type ElementalProfileFn = (props: Record<string, number>) => {
   _balance: Record<string, number>;
 };
 
+// `var` is required here, not a style slip: only `var` in a `declare global`
+// block augments the `globalThis` type, which is what the assignments below
+// rely on. `no-var` does not report ambient declarations, so this needs no
+// disable directive — three of them sat here unused until 2026-08-13.
 declare global {
-  // eslint-disable-next-line no-var
   var getDominantElement: DominantElementFn | undefined;
-  // eslint-disable-next-line no-var
   var getElementalCharacteristics: ElementalCharacteristicsFn | undefined;
-  // eslint-disable-next-line no-var
   var getElementalProfile: ElementalProfileFn | undefined;
 }
 

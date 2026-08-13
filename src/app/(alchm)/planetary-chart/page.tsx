@@ -8,7 +8,6 @@
  * client-side exploratory tooling (date/location controls).
  */
 
-import type { Metadata } from "next";
 import { unstable_cache } from "next/cache";
 import {
   ASPECT_GLYPHS,
@@ -17,8 +16,8 @@ import {
   type FBDPositionInput,
   type PlanetFBD,
 } from "@/calculations/planetaryFBD";
-import PlanetFBDCard from "@/components/ui/alchm/PlanetFBDCard";
 import { planetColor, planetGlyph } from "@/components/ui/alchm/planetColors";
+import PlanetFBDCard from "@/components/ui/alchm/PlanetFBDCard";
 import {
   alchemizeDetailed,
   type PlanetaryPosition,
@@ -26,6 +25,7 @@ import {
 import { getZodiacGlyph } from "@/utils/chartRendering";
 import { calculatePlanetaryPositionsWithMeta } from "@/utils/serverPlanetaryCalculations";
 import PlanetaryChartClient from "./PlanetaryChartClient";
+import type { Metadata } from "next";
 
 /**
  * Every aspecting pair appears on both planets' cards (each side's vector
@@ -51,7 +51,7 @@ function buildAspectLedger(fbds: PlanetFBD[]) {
     for (const vector of card.vectors) {
       if (vector.kind !== "aspect" || !vector.aspect) continue;
       const other = vector.aspect.otherPlanet;
-      const key = [card.planet, other].sort().join("|") + "|" + vector.aspect.type;
+      const key = `${[card.planet, other].sort().join("|")}|${vector.aspect.type}`;
       if (seen.has(key)) continue;
       seen.add(key);
       rows.push({
