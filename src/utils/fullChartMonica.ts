@@ -170,6 +170,95 @@ export function natalPositionsFromChart(
 }
 
 /**
+ * Convert a STORED `natal_chart` into canonical `natal_positions` rows.
+ *
+ * ── Why this exists ─────────────────────────────────────────────────────────
+ *
+ * `[MEASURED 2026-08-12]` against production: 71 of 71 chart-bearing agents hold
+ * `natal_positions`, and **0 of 8** chart-bearing humans do — because the human
+ * writer (`createUser`) persists `natal_chart` and `birth_data` and nothing else.
+ * `natal_positions` is the column `parseNatalPositions` reads, so every
+ * full-chart computation for a human silently yielded nothing at all.
+ *
+ * `natalPositionsFromChart` above cannot serve this: it takes the calculator's
+ * in-memory shape (an object keyed by planet, carrying `longitude`). What is
+ * STORED is different — all 8 human charts hold `planets` as an ARRAY of
+ * `{ name, sign, position }`. This reads what is actually on disk.
+ *
+ * ── Contract ────────────────────────────────────────────────────────────────
+ *
+ * Returns null when the chart cannot yield a usable set, rather than a partial
+ * one — the same rule `parseNatalPositions` states, and for the same reason: a
+ * short chart silently treated as whole produces a monica that looks fine and
+ * means nothing.
+ *
+ * Longitudes are filtered through `statesALongitude`, so a body whose position
+ * is 0 or non-finite is DROPPED rather than placed at 0° of its sign. That zero
+ * is the exact defect `checkNoFabricatedNatalFields` exists to catch, and this
+ * function must not reintroduce it from the other direction.
+ *
+ * Emits `position` and never `longitude`, for the reasons documented on
+ * `normaliseNatalPositions`.
+ */
+export function natalPositionsFromStoredChart(
+  storedChart: unknown,
+): NatalPositionRow[] | null {
+  if (!storedChart || typeof storedChart !== "object") return null;
+  const chart = storedChart as Record<string, unknown>;
+
+  // `planets` is the array form every stored human chart uses; the object form
+  // is what some agent-side writers produce. Accept both, reject anything else.
+  const raw = chart.planets ?? chart.planetaryPositions;
+  const entries: Array<[string, Record<string, unknown>]> = Array.isArray(raw)
+    ? raw
+        .filter((b): b is Record<string, unknown> => !!b && typeof b === "object")
+        .map((b) => [String(b.planet ?? b.name ?? ""), b])
+    : raw && typeof raw === "object"
+      ? Object.entries(raw as Record<string, unknown>)
+          .filter(([, v]) => !!v && typeof v === "object")
+          .map(([k, v]) => [k, v as Record<string, unknown>])
+      : [];
+
+  const rows: NatalPositionRow[] = [];
+  for (const [planet, body] of entries) {
+    if (!planet) continue;
+    const sign = String(body.sign ?? "").toLowerCase();
+    const signIndex = SIGN_KEYS.indexOf(sign);
+    if (signIndex < 0) continue;
+
+    // Two stored dialects, and BOTH are real:
+    //   humans — `position` holds the absolute ecliptic longitude
+    //   agents — no position at all; `degree` is the degree WITHIN `sign`
+    // `parseNatalPositions` already reconciles them by deriving
+    // `signIndex * 30 + degree`, so this mirrors that rather than inventing a
+    // third rule. Requiring an absolute position here dropped every body on all
+    // 71 agent charts and returned null for each.
+    //
+    // A `position` of 0 or non-finite is treated as ABSENT, not as a veto: it is
+    // indistinguishable from an unmeasured value (see `statesALongitude`), while
+    // the body's sign+degree may be perfectly good — which is exactly the case
+    // `normaliseNatalPositions` handles when it strips a meaningless key and
+    // leaves the rest intact.
+    const stated = Number(body.position ?? body.longitude);
+    const withinSign = Number(body.degree);
+    const absolute = statesALongitude(stated)
+      ? stated
+      : // Deliberately NOT `degree ?? 0`. Defaulting an absent degree to zero
+        // places the body at 0° of its sign — a fabricated position with no
+        // warning, the very defect `checkNoFabricatedNatalFields` exists for.
+        // Dropping the body is the safe direction.
+        Number.isFinite(withinSign)
+        ? signIndex * 30 + withinSign
+        : Number.NaN;
+    if (!Number.isFinite(absolute)) continue;
+
+    rows.push({ planet, sign, degree: absolute % 30, position: absolute });
+  }
+
+  return rows.length >= MIN_CHART_BODIES ? rows : null;
+}
+
+/**
  * Does this value state an ecliptic longitude, or merely occupy the field?
  *
  * ONE rule, shared by everything that writes a chart out of `calculateNatalChart`
