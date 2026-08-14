@@ -61,5 +61,17 @@ if (comparison.exceedsBaseline) {
     `Lint debt increased by ${comparison.increasedBy}: ` +
       `${trackedTotal} exceeds the baseline of ${baseline.trackedTotal}.`,
   );
+  for (const [rule, count] of Object.entries(counts).sort(([left], [right]) =>
+    left.localeCompare(right),
+  )) {
+    const baselineCount = baseline.rules[rule]?.count ?? 0;
+    const delta = count - baselineCount;
+
+    if (!declinedRules.has(rule) && delta !== 0) {
+      console.error(
+        `  ${rule}: ${baselineCount} -> ${count} (${delta > 0 ? "+" : ""}${delta})`,
+      );
+    }
+  }
   process.exit(1);
 }
