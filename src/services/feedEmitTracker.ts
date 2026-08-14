@@ -19,9 +19,7 @@ export const feedEmitTracker = {
   /**
    * Get the last captured feed emit status
    */
-  getLastEmit: (): FeedEmitStatus | null => {
-    return globalForFeedEmit.lastFeedEmitStatus || null;
-  },
+  getLastEmit: (): FeedEmitStatus | null => globalForFeedEmit.lastFeedEmitStatus || null,
 
   /**
    * Set a new feed emit status

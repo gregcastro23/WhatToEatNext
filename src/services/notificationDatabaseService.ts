@@ -12,9 +12,7 @@ import type {
   UserNotification,
 } from "@/types/notification";
 
-const isServerWithDB = (): boolean => {
-  return typeof window === "undefined" && !!process.env.DATABASE_URL;
-};
+const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 let dbModule: typeof import("@/lib/database") | null = null;
 const getDbModule = async () => {

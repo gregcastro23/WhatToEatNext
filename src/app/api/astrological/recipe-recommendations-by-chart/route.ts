@@ -2,14 +2,13 @@ import { NextResponse } from "next/server";
 
 // This function determines the base URL for the backend API.
 // It should match the logic in src/services/astrologizeApi.ts
-const getBackendBaseUrl = () => {
+const getBackendBaseUrl = () =>
   // Server-side: use absolute URL from environment variables
-  return (
+  (
     process.env.NEXT_PUBLIC_BACKEND_URL ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
     "http://localhost:8001"
   ); // Fallback to local Docker port
-};
 
 export async function POST(request: Request) {
   try {

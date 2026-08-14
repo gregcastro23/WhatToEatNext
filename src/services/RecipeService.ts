@@ -131,8 +131,7 @@ export class RecipeService {
         criteria.dietaryRestrictions &&
         criteria.dietaryRestrictions.length > 0
       ) {
-        filteredRecipes = filteredRecipes.filter((recipe) => {
-          return criteria.dietaryRestrictions!.every((restriction) => {
+        filteredRecipes = filteredRecipes.filter((recipe) => criteria.dietaryRestrictions!.every((restriction) => {
             switch (restriction.toLowerCase()) {
               case "vegetarian":
                 return recipe.isVegetarian === true;
@@ -145,8 +144,7 @@ export class RecipeService {
               default:
                 return true;
             }
-          });
-        });
+          }));
       }
       // Apply limit
       if (criteria.limit && criteria.limit > 0) {

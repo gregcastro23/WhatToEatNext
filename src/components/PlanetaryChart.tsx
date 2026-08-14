@@ -66,8 +66,7 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
   const innerRadius = (size / 2) * 0.65;
   const planetRadius = (size / 2) * 0.75;
   // Render zodiac wheel
-  const renderZodiacWheel = () => {
-    return ZODIAC_SIGNS.map((sign, index) => {
+  const renderZodiacWheel = () => ZODIAC_SIGNS.map((sign, index) => {
       const element = ZODIAC_ELEMENTS[sign];
       const color = getElementColor(element);
       const path = getZodiacArcPath(
@@ -138,7 +137,6 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
         </g>
       );
     });
-  };
   // Render aspect lines
   const renderAspects = () => {
     if (!showAspects || aspects.length === 0) return null;
@@ -184,8 +182,7 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
     });
   };
   // Render planets
-  const renderPlanets = () => {
-    return Object.entries(positions).map(([planet, position]) => {
+  const renderPlanets = () => Object.entries(positions).map(([planet, position]) => {
       const longitude = calculateAbsoluteLongitude(
         position.sign,
         position.degree,
@@ -252,7 +249,6 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
         </g>
       );
     });
-  };
   return (
     <svg
       width={size}

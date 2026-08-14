@@ -208,9 +208,7 @@ export function RecipeQueueProvider({
    * Check if recipe is in queue
    */
   const isInQueue = useCallback(
-    (recipeId: string): boolean => {
-      return queue.some((item) => item.recipe.id === recipeId);
-    },
+    (recipeId: string): boolean => queue.some((item) => item.recipe.id === recipeId),
     [queue],
   );
 
@@ -218,9 +216,7 @@ export function RecipeQueueProvider({
    * Get queue item by recipe ID
    */
   const getQueueItem = useCallback(
-    (recipeId: string): QueuedRecipe | undefined => {
-      return queue.find((item) => item.recipe.id === recipeId);
-    },
+    (recipeId: string): QueuedRecipe | undefined => queue.find((item) => item.recipe.id === recipeId),
     [queue],
   );
 

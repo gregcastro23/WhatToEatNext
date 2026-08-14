@@ -136,9 +136,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
     return signIndex * 30 + (degree % 30);
   };
 
-  const toSvgAngle = (absAngle: number): number => {
-    return absAngle - 90;
-  };
+  const toSvgAngle = (absAngle: number): number => absAngle - 90;
 
   const polarToXY = (angle: number, radius: number) => {
     const rad = (angle * Math.PI) / 180;

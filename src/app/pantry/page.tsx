@@ -24,12 +24,10 @@ export default function PantryPage() {
     return Array.from(cats).sort();
   }, [items]);
 
-  const filtered = useMemo(() => {
-    return items
+  const filtered = useMemo(() => items
       .filter((i) => categoryFilter === "all" || i.category === categoryFilter)
       .filter((i) => looseIncludes(i.name, query))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [items, query, categoryFilter]);
+      .sort((a, b) => a.name.localeCompare(b.name)), [items, query, categoryFilter]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, typeof filtered>();

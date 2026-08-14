@@ -28,6 +28,4 @@ export const useAlchemical = (): AlchemicalContextType => {
  * Safe variant that returns null when the provider is missing,
  * useful for optional integrations that should degrade gracefully.
  */
-export const useAlchemicalSafe = (): AlchemicalContextType | null => {
-  return useContext(AlchemicalContext) ?? null;
-};
+export const useAlchemicalSafe = (): AlchemicalContextType | null => useContext(AlchemicalContext) ?? null;

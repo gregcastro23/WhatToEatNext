@@ -856,11 +856,9 @@ function getCacheKey(
   // Create a simplified representation of recipes (just ids to avoid huge keys)
   const recipeIds =
     recipes
-      ?.map((r) => {
-        return (
+      ?.map((r) => (
           r.id || `${r.name || "unknown"}-${r.cuisine || "unknown"}`
-        );
-      })
+        ))
       .join(",") || "none";
   // Stringify the filters and energy objects
   const filtersStr = JSON.stringify(filters);

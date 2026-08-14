@@ -553,9 +553,7 @@ export function calculateKineticState(
   }
 
   // Calculate alignment bonus
-  const alignmentBonus = planetaryInfluences.reduce((bonus, planet) => {
-    return bonus + (profile.alignment.includes(planet) ? 0.2 : 0)
-  }, 0)
+  const alignmentBonus = planetaryInfluences.reduce((bonus, planet) => bonus + (profile.alignment.includes(planet) ? 0.2 : 0), 0)
 
   // Calculate elemental resonance
   const totalElemental = Object.values(elementalTotals).reduce((sum, val) => sum + val, 0)

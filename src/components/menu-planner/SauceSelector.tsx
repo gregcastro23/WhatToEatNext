@@ -182,8 +182,7 @@ export default function SauceSelector({
   const [cuisineFilter, setCuisineFilter] = useState<CuisineFilter>("all");
 
   // Convert sauces to recommender format
-  const availableSauces = useMemo(() => {
-    return Object.entries(allSauces).map(([id, s]) => ({
+  const availableSauces = useMemo(() => Object.entries(allSauces).map(([id, s]) => ({
       id,
       name: s.name,
       description: s.description,
@@ -194,8 +193,7 @@ export default function SauceSelector({
       flavorTags: s.astrologicalInfluences,
       cuisineAssociations: s.cuisine ? [s.cuisine] : undefined,
       nutritionalProfile: s.nutritionalProfile,
-    }));
-  }, []);
+    })), []);
 
   // Get recommendations
   const recommendations = useMemo(() => {
@@ -222,8 +220,7 @@ export default function SauceSelector({
   }, [recommendations]);
 
   // Filter sauces for the "All" tab
-  const filteredSauces = useMemo(() => {
-    return Object.entries(allSauces).filter(([_id, sauce]) => {
+  const filteredSauces = useMemo(() => Object.entries(allSauces).filter(([_id, sauce]) => {
       if (cuisineFilter !== "all" && sauce.cuisine !== cuisineFilter) return false;
       if (searchQuery) {
         return (
@@ -233,8 +230,7 @@ export default function SauceSelector({
         );
       }
       return true;
-    });
-  }, [searchQuery, cuisineFilter]);
+    }), [searchQuery, cuisineFilter]);
 
   if (!isOpen) return null;
 

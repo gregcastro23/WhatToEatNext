@@ -195,9 +195,7 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
  * Revalidates every 12 hours (43200 seconds)
  */
 export const getCachedHistoricalStats = unstable_cache(
-    async () => {
-        return generateHistoricalStats();
-    },
+    async () => generateHistoricalStats(),
     ['historical-alchemical-stats'],
     { revalidate: 43200, tags: ['historical-stats'] }
 );

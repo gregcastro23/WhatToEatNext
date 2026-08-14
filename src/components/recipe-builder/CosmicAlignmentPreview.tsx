@@ -88,8 +88,7 @@ export default function CosmicAlignmentPreview() {
     return getPlanetaryDayCharacteristics(new Date().getDay() as DayOfWeek);
   }, []);
 
-  const cuisineRows = useMemo<CuisineAlignmentRow[]>(() => {
-    return selectedCuisines.map((cuisine) => {
+  const cuisineRows = useMemo<CuisineAlignmentRow[]>(() => selectedCuisines.map((cuisine) => {
       const dominant = getDominantElementForCuisine(cuisine);
       const entry = getCuisineEntry(cuisine);
       return {
@@ -98,12 +97,9 @@ export default function CosmicAlignmentPreview() {
         aligned: dominant === dominantElement,
         signatureCount: entry?.signatures?.length ?? 0,
       };
-    });
-  }, [selectedCuisines, dominantElement]);
+    }), [selectedCuisines, dominantElement]);
 
-  const topIngredients = useMemo(() => {
-    return findTopIngredientsForElement(dominantElement, 6).map((i) => i.name);
-  }, [dominantElement]);
+  const topIngredients = useMemo(() => findTopIngredientsForElement(dominantElement, 6).map((i) => i.name), [dominantElement]);
 
   const alignedCount = cuisineRows.filter((row) => row.aligned).length;
   const theme = ELEMENT_THEME[dominantElement];

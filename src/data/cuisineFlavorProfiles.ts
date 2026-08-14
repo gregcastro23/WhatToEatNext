@@ -1180,11 +1180,9 @@ export async function getRecipesForCuisineMatch(
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
               const ingredients = recipeData.ingredients;
-              const recipeIngredientNames = ingredients.map((ing) => {
-                return typeof ing === "string"
+              const recipeIngredientNames = ingredients.map((ing) => typeof ing === "string"
                   ? ing.toLowerCase()
-                  : String(ing.name || "").toLowerCase();
-              });
+                  : String(ing.name || "").toLowerCase());
 
               const commonIngredients =
                 cuisineProfile.signatureIngredients.filter((ing) =>

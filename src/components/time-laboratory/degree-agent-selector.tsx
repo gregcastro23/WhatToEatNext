@@ -89,9 +89,7 @@ export const DegreeAgentSelector: React.FC<DegreeAgentSelectorProps> = ({
     [onDegreeChange]
   )
 
-  const getSignForDegree = (degree: number) => {
-    return ZODIAC_SIGNS.find(sign => degree >= sign.startDegree && degree < sign.startDegree + 30)
-  }
+  const getSignForDegree = (degree: number) => ZODIAC_SIGNS.find(sign => degree >= sign.startDegree && degree < sign.startDegree + 30)
 
   const getDegreeWithinSign = (degree: number) => {
     const sign = getSignForDegree(degree)

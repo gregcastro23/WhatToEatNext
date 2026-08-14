@@ -40,9 +40,7 @@ import { reportQuestEventBestEffort } from "./questEventReporter";
 import { tokenEconomy } from "./TokenEconomyService";
 
 // Check if we should use database (only in server-side contexts with DB available)
-const isServerWithDB = (): boolean => {
-  return typeof window === "undefined" && !!process.env.DATABASE_URL;
-};
+const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
 // Lazy-load database module to avoid build-time issues
 let dbModule: typeof import("@/lib/database") | null = null;

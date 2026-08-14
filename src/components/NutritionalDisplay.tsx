@@ -36,9 +36,7 @@ export default function NutritionalDisplay({
   };
 
   // Format percentage for display
-  const formatPercent = (value: number) => {
-    return `${Math.round(value * 100)}%`;
-  };
+  const formatPercent = (value: number) => `${Math.round(value * 100)}%`;
 
   // If no data and no search ability, show message
   if (!nutritionalData && !showSearch) {

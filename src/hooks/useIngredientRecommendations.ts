@@ -53,11 +53,9 @@ export function useIngredientRecommendations(
 
   const { planetaryPositions, isDaytime } = useAlchemical();
 
-  useEffect(() => {
-    return () => {
+  useEffect(() => () => {
       isMountedRef.current = false;
-    };
-  }, []);
+    }, []);
 
   const currentElementalProfile = useMemo(() => {
     if (

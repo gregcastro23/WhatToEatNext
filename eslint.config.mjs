@@ -343,7 +343,7 @@ export default [
       "max-params": ["warn", 7], // Slightly increased for flexibility
 
       // ES6+ Features - RELAXED STYLE RULES
-      "arrow-body-style": "off", // DISABLED: Style preference
+      "arrow-body-style": "error",
       "prefer-arrow-callback": "warn",
       "prefer-destructuring": "off", // DISABLED: Style preference
       "prefer-rest-params": "warn",

@@ -84,11 +84,9 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   const isMountedRef = useRef(true);
   
   // Cleanup on unmount
-  React.useEffect(() => {
-    return () => {
+  React.useEffect(() => () => {
       isMountedRef.current = false;
-    };
-  }, []);
+    }, []);
   
   // Determine styles based on dark mode
   const styles = useMemo(() => ({

@@ -711,9 +711,7 @@ export default function FocusedDayView({
   };
 
   // Count locked meals for display
-  const lockedMealCount = useMemo(() => {
-    return meals.filter((m) => m.isLocked).length;
-  }, [meals]);
+  const lockedMealCount = useMemo(() => meals.filter((m) => m.isLocked).length, [meals]);
 
   // Sort meals by type
   const mealTypes: MealType[] = ["breakfast", "lunch", "dinner", "snack"];

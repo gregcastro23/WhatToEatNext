@@ -15,9 +15,7 @@ const getAstrologizeApiUrl = () => {
   return `/api/astrologize`;
 };
 
-const getRecipeRecommendationsApiUrl = () => {
-  return `/api/astrological/recipe-recommendations-by-chart`;
-};
+const getRecipeRecommendationsApiUrl = () => `/api/astrological/recipe-recommendations-by-chart`;
 
 // Interface for the local API request
 interface LocalAstrologizeRequest {

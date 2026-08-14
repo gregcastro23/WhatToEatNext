@@ -100,8 +100,7 @@ const AgentCard: React.FC<{
   isSelected: boolean
   onToggle: () => void
   showStats?: boolean
-}> = ({ agent, isSelected, onToggle, showStats = false }) => {
-  return (
+}> = ({ agent, isSelected, onToggle, showStats = false }) => (
     <Card
       className={`cursor-pointer transition-all duration-200 ${
         isSelected ? 'ring-2 ring-purple-400 bg-purple-500/10' : 'hover:bg-purple-500/5'
@@ -133,7 +132,6 @@ const AgentCard: React.FC<{
       </CardContent>
     </Card>
   )
-}
 
 const MessageBubble: React.FC<{ message: ConversationMessage }> = ({ message }) => {
   const isUser = message.type === 'user'

@@ -186,9 +186,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
     };
   }, [userId, selectedDate]);
 
-  const loadWeeklySummary = useCallback(async () => {
-    return getServerWeeklySummary(userId, getWeekStart(selectedDate));
-  }, [getWeekStart, selectedDate, userId]);
+  const loadWeeklySummary = useCallback(async () => getServerWeeklySummary(userId, getWeekStart(selectedDate)), [getWeekStart, selectedDate, userId]);
 
   /**
    * Load data for the current view.
@@ -392,9 +390,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    * Get quick food presets
    */
   const getQuickFoodPresets = useCallback(
-    async (category?: QuickFoodCategory): Promise<QuickFoodPreset[]> => {
-      return getServerQuickFoodPresets(category);
-    },
+    async (category?: QuickFoodCategory): Promise<QuickFoodPreset[]> => getServerQuickFoodPresets(category),
     [],
   );
 
@@ -402,9 +398,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
    * Search for foods
    */
   const searchFoods = useCallback(
-    async (query: string): Promise<FoodSearchResult[]> => {
-      return searchServerFoods(userId, query);
-    },
+    async (query: string): Promise<FoodSearchResult[]> => searchServerFoods(userId, query),
     [userId],
   );
 
@@ -587,21 +581,13 @@ export function useFoodDiaryInsights() {
   const { stats, insights, weeklySummary, refreshInsights, isLoading } =
     useFoodDiary();
 
-  const topFoods = useMemo(() => {
-    return weeklySummary?.patterns.topFoods || [];
-  }, [weeklySummary]);
+  const topFoods = useMemo(() => weeklySummary?.patterns.topFoods || [], [weeklySummary]);
 
-  const topRatedFoods = useMemo(() => {
-    return weeklySummary?.patterns.topRatedFoods || [];
-  }, [weeklySummary]);
+  const topRatedFoods = useMemo(() => weeklySummary?.patterns.topRatedFoods || [], [weeklySummary]);
 
-  const goalCompliance = useMemo(() => {
-    return weeklySummary?.goalCompliance || { overall: 0, byNutrient: {} };
-  }, [weeklySummary]);
+  const goalCompliance = useMemo(() => weeklySummary?.goalCompliance || { overall: 0, byNutrient: {} }, [weeklySummary]);
 
-  const priorityInsights = useMemo(() => {
-    return insights.filter((i) => i.priority === "high");
-  }, [insights]);
+  const priorityInsights = useMemo(() => insights.filter((i) => i.priority === "high"), [insights]);
 
   return {
     stats,

@@ -71,9 +71,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
   }, [performSearch]);
 
   // Cleanup on unmount
-  useEffect(() => {
-    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, []);
+  useEffect(() => () => { if (debounceRef.current) clearTimeout(debounceRef.current); }, []);
 
   const isSaved = (fsqId: string) => savedRestaurants.some(r => r.externalId === fsqId);
 

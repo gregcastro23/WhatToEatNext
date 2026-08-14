@@ -61,9 +61,7 @@ type CircuitMetricsResult =
 export function useMealCircuitMetrics(mealSlotId: string): MealCircuitResult {
   const { mealCircuitMetrics, isLoading } = useMenuPlanner();
 
-  const metrics = useMemo(() => {
-    return mealCircuitMetrics[mealSlotId] || null;
-  }, [mealCircuitMetrics, mealSlotId]);
+  const metrics = useMemo(() => mealCircuitMetrics[mealSlotId] || null, [mealCircuitMetrics, mealSlotId]);
 
   return {
     scope: "meal",
@@ -78,9 +76,7 @@ export function useMealCircuitMetrics(mealSlotId: string): MealCircuitResult {
 export function useDayCircuitMetrics(dayOfWeek: DayOfWeek): DayCircuitResult {
   const { dayCircuitMetrics, isLoading } = useMenuPlanner();
 
-  const metrics = useMemo(() => {
-    return dayCircuitMetrics[dayOfWeek] || null;
-  }, [dayCircuitMetrics, dayOfWeek]);
+  const metrics = useMemo(() => dayCircuitMetrics[dayOfWeek] || null, [dayCircuitMetrics, dayOfWeek]);
 
   return {
     scope: "day",

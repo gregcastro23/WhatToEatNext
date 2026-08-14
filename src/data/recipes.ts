@@ -528,14 +528,12 @@ export const _getRecipesForCuisine = async (
   cuisine: string,
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
-  return recipes.filter((recipe) => {
-    return (
+  return recipes.filter((recipe) => (
       String(recipe.cuisine || "").toLowerCase() ===
         cuisine.toLowerCase() ||
       String(recipe.regionalCuisine || "").toLowerCase() ===
         cuisine.toLowerCase()
-    );
-  });
+    ));
 };
 
 /**

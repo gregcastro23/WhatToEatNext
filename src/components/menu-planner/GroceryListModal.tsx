@@ -559,9 +559,7 @@ export default function GroceryListModal({
   };
 
   // Check if item is in pantry
-  const checkPantryStatus = (itemName: string) => {
-    return PantryManager.hasItem(itemName);
-  };
+  const checkPantryStatus = (itemName: string) => PantryManager.hasItem(itemName);
 
   // Add item to pantry and sync with context for Posso
   const addToPantry = (item: GroceryItem) => {

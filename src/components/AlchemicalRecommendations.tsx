@@ -187,8 +187,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, [allIngredients]);
   
   // Convert cooking methods to ElementalItem array
-  const cookingMethodsArray = useMemo(() => {
-    return Object.entries(cookingMethods).map(([key, method]) => {
+  const cookingMethodsArray = useMemo(() => Object.entries(cookingMethods).map(([key, method]) => {
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
       if ((method as any).elementalEffect) {
@@ -245,8 +244,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         name: (method as any).name || key,
         elementalProperties: elementalEffect
       };
-    });
-  }, []);
+    }), []);
   
   // Convert cuisines to ElementalItem array
   const cuisinesArray = useMemo(() => {

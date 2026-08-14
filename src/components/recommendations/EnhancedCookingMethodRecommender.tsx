@@ -727,8 +727,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
     { key: "equipment", label: "Equipment", icon: "🛒" },
   ];
 
-  const renderRecipesTab = (method: (typeof currentMethods)[0]) => {
-    return (
+  const renderRecipesTab = (method: (typeof currentMethods)[0]) => (
       <div className="space-y-4">
         <div className="rounded-xl border border-white/10 bg-transparent/5 p-5 shadow-sm">
           <h4 className="text-sm font-bold text-gray-200 mb-2 flex items-center gap-2">
@@ -772,7 +771,6 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         </div>
       </div>
     );
-  };
 
   // ============================================================================
   // RENDER: Overview Tab

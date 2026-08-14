@@ -54,8 +54,7 @@ export default function CopyMealModal({
   const [emptyOnly, setEmptyOnly] = useState(true);
 
   // Filter meals based on options
-  const filteredMeals = useMemo(() => {
-    return allMeals.filter((meal) => {
+  const filteredMeals = useMemo(() => allMeals.filter((meal) => {
       // Exclude source meal
       if (meal.id === sourceMeal.id) return false;
 
@@ -70,8 +69,7 @@ export default function CopyMealModal({
       }
 
       return true;
-    });
-  }, [allMeals, sourceMeal, sameMealTypeOnly, emptyOnly]);
+    }), [allMeals, sourceMeal, sameMealTypeOnly, emptyOnly]);
 
   // Organize meals by day and meal type
   const mealsByDayAndType = useMemo(() => {
